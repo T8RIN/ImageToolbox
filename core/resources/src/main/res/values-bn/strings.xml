@@ -3991,14 +3991,8 @@
     <string name="file_io_error">ফাইল পড়া বা লেখা যাবে না. স্টোরেজ পুনরায় সংযোগ করুন এবং আবার চেষ্টা করুন</string>
     <string name="results_preview">ফলাফল পূর্বরূপ</string>
     <string name="raw_development">RAW উন্নয়ন</string>
-    <string name="raw_camera_white_balance">ক্যামেরা সাদা ব্যালেন্স</string>
-    <string name="raw_camera_white_balance_sub">ক্যামেরা দ্বারা সংরক্ষিত সাদা ব্যালেন্স মান ব্যবহার করুন</string>
-    <string name="raw_auto_white_balance">স্বয়ংক্রিয় সাদা ভারসাম্য</string>
-    <string name="raw_auto_white_balance_sub">RAW চিত্র থেকে সাদা ব্যালেন্স গণনা করুন</string>
     <string name="raw_output_color_space">আউটপুট রঙের স্থান</string>
-    <string name="raw_output_color_space_sub">উন্নত চিত্রের জন্য ব্যবহৃত রঙের স্থান</string>
     <string name="raw_highlight_recovery">হাইলাইট পুনরুদ্ধার</string>
-    <string name="raw_highlight_recovery_sub">ক্লিপড হাইলাইট পুনর্গঠনের শক্তি</string>
     <string name="raw_demosaic_quality">ডেমোজাইক গুণমান</string>
     <string name="raw_demosaic_quality_sub">অ্যালগরিদম পূর্ণ-রঙের পিক্সেল পুনর্গঠন করতে ব্যবহৃত হয়</string>
     <string name="raw_half_size">অর্ধ-আকারের আউটপুট</string>

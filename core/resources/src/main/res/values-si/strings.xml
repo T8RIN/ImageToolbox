@@ -3990,14 +3990,8 @@
     <string name="file_io_error">ගොනුව කියවීමට හෝ ලිවීමට නොහැකි විය. ගබඩාව නැවත සම්බන්ධ කර නැවත උත්සාහ කරන්න</string>
     <string name="results_preview">ප්‍රතිඵල පෙරදසුන</string>
     <string name="raw_development">RAW සංවර්ධනය</string>
-    <string name="raw_camera_white_balance">කැමරා සුදු ශේෂය</string>
-    <string name="raw_camera_white_balance_sub">කැමරාව මගින් ගබඩා කර ඇති සුදු ශේෂ අගයන් භාවිතා කරන්න</string>
-    <string name="raw_auto_white_balance">ස්වයංක්රීය සුදු ශේෂය</string>
-    <string name="raw_auto_white_balance_sub">RAW රූපයෙන් සුදු ශේෂය ගණනය කරන්න</string>
     <string name="raw_output_color_space">නිමැවුම් වර්ණ අවකාශය</string>
-    <string name="raw_output_color_space_sub">සංවර්ධිත රූපය සඳහා භාවිතා කරන වර්ණ අවකාශය</string>
     <string name="raw_highlight_recovery">ප්‍රතිසාධනය ඉස්මතු කරන්න</string>
-    <string name="raw_highlight_recovery_sub">කැපූ උද්දීපනය ප්‍රතිසංස්කරණයේ ශක්තිය</string>
     <string name="raw_demosaic_quality">Demosaic ගුණාත්මක භාවය</string>
     <string name="raw_demosaic_quality_sub">සම්පූර්ණ වර්ණ පික්සල ප්‍රතිනිර්මාණය කිරීමට ඇල්ගොරිතම භාවිතා කරයි</string>
     <string name="raw_half_size">අර්ධ ප්රමාණයේ ප්රතිදානය</string>

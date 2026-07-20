@@ -3991,14 +3991,8 @@
     <string name="file_io_error">A fájlt nem lehetett olvasni vagy írni. Csatlakoztassa újra a tárhelyet, és próbálja újra</string>
     <string name="results_preview">Eredmények előnézete</string>
     <string name="raw_development">RAW fejlesztés</string>
-    <string name="raw_camera_white_balance">Kamera fehéregyensúly</string>
-    <string name="raw_camera_white_balance_sub">Használja a fényképezőgép által tárolt fehéregyensúly-értékeket</string>
-    <string name="raw_auto_white_balance">Automatikus fehéregyensúly</string>
-    <string name="raw_auto_white_balance_sub">Számítsa ki a fehéregyensúlyt a RAW képből</string>
     <string name="raw_output_color_space">Kimeneti színtér</string>
-    <string name="raw_output_color_space_sub">Az előhívott képhez használt színtér</string>
     <string name="raw_highlight_recovery">Emelje ki a helyreállítást</string>
-    <string name="raw_highlight_recovery_sub">Vágott kiemelés rekonstrukciójának erőssége</string>
     <string name="raw_demosaic_quality">Demosai minőség</string>
     <string name="raw_demosaic_quality_sub">A színes pixelek rekonstruálására használt algoritmus</string>
     <string name="raw_half_size">Fél méretű kimenet</string>

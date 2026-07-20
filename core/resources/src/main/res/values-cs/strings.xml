@@ -3993,14 +3993,8 @@
     <string name="file_io_error">Soubor nelze číst ani zapisovat. Znovu připojte úložiště a zkuste to znovu</string>
     <string name="results_preview">Náhled výsledků</string>
     <string name="raw_development">Vývoj RAW</string>
-    <string name="raw_camera_white_balance">Vyvážení bílé ve fotoaparátu</string>
-    <string name="raw_camera_white_balance_sub">Použijte hodnoty vyvážení bílé uložené fotoaparátem</string>
-    <string name="raw_auto_white_balance">Automatické vyvážení bílé</string>
-    <string name="raw_auto_white_balance_sub">Vypočtěte vyvážení bílé ze snímku RAW</string>
     <string name="raw_output_color_space">Výstupní barevný prostor</string>
-    <string name="raw_output_color_space_sub">Barevný prostor použitý pro vyvolaný obrázek</string>
     <string name="raw_highlight_recovery">Zvýrazněte zotavení</string>
-    <string name="raw_highlight_recovery_sub">Síla rekonstrukce oříznutého zvýraznění</string>
     <string name="raw_demosaic_quality">Demosaická kvalita</string>
     <string name="raw_demosaic_quality_sub">Algoritmus používaný k rekonstrukci plnobarevných pixelů</string>
     <string name="raw_half_size">Výstup poloviční velikosti</string>

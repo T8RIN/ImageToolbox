@@ -39,7 +39,9 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -278,14 +280,23 @@ internal fun Preferences.toSettingsState(
     motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
         .coerceIn(0f, 5f),
     rawDevelopSettings = RawDevelopSettings(
-        useCameraWhiteBalance = this[RAW_USE_CAMERA_WHITE_BALANCE]
-            ?: default.rawDevelopSettings.useCameraWhiteBalance,
-        useAutoWhiteBalance = this[RAW_USE_AUTO_WHITE_BALANCE]
-            ?: default.rawDevelopSettings.useAutoWhiteBalance,
+        whiteBalance = toRawWhiteBalance(default.rawDevelopSettings.whiteBalance),
         outputColorSpace = RawOutputColorSpace.fromOrdinal(this[RAW_OUTPUT_COLOR_SPACE])
             ?: default.rawDevelopSettings.outputColorSpace,
-        highlightRecovery = (this[RAW_HIGHLIGHT_RECOVERY]
-            ?: default.rawDevelopSettings.highlightRecovery).coerceIn(0, 9),
+        highlightRecovery = toRawHighlightRecovery(default.rawDevelopSettings.highlightRecovery),
+        exposureCompensationEv = this[RAW_EXPOSURE_COMPENSATION]
+            ?.takeIf(Float::isFinite)
+            ?.coerceIn(-2f, 3f)
+            ?: default.rawDevelopSettings.exposureCompensationEv,
+        highlightPreservation = this[RAW_HIGHLIGHT_PRESERVATION]
+            ?.takeIf(Float::isFinite)
+            ?.coerceIn(0f, 1f)
+            ?: default.rawDevelopSettings.highlightPreservation,
+        autoBrightness = this[RAW_AUTO_BRIGHTNESS]
+            ?: default.rawDevelopSettings.autoBrightness,
+        brightness = (this[RAW_BRIGHTNESS] ?: default.rawDevelopSettings.brightness)
+            .takeIf { it.isFinite() && it > 0f }
+            ?: default.rawDevelopSettings.brightness,
         quality = RawDemosaicQuality.fromOrdinal(this[RAW_DEMOSAIC_QUALITY])
             ?: default.rawDevelopSettings.quality,
         halfSize = this[RAW_HALF_SIZE] ?: default.rawDevelopSettings.halfSize,
@@ -293,6 +304,47 @@ internal fun Preferences.toSettingsState(
             ?: default.rawDevelopSettings.applyOrientation
     )
 )
+
+private fun Preferences.toRawWhiteBalance(default: RawWhiteBalance): RawWhiteBalance {
+    val custom = RawWhiteBalance.Custom(
+        redMultiplier = positiveRawValue(RAW_WHITE_BALANCE_RED, 1f),
+        greenMultiplier = positiveRawValue(RAW_WHITE_BALANCE_GREEN, 1f),
+        blueMultiplier = positiveRawValue(RAW_WHITE_BALANCE_BLUE, 1f),
+        secondGreenMultiplier = positiveRawValue(RAW_WHITE_BALANCE_SECOND_GREEN, 1f)
+    )
+
+    return when (this[RAW_WHITE_BALANCE]) {
+        0 -> RawWhiteBalance.Camera
+        1 -> RawWhiteBalance.Auto
+        2 -> RawWhiteBalance.Daylight
+        3 -> custom
+        else -> when {
+            this[RAW_USE_CAMERA_WHITE_BALANCE] == true -> RawWhiteBalance.Camera
+            this[RAW_USE_AUTO_WHITE_BALANCE] == true -> RawWhiteBalance.Auto
+            else -> default
+        }
+    }
+}
+
+private fun Preferences.toRawHighlightRecovery(
+    default: RawHighlightRecovery
+): RawHighlightRecovery = when (
+    this[RAW_HIGHLIGHT_RECOVERY_TYPE] ?: this[RAW_HIGHLIGHT_RECOVERY]
+) {
+    0 -> RawHighlightRecovery.Clip
+    1 -> RawHighlightRecovery.Unclip
+    2 -> RawHighlightRecovery.Blend
+    3 -> RawHighlightRecovery.Reconstruct(
+        level = (this[RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL] ?: 5).coerceIn(3, 9)
+    )
+
+    else -> default
+}
+
+private fun Preferences.positiveRawValue(
+    key: Preferences.Key<Float>,
+    default: Float
+): Float = this[key]?.takeIf { it.isFinite() && it > 0f } ?: default
 
 private fun Preferences.toAspectRatios(
     default: List<DomainAspectRatio>

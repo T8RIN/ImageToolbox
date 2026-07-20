@@ -3991,14 +3991,8 @@
     <string name="file_io_error">Dosya okunamadı veya yazılamadı. Depolamayı yeniden bağlayın ve tekrar deneyin</string>
     <string name="results_preview">Sonuçların Önizlemesi</string>
     <string name="raw_development">RAW geliştirme</string>
-    <string name="raw_camera_white_balance">Kamera beyaz dengesi</string>
-    <string name="raw_camera_white_balance_sub">Kamera tarafından kaydedilen beyaz dengesi değerlerini kullanın</string>
-    <string name="raw_auto_white_balance">Otomatik beyaz dengesi</string>
-    <string name="raw_auto_white_balance_sub">RAW görüntüden beyaz dengesini hesaplayın</string>
     <string name="raw_output_color_space">Çıkış renk alanı</string>
-    <string name="raw_output_color_space_sub">Geliştirilen görüntü için kullanılan renk alanı</string>
     <string name="raw_highlight_recovery">Kurtarmayı vurgulayın</string>
-    <string name="raw_highlight_recovery_sub">Kırpılmış vurgu yeniden yapılandırmanın gücü</string>
     <string name="raw_demosaic_quality">Demozaik kalite</string>
     <string name="raw_demosaic_quality_sub">Tam renkli pikselleri yeniden oluşturmak için kullanılan algoritma</string>
     <string name="raw_half_size">Yarım boyutlu çıktı</string>

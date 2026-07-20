@@ -17,7 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -30,32 +34,72 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Highlight
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import kotlin.math.roundToInt
 
 @Composable
 fun RawHighlightRecoverySettingItem(
-    onValueChange: (Int) -> Unit,
+    onValueChange: (RawHighlightRecovery) -> Unit,
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val settingsValue = LocalSettingsState.current.rawDevelopSettings.highlightRecovery
-    var value by remember(settingsValue) {
-        mutableFloatStateOf(settingsValue.toFloat())
+    val recovery = LocalSettingsState.current.rawDevelopSettings.highlightRecovery
+    val reconstruct = recovery as? RawHighlightRecovery.Reconstruct
+        ?: RawHighlightRecovery.Reconstruct()
+    val entries = remember(reconstruct) {
+        listOf(
+            RawHighlightRecovery.Clip,
+            RawHighlightRecovery.Unclip,
+            RawHighlightRecovery.Blend,
+            reconstruct
+        )
     }
+    var level by remember(reconstruct.level) { mutableFloatStateOf(reconstruct.level.toFloat()) }
 
-    EnhancedSliderItem(
-        modifier = modifier,
-        shape = shape,
-        value = value,
-        title = stringResource(R.string.raw_highlight_recovery),
-        icon = Icons.Outlined.Highlight,
-        onValueChange = { value = it.roundToInt().toFloat() },
-        onValueChangeFinished = { onValueChange(value.roundToInt()) },
-        internalStateTransformation = Float::roundToInt,
-        valueRange = 0f..9f,
-        steps = 8
-    )
+    Column(
+        modifier = modifier.container(shape = shape)
+    ) {
+        DataSelector(
+            value = recovery,
+            onValueChange = onValueChange,
+            entries = entries,
+            spanCount = 1,
+            title = stringResource(R.string.raw_highlight_recovery),
+            titleIcon = Icons.Outlined.Highlight,
+            itemContentText = { stringResource(it.title) },
+            behaveAsContainer = false,
+            modifier = Modifier.fillMaxWidth(),
+            selectedItemColor = MaterialTheme.colorScheme.secondary
+        )
+
+        AnimatedVisibility(visible = recovery is RawHighlightRecovery.Reconstruct) {
+            EnhancedSliderItem(
+                modifier = Modifier.padding(8.dp),
+                shape = ShapeDefaults.default,
+                value = level,
+                title = stringResource(R.string.raw_highlight_reconstruction_level),
+                onValueChange = { level = it.roundToInt().toFloat() },
+                onValueChangeFinished = {
+                    onValueChange(RawHighlightRecovery.Reconstruct(level.roundToInt()))
+                },
+                internalStateTransformation = Float::roundToInt,
+                valueRange = 3f..9f,
+                steps = 5,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+            )
+        }
+    }
 }
+
+private val RawHighlightRecovery.title: Int
+    get() = when (this) {
+        RawHighlightRecovery.Clip -> R.string.raw_highlight_recovery_clip
+        RawHighlightRecovery.Unclip -> R.string.raw_highlight_recovery_unclip
+        RawHighlightRecovery.Blend -> R.string.raw_highlight_recovery_blend
+        is RawHighlightRecovery.Reconstruct -> R.string.raw_highlight_recovery_reconstruct
+    }

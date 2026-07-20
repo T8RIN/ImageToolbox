@@ -3990,14 +3990,8 @@
     <string name="file_io_error">ไม่สามารถอ่านหรือเขียนไฟล์ได้ เชื่อมต่อที่เก็บข้อมูลอีกครั้งแล้วลองอีกครั้ง</string>
     <string name="results_preview">ดูตัวอย่างผลลัพธ์</string>
     <string name="raw_development">การพัฒนาไฟล์ดิบ</string>
-    <string name="raw_camera_white_balance">สมดุลสีขาวของกล้อง</string>
-    <string name="raw_camera_white_balance_sub">ใช้ค่าสมดุลแสงขาวที่กล้องเก็บไว้</string>
-    <string name="raw_auto_white_balance">สมดุลสีขาวอัตโนมัติ</string>
-    <string name="raw_auto_white_balance_sub">คำนวณสมดุลสีขาวจากภาพ RAW</string>
     <string name="raw_output_color_space">พื้นที่สีเอาท์พุต</string>
-    <string name="raw_output_color_space_sub">พื้นที่สีที่ใช้สำหรับภาพที่พัฒนาแล้ว</string>
     <string name="raw_highlight_recovery">ไฮไลท์การฟื้นตัว</string>
-    <string name="raw_highlight_recovery_sub">ความแข็งแกร่งของการสร้างไฮไลท์ที่ถูกตัดใหม่</string>
     <string name="raw_demosaic_quality">คุณภาพเดโมซาอิก</string>
     <string name="raw_demosaic_quality_sub">อัลกอริทึมที่ใช้ในการสร้างพิกเซลสีเต็มรูปแบบใหม่</string>
     <string name="raw_half_size">เอาต์พุตขนาดครึ่ง</string>

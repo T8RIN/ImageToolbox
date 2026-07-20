@@ -3995,14 +3995,8 @@
     <string name="file_io_error">لا يمكن قراءة الملف أو كتابته. أعد توصيل وحدة التخزين وحاول مرة أخرى</string>
     <string name="results_preview">معاينة النتائج</string>
     <string name="raw_development">تطوير الخام</string>
-    <string name="raw_camera_white_balance">توازن اللون الأبيض في الكاميرا</string>
-    <string name="raw_camera_white_balance_sub">استخدم قيم توازن اللون الأبيض المخزنة بواسطة الكاميرا</string>
-    <string name="raw_auto_white_balance">توازن اللون الأبيض التلقائي</string>
-    <string name="raw_auto_white_balance_sub">حساب توازن اللون الأبيض من صورة RAW</string>
     <string name="raw_output_color_space">مساحة اللون الناتج</string>
-    <string name="raw_output_color_space_sub">مساحة اللون المستخدمة للصورة المطورة</string>
     <string name="raw_highlight_recovery">تسليط الضوء على الانتعاش</string>
-    <string name="raw_highlight_recovery_sub">قوة إعادة بناء الضوء المقطوع</string>
     <string name="raw_demosaic_quality">الجودة الديموزايكية</string>
     <string name="raw_demosaic_quality_sub">الخوارزمية المستخدمة لإعادة بناء وحدات البكسل كاملة الألوان</string>
     <string name="raw_half_size">إخراج نصف الحجم</string>

@@ -3991,14 +3991,8 @@
     <string name="file_io_error">O arquivo não pôde ser lido ou gravado. Reconecte o armazenamento e tente novamente</string>
     <string name="results_preview">Visualização dos resultados</string>
     <string name="raw_development">Desenvolvimento RAW</string>
-    <string name="raw_camera_white_balance">Balanço de branco da câmera</string>
-    <string name="raw_camera_white_balance_sub">Use os valores de equilíbrio de branco armazenados pela câmera</string>
-    <string name="raw_auto_white_balance">Balanço de branco automático</string>
-    <string name="raw_auto_white_balance_sub">Calcule o equilíbrio de branco da imagem RAW</string>
     <string name="raw_output_color_space">Espaço de cores de saída</string>
-    <string name="raw_output_color_space_sub">Espaço de cores usado para a imagem revelada</string>
     <string name="raw_highlight_recovery">Recuperação de destaque</string>
-    <string name="raw_highlight_recovery_sub">Força da reconstrução de destaque recortado</string>
     <string name="raw_demosaic_quality">Qualidade demosaica</string>
     <string name="raw_demosaic_quality_sub">Algoritmo usado para reconstruir pixels coloridos</string>
     <string name="raw_half_size">Saída de meio tamanho</string>

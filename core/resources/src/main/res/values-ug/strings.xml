@@ -3990,14 +3990,8 @@
     <string name="file_io_error">ھۆججەتنى ئوقۇشقا ياكى يېزىشقا بولمايدۇ. ساقلاشنى قايتا ئۇلاپ قايتا سىناڭ</string>
     <string name="results_preview">نەتىجە ئالدىن كۆرۈش</string>
     <string name="raw_development">RAW ئېچىش</string>
-    <string name="raw_camera_white_balance">كامېرا ئاق تەڭپۇڭلۇقى</string>
-    <string name="raw_camera_white_balance_sub">كامېرا ساقلىغان ئاق تەڭپۇڭلۇق قىممىتىنى ئىشلىتىڭ</string>
-    <string name="raw_auto_white_balance">ئاپتوماتىك ئاق تەڭپۇڭلۇق</string>
-    <string name="raw_auto_white_balance_sub">RAW رەسىمىدىن ئاق تەڭپۇڭلۇقنى ھېسابلاڭ</string>
     <string name="raw_output_color_space">چىقىرىش رەڭ بوشلۇقى</string>
-    <string name="raw_output_color_space_sub">تەرەققىي قىلغان رەسىم ئۈچۈن ئىشلىتىلىدىغان رەڭ بوشلۇقى</string>
     <string name="raw_highlight_recovery">ئەسلىگە كەلتۈرۈشنى گەۋدىلەندۈرۈڭ</string>
-    <string name="raw_highlight_recovery_sub">كېسىلگەن يارقىن نۇقتىلارنى قايتا قۇرۇشنىڭ كۈچى</string>
     <string name="raw_demosaic_quality">Demosaic quality</string>
     <string name="raw_demosaic_quality_sub">ئالگورىزىم تولۇق رەڭلىك پېكسىلنى قايتا قۇرۇشقا ئىشلىتىلگەن</string>
     <string name="raw_half_size">يېرىم چوڭلۇقتىكى چىقىرىش</string>

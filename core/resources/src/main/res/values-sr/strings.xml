@@ -3992,14 +3992,8 @@
     <string name="file_io_error">Датотека се није могла прочитати или написати. Поново повежите складиште и покушајте поново</string>
     <string name="results_preview">Преглед резултата</string>
     <string name="raw_development">РАВ развој</string>
-    <string name="raw_camera_white_balance">Баланс белог камере</string>
-    <string name="raw_camera_white_balance_sub">Користите вредности баланса белог које је сачувала камера</string>
-    <string name="raw_auto_white_balance">Аутоматски баланс белог</string>
-    <string name="raw_auto_white_balance_sub">Израчунајте баланс белог из РАВ слике</string>
     <string name="raw_output_color_space">Излазни простор боја</string>
-    <string name="raw_output_color_space_sub">Простор боја који се користи за развијену слику</string>
     <string name="raw_highlight_recovery">Истакните опоравак</string>
-    <string name="raw_highlight_recovery_sub">Снага реконструкције исечених истакнутих делова</string>
     <string name="raw_demosaic_quality">Демозаични квалитет</string>
     <string name="raw_demosaic_quality_sub">Алгоритам који се користи за реконструкцију пиксела у пуној боји</string>
     <string name="raw_half_size">Излаз у пола величине</string>

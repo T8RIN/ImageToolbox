@@ -3990,14 +3990,8 @@
     <string name="file_io_error">无法读取或写入该文件。重新连接存储并重试</string>
     <string name="results_preview">结果预览</string>
     <string name="raw_development">RAW开发</string>
-    <string name="raw_camera_white_balance">相机白平衡</string>
-    <string name="raw_camera_white_balance_sub">使用相机存储的白平衡值</string>
-    <string name="raw_auto_white_balance">自动白平衡</string>
-    <string name="raw_auto_white_balance_sub">从 RAW 图像计算白平衡</string>
     <string name="raw_output_color_space">输出色彩空间</string>
-    <string name="raw_output_color_space_sub">用于显影图像的色彩空间</string>
     <string name="raw_highlight_recovery">亮点恢复</string>
-    <string name="raw_highlight_recovery_sub">剪切高光重建的强度</string>
     <string name="raw_demosaic_quality">去马赛克质量</string>
     <string name="raw_demosaic_quality_sub">用于重建全彩像素的算法</string>
     <string name="raw_half_size">半尺寸输出</string>

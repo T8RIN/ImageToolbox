@@ -3990,14 +3990,8 @@
     <string name="file_io_error">Không thể đọc hoặc ghi tập tin. Hãy kết nối lại bộ nhớ và thử lại</string>
     <string name="results_preview">Xem trước kết quả</string>
     <string name="raw_development">Phát triển RAW</string>
-    <string name="raw_camera_white_balance">Cân bằng trắng của máy ảnh</string>
-    <string name="raw_camera_white_balance_sub">Sử dụng các giá trị cân bằng trắng được máy ảnh lưu trữ</string>
-    <string name="raw_auto_white_balance">Cân bằng trắng tự động</string>
-    <string name="raw_auto_white_balance_sub">Tính toán cân bằng trắng từ ảnh RAW</string>
     <string name="raw_output_color_space">Không gian màu đầu ra</string>
-    <string name="raw_output_color_space_sub">Không gian màu được sử dụng cho hình ảnh được phát triển</string>
     <string name="raw_highlight_recovery">Làm nổi bật sự phục hồi</string>
-    <string name="raw_highlight_recovery_sub">Sức mạnh của việc tái tạo vùng sáng bị cắt bớt</string>
     <string name="raw_demosaic_quality">chất lượng demosic</string>
     <string name="raw_demosaic_quality_sub">Thuật toán được sử dụng để tái tạo lại các pixel đủ màu</string>
     <string name="raw_half_size">Đầu ra nửa kích thước</string>

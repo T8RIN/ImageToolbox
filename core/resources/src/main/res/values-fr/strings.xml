@@ -3991,14 +3991,8 @@
     <string name="file_io_error">Le fichier n\'a pas pu être lu ou écrit. Reconnectez le stockage et réessayez</string>
     <string name="results_preview">Aperçu des résultats</string>
     <string name="raw_development">Développement RAW</string>
-    <string name="raw_camera_white_balance">Balance des blancs de l\'appareil photo</string>
-    <string name="raw_camera_white_balance_sub">Utiliser les valeurs de balance des blancs stockées par l\'appareil photo</string>
-    <string name="raw_auto_white_balance">Balance des blancs automatique</string>
-    <string name="raw_auto_white_balance_sub">Calculer la balance des blancs à partir de l\'image RAW</string>
     <string name="raw_output_color_space">Espace colorimétrique de sortie</string>
-    <string name="raw_output_color_space_sub">Espace colorimétrique utilisé pour l\'image développée</string>
     <string name="raw_highlight_recovery">Mettre en surbrillance la récupération</string>
-    <string name="raw_highlight_recovery_sub">Force de la reconstruction des hautes lumières écrêtées</string>
     <string name="raw_demosaic_quality">Qualité démosaïque</string>
     <string name="raw_demosaic_quality_sub">Algorithme utilisé pour reconstruire les pixels en couleur</string>
     <string name="raw_half_size">Sortie demi-taille</string>

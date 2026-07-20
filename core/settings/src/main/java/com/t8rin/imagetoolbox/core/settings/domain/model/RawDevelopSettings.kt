@@ -18,14 +18,40 @@
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
 data class RawDevelopSettings(
-    val useCameraWhiteBalance: Boolean = true,
-    val useAutoWhiteBalance: Boolean = false,
+    val whiteBalance: RawWhiteBalance = RawWhiteBalance.Camera,
     val outputColorSpace: RawOutputColorSpace = RawOutputColorSpace.SRgb,
-    val highlightRecovery: Int = 0,
+    val highlightRecovery: RawHighlightRecovery = RawHighlightRecovery.Clip,
+    val exposureCompensationEv: Float = 0f,
+    val highlightPreservation: Float = 0f,
+    val autoBrightness: Boolean = true,
+    val brightness: Float = 1f,
     val quality: RawDemosaicQuality = RawDemosaicQuality.Ahd,
     val halfSize: Boolean = false,
     val applyOrientation: Boolean = true,
 )
+
+sealed interface RawWhiteBalance {
+    data object Camera : RawWhiteBalance
+    data object Auto : RawWhiteBalance
+    data object Daylight : RawWhiteBalance
+
+    data class Custom(
+        val redMultiplier: Float = 1f,
+        val greenMultiplier: Float = 1f,
+        val blueMultiplier: Float = 1f,
+        val secondGreenMultiplier: Float = greenMultiplier,
+    ) : RawWhiteBalance
+}
+
+sealed interface RawHighlightRecovery {
+    data object Clip : RawHighlightRecovery
+    data object Unclip : RawHighlightRecovery
+    data object Blend : RawHighlightRecovery
+
+    data class Reconstruct(
+        val level: Int = 5,
+    ) : RawHighlightRecovery
+}
 
 enum class RawOutputColorSpace {
     SRgb,

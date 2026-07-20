@@ -424,10 +424,12 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.Raw,
         titleId = R.string.raw_development,
         settingsList = listOf(
-            Setting.RawCameraWhiteBalance,
-            Setting.RawAutoWhiteBalance,
+            Setting.RawWhiteBalance,
             Setting.RawOutputColorSpace,
             Setting.RawHighlightRecovery,
+            Setting.RawExposureCompensation,
+            Setting.RawHighlightPreservation,
+            Setting.RawAutoBrightness,
             Setting.RawDemosaicQuality,
             Setting.RawHalfSize,
             Setting.RawApplyOrientation

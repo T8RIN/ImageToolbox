@@ -3991,14 +3991,8 @@
     <string name="file_io_error">Die Datei konnte nicht gelesen oder geschrieben werden. Schließen Sie den Speicher erneut an und versuchen Sie es erneut</string>
     <string name="results_preview">Ergebnisvorschau</string>
     <string name="raw_development">RAW-Entwicklung</string>
-    <string name="raw_camera_white_balance">Weißabgleich der Kamera</string>
-    <string name="raw_camera_white_balance_sub">Verwenden Sie die von der Kamera gespeicherten Weißabgleichwerte</string>
-    <string name="raw_auto_white_balance">Automatischer Weißabgleich</string>
-    <string name="raw_auto_white_balance_sub">Berechnen Sie den Weißabgleich aus dem RAW-Bild</string>
     <string name="raw_output_color_space">Ausgabefarbraum</string>
-    <string name="raw_output_color_space_sub">Farbraum, der für das entwickelte Bild verwendet wird</string>
     <string name="raw_highlight_recovery">Markieren Sie die Wiederherstellung</string>
-    <string name="raw_highlight_recovery_sub">Stärke der Rekonstruktion abgeschnittener Glanzlichter</string>
     <string name="raw_demosaic_quality">Demosaic-Qualität</string>
     <string name="raw_demosaic_quality_sub">Algorithmus zur Rekonstruktion von Vollfarbpixeln</string>
     <string name="raw_half_size">Ausgabe in halber Größe</string>

@@ -3990,14 +3990,8 @@
     <string name="file_io_error">Ezin izan da fitxategia irakurri edo idatzi. Konektatu berriro biltegia eta saiatu berriro</string>
     <string name="results_preview">Emaitzen aurrebista</string>
     <string name="raw_development">RAW garapena</string>
-    <string name="raw_camera_white_balance">Kameraren zurien balantzea</string>
-    <string name="raw_camera_white_balance_sub">Erabili kamerak gordetako zuri-balantze-balioak</string>
-    <string name="raw_auto_white_balance">Zurien balantze automatikoa</string>
-    <string name="raw_auto_white_balance_sub">Kalkulatu zurien balantzea RAW iruditik</string>
     <string name="raw_output_color_space">Irteera kolore-espazioa</string>
-    <string name="raw_output_color_space_sub">Garatutako irudirako erabiltzen den kolore-espazioa</string>
     <string name="raw_highlight_recovery">Nabarmendu berreskurapena</string>
-    <string name="raw_highlight_recovery_sub">Moztutako nabarmenduen berreraikuntzaren indarra</string>
     <string name="raw_demosaic_quality">Demosaiko kalitatea</string>
     <string name="raw_demosaic_quality_sub">Kolore osoko pixelak berreraikitzeko erabiltzen den algoritmoa</string>
     <string name="raw_half_size">Tamaina erdiko irteera</string>

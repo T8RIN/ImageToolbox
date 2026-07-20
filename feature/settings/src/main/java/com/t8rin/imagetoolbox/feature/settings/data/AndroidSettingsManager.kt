@@ -55,7 +55,9 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -160,12 +162,20 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_APPLY_ORIENTATION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_AUTO_BRIGHTNESS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_BRIGHTNESS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_DEMOSAIC_QUALITY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_EXPOSURE_COMPENSATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HALF_SIZE
-import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECOVERY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_PRESERVATION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECOVERY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_OUTPUT_COLOR_SPACE
-import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_USE_AUTO_WHITE_BALANCE
-import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_USE_CAMERA_WHITE_BALANCE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_BLUE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_GREEN
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
@@ -234,22 +244,59 @@ internal class AndroidSettingsManager @Inject constructor(
 
     private val currentSettings: SettingsState get() = settingsState.value
 
-    override suspend fun toggleRawCameraWhiteBalance() = toggle(
-        key = RAW_USE_CAMERA_WHITE_BALANCE,
-        defaultValue = default.rawDevelopSettings.useCameraWhiteBalance
-    )
-
-    override suspend fun toggleRawAutoWhiteBalance() = toggle(
-        key = RAW_USE_AUTO_WHITE_BALANCE,
-        defaultValue = default.rawDevelopSettings.useAutoWhiteBalance
-    )
+    override suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) = edit {
+        it[RAW_WHITE_BALANCE] = when (whiteBalance) {
+            RawWhiteBalance.Camera -> 0
+            RawWhiteBalance.Auto -> 1
+            RawWhiteBalance.Daylight -> 2
+            is RawWhiteBalance.Custom -> 3
+        }
+        if (whiteBalance is RawWhiteBalance.Custom) {
+            it[RAW_WHITE_BALANCE_RED] = whiteBalance.redMultiplier.toPositiveRawValue()
+            it[RAW_WHITE_BALANCE_GREEN] = whiteBalance.greenMultiplier.toPositiveRawValue()
+            it[RAW_WHITE_BALANCE_BLUE] = whiteBalance.blueMultiplier.toPositiveRawValue()
+            it[RAW_WHITE_BALANCE_SECOND_GREEN] =
+                whiteBalance.secondGreenMultiplier.toPositiveRawValue()
+        }
+    }
 
     override suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) = edit {
         it[RAW_OUTPUT_COLOR_SPACE] = colorSpace.ordinal
     }
 
-    override suspend fun setRawHighlightRecovery(value: Int) = edit {
-        it[RAW_HIGHLIGHT_RECOVERY] = value.coerceIn(0, 9)
+    override suspend fun setRawHighlightRecovery(recovery: RawHighlightRecovery) = edit {
+        it[RAW_HIGHLIGHT_RECOVERY_TYPE] = when (recovery) {
+            RawHighlightRecovery.Clip -> 0
+            RawHighlightRecovery.Unclip -> 1
+            RawHighlightRecovery.Blend -> 2
+            is RawHighlightRecovery.Reconstruct -> 3
+        }
+        if (recovery is RawHighlightRecovery.Reconstruct) {
+            it[RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL] = recovery.level.coerceIn(3, 9)
+        }
+    }
+
+    override suspend fun setRawExposureCompensation(value: Float) = edit {
+        it[RAW_EXPOSURE_COMPENSATION] = value
+            .takeIf(Float::isFinite)
+            ?.coerceIn(-2f, 3f)
+            ?: default.rawDevelopSettings.exposureCompensationEv
+    }
+
+    override suspend fun setRawHighlightPreservation(value: Float) = edit {
+        it[RAW_HIGHLIGHT_PRESERVATION] = value
+            .takeIf(Float::isFinite)
+            ?.coerceIn(0f, 1f)
+            ?: default.rawDevelopSettings.highlightPreservation
+    }
+
+    override suspend fun toggleRawAutoBrightness() = toggle(
+        key = RAW_AUTO_BRIGHTNESS,
+        defaultValue = default.rawDevelopSettings.autoBrightness
+    )
+
+    override suspend fun setRawBrightness(value: Float) = edit {
+        it[RAW_BRIGHTNESS] = value.toPositiveRawValue()
     }
 
     override suspend fun setRawDemosaicQuality(quality: RawDemosaicQuality) = edit {
@@ -1165,5 +1212,9 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
 }
+
+private fun Float.toPositiveRawValue(): Float = takeIf {
+    it.isFinite() && it > 0f
+} ?: 1f
 
 private const val TARGET_PERFORMANCE_VERSION = 2

@@ -19,30 +19,41 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.WbAuto
+import com.t8rin.imagetoolbox.core.resources.icons.Contrast
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun RawAutoWhiteBalanceSettingItem(
-    onClick: () -> Unit,
+fun RawHighlightPreservationSettingItem(
+    onValueChange: (Float) -> Unit,
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    PreferenceRowSwitch(
+    val settingsValue = LocalSettingsState.current.rawDevelopSettings.highlightPreservation
+    var value by remember(settingsValue) { mutableFloatStateOf(settingsValue) }
+
+    EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.raw_auto_white_balance),
-        subtitle = stringResource(R.string.raw_auto_white_balance_sub),
-        checked = LocalSettingsState.current.rawDevelopSettings.useAutoWhiteBalance,
-        onClick = { onClick() },
-        startIcon = Icons.Outlined.WbAuto
+        value = value,
+        title = stringResource(R.string.raw_highlight_preservation),
+        icon = Icons.Rounded.Contrast,
+        onValueChange = { value = it.roundToTwoDigits() },
+        onValueChangeFinished = { onValueChange(value) },
+        internalStateTransformation = Float::roundToTwoDigits,
+        valueRange = 0f..1f,
+        steps = 19
     )
 }

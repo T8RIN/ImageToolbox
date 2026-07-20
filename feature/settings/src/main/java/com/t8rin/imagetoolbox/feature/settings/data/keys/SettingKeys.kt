@@ -163,8 +163,21 @@ internal val RAW_USE_CAMERA_WHITE_BALANCE =
     booleanPreferencesKey("RAW_USE_CAMERA_WHITE_BALANCE")
 internal val RAW_USE_AUTO_WHITE_BALANCE =
     booleanPreferencesKey("RAW_USE_AUTO_WHITE_BALANCE")
+internal val RAW_WHITE_BALANCE = intPreferencesKey("RAW_WHITE_BALANCE")
+internal val RAW_WHITE_BALANCE_RED = floatPreferencesKey("RAW_WHITE_BALANCE_RED")
+internal val RAW_WHITE_BALANCE_GREEN = floatPreferencesKey("RAW_WHITE_BALANCE_GREEN")
+internal val RAW_WHITE_BALANCE_BLUE = floatPreferencesKey("RAW_WHITE_BALANCE_BLUE")
+internal val RAW_WHITE_BALANCE_SECOND_GREEN =
+    floatPreferencesKey("RAW_WHITE_BALANCE_SECOND_GREEN")
 internal val RAW_OUTPUT_COLOR_SPACE = intPreferencesKey("RAW_OUTPUT_COLOR_SPACE")
 internal val RAW_HIGHLIGHT_RECOVERY = intPreferencesKey("RAW_HIGHLIGHT_RECOVERY")
+internal val RAW_HIGHLIGHT_RECOVERY_TYPE = intPreferencesKey("RAW_HIGHLIGHT_RECOVERY_TYPE")
+internal val RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL =
+    intPreferencesKey("RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL")
+internal val RAW_EXPOSURE_COMPENSATION = floatPreferencesKey("RAW_EXPOSURE_COMPENSATION")
+internal val RAW_HIGHLIGHT_PRESERVATION = floatPreferencesKey("RAW_HIGHLIGHT_PRESERVATION")
+internal val RAW_AUTO_BRIGHTNESS = booleanPreferencesKey("RAW_AUTO_BRIGHTNESS")
+internal val RAW_BRIGHTNESS = floatPreferencesKey("RAW_BRIGHTNESS")
 internal val RAW_DEMOSAIC_QUALITY = intPreferencesKey("RAW_DEMOSAIC_QUALITY")
 internal val RAW_HALF_SIZE = booleanPreferencesKey("RAW_HALF_SIZE")
 internal val RAW_APPLY_ORIENTATION = booleanPreferencesKey("RAW_APPLY_ORIENTATION")

@@ -3991,14 +3991,8 @@
     <string name="file_io_error">Hindi mabasa o maisulat ang file. Ikonekta muli ang storage at subukang muli</string>
     <string name="results_preview">Preview ng mga Resulta</string>
     <string name="raw_development">RAW na pag-unlad</string>
-    <string name="raw_camera_white_balance">White balance ng camera</string>
-    <string name="raw_camera_white_balance_sub">Gamitin ang mga halaga ng white balance na nakaimbak ng camera</string>
-    <string name="raw_auto_white_balance">Awtomatikong puting balanse</string>
-    <string name="raw_auto_white_balance_sub">Kalkulahin ang puting balanse mula sa RAW na imahe</string>
     <string name="raw_output_color_space">Puwang ng kulay ng output</string>
-    <string name="raw_output_color_space_sub">Color space na ginamit para sa nabuong imahe</string>
     <string name="raw_highlight_recovery">I-highlight ang pagbawi</string>
-    <string name="raw_highlight_recovery_sub">Lakas ng clipped highlight reconstruction</string>
     <string name="raw_demosaic_quality">Demosaic na kalidad</string>
     <string name="raw_demosaic_quality_sub">Algorithm na ginamit upang muling buuin ang mga full-color na pixel</string>
     <string name="raw_half_size">Half-size na output</string>

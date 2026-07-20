@@ -3991,14 +3991,8 @@
     <string name="file_io_error">فایل قابل خواندن یا نوشتن نیست. فضای ذخیره‌سازی را دوباره وصل کنید و دوباره امتحان کنید</string>
     <string name="results_preview">پیش نمایش نتایج</string>
     <string name="raw_development">توسعه RAW</string>
-    <string name="raw_camera_white_balance">تعادل رنگ سفید دوربین</string>
-    <string name="raw_camera_white_balance_sub">از مقادیر تعادل رنگ سفید ذخیره شده توسط دوربین استفاده کنید</string>
-    <string name="raw_auto_white_balance">تراز سفیدی خودکار</string>
-    <string name="raw_auto_white_balance_sub">تعادل رنگ سفید را از تصویر RAW محاسبه کنید</string>
     <string name="raw_output_color_space">فضای رنگ خروجی</string>
-    <string name="raw_output_color_space_sub">فضای رنگی مورد استفاده برای تصویر توسعه یافته</string>
     <string name="raw_highlight_recovery">بازیابی را برجسته کنید</string>
-    <string name="raw_highlight_recovery_sub">قدرت بازسازی هایلایت بریده شده</string>
     <string name="raw_demosaic_quality">کیفیت دموزائیک</string>
     <string name="raw_demosaic_quality_sub">الگوریتم مورد استفاده برای بازسازی پیکسل های تمام رنگی</string>
     <string name="raw_half_size">خروجی نیم سایز</string>

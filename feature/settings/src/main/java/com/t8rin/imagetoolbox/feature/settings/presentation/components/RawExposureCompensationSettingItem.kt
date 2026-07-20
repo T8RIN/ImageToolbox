@@ -19,30 +19,42 @@ package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Thermostat
+import com.t8rin.imagetoolbox.core.resources.icons.LightMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun RawCameraWhiteBalanceSettingItem(
-    onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.top,
+fun RawExposureCompensationSettingItem(
+    onValueChange: (Float) -> Unit,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    PreferenceRowSwitch(
+    val settingsValue = LocalSettingsState.current.rawDevelopSettings.exposureCompensationEv
+    var value by remember(settingsValue) { mutableFloatStateOf(settingsValue) }
+
+    EnhancedSliderItem(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.raw_camera_white_balance),
-        subtitle = stringResource(R.string.raw_camera_white_balance_sub),
-        checked = LocalSettingsState.current.rawDevelopSettings.useCameraWhiteBalance,
-        onClick = { onClick() },
-        startIcon = Icons.Outlined.Thermostat
+        value = value,
+        valueSuffix = " EV",
+        title = stringResource(R.string.raw_exposure_compensation),
+        icon = Icons.Outlined.LightMode,
+        onValueChange = { value = it.roundToTwoDigits() },
+        onValueChangeFinished = { onValueChange(value) },
+        internalStateTransformation = Float::roundToTwoDigits,
+        valueRange = -2f..3f,
+        steps = 49
     )
 }

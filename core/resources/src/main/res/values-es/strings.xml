@@ -3991,14 +3991,8 @@
     <string name="file_io_error">El archivo no se pudo leer ni escribir. Vuelve a conectar el almacenamiento e inténtalo de nuevo.</string>
     <string name="results_preview">Vista previa de resultados</string>
     <string name="raw_development">desarrollo CRUDO</string>
-    <string name="raw_camera_white_balance">Balance de blancos de la cámara</string>
-    <string name="raw_camera_white_balance_sub">Utilice los valores de balance de blancos almacenados por la cámara</string>
-    <string name="raw_auto_white_balance">balance de blancos automático</string>
-    <string name="raw_auto_white_balance_sub">Calcular el balance de blancos a partir de la imagen RAW</string>
     <string name="raw_output_color_space">Espacio de color de salida</string>
-    <string name="raw_output_color_space_sub">Espacio de color utilizado para la imagen revelada.</string>
     <string name="raw_highlight_recovery">Resaltar la recuperación</string>
-    <string name="raw_highlight_recovery_sub">Fuerza de la reconstrucción de resaltado recortado</string>
     <string name="raw_demosaic_quality">Calidad demostrativa</string>
     <string name="raw_demosaic_quality_sub">Algoritmo utilizado para reconstruir píxeles a todo color.</string>
     <string name="raw_half_size">Salida de tamaño medio</string>

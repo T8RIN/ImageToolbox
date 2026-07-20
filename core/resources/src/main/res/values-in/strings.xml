@@ -3990,14 +3990,8 @@
     <string name="file_io_error">File tidak dapat dibaca atau ditulis. Hubungkan kembali penyimpanan dan coba lagi</string>
     <string name="results_preview">Pratinjau Hasil</string>
     <string name="raw_development">pengembangan mentah</string>
-    <string name="raw_camera_white_balance">Keseimbangan putih kamera</string>
-    <string name="raw_camera_white_balance_sub">Gunakan nilai white balance yang disimpan oleh kamera</string>
-    <string name="raw_auto_white_balance">Keseimbangan putih otomatis</string>
-    <string name="raw_auto_white_balance_sub">Hitung white balance dari gambar RAW</string>
     <string name="raw_output_color_space">Ruang warna keluaran</string>
-    <string name="raw_output_color_space_sub">Ruang warna yang digunakan untuk gambar yang dikembangkan</string>
     <string name="raw_highlight_recovery">Sorot pemulihan</string>
-    <string name="raw_highlight_recovery_sub">Kekuatan rekonstruksi highlight yang terpotong</string>
     <string name="raw_demosaic_quality">Kualitas demosa</string>
     <string name="raw_demosaic_quality_sub">Algoritma yang digunakan untuk merekonstruksi piksel penuh warna</string>
     <string name="raw_half_size">Keluaran setengah ukuran</string>

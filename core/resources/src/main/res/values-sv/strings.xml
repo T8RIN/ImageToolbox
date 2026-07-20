@@ -3991,14 +3991,8 @@
     <string name="file_io_error">Filen kunde inte läsas eller skrivas. Återanslut lagringen och försök igen</string>
     <string name="results_preview">Förhandsgranskning av resultat</string>
     <string name="raw_development">RAW utveckling</string>
-    <string name="raw_camera_white_balance">Kamera vitbalans</string>
-    <string name="raw_camera_white_balance_sub">Använd de vitbalansvärden som lagras i kameran</string>
-    <string name="raw_auto_white_balance">Automatisk vitbalans</string>
-    <string name="raw_auto_white_balance_sub">Beräkna vitbalansen från RAW-bilden</string>
     <string name="raw_output_color_space">Utdata färgrymd</string>
-    <string name="raw_output_color_space_sub">Färgrymd som används för den framkallade bilden</string>
     <string name="raw_highlight_recovery">Markera återhämtning</string>
-    <string name="raw_highlight_recovery_sub">Styrka av klippt högdagerrekonstruktion</string>
     <string name="raw_demosaic_quality">Demosaisk kvalitet</string>
     <string name="raw_demosaic_quality_sub">Algoritm som används för att rekonstruera fullfärgspixlar</string>
     <string name="raw_half_size">Halvstor utgång</string>

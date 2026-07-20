@@ -708,15 +708,9 @@ internal fun SettingItem(
                 )
             }
 
-            Setting.RawCameraWhiteBalance -> {
-                RawCameraWhiteBalanceSettingItem(
-                    onClick = component::toggleRawCameraWhiteBalance
-                )
-            }
-
-            Setting.RawAutoWhiteBalance -> {
-                RawAutoWhiteBalanceSettingItem(
-                    onClick = component::toggleRawAutoWhiteBalance
+            Setting.RawWhiteBalance -> {
+                RawWhiteBalanceSettingItem(
+                    onValueChange = component::setRawWhiteBalance
                 )
             }
 
@@ -729,6 +723,25 @@ internal fun SettingItem(
             Setting.RawHighlightRecovery -> {
                 RawHighlightRecoverySettingItem(
                     onValueChange = component::setRawHighlightRecovery
+                )
+            }
+
+            Setting.RawExposureCompensation -> {
+                RawExposureCompensationSettingItem(
+                    onValueChange = component::setRawExposureCompensation
+                )
+            }
+
+            Setting.RawHighlightPreservation -> {
+                RawHighlightPreservationSettingItem(
+                    onValueChange = component::setRawHighlightPreservation
+                )
+            }
+
+            Setting.RawAutoBrightness -> {
+                RawAutoBrightnessSettingItem(
+                    onClick = component::toggleRawAutoBrightness,
+                    onValueChange = component::setRawBrightness
                 )
             }
 

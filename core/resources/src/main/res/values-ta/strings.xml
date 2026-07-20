@@ -3991,14 +3991,8 @@
     <string name="file_io_error">கோப்பை படிக்கவோ எழுதவோ முடியவில்லை. சேமிப்பகத்தை மீண்டும் இணைத்து மீண்டும் முயற்சிக்கவும்</string>
     <string name="results_preview">முடிவுகள் முன்னோட்டம்</string>
     <string name="raw_development">ரா வளர்ச்சி</string>
-    <string name="raw_camera_white_balance">கேமரா வெள்ளை சமநிலை</string>
-    <string name="raw_camera_white_balance_sub">கேமராவால் சேமிக்கப்பட்ட வெள்ளை இருப்பு மதிப்புகளைப் பயன்படுத்தவும்</string>
-    <string name="raw_auto_white_balance">தானியங்கி வெள்ளை சமநிலை</string>
-    <string name="raw_auto_white_balance_sub">RAW படத்திலிருந்து வெள்ளை சமநிலையைக் கணக்கிடுங்கள்</string>
     <string name="raw_output_color_space">வெளியீடு வண்ண இடம்</string>
-    <string name="raw_output_color_space_sub">உருவாக்கப்பட்ட படத்திற்கு பயன்படுத்தப்படும் வண்ண இடம்</string>
     <string name="raw_highlight_recovery">மீட்டெடுப்பை முன்னிலைப்படுத்தவும்</string>
-    <string name="raw_highlight_recovery_sub">கிளிப் செய்யப்பட்ட ஹைலைட் புனரமைப்பு வலிமை</string>
     <string name="raw_demosaic_quality">டெமோசைக் தரம்</string>
     <string name="raw_demosaic_quality_sub">முழு வண்ண பிக்சல்களை மறுகட்டமைக்க அல்காரிதம் பயன்படுத்தப்படுகிறது</string>
     <string name="raw_half_size">அரை அளவு வெளியீடு</string>
