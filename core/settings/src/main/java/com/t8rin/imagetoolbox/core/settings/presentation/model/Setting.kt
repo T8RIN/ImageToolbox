@@ -26,6 +26,48 @@ sealed class Setting(
     val subtitle: Int?,
 ) {
     @Serializable
+    data object RawCameraWhiteBalance : Setting(
+        title = R.string.raw_camera_white_balance,
+        subtitle = R.string.raw_camera_white_balance_sub
+    )
+
+    @Serializable
+    data object RawAutoWhiteBalance : Setting(
+        title = R.string.raw_auto_white_balance,
+        subtitle = R.string.raw_auto_white_balance_sub
+    )
+
+    @Serializable
+    data object RawOutputColorSpace : Setting(
+        title = R.string.raw_output_color_space,
+        subtitle = R.string.raw_output_color_space_sub
+    )
+
+    @Serializable
+    data object RawHighlightRecovery : Setting(
+        title = R.string.raw_highlight_recovery,
+        subtitle = R.string.raw_highlight_recovery_sub
+    )
+
+    @Serializable
+    data object RawDemosaicQuality : Setting(
+        title = R.string.raw_demosaic_quality,
+        subtitle = R.string.raw_demosaic_quality_sub
+    )
+
+    @Serializable
+    data object RawHalfSize : Setting(
+        title = R.string.raw_half_size,
+        subtitle = R.string.raw_half_size_sub
+    )
+
+    @Serializable
+    data object RawApplyOrientation : Setting(
+        title = R.string.raw_apply_orientation,
+        subtitle = R.string.raw_apply_orientation_sub
+    )
+
+    @Serializable
     data object AddFileSize : Setting(
         title = R.string.add_file_size,
         subtitle = R.string.add_file_size_sub

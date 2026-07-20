@@ -37,6 +37,9 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -273,7 +276,22 @@ internal fun Preferences.toSettingsState(
         ?: default.enableBackgroundColorForAlphaFormats,
     showToolsHistory = this[SHOW_TOOLS_HISTORY] ?: default.showToolsHistory,
     motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
-        .coerceIn(0f, 5f)
+        .coerceIn(0f, 5f),
+    rawDevelopSettings = RawDevelopSettings(
+        useCameraWhiteBalance = this[RAW_USE_CAMERA_WHITE_BALANCE]
+            ?: default.rawDevelopSettings.useCameraWhiteBalance,
+        useAutoWhiteBalance = this[RAW_USE_AUTO_WHITE_BALANCE]
+            ?: default.rawDevelopSettings.useAutoWhiteBalance,
+        outputColorSpace = RawOutputColorSpace.fromOrdinal(this[RAW_OUTPUT_COLOR_SPACE])
+            ?: default.rawDevelopSettings.outputColorSpace,
+        highlightRecovery = (this[RAW_HIGHLIGHT_RECOVERY]
+            ?: default.rawDevelopSettings.highlightRecovery).coerceIn(0, 9),
+        quality = RawDemosaicQuality.fromOrdinal(this[RAW_DEMOSAIC_QUALITY])
+            ?: default.rawDevelopSettings.quality,
+        halfSize = this[RAW_HALF_SIZE] ?: default.rawDevelopSettings.halfSize,
+        applyOrientation = this[RAW_APPLY_ORIENTATION]
+            ?: default.rawDevelopSettings.applyOrientation
+    )
 )
 
 private fun Preferences.toAspectRatios(

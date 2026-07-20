@@ -46,10 +46,14 @@ import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
 import com.t8rin.imagetoolbox.core.data.coil.VVCDecoder
+import com.t8rin.imagetoolbox.core.data.coil.rawDevelopSettings
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.psd.coil.PsdDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
+import com.t8rin.raw_coder.RawDecodeMode
+import com.t8rin.raw_coder.RawDecodeOptions
 import com.t8rin.raw_coder.coil.RawDecoder
 import com.t8rin.tiff_coder.coil.TiffDecoder
 import dagger.Module
@@ -103,7 +107,8 @@ internal object ImageLoaderModule {
     @Provides
     @Singleton
     fun provideComponentRegistry(
-        client: HttpClient
+        client: HttpClient,
+        settingsProvider: SettingsProvider
     ): ComponentRegistry = ComponentRegistry.Builder()
         .apply {
             add(OriginalUriMapper)
@@ -113,7 +118,14 @@ internal object ImageLoaderModule {
                     concurrentRequestStrategy = DeDupeConcurrentRequestStrategy()
                 )
             )
-            add(RawDecoder.Factory())
+            add(
+                RawDecoder.Factory {
+                    RawDecodeOptions(
+                        mode = RawDecodeMode.Developed,
+                        developSettings = settingsProvider.settingsState.value.rawDevelopSettings()
+                    )
+                }
+            )
             add(TiffDecoder.Factory())
             add(AnimatedPngDecoder.Factory())
             if (Build.VERSION.SDK_INT >= 28) add(AnimatedImageDecoder.Factory())

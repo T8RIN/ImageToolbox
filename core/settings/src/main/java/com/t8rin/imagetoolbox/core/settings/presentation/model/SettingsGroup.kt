@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MobileCast
 import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
 import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.Psychology
+import com.t8rin.imagetoolbox.core.resources.icons.Raw
 import com.t8rin.imagetoolbox.core.resources.icons.ResponsiveLayout
 import com.t8rin.imagetoolbox.core.resources.icons.Routine
 import com.t8rin.imagetoolbox.core.resources.icons.Shadow
@@ -418,6 +419,22 @@ sealed class SettingsGroup(
         initialState = false
     )
 
+    data object RawDevelopment : SettingsGroup(
+        id = 26,
+        icon = Icons.Rounded.Raw,
+        titleId = R.string.raw_development,
+        settingsList = listOf(
+            Setting.RawCameraWhiteBalance,
+            Setting.RawAutoWhiteBalance,
+            Setting.RawOutputColorSpace,
+            Setting.RawHighlightRecovery,
+            Setting.RawDemosaicQuality,
+            Setting.RawHalfSize,
+            Setting.RawApplyOrientation
+        ),
+        initialState = false
+    )
+
     companion object {
         val entries: List<SettingsGroup> by lazy {
             listOfNotNull(
@@ -436,6 +453,7 @@ sealed class SettingsGroup(
                 ToolsArrangement,
                 Presets,
                 DefaultValues,
+                RawDevelopment,
                 Draw,
                 Exif,
                 Folder,

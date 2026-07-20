@@ -4015,4 +4015,23 @@
     <string name="file_is_too_large">The file is too large for this storage location or operation</string>
     <string name="file_io_error">The file could not be read or written. Reconnect the storage and try again</string>
     <string name="results_preview">Results Preview</string>
+    <string name="raw_development">RAW development</string>
+    <string name="raw_camera_white_balance">Camera white balance</string>
+    <string name="raw_camera_white_balance_sub">Use the white balance values stored by the camera</string>
+    <string name="raw_auto_white_balance">Automatic white balance</string>
+    <string name="raw_auto_white_balance_sub">Calculate white balance from the RAW image</string>
+    <string name="raw_output_color_space">Output color space</string>
+    <string name="raw_output_color_space_sub">Color space used for the developed image</string>
+    <string name="raw_highlight_recovery">Highlight recovery</string>
+    <string name="raw_highlight_recovery_sub">Strength of clipped highlight reconstruction</string>
+    <string name="raw_demosaic_quality">Demosaic quality</string>
+    <string name="raw_demosaic_quality_sub">Algorithm used to reconstruct full-color pixels</string>
+    <string name="raw_half_size">Half-size output</string>
+    <string name="raw_half_size_sub">Develop RAW images at half width and height for faster decoding</string>
+    <string name="raw_apply_orientation">Apply orientation</string>
+    <string name="raw_apply_orientation_sub">Rotate or mirror the developed image using its metadata</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Wide Gamut RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Linear</string>
 </resources>

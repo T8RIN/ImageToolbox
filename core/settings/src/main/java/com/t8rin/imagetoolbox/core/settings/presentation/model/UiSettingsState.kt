@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -189,6 +190,7 @@ data class UiSettingsState(
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
     val motionDurationScale: Float,
+    val rawDevelopSettings: RawDevelopSettings,
 )
 
 fun UiSettingsState.isFirstLaunch(
@@ -457,6 +459,7 @@ fun SettingsState.toUiState(
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
                 showToolsHistory = showToolsHistory,
                 motionDurationScale = motionDurationScale,
+                rawDevelopSettings = rawDevelopSettings,
             )
         }
     }.value

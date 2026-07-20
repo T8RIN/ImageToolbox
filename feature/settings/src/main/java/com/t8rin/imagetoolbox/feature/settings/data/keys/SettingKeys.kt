@@ -159,3 +159,12 @@ internal val ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS =
 internal val PERFORMANCE_VERSION = intPreferencesKey("PERFORMANCE_VERSION")
 internal val SHOW_TOOLS_HISTORY = booleanPreferencesKey("SHOW_TOOLS_HISTORY")
 internal val MOTION_DURATION_SCALE = floatPreferencesKey("MOTION_DURATION_SCALE")
+internal val RAW_USE_CAMERA_WHITE_BALANCE =
+    booleanPreferencesKey("RAW_USE_CAMERA_WHITE_BALANCE")
+internal val RAW_USE_AUTO_WHITE_BALANCE =
+    booleanPreferencesKey("RAW_USE_AUTO_WHITE_BALANCE")
+internal val RAW_OUTPUT_COLOR_SPACE = intPreferencesKey("RAW_OUTPUT_COLOR_SPACE")
+internal val RAW_HIGHLIGHT_RECOVERY = intPreferencesKey("RAW_HIGHLIGHT_RECOVERY")
+internal val RAW_DEMOSAIC_QUALITY = intPreferencesKey("RAW_DEMOSAIC_QUALITY")
+internal val RAW_HALF_SIZE = booleanPreferencesKey("RAW_HALF_SIZE")
+internal val RAW_APPLY_ORIENTATION = booleanPreferencesKey("RAW_APPLY_ORIENTATION")

@@ -31,12 +31,28 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 
 interface SettingsInteractor : SimpleSettingsInteractor {
+
+    suspend fun toggleRawCameraWhiteBalance()
+
+    suspend fun toggleRawAutoWhiteBalance()
+
+    suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace)
+
+    suspend fun setRawHighlightRecovery(value: Int)
+
+    suspend fun setRawDemosaicQuality(quality: RawDemosaicQuality)
+
+    suspend fun toggleRawHalfSize()
+
+    suspend fun toggleRawApplyOrientation()
 
     suspend fun toggleAddSequenceNumber()
 

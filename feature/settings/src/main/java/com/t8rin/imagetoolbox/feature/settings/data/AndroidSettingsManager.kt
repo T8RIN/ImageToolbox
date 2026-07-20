@@ -54,6 +54,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -157,6 +159,13 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_APPLY_ORIENTATION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_DEMOSAIC_QUALITY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HALF_SIZE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECOVERY
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_OUTPUT_COLOR_SPACE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_USE_AUTO_WHITE_BALANCE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_USE_CAMERA_WHITE_BALANCE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
@@ -224,6 +233,38 @@ internal class AndroidSettingsManager @Inject constructor(
     private val default = SettingsState.Default
 
     private val currentSettings: SettingsState get() = settingsState.value
+
+    override suspend fun toggleRawCameraWhiteBalance() = toggle(
+        key = RAW_USE_CAMERA_WHITE_BALANCE,
+        defaultValue = default.rawDevelopSettings.useCameraWhiteBalance
+    )
+
+    override suspend fun toggleRawAutoWhiteBalance() = toggle(
+        key = RAW_USE_AUTO_WHITE_BALANCE,
+        defaultValue = default.rawDevelopSettings.useAutoWhiteBalance
+    )
+
+    override suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) = edit {
+        it[RAW_OUTPUT_COLOR_SPACE] = colorSpace.ordinal
+    }
+
+    override suspend fun setRawHighlightRecovery(value: Int) = edit {
+        it[RAW_HIGHLIGHT_RECOVERY] = value.coerceIn(0, 9)
+    }
+
+    override suspend fun setRawDemosaicQuality(quality: RawDemosaicQuality) = edit {
+        it[RAW_DEMOSAIC_QUALITY] = quality.ordinal
+    }
+
+    override suspend fun toggleRawHalfSize() = toggle(
+        key = RAW_HALF_SIZE,
+        defaultValue = default.rawDevelopSettings.halfSize
+    )
+
+    override suspend fun toggleRawApplyOrientation() = toggle(
+        key = RAW_APPLY_ORIENTATION,
+        defaultValue = default.rawDevelopSettings.applyOrientation
+    )
 
     override suspend fun getSettingsState(): SettingsState = rawFlow().first()
 

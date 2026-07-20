@@ -53,6 +53,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -186,6 +188,22 @@ class SettingsComponent @AssistedInject internal constructor(
     }
 
     fun toggleAddSequenceNumber() = settingsScope { toggleAddSequenceNumber() }
+
+    fun toggleRawCameraWhiteBalance() = settingsScope { toggleRawCameraWhiteBalance() }
+
+    fun toggleRawAutoWhiteBalance() = settingsScope { toggleRawAutoWhiteBalance() }
+
+    fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) =
+        settingsScope { setRawOutputColorSpace(colorSpace) }
+
+    fun setRawHighlightRecovery(value: Int) = settingsScope { setRawHighlightRecovery(value) }
+
+    fun setRawDemosaicQuality(quality: RawDemosaicQuality) =
+        settingsScope { setRawDemosaicQuality(quality) }
+
+    fun toggleRawHalfSize() = settingsScope { toggleRawHalfSize() }
+
+    fun toggleRawApplyOrientation() = settingsScope { toggleRawApplyOrientation() }
 
     fun toggleAddOriginalFilename() = settingsScope { toggleAddOriginalFilename() }
 

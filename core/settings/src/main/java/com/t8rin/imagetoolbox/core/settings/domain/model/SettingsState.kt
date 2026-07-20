@@ -152,6 +152,7 @@ data class SettingsState(
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
     val motionDurationScale: Float,
+    val rawDevelopSettings: RawDevelopSettings,
 ) {
 
     companion object {
@@ -280,6 +281,7 @@ data class SettingsState(
                 enableBackgroundColorForAlphaFormats = false,
                 showToolsHistory = true,
                 motionDurationScale = 1f,
+                rawDevelopSettings = RawDevelopSettings(),
             )
         }
     }
