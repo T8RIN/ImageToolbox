@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">Filen är för stor för den här lagringsplatsen eller åtgärden</string>
     <string name="file_io_error">Filen kunde inte läsas eller skrivas. Återanslut lagringen och försök igen</string>
     <string name="results_preview">Förhandsgranskning av resultat</string>
+    <string name="raw_development">RAW utveckling</string>
+    <string name="raw_camera_white_balance">Kamera vitbalans</string>
+    <string name="raw_camera_white_balance_sub">Använd de vitbalansvärden som lagras i kameran</string>
+    <string name="raw_auto_white_balance">Automatisk vitbalans</string>
+    <string name="raw_auto_white_balance_sub">Beräkna vitbalansen från RAW-bilden</string>
+    <string name="raw_output_color_space">Utdata färgrymd</string>
+    <string name="raw_output_color_space_sub">Färgrymd som används för den framkallade bilden</string>
+    <string name="raw_highlight_recovery">Markera återhämtning</string>
+    <string name="raw_highlight_recovery_sub">Styrka av klippt högdagerrekonstruktion</string>
+    <string name="raw_demosaic_quality">Demosaisk kvalitet</string>
+    <string name="raw_demosaic_quality_sub">Algoritm som används för att rekonstruera fullfärgspixlar</string>
+    <string name="raw_half_size">Halvstor utgång</string>
+    <string name="raw_half_size_sub">Framkalla RAW-bilder på halv bredd och höjd för snabbare avkodning</string>
+    <string name="raw_apply_orientation">Tillämpa orientering</string>
+    <string name="raw_apply_orientation_sub">Rotera eller spegla den framkallade bilden med hjälp av dess metadata</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">RGB med brett spektrum</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Linjär</string>
 </resources>

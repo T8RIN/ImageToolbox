@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">بۇ ساقلاش ئورنى ياكى مەشغۇلاتى ئۈچۈن ھۆججەت بەك چوڭ</string>
     <string name="file_io_error">ھۆججەتنى ئوقۇشقا ياكى يېزىشقا بولمايدۇ. ساقلاشنى قايتا ئۇلاپ قايتا سىناڭ</string>
     <string name="results_preview">نەتىجە ئالدىن كۆرۈش</string>
+    <string name="raw_development">RAW ئېچىش</string>
+    <string name="raw_camera_white_balance">كامېرا ئاق تەڭپۇڭلۇقى</string>
+    <string name="raw_camera_white_balance_sub">كامېرا ساقلىغان ئاق تەڭپۇڭلۇق قىممىتىنى ئىشلىتىڭ</string>
+    <string name="raw_auto_white_balance">ئاپتوماتىك ئاق تەڭپۇڭلۇق</string>
+    <string name="raw_auto_white_balance_sub">RAW رەسىمىدىن ئاق تەڭپۇڭلۇقنى ھېسابلاڭ</string>
+    <string name="raw_output_color_space">چىقىرىش رەڭ بوشلۇقى</string>
+    <string name="raw_output_color_space_sub">تەرەققىي قىلغان رەسىم ئۈچۈن ئىشلىتىلىدىغان رەڭ بوشلۇقى</string>
+    <string name="raw_highlight_recovery">ئەسلىگە كەلتۈرۈشنى گەۋدىلەندۈرۈڭ</string>
+    <string name="raw_highlight_recovery_sub">كېسىلگەن يارقىن نۇقتىلارنى قايتا قۇرۇشنىڭ كۈچى</string>
+    <string name="raw_demosaic_quality">Demosaic quality</string>
+    <string name="raw_demosaic_quality_sub">ئالگورىزىم تولۇق رەڭلىك پېكسىلنى قايتا قۇرۇشقا ئىشلىتىلگەن</string>
+    <string name="raw_half_size">يېرىم چوڭلۇقتىكى چىقىرىش</string>
+    <string name="raw_half_size_sub">تېخىمۇ تېز يېشىش ئۈچۈن RAW رەسىملىرىنى يېرىم كەڭلىك ۋە ئېگىزلىكتە تەرەققىي قىلدۇرۇڭ</string>
+    <string name="raw_apply_orientation">يۆنىلىشنى قوللىنىڭ</string>
+    <string name="raw_apply_orientation_sub">مېتا سانلىق مەلۇمات ئارقىلىق تەرەققىي قىلغان رەسىمنى ئايلاندۇرۇش ياكى ئەينەك قىلىش</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">كەڭ Gamut RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Linear</string>
 </resources>

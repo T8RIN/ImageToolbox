@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">فایل برای این مکان ذخیره سازی یا عملیات بسیار بزرگ است</string>
     <string name="file_io_error">فایل قابل خواندن یا نوشتن نیست. فضای ذخیره‌سازی را دوباره وصل کنید و دوباره امتحان کنید</string>
     <string name="results_preview">پیش نمایش نتایج</string>
+    <string name="raw_development">توسعه RAW</string>
+    <string name="raw_camera_white_balance">تعادل رنگ سفید دوربین</string>
+    <string name="raw_camera_white_balance_sub">از مقادیر تعادل رنگ سفید ذخیره شده توسط دوربین استفاده کنید</string>
+    <string name="raw_auto_white_balance">تراز سفیدی خودکار</string>
+    <string name="raw_auto_white_balance_sub">تعادل رنگ سفید را از تصویر RAW محاسبه کنید</string>
+    <string name="raw_output_color_space">فضای رنگ خروجی</string>
+    <string name="raw_output_color_space_sub">فضای رنگی مورد استفاده برای تصویر توسعه یافته</string>
+    <string name="raw_highlight_recovery">بازیابی را برجسته کنید</string>
+    <string name="raw_highlight_recovery_sub">قدرت بازسازی هایلایت بریده شده</string>
+    <string name="raw_demosaic_quality">کیفیت دموزائیک</string>
+    <string name="raw_demosaic_quality_sub">الگوریتم مورد استفاده برای بازسازی پیکسل های تمام رنگی</string>
+    <string name="raw_half_size">خروجی نیم سایز</string>
+    <string name="raw_half_size_sub">برای رمزگشایی سریعتر، تصاویر RAW را در نصف عرض و ارتفاع ایجاد کنید</string>
+    <string name="raw_apply_orientation">جهت گیری را اعمال کنید</string>
+    <string name="raw_apply_orientation_sub">تصویر توسعه‌یافته را با استفاده از ابرداده آن بچرخانید یا منعکس کنید</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">گستره وسیع RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">خطی</string>
 </resources>

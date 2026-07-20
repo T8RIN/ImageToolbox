@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">Fail on selle salvestuskoha või toimingu jaoks liiga suur</string>
     <string name="file_io_error">Faili ei saanud lugeda ega kirjutada. Ühendage salvestusruum uuesti ja proovige uuesti</string>
     <string name="results_preview">Tulemuste eelvaade</string>
+    <string name="raw_development">RAW arendus</string>
+    <string name="raw_camera_white_balance">Kaamera valge tasakaal</string>
+    <string name="raw_camera_white_balance_sub">Kasutage kaamera salvestatud valge tasakaalu väärtusi</string>
+    <string name="raw_auto_white_balance">Automaatne valge tasakaal</string>
+    <string name="raw_auto_white_balance_sub">Arvutage valge tasakaal RAW-pildi põhjal</string>
+    <string name="raw_output_color_space">Väljundi värviruum</string>
+    <string name="raw_output_color_space_sub">Arendatud pildi jaoks kasutatud värviruum</string>
+    <string name="raw_highlight_recovery">Tõstke esile taastumine</string>
+    <string name="raw_highlight_recovery_sub">Lõigatud esiletõstmise rekonstrueerimise tugevus</string>
+    <string name="raw_demosaic_quality">Demosaic kvaliteet</string>
+    <string name="raw_demosaic_quality_sub">Algoritm, mida kasutatakse täisvärviliste pikslite rekonstrueerimiseks</string>
+    <string name="raw_half_size">Poole suurusega väljund</string>
+    <string name="raw_half_size_sub">Kiiremaks dekodeerimiseks arendage RAW-kujutisi poole laiusega ja kõrgusega</string>
+    <string name="raw_apply_orientation">Rakenda orientatsiooni</string>
+    <string name="raw_apply_orientation_sub">Pöörake või peegeldage arendatud pilti selle metaandmete abil</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Laia spektriga RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineaarne</string>
 </resources>

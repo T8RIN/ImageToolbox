@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">ఈ నిల్వ స్థానం లేదా ఆపరేషన్ కోసం ఫైల్ చాలా పెద్దదిగా ఉంది</string>
     <string name="file_io_error">ఫైల్ చదవడం లేదా వ్రాయడం సాధ్యం కాదు. నిల్వను మళ్లీ కనెక్ట్ చేసి, మళ్లీ ప్రయత్నించండి</string>
     <string name="results_preview">ఫలితాల ప్రివ్యూ</string>
+    <string name="raw_development">రా అభివృద్ధి</string>
+    <string name="raw_camera_white_balance">కెమెరా వైట్ బ్యాలెన్స్</string>
+    <string name="raw_camera_white_balance_sub">కెమెరా ద్వారా నిల్వ చేయబడిన వైట్ బ్యాలెన్స్ విలువలను ఉపయోగించండి</string>
+    <string name="raw_auto_white_balance">ఆటోమేటిక్ వైట్ బ్యాలెన్స్</string>
+    <string name="raw_auto_white_balance_sub">RAW చిత్రం నుండి వైట్ బ్యాలెన్స్‌ను లెక్కించండి</string>
+    <string name="raw_output_color_space">అవుట్‌పుట్ కలర్ స్పేస్</string>
+    <string name="raw_output_color_space_sub">డెవలప్ చేసిన ఇమేజ్ కోసం కలర్ స్పేస్ ఉపయోగించబడింది</string>
+    <string name="raw_highlight_recovery">రికవరీని హైలైట్ చేయండి</string>
+    <string name="raw_highlight_recovery_sub">క్లిప్ చేయబడిన హైలైట్ పునర్నిర్మాణం యొక్క బలం</string>
+    <string name="raw_demosaic_quality">డెమోజాయిక్ నాణ్యత</string>
+    <string name="raw_demosaic_quality_sub">పూర్తి-రంగు పిక్సెల్‌లను పునర్నిర్మించడానికి అల్గోరిథం ఉపయోగించబడుతుంది</string>
+    <string name="raw_half_size">హాఫ్-సైజ్ అవుట్‌పుట్</string>
+    <string name="raw_half_size_sub">వేగవంతమైన డీకోడింగ్ కోసం సగం వెడల్పు మరియు ఎత్తులో RAW చిత్రాలను అభివృద్ధి చేయండి</string>
+    <string name="raw_apply_orientation">ధోరణిని వర్తింపజేయండి</string>
+    <string name="raw_apply_orientation_sub">అభివృద్ధి చెందిన ఇమేజ్‌ని దాని మెటాడేటాను ఉపయోగించి తిప్పండి లేదా ప్రతిబింబించండి</string>
+    <string name="raw_color_space_adobe_rgb">అడోబ్ RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">వైడ్ గామట్ RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ప్రోఫోటో RGB</string>
+    <string name="raw_demosaic_linear">లీనియర్</string>
 </resources>

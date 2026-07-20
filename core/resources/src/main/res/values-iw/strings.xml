@@ -3992,4 +3992,23 @@
     <string name="file_is_too_large">הקובץ גדול מדי עבור מיקום האחסון או הפעולה הזו</string>
     <string name="file_io_error">לא ניתן היה לקרוא או לכתוב את הקובץ. חבר מחדש את האחסון ונסה שוב</string>
     <string name="results_preview">תצוגה מקדימה של תוצאות</string>
+    <string name="raw_development">פיתוח RAW</string>
+    <string name="raw_camera_white_balance">איזון לבן במצלמה</string>
+    <string name="raw_camera_white_balance_sub">השתמש בערכי איזון הלבן המאוחסנים במצלמה</string>
+    <string name="raw_auto_white_balance">איזון לבן אוטומטי</string>
+    <string name="raw_auto_white_balance_sub">חשב איזון לבן מתמונת RAW</string>
+    <string name="raw_output_color_space">מרחב צבע פלט</string>
+    <string name="raw_output_color_space_sub">מרחב צבע המשמש לתמונה שפותחה</string>
+    <string name="raw_highlight_recovery">הדגש התאוששות</string>
+    <string name="raw_highlight_recovery_sub">חוזק של שחזור הדגשה קצוצה</string>
+    <string name="raw_demosaic_quality">איכות דמוזאית</string>
+    <string name="raw_demosaic_quality_sub">אלגוריתם המשמש לשחזור פיקסלים בצבע מלא</string>
+    <string name="raw_half_size">פלט בחצי גודל</string>
+    <string name="raw_half_size_sub">פתח תמונות RAW בחצי רוחב וגובה לפענוח מהיר יותר</string>
+    <string name="raw_apply_orientation">החל כיוון</string>
+    <string name="raw_apply_orientation_sub">סובב או שיקף את התמונה שפותחה באמצעות המטא נתונים שלה</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">סולם רחב RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">ליניארי</string>
 </resources>

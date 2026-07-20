@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">Het bestand is te groot voor deze opslaglocatie of bewerking</string>
     <string name="file_io_error">Het bestand kon niet worden gelezen of geschreven. Sluit de opslag opnieuw aan en probeer het opnieuw</string>
     <string name="results_preview">Resultatenvoorbeeld</string>
+    <string name="raw_development">RAW-ontwikkeling</string>
+    <string name="raw_camera_white_balance">Witbalans camera</string>
+    <string name="raw_camera_white_balance_sub">Gebruik de witbalanswaarden die door de camera zijn opgeslagen</string>
+    <string name="raw_auto_white_balance">Automatische witbalans</string>
+    <string name="raw_auto_white_balance_sub">Bereken de witbalans uit het RAW-beeld</string>
+    <string name="raw_output_color_space">Uitvoerkleurruimte</string>
+    <string name="raw_output_color_space_sub">Kleurruimte gebruikt voor de ontwikkelde afbeelding</string>
+    <string name="raw_highlight_recovery">Markeer herstel</string>
+    <string name="raw_highlight_recovery_sub">Sterkte van de reconstructie van geknipte hooglichten</string>
+    <string name="raw_demosaic_quality">Demosaïsche kwaliteit</string>
+    <string name="raw_demosaic_quality_sub">Algoritme dat wordt gebruikt om full-color pixels te reconstrueren</string>
+    <string name="raw_half_size">Uitvoer op halve grootte</string>
+    <string name="raw_half_size_sub">Ontwikkel RAW-afbeeldingen op halve breedte en hoogte voor snellere decodering</string>
+    <string name="raw_apply_orientation">Oriëntatie toepassen</string>
+    <string name="raw_apply_orientation_sub">Roteer of spiegel de ontwikkelde afbeelding met behulp van de metadata</string>
+    <string name="raw_color_space_adobe_rgb">Adobe-RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Breed spectrum RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineair</string>
 </resources>

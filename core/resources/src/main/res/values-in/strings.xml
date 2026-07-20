@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">File terlalu besar untuk lokasi penyimpanan atau operasi ini</string>
     <string name="file_io_error">File tidak dapat dibaca atau ditulis. Hubungkan kembali penyimpanan dan coba lagi</string>
     <string name="results_preview">Pratinjau Hasil</string>
+    <string name="raw_development">pengembangan mentah</string>
+    <string name="raw_camera_white_balance">Keseimbangan putih kamera</string>
+    <string name="raw_camera_white_balance_sub">Gunakan nilai white balance yang disimpan oleh kamera</string>
+    <string name="raw_auto_white_balance">Keseimbangan putih otomatis</string>
+    <string name="raw_auto_white_balance_sub">Hitung white balance dari gambar RAW</string>
+    <string name="raw_output_color_space">Ruang warna keluaran</string>
+    <string name="raw_output_color_space_sub">Ruang warna yang digunakan untuk gambar yang dikembangkan</string>
+    <string name="raw_highlight_recovery">Sorot pemulihan</string>
+    <string name="raw_highlight_recovery_sub">Kekuatan rekonstruksi highlight yang terpotong</string>
+    <string name="raw_demosaic_quality">Kualitas demosa</string>
+    <string name="raw_demosaic_quality_sub">Algoritma yang digunakan untuk merekonstruksi piksel penuh warna</string>
+    <string name="raw_half_size">Keluaran setengah ukuran</string>
+    <string name="raw_half_size_sub">Kembangkan gambar RAW dengan setengah lebar dan tinggi untuk decoding lebih cepat</string>
+    <string name="raw_apply_orientation">Terapkan orientasi</string>
+    <string name="raw_apply_orientation_sub">Memutar atau mencerminkan gambar yang dikembangkan menggunakan metadatanya</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">RGB Gamut Lebar</string>
+    <string name="raw_color_space_pro_photo_rgb">ProFoto RGB</string>
+    <string name="raw_demosaic_linear">Linier</string>
 </resources>

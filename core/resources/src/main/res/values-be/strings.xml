@@ -3992,4 +3992,23 @@
     <string name="file_is_too_large">Файл занадта вялікі для гэтага месца захавання або аперацыі</string>
     <string name="file_io_error">Файл не можа быць прачытаны або запісаны. Зноў падключыце сховішча і паўтарыце спробу</string>
     <string name="results_preview">Папярэдні прагляд вынікаў</string>
+    <string name="raw_development">Распрацоўка RAW</string>
+    <string name="raw_camera_white_balance">Баланс белага для камеры</string>
+    <string name="raw_camera_white_balance_sub">Выкарыстоўвайце значэнні балансу белага, захаваныя ў камеры</string>
+    <string name="raw_auto_white_balance">Аўтаматычны баланс белага</string>
+    <string name="raw_auto_white_balance_sub">Разлічыце баланс белага з выявы RAW</string>
+    <string name="raw_output_color_space">Каляровая прастора вываду</string>
+    <string name="raw_output_color_space_sub">Каляровая прастора, якая выкарыстоўваецца для праяўленага відарыса</string>
+    <string name="raw_highlight_recovery">Вылучыце аднаўленне</string>
+    <string name="raw_highlight_recovery_sub">Трываласць рэканструкцыі абрэзаных блікаў</string>
+    <string name="raw_demosaic_quality">Дэмазаічнае якасць</string>
+    <string name="raw_demosaic_quality_sub">Алгарытм, які выкарыстоўваецца для аднаўлення поўнакаляровых пікселяў</string>
+    <string name="raw_half_size">Выхад палавіннага памеру</string>
+    <string name="raw_half_size_sub">Развівайце выявы RAW на палову шырыні і вышыні для больш хуткага дэкадавання</string>
+    <string name="raw_apply_orientation">Прымяніць арыентацыю</string>
+    <string name="raw_apply_orientation_sub">Паварот або адлюстраванне распрацаванага відарыса з выкарыстаннем яго метададзеных</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Шырокая гама RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Лінейны</string>
 </resources>

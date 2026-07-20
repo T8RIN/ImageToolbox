@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">Tiedosto on liian suuri tähän tallennuspaikkaan tai toimintoon</string>
     <string name="file_io_error">Tiedostoa ei voitu lukea tai kirjoittaa. Yhdistä tallennustila uudelleen ja yritä uudelleen</string>
     <string name="results_preview">Tulosten esikatselu</string>
+    <string name="raw_development">RAW-kehitys</string>
+    <string name="raw_camera_white_balance">Kameran valkotasapaino</string>
+    <string name="raw_camera_white_balance_sub">Käytä kameran tallentamia valkotasapainoarvoja</string>
+    <string name="raw_auto_white_balance">Automaattinen valkotasapaino</string>
+    <string name="raw_auto_white_balance_sub">Laske valkotasapaino RAW-kuvasta</string>
+    <string name="raw_output_color_space">Tulostusväriavaruus</string>
+    <string name="raw_output_color_space_sub">Kehitetyn kuvan väriavaruus</string>
+    <string name="raw_highlight_recovery">Korosta palautuminen</string>
+    <string name="raw_highlight_recovery_sub">Leikatun kohokohdan jälleenrakentamisen vahvuus</string>
+    <string name="raw_demosaic_quality">Demosainen laatu</string>
+    <string name="raw_demosaic_quality_sub">Algoritmi, jota käytetään täysväristen pikselien rekonstruoimiseen</string>
+    <string name="raw_half_size">Puolikokoinen lähtö</string>
+    <string name="raw_half_size_sub">Kehitä RAW-kuvia puolileveänä ja -korkeana nopeuttaaksesi dekoodausta</string>
+    <string name="raw_apply_orientation">Käytä suuntausta</string>
+    <string name="raw_apply_orientation_sub">Kierrä tai peilaa kehitettyä kuvaa sen metatietojen avulla</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Wide Gamut RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineaarinen</string>
 </resources>

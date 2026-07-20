@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">Il file è troppo grande per questa posizione di archiviazione o operazione</string>
     <string name="file_io_error">Impossibile leggere o scrivere il file. Ricollegare lo spazio di archiviazione e riprovare</string>
     <string name="results_preview">Anteprima dei risultati</string>
+    <string name="raw_development">Sviluppo RAW</string>
+    <string name="raw_camera_white_balance">Bilanciamento del bianco della fotocamera</string>
+    <string name="raw_camera_white_balance_sub">Utilizzare i valori di bilanciamento del bianco memorizzati dalla fotocamera</string>
+    <string name="raw_auto_white_balance">Bilanciamento del bianco automatico</string>
+    <string name="raw_auto_white_balance_sub">Calcola il bilanciamento del bianco dall\'immagine RAW</string>
+    <string name="raw_output_color_space">Spazio colore di output</string>
+    <string name="raw_output_color_space_sub">Spazio colore utilizzato per l\'immagine sviluppata</string>
+    <string name="raw_highlight_recovery">Evidenzia il recupero</string>
+    <string name="raw_highlight_recovery_sub">Forza della ricostruzione delle luci ritagliate</string>
+    <string name="raw_demosaic_quality">Qualità demosaica</string>
+    <string name="raw_demosaic_quality_sub">Algoritmo utilizzato per ricostruire i pixel a colori</string>
+    <string name="raw_half_size">Uscita dimezzata</string>
+    <string name="raw_half_size_sub">Sviluppa immagini RAW a metà larghezza e altezza per una decodifica più rapida</string>
+    <string name="raw_apply_orientation">Applicare l\'orientamento</string>
+    <string name="raw_apply_orientation_sub">Ruota o rispecchia l\'immagine sviluppata utilizzando i suoi metadati</string>
+    <string name="raw_color_space_adobe_rgb">AdobeRGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Ampia gamma RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineare</string>
 </resources>

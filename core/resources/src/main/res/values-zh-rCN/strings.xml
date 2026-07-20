@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">文件对于此存储位置或操作来说太大</string>
     <string name="file_io_error">无法读取或写入该文件。重新连接存储并重试</string>
     <string name="results_preview">结果预览</string>
+    <string name="raw_development">RAW开发</string>
+    <string name="raw_camera_white_balance">相机白平衡</string>
+    <string name="raw_camera_white_balance_sub">使用相机存储的白平衡值</string>
+    <string name="raw_auto_white_balance">自动白平衡</string>
+    <string name="raw_auto_white_balance_sub">从 RAW 图像计算白平衡</string>
+    <string name="raw_output_color_space">输出色彩空间</string>
+    <string name="raw_output_color_space_sub">用于显影图像的色彩空间</string>
+    <string name="raw_highlight_recovery">亮点恢复</string>
+    <string name="raw_highlight_recovery_sub">剪切高光重建的强度</string>
+    <string name="raw_demosaic_quality">去马赛克质量</string>
+    <string name="raw_demosaic_quality_sub">用于重建全彩像素的算法</string>
+    <string name="raw_half_size">半尺寸输出</string>
+    <string name="raw_half_size_sub">以半宽和半高开发 RAW 图像以加快解码速度</string>
+    <string name="raw_apply_orientation">申请方向</string>
+    <string name="raw_apply_orientation_sub">使用其元数据旋转或镜像已开发的图像</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">广色域 RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">线性</string>
 </resources>

@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">या स्टोरेज स्थानासाठी किंवा ऑपरेशनसाठी फाइल खूप मोठी आहे</string>
     <string name="file_io_error">फाइल वाचता किंवा लिहिता येत नाही. स्टोरेज पुन्हा कनेक्ट करा आणि पुन्हा प्रयत्न करा</string>
     <string name="results_preview">परिणाम पूर्वावलोकन</string>
+    <string name="raw_development">RAW विकास</string>
+    <string name="raw_camera_white_balance">कॅमेरा पांढरा शिल्लक</string>
+    <string name="raw_camera_white_balance_sub">कॅमेऱ्याने संचयित केलेली पांढरी शिल्लक मूल्ये वापरा</string>
+    <string name="raw_auto_white_balance">स्वयंचलित पांढरा शिल्लक</string>
+    <string name="raw_auto_white_balance_sub">RAW प्रतिमेवरून व्हाईट बॅलन्सची गणना करा</string>
+    <string name="raw_output_color_space">आउटपुट रंग जागा</string>
+    <string name="raw_output_color_space_sub">विकसित प्रतिमेसाठी वापरलेली रंगीत जागा</string>
+    <string name="raw_highlight_recovery">पुनर्प्राप्ती हायलाइट करा</string>
+    <string name="raw_highlight_recovery_sub">क्लिप केलेल्या हायलाइट पुनर्रचनाची ताकद</string>
+    <string name="raw_demosaic_quality">डेमोसाइक गुणवत्ता</string>
+    <string name="raw_demosaic_quality_sub">पूर्ण-रंग पिक्सेल पुनर्रचना करण्यासाठी अल्गोरिदम वापरले</string>
+    <string name="raw_half_size">अर्ध्या आकाराचे आउटपुट</string>
+    <string name="raw_half_size_sub">जलद डीकोडिंगसाठी अर्ध्या रुंदी आणि उंचीवर RAW प्रतिमा विकसित करा</string>
+    <string name="raw_apply_orientation">अभिमुखता लागू करा</string>
+    <string name="raw_apply_orientation_sub">मेटाडेटा वापरून विकसित प्रतिमा फिरवा किंवा मिरर करा</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">वाइड गॅमट RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">प्रोफोटो आरजीबी</string>
+    <string name="raw_demosaic_linear">रेखीय</string>
 </resources>

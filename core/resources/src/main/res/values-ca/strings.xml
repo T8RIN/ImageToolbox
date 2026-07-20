@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">El fitxer és massa gran per a aquesta ubicació o operació d\'emmagatzematge</string>
     <string name="file_io_error">El fitxer no s\'ha pogut llegir ni escriure. Torneu a connectar l\'emmagatzematge i torneu-ho a provar</string>
     <string name="results_preview">Previsualització de resultats</string>
+    <string name="raw_development">Desenvolupament RAW</string>
+    <string name="raw_camera_white_balance">Balanç de blancs de la càmera</string>
+    <string name="raw_camera_white_balance_sub">Utilitzeu els valors de balanç de blancs emmagatzemats per la càmera</string>
+    <string name="raw_auto_white_balance">Balanç de blancs automàtic</string>
+    <string name="raw_auto_white_balance_sub">Calcula el balanç de blancs a partir de la imatge RAW</string>
+    <string name="raw_output_color_space">Espai de color de sortida</string>
+    <string name="raw_output_color_space_sub">Espai de color utilitzat per a la imatge desenvolupada</string>
+    <string name="raw_highlight_recovery">Ressaltar la recuperació</string>
+    <string name="raw_highlight_recovery_sub">Força de la reconstrucció de ressaltat retallat</string>
+    <string name="raw_demosaic_quality">Qualitat demosaica</string>
+    <string name="raw_demosaic_quality_sub">Algorisme utilitzat per reconstruir píxels a tot color</string>
+    <string name="raw_half_size">Sortida de mitja mida</string>
+    <string name="raw_half_size_sub">Desenvolupa imatges RAW a mitja amplada i alçada per a una descodificació més ràpida</string>
+    <string name="raw_apply_orientation">Aplicar orientació</string>
+    <string name="raw_apply_orientation_sub">Gireu o reflectiu la imatge desenvolupada mitjançant les seves metadades</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Ampli gamma RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineal</string>
 </resources>

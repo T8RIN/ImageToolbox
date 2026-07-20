@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">ਇਸ ਸਟੋਰੇਜ ਟਿਕਾਣੇ ਜਾਂ ਕਾਰਵਾਈ ਲਈ ਫ਼ਾਈਲ ਬਹੁਤ ਵੱਡੀ ਹੈ</string>
     <string name="file_io_error">ਫਾਈਲ ਨੂੰ ਪੜ੍ਹਿਆ ਜਾਂ ਲਿਖਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ। ਸਟੋਰੇਜ ਨੂੰ ਦੁਬਾਰਾ ਕਨੈਕਟ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="results_preview">ਨਤੀਜਿਆਂ ਦੀ ਝਲਕ</string>
+    <string name="raw_development">RAW ਵਿਕਾਸ</string>
+    <string name="raw_camera_white_balance">ਕੈਮਰਾ ਸਫੈਦ ਸੰਤੁਲਨ</string>
+    <string name="raw_camera_white_balance_sub">ਕੈਮਰੇ ਦੁਆਰਾ ਸਟੋਰ ਕੀਤੇ ਚਿੱਟੇ ਸੰਤੁਲਨ ਮੁੱਲਾਂ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="raw_auto_white_balance">ਆਟੋਮੈਟਿਕ ਸਫੈਦ ਸੰਤੁਲਨ</string>
+    <string name="raw_auto_white_balance_sub">RAW ਚਿੱਤਰ ਤੋਂ ਸਫੈਦ ਸੰਤੁਲਨ ਦੀ ਗਣਨਾ ਕਰੋ</string>
+    <string name="raw_output_color_space">ਆਉਟਪੁੱਟ ਰੰਗ ਸਪੇਸ</string>
+    <string name="raw_output_color_space_sub">ਵਿਕਸਤ ਚਿੱਤਰ ਲਈ ਵਰਤਿਆ ਗਿਆ ਰੰਗ ਸਪੇਸ</string>
+    <string name="raw_highlight_recovery">ਰਿਕਵਰੀ ਨੂੰ ਹਾਈਲਾਈਟ ਕਰੋ</string>
+    <string name="raw_highlight_recovery_sub">ਕਲਿੱਪ ਕੀਤੇ ਹਾਈਲਾਈਟ ਪੁਨਰ ਨਿਰਮਾਣ ਦੀ ਤਾਕਤ</string>
+    <string name="raw_demosaic_quality">ਡੈਮੋਸੈਕ ਗੁਣਵੱਤਾ</string>
+    <string name="raw_demosaic_quality_sub">ਐਲਗੋਰਿਦਮ ਦੀ ਵਰਤੋਂ ਫੁੱਲ-ਕਲਰ ਪਿਕਸਲਾਂ ਦਾ ਪੁਨਰਗਠਨ ਕਰਨ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ</string>
+    <string name="raw_half_size">ਅੱਧੇ ਆਕਾਰ ਦੀ ਆਉਟਪੁੱਟ</string>
+    <string name="raw_half_size_sub">ਤੇਜ਼ ਡੀਕੋਡਿੰਗ ਲਈ ਅੱਧੀ ਚੌੜਾਈ ਅਤੇ ਉਚਾਈ \'ਤੇ RAW ਚਿੱਤਰਾਂ ਦਾ ਵਿਕਾਸ ਕਰੋ</string>
+    <string name="raw_apply_orientation">ਸਥਿਤੀ ਲਾਗੂ ਕਰੋ</string>
+    <string name="raw_apply_orientation_sub">ਵਿਕਸਤ ਚਿੱਤਰ ਨੂੰ ਇਸਦੇ ਮੈਟਾਡੇਟਾ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਘੁੰਮਾਓ ਜਾਂ ਪ੍ਰਤੀਬਿੰਬ ਬਣਾਓ</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">ਵਾਈਡ ਗਾਮਟ ਆਰਜੀਬੀ</string>
+    <string name="raw_color_space_pro_photo_rgb">ਪ੍ਰੋਫੋਟੋ ਆਰਜੀਬੀ</string>
+    <string name="raw_demosaic_linear">ਰੇਖਿਕ</string>
 </resources>

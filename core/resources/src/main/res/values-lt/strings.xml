@@ -3991,4 +3991,23 @@
     <string name="file_is_too_large">Failas per didelis šiai saugojimo vietai arba operacijai</string>
     <string name="file_io_error">Failo nepavyko nuskaityti ar įrašyti. Iš naujo prijunkite saugyklą ir bandykite dar kartą</string>
     <string name="results_preview">Rezultatų peržiūra</string>
+    <string name="raw_development">RAW plėtra</string>
+    <string name="raw_camera_white_balance">Fotoaparato baltos spalvos balansas</string>
+    <string name="raw_camera_white_balance_sub">Naudokite fotoaparato išsaugotas baltos spalvos balanso reikšmes</string>
+    <string name="raw_auto_white_balance">Automatinis baltos spalvos balansas</string>
+    <string name="raw_auto_white_balance_sub">Apskaičiuokite baltos spalvos balansą pagal RAW vaizdą</string>
+    <string name="raw_output_color_space">Išvesties spalvų erdvė</string>
+    <string name="raw_output_color_space_sub">Kuriamam vaizdui naudojama spalvų erdvė</string>
+    <string name="raw_highlight_recovery">Pabrėžkite atkūrimą</string>
+    <string name="raw_highlight_recovery_sub">Nukirpto akcento rekonstrukcijos stiprumas</string>
+    <string name="raw_demosaic_quality">Demozinė kokybė</string>
+    <string name="raw_demosaic_quality_sub">Algoritmas, naudojamas spalvotiems pikseliams atkurti</string>
+    <string name="raw_half_size">Pusės dydžio išėjimas</string>
+    <string name="raw_half_size_sub">Kurkite RAW vaizdus per pusę pločio ir aukščio, kad būtų galima greičiau dekoduoti</string>
+    <string name="raw_apply_orientation">Taikyti orientaciją</string>
+    <string name="raw_apply_orientation_sub">Pasukite arba atspindėkite sukurtą vaizdą naudodami jo metaduomenis</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Plačios gamos RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Linijinis</string>
 </resources>

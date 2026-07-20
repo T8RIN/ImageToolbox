@@ -3992,4 +3992,23 @@
     <string name="crop_stitched_image_sub">Обрезать результат до наибольшей площади без пустых областей</string>
     <string name="seam_blending">Сглаживание швов</string>
     <string name="results_preview">Предварительный просмотр результатов</string>
+    <string name="raw_development">Разработка RAW</string>
+    <string name="raw_camera_white_balance">Баланс белого камеры</string>
+    <string name="raw_camera_white_balance_sub">Используйте значения баланса белого, сохраненные в камере.</string>
+    <string name="raw_auto_white_balance">Автоматический баланс белого</string>
+    <string name="raw_auto_white_balance_sub">Рассчитайте баланс белого по изображению RAW.</string>
+    <string name="raw_output_color_space">Выходное цветовое пространство</string>
+    <string name="raw_output_color_space_sub">Цветовое пространство, используемое для проявленного изображения</string>
+    <string name="raw_highlight_recovery">Выделить восстановление</string>
+    <string name="raw_highlight_recovery_sub">Сила реконструкции обрезанных светлых участков</string>
+    <string name="raw_demosaic_quality">Качество мозаики</string>
+    <string name="raw_demosaic_quality_sub">Алгоритм, используемый для восстановления полноцветных пикселей.</string>
+    <string name="raw_half_size">Выход половинного размера</string>
+    <string name="raw_half_size_sub">Создавайте изображения RAW с половинной шириной и высотой для более быстрого декодирования.</string>
+    <string name="raw_apply_orientation">Применить ориентацию</string>
+    <string name="raw_apply_orientation_sub">Поверните или отразите созданное изображение, используя его метаданные.</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Широкая гамма RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ПроФото RGB</string>
+    <string name="raw_demosaic_linear">Линейный</string>
 </resources>

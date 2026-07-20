@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">Filen er for stor til denne lagerplacering eller handling</string>
     <string name="file_io_error">Filen kunne ikke læses eller skrives. Tilslut lageret igen, og prøv igen</string>
     <string name="results_preview">Forhåndsvisning af resultater</string>
+    <string name="raw_development">RAW udvikling</string>
+    <string name="raw_camera_white_balance">Kamera hvidbalance</string>
+    <string name="raw_camera_white_balance_sub">Brug de hvidbalanceværdier, der er gemt af kameraet</string>
+    <string name="raw_auto_white_balance">Automatisk hvidbalance</string>
+    <string name="raw_auto_white_balance_sub">Beregn hvidbalance fra RAW-billedet</string>
+    <string name="raw_output_color_space">Output farverum</string>
+    <string name="raw_output_color_space_sub">Farverum brugt til det fremkaldte billede</string>
+    <string name="raw_highlight_recovery">Fremhæv genopretning</string>
+    <string name="raw_highlight_recovery_sub">Styrke af klippet højlys rekonstruktion</string>
+    <string name="raw_demosaic_quality">Demosaisk kvalitet</string>
+    <string name="raw_demosaic_quality_sub">Algoritme, der bruges til at rekonstruere fuldfarvepixel</string>
+    <string name="raw_half_size">Halvstørrelse output</string>
+    <string name="raw_half_size_sub">Fremkald RAW-billeder i halv bredde og højde for hurtigere afkodning</string>
+    <string name="raw_apply_orientation">Anvend orientering</string>
+    <string name="raw_apply_orientation_sub">Roter eller spejl det fremkaldte billede ved hjælp af dets metadata</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Bred gamut RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineær</string>
 </resources>

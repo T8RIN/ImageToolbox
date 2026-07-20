@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">इस संग्रहण स्थान या संचालन के लिए फ़ाइल बहुत बड़ी है</string>
     <string name="file_io_error">फ़ाइल को पढ़ा या लिखा नहीं जा सका. स्टोरेज को पुनः कनेक्ट करें और पुनः प्रयास करें</string>
     <string name="results_preview">परिणाम पूर्वावलोकन</string>
+    <string name="raw_development">रॉ विकास</string>
+    <string name="raw_camera_white_balance">कैमरा श्वेत संतुलन</string>
+    <string name="raw_camera_white_balance_sub">कैमरे द्वारा संग्रहीत श्वेत संतुलन मानों का उपयोग करें</string>
+    <string name="raw_auto_white_balance">स्वचालित श्वेत संतुलन</string>
+    <string name="raw_auto_white_balance_sub">RAW छवि से श्वेत संतुलन की गणना करें</string>
+    <string name="raw_output_color_space">आउटपुट रंग स्थान</string>
+    <string name="raw_output_color_space_sub">विकसित छवि के लिए रंग स्थान का उपयोग किया गया</string>
+    <string name="raw_highlight_recovery">पुनर्प्राप्ति को हाइलाइट करें</string>
+    <string name="raw_highlight_recovery_sub">क्लिप्ड हाइलाइट पुनर्निर्माण की ताकत</string>
+    <string name="raw_demosaic_quality">डेमोज़ेक गुणवत्ता</string>
+    <string name="raw_demosaic_quality_sub">पूर्ण-रंगीन पिक्सेल का पुनर्निर्माण करने के लिए एल्गोरिदम का उपयोग किया जाता है</string>
+    <string name="raw_half_size">आधे आकार का आउटपुट</string>
+    <string name="raw_half_size_sub">तेज़ डिकोडिंग के लिए आधी चौड़ाई और ऊंचाई पर RAW छवियां विकसित करें</string>
+    <string name="raw_apply_orientation">अभिविन्यास लागू करें</string>
+    <string name="raw_apply_orientation_sub">इसके मेटाडेटा का उपयोग करके विकसित छवि को घुमाएं या प्रतिबिंबित करें</string>
+    <string name="raw_color_space_adobe_rgb">एडोब आरजीबी</string>
+    <string name="raw_color_space_wide_gamut_rgb">वाइड गैमट आरजीबी</string>
+    <string name="raw_color_space_pro_photo_rgb">प्रोफ़ोटो आरजीबी</string>
+    <string name="raw_demosaic_linear">रेखीय</string>
 </resources>

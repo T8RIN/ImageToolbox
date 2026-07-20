@@ -3991,4 +3991,23 @@
     <string name="file_is_too_large">Fișierul este prea mare pentru această locație de stocare sau operație</string>
     <string name="file_io_error">Fișierul nu a putut fi citit sau scris. Reconectați spațiul de stocare și încercați din nou</string>
     <string name="results_preview">Previzualizarea rezultatelor</string>
+    <string name="raw_development">Dezvoltare RAW</string>
+    <string name="raw_camera_white_balance">Balansul de alb al camerei</string>
+    <string name="raw_camera_white_balance_sub">Utilizați valorile balansului de alb stocate de cameră</string>
+    <string name="raw_auto_white_balance">Balans de alb automat</string>
+    <string name="raw_auto_white_balance_sub">Calculați balansul de alb din imaginea RAW</string>
+    <string name="raw_output_color_space">Spațiu de culoare de ieșire</string>
+    <string name="raw_output_color_space_sub">Spațiul de culoare utilizat pentru imaginea dezvoltată</string>
+    <string name="raw_highlight_recovery">Evidențiați recuperarea</string>
+    <string name="raw_highlight_recovery_sub">Puterea reconstrucției evidențiate tăiate</string>
+    <string name="raw_demosaic_quality">Calitate demosaică</string>
+    <string name="raw_demosaic_quality_sub">Algoritm folosit pentru a reconstrui pixeli plin de culoare</string>
+    <string name="raw_half_size">Ieșire de jumătate de dimensiune</string>
+    <string name="raw_half_size_sub">Dezvoltați imagini RAW la jumătate de lățime și înălțime pentru o decodare mai rapidă</string>
+    <string name="raw_apply_orientation">Aplicați orientarea</string>
+    <string name="raw_apply_orientation_sub">Rotiți sau oglindiți imaginea dezvoltată folosind metadatele acesteia</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Gamă largă RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Liniar</string>
 </resources>

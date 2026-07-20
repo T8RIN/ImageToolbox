@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">Бұл сақтау орны немесе операция үшін файл тым үлкен</string>
     <string name="file_io_error">Файлды оқу немесе жазу мүмкін болмады. Жадты қайта қосып, әрекетті қайталаңыз</string>
     <string name="results_preview">Нәтижелерді алдын ала қарау</string>
+    <string name="raw_development">RAW әзірлеу</string>
+    <string name="raw_camera_white_balance">Камераның ақ балансы</string>
+    <string name="raw_camera_white_balance_sub">Камерада сақталған ақ баланс мәндерін пайдаланыңыз</string>
+    <string name="raw_auto_white_balance">Автоматты ақ түс балансы</string>
+    <string name="raw_auto_white_balance_sub">RAW кескінінен ақ балансты есептеңіз</string>
+    <string name="raw_output_color_space">Шығару түс кеңістігі</string>
+    <string name="raw_output_color_space_sub">Әзірленген кескін үшін пайдаланылатын түс кеңістігі</string>
+    <string name="raw_highlight_recovery">Қалпына келтіруді бөлектеңіз</string>
+    <string name="raw_highlight_recovery_sub">Кесілген бөлектеуді қалпына келтірудің беріктігі</string>
+    <string name="raw_demosaic_quality">Демозалық сапа</string>
+    <string name="raw_demosaic_quality_sub">Толық түсті пикселдерді қайта құру үшін қолданылатын алгоритм</string>
+    <string name="raw_half_size">Жартылай өлшемді шығыс</string>
+    <string name="raw_half_size_sub">Тезірек декодтау үшін RAW кескіндерін жартылай ені мен биіктігінде жасаңыз</string>
+    <string name="raw_apply_orientation">Бағдарлауды қолдану</string>
+    <string name="raw_apply_orientation_sub">Метадеректер арқылы әзірленген кескінді айналдырыңыз немесе айналаңыз</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Кең гамма RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Сызықтық</string>
 </resources>

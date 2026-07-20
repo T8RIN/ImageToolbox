@@ -3992,4 +3992,23 @@
     <string name="file_is_too_large">Súbor je príliš veľký pre toto miesto uloženia alebo operáciu</string>
     <string name="file_io_error">Súbor sa nedal čítať ani zapisovať. Znova pripojte úložisko a skúste to znova</string>
     <string name="results_preview">Ukážka výsledkov</string>
+    <string name="raw_development">Vývoj RAW</string>
+    <string name="raw_camera_white_balance">Vyváženie bielej farby fotoaparátu</string>
+    <string name="raw_camera_white_balance_sub">Použite hodnoty vyváženia bielej uložené fotoaparátom</string>
+    <string name="raw_auto_white_balance">Automatické vyváženie bielej</string>
+    <string name="raw_auto_white_balance_sub">Vypočítajte vyváženie bielej zo snímky RAW</string>
+    <string name="raw_output_color_space">Výstupný farebný priestor</string>
+    <string name="raw_output_color_space_sub">Farebný priestor použitý pre vyvolaný obrázok</string>
+    <string name="raw_highlight_recovery">Zvýraznite obnovu</string>
+    <string name="raw_highlight_recovery_sub">Sila rekonštrukcie orezaného zvýraznenia</string>
+    <string name="raw_demosaic_quality">Demosaická kvalita</string>
+    <string name="raw_demosaic_quality_sub">Algoritmus používaný na rekonštrukciu plnofarebných pixelov</string>
+    <string name="raw_half_size">Výstup polovičnej veľkosti</string>
+    <string name="raw_half_size_sub">Vyvolávajte obrázky RAW s polovičnou šírkou a výškou pre rýchlejšie dekódovanie</string>
+    <string name="raw_apply_orientation">Použiť orientáciu</string>
+    <string name="raw_apply_orientation_sub">Otočte alebo zrkadlite vyvinutý obrázok pomocou jeho metadát</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Široký gamut RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Lineárne</string>
 </resources>

@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">ファイルはこの保存場所または操作には大きすぎます</string>
     <string name="file_io_error">ファイルの読み取りまたは書き込みができませんでした。ストレージを再接続して再試行してください</string>
     <string name="results_preview">結果のプレビュー</string>
+    <string name="raw_development">RAW現像</string>
+    <string name="raw_camera_white_balance">カメラのホワイトバランス</string>
+    <string name="raw_camera_white_balance_sub">カメラに保存されているホワイトバランス値を使用します</string>
+    <string name="raw_auto_white_balance">自動ホワイトバランス</string>
+    <string name="raw_auto_white_balance_sub">RAW画像からホワイトバランスを計算</string>
+    <string name="raw_output_color_space">出力カラースペース</string>
+    <string name="raw_output_color_space_sub">現像画像に使用される色空間</string>
+    <string name="raw_highlight_recovery">ハイライト回復</string>
+    <string name="raw_highlight_recovery_sub">切り取られたハイライト再構成の強度</string>
+    <string name="raw_demosaic_quality">デモザイク品質</string>
+    <string name="raw_demosaic_quality_sub">フルカラーピクセルを再構築するために使用されるアルゴリズム</string>
+    <string name="raw_half_size">半角出力</string>
+    <string name="raw_half_size_sub">デコードを高速化するために、RAW 画像を幅と高さの半分で現像します。</string>
+    <string name="raw_apply_orientation">向きを適用する</string>
+    <string name="raw_apply_orientation_sub">メタデータを使用して現像済み画像を回転またはミラーリングする</string>
+    <string name="raw_color_space_adobe_rgb">アドビRGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">広色域RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">プロフォトRGB</string>
+    <string name="raw_demosaic_linear">リニア</string>
 </resources>

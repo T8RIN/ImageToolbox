@@ -3989,4 +3989,23 @@
     <string name="file_is_too_large">이 저장 위치나 작업에 비해 파일이 너무 큽니다.</string>
     <string name="file_io_error">파일을 읽거나 쓸 수 없습니다. 저장소를 다시 연결하고 다시 시도해 보세요.</string>
     <string name="results_preview">결과 미리보기</string>
+    <string name="raw_development">RAW 현상</string>
+    <string name="raw_camera_white_balance">카메라 화이트 밸런스</string>
+    <string name="raw_camera_white_balance_sub">카메라에 저장된 화이트 밸런스 값을 사용합니다.</string>
+    <string name="raw_auto_white_balance">자동 화이트 밸런스</string>
+    <string name="raw_auto_white_balance_sub">RAW 이미지에서 화이트 밸런스 계산</string>
+    <string name="raw_output_color_space">출력 색 공간</string>
+    <string name="raw_output_color_space_sub">현상된 이미지에 사용된 색 공간</string>
+    <string name="raw_highlight_recovery">하이라이트 회복</string>
+    <string name="raw_highlight_recovery_sub">잘린 하이라이트 재구성의 강점</string>
+    <string name="raw_demosaic_quality">데모자이크 품질</string>
+    <string name="raw_demosaic_quality_sub">풀 컬러 픽셀을 재구성하는 데 사용되는 알고리즘</string>
+    <string name="raw_half_size">절반 크기 출력</string>
+    <string name="raw_half_size_sub">더 빠른 디코딩을 위해 너비와 높이가 절반인 RAW 이미지를 개발합니다.</string>
+    <string name="raw_apply_orientation">방향 적용</string>
+    <string name="raw_apply_orientation_sub">메타데이터를 사용하여 현상된 이미지를 회전하거나 미러링합니다.</string>
+    <string name="raw_color_space_adobe_rgb">어도비 RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">넓은 범위의 RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">프로포토 RGB</string>
+    <string name="raw_demosaic_linear">선의</string>
 </resources>

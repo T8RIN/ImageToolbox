@@ -3992,4 +3992,23 @@
     <string name="file_is_too_large">Файл завеликий для цього місця зберігання чи операції</string>
     <string name="file_io_error">Не вдалося прочитати або записати файл. Повторно підключіть сховище та повторіть спробу</string>
     <string name="results_preview">Попередній перегляд результатів</string>
+    <string name="raw_development">Розробка RAW</string>
+    <string name="raw_camera_white_balance">Баланс білого камери</string>
+    <string name="raw_camera_white_balance_sub">Використовуйте значення балансу білого, збережені камерою</string>
+    <string name="raw_auto_white_balance">Автоматичний баланс білого</string>
+    <string name="raw_auto_white_balance_sub">Розрахуйте баланс білого за зображенням RAW</string>
+    <string name="raw_output_color_space">Вихідний колірний простір</string>
+    <string name="raw_output_color_space_sub">Колірний простір, який використовується для проявленого зображення</string>
+    <string name="raw_highlight_recovery">Виділіть відновлення</string>
+    <string name="raw_highlight_recovery_sub">Міцність реконструкції обрізаного відблиску</string>
+    <string name="raw_demosaic_quality">Демозаїчна якість</string>
+    <string name="raw_demosaic_quality_sub">Алгоритм, який використовується для реконструкції повнокольорових пікселів</string>
+    <string name="raw_half_size">Вихід половинного розміру</string>
+    <string name="raw_half_size_sub">Розробляйте зображення RAW на половину ширини та висоти для швидшого декодування</string>
+    <string name="raw_apply_orientation">Застосувати орієнтацію</string>
+    <string name="raw_apply_orientation_sub">Обертайте або віддзеркалюйте розроблене зображення, використовуючи його метадані</string>
+    <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Широка гама RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
+    <string name="raw_demosaic_linear">Лінійний</string>
 </resources>

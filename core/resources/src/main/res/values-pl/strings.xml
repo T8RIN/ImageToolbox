@@ -3992,4 +3992,23 @@
     <string name="file_is_too_large">Plik jest za duży dla tej lokalizacji przechowywania lub operacji</string>
     <string name="file_io_error">Nie można odczytać ani zapisać pliku. Podłącz ponownie pamięć i spróbuj ponownie</string>
     <string name="results_preview">Podgląd wyników</string>
+    <string name="raw_development">Rozwój RAW</string>
+    <string name="raw_camera_white_balance">Balans bieli aparatu</string>
+    <string name="raw_camera_white_balance_sub">Użyj wartości balansu bieli zapisanych w aparacie</string>
+    <string name="raw_auto_white_balance">Automatyczny balans bieli</string>
+    <string name="raw_auto_white_balance_sub">Oblicz balans bieli na podstawie obrazu RAW</string>
+    <string name="raw_output_color_space">Wyjściowa przestrzeń kolorów</string>
+    <string name="raw_output_color_space_sub">Przestrzeń barw zastosowana w wywołanym obrazie</string>
+    <string name="raw_highlight_recovery">Zaznacz regenerację</string>
+    <string name="raw_highlight_recovery_sub">Siła rekonstrukcji przyciętych świateł</string>
+    <string name="raw_demosaic_quality">Jakość demozaiczna</string>
+    <string name="raw_demosaic_quality_sub">Algorytm używany do rekonstrukcji pełnokolorowych pikseli</string>
+    <string name="raw_half_size">Wyjście o połowie rozmiaru</string>
+    <string name="raw_half_size_sub">Wywołuj obrazy RAW w połowie szerokości i wysokości, aby przyspieszyć dekodowanie</string>
+    <string name="raw_apply_orientation">Zastosuj orientację</string>
+    <string name="raw_apply_orientation_sub">Obróć lub odbij wywołany obraz, korzystając z jego metadanych</string>
+    <string name="raw_color_space_adobe_rgb">AdobeRGB</string>
+    <string name="raw_color_space_wide_gamut_rgb">Szeroka gama RGB</string>
+    <string name="raw_color_space_pro_photo_rgb">ProFoto RGB</string>
+    <string name="raw_demosaic_linear">Liniowy</string>
 </resources>

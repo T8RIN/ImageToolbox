@@ -3990,4 +3990,23 @@
     <string name="file_is_too_large">এই স্টোরেজ অবস্থান বা অপারেশনের জন্য ফাইলটি খুব বড়</string>
     <string name="file_io_error">ফাইল পড়া বা লেখা যাবে না. স্টোরেজ পুনরায় সংযোগ করুন এবং আবার চেষ্টা করুন</string>
     <string name="results_preview">ফলাফল পূর্বরূপ</string>
+    <string name="raw_development">RAW উন্নয়ন</string>
+    <string name="raw_camera_white_balance">ক্যামেরা সাদা ব্যালেন্স</string>
+    <string name="raw_camera_white_balance_sub">ক্যামেরা দ্বারা সংরক্ষিত সাদা ব্যালেন্স মান ব্যবহার করুন</string>
+    <string name="raw_auto_white_balance">স্বয়ংক্রিয় সাদা ভারসাম্য</string>
+    <string name="raw_auto_white_balance_sub">RAW চিত্র থেকে সাদা ব্যালেন্স গণনা করুন</string>
+    <string name="raw_output_color_space">আউটপুট রঙের স্থান</string>
+    <string name="raw_output_color_space_sub">উন্নত চিত্রের জন্য ব্যবহৃত রঙের স্থান</string>
+    <string name="raw_highlight_recovery">হাইলাইট পুনরুদ্ধার</string>
+    <string name="raw_highlight_recovery_sub">ক্লিপড হাইলাইট পুনর্গঠনের শক্তি</string>
+    <string name="raw_demosaic_quality">ডেমোজাইক গুণমান</string>
+    <string name="raw_demosaic_quality_sub">অ্যালগরিদম পূর্ণ-রঙের পিক্সেল পুনর্গঠন করতে ব্যবহৃত হয়</string>
+    <string name="raw_half_size">অর্ধ-আকারের আউটপুট</string>
+    <string name="raw_half_size_sub">দ্রুত ডিকোডিংয়ের জন্য অর্ধ প্রস্থ এবং উচ্চতায় RAW চিত্রগুলি বিকাশ করুন৷</string>
+    <string name="raw_apply_orientation">অভিযোজন প্রয়োগ করুন</string>
+    <string name="raw_apply_orientation_sub">এর মেটাডেটা ব্যবহার করে উন্নত চিত্রটিকে ঘোরান বা মিরর করুন</string>
+    <string name="raw_color_space_adobe_rgb">অ্যাডোব আরজিবি</string>
+    <string name="raw_color_space_wide_gamut_rgb">ওয়াইড গামুট আরজিবি</string>
+    <string name="raw_color_space_pro_photo_rgb">প্রোফোটো আরজিবি</string>
+    <string name="raw_demosaic_linear">রৈখিক</string>
 </resources>
