@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Doğrusal</string>
     <string name="raw_development_sub">RAW görüntü geliştirme ayarlarını yapın</string>
-    <string name="raw_white_balance">Beyaz dengesi</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Otomatik</string>
     <string name="raw_white_balance_daylight">Gün ışığı</string>
-    <string name="raw_white_balance_custom">Gelenek</string>
     <string name="raw_white_balance_red">Kırmızı çarpan</string>
     <string name="raw_white_balance_green">Yeşil çarpan</string>
     <string name="raw_white_balance_blue">Mavi çarpan</string>
     <string name="raw_white_balance_second_green">İkinci yeşil çarpan</string>
-    <string name="raw_highlight_recovery_clip">Klip</string>
     <string name="raw_highlight_recovery_unclip">Klipsi aç</string>
     <string name="raw_highlight_recovery_blend">Karışım</string>
     <string name="raw_highlight_recovery_reconstruct">Yeniden inşa et</string>

@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Linear</string>
     <string name="raw_development_sub">Ayusin ang mga setting ng pagbuo ng RAW na imahe</string>
-    <string name="raw_white_balance">Puting balanse</string>
-    <string name="raw_white_balance_camera">Camera</string>
-    <string name="raw_white_balance_auto">Awtomatiko</string>
     <string name="raw_white_balance_daylight">Liwanag ng araw</string>
-    <string name="raw_white_balance_custom">Custom</string>
     <string name="raw_white_balance_red">Pulang multiplier</string>
     <string name="raw_white_balance_green">Green multiplier</string>
     <string name="raw_white_balance_blue">Asul na multiplier</string>
     <string name="raw_white_balance_second_green">Pangalawang berdeng multiplier</string>
-    <string name="raw_highlight_recovery_clip">Clip</string>
     <string name="raw_highlight_recovery_unclip">I-unclip</string>
     <string name="raw_highlight_recovery_blend">Haluin</string>
     <string name="raw_highlight_recovery_reconstruct">Muling buuin</string>

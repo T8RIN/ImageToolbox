@@ -4008,16 +4008,11 @@
     <string name="raw_color_space_pro_photo_rgb">بروفوتو آر جي بي</string>
     <string name="raw_demosaic_linear">خطي</string>
     <string name="raw_development_sub">ضبط إعدادات تطوير صورة RAW</string>
-    <string name="raw_white_balance">توازن اللون الأبيض</string>
-    <string name="raw_white_balance_camera">آلة تصوير</string>
-    <string name="raw_white_balance_auto">تلقائي</string>
     <string name="raw_white_balance_daylight">ضوء النهار</string>
-    <string name="raw_white_balance_custom">مخصص</string>
     <string name="raw_white_balance_red">المضاعف الأحمر</string>
     <string name="raw_white_balance_green">المضاعف الأخضر</string>
     <string name="raw_white_balance_blue">المضاعف الأزرق</string>
     <string name="raw_white_balance_second_green">المضاعف الأخضر الثاني</string>
-    <string name="raw_highlight_recovery_clip">مقطع</string>
     <string name="raw_highlight_recovery_unclip">قم بفك المشبك</string>
     <string name="raw_highlight_recovery_blend">يمزج</string>
     <string name="raw_highlight_recovery_reconstruct">إعادة البناء</string>

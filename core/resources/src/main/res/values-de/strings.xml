@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Linear</string>
     <string name="raw_development_sub">Passen Sie die Entwicklungseinstellungen für RAW-Bilder an</string>
-    <string name="raw_white_balance">Weißabgleich</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Automatisch</string>
     <string name="raw_white_balance_daylight">Tageslicht</string>
-    <string name="raw_white_balance_custom">Brauch</string>
     <string name="raw_white_balance_red">Roter Multiplikator</string>
     <string name="raw_white_balance_green">Grüner Multiplikator</string>
     <string name="raw_white_balance_blue">Blauer Multiplikator</string>
     <string name="raw_white_balance_second_green">Zweiter grüner Multiplikator</string>
-    <string name="raw_highlight_recovery_clip">Clip</string>
     <string name="raw_highlight_recovery_unclip">Ausclipsen</string>
     <string name="raw_highlight_recovery_blend">Mischung</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruieren</string>

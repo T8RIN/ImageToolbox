@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">โปรโฟโต้ RGB</string>
     <string name="raw_demosaic_linear">เชิงเส้น</string>
     <string name="raw_development_sub">ปรับการตั้งค่าการพัฒนาภาพ RAW</string>
-    <string name="raw_white_balance">สมดุลสีขาว</string>
-    <string name="raw_white_balance_camera">กล้อง</string>
-    <string name="raw_white_balance_auto">อัตโนมัติ</string>
     <string name="raw_white_balance_daylight">กลางวัน</string>
-    <string name="raw_white_balance_custom">กำหนดเอง</string>
     <string name="raw_white_balance_red">ตัวคูณสีแดง</string>
     <string name="raw_white_balance_green">ตัวคูณสีเขียว</string>
     <string name="raw_white_balance_blue">ตัวคูณสีน้ำเงิน</string>
     <string name="raw_white_balance_second_green">ตัวคูณสีเขียวตัวที่สอง</string>
-    <string name="raw_highlight_recovery_clip">คลิป</string>
     <string name="raw_highlight_recovery_unclip">ปลดคลิป</string>
     <string name="raw_highlight_recovery_blend">ผสมผสาน</string>
     <string name="raw_highlight_recovery_reconstruct">บูรณะ</string>

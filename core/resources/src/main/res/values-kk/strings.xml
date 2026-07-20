@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Сызықтық</string>
     <string name="raw_development_sub">RAW кескінін әзірлеу параметрлерін реттеңіз</string>
-    <string name="raw_white_balance">Ақ баланс</string>
-    <string name="raw_white_balance_camera">Камера</string>
-    <string name="raw_white_balance_auto">Автоматты</string>
     <string name="raw_white_balance_daylight">Күндізгі жарық</string>
-    <string name="raw_white_balance_custom">Арнаулы</string>
     <string name="raw_white_balance_red">Қызыл көбейткіш</string>
     <string name="raw_white_balance_green">Жасыл мультипликатор</string>
     <string name="raw_white_balance_blue">Көк көбейткіш</string>
     <string name="raw_white_balance_second_green">Екінші жасыл мультипликатор</string>
-    <string name="raw_highlight_recovery_clip">Клип</string>
     <string name="raw_highlight_recovery_unclip">Клипті ашу</string>
     <string name="raw_highlight_recovery_blend">Араластыру</string>
     <string name="raw_highlight_recovery_reconstruct">Қайта құру</string>

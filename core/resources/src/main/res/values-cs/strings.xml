@@ -4006,16 +4006,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineární</string>
     <string name="raw_development_sub">Upravte nastavení vyvolání snímků RAW</string>
-    <string name="raw_white_balance">Vyvážení bílé</string>
-    <string name="raw_white_balance_camera">Fotoaparát</string>
-    <string name="raw_white_balance_auto">Automatický</string>
     <string name="raw_white_balance_daylight">Denní světlo</string>
-    <string name="raw_white_balance_custom">Zvyk</string>
     <string name="raw_white_balance_red">Červený násobitel</string>
     <string name="raw_white_balance_green">Zelený multiplikátor</string>
     <string name="raw_white_balance_blue">Modrý násobitel</string>
     <string name="raw_white_balance_second_green">Druhý zelený násobitel</string>
-    <string name="raw_highlight_recovery_clip">Klip</string>
     <string name="raw_highlight_recovery_unclip">Odepnout</string>
     <string name="raw_highlight_recovery_blend">Směs</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruovat</string>

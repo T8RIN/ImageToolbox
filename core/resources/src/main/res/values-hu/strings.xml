@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineáris</string>
     <string name="raw_development_sub">Módosítsa a RAW képfejlesztési beállításokat</string>
-    <string name="raw_white_balance">Fehéregyensúly</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Automatikus</string>
     <string name="raw_white_balance_daylight">Napfény</string>
-    <string name="raw_white_balance_custom">Szokás</string>
     <string name="raw_white_balance_red">Piros szorzó</string>
     <string name="raw_white_balance_green">Zöld szorzó</string>
     <string name="raw_white_balance_blue">Kék szorzó</string>
     <string name="raw_white_balance_second_green">Második zöld szorzó</string>
-    <string name="raw_highlight_recovery_clip">Csipesz</string>
     <string name="raw_highlight_recovery_unclip">Bontsa ki</string>
     <string name="raw_highlight_recovery_blend">Keverék</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruálni</string>

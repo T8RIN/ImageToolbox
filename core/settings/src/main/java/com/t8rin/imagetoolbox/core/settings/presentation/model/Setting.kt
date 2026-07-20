@@ -783,7 +783,7 @@ sealed class Setting(
 
     @Serializable
     data object RawWhiteBalance : Setting(
-        title = R.string.raw_white_balance,
+        title = R.string.white_balance,
         subtitle = null
     )
 

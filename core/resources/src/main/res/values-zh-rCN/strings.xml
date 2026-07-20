@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">线性</string>
     <string name="raw_development_sub">调整 RAW 图像显影设置</string>
-    <string name="raw_white_balance">白平衡</string>
-    <string name="raw_white_balance_camera">相机</string>
-    <string name="raw_white_balance_auto">自动的</string>
     <string name="raw_white_balance_daylight">日光</string>
-    <string name="raw_white_balance_custom">风俗</string>
     <string name="raw_white_balance_red">红色乘数</string>
     <string name="raw_white_balance_green">绿色乘数</string>
     <string name="raw_white_balance_blue">蓝色乘数</string>
     <string name="raw_white_balance_second_green">第二个绿色乘数</string>
-    <string name="raw_highlight_recovery_clip">夹子</string>
     <string name="raw_highlight_recovery_unclip">松开</string>
     <string name="raw_highlight_recovery_blend">混合</string>
     <string name="raw_highlight_recovery_reconstruct">重建</string>

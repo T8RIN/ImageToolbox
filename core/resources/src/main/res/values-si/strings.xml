@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">රේඛීය</string>
     <string name="raw_development_sub">RAW රූප සංවර්ධන සැකසුම් සකසන්න</string>
-    <string name="raw_white_balance">සුදු සමබරතාවය</string>
-    <string name="raw_white_balance_camera">කැමරාව</string>
-    <string name="raw_white_balance_auto">ස්වයංක්රීය</string>
     <string name="raw_white_balance_daylight">දිවා ආලෝකය</string>
-    <string name="raw_white_balance_custom">අභිරුචි</string>
     <string name="raw_white_balance_red">රතු ගුණකය</string>
     <string name="raw_white_balance_green">හරිත ගුණකය</string>
     <string name="raw_white_balance_blue">නිල් ගුණකය</string>
     <string name="raw_white_balance_second_green">දෙවන හරිත ගුණකය</string>
-    <string name="raw_highlight_recovery_clip">ක්ලිප්</string>
     <string name="raw_highlight_recovery_unclip">ක්ලිප් ඉවත් කරන්න</string>
     <string name="raw_highlight_recovery_blend">බ්ලෙන්ඩ් කරන්න</string>
     <string name="raw_highlight_recovery_reconstruct">ප්‍රතිනිර්මාණය කරන්න</string>

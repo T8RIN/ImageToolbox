@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Linjär</string>
     <string name="raw_development_sub">Justera inställningar för RAW-bildframkallning</string>
-    <string name="raw_white_balance">Vitbalans</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Automatisk</string>
     <string name="raw_white_balance_daylight">Dagsljus</string>
-    <string name="raw_white_balance_custom">Beställnings</string>
     <string name="raw_white_balance_red">Röd multiplikator</string>
     <string name="raw_white_balance_green">Grön multiplikator</string>
     <string name="raw_white_balance_blue">Blå multiplikator</string>
     <string name="raw_white_balance_second_green">Andra gröna multiplikatorn</string>
-    <string name="raw_highlight_recovery_clip">Klämma</string>
     <string name="raw_highlight_recovery_unclip">Klipp av</string>
     <string name="raw_highlight_recovery_blend">Blandning</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruera</string>

@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineaarne</string>
     <string name="raw_development_sub">Reguleerige RAW-kujutise arendussätteid</string>
-    <string name="raw_white_balance">Valge tasakaal</string>
-    <string name="raw_white_balance_camera">Kaamera</string>
-    <string name="raw_white_balance_auto">Automaatne</string>
     <string name="raw_white_balance_daylight">Päevavalgus</string>
-    <string name="raw_white_balance_custom">Kohandatud</string>
     <string name="raw_white_balance_red">Punane kordaja</string>
     <string name="raw_white_balance_green">Roheline kordaja</string>
     <string name="raw_white_balance_blue">Sinine kordaja</string>
     <string name="raw_white_balance_second_green">Teine roheline kordaja</string>
-    <string name="raw_highlight_recovery_clip">Klipp</string>
     <string name="raw_highlight_recovery_unclip">Eemaldage klambrid</string>
     <string name="raw_highlight_recovery_blend">Blenderda</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstrueerida</string>

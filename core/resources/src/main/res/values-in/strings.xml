@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProFoto RGB</string>
     <string name="raw_demosaic_linear">Linier</string>
     <string name="raw_development_sub">Sesuaikan pengaturan pengembangan gambar RAW</string>
-    <string name="raw_white_balance">Keseimbangan putih</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Otomatis</string>
     <string name="raw_white_balance_daylight">Siang hari</string>
-    <string name="raw_white_balance_custom">Kebiasaan</string>
     <string name="raw_white_balance_red">Pengganda merah</string>
     <string name="raw_white_balance_green">Pengganda hijau</string>
     <string name="raw_white_balance_blue">Pengganda biru</string>
     <string name="raw_white_balance_second_green">Pengganda hijau kedua</string>
-    <string name="raw_highlight_recovery_clip">Klip</string>
     <string name="raw_highlight_recovery_unclip">Buka klip</string>
     <string name="raw_highlight_recovery_blend">Mencampur</string>
     <string name="raw_highlight_recovery_reconstruct">Merekonstruksi</string>

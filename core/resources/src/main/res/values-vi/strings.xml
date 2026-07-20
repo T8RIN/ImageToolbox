@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">tuyến tính</string>
     <string name="raw_development_sub">Điều chỉnh cài đặt phát triển ảnh RAW</string>
-    <string name="raw_white_balance">Cân bằng trắng</string>
-    <string name="raw_white_balance_camera">Máy ảnh</string>
-    <string name="raw_white_balance_auto">Tự động</string>
     <string name="raw_white_balance_daylight">Ánh sáng ban ngày</string>
-    <string name="raw_white_balance_custom">Phong tục</string>
     <string name="raw_white_balance_red">số nhân màu đỏ</string>
     <string name="raw_white_balance_green">số nhân màu xanh lá cây</string>
     <string name="raw_white_balance_blue">Số nhân màu xanh</string>
     <string name="raw_white_balance_second_green">Số nhân màu xanh lá cây thứ hai</string>
-    <string name="raw_highlight_recovery_clip">Đoạn phim</string>
     <string name="raw_highlight_recovery_unclip">Bỏ kẹp</string>
     <string name="raw_highlight_recovery_blend">Trộn</string>
     <string name="raw_highlight_recovery_reconstruct">Tái thiết</string>

@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">プロフォトRGB</string>
     <string name="raw_demosaic_linear">リニア</string>
     <string name="raw_development_sub">RAW画像現像設定を調整する</string>
-    <string name="raw_white_balance">ホワイトバランス</string>
-    <string name="raw_white_balance_camera">カメラ</string>
-    <string name="raw_white_balance_auto">自動</string>
     <string name="raw_white_balance_daylight">日光</string>
-    <string name="raw_white_balance_custom">カスタム</string>
     <string name="raw_white_balance_red">赤の乗数</string>
     <string name="raw_white_balance_green">緑の乗数</string>
     <string name="raw_white_balance_blue">青の乗数</string>
     <string name="raw_white_balance_second_green">2 番目の緑の乗数</string>
-    <string name="raw_highlight_recovery_clip">クリップ</string>
     <string name="raw_highlight_recovery_unclip">クリップを解除する</string>
     <string name="raw_highlight_recovery_blend">ブレンド</string>
     <string name="raw_highlight_recovery_reconstruct">再構築する</string>

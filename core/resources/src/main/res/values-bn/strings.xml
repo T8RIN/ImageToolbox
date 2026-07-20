@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">প্রোফোটো আরজিবি</string>
     <string name="raw_demosaic_linear">রৈখিক</string>
     <string name="raw_development_sub">RAW ইমেজ ডেভেলপমেন্ট সেটিংস সামঞ্জস্য করুন</string>
-    <string name="raw_white_balance">সাদা ভারসাম্য</string>
-    <string name="raw_white_balance_camera">ক্যামেরা</string>
-    <string name="raw_white_balance_auto">স্বয়ংক্রিয়</string>
     <string name="raw_white_balance_daylight">দিবালোক</string>
-    <string name="raw_white_balance_custom">কাস্টম</string>
     <string name="raw_white_balance_red">লাল গুণক</string>
     <string name="raw_white_balance_green">সবুজ গুণক</string>
     <string name="raw_white_balance_blue">নীল গুণক</string>
     <string name="raw_white_balance_second_green">দ্বিতীয় সবুজ গুণক</string>
-    <string name="raw_highlight_recovery_clip">ক্লিপ</string>
     <string name="raw_highlight_recovery_unclip">আনক্লিপ করুন</string>
     <string name="raw_highlight_recovery_blend">ব্লেন্ড</string>
     <string name="raw_highlight_recovery_reconstruct">পুনর্গঠন</string>

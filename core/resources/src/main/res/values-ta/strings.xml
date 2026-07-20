@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">நேரியல்</string>
     <string name="raw_development_sub">RAW பட மேம்பாட்டு அமைப்புகளைச் சரிசெய்யவும்</string>
-    <string name="raw_white_balance">வெள்ளை சமநிலை</string>
-    <string name="raw_white_balance_camera">கேமரா</string>
-    <string name="raw_white_balance_auto">தானியங்கி</string>
     <string name="raw_white_balance_daylight">பகல் வெளிச்சம்</string>
-    <string name="raw_white_balance_custom">தனிப்பயன்</string>
     <string name="raw_white_balance_red">சிவப்பு பெருக்கி</string>
     <string name="raw_white_balance_green">பச்சைப் பெருக்கி</string>
     <string name="raw_white_balance_blue">நீல பெருக்கி</string>
     <string name="raw_white_balance_second_green">இரண்டாவது பச்சை பெருக்கி</string>
-    <string name="raw_highlight_recovery_clip">கிளிப்</string>
     <string name="raw_highlight_recovery_unclip">அன்க்ளிப்</string>
     <string name="raw_highlight_recovery_blend">கலக்கவும்</string>
     <string name="raw_highlight_recovery_reconstruct">புனரமைப்பு</string>

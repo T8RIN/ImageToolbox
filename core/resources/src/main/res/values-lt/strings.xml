@@ -4005,16 +4005,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Linijinis</string>
     <string name="raw_development_sub">Sureguliuokite RAW vaizdo kūrimo nustatymus</string>
-    <string name="raw_white_balance">Baltos spalvos balansas</string>
-    <string name="raw_white_balance_camera">Fotoaparatas</string>
-    <string name="raw_white_balance_auto">Automatinis</string>
     <string name="raw_white_balance_daylight">Dienos šviesa</string>
-    <string name="raw_white_balance_custom">Pasirinktinis</string>
     <string name="raw_white_balance_red">Raudonas daugiklis</string>
     <string name="raw_white_balance_green">Žalias daugiklis</string>
     <string name="raw_white_balance_blue">Mėlynas daugiklis</string>
     <string name="raw_white_balance_second_green">Antrasis žalias daugiklis</string>
-    <string name="raw_highlight_recovery_clip">Klipas</string>
     <string name="raw_highlight_recovery_unclip">Atsegti</string>
     <string name="raw_highlight_recovery_blend">Sumaišykite</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruoti</string>

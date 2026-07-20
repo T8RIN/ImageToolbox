@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ਪ੍ਰੋਫੋਟੋ ਆਰਜੀਬੀ</string>
     <string name="raw_demosaic_linear">ਰੇਖਿਕ</string>
     <string name="raw_development_sub">RAW ਚਿੱਤਰ ਵਿਕਾਸ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
-    <string name="raw_white_balance">ਚਿੱਟਾ ਸੰਤੁਲਨ</string>
-    <string name="raw_white_balance_camera">ਕੈਮਰਾ</string>
-    <string name="raw_white_balance_auto">ਆਟੋਮੈਟਿਕ</string>
     <string name="raw_white_balance_daylight">ਦਿਨ ਦੀ ਰੋਸ਼ਨੀ</string>
-    <string name="raw_white_balance_custom">ਕਸਟਮ</string>
     <string name="raw_white_balance_red">ਲਾਲ ਗੁਣਕ</string>
     <string name="raw_white_balance_green">ਹਰਾ ਗੁਣਕ</string>
     <string name="raw_white_balance_blue">ਨੀਲਾ ਗੁਣਕ</string>
     <string name="raw_white_balance_second_green">ਦੂਜਾ ਹਰਾ ਗੁਣਕ</string>
-    <string name="raw_highlight_recovery_clip">ਕਲਿੱਪ</string>
     <string name="raw_highlight_recovery_unclip">ਅਣਕਲਿਪ</string>
     <string name="raw_highlight_recovery_blend">ਮਿਸ਼ਰਣ</string>
     <string name="raw_highlight_recovery_reconstruct">ਪੁਨਰਗਠਨ</string>

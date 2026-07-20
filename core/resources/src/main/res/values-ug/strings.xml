@@ -4003,16 +4003,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Linear</string>
     <string name="raw_development_sub">RAW رەسىم ئېچىش تەڭشەكلىرىنى تەڭشەڭ</string>
-    <string name="raw_white_balance">ئاق تەڭپۇڭلۇق</string>
-    <string name="raw_white_balance_camera">كامېرا</string>
-    <string name="raw_white_balance_auto">ئاپتوماتىك</string>
     <string name="raw_white_balance_daylight">كۈندۈز</string>
-    <string name="raw_white_balance_custom">Custom</string>
     <string name="raw_white_balance_red">قىزىل كۆپەيتكۈچ</string>
     <string name="raw_white_balance_green">يېشىل كۆپەيتكۈچ</string>
     <string name="raw_white_balance_blue">كۆك كۆپەيتكۈچ</string>
     <string name="raw_white_balance_second_green">ئىككىنچى يېشىل كۆپەيتكۈچ</string>
-    <string name="raw_highlight_recovery_clip">Clip</string>
     <string name="raw_highlight_recovery_unclip">Unclip</string>
     <string name="raw_highlight_recovery_blend">ئارىلاش</string>
     <string name="raw_highlight_recovery_reconstruct">قايتا قۇرۇش</string>

@@ -98,7 +98,7 @@ fun RawHighlightRecoverySettingItem(
 
 private val RawHighlightRecovery.title: Int
     get() = when (this) {
-        RawHighlightRecovery.Clip -> R.string.raw_highlight_recovery_clip
+        RawHighlightRecovery.Clip -> R.string.clip
         RawHighlightRecovery.Unclip -> R.string.raw_highlight_recovery_unclip
         RawHighlightRecovery.Blend -> R.string.raw_highlight_recovery_blend
         is RawHighlightRecovery.Reconstruct -> R.string.raw_highlight_recovery_reconstruct

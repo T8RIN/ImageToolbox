@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineaarinen</string>
     <string name="raw_development_sub">Säädä RAW-kuvien kehitysasetuksia</string>
-    <string name="raw_white_balance">Valkotasapaino</string>
-    <string name="raw_white_balance_camera">Kamera</string>
-    <string name="raw_white_balance_auto">Automaattinen</string>
     <string name="raw_white_balance_daylight">Päivänvalo</string>
-    <string name="raw_white_balance_custom">Mukautettu</string>
     <string name="raw_white_balance_red">Punainen kerroin</string>
     <string name="raw_white_balance_green">Vihreä kerroin</string>
     <string name="raw_white_balance_blue">Sininen kerroin</string>
     <string name="raw_white_balance_second_green">Toinen vihreä kerroin</string>
-    <string name="raw_highlight_recovery_clip">Leike</string>
     <string name="raw_highlight_recovery_unclip">Irrota</string>
     <string name="raw_highlight_recovery_blend">Sekoitus</string>
     <string name="raw_highlight_recovery_reconstruct">Rekonstruoida</string>

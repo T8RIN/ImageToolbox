@@ -4006,16 +4006,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Лінійний</string>
     <string name="raw_development_sub">Налаштуйте параметри проявлення зображень RAW</string>
-    <string name="raw_white_balance" />
-    <string name="raw_white_balance_camera">Камера</string>
-    <string name="raw_white_balance_auto">Автоматичний</string>
     <string name="raw_white_balance_daylight" />
-    <string name="raw_white_balance_custom">Custom</string>
     <string name="raw_white_balance_red" />
     <string name="raw_white_balance_green" />
     <string name="raw_white_balance_blue" />
     <string name="raw_white_balance_second_green" />
-    <string name="raw_highlight_recovery_clip" />
     <string name="raw_highlight_recovery_unclip" />
     <string name="raw_highlight_recovery_blend" />
     <string name="raw_highlight_recovery_reconstruct" />

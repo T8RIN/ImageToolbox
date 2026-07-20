@@ -4006,16 +4006,11 @@
     <string name="raw_color_space_pro_photo_rgb">ПроФото RGB</string>
     <string name="raw_demosaic_linear">Линейный</string>
     <string name="raw_development_sub">Настройте параметры обработки изображений RAW</string>
-    <string name="raw_white_balance">Баланс белого</string>
-    <string name="raw_white_balance_camera">Камера</string>
-    <string name="raw_white_balance_auto">Автоматический</string>
     <string name="raw_white_balance_daylight">Дневной свет</string>
-    <string name="raw_white_balance_custom">Обычай</string>
     <string name="raw_white_balance_red">Красный множитель</string>
     <string name="raw_white_balance_green">Зеленый множитель</string>
     <string name="raw_white_balance_blue">Синий множитель</string>
     <string name="raw_white_balance_second_green">Второй зеленый множитель</string>
-    <string name="raw_highlight_recovery_clip">Клип</string>
     <string name="raw_highlight_recovery_unclip">Открепить</string>
     <string name="raw_highlight_recovery_blend">Смешивать</string>
     <string name="raw_highlight_recovery_reconstruct">Реконструировать</string>

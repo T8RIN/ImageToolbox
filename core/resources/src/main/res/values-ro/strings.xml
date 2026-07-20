@@ -4005,16 +4005,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Liniar</string>
     <string name="raw_development_sub">Ajustați setările de dezvoltare a imaginii RAW</string>
-    <string name="raw_white_balance">Balanța de alb</string>
-    <string name="raw_white_balance_camera">Camera foto</string>
-    <string name="raw_white_balance_auto">Automat</string>
     <string name="raw_white_balance_daylight">Lumina zilei</string>
-    <string name="raw_white_balance_custom">Personalizat</string>
     <string name="raw_white_balance_red">Multiplicator roșu</string>
     <string name="raw_white_balance_green">Multiplicator verde</string>
     <string name="raw_white_balance_blue">Multiplicator albastru</string>
     <string name="raw_white_balance_second_green">Al doilea multiplicator verde</string>
-    <string name="raw_highlight_recovery_clip">Clip</string>
     <string name="raw_highlight_recovery_unclip">Declipsează</string>
     <string name="raw_highlight_recovery_blend">Amestec</string>
     <string name="raw_highlight_recovery_reconstruct">Reconstrui</string>

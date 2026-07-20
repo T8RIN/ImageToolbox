@@ -4004,16 +4004,11 @@
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">خطی</string>
     <string name="raw_development_sub">تنظیمات توسعه تصویر RAW را تنظیم کنید</string>
-    <string name="raw_white_balance">تعادل رنگ سفید</string>
-    <string name="raw_white_balance_camera">دوربین</string>
-    <string name="raw_white_balance_auto">خودکار</string>
     <string name="raw_white_balance_daylight">نور روز</string>
-    <string name="raw_white_balance_custom">سفارشی</string>
     <string name="raw_white_balance_red">ضرب قرمز</string>
     <string name="raw_white_balance_green">ضریب سبز</string>
     <string name="raw_white_balance_blue">ضرب کننده آبی</string>
     <string name="raw_white_balance_second_green">ضریب دوم سبز</string>
-    <string name="raw_highlight_recovery_clip">کلیپ</string>
     <string name="raw_highlight_recovery_unclip">برداشتن گیره</string>
     <string name="raw_highlight_recovery_blend">مخلوط کنید</string>
     <string name="raw_highlight_recovery_reconstruct">بازسازی کنید</string>

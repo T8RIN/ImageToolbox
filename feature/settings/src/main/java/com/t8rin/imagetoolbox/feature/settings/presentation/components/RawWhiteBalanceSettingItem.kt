@@ -68,7 +68,7 @@ fun RawWhiteBalanceSettingItem(
             onValueChange = onValueChange,
             entries = entries,
             spanCount = 1,
-            title = stringResource(R.string.raw_white_balance),
+            title = stringResource(R.string.white_balance),
             titleIcon = Icons.Outlined.Thermostat,
             itemContentText = { stringResource(it.title) },
             behaveAsContainer = false,
@@ -135,8 +135,8 @@ private fun RawWhiteBalanceMultiplier(
 
 private val RawWhiteBalance.title: Int
     get() = when (this) {
-        RawWhiteBalance.Camera -> R.string.raw_white_balance_camera
-        RawWhiteBalance.Auto -> R.string.raw_white_balance_auto
+        RawWhiteBalance.Camera -> R.string.camera
+        RawWhiteBalance.Auto -> R.string.auto
         RawWhiteBalance.Daylight -> R.string.raw_white_balance_daylight
-        is RawWhiteBalance.Custom -> R.string.raw_white_balance_custom
+        is RawWhiteBalance.Custom -> R.string.custom
     }
