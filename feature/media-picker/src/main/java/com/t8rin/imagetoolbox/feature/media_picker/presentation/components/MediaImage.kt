@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
@@ -134,15 +135,17 @@ fun MediaImage(
                     shape = shape
                 )
         ) {
+            val rawDevelopSettings = LocalSettingsState.current.rawDevelopSettings
+
             Picture(
                 modifier = Modifier.fillMaxSize(),
-                model = remember(media.uri) {
+                model = remember(media.uri, rawDevelopSettings) {
                     ImageRequest.Builder(appContext)
                         .data(media.uri)
                         .size(384)
                         .precision(Precision.INEXACT)
-                        .memoryCacheKey(media.uri)
-                        .diskCacheKey(media.uri)
+                        .memoryCacheKey(media.uri + rawDevelopSettings.toString())
+                        .diskCacheKey(media.uri + rawDevelopSettings.toString())
                         .allowHardware(true)
                         .build()
                 },
