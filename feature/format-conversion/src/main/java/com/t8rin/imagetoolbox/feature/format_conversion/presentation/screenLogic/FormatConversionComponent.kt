@@ -166,6 +166,31 @@ class FormatConversionComponent @AssistedInject internal constructor(
         }
     }
 
+    fun calculatePreview() {
+        val uri = selectedUri ?: return
+
+        job = componentScope.launch {
+            _isImageLoading.update { true }
+            imageGetter.getImage(
+                uri = uri.toString(),
+                originalSize = false
+            )?.image?.let { bitmap ->
+                val size = IntegerSize(bitmap.width, bitmap.height)
+                _originalSize.update { size }
+                _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
+                _imageInfo.update {
+                    it.copy(
+                        width = size.width,
+                        height = size.height,
+                        originalUri = uri.toString()
+                    )
+                }
+                checkBitmapAndUpdate()
+            }
+            _isImageLoading.update { false }
+        }
+    }
+
     private suspend fun checkBitmapAndUpdate(
         clearPreview: Boolean = true
     ) {

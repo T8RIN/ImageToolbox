@@ -20,6 +20,10 @@ package com.t8rin.imagetoolbox.core.settings.domain
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 
 interface SimpleSettingsInteractor {
 
@@ -69,5 +73,25 @@ interface SimpleSettingsInteractor {
     suspend fun setSpotHealMode(mode: Int)
 
     suspend fun setBorderWidth(width: Float)
+
+    suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance)
+
+    suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace)
+
+    suspend fun setRawHighlightRecovery(recovery: RawHighlightRecovery)
+
+    suspend fun setRawExposureCompensation(value: Float)
+
+    suspend fun setRawHighlightPreservation(value: Float)
+
+    suspend fun toggleRawAutoBrightness()
+
+    suspend fun setRawBrightness(value: Float)
+
+    suspend fun setRawDemosaicQuality(quality: RawDemosaicQuality)
+
+    suspend fun toggleRawHalfSize()
+
+    suspend fun toggleRawApplyOrientation()
 
 }

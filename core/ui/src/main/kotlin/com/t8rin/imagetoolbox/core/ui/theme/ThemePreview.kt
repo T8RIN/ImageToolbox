@@ -51,6 +51,10 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
+import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.model.defaultColorTuple
@@ -240,45 +244,31 @@ private fun FakeLoader(
 private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleMagnifierEnabled() = Unit
     override suspend fun toggleCropOverlayDraggable() = Unit
-    override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) =
-        Unit
-
-    override suspend fun toggleRecentColor(
-        color: ColorModel,
-        forceExclude: Boolean
-    ) = Unit
-
-    override suspend fun toggleFavoriteColor(
-        color: ColorModel,
-        forceExclude: Boolean
-    ) = Unit
-
+    override suspend fun setOneTimeSaveLocations(value: List<OneTimeSaveLocation>) = Unit
+    override suspend fun toggleRecentColor(color: ColorModel, forceExclude: Boolean) = Unit
+    override suspend fun toggleFavoriteColor(color: ColorModel, forceExclude: Boolean) = Unit
     override fun isInstalledFromPlayStore(): Boolean = false
-
-    override suspend fun toggleSettingsGroupVisibility(
-        key: Int,
-        value: Boolean
-    ) = Unit
-
+    override suspend fun toggleSettingsGroupVisibility(key: Int, value: Boolean) = Unit
     override suspend fun clearRecentColors() = Unit
-
     override suspend fun updateFavoriteColors(colors: List<ColorModel>) = Unit
-
-    override suspend fun setBackgroundColorForNoAlphaFormats(color: ColorModel) =
-        Unit
-
+    override suspend fun setBackgroundColorForNoAlphaFormats(color: ColorModel) = Unit
     override suspend fun setAspectRatios(aspectRatios: List<DomainAspectRatio.Custom>) = Unit
-
     override suspend fun toggleCustomAsciiGradient(gradient: String) = Unit
-
     override suspend fun toggleOverwriteFiles() = Unit
-
     override suspend fun toggleSaveToOriginalFolder() = Unit
-
     override suspend fun toggleDeleteOriginalsAfterSave() = Unit
-
     override suspend fun setSpotHealMode(mode: Int) = Unit
     override suspend fun setBorderWidth(width: Float) = Unit
+    override suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) = Unit
+    override suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) = Unit
+    override suspend fun setRawHighlightRecovery(recovery: RawHighlightRecovery) = Unit
+    override suspend fun setRawExposureCompensation(value: Float) = Unit
+    override suspend fun setRawHighlightPreservation(value: Float) = Unit
+    override suspend fun toggleRawAutoBrightness() = Unit
+    override suspend fun setRawBrightness(value: Float) = Unit
+    override suspend fun setRawDemosaicQuality(quality: RawDemosaicQuality) = Unit
+    override suspend fun toggleRawHalfSize() = Unit
+    override suspend fun toggleRawApplyOrientation() = Unit
 }
 
 private val FakeRes = object : ResourceManager {

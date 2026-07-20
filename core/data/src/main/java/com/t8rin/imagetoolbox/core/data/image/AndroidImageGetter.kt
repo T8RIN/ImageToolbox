@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.ErrorResult
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.utils.extension
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.raw_coder.isRawUri
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
@@ -232,6 +234,10 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = withContext(defaultDispatcher) {
         if ((size == null || !addSizeToRequest) && data is Bitmap) return@withContext data
 
+        val rawDevelopSettingsCacheKey = data.toUriOrNull()
+            ?.takeIf { uri -> runCatching { context.isRawUri(uri) }.getOrDefault(false) }
+            ?.let { settingsState.rawDevelopSettings.hashCode().toString() }
+
         val request = ImageRequest
             .Builder(context)
             .data(data)
@@ -241,6 +247,10 @@ internal class AndroidImageGetter @Inject constructor(
                 transformations.map(Transformation<Bitmap>::toCoil)
             )
             .apply {
+                memoryCacheKeyExtra(
+                    key = "rawDevelopSettings",
+                    value = rawDevelopSettingsCacheKey
+                )
                 if (addSizeToRequest) {
                     size(
                         size?.let {
@@ -264,4 +274,10 @@ internal class AndroidImageGetter @Inject constructor(
         }.getOrNull()
     }
 
+}
+
+private fun Any.toUriOrNull(): Uri? = when (this) {
+    is Uri -> this
+    is String -> toUri()
+    else -> null
 }

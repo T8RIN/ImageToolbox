@@ -4016,6 +4016,7 @@
     <string name="file_io_error">The file could not be read or written. Reconnect the storage and try again</string>
     <string name="results_preview">Results Preview</string>
     <string name="raw_development">RAW development</string>
+    <string name="raw_development_sub">Adjust RAW image development settings</string>
     <string name="raw_white_balance">White balance</string>
     <string name="raw_white_balance_camera">Camera</string>
     <string name="raw_white_balance_auto">Automatic</string>

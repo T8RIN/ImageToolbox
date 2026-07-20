@@ -91,6 +91,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
 
 @Composable
 fun ResizeAndConvertContent(
@@ -293,6 +294,10 @@ fun ResizeAndConvertContent(
                 }
             }
             Spacer(Modifier.size(8.dp))
+            RawDevelopSettingsCard(
+                uri = component.selectedUri,
+                onSettingsChanged = component::calculatePreview
+            )
             PresetSelector(
                 value = component.presetSelected,
                 includeTelegramOption = true,

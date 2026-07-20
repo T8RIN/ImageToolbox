@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,13 +41,11 @@ fun RawOutputColorSpaceSettingItem(
     DataSelector(
         value = LocalSettingsState.current.rawDevelopSettings.outputColorSpace,
         onValueChange = onValueChange,
-        initialExpanded = true,
-        spanCount = 2,
+        spanCount = 1,
         entries = RawOutputColorSpace.entries,
         title = stringResource(R.string.raw_output_color_space),
         titleIcon = Icons.Outlined.Palette,
         itemContentText = { it.title },
-        containerColor = Color.Unspecified,
         shape = shape,
         modifier = modifier,
         selectedItemColor = MaterialTheme.colorScheme.secondary

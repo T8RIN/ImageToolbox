@@ -543,6 +543,30 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }.onFailure(AppToastHost::showFailureToast)
     }
 
+    fun calculatePreview() {
+        val uri = selectedUri ?: return
+
+        job = componentScope.launch {
+            _isImageLoading.update { true }
+            imageGetter.getImage(
+                uri = uri.toString(),
+                originalSize = true
+            )?.image?.let { bitmap ->
+                val size = IntegerSize(bitmap.width, bitmap.height)
+                _originalSize.update { size }
+                _imageInfo.update {
+                    it.copy(
+                        width = size.width,
+                        height = size.height
+                    )
+                }
+                _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
+                checkBitmapAndUpdate()
+            }
+            _isImageLoading.update { false }
+        }
+    }
+
     override fun updateProfile(profile: Preset) {
         componentScope.launch {
             finalizePendingHistoryTransaction()

@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
 
 @Composable
 fun FormatConversionContent(
@@ -210,6 +211,10 @@ fun FormatConversionContent(
                 onRepick = {
                     showPickImageFromUrisSheet = true
                 }
+            )
+            RawDevelopSettingsCard(
+                uri = component.selectedUri,
+                onSettingsChanged = component::calculatePreview
             )
             Spacer(Modifier.height(8.dp))
             SaveExifWidget(

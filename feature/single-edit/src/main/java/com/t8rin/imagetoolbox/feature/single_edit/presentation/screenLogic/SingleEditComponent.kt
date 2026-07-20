@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
@@ -217,7 +218,7 @@ class SingleEditComponent @AssistedInject internal constructor(
             height = imageInfo.height
         )
 
-    private var currentCachedBitmapUri: String? = null
+    private var currentCachedBitmapUri: String? by mutableStateOf(null)
 
     private val _showWarning: MutableState<Boolean> = mutableStateOf(false)
     val showWarning: Boolean by _showWarning
@@ -597,6 +598,33 @@ class SingleEditComponent @AssistedInject internal constructor(
         decodeBitmapByUri(uri)
     }
 
+    fun calculatePreview() {
+        val uri = uri.takeUnless { it == Uri.EMPTY } ?: return
+
+        job = componentScope.launch {
+            _isImageLoading.update { true }
+            imageGetter.getImage(
+                uri = uri.toString(),
+                originalSize = true
+            )?.image?.let { bitmap ->
+                val size = IntegerSize(bitmap.width, bitmap.height)
+                _originalSize.update { size }
+                _imageInfo.update {
+                    it.copy(
+                        width = size.width,
+                        height = size.height
+                    )
+                }
+                imageScaler.scaleUntilCanShow(bitmap).let { scaledBitmap ->
+                    _internalBitmap.update { scaledBitmap }
+                    _bitmap.update { scaledBitmap }
+                }
+                checkBitmapAndUpdate()
+            }
+            _isImageLoading.update { false }
+        }
+    }
+
     private fun decodeBitmapByUri(uri: Uri) {
         _isImageLoading.update { true }
         _imageInfo.update {
@@ -827,7 +855,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         } ?: bitmap
     }
 
-    private fun currentImageUriString(): String? = currentCachedBitmapUri
+    fun currentImageUriString(): String? = currentCachedBitmapUri
         ?: uri.takeIf { it != Uri.EMPTY }?.toString()
 
     private fun IntegerSize.safePreviewSize(): IntegerSize {

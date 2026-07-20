@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -79,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.CropEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.DrawEditOption
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.EraseBackgroundEditOption
@@ -281,6 +283,10 @@ fun SingleEditContent(
                 onApplyCurves = { showApplyCurves = true }
             )
             Spacer(Modifier.size(16.dp))
+            RawDevelopSettingsCard(
+                uri = component.currentImageUriString()?.toUri(),
+                onSettingsChanged = component::calculatePreview
+            )
             PresetSelector(
                 value = component.presetSelected,
                 includeTelegramOption = true,
