@@ -359,7 +359,7 @@ fun rememberImagePicker(
             val data = intent?.data
             val clipData = intent?.clipData
 
-            val resultList: List<Uri> = clipData?.clipList()
+            val resultList: List<Uri> = clipData?.clipList(canMoveToCache = false)
                 ?: if (data != null) {
                     listOf(data)
                 } else if (intent?.action == Intent.ACTION_SEND_MULTIPLE) {

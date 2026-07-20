@@ -122,11 +122,11 @@ fun ClipboardManager?.clipText(): String = runCatching {
     this?.primaryClip?.getItemAt(0)?.text?.toString()
 }.getOrNull() ?: ""
 
-fun ClipData.clipList() = List(
+fun ClipData.clipList(canMoveToCache: Boolean = true) = List(
     size = itemCount,
     init = { index ->
         getItemAt(index).uri?.let { uri ->
-            if (uri.isFromAppFileProvider()) uri else uri.moveToCache()
+            if (!canMoveToCache || uri.isFromAppFileProvider()) uri else uri.moveToCache()
         }
     }
 ).filterNotNull()

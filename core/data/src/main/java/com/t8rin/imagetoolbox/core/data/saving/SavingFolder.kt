@@ -77,7 +77,10 @@ internal data class SavingFolder private constructor(
                 }.onFailure { it.makeLog("saveToOriginalFolder") }.getOrNull()
             } else null
 
-            originalFolder ?: if (treeUri == null) {
+            if (originalFolder != null) return@coroutineScope originalFolder
+            if (saveToOriginalFolder && treeUri == null) return@coroutineScope null
+
+            if (treeUri == null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     context.createViaMediaStore(
                         saveTarget = saveTarget,
@@ -167,9 +170,18 @@ internal data class SavingFolder private constructor(
                 else -> MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
             }
 
-            val uri = runCatching {
-                contentResolver.insert(collectionUri, contentValues)
-            }.getOrNull() ?: return null
+            val filesCollectionUri = MediaStore.Files.getContentUri(
+                MediaStore.VOLUME_EXTERNAL_PRIMARY
+            )
+            val uri = listOf(collectionUri, filesCollectionUri)
+                .distinct()
+                .firstNotNullOfOrNull { uri ->
+                    runCatching {
+                        contentResolver.insert(uri, contentValues)
+                    }.onFailure {
+                        it.makeLog("createViaMediaStore")
+                    }.getOrNull()
+                } ?: return null
 
             return SavingFolder(
                 outputStream = contentResolver.openOutputStream(uri)
