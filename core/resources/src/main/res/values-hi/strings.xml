@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">वाइड गैमट आरजीबी</string>
     <string name="raw_color_space_pro_photo_rgb">प्रोफ़ोटो आरजीबी</string>
     <string name="raw_demosaic_linear">रेखीय</string>
+    <string name="raw_development_sub">RAW छवि विकास सेटिंग्स समायोजित करें</string>
+    <string name="raw_white_balance">श्वेत संतुलन</string>
+    <string name="raw_white_balance_camera">कैमरा</string>
+    <string name="raw_white_balance_auto">स्वचालित</string>
+    <string name="raw_white_balance_daylight">दिन का प्रकाश</string>
+    <string name="raw_white_balance_custom">रिवाज़</string>
+    <string name="raw_white_balance_red">लाल गुणक</string>
+    <string name="raw_white_balance_green">हरा गुणक</string>
+    <string name="raw_white_balance_blue">नीला गुणक</string>
+    <string name="raw_white_balance_second_green">दूसरा हरित गुणक</string>
+    <string name="raw_highlight_recovery_clip">क्लिप</string>
+    <string name="raw_highlight_recovery_unclip">खोलो</string>
+    <string name="raw_highlight_recovery_blend">मिलाना</string>
+    <string name="raw_highlight_recovery_reconstruct">फिर से संगठित</string>
+    <string name="raw_highlight_reconstruction_level">पुनर्निर्माण स्तर</string>
+    <string name="raw_exposure_compensation">जोख़िम प्रतिपूर्ति</string>
+    <string name="raw_highlight_preservation">संरक्षण पर प्रकाश डालें</string>
+    <string name="raw_auto_brightness">स्वचालित चमक</string>
+    <string name="raw_auto_brightness_sub">स्वचालित रूप से आउटपुट चमक की गणना करें</string>
+    <string name="raw_brightness">चमक</string>
 </resources>

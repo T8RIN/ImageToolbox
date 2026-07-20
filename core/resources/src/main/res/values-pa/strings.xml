@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">ਵਾਈਡ ਗਾਮਟ ਆਰਜੀਬੀ</string>
     <string name="raw_color_space_pro_photo_rgb">ਪ੍ਰੋਫੋਟੋ ਆਰਜੀਬੀ</string>
     <string name="raw_demosaic_linear">ਰੇਖਿਕ</string>
+    <string name="raw_development_sub">RAW ਚਿੱਤਰ ਵਿਕਾਸ ਸੈਟਿੰਗਾਂ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
+    <string name="raw_white_balance">ਚਿੱਟਾ ਸੰਤੁਲਨ</string>
+    <string name="raw_white_balance_camera">ਕੈਮਰਾ</string>
+    <string name="raw_white_balance_auto">ਆਟੋਮੈਟਿਕ</string>
+    <string name="raw_white_balance_daylight">ਦਿਨ ਦੀ ਰੋਸ਼ਨੀ</string>
+    <string name="raw_white_balance_custom">ਕਸਟਮ</string>
+    <string name="raw_white_balance_red">ਲਾਲ ਗੁਣਕ</string>
+    <string name="raw_white_balance_green">ਹਰਾ ਗੁਣਕ</string>
+    <string name="raw_white_balance_blue">ਨੀਲਾ ਗੁਣਕ</string>
+    <string name="raw_white_balance_second_green">ਦੂਜਾ ਹਰਾ ਗੁਣਕ</string>
+    <string name="raw_highlight_recovery_clip">ਕਲਿੱਪ</string>
+    <string name="raw_highlight_recovery_unclip">ਅਣਕਲਿਪ</string>
+    <string name="raw_highlight_recovery_blend">ਮਿਸ਼ਰਣ</string>
+    <string name="raw_highlight_recovery_reconstruct">ਪੁਨਰਗਠਨ</string>
+    <string name="raw_highlight_reconstruction_level">ਪੁਨਰ ਨਿਰਮਾਣ ਦਾ ਪੱਧਰ</string>
+    <string name="raw_exposure_compensation">ਐਕਸਪੋਜ਼ਰ ਮੁਆਵਜ਼ਾ</string>
+    <string name="raw_highlight_preservation">ਹਾਈਲਾਈਟ ਸੰਭਾਲ</string>
+    <string name="raw_auto_brightness">ਆਟੋਮੈਟਿਕ ਚਮਕ</string>
+    <string name="raw_auto_brightness_sub">ਆਉਟਪੁੱਟ ਚਮਕ ਦੀ ਗਣਨਾ ਆਪਣੇ ਆਪ ਕਰੋ</string>
+    <string name="raw_brightness">ਚਮਕ</string>
 </resources>

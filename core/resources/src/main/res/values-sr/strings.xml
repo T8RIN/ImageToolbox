@@ -4004,4 +4004,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Широка гама РГБ</string>
     <string name="raw_color_space_pro_photo_rgb">ПроПхото РГБ</string>
     <string name="raw_demosaic_linear">Линеар</string>
+    <string name="raw_development_sub">Подесите подешавања развоја РАВ слике</string>
+    <string name="raw_white_balance">Баланс белог</string>
+    <string name="raw_white_balance_camera">Камера</string>
+    <string name="raw_white_balance_auto">Аутоматски</string>
+    <string name="raw_white_balance_daylight">Даилигхт</string>
+    <string name="raw_white_balance_custom">Цустом</string>
+    <string name="raw_white_balance_red">Црвени множитељ</string>
+    <string name="raw_white_balance_green">Зелени множитељ</string>
+    <string name="raw_white_balance_blue">Плави множилац</string>
+    <string name="raw_white_balance_second_green">Други зелени множитељ</string>
+    <string name="raw_highlight_recovery_clip">Цлип</string>
+    <string name="raw_highlight_recovery_unclip">Откопчајте</string>
+    <string name="raw_highlight_recovery_blend">Бленд</string>
+    <string name="raw_highlight_recovery_reconstruct">Реконструисати</string>
+    <string name="raw_highlight_reconstruction_level">Ниво реконструкције</string>
+    <string name="raw_exposure_compensation">Компензација експозиције</string>
+    <string name="raw_highlight_preservation">Истакните очување</string>
+    <string name="raw_auto_brightness">Аутоматска осветљеност</string>
+    <string name="raw_auto_brightness_sub">Аутоматски израчунајте излазну осветљеност</string>
+    <string name="raw_brightness">Осветљеност</string>
 </resources>

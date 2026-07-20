@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">వైడ్ గామట్ RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ప్రోఫోటో RGB</string>
     <string name="raw_demosaic_linear">లీనియర్</string>
+    <string name="raw_development_sub">RAW ఇమేజ్ డెవలప్‌మెంట్ సెట్టింగ్‌లను సర్దుబాటు చేయండి</string>
+    <string name="raw_white_balance">వైట్ బ్యాలెన్స్</string>
+    <string name="raw_white_balance_camera">కెమెరా</string>
+    <string name="raw_white_balance_auto">ఆటోమేటిక్</string>
+    <string name="raw_white_balance_daylight">పగలు</string>
+    <string name="raw_white_balance_custom">కస్టమ్</string>
+    <string name="raw_white_balance_red">ఎరుపు గుణకం</string>
+    <string name="raw_white_balance_green">ఆకుపచ్చ గుణకం</string>
+    <string name="raw_white_balance_blue">నీలం గుణకం</string>
+    <string name="raw_white_balance_second_green">రెండవ ఆకుపచ్చ గుణకం</string>
+    <string name="raw_highlight_recovery_clip">క్లిప్</string>
+    <string name="raw_highlight_recovery_unclip">అన్‌క్లిప్ చేయండి</string>
+    <string name="raw_highlight_recovery_blend">కలపండి</string>
+    <string name="raw_highlight_recovery_reconstruct">పునర్నిర్మాణం</string>
+    <string name="raw_highlight_reconstruction_level">పునర్నిర్మాణ స్థాయి</string>
+    <string name="raw_exposure_compensation">ఎక్స్పోజర్ పరిహారం</string>
+    <string name="raw_highlight_preservation">హైలైట్ సంరక్షణ</string>
+    <string name="raw_auto_brightness">స్వయంచాలక ప్రకాశం</string>
+    <string name="raw_auto_brightness_sub">అవుట్‌పుట్ ప్రకాశాన్ని స్వయంచాలకంగా లెక్కించండి</string>
+    <string name="raw_brightness">ప్రకాశం</string>
 </resources>

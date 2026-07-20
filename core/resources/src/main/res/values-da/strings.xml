@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Bred gamut RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineær</string>
+    <string name="raw_development_sub">Juster RAW-billedfremkaldelsesindstillinger</string>
+    <string name="raw_white_balance">Hvidbalance</string>
+    <string name="raw_white_balance_camera">Kamera</string>
+    <string name="raw_white_balance_auto">Automatisk</string>
+    <string name="raw_white_balance_daylight">Dagslys</string>
+    <string name="raw_white_balance_custom">Skik</string>
+    <string name="raw_white_balance_red">Rød multiplikator</string>
+    <string name="raw_white_balance_green">Grøn multiplikator</string>
+    <string name="raw_white_balance_blue">Blå multiplikator</string>
+    <string name="raw_white_balance_second_green">Anden grønne multiplikator</string>
+    <string name="raw_highlight_recovery_clip">Klip</string>
+    <string name="raw_highlight_recovery_unclip">Fjern klip</string>
+    <string name="raw_highlight_recovery_blend">Blanding</string>
+    <string name="raw_highlight_recovery_reconstruct">Rekonstruere</string>
+    <string name="raw_highlight_reconstruction_level">Rekonstruktionsniveau</string>
+    <string name="raw_exposure_compensation">Eksponeringskompensation</string>
+    <string name="raw_highlight_preservation">Fremhæv bevaring</string>
+    <string name="raw_auto_brightness">Automatisk lysstyrke</string>
+    <string name="raw_auto_brightness_sub">Beregn udgangslysstyrken automatisk</string>
+    <string name="raw_brightness">Lysstyrke</string>
 </resources>

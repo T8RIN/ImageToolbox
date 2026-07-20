@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Gamut zabala RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineala</string>
+    <string name="raw_development_sub">Egokitu RAW irudien garapenaren ezarpenak</string>
+    <string name="raw_white_balance">Zurien balantzea</string>
+    <string name="raw_white_balance_camera">Kamera</string>
+    <string name="raw_white_balance_auto">Automatikoa</string>
+    <string name="raw_white_balance_daylight">Egun argia</string>
+    <string name="raw_white_balance_custom">Pertsonalizatua</string>
+    <string name="raw_white_balance_red">Biderkatzaile gorria</string>
+    <string name="raw_white_balance_green">Biderkatzaile berdea</string>
+    <string name="raw_white_balance_blue">Biderkatzaile urdina</string>
+    <string name="raw_white_balance_second_green">Bigarren biderkatzaile berdea</string>
+    <string name="raw_highlight_recovery_clip">Clip</string>
+    <string name="raw_highlight_recovery_unclip">Kendu</string>
+    <string name="raw_highlight_recovery_blend">Nahastu</string>
+    <string name="raw_highlight_recovery_reconstruct">Berreraiki</string>
+    <string name="raw_highlight_reconstruction_level">Berreraikuntza maila</string>
+    <string name="raw_exposure_compensation">Esposizioaren konpentsazioa</string>
+    <string name="raw_highlight_preservation">Nabarmendu kontserbazioa</string>
+    <string name="raw_auto_brightness">Distira automatikoa</string>
+    <string name="raw_auto_brightness_sub">Kalkulatu irteerako distira automatikoki</string>
+    <string name="raw_brightness">Distira</string>
 </resources>

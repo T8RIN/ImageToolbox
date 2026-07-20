@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">廣色域 RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">線性</string>
+    <string name="raw_development_sub">調整 RAW 影像顯影設定</string>
+    <string name="raw_white_balance">白平衡</string>
+    <string name="raw_white_balance_camera">相機</string>
+    <string name="raw_white_balance_auto">自動的</string>
+    <string name="raw_white_balance_daylight">日光</string>
+    <string name="raw_white_balance_custom">風俗</string>
+    <string name="raw_white_balance_red">紅色乘數</string>
+    <string name="raw_white_balance_green">綠色乘數</string>
+    <string name="raw_white_balance_blue">藍色乘數</string>
+    <string name="raw_white_balance_second_green">第二個綠色乘數</string>
+    <string name="raw_highlight_recovery_clip">夾子</string>
+    <string name="raw_highlight_recovery_unclip">鬆開</string>
+    <string name="raw_highlight_recovery_blend">混合</string>
+    <string name="raw_highlight_recovery_reconstruct">重建</string>
+    <string name="raw_highlight_reconstruction_level">重建等級</string>
+    <string name="raw_exposure_compensation">曝光補償</string>
+    <string name="raw_highlight_preservation">亮點保存</string>
+    <string name="raw_auto_brightness">自動亮度</string>
+    <string name="raw_auto_brightness_sub">自動計算輸出亮度</string>
+    <string name="raw_brightness">亮度</string>
 </resources>

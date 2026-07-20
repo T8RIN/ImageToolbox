@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Breed spectrum RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineair</string>
+    <string name="raw_development_sub">Pas de ontwikkelingsinstellingen voor RAW-beelden aan</string>
+    <string name="raw_white_balance">Witbalans</string>
+    <string name="raw_white_balance_camera">Camera</string>
+    <string name="raw_white_balance_auto">Automatisch</string>
+    <string name="raw_white_balance_daylight">Daglicht</string>
+    <string name="raw_white_balance_custom">Aangepast</string>
+    <string name="raw_white_balance_red">Rode vermenigvuldiger</string>
+    <string name="raw_white_balance_green">Groene vermenigvuldiger</string>
+    <string name="raw_white_balance_blue">Blauwe vermenigvuldiger</string>
+    <string name="raw_white_balance_second_green">Tweede groene vermenigvuldiger</string>
+    <string name="raw_highlight_recovery_clip">Klem</string>
+    <string name="raw_highlight_recovery_unclip">Maak los</string>
+    <string name="raw_highlight_recovery_blend">Mengen</string>
+    <string name="raw_highlight_recovery_reconstruct">Reconstrueren</string>
+    <string name="raw_highlight_reconstruction_level">Reconstructie niveau</string>
+    <string name="raw_exposure_compensation">Belichtingscompensatie</string>
+    <string name="raw_highlight_preservation">Markeer behoud</string>
+    <string name="raw_auto_brightness">Automatische helderheid</string>
+    <string name="raw_auto_brightness_sub">Bereken de uitgangshelderheid automatisch</string>
+    <string name="raw_brightness">Helderheid</string>
 </resources>

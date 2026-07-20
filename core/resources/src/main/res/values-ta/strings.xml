@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">பரந்த வரம்பு RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">நேரியல்</string>
+    <string name="raw_development_sub">RAW பட மேம்பாட்டு அமைப்புகளைச் சரிசெய்யவும்</string>
+    <string name="raw_white_balance">வெள்ளை சமநிலை</string>
+    <string name="raw_white_balance_camera">கேமரா</string>
+    <string name="raw_white_balance_auto">தானியங்கி</string>
+    <string name="raw_white_balance_daylight">பகல் வெளிச்சம்</string>
+    <string name="raw_white_balance_custom">தனிப்பயன்</string>
+    <string name="raw_white_balance_red">சிவப்பு பெருக்கி</string>
+    <string name="raw_white_balance_green">பச்சைப் பெருக்கி</string>
+    <string name="raw_white_balance_blue">நீல பெருக்கி</string>
+    <string name="raw_white_balance_second_green">இரண்டாவது பச்சை பெருக்கி</string>
+    <string name="raw_highlight_recovery_clip">கிளிப்</string>
+    <string name="raw_highlight_recovery_unclip">அன்க்ளிப்</string>
+    <string name="raw_highlight_recovery_blend">கலக்கவும்</string>
+    <string name="raw_highlight_recovery_reconstruct">புனரமைப்பு</string>
+    <string name="raw_highlight_reconstruction_level">புனரமைப்பு நிலை</string>
+    <string name="raw_exposure_compensation">வெளிப்பாடு இழப்பீடு</string>
+    <string name="raw_highlight_preservation">பாதுகாப்பை முன்னிலைப்படுத்தவும்</string>
+    <string name="raw_auto_brightness">தானியங்கி பிரகாசம்</string>
+    <string name="raw_auto_brightness_sub">வெளியீட்டு பிரகாசத்தை தானாகக் கணக்கிடுங்கள்</string>
+    <string name="raw_brightness">பிரகாசம்</string>
 </resources>

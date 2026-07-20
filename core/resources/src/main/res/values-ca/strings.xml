@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Ampli gamma RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Lineal</string>
+    <string name="raw_development_sub">Ajusteu la configuració de desenvolupament d\'imatges RAW</string>
+    <string name="raw_white_balance">Balanç de blancs</string>
+    <string name="raw_white_balance_camera">Càmera</string>
+    <string name="raw_white_balance_auto">Automàtic</string>
+    <string name="raw_white_balance_daylight">Llum del dia</string>
+    <string name="raw_white_balance_custom">Personalitzat</string>
+    <string name="raw_white_balance_red">Multiplicador vermell</string>
+    <string name="raw_white_balance_green">Multiplicador verd</string>
+    <string name="raw_white_balance_blue">Multiplicador blau</string>
+    <string name="raw_white_balance_second_green">Segon multiplicador verd</string>
+    <string name="raw_highlight_recovery_clip">Clip</string>
+    <string name="raw_highlight_recovery_unclip">Desenganxa</string>
+    <string name="raw_highlight_recovery_blend">Barrejar</string>
+    <string name="raw_highlight_recovery_reconstruct">Reconstruir</string>
+    <string name="raw_highlight_reconstruction_level">Nivell de reconstrucció</string>
+    <string name="raw_exposure_compensation">Compensació de l\'exposició</string>
+    <string name="raw_highlight_preservation">Destacar la conservació</string>
+    <string name="raw_auto_brightness">Lluminositat automàtica</string>
+    <string name="raw_auto_brightness_sub">Calcula automàticament la brillantor de sortida</string>
+    <string name="raw_brightness">Brillantor</string>
 </resources>

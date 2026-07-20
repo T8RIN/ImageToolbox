@@ -4005,4 +4005,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Шырокая гама RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">Лінейны</string>
+    <string name="raw_development_sub">Адрэгулюйце параметры распрацоўкі выявы RAW</string>
+    <string name="raw_white_balance">Баланс белага</string>
+    <string name="raw_white_balance_camera">Камера</string>
+    <string name="raw_white_balance_auto">Аўтаматычны</string>
+    <string name="raw_white_balance_daylight">Дзённае святло</string>
+    <string name="raw_white_balance_custom">Прыстасаваныя</string>
+    <string name="raw_white_balance_red">Чырвоны множнік</string>
+    <string name="raw_white_balance_green">Зялёны множнік</string>
+    <string name="raw_white_balance_blue">Сіні множнік</string>
+    <string name="raw_white_balance_second_green">Другі зялёны множнік</string>
+    <string name="raw_highlight_recovery_clip">Кліп</string>
+    <string name="raw_highlight_recovery_unclip">Адчапіць</string>
+    <string name="raw_highlight_recovery_blend">Змяшаць</string>
+    <string name="raw_highlight_recovery_reconstruct">Рэканструяваць</string>
+    <string name="raw_highlight_reconstruction_level">Узровень рэканструкцыі</string>
+    <string name="raw_exposure_compensation">Кампенсацыя экспазіцыі</string>
+    <string name="raw_highlight_preservation">Вылучыце захаванасць</string>
+    <string name="raw_auto_brightness">Аўтаматычная яркасць</string>
+    <string name="raw_auto_brightness_sub">Аўтаматычна разлічыць выхадную яркасць</string>
+    <string name="raw_brightness">Яркасць</string>
 </resources>

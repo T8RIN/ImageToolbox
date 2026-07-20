@@ -4007,4 +4007,24 @@
     <string name="raw_color_space_wide_gamut_rgb">نطاق واسع RGB</string>
     <string name="raw_color_space_pro_photo_rgb">بروفوتو آر جي بي</string>
     <string name="raw_demosaic_linear">خطي</string>
+    <string name="raw_development_sub">ضبط إعدادات تطوير صورة RAW</string>
+    <string name="raw_white_balance">توازن اللون الأبيض</string>
+    <string name="raw_white_balance_camera">آلة تصوير</string>
+    <string name="raw_white_balance_auto">تلقائي</string>
+    <string name="raw_white_balance_daylight">ضوء النهار</string>
+    <string name="raw_white_balance_custom">مخصص</string>
+    <string name="raw_white_balance_red">المضاعف الأحمر</string>
+    <string name="raw_white_balance_green">المضاعف الأخضر</string>
+    <string name="raw_white_balance_blue">المضاعف الأزرق</string>
+    <string name="raw_white_balance_second_green">المضاعف الأخضر الثاني</string>
+    <string name="raw_highlight_recovery_clip">مقطع</string>
+    <string name="raw_highlight_recovery_unclip">قم بفك المشبك</string>
+    <string name="raw_highlight_recovery_blend">يمزج</string>
+    <string name="raw_highlight_recovery_reconstruct">إعادة البناء</string>
+    <string name="raw_highlight_reconstruction_level">مستوى إعادة الإعمار</string>
+    <string name="raw_exposure_compensation">تعويض التعرض</string>
+    <string name="raw_highlight_preservation">تسليط الضوء على الحفظ</string>
+    <string name="raw_auto_brightness">السطوع التلقائي</string>
+    <string name="raw_auto_brightness_sub">حساب سطوع الإخراج تلقائيا</string>
+    <string name="raw_brightness">سطوع</string>
 </resources>

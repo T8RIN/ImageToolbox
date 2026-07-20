@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">넓은 범위의 RGB</string>
     <string name="raw_color_space_pro_photo_rgb">프로포토 RGB</string>
     <string name="raw_demosaic_linear">선의</string>
+    <string name="raw_development_sub">RAW 이미지 현상 설정 조정</string>
+    <string name="raw_white_balance">화이트 밸런스</string>
+    <string name="raw_white_balance_camera">카메라</string>
+    <string name="raw_white_balance_auto">오토매틱</string>
+    <string name="raw_white_balance_daylight">일광</string>
+    <string name="raw_white_balance_custom">관습</string>
+    <string name="raw_white_balance_red">빨간색 승수</string>
+    <string name="raw_white_balance_green">녹색 승수</string>
+    <string name="raw_white_balance_blue">파란색 승수</string>
+    <string name="raw_white_balance_second_green">두 번째 녹색 승수</string>
+    <string name="raw_highlight_recovery_clip">클립</string>
+    <string name="raw_highlight_recovery_unclip">클립 해제</string>
+    <string name="raw_highlight_recovery_blend">혼합하다</string>
+    <string name="raw_highlight_recovery_reconstruct">재구성</string>
+    <string name="raw_highlight_reconstruction_level">재건 수준</string>
+    <string name="raw_exposure_compensation">노출 보정</string>
+    <string name="raw_highlight_preservation">하이라이트 보존</string>
+    <string name="raw_auto_brightness">자동 밝기</string>
+    <string name="raw_auto_brightness_sub">출력 밝기를 자동으로 계산</string>
+    <string name="raw_brightness">명도</string>
 </resources>

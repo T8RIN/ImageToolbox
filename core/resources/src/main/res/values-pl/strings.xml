@@ -4005,4 +4005,24 @@
     <string name="raw_color_space_wide_gamut_rgb">Szeroka gama RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProFoto RGB</string>
     <string name="raw_demosaic_linear">Liniowy</string>
+    <string name="raw_development_sub">Dostosuj ustawienia wywoływania obrazu RAW</string>
+    <string name="raw_white_balance">Balans bieli</string>
+    <string name="raw_white_balance_camera">Kamera</string>
+    <string name="raw_white_balance_auto">Automatyczny</string>
+    <string name="raw_white_balance_daylight">Światło dzienne</string>
+    <string name="raw_white_balance_custom">Zwyczaj</string>
+    <string name="raw_white_balance_red">Czerwony mnożnik</string>
+    <string name="raw_white_balance_green">Zielony mnożnik</string>
+    <string name="raw_white_balance_blue">Niebieski mnożnik</string>
+    <string name="raw_white_balance_second_green">Drugi zielony mnożnik</string>
+    <string name="raw_highlight_recovery_clip">Klips</string>
+    <string name="raw_highlight_recovery_unclip">Odpiąć</string>
+    <string name="raw_highlight_recovery_blend">Mieszanka</string>
+    <string name="raw_highlight_recovery_reconstruct">Zrekonstruować</string>
+    <string name="raw_highlight_reconstruction_level">Poziom rekonstrukcji</string>
+    <string name="raw_exposure_compensation">Kompensacja ekspozycji</string>
+    <string name="raw_highlight_preservation">Zachowanie wyróżnienia</string>
+    <string name="raw_auto_brightness">Automatyczna jasność</string>
+    <string name="raw_auto_brightness_sub">Oblicz jasność wyjściową automatycznie</string>
+    <string name="raw_brightness">Jasność</string>
 </resources>

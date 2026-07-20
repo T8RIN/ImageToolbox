@@ -4002,4 +4002,24 @@
     <string name="raw_color_space_wide_gamut_rgb">පුළුල් ගැමට් RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>
     <string name="raw_demosaic_linear">රේඛීය</string>
+    <string name="raw_development_sub">RAW රූප සංවර්ධන සැකසුම් සකසන්න</string>
+    <string name="raw_white_balance">සුදු සමබරතාවය</string>
+    <string name="raw_white_balance_camera">කැමරාව</string>
+    <string name="raw_white_balance_auto">ස්වයංක්රීය</string>
+    <string name="raw_white_balance_daylight">දිවා ආලෝකය</string>
+    <string name="raw_white_balance_custom">අභිරුචි</string>
+    <string name="raw_white_balance_red">රතු ගුණකය</string>
+    <string name="raw_white_balance_green">හරිත ගුණකය</string>
+    <string name="raw_white_balance_blue">නිල් ගුණකය</string>
+    <string name="raw_white_balance_second_green">දෙවන හරිත ගුණකය</string>
+    <string name="raw_highlight_recovery_clip">ක්ලිප්</string>
+    <string name="raw_highlight_recovery_unclip">ක්ලිප් ඉවත් කරන්න</string>
+    <string name="raw_highlight_recovery_blend">බ්ලෙන්ඩ් කරන්න</string>
+    <string name="raw_highlight_recovery_reconstruct">ප්‍රතිනිර්මාණය කරන්න</string>
+    <string name="raw_highlight_reconstruction_level">ප්රතිසංස්කරණ මට්ටම</string>
+    <string name="raw_exposure_compensation">නිරාවරණ වන්දි</string>
+    <string name="raw_highlight_preservation">සංරක්ෂණය ඉස්මතු කරන්න</string>
+    <string name="raw_auto_brightness">ස්වයංක්රීය දීප්තිය</string>
+    <string name="raw_auto_brightness_sub">ප්රතිදාන දීප්තිය ස්වයංක්රීයව ගණනය කරන්න</string>
+    <string name="raw_brightness">දීප්තිය</string>
 </resources>

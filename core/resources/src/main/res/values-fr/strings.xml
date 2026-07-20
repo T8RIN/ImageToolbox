@@ -4003,4 +4003,24 @@
     <string name="raw_color_space_wide_gamut_rgb">RVB à large gamme</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RVB</string>
     <string name="raw_demosaic_linear">Linéaire</string>
+    <string name="raw_development_sub">Ajuster les paramètres de développement d\'images RAW</string>
+    <string name="raw_white_balance">Balance des blancs</string>
+    <string name="raw_white_balance_camera">Caméra</string>
+    <string name="raw_white_balance_auto">Automatique</string>
+    <string name="raw_white_balance_daylight">Lumière du jour</string>
+    <string name="raw_white_balance_custom">Coutume</string>
+    <string name="raw_white_balance_red">Multiplicateur rouge</string>
+    <string name="raw_white_balance_green">Multiplicateur vert</string>
+    <string name="raw_white_balance_blue">Multiplicateur bleu</string>
+    <string name="raw_white_balance_second_green">Deuxième multiplicateur vert</string>
+    <string name="raw_highlight_recovery_clip">Agrafe</string>
+    <string name="raw_highlight_recovery_unclip">Déclipser</string>
+    <string name="raw_highlight_recovery_blend">Mélange</string>
+    <string name="raw_highlight_recovery_reconstruct">Reconstruire</string>
+    <string name="raw_highlight_reconstruction_level">Niveau de reconstruction</string>
+    <string name="raw_exposure_compensation">Compensation d\'exposition</string>
+    <string name="raw_highlight_preservation">Préservation des surbrillance</string>
+    <string name="raw_auto_brightness">Luminosité automatique</string>
+    <string name="raw_auto_brightness_sub">Calculer automatiquement la luminosité de sortie</string>
+    <string name="raw_brightness">Luminosité</string>
 </resources>
