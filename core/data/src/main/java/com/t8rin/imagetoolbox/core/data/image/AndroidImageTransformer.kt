@@ -20,6 +20,8 @@ package com.t8rin.imagetoolbox.core.data.image
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.util.LruCache
+import androidx.core.net.toUri
 import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.request.transformations
@@ -36,7 +38,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.sizeTo
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.raw_coder.readRawInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -49,6 +53,8 @@ internal class AndroidImageTransformer @Inject constructor(
     private val imageLoader: ImageLoader,
     defaultDispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by defaultDispatchersHolder, ImageTransformer<Bitmap> {
+
+    private val originalSizeCache = LruCache<String, IntegerSize>(128)
 
     override suspend fun transform(
         image: Bitmap,
@@ -97,18 +103,19 @@ internal class AndroidImageTransformer @Inject constructor(
     override suspend fun applyPresetBy(
         image: Bitmap?,
         preset: Preset,
-        currentInfo: ImageInfo
+        currentInfo: ImageInfo,
+        originalSize: IntegerSize?
     ): ImageInfo = withContext(defaultDispatcher) {
         if (image == null || preset is Preset.None) return@withContext currentInfo
 
         val size = currentInfo.originalUri.makeLog("applyPresetBy originalUri")?.let { uri ->
-            imageLoader.execute(
-                ImageRequest.Builder(context)
-                    .data(uri)
-                    .size(Size.ORIGINAL)
-                    .build()
-            ).image?.run { width sizeTo height }.makeLog("applyPresetBy using orig size")
-        } ?: IntegerSize(image.width, image.height).makeLog("applyPresetBy using image size")
+            originalSize?.also {
+                originalSizeCache.put(uri, it)
+            } ?: originalSizeCache[uri] ?: resolveOriginalSize(uri)?.also {
+                originalSizeCache.put(uri, it)
+            }.makeLog("applyPresetBy using orig size")
+        } ?: originalSize
+        ?: IntegerSize(image.width, image.height).makeLog("applyPresetBy using image size")
 
         val rotated = abs(currentInfo.rotationDegrees) % 180 != 0f
         fun calcWidth() = if (rotated) size.height else size.width
@@ -157,6 +164,21 @@ internal class AndroidImageTransformer @Inject constructor(
 
             Preset.None -> currentInfo
         }
+    }
+
+    private suspend fun resolveOriginalSize(uri: String): IntegerSize? {
+        val parsedUri = uri.toUri()
+        val rawInfo = context.readRawInfo(parsedUri)
+        if (rawInfo != null) {
+            return rawInfo.orientedWidth sizeTo rawInfo.orientedHeight
+        }
+
+        return parsedUri.imageSize() ?: imageLoader.execute(
+            ImageRequest.Builder(context)
+                .data(uri)
+                .size(Size.ORIGINAL)
+                .build()
+        ).image?.run { width sizeTo height }
     }
 
     override suspend fun flip(

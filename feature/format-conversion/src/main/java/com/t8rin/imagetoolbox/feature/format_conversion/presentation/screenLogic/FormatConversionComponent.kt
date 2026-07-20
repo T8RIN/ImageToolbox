@@ -289,7 +289,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
                         imageTransformer.applyPresetBy(
                             image = bitmap,
                             preset = Preset.Original,
-                            currentInfo = it
+                            currentInfo = it,
+                            originalSize = IntegerSize(bitmap.width, bitmap.height)
                         )
                     }.let { imageInfo ->
                         results.add(
@@ -347,7 +348,8 @@ class FormatConversionComponent @AssistedInject internal constructor(
                 _imageInfo.value = imageTransformer.applyPresetBy(
                     image = _bitmap.value,
                     preset = Preset.Original,
-                    currentInfo = _imageInfo.value
+                    currentInfo = _imageInfo.value,
+                    originalSize = _originalSize.value
                 )
                 checkBitmapAndUpdate()
                 _isImageLoading.update { false }
@@ -369,9 +371,10 @@ class FormatConversionComponent @AssistedInject internal constructor(
                             originalUri = uri
                         ).let {
                             imageTransformer.applyPresetBy(
-                                image = bitmap,
+                                image = bmp,
                                 preset = Preset.Original,
-                                currentInfo = it
+                                currentInfo = it,
+                                originalSize = IntegerSize(bmp.width, bmp.height)
                             )
                         }
                     }
@@ -407,9 +410,10 @@ class FormatConversionComponent @AssistedInject internal constructor(
                     originalUri = selectedUri.toString()
                 ).let {
                     imageTransformer.applyPresetBy(
-                        image = bitmap,
+                        image = bmp,
                         preset = Preset.Original,
-                        currentInfo = it
+                        currentInfo = it,
+                        originalSize = IntegerSize(bmp.width, bmp.height)
                     )
                 }
             }?.let { (image, imageInfo) ->
@@ -437,9 +441,10 @@ class FormatConversionComponent @AssistedInject internal constructor(
                         originalUri = it.toString()
                     ).let { info ->
                         imageTransformer.applyPresetBy(
-                            image = bitmap,
+                            image = bmp,
                             preset = Preset.Original,
-                            currentInfo = info
+                            currentInfo = info,
+                            originalSize = IntegerSize(bmp.width, bmp.height)
                         )
                     }
                 }?.let { (image, imageInfo) ->

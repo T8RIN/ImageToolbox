@@ -695,16 +695,17 @@ class SingleEditComponent @AssistedInject internal constructor(
             if (profile is Preset.AspectRatio && profile.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
+            _presetSelected.update { profile }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
                     preset = profile,
                     currentInfo = imageInfo.copy(
-                        originalUri = uri.toString()
-                    )
+                        originalUri = currentImageUriString()
+                    ),
+                    originalSize = originalSize
                 )
             )
-            _presetSelected.update { profile }
             commitHistoryFrom(beforeSnapshot)
         }
     }
@@ -731,14 +732,15 @@ class SingleEditComponent @AssistedInject internal constructor(
             val beforeSnapshot = currentHistorySnapshot()
             restoreProfileBackgroundColor(profile)
             val restoredInfo = profile.toImageInfo(imageInfo).copy(
-                originalUri = uri.toString()
+                originalUri = currentImageUriString()
             )
             setBitmapInfo(
                 profile.applyExportSettingsTo(
                     imageTransformer.applyPresetBy(
                         image = bitmap,
                         preset = profile.preset,
-                        currentInfo = restoredInfo
+                        currentInfo = restoredInfo,
+                        originalSize = originalSize
                     )
                 )
             )

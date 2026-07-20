@@ -550,16 +550,17 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
             if (profile is Preset.AspectRatio && profile.ratio != 1f) {
                 _imageInfo.update { it.copy(rotationDegrees = 0f) }
             }
+            _presetSelected.update { profile }
             setBitmapInfo(
                 imageTransformer.applyPresetBy(
                     image = bitmap,
                     preset = profile,
                     currentInfo = imageInfo.copy(
                         originalUri = selectedUri?.toString()
-                    )
+                    ),
+                    originalSize = originalSize
                 )
             )
-            _presetSelected.update { profile }
             commitHistoryFrom(beforeSnapshot)
         }
     }
@@ -594,7 +595,8 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                     imageTransformer.applyPresetBy(
                         image = bitmap,
                         preset = profile.preset,
-                        currentInfo = restoredInfo
+                        currentInfo = restoredInfo,
+                        originalSize = originalSize
                     )
                 )
             )
