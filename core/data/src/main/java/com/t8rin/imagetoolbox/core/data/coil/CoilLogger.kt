@@ -38,6 +38,10 @@ internal class CoilLogger : Logger {
         message: String?,
         throwable: Throwable?
     ) {
+        val gmic = "*** Error in ./ ***"
+
+        if (gmic in message.orEmpty() || gmic in throwable?.message.orEmpty()) return
+
         message?.takeIf {
             "NullRequestData" !in it && "PDF" !in it
         }?.makeLog(tag, level.toLogger())

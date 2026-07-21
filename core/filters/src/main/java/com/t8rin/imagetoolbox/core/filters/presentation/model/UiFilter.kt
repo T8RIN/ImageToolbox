@@ -61,6 +61,12 @@ sealed class UiFilter<T : Any>(
 
     override var isVisible: Boolean by mutableStateOf(true)
 
+    override var error: String by mutableStateOf("")
+
+    override fun pushError(error: String) {
+        this.error = error
+    }
+
     val canUseTemplate by lazy {
         listOf(this).filterCanUseTemplate().isNotEmpty()
     }
@@ -223,8 +229,7 @@ fun Filter<*>.toUiFilter(
 ): UiFilter<*> = mapFilterToUiFilter(
     filter = this,
     preserveVisibility = preserveVisibility
-)
-
+).also { uiFilter -> uiFilter.pushError(error) }
 
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,

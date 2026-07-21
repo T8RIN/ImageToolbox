@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.filters.domain.model
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.ErrorOwner
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.VisibilityOwner
@@ -62,7 +63,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 
 
-interface Filter<Value : Any> : VisibilityOwner {
+interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     val value: Value
 
     interface BilaterialBlur : Filter<BilaterialBlurParams>

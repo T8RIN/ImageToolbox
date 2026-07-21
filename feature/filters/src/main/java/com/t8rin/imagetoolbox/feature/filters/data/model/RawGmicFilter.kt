@@ -17,20 +17,40 @@
 
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
+import android.graphics.Bitmap
+import coil3.size.Size
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
+import com.t8rin.gmic.model.GmicException
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
 import com.t8rin.imagetoolbox.feature.filters.data.transformation.GMICFilterTransformation
+import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 
 @FilterInject
 internal class RawGmicFilter(
-    override val value: String = "blur 0"
+    override val value: String = "blur 0",
+    private val onError: (String) -> Unit = {}
 ) : GMICFilterTransformation(), Filter.RawGmic {
 
     override val cacheKey: String
         get() = value
 
     override fun createFilter(): GmicFilter = GmicRawFilter(value)
+
+    override suspend fun transform(
+        input: Bitmap,
+        size: Size
+    ): Bitmap {
+        pushError("")
+
+        return try {
+            super.transform(input, size)
+        } catch (exception: GmicException) {
+            pushError(exception.message.orEmpty().substringAfterLast("***").trim())
+            throw exception
+        }
+    }
+
+    override fun pushError(error: String) = onError(error)
 
 }

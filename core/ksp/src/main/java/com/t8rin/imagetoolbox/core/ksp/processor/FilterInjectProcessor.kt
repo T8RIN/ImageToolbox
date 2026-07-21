@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,17 @@ private class FilterInjectProcessorImpl(
 
                 annotated.forEach { filter ->
                     val filterName = filter.simpleName.asString()
-                    appendLine("        is Filter.${filterName.removeSuffix("Filter")} -> ${filterName}(value)")
+                    val hasErrorCallback = filter.primaryConstructor
+                        ?.parameters
+                        ?.any { it.name?.asString() == "onError" }
+                        ?: false
+                    val constructorArgs = if (hasErrorCallback) {
+                        "value, ::pushError"
+                    } else {
+                        "value"
+                    }
+                    val constructor = "$filterName($constructorArgs)"
+                    appendLine("        is Filter.${filterName.removeSuffix("Filter")} -> $constructor")
                 }
 
                 appendLine()
