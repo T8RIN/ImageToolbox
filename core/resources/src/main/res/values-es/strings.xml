@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -4005,17 +4003,8 @@
     <string name="raw_demosaic_linear">Lineal</string>
     <string name="raw_development_sub">Ajustar la configuración de desarrollo de imágenes RAW</string>
     <string name="raw_white_balance_daylight">Luz</string>
-    <string name="raw_white_balance_red" />
-    <string name="raw_white_balance_green" />
-    <string name="raw_white_balance_blue" />
-    <string name="raw_white_balance_second_green" />
-    <string name="raw_highlight_recovery_unclip" />
     <string name="raw_highlight_recovery_blend">Mezcla</string>
     <string name="raw_highlight_recovery_reconstruct">Reconstruir</string>
-    <string name="raw_highlight_reconstruction_level" />
-    <string name="raw_exposure_compensation" />
-    <string name="raw_highlight_preservation" />
-    <string name="raw_auto_brightness" />
     <string name="raw_auto_brightness_sub">Calcular el brillo de salida automáticamente</string>
     <string name="raw_brightness">Brillo</string>
     <string name="command">Dominio</string>
