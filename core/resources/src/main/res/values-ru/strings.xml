@@ -4040,7 +4040,7 @@
     <string name="gmic_filter_cube_frame">Кубическая рамка</string>
     <string name="gmic_filter_cubism">Кубизм</string>
     <string name="gmic_filter_cutout">Вырезать</string>
-    <string name="gmic_filter_deblur">Размытие</string>
+    <string name="gmic_filter_deblur">Антиразмытие</string>
     <string name="gmic_filter_details_equalizer">Детали Эквалайзер</string>
     <string name="gmic_filter_dice_mosaic">Кости Мозаика</string>
     <string name="gmic_filter_diffusion_tensors">Тензоры диффузии</string>

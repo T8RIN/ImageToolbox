@@ -18,9 +18,9 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,8 +29,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun StringItem(
@@ -45,11 +47,6 @@ internal fun StringItem(
         mutableStateOf(value)
     }
 
-    LaunchedEffect(textValue) {
-        delay(500)
-        onFilterChange(textValue)
-    }
-
     RoundedTextField(
         value = textValue,
         onValueChange = { textValue = it },
@@ -57,6 +54,22 @@ internal fun StringItem(
         modifier = Modifier.padding(12.dp),
         readOnly = previewOnly,
         singleLine = false,
+        endIcon = {
+            EnhancedIconButton(
+                onClick = {
+                    onFilterChange(textValue)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Done,
+                    contentDescription = "Done"
+                )
+            }
+        },
+        onLoseFocusTransformation = {
+            onFilterChange(textValue)
+            this
+        },
         isError = error.isNotEmpty(),
         supportingText = { Text(error) },
     )
