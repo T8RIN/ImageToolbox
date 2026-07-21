@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
@@ -400,6 +401,112 @@ interface Filter<Value : Any> : VisibilityOwner {
     interface Ripple : QuadFloatFilter
     interface AdaptiveBlur : PairFloatFilter
     interface AutoWhiteBalance : PairFloatFilter
+    interface Isophotes : GmicFilter
+    interface LocalOrientation : GmicFilter
+    interface Skeleton : GmicFilter
+    interface SuperPixels : GmicFilter
+    interface FadedArray : GmicFilter
+    interface MirroredArray : GmicFilter
+    interface RandomPatchArray : GmicFilter
+    interface RandomColorArray : GmicFilter
+    interface ChessboardOverlay : GmicFilter
+    interface DiceMosaic : GmicFilter
+    interface Ministeck : GmicFilter
+    interface ShufflePatches : GmicFilter
+    interface Taquin : GmicFilter
+    interface TileableRotation : GmicFilter
+    interface MakeSeamless : GmicFilter
+    interface ChromaticAberrations : GmicFilter
+    interface CrtPhosphors : GmicFilter
+    interface HuffmanGlitch : GmicFilter
+    interface JpegArtifacts : GmicFilter
+    interface PixelSort : GmicFilter
+    interface RainAndSnow : GmicFilter
+    interface Streak : GmicFilter
+    interface CrtScanlines : GmicFilter
+    interface Dirty : GmicFilter
+    interface FlipAndRotateBlocks : GmicFilter
+    interface Lomo : GmicFilter
+    interface MessWithBits : GmicFilter
+    interface OffsetStripes : GmicFilter
+    interface OldMovieStripes : GmicFilter
+    interface OldSchool8Bit : GmicFilter
+    interface RandomShadeStripes : GmicFilter
+    interface RebuildFromSimilarBlocks : GmicFilter
+    interface CircleAbstraction : GmicFilter
+    interface Cubism : GmicFilter
+    interface FeltPen : GmicFilter
+    interface Ghost : GmicFilter
+    interface Linify : GmicFilter
+    interface MarkerDrawing : GmicFilter
+    interface Rodilius : GmicFilter
+    interface Shapeism : GmicFilter
+    interface SharpAbstract : GmicFilter
+    interface SmoothAbstract : GmicFilter
+    interface Stringify : GmicFilter
+    interface Engrave : GmicFilter
+    interface Filaments : GmicFilter
+    interface InkWash : GmicFilter
+    interface Brushify : GmicFilter
+    interface Cutout : GmicFilter
+    interface Ellipsionism : GmicFilter
+    interface Fractalize : GmicFilter
+    interface HopePoster : GmicFilter
+    interface LylejkPainting : GmicFilter
+    interface Painting : GmicFilter
+    interface PosterEdges : GmicFilter
+    interface Quadtree : GmicFilter
+    interface VectorPainting : GmicFilter
+    interface Cracks : GmicFilter
+    interface MineralMosaic : GmicFilter
+    interface StainedGlass : GmicFilter
+    interface DiffusionTensors : GmicFilter
+    interface Doodle : GmicFilter
+    interface Charcoal : GmicFilter
+    interface PencilPortrait : GmicFilter
+    interface ColorAbstraction : GmicFilter
+    interface CinematicDream : GmicFilter
+    interface GraphicNovel : GmicFilter
+    interface DreamPainting : GmicFilter
+    interface AnalogDamage : GmicFilter
+    interface Breaks : GmicFilter
+    interface CircleTransform : GmicFilter
+    interface Crease : GmicFilter
+    interface Flower : GmicFilter
+    interface SquareToCircle : GmicFilter
+    interface WarpByIntensity : GmicFilter
+    interface Droste : GmicFilter
+    interface ConformalMap : GmicFilter
+    interface PoincareDisk : GmicFilter
+    interface StereographicProjection : GmicFilter
+    interface Tunnel : GmicFilter
+    interface EquirectangularProjection : GmicFilter
+    interface WaterReflection : GmicFilter
+    interface Puzzle : GmicFilter
+    interface Retinex : GmicFilter
+    interface DetailsEqualizer : GmicFilter
+    interface FreakyDetails : GmicFilter
+    interface MagicDetails : GmicFilter
+    interface MightyDetails : GmicFilter
+    interface PopShadows : GmicFilter
+    interface Deblur : GmicFilter
+    interface AlphaSharpen : GmicFilter
+    interface GoldMeinelSharpen : GmicFilter
+    interface RichardsonLucySharpen : GmicFilter
+    interface MultiscaleSharpen : GmicFilter
+    interface SmoothSkin : GmicFilter
+    interface CubeFrame : GmicFilter
+    interface BlurredFrame : GmicFilter
+    interface FuzzyFrame : GmicFilter
+    interface MirrorFrame : GmicFilter
+    interface PaintingFrame : GmicFilter
+    interface RoundedFrame : GmicFilter
+    interface SmoothFrame : GmicFilter
+    interface FrostedGlass : GmicFilter
+    interface LightPatch : GmicFilter
+    interface ReliefLight : GmicFilter
+    interface ShadowPatch : GmicFilter
+    interface RawGmic : Filter<String>
 }
 
 interface SimpleFilter : Filter<Unit>
@@ -418,6 +525,7 @@ interface FileImageFilter : PairFilter<Float, Image>
 interface FloatBooleanFilter : PairFilter<Float, Boolean>
 interface FloatColorModelFilter : PairFilter<Float, Color>
 interface BooleanFilter : Filter<Boolean>
+interface GmicFilter : Filter<GmicFilterParams>
 interface ClaheValueFilter : Filter<ClaheParams>
 interface ColorValueFilter : WrapperFilter<Color>
 

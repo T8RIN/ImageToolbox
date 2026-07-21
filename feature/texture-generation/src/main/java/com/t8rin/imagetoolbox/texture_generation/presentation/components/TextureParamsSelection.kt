@@ -106,7 +106,6 @@ fun TextureParamsSelection(
         }
     }
 
-
     Column(
         modifier = Modifier.container(
             shape = ShapeDefaults.large,
@@ -337,6 +336,27 @@ fun TextureParamsSelection(
 
                     TextureFilterType.Wood -> {
                         WoodParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
+
+                    TextureFilterType.OrganicFibers -> {
+                        OrganicFibersParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
+
+                    TextureFilterType.GmicReactionDiffusion -> {
+                        ReactionDiffusionParams(
+                            value = value,
+                            onValueChange = onValueChange
+                        )
+                    }
+
+                    TextureFilterType.Truchet -> {
+                        TruchetParams(
                             value = value,
                             onValueChange = onValueChange
                         )

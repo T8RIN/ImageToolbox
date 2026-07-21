@@ -112,7 +112,8 @@ internal val TextureFilterType.category: TextureCategory
         TextureFilterType.HyperbolicTiling,
         TextureFilterType.MoebiusWeave,
         TextureFilterType.RorschachInkblot,
-        TextureFilterType.OrigamiFacets -> TextureCategory.Patterns
+        TextureFilterType.OrigamiFacets,
+        TextureFilterType.Truchet -> TextureCategory.Patterns
 
         else -> TextureCategory.Abstract
     }

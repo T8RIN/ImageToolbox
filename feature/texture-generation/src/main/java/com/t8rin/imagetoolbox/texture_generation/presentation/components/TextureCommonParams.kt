@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -110,6 +111,29 @@ internal fun ColorParam(
         )
     )
 }
+
+@Composable
+internal fun <T : Enum<T>> EnumParam(
+    value: T,
+    entries: List<T>,
+    title: String,
+    onValueChange: (T) -> Unit,
+    shape: Shape = ShapeDefaults.center
+) {
+    DataSelector(
+        value = value,
+        onValueChange = onValueChange,
+        entries = entries,
+        title = title,
+        titleIcon = null,
+        itemContentText = { it.name.toReadableName() },
+        spanCount = 1,
+        containerColor = Color.Unspecified,
+        shape = shape
+    )
+}
+
+private fun String.toReadableName(): String = replace(Regex("([a-z])([A-Z])"), "$1 $2")
 
 internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.BrushedMetal -> R.string.texture_brushed_metal
@@ -243,6 +267,9 @@ internal fun TextureFilterType.titleRes(): Int = when (this) {
     TextureFilterType.RayleighBenard -> R.string.texture_rayleigh_benard
     TextureFilterType.OrigamiFacets -> R.string.texture_origami_facets
     TextureFilterType.FiberOpticBundle -> R.string.texture_fiber_optic_bundle
+    TextureFilterType.OrganicFibers -> R.string.texture_organic_fibers
+    TextureFilterType.GmicReactionDiffusion -> R.string.texture_reaction_diffusion
+    TextureFilterType.Truchet -> R.string.texture_truchet
 }
 
 internal fun CellularGridType.titleRes(): Int = when (this) {

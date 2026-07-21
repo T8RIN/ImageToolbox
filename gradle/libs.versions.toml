@@ -9,7 +9,7 @@ versionCode = "259"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "7.5.4"
+imageToolboxLibs = "7.6.1"
 trickle = "1.9.0"
 evaluator = "1.0.0"
 quickie = "1.19.0"
@@ -139,6 +139,7 @@ toolbox-exif = { module = "com.github.T8RIN.ImageToolboxLibs:exif", version.ref 
 toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.ref = "imageToolboxLibs" }
 toolbox-rawCoder = { module = "com.github.T8RIN.ImageToolboxLibs:raw-coder", version.ref = "imageToolboxLibs" }
 toolbox-tiffCoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiff-coder", version.ref = "imageToolboxLibs" }
+toolbox-gmic = { module = "com.github.T8RIN.ImageToolboxLibs:gmic", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

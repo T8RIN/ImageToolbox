@@ -30,6 +30,15 @@ import com.jhlabs.MarbleTexFilter
 import com.jhlabs.PlasmaFilter
 import com.jhlabs.QuiltFilter
 import com.jhlabs.WoodFilter
+import com.t8rin.gmic.Gmic
+import com.t8rin.gmic.GmicFilter
+import com.t8rin.gmic.filters.OrganicFibers
+import com.t8rin.gmic.filters.OrganicFibersPalette
+import com.t8rin.gmic.filters.ReactionDiffusion
+import com.t8rin.gmic.filters.ReactionDiffusionMode
+import com.t8rin.gmic.filters.Truchet
+import com.t8rin.gmic.filters.TruchetColorMode
+import com.t8rin.gmic.filters.TruchetType
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.texture_generation.domain.TextureGenerator
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
@@ -54,6 +63,13 @@ internal class AndroidTextureGenerator @Inject constructor(
                     height = height,
                     type = textureParams.textureFilterType,
                     params = requireNotNull(textureParams.fastNoiseParams)
+                )
+            } else if (textureParams.textureFilterType.isGmic) {
+                Gmic.run(
+                    input = createBitmap(width, height).apply {
+                        eraseColor(Color.BLACK)
+                    },
+                    filter = createGmicFilter(textureParams)
                 )
             } else {
                 createFilter(textureParams).filter(
@@ -169,4 +185,55 @@ internal class AndroidTextureGenerator @Inject constructor(
 
         else -> error("Unsupported JH Labs texture type: ${textureParams.textureFilterType}")
     }
+
+    private fun createGmicFilter(textureParams: TextureParams): GmicFilter {
+        val params = textureParams.gmicTextureParams
+
+        return when (textureParams.textureFilterType) {
+            TextureFilterType.OrganicFibers -> params.organicFibers.let {
+                OrganicFibers(
+                    agentDensity = it.agentDensity,
+                    iterations = it.iterations,
+                    orientations = it.orientations,
+                    sensorDistance = it.sensorDistance,
+                    sensorAngle = it.sensorAngle,
+                    motionDistance = it.motionDistance,
+                    motionAngle = it.motionAngle,
+                    motionMoment = it.motionMoment,
+                    trailBlur = it.trailBlur,
+                    particleSize = it.particleSize,
+                    particleThickness = it.particleThickness,
+                    quantizedOrientations = it.quantizedOrientations,
+                    opacity = it.opacity,
+                    sharpening = it.sharpening,
+                    palette = OrganicFibersPalette.valueOf(it.palette.name)
+                )
+            }
+
+            TextureFilterType.GmicReactionDiffusion -> params.reactionDiffusion.let {
+                ReactionDiffusion(
+                    iterations = it.iterations,
+                    size = it.size,
+                    mode = ReactionDiffusionMode.valueOf(it.mode.name)
+                )
+            }
+
+            TextureFilterType.Truchet -> params.truchet.let {
+                Truchet(
+                    scale = it.scale,
+                    radius = it.radius,
+                    smoothness = it.smoothness,
+                    type = TruchetType.valueOf(it.type.name),
+                    colorMode = TruchetColorMode.valueOf(it.colorMode.name)
+                )
+            }
+
+            else -> error("Unsupported GMIC texture type: ${textureParams.textureFilterType}")
+        }
+    }
 }
+
+private val TextureFilterType.isGmic: Boolean
+    get() = this == TextureFilterType.OrganicFibers ||
+            this == TextureFilterType.GmicReactionDiffusion ||
+            this == TextureFilterType.Truchet

@@ -62,7 +62,8 @@ data class TextureParams(
     val d: Float,
     val k: Int,
     val rings: Float,
-    val fastNoiseParams: FastNoiseTextureParams? = null
+    val fastNoiseParams: FastNoiseTextureParams? = null,
+    val gmicTextureParams: GmicTextureParams = GmicTextureParams()
 ) {
     companion object {
         val Default by lazy {
@@ -230,6 +231,14 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
             stretch = 1f,
             angle = 0f,
             fastNoiseParams = null
+        )
+
+        TextureFilterType.OrganicFibers,
+        TextureFilterType.GmicReactionDiffusion,
+        TextureFilterType.Truchet -> copy(
+            textureFilterType = textureFilterType,
+            fastNoiseParams = null,
+            gmicTextureParams = GmicTextureParams()
         )
 
         else -> error("Unsupported JH Labs texture type: $textureFilterType")

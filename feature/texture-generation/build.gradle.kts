@@ -30,4 +30,5 @@ dependencies {
 
     implementation(libs.toolbox.fastNoise)
     implementation(libs.toolbox.jhlabs)
+    implementation(libs.toolbox.gmic)
 }

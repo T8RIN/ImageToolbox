@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
@@ -70,6 +71,7 @@ internal fun Any.toPair(): Pair<String, String>? {
     return when (this) {
         is Int -> Int::class.simpleName() to toString()
         is Float -> Float::class.simpleName() to toString()
+        is String -> String::class.simpleName() to Base64.encode(toByteArray(Charsets.UTF_8))
         is Unit -> Unit::class.simpleName() to "Unit"
         is PolarCoordinatesType -> PolarCoordinatesType::class.simpleName() to name
         is FloatArray -> FloatArray::class.simpleName() to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
@@ -476,6 +478,12 @@ internal fun Any.toPair(): Pair<String, String>? {
             ).joinToString(PROPERTIES_SEPARATOR)
         }
 
+        is GmicFilterParams -> {
+            GmicFilterParams::class.simpleName!! to values.joinToString(PROPERTIES_SEPARATOR) {
+                Base64.encode(it.toByteArray(Charsets.UTF_8))
+            }
+        }
+
         else -> null
     }
 }
@@ -487,12 +495,19 @@ internal fun Pair<String, String>.fromPair(): Any? {
     return when {
         name == Int::class.simpleName -> value.toInt()
         name == Float::class.simpleName -> value.toFloat()
+        name == String::class.simpleName -> Base64.decode(value).toString(Charsets.UTF_8)
         name == Boolean::class.simpleName -> value.toBoolean()
         name == Unit::class.simpleName -> Unit
         name == PolarCoordinatesType::class.simpleName -> PolarCoordinatesType.valueOf(value)
         name == FloatArray::class.simpleName -> value.split(PROPERTIES_SEPARATOR)
             .map { it.toFloat() }
             .toFloatArray()
+
+        name == GmicFilterParams::class.simpleName -> GmicFilterParams(
+            values = value.split(PROPERTIES_SEPARATOR).map {
+                Base64.decode(it).toString(Charsets.UTF_8)
+            }
+        )
 
         "${FilterValueWrapper::class.simpleName}{" in name -> {
             when (name.getTypeFromBraces()) {

@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.FlareParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GlitchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.KaleidoscopeParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
@@ -58,6 +59,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystalliz
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterDropParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ArcParamsItem
@@ -76,6 +78,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FlareP
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatArrayItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.FloatItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GlitchParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.GmicFilterParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.IntegerSizeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.KaleidoscopeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.LinearGaussianParamsItem
@@ -92,6 +95,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ShearP
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SideFadeRelativeItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SmearParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.SparkleParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.StringItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ToneCurvesParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TornEdgeParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.TripleItem
@@ -113,6 +117,24 @@ internal fun <T : Any> FilterItemContent(
         modifier = modifier
     ) {
         when (val value = filter.value) {
+            is GmicFilterParams -> {
+                GmicFilterParamsItem(
+                    value = value,
+                    filter = filter as GmicUiFilter,
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is String -> {
+                StringItem(
+                    value = value,
+                    filter = filter.cast(),
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
             is FilterValueWrapper<*> -> {
                 FilterValueWrapperItem(
                     value = value,
