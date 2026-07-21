@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -4417,4 +4419,13 @@
     <string name="gmic_param_particle_size">Tamaño de partícula</string>
     <string name="gmic_param_particle_thickness">Espesor de partícula</string>
     <string name="gmic_param_quantized_orientations">Orientaciones cuantificadas</string>
+    <string name="raw_white_balance_red">multiplicador rojo</string>
+    <string name="raw_white_balance_green">Multiplicador verde</string>
+    <string name="raw_white_balance_blue">Multiplicador azul</string>
+    <string name="raw_white_balance_second_green">Segundo multiplicador verde</string>
+    <string name="raw_highlight_recovery_unclip">Desenganchar</string>
+    <string name="raw_highlight_reconstruction_level">Nivel de reconstrucción</string>
+    <string name="raw_exposure_compensation">Compensación de exposición</string>
+    <string name="raw_highlight_preservation">Preservación destacada</string>
+    <string name="raw_auto_brightness">Brillo automático</string>
 </resources>

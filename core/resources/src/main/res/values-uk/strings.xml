@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="image_too_large_preview">Зображення завелике для попереднього перегляду, але спроба збереження все одно буде здійснена</string>
     <string name="pick_image">Виберіть зображення для початку</string>
     <string name="resize_type">Тип масштабування</string>
@@ -4416,4 +4418,16 @@
     <string name="gmic_param_particle_size">Розмір частинок</string>
     <string name="gmic_param_particle_thickness">Товщина частинок</string>
     <string name="gmic_param_quantized_orientations">Квантувані орієнтації</string>
+    <string name="raw_white_balance_daylight">Денне світло</string>
+    <string name="raw_white_balance_red">Червоний множник</string>
+    <string name="raw_white_balance_green">Зелений множник</string>
+    <string name="raw_white_balance_blue">Синій множник</string>
+    <string name="raw_white_balance_second_green">Другий зелений множник</string>
+    <string name="raw_highlight_recovery_unclip">Відкріпити</string>
+    <string name="raw_highlight_recovery_blend">Змішати</string>
+    <string name="raw_highlight_recovery_reconstruct">Реконструювати</string>
+    <string name="raw_highlight_reconstruction_level">Рівень реконструкції</string>
+    <string name="raw_exposure_compensation">Компенсація експозиції</string>
+    <string name="raw_highlight_preservation">Виділіть збереження</string>
+    <string name="raw_auto_brightness">Автоматична яскравість</string>
 </resources>
