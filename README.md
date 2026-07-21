@@ -181,7 +181,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 330 various filters)
+- Applying filter chains (More than 440 various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -516,7 +516,113 @@ or click one of the badges below.
     - [x] Light Effects
     - [x] Rays
     - [x] Ripple
-    - [x] Auto White Balance 
+    - [x] Auto White Balance
+    - [x] Alpha Sharpen
+    - [x] Analog Damage
+    - [x] Blurred Frame
+    - [x] Breaks
+    - [x] Brushify
+    - [x] Charcoal
+    - [x] Chessboard Overlay
+    - [x] Chromatic Aberrations
+    - [x] Cinematic Dream
+    - [x] Circle Abstraction
+    - [x] Circle Transform
+    - [x] Color Abstraction
+    - [x] Conformal Map
+    - [x] Cracks
+    - [x] Crease
+    - [x] CRT Phosphors
+    - [x] CRT Scanlines
+    - [x] Cube Frame
+    - [x] Cubism
+    - [x] Cutout
+    - [x] Deblur
+    - [x] Details Equalizer
+    - [x] Dice Mosaic
+    - [x] Diffusion Tensors
+    - [x] Dirty
+    - [x] Doodle
+    - [x] Dream Painting
+    - [x] Droste
+    - [x] Ellipsionism
+    - [x] Engrave
+    - [x] Equirectangular Projection
+    - [x] Faded Array
+    - [x] Felt Pen
+    - [x] Filaments
+    - [x] Flip And Rotate Blocks
+    - [x] Flower
+    - [x] Fractalize
+    - [x] Freaky Details
+    - [x] Frosted Glass
+    - [x] Fuzzy Frame
+    - [x] Ghost
+    - [x] GMIC: Filter
+    - [x] Gold Meinel Sharpen
+    - [x] Graphic Novel
+    - [x] Hope Poster
+    - [x] Huffman Glitch
+    - [x] Ink Wash
+    - [x] Isophotes
+    - [x] JPEG Artifacts
+    - [x] Light Patch
+    - [x] Linify
+    - [x] Local Orientation
+    - [x] Lomo
+    - [x] Lylejk Painting
+    - [x] Magic Details
+    - [x] Make Seamless
+    - [x] Marker Drawing
+    - [x] Mess With Bits
+    - [x] Mighty Details
+    - [x] Mineral Mosaic
+    - [x] Ministeck
+    - [x] Mirror Frame
+    - [x] Mirrored Array
+    - [x] Multiscale Sharpen
+    - [x] Offset Stripes
+    - [x] Old Movie Stripes
+    - [x] Old School 8-Bit
+    - [x] Painting
+    - [x] Painting Frame
+    - [x] Pencil Portrait
+    - [x] Pixel Sort
+    - [x] Poincare Disk
+    - [x] Pop Shadows
+    - [x] Poster Edges
+    - [x] Puzzle
+    - [x] Quadtree
+    - [x] Rain And Snow
+    - [x] Random Color Array
+    - [x] Random Patch Array
+    - [x] Random Shade Stripes
+    - [x] Rebuild From Similar Blocks
+    - [x] Relief Light
+    - [x] Retinex
+    - [x] Richardson Lucy Sharpen
+    - [x] Rodilius
+    - [x] Rounded Frame
+    - [x] Shadow Patch
+    - [x] Shapeism
+    - [x] Sharp Abstract
+    - [x] Shuffle Patches
+    - [x] Skeleton
+    - [x] Smooth Abstract
+    - [x] Smooth Frame
+    - [x] Smooth Skin
+    - [x] Square To Circle
+    - [x] Stained Glass
+    - [x] Stereographic Projection
+    - [x] Streak
+    - [x] Stringify
+    - [x] Super Pixels
+    - [x] Taquin
+    - [x] Tileable Rotation
+    - [x] Tunnel
+    - [x] Vector Painting
+    - [x] Warp By Intensity
+    - [x] Water Reflection
 
 
   </details>
@@ -662,6 +768,9 @@ or click one of the badges below.
     * Rayleigh–Bénard Convection
     * Origami Facets
     * Fiber Optic Bundle
+    * Organic Fibers
+    * Reaction Diffusion
+    * Truchet
 
   </details>
 
