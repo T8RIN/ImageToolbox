@@ -28,7 +28,7 @@ import com.t8rin.gmic.filters.RawGmicFilter as GmicRawFilter
 
 @FilterInject
 internal class RawGmicFilter(
-    override val value: String = "blur 0",
+    override val value: String = "",
     private val onError: (String) -> Unit = {}
 ) : GMICFilterTransformation(), Filter.RawGmic {
 
