@@ -85,6 +85,8 @@
     <string name="device_storage">Память устройства</string>
     <string name="by_bytes_resize">Сжатие по весу</string>
     <string name="max_bytes">Максимальный вес в КБ</string>
+    <string name="save_if_smaller">Сохранять если меньше</string>
+    <string name="save_if_smaller_sub">Если выключено, файлы меньше заданного максимального размера будут пропущены</string>
     <string name="by_bytes_resize_sub">Сожмите изображение, чтобы оно занимало не более заданного количества КБ</string>
     <string name="compare">Сравнить</string>
     <string name="compare_sub">Сравните два заданных изображения</string>

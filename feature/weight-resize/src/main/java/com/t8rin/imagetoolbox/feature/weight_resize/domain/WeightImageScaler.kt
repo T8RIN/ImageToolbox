@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ interface WeightImageScaler<I> : ImageScaler<I> {
         image: I,
         imageFormat: ImageFormat,
         imageScaleMode: ImageScaleMode,
-        maxBytes: Long
+        maxBytes: Long,
+        saveIfSmaller: Boolean
     ): Pair<ByteArray, ImageInfo>?
 
 }

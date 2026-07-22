@@ -46,10 +46,12 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.weight_resize.domain.WeightImageScaler
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.WeightResizeComponent.HistorySnapshot
@@ -107,6 +109,13 @@ class WeightResizeComponent @AssistedInject internal constructor(
 
     private val _keepExif = mutableStateOf(false)
     val keepExif by _keepExif
+
+    private val _saveIfSmaller = fileController.savable(
+        scope = componentScope,
+        initial = false,
+        key = "WeightResizeComponentSaveIfSmaller"
+    )
+    val saveIfSmaller by _saveIfSmaller
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -206,6 +215,10 @@ class WeightResizeComponent @AssistedInject internal constructor(
         commitHistoryFrom(beforeSnapshot)
     }
 
+    fun setSaveIfSmaller(value: Boolean) {
+        _saveIfSmaller.update { value }
+    }
+
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
@@ -232,7 +245,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                 image = bitmap,
                                 maxBytes = maxBytes,
                                 imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
+                                imageScaleMode = imageScaleMode,
+                                saveIfSmaller = saveIfSmaller
                             )
                         } else {
                             imageScaler.scaleByMaxBytes(
@@ -241,11 +255,16 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                     .times(presetSelected / 100f)
                                     .toLong(),
                                 imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
+                                imageScaleMode = imageScaleMode,
+                                saveIfSmaller = saveIfSmaller
                             )
                         }
                     }.onFailure {
                         results.add(SaveResult.Error.Exception(it))
+                    }.onSuccess {
+                        if (it == null && !saveIfSmaller) {
+                            results.add(SaveResult.Skipped(uri.toString()))
+                        }
                     }.getOrNull()?.let { (data, imageInfo) ->
 
                         results.add(
@@ -344,7 +363,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                 image = bitmap,
                                 maxBytes = maxBytes,
                                 imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
+                                imageScaleMode = imageScaleMode,
+                                saveIfSmaller = saveIfSmaller
                             )
                         } else {
                             imageScaler.scaleByMaxBytes(
@@ -353,7 +373,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                     .times(presetSelected / 100f)
                                     .toLong(),
                                 imageFormat = imageFormat,
-                                imageScaleMode = imageScaleMode
+                                imageScaleMode = imageScaleMode,
+                                saveIfSmaller = saveIfSmaller
                             )
                         }
                     }?.let { (data, imageInfo) ->
@@ -429,7 +450,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                             image = bitmap,
                             maxBytes = maxBytes,
                             imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
+                            imageScaleMode = imageScaleMode,
+                            saveIfSmaller = saveIfSmaller
                         )
                     } else {
                         imageScaler.scaleByMaxBytes(
@@ -438,7 +460,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                 .times(presetSelected / 100f)
                                 .toLong(),
                             imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
+                            imageScaleMode = imageScaleMode,
+                            saveIfSmaller = saveIfSmaller
                         )
                     }
                 }?.let { scaled ->
@@ -477,7 +500,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                             image = bitmap,
                             maxBytes = maxBytes,
                             imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
+                            imageScaleMode = imageScaleMode,
+                            saveIfSmaller = saveIfSmaller
                         )
                     } else {
                         imageScaler.scaleByMaxBytes(
@@ -486,7 +510,8 @@ class WeightResizeComponent @AssistedInject internal constructor(
                                 .times(presetSelected / 100f)
                                 .toLong(),
                             imageFormat = imageFormat,
-                            imageScaleMode = imageScaleMode
+                            imageScaleMode = imageScaleMode,
+                            saveIfSmaller = saveIfSmaller
                         )
                     }
                 }?.let { scaled ->

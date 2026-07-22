@@ -89,6 +89,8 @@
     <string name="device_storage">Device storage</string>
     <string name="by_bytes_resize">Resize by Weight</string>
     <string name="max_bytes">Max size in KB</string>
+    <string name="save_if_smaller">Save if smaller</string>
+    <string name="save_if_smaller_sub">If disabled, files smaller than the requested maximum size will be skipped</string>
     <string name="by_bytes_resize_sub">Resize an image following given size in KB</string>
     <string name="compare">Compare</string>
     <string name="compare_sub">Compare two given images</string>

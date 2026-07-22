@@ -47,7 +47,9 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -72,10 +74,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
@@ -267,6 +271,15 @@ fun WeightResizeContent(
                     )
                 }
             }
+            Spacer(Modifier.height(8.dp))
+            PreferenceRowSwitch(
+                title = stringResource(R.string.save_if_smaller),
+                subtitle = stringResource(R.string.save_if_smaller_sub),
+                checked = component.saveIfSmaller,
+                onClick = component::setSaveIfSmaller,
+                startIcon = Icons.Outlined.PhotoSizeSelectSmall,
+                shape = ShapeDefaults.extraLarge,
+            )
             Spacer(Modifier.height(8.dp))
             SaveExifWidget(
                 imageFormat = component.imageFormat,
