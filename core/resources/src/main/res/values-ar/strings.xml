@@ -4434,4 +4434,15 @@
     <string name="gmic_param_quantized_orientations">التوجهات الكمية</string>
     <string name="sheet_nested_scroll">ورقة التمرير المتداخلة</string>
     <string name="sheet_nested_scroll_sub">السماح للإيماءات الموجودة في محتوى الورقة بسحب الورقة ورفضها</string>
-<string name="save_if_smaller">حفظ إذا كان أصغر</string><string name="save_if_smaller_sub">في حالة التعطيل، سيتم تخطي الملفات الأصغر من الحجم الأقصى المطلوب</string></resources>
+    <string name="save_if_smaller">حفظ إذا كان أصغر</string>
+    <string name="save_if_smaller_sub">في حالة التعطيل، سيتم تخطي الملفات الأصغر من الحجم الأقصى المطلوب</string>
+    <string name="magic_kernel">النواة السحرية</string>
+    <string name="magic_kernel_sub">مرشح إعادة تشكيل سلس وغير رنين مع حواف قوية، ولكن نتيجة أكثر ليونة</string>
+    <string name="magic_kernel_sharp_2013">ماجيك كيرنل شارب 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">الإصدار الأصلي والفعال من Magic Kernel Sharp، مع نتيجة أكثر وضوحًا وصقلًا قويًا</string>
+    <string name="magic_kernel_sharp_2021">ماجيك كيرنل شارب 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">تحسين مسطح طيفيًا يتجنب الحدة الملحوظة، على حساب المزيد من الرنين حول الحواف الحادة</string>
+    <string name="raw_use_embedded_preview">استخدم المعاينة المضمنة</string>
+    <string name="raw_use_embedded_preview_sub">استخدم المعاينة المضمنة في صورة RAW بدلاً من تطويرها</string>
+    <string name="score">نتيجة</string>
+</resources>

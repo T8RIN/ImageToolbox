@@ -4434,4 +4434,13 @@
     <string name="gmic_param_quantized_orientations">Квантованные ориентации</string>
     <string name="sheet_nested_scroll">Листовой вложенный свиток</string>
     <string name="sheet_nested_scroll_sub">Разрешить жесты в содержимом листа для перетаскивания и закрытия листа</string>
+    <string name="magic_kernel">Волшебное ядро</string>
+    <string name="magic_kernel_sub">Плавный фильтр передискретизации без звона с сильным сглаживанием, но более мягким результатом.</string>
+    <string name="magic_kernel_sharp_2013">Волшебное ядро ​​Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Оригинальный эффективный вариант Magic Kernel Sharp с чуть более резким результатом и сильным сглаживанием.</string>
+    <string name="magic_kernel_sharp_2021">Волшебное ядро ​​Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Спектрально плоская обработка, позволяющая избежать заметного повышения резкости за счет увеличения звона вокруг острых краев.</string>
+    <string name="raw_use_embedded_preview">Использовать встроенный предварительный просмотр</string>
+    <string name="raw_use_embedded_preview_sub">Используйте предварительный просмотр, встроенный в изображение RAW, вместо его обработки.</string>
+    <string name="score">Счет</string>
 </resources>

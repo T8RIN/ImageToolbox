@@ -4432,4 +4432,15 @@
     <string name="gmic_param_quantized_orientations">Kvantované orientácie</string>
     <string name="sheet_nested_scroll">Hárok vnorený zvitok</string>
     <string name="sheet_nested_scroll_sub">Umožnite gestám v obsahu hárka pretiahnuť a zavrieť hárok</string>
-<string name="save_if_smaller">Uložte, ak sú menšie</string><string name="save_if_smaller_sub">Ak je zakázaná, súbory menšie ako požadovaná maximálna veľkosť budú preskočené</string></resources>
+    <string name="save_if_smaller">Uložte, ak sú menšie</string>
+    <string name="save_if_smaller_sub">Ak je zakázaná, súbory menšie ako požadovaná maximálna veľkosť budú preskočené</string>
+    <string name="magic_kernel">Magické jadro</string>
+    <string name="magic_kernel_sub">Hladký, nezvoniaci filter prevzorkovania so silným antialiasingom, no s jemnejším výsledkom</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Originálny, efektívny variant Magic Kernel Sharp s jemne ostrejším výsledkom a silným antialiasingom</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektrálne ploché zdokonalenie, ktoré sa vyhýba značnému zaostreniu za cenu väčšieho zvonenia okolo ostrých hrán</string>
+    <string name="raw_use_embedded_preview">Použite vložený náhľad</string>
+    <string name="raw_use_embedded_preview_sub">Namiesto vyvolávania použite náhľad vložený do obrázka RAW</string>
+    <string name="score">skóre</string>
+</resources>

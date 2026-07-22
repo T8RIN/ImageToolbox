@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Kvantisoidut suuntaukset</string>
     <string name="sheet_nested_scroll">Sivun sisäkkäinen vieritys</string>
     <string name="sheet_nested_scroll_sub">Salli taulukon sisällön eleiden vetää ja hylätä taulukko</string>
-<string name="save_if_smaller">Säästä jos pienempi</string><string name="save_if_smaller_sub">Jos se ei ole käytössä, pyydettyä enimmäiskokoa pienemmät tiedostot ohitetaan</string></resources>
+    <string name="save_if_smaller">Säästä jos pienempi</string>
+    <string name="save_if_smaller_sub">Jos se ei ole käytössä, pyydettyä enimmäiskokoa pienemmät tiedostot ohitetaan</string>
+    <string name="magic_kernel">Maaginen ydin</string>
+    <string name="magic_kernel_sub">Pehmeä, soimaton uudelleennäytteenottosuodatin, jossa on vahva antialiasointi, mutta pehmeämpi tulos</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Alkuperäinen, tehokas Magic Kernel Sharp -versio, jossa on hienovaraisesti terävämpi tulos ja vahva antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektrisesti tasainen hienosäätö, joka välttää huomattavan terävöittämisen, ja sen kustannuksella on enemmän soittoa terävien reunojen ympärillä</string>
+    <string name="raw_use_embedded_preview">Käytä upotettua esikatselua</string>
+    <string name="raw_use_embedded_preview_sub">Käytä RAW-kuvaan upotettua esikatselua sen kehittämisen sijaan</string>
+    <string name="score">Pisteet</string>
+</resources>

@@ -4430,4 +4430,15 @@
     <string name="gmic_param_trail_blur">Trail Blur</string>
     <string name="sheet_nested_scroll">Парақ кірістірілген айналдыру</string>
     <string name="sheet_nested_scroll_sub">Парақ мазмұнындағы қимылдарға парақты апарып тастауға рұқсат беріңіз</string>
-<string name="save_if_smaller">Кішірек болса сақтаңыз</string><string name="save_if_smaller_sub">Өшірілген болса, сұралған ең үлкен өлшемнен кіші файлдар өткізіп жіберіледі</string></resources>
+    <string name="save_if_smaller">Кішірек болса сақтаңыз</string>
+    <string name="save_if_smaller_sub">Өшірілген болса, сұралған ең үлкен өлшемнен кіші файлдар өткізіп жіберіледі</string>
+    <string name="magic_kernel">Сиқырлы ядро</string>
+    <string name="magic_kernel_sub">Күшті антиалиазизациясы бар, бірақ жұмсақ нәтиже беретін тегіс, шырылдамайтын қайта үлгілеу сүзгісі</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Түпнұсқа, тиімді Magic Kernel Sharp нұсқасы, айқынырақ нәтиже және күшті антиалиазинг</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Өткір жиектер айналасында көбірек қоңырау шалу есебінен айтарлықтай қайрауды болдырмайтын спектралды тегіс нақтылау</string>
+    <string name="raw_use_embedded_preview">Енгізілген алдын ала қарауды пайдаланыңыз</string>
+    <string name="raw_use_embedded_preview_sub">Оны әзірлеудің орнына RAW кескініне ендірілген алдын ала қарауды пайдаланыңыз</string>
+    <string name="score">Ұпай</string>
+</resources>

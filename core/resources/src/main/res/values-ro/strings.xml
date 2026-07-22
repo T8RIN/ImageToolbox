@@ -4431,4 +4431,15 @@
     <string name="gmic_param_quantized_orientations">Orientări cuantizate</string>
     <string name="sheet_nested_scroll">Defilare imbricată foaie</string>
     <string name="sheet_nested_scroll_sub">Permiteți gesturilor din conținutul foii să tragă și să închidă foaia</string>
-<string name="save_if_smaller">Salvați dacă este mai mic</string><string name="save_if_smaller_sub">Dacă este dezactivată, fișierele mai mici decât dimensiunea maximă cerută vor fi omise</string></resources>
+    <string name="save_if_smaller">Salvați dacă este mai mic</string>
+    <string name="save_if_smaller_sub">Dacă este dezactivată, fișierele mai mici decât dimensiunea maximă cerută vor fi omise</string>
+    <string name="magic_kernel">Nucleul magic</string>
+    <string name="magic_kernel_sub">Un filtru de reeșantionare neted, fără apel, cu antialiasing puternic, dar un rezultat mai blând</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Varianta originală și eficientă Magic Kernel Sharp, cu un rezultat subtil mai clar și antialiasing puternic</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Un rafinament spectral plat care evită o ascuțire apreciabilă, cu prețul unui sunet mai mare în jurul muchiilor ascuțite</string>
+    <string name="raw_use_embedded_preview">Utilizați Previzualizarea încorporată</string>
+    <string name="raw_use_embedded_preview_sub">Utilizați previzualizarea încorporată în imaginea RAW în loc să o dezvoltați</string>
+    <string name="score">Scor</string>
+</resources>

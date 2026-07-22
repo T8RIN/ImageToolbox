@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">جهت گیری های کوانتیزه شده</string>
     <string name="sheet_nested_scroll">صفحه تو در تو</string>
     <string name="sheet_nested_scroll_sub">به حرکات موجود در محتوای برگه اجازه دهید صفحه را بکشند و رد کنند</string>
-<string name="save_if_smaller">اگر کوچکتر بود ذخیره کنید</string><string name="save_if_smaller_sub">اگر غیرفعال باشد، فایل‌های کوچک‌تر از حداکثر اندازه درخواستی نادیده گرفته می‌شوند</string></resources>
+    <string name="save_if_smaller">اگر کوچکتر بود ذخیره کنید</string>
+    <string name="save_if_smaller_sub">اگر غیرفعال باشد، فایل‌های کوچک‌تر از حداکثر اندازه درخواستی نادیده گرفته می‌شوند</string>
+    <string name="magic_kernel">هسته جادویی</string>
+    <string name="magic_kernel_sub">یک فیلتر نمونه برداری مجدد صاف و بدون زنگ با ضد آلیاژ قوی، اما نتیجه نرم تر</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">نسخه اصلی و کارآمد Magic Kernel Sharp، با نتیجه واضح تر و ضد آلیاژ قوی</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">پالایش طیفی صاف که از تیز شدن قابل توجه جلوگیری می کند، به قیمت زنگ زدن بیشتر در اطراف لبه های تیز</string>
+    <string name="raw_use_embedded_preview">از پیش نمایش تعبیه شده استفاده کنید</string>
+    <string name="raw_use_embedded_preview_sub">از پیش نمایش تعبیه شده در تصویر RAW به جای توسعه آن استفاده کنید</string>
+    <string name="score">امتیاز</string>
+</resources>

@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Orientações Quantizadas</string>
     <string name="sheet_nested_scroll">Rolagem aninhada de planilha</string>
     <string name="sheet_nested_scroll_sub">Permitir gestos no conteúdo da planilha para arrastar e descartar a planilha</string>
-<string name="save_if_smaller">Salvar se for menor</string><string name="save_if_smaller_sub">Se desativado, os arquivos menores que o tamanho máximo solicitado serão ignorados</string></resources>
+    <string name="save_if_smaller">Salvar se for menor</string>
+    <string name="save_if_smaller_sub">Se desativado, os arquivos menores que o tamanho máximo solicitado serão ignorados</string>
+    <string name="magic_kernel">Núcleo Mágico</string>
+    <string name="magic_kernel_sub">Um filtro de reamostragem suave e sem toque com forte antialiasing, mas um resultado mais suave</string>
+    <string name="magic_kernel_sharp_2013">Núcleo Mágico Afiado 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">A variante original e eficiente do Magic Kernel Sharp, com um resultado sutilmente mais nítido e forte antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Kernel Mágico Afiado 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Um refinamento espectralmente plano que evita nitidez apreciável, ao custo de mais toque em torno de arestas vivas</string>
+    <string name="raw_use_embedded_preview">Usar visualização incorporada</string>
+    <string name="raw_use_embedded_preview_sub">Use a visualização incorporada na imagem RAW em vez de revelá-la</string>
+    <string name="score">Pontuação</string>
+</resources>

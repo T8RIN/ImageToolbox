@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">Định hướng lượng tử hóa</string>
     <string name="sheet_nested_scroll">Cuộn trang tính lồng nhau</string>
     <string name="sheet_nested_scroll_sub">Cho phép cử chỉ trong nội dung trang tính để kéo và loại bỏ trang tính</string>
-<string name="save_if_smaller">Lưu nếu nhỏ hơn</string><string name="save_if_smaller_sub">Nếu bị tắt, các tệp nhỏ hơn kích thước tối đa được yêu cầu sẽ bị bỏ qua</string></resources>
+    <string name="save_if_smaller">Lưu nếu nhỏ hơn</string>
+    <string name="save_if_smaller_sub">Nếu bị tắt, các tệp nhỏ hơn kích thước tối đa được yêu cầu sẽ bị bỏ qua</string>
+    <string name="magic_kernel">Hạt nhân ma thuật</string>
+    <string name="magic_kernel_sub">Bộ lọc lấy mẫu lại mượt mà, không đổ chuông với khả năng khử răng cưa mạnh nhưng kết quả nhẹ nhàng hơn</string>
+    <string name="magic_kernel_sharp_2013">Hạt nhân thần kỳ Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Biến thể Magic Kernel Sharp nguyên bản, hiệu quả, với kết quả sắc nét hơn một cách tinh tế và khả năng khử răng cưa mạnh mẽ</string>
+    <string name="magic_kernel_sharp_2021">Hạt nhân ma thuật sắc nét 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Một sự tinh chỉnh phẳng hoàn toàn nhằm tránh độ sắc nét đáng kể, nhưng phải trả giá bằng việc có nhiều vết loang xung quanh các cạnh sắc nét hơn</string>
+    <string name="raw_use_embedded_preview">Sử dụng Bản xem trước được nhúng</string>
+    <string name="raw_use_embedded_preview_sub">Sử dụng bản xem trước được nhúng trong ảnh RAW thay vì phát triển nó</string>
+    <string name="score">Điểm</string>
+</resources>

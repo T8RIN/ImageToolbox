@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Kvantiserade orienteringar</string>
     <string name="sheet_nested_scroll">Ark kapslad rullning</string>
     <string name="sheet_nested_scroll_sub">Tillåt gester i arkets innehåll att dra och ta bort arket</string>
-<string name="save_if_smaller">Spara om den är mindre</string><string name="save_if_smaller_sub">Om inaktiverad, kommer filer som är mindre än den begärda maximala storleken att hoppas över</string></resources>
+    <string name="save_if_smaller">Spara om den är mindre</string>
+    <string name="save_if_smaller_sub">Om inaktiverad, kommer filer som är mindre än den begärda maximala storleken att hoppas över</string>
+    <string name="magic_kernel">Magisk kärna</string>
+    <string name="magic_kernel_sub">Ett smidigt, icke-ringande resamplingfilter med stark kantutjämning, men ett mjukare resultat</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Den ursprungliga, effektiva varianten Magic Kernel Sharp, med ett subtilt skarpare resultat och stark kantutjämning</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">En spektralt platt förfining som undviker märkbar skärpning, till priset av mer ringningar runt skarpa kanter</string>
+    <string name="raw_use_embedded_preview">Använd inbäddad förhandsgranskning</string>
+    <string name="raw_use_embedded_preview_sub">Använd förhandsgranskningen som är inbäddad i RAW-bilden istället för att framkalla den</string>
+    <string name="score">Göra</string>
+</resources>

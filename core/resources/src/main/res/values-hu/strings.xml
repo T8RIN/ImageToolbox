@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Kvantizált irányok</string>
     <string name="sheet_nested_scroll">Lap beágyazott görgetése</string>
     <string name="sheet_nested_scroll_sub">A munkalap tartalmában lévő kézmozdulatok engedélyezése a munkalap elhúzására és elvetésére</string>
-<string name="save_if_smaller">Mentse el, ha kisebb</string><string name="save_if_smaller_sub">Ha le van tiltva, a rendszer kihagyja a kért maximális méretnél kisebb fájlokat</string></resources>
+    <string name="save_if_smaller">Mentse el, ha kisebb</string>
+    <string name="save_if_smaller_sub">Ha le van tiltva, a rendszer kihagyja a kért maximális méretnél kisebb fájlokat</string>
+    <string name="magic_kernel">Magic Kernel</string>
+    <string name="magic_kernel_sub">Sima, nem csengő újramintavételező szűrő erős élsimítással, de lágyabb eredmény</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Az eredeti, hatékony Magic Kernel Sharp változat finoman élesebb eredménnyel és erős élsimítással</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektrálisan lapos finomítás, amely elkerüli az észrevehető élesítést, az éles szélek körüli csengetés árán</string>
+    <string name="raw_use_embedded_preview">Használja a beágyazott előnézetet</string>
+    <string name="raw_use_embedded_preview_sub">Használja a RAW-képbe ágyazott előnézetet a fejlesztés helyett</string>
+    <string name="score">Pontszám</string>
+</resources>

@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Kvantiserede orienteringer</string>
     <string name="sheet_nested_scroll">Ark indlejret rulle</string>
     <string name="sheet_nested_scroll_sub">Tillad bevægelser i arkindholdet at trække og lukke arket</string>
-<string name="save_if_smaller">Gem, hvis den er mindre</string><string name="save_if_smaller_sub">Hvis deaktiveret, vil filer, der er mindre end den anmodede maksimale størrelse, blive sprunget over</string></resources>
+    <string name="save_if_smaller">Gem, hvis den er mindre</string>
+    <string name="save_if_smaller_sub">Hvis deaktiveret, vil filer, der er mindre end den anmodede maksimale størrelse, blive sprunget over</string>
+    <string name="magic_kernel">Magisk kerne</string>
+    <string name="magic_kernel_sub">Et glat, ikke-ringende resampling-filter med stærk antialiasing, men et blødere resultat</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Den originale, effektive Magic Kernel Sharp-variant, med et subtilt skarpere resultat og stærk antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">En spektral flad raffinement, der undgår mærkbar skarphed på bekostning af mere ring omkring skarpe kanter</string>
+    <string name="raw_use_embedded_preview">Brug indlejret forhåndsvisning</string>
+    <string name="raw_use_embedded_preview_sub">Brug forhåndsvisningen, der er indlejret i RAW-billedet i stedet for at fremkalde det</string>
+    <string name="score">Score</string>
+</resources>

@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">Orientasi Terkuantisasi</string>
     <string name="sheet_nested_scroll">Gulir bertumpuk lembar</string>
     <string name="sheet_nested_scroll_sub">Izinkan isyarat dalam konten lembar untuk menyeret dan menutup lembar</string>
-<string name="save_if_smaller">Simpan jika lebih kecil</string><string name="save_if_smaller_sub">Jika dinonaktifkan, file yang lebih kecil dari ukuran maksimum yang diminta akan dilewati</string></resources>
+    <string name="save_if_smaller">Simpan jika lebih kecil</string>
+    <string name="save_if_smaller_sub">Jika dinonaktifkan, file yang lebih kecil dari ukuran maksimum yang diminta akan dilewati</string>
+    <string name="magic_kernel">Kernel Ajaib</string>
+    <string name="magic_kernel_sub">Filter pengambilan sampel ulang yang halus dan tidak berdering dengan antialiasing yang kuat, namun hasil yang lebih lembut</string>
+    <string name="magic_kernel_sharp_2013">Kernel Ajaib Tajam 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Varian Magic Kernel Sharp yang asli dan efisien, dengan hasil yang sedikit lebih tajam dan antialiasing yang kuat</string>
+    <string name="magic_kernel_sharp_2021">Kernel Ajaib Tajam 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Penyempurnaan yang datar secara spektral yang menghindari penajaman yang cukup besar, dengan mengorbankan lebih banyak dering di sekitar tepi yang tajam</string>
+    <string name="raw_use_embedded_preview">Gunakan Pratinjau tertanam</string>
+    <string name="raw_use_embedded_preview_sub">Gunakan pratinjau yang tertanam dalam gambar RAW alih-alih mengembangkannya</string>
+    <string name="score">Skor</string>
+</resources>

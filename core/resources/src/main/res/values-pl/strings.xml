@@ -4432,4 +4432,15 @@
     <string name="gmic_param_quantized_orientations">Kwantowane orientacje</string>
     <string name="sheet_nested_scroll">Zwój zagnieżdżony w arkuszu</string>
     <string name="sheet_nested_scroll_sub">Zezwalaj na gesty w treści arkusza, aby przeciągnąć i zamknąć arkusz</string>
-<string name="save_if_smaller">Zapisz, jeśli jest mniejszy</string><string name="save_if_smaller_sub">Jeśli ta opcja jest wyłączona, pliki mniejsze niż żądany maksymalny rozmiar zostaną pominięte</string></resources>
+    <string name="save_if_smaller">Zapisz, jeśli jest mniejszy</string>
+    <string name="save_if_smaller_sub">Jeśli ta opcja jest wyłączona, pliki mniejsze niż żądany maksymalny rozmiar zostaną pominięte</string>
+    <string name="magic_kernel">Magiczne jądro</string>
+    <string name="magic_kernel_sub">Gładki, nie dzwoniący filtr ponownego próbkowania z silnym antyaliasingiem, ale bardziej miękkim efektem</string>
+    <string name="magic_kernel_sharp_2013">Magiczne jądro Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Oryginalny, wydajny wariant Magic Kernel Sharp, z subtelnie ostrzejszym efektem i mocnym antyaliasingiem</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektralnie płaskie udoskonalenie, które pozwala uniknąć znacznego wyostrzenia, kosztem większego dzwonienia wokół ostrych krawędzi</string>
+    <string name="raw_use_embedded_preview">Użyj osadzonego podglądu</string>
+    <string name="raw_use_embedded_preview_sub">Skorzystaj z podglądu osadzonego w obrazie RAW, zamiast go wywoływać</string>
+    <string name="score">Wynik</string>
+</resources>

@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Orientacions quantificades</string>
     <string name="sheet_nested_scroll">Desplaçament imbricat al full</string>
     <string name="sheet_nested_scroll_sub">Permet que els gestos del contingut del full arrosseguin i ometen el full</string>
-<string name="save_if_smaller">Estalvieu si és petit</string><string name="save_if_smaller_sub">Si està desactivat, els fitxers més petits que la mida màxima sol·licitada es saltaran</string></resources>
+    <string name="save_if_smaller">Estalvieu si és petit</string>
+    <string name="save_if_smaller_sub">Si està desactivat, els fitxers més petits que la mida màxima sol·licitada es saltaran</string>
+    <string name="magic_kernel">Nucli màgic</string>
+    <string name="magic_kernel_sub">Un filtre de mostreig suau i sense timbres amb un fort antialiasing, però un resultat més suau</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">La variant original i eficient de Magic Kernel Sharp, amb un resultat subtilment més nítid i un fort antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Un refinament espectralment pla que evita una afilada apreciable, a costa de més sonades al voltant de les vores afilades</string>
+    <string name="raw_use_embedded_preview">Utilitzeu la vista prèvia incrustada</string>
+    <string name="raw_use_embedded_preview_sub">Utilitzeu la vista prèvia incrustada a la imatge RAW en lloc de desenvolupar-la</string>
+    <string name="score">Puntuació</string>
+</resources>

@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">การวางแนวเชิงปริมาณ</string>
     <string name="sheet_nested_scroll">การเลื่อนแบบซ้อนแผ่นงาน</string>
     <string name="sheet_nested_scroll_sub">อนุญาตให้ท่าทางสัมผัสในเนื้อหาชีตลากและยกเลิกชีตได้</string>
-<string name="save_if_smaller">ประหยัดถ้าเล็กกว่า</string><string name="save_if_smaller_sub">หากปิดใช้งาน ไฟล์ที่มีขนาดเล็กกว่าขนาดสูงสุดที่ร้องขอจะถูกข้ามไป</string></resources>
+    <string name="save_if_smaller">ประหยัดถ้าเล็กกว่า</string>
+    <string name="save_if_smaller_sub">หากปิดใช้งาน ไฟล์ที่มีขนาดเล็กกว่าขนาดสูงสุดที่ร้องขอจะถูกข้ามไป</string>
+    <string name="magic_kernel">เคอร์เนลเมจิก</string>
+    <string name="magic_kernel_sub">ตัวกรองการสุ่มตัวอย่างที่ราบรื่นและไม่ดังพร้อมการลดรอยหยักที่แข็งแกร่ง แต่ผลลัพธ์จะนุ่มนวลกว่า</string>
+    <string name="magic_kernel_sharp_2013">เมจิกเคอร์เนลชาร์ป 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Magic Kernel Sharp ดั้งเดิมที่มีประสิทธิภาพ พร้อมผลลัพธ์ที่คมชัดยิ่งขึ้นและการลดรอยหยักที่แข็งแกร่ง</string>
+    <string name="magic_kernel_sharp_2021">เมจิกเคอร์เนลชาร์ป 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">การปรับแต่งแบบแบนราบเพื่อหลีกเลี่ยงการลับคมที่เห็นได้ชัดเจน โดยต้องแลกกับเสียงกริ่งบริเวณขอบที่คมมากขึ้น</string>
+    <string name="raw_use_embedded_preview">ใช้การแสดงตัวอย่างแบบฝัง</string>
+    <string name="raw_use_embedded_preview_sub">ใช้ภาพตัวอย่างที่ฝังอยู่ในภาพ RAW แทนการพัฒนา</string>
+    <string name="score">คะแนน</string>
+</resources>

@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">量子化された方向</string>
     <string name="sheet_nested_scroll">シートのネストされたスクロール</string>
     <string name="sheet_nested_scroll_sub">シート コンテンツ内のジェスチャでシートをドラッグおよび閉じることができるようにする</string>
-<string name="save_if_smaller">小さい場合は保存する</string><string name="save_if_smaller_sub">無効にすると、要求された最大サイズより小さいファイルはスキップされます。</string></resources>
+    <string name="save_if_smaller">小さい場合は保存する</string>
+    <string name="save_if_smaller_sub">無効にすると、要求された最大サイズより小さいファイルはスキップされます。</string>
+    <string name="magic_kernel">マジックカーネル</string>
+    <string name="magic_kernel_sub">強力なアンチエイリアスを備えた滑らかでリンギングのないリサンプリング フィルターですが、結果はよりソフトです</string>
+    <string name="magic_kernel_sharp_2013">マジック カーネル シャープ 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">微妙にシャープな結果と強力なアンチエイリアスを備えた、オリジナルの効率的な Magic Kernel Sharp バリアント</string>
+    <string name="magic_kernel_sharp_2021">マジックカーネルシャープ2021</string>
+    <string name="magic_kernel_sharp_2021_sub">スペクトル的にフラットな改良により、大幅なシャープ化を回避しますが、シャープなエッジの周囲でのリンギングが増加します。</string>
+    <string name="raw_use_embedded_preview">埋め込みプレビューを使用する</string>
+    <string name="raw_use_embedded_preview_sub">RAW画像を現像する代わりに、RAW画像に埋め込まれたプレビューを使用する</string>
+    <string name="score">スコア</string>
+</resources>

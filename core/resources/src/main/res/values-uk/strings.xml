@@ -4432,4 +4432,15 @@
     <string name="raw_auto_brightness">Автоматична яскравість</string>
     <string name="sheet_nested_scroll">Лист вкладений прокручування</string>
     <string name="sheet_nested_scroll_sub">Дозволити жести у вмісті аркуша, щоб перетягувати та закривати аркуш</string>
-<string name="save_if_smaller">Зберегти, якщо менше</string><string name="save_if_smaller_sub">Якщо вимкнено, файли, менші за запитуваний максимальний розмір, пропускатимуться</string></resources>
+    <string name="save_if_smaller">Зберегти, якщо менше</string>
+    <string name="save_if_smaller_sub">Якщо вимкнено, файли, менші за запитуваний максимальний розмір, пропускатимуться</string>
+    <string name="magic_kernel">Чарівне ядро</string>
+    <string name="magic_kernel_sub">Плавний фільтр передискретизації без дзвінків із сильним згладжуванням, але м’якшим результатом</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Оригінальний, ефективний варіант Magic Kernel Sharp із дещо різкішим результатом і потужним згладжуванням</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Спектрально плоске уточнення, яке дозволяє уникнути помітної різкості, ціною більшого дзвону навколо гострих країв</string>
+    <string name="raw_use_embedded_preview">Використовуйте вбудований попередній перегляд</string>
+    <string name="raw_use_embedded_preview_sub">Використовуйте попередній перегляд, вбудований у зображення RAW, замість того, щоб його розвивати</string>
+    <string name="score">Оцінка</string>
+</resources>

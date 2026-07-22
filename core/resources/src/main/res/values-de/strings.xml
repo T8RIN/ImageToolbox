@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Quantisierte Orientierungen</string>
     <string name="sheet_nested_scroll">Blattverschachtelte Schriftrolle</string>
     <string name="sheet_nested_scroll_sub">Gesten im Blattinhalt zulassen, um das Blatt zu ziehen und zu schließen</string>
-<string name="save_if_smaller">Sparen Sie, wenn es kleiner ist</string><string name="save_if_smaller_sub">Wenn diese Option deaktiviert ist, werden Dateien, die kleiner als die angeforderte Maximalgröße sind, übersprungen</string></resources>
+    <string name="save_if_smaller">Sparen Sie, wenn es kleiner ist</string>
+    <string name="save_if_smaller_sub">Wenn diese Option deaktiviert ist, werden Dateien, die kleiner als die angeforderte Maximalgröße sind, übersprungen</string>
+    <string name="magic_kernel">Magischer Kernel</string>
+    <string name="magic_kernel_sub">Ein glatter, nicht klingelnder Resampling-Filter mit starkem Antialiasing, aber einem weicheren Ergebnis</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Die ursprüngliche, effiziente Magic Kernel Sharp-Variante mit einem subtil schärferen Ergebnis und starkem Antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Eine spektral flache Verfeinerung, die eine nennenswerte Schärfung vermeidet, allerdings auf Kosten eines stärkeren Nachklingens an scharfen Kanten</string>
+    <string name="raw_use_embedded_preview">Verwenden Sie die eingebettete Vorschau</string>
+    <string name="raw_use_embedded_preview_sub">Verwenden Sie die im RAW-Bild eingebettete Vorschau, anstatt es zu entwickeln</string>
+    <string name="score">Punktzahl</string>
+</resources>

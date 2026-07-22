@@ -4431,4 +4431,15 @@
     <string name="gmic_param_quantized_orientations">Квантизоване оријентације</string>
     <string name="sheet_nested_scroll">Угнежђени лист</string>
     <string name="sheet_nested_scroll_sub">Дозволите покретима у садржају листа за повлачење и одбацивање листа</string>
-<string name="save_if_smaller">Сачувајте ако је мањи</string><string name="save_if_smaller_sub">Ако је онемогућено, датотеке мање од захтеване максималне величине биће прескочене</string></resources>
+    <string name="save_if_smaller">Сачувајте ако је мањи</string>
+    <string name="save_if_smaller_sub">Ако је онемогућено, датотеке мање од захтеване максималне величине биће прескочене</string>
+    <string name="magic_kernel">Магиц Кернел</string>
+    <string name="magic_kernel_sub">Глатки филтер за поновно узорковање без звона са снажним антиалиасингом, али мекшим резултатом</string>
+    <string name="magic_kernel_sharp_2013">Магиц Кернел Схарп 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Оригинална, ефикасна Магиц Кернел Схарп варијанта, са суптилно оштријим резултатом и снажним антиалиасингом</string>
+    <string name="magic_kernel_sharp_2021">Магиц Кернел Схарп 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Спектрално равна префињеност која избегава значајно оштрење, по цену више звоњења око оштрих ивица</string>
+    <string name="raw_use_embedded_preview">Користите уграђени преглед</string>
+    <string name="raw_use_embedded_preview_sub">Користите преглед уграђен у РАВ слику уместо да је развијате</string>
+    <string name="score">Резултат</string>
+</resources>

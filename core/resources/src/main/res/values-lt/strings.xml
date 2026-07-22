@@ -4432,4 +4432,15 @@
     <string name="gmic_param_quantized_orientations">Kvantuotos orientacijos</string>
     <string name="sheet_nested_scroll">Lapo įdėtas slinkimas</string>
     <string name="sheet_nested_scroll_sub" />
-<string name="save_if_smaller">Išsaugokite, jei mažesnis</string><string name="save_if_smaller_sub">Jei išjungta, failai, mažesni už prašomą maksimalų dydį, bus praleisti</string></resources>
+    <string name="save_if_smaller">Išsaugokite, jei mažesnis</string>
+    <string name="save_if_smaller_sub">Jei išjungta, failai, mažesni už prašomą maksimalų dydį, bus praleisti</string>
+    <string name="magic_kernel">Magiškas branduolys</string>
+    <string name="magic_kernel_sub">Sklandus, neskambantis pakartotinio atrankos filtras su stipriu antialiasingu, bet švelnesnis rezultatas</string>
+    <string name="magic_kernel_sharp_2013">„Magic Kernel Sharp“, 2013 m</string>
+    <string name="magic_kernel_sharp_2013_sub">Originalus, efektyvus Magic Kernel Sharp variantas su subtiliai ryškesniu rezultatu ir stipriu antialiasingu</string>
+    <string name="magic_kernel_sharp_2021">„Magic Kernel Sharp 2021“.</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektriškai plokščias patobulinimas, leidžiantis išvengti pastebimo paryškinimo, o tai kainuoja daugiau skambėjimo aplink aštrius kraštus</string>
+    <string name="raw_use_embedded_preview">Naudokite įterptąją peržiūrą</string>
+    <string name="raw_use_embedded_preview_sub">Naudokite peržiūrą, įterptą į RAW vaizdą, o ne jį tobulinkite</string>
+    <string name="score">Rezultatas</string>
+</resources>

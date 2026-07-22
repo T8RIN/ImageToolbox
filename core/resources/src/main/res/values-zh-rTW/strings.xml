@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">量子化方向</string>
     <string name="sheet_nested_scroll">工作表嵌套滾動</string>
     <string name="sheet_nested_scroll_sub">允許工作表內容中的手勢拖曳和關閉工作表</string>
-<string name="save_if_smaller">如果較小則保存</string><string name="save_if_smaller_sub">如果停用，小於請求的最大大小的檔案將被跳過</string></resources>
+    <string name="save_if_smaller">如果較小則保存</string>
+    <string name="save_if_smaller_sub">如果停用，小於請求的最大大小的檔案將被跳過</string>
+    <string name="magic_kernel">魔法內核</string>
+    <string name="magic_kernel_sub">平滑、無振鈴的重採樣濾波器，具有強大的抗鋸齒功能，但結果較柔和</string>
+    <string name="magic_kernel_sharp_2013">魔核銳利 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">原始、高效的 Magic Kernel Sharp 變體，具有更清晰的結果和強大的抗鋸齒功能</string>
+    <string name="magic_kernel_sharp_2021">魔核銳利 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">光譜平坦的細化可避免明顯的銳化，但代價是銳利邊緣周圍出現更多振鈴</string>
+    <string name="raw_use_embedded_preview">使用嵌入式預覽</string>
+    <string name="raw_use_embedded_preview_sub">使用嵌入在 RAW 影像中的預覽而不是對其進行沖印</string>
+    <string name="score">分數</string>
+</resources>

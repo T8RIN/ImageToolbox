@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">परिमाणित अभिविन्यास</string>
     <string name="sheet_nested_scroll">शीट नेस्टेड स्क्रॉल</string>
     <string name="sheet_nested_scroll_sub">शीट की सामग्री में इशारों को शीट को खींचने और खारिज करने की अनुमति दें</string>
-<string name="save_if_smaller">अगर छोटा है तो बचाएं</string><string name="save_if_smaller_sub">यदि अक्षम किया गया है, तो अनुरोधित अधिकतम आकार से छोटी फ़ाइलें छोड़ दी जाएंगी</string></resources>
+    <string name="save_if_smaller">अगर छोटा है तो बचाएं</string>
+    <string name="save_if_smaller_sub">यदि अक्षम किया गया है, तो अनुरोधित अधिकतम आकार से छोटी फ़ाइलें छोड़ दी जाएंगी</string>
+    <string name="magic_kernel">जादू गिरी</string>
+    <string name="magic_kernel_sub">मजबूत एंटीएलियासिंग के साथ एक चिकना, नॉन-रिंगिंग रेज़ैम्पलिंग फ़िल्टर, लेकिन एक नरम परिणाम</string>
+    <string name="magic_kernel_sharp_2013">मैजिक कर्नेल शार्प 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">मूल, कुशल मैजिक कर्नेल शार्प संस्करण, सूक्ष्म रूप से तेज परिणाम और मजबूत एंटीएलियासिंग के साथ</string>
+    <string name="magic_kernel_sharp_2021">मैजिक कर्नेल शार्प 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">एक वर्णक्रमीय रूप से सपाट शोधन जो तेज किनारों के आसपास अधिक रिंगिंग की कीमत पर, सराहनीय तीक्ष्णता से बचाता है</string>
+    <string name="raw_use_embedded_preview">एंबेडेड पूर्वावलोकन का उपयोग करें</string>
+    <string name="raw_use_embedded_preview_sub">इसे विकसित करने के बजाय रॉ छवि में एम्बेडेड पूर्वावलोकन का उपयोग करें</string>
+    <string name="score">अंक</string>
+</resources>

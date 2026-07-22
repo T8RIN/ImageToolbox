@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Orientations quantifiées</string>
     <string name="sheet_nested_scroll">Défilement imbriqué de feuille</string>
     <string name="sheet_nested_scroll_sub">Autoriser les gestes dans le contenu de la feuille pour faire glisser et fermer la feuille</string>
-<string name="save_if_smaller">Enregistrer si plus petit</string><string name="save_if_smaller_sub">S\'il est désactivé, les fichiers plus petits que la taille maximale demandée seront ignorés</string></resources>
+    <string name="save_if_smaller">Enregistrer si plus petit</string>
+    <string name="save_if_smaller_sub">S\'il est désactivé, les fichiers plus petits que la taille maximale demandée seront ignorés</string>
+    <string name="magic_kernel">Noyau magique</string>
+    <string name="magic_kernel_sub">Un filtre de rééchantillonnage fluide et sans sonnerie avec un fort anticrénelage, mais un résultat plus doux</string>
+    <string name="magic_kernel_sharp_2013">Noyau magique Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">La variante Magic Kernel Sharp originale et efficace, avec un résultat subtilement plus net et un anticrénelage puissant</string>
+    <string name="magic_kernel_sharp_2021">Noyau magique Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Un raffinement spectralement plat qui évite une netteté appréciable, au prix de plus de sonneries autour des arêtes vives</string>
+    <string name="raw_use_embedded_preview">Utiliser l\'aperçu intégré</string>
+    <string name="raw_use_embedded_preview_sub">Utilisez l\'aperçu intégré à l\'image RAW au lieu de la développer</string>
+    <string name="score">Score</string>
+</resources>

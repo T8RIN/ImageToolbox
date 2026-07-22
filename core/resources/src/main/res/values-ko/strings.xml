@@ -4429,4 +4429,15 @@
     <string name="gmic_param_quantized_orientations">양자화된 방향</string>
     <string name="sheet_nested_scroll">시트 중첩 스크롤</string>
     <string name="sheet_nested_scroll_sub">시트 콘텐츠의 동작으로 시트를 끌어서 닫을 수 있도록 허용</string>
-<string name="save_if_smaller">작으면 저장</string><string name="save_if_smaller_sub">비활성화하면 요청된 최대 크기보다 작은 파일을 건너뜁니다.</string></resources>
+    <string name="save_if_smaller">작으면 저장</string>
+    <string name="save_if_smaller_sub">비활성화하면 요청된 최대 크기보다 작은 파일을 건너뜁니다.</string>
+    <string name="magic_kernel">매직 커널</string>
+    <string name="magic_kernel_sub">강력한 앤티앨리어싱 기능을 갖춘 부드럽고 링 현상이 없는 리샘플링 필터이지만 결과가 더 부드럽습니다.</string>
+    <string name="magic_kernel_sharp_2013">매직 커널 샤프 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">미묘하게 더 선명한 결과와 강력한 앤티앨리어싱을 갖춘 독창적이고 효율적인 Magic Kernel Sharp 변형</string>
+    <string name="magic_kernel_sharp_2021">매직 커널 샤프 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">날카로운 모서리 주위에 울림이 더 많이 발생하는 대신 눈에 띄는 선명도를 방지하는 스펙트럼적으로 평탄한 개선</string>
+    <string name="raw_use_embedded_preview">포함된 미리보기 사용</string>
+    <string name="raw_use_embedded_preview_sub">현상하는 대신 RAW 이미지에 포함된 미리보기를 사용하세요.</string>
+    <string name="score">점수</string>
+</resources>

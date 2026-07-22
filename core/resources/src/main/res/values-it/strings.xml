@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Orientamenti quantizzati</string>
     <string name="sheet_nested_scroll">Scorrimento nidificato del foglio</string>
     <string name="sheet_nested_scroll_sub">Consenti i gesti nel contenuto del foglio per trascinare e chiudere il foglio</string>
-<string name="save_if_smaller">Salva se più piccolo</string><string name="save_if_smaller_sub">Se disabilitato, i file più piccoli della dimensione massima richiesta verranno ignorati</string></resources>
+    <string name="save_if_smaller">Salva se più piccolo</string>
+    <string name="save_if_smaller_sub">Se disabilitato, i file più piccoli della dimensione massima richiesta verranno ignorati</string>
+    <string name="magic_kernel">Kernel magico</string>
+    <string name="magic_kernel_sub">Un filtro di ricampionamento fluido e senza squilli con forte antialiasing, ma un risultato più morbido</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">L\'originale ed efficiente variante Magic Kernel Sharp, con un risultato leggermente più nitido e un forte antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Una raffinatezza spettralmente piatta che evita un\'apprezzabile nitidezza, a costo di un maggiore squillo attorno agli spigoli vivi</string>
+    <string name="raw_use_embedded_preview">Utilizza l\'anteprima incorporata</string>
+    <string name="raw_use_embedded_preview_sub">Utilizza l\'anteprima incorporata nell\'immagine RAW invece di svilupparla</string>
+    <string name="score">Punto</string>
+</resources>

@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Nicelenmiş Yönelimler</string>
     <string name="sheet_nested_scroll">Sayfa iç içe kaydırma</string>
     <string name="sheet_nested_scroll_sub">Sayfa içeriğindeki hareketlerin sayfayı sürükleyip kapatmasına izin ver</string>
-<string name="save_if_smaller">Daha küçükse kaydet</string><string name="save_if_smaller_sub">Devre dışı bırakılırsa istenen maksimum boyuttan küçük dosyalar atlanır</string></resources>
+    <string name="save_if_smaller">Daha küçükse kaydet</string>
+    <string name="save_if_smaller_sub">Devre dışı bırakılırsa istenen maksimum boyuttan küçük dosyalar atlanır</string>
+    <string name="magic_kernel">Sihirli Çekirdek</string>
+    <string name="magic_kernel_sub">Güçlü kenar yumuşatma özelliğine sahip, ancak daha yumuşak sonuç veren, pürüzsüz, çınlamayan bir yeniden örnekleme filtresi</string>
+    <string name="magic_kernel_sharp_2013">Sihirli Çekirdek Keskin 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Orijinal, etkili Magic Kernel Sharp çeşidi, çok daha keskin sonuçlar ve güçlü kenar yumuşatma özellikleriyle</string>
+    <string name="magic_kernel_sharp_2021">Sihirli Çekirdek Keskin 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Keskin kenarların etrafında daha fazla çınlama pahasına fark edilebilir keskinliği önleyen, spektral olarak düz bir iyileştirme</string>
+    <string name="raw_use_embedded_preview">Gömülü Önizlemeyi kullan</string>
+    <string name="raw_use_embedded_preview_sub">RAW görüntüsünü geliştirmek yerine gömülü önizlemeyi kullanın</string>
+    <string name="score">Gol</string>
+</resources>

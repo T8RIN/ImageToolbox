@@ -4432,4 +4432,15 @@
     <string name="gmic_param_quantized_orientations">כיוונים כמותיים</string>
     <string name="sheet_nested_scroll">גלילה מקוננת בגיליון</string>
     <string name="sheet_nested_scroll_sub">אפשר למחוות בתוכן הגיליון לגרור ולבטל את הגיליון</string>
-<string name="save_if_smaller">שמור אם קטן יותר</string><string name="save_if_smaller_sub">אם מושבת, קבצים קטנים מהגודל המרבי המבוקש ידלגו</string></resources>
+    <string name="save_if_smaller">שמור אם קטן יותר</string>
+    <string name="save_if_smaller_sub">אם מושבת, קבצים קטנים מהגודל המרבי המבוקש ידלגו</string>
+    <string name="magic_kernel">גרעין קסם</string>
+    <string name="magic_kernel_sub">מסנן דגימה חוזר חלק, ללא צלצול, עם הגנה חזקה, אך תוצאה רכה יותר</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">גרסת ה-Magic Kernel Sharp המקורית והיעילה, עם תוצאה חדה יותר בעדינות ואנטיה חזקה</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">עידון שטוח מבחינה ספקטרלית המונע חידוד ניכר, במחיר של יותר צלצולים סביב קצוות חדים</string>
+    <string name="raw_use_embedded_preview">השתמש בתצוגה מקדימה משובצת</string>
+    <string name="raw_use_embedded_preview_sub">השתמש בתצוגה המקדימה המוטבעת בתמונת ה-RAW במקום לפתח אותה</string>
+    <string name="score">צִיוּן</string>
+</resources>

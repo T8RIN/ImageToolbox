@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Quantized Orientations</string>
     <string name="sheet_nested_scroll">Sheet nested scroll</string>
     <string name="sheet_nested_scroll_sub">Payagan ang mga galaw sa nilalaman ng sheet na i-drag at i-dismiss ang sheet</string>
-<string name="save_if_smaller">I-save kung mas maliit</string><string name="save_if_smaller_sub">Kung hindi pinagana, ang mga file na mas maliit kaysa sa hiniling na maximum na laki ay lalaktawan</string></resources>
+    <string name="save_if_smaller">I-save kung mas maliit</string>
+    <string name="save_if_smaller_sub">Kung hindi pinagana, ang mga file na mas maliit kaysa sa hiniling na maximum na laki ay lalaktawan</string>
+    <string name="magic_kernel">Magic Kernel</string>
+    <string name="magic_kernel_sub">Isang makinis, hindi tumutunog na resampling filter na may malakas na antialiasing, ngunit mas malambot na resulta</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Ang orihinal, mahusay na variant ng Magic Kernel Sharp, na may mas matalas na resulta at malakas na antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Isang kapansin-pansing flat refinement na umiiwas sa kapansin-pansing hasa, sa halaga ng mas maraming ring sa paligid ng matutulis na mga gilid</string>
+    <string name="raw_use_embedded_preview">Gumamit ng naka-embed na Preview</string>
+    <string name="raw_use_embedded_preview_sub">Gamitin ang preview na naka-embed sa RAW na imahe sa halip na bumuo nito</string>
+    <string name="score">Puntos</string>
+</resources>

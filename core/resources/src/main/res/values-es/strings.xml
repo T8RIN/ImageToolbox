@@ -4430,4 +4430,15 @@
     <string name="raw_auto_brightness">Brillo automático</string>
     <string name="sheet_nested_scroll">Desplazamiento anidado de hojas</string>
     <string name="sheet_nested_scroll_sub">Permitir gestos en el contenido de la hoja para arrastrar y descartar la hoja</string>
-<string name="save_if_smaller">Guardar si es más pequeño</string><string name="save_if_smaller_sub">Si está deshabilitado, se omitirán los archivos más pequeños que el tamaño máximo solicitado.</string></resources>
+    <string name="save_if_smaller">Guardar si es más pequeño</string>
+    <string name="save_if_smaller_sub">Si está deshabilitado, se omitirán los archivos más pequeños que el tamaño máximo solicitado.</string>
+    <string name="magic_kernel">Núcleo mágico</string>
+    <string name="magic_kernel_sub">Un filtro de remuestreo suave y sin timbre con un fuerte antialiasing, pero un resultado más suave</string>
+    <string name="magic_kernel_sharp_2013">Núcleo mágico afilado 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">La variante original y eficiente de Magic Kernel Sharp, con un resultado sutilmente más nítido y un fuerte antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Núcleo mágico afilado 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Un refinamiento espectralmente plano que evita un afilado apreciable, a costa de más zumbidos en los bordes afilados.</string>
+    <string name="raw_use_embedded_preview">Usar vista previa integrada</string>
+    <string name="raw_use_embedded_preview_sub">Utilice la vista previa incrustada en la imagen RAW en lugar de revelarla</string>
+    <string name="score">Puntaje</string>
+</resources>

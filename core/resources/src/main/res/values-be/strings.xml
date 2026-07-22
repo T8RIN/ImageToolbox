@@ -4432,4 +4432,15 @@
     <string name="gmic_param_quantized_orientations">Квантаваныя арыентацыі</string>
     <string name="sheet_nested_scroll">Аркуш укладзены скрутак</string>
     <string name="sheet_nested_scroll_sub">Дазволіць жэсты ў змесціве аркуша перацягваць і адхіляць аркуш</string>
-<string name="save_if_smaller">Захавайце, калі менш</string><string name="save_if_smaller_sub">Калі гэты параметр выключаны, файлы, памер якіх менш за запытаны максімальны памер, будуць прапускацца</string></resources>
+    <string name="save_if_smaller">Захавайце, калі менш</string>
+    <string name="save_if_smaller_sub">Калі гэты параметр выключаны, файлы, памер якіх менш за запытаны максімальны памер, будуць прапускацца</string>
+    <string name="magic_kernel">Чароўнае ядро</string>
+    <string name="magic_kernel_sub">Плыўны фільтр паўторнай дыскрэтызацыі без гуку з моцным згладжваннем, але больш мяккім вынікам</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Арыгінальны, эфектыўны варыянт Magic Kernel Sharp з крыху больш рэзкім вынікам і моцным згладжваннем</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Спектральна роўнае ўдакладненне, якое дазваляе пазбегнуць прыкметнай рэзкасці за кошт большага звону вакол вострых краёў</string>
+    <string name="raw_use_embedded_preview">Выкарыстоўвайце ўбудаваны папярэдні прагляд</string>
+    <string name="raw_use_embedded_preview_sub">Выкарыстоўвайце папярэдні прагляд, убудаваны ў малюнак RAW, замест яго распрацоўкі</string>
+    <string name="score">Ацэнка</string>
+</resources>

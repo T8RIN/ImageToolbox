@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">పరిమాణాత్మక దిశలు</string>
     <string name="sheet_nested_scroll">షీట్ నెస్టెడ్ స్క్రోల్</string>
     <string name="sheet_nested_scroll_sub">షీట్‌ను లాగడానికి మరియు తీసివేయడానికి షీట్ కంటెంట్‌లోని సంజ్ఞలను అనుమతించండి</string>
-<string name="save_if_smaller">చిన్నది అయితే సేవ్ చేయండి</string><string name="save_if_smaller_sub">నిలిపివేయబడితే, అభ్యర్థించిన గరిష్ట పరిమాణం కంటే చిన్న ఫైల్‌లు దాటవేయబడతాయి</string></resources>
+    <string name="save_if_smaller">చిన్నది అయితే సేవ్ చేయండి</string>
+    <string name="save_if_smaller_sub">నిలిపివేయబడితే, అభ్యర్థించిన గరిష్ట పరిమాణం కంటే చిన్న ఫైల్‌లు దాటవేయబడతాయి</string>
+    <string name="magic_kernel">మేజిక్ కెర్నల్</string>
+    <string name="magic_kernel_sub">బలమైన యాంటీఅలియాసింగ్‌తో మృదువైన, రింగింగ్ కాని రీసాంప్లింగ్ ఫిల్టర్, కానీ మృదువైన ఫలితం</string>
+    <string name="magic_kernel_sharp_2013">మేజిక్ కెర్నల్ షార్ప్ 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">అసలైన, సమర్థవంతమైన మ్యాజిక్ కెర్నల్ షార్ప్ వేరియంట్, సూక్ష్మంగా పదునైన ఫలితం మరియు బలమైన యాంటీఅలియాసింగ్‌తో</string>
+    <string name="magic_kernel_sharp_2021">మ్యాజిక్ కెర్నల్ షార్ప్ 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">వర్ణపటంగా ఫ్లాట్ రిఫైన్‌మెంట్, ఇది పదునైన అంచుల చుట్టూ ఎక్కువ రింగింగ్ ఖర్చుతో, చెప్పుకోదగిన పదును పెట్టడాన్ని నివారిస్తుంది.</string>
+    <string name="raw_use_embedded_preview">ఎంబెడెడ్ ప్రివ్యూని ఉపయోగించండి</string>
+    <string name="raw_use_embedded_preview_sub">RAW ఇమేజ్‌ని డెవలప్ చేయడానికి బదులుగా అందులో పొందుపరిచిన ప్రివ్యూని ఉపయోగించండి</string>
+    <string name="score">స్కోర్</string>
+</resources>

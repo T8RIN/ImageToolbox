@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Gekwantiseerde oriëntaties</string>
     <string name="sheet_nested_scroll">Blad geneste scroll</string>
     <string name="sheet_nested_scroll_sub">Sta toe dat gebaren in de bladinhoud het blad slepen en sluiten</string>
-<string name="save_if_smaller">Bespaar als het kleiner is</string><string name="save_if_smaller_sub">Indien uitgeschakeld, worden bestanden die kleiner zijn dan de gevraagde maximale grootte overgeslagen</string></resources>
+    <string name="save_if_smaller">Bespaar als het kleiner is</string>
+    <string name="save_if_smaller_sub">Indien uitgeschakeld, worden bestanden die kleiner zijn dan de gevraagde maximale grootte overgeslagen</string>
+    <string name="magic_kernel">Magische Kernel</string>
+    <string name="magic_kernel_sub">Een soepel, niet-rinkelend resamplingfilter met sterke anti-aliasing, maar een zachter resultaat</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">De originele, efficiënte Magic Kernel Sharp variant, met een subtiel scherper resultaat en sterke antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Scherp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Een spectraal vlakke verfijning die aanzienlijke verscherping vermijdt, ten koste van meer kringen rond scherpe randen</string>
+    <string name="raw_use_embedded_preview">Gebruik ingesloten voorbeeld</string>
+    <string name="raw_use_embedded_preview_sub">Gebruik het voorbeeld dat is ingebed in de RAW-afbeelding in plaats van deze te ontwikkelen</string>
+    <string name="score">Scoren</string>
+</resources>

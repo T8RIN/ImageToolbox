@@ -4430,4 +4430,15 @@
     <string name="gmic_param_quantized_orientations">Kvantiseeritud orientatsioonid</string>
     <string name="sheet_nested_scroll">Lehe pesastatud kerimine</string>
     <string name="sheet_nested_scroll_sub">Lubage lehe sisus olevatel žestidel lehte lohistada ja sellest loobuda</string>
-<string name="save_if_smaller">Säästa, kui väiksem</string><string name="save_if_smaller_sub">Kui see on keelatud, jäetakse nõutud maksimaalsest suurusest väiksemad failid vahele</string></resources>
+    <string name="save_if_smaller">Säästa, kui väiksem</string>
+    <string name="save_if_smaller_sub">Kui see on keelatud, jäetakse nõutud maksimaalsest suurusest väiksemad failid vahele</string>
+    <string name="magic_kernel">Maagiline kernel</string>
+    <string name="magic_kernel_sub">Sujuv, mittehelisev resampling filter, millel on tugev antialiasing, kuid pehmem tulemus</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">Originaal, tõhus Magic Kernel Sharp variant, peenelt teravama tulemuse ja tugeva antialiasinguga</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">Spektriliselt tasane täpsustus, mis väldib märgatavat teritamist, mille hinnaga teravate servade ümber heliseb rohkem</string>
+    <string name="raw_use_embedded_preview">Kasutage manustatud eelvaadet</string>
+    <string name="raw_use_embedded_preview_sub">Kasutage selle arendamise asemel RAW-kujutisele manustatud eelvaadet</string>
+    <string name="score">Skoor</string>
+</resources>
