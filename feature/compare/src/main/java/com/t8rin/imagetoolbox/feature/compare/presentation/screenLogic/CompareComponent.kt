@@ -106,9 +106,13 @@ class CompareComponent @AssistedInject internal constructor(
 
     fun updatePixelByPixelCompareState(state: PixelByPixelCompareState) {
         _pixelByPixelCompareState.update {
-            state.copy(
-                score = null
-            )
+            if (it.comparisonType != state.comparisonType) {
+                state.copy(
+                    score = null
+                )
+            } else {
+                state
+            }
         }
     }
 

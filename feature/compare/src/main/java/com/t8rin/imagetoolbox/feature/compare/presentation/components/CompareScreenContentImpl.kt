@@ -380,7 +380,8 @@ internal fun CompareScreenContentImpl(
                             LaunchedEffect(
                                 first,
                                 second,
-                                pixelByPixelCompareState
+                                pixelByPixelCompareState.highlightColor,
+                                pixelByPixelCompareState.comparisonType
                             ) {
                                 snapshotFlow { compareProgressState.floatValue }.collectLatest {
                                     delay(300)
