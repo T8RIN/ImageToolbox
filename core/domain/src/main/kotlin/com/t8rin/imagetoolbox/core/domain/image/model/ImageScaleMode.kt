@@ -98,6 +98,8 @@ sealed class ImageScaleMode(val value: Int) {
         return result
     }
 
+    sealed class WithoutColorSpace(value: Int): ImageScaleMode(value)
+
     object NotPresent : ImageScaleMode(-2) {
         override val scaleColorSpace: ScaleColorSpace
             get() = ScaleColorSpace.Default
@@ -109,7 +111,7 @@ sealed class ImageScaleMode(val value: Int) {
         override fun toString(): String = "NotPresent"
     }
 
-    object Base : ImageScaleMode(-3) {
+    object Base : WithoutColorSpace(-3) {
         override val scaleColorSpace: ScaleColorSpace
             get() = ScaleColorSpace.Default
 
@@ -512,6 +514,33 @@ sealed class ImageScaleMode(val value: Int) {
         ): ImageScaleMode = Area(scaleColorSpace)
     }
 
+    data object MagicKernel : WithoutColorSpace(49) {
+        override val scaleColorSpace: ScaleColorSpace
+            get() = ScaleColorSpace.Default
+
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = MagicKernel
+    }
+
+    data object MagicKernelSharp2013 : WithoutColorSpace(50) {
+        override val scaleColorSpace: ScaleColorSpace
+            get() = ScaleColorSpace.Default
+
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = MagicKernelSharp2013
+    }
+
+    data object MagicKernelSharp2021 : WithoutColorSpace(51) {
+        override val scaleColorSpace: ScaleColorSpace
+            get() = ScaleColorSpace.Default
+
+        override fun copy(
+            scaleColorSpace: ScaleColorSpace
+        ): ImageScaleMode = MagicKernelSharp2021
+    }
+
     companion object {
         val Default = Bilinear()
 
@@ -575,6 +604,9 @@ sealed class ImageScaleMode(val value: Int) {
                 EwaGinseng(),
                 HaasnSoft(),
                 Hann(),
+                MagicKernel,
+                MagicKernelSharp2013,
+                MagicKernelSharp2021
             )
         }
 
@@ -640,4 +672,7 @@ val ImageScaleMode.title: Int
         is ImageScaleMode.Lanczos6 -> R.string.lanczos_6
         is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc
         is ImageScaleMode.Area -> R.string.area
+        ImageScaleMode.MagicKernel -> R.string.magic_kernel
+        ImageScaleMode.MagicKernelSharp2013 -> R.string.magic_kernel_sharp_2013
+        ImageScaleMode.MagicKernelSharp2021 -> R.string.magic_kernel_sharp_2021
     }

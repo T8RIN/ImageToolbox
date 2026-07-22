@@ -121,7 +121,7 @@ fun ScaleModeSelector(
         }
     }
 ) {
-    val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.Base
+    val isColorSpaceSelectionVisible = enableItemsCardBackground && value !is ImageScaleMode.WithoutColorSpace
     var showInfoSheet by rememberSaveable { mutableStateOf(false) }
     val settingsState = LocalSettingsState.current
 
@@ -418,4 +418,7 @@ private val ImageScaleMode.subtitle: Int
         is ImageScaleMode.Lanczos6 -> R.string.lanczos_6_sub
         is ImageScaleMode.Lanczos6Jinc -> R.string.lanczos_6_jinc_sub
         is ImageScaleMode.Area -> R.string.area_sub
+        ImageScaleMode.MagicKernel -> R.string.magic_kernel_sub
+        ImageScaleMode.MagicKernelSharp2013 -> R.string.magic_kernel_sharp_2013_sub
+        ImageScaleMode.MagicKernelSharp2021 -> R.string.magic_kernel_sharp_2021_sub
     }

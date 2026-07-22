@@ -2340,6 +2340,12 @@
     <string name="open_source_licenses_sub">View licenses of open source libraries used in this app</string>
     <string name="area">Area</string>
     <string name="area_sub">Resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire\'-free results. But when the image is zoomed, it is similar to the \"Nearest\" method.</string>
+    <string name="magic_kernel">Magic Kernel</string>
+    <string name="magic_kernel_sub">A smooth, non-ringing resampling filter with strong antialiasing, but a softer result</string>
+    <string name="magic_kernel_sharp_2013">Magic Kernel Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013_sub">The original, efficient Magic Kernel Sharp variant, with a subtly sharper result and strong antialiasing</string>
+    <string name="magic_kernel_sharp_2021">Magic Kernel Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021_sub">A spectrally flat refinement that avoids appreciable sharpening, at the cost of more ringing around sharp edges</string>
     <string name="enable_tonemapping">Enable Tonemapping</string>
     <string name="enter_percent">Enter %</string>
     <string name="unknown_host">Cannot access the site, try using VPN or check if the url correct</string>

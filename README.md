@@ -907,6 +907,9 @@ or click one of the badges below.
       - Lagrange 3
       - Lanczos 6
       - Lanczos 6 Jinc
+      - Magic Kernel
+      - Magic Kernel Sharp 2013
+      - Magic Kernel Sharp 2021
 
       </details>
 

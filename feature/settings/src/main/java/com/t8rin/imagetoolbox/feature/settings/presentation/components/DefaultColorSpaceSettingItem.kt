@@ -47,7 +47,7 @@ fun DefaultColorSpaceSettingItem(
     val settingsState = LocalSettingsState.current
 
     AnimatedVisibility(
-        visible = settingsState.defaultImageScaleMode != ImageScaleMode.Base,
+        visible = settingsState.defaultImageScaleMode !is ImageScaleMode.WithoutColorSpace,
         modifier = Modifier.fillMaxWidth()
     ) {
         val items = remember {

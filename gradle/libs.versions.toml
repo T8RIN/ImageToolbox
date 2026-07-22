@@ -10,7 +10,7 @@ versionCode = "259"
 jvmTarget = "21"
 
 imageToolboxLibs = "7.7.0"
-trickle = "1.9.0"
+trickle = "1.9.2"
 evaluator = "1.0.0"
 quickie = "1.19.0"
 fadingEdges = "1.0.4"

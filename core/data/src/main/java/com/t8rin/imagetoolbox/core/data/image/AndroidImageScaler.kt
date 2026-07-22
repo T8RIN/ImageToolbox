@@ -45,6 +45,8 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.createFilter
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.trickle.MagicResizeType
+import com.t8rin.trickle.Trickle
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.abs
@@ -346,13 +348,36 @@ internal class AndroidImageScaler @Inject constructor(
             it != ImageScaleMode.NotPresent && it.value >= 0
         } ?: settingsState.defaultImageScaleMode
 
-        Aire.scale(
-            bitmap = softwareImage,
-            dstWidth = width,
-            dstHeight = height,
-            scaleMode = mode.toResizeFunction(),
-            colorSpace = mode.scaleColorSpace.toColorSpace()
-        )
+        when (mode) {
+            ImageScaleMode.MagicKernel -> Trickle.magicResize(
+                input = softwareImage,
+                width = width,
+                height = height,
+                type = MagicResizeType.MagicKernel
+            )
+
+            ImageScaleMode.MagicKernelSharp2013 -> Trickle.magicResize(
+                input = softwareImage,
+                width = width,
+                height = height,
+                type = MagicResizeType.MagicKernelSharp2013
+            )
+
+            ImageScaleMode.MagicKernelSharp2021 -> Trickle.magicResize(
+                input = softwareImage,
+                width = width,
+                height = height,
+                type = MagicResizeType.MagicKernelSharp2021
+            )
+
+            else -> Aire.scale(
+                bitmap = softwareImage,
+                dstWidth = width,
+                dstHeight = height,
+                scaleMode = mode.toResizeFunction(),
+                colorSpace = mode.scaleColorSpace.toColorSpace()
+            )
+        }
     }
 
     private fun ImageScaleMode.toResizeFunction(): ResizeFunction = when (this) {
@@ -408,6 +433,9 @@ internal class AndroidImageScaler @Inject constructor(
         is ImageScaleMode.Lanczos6 -> ResizeFunction.Lanczos6
         is ImageScaleMode.Lanczos6Jinc -> ResizeFunction.Lanczos6Jinc
         is ImageScaleMode.Area -> ResizeFunction.Area
+        ImageScaleMode.MagicKernel,
+        ImageScaleMode.MagicKernelSharp2013,
+        ImageScaleMode.MagicKernelSharp2021 -> error("Magic kernels are handled by Trickle")
     }
 
     private fun ScaleColorSpace.toColorSpace(): AireScaleColorSpace = when (this) {
