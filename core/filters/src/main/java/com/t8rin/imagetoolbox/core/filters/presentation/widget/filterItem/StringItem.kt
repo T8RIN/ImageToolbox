@@ -67,7 +67,7 @@ internal fun StringItem(
             }
         },
         onLoseFocusTransformation = {
-            onFilterChange(textValue)
+            if (value != textValue) onFilterChange(textValue)
             this
         },
         isError = error.isNotEmpty(),

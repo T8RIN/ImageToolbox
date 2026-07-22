@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 
 @UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
 class UiRawGmicFilter(
-    override val value: String = ""
+    override val value: String = "fx_gmicky 0"
 ) : UiFilter<String>(
     title = R.string.gmic_filter,
     paramsInfo = listOf(FilterParam(title = R.string.command, valueRange = 0f..1f)),

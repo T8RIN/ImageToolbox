@@ -65,7 +65,7 @@ internal class AndroidTextureGenerator @Inject constructor(
                     params = requireNotNull(textureParams.fastNoiseParams)
                 )
             } else if (textureParams.textureFilterType.isGmic) {
-                Gmic.run(
+                Gmic.runCancellable(
                     input = createBitmap(width, height).apply {
                         eraseColor(Color.BLACK)
                     },

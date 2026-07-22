@@ -37,7 +37,7 @@ internal abstract class GMICFilterTransformation : CoilTransformation(), Transfo
         input: Bitmap,
         size: Size
     ): Bitmap = input.flexible(size).let {
-        Gmic.run(
+        Gmic.runCancellable(
             input = it,
             filter = createFilter(it)
         )
