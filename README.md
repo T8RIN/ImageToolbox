@@ -558,7 +558,7 @@ or click one of the badges below.
     - [x] Frosted Glass
     - [x] Fuzzy Frame
     - [x] Ghost
-    - [x] GMIC: Filter
+    - [x] GMIC
     - [x] Gold Meinel Sharpen
     - [x] Graphic Novel
     - [x] Hope Poster
