@@ -151,6 +151,8 @@ internal fun Preferences.toSettingsState(
         ?: default.generatePreviews,
     enableSheetGestures = this[ENABLE_SHEET_GESTURES]
         ?: default.enableSheetGestures,
+    sheetNestedScrollEnabled = this[SHEET_NESTED_SCROLL]
+        ?: default.sheetNestedScrollEnabled,
     showSettingsInLandscape = this[SHOW_SETTINGS_IN_LANDSCAPE]
         ?: default.showSettingsInLandscape,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]

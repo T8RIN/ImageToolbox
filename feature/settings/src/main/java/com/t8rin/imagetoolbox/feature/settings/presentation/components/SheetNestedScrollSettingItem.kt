@@ -25,15 +25,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.SwipeDown
+import com.t8rin.imagetoolbox.core.resources.icons.TiltArrowDown
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun EnableSheetGesturesSettingItem(
+fun SheetNestedScrollSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
@@ -41,9 +41,9 @@ fun EnableSheetGesturesSettingItem(
         shape = shape,
         modifier = modifier,
         onClick = { onClick() },
-        title = stringResource(R.string.sheet_gestures),
-        subtitle = stringResource(R.string.sheet_gestures_sub),
-        checked = settingsState.enableSheetGestures,
-        startIcon = Icons.Outlined.SwipeDown
+        title = stringResource(R.string.sheet_nested_scroll),
+        subtitle = stringResource(R.string.sheet_nested_scroll_sub),
+        checked = settingsState.sheetNestedScrollEnabled,
+        startIcon = Icons.Outlined.TiltArrowDown
     )
 }

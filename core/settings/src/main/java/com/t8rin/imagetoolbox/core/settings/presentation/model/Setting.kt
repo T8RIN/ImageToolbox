@@ -494,6 +494,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object SheetNestedScroll : Setting(
+        title = R.string.sheet_nested_scroll,
+        subtitle = R.string.sheet_nested_scroll_sub
+    )
+
+    @Serializable
     data object ShowSettingsInLandscape : Setting(
         title = R.string.show_settings_in_landscape,
         subtitle = R.string.show_settings_in_landscape_sub

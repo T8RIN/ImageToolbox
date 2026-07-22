@@ -98,6 +98,7 @@ internal val CONFETTI_HARMONIZATION_LEVEL = floatPreferencesKey("CONFETTI_HARMON
 internal val SKIP_IMAGE_PICKING = booleanPreferencesKey("SKIP_IMAGE_PICKER")
 internal val GENERATE_PREVIEWS = booleanPreferencesKey("GENERATE_PREVIEWS")
 internal val ENABLE_SHEET_GESTURES = booleanPreferencesKey("ENABLE_SHEET_GESTURES")
+internal val SHEET_NESTED_SCROLL = booleanPreferencesKey("SHEET_NESTED_SCROLL")
 internal val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
 internal val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
 internal val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")

@@ -73,7 +73,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun EnhancedModalBottomSheet(
-    nestedScrollEnabled: Boolean = false,
+    nestedScrollEnabled: Boolean = LocalSettingsState.current.sheetNestedScrollEnabled,
     cancelable: Boolean = true,
     dragHandle: @Composable ColumnScope.() -> Unit = { EnhancedModalSheetDragHandle() },
     visible: Boolean,
@@ -136,7 +136,7 @@ fun EnhancedModalBottomSheet(
 
 @Composable
 fun EnhancedModalBottomSheet(
-    nestedScrollEnabled: Boolean = false,
+    nestedScrollEnabled: Boolean = LocalSettingsState.current.sheetNestedScrollEnabled,
     cancelable: Boolean = true,
     confirmButton: (@Composable RowScope.() -> Unit)? = null,
     dragHandle: @Composable ColumnScope.() -> Unit = { EnhancedModalSheetDragHandle() },

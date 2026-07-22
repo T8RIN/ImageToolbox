@@ -414,7 +414,8 @@ sealed class SettingsGroup(
             Setting.SnowfallMode,
             Setting.EnableLinksPreview,
             Setting.GeneratePreviews,
-            Setting.EnableSheetGestures
+            Setting.EnableSheetGestures,
+            Setting.SheetNestedScroll
         ),
         initialState = false
     )

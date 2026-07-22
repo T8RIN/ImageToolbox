@@ -3902,6 +3902,8 @@
     <string name="original_files_delete_result">Original files deleted: %1$d, failed: %2$d</string>
     <string name="sheet_gestures">Sheet gestures</string>
     <string name="sheet_gestures_sub">Allow dragging expanded option sheets</string>
+    <string name="sheet_nested_scroll">Sheet nested scroll</string>
+    <string name="sheet_nested_scroll_sub">Allow gestures in sheet content to drag and dismiss the sheet</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
     <string name="bit_depth">Bit depth</string>
     <string name="lossless">Lossless</string>

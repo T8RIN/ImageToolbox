@@ -299,6 +299,8 @@ fun rememberModalBottomSheetState(
  *
  * @param sheetContent The content of the bottom sheet.
  * @param modifier Optional [Modifier] for the entire component.
+ * @param nestedScrollEnabled Whether nested scroll and dragging from the entire sheet content are
+ * enabled. When false, only the drag handle can drag the sheet.
  * @param sheetState The state of the bottom sheet.
  * @param sheetShape The shape of the bottom sheet.
  * @param sheetElevation The elevation of the bottom sheet.
@@ -326,7 +328,7 @@ fun ModalSheetLayout(
             BottomSheetDefaults.DragHandle()
         }
     },
-    nestedScrollEnabled: Boolean = true,
+    nestedScrollEnabled: Boolean = false,
     sheetModifier: Modifier = Modifier,
     sheetState: ModalSheetState = rememberModalBottomSheetState(Hidden),
     sheetShape: Shape = BottomSheetDefaults.ExpandedShape,
@@ -338,6 +340,11 @@ fun ModalSheetLayout(
 ) {
     val scope = rememberCoroutineScope()
     val orientation = Orientation.Vertical
+    val swipeableModifier = Modifier.swipeableV2(
+        state = sheetState.swipeableState,
+        orientation = orientation,
+        enabled = sheetState.swipeableState.currentValue != Hidden,
+    )
     val anchorChangeHandler = remember(sheetState, scope) {
         ModalBottomSheetAnchorChangeHandler(
             state = sheetState,
@@ -385,10 +392,9 @@ fun ModalSheetLayout(
                             .roundToInt()
                     )
                 }
-                .swipeableV2(
-                    state = sheetState.swipeableState,
-                    orientation = orientation,
-                    enabled = sheetState.swipeableState.currentValue != Hidden,
+                .then(
+                    if (nestedScrollEnabled) swipeableModifier
+                    else Modifier
                 )
                 .swipeAnchors(
                     state = sheetState.swipeableState,
@@ -441,7 +447,10 @@ fun ModalSheetLayout(
         ) {
             Column(
                 content = {
-                    dragHandle()
+                    Column(
+                        modifier = if (nestedScrollEnabled) Modifier else swipeableModifier,
+                        content = dragHandle
+                    )
                     sheetContent()
                 }
             )

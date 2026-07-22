@@ -509,6 +509,10 @@ internal fun SettingItem(
                 EnableSheetGesturesSettingItem(onClick = component::toggleEnableSheetGestures)
             }
 
+            Setting.SheetNestedScroll -> {
+                SheetNestedScrollSettingItem(onClick = component::toggleSheetNestedScroll)
+            }
+
             Setting.SkipFilePicking -> {
                 SkipImagePickingSettingItem(onClick = component::toggleSkipImagePicking)
             }

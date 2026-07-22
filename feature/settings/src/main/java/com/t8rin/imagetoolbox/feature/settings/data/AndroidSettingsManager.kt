@@ -188,6 +188,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_THROTTLE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHEET_NESTED_SCROLL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
@@ -752,6 +753,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleEnableSheetGestures() = toggle(
         key = ENABLE_SHEET_GESTURES,
         defaultValue = default.enableSheetGestures
+    )
+
+    override suspend fun toggleSheetNestedScroll() = toggle(
+        key = SHEET_NESTED_SCROLL,
+        defaultValue = default.sheetNestedScrollEnabled
     )
 
     override suspend fun toggleSkipImagePicking() = toggle(

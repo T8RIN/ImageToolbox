@@ -458,6 +458,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleEnableSheetGestures() = settingsScope { toggleEnableSheetGestures() }
 
+    fun toggleSheetNestedScroll() = settingsScope { toggleSheetNestedScroll() }
+
     fun toggleSkipImagePicking() = settingsScope { toggleSkipImagePicking() }
 
     fun toggleShowSettingsInLandscape() = settingsScope { toggleShowSettingsInLandscape() }
