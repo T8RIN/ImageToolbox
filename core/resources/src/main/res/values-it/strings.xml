@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Orientamenti quantizzati</string>
     <string name="sheet_nested_scroll">Scorrimento nidificato del foglio</string>
     <string name="sheet_nested_scroll_sub">Consenti i gesti nel contenuto del foglio per trascinare e chiudere il foglio</string>
-</resources>
+<string name="save_if_smaller">Salva se più piccolo</string><string name="save_if_smaller_sub">Se disabilitato, i file più piccoli della dimensione massima richiesta verranno ignorati</string></resources>

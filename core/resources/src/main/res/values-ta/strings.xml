@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">அளவிடப்பட்ட நோக்குநிலைகள்</string>
     <string name="sheet_nested_scroll">தாள் உள்ளமைக்கப்பட்ட சுருள்</string>
     <string name="sheet_nested_scroll_sub">தாளை இழுத்து நிராகரிக்க தாள் உள்ளடக்கத்தில் உள்ள சைகைகளை அனுமதிக்கவும்</string>
-</resources>
+<string name="save_if_smaller">சிறியதாக இருந்தால் சேமிக்கவும்</string><string name="save_if_smaller_sub">முடக்கப்பட்டால், கோரப்பட்ட அதிகபட்ச அளவை விட சிறிய கோப்புகள் தவிர்க்கப்படும்</string></resources>

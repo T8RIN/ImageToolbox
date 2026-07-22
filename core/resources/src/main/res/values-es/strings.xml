@@ -4430,4 +4430,4 @@
     <string name="raw_auto_brightness">Brillo automático</string>
     <string name="sheet_nested_scroll">Desplazamiento anidado de hojas</string>
     <string name="sheet_nested_scroll_sub">Permitir gestos en el contenido de la hoja para arrastrar y descartar la hoja</string>
-</resources>
+<string name="save_if_smaller">Guardar si es más pequeño</string><string name="save_if_smaller_sub">Si está deshabilitado, se omitirán los archivos más pequeños que el tamaño máximo solicitado.</string></resources>

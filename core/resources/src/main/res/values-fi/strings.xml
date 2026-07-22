@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Kvantisoidut suuntaukset</string>
     <string name="sheet_nested_scroll">Sivun sisäkkäinen vieritys</string>
     <string name="sheet_nested_scroll_sub">Salli taulukon sisällön eleiden vetää ja hylätä taulukko</string>
-</resources>
+<string name="save_if_smaller">Säästä jos pienempi</string><string name="save_if_smaller_sub">Jos se ei ole käytössä, pyydettyä enimmäiskokoa pienemmät tiedostot ohitetaan</string></resources>

@@ -4431,4 +4431,4 @@
     <string name="gmic_param_quantized_orientations">Orientări cuantizate</string>
     <string name="sheet_nested_scroll">Defilare imbricată foaie</string>
     <string name="sheet_nested_scroll_sub">Permiteți gesturilor din conținutul foii să tragă și să închidă foaia</string>
-</resources>
+<string name="save_if_smaller">Salvați dacă este mai mic</string><string name="save_if_smaller_sub">Dacă este dezactivată, fișierele mai mici decât dimensiunea maximă cerută vor fi omise</string></resources>

@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">جهت گیری های کوانتیزه شده</string>
     <string name="sheet_nested_scroll">صفحه تو در تو</string>
     <string name="sheet_nested_scroll_sub">به حرکات موجود در محتوای برگه اجازه دهید صفحه را بکشند و رد کنند</string>
-</resources>
+<string name="save_if_smaller">اگر کوچکتر بود ذخیره کنید</string><string name="save_if_smaller_sub">اگر غیرفعال باشد، فایل‌های کوچک‌تر از حداکثر اندازه درخواستی نادیده گرفته می‌شوند</string></resources>

@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Kvantiserade orienteringar</string>
     <string name="sheet_nested_scroll">Ark kapslad rullning</string>
     <string name="sheet_nested_scroll_sub">Tillåt gester i arkets innehåll att dra och ta bort arket</string>
-</resources>
+<string name="save_if_smaller">Spara om den är mindre</string><string name="save_if_smaller_sub">Om inaktiverad, kommer filer som är mindre än den begärda maximala storleken att hoppas över</string></resources>

@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">ਕੁਆਂਟਾਈਜ਼ਡ ਓਰੀਐਂਟੇਸ਼ਨ</string>
     <string name="sheet_nested_scroll">ਸ਼ੀਟ ਨੇਸਟਡ ਸਕ੍ਰੋਲ</string>
     <string name="sheet_nested_scroll_sub">ਸ਼ੀਟ ਸਮੱਗਰੀ ਵਿੱਚ ਸੰਕੇਤਾਂ ਨੂੰ ਸ਼ੀਟ ਨੂੰ ਖਿੱਚਣ ਅਤੇ ਖਾਰਜ ਕਰਨ ਦਿਓ</string>
-</resources>
+<string name="save_if_smaller">ਜੇ ਛੋਟਾ ਹੋਵੇ ਤਾਂ ਬਚਾਓ</string><string name="save_if_smaller_sub">ਜੇਕਰ ਅਯੋਗ ਬਣਾਇਆ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਬੇਨਤੀ ਕੀਤੇ ਅਧਿਕਤਮ ਆਕਾਰ ਤੋਂ ਛੋਟੀਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਛੱਡ ਦਿੱਤਾ ਜਾਵੇਗਾ</string></resources>

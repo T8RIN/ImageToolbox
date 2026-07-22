@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Orientacions quantificades</string>
     <string name="sheet_nested_scroll">Desplaçament imbricat al full</string>
     <string name="sheet_nested_scroll_sub">Permet que els gestos del contingut del full arrosseguin i ometen el full</string>
-</resources>
+<string name="save_if_smaller">Estalvieu si és petit</string><string name="save_if_smaller_sub">Si està desactivat, els fitxers més petits que la mida màxima sol·licitada es saltaran</string></resources>

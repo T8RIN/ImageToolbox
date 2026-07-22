@@ -4434,4 +4434,4 @@
     <string name="gmic_param_quantized_orientations">التوجهات الكمية</string>
     <string name="sheet_nested_scroll">ورقة التمرير المتداخلة</string>
     <string name="sheet_nested_scroll_sub">السماح للإيماءات الموجودة في محتوى الورقة بسحب الورقة ورفضها</string>
-</resources>
+<string name="save_if_smaller">حفظ إذا كان أصغر</string><string name="save_if_smaller_sub">في حالة التعطيل، سيتم تخطي الملفات الأصغر من الحجم الأقصى المطلوب</string></resources>

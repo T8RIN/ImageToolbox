@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Nicelenmiş Yönelimler</string>
     <string name="sheet_nested_scroll">Sayfa iç içe kaydırma</string>
     <string name="sheet_nested_scroll_sub">Sayfa içeriğindeki hareketlerin sayfayı sürükleyip kapatmasına izin ver</string>
-</resources>
+<string name="save_if_smaller">Daha küçükse kaydet</string><string name="save_if_smaller_sub">Devre dışı bırakılırsa istenen maksimum boyuttan küçük dosyalar atlanır</string></resources>

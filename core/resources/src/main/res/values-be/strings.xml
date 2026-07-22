@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">Квантаваныя арыентацыі</string>
     <string name="sheet_nested_scroll">Аркуш укладзены скрутак</string>
     <string name="sheet_nested_scroll_sub">Дазволіць жэсты ў змесціве аркуша перацягваць і адхіляць аркуш</string>
-</resources>
+<string name="save_if_smaller">Захавайце, калі менш</string><string name="save_if_smaller_sub">Калі гэты параметр выключаны, файлы, памер якіх менш за запытаны максімальны памер, будуць прапускацца</string></resources>

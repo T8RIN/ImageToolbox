@@ -4429,4 +4429,4 @@
     <string name="gmic_param_quantized_orientations">量子化方向</string>
     <string name="sheet_nested_scroll">工作表嵌套滾動</string>
     <string name="sheet_nested_scroll_sub">允許工作表內容中的手勢拖曳和關閉工作表</string>
-</resources>
+<string name="save_if_smaller">如果較小則保存</string><string name="save_if_smaller_sub">如果停用，小於請求的最大大小的檔案將被跳過</string></resources>

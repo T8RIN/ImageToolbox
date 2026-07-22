@@ -4429,4 +4429,4 @@
     <string name="gmic_param_quantized_orientations">การวางแนวเชิงปริมาณ</string>
     <string name="sheet_nested_scroll">การเลื่อนแบบซ้อนแผ่นงาน</string>
     <string name="sheet_nested_scroll_sub">อนุญาตให้ท่าทางสัมผัสในเนื้อหาชีตลากและยกเลิกชีตได้</string>
-</resources>
+<string name="save_if_smaller">ประหยัดถ้าเล็กกว่า</string><string name="save_if_smaller_sub">หากปิดใช้งาน ไฟล์ที่มีขนาดเล็กกว่าขนาดสูงสุดที่ร้องขอจะถูกข้ามไป</string></resources>

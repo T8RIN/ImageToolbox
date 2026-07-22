@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">כיוונים כמותיים</string>
     <string name="sheet_nested_scroll">גלילה מקוננת בגיליון</string>
     <string name="sheet_nested_scroll_sub">אפשר למחוות בתוכן הגיליון לגרור ולבטל את הגיליון</string>
-</resources>
+<string name="save_if_smaller">שמור אם קטן יותר</string><string name="save_if_smaller_sub">אם מושבת, קבצים קטנים מהגודל המרבי המבוקש ידלגו</string></resources>

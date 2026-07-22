@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Orientazio kuantizatuak</string>
     <string name="sheet_nested_scroll">Orri-orri habiaratua</string>
     <string name="sheet_nested_scroll_sub">Onartu orri-edukiko keinuei orria arrastatu eta baztertzeko</string>
-</resources>
+<string name="save_if_smaller">Gorde txikiagoa bada</string><string name="save_if_smaller_sub">Desgaituta badago, eskatutako gehienezko tamaina baino txikiagoak diren fitxategiak saltatu egingo dira</string></resources>

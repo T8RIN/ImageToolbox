@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Quantized Orientations</string>
     <string name="sheet_nested_scroll">Sheet nested scroll</string>
     <string name="sheet_nested_scroll_sub">Payagan ang mga galaw sa nilalaman ng sheet na i-drag at i-dismiss ang sheet</string>
-</resources>
+<string name="save_if_smaller">I-save kung mas maliit</string><string name="save_if_smaller_sub">Kung hindi pinagana, ang mga file na mas maliit kaysa sa hiniling na maximum na laki ay lalaktawan</string></resources>

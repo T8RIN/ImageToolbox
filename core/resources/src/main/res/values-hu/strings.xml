@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Kvantizált irányok</string>
     <string name="sheet_nested_scroll">Lap beágyazott görgetése</string>
     <string name="sheet_nested_scroll_sub">A munkalap tartalmában lévő kézmozdulatok engedélyezése a munkalap elhúzására és elvetésére</string>
-</resources>
+<string name="save_if_smaller">Mentse el, ha kisebb</string><string name="save_if_smaller_sub">Ha le van tiltva, a rendszer kihagyja a kért maximális méretnél kisebb fájlokat</string></resources>

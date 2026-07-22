@@ -4429,4 +4429,4 @@
     <string name="gmic_param_quantized_orientations">Orientasi Terkuantisasi</string>
     <string name="sheet_nested_scroll">Gulir bertumpuk lembar</string>
     <string name="sheet_nested_scroll_sub">Izinkan isyarat dalam konten lembar untuk menyeret dan menutup lembar</string>
-</resources>
+<string name="save_if_smaller">Simpan jika lebih kecil</string><string name="save_if_smaller_sub">Jika dinonaktifkan, file yang lebih kecil dari ukuran maksimum yang diminta akan dilewati</string></resources>

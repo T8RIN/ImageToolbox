@@ -4429,4 +4429,4 @@
     <string name="gmic_param_quantized_orientations">양자화된 방향</string>
     <string name="sheet_nested_scroll">시트 중첩 스크롤</string>
     <string name="sheet_nested_scroll_sub">시트 콘텐츠의 동작으로 시트를 끌어서 닫을 수 있도록 허용</string>
-</resources>
+<string name="save_if_smaller">작으면 저장</string><string name="save_if_smaller_sub">비활성화하면 요청된 최대 크기보다 작은 파일을 건너뜁니다.</string></resources>

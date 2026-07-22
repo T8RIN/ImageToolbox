@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Orientations quantifiées</string>
     <string name="sheet_nested_scroll">Défilement imbriqué de feuille</string>
     <string name="sheet_nested_scroll_sub">Autoriser les gestes dans le contenu de la feuille pour faire glisser et fermer la feuille</string>
-</resources>
+<string name="save_if_smaller">Enregistrer si plus petit</string><string name="save_if_smaller_sub">S\'il est désactivé, les fichiers plus petits que la taille maximale demandée seront ignorés</string></resources>

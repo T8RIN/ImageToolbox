@@ -4431,4 +4431,4 @@
     <string name="gmic_param_quantized_orientations">Квантизоване оријентације</string>
     <string name="sheet_nested_scroll">Угнежђени лист</string>
     <string name="sheet_nested_scroll_sub">Дозволите покретима у садржају листа за повлачење и одбацивање листа</string>
-</resources>
+<string name="save_if_smaller">Сачувајте ако је мањи</string><string name="save_if_smaller_sub">Ако је онемогућено, датотеке мање од захтеване максималне величине биће прескочене</string></resources>

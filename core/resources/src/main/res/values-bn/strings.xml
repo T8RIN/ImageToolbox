@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">কোয়ান্টাইজড ওরিয়েন্টেশন</string>
     <string name="sheet_nested_scroll">শীট নেস্টেড স্ক্রোল</string>
     <string name="sheet_nested_scroll_sub">শীট সামগ্রীতে অঙ্গভঙ্গিগুলিকে শীটটি টেনে আনতে এবং খারিজ করার অনুমতি দিন৷</string>
-</resources>
+<string name="save_if_smaller">ছোট হলে সংরক্ষণ করুন</string><string name="save_if_smaller_sub">অক্ষম করা হলে, অনুরোধ করা সর্বোচ্চ আকারের চেয়ে ছোট ফাইলগুলি এড়িয়ে যাবে৷</string></resources>

@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">Kwantowane orientacje</string>
     <string name="sheet_nested_scroll">Zwój zagnieżdżony w arkuszu</string>
     <string name="sheet_nested_scroll_sub">Zezwalaj na gesty w treści arkusza, aby przeciągnąć i zamknąć arkusz</string>
-</resources>
+<string name="save_if_smaller">Zapisz, jeśli jest mniejszy</string><string name="save_if_smaller_sub">Jeśli ta opcja jest wyłączona, pliki mniejsze niż żądany maksymalny rozmiar zostaną pominięte</string></resources>

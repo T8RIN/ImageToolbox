@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Gekwantiseerde oriëntaties</string>
     <string name="sheet_nested_scroll">Blad geneste scroll</string>
     <string name="sheet_nested_scroll_sub">Sta toe dat gebaren in de bladinhoud het blad slepen en sluiten</string>
-</resources>
+<string name="save_if_smaller">Bespaar als het kleiner is</string><string name="save_if_smaller_sub">Indien uitgeschakeld, worden bestanden die kleiner zijn dan de gevraagde maximale grootte overgeslagen</string></resources>

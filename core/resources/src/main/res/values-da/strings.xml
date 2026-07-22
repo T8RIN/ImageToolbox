@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Kvantiserede orienteringer</string>
     <string name="sheet_nested_scroll">Ark indlejret rulle</string>
     <string name="sheet_nested_scroll_sub">Tillad bevægelser i arkindholdet at trække og lukke arket</string>
-</resources>
+<string name="save_if_smaller">Gem, hvis den er mindre</string><string name="save_if_smaller_sub">Hvis deaktiveret, vil filer, der er mindre end den anmodede maksimale størrelse, blive sprunget over</string></resources>

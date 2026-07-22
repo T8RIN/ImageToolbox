@@ -4432,4 +4432,4 @@
     <string name="raw_auto_brightness">Автоматична яскравість</string>
     <string name="sheet_nested_scroll">Лист вкладений прокручування</string>
     <string name="sheet_nested_scroll_sub">Дозволити жести у вмісті аркуша, щоб перетягувати та закривати аркуш</string>
-</resources>
+<string name="save_if_smaller">Зберегти, якщо менше</string><string name="save_if_smaller_sub">Якщо вимкнено, файли, менші за запитуваний максимальний розмір, пропускатимуться</string></resources>

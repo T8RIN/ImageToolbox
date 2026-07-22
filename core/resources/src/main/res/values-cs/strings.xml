@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">Kvantované orientace</string>
     <string name="sheet_nested_scroll">List vnořený svitek</string>
     <string name="sheet_nested_scroll_sub">Umožněte gestům v obsahu listu přetáhnout a zavřít list</string>
-</resources>
+<string name="save_if_smaller">Pokud je menší, uložte</string><string name="save_if_smaller_sub">Pokud je zakázáno, soubory menší než požadovaná maximální velikost budou přeskočeny</string></resources>

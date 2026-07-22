@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">పరిమాణాత్మక దిశలు</string>
     <string name="sheet_nested_scroll">షీట్ నెస్టెడ్ స్క్రోల్</string>
     <string name="sheet_nested_scroll_sub">షీట్‌ను లాగడానికి మరియు తీసివేయడానికి షీట్ కంటెంట్‌లోని సంజ్ఞలను అనుమతించండి</string>
-</resources>
+<string name="save_if_smaller">చిన్నది అయితే సేవ్ చేయండి</string><string name="save_if_smaller_sub">నిలిపివేయబడితే, అభ్యర్థించిన గరిష్ట పరిమాణం కంటే చిన్న ఫైల్‌లు దాటవేయబడతాయి</string></resources>

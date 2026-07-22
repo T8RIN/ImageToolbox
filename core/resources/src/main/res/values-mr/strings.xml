@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">परिमाणित अभिमुखता</string>
     <string name="sheet_nested_scroll">शीट नेस्टेड स्क्रोल</string>
     <string name="sheet_nested_scroll_sub">शीट सामग्रीमधील जेश्चरना शीट ड्रॅग आणि डिसमिस करण्यासाठी अनुमती द्या</string>
-</resources>
+<string name="save_if_smaller">लहान असल्यास सेव्ह करा</string><string name="save_if_smaller_sub">अक्षम केल्यास, विनंती केलेल्या कमाल आकारापेक्षा लहान फाइल्स वगळल्या जातील</string></resources>

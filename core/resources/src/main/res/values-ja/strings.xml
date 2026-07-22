@@ -4429,4 +4429,4 @@
     <string name="gmic_param_quantized_orientations">量子化された方向</string>
     <string name="sheet_nested_scroll">シートのネストされたスクロール</string>
     <string name="sheet_nested_scroll_sub">シート コンテンツ内のジェスチャでシートをドラッグおよび閉じることができるようにする</string>
-</resources>
+<string name="save_if_smaller">小さい場合は保存する</string><string name="save_if_smaller_sub">無効にすると、要求された最大サイズより小さいファイルはスキップされます。</string></resources>

@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">Kvantuotos orientacijos</string>
     <string name="sheet_nested_scroll">Lapo įdėtas slinkimas</string>
     <string name="sheet_nested_scroll_sub" />
-</resources>
+<string name="save_if_smaller">Išsaugokite, jei mažesnis</string><string name="save_if_smaller_sub">Jei išjungta, failai, mažesni už prašomą maksimalų dydį, bus praleisti</string></resources>

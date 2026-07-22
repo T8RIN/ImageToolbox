@@ -4430,4 +4430,4 @@
     <string name="gmic_param_quantized_orientations">Orientações Quantizadas</string>
     <string name="sheet_nested_scroll">Rolagem aninhada de planilha</string>
     <string name="sheet_nested_scroll_sub">Permitir gestos no conteúdo da planilha para arrastar e descartar a planilha</string>
-</resources>
+<string name="save_if_smaller">Salvar se for menor</string><string name="save_if_smaller_sub">Se desativado, os arquivos menores que o tamanho máximo solicitado serão ignorados</string></resources>

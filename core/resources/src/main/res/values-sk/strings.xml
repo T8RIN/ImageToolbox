@@ -4432,4 +4432,4 @@
     <string name="gmic_param_quantized_orientations">Kvantované orientácie</string>
     <string name="sheet_nested_scroll">Hárok vnorený zvitok</string>
     <string name="sheet_nested_scroll_sub">Umožnite gestám v obsahu hárka pretiahnuť a zavrieť hárok</string>
-</resources>
+<string name="save_if_smaller">Uložte, ak sú menšie</string><string name="save_if_smaller_sub">Ak je zakázaná, súbory menšie ako požadovaná maximálna veľkosť budú preskočené</string></resources>
