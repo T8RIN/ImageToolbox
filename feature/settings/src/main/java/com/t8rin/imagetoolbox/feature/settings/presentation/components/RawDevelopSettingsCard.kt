@@ -146,6 +146,10 @@ private fun RawDevelopSettingsSheet(
         ) {
             SettingsGroup.RawDevelopment.settingsList.forEach { setting ->
                 when (setting) {
+                    Setting.RawUseEmbeddedPreview -> RawUseEmbeddedPreviewSettingItem(
+                        onClick = { updateSettings { toggleRawUseEmbeddedPreview() } }
+                    )
+
                     Setting.RawWhiteBalance -> RawWhiteBalanceSettingItem(
                         onValueChange = { updateSettings { setRawWhiteBalance(it) } }
                     )

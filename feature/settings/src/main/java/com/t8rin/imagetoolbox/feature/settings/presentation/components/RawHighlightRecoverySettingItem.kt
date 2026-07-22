@@ -48,7 +48,9 @@ fun RawHighlightRecoverySettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val recovery = LocalSettingsState.current.rawDevelopSettings.highlightRecovery
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+    val recovery = settings.highlightRecovery
     val reconstruct = recovery as? RawHighlightRecovery.Reconstruct
         ?: RawHighlightRecovery.Reconstruct()
     val entries = remember(reconstruct) {
@@ -65,6 +67,7 @@ fun RawHighlightRecoverySettingItem(
         modifier = modifier.container(shape = shape)
     ) {
         DataSelector(
+            enabled = enabled,
             value = recovery,
             onValueChange = onValueChange,
             entries = entries,
@@ -77,7 +80,9 @@ fun RawHighlightRecoverySettingItem(
             selectedItemColor = MaterialTheme.colorScheme.secondary
         )
 
-        AnimatedVisibility(visible = recovery is RawHighlightRecovery.Reconstruct) {
+        AnimatedVisibility(
+            visible = recovery is RawHighlightRecovery.Reconstruct && enabled
+        ) {
             EnhancedSliderItem(
                 modifier = Modifier.padding(8.dp),
                 shape = ShapeDefaults.default,

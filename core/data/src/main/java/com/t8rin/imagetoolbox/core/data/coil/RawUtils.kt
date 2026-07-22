@@ -18,6 +18,8 @@
 package com.t8rin.imagetoolbox.core.data.coil
 
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import com.t8rin.raw_coder.RawDecodeMode
+import com.t8rin.raw_coder.RawDecodeOptions
 import com.t8rin.raw_coder.RawDemosaicQuality
 import com.t8rin.raw_coder.RawDevelopSettings
 import com.t8rin.raw_coder.RawHighlightRecovery
@@ -28,7 +30,16 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery as
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace as DomainRawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance as DomainRawWhiteBalance
 
-internal fun SettingsState.rawDevelopSettings() = RawDevelopSettings(
+internal fun SettingsState.rawDecodeOptions() = RawDecodeOptions(
+    mode = if (rawDevelopSettings.useEmbeddedPreview) {
+        RawDecodeMode.EmbeddedPreview
+    } else {
+        RawDecodeMode.Developed
+    },
+    developSettings = rawDevelopSettings()
+)
+
+private fun SettingsState.rawDevelopSettings() = RawDevelopSettings(
     whiteBalance = rawDevelopSettings.whiteBalance.toRawWhiteBalance(),
     outputColorSpace = rawDevelopSettings.outputColorSpace.toRawOutputColorSpace(),
     highlightRecovery = rawDevelopSettings.highlightRecovery.toRawHighlightRecovery(),

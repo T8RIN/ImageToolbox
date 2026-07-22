@@ -49,6 +49,7 @@ fun RawAutoBrightnessSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
     val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
     var value by remember(settings.brightness) { mutableFloatStateOf(settings.brightness) }
 
     Column(
@@ -58,6 +59,7 @@ fun RawAutoBrightnessSettingItem(
         )
     ) {
         PreferenceRowSwitch(
+            enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
             title = stringResource(R.string.raw_auto_brightness),
             subtitle = stringResource(R.string.raw_auto_brightness_sub),
@@ -67,7 +69,7 @@ fun RawAutoBrightnessSettingItem(
             drawContainer = false
         )
 
-        AnimatedVisibility(visible = !settings.autoBrightness) {
+        AnimatedVisibility(visible = !settings.autoBrightness && enabled) {
             EnhancedSliderItem(
                 modifier = Modifier.padding(
                     start = 8.dp,

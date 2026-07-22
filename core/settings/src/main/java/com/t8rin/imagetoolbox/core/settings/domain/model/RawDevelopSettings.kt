@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.settings.domain.model
 
 data class RawDevelopSettings(
+    val useEmbeddedPreview: Boolean = false,
     val whiteBalance: RawWhiteBalance = RawWhiteBalance.Camera,
     val outputColorSpace: RawOutputColorSpace = RawOutputColorSpace.SRgb,
     val highlightRecovery: RawHighlightRecovery = RawHighlightRecovery.Clip,

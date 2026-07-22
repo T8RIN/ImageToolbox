@@ -766,6 +766,12 @@ internal fun SettingItem(
                     onClick = component::toggleRawApplyOrientation
                 )
             }
+
+            Setting.RawUseEmbeddedPreview -> {
+                RawUseEmbeddedPreviewSettingItem(
+                    onClick = component::toggleRawUseEmbeddedPreview
+                )
+            }
         }
     }
 }

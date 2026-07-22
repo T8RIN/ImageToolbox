@@ -282,6 +282,8 @@ internal fun Preferences.toSettingsState(
     motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
         .coerceIn(0f, 5f),
     rawDevelopSettings = RawDevelopSettings(
+        useEmbeddedPreview = this[RAW_USE_EMBEDDED_PREVIEW]
+            ?: default.rawDevelopSettings.useEmbeddedPreview,
         whiteBalance = toRawWhiteBalance(default.rawDevelopSettings.whiteBalance),
         outputColorSpace = RawOutputColorSpace.fromOrdinal(this[RAW_OUTPUT_COLOR_SPACE])
             ?: default.rawDevelopSettings.outputColorSpace,

@@ -41,10 +41,14 @@ fun RawExposureCompensationSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val settingsValue = LocalSettingsState.current.rawDevelopSettings.exposureCompensationEv
-    var value by remember(settingsValue) { mutableFloatStateOf(settingsValue) }
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+    var value by remember(settings.exposureCompensationEv) {
+        mutableFloatStateOf(settings.exposureCompensationEv)
+    }
 
     EnhancedSliderItem(
+        enabled = enabled,
         modifier = modifier,
         shape = shape,
         value = value,

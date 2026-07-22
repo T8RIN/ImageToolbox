@@ -46,14 +46,12 @@ import com.t8rin.imagetoolbox.core.data.coil.PdfDecoder
 import com.t8rin.imagetoolbox.core.data.coil.SvgDecoderCompat
 import com.t8rin.imagetoolbox.core.data.coil.TimeMeasureInterceptor
 import com.t8rin.imagetoolbox.core.data.coil.VVCDecoder
-import com.t8rin.imagetoolbox.core.data.coil.rawDevelopSettings
+import com.t8rin.imagetoolbox.core.data.coil.rawDecodeOptions
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.psd.coil.PsdDecoder
 import com.t8rin.qoi_coder.coil.QoiDecoder
-import com.t8rin.raw_coder.RawDecodeMode
-import com.t8rin.raw_coder.RawDecodeOptions
 import com.t8rin.raw_coder.coil.RawDecoder
 import com.t8rin.tiff_coder.coil.TiffDecoder
 import dagger.Module
@@ -120,10 +118,7 @@ internal object ImageLoaderModule {
             )
             add(
                 RawDecoder.Factory {
-                    RawDecodeOptions(
-                        mode = RawDecodeMode.Developed,
-                        developSettings = settingsProvider.settingsState.value.rawDevelopSettings()
-                    )
+                    settingsProvider.settingsState.value.rawDecodeOptions()
                 }
             )
             add(TiffDecoder.Factory())

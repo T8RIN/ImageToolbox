@@ -25,28 +25,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.ScreenRotationAlt
+import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun RawApplyOrientationSettingItem(
+fun RawUseEmbeddedPreviewSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.bottom,
+    shape: Shape = ShapeDefaults.top,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val settings = LocalSettingsState.current.rawDevelopSettings
-    val enabled = !settings.useEmbeddedPreview
-
     PreferenceRowSwitch(
-        enabled = enabled,
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.raw_apply_orientation),
-        subtitle = stringResource(R.string.raw_apply_orientation_sub),
-        checked = LocalSettingsState.current.rawDevelopSettings.applyOrientation,
+        title = stringResource(R.string.raw_use_embedded_preview),
+        subtitle = stringResource(R.string.raw_use_embedded_preview_sub),
+        checked = LocalSettingsState.current.rawDevelopSettings.useEmbeddedPreview,
         onClick = { onClick() },
-        startIcon = Icons.Rounded.ScreenRotationAlt
+        startIcon = Icons.Outlined.Preview
     )
 }

@@ -4049,6 +4049,8 @@
     <string name="raw_half_size_sub">Develop RAW images at half width and height for faster decoding</string>
     <string name="raw_apply_orientation">Apply orientation</string>
     <string name="raw_apply_orientation_sub">Rotate or mirror the developed image using its metadata</string>
+    <string name="raw_use_embedded_preview">Use embedded Preview</string>
+    <string name="raw_use_embedded_preview_sub">Use the preview embedded in the RAW image instead of developing it</string>
     <string name="raw_color_space_adobe_rgb">Adobe RGB</string>
     <string name="raw_color_space_wide_gamut_rgb">Wide Gamut RGB</string>
     <string name="raw_color_space_pro_photo_rgb">ProPhoto RGB</string>

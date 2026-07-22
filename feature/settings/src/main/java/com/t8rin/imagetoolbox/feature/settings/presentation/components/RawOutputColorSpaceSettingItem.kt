@@ -38,8 +38,12 @@ fun RawOutputColorSpaceSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+
     DataSelector(
-        value = LocalSettingsState.current.rawDevelopSettings.outputColorSpace,
+        enabled = enabled,
+        value = settings.outputColorSpace,
         onValueChange = onValueChange,
         spanCount = 1,
         entries = RawOutputColorSpace.entries,

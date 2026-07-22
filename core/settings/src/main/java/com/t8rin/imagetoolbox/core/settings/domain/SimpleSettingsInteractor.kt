@@ -27,6 +27,8 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
 
 interface SimpleSettingsInteractor {
 
+    suspend fun toggleRawUseEmbeddedPreview()
+
     suspend fun toggleMagnifierEnabled()
 
     suspend fun toggleCropOverlayDraggable()

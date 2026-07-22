@@ -425,6 +425,7 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.Raw,
         titleId = R.string.raw_development,
         settingsList = listOf(
+            Setting.RawUseEmbeddedPreview,
             Setting.RawWhiteBalance,
             Setting.RawOutputColorSpace,
             Setting.RawHighlightRecovery,

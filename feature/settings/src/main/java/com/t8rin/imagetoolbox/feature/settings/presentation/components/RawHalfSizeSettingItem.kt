@@ -36,7 +36,11 @@ fun RawHalfSizeSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+
     PreferenceRowSwitch(
+        enabled = enabled,
         modifier = modifier,
         shape = shape,
         title = stringResource(R.string.raw_half_size),

@@ -41,10 +41,14 @@ fun RawHighlightPreservationSettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val settingsValue = LocalSettingsState.current.rawDevelopSettings.highlightPreservation
-    var value by remember(settingsValue) { mutableFloatStateOf(settingsValue) }
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+    var value by remember(settings.highlightPreservation) {
+        mutableFloatStateOf(settings.highlightPreservation)
+    }
 
     EnhancedSliderItem(
+        enabled = enabled,
         modifier = modifier,
         shape = shape,
         value = value,

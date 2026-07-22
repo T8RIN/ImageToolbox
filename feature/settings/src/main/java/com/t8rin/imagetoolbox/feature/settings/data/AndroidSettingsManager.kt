@@ -171,6 +171,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_PRESERVAT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECONSTRUCTION_LEVEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_HIGHLIGHT_RECOVERY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_OUTPUT_COLOR_SPACE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_USE_EMBEDDED_PREVIEW
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_BLUE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_GREEN
@@ -244,6 +245,11 @@ internal class AndroidSettingsManager @Inject constructor(
     private val default = SettingsState.Default
 
     private val currentSettings: SettingsState get() = settingsState.value
+
+    override suspend fun toggleRawUseEmbeddedPreview() = toggle(
+        key = RAW_USE_EMBEDDED_PREVIEW,
+        defaultValue = default.rawDevelopSettings.useEmbeddedPreview
+    )
 
     override suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) = edit {
         it[RAW_WHITE_BALANCE] = when (whiteBalance) {

@@ -824,6 +824,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object RawUseEmbeddedPreview : Setting(
+        title = R.string.raw_use_embedded_preview,
+        subtitle = R.string.raw_use_embedded_preview_sub
+    )
+
+    @Serializable
     data object RawDemosaicQuality : Setting(
         title = R.string.raw_demosaic_quality,
         subtitle = R.string.raw_demosaic_quality_sub

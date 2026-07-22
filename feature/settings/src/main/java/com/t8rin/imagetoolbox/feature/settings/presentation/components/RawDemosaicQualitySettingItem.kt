@@ -39,8 +39,12 @@ fun RawDemosaicQualitySettingItem(
     shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+
     DataSelector(
-        value = LocalSettingsState.current.rawDevelopSettings.quality,
+        enabled = enabled,
+        value = settings.quality,
         onValueChange = onValueChange,
         spanCount = 1,
         entries = RawDemosaicQuality.entries,

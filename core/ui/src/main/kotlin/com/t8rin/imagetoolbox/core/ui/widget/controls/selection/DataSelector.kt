@@ -48,6 +48,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -97,19 +98,24 @@ fun <T : Any> DataSelector(
     ),
     key: ((item: T) -> Any)? = null,
     beforeExpandAction: (@Composable RowScope.() -> Unit)? = null,
-    chipHeight: Dp = 36.dp
+    chipHeight: Dp = 36.dp,
+    enabled: Boolean = true
 ) {
     val realSpanCount = spanCount.coerceAtLeast(1)
 
     Column(
-        modifier = modifier.then(
-            if (behaveAsContainer) {
-                Modifier.container(
-                    shape = shape,
-                    color = containerColor
-                )
-            } else Modifier
-        )
+        modifier = modifier
+            .then(
+                if (behaveAsContainer) {
+                    Modifier.container(
+                        shape = shape,
+                        color = containerColor
+                    )
+                } else Modifier
+            )
+            .alpha(
+                animateFloatAsState(if (enabled) 1f else 0.5f).value
+            )
     ) {
         var expanded by rememberSaveable(initialExpanded, realSpanCount, canExpand) {
             mutableStateOf(
@@ -164,6 +170,7 @@ fun <T : Any> DataSelector(
                     val rotation by animateFloatAsState(if (expanded) 180f else 0f)
 
                     EnhancedIconButton(
+                        enabled = enabled,
                         containerColor = Color.Transparent,
                         onClick = { expanded = !expanded }
                     ) {
@@ -227,6 +234,7 @@ fun <T : Any> DataSelector(
                         itemEqualityDelegate = itemEqualityDelegate,
                         selectedItemColor = selectedItemColor,
                         chipHeight = chipHeight,
+                        enabled = enabled,
                         modifier = if (key != null) Modifier.animateItem() else Modifier
                     )
                 }
@@ -252,7 +260,8 @@ fun <T : Any> DataSelector(
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,
                         selectedItemColor = selectedItemColor,
-                        chipHeight = chipHeight
+                        chipHeight = chipHeight,
+                        enabled = enabled
                     )
                 }
             }
@@ -270,7 +279,8 @@ private fun <T> ChipItem(
     itemEqualityDelegate: (T, T) -> Boolean,
     selectedItemColor: Color,
     chipHeight: Dp = 36.dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     val selected by remember(item, value) {
         derivedStateOf {
@@ -279,9 +289,9 @@ private fun <T> ChipItem(
     }
     EnhancedChip(
         selected = selected,
-        onClick = {
-            onValueChange(item)
-        },
+        onClick = if (enabled) {
+            { onValueChange(item) }
+        } else null,
         selectedColor = selectedItemColor,
         contentPadding = PaddingValues(
             horizontal = 12.dp,

@@ -46,10 +46,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 @Composable
 fun RawWhiteBalanceSettingItem(
     onValueChange: (RawWhiteBalance) -> Unit,
-    shape: Shape = ShapeDefaults.top,
+    shape: Shape = ShapeDefaults.center,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
 ) {
-    val whiteBalance = LocalSettingsState.current.rawDevelopSettings.whiteBalance
+    val settings = LocalSettingsState.current.rawDevelopSettings
+    val enabled = !settings.useEmbeddedPreview
+    val whiteBalance = settings.whiteBalance
     val custom = whiteBalance as? RawWhiteBalance.Custom ?: RawWhiteBalance.Custom()
     val entries = remember(custom) {
         listOf(
@@ -64,6 +66,7 @@ fun RawWhiteBalanceSettingItem(
         modifier = modifier.container(shape = shape)
     ) {
         DataSelector(
+            enabled = enabled,
             value = whiteBalance,
             onValueChange = onValueChange,
             entries = entries,
@@ -76,7 +79,9 @@ fun RawWhiteBalanceSettingItem(
             selectedItemColor = MaterialTheme.colorScheme.secondary
         )
 
-        AnimatedVisibility(visible = whiteBalance is RawWhiteBalance.Custom) {
+        AnimatedVisibility(
+            visible = whiteBalance is RawWhiteBalance.Custom && enabled
+        ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(vertical = 8.dp)

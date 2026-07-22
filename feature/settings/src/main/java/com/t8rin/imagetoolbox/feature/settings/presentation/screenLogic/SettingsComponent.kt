@@ -191,6 +191,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleAddSequenceNumber() = settingsScope { toggleAddSequenceNumber() }
 
+    fun toggleRawUseEmbeddedPreview() = settingsScope { toggleRawUseEmbeddedPreview() }
+
     fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) =
         settingsScope { setRawWhiteBalance(whiteBalance) }
 
