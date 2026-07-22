@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">اندازه ذرات</string>
     <string name="gmic_param_particle_thickness">ضخامت ذرات</string>
     <string name="gmic_param_quantized_orientations">جهت گیری های کوانتیزه شده</string>
+    <string name="sheet_nested_scroll">صفحه تو در تو</string>
+    <string name="sheet_nested_scroll_sub">به حرکات موجود در محتوای برگه اجازه دهید صفحه را بکشند و رد کنند</string>
 </resources>

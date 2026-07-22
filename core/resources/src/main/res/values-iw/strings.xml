@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">גודל חלקיקים</string>
     <string name="gmic_param_particle_thickness">עובי חלקיקים</string>
     <string name="gmic_param_quantized_orientations">כיוונים כמותיים</string>
+    <string name="sheet_nested_scroll">גלילה מקוננת בגיליון</string>
+    <string name="sheet_nested_scroll_sub">אפשר למחוות בתוכן הגיליון לגרור ולבטל את הגיליון</string>
 </resources>

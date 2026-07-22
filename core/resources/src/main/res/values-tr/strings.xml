@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Parçacık Boyutu</string>
     <string name="gmic_param_particle_thickness">Parçacık Kalınlığı</string>
     <string name="gmic_param_quantized_orientations">Nicelenmiş Yönelimler</string>
+    <string name="sheet_nested_scroll">Sayfa iç içe kaydırma</string>
+    <string name="sheet_nested_scroll_sub">Sayfa içeriğindeki hareketlerin sayfayı sürükleyip kapatmasına izin ver</string>
 </resources>

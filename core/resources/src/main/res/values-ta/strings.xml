@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">துகள் அளவு</string>
     <string name="gmic_param_particle_thickness">துகள் தடிமன்</string>
     <string name="gmic_param_quantized_orientations">அளவிடப்பட்ட நோக்குநிலைகள்</string>
+    <string name="sheet_nested_scroll">தாள் உள்ளமைக்கப்பட்ட சுருள்</string>
+    <string name="sheet_nested_scroll_sub">தாளை இழுத்து நிராகரிக்க தாள் உள்ளடக்கத்தில் உள்ள சைகைகளை அனுமதிக்கவும்</string>
 </resources>

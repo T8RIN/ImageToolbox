@@ -4429,4 +4429,6 @@
     <string name="gmic_param_particle_size">Dimensiunea particulelor</string>
     <string name="gmic_param_particle_thickness">Grosimea particulelor</string>
     <string name="gmic_param_quantized_orientations">Orientări cuantizate</string>
+    <string name="sheet_nested_scroll">Defilare imbricată foaie</string>
+    <string name="sheet_nested_scroll_sub">Permiteți gesturilor din conținutul foii să tragă și să închidă foaia</string>
 </resources>

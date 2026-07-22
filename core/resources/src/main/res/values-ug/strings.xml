@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">بۆلەك چوڭلۇقى</string>
     <string name="gmic_param_particle_thickness">بۆلەك قېلىنلىقى</string>
     <string name="gmic_param_quantized_orientations">مىقدارلاشقان يۆنىلىش</string>
+    <string name="sheet_nested_scroll">ۋاراق ئۇۋىسى</string>
+    <string name="sheet_nested_scroll_sub">ۋاراق مەزمۇنىدىكى ئىشارەتلەرنىڭ ۋاراقنى سۆرەپ تاشلىشىغا يول قويۇڭ</string>
 </resources>

@@ -4429,4 +4429,6 @@
     <string name="gmic_param_particle_size">Величина честица</string>
     <string name="gmic_param_particle_thickness">Партицле Тхицкнесс</string>
     <string name="gmic_param_quantized_orientations">Квантизоване оријентације</string>
+    <string name="sheet_nested_scroll">Угнежђени лист</string>
+    <string name="sheet_nested_scroll_sub">Дозволите покретима у садржају листа за повлачење и одбацивање листа</string>
 </resources>

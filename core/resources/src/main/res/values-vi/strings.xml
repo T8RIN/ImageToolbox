@@ -4427,4 +4427,6 @@
     <string name="gmic_param_particle_size">Kích thước hạt</string>
     <string name="gmic_param_particle_thickness">Độ dày hạt</string>
     <string name="gmic_param_quantized_orientations">Định hướng lượng tử hóa</string>
+    <string name="sheet_nested_scroll">Cuộn trang tính lồng nhau</string>
+    <string name="sheet_nested_scroll_sub">Cho phép cử chỉ trong nội dung trang tính để kéo và loại bỏ trang tính</string>
 </resources>

@@ -4428,4 +4428,6 @@
     <string name="gmic_param_motion_angle">Қозғалыс бұрышы</string>
     <string name="gmic_param_motion_moment">Қозғалыс сәті</string>
     <string name="gmic_param_trail_blur">Trail Blur</string>
+    <string name="sheet_nested_scroll">Парақ кірістірілген айналдыру</string>
+    <string name="sheet_nested_scroll_sub">Парақ мазмұнындағы қимылдарға парақты апарып тастауға рұқсат беріңіз</string>
 </resources>

@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Памер часціц</string>
     <string name="gmic_param_particle_thickness">Таўшчыня часціц</string>
     <string name="gmic_param_quantized_orientations">Квантаваныя арыентацыі</string>
+    <string name="sheet_nested_scroll">Аркуш укладзены скрутак</string>
+    <string name="sheet_nested_scroll_sub">Дазволіць жэсты ў змесціве аркуша перацягваць і адхіляць аркуш</string>
 </resources>

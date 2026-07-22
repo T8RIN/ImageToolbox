@@ -4427,4 +4427,6 @@
     <string name="gmic_param_particle_size">粒径</string>
     <string name="gmic_param_particle_thickness">颗粒厚度</string>
     <string name="gmic_param_quantized_orientations">量子化方向</string>
+    <string name="sheet_nested_scroll">工作表嵌套滚动</string>
+    <string name="sheet_nested_scroll_sub">允许工作表内容中的手势拖动和关闭工作表</string>
 </resources>

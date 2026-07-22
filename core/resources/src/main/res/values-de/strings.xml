@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Partikelgröße</string>
     <string name="gmic_param_particle_thickness">Partikeldicke</string>
     <string name="gmic_param_quantized_orientations">Quantisierte Orientierungen</string>
+    <string name="sheet_nested_scroll">Blattverschachtelte Schriftrolle</string>
+    <string name="sheet_nested_scroll_sub">Gesten im Blattinhalt zulassen, um das Blatt zu ziehen und zu schließen</string>
 </resources>

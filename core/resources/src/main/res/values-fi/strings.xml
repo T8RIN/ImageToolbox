@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Partikkelikoko</string>
     <string name="gmic_param_particle_thickness">Partikkelin paksuus</string>
     <string name="gmic_param_quantized_orientations">Kvantisoidut suuntaukset</string>
+    <string name="sheet_nested_scroll">Sivun sisäkkäinen vieritys</string>
+    <string name="sheet_nested_scroll_sub">Salli taulukon sisällön eleiden vetää ja hylätä taulukko</string>
 </resources>

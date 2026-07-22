@@ -4427,4 +4427,6 @@
     <string name="gmic_param_particle_size">입자 크기</string>
     <string name="gmic_param_particle_thickness">입자 두께</string>
     <string name="gmic_param_quantized_orientations">양자화된 방향</string>
+    <string name="sheet_nested_scroll">시트 중첩 스크롤</string>
+    <string name="sheet_nested_scroll_sub">시트 콘텐츠의 동작으로 시트를 끌어서 닫을 수 있도록 허용</string>
 </resources>

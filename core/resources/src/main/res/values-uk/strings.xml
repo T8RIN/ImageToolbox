@@ -4430,4 +4430,6 @@
     <string name="raw_exposure_compensation">Компенсація експозиції</string>
     <string name="raw_highlight_preservation">Виділіть збереження</string>
     <string name="raw_auto_brightness">Автоматична яскравість</string>
+    <string name="sheet_nested_scroll">Лист вкладений прокручування</string>
+    <string name="sheet_nested_scroll_sub">Дозволити жести у вмісті аркуша, щоб перетягувати та закривати аркуш</string>
 </resources>

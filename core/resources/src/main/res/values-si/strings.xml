@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">අංශු ප්රමාණය</string>
     <string name="gmic_param_particle_thickness">අංශු ඝණකම</string>
     <string name="gmic_param_quantized_orientations">ප්‍රමාණාත්මක දිශානතිය</string>
+    <string name="sheet_nested_scroll">ෂීට් කැදලි අනුචලනය</string>
+    <string name="sheet_nested_scroll_sub">පත්‍රය ඇදගෙන ඉවත් කිරීමට පත්‍ර අන්තර්ගතයේ අභිනයන්ට ඉඩ දෙන්න</string>
 </resources>

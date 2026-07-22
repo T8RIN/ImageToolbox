@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Partikelstorlek</string>
     <string name="gmic_param_particle_thickness">Partikeltjocklek</string>
     <string name="gmic_param_quantized_orientations">Kvantiserade orienteringar</string>
+    <string name="sheet_nested_scroll">Ark kapslad rullning</string>
+    <string name="sheet_nested_scroll_sub">Tillåt gester i arkets innehåll att dra och ta bort arket</string>
 </resources>

@@ -4428,4 +4428,6 @@
     <string name="raw_exposure_compensation">Compensación de exposición</string>
     <string name="raw_highlight_preservation">Preservación destacada</string>
     <string name="raw_auto_brightness">Brillo automático</string>
+    <string name="sheet_nested_scroll">Desplazamiento anidado de hojas</string>
+    <string name="sheet_nested_scroll_sub">Permitir gestos en el contenido de la hoja para arrastrar y descartar la hoja</string>
 </resources>

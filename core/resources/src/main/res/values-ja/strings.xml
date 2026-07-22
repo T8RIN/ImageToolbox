@@ -4427,4 +4427,6 @@
     <string name="gmic_param_particle_size">粒子サイズ</string>
     <string name="gmic_param_particle_thickness">粒子の厚さ</string>
     <string name="gmic_param_quantized_orientations">量子化された方向</string>
+    <string name="sheet_nested_scroll">シートのネストされたスクロール</string>
+    <string name="sheet_nested_scroll_sub">シート コンテンツ内のジェスチャでシートをドラッグおよび閉じることができるようにする</string>
 </resources>

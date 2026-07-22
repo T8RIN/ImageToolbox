@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Mida de partícules</string>
     <string name="gmic_param_particle_thickness">Gruix de partícules</string>
     <string name="gmic_param_quantized_orientations">Orientacions quantificades</string>
+    <string name="sheet_nested_scroll">Desplaçament imbricat al full</string>
+    <string name="sheet_nested_scroll_sub">Permet que els gestos del contingut del full arrosseguin i ometen el full</string>
 </resources>

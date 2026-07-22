@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Partikelstørrelse</string>
     <string name="gmic_param_particle_thickness">Partikeltykkelse</string>
     <string name="gmic_param_quantized_orientations">Kvantiserede orienteringer</string>
+    <string name="sheet_nested_scroll">Ark indlejret rulle</string>
+    <string name="sheet_nested_scroll_sub">Tillad bevægelser i arkindholdet at trække og lukke arket</string>
 </resources>

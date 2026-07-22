@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Размер частиц</string>
     <string name="gmic_param_particle_thickness">Толщина частиц</string>
     <string name="gmic_param_quantized_orientations">Квантованные ориентации</string>
+    <string name="sheet_nested_scroll">Листовой вложенный свиток</string>
+    <string name="sheet_nested_scroll_sub">Разрешить жесты в содержимом листа для перетаскивания и закрытия листа</string>
 </resources>

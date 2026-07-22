@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">कण आकार</string>
     <string name="gmic_param_particle_thickness">कण की मोटाई</string>
     <string name="gmic_param_quantized_orientations">परिमाणित अभिविन्यास</string>
+    <string name="sheet_nested_scroll">शीट नेस्टेड स्क्रॉल</string>
+    <string name="sheet_nested_scroll_sub">शीट की सामग्री में इशारों को शीट को खींचने और खारिज करने की अनुमति दें</string>
 </resources>

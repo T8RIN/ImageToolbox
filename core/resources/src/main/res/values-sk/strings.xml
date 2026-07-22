@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Veľkosť častíc</string>
     <string name="gmic_param_particle_thickness">Hrúbka častíc</string>
     <string name="gmic_param_quantized_orientations">Kvantované orientácie</string>
+    <string name="sheet_nested_scroll">Hárok vnorený zvitok</string>
+    <string name="sheet_nested_scroll_sub">Umožnite gestám v obsahu hárka pretiahnuť a zavrieť hárok</string>
 </resources>

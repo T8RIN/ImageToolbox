@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Rozmiar cząstek</string>
     <string name="gmic_param_particle_thickness">Grubość cząstek</string>
     <string name="gmic_param_quantized_orientations">Kwantowane orientacje</string>
+    <string name="sheet_nested_scroll">Zwój zagnieżdżony w arkuszu</string>
+    <string name="sheet_nested_scroll_sub">Zezwalaj na gesty w treści arkusza, aby przeciągnąć i zamknąć arkusz</string>
 </resources>

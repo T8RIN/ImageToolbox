@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Deeltjesgrootte</string>
     <string name="gmic_param_particle_thickness">Deeltjesdikte</string>
     <string name="gmic_param_quantized_orientations">Gekwantiseerde oriëntaties</string>
+    <string name="sheet_nested_scroll">Blad geneste scroll</string>
+    <string name="sheet_nested_scroll_sub">Sta toe dat gebaren in de bladinhoud het blad slepen en sluiten</string>
 </resources>

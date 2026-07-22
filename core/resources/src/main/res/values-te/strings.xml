@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">కణ పరిమాణం</string>
     <string name="gmic_param_particle_thickness">కణ మందం</string>
     <string name="gmic_param_quantized_orientations">పరిమాణాత్మక దిశలు</string>
+    <string name="sheet_nested_scroll">షీట్ నెస్టెడ్ స్క్రోల్</string>
+    <string name="sheet_nested_scroll_sub">షీట్‌ను లాగడానికి మరియు తీసివేయడానికి షీట్ కంటెంట్‌లోని సంజ్ఞలను అనుమతించండి</string>
 </resources>

@@ -4427,4 +4427,6 @@
     <string name="gmic_param_particle_size">ขนาดอนุภาค</string>
     <string name="gmic_param_particle_thickness">ความหนาของอนุภาค</string>
     <string name="gmic_param_quantized_orientations">การวางแนวเชิงปริมาณ</string>
+    <string name="sheet_nested_scroll">การเลื่อนแบบซ้อนแผ่นงาน</string>
+    <string name="sheet_nested_scroll_sub">อนุญาตให้ท่าทางสัมผัสในเนื้อหาชีตลากและยกเลิกชีตได้</string>
 </resources>

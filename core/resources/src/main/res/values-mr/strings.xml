@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">कण आकार</string>
     <string name="gmic_param_particle_thickness">कणाची जाडी</string>
     <string name="gmic_param_quantized_orientations">परिमाणित अभिमुखता</string>
+    <string name="sheet_nested_scroll">शीट नेस्टेड स्क्रोल</string>
+    <string name="sheet_nested_scroll_sub">शीट सामग्रीमधील जेश्चरना शीट ड्रॅग आणि डिसमिस करण्यासाठी अनुमती द्या</string>
 </resources>

@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Velikost částic</string>
     <string name="gmic_param_particle_thickness">Tloušťka částic</string>
     <string name="gmic_param_quantized_orientations">Kvantované orientace</string>
+    <string name="sheet_nested_scroll">List vnořený svitek</string>
+    <string name="sheet_nested_scroll_sub">Umožněte gestům v obsahu listu přetáhnout a zavřít list</string>
 </resources>

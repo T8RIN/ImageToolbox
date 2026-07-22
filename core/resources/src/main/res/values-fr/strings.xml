@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Taille des particules</string>
     <string name="gmic_param_particle_thickness">Épaisseur des particules</string>
     <string name="gmic_param_quantized_orientations">Orientations quantifiées</string>
+    <string name="sheet_nested_scroll">Défilement imbriqué de feuille</string>
+    <string name="sheet_nested_scroll_sub">Autoriser les gestes dans le contenu de la feuille pour faire glisser et fermer la feuille</string>
 </resources>

@@ -4430,4 +4430,6 @@
     <string name="gmic_param_particle_size">Dalelių dydis</string>
     <string name="gmic_param_particle_thickness">Dalelių storis</string>
     <string name="gmic_param_quantized_orientations">Kvantuotos orientacijos</string>
+    <string name="sheet_nested_scroll">Lapo įdėtas slinkimas</string>
+    <string name="sheet_nested_scroll_sub" />
 </resources>

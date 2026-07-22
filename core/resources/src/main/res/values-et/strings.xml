@@ -4428,4 +4428,6 @@
     <string name="gmic_param_particle_size">Osakeste suurus</string>
     <string name="gmic_param_particle_thickness">Osakeste paksus</string>
     <string name="gmic_param_quantized_orientations">Kvantiseeritud orientatsioonid</string>
+    <string name="sheet_nested_scroll">Lehe pesastatud kerimine</string>
+    <string name="sheet_nested_scroll_sub">Lubage lehe sisus olevatel žestidel lehte lohistada ja sellest loobuda</string>
 </resources>
