@@ -68,6 +68,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.modalsheet.ModalBottomSheetValue
 import com.t8rin.modalsheet.ModalSheet
 import com.t8rin.modalsheet.rememberModalBottomSheetState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -264,28 +266,78 @@ private fun EnhancedModalSheetImpl(
     var isAnimating by remember {
         mutableStateOf(false)
     }
+    var animationJob by remember {
+        mutableStateOf<Job?>(null)
+    }
+    var animationTargetVisible by remember {
+        mutableStateOf<Boolean?>(null)
+    }
 
     LaunchedEffect(visible, cancelable) {
-        if (visible) {
-            internalCancelable.value = cancelable
-            isAnimating = true
-            scope.launch {
-                sheetState.show()
-                isAnimating = false
+        val previousJob = animationJob
+        val isInterruptingHide = visible &&
+                animationTargetVisible == false &&
+                previousJob?.isActive == true
+
+        previousJob?.cancelAndJoin()
+
+        internalCancelable.value = if (visible) cancelable else true
+        isAnimating = true
+        animationTargetVisible = visible
+
+        val newJob = scope.launch {
+            if (isInterruptingHide) {
+                delay(32L)
             }
-        } else {
-            internalCancelable.value = true
-            isAnimating = true
-            scope.launch {
+
+            if (visible) {
+                sheetState.show()
+            } else {
                 sheetState.hide()
+            }
+        }
+        animationJob = newJob
+
+        newJob.invokeOnCompletion {
+            if (animationJob === newJob) {
                 isAnimating = false
+                animationJob = null
+                animationTargetVisible = null
             }
         }
     }
 
-    LaunchedEffect(sheetState.currentValue, sheetState.targetValue, sheetState.progress) {
+    LaunchedEffect(
+        sheetState.targetValue,
+        sheetState.isAnimationRunning,
+        isAnimating,
+        visible
+    ) {
+        val isGestureDismissRunning = visible &&
+                !isAnimating &&
+                sheetState.isAnimationRunning &&
+                sheetState.targetValue == ModalBottomSheetValue.Hidden
+
+        if (isGestureDismissRunning) {
+            onVisibleChange(false)
+        }
+    }
+
+    LaunchedEffect(
+        sheetState.currentValue,
+        sheetState.targetValue,
+        sheetState.progress,
+        isAnimating,
+        visible
+    ) {
+        if (isAnimating) return@LaunchedEffect
+
         delay(600)
-        if (sheetState.progress == 1f && sheetState.currentValue == sheetState.targetValue) {
+        if (
+            !isAnimating &&
+            sheetState.progress == 1f &&
+            sheetState.currentValue == sheetState.targetValue
+        ) {
             val newVisible = sheetState.isVisible
             if (newVisible != visible) {
                 onVisibleChange(newVisible)
