@@ -28,6 +28,7 @@ import androidx.core.graphics.applyCanvas
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.asDomain
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
@@ -104,7 +105,11 @@ class CompareComponent @AssistedInject internal constructor(
     val pixelByPixelCompareState: PixelByPixelCompareState by _pixelByPixelCompareState
 
     fun updatePixelByPixelCompareState(state: PixelByPixelCompareState) {
-        _pixelByPixelCompareState.update { state }
+        _pixelByPixelCompareState.update {
+            state.copy(
+                score = null
+            )
+        }
     }
 
     fun rotate() {
@@ -337,7 +342,11 @@ class CompareComponent @AssistedInject internal constructor(
                 comparisonType = ComparisonType.valueOf(pixelByPixelCompareState.comparisonType.name),
                 highlightColor = pixelByPixelCompareState.highlightColor.toArgb(),
                 threshold = compareProgress
-            )
+            ).also { result ->
+                _pixelByPixelCompareState.update {
+                    it.copy(score = result.score.toFloat().roundToTwoDigits())
+                }
+            }.highlightedBitmap
         }.toCoil()
 
     @AssistedFactory

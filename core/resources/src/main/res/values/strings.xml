@@ -4466,4 +4466,5 @@
     <string name="gmic_param_particle_size">Particle Size</string>
     <string name="gmic_param_particle_thickness">Particle Thickness</string>
     <string name="gmic_param_quantized_orientations">Quantized Orientations</string>
+    <string name="score">Score</string>
 </resources>

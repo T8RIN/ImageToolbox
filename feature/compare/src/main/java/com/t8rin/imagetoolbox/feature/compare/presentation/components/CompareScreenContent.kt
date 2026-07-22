@@ -19,6 +19,11 @@ package com.t8rin.imagetoolbox.feature.compare.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -74,6 +79,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Highlight
 import com.t8rin.imagetoolbox.core.resources.icons.Pix
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -150,7 +158,9 @@ internal fun CompareScreenContent(
             val tuneButton: @Composable BoxScope.() -> Unit = {
                 BoxAnimatedVisibility(
                     visible = compareType == CompareType.PixelByPixel,
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
                 ) {
                     var openTuneMenu by rememberSaveable {
                         mutableStateOf(false)
@@ -232,6 +242,32 @@ internal fun CompareScreenContent(
                 }
             }
 
+            val scoreBadge: @Composable BoxScope.() -> Unit = {
+                BoxAnimatedVisibility(
+                    visible = compareType == CompareType.PixelByPixel &&
+                            pixelByPixelCompareState.score != null,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp),
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
+                ) {
+                    val score = ": ${pixelByPixelCompareState.score ?: "?"}"
+                    Text(
+                        text = "${pixelByPixelCompareState.comparisonType} ${stringResource(R.string.score)}$score",
+                        modifier = Modifier
+                            .background(
+                                color = MaterialTheme.colorScheme.primaryContainerFixed
+                                    .blend(Color.Black),
+                                shape = ShapeDefaults.extraSmall
+                            )
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainerFixed
+                    )
+                }
+            }
+
             if (isPortrait) {
                 Column {
                     Box(
@@ -259,6 +295,7 @@ internal fun CompareScreenContent(
                         }
 
                         tuneButton()
+                        scoreBadge()
                     }
 
                     val showButtonsAtTheTop =
@@ -375,6 +412,7 @@ internal fun CompareScreenContent(
                         }
 
                         tuneButton()
+                        scoreBadge()
                     }
 
                     val showButtonsAtTheStart =
