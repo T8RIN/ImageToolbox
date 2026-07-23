@@ -124,9 +124,14 @@ internal class OriginalFileDeletionHelper @Inject constructor(
 
         val mediaStoreUri = resolvedUri.toMediaStoreItemUri()
         val outputMediaStoreUri = outputUri.toMediaStoreItemUri()
-        if (mediaStoreUri != null && outputMediaStoreUri != null) {
-            if (mediaStoreUri == outputMediaStoreUri) return
-        } else if (resolvedUri.refersToSameFileAs(outputUri)) {
+        if (
+            mediaStoreUri != null &&
+            outputMediaStoreUri != null &&
+            mediaStoreUri == outputMediaStoreUri
+        ) {
+            return
+        }
+        if (resolvedUri.refersToSameFileAs(outputUri)) {
             return
         }
 
