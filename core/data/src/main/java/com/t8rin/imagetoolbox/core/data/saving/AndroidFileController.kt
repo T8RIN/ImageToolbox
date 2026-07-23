@@ -138,6 +138,7 @@ internal class AndroidFileController @Inject constructor(
                     saveTarget.extension
                 }
             )
+            originalFileDeletionHelper.onSuccessfulSave()
         }
 
         return result

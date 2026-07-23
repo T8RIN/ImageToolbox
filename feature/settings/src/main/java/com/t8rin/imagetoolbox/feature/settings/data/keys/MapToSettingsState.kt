@@ -80,6 +80,8 @@ internal fun Preferences.toSettingsState(
     saveToOriginalFolder = this[SAVE_TO_ORIGINAL_FOLDER] ?: default.saveToOriginalFolder,
     deleteOriginalsAfterSave = this[DELETE_ORIGINALS_AFTER_SAVE]
         ?: default.deleteOriginalsAfterSave,
+    returnToExternalAppAfterSave = this[RETURN_TO_EXTERNAL_APP_AFTER_SAVE]
+        ?: default.returnToExternalAppAfterSave,
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,
     colorTupleList = this[COLOR_TUPLES],
     allowChangeColorByImage = this[ALLOW_IMAGE_MONET] ?: default.allowChangeColorByImage,

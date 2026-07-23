@@ -15,39 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.core.data.saving
-
-import android.content.IntentSender
-import kotlinx.coroutines.flow.Flow
-
-interface FileControllerEventEmitter {
-    val events: Flow<FileControllerEvent>
-
-    suspend fun deleteFiles(
-        uris: List<String>,
-        onResult: (FileDeletionResult) -> Unit
-    )
-
-    fun onDeleteOriginalsPermissionResult(
-        requestId: Long,
-        granted: Boolean
-    )
-}
+package com.t8rin.imagetoolbox.core.domain.saving.model
 
 data class FileDeletionResult(
     val deletedUris: List<String>,
     val failedUris: List<String>
 )
-
-sealed interface FileControllerEvent {
-    data class RequestDeleteOriginalsPermission(
-        val requestId: Long,
-        val intentSender: IntentSender,
-        val count: Int
-    ) : FileControllerEvent
-
-    data class OriginalFilesDeleteResult(
-        val deleted: Int,
-        val failed: Int
-    ) : FileControllerEvent
-}

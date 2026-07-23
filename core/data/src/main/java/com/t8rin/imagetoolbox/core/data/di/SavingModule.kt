@@ -21,12 +21,12 @@ import com.t8rin.imagetoolbox.core.data.history.AppHistoryRepositoryImpl
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFileController
 import com.t8rin.imagetoolbox.core.data.saving.AndroidFilenameCreator
 import com.t8rin.imagetoolbox.core.data.saving.AndroidKeepAliveService
-import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.data.saving.OriginalFileDeletionHelper
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.image.MetadataProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileController.Companion.toMetadataProvider
+import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import dagger.Binds

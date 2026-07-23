@@ -33,6 +33,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileControllerEvent
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
 import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
@@ -41,6 +44,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.io.File
@@ -59,6 +64,9 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val eventChannel = Channel<FileControllerEvent>(Channel.UNLIMITED)
     override val events: Flow<FileControllerEvent> = eventChannel.receiveAsFlow()
 
+    private val successfulSaveEventFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    override val successfulSaveEvents: Flow<Unit> = successfulSaveEventFlow.asSharedFlow()
+
     private val pendingDeleteUris = ConcurrentHashMap.newKeySet<Uri>()
     private val pendingDeleteRequests = ConcurrentHashMap<Long, List<Uri>>()
     private val pendingDeleteOperations = ConcurrentHashMap<Uri, DeleteOperation>()
@@ -69,6 +77,10 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val pendingFailedCount = AtomicInteger()
     private val deleteResultLock = Any()
     private var deleteResultJob: Job? = null
+
+    override fun onSuccessfulSave() {
+        successfulSaveEventFlow.tryEmit(Unit)
+    }
 
     override suspend fun deleteFiles(
         uris: List<String>,

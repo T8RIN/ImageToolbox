@@ -178,6 +178,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RETURN_TO_EXTERNAL_APP_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREENS_WITH_BRIGHTNESS_ENFORCEMENT
@@ -1104,6 +1105,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleEnableToolExitConfirmation() = toggle(
         key = ENABLE_TOOL_EXIT_CONFIRMATION,
         defaultValue = default.enableToolExitConfirmation
+    )
+
+    override suspend fun toggleReturnToExternalAppAfterSave() = toggle(
+        key = RETURN_TO_EXTERNAL_APP_AFTER_SAVE,
+        defaultValue = default.returnToExternalAppAfterSave
     )
 
     override suspend fun toggleCustomAsciiGradient(gradient: String) = edit {

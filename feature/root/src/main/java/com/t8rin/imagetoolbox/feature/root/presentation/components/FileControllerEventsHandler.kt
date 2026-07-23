@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.root.presentation.components
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.IntentSender
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -29,18 +30,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.t8rin.imagetoolbox.core.data.saving.FileControllerEvent
-import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileControllerEvent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
+import kotlinx.coroutines.delay
 
+@SuppressLint("StringFormatInvalid")
 @Composable
 internal fun FileControllerEventsHandler(
-    eventEmitter: FileControllerEventEmitter
+    component: RootComponent
 ) {
+    val activity = LocalComponentActivity.current
     var activeRequestId by rememberSaveable { mutableStateOf<Long?>(null) }
     var pendingRequests by rememberSaveable(stateSaver = deleteRequestsSaver) {
         mutableStateOf(emptyList())
@@ -49,7 +54,7 @@ internal fun FileControllerEventsHandler(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         activeRequestId?.let { requestId ->
-            eventEmitter.onDeleteOriginalsPermissionResult(
+            component.onDeleteOriginalsPermissionResult(
                 requestId = requestId,
                 granted = result.resultCode == Activity.RESULT_OK
             )
@@ -57,8 +62,8 @@ internal fun FileControllerEventsHandler(
         activeRequestId = null
     }
 
-    LaunchedEffect(eventEmitter) {
-        eventEmitter.events.collect { event ->
+    LaunchedEffect(component) {
+        component.events.collect { event ->
             when (event) {
                 is FileControllerEvent.RequestDeleteOriginalsPermission -> {
                     pendingRequests = pendingRequests + event
@@ -91,13 +96,22 @@ internal fun FileControllerEventsHandler(
         }
     }
 
+    LaunchedEffect(component, activity) {
+        component.successfulSaveEvents.collect {
+            if (component.shouldReturnToExternalAppAfterSave()) {
+                delay(1_000)
+                activity.finishAffinity()
+            }
+        }
+    }
+
     LaunchedEffect(activeRequestId, pendingRequests, launcher) {
         if (activeRequestId == null) {
             pendingRequests.firstOrNull()?.let { event ->
                 pendingRequests = pendingRequests.drop(1)
                 activeRequestId = event.requestId
                 launcher.launch(
-                    IntentSenderRequest.Builder(event.intentSender).build()
+                    IntentSenderRequest.Builder(event.intentSender as IntentSender).build()
                 )
             }
         }

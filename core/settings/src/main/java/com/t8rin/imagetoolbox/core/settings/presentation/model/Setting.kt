@@ -314,6 +314,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object ReturnToExternalAppAfterSave : Setting(
+        title = R.string.return_to_external_app_after_save,
+        subtitle = R.string.return_to_external_app_after_save_sub
+    )
+
+    @Serializable
     data object ScreenOrder : Setting(
         title = R.string.order,
         subtitle = R.string.order_sub

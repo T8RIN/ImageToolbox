@@ -250,6 +250,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleEnableToolExitConfirmation()
 
+    suspend fun toggleReturnToExternalAppAfterSave()
+
     suspend fun createLogsExport(): String
 
     suspend fun toggleAddPresetInfoToFilename()

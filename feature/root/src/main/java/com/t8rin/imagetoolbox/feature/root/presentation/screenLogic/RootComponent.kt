@@ -33,7 +33,6 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.APP_CHANGELOG
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
@@ -42,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -123,6 +123,8 @@ class RootComponent @AssistedInject internal constructor(
 
     private val _settingsState = mutableStateOf(initialSettingsState)
     val settingsState: SettingsState by _settingsState
+
+    private var isExternalLaunch = false
 
     private val navController = StackNavigation<Screen>()
 
@@ -458,6 +460,10 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     fun handleDeeplinks(intent: Intent?) {
+        if (intent?.action != null && intent.action != Intent.ACTION_MAIN) {
+            isExternalLaunch = true
+        }
+
         intent.handleDeeplinks(
             onStart = ::hideSelectDialog,
             onHasExtraDataType = ::updateExtraDataType,
@@ -469,6 +475,9 @@ class RootComponent @AssistedInject internal constructor(
             isOpenEditInsteadOfPreview = settingsState.openEditInsteadOfPreview
         )
     }
+
+    fun shouldReturnToExternalAppAfterSave(): Boolean =
+        isExternalLaunch && settingsState.returnToExternalAppAfterSave
 
     private fun Screen.saveToHistory() = apply {
         if (id < 0) return@apply

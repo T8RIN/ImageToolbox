@@ -356,6 +356,12 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.ReturnToExternalAppAfterSave -> {
+                ReturnToExternalAppAfterSaveSettingItem(
+                    onClick = component::toggleReturnToExternalAppAfterSave
+                )
+            }
+
             Setting.ScreenOrder -> {
                 ScreenOrderSettingItem(onValueChange = component::setScreenOrder)
             }

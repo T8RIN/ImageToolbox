@@ -403,6 +403,7 @@ sealed class SettingsGroup(
         titleId = R.string.behavior,
         settingsList = listOf(
             Setting.SkipFilePicking,
+            Setting.ReturnToExternalAppAfterSave,
             Setting.AllowSkipIfLarger,
             Setting.ToolsHiddenForShare,
             Setting.EnableToolExitConfirmation,

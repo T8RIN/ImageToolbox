@@ -24,9 +24,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
-import com.t8rin.imagetoolbox.core.data.saving.FileControllerEventEmitter
-import com.t8rin.imagetoolbox.core.data.saving.FileDeletionResult
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
