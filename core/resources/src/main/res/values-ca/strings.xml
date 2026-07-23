@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Utilitzeu la vista prèvia incrustada</string>
     <string name="raw_use_embedded_preview_sub">Utilitzeu la vista prèvia incrustada a la imatge RAW en lloc de desenvolupar-la</string>
     <string name="score">Puntuació</string>
+    <string name="return_to_external_app_after_save">Torna després de desar les edicions externes</string>
+    <string name="return_to_external_app_after_save_sub">Tanqueu la Caixa d\'eines d\'imatge després de desar una imatge oberta per editar-la des d\'una altra aplicació</string>
 </resources>

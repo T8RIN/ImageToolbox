@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Використовуйте вбудований попередній перегляд</string>
     <string name="raw_use_embedded_preview_sub">Використовуйте попередній перегляд, вбудований у зображення RAW, замість того, щоб його розвивати</string>
     <string name="score">Оцінка</string>
+    <string name="return_to_external_app_after_save">Повернутися після збереження зовнішніх змін</string>
+    <string name="return_to_external_app_after_save_sub">Закрийте Image Toolbox після збереження зображення, відкритого для редагування з іншої програми</string>
 </resources>

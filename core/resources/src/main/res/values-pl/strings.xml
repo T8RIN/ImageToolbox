@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Użyj osadzonego podglądu</string>
     <string name="raw_use_embedded_preview_sub">Skorzystaj z podglądu osadzonego w obrazie RAW, zamiast go wywoływać</string>
     <string name="score">Wynik</string>
+    <string name="return_to_external_app_after_save">Wróć po zapisaniu zmian zewnętrznych</string>
+    <string name="return_to_external_app_after_save_sub">Zamknij Przybornik obrazu po zapisaniu obrazu otwartego do edycji z innej aplikacji</string>
 </resources>

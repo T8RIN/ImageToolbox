@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Käytä upotettua esikatselua</string>
     <string name="raw_use_embedded_preview_sub">Käytä RAW-kuvaan upotettua esikatselua sen kehittämisen sijaan</string>
     <string name="score">Pisteet</string>
+    <string name="return_to_external_app_after_save">Palauta ulkoisten muokkausten tallentamisen jälkeen</string>
+    <string name="return_to_external_app_after_save_sub">Sulje Image Toolbox toisesta sovelluksesta muokattavaksi avatun kuvan tallentamisen jälkeen</string>
 </resources>

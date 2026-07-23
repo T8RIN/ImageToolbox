@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Použite vložený náhľad</string>
     <string name="raw_use_embedded_preview_sub">Namiesto vyvolávania použite náhľad vložený do obrázka RAW</string>
     <string name="score">skóre</string>
+    <string name="return_to_external_app_after_save">Vráťte sa po uložení externých úprav</string>
+    <string name="return_to_external_app_after_save_sub">Po uložení obrázka otvoreného na úpravu z inej aplikácie zatvorte nástroj Image Toolbox</string>
 </resources>

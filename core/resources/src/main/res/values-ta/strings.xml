@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">உட்பொதிக்கப்பட்ட முன்னோட்டத்தைப் பயன்படுத்தவும்</string>
     <string name="raw_use_embedded_preview_sub">RAW படத்தை உருவாக்குவதற்குப் பதிலாக அதில் உட்பொதிக்கப்பட்ட முன்னோட்டத்தைப் பயன்படுத்தவும்</string>
     <string name="score">மதிப்பெண்</string>
+    <string name="return_to_external_app_after_save">வெளிப்புற திருத்தங்களைச் சேமித்த பிறகு திரும்பவும்</string>
+    <string name="return_to_external_app_after_save_sub">மற்றொரு பயன்பாட்டிலிருந்து திருத்துவதற்காக திறக்கப்பட்ட படத்தைச் சேமித்த பிறகு படக் கருவிப்பெட்டியை மூடவும்</string>
 </resources>

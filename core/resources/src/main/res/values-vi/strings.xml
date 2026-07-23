@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">Sử dụng Bản xem trước được nhúng</string>
     <string name="raw_use_embedded_preview_sub">Sử dụng bản xem trước được nhúng trong ảnh RAW thay vì phát triển nó</string>
     <string name="score">Điểm</string>
+    <string name="return_to_external_app_after_save">Quay lại sau khi lưu các chỉnh sửa bên ngoài</string>
+    <string name="return_to_external_app_after_save_sub">Đóng Hộp công cụ Hình ảnh sau khi lưu hình ảnh đã mở để chỉnh sửa từ một ứng dụng khác</string>
 </resources>

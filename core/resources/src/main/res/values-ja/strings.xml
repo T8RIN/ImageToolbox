@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">埋め込みプレビューを使用する</string>
     <string name="raw_use_embedded_preview_sub">RAW画像を現像する代わりに、RAW画像に埋め込まれたプレビューを使用する</string>
     <string name="score">スコア</string>
+    <string name="return_to_external_app_after_save">外部編集を保存した後に戻る</string>
+    <string name="return_to_external_app_after_save_sub">別のアプリで編集のために開いた画像を保存した後、Image Toolbox を閉じる</string>
 </resources>

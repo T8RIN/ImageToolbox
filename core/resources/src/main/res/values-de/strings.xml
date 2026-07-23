@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Verwenden Sie die eingebettete Vorschau</string>
     <string name="raw_use_embedded_preview_sub">Verwenden Sie die im RAW-Bild eingebettete Vorschau, anstatt es zu entwickeln</string>
     <string name="score">Punktzahl</string>
+    <string name="return_to_external_app_after_save">Rückkehr nach dem Speichern externer Änderungen</string>
+    <string name="return_to_external_app_after_save_sub">Schließen Sie die Image Toolbox, nachdem Sie ein Bild gespeichert haben, das zur Bearbeitung in einer anderen App geöffnet wurde</string>
 </resources>

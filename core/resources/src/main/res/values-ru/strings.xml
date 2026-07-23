@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Использовать встроенный предварительный просмотр</string>
     <string name="raw_use_embedded_preview_sub">Используйте предварительный просмотр, встроенный в изображение RAW, вместо его обработки.</string>
     <string name="score">Счет</string>
+    <string name="return_to_external_app_after_save">Возврат после сохранения внешних изменений</string>
+    <string name="return_to_external_app_after_save_sub">Закройте панель инструментов изображения после сохранения изображения, открытого для редактирования из другого приложения.</string>
 </resources>

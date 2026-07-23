@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">एंबेडेड पूर्वावलोकन का उपयोग करें</string>
     <string name="raw_use_embedded_preview_sub">इसे विकसित करने के बजाय रॉ छवि में एम्बेडेड पूर्वावलोकन का उपयोग करें</string>
     <string name="score">अंक</string>
+    <string name="return_to_external_app_after_save">बाहरी संपादन सहेजने के बाद वापस लौटें</string>
+    <string name="return_to_external_app_after_save_sub">किसी अन्य ऐप से संपादन के लिए खोली गई छवि को सहेजने के बाद छवि टूलबॉक्स को बंद करें</string>
 </resources>

@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Använd inbäddad förhandsgranskning</string>
     <string name="raw_use_embedded_preview_sub">Använd förhandsgranskningen som är inbäddad i RAW-bilden istället för att framkalla den</string>
     <string name="score">Göra</string>
+    <string name="return_to_external_app_after_save">Återgå efter att ha sparat externa redigeringar</string>
+    <string name="return_to_external_app_after_save_sub">Stäng Image Toolbox efter att du har sparat en bild som öppnats för redigering från en annan app</string>
 </resources>

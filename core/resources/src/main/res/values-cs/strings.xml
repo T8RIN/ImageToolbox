@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Použijte vložený náhled</string>
     <string name="raw_use_embedded_preview_sub">Místo vyvolávání použijte náhled vložený do obrázku RAW</string>
     <string name="score">Skóre</string>
+    <string name="return_to_external_app_after_save">Vraťte se po uložení externích úprav</string>
+    <string name="return_to_external_app_after_save_sub">Po uložení obrázku otevřeného pro úpravy z jiné aplikace zavřete nástroj Image Toolbox</string>
 </resources>

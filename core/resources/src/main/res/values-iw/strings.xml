@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">השתמש בתצוגה מקדימה משובצת</string>
     <string name="raw_use_embedded_preview_sub">השתמש בתצוגה המקדימה המוטבעת בתמונת ה-RAW במקום לפתח אותה</string>
     <string name="score">צִיוּן</string>
+    <string name="return_to_external_app_after_save">חזור לאחר שמירת עריכות חיצוניות</string>
+    <string name="return_to_external_app_after_save_sub">סגור את ארגז הכלים של תמונה לאחר שמירת תמונה שנפתחה לעריכה מאפליקציה אחרת</string>
 </resources>

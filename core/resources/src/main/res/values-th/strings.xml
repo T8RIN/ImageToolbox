@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">ใช้การแสดงตัวอย่างแบบฝัง</string>
     <string name="raw_use_embedded_preview_sub">ใช้ภาพตัวอย่างที่ฝังอยู่ในภาพ RAW แทนการพัฒนา</string>
     <string name="score">คะแนน</string>
+    <string name="return_to_external_app_after_save">กลับมาหลังจากบันทึกการแก้ไขภายนอก</string>
+    <string name="return_to_external_app_after_save_sub">ปิดกล่องเครื่องมือรูปภาพหลังจากบันทึกรูปภาพที่เปิดไว้เพื่อแก้ไขจากแอปอื่น</string>
 </resources>

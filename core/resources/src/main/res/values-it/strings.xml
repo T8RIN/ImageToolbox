@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Utilizza l\'anteprima incorporata</string>
     <string name="raw_use_embedded_preview_sub">Utilizza l\'anteprima incorporata nell\'immagine RAW invece di svilupparla</string>
     <string name="score">Punto</string>
+    <string name="return_to_external_app_after_save">Ritorna dopo aver salvato le modifiche esterne</string>
+    <string name="return_to_external_app_after_save_sub">Chiudi Image Toolbox dopo aver salvato un\'immagine aperta per la modifica da un\'altra app</string>
 </resources>

@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Használja a beágyazott előnézetet</string>
     <string name="raw_use_embedded_preview_sub">Használja a RAW-képbe ágyazott előnézetet a fejlesztés helyett</string>
     <string name="score">Pontszám</string>
+    <string name="return_to_external_app_after_save">Külső szerkesztések mentése után térjen vissza</string>
+    <string name="return_to_external_app_after_save_sub">Zárja be a Kép eszköztárat, miután elmentett egy másik alkalmazásból szerkesztésre megnyitott képet</string>
 </resources>

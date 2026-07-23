@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Gumamit ng naka-embed na Preview</string>
     <string name="raw_use_embedded_preview_sub">Gamitin ang preview na naka-embed sa RAW na imahe sa halip na bumuo nito</string>
     <string name="score">Puntos</string>
+    <string name="return_to_external_app_after_save">Bumalik pagkatapos i-save ang mga panlabas na pag-edit</string>
+    <string name="return_to_external_app_after_save_sub">Isara ang Toolbox ng Larawan pagkatapos i-save ang isang larawang binuksan para sa pag-edit mula sa isa pang app</string>
 </resources>

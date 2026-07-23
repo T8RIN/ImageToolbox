@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">از پیش نمایش تعبیه شده استفاده کنید</string>
     <string name="raw_use_embedded_preview_sub">از پیش نمایش تعبیه شده در تصویر RAW به جای توسعه آن استفاده کنید</string>
     <string name="score">امتیاز</string>
+    <string name="return_to_external_app_after_save">پس از ذخیره ویرایش های خارجی برگردید</string>
+    <string name="return_to_external_app_after_save_sub">پس از ذخیره تصویری که برای ویرایش از برنامه دیگری باز شده است، جعبه ابزار تصویر را ببندید</string>
 </resources>

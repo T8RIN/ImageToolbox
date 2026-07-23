@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Gebruik ingesloten voorbeeld</string>
     <string name="raw_use_embedded_preview_sub">Gebruik het voorbeeld dat is ingebed in de RAW-afbeelding in plaats van deze te ontwikkelen</string>
     <string name="score">Scoren</string>
+    <string name="return_to_external_app_after_save">Keer terug na het opslaan van externe bewerkingen</string>
+    <string name="return_to_external_app_after_save_sub">Sluit Image Toolbox na het opslaan van een afbeelding die is geopend voor bewerking vanuit een andere app</string>
 </resources>

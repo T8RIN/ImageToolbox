@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Kasutage manustatud eelvaadet</string>
     <string name="raw_use_embedded_preview_sub">Kasutage selle arendamise asemel RAW-kujutisele manustatud eelvaadet</string>
     <string name="score">Skoor</string>
+    <string name="return_to_external_app_after_save">Tagasi pärast väliste muudatuste salvestamist</string>
+    <string name="return_to_external_app_after_save_sub">Pärast teisest rakendusest redigeerimiseks avatud pildi salvestamist sulgege Image Toolbox</string>
 </resources>

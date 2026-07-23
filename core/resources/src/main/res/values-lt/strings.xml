@@ -4443,4 +4443,6 @@
     <string name="raw_use_embedded_preview">Naudokite įterptąją peržiūrą</string>
     <string name="raw_use_embedded_preview_sub">Naudokite peržiūrą, įterptą į RAW vaizdą, o ne jį tobulinkite</string>
     <string name="score">Rezultatas</string>
+    <string name="return_to_external_app_after_save">Grąžinkite išsaugoję išorinius pakeitimus</string>
+    <string name="return_to_external_app_after_save_sub">Išsaugoję vaizdą, atidarytą redaguoti iš kitos programos, uždarykite vaizdo įrankių dėžę</string>
 </resources>

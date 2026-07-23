@@ -4442,4 +4442,6 @@
     <string name="raw_use_embedded_preview">Користите уграђени преглед</string>
     <string name="raw_use_embedded_preview_sub">Користите преглед уграђен у РАВ слику уместо да је развијате</string>
     <string name="score">Резултат</string>
+    <string name="return_to_external_app_after_save">Вратите се након чувања спољних измена</string>
+    <string name="return_to_external_app_after_save_sub">Затворите Имаге Тоолбок након што сачувате слику отворену за уређивање из друге апликације</string>
 </resources>

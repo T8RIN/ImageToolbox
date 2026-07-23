@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">Gunakan Pratinjau tertanam</string>
     <string name="raw_use_embedded_preview_sub">Gunakan pratinjau yang tertanam dalam gambar RAW alih-alih mengembangkannya</string>
     <string name="score">Skor</string>
+    <string name="return_to_external_app_after_save">Kembali setelah menyimpan hasil edit eksternal</string>
+    <string name="return_to_external_app_after_save_sub">Tutup Kotak Alat Gambar setelah menyimpan gambar yang dibuka untuk diedit dari aplikasi lain</string>
 </resources>

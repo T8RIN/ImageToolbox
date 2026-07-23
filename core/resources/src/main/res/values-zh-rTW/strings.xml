@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">使用嵌入式預覽</string>
     <string name="raw_use_embedded_preview_sub">使用嵌入在 RAW 影像中的預覽而不是對其進行沖印</string>
     <string name="score">分數</string>
+    <string name="return_to_external_app_after_save">儲存外部編輯後返回</string>
+    <string name="return_to_external_app_after_save_sub">儲存從其他應用程式開啟進行編輯的影像後關閉影像工具箱</string>
 </resources>

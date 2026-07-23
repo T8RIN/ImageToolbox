@@ -4440,4 +4440,6 @@
     <string name="raw_use_embedded_preview">포함된 미리보기 사용</string>
     <string name="raw_use_embedded_preview_sub">현상하는 대신 RAW 이미지에 포함된 미리보기를 사용하세요.</string>
     <string name="score">점수</string>
+    <string name="return_to_external_app_after_save">외부 수정사항을 저장한 후 돌아가기</string>
+    <string name="return_to_external_app_after_save_sub">다른 앱에서 편집하기 위해 연 이미지를 저장한 후 이미지 도구 상자를 닫습니다.</string>
 </resources>

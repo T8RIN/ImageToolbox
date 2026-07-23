@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">Usar vista previa integrada</string>
     <string name="raw_use_embedded_preview_sub">Utilice la vista previa incrustada en la imagen RAW en lugar de revelarla</string>
     <string name="score">Puntaje</string>
+    <string name="return_to_external_app_after_save">Volver después de guardar ediciones externas</string>
+    <string name="return_to_external_app_after_save_sub">Cierre Image Toolbox después de guardar una imagen abierta para editarla desde otra aplicación</string>
 </resources>

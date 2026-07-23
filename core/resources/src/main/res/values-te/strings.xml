@@ -4441,4 +4441,6 @@
     <string name="raw_use_embedded_preview">ఎంబెడెడ్ ప్రివ్యూని ఉపయోగించండి</string>
     <string name="raw_use_embedded_preview_sub">RAW ఇమేజ్‌ని డెవలప్ చేయడానికి బదులుగా అందులో పొందుపరిచిన ప్రివ్యూని ఉపయోగించండి</string>
     <string name="score">స్కోర్</string>
+    <string name="return_to_external_app_after_save">బాహ్య సవరణలను సేవ్ చేసిన తర్వాత తిరిగి వెళ్లండి</string>
+    <string name="return_to_external_app_after_save_sub">మరొక యాప్ నుండి సవరించడం కోసం తెరవబడిన చిత్రాన్ని సేవ్ చేసిన తర్వాత ఇమేజ్ టూల్‌బాక్స్‌ని మూసివేయండి</string>
 </resources>
