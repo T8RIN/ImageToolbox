@@ -4443,4 +4443,6 @@
     <string name="score">Ұпай</string>
     <string name="return_to_external_app_after_save">Сыртқы өңдеулерді сақтағаннан кейін оралыңыз</string>
     <string name="return_to_external_app_after_save_sub">Басқа қолданбадан өңдеу үшін ашылған кескінді сақтағаннан кейін Image Toolbox жабыңыз</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox метадеректерін қосыңыз</string>
+    <string name="add_imagetoolbox_metadata_sub">Сақтау кезінде қолданба нұсқасын және конфигурацияланған кескін параметрлерін EXIF ​​​​пішіміне жазыңыз</string>
 </resources>

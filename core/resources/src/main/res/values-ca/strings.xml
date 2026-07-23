@@ -4443,4 +4443,6 @@
     <string name="score">Puntuació</string>
     <string name="return_to_external_app_after_save">Torna després de desar les edicions externes</string>
     <string name="return_to_external_app_after_save_sub">Tanqueu la Caixa d\'eines d\'imatge després de desar una imatge oberta per editar-la des d\'una altra aplicació</string>
+    <string name="add_imagetoolbox_metadata">Afegeix metadades d\'ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Escriviu la versió de l\'aplicació i els paràmetres de la imatge configurats a EXIF ​​quan deseu</string>
 </resources>

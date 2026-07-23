@@ -4443,4 +4443,6 @@
     <string name="score">Pontszám</string>
     <string name="return_to_external_app_after_save">Külső szerkesztések mentése után térjen vissza</string>
     <string name="return_to_external_app_after_save_sub">Zárja be a Kép eszköztárat, miután elmentett egy másik alkalmazásból szerkesztésre megnyitott képet</string>
+    <string name="add_imagetoolbox_metadata">Add hozzá az ImageToolbox metaadatait</string>
+    <string name="add_imagetoolbox_metadata_sub">Mentéskor írja be az alkalmazás verzióját és a konfigurált képparamétereket az EXIF-be</string>
 </resources>

@@ -4445,4 +4445,6 @@
     <string name="score">Оцінка</string>
     <string name="return_to_external_app_after_save">Повернутися після збереження зовнішніх змін</string>
     <string name="return_to_external_app_after_save_sub">Закрийте Image Toolbox після збереження зображення, відкритого для редагування з іншої програми</string>
+    <string name="add_imagetoolbox_metadata">Додайте метадані ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Запишіть версію програми та налаштовані параметри зображення в EXIF ​​під час збереження</string>
 </resources>

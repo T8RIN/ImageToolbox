@@ -4442,4 +4442,6 @@
     <string name="score">คะแนน</string>
     <string name="return_to_external_app_after_save">กลับมาหลังจากบันทึกการแก้ไขภายนอก</string>
     <string name="return_to_external_app_after_save_sub">ปิดกล่องเครื่องมือรูปภาพหลังจากบันทึกรูปภาพที่เปิดไว้เพื่อแก้ไขจากแอปอื่น</string>
+    <string name="add_imagetoolbox_metadata">เพิ่มข้อมูลเมตาของ ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">เขียนเวอร์ชันแอปและกำหนดค่าพารามิเตอร์รูปภาพไปที่ EXIF ​​​​เมื่อทำการบันทึก</string>
 </resources>

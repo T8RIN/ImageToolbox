@@ -4442,4 +4442,6 @@
     <string name="score">スコア</string>
     <string name="return_to_external_app_after_save">外部編集を保存した後に戻る</string>
     <string name="return_to_external_app_after_save_sub">別のアプリで編集のために開いた画像を保存した後、Image Toolbox を閉じる</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox メタデータの追加</string>
+    <string name="add_imagetoolbox_metadata_sub">保存時にアプリのバージョンと設定された画像パラメーターを EXIF に書き込みます</string>
 </resources>

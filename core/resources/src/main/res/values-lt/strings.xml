@@ -4445,4 +4445,6 @@
     <string name="score">Rezultatas</string>
     <string name="return_to_external_app_after_save">Grąžinkite išsaugoję išorinius pakeitimus</string>
     <string name="return_to_external_app_after_save_sub">Išsaugoję vaizdą, atidarytą redaguoti iš kitos programos, uždarykite vaizdo įrankių dėžę</string>
+    <string name="add_imagetoolbox_metadata">Pridėti „ImageToolbox“ metaduomenis</string>
+    <string name="add_imagetoolbox_metadata_sub">Išsaugodami įrašykite programos versiją ir sukonfigūruotus vaizdo parametrus į EXIF</string>
 </resources>

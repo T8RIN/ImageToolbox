@@ -4445,4 +4445,6 @@
     <string name="score">Wynik</string>
     <string name="return_to_external_app_after_save">Wróć po zapisaniu zmian zewnętrznych</string>
     <string name="return_to_external_app_after_save_sub">Zamknij Przybornik obrazu po zapisaniu obrazu otwartego do edycji z innej aplikacji</string>
+    <string name="add_imagetoolbox_metadata">Dodaj metadane ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Podczas zapisywania zapisz wersję aplikacji i skonfigurowane parametry obrazu w formacie EXIF</string>
 </resources>

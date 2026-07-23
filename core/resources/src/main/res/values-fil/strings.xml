@@ -4443,4 +4443,6 @@
     <string name="score">Puntos</string>
     <string name="return_to_external_app_after_save">Bumalik pagkatapos i-save ang mga panlabas na pag-edit</string>
     <string name="return_to_external_app_after_save_sub">Isara ang Toolbox ng Larawan pagkatapos i-save ang isang larawang binuksan para sa pag-edit mula sa isa pang app</string>
+    <string name="add_imagetoolbox_metadata">Magdagdag ng metadata ng ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Isulat ang bersyon ng app at na-configure na mga parameter ng larawan sa EXIF ​​kapag nagse-save</string>
 </resources>

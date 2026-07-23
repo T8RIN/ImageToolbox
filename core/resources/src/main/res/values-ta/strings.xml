@@ -4443,4 +4443,6 @@
     <string name="score">மதிப்பெண்</string>
     <string name="return_to_external_app_after_save">வெளிப்புற திருத்தங்களைச் சேமித்த பிறகு திரும்பவும்</string>
     <string name="return_to_external_app_after_save_sub">மற்றொரு பயன்பாட்டிலிருந்து திருத்துவதற்காக திறக்கப்பட்ட படத்தைச் சேமித்த பிறகு படக் கருவிப்பெட்டியை மூடவும்</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox மெட்டாடேட்டாவைச் சேர்க்கவும்</string>
+    <string name="add_imagetoolbox_metadata_sub">பயன்பாட்டின் பதிப்பு மற்றும் உள்ளமைக்கப்பட்ட பட அளவுருக்களை சேமிக்கும் போது EXIF ​​க்கு எழுதவும்</string>
 </resources>

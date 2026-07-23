@@ -4443,4 +4443,6 @@
     <string name="score">స్కోర్</string>
     <string name="return_to_external_app_after_save">బాహ్య సవరణలను సేవ్ చేసిన తర్వాత తిరిగి వెళ్లండి</string>
     <string name="return_to_external_app_after_save_sub">మరొక యాప్ నుండి సవరించడం కోసం తెరవబడిన చిత్రాన్ని సేవ్ చేసిన తర్వాత ఇమేజ్ టూల్‌బాక్స్‌ని మూసివేయండి</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox మెటాడేటాను జోడించండి</string>
+    <string name="add_imagetoolbox_metadata_sub">సేవ్ చేసేటప్పుడు యాప్ వెర్షన్ మరియు కాన్ఫిగర్ చేయబడిన ఇమేజ్ పారామితులను EXIFకి వ్రాయండి</string>
 </resources>

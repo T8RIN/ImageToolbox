@@ -4443,4 +4443,6 @@
     <string name="score">Score</string>
     <string name="return_to_external_app_after_save">Revenir après avoir enregistré les modifications externes</string>
     <string name="return_to_external_app_after_save_sub">Fermez Image Toolbox après avoir enregistré une image ouverte pour modification à partir d\'une autre application</string>
+    <string name="add_imagetoolbox_metadata">Ajouter des métadonnées ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Écrivez la version de l\'application et les paramètres d\'image configurés dans EXIF ​​lors de l\'enregistrement</string>
 </resources>

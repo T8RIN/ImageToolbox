@@ -4443,4 +4443,6 @@
     <string name="score">امتیاز</string>
     <string name="return_to_external_app_after_save">پس از ذخیره ویرایش های خارجی برگردید</string>
     <string name="return_to_external_app_after_save_sub">پس از ذخیره تصویری که برای ویرایش از برنامه دیگری باز شده است، جعبه ابزار تصویر را ببندید</string>
+    <string name="add_imagetoolbox_metadata">ابرداده ImageToolbox را اضافه کنید</string>
+    <string name="add_imagetoolbox_metadata_sub">هنگام ذخیره، نسخه برنامه و پارامترهای تصویر پیکربندی شده را در EXIF ​​بنویسید</string>
 </resources>

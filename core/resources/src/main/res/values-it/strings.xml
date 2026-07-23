@@ -4443,4 +4443,6 @@
     <string name="score">Punto</string>
     <string name="return_to_external_app_after_save">Ritorna dopo aver salvato le modifiche esterne</string>
     <string name="return_to_external_app_after_save_sub">Chiudi Image Toolbox dopo aver salvato un\'immagine aperta per la modifica da un\'altra app</string>
+    <string name="add_imagetoolbox_metadata">Aggiungi i metadati di ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Scrivi la versione dell\'app e i parametri dell\'immagine configurati su EXIF ​​durante il salvataggio</string>
 </resources>

@@ -4442,4 +4442,6 @@
     <string name="score">점수</string>
     <string name="return_to_external_app_after_save">외부 수정사항을 저장한 후 돌아가기</string>
     <string name="return_to_external_app_after_save_sub">다른 앱에서 편집하기 위해 연 이미지를 저장한 후 이미지 도구 상자를 닫습니다.</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox 메타데이터 추가</string>
+    <string name="add_imagetoolbox_metadata_sub">저장할 때 앱 버전과 구성된 이미지 매개변수를 EXIF에 기록합니다.</string>
 </resources>

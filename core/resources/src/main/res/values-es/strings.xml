@@ -4443,4 +4443,6 @@
     <string name="score">Puntaje</string>
     <string name="return_to_external_app_after_save">Volver después de guardar ediciones externas</string>
     <string name="return_to_external_app_after_save_sub">Cierre Image Toolbox después de guardar una imagen abierta para editarla desde otra aplicación</string>
+    <string name="add_imagetoolbox_metadata">Agregar metadatos de ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Escriba la versión de la aplicación y los parámetros de imagen configurados en EXIF ​​al guardar</string>
 </resources>

@@ -4443,4 +4443,6 @@
     <string name="score">স্কোর</string>
     <string name="return_to_external_app_after_save">বাহ্যিক সম্পাদনা সংরক্ষণ করার পরে ফিরে যান</string>
     <string name="return_to_external_app_after_save_sub">অন্য অ্যাপ থেকে সম্পাদনা করার জন্য খোলা একটি ছবি সংরক্ষণ করার পরে ইমেজ টুলবক্স বন্ধ করুন</string>
+    <string name="add_imagetoolbox_metadata">ImageToolbox মেটাডেটা যোগ করুন</string>
+    <string name="add_imagetoolbox_metadata_sub">সংরক্ষণ করার সময় অ্যাপের সংস্করণ এবং কনফিগার করা চিত্রের প্যারামিটারগুলিকে EXIF-এ লিখুন</string>
 </resources>

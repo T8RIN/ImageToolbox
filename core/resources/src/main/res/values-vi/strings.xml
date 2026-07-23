@@ -4442,4 +4442,6 @@
     <string name="score">Điểm</string>
     <string name="return_to_external_app_after_save">Quay lại sau khi lưu các chỉnh sửa bên ngoài</string>
     <string name="return_to_external_app_after_save_sub">Đóng Hộp công cụ Hình ảnh sau khi lưu hình ảnh đã mở để chỉnh sửa từ một ứng dụng khác</string>
+    <string name="add_imagetoolbox_metadata">Thêm siêu dữ liệu ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Ghi phiên bản ứng dụng và các thông số hình ảnh đã định cấu hình vào EXIF ​​​​khi lưu</string>
 </resources>

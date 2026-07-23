@@ -4444,4 +4444,6 @@
     <string name="score">Резултат</string>
     <string name="return_to_external_app_after_save">Вратите се након чувања спољних измена</string>
     <string name="return_to_external_app_after_save_sub">Затворите Имаге Тоолбок након што сачувате слику отворену за уређивање из друге апликације</string>
+    <string name="add_imagetoolbox_metadata">Додајте метаподатке ИмагеТоолбок</string>
+    <string name="add_imagetoolbox_metadata_sub">Запишите верзију апликације и конфигурисане параметре слике у ЕКСИФ приликом чувања</string>
 </resources>

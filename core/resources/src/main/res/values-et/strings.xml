@@ -4443,4 +4443,6 @@
     <string name="score">Skoor</string>
     <string name="return_to_external_app_after_save">Tagasi pärast väliste muudatuste salvestamist</string>
     <string name="return_to_external_app_after_save_sub">Pärast teisest rakendusest redigeerimiseks avatud pildi salvestamist sulgege Image Toolbox</string>
+    <string name="add_imagetoolbox_metadata">Lisage ImageToolboxi metaandmed</string>
+    <string name="add_imagetoolbox_metadata_sub">Kirjutage salvestamisel rakenduse versioon ja seadistatud pildiparameetrid EXIF-i</string>
 </resources>

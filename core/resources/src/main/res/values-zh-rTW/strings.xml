@@ -4442,4 +4442,6 @@
     <string name="score">分數</string>
     <string name="return_to_external_app_after_save">儲存外部編輯後返回</string>
     <string name="return_to_external_app_after_save_sub">儲存從其他應用程式開啟進行編輯的影像後關閉影像工具箱</string>
+    <string name="add_imagetoolbox_metadata">新增 ImageToolbox 元數據</string>
+    <string name="add_imagetoolbox_metadata_sub">儲存時將應用程式版本和配置的影像參數寫入EXIF</string>
 </resources>

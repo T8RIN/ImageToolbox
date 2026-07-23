@@ -4445,4 +4445,6 @@
     <string name="score">skóre</string>
     <string name="return_to_external_app_after_save">Vráťte sa po uložení externých úprav</string>
     <string name="return_to_external_app_after_save_sub">Po uložení obrázka otvoreného na úpravu z inej aplikácie zatvorte nástroj Image Toolbox</string>
+    <string name="add_imagetoolbox_metadata">Pridajte metadáta ImageToolbox</string>
+    <string name="add_imagetoolbox_metadata_sub">Pri ukladaní zapíšte verziu aplikácie a nakonfigurované parametre obrázka do EXIF</string>
 </resources>

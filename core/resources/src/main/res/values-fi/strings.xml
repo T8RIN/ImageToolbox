@@ -4443,4 +4443,6 @@
     <string name="score">Pisteet</string>
     <string name="return_to_external_app_after_save">Palauta ulkoisten muokkausten tallentamisen jälkeen</string>
     <string name="return_to_external_app_after_save_sub">Sulje Image Toolbox toisesta sovelluksesta muokattavaksi avatun kuvan tallentamisen jälkeen</string>
+    <string name="add_imagetoolbox_metadata">Lisää ImageToolboxin metatiedot</string>
+    <string name="add_imagetoolbox_metadata_sub">Kirjoita sovelluksen versio ja määritetyt kuvaparametrit EXIF-tiedostoon tallennuksen yhteydessä</string>
 </resources>

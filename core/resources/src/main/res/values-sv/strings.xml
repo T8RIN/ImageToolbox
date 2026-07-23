@@ -4443,4 +4443,6 @@
     <string name="score">Göra</string>
     <string name="return_to_external_app_after_save">Återgå efter att ha sparat externa redigeringar</string>
     <string name="return_to_external_app_after_save_sub">Stäng Image Toolbox efter att du har sparat en bild som öppnats för redigering från en annan app</string>
+    <string name="add_imagetoolbox_metadata">Lägg till ImageToolbox-metadata</string>
+    <string name="add_imagetoolbox_metadata_sub">Skriv appversionen och konfigurerade bildparametrar till EXIF ​​när du sparar</string>
 </resources>
