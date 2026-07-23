@@ -48,8 +48,10 @@ import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.copyTo
+import com.t8rin.imagetoolbox.core.domain.image.get
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.readOnly
+import com.t8rin.imagetoolbox.core.domain.image.set
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
@@ -61,6 +63,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.resources.BuildConfig
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -233,7 +236,8 @@ internal class AndroidFileController @Inject constructor(
                             initialExif = targetMetadata,
                             fileUri = originalUri,
                             keepOriginalMetadata = shouldKeepMetadata,
-                            originalUri = originalUri
+                            originalUri = originalUri,
+                            imageSaveTarget = saveTarget as? ImageSaveTarget
                         )
                     }
 
@@ -321,7 +325,8 @@ internal class AndroidFileController @Inject constructor(
                     initialExif = initialExif,
                     fileUri = savingFolder.fileUri,
                     keepOriginalMetadata = shouldKeepMetadata,
-                    originalUri = saveTarget.originalUri.toUri()
+                    originalUri = saveTarget.originalUri.toUri(),
+                    imageSaveTarget = saveTarget as? ImageSaveTarget
                 )
 
                 if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
@@ -547,7 +552,8 @@ internal class AndroidFileController @Inject constructor(
                             initialExif = targetMetadata,
                             fileUri = originalUri,
                             keepOriginalMetadata = shouldKeepMetadata,
-                            originalUri = originalUri
+                            originalUri = originalUri,
+                            imageSaveTarget = saveTarget as? ImageSaveTarget
                         )
                     }
 
@@ -644,7 +650,8 @@ internal class AndroidFileController @Inject constructor(
                     initialExif = initialExif,
                     fileUri = savingFolder.fileUri,
                     keepOriginalMetadata = shouldKeepMetadata,
-                    originalUri = saveTarget.originalUri.toUri()
+                    originalUri = saveTarget.originalUri.toUri(),
+                    imageSaveTarget = saveTarget as? ImageSaveTarget
                 )
 
                 if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
@@ -900,7 +907,8 @@ internal class AndroidFileController @Inject constructor(
         initialExif: Metadata?,
         fileUri: Uri,
         keepOriginalMetadata: Boolean,
-        originalUri: Uri
+        originalUri: Uri,
+        imageSaveTarget: ImageSaveTarget? = null
     ) = runSuspendCatching {
         if (initialExif != null) {
             openFileDescriptor(fileUri)?.use {
@@ -934,6 +942,42 @@ internal class AndroidFileController @Inject constructor(
                 }
             }.makeLog("metadataCleared")
         }
+
+        addImageToolboxMetadata(
+            fileUri = fileUri,
+            imageSaveTarget = imageSaveTarget
+        )
+    }
+
+    private fun addImageToolboxMetadata(
+        fileUri: Uri,
+        imageSaveTarget: ImageSaveTarget?
+    ) {
+        if (
+            settingsState.addImageToolboxMetadata &&
+            !settingsState.isAlwaysClearExif &&
+            imageSaveTarget?.imageFormat?.canWriteExif == true
+        ) {
+            openFileDescriptor(fileUri)?.use {
+                it.fileDescriptor.toMetadata().apply {
+                    this[MetadataTag.Software] =
+                        "ImageToolbox ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+
+                    val oldComment = this[MetadataTag.UserComment]
+                        ?.lineSequence()
+                        ?.filterNot { line -> line.startsWith(IMAGETOOLBOX_METADATA_PREFIX) }
+                        ?.joinToString("\n")
+                        ?.takeIf(String::isNotBlank)
+
+                    this[MetadataTag.UserComment] = listOfNotNull(
+                        oldComment,
+                        imageSaveTarget.imageToolboxMetadata()
+                    ).joinToString("\n")
+
+                    saveAttributes()
+                }
+            }.makeLog("imageToolboxMetadataAdded")
+        }
     }
 
     private fun openFileDescriptor(
@@ -944,4 +988,26 @@ internal class AndroidFileController @Inject constructor(
     )
 }
 
+private fun ImageSaveTarget.imageToolboxMetadata(): String {
+    val info = imageInfo
+
+    return buildList {
+        add("format=${imageFormat.title}")
+        add("size=${info.width}x${info.height}")
+        add("quality=${info.quality}")
+        add("resizeType=${info.resizeType}")
+        add("rotationDegrees=${info.rotationDegrees}")
+        add("isFlipped=${info.isFlipped}")
+        add("imageScaleMode=${info.imageScaleMode.javaClass.simpleName}")
+        add("scaleColorSpace=${info.imageScaleMode.scaleColorSpace}")
+        presetInfo?.asString()?.takeIf(String::isNotEmpty)?.let {
+            add("preset=$it")
+        }
+    }.joinToString(
+        prefix = IMAGETOOLBOX_METADATA_PREFIX,
+        separator = "; "
+    )
+}
+
 private const val FILE_EXPLORER_PICKER_MODE = 3
+private const val IMAGETOOLBOX_METADATA_PREFIX = "ImageToolbox parameters: "

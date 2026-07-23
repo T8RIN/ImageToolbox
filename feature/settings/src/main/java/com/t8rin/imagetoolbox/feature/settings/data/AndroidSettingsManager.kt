@@ -68,6 +68,7 @@ import com.t8rin.imagetoolbox.core.utils.createZip
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_IMAGETOOLBOX_METADATA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_ORIGINAL_NAME_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_PRESET_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILENAME
@@ -1164,6 +1165,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleAlwaysClearExif() = toggle(
         key = ALWAYS_CLEAR_EXIF,
         defaultValue = default.isAlwaysClearExif
+    )
+
+    override suspend fun toggleAddImageToolboxMetadata() = toggle(
+        key = ADD_IMAGETOOLBOX_METADATA,
+        defaultValue = default.addImageToolboxMetadata
     )
 
     override suspend fun toggleEnableBackgroundColorForAlphaFormats() = toggle(

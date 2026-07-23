@@ -694,6 +694,12 @@ internal fun SettingItem(
                 AlwaysClearExifSettingItem(onClick = component::toggleAlwaysClearExif)
             }
 
+            Setting.AddImageToolboxMetadata -> {
+                AddImageToolboxMetadataSettingItem(
+                    onClick = component::toggleAddImageToolboxMetadata
+                )
+            }
+
             Setting.EnableBackgroundColorForAlphaFormats -> {
                 EnableBackgroundColorForAlphaFormatsSettingItem(onClick = component::toggleEnableBackgroundColorForAlphaFormats)
             }

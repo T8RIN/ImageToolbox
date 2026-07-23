@@ -764,6 +764,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object AddImageToolboxMetadata : Setting(
+        title = R.string.add_imagetoolbox_metadata,
+        subtitle = R.string.add_imagetoolbox_metadata_sub
+    )
+
+    @Serializable
     data object EnableBackgroundColorForAlphaFormats : Setting(
         title = R.string.background_color_for_alpha_formats,
         subtitle = R.string.background_color_for_alpha_formats_sub

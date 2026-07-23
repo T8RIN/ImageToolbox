@@ -3110,6 +3110,8 @@
     <string name="keep_date_time_sub">Always preserve exif tags related to date and time, works independently of keep exif option</string>
     <string name="always_clear_exif">Always clear EXIF</string>
     <string name="always_clear_exif_sub">Remove image EXIF data on save, even when a tool requests keeping metadata</string>
+    <string name="add_imagetoolbox_metadata">Add ImageToolbox metadata</string>
+    <string name="add_imagetoolbox_metadata_sub">Write the app version and configured image parameters to EXIF when saving</string>
     <string name="background_color_for_alpha_formats">Background Color For Alpha Formats</string>
     <string name="background_color_for_alpha_formats_sub">Adds ability to set background color for every image format with alpha support, when disabled this available for non alpha ones only</string>
     <string name="failed_to_open">Failed to open</string>

@@ -587,6 +587,9 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleAlwaysClearExif() =
         settingsScope { toggleAlwaysClearExif() }
 
+    fun toggleAddImageToolboxMetadata() =
+        settingsScope { toggleAddImageToolboxMetadata() }
+
     fun toggleEnableBackgroundColorForAlphaFormats() =
         settingsScope { toggleEnableBackgroundColorForAlphaFormats() }
 

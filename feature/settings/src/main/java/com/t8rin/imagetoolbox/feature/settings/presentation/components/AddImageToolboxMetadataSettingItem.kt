@@ -25,28 +25,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AccessTime
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
-fun KeepDateTimeSettingItem(
+fun AddImageToolboxMetadataSettingItem(
     onClick: () -> Unit,
-    shape: Shape = ShapeDefaults.center,
+    shape: Shape = ShapeDefaults.bottom,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
+
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        title = stringResource(R.string.keep_date_time),
-        subtitle = stringResource(R.string.keep_date_time_sub),
-        checked = settingsState.keepDateTime,
+        title = stringResource(R.string.add_imagetoolbox_metadata),
+        subtitle = stringResource(R.string.add_imagetoolbox_metadata_sub),
+        checked = settingsState.addImageToolboxMetadata,
         enabled = !settingsState.isAlwaysClearExif,
-        onClick = {
-            onClick()
-        },
-        startIcon = Icons.Outlined.AccessTime
+        onClick = { onClick() },
+        startIcon = Icons.Outlined.Info
     )
 }

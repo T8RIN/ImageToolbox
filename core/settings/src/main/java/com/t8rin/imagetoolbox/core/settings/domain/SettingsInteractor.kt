@@ -282,6 +282,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleAlwaysClearExif()
 
+    suspend fun toggleAddImageToolboxMetadata()
+
     suspend fun toggleEnableBackgroundColorForAlphaFormats()
 
     suspend fun toggleShowToolsHistory()

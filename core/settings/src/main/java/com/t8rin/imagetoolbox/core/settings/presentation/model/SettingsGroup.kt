@@ -217,7 +217,8 @@ sealed class SettingsGroup(
         settingsList = listOf(
             Setting.AlwaysClearExif,
             Setting.ExifWidgetInitialState,
-            Setting.KeepDateTime
+            Setting.KeepDateTime,
+            Setting.AddImageToolboxMetadata
         ),
         initialState = false
     )
