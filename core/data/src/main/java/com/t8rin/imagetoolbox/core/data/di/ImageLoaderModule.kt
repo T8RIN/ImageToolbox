@@ -34,10 +34,10 @@ import coil3.request.allowHardware
 import coil3.request.maxBitmapSize
 import coil3.size.Size
 import coil3.util.Logger
-import com.awxkee.jxlcoder.coil.AnimatedJxlDecoder
 import com.gemalto.jp2.coil.Jpeg2000Decoder
 import com.t8rin.awebp.coil.AnimatedWebPDecoder
 import com.t8rin.djvu_coder.coil.DjvuDecoder
+import com.t8rin.imagetoolbox.core.data.coil.AnimatedJxlDecoder
 import com.t8rin.imagetoolbox.core.data.coil.Base64Fetcher
 import com.t8rin.imagetoolbox.core.data.coil.CoilLogger
 import com.t8rin.imagetoolbox.core.data.coil.HeifDecoder

@@ -38,10 +38,8 @@ dependencies {
     api(libs.datastore.core.android)
 
     implementation(libs.avif.coder)
-    implementation(libs.jxl.coder.coil) {
-        exclude(module = "com.github.awxkee:jxl-coder")
-    }
     implementation(libs.jxl.coder)
+    implementation(libs.jixel.coder)
 
     implementation(libs.aire)
     implementation(libs.jpegli.coder)

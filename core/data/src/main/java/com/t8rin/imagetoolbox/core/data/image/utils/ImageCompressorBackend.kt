@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.WebpBackend
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.image.model.isJixel
 import com.t8rin.imagetoolbox.core.domain.image.model.isLossless
 
 
@@ -70,8 +71,13 @@ internal interface ImageCompressorBackend {
             ImageFormat.Webp.Lossless,
             ImageFormat.Webp.Lossy -> WebpBackend(isLossless = imageFormat.isLossless)
 
+            ImageFormat.Jxl.JixelLossless,
+            ImageFormat.Jxl.JixelLossy,
             ImageFormat.Jxl.Lossless,
-            ImageFormat.Jxl.Lossy -> JxlBackend(isLossless = imageFormat.isLossless)
+            ImageFormat.Jxl.Lossy -> JxlBackend(
+                isLossless = imageFormat.isLossless,
+                isJixel = imageFormat.isJixel
+            )
 
             ImageFormat.Tif,
             ImageFormat.Tiff -> TiffBackend(context)

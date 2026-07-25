@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
 import com.t8rin.imagetoolbox.core.domain.image.model.VvcBitDepth
 import com.t8rin.imagetoolbox.core.domain.image.model.VvcChroma
+import com.t8rin.imagetoolbox.core.domain.image.model.isJixel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
@@ -318,6 +319,8 @@ fun QualitySelector(
                     }
 
                     is ImageFormat.Jxl -> {
+                        if (actualImageFormat.isJixel) return@Column
+
                         val jxlQuality = quality as? Quality.Jxl
                         Column {
                             EnhancedSliderItem(

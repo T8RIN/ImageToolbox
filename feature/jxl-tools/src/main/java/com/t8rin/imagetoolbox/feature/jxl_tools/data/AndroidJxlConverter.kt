@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import com.awxkee.jxlcoder.JxlAnimatedEncoder
-import com.awxkee.jxlcoder.JxlAnimatedImage
-import com.awxkee.jxlcoder.JxlChannelsConfiguration
-import com.awxkee.jxlcoder.JxlCoder
-import com.awxkee.jxlcoder.JxlCompressionOption
-import com.awxkee.jxlcoder.JxlDecodingSpeed
+import com.awxkee.jxlcoderlibjxl.JxlAnimatedEncoder
+import com.awxkee.jxlcoderlibjxl.JxlAnimatedImage
+import com.awxkee.jxlcoderlibjxl.JxlChannelsConfiguration
+import com.awxkee.jxlcoderlibjxl.JxlCoder
+import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
+import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler

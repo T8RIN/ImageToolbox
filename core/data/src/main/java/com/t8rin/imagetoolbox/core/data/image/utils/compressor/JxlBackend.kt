@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,19 @@ package com.t8rin.imagetoolbox.core.data.image.utils.compressor
 
 import android.graphics.Bitmap
 import com.awxkee.aire.Aire
-import com.awxkee.jxlcoder.JxlChannelsConfiguration
-import com.awxkee.jxlcoder.JxlCoder
-import com.awxkee.jxlcoder.JxlCompressionOption
-import com.awxkee.jxlcoder.JxlDecodingSpeed
-import com.awxkee.jxlcoder.JxlEffort
+import com.awxkee.jxlcoderlibjxl.JxlChannelsConfiguration
+import com.awxkee.jxlcoderlibjxl.JxlCoder
+import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
+import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
+import com.awxkee.jxlcoderlibjxl.JxlEffort
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.awxkee.jxlcoder.JxlCoder as JixelCoder
+import com.awxkee.jxlcoder.JxlCompressionOption as JixelCompressionOption
+import com.awxkee.jxlcoder.JxlEffort as JixelEffort
 
 internal data class JxlBackend(
+    private val isJixel: Boolean,
     private val isLossless: Boolean
 ) : ImageCompressorBackend {
 
@@ -36,24 +40,38 @@ internal data class JxlBackend(
         quality: Quality
     ): ByteArray {
         val jxlQuality = quality as? Quality.Jxl ?: Quality.Jxl()
-        return JxlCoder.encode(
-            bitmap = if (jxlQuality.channels == Quality.Channels.Monochrome) {
-                Aire.grayscale(image)
-            } else image,
-            channelsConfiguration = when (jxlQuality.channels) {
-                Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
-                Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
-                Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
-            },
-            compressionOption = if (isLossless) {
-                JxlCompressionOption.LOSSLESS
-            } else {
-                JxlCompressionOption.LOSSY
-            },
-            quality = if (isLossless) 100 else jxlQuality.qualityValue,
-            effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort - 1 },
-            decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
-        )
+        return if (isJixel) {
+            JixelCoder.encode(
+                bitmap = image,
+                compressionOption = if (isLossless) {
+                    JixelCompressionOption.LOSSLESS
+                } else {
+                    JixelCompressionOption.LOSSY
+                },
+                quality = if (isLossless) 100 else jxlQuality.qualityValue,
+                effort = JixelEffort.entries.first { it.ordinal == jxlQuality.effort - 1 },
+                exif = null
+            )
+        } else {
+            JxlCoder.encode(
+                bitmap = if (jxlQuality.channels == Quality.Channels.Monochrome) {
+                    Aire.grayscale(image)
+                } else image,
+                channelsConfiguration = when (jxlQuality.channels) {
+                    Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                    Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                    Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                },
+                compressionOption = if (isLossless) {
+                    JxlCompressionOption.LOSSLESS
+                } else {
+                    JxlCompressionOption.LOSSY
+                },
+                quality = if (isLossless) 100 else jxlQuality.qualityValue,
+                effort = JxlEffort.entries.first { it.ordinal == jxlQuality.effort - 1 },
+                decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == jxlQuality.speed }
+            )
+        }
     }
 
 }

@@ -18,8 +18,8 @@ composeHighlight = "0.32.0"
 
 avifCoder = "3.0.0-alpha09"
 aire = "0.18.1"
-jxlCoder = "2.6.1"
-jxlCoderCoil = "2.6.1"
+jixelCoder = "3.0.0-alpha02"
+jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
@@ -167,8 +167,8 @@ coilSvg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 dotlottie-android = { module = "com.github.LottieFiles:dotlottie-android", version.ref = "dotlottieAndroid" }
 
-jxl-coder-coil = { module = "io.github.awxkee:jxl-coder-coil", version.ref = "jxlCoderCoil" }
-jxl-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jxlCoder" }
+jxl-coder = { module = "io.github.awxkee:jxl-coder-libjxl", version.ref = "jxlCoder" }
+jixel-coder = { module = "io.github.awxkee:jxl-coder", version.ref = "jixelCoder" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidxCore = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

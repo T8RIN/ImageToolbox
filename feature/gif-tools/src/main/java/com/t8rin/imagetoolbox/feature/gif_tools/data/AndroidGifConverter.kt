@@ -28,9 +28,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
-import com.awxkee.jxlcoder.JxlCoder
-import com.awxkee.jxlcoder.JxlDecodingSpeed
-import com.awxkee.jxlcoder.JxlEffort
+import com.awxkee.jxlcoderlibjxl.JxlCoder
+import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
+import com.awxkee.jxlcoderlibjxl.JxlEffort
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.gif_converter.GifEncoder

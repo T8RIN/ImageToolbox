@@ -257,6 +257,21 @@ sealed class ImageFormat(
                 CompressionType.Effort(1..10)
             )
         )
+
+        data object JixelLossless : Jxl(
+            title = "Jixel Lossless",
+            compressionTypes = listOf(
+                CompressionType.Effort(1..2)
+            )
+        ), LosslessMarker
+
+        data object JixelLossy : Jxl(
+            title = "Jixel Lossy",
+            compressionTypes = listOf(
+                CompressionType.Quality(1..100),
+                CompressionType.Effort(1..2)
+            )
+        )
     }
 
     sealed class Jpeg2000(
@@ -394,6 +409,8 @@ sealed class ImageFormat(
                 Heic.VvcLossy,
                 Jxl.Lossless,
                 Jxl.Lossy,
+                Jxl.JixelLossless,
+                Jxl.JixelLossy,
                 Tif,
                 Tiff,
                 Jpeg2000.Jp2,
@@ -407,3 +424,4 @@ sealed class ImageFormat(
 }
 
 val ImageFormat.isLossless get() = this is ImageFormat.LosslessMarker
+val ImageFormat.isJixel get() = "Jixel" in title

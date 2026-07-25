@@ -82,7 +82,9 @@ sealed class ImageFormatGroup(
         title = "JXL",
         formats = listOf(
             ImageFormat.Jxl.Lossless,
-            ImageFormat.Jxl.Lossy
+            ImageFormat.Jxl.Lossy,
+            ImageFormat.Jxl.JixelLossless,
+            ImageFormat.Jxl.JixelLossy,
         )
     )
 
