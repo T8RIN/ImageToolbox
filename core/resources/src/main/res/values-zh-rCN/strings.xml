@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3202,7 +3200,7 @@
     <string name="search_keywords_load_net_image">url 网络 下载 互联网链接 图像</string>
     <string name="search_keywords_pick_color_from_image">选择器吸管样本十六进制 RGB 颜色</string>
     <string name="search_keywords_palette_tools">调色板颜色样本提取主导</string>
-    <string name="search_keywords_delete_exif">exif 元数据隐私删除条清洁 GPS 位置</string>
+    <string name="search_keywords_delete_exif">exif 元数据 隐私 删除 剥离 清洁 gps 位置</string>
     <string name="search_keywords_compare">比较前后差异</string>
     <string name="search_keywords_limit_resize">限制调整大小最大最小百万像素尺寸夹</string>
     <string name="search_keywords_pdf_tools">pdf文档页面工具</string>
@@ -3210,7 +3208,7 @@
     <string name="search_keywords_gradient_maker">渐变背景颜色网格</string>
     <string name="search_keywords_watermarking">水印徽标文本图章覆盖</string>
     <string name="search_keywords_gif_tools">gif 动画 动画转换帧</string>
-    <string name="search_keywords_apng_tools">apng 动画 动画 png 转换帧</string>
+    <string name="search_keywords_apng_tools">apng 动画 动态png 转换 帧</string>
     <string name="search_keywords_zip">zip 存档 压缩包 解压文件</string>
     <string name="search_keywords_jxl_tools">jxl jpeg xl 转换 jpg 图像格式</string>
     <string name="search_keywords_svg_maker">svg矢量跟踪转换xml</string>
@@ -3227,14 +3225,14 @@
     <string name="search_keywords_base64_tools">Base64 编码解码数据 uri</string>
     <string name="search_keywords_checksum_tools">校验和哈希 md5 sha sha1 sha256 验证</string>
     <string name="search_keywords_mesh_gradients">网格渐变背景</string>
-    <string name="search_keywords_edit_exif">exif 元数据 编辑 GPS 日期 相机</string>
+    <string name="search_keywords_edit_exif">exif 元数据 编辑 gps 日期 相机</string>
     <string name="search_keywords_image_cutter">切割分割网格块瓷砖</string>
     <string name="search_keywords_audio_cover_extractor">音频封面专辑艺术音乐元数据</string>
     <string name="search_keywords_wallpapers_export">壁纸 导出 背景</string>
     <string name="search_keywords_ascii_art">ascii 文本艺术字符</string>
     <string name="search_keywords_ai_tools">ai ml神经增强高档细分市场</string>
     <string name="search_keywords_color_library">颜色库材质调色板命名为颜色</string>
-    <string name="search_keywords_shader_studio">着色器GLSL片段效果工作室</string>
+    <string name="search_keywords_shader_studio">着色器 glsl 片段 效果 工作室</string>
     <string name="search_keywords_pdf_merge">pdf合并合并连接</string>
     <string name="search_keywords_pdf_split">pdf分割单独的页面</string>
     <string name="search_keywords_pdf_rotate">pdf旋转页面方向</string>
@@ -3242,12 +3240,12 @@
     <string name="search_keywords_pdf_page_numbers">pdf页码分页</string>
     <string name="search_keywords_pdf_ocr">pdf ocr 文本识别可搜索摘录</string>
     <string name="search_keywords_pdf_watermark">pdf 水印 印章 徽标 文本</string>
-    <string name="search_keywords_pdf_signature">pdf 签名 签名 抽签</string>
+    <string name="search_keywords_pdf_signature">pdf 签名 签名绘制</string>
     <string name="search_keywords_pdf_protect">pdf保护密码加密锁</string>
     <string name="search_keywords_pdf_unlock">pdf解锁密码解密删除保护</string>
     <string name="search_keywords_pdf_compress">pdf 压缩 缩小尺寸 优化</string>
     <string name="search_keywords_pdf_grayscale">pdf 灰度 黑白 单色</string>
-    <string name="search_keywords_pdf_repair">pdf 修复 修复 恢复损坏</string>
+    <string name="search_keywords_pdf_repair">pdf 修复 修 恢复损坏</string>
     <string name="search_keywords_pdf_metadata">pdf 元数据属性 exif 作者标题</string>
     <string name="search_keywords_pdf_remove_pages">pdf删除删除页面</string>
     <string name="search_keywords_pdf_crop">pdf 裁剪边距</string>
@@ -3358,7 +3356,7 @@
     <string name="fbm_sc_noise">超导噪声</string>
     <string name="recent">最近的</string>
     <string name="no_recent_filters">还没有最近使用过的过滤器</string>
-    <string name="search_keywords_texture_generation">纹理生成器 拉丝金属 焦散 蜂窝棋盘 大理石 等离子被子 木砖 迷彩 细胞云 裂缝 织物 叶子 蜂窝 冰熔岩 星云 纸 铁锈 沙子 烟石 地形 地形 水波纹</string>
+    <string name="search_keywords_texture_generation">纹理生成器 拉丝金属 焦散 蜂窝棋盘 大理石 等离子被子 木砖 迷彩 细胞云 裂缝 织物 叶子 蜂窝 冰 熔岩 星云 纸 铁锈 沙子 烟 石头 地形 地形 水波纹</string>
     <string name="texture_brick">砖</string>
     <string name="texture_camouflage">伪装</string>
     <string name="texture_cell">细胞</string>
