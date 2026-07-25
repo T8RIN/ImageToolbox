@@ -4444,4 +4444,19 @@
     <string name="return_to_external_app_after_save_sub">Tutup Kotak Alat Gambar setelah menyimpan gambar yang dibuka untuk diedit dari aplikasi lain</string>
     <string name="add_imagetoolbox_metadata">Tambahkan metadata ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Tulis versi aplikasi dan parameter gambar yang dikonfigurasi ke EXIF ​​saat menyimpan</string>
+    <string name="read_only">Hanya Baca</string>
+    <string name="tag_camera_firmware">Firmware kamera</string>
+    <string name="tag_chromatic_aberration_correction">Koreksi penyimpangan kromatik</string>
+    <string name="tag_development_type">Tipe pengembangan</string>
+    <string name="tag_development_type_description">Deskripsi jenis pengembangan</string>
+    <string name="tag_distortion_correction">Koreksi distorsi</string>
+    <string name="tag_image_editing_software">Perangkat lunak pengedit gambar</string>
+    <string name="tag_image_editor">Penyunting gambar</string>
+    <string name="tag_image_title">Judul gambar</string>
+    <string name="tag_learning_opt_out_in">Penyisihan/ikutserta pembelajaran</string>
+    <string name="tag_metadata_editing_software">Perangkat lunak pengedit metadata</string>
+    <string name="tag_noise_reduction">Pengurangan kebisingan</string>
+    <string name="tag_photographer">Fotografer</string>
+    <string name="tag_raw_developing_software">Perangkat lunak pengembangan RAW</string>
+    <string name="tag_shading_correction">Koreksi bayangan</string>
 </resources>

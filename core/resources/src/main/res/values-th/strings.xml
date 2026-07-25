@@ -4444,4 +4444,19 @@
     <string name="return_to_external_app_after_save_sub">ปิดกล่องเครื่องมือรูปภาพหลังจากบันทึกรูปภาพที่เปิดไว้เพื่อแก้ไขจากแอปอื่น</string>
     <string name="add_imagetoolbox_metadata">เพิ่มข้อมูลเมตาของ ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">เขียนเวอร์ชันแอปและกำหนดค่าพารามิเตอร์รูปภาพไปที่ EXIF ​​​​เมื่อทำการบันทึก</string>
+    <string name="read_only">อ่านอย่างเดียว</string>
+    <string name="tag_camera_firmware">เฟิร์มแวร์ของกล้อง</string>
+    <string name="tag_chromatic_aberration_correction">การแก้ไขความคลาดเคลื่อนสี</string>
+    <string name="tag_development_type">ประเภทการพัฒนา</string>
+    <string name="tag_development_type_description">คำอธิบายประเภทการพัฒนา</string>
+    <string name="tag_distortion_correction">การแก้ไขความผิดเพี้ยน</string>
+    <string name="tag_image_editing_software">ซอฟต์แวร์แก้ไขภาพ</string>
+    <string name="tag_image_editor">โปรแกรมแก้ไขรูปภาพ</string>
+    <string name="tag_image_title">ชื่อรูปภาพ</string>
+    <string name="tag_learning_opt_out_in">การเรียนรู้การเลือกไม่รับ/เข้าร่วม</string>
+    <string name="tag_metadata_editing_software">ซอฟต์แวร์แก้ไขข้อมูลเมตา</string>
+    <string name="tag_noise_reduction">ลดเสียงรบกวน</string>
+    <string name="tag_photographer">ช่างภาพ</string>
+    <string name="tag_raw_developing_software">ซอฟต์แวร์พัฒนา RAW</string>
+    <string name="tag_shading_correction">การแก้ไขการแรเงา</string>
 </resources>

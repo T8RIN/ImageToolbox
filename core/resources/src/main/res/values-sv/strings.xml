@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Stäng Image Toolbox efter att du har sparat en bild som öppnats för redigering från en annan app</string>
     <string name="add_imagetoolbox_metadata">Lägg till ImageToolbox-metadata</string>
     <string name="add_imagetoolbox_metadata_sub">Skriv appversionen och konfigurerade bildparametrar till EXIF ​​när du sparar</string>
+    <string name="read_only">Endast läs</string>
+    <string name="tag_camera_firmware">Kamerans firmware</string>
+    <string name="tag_chromatic_aberration_correction">Kromatisk aberrationskorrigering</string>
+    <string name="tag_development_type">Utvecklingstyp</string>
+    <string name="tag_development_type_description">Beskrivning av utvecklingstyp</string>
+    <string name="tag_distortion_correction">Förvrängningskorrigering</string>
+    <string name="tag_image_editing_software">Programvara för bildredigering</string>
+    <string name="tag_image_editor">Bildredigerare</string>
+    <string name="tag_image_title">Bildens titel</string>
+    <string name="tag_learning_opt_out_in">Lärande opt-out/in</string>
+    <string name="tag_metadata_editing_software">Programvara för redigering av metadata</string>
+    <string name="tag_noise_reduction">Brusreducering</string>
+    <string name="tag_photographer">Fotograf</string>
+    <string name="tag_raw_developing_software">RAW utvecklar programvara</string>
+    <string name="tag_shading_correction">Skuggningskorrigering</string>
 </resources>

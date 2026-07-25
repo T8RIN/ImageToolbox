@@ -4447,4 +4447,19 @@
     <string name="return_to_external_app_after_save_sub">Zamknij Przybornik obrazu po zapisaniu obrazu otwartego do edycji z innej aplikacji</string>
     <string name="add_imagetoolbox_metadata">Dodaj metadane ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Podczas zapisywania zapisz wersję aplikacji i skonfigurowane parametry obrazu w formacie EXIF</string>
+    <string name="read_only">Tylko do odczytu</string>
+    <string name="tag_camera_firmware">Oprogramowanie aparatu</string>
+    <string name="tag_chromatic_aberration_correction">Korekcja aberracji chromatycznej</string>
+    <string name="tag_development_type">Typ rozwoju</string>
+    <string name="tag_development_type_description">Opis rodzaju zabudowy</string>
+    <string name="tag_distortion_correction">Korekcja zniekształceń</string>
+    <string name="tag_image_editing_software">Oprogramowanie do edycji obrazu</string>
+    <string name="tag_image_editor">Edytor obrazów</string>
+    <string name="tag_image_title">Tytuł obrazu</string>
+    <string name="tag_learning_opt_out_in">Nauka rezygnacji/przyłączenia</string>
+    <string name="tag_metadata_editing_software">Oprogramowanie do edycji metadanych</string>
+    <string name="tag_noise_reduction">Redukcja hałasu</string>
+    <string name="tag_photographer">Fotograf</string>
+    <string name="tag_raw_developing_software">Oprogramowanie do tworzenia RAW</string>
+    <string name="tag_shading_correction">Korekta cieniowania</string>
 </resources>

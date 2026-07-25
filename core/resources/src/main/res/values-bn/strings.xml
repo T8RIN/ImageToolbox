@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">অন্য অ্যাপ থেকে সম্পাদনা করার জন্য খোলা একটি ছবি সংরক্ষণ করার পরে ইমেজ টুলবক্স বন্ধ করুন</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox মেটাডেটা যোগ করুন</string>
     <string name="add_imagetoolbox_metadata_sub">সংরক্ষণ করার সময় অ্যাপের সংস্করণ এবং কনফিগার করা চিত্রের প্যারামিটারগুলিকে EXIF-এ লিখুন</string>
+    <string name="read_only">শুধুমাত্র পড়া</string>
+    <string name="tag_camera_firmware">ক্যামেরা ফার্মওয়্যার</string>
+    <string name="tag_chromatic_aberration_correction">রঙিন বিকৃতি সংশোধন</string>
+    <string name="tag_development_type">উন্নয়ন প্রকার</string>
+    <string name="tag_development_type_description">উন্নয়ন প্রকারের বর্ণনা</string>
+    <string name="tag_distortion_correction">বিকৃতি সংশোধন</string>
+    <string name="tag_image_editing_software">ইমেজ এডিটিং সফটওয়্যার</string>
+    <string name="tag_image_editor">চিত্র সম্পাদক</string>
+    <string name="tag_image_title">ছবির শিরোনাম</string>
+    <string name="tag_learning_opt_out_in">অপ্ট-আউট/ইন শেখা</string>
+    <string name="tag_metadata_editing_software">মেটাডেটা এডিটিং সফটওয়্যার</string>
+    <string name="tag_noise_reduction">গোলমাল হ্রাস</string>
+    <string name="tag_photographer">ফটোগ্রাফার</string>
+    <string name="tag_raw_developing_software">RAW উন্নয়নশীল সফটওয়্যার</string>
+    <string name="tag_shading_correction">ছায়া সংশোধন</string>
 </resources>

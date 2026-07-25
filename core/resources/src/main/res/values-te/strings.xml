@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">మరొక యాప్ నుండి సవరించడం కోసం తెరవబడిన చిత్రాన్ని సేవ్ చేసిన తర్వాత ఇమేజ్ టూల్‌బాక్స్‌ని మూసివేయండి</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox మెటాడేటాను జోడించండి</string>
     <string name="add_imagetoolbox_metadata_sub">సేవ్ చేసేటప్పుడు యాప్ వెర్షన్ మరియు కాన్ఫిగర్ చేయబడిన ఇమేజ్ పారామితులను EXIFకి వ్రాయండి</string>
+    <string name="read_only">చదవడానికి మాత్రమే</string>
+    <string name="tag_camera_firmware">కెమెరా ఫర్మ్‌వేర్</string>
+    <string name="tag_chromatic_aberration_correction">క్రోమాటిక్ అబెర్రేషన్ దిద్దుబాటు</string>
+    <string name="tag_development_type">అభివృద్ధి రకం</string>
+    <string name="tag_development_type_description">అభివృద్ధి రకం వివరణ</string>
+    <string name="tag_distortion_correction">వక్రీకరణ దిద్దుబాటు</string>
+    <string name="tag_image_editing_software">ఇమేజ్ ఎడిటింగ్ సాఫ్ట్‌వేర్</string>
+    <string name="tag_image_editor">ఇమేజ్ ఎడిటర్</string>
+    <string name="tag_image_title">చిత్ర శీర్షిక</string>
+    <string name="tag_learning_opt_out_in">నిలిపివేయడం/ఇన్ చేయడం నేర్చుకోవడం</string>
+    <string name="tag_metadata_editing_software">మెటాడేటా ఎడిటింగ్ సాఫ్ట్‌వేర్</string>
+    <string name="tag_noise_reduction">శబ్దం తగ్గింపు</string>
+    <string name="tag_photographer">ఫోటోగ్రాఫర్</string>
+    <string name="tag_raw_developing_software">RAW సాఫ్ట్‌వేర్‌ను అభివృద్ధి చేస్తోంది</string>
+    <string name="tag_shading_correction">షేడింగ్ దిద్దుబాటు</string>
 </resources>

@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Sluit Image Toolbox na het opslaan van een afbeelding die is geopend voor bewerking vanuit een andere app</string>
     <string name="add_imagetoolbox_metadata">Voeg ImageToolbox-metagegevens toe</string>
     <string name="add_imagetoolbox_metadata_sub">Schrijf de app-versie en geconfigureerde afbeeldingsparameters naar EXIF ​​tijdens het opslaan</string>
+    <string name="read_only">Alleen lezen</string>
+    <string name="tag_camera_firmware">Camerafirmware</string>
+    <string name="tag_chromatic_aberration_correction">Correctie van chromatische aberratie</string>
+    <string name="tag_development_type">Ontwikkelingstype</string>
+    <string name="tag_development_type_description">Beschrijving van het ontwikkelingstype</string>
+    <string name="tag_distortion_correction">Vervormingscorrectie</string>
+    <string name="tag_image_editing_software">Beeldbewerkingssoftware</string>
+    <string name="tag_image_editor">Afbeeldingseditor</string>
+    <string name="tag_image_title">Titel afbeelding</string>
+    <string name="tag_learning_opt_out_in">Opt-out/in leren</string>
+    <string name="tag_metadata_editing_software">Software voor het bewerken van metadata</string>
+    <string name="tag_noise_reduction">Ruisreductie</string>
+    <string name="tag_photographer">Fotograaf</string>
+    <string name="tag_raw_developing_software">RAW-ontwikkelsoftware</string>
+    <string name="tag_shading_correction">Schaduwcorrectie</string>
 </resources>

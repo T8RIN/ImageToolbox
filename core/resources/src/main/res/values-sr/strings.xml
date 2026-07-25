@@ -4446,4 +4446,19 @@
     <string name="return_to_external_app_after_save_sub">Затворите Имаге Тоолбок након што сачувате слику отворену за уређивање из друге апликације</string>
     <string name="add_imagetoolbox_metadata">Додајте метаподатке ИмагеТоолбок</string>
     <string name="add_imagetoolbox_metadata_sub">Запишите верзију апликације и конфигурисане параметре слике у ЕКСИФ приликом чувања</string>
+    <string name="read_only">Само за читање</string>
+    <string name="tag_camera_firmware">Фирмвер камере</string>
+    <string name="tag_chromatic_aberration_correction">Корекција хроматских аберација</string>
+    <string name="tag_development_type">Тип развоја</string>
+    <string name="tag_development_type_description">Опис типа развоја</string>
+    <string name="tag_distortion_correction">Корекција изобличења</string>
+    <string name="tag_image_editing_software">Софтвер за уређивање слика</string>
+    <string name="tag_image_editor">Едитор слика</string>
+    <string name="tag_image_title">Наслов слике</string>
+    <string name="tag_learning_opt_out_in">Одбијање/укључивање учења</string>
+    <string name="tag_metadata_editing_software">Софтвер за уређивање метаподатака</string>
+    <string name="tag_noise_reduction">Смањење буке</string>
+    <string name="tag_photographer">Пхотограпхер</string>
+    <string name="tag_raw_developing_software">РАВ софтвер за развој</string>
+    <string name="tag_shading_correction">Корекција сенчења</string>
 </resources>

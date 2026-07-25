@@ -4444,4 +4444,19 @@
     <string name="return_to_external_app_after_save_sub">別のアプリで編集のために開いた画像を保存した後、Image Toolbox を閉じる</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox メタデータの追加</string>
     <string name="add_imagetoolbox_metadata_sub">保存時にアプリのバージョンと設定された画像パラメーターを EXIF に書き込みます</string>
+    <string name="read_only">読み取り専用</string>
+    <string name="tag_camera_firmware">カメラファームウェア</string>
+    <string name="tag_chromatic_aberration_correction">色収差補正</string>
+    <string name="tag_development_type">開発型</string>
+    <string name="tag_development_type_description">開発タイプの説明</string>
+    <string name="tag_distortion_correction">歪み補正</string>
+    <string name="tag_image_editing_software">画像編集ソフト</string>
+    <string name="tag_image_editor">画像エディタ</string>
+    <string name="tag_image_title">画像のタイトル</string>
+    <string name="tag_learning_opt_out_in">学習のオプトアウト/イン</string>
+    <string name="tag_metadata_editing_software">メタデータ編集ソフト</string>
+    <string name="tag_noise_reduction">ノイズリダクション</string>
+    <string name="tag_photographer">写真家</string>
+    <string name="tag_raw_developing_software">RAW現像ソフト</string>
+    <string name="tag_shading_correction">シェーディング補正</string>
 </resources>

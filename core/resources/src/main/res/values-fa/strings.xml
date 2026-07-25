@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">پس از ذخیره تصویری که برای ویرایش از برنامه دیگری باز شده است، جعبه ابزار تصویر را ببندید</string>
     <string name="add_imagetoolbox_metadata">ابرداده ImageToolbox را اضافه کنید</string>
     <string name="add_imagetoolbox_metadata_sub">هنگام ذخیره، نسخه برنامه و پارامترهای تصویر پیکربندی شده را در EXIF ​​بنویسید</string>
+    <string name="read_only">فقط خواندن</string>
+    <string name="tag_camera_firmware">سیستم عامل دوربین</string>
+    <string name="tag_chromatic_aberration_correction">تصحیح انحراف رنگی</string>
+    <string name="tag_development_type">نوع توسعه</string>
+    <string name="tag_development_type_description">شرح نوع توسعه</string>
+    <string name="tag_distortion_correction">تصحیح اعوجاج</string>
+    <string name="tag_image_editing_software">نرم افزار ویرایش تصویر</string>
+    <string name="tag_image_editor">ویرایشگر تصویر</string>
+    <string name="tag_image_title">عنوان تصویر</string>
+    <string name="tag_learning_opt_out_in">یادگیری انصراف/ورود</string>
+    <string name="tag_metadata_editing_software">نرم افزار ویرایش متادیتا</string>
+    <string name="tag_noise_reduction">کاهش نویز</string>
+    <string name="tag_photographer">عکاس</string>
+    <string name="tag_raw_developing_software">نرم افزار توسعه RAW</string>
+    <string name="tag_shading_correction">اصلاح سایه</string>
 </resources>

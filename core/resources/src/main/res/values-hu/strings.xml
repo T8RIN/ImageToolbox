@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Zárja be a Kép eszköztárat, miután elmentett egy másik alkalmazásból szerkesztésre megnyitott képet</string>
     <string name="add_imagetoolbox_metadata">Add hozzá az ImageToolbox metaadatait</string>
     <string name="add_imagetoolbox_metadata_sub">Mentéskor írja be az alkalmazás verzióját és a konfigurált képparamétereket az EXIF-be</string>
+    <string name="read_only">Csak olvasható</string>
+    <string name="tag_camera_firmware">Kamera firmware</string>
+    <string name="tag_chromatic_aberration_correction">Kromatikus aberráció korrekciója</string>
+    <string name="tag_development_type">Fejlesztési típus</string>
+    <string name="tag_development_type_description">Fejlesztési típus leírása</string>
+    <string name="tag_distortion_correction">Torzítás korrekció</string>
+    <string name="tag_image_editing_software">Képszerkesztő szoftver</string>
+    <string name="tag_image_editor">Képszerkesztő</string>
+    <string name="tag_image_title">Kép címe</string>
+    <string name="tag_learning_opt_out_in">Leiratkozás/belépés tanulása</string>
+    <string name="tag_metadata_editing_software">Metaadat-szerkesztő szoftver</string>
+    <string name="tag_noise_reduction">Zajcsökkentés</string>
+    <string name="tag_photographer">Fényképész</string>
+    <string name="tag_raw_developing_software">RAW fejlesztő szoftver</string>
+    <string name="tag_shading_correction">Árnyékolás korrekció</string>
 </resources>

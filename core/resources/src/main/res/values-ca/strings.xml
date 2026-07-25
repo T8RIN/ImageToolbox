@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Tanqueu la Caixa d\'eines d\'imatge després de desar una imatge oberta per editar-la des d\'una altra aplicació</string>
     <string name="add_imagetoolbox_metadata">Afegeix metadades d\'ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Escriviu la versió de l\'aplicació i els paràmetres de la imatge configurats a EXIF ​​quan deseu</string>
+    <string name="read_only">Només lectura</string>
+    <string name="tag_camera_firmware">firmware de la càmera</string>
+    <string name="tag_chromatic_aberration_correction">Correcció de l\'aberració cromàtica</string>
+    <string name="tag_development_type">Tipus de desenvolupament</string>
+    <string name="tag_development_type_description">Descripció del tipus de desenvolupament</string>
+    <string name="tag_distortion_correction">Correcció de distorsió</string>
+    <string name="tag_image_editing_software">Programari d\'edició d\'imatges</string>
+    <string name="tag_image_editor">Editor d\'imatges</string>
+    <string name="tag_image_title">Títol de la imatge</string>
+    <string name="tag_learning_opt_out_in">Aprenentatge de desactivació/entrada</string>
+    <string name="tag_metadata_editing_software">Programari d\'edició de metadades</string>
+    <string name="tag_noise_reduction">Reducció de soroll</string>
+    <string name="tag_photographer">Fotògraf</string>
+    <string name="tag_raw_developing_software">Programari de desenvolupament RAW</string>
+    <string name="tag_shading_correction">Correcció d\'ombrejats</string>
 </resources>

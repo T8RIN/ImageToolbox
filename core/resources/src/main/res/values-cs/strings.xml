@@ -4447,4 +4447,19 @@
     <string name="return_to_external_app_after_save_sub">Po uložení obrázku otevřeného pro úpravy z jiné aplikace zavřete nástroj Image Toolbox</string>
     <string name="add_imagetoolbox_metadata">Přidejte metadata ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Při ukládání zapište verzi aplikace a nakonfigurované parametry obrázku do EXIF</string>
+    <string name="read_only">Pouze pro čtení</string>
+    <string name="tag_camera_firmware">Firmware fotoaparátu</string>
+    <string name="tag_chromatic_aberration_correction">Korekce chromatické aberace</string>
+    <string name="tag_development_type">Vývojový typ</string>
+    <string name="tag_development_type_description">Popis typu vývoje</string>
+    <string name="tag_distortion_correction">Korekce zkreslení</string>
+    <string name="tag_image_editing_software">Software pro úpravu obrázků</string>
+    <string name="tag_image_editor">Editor obrázků</string>
+    <string name="tag_image_title">Název obrázku</string>
+    <string name="tag_learning_opt_out_in">Učení opt-out/in</string>
+    <string name="tag_metadata_editing_software">Software pro úpravu metadat</string>
+    <string name="tag_noise_reduction">Snížení hluku</string>
+    <string name="tag_photographer">Fotograf</string>
+    <string name="tag_raw_developing_software">Software pro vývoj RAW</string>
+    <string name="tag_shading_correction">Korekce stínování</string>
 </resources>

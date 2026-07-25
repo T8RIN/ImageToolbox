@@ -4447,4 +4447,19 @@
     <string name="return_to_external_app_after_save_sub">סגור את ארגז הכלים של תמונה לאחר שמירת תמונה שנפתחה לעריכה מאפליקציה אחרת</string>
     <string name="add_imagetoolbox_metadata">הוסף מטא נתונים של ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">כתוב את גרסת האפליקציה ואת פרמטרי התמונה המוגדרים ל-EXIF בעת השמירה</string>
+    <string name="read_only">קריאה בלבד</string>
+    <string name="tag_camera_firmware">קושחת המצלמה</string>
+    <string name="tag_chromatic_aberration_correction">תיקון סטייה כרומטית</string>
+    <string name="tag_development_type">סוג פיתוח</string>
+    <string name="tag_development_type_description">תיאור סוג הפיתוח</string>
+    <string name="tag_distortion_correction">תיקון עיוות</string>
+    <string name="tag_image_editing_software">תוכנה לעריכת תמונות</string>
+    <string name="tag_image_editor">עורך תמונות</string>
+    <string name="tag_image_title">כותרת התמונה</string>
+    <string name="tag_learning_opt_out_in">ביטול הסכמה ללמידה</string>
+    <string name="tag_metadata_editing_software">תוכנה לעריכת מטא נתונים</string>
+    <string name="tag_noise_reduction">הפחתת רעש</string>
+    <string name="tag_photographer">צַלָם</string>
+    <string name="tag_raw_developing_software">תוכנה לפיתוח RAW</string>
+    <string name="tag_shading_correction">תיקון הצללה</string>
 </resources>

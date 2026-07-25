@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Sulje Image Toolbox toisesta sovelluksesta muokattavaksi avatun kuvan tallentamisen jälkeen</string>
     <string name="add_imagetoolbox_metadata">Lisää ImageToolboxin metatiedot</string>
     <string name="add_imagetoolbox_metadata_sub">Kirjoita sovelluksen versio ja määritetyt kuvaparametrit EXIF-tiedostoon tallennuksen yhteydessä</string>
+    <string name="read_only">Vain luku</string>
+    <string name="tag_camera_firmware">Kameran laiteohjelmisto</string>
+    <string name="tag_chromatic_aberration_correction">Kromaattisen poikkeaman korjaus</string>
+    <string name="tag_development_type">Kehitystyyppi</string>
+    <string name="tag_development_type_description">Kehitystyypin kuvaus</string>
+    <string name="tag_distortion_correction">Vääristymän korjaus</string>
+    <string name="tag_image_editing_software">Kuvankäsittelyohjelmisto</string>
+    <string name="tag_image_editor">Kuvankäsittelyohjelma</string>
+    <string name="tag_image_title">Kuvan otsikko</string>
+    <string name="tag_learning_opt_out_in">Opit opt-out/in</string>
+    <string name="tag_metadata_editing_software">Metatietojen muokkausohjelmisto</string>
+    <string name="tag_noise_reduction">Melunvaimennus</string>
+    <string name="tag_photographer">Valokuvaaja</string>
+    <string name="tag_raw_developing_software">RAW-kehitysohjelmisto</string>
+    <string name="tag_shading_correction">Varjostuksen korjaus</string>
 </resources>

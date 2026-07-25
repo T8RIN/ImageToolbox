@@ -4444,4 +4444,19 @@
     <string name="return_to_external_app_after_save_sub">Đóng Hộp công cụ Hình ảnh sau khi lưu hình ảnh đã mở để chỉnh sửa từ một ứng dụng khác</string>
     <string name="add_imagetoolbox_metadata">Thêm siêu dữ liệu ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Ghi phiên bản ứng dụng và các thông số hình ảnh đã định cấu hình vào EXIF ​​​​khi lưu</string>
+    <string name="read_only">Chỉ đọc</string>
+    <string name="tag_camera_firmware">Phần mềm máy ảnh</string>
+    <string name="tag_chromatic_aberration_correction">Hiệu chỉnh quang sai màu</string>
+    <string name="tag_development_type">Loại hình phát triển</string>
+    <string name="tag_development_type_description">Mô tả loại phát triển</string>
+    <string name="tag_distortion_correction">Chỉnh sửa méo</string>
+    <string name="tag_image_editing_software">Phần mềm chỉnh sửa hình ảnh</string>
+    <string name="tag_image_editor">Trình chỉnh sửa hình ảnh</string>
+    <string name="tag_image_title">Tiêu đề hình ảnh</string>
+    <string name="tag_learning_opt_out_in">Chọn không tham gia/tham gia học tập</string>
+    <string name="tag_metadata_editing_software">Phần mềm chỉnh sửa siêu dữ liệu</string>
+    <string name="tag_noise_reduction">Giảm tiếng ồn</string>
+    <string name="tag_photographer">Nhiếp ảnh gia</string>
+    <string name="tag_raw_developing_software">Phần mềm phát triển RAW</string>
+    <string name="tag_shading_correction">Chỉnh sửa bóng</string>
 </resources>

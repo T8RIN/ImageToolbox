@@ -4449,4 +4449,19 @@
     <string name="return_to_external_app_after_save_sub">أغلق Image Toolbox بعد حفظ الصورة المفتوحة للتحرير من تطبيق آخر</string>
     <string name="add_imagetoolbox_metadata">إضافة البيانات الوصفية لـ ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">اكتب إصدار التطبيق ومعلمات الصورة التي تم تكوينها إلى EXIF ​​عند الحفظ</string>
+    <string name="read_only">قراءة فقط</string>
+    <string name="tag_camera_firmware">البرامج الثابتة للكاميرا</string>
+    <string name="tag_chromatic_aberration_correction">تصحيح الانحراف اللوني</string>
+    <string name="tag_development_type">نوع التطوير</string>
+    <string name="tag_development_type_description">وصف نوع التطوير</string>
+    <string name="tag_distortion_correction">تصحيح التشويه</string>
+    <string name="tag_image_editing_software">برامج تحرير الصور</string>
+    <string name="tag_image_editor">محرر الصور</string>
+    <string name="tag_image_title">عنوان الصورة</string>
+    <string name="tag_learning_opt_out_in">تعلم الانسحاب/الدخول</string>
+    <string name="tag_metadata_editing_software">برامج تحرير البيانات الوصفية</string>
+    <string name="tag_noise_reduction">الحد من الضوضاء</string>
+    <string name="tag_photographer">مصور</string>
+    <string name="tag_raw_developing_software">برامج تطوير RAW</string>
+    <string name="tag_shading_correction">تصحيح التظليل</string>
 </resources>

@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Başka bir uygulamadan düzenleme için açılan bir resmi kaydettikten sonra Image Toolbox\'ı kapatın</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox meta verilerini ekleme</string>
     <string name="add_imagetoolbox_metadata_sub">Kaydederken uygulama sürümünü ve yapılandırılmış görüntü parametrelerini EXIF\'e yazın</string>
+    <string name="read_only">Salt Okunur</string>
+    <string name="tag_camera_firmware">Kamera yazılımı</string>
+    <string name="tag_chromatic_aberration_correction">Renk sapması düzeltmesi</string>
+    <string name="tag_development_type">Geliştirme türü</string>
+    <string name="tag_development_type_description">Geliştirme türü açıklaması</string>
+    <string name="tag_distortion_correction">Bozulma düzeltmesi</string>
+    <string name="tag_image_editing_software">Görüntü düzenleme yazılımı</string>
+    <string name="tag_image_editor">Resim düzenleyici</string>
+    <string name="tag_image_title">Resim başlığı</string>
+    <string name="tag_learning_opt_out_in">Öğrenmeyi devre dışı bırakma/dahil etme</string>
+    <string name="tag_metadata_editing_software">Meta veri düzenleme yazılımı</string>
+    <string name="tag_noise_reduction">Gürültü azaltma</string>
+    <string name="tag_photographer">Fotoğrafçı</string>
+    <string name="tag_raw_developing_software">RAW geliştirme yazılımı</string>
+    <string name="tag_shading_correction">Gölgeleme düzeltmesi</string>
 </resources>

@@ -4447,4 +4447,19 @@
     <string name="return_to_external_app_after_save_sub">Зачыніце Image Toolbox пасля захавання выявы, адкрытай для рэдагавання з іншай праграмы</string>
     <string name="add_imagetoolbox_metadata">Дадайце метаданыя ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Запішыце версію праграмы і настроеныя параметры выявы ў EXIF ​​пры захаванні</string>
+    <string name="read_only">Толькі для чытання</string>
+    <string name="tag_camera_firmware">Прашыўка камеры</string>
+    <string name="tag_chromatic_aberration_correction">Карэкцыя храматычнай аберацыі</string>
+    <string name="tag_development_type">Тып развіцця</string>
+    <string name="tag_development_type_description">Апісанне тыпу распрацоўкі</string>
+    <string name="tag_distortion_correction">Карэкцыя скажэнняў</string>
+    <string name="tag_image_editing_software">Праграму для рэдагавання малюнкаў</string>
+    <string name="tag_image_editor">Рэдактар ​​малюнкаў</string>
+    <string name="tag_image_title">Назва выявы</string>
+    <string name="tag_learning_opt_out_in">Навучанне адмова/ўключэнне</string>
+    <string name="tag_metadata_editing_software">Праграму для рэдагавання метададзеных</string>
+    <string name="tag_noise_reduction">Зніжэнне шуму</string>
+    <string name="tag_photographer">Фатограф</string>
+    <string name="tag_raw_developing_software">Праграму для распрацоўкі RAW</string>
+    <string name="tag_shading_correction">Карэкцыя зацянення</string>
 </resources>

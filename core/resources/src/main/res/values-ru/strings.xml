@@ -4447,4 +4447,19 @@
     <string name="score">Счет</string>
     <string name="return_to_external_app_after_save">Возврат после сохранения внешних изменений</string>
     <string name="return_to_external_app_after_save_sub">Закройте панель инструментов изображения после сохранения изображения, открытого для редактирования из другого приложения.</string>
+    <string name="read_only">Только чтение</string>
+    <string name="tag_camera_firmware">Прошивка камеры</string>
+    <string name="tag_chromatic_aberration_correction">Коррекция хроматических аберраций</string>
+    <string name="tag_development_type">Тип разработки</string>
+    <string name="tag_development_type_description">Описание типа разработки</string>
+    <string name="tag_distortion_correction">Коррекция искажений</string>
+    <string name="tag_image_editing_software">Программное обеспечение для редактирования изображений</string>
+    <string name="tag_image_editor">Редактор изображений</string>
+    <string name="tag_image_title">Название изображения</string>
+    <string name="tag_learning_opt_out_in">Отказ от обучения/включение</string>
+    <string name="tag_metadata_editing_software">Программное обеспечение для редактирования метаданных</string>
+    <string name="tag_noise_reduction">Снижение шума</string>
+    <string name="tag_photographer">Фотограф</string>
+    <string name="tag_raw_developing_software">Программное обеспечение для разработки RAW</string>
+    <string name="tag_shading_correction">Коррекция затенения</string>
 </resources>

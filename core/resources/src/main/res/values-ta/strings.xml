@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">மற்றொரு பயன்பாட்டிலிருந்து திருத்துவதற்காக திறக்கப்பட்ட படத்தைச் சேமித்த பிறகு படக் கருவிப்பெட்டியை மூடவும்</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox மெட்டாடேட்டாவைச் சேர்க்கவும்</string>
     <string name="add_imagetoolbox_metadata_sub">பயன்பாட்டின் பதிப்பு மற்றும் உள்ளமைக்கப்பட்ட பட அளவுருக்களை சேமிக்கும் போது EXIF ​​க்கு எழுதவும்</string>
+    <string name="read_only">படிக்க மட்டும்</string>
+    <string name="tag_camera_firmware">கேமரா ஃபார்ம்வேர்</string>
+    <string name="tag_chromatic_aberration_correction">நிறமாற்றம் திருத்தம்</string>
+    <string name="tag_development_type">வளர்ச்சி வகை</string>
+    <string name="tag_development_type_description">வளர்ச்சி வகை விளக்கம்</string>
+    <string name="tag_distortion_correction">சிதைவு திருத்தம்</string>
+    <string name="tag_image_editing_software">பட எடிட்டிங் மென்பொருள்</string>
+    <string name="tag_image_editor">பட எடிட்டர்</string>
+    <string name="tag_image_title">படத்தின் தலைப்பு</string>
+    <string name="tag_learning_opt_out_in">விலகல்/இன் கற்றல்</string>
+    <string name="tag_metadata_editing_software">மெட்டாடேட்டா எடிட்டிங் மென்பொருள்</string>
+    <string name="tag_noise_reduction">சத்தம் குறைப்பு</string>
+    <string name="tag_photographer">புகைப்படக்காரர்</string>
+    <string name="tag_raw_developing_software">RAW மென்பொருளை உருவாக்குகிறது</string>
+    <string name="tag_shading_correction">நிழல் திருத்தம்</string>
 </resources>

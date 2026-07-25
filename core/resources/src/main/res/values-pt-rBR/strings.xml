@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">Feche o Image Toolbox depois de salvar uma imagem aberta para edição em outro aplicativo</string>
     <string name="add_imagetoolbox_metadata">Adicionar metadados do ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Escreva a versão do aplicativo e os parâmetros de imagem configurados em EXIF ​​ao salvar</string>
+    <string name="read_only">Somente leitura</string>
+    <string name="tag_camera_firmware">Firmware da câmera</string>
+    <string name="tag_chromatic_aberration_correction">Correção de aberração cromática</string>
+    <string name="tag_development_type">Tipo de desenvolvimento</string>
+    <string name="tag_development_type_description">Descrição do tipo de desenvolvimento</string>
+    <string name="tag_distortion_correction">Correção de distorção</string>
+    <string name="tag_image_editing_software">Software de edição de imagens</string>
+    <string name="tag_image_editor">Editor de imagens</string>
+    <string name="tag_image_title">Título da imagem</string>
+    <string name="tag_learning_opt_out_in">Desativação/inclusão de aprendizagem</string>
+    <string name="tag_metadata_editing_software">Software de edição de metadados</string>
+    <string name="tag_noise_reduction">Redução de ruído</string>
+    <string name="tag_photographer">Fotógrafo</string>
+    <string name="tag_raw_developing_software">Software de desenvolvimento RAW</string>
+    <string name="tag_shading_correction">Correção de sombreamento</string>
 </resources>

@@ -4446,4 +4446,19 @@
     <string name="return_to_external_app_after_save_sub">Închideți Caseta de instrumente pentru imagini după ce ați salvat o imagine deschisă pentru editare dintr-o altă aplicație</string>
     <string name="add_imagetoolbox_metadata">Adăugați metadate ImageToolbox</string>
     <string name="add_imagetoolbox_metadata_sub">Scrieți versiunea aplicației și parametrii de imagine configurați în EXIF ​​atunci când salvați</string>
+    <string name="read_only">Numai citire</string>
+    <string name="tag_camera_firmware">Firmware-ul camerei</string>
+    <string name="tag_chromatic_aberration_correction">Corectarea aberației cromatice</string>
+    <string name="tag_development_type">Tip de dezvoltare</string>
+    <string name="tag_development_type_description">Descrierea tipului de dezvoltare</string>
+    <string name="tag_distortion_correction">Corectarea distorsiunilor</string>
+    <string name="tag_image_editing_software">Software de editare a imaginilor</string>
+    <string name="tag_image_editor">Editor de imagini</string>
+    <string name="tag_image_title">Titlul imaginii</string>
+    <string name="tag_learning_opt_out_in">Învățare opt-out/in</string>
+    <string name="tag_metadata_editing_software">Software de editare a metadatelor</string>
+    <string name="tag_noise_reduction">Reducerea zgomotului</string>
+    <string name="tag_photographer">Fotograf</string>
+    <string name="tag_raw_developing_software">Software de dezvoltare RAW</string>
+    <string name="tag_shading_correction">Corectarea umbririi</string>
 </resources>

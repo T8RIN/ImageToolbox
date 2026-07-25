@@ -4445,4 +4445,19 @@
     <string name="return_to_external_app_after_save_sub">किसी अन्य ऐप से संपादन के लिए खोली गई छवि को सहेजने के बाद छवि टूलबॉक्स को बंद करें</string>
     <string name="add_imagetoolbox_metadata">ImageToolbox मेटाडेटा जोड़ें</string>
     <string name="add_imagetoolbox_metadata_sub">सहेजते समय ऐप संस्करण और कॉन्फ़िगर किए गए छवि पैरामीटर को EXIF ​​​​में लिखें</string>
+    <string name="read_only">केवल पढ़ने के लिए</string>
+    <string name="tag_camera_firmware">कैमरा फ़र्मवेयर</string>
+    <string name="tag_chromatic_aberration_correction">रंगीन विपथन सुधार</string>
+    <string name="tag_development_type">विकास के प्रकार</string>
+    <string name="tag_development_type_description">विकास प्रकार का विवरण</string>
+    <string name="tag_distortion_correction">विरूपण सुधार</string>
+    <string name="tag_image_editing_software">छवि संपादन सॉफ्टवेयर</string>
+    <string name="tag_image_editor">छवि संपादक</string>
+    <string name="tag_image_title">छवि शीर्षक</string>
+    <string name="tag_learning_opt_out_in">सीखना ऑप्ट-आउट/इन</string>
+    <string name="tag_metadata_editing_software">मेटाडेटा संपादन सॉफ्टवेयर</string>
+    <string name="tag_noise_reduction">शोर में कमी</string>
+    <string name="tag_photographer">फोटोग्राफर</string>
+    <string name="tag_raw_developing_software">RAW सॉफ्टवेयर विकसित कर रहा है</string>
+    <string name="tag_shading_correction">छायांकन सुधार</string>
 </resources>
