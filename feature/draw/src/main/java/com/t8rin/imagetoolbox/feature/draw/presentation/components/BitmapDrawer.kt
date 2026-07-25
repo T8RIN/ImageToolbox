@@ -35,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -82,6 +83,7 @@ import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -349,8 +351,17 @@ fun BitmapDrawer(
                                     paint = drawPaint,
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
-                            } else {
-                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                            } else if (drawMode.text.isNotEmpty() && !androidPath.isEmpty && (drawDownPosition - currentDrawPosition).getDistance() > 10f) {
+                                var readyToDraw by rememberSaveable {
+                                    mutableStateOf(false)
+                                }
+                                LaunchedEffect(androidPath) {
+                                    delay(100)
+                                    readyToDraw = true
+                                }
+                                if (readyToDraw) {
+                                    drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                                }
                             }
                         } else if (drawMode is DrawMode.Image && !isEraserOn) {
                             drawRepeatedImageOnPath(
@@ -528,6 +539,8 @@ fun BitmapDrawer(
                                 )
                                 pendingWarpCommitToken = warpPreviewToken
                             } else {
+                                var addPath = true
+
                                 drawHelper.drawPath(
                                     currentDrawPath = null,
                                     onDrawFreeArrow = {
@@ -555,6 +568,10 @@ fun BitmapDrawer(
                                         PathMeasure().apply {
                                             setPath(drawPath, false)
                                         }.let {
+                                            if (it.length < 10f && drawMode is DrawMode.Text) {
+                                                addPath = false
+                                            }
+
                                             it.getPosition(it.length)
                                         }.takeOrElse { currentDrawPosition }.let { lastPoint ->
                                             drawPath.moveTo(lastPoint.x, lastPoint.y)
@@ -574,19 +591,21 @@ fun BitmapDrawer(
                                     }
                                 )
 
-                                onAddPath(
-                                    UiPathPaint(
-                                        path = drawPath,
-                                        strokeWidth = strokeWidth,
-                                        brushSoftness = brushSoftness,
-                                        drawColor = drawColor,
-                                        isErasing = isEraserOn,
-                                        drawMode = drawMode,
-                                        canvasSize = canvasSize,
-                                        drawPathMode = drawPathMode,
-                                        drawLineStyle = drawLineStyle
+                                if (addPath) {
+                                    onAddPath(
+                                        UiPathPaint(
+                                            path = drawPath,
+                                            strokeWidth = strokeWidth,
+                                            brushSoftness = brushSoftness,
+                                            drawColor = drawColor,
+                                            isErasing = isEraserOn,
+                                            drawMode = drawMode,
+                                            canvasSize = canvasSize,
+                                            drawPathMode = drawPathMode,
+                                            drawLineStyle = drawLineStyle
+                                        )
                                     )
-                                )
+                                }
                             }
                         }
 

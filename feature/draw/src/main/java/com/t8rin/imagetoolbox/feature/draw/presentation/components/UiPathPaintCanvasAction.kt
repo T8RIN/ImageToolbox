@@ -358,7 +358,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
                     paint = pathPaint,
                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                 )
-            } else {
+            } else if (drawMode.text.isNotEmpty() && !path.isEmpty) {
                 drawTextOnPath(drawMode.text, path, 0f, 0f, pathPaint)
             }
         } else if (drawMode is DrawMode.Image && !isEraserOn) {
