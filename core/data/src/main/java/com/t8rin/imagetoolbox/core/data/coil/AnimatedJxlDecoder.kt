@@ -35,11 +35,10 @@ import coil3.request.bitmapConfig
 import coil3.size.Dimension
 import coil3.size.Size
 import coil3.size.pxOrElse
-import com.awxkee.jxlcoderlibjxl.JxlAnimatedImage
-import com.awxkee.jxlcoderlibjxl.JxlResizeFilter
-import com.awxkee.jxlcoderlibjxl.PreferredColorConfig
-import com.awxkee.jxlcoderlibjxl.animation.AnimatedDrawable
-import com.awxkee.jxlcoderlibjxl.animation.JxlAnimatedStore
+import com.awxkee.jxlcoder.JxlAnimatedImage
+import com.awxkee.jxlcoder.PreferredColorConfig
+import com.awxkee.jxlcoder.animation.AnimatedDrawable
+import com.awxkee.jxlcoder.animation.JxlAnimatedStore
 import kotlinx.coroutines.runInterruptible
 import okio.BufferedSource
 import okio.ByteString.Companion.toByteString
@@ -48,7 +47,6 @@ class AnimatedJxlDecoder(
     private val source: SourceFetchResult,
     private val options: Options,
     private val preheatFrames: Int,
-    private val scaleFilter: JxlResizeFilter = JxlResizeFilter.BILINEAR,
     private val exceptionLogger: ((Exception) -> Unit)? = null,
 ) : Decoder {
 
@@ -84,8 +82,7 @@ class AnimatedJxlDecoder(
 
             val originalImage = JxlAnimatedImage(
                 byteArray = sourceData,
-                preferredColorConfig = mPreferredColorConfig,
-                jxlResizeFilter = scaleFilter,
+                preferredColorConfig = mPreferredColorConfig
             )
 
             val (dstWidth, dstHeight) = (originalImage.getWidth() to originalImage.getHeight()).flexibleResize(
@@ -132,7 +129,6 @@ class AnimatedJxlDecoder(
     /** Note: If you want to use this decoder in order to convert image into other format, then pass [enableJxlAnimation] with false to [ImageRequest] */
     class Factory(
         private val preheatFrames: Int = 6,
-        private val scaleFilter: JxlResizeFilter = JxlResizeFilter.BILINEAR,
         private val exceptionLogger: ((Exception) -> Unit)? = null,
     ) : Decoder.Factory {
         override fun create(
@@ -144,8 +140,7 @@ class AnimatedJxlDecoder(
                 source = result,
                 options = options,
                 preheatFrames = preheatFrames,
-                exceptionLogger = exceptionLogger,
-                scaleFilter = scaleFilter,
+                exceptionLogger = exceptionLogger
             )
         } else null
 
