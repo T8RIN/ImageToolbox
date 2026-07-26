@@ -360,6 +360,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                     }
                                 }
                             },
+                            containerColor = EnhancedBottomSheetDefaults.containerColor,
                             contentWindowInsets = WindowInsets()
                         ) { contentPadding ->
                             ProvideContainerDefaults(

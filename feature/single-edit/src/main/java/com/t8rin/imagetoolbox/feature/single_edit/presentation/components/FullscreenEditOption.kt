@@ -306,7 +306,8 @@ fun FullscreenEditOption(
                                             }
                                         )
                                     }
-                                }
+                                },
+                                containerColor = EnhancedBottomSheetDefaults.containerColor,
                             ) { contentPadding ->
                                 if (showControls) {
                                     Column(
