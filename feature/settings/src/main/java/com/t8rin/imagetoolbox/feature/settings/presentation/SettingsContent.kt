@@ -224,7 +224,6 @@ fun SettingsContent(
         modifier = if (isStandaloneScreen) {
             Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
                 .nestedScroll(
                     scrollBehavior.nestedScrollConnection
                 )
@@ -340,6 +339,7 @@ fun SettingsContent(
                 } else null
             )
         },
+        containerColor = if (isStandaloneScreen) MaterialTheme.colorScheme.surface else Color.Transparent,
         contentWindowInsets = WindowInsets()
     ) { contentPadding ->
         Box(

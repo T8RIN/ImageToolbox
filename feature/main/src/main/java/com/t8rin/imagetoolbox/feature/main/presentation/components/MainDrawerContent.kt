@@ -145,7 +145,7 @@ internal fun MainDrawerContent(
                         )
                 } else Modifier
             ),
-        drawerContainerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+        drawerContainerColor = MaterialTheme.colorScheme.surface,
         drawerShape = shape,
         windowInsets = WindowInsets(0)
     ) {
