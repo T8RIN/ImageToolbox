@@ -56,6 +56,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -451,7 +452,10 @@ object EnhancedBottomSheetDefaults {
 
     val contentContainerColor: Color
         @Composable
-        get() = MaterialTheme.colorScheme.surfaceContainer
+        get() = MaterialTheme.colorScheme.surfaceContainer.blend(
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            fraction = 0.3f
+        )
 
     val scrimColor: Color
         @Composable

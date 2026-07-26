@@ -77,6 +77,7 @@ fun PreferenceItem(
     overrideIconShapeContentColor: Boolean = false,
     drawStartIconContainer: Boolean = true,
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
+    subtitleFontStyle: TextStyle = PreferenceItemDefaults.SubtitleFontStyle,
     startIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultStartTransition,
     endIconTransitionSpec: AnimatedContentTransitionScope<ImageVector>.() -> ContentTransform = DefaultEndTransition,
     onDisabledClick: (() -> Unit)? = null,
@@ -131,6 +132,7 @@ fun PreferenceItem(
         containerColor = containerColor,
         modifier = modifier,
         titleFontStyle = titleFontStyle,
+        subtitleFontStyle = subtitleFontStyle,
         onDisabledClick = onDisabledClick,
         drawStartIconContainer = drawStartIconContainer,
         placeBottomContentInside = placeBottomContentInside,
@@ -148,6 +150,25 @@ object PreferenceItemDefaults {
             fontWeight = FontWeight.Medium,
             lineHeight = 18.sp
         )
+
+    val SubtitleFontStyle: TextStyle
+        @Composable
+        get() = LocalTextStyle.current.copy(
+            fontSize = 12.sp,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Normal,
+            lineHeight = 14.sp
+        )
+
+    val SubtitleFontStyleMedium: TextStyle
+        @Composable
+        get() = LocalTextStyle.current.copy(
+            fontSize = 13.5.sp,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Normal,
+            lineHeight = 15.sp
+        )
+
 
     val TitleFontStyleCentered: TextStyle
         @Composable

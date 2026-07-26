@@ -47,11 +47,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -85,6 +82,7 @@ fun PreferenceItemOverload(
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
+    subtitleFontStyle: TextStyle = PreferenceItemDefaults.SubtitleFontStyle,
     onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -198,10 +196,7 @@ fun PreferenceItemOverload(
                                     Spacer(modifier = Modifier.height(2.dp))
                                     Text(
                                         text = sub,
-                                        fontSize = 12.sp,
-                                        textAlign = TextAlign.Start,
-                                        fontWeight = FontWeight.Normal,
-                                        lineHeight = 14.sp,
+                                        style = subtitleFontStyle,
                                         color = LocalContentColor.current.copy(alpha = 0.5f)
                                     )
                                 }

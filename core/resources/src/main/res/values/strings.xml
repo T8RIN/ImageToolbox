@@ -4486,4 +4486,5 @@
     <string name="tag_photographer">Photographer</string>
     <string name="tag_raw_developing_software">RAW developing software</string>
     <string name="tag_shading_correction">Shading correction</string>
+    <string name="image_info">Image Info</string>
 </resources>

@@ -66,20 +66,38 @@ object ShapeDefaults {
         index: Int,
         size: Int,
         forceDefault: Boolean = false,
-        vertical: Boolean = true
+        vertical: Boolean = true,
+        roundedCorner: Dp = 16.dp,
+        defaultCorner: Dp = 4.dp
     ): Shape {
-        val internalShape = when {
-            index == -1 || size == 1 || forceDefault -> default
-            index == 0 && size > 1 -> if (vertical) top else start
-            index == size - 1 -> if (vertical) bottom else end
-            else -> center
-        }
+        val allRounded = index == -1 || size == 1 || forceDefault
+
+        val roundTop = allRounded || (vertical && index == 0 && size > 1)
+        val roundBottom = allRounded || (vertical && index == size - 1 && size > 1)
+        val roundStart = allRounded || (!vertical && index == 0 && size > 1)
+        val roundEnd = allRounded || (!vertical && index == size - 1 && size > 1)
 
         return AutoCornersShape(
-            topStart = internalShape.topStart.animate(),
-            topEnd = internalShape.topEnd.animate(),
-            bottomStart = internalShape.bottomStart.animate(),
-            bottomEnd = internalShape.bottomEnd.animate()
+            topStart = corner(
+                rounded = roundTop || roundStart,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            topEnd = corner(
+                rounded = roundTop || roundEnd,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            bottomStart = corner(
+                rounded = roundBottom || roundStart,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            bottomEnd = corner(
+                rounded = roundBottom || roundEnd,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate()
         )
     }
 
@@ -89,7 +107,9 @@ object ShapeDefaults {
         size: Int,
         crossAxisCount: Int,
         forceDefault: Boolean = false,
-        vertical: Boolean = true
+        vertical: Boolean = true,
+        roundedCorner: Dp = 16.dp,
+        defaultCorner: Dp = 4.dp
     ): Shape {
         if (
             index == -1 ||
@@ -102,7 +122,9 @@ object ShapeDefaults {
                 index = index,
                 size = size,
                 forceDefault = forceDefault,
-                vertical = vertical
+                vertical = vertical,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
             )
         }
 
@@ -137,28 +159,34 @@ object ShapeDefaults {
         }
 
         return AutoCornersShape(
-            topStart = if (!hasTop && !hasStart) {
-                default.topStart.animate()
-            } else {
-                center.topStart.animate()
-            },
-            topEnd = if (!hasTop && !hasEnd) {
-                default.topEnd.animate()
-            } else {
-                center.topEnd.animate()
-            },
-            bottomStart = if (!hasBottom && !hasStart) {
-                default.bottomStart.animate()
-            } else {
-                center.bottomStart.animate()
-            },
-            bottomEnd = if (!hasBottom && !hasEnd) {
-                default.bottomEnd.animate()
-            } else {
-                center.bottomEnd.animate()
-            }
+            topStart = corner(
+                rounded = !hasTop && !hasStart,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            topEnd = corner(
+                rounded = !hasTop && !hasEnd,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            bottomStart = corner(
+                rounded = !hasBottom && !hasStart,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate(),
+            bottomEnd = corner(
+                rounded = !hasBottom && !hasEnd,
+                roundedCorner = roundedCorner,
+                defaultCorner = defaultCorner
+            ).animate()
         )
     }
+
+    private fun corner(
+        rounded: Boolean,
+        roundedCorner: Dp,
+        defaultCorner: Dp
+    ): Dp = if (rounded) roundedCorner else defaultCorner
 
     val top
         @Composable get() = AutoCornersShape(
@@ -294,13 +322,8 @@ object ShapeDefaults {
     }
 
     @Composable
-    private inline fun CornerSize.animate(): Dp = animateDpAsState(
-        targetValue = with(LocalDensity.current) {
-            toPx(
-                shapeSize = Size.Unspecified,
-                density = this
-            ).toDp()
-        },
+    private inline fun Dp.animate(): Dp = animateDpAsState(
+        targetValue = this,
         animationSpec = lessSpringySpec()
     ).value
 

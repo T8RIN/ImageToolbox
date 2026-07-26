@@ -405,7 +405,7 @@ internal fun MediaImagePager(
                                         .weight(1f, false),
                                     color = White,
                                     style = MaterialTheme.typography.labelLarge,
-                                    fontSize = 13.sp
+                                    fontSize = 14.sp
                                 )
                             }
                             currentMedia?.humanFileSize
@@ -422,7 +422,8 @@ internal fun MediaImagePager(
                                             )
                                             .padding(horizontal = 8.dp, vertical = 4.dp),
                                         color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                                        style = MaterialTheme.typography.labelMedium
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontSize = 12.5.sp,
                                     )
                                 }
                             MetadataPreviewButton(

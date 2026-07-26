@@ -20,15 +20,13 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,12 +37,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.toMap
@@ -53,21 +49,28 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DateRange
+import com.t8rin.imagetoolbox.core.resources.icons.EditCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
-import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
+import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
+import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.resources.icons.Straighten
+import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.ui.theme.onSecondaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.secondaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.localizedName
+import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberImageMetadataAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
-import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextFieldColors
+import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.utils.dateAdded
 import com.t8rin.imagetoolbox.core.utils.fileSize
@@ -136,16 +139,16 @@ fun MetadataPreviewButton(
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
                     .padding(start = 4.dp)
-                    .size(20.dp),
-                iconPadding = 2.dp
+                    .size(24.dp),
+                iconPadding = 3.dp
             )
             EnhancedModalBottomSheet(
                 visible = showExif,
                 onDismiss = { showExif = false },
                 title = {
                     TitleItem(
-                        text = stringResource(R.string.exif),
-                        icon = Icons.Rounded.Exif
+                        text = stringResource(R.string.image_info),
+                        icon = Icons.Rounded.Info
                     )
                 },
                 confirmButton = {
@@ -156,35 +159,63 @@ fun MetadataPreviewButton(
                     }
                 },
             ) {
+                val hasExif = tagMap.isNotEmpty()
+
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     flingBehavior = enhancedFlingBehavior()
                 ) {
-                    itemsIndexed(info.data) { index, (name, value) ->
+                    itemsIndexed(info.data) { index, (name, value, icon) ->
                         ValueField(
-                            label = stringResource(name),
+                            title = stringResource(name),
                             value = value,
+                            icon = icon,
                             shape = ShapeDefaults.byIndex(
                                 index = index,
-                                size = info.data.size
+                                size = info.data.size + if (hasExif) 1 else 0
                             )
                         )
                     }
 
-                    if (info.data.isNotEmpty() && tagMap.isNotEmpty()) {
-                        item { Spacer(Modifier.height(4.dp)) }
-                    }
-
-                    itemsIndexed(tagMap) { index, (tag, value) ->
-                        ValueField(
-                            label = tag.localizedName,
-                            value = value,
-                            shape = ShapeDefaults.byIndex(
-                                index = index,
-                                size = tagMap.size
+                    if (hasExif) {
+                        item {
+                            ExpandableItem(
+                                initialState = true,
+                                visibleContent = {
+                                    TitleItem(
+                                        icon = Icons.Outlined.Exif,
+                                        text = stringResource(R.string.metadata),
+                                        iconEndPadding = 14.dp,
+                                        modifier = Modifier.padding(10.dp)
+                                    )
+                                },
+                                expandableContent = {
+                                    ProvideContainerDefaults(
+                                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                                    ) {
+                                        Column(
+                                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                                            modifier = Modifier.padding(horizontal = 8.dp)
+                                        ) {
+                                            tagMap.forEachIndexed { index, (tag, value) ->
+                                                ValueField(
+                                                    title = tag.localizedName,
+                                                    value = value,
+                                                    icon = null,
+                                                    shape = ShapeDefaults.byIndex(
+                                                        index = index,
+                                                        size = tagMap.size,
+                                                        roundedCorner = 12.dp
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+                                },
+                                shape = ShapeDefaults.bottom
                             )
-                        )
+                        }
                     }
                 }
             }
@@ -194,37 +225,19 @@ fun MetadataPreviewButton(
 
 @Composable
 private fun ValueField(
-    label: String,
+    title: String,
     value: String,
+    icon: ImageVector?,
     shape: Shape
 ) {
-    RoundedTextField(
-        onValueChange = {},
-        readOnly = true,
-        value = value,
-        label = label,
-        textStyle = LocalTextStyle.current.copy(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
-        ),
-        colors = RoundedTextFieldColors(
-            isError = false,
-            containerColor = EnhancedBottomSheetDefaults.contentContainerColor,
-            unfocusedIndicatorColor = Color.Transparent
-        ).copy(
-            unfocusedLabelColor = MaterialTheme.colorScheme
-                .surfaceVariant.inverse({ 0.3f })
-        ),
-        singleLine = false,
-        maxLines = Int.MAX_VALUE,
+    PreferenceItem(
+        title = title,
+        subtitle = value,
+        startIcon = icon,
         shape = shape,
-        modifier = Modifier
-            .fillMaxWidth()
-            .container(
-                color = EnhancedBottomSheetDefaults.contentContainerColor,
-                shape = shape,
-                resultPadding = 0.dp
-            )
+        subtitleFontStyle = PreferenceItemDefaults.SubtitleFontStyleMedium,
+        onClick = { Clipboard.copy(value) },
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
@@ -236,17 +249,35 @@ private data class UriInfo(
     val fileSize: String?,
     val imageSize: IntegerSize?
 ) {
-    val data: List<Pair<Int, String>> = buildList {
+    val data: List<Triple<Int, String, ImageVector>> = buildList {
         name?.takeIf { it.isNotBlank() }?.let {
-            add(R.string.filename to it)
+            add(
+                Triple(
+                    first = R.string.filename,
+                    second = it,
+                    third = Icons.Outlined.TextSearch
+                )
+            )
         }
 
         fileSize?.takeIf { it.isNotBlank() }?.let {
-            add(R.string.file_size to it)
+            add(
+                Triple(
+                    first = R.string.file_size,
+                    second = it,
+                    third = Icons.Outlined.Straighten
+                )
+            )
         }
 
         imageSize?.formatResolution()?.let {
-            add(R.string.resolution to it)
+            add(
+                Triple(
+                    first = R.string.resolution,
+                    second = it,
+                    third = Icons.Outlined.ImageResize
+                )
+            )
         }
 
         val dateAddedFormatted = dateAdded?.takeIf { it > 0 }?.let {
@@ -265,19 +296,37 @@ private data class UriInfo(
 
         if (dateModifiedFormatted != dateAddedFormatted) {
             dateModifiedFormatted?.let {
-                add(R.string.sort_by_date_modified to it)
+                add(
+                    Triple(
+                        first = R.string.sort_by_date_modified,
+                        second = it,
+                        third = Icons.Outlined.EditCalendar
+                    )
+                )
             }
         }
 
         dateAddedFormatted?.let {
-            add(R.string.sort_by_date_added to it)
+            add(
+                Triple(
+                    first = R.string.sort_by_date_added,
+                    second = it,
+                    third = Icons.Outlined.DateRange
+                )
+            )
         }
 
         path?.takeIf { it.isNotBlank() }
             ?.removeSuffix("/$name")
             ?.removeSuffix("/${name?.substringBeforeLast('.')}")
             ?.let {
-                add(R.string.path to it)
+                add(
+                    Triple(
+                        first = R.string.path,
+                        second = it,
+                        third = Icons.Outlined.FolderOpen
+                    )
+                )
             }
     }
 }
