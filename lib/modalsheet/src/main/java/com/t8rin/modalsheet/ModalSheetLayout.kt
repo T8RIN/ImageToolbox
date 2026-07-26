@@ -370,7 +370,7 @@ fun ModalSheetLayout(
         }
         Surface(
             Modifier
-                .align(Alignment.TopCenter) // We offset from the top so we'll center from there
+                .align(Alignment.BottomCenter)
                 .widthIn(max = MaxModalBottomSheetWidth)
                 .fillMaxWidth()
                 .then(
@@ -383,18 +383,24 @@ fun ModalSheetLayout(
                                 )
                             }
                         )
-                    } else Modifier)
+                    } else {
+                        Modifier
+                    }
+                )
                 .offset {
                     IntOffset(
-                        0,
-                        sheetState.swipeableState
+                        x = 0,
+                        y = sheetState.swipeableState
                             .requireOffset()
                             .roundToInt()
                     )
                 }
                 .then(
-                    if (nestedScrollEnabled) swipeableModifier
-                    else Modifier
+                    if (nestedScrollEnabled) {
+                        swipeableModifier
+                    } else {
+                        Modifier
+                    }
                 )
                 .swipeAnchors(
                     state = sheetState.swipeableState,
@@ -402,37 +408,50 @@ fun ModalSheetLayout(
                     anchorChangeHandler = anchorChangeHandler
                 ) { state, sheetSize ->
                     when (state) {
-                        Hidden -> fullHeight
+                        Hidden -> sheetSize.height.toFloat()
+
                         HalfExpanded -> when {
                             sheetSize.height < fullHeight / 2f -> null
                             sheetState.isSkipHalfExpanded -> null
-                            else -> fullHeight / 2f
+                            else -> max(
+                                0f,
+                                sheetSize.height - fullHeight / 2f
+                            )
                         }
 
-                        Expanded -> if (sheetSize.height != 0) {
-                            max(0f, fullHeight - sheetSize.height)
-                        } else null
+                        Expanded -> 0f
                     }
                 }
                 .semantics {
                     if (sheetState.isVisible) {
                         dismiss {
                             if (sheetState.swipeableState.confirmValueChange(Hidden)) {
-                                scope.launch { sheetState.hide() }
+                                scope.launch {
+                                    sheetState.hide()
+                                }
                             }
                             true
                         }
+
                         if (sheetState.swipeableState.currentValue == HalfExpanded) {
                             expand {
                                 if (sheetState.swipeableState.confirmValueChange(Expanded)) {
-                                    scope.launch { sheetState.expand() }
+                                    scope.launch {
+                                        sheetState.expand()
+                                    }
                                 }
                                 true
                             }
                         } else if (sheetState.hasHalfExpandedState) {
                             collapse {
-                                if (sheetState.swipeableState.confirmValueChange(HalfExpanded)) {
-                                    scope.launch { sheetState.halfExpand() }
+                                if (
+                                    sheetState.swipeableState.confirmValueChange(
+                                        HalfExpanded
+                                    )
+                                ) {
+                                    scope.launch {
+                                        sheetState.halfExpand()
+                                    }
                                 }
                                 true
                             }

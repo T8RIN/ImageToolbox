@@ -393,7 +393,10 @@ private fun EnhancedModalSheetImpl(
                     autoElevation = autoElevation
                 )
                 .clip(shape)
-                .animateContentSizeNoClip(spring()),
+                .animateContentSizeNoClip(
+                    animationSpec = spring(),
+                    alignment = Alignment.BottomCenter
+                ),
             modifier = modifier,
             shape = shape,
             elevation = elevation,
