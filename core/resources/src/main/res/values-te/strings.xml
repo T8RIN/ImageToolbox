@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">ఫోటోగ్రాఫర్</string>
     <string name="tag_raw_developing_software">RAW సాఫ్ట్‌వేర్‌ను అభివృద్ధి చేస్తోంది</string>
     <string name="tag_shading_correction">షేడింగ్ దిద్దుబాటు</string>
+    <string name="image_info">చిత్రం సమాచారం</string>
+    <string name="mime_type">మైమ్ రకం</string>
 </resources>

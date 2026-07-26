@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">Nhiếp ảnh gia</string>
     <string name="tag_raw_developing_software">Phần mềm phát triển RAW</string>
     <string name="tag_shading_correction">Chỉnh sửa bóng</string>
+    <string name="image_info">Thông tin hình ảnh</string>
+    <string name="mime_type">Loại kịch câm</string>
 </resources>

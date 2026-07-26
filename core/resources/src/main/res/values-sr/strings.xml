@@ -4461,4 +4461,6 @@
     <string name="tag_photographer">Пхотограпхер</string>
     <string name="tag_raw_developing_software">РАВ софтвер за развој</string>
     <string name="tag_shading_correction">Корекција сенчења</string>
+    <string name="image_info">Информације о слици</string>
+    <string name="mime_type">Миме Типе</string>
 </resources>

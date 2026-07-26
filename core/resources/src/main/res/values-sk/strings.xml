@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Fotograf</string>
     <string name="tag_raw_developing_software">Softvér na vývoj RAW</string>
     <string name="tag_shading_correction">Korekcia tieňovania</string>
+    <string name="image_info">Informácie o obrázku</string>
+    <string name="mime_type">Typ pantomimy</string>
 </resources>

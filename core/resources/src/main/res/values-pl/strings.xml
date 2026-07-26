@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Fotograf</string>
     <string name="tag_raw_developing_software">Oprogramowanie do tworzenia RAW</string>
     <string name="tag_shading_correction">Korekta cieniowania</string>
+    <string name="image_info">Informacje o obrazie</string>
+    <string name="mime_type">Typ mima</string>
 </resources>

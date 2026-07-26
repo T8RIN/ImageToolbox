@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Fotograaf</string>
     <string name="tag_raw_developing_software">RAW arendustarkvara</string>
     <string name="tag_shading_correction">Varjutuse korrigeerimine</string>
+    <string name="image_info">Pildi teave</string>
+    <string name="mime_type">Mime tüüp</string>
 </resources>

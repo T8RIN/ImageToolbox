@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">攝影師</string>
     <string name="tag_raw_developing_software">RAW沖洗軟體</string>
     <string name="tag_shading_correction">陰影校正</string>
+    <string name="image_info">影像資訊</string>
+    <string name="mime_type">默劇類型</string>
 </resources>

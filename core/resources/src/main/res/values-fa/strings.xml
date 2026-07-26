@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">عکاس</string>
     <string name="tag_raw_developing_software">نرم افزار توسعه RAW</string>
     <string name="tag_shading_correction">اصلاح سایه</string>
+    <string name="image_info">اطلاعات تصویر</string>
+    <string name="mime_type">نوع Mime</string>
 </resources>

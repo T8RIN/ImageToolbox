@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Fotograf</string>
     <string name="tag_raw_developing_software">RAW udvikler software</string>
     <string name="tag_shading_correction">Korrektion af skygge</string>
+    <string name="image_info">Billede info</string>
+    <string name="mime_type">Mime Type</string>
 </resources>

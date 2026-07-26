@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">புகைப்படக்காரர்</string>
     <string name="tag_raw_developing_software">RAW மென்பொருளை உருவாக்குகிறது</string>
     <string name="tag_shading_correction">நிழல் திருத்தம்</string>
+    <string name="image_info">படத் தகவல்</string>
+    <string name="mime_type">மைம் வகை</string>
 </resources>

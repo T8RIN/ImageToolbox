@@ -4464,4 +4464,6 @@
     <string name="tag_photographer">مصور</string>
     <string name="tag_raw_developing_software">برامج تطوير RAW</string>
     <string name="tag_shading_correction">تصحيح التظليل</string>
+    <string name="image_info">معلومات الصورة</string>
+    <string name="mime_type">نوع مايم</string>
 </resources>

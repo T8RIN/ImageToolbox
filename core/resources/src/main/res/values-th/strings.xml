@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">ช่างภาพ</string>
     <string name="tag_raw_developing_software">ซอฟต์แวร์พัฒนา RAW</string>
     <string name="tag_shading_correction">การแก้ไขการแรเงา</string>
+    <string name="image_info">ข้อมูลรูปภาพ</string>
+    <string name="mime_type">ประเภทไมม์</string>
 </resources>

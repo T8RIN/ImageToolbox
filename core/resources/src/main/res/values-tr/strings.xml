@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Fotoğrafçı</string>
     <string name="tag_raw_developing_software">RAW geliştirme yazılımı</string>
     <string name="tag_shading_correction">Gölgeleme düzeltmesi</string>
+    <string name="image_info">Resim Bilgisi</string>
+    <string name="mime_type">Mim Türü</string>
 </resources>

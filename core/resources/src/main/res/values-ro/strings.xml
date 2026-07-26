@@ -4461,4 +4461,6 @@
     <string name="tag_photographer">Fotograf</string>
     <string name="tag_raw_developing_software">Software de dezvoltare RAW</string>
     <string name="tag_shading_correction">Corectarea umbririi</string>
+    <string name="image_info">Informații despre imagine</string>
+    <string name="mime_type">Tipul mimei</string>
 </resources>

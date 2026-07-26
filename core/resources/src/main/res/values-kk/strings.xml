@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Фотограф</string>
     <string name="tag_raw_developing_software">RAW әзірлейтін бағдарламалық жасақтама</string>
     <string name="tag_shading_correction">Көлеңкелерді түзету</string>
+    <string name="image_info">Сурет туралы ақпарат</string>
+    <string name="mime_type">Mime түрі</string>
 </resources>

@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Valokuvaaja</string>
     <string name="tag_raw_developing_software">RAW-kehitysohjelmisto</string>
     <string name="tag_shading_correction">Varjostuksen korjaus</string>
+    <string name="image_info">Kuvan tiedot</string>
+    <string name="mime_type">Mime-tyyppi</string>
 </resources>

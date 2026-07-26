@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Fotògraf</string>
     <string name="tag_raw_developing_software">Programari de desenvolupament RAW</string>
     <string name="tag_shading_correction">Correcció d\'ombrejats</string>
+    <string name="image_info">Informació de la imatge</string>
+    <string name="mime_type">Tipus de mímica</string>
 </resources>

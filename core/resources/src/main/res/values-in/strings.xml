@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">Fotografer</string>
     <string name="tag_raw_developing_software">Perangkat lunak pengembangan RAW</string>
     <string name="tag_shading_correction">Koreksi bayangan</string>
+    <string name="image_info">Info Gambar</string>
+    <string name="mime_type">Tipe pantomim</string>
 </resources>

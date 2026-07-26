@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">写真家</string>
     <string name="tag_raw_developing_software">RAW現像ソフト</string>
     <string name="tag_shading_correction">シェーディング補正</string>
+    <string name="image_info">画像情報</string>
+    <string name="mime_type">MIME タイプ</string>
 </resources>

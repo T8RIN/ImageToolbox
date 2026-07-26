@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Fotografas</string>
     <string name="tag_raw_developing_software">RAW kūrimo programinė įranga</string>
     <string name="tag_shading_correction">Šešėlių korekcija</string>
+    <string name="image_info">Vaizdo informacija</string>
+    <string name="mime_type">Mime tipas</string>
 </resources>

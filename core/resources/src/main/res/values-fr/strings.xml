@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Photographe</string>
     <string name="tag_raw_developing_software">Logiciel de développement RAW</string>
     <string name="tag_shading_correction">Correction d\'ombrage</string>
+    <string name="image_info">Informations sur l\'image</string>
+    <string name="mime_type">Type MIME</string>
 </resources>

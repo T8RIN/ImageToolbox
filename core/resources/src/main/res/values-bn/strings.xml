@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">ফটোগ্রাফার</string>
     <string name="tag_raw_developing_software">RAW উন্নয়নশীল সফটওয়্যার</string>
     <string name="tag_shading_correction">ছায়া সংশোধন</string>
+    <string name="image_info">ইমেজ তথ্য</string>
+    <string name="mime_type">মাইম টাইপ</string>
 </resources>

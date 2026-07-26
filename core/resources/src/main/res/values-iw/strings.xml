@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">צַלָם</string>
     <string name="tag_raw_developing_software">תוכנה לפיתוח RAW</string>
     <string name="tag_shading_correction">תיקון הצללה</string>
+    <string name="image_info">מידע על תמונה</string>
+    <string name="mime_type">סוג פנטומימה</string>
 </resources>

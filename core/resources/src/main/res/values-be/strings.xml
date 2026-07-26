@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Фатограф</string>
     <string name="tag_raw_developing_software">Праграму для распрацоўкі RAW</string>
     <string name="tag_shading_correction">Карэкцыя зацянення</string>
+    <string name="image_info">Інфармацыя аб выяве</string>
+    <string name="mime_type">Мім</string>
 </resources>

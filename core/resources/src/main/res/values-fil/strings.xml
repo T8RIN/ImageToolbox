@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Photographer</string>
     <string name="tag_raw_developing_software">RAW pagbuo ng software</string>
     <string name="tag_shading_correction">Pagwawasto ng pagtatabing</string>
+    <string name="image_info">Impormasyon ng Larawan</string>
+    <string name="mime_type">Uri ng Mime</string>
 </resources>

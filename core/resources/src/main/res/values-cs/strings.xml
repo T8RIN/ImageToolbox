@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Fotograf</string>
     <string name="tag_raw_developing_software">Software pro vývoj RAW</string>
     <string name="tag_shading_correction">Korekce stínování</string>
+    <string name="image_info">Informace o obrázku</string>
+    <string name="mime_type">Typ mime</string>
 </resources>

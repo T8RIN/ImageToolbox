@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">फोटोग्राफर</string>
     <string name="tag_raw_developing_software">RAW सॉफ्टवेयर विकसित कर रहा है</string>
     <string name="tag_shading_correction">छायांकन सुधार</string>
+    <string name="image_info">छवि जानकारी</string>
+    <string name="mime_type">माइम प्रकार</string>
 </resources>

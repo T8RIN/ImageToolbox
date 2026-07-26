@@ -4462,4 +4462,6 @@
     <string name="tag_photographer">Фотограф</string>
     <string name="tag_raw_developing_software">Програмне забезпечення для розробки RAW</string>
     <string name="tag_shading_correction">Корекція затінення</string>
+    <string name="image_info">Інформація про зображення</string>
+    <string name="mime_type">Тип пантоміми</string>
 </resources>

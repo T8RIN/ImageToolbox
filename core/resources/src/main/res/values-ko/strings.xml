@@ -4459,4 +4459,6 @@
     <string name="tag_photographer">사진작가</string>
     <string name="tag_raw_developing_software">RAW 현상 소프트웨어</string>
     <string name="tag_shading_correction">음영 보정</string>
+    <string name="image_info">이미지 정보</string>
+    <string name="mime_type">마임 유형</string>
 </resources>

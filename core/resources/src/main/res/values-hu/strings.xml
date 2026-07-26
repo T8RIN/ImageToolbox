@@ -4460,4 +4460,6 @@
     <string name="tag_photographer">Fényképész</string>
     <string name="tag_raw_developing_software">RAW fejlesztő szoftver</string>
     <string name="tag_shading_correction">Árnyékolás korrekció</string>
+    <string name="image_info">Kép információ</string>
+    <string name="mime_type">Mime típus</string>
 </resources>
