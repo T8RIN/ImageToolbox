@@ -163,6 +163,21 @@ fun Uri.extension(
     }?.replace(".", "")
 }
 
+fun Uri.mimeType(
+    context: Context = appContext
+): String? {
+    val filename = filename(context) ?: ""
+    if (filename.endsWith(".qoi")) return "image/qoi"
+    if (filename.endsWith(".jxl")) return "image/jxl"
+    return if (ContentResolver.SCHEME_CONTENT == scheme) {
+        context.contentResolver.getType(this) ?: MimeTypeMap
+            .getSingleton()
+            .getMimeTypeFromExtension(extension(context))
+    } else {
+        MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension(context))
+    }
+}
+
 fun Uri.fileSize(): Long? = tryExtractOriginal().run {
     if (this.scheme == "content") {
         runCatching {

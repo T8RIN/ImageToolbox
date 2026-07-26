@@ -49,8 +49,9 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.DateRange
+import com.t8rin.imagetoolbox.core.resources.icons.DataObject
 import com.t8rin.imagetoolbox.core.resources.icons.EditCalendar
+import com.t8rin.imagetoolbox.core.resources.icons.Event
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
@@ -77,6 +78,7 @@ import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.lastModified
+import com.t8rin.imagetoolbox.core.utils.mimeType
 import com.t8rin.imagetoolbox.core.utils.path
 import java.util.Locale
 
@@ -88,7 +90,8 @@ fun MetadataPreviewButton(
     path: (Uri) -> String? = { it.path() },
     name: (Uri) -> String? = { it.filename() },
     fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L) },
-    imageSize: (Uri) -> IntegerSize? = { it.imageSize() }
+    imageSize: (Uri) -> IntegerSize? = { it.imageSize() },
+    mimeType: (Uri) -> String? = { it.mimeType() }
 ) {
     AnimatedContent(
         targetState = uri
@@ -115,6 +118,7 @@ fun MetadataPreviewButton(
             name,
             fileSize,
             imageSize,
+            mimeType,
             metadataImageSize
         ) {
             derivedStateOf {
@@ -124,7 +128,8 @@ fun MetadataPreviewButton(
                     path = path(uri),
                     name = name(uri),
                     fileSize = fileSize(uri),
-                    imageSize = metadataImageSize ?: imageSize(uri)
+                    imageSize = metadataImageSize ?: imageSize(uri),
+                    mimeType = mimeType(uri)
                 )
             }
         }
@@ -162,7 +167,7 @@ fun MetadataPreviewButton(
                 val hasExif = tagMap.isNotEmpty()
 
                 LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
+                    contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     flingBehavior = enhancedFlingBehavior()
                 ) {
@@ -247,7 +252,8 @@ private data class UriInfo(
     val path: String?,
     val name: String?,
     val fileSize: String?,
-    val imageSize: IntegerSize?
+    val imageSize: IntegerSize?,
+    val mimeType: String?
 ) {
     val data: List<Triple<Int, String, ImageVector>> = buildList {
         name?.takeIf { it.isNotBlank() }?.let {
@@ -311,7 +317,7 @@ private data class UriInfo(
                 Triple(
                     first = R.string.sort_by_date_added,
                     second = it,
-                    third = Icons.Outlined.DateRange
+                    third = Icons.Outlined.Event
                 )
             )
         }
@@ -328,6 +334,16 @@ private data class UriInfo(
                     )
                 )
             }
+
+        mimeType?.takeIf { it.isNotBlank() }?.let {
+            add(
+                Triple(
+                    first = R.string.mime_type,
+                    second = it,
+                    third = Icons.Outlined.DataObject
+                )
+            )
+        }
     }
 }
 

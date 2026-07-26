@@ -47,8 +47,6 @@ data class Media(
     val imageSize: IntegerSize? = IntegerSize(width ?: 0, height ?: 0)
         .takeIf { it.width > 0 && it.height > 0 }
 
-    val isImage: Boolean = mimeType.startsWith("image/")
-
     /**
      * Used to determine if the Media object is not accessible
      * via MediaStore.

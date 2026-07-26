@@ -432,7 +432,8 @@ internal fun MediaImagePager(
                                 path = { currentMedia?.path },
                                 name = { currentMedia?.label },
                                 fileSize = { currentMedia?.humanFileSize },
-                                imageSize = { currentMedia?.takeIf { it.isImage }?.imageSize }
+                                imageSize = { currentMedia?.imageSize },
+                                mimeType = { currentMedia?.mimeType }
                             )
                         }
                         Spacer(Modifier.width(16.dp))
