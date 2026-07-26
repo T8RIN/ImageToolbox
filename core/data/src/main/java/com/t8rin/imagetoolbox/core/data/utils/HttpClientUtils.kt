@@ -18,7 +18,9 @@
 package com.t8rin.imagetoolbox.core.data.utils
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeoutConfig
 import io.ktor.client.plugins.onDownload
+import io.ktor.client.plugins.timeout
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.utils.io.ByteReadChannel
@@ -31,6 +33,9 @@ suspend fun HttpClient.getWithProgress(
     prepareGet(
         urlString = url,
         block = {
+            timeout {
+                requestTimeoutMillis = HttpTimeoutConfig.INFINITE_TIMEOUT_MS
+            }
             onDownload(onProgress)
         }
     ).execute { response ->
