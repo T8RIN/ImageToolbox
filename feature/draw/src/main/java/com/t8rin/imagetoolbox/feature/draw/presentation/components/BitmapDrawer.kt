@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
+import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
@@ -355,7 +356,7 @@ fun BitmapDrawer(
                                 var readyToDraw by rememberSaveable {
                                     mutableStateOf(false)
                                 }
-                                LaunchedEffect(androidPath) {
+                                OneTimeEffect {
                                     delay(100)
                                     readyToDraw = true
                                 }
