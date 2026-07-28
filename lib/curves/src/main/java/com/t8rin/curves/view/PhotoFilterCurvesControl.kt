@@ -333,15 +333,18 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                 actualArea.x + point.x * actualArea.width,
                 actualArea.y + (1f - point.y) * actualArea.height
             ) <= touchRadius
-        } ?: activeCurve.addPoint(
-            x = ((x - actualArea.x) / actualArea.width).coerceIn(
-                MinimumPointDistance,
-                1f - MinimumPointDistance
-            ),
-            y = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
-        ).also {
-            pointWasCreated = true
-            delegate?.valueChanged()
+        } ?: run {
+            val pointCount = activeCurve.points.size
+            activeCurve.addPoint(
+                x = ((x - actualArea.x) / actualArea.width).coerceIn(
+                    MinimumPointDistance,
+                    1f - MinimumPointDistance
+                ),
+                y = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
+            ).also {
+                pointWasCreated = activeCurve.points.size > pointCount
+                if (pointWasCreated) delegate?.valueChanged()
+            }
         }
         selectedPointIndex = activePointIndex
         invalidate()
@@ -355,8 +358,12 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         val normalizedY = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
         point.y = normalizedY
         if (index != 0 && index != activeCurve.points.lastIndex) {
-            val minX = activeCurve.points[index - 1].x + MinimumPointDistance
-            val maxX = activeCurve.points[index + 1].x - MinimumPointDistance
+            val previousX = activeCurve.points[index - 1].x
+            val nextX = activeCurve.points[index + 1].x
+            val availableSpacing = (nextX - previousX).coerceAtLeast(0f)
+            val pointSpacing = minOf(MinimumPointDistance, availableSpacing / 2f)
+            val minX = previousX + pointSpacing
+            val maxX = nextX - pointSpacing
             point.x = ((x - actualArea.x) / actualArea.width).coerceIn(minX, maxX)
         }
         activeCurve.invalidateCache()
@@ -573,7 +580,16 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             val index = points.indexOfFirst { it.x > x }
                 .let { if (it == -1) points.lastIndex else it }
                 .coerceAtLeast(1)
-            points.add(index, PointF(x, y))
+            val minX = points[index - 1].x + MinimumPointDistance
+            val maxX = points[index].x - MinimumPointDistance
+            if (minX > maxX) {
+                return if (abs(points[index - 1].x - x) <= abs(points[index].x - x)) {
+                    index - 1
+                } else {
+                    index
+                }
+            }
+            points.add(index, PointF(x.coerceIn(minX, maxX), y))
             invalidateCache()
             return index
         }
