@@ -184,9 +184,9 @@ fun ToneCurvesEditOption(
                         }
                         .union(
                             WindowInsets(
-                                left = 24.dp,
+                                left = 36.dp,
                                 top = 16.dp,
-                                right = 24.dp,
+                                right = 36.dp,
                                 bottom = 16.dp
                             )
                         )
