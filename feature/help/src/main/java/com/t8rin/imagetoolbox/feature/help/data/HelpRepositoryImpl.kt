@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.Brick
 import com.t8rin.imagetoolbox.core.resources.icons.BubbleDelete
 import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
@@ -44,6 +45,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
 import com.t8rin.imagetoolbox.core.resources.icons.FormatPaintVariant
@@ -71,6 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.QrCode
 import com.t8rin.imagetoolbox.core.resources.icons.QualityHigh
+import com.t8rin.imagetoolbox.core.resources.icons.Raw
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.SaveAs
 import com.t8rin.imagetoolbox.core.resources.icons.SaveConfirm
@@ -125,6 +128,11 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val CropStraighten = "crop-straighten"
         const val Filters = "filters"
         const val FilterOrder = "filter-order"
+        const val GmicFilters = "gmic-filters"
+        const val TextureGeneration = "texture-generation"
+        const val BatchRename = "batch-rename"
+        const val DuplicateFinder = "duplicate-finder"
+        const val RawDevelopment = "raw-development"
         const val PreviewBeforeEditing = "preview-before-editing"
         const val BackgroundRemover = "background-remover"
         const val BackgroundEdges = "background-edges"
@@ -674,6 +682,125 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_filter_order_step_1,
                 R.string.help_tip_filter_order_step_2,
                 R.string.help_tip_filter_order_step_3
+            )
+        ),
+        pagesTip(
+            id = TipIds.GmicFilters,
+            title = R.string.help_tip_gmic_filters_title,
+            subtitle = R.string.help_tip_gmic_filters_subtitle,
+            icon = Icons.Outlined.AutoFixHigh,
+            category = imageEditing,
+            deepLink = Screen.Filter(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_gmic_filters_page_title,
+                    description = R.string.help_tip_gmic_filters_description,
+                    steps = listOf(
+                        R.string.help_tip_gmic_filters_step_1,
+                        R.string.help_tip_gmic_filters_step_2,
+                        R.string.help_tip_gmic_filters_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gmic_filters_page_2_title,
+                    description = R.string.help_tip_gmic_filters_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_gmic_filters_page_2_step_1,
+                        R.string.help_tip_gmic_filters_page_2_step_2,
+                        R.string.help_tip_gmic_filters_page_2_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gmic_filters_page_3_title,
+                    description = R.string.help_tip_gmic_filters_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_gmic_filters_page_3_step_1,
+                        R.string.help_tip_gmic_filters_page_3_step_2,
+                        R.string.help_tip_gmic_filters_page_3_step_3
+                    )
+                )
+            )
+        ),
+        tip(
+            id = TipIds.TextureGeneration,
+            title = R.string.help_tip_texture_generation_title,
+            subtitle = R.string.help_tip_texture_generation_subtitle,
+            icon = Icons.Outlined.Brick,
+            category = creativeTools,
+            deepLink = Screen.TextureGeneration,
+            pageTitle = R.string.help_tip_texture_generation_page_title,
+            description = R.string.help_tip_texture_generation_description,
+            steps = listOf(
+                R.string.help_tip_texture_generation_step_1,
+                R.string.help_tip_texture_generation_step_2,
+                R.string.help_tip_texture_generation_step_3
+            )
+        ),
+        tip(
+            id = TipIds.BatchRename,
+            title = R.string.help_tip_batch_rename_title,
+            subtitle = R.string.help_tip_batch_rename_subtitle,
+            icon = Icons.Outlined.FileRename,
+            category = filesAndMetadata,
+            deepLink = Screen.BatchRename(),
+            pageTitle = R.string.help_tip_batch_rename_page_title,
+            description = R.string.help_tip_batch_rename_description,
+            steps = listOf(
+                R.string.help_tip_batch_rename_step_1,
+                R.string.help_tip_batch_rename_step_2,
+                R.string.help_tip_batch_rename_step_3
+            )
+        ),
+        tip(
+            id = TipIds.DuplicateFinder,
+            title = R.string.help_tip_duplicate_finder_title,
+            subtitle = R.string.help_tip_duplicate_finder_subtitle,
+            icon = Icons.Outlined.ImageSearch,
+            category = filesAndMetadata,
+            deepLink = Screen.DuplicateFinder(),
+            pageTitle = R.string.help_tip_duplicate_finder_page_title,
+            description = R.string.help_tip_duplicate_finder_description,
+            steps = listOf(
+                R.string.help_tip_duplicate_finder_step_1,
+                R.string.help_tip_duplicate_finder_step_2,
+                R.string.help_tip_duplicate_finder_step_3
+            )
+        ),
+        pagesTip(
+            id = TipIds.RawDevelopment,
+            title = R.string.help_tip_raw_development_title,
+            subtitle = R.string.help_tip_raw_development_subtitle,
+            icon = Icons.Rounded.Raw,
+            category = imageEditing,
+            deepLink = Screen.Settings(targetSetting = Setting.RawWhiteBalance),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_raw_development_page_title,
+                    description = R.string.help_tip_raw_development_description,
+                    steps = listOf(
+                        R.string.help_tip_raw_development_step_1,
+                        R.string.help_tip_raw_development_step_2,
+                        R.string.help_tip_raw_development_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_raw_development_page_2_title,
+                    description = R.string.help_tip_raw_development_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_raw_development_page_2_step_1,
+                        R.string.help_tip_raw_development_page_2_step_2,
+                        R.string.help_tip_raw_development_page_2_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_raw_development_page_3_title,
+                    description = R.string.help_tip_raw_development_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_raw_development_page_3_step_1,
+                        R.string.help_tip_raw_development_page_3_step_2,
+                        R.string.help_tip_raw_development_page_3_step_3
+                    )
+                )
             )
         ),
         tip(
