@@ -19,10 +19,12 @@ package com.t8rin.imagetoolbox.core.ui.utils.helper
 
 import android.content.Intent
 import android.net.Uri
-import com.t8rin.imagetoolbox.core.resources.Icons
+import android.provider.MediaStore
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
+import com.t8rin.imagetoolbox.core.domain.LEGACY_CAMERA_ACTION_REVIEW
 import com.t8rin.imagetoolbox.core.domain.TEMPLATE_EXT
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getScreenExtra
@@ -32,6 +34,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.IntentUtils.parcelableArrayLi
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.imagetoolbox.core.utils.makeLog
 
 fun Intent?.handleDeeplinks(
     onStart: () -> Unit,
@@ -45,8 +48,16 @@ fun Intent?.handleDeeplinks(
 ) {
     val intent = this ?: return
 
+    intent.makeLog("handleDeeplinks")
+
     onStart()
-    val type = intent.type
+
+    val type = intent.type ?: runCatching {
+        intent.resolveType(appContext)
+    }.getOrNull()
+
+    type.makeLog("handleDeeplinks")
+
     if (type != null && !isHasUris) onColdStart()
 
     val action = intent.action
@@ -88,7 +99,10 @@ fun Intent?.handleDeeplinks(
 
             startsWithImage || hasExtraFormats || dataHasExtraFormats -> {
                 when (action) {
-                    Intent.ACTION_VIEW -> {
+                    Intent.ACTION_VIEW,
+                    LEGACY_CAMERA_ACTION_REVIEW,
+                    MediaStore.ACTION_REVIEW,
+                    MediaStore.ACTION_REVIEW_SECURE -> {
                         val uris =
                             clipData?.clipList() ?: data?.let { listOf(it) } ?: return@runCatching
 
@@ -207,7 +221,10 @@ fun Intent?.handleDeeplinks(
                             }
                         }
 
-                        Intent.ACTION_VIEW -> {
+                        Intent.ACTION_VIEW,
+                        LEGACY_CAMERA_ACTION_REVIEW,
+                        MediaStore.ACTION_REVIEW,
+                        MediaStore.ACTION_REVIEW_SECURE -> {
                             val uris =
                                 clipData?.clipList() ?: data?.let { listOf(it) }
                                 ?: listOfNotNull(intent.parcelable<Uri>(Intent.EXTRA_STREAM))
