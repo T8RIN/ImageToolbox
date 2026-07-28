@@ -25,5 +25,6 @@ data class ImageCurvesEditorColors(
     val greenCurveColor: Color,
     val blueCurveColor: Color,
     val guidelinesColor: Color,
-    val defaultCurveColor: Color
+    val defaultCurveColor: Color,
+    val editorBackgroundColor: Color = Color.Black.copy(alpha = 0.24f)
 )

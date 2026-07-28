@@ -36,6 +36,10 @@ data class ImageCurvesEditorState internal constructor(
         controlPoints: List<List<Float>>
     ): ImageCurvesEditorState = ImageCurvesEditorState(controlPoints)
 
+    internal fun snapshot(): ImageCurvesEditorState = ImageCurvesEditorState(
+        curvesToolValue.copy()
+    )
+
     internal fun buildFilter(): GPUImageToneCurveFilter = GPUImageToneCurveFilter().apply {
         setAllControlPoints(getControlPointsImpl())
     }
@@ -47,14 +51,27 @@ data class ImageCurvesEditorState internal constructor(
         curvesToolValue.blueCurve
     ).all { it.isDefault }
 
+    /**
+     * Serialized curve points. Legacy five-value curves contain only Y coordinates.
+     * New curves are stored as flattened X/Y pairs so points can be placed anywhere.
+     */
     val controlPoints: List<List<Float>>
-        get() = getControlPointsImpl().map { list -> list.map { it.y } }
+        get() = getControlPointsImpl().map { points ->
+            points.flatMap { point -> listOf(point.x, point.y) }
+        }
 
     private fun initControlPoints(controlPoints: List<List<Float>>) {
-        curvesToolValue.luminanceCurve.setPoints(controlPoints[0])
-        curvesToolValue.redCurve.setPoints(controlPoints[1])
-        curvesToolValue.greenCurve.setPoints(controlPoints[2])
-        curvesToolValue.blueCurve.setPoints(controlPoints[3])
+        val curves = listOf(
+            curvesToolValue.luminanceCurve,
+            curvesToolValue.redCurve,
+            curvesToolValue.greenCurve,
+            curvesToolValue.blueCurve
+        )
+        curves.forEachIndexed { index, curve ->
+            controlPoints.getOrNull(index)?.let { points ->
+                curve.setPoints(points)
+            }
+        }
     }
 
     private fun getControlPointsImpl(): List<Array<PointF>> = listOf(
@@ -65,22 +82,26 @@ data class ImageCurvesEditorState internal constructor(
     )
 
     private fun CurvesValue.setPoints(points: List<Float>) {
-        blacksLevel = points[0] * 100f
-        shadowsLevel = points[1] * 100f
-        midtonesLevel = points[2] * 100f
-        highlightsLevel = points[3] * 100f
-        whitesLevel = points[4] * 100f
+        val parsedPoints = if (points.size == LegacyPointCount) {
+            points.mapIndexed { index, y ->
+                PointF(index / (LegacyPointCount - 1f), y)
+            }
+        } else {
+            points.chunked(2)
+                .mapNotNull { pair ->
+                    if (pair.size == 2) PointF(pair[0], pair[1]) else null
+                }
+        }
+        replacePoints(parsedPoints)
     }
 
-    private fun CurvesValue.toPoints(): Array<PointF> = listOf(
-        PointF(0.0f, blacksLevel / 100f),
-        PointF(0.25f, shadowsLevel / 100f),
-        PointF(0.5f, midtonesLevel / 100f),
-        PointF(0.75f, highlightsLevel / 100f),
-        PointF(1.0f, whitesLevel / 100f),
-    ).toTypedArray()
+    private fun CurvesValue.toPoints(): Array<PointF> = points
+        .map { PointF(it.x, it.y) }
+        .toTypedArray()
 
     companion object {
+        private const val LegacyPointCount = 5
+
         val Default: ImageCurvesEditorState
             get() = ImageCurvesEditorState(CurvesToolValue())
     }

@@ -23,6 +23,7 @@ plugins {
 android.namespace = "com.t8rin.curves"
 
 dependencies {
+    implementation(projects.core.resources)
     implementation(libs.coilCompose)
     implementation(libs.toolbox.gpuimage)
     implementation(libs.toolbox.histogram)

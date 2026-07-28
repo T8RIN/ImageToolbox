@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.union
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,7 +45,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.curves.ImageCurvesEditor
+import com.t8rin.curves.ImageCurvesEditorLayout
 import com.t8rin.curves.ImageCurvesEditorState
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
@@ -166,19 +167,9 @@ fun ToneCurvesEditOption(
                 ImageCurvesEditor(
                     bitmap = bitmap,
                     state = editorState,
-                    curvesSelectionText = {
-                        Text(
-                            text = when (it) {
-                                0 -> stringResource(R.string.all)
-                                1 -> stringResource(R.string.color_red)
-                                2 -> stringResource(R.string.color_green)
-                                3 -> stringResource(R.string.color_blue)
-                                else -> ""
-                            },
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    },
+                    showAsRow = !useScaffold,
                     placeControlsAtTheEnd = !useScaffold,
+                    layout = ImageCurvesEditorLayout.Separate,
                     imageObtainingTrigger = imageObtainingTrigger,
                     onImageObtained = {
                         imageObtainingTrigger = false
@@ -193,9 +184,9 @@ fun ToneCurvesEditOption(
                         }
                         .union(
                             WindowInsets(
-                                left = 16.dp,
+                                left = 24.dp,
                                 top = 16.dp,
-                                right = 16.dp,
+                                right = 24.dp,
                                 bottom = 16.dp
                             )
                         )
