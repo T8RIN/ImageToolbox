@@ -103,7 +103,10 @@ fun Canvas.drawMeshGradient(
                     indices,
                     0,
                     indices.size,
-                    Paint().apply { this.alpha = alpha }.nativePaint
+                    Paint().apply {
+                        this.color = Color.White
+                        this.alpha = alpha
+                    }.nativePaint
                 )
             }
 

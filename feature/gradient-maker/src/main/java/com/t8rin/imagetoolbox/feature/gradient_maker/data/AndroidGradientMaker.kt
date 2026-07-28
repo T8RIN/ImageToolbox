@@ -112,6 +112,7 @@ internal class AndroidGradientMaker @Inject constructor(
             setHasAlpha(true)
 
             val paint = Paint().apply {
+                color = Color.White.toArgb()
                 alpha = gradientAlpha.toPaintAlpha()
             }
 
