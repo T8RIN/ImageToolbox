@@ -51,6 +51,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var downY = 0f
     private var pointWasCreated = false
     private var disallowInterceptTouchEvents = true
+    private var drawEditorContent = true
+    private var drawControlPoints = true
+    private var actualAreaInset = 0f
     private val actualArea = Rect()
     private val areaRect = RectF()
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -64,6 +67,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var delegate: PhotoFilterCurvesControlDelegate? = null
     private var selectionDelegate: ((Boolean) -> Unit)? = null
     private var curveValue: CurvesToolValue
+    private var displayedCurveType = value.activeType
 
     fun updateValue(
         value: CurvesToolValue
@@ -145,6 +149,16 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         invalidate()
     }
 
+    fun setDrawEditorContent(drawEditorContent: Boolean) {
+        this.drawEditorContent = drawEditorContent
+        invalidate()
+    }
+
+    fun setDrawControlPoints(drawControlPoints: Boolean) {
+        this.drawControlPoints = drawControlPoints
+        invalidate()
+    }
+
     fun setColors(
         lumaCurveColor: Int,
         redCurveColor: Int,
@@ -177,22 +191,33 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         delegate?.invoke(canDeleteSelectedPoint)
     }
 
-    fun setActualArea(x: Float, y: Float, width: Float, height: Float) {
-        actualArea.x = x
-        actualArea.y = y
-        actualArea.width = width
-        actualArea.height = height
-        areaRect.set(x, y, x + width, y + height)
+    fun setActualAreaInset(inset: Float) {
+        actualAreaInset = inset
+        updateActualArea(width, height)
+    }
+
+    private fun updateActualArea(width: Int, height: Int) {
+        actualArea.x = actualAreaInset
+        actualArea.y = actualAreaInset
+        actualArea.width = (width - actualAreaInset * 2f).coerceAtLeast(0f)
+        actualArea.height = (height - actualAreaInset * 2f).coerceAtLeast(0f)
+        areaRect.set(
+            actualArea.x,
+            actualArea.y,
+            actualArea.x + actualArea.width,
+            actualArea.y + actualArea.height
+        )
         invalidate()
     }
 
     fun setActiveCurveType(type: Int) {
-        if (curveValue.activeType != type) {
-            curveValue.activeType = type
+        curveValue.activeType = type
+        if (displayedCurveType != type) {
+            displayedCurveType = type
             activePointIndex = NoPoint
             selectionDelegate?.invoke(canDeleteSelectedPoint)
-            invalidate()
         }
+        invalidate()
     }
 
     fun deleteSelectedPoint() {
@@ -208,11 +233,23 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         disallowInterceptTouchEvents = disallow
     }
 
+    fun isControlPointHit(x: Float, y: Float): Boolean {
+        if (actualArea.width <= 0f || actualArea.height <= 0f) return false
+
+        val touchRadius = dp(ControlPointTouchRadius).toFloat()
+        return activeCurve.points.any { point ->
+            distance(
+                x,
+                y,
+                actualArea.x + point.x * actualArea.width,
+                actualArea.y + (1f - point.y) * actualArea.height
+            ) <= touchRadius
+        }
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        if (actualArea.x == 0f && actualArea.y == 0f) {
-            setActualArea(0f, 0f, w.toFloat(), h.toFloat())
-        }
+        updateActualArea(w, h)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -230,7 +267,11 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                         val locationY = event.y
                         downX = locationX
                         downY = locationY
-                        if (locationX >= actualArea.x && locationX <= actualArea.x + actualArea.width && locationY >= actualArea.y && locationY <= actualArea.y + actualArea.height) {
+                        val isInsideEditor = locationX >= actualArea.x &&
+                                locationX <= actualArea.x + actualArea.width &&
+                                locationY >= actualArea.y &&
+                                locationY <= actualArea.y + actualArea.height
+                        if (isInsideEditor || isControlPointHit(locationX, locationY)) {
                             isMoving = true
                         }
                         checkForMoving = false
@@ -316,7 +357,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         if (activePointIndex != NoPoint || actualArea.width <= 0f || actualArea.height <= 0f) {
             return
         }
-        val touchRadius = dp(22f).toFloat()
+        val touchRadius = dp(ControlPointTouchRadius).toFloat()
         activePointIndex = activeCurve.points.indices.minByOrNull { index ->
             val point = activeCurve.points[index]
             distance(
@@ -379,32 +420,34 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         if (actualArea.width <= 0f || actualArea.height <= 0f) return
 
-        canvas.drawRect(areaRect, backgroundPaint)
+        if (drawEditorContent) {
+            canvas.drawRect(areaRect, backgroundPaint)
 
-        for (i in 1..3) {
-            canvas.drawLine(
-                actualArea.x + actualArea.width * i / 4f,
-                actualArea.y,
-                actualArea.x + actualArea.width * i / 4f,
-                actualArea.y + actualArea.height,
-                paint
-            )
+            for (i in 1..3) {
+                canvas.drawLine(
+                    actualArea.x + actualArea.width * i / 4f,
+                    actualArea.y,
+                    actualArea.x + actualArea.width * i / 4f,
+                    actualArea.y + actualArea.height,
+                    paint
+                )
+                canvas.drawLine(
+                    actualArea.x,
+                    actualArea.y + actualArea.height * i / 4f,
+                    actualArea.x + actualArea.width,
+                    actualArea.y + actualArea.height * i / 4f,
+                    paint
+                )
+            }
+
             canvas.drawLine(
                 actualArea.x,
-                actualArea.y + actualArea.height * i / 4f,
+                actualArea.y + actualArea.height,
                 actualArea.x + actualArea.width,
-                actualArea.y + actualArea.height * i / 4f,
-                paint
+                actualArea.y,
+                paintDash
             )
         }
-
-        canvas.drawLine(
-            actualArea.x,
-            actualArea.y + actualArea.height,
-            actualArea.x + actualArea.width,
-            actualArea.y,
-            paintDash
-        )
 
         var curvesValue: CurvesValue? = null
         when (curveValue.activeType) {
@@ -430,56 +473,62 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
 
             else -> Unit
         }
+        val activeCurvesValue = curvesValue ?: return
         var points: FloatArray
 
-        if (drawNotActiveCurves) {
-            listOf(
-                curveValue.luminanceCurve to lumaCurveColor,
-                curveValue.redCurve to redCurveColor,
-                curveValue.greenCurve to greenCurveColor,
-                curveValue.blueCurve to blueCurveColor
-            ).filter { it.first != curvesValue && !it.first.isDefault }.forEach { (curve, color) ->
-                paintNotActiveCurve.color = Color(color).copy(0.7f).toArgb()
-                points = curve.interpolateCurve()
-                path.reset()
-                for (a in 0 until points.size / 2) {
-                    if (a == 0) {
-                        path.moveTo(
-                            actualArea.x + points[0] * actualArea.width,
-                            actualArea.y + (1.0f - points[1]) * actualArea.height
-                        )
-                    } else {
-                        path.lineTo(
-                            actualArea.x + points[a * 2] * actualArea.width,
-                            actualArea.y + (1.0f - points[a * 2 + 1]) * actualArea.height
-                        )
+        if (drawEditorContent) {
+            if (drawNotActiveCurves) {
+                listOf(
+                    curveValue.luminanceCurve to lumaCurveColor,
+                    curveValue.redCurve to redCurveColor,
+                    curveValue.greenCurve to greenCurveColor,
+                    curveValue.blueCurve to blueCurveColor
+                ).filter {
+                    it.first != activeCurvesValue && !it.first.isDefault
+                }.forEach { (curve, color) ->
+                    paintNotActiveCurve.color = Color(color).copy(0.7f).toArgb()
+                    points = curve.interpolateCurve()
+                    path.reset()
+                    for (a in 0 until points.size / 2) {
+                        if (a == 0) {
+                            path.moveTo(
+                                actualArea.x + points[0] * actualArea.width,
+                                actualArea.y + (1.0f - points[1]) * actualArea.height
+                            )
+                        } else {
+                            path.lineTo(
+                                actualArea.x + points[a * 2] * actualArea.width,
+                                actualArea.y + (1.0f - points[a * 2 + 1]) * actualArea.height
+                            )
+                        }
                     }
+
+                    canvas.drawPath(path, paintNotActiveCurve)
                 }
-
-                canvas.drawPath(path, paintNotActiveCurve)
             }
+
+            points = activeCurvesValue.interpolateCurve()
+            path.reset()
+            for (a in 0 until points.size / 2) {
+                if (a == 0) {
+                    path.moveTo(
+                        actualArea.x + points[0] * actualArea.width,
+                        actualArea.y + (1.0f - points[1]) * actualArea.height
+                    )
+                } else {
+                    path.lineTo(
+                        actualArea.x + points[a * 2] * actualArea.width,
+                        actualArea.y + (1.0f - points[a * 2 + 1]) * actualArea.height
+                    )
+                }
+            }
+
+            canvas.drawPath(path, paintCurve)
         }
 
-        points = curvesValue!!.interpolateCurve()
-        path.reset()
-        for (a in 0 until points.size / 2) {
-            if (a == 0) {
-                path.moveTo(
-                    actualArea.x + points[0] * actualArea.width,
-                    actualArea.y + (1.0f - points[1]) * actualArea.height
-                )
-            } else {
-                path.lineTo(
-                    actualArea.x + points[a * 2] * actualArea.width,
-                    actualArea.y + (1.0f - points[a * 2 + 1]) * actualArea.height
-                )
-            }
-        }
-
-        canvas.drawPath(path, paintCurve)
-
+        if (!drawControlPoints) return
         pointPaint.color = paintCurve.color
-        curvesValue.points.forEachIndexed { index, point ->
+        activeCurvesValue.points.forEachIndexed { index, point ->
             val x = actualArea.x + point.x * actualArea.width
             val y = actualArea.y + (1f - point.y) * actualArea.height
             val isActive = index == activePointIndex || index == selectedPointIndex
@@ -663,6 +712,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         private const val NoPoint = -1
         private const val MaxPointCount = 16
         private const val MinimumPointDistance = 0.015f
+        private const val ControlPointTouchRadius = 22f
         private const val DoubleTapTimeout = 300L
         private const val GridAlpha = 0.32f
         private const val DiagonalAlpha = 0.85f

@@ -21,6 +21,7 @@ package com.t8rin.curves
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
@@ -65,12 +66,23 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.PointerEvent
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.changedToDownIgnoreConsumed
+import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.PointerInputModifierNode
+import androidx.compose.ui.node.TouchBoundsExpansion
+import androidx.compose.ui.platform.InspectorInfo
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.t8rin.curves.utils.safeAspectRatio
@@ -324,8 +336,8 @@ private fun OverlayEditor(
                         Modifier.padding(bottom = controlsPadding)
                     }
                 )
-                .aspectRatio(bitmap.safeAspectRatio)
-                .clip(shape),
+                .aspectRatio(bitmap.safeAspectRatio),
+            shape = shape,
             imageContent = {
                 GPUImagePreview(
                     gpuImage = gpuImage,
@@ -426,8 +438,8 @@ private fun SeparateEditor(
                 modifier = Modifier
                     .weight(1f)
                     .height(editorHeight)
-                    .clip(shape)
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .background(MaterialTheme.colorScheme.surfaceContainer, shape),
+                shape = shape
             )
             CurvesControls(
                 activeCurveType = activeCurveType,
@@ -488,8 +500,8 @@ private fun SeparateEditor(
                     )
                     .fillMaxWidth()
                     .height(editorHeight)
-                    .clip(shape)
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .background(MaterialTheme.colorScheme.surfaceContainer, shape),
+                shape = shape
             )
             CurvesControls(
                 activeCurveType = activeCurveType,
@@ -522,40 +534,116 @@ private fun CurveEditorPane(
     disallowInterceptTouchEvents: Boolean,
     histogramAlpha: Float,
     modifier: Modifier,
+    shape: Shape,
     imageContent: (@Composable () -> Unit)? = null
 ) {
-    Box(modifier = modifier) {
-        imageContent?.invoke()
-        if (bitmap != null) {
-            CurveChannelHistogram(
-                bitmap = bitmap,
-                curveType = activeCurveType,
-                colors = colors,
-                modifier = Modifier
-                    .matchParentSize()
-                    .graphicsLayer(alpha = histogramAlpha.coerceIn(0f, 1f))
+    val graphView = remember {
+        mutableStateOf<PhotoFilterCurvesControl?>(null)
+    }
+    val pointsView = remember {
+        mutableStateOf<PhotoFilterCurvesControl?>(null)
+    }
+    val pointOverflow = with(LocalDensity.current) {
+        CurvePointTouchExpansion.roundToPx()
+    }
+
+    Box(
+        modifier = modifier.expandedCurvePointTouchTarget(
+            expansion = pointOverflow,
+            coordinateOffset = pointOverflow,
+            viewProvider = { pointsView.value }
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .graphicsLayer(
+                    shape = shape,
+                    clip = true
+                )
+        ) {
+            imageContent?.invoke()
+            if (bitmap != null) {
+                CurveChannelHistogram(
+                    bitmap = bitmap,
+                    curveType = activeCurveType,
+                    colors = colors,
+                    modifier = Modifier
+                        .matchParentSize()
+                        .graphicsLayer(alpha = histogramAlpha.coerceIn(0f, 1f))
+                )
+            }
+
+            AndroidView(
+                modifier = Modifier.matchParentSize(),
+                factory = { context ->
+                    PhotoFilterCurvesControl(
+                        context = context,
+                        value = state.curvesToolValue
+                    ).apply {
+                        graphView.value = this
+                        isEnabled = false
+                        setDrawControlPoints(false)
+                    }
+                },
+                update = { view ->
+                    graphView.value = view
+                    view.updateValue(state.curvesToolValue)
+                    view.setActiveCurveType(activeCurveType)
+                    view.setDrawNotActiveCurves(drawNotActiveCurves)
+                    view.setDrawEditorContent(true)
+                    view.setDrawControlPoints(false)
+                    view.setColors(
+                        lumaCurveColor = colors.lumaCurveColor.toArgb(),
+                        redCurveColor = colors.redCurveColor.toArgb(),
+                        greenCurveColor = colors.greenCurveColor.toArgb(),
+                        blueCurveColor = colors.blueCurveColor.toArgb(),
+                        defaultCurveColor = colors.defaultCurveColor.toArgb(),
+                        guidelinesColor = colors.guidelinesColor.toArgb(),
+                        editorBackgroundColor = if (imageContent == null) {
+                            Color.Transparent
+                        } else {
+                            colors.editorBackgroundColor
+                        }.toArgb()
+                    )
+                    view.setActualAreaInset(0f)
+                }
             )
         }
 
         AndroidView(
-            modifier = Modifier.matchParentSize(),
+            modifier = Modifier
+                .matchParentSize()
+                .expandBeyondBounds(pointOverflow),
             factory = { context ->
                 PhotoFilterCurvesControl(
                     context = context,
                     value = state.curvesToolValue
                 ).apply {
+                    pointsView.value = this
+                    isEnabled = false
                     onCurvesViewChange(this)
-                    setDelegate { onCurveChanged() }
+                    setDrawEditorContent(false)
+                    setDrawControlPoints(true)
+                    setDelegate {
+                        graphView.value?.invalidate()
+                        onCurveChanged()
+                    }
                     setSelectionDelegate(onDeleteAvailabilityChange)
                 }
             },
             update = { view ->
+                pointsView.value = view
                 onCurvesViewChange(view)
                 view.updateValue(state.curvesToolValue)
                 view.setActiveCurveType(activeCurveType)
-                view.setDelegate { onCurveChanged() }
+                view.setDelegate {
+                    graphView.value?.invalidate()
+                    onCurveChanged()
+                }
                 view.setSelectionDelegate(onDeleteAvailabilityChange)
-                view.setDrawNotActiveCurves(drawNotActiveCurves)
+                view.setDrawEditorContent(false)
+                view.setDrawControlPoints(true)
                 view.setDisallowInterceptTouchEvents(disallowInterceptTouchEvents)
                 view.setColors(
                     lumaCurveColor = colors.lumaCurveColor.toArgb(),
@@ -564,13 +652,9 @@ private fun CurveEditorPane(
                     blueCurveColor = colors.blueCurveColor.toArgb(),
                     defaultCurveColor = colors.defaultCurveColor.toArgb(),
                     guidelinesColor = colors.guidelinesColor.toArgb(),
-                    editorBackgroundColor = if (imageContent == null) {
-                        Color.Transparent
-                    } else {
-                        colors.editorBackgroundColor
-                    }.toArgb()
+                    editorBackgroundColor = Color.Transparent.toArgb()
                 )
-                view.setActualArea(0f, 0f, view.width.toFloat(), view.height.toFloat())
+                view.setActualAreaInset(pointOverflow.toFloat())
             }
         )
     }
@@ -772,6 +856,181 @@ private fun PointDeleteButton(
                 imageVector = Icons.Outlined.Delete,
                 contentDescription = null
             )
+        }
+    }
+}
+
+private val CurvePointTouchExpansion = 12.dp
+
+private fun Modifier.expandBeyondBounds(
+    expansion: Int
+): Modifier = layout { measurable, constraints ->
+    val placeable = measurable.measure(
+        Constraints.fixed(
+            width = constraints.maxWidth + expansion * 2,
+            height = constraints.maxHeight + expansion * 2
+        )
+    )
+    layout(constraints.maxWidth, constraints.maxHeight) {
+        placeable.place(-expansion, -expansion)
+    }
+}
+
+private fun Modifier.expandedCurvePointTouchTarget(
+    expansion: Int,
+    coordinateOffset: Int,
+    viewProvider: () -> PhotoFilterCurvesControl?
+): Modifier = this then ExpandedCurvePointTouchElement(
+    expansion = expansion,
+    coordinateOffset = coordinateOffset,
+    viewProvider = viewProvider
+)
+
+private data class ExpandedCurvePointTouchElement(
+    val expansion: Int,
+    val coordinateOffset: Int,
+    val viewProvider: () -> PhotoFilterCurvesControl?
+) : ModifierNodeElement<ExpandedCurvePointTouchNode>() {
+
+    override fun create() = ExpandedCurvePointTouchNode(
+        expansion = expansion,
+        coordinateOffset = coordinateOffset,
+        viewProvider = viewProvider
+    )
+
+    override fun update(node: ExpandedCurvePointTouchNode) {
+        node.update(
+            expansion = expansion,
+            coordinateOffset = coordinateOffset,
+            viewProvider = viewProvider
+        )
+    }
+
+    override fun InspectorInfo.inspectableProperties() {
+        name = "expandedCurvePointTouchTarget"
+        properties["expansion"] = expansion
+    }
+}
+
+private class ExpandedCurvePointTouchNode(
+    private var expansion: Int,
+    private var coordinateOffset: Int,
+    private var viewProvider: () -> PhotoFilterCurvesControl?
+) : Modifier.Node(), PointerInputModifierNode {
+
+    private var forwarding = false
+    private var downTime = 0L
+    private var lastX = 0f
+    private var lastY = 0f
+
+    override val touchBoundsExpansion: TouchBoundsExpansion
+        get() = TouchBoundsExpansion.Absolute(
+            left = expansion,
+            top = expansion,
+            right = expansion,
+            bottom = expansion
+        )
+
+    fun update(
+        expansion: Int,
+        coordinateOffset: Int,
+        viewProvider: () -> PhotoFilterCurvesControl?
+    ) {
+        this.expansion = expansion
+        this.coordinateOffset = coordinateOffset
+        this.viewProvider = viewProvider
+    }
+
+    override fun onPointerEvent(
+        pointerEvent: PointerEvent,
+        pass: PointerEventPass,
+        bounds: IntSize
+    ) {
+        if (pass != PointerEventPass.Initial) return
+
+        val change = pointerEvent.changes.firstOrNull() ?: return
+        val position = change.position
+        val viewX = position.x + coordinateOffset
+        val viewY = position.y + coordinateOffset
+        lastX = viewX
+        lastY = viewY
+
+        if (!forwarding) {
+            if (!change.changedToDownIgnoreConsumed()) return
+
+            val isOutside = position.x < 0f ||
+                    position.x > bounds.width ||
+                    position.y < 0f ||
+                    position.y > bounds.height
+            val view = viewProvider() ?: return
+            if (isOutside && !view.isControlPointHit(viewX, viewY)) return
+
+            forwarding = true
+            downTime = change.uptimeMillis
+            dispatchToView(
+                view = view,
+                action = MotionEvent.ACTION_DOWN,
+                eventTime = change.uptimeMillis,
+                x = viewX,
+                y = viewY
+            )
+            change.consume()
+            return
+        }
+
+        val action = if (change.changedToUpIgnoreConsumed()) {
+            MotionEvent.ACTION_UP
+        } else {
+            MotionEvent.ACTION_MOVE
+        }
+        viewProvider()?.let { view ->
+            dispatchToView(
+                view = view,
+                action = action,
+                eventTime = change.uptimeMillis,
+                x = viewX,
+                y = viewY
+            )
+        }
+        change.consume()
+
+        if (action == MotionEvent.ACTION_UP) {
+            forwarding = false
+        }
+    }
+
+    override fun onCancelPointerInput() {
+        if (forwarding) {
+            viewProvider()?.let { view ->
+                dispatchToView(
+                    view = view,
+                    action = MotionEvent.ACTION_CANCEL,
+                    eventTime = downTime,
+                    x = lastX,
+                    y = lastY
+                )
+            }
+            forwarding = false
+        }
+    }
+
+    private fun dispatchToView(
+        view: PhotoFilterCurvesControl,
+        action: Int,
+        eventTime: Long,
+        x: Float,
+        y: Float
+    ) {
+        MotionEvent.obtain(
+            downTime,
+            eventTime,
+            action,
+            x,
+            y,
+            0
+        ).also { event ->
+            view.onTouchEvent(event)
+            event.recycle()
         }
     }
 }
