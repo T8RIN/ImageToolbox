@@ -33,6 +33,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -672,15 +673,13 @@ private fun CurvesControls(
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeGreen to colors.greenCurveColor,
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeBlue to colors.blueCurveColor
     )
-    val content: @Composable () -> Unit = {
-        items.forEach { (type, color) ->
-            CurveSelectionButton(
-                selected = activeCurveType == type,
-                color = color,
-                onClick = { onCurveTypeChange(type) },
-                content = { curvesSelectionText(type) }
-            )
-        }
+    val curveButton: @Composable (Pair<Int, Color>) -> Unit = { (type, color) ->
+        CurveSelectionButton(
+            selected = activeCurveType == type,
+            color = color,
+            onClick = { onCurveTypeChange(type) },
+            content = { curvesSelectionText(type) }
+        )
     }
 
     if (vertical) {
@@ -688,7 +687,7 @@ private fun CurvesControls(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
         ) {
-            content()
+            items.forEach { curveButton(it) }
             PointDeleteButton(
                 enabled = canDeleteSelectedPoint,
                 onClick = onDeleteSelectedPoint,
@@ -696,17 +695,22 @@ private fun CurvesControls(
             )
         }
     } else {
-        Row(
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
+            itemVerticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
         ) {
-            content()
-            PointDeleteButton(
-                enabled = canDeleteSelectedPoint,
-                onClick = onDeleteSelectedPoint,
-                modifier = Modifier.padding(start = 8.dp)
-            )
+            items.dropLast(1).forEach { curveButton(it) }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                curveButton(items.last())
+                PointDeleteButton(
+                    enabled = canDeleteSelectedPoint,
+                    onClick = onDeleteSelectedPoint
+                )
+            }
         }
     }
 }

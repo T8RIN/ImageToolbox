@@ -22,9 +22,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -43,15 +45,22 @@ internal fun ToneCurvesParamsItem(
     onFilterChange: (value: ToneCurvesParams) -> Unit,
     previewOnly: Boolean
 ) {
-    val editorState: MutableState<ImageCurvesEditorState> =
-        remember { mutableStateOf(ImageCurvesEditorState(value.controlPoints)) }
+    var editorState by remember {
+        mutableStateOf(ImageCurvesEditorState(value.controlPoints))
+    }
+
+    LaunchedEffect(value.controlPoints) {
+        if (editorState.controlPoints != value.controlPoints) {
+            editorState = editorState.copy(controlPoints = value.controlPoints)
+        }
+    }
 
     Box(
         modifier = Modifier.padding(8.dp)
     ) {
         ImageCurvesEditor(
             bitmap = remember { ImageBitmap(1, 1).asAndroidBitmap() },
-            state = editorState.value,
+            state = editorState,
             imageObtainingTrigger = false,
             onImageObtained = { },
             layout = ImageCurvesEditorLayout.Separate,

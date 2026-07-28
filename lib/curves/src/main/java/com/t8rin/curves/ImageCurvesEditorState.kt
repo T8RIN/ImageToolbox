@@ -34,7 +34,9 @@ data class ImageCurvesEditorState internal constructor(
 
     fun copy(
         controlPoints: List<List<Float>>
-    ): ImageCurvesEditorState = ImageCurvesEditorState(controlPoints)
+    ): ImageCurvesEditorState = ImageCurvesEditorState(controlPoints).also {
+        it.curvesToolValue.activeType = curvesToolValue.activeType
+    }
 
     internal fun snapshot(): ImageCurvesEditorState = ImageCurvesEditorState(
         curvesToolValue.copy()
