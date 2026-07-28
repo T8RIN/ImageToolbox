@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,12 +33,13 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.PointMode
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.VertexMode
-import androidx.compose.ui.graphics.Vertices
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.nativePaint
+import androidx.compose.ui.graphics.toArgb
 
 @Composable
 fun Modifier.meshGradient(
@@ -86,18 +87,23 @@ fun Canvas.drawMeshGradient(
                 scaleY = size.height,
                 pivot = Offset.Zero
             ) {
-                drawVertices(
-                    vertices = Vertices(
-                        vertexMode = VertexMode.Triangles,
-                        positions = pointData.offsets,
-                        textureCoordinates = pointData.offsets,
-                        colors = pointData.colors,
-                        indices = indicesModifier(pointData.indices)
-                    ),
-                    blendMode = BlendMode.Dst,
-                    paint = Paint().apply {
-                        this.alpha = alpha
-                    }
+                val positions = pointData.offsets.toFloatArray()
+                val colors = pointData.colors.toIntArray()
+                val indices = indicesModifier(pointData.indices).toShortArray()
+
+                nativeCanvas.drawVertices(
+                    android.graphics.Canvas.VertexMode.TRIANGLES,
+                    positions.size,
+                    positions,
+                    0,
+                    null,
+                    0,
+                    colors,
+                    0,
+                    indices,
+                    0,
+                    indices.size,
+                    Paint().apply { this.alpha = alpha }.nativePaint
                 )
             }
 
@@ -123,6 +129,19 @@ fun Canvas.drawMeshGradient(
             }
         }
     }
+}
+
+private fun List<Offset>.toFloatArray(): FloatArray = FloatArray(size * 2) { index ->
+    val offset = this[index / 2]
+    if (index % 2 == 0) offset.x else offset.y
+}
+
+private fun List<Color>.toIntArray(): IntArray = IntArray(size) { index ->
+    this[index].toArgb()
+}
+
+private fun List<Int>.toShortArray(): ShortArray = ShortArray(size) { index ->
+    this[index].toShort()
 }
 
 

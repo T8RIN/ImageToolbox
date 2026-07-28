@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Build
@@ -119,15 +120,16 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 title = stringResource(R.string.grid_size),
                 icon = Icons.Outlined.GridOn,
                 valueRange = 2f..6f,
+                steps = 3,
                 internalStateTransformation = { it.roundToInt() },
                 onValueChange = { value ->
                     if (value.roundToInt() != component.meshGradientState.gridSize) {
                         val size = value.roundToInt()
-                        component.setResolution(lerp(1f, 16f, 2f / size))
                         component.meshGradientState.points.apply {
                             clear()
                             addAll(generateMesh(size))
                         }
+                        component.setResolution(lerp(1f, 16f, 2f / size))
                     }
                 }
             )
@@ -136,7 +138,8 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 value = component.meshResolutionX,
                 title = stringResource(R.string.resolution),
                 icon = Icons.Rounded.DensitySmall,
-                valueRange = 1f..64f,
+                valueRange = 1f..component.meshResolutionMax.toFloat(),
+                steps = component.meshResolutionMax - 2,
                 internalStateTransformation = { it.roundToInt() },
                 onValueChange = component::setResolution
             )
@@ -179,6 +182,11 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         Spacer(Modifier.height(8.dp))
         ImageFormatSelector(
             value = component.imageFormat,
+            entries = if (screenType.canPickImage()) {
+                ImageFormatGroup.entries
+            } else {
+                ImageFormatGroup.alphaContainedEntries
+            },
             forceEnabled = screenType != null && !screenType.canPickImage(),
             onValueChange = component::setImageFormat
         )

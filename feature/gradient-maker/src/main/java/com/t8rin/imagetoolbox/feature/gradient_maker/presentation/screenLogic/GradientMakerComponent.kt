@@ -100,6 +100,13 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     val meshResolutionX: Int get() = meshGradientState.resolutionX
     val meshResolutionY: Int get() = meshGradientState.resolutionY
+    val meshResolutionMax: Int
+        get() = when (meshGradientState.gridSize) {
+            6 -> 24
+            5 -> 32
+            4 -> 40
+            else -> 64
+        }
     val meshPoints: List<List<Pair<Offset, Color>>> get() = meshGradientState.points
 
     val brush: ShaderBrush? get() = gradientState.brush
@@ -374,8 +381,11 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun setResolution(resolution: Float) {
-        meshGradientState.resolutionX = resolution.roundToInt()
-        meshGradientState.resolutionY = resolution.roundToInt()
+        val coercedResolution = resolution
+            .roundToInt()
+            .coerceIn(1, meshResolutionMax)
+        meshGradientState.resolutionX = coercedResolution
+        meshGradientState.resolutionY = coercedResolution
         registerChanges()
     }
 

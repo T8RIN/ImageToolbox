@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,24 +18,19 @@
 package com.t8rin.imagetoolbox.feature.gradient_maker.data
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.VertexMode
-import androidx.compose.ui.graphics.Vertices
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
-import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.withSave
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -44,6 +39,7 @@ import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientState
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.MeshGradientState
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AndroidGradientMaker @Inject constructor(
     dispatchersHolder: DispatchersHolder
@@ -77,14 +73,16 @@ internal class AndroidGradientMaker @Inject constructor(
             src.copy(src.safeConfig, true).apply {
                 setHasAlpha(true)
 
-                Canvas(asImageBitmap()).apply {
-                    drawImage(asImageBitmap(), Offset.Zero, Paint())
+                Canvas(this).apply {
                     drawRect(
-                        paint = Paint().apply {
+                        0f,
+                        0f,
+                        width.toFloat(),
+                        height.toFloat(),
+                        Paint().apply {
                             shader = brush.createShader(size)
-                            alpha = gradientAlpha
-                        },
-                        rect = Rect(offset = Offset.Zero, size = size)
+                            alpha = gradientAlpha.toPaintAlpha()
+                        }
                     )
                 }
             }
@@ -114,11 +112,10 @@ internal class AndroidGradientMaker @Inject constructor(
             setHasAlpha(true)
 
             val paint = Paint().apply {
-                alpha = gradientAlpha
+                alpha = gradientAlpha.toPaintAlpha()
             }
 
-            Canvas(asImageBitmap()).apply {
-                drawImage(asImageBitmap(), Offset.Zero, Paint())
+            Canvas(this).apply {
                 drawMeshGradient(
                     pointData = PointData(
                         points = gradientState.points,
@@ -137,42 +134,54 @@ internal class AndroidGradientMaker @Inject constructor(
         height.coerceAtLeast(1).toFloat(),
     )
 
-
     private fun Canvas.drawMeshGradient(
         pointData: PointData,
-        indicesModifier: (List<Int>) -> List<Int> = { it },
         size: Size,
         paint: Paint
     ) {
-        CanvasDrawScope().apply {
-            drawContext.canvas = this@drawMeshGradient
-            drawContext.size = size
+        val positions = pointData.offsets.toFloatArray()
+        val colors = pointData.colors.toIntArray()
+        val indices = pointData.indices.toShortArray()
 
-            with(drawContext.canvas) {
-                scale(
-                    scaleX = size.width,
-                    scaleY = size.height,
-                    pivot = Offset.Zero
-                ) {
-                    drawVertices(
-                        vertices = Vertices(
-                            vertexMode = VertexMode.Triangles,
-                            positions = pointData.offsets,
-                            textureCoordinates = pointData.offsets,
-                            colors = pointData.colors,
-                            indices = indicesModifier(pointData.indices)
-                        ),
-                        blendMode = BlendMode.Dst,
-                        paint = paint,
-                    )
-                }
-            }
+        withSave {
+            scale(size.width, size.height)
+            drawVertices(
+                Canvas.VertexMode.TRIANGLES,
+                positions.size,
+                positions,
+                0,
+                null,
+                0,
+                colors,
+                0,
+                indices,
+                0,
+                indices.size,
+                paint
+            )
         }
     }
 
+    private fun Float.toPaintAlpha(): Int {
+        return (this * 255).roundToInt()
+            .coerceIn(0, 255)
+    }
 }
 
-internal class PointData(
+private fun List<Offset>.toFloatArray(): FloatArray = FloatArray(size * 2) { index ->
+    val offset = this[index / 2]
+    if (index % 2 == 0) offset.x else offset.y
+}
+
+private fun List<Color>.toIntArray(): IntArray = IntArray(size) { index ->
+    this[index].toArgb()
+}
+
+private fun List<Int>.toShortArray(): ShortArray = ShortArray(size) { index ->
+    this[index].toShort()
+}
+
+private class PointData(
     private val points: List<List<Pair<Offset, Color>>>,
     private val stepsX: Int,
     private val stepsY: Int
@@ -233,18 +242,18 @@ internal class PointData(
     }
 
     private fun generateInterpolatedOffsets() {
-        for (y in 0..points.lastIndex) {
-            for (x in 0..points[y].lastIndex) {
-                this[x * stepsX, y * stepsY] = points[y][x].first
-                this[x * stepsX, y * stepsY] = points[y][x].second
+        for ((y, element) in points.withIndex()) {
+            for ((x, element1) in element.withIndex()) {
+                this[x * stepsX, y * stepsY] = element1.first
+                this[x * stepsX, y * stepsY] = element1.second
 
-                if (x != points[y].lastIndex) {
+                if (x != element.lastIndex) {
                     val path = cubicPathX(
-                        point1 = points[y][x].first,
-                        point2 = points[y][x + 1].first,
+                        point1 = element1.first,
+                        point2 = element[x + 1].first,
                         when (x) {
                             0 -> 0
-                            points[y].lastIndex - 1 -> 2
+                            element.lastIndex - 1 -> 2
                             else -> 1
                         }
                     )
@@ -255,8 +264,8 @@ internal class PointData(
                             this[(x * stepsX) + i, (y * stepsY)] = Offset(it.x, it.y)
                             this[(x * stepsX) + i, (y * stepsY)] =
                                 lerp(
-                                    points[y][x].second,
-                                    points[y][x + 1].second,
+                                    element1.second,
+                                    element[x + 1].second,
                                     i / stepsX.toFloat(),
                                 )
                         }
