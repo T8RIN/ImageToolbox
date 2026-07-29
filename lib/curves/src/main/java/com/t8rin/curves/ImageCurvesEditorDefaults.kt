@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 
 object ImageCurvesEditorDefaults {
 
@@ -31,15 +32,27 @@ object ImageCurvesEditorDefaults {
         @Composable
         get() {
             val primary = MaterialTheme.colorScheme.primary
+            val lumaCurveColor = takeColorFromScheme { onSurface }
+            val gridLineColor = takeColorFromScheme { isNightMode ->
+                onSurface.copy(alpha = if (isNightMode) 0.26f else 0.38f)
+            }
+            val referenceLineColor = takeColorFromScheme { isNightMode ->
+                onSurface.copy(alpha = if (isNightMode) 0.72f else 0.82f)
+            }
 
-            return remember(primary) {
+            return remember(
+                primary,
+                lumaCurveColor,
+                gridLineColor,
+                referenceLineColor
+            ) {
                 ImageCurvesEditorColors(
-                    lumaCurveColor = Color.White.blend(primary),
+                    lumaCurveColor = lumaCurveColor.blend(primary, 0.12f),
                     redCurveColor = Color(-0x12c2b4).blend(primary),
                     greenCurveColor = Color(-0xef1163).blend(primary),
                     blueCurveColor = Color(-0xcc8805).blend(primary),
-                    guidelinesColor = Color(-0x66000001).blend(primary),
-                    defaultCurveColor = Color(-0x66000001).blend(primary),
+                    guidelinesColor = gridLineColor.copy(alpha = 1f),
+                    defaultCurveColor = lumaCurveColor.blend(primary, 0.12f),
                     editorBackgroundColor = Color.Black.copy(alpha = 0.18f),
                     cyanCurveColor = Color(0xFF00BCD4).blend(primary),
                     magentaCurveColor = Color(0xFFEC407A).blend(primary),
@@ -58,7 +71,9 @@ object ImageCurvesEditorDefaults {
                     lumaGradientStartColor = Color(0xFF444444).blend(primary),
                     lumaGradientEndColor = Color.White.blend(primary),
                     saturationGradientStartColor = Color.White.blend(primary),
-                    saturationGradientEndColor = Color(0xFFFFE632).blend(primary)
+                    saturationGradientEndColor = Color(0xFFFFE632).blend(primary),
+                    gridLineAlpha = gridLineColor.alpha,
+                    referenceLineAlpha = referenceLineColor.alpha
                 )
             }
         }

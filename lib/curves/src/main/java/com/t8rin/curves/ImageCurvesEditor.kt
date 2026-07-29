@@ -19,39 +19,39 @@
 
 package com.t8rin.curves
 
-import android.app.Activity
 import android.graphics.Bitmap
 import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,6 +59,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +69,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toArgb
@@ -81,9 +83,9 @@ import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.PointerInputModifierNode
 import androidx.compose.ui.node.TouchBoundsExpansion
 import androidx.compose.ui.platform.InspectorInfo
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
@@ -93,13 +95,27 @@ import com.t8rin.curves.utils.safeAspectRatio
 import com.t8rin.curves.view.PhotoFilterCurvesControl
 import com.t8rin.histogram.Histogram
 import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
+import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
+import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import jp.co.cyberagent.android.gpuimage.GLTextureView
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 enum class ImageCurvesEditorLayout {
@@ -132,7 +148,7 @@ fun ImageCurvesEditor(
     showAsRow: Boolean = false,
     editorHeight: Dp = 220.dp
 ) {
-    val context = LocalContext.current as Activity
+    val context = LocalComponentActivity.current
 
     AnimatedContent(
         modifier = containerModifier,
@@ -157,6 +173,9 @@ fun ImageCurvesEditor(
                 mutableStateOf<PhotoFilterCurvesControl?>(null)
             }
             var canDeleteSelectedPoint by remember(image, layout) {
+                mutableStateOf(false)
+            }
+            var canResetActiveCurve by remember(image, layout) {
                 mutableStateOf(false)
             }
 
@@ -212,6 +231,10 @@ fun ImageCurvesEditor(
                 curvesView?.deleteSelectedPoint()
                 Unit
             }
+            val onResetActiveCurve = {
+                curvesView?.resetActiveCurve()
+                Unit
+            }
 
             val editorContent: @Composable (Bitmap?, () -> Unit) -> Unit =
                 { histogramBitmap, onCurveChanged ->
@@ -225,12 +248,17 @@ fun ImageCurvesEditor(
                                 activeEditorType = activeEditorType,
                                 activeCurveType = activeCurveType,
                                 canDeleteSelectedPoint = canDeleteSelectedPoint,
+                                canResetActiveCurve = canResetActiveCurve,
                                 onCurveChanged = onCurveChanged,
                                 onCurveTypeChange = onCurveTypeChange,
                                 onEditorTypeChange = onEditorTypeChange,
                                 onDeleteSelectedPoint = onDeleteSelectedPoint,
+                                onResetActiveCurve = onResetActiveCurve,
                                 onCurvesViewChange = { curvesView = it },
-                                onDeleteAvailabilityChange = { canDeleteSelectedPoint = it },
+                                onActionAvailabilityChange = { canDelete, canReset ->
+                                    canDeleteSelectedPoint = canDelete
+                                    canResetActiveCurve = canReset
+                                },
                                 modifier = modifier,
                                 contentPadding = contentPadding,
                                 colors = colors,
@@ -251,12 +279,17 @@ fun ImageCurvesEditor(
                                 activeEditorType = activeEditorType,
                                 activeCurveType = activeCurveType,
                                 canDeleteSelectedPoint = canDeleteSelectedPoint,
+                                canResetActiveCurve = canResetActiveCurve,
                                 onCurveChanged = onCurveChanged,
                                 onCurveTypeChange = onCurveTypeChange,
                                 onEditorTypeChange = onEditorTypeChange,
                                 onDeleteSelectedPoint = onDeleteSelectedPoint,
+                                onResetActiveCurve = onResetActiveCurve,
                                 onCurvesViewChange = { curvesView = it },
-                                onDeleteAvailabilityChange = { canDeleteSelectedPoint = it },
+                                onActionAvailabilityChange = { canDelete, canReset ->
+                                    canDeleteSelectedPoint = canDelete
+                                    canResetActiveCurve = canReset
+                                },
                                 modifier = modifier,
                                 contentPadding = contentPadding,
                                 colors = colors,
@@ -327,12 +360,14 @@ private fun OverlayEditor(
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
     canDeleteSelectedPoint: Boolean,
+    canResetActiveCurve: Boolean,
     onCurveChanged: () -> Unit,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
     onDeleteSelectedPoint: () -> Unit,
+    onResetActiveCurve: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
-    onDeleteAvailabilityChange: (Boolean) -> Unit,
+    onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
     modifier: Modifier,
     contentPadding: PaddingValues,
     colors: ImageCurvesEditorColors,
@@ -357,7 +392,7 @@ private fun OverlayEditor(
             activeCurveType = activeCurveType,
             onCurveChanged = onCurveChanged,
             onCurvesViewChange = onCurvesViewChange,
-            onDeleteAvailabilityChange = onDeleteAvailabilityChange,
+            onActionAvailabilityChange = onActionAvailabilityChange,
             colors = colors,
             drawNotActiveCurves = drawNotActiveCurves,
             disallowInterceptTouchEvents = disallowInterceptTouchEvents,
@@ -382,12 +417,15 @@ private fun OverlayEditor(
         )
 
         CurvesControls(
+            state = state,
             activeEditorType = activeEditorType,
             activeCurveType = activeCurveType,
             canDeleteSelectedPoint = canDeleteSelectedPoint,
+            canResetActiveCurve = canResetActiveCurve,
             onCurveTypeChange = onCurveTypeChange,
             onEditorTypeChange = onEditorTypeChange,
             onDeleteSelectedPoint = onDeleteSelectedPoint,
+            onResetActiveCurve = onResetActiveCurve,
             colors = colors,
             vertical = placeControlsAtTheEnd,
             modifier = Modifier
@@ -429,12 +467,14 @@ private fun SeparateEditor(
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
     canDeleteSelectedPoint: Boolean,
+    canResetActiveCurve: Boolean,
     onCurveChanged: () -> Unit,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
     onDeleteSelectedPoint: () -> Unit,
+    onResetActiveCurve: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
-    onDeleteAvailabilityChange: (Boolean) -> Unit,
+    onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
     modifier: Modifier,
     contentPadding: PaddingValues,
     colors: ImageCurvesEditorColors,
@@ -468,7 +508,7 @@ private fun SeparateEditor(
                 activeCurveType = activeCurveType,
                 onCurveChanged = onCurveChanged,
                 onCurvesViewChange = onCurvesViewChange,
-                onDeleteAvailabilityChange = onDeleteAvailabilityChange,
+                onActionAvailabilityChange = onActionAvailabilityChange,
                 colors = colors,
                 drawNotActiveCurves = drawNotActiveCurves,
                 disallowInterceptTouchEvents = disallowInterceptTouchEvents,
@@ -476,16 +516,22 @@ private fun SeparateEditor(
                 modifier = Modifier
                     .weight(1f)
                     .height(editorHeight)
-                    .background(MaterialTheme.colorScheme.surfaceContainer, shape),
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        shape = shape
+                    ),
                 shape = shape
             )
             CurvesControls(
+                state = state,
                 activeEditorType = activeEditorType,
                 activeCurveType = activeCurveType,
                 canDeleteSelectedPoint = canDeleteSelectedPoint,
+                canResetActiveCurve = canResetActiveCurve,
                 onCurveTypeChange = onCurveTypeChange,
                 onEditorTypeChange = onEditorTypeChange,
                 onDeleteSelectedPoint = onDeleteSelectedPoint,
+                onResetActiveCurve = onResetActiveCurve,
                 colors = colors,
                 vertical = true,
                 modifier = Modifier
@@ -525,7 +571,7 @@ private fun SeparateEditor(
                 activeCurveType = activeCurveType,
                 onCurveChanged = onCurveChanged,
                 onCurvesViewChange = onCurvesViewChange,
-                onDeleteAvailabilityChange = onDeleteAvailabilityChange,
+                onActionAvailabilityChange = onActionAvailabilityChange,
                 colors = colors,
                 drawNotActiveCurves = drawNotActiveCurves,
                 disallowInterceptTouchEvents = disallowInterceptTouchEvents,
@@ -540,16 +586,22 @@ private fun SeparateEditor(
                     )
                     .fillMaxWidth()
                     .height(editorHeight)
-                    .background(MaterialTheme.colorScheme.surfaceContainer, shape),
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        shape = shape
+                    ),
                 shape = shape
             )
             CurvesControls(
+                state = state,
                 activeEditorType = activeEditorType,
                 activeCurveType = activeCurveType,
                 canDeleteSelectedPoint = canDeleteSelectedPoint,
+                canResetActiveCurve = canResetActiveCurve,
                 onCurveTypeChange = onCurveTypeChange,
                 onEditorTypeChange = onEditorTypeChange,
                 onDeleteSelectedPoint = onDeleteSelectedPoint,
+                onResetActiveCurve = onResetActiveCurve,
                 colors = colors,
                 vertical = false,
                 modifier = Modifier.padding(
@@ -570,7 +622,7 @@ private fun CurveEditorPane(
     activeCurveType: Int,
     onCurveChanged: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
-    onDeleteAvailabilityChange: (Boolean) -> Unit,
+    onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
     colors: ImageCurvesEditorColors,
     drawNotActiveCurves: Boolean,
     disallowInterceptTouchEvents: Boolean,
@@ -657,7 +709,9 @@ private fun CurveEditorPane(
                             Color.Transparent
                         } else {
                             colors.editorBackgroundColor
-                        }.toArgb()
+                        }.toArgb(),
+                        gridLineAlpha = colors.gridLineAlpha,
+                        referenceLineAlpha = colors.referenceLineAlpha
                     )
                     view.setActualAreaInset(0f)
                 }
@@ -682,7 +736,7 @@ private fun CurveEditorPane(
                         graphView.value?.invalidate()
                         onCurveChanged()
                     }
-                    setSelectionDelegate(onDeleteAvailabilityChange)
+                    setActionAvailabilityDelegate(onActionAvailabilityChange)
                 }
             },
             update = { view ->
@@ -695,7 +749,7 @@ private fun CurveEditorPane(
                     graphView.value?.invalidate()
                     onCurveChanged()
                 }
-                view.setSelectionDelegate(onDeleteAvailabilityChange)
+                view.setActionAvailabilityDelegate(onActionAvailabilityChange)
                 view.setDrawEditorContent(false)
                 view.setDrawControlPoints(true)
                 view.setDisallowInterceptTouchEvents(disallowInterceptTouchEvents)
@@ -716,7 +770,9 @@ private fun CurveEditorPane(
                     saturationGradientEndColor = colors.saturationGradientEndColor.toArgb(),
                     defaultCurveColor = colors.defaultCurveColor.toArgb(),
                     guidelinesColor = colors.guidelinesColor.toArgb(),
-                    editorBackgroundColor = Color.Transparent.toArgb()
+                    editorBackgroundColor = Color.Transparent.toArgb(),
+                    gridLineAlpha = colors.gridLineAlpha,
+                    referenceLineAlpha = colors.referenceLineAlpha
                 )
                 view.setActualAreaInset(pointOverflow.toFloat())
             }
@@ -789,7 +845,7 @@ private fun CurveChannelHistogram(
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeRed -> colors.redCurveColor
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeGreen -> colors.greenCurveColor
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeBlue -> colors.blueCurveColor
-        else -> Color.White
+        else -> colors.lumaCurveColor
     }
     val color by animateColorAsState(targetColor)
 
@@ -881,16 +937,23 @@ private fun GPUImagePreview(
 
 @Composable
 private fun CurvesControls(
+    state: ImageCurvesEditorState,
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
     canDeleteSelectedPoint: Boolean,
+    canResetActiveCurve: Boolean,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
     onDeleteSelectedPoint: () -> Unit,
+    onResetActiveCurve: () -> Unit,
     colors: ImageCurvesEditorColors,
     vertical: Boolean,
     modifier: Modifier
 ) {
+    val appliedEditorTypes = ImageCurvesEditorType.entries
+        .filterTo(mutableSetOf()) { type ->
+            state.curvesToolValue.curvesFor(type).any { !it.isDefault }
+        }
     val items = activeEditorType.channelNames.indices.map { channel ->
         channel to curveChannelColor(activeEditorType, channel, colors)
     }
@@ -915,54 +978,50 @@ private fun CurvesControls(
 
     if (vertical) {
         Column(
+            verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
         ) {
             onEditorTypeChange?.let { onTypeChange ->
                 EditorTypeButton(
                     activeType = activeEditorType,
+                    appliedTypes = appliedEditorTypes,
                     onTypeChange = onTypeChange
                 )
             }
             if (items.size > 1) {
                 items.forEach { curveButton(it) }
             }
-            PointDeleteButton(
-                enabled = canDeleteSelectedPoint,
-                onClick = onDeleteSelectedPoint,
-                modifier = Modifier.padding(top = 8.dp)
+            CurveActionButtons(
+                canResetActiveCurve = canResetActiveCurve,
+                canDeleteSelectedPoint = canDeleteSelectedPoint,
+                onResetActiveCurve = onResetActiveCurve,
+                onDeleteSelectedPoint = onDeleteSelectedPoint
             )
         }
     } else {
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
             itemVerticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
         ) {
             onEditorTypeChange?.let { onTypeChange ->
                 EditorTypeButton(
                     activeType = activeEditorType,
+                    appliedTypes = appliedEditorTypes,
                     onTypeChange = onTypeChange
                 )
             }
             if (items.size > 1) {
-                items.dropLast(1).forEach { curveButton(it) }
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    curveButton(items.last())
-                    PointDeleteButton(
-                        enabled = canDeleteSelectedPoint,
-                        onClick = onDeleteSelectedPoint
-                    )
-                }
-            } else {
-                PointDeleteButton(
-                    enabled = canDeleteSelectedPoint,
-                    onClick = onDeleteSelectedPoint
-                )
+                items.forEach { curveButton(it) }
             }
+            CurveActionButtons(
+                canResetActiveCurve = canResetActiveCurve,
+                canDeleteSelectedPoint = canDeleteSelectedPoint,
+                onResetActiveCurve = onResetActiveCurve,
+                onDeleteSelectedPoint = onDeleteSelectedPoint
+            )
         }
     }
 }
@@ -970,6 +1029,7 @@ private fun CurvesControls(
 @Composable
 private fun EditorTypeButton(
     activeType: ImageCurvesEditorType,
+    appliedTypes: Set<ImageCurvesEditorType>,
     onTypeChange: (ImageCurvesEditorType) -> Unit
 ) {
     var expanded by remember {
@@ -977,32 +1037,95 @@ private fun EditorTypeButton(
     }
 
     Box {
-        Surface(
+        EnhancedChip(
+            selected = true,
             onClick = { expanded = true },
-            shape = MaterialTheme.shapes.extraLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
+            selectedContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 9.dp)
         ) {
-            Text(
-                text = activeType.title,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 9.dp)
-            )
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            ImageCurvesEditorType.entries.forEach { type ->
-                DropdownMenuItem(
-                    text = {
-                        Text(type.title)
-                    },
-                    onClick = {
-                        expanded = false
-                        onTypeChange(type)
-                    }
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = activeType.title
                 )
+                Spacer(Modifier.width(4.dp))
+                Icon(
+                    imageVector = Icons.Rounded.MiniEdit,
+                    contentDescription = null,
+                    modifier = Modifier.offset(x = 4.dp)
+                )
+            }
+        }
+        val scrollState = rememberScrollState()
+        val scope = rememberCoroutineScope()
+
+        EnhancedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            shape = ShapeDefaults.large,
+            scrollState = scrollState
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .width(IntrinsicSize.Max)
+                    .padding(horizontal = 8.dp)
+                    .fadingEdges(
+                        scrollableState = scrollState,
+                        isVertical = true
+                    )
+            ) {
+                ImageCurvesEditorType.entries.forEachIndexed { index, type ->
+                    val selected = activeType == type
+                    val applied = type in appliedTypes
+                    val surfaceColor = MaterialTheme.colorScheme.surfaceContainerHigh
+                    val appliedColor = MaterialTheme.colorScheme.tertiaryContainer
+                        .copy(alpha = 0.52f)
+                        .compositeOver(surfaceColor)
+                    EnhancedButton(
+                        onClick = {
+                            scope.launch {
+                                expanded = false
+                                delay(300)
+                                onTypeChange(type)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.byIndex(
+                            index = index,
+                            size = ImageCurvesEditorType.entries.size
+                        ),
+                        containerColor = if (selected) {
+                            MaterialTheme.colorScheme.secondary
+                        } else if (applied) {
+                            appliedColor
+                        } else {
+                            surfaceColor
+                        },
+                        contentColor = if (selected) {
+                            MaterialTheme.colorScheme.onSecondary
+                        } else {
+                            MaterialTheme.colorScheme.onSurface
+                        }
+                    ) {
+                        Text(
+                            text = type.title,
+                            modifier = Modifier.weight(1f, false)
+                        )
+                        if (applied) {
+                            Spacer(Modifier.width(8.dp))
+                            EnhancedBadge(
+                                containerColor = if (selected) {
+                                    MaterialTheme.colorScheme.onSecondary
+                                } else {
+                                    MaterialTheme.colorScheme.tertiary
+                                }
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -1057,85 +1180,97 @@ private fun CurveSelectionButton(
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
-    val fillAlpha by animateFloatAsState(
-        if (selected) 0.22f else 0.05f
-    )
-    val borderAlpha by animateFloatAsState(
-        if (selected) 0.85f else 0.3f
-    )
-    val fillBrush = gradientColors?.let { gradient ->
-        Brush.horizontalGradient(
-            gradient.map { it.copy(alpha = fillAlpha) }
-        )
-    }
-    Surface(
-        onClick = onClick,
-        shape = MaterialTheme.shapes.extraLarge,
-        color = if (fillBrush == null) {
-            animateColorAsState(
-                if (selected) {
-                    color.copy(alpha = 0.2f)
-                } else {
-                    Color.Transparent
+    val selectedAlpha = takeColorFromScheme { isNightMode ->
+        Color.Black.copy(alpha = if (isNightMode) 0.32f else 0.18f)
+    }.alpha
+    val surfaceColor = MaterialTheme.colorScheme.surfaceContainerHigh
+    val selectedColor = color
+        .copy(alpha = selectedAlpha)
+        .compositeOver(surfaceColor)
+    val selectedBrush = gradientColors
+        ?.takeIf { selected }
+        ?.let { gradient ->
+            Brush.horizontalGradient(
+                gradient.map { gradientColor ->
+                    gradientColor
+                        .copy(alpha = selectedAlpha)
+                        .compositeOver(surfaceColor)
                 }
-            ).value
-        } else {
-            Color.Transparent
-        },
-        contentColor = color,
-        border = gradientColors?.let { gradient ->
-            BorderStroke(
-                width = 1.dp,
-                brush = Brush.horizontalGradient(
-                    gradient.map { it.copy(alpha = borderAlpha) }
-                )
             )
-        } ?: BorderStroke(
-            width = 1.dp,
-            color = color.copy(alpha = if (selected) 0.8f else 0.26f)
-        )
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .then(
-                    if (fillBrush != null) {
-                        Modifier.background(fillBrush)
-                    } else {
-                        Modifier
-                    }
-                )
-                .padding(horizontal = 12.dp, vertical = 8.dp)
-        ) {
-            content()
         }
+    val indicatorBrush = gradientColors?.let { Brush.horizontalGradient(it) }
+
+    ProvideContainerDefaults(
+        brush = selectedBrush
+    ) {
+        EnhancedChip(
+            selected = selected,
+            onClick = onClick,
+            selectedColor = selectedColor,
+            selectedContentColor = MaterialTheme.colorScheme.onSurface,
+            unselectedColor = surfaceColor,
+            unselectedContentColor = MaterialTheme.colorScheme.onSurface,
+            shape = ShapeDefaults.circle,
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+            label = {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .width(16.dp)
+                            .height(6.dp)
+                            .then(
+                                indicatorBrush?.let { brush ->
+                                    Modifier.background(brush, CircleShape)
+                                } ?: Modifier.background(color, CircleShape)
+                            )
+                    )
+                    content()
+                }
+            }
+        )
     }
 }
 
 @Composable
-private fun PointDeleteButton(
-    enabled: Boolean,
-    onClick: () -> Unit,
+private fun CurveActionButtons(
+    canResetActiveCurve: Boolean,
+    canDeleteSelectedPoint: Boolean,
+    onResetActiveCurve: () -> Unit,
+    onDeleteSelectedPoint: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val alpha by animateFloatAsState(
-        if (enabled) 1f else 0.5f
-    )
-    Surface(
-        onClick = onClick,
-        enabled = enabled,
-        shape = MaterialTheme.shapes.extraLarge,
-        color = MaterialTheme.colorScheme.errorContainer.copy(0.5f * alpha),
-        contentColor = MaterialTheme.colorScheme.onErrorContainer.copy(alpha),
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier.size(36.dp),
-            contentAlignment = Alignment.Center
+        EnhancedIconButton(
+            onClick = onResetActiveCurve,
+            enabled = canResetActiveCurve,
+            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.5f),
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            forceMinimumInteractiveComponentSize = false,
+            modifier = Modifier.size(40.dp)
         ) {
             Icon(
-                imageVector = Icons.Outlined.Delete,
-                contentDescription = null
+                imageVector = Icons.Outlined.DeleteSweep,
+                contentDescription = stringResource(R.string.reset)
+            )
+        }
+        EnhancedIconButton(
+            onClick = onDeleteSelectedPoint,
+            enabled = canDeleteSelectedPoint,
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+            forceMinimumInteractiveComponentSize = false,
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.RemoveCircle,
+                contentDescription = stringResource(R.string.remove)
             )
         }
     }

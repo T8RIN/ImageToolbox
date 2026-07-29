@@ -320,6 +320,42 @@ class ColorCurvesFilterInstrumentedTest {
         )
     }
 
+    @Test
+    fun relationCurvePointsKeepSafeDistanceAndResetCompletely() {
+        val curve = ImageCurvesEditorState.Default.curvesToolValue
+            .curvesFor(ImageCurvesEditorType.HueVsSat)
+            .first()
+
+        curve.addPoint(0.5f, 0.8f)
+        curve.addPoint(0.51f, 0.2f)
+
+        val visiblePoints = curve.points.subList(1, curve.points.lastIndex)
+        assertEquals(2, visiblePoints.size)
+        assertTrue(visiblePoints[1].x - visiblePoints[0].x >= 0.039f)
+
+        curve.reset()
+
+        assertTrue(curve.isDefault)
+        assertEquals(2, curve.points.size)
+        assertEquals(0.5f, curve.points.first().y, 0.00001f)
+        assertEquals(0.5f, curve.points.last().y, 0.00001f)
+    }
+
+    @Test
+    fun circularCurvePointsKeepDistanceAcrossHueBoundary() {
+        val curve = ImageCurvesEditorState.Default.curvesToolValue
+            .curvesFor(ImageCurvesEditorType.HueVsLuma)
+            .first()
+
+        curve.addPoint(0.02f, 0.8f)
+        curve.addPoint(0.99f, 0.2f)
+
+        val visiblePoints = curve.points.subList(1, curve.points.lastIndex)
+        val wrappedDistance = visiblePoints.first().x + 1f - visiblePoints.last().x
+
+        assertTrue(wrappedDistance >= 0.039f)
+    }
+
     private fun renderFlatCurve(
         type: ImageCurvesEditorType,
         value: Float,

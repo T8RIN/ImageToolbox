@@ -34,5 +34,7 @@ data class ImageCurvesEditorColors(
     val lumaGradientStartColor: Color,
     val lumaGradientEndColor: Color,
     val saturationGradientStartColor: Color,
-    val saturationGradientEndColor: Color
+    val saturationGradientEndColor: Color,
+    val gridLineAlpha: Float = 0.5f,
+    val referenceLineAlpha: Float = 0.85f
 )

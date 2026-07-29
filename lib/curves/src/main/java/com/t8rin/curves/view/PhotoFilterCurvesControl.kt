@@ -73,7 +73,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var labBCurveShader: Shader? = null
     private var saturationCurveShader: Shader? = null
     private var delegate: PhotoFilterCurvesControlDelegate? = null
-    private var selectionDelegate: ((Boolean) -> Unit)? = null
+    private var actionAvailabilityDelegate: ((Boolean, Boolean) -> Unit)? = null
     private var curveValue: CurvesToolValue
     private var displayedCurveType = value.activeType
     private var displayedEditorType = value.activeEditorType
@@ -82,6 +82,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         value: CurvesToolValue
     ) {
         curveValue = value
+        notifyActionAvailability()
         invalidate()
     }
 
@@ -111,6 +112,8 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var defaultCurveColor = -0x66000001
     private var guidelinesColor = -0x66000001
     private var editorBackgroundColor = Color.Black.copy(alpha = 0.18f).toArgb()
+    private var gridLineAlpha = 0.5f
+    private var referenceLineAlpha = 0.85f
 
     private val activeCurve: CurvesValue
         get() = curveValue.activeCurve
@@ -119,25 +122,28 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         get() = selectedPointIndices[curveValue.activeCurveIndex]
         set(value) {
             selectedPointIndices[curveValue.activeCurveIndex] = value
-            selectionDelegate?.invoke(canDeleteSelectedPoint)
+            notifyActionAvailability()
         }
 
     val canDeleteSelectedPoint: Boolean
         get() = selectedPointIndex in 1 until activeCurve.points.lastIndex
+
+    val canResetActiveCurve: Boolean
+        get() = !activeCurve.isDefault
 
     init {
         setWillNotDraw(false)
 
         curveValue = value
 
-        paint.color = Color(guidelinesColor).copy(alpha = GridAlpha).toArgb()
+        paint.color = Color(guidelinesColor).copy(alpha = gridLineAlpha).toArgb()
         backgroundPaint.style = Paint.Style.FILL
         backgroundPaint.color = editorBackgroundColor
 
         paint.strokeWidth = dp(0.75f).toFloat()
         paint.style = Paint.Style.STROKE
 
-        paintDash.color = Color(defaultCurveColor).copy(alpha = DiagonalAlpha).toArgb()
+        paintDash.color = Color(defaultCurveColor).copy(alpha = referenceLineAlpha).toArgb()
         paintDash.strokeWidth = dp(1f).toFloat()
         paintDash.style = Paint.Style.STROKE
         paintDash.strokeCap = Paint.Cap.ROUND
@@ -196,7 +202,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         saturationGradientEndColor: Int,
         defaultCurveColor: Int,
         guidelinesColor: Int,
-        editorBackgroundColor: Int
+        editorBackgroundColor: Int,
+        gridLineAlpha: Float,
+        referenceLineAlpha: Float
     ) {
         this.lumaCurveColor = lumaCurveColor
         this.redCurveColor = redCurveColor
@@ -214,9 +222,13 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         this.guidelinesColor = guidelinesColor
         this.defaultCurveColor = defaultCurveColor
         this.editorBackgroundColor = editorBackgroundColor
+        this.gridLineAlpha = gridLineAlpha.coerceIn(0f, 1f)
+        this.referenceLineAlpha = referenceLineAlpha.coerceIn(0f, 1f)
         backgroundPaint.color = editorBackgroundColor
-        paint.color = Color(guidelinesColor).copy(alpha = GridAlpha).toArgb()
-        paintDash.color = Color(defaultCurveColor).copy(alpha = DiagonalAlpha).toArgb()
+        paint.color = Color(guidelinesColor).copy(alpha = this.gridLineAlpha).toArgb()
+        paintDash.color = Color(defaultCurveColor)
+            .copy(alpha = this.referenceLineAlpha)
+            .toArgb()
 
         updateCurveShaders()
         invalidate()
@@ -226,9 +238,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         delegate = photoFilterCurvesControlDelegate
     }
 
-    fun setSelectionDelegate(delegate: ((Boolean) -> Unit)?) {
-        selectionDelegate = delegate
-        delegate?.invoke(canDeleteSelectedPoint)
+    fun setActionAvailabilityDelegate(delegate: ((Boolean, Boolean) -> Unit)?) {
+        actionAvailabilityDelegate = delegate
+        notifyActionAvailability()
     }
 
     fun setActualAreaInset(inset: Float) {
@@ -297,7 +309,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         if (displayedCurveType != safeType) {
             displayedCurveType = safeType
             activePointIndex = NoPoint
-            selectionDelegate?.invoke(canDeleteSelectedPoint)
+            notifyActionAvailability()
         }
         invalidate()
     }
@@ -309,7 +321,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             displayedEditorType = type
             displayedCurveType = curveValue.activeType
             activePointIndex = NoPoint
-            selectionDelegate?.invoke(canDeleteSelectedPoint)
+            notifyActionAvailability()
         }
         invalidate()
     }
@@ -320,8 +332,19 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             normalizeCenteredCurveAfterRemoval()
             selectedPointIndex = NoPoint
             delegate?.valueChanged()
+            notifyActionAvailability()
             invalidate()
         }
+    }
+
+    fun resetActiveCurve() {
+        if (!canResetActiveCurve) return
+
+        activeCurve.reset()
+        selectedPointIndex = NoPoint
+        delegate?.valueChanged()
+        notifyActionAvailability()
+        invalidate()
     }
 
     fun setDisallowInterceptTouchEvents(disallow: Boolean) {
@@ -437,6 +460,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                         normalizeCenteredCurveAfterRemoval()
                         selectedPointIndex = NoPoint
                         delegate?.valueChanged()
+                        notifyActionAvailability()
                         lastTappedPointIndex = NoPoint
                     } else {
                         lastTappedPointIndex = activePointIndex
@@ -484,12 +508,14 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                         )
                     }
                 },
-                y = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
+                y = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f),
+                minimumDistance = minimumPointDistance
             ).also {
                 pointWasCreated = activeCurve.points.size > pointCount
                 if (pointWasCreated) {
                     syncCenteredEndpoints()
                     delegate?.valueChanged()
+                    notifyActionAvailability()
                 }
             }
         }
@@ -522,20 +548,40 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             index != 0 &&
             index != activeCurve.points.lastIndex
         ) {
-            val previousX = activeCurve.points[index - 1].x
-            val nextX = activeCurve.points[index + 1].x
-            val availableSpacing = (nextX - previousX).coerceAtLeast(0f)
-            val pointSpacing = if (curveValue.activeEditorType.centeredCurve) {
-                0f
-            } else {
-                minOf(MinimumPointDistance, availableSpacing / 2f)
+            val pointSpacing = minimumPointDistance
+            val previousX = activeCurve.points
+                .getOrNull(index - 1)
+                ?.takeUnless { index - 1 == 0 && curveValue.activeEditorType.centeredCurve }
+                ?.x
+            val nextX = activeCurve.points
+                .getOrNull(index + 1)
+                ?.takeUnless {
+                    index + 1 == activeCurve.points.lastIndex &&
+                            curveValue.activeEditorType.centeredCurve
+                }
+                ?.x
+            var minX = previousX?.plus(pointSpacing) ?: 0f
+            var maxX = nextX?.minus(pointSpacing) ?: 1f
+            if (
+                curveValue.activeEditorType.hasCircularInput &&
+                activeCurve.points.size > 3
+            ) {
+                val firstVisibleX = activeCurve.points[1].x
+                val lastVisibleX = activeCurve.points[activeCurve.points.lastIndex - 1].x
+                if (index == 1) {
+                    minX = maxOf(minX, lastVisibleX + pointSpacing - 1f)
+                }
+                if (index == activeCurve.points.lastIndex - 1) {
+                    maxX = minOf(maxX, firstVisibleX + 1f - pointSpacing)
+                }
             }
-            val minX = previousX + pointSpacing
-            val maxX = nextX - pointSpacing
-            point.x = ((x - actualArea.x) / actualArea.width).coerceIn(minX, maxX)
+            if (minX <= maxX) {
+                point.x = ((x - actualArea.x) / actualArea.width).coerceIn(minX, maxX)
+            }
         }
         syncCenteredEndpoints()
         activeCurve.invalidateCache()
+        notifyActionAvailability()
     }
 
     private val editablePointIndices: IntRange
@@ -570,6 +616,19 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         invalidate()
     }
 
+    private val minimumPointDistance: Float
+        get() = maxOf(
+            MinimumPointDistance,
+            dp(MinimumPointDistanceDp).toFloat() / actualArea.width.coerceAtLeast(1f)
+        )
+
+    private fun notifyActionAvailability() {
+        actionAvailabilityDelegate?.invoke(
+            canDeleteSelectedPoint,
+            canResetActiveCurve
+        )
+    }
+
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
         if (actualArea.width <= 0f || actualArea.height <= 0f) return
@@ -577,19 +636,19 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         if (drawEditorContent) {
             canvas.drawRect(areaRect, backgroundPaint)
 
-            for (i in 1..3) {
+            for (i in 1 until GridSectionCount) {
                 canvas.drawLine(
-                    actualArea.x + actualArea.width * i / 4f,
+                    actualArea.x + actualArea.width * i / GridSectionCount,
                     actualArea.y,
-                    actualArea.x + actualArea.width * i / 4f,
+                    actualArea.x + actualArea.width * i / GridSectionCount,
                     actualArea.y + actualArea.height,
                     paint
                 )
                 canvas.drawLine(
                     actualArea.x,
-                    actualArea.y + actualArea.height * i / 4f,
+                    actualArea.y + actualArea.height * i / GridSectionCount,
                     actualArea.x + actualArea.width,
-                    actualArea.y + actualArea.height * i / 4f,
+                    actualArea.y + actualArea.height * i / GridSectionCount,
                     paint
                 )
             }
@@ -630,7 +689,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             ImageCurvesEditorType.Lab -> when (curveValue.activeType) {
                 1 -> labACurveShader
                 2 -> labBCurveShader
-                else -> luminanceCurveShader
+                else -> null
             }
 
             else -> null
@@ -999,16 +1058,40 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             return sampledPoints.flatMap { listOf(it.x, it.y) }.toFloatArray()
         }
 
-        fun addPoint(x: Float, y: Float): Int {
+        fun addPoint(
+            x: Float,
+            y: Float,
+            minimumDistance: Float = MinimumPointDistance
+        ): Int {
             if (points.size >= MaxPointCount) {
                 return points.indices.minBy { abs(points[it].x - x) }
             }
             val index = points.indexOfFirst { it.x > x }
                 .let { if (it == -1) points.lastIndex else it }
                 .coerceAtLeast(1)
-            val pointSpacing = if (neutralValue == null) MinimumPointDistance else 0f
-            val minX = points[index - 1].x + pointSpacing
-            val maxX = points[index].x - pointSpacing
+            val previousX = points[index - 1]
+                .takeUnless { neutralValue != null && index - 1 == 0 }
+                ?.x
+            val nextX = points[index]
+                .takeUnless { neutralValue != null && index == points.lastIndex }
+                ?.x
+            val safeMinimumDistance = minimumDistance.coerceIn(0f, 0.5f)
+            var minX = previousX?.plus(safeMinimumDistance) ?: 0f
+            var maxX = nextX?.minus(safeMinimumDistance) ?: 1f
+            if (circularInput && points.size > 2) {
+                if (index == 1) {
+                    minX = maxOf(
+                        minX,
+                        points[points.lastIndex - 1].x + safeMinimumDistance - 1f
+                    )
+                }
+                if (index == points.lastIndex) {
+                    maxX = minOf(
+                        maxX,
+                        points[1].x + 1f - safeMinimumDistance
+                    )
+                }
+            }
             if (minX > maxX) {
                 return if (abs(points[index - 1].x - x) <= abs(points[index].x - x)) {
                     index - 1
@@ -1019,6 +1102,13 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             points.add(index, PointF(x.coerceIn(minX, maxX), y))
             invalidateCache()
             return index
+        }
+
+        fun reset() {
+            points.clear()
+            points += PointF(0f, neutralValue ?: 0f)
+            points += PointF(1f, neutralValue ?: 1f)
+            invalidateCache()
         }
 
         fun removePoint(index: Int) {
@@ -1182,11 +1272,11 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         private const val MaxPointCount = 16
         private const val CurveSampleCount = 256
         private const val CircularCurveSampleCount = CurveSampleCount
-        private const val MinimumPointDistance = 0.015f
+        private const val MinimumPointDistance = 0.04f
+        private const val MinimumPointDistanceDp = 16f
         private const val ControlPointTouchRadius = 22f
         private const val DoubleTapTimeout = 300L
-        private const val GridAlpha = 0.5f
-        private const val DiagonalAlpha = 0.85f
+        private const val GridSectionCount = 8
         private const val GestureStateBegan = 1
         private const val GestureStateChanged = 2
         private const val GestureStateEnded = 3
