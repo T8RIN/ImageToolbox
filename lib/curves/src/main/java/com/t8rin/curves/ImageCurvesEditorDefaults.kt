@@ -20,6 +20,7 @@ package com.t8rin.curves
 import androidx.annotation.FloatRange
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
@@ -29,18 +30,37 @@ object ImageCurvesEditorDefaults {
     val Colors: ImageCurvesEditorColors
         @Composable
         get() {
-            return ImageCurvesEditorColors(
-                lumaCurveColor = Color.White.blend(MaterialTheme.colorScheme.primary),
-                redCurveColor = Color(-0x12c2b4).blend(MaterialTheme.colorScheme.primary),
-                greenCurveColor = Color(-0xef1163).blend(MaterialTheme.colorScheme.primary),
-                blueCurveColor = Color(-0xcc8805).blend(MaterialTheme.colorScheme.primary),
-                guidelinesColor = Color(-0x66000001).blend(MaterialTheme.colorScheme.primary),
-                defaultCurveColor = Color(-0x66000001).blend(MaterialTheme.colorScheme.primary),
-                editorBackgroundColor = Color.Black.copy(alpha = 0.18f),
-                cyanCurveColor = Color(0xFF00BCD4).blend(MaterialTheme.colorScheme.primary),
-                magentaCurveColor = Color(0xFFEC407A).blend(MaterialTheme.colorScheme.primary),
-                yellowCurveColor = Color(0xFFFFC107).blend(MaterialTheme.colorScheme.primary)
-            )
+            val primary = MaterialTheme.colorScheme.primary
+
+            return remember(primary) {
+                ImageCurvesEditorColors(
+                    lumaCurveColor = Color.White.blend(primary),
+                    redCurveColor = Color(-0x12c2b4).blend(primary),
+                    greenCurveColor = Color(-0xef1163).blend(primary),
+                    blueCurveColor = Color(-0xcc8805).blend(primary),
+                    guidelinesColor = Color(-0x66000001).blend(primary),
+                    defaultCurveColor = Color(-0x66000001).blend(primary),
+                    editorBackgroundColor = Color.Black.copy(alpha = 0.18f),
+                    cyanCurveColor = Color(0xFF00BCD4).blend(primary),
+                    magentaCurveColor = Color(0xFFEC407A).blend(primary),
+                    yellowCurveColor = Color(0xFFFFC107).blend(primary),
+                    hueCurveColors = listOf(
+                        Color(0xFFFF5252),
+                        Color(0xFFFFAB40),
+                        Color(0xFFFFE033),
+                        Color(0xFF4CD964),
+                        Color(0xFF38D6D2),
+                        Color(0xFF5596FF),
+                        Color(0xFFA66BFF),
+                        Color(0xFFF55CAA),
+                        Color(0xFFFF5252)
+                    ).map { it.blend(primary, 0.12f) },
+                    lumaGradientStartColor = Color(0xFF444444).blend(primary),
+                    lumaGradientEndColor = Color.White.blend(primary),
+                    saturationGradientStartColor = Color.White.blend(primary),
+                    saturationGradientEndColor = Color(0xFFFFE632).blend(primary)
+                )
+            }
         }
 
 

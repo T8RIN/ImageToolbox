@@ -30,4 +30,9 @@ data class ImageCurvesEditorColors(
     val cyanCurveColor: Color,
     val magentaCurveColor: Color,
     val yellowCurveColor: Color,
+    val hueCurveColors: List<Color>,
+    val lumaGradientStartColor: Color,
+    val lumaGradientEndColor: Color,
+    val saturationGradientStartColor: Color,
+    val saturationGradientEndColor: Color
 )

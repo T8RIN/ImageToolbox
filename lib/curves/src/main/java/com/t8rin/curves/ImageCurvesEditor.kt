@@ -644,6 +644,13 @@ private fun CurveEditorPane(
                         cyanCurveColor = colors.cyanCurveColor.toArgb(),
                         magentaCurveColor = colors.magentaCurveColor.toArgb(),
                         yellowCurveColor = colors.yellowCurveColor.toArgb(),
+                        hueCurveColors = colors.hueCurveColors
+                            .map { it.toArgb() }
+                            .toIntArray(),
+                        lumaGradientStartColor = colors.lumaGradientStartColor.toArgb(),
+                        lumaGradientEndColor = colors.lumaGradientEndColor.toArgb(),
+                        saturationGradientStartColor = colors.saturationGradientStartColor.toArgb(),
+                        saturationGradientEndColor = colors.saturationGradientEndColor.toArgb(),
                         defaultCurveColor = colors.defaultCurveColor.toArgb(),
                         guidelinesColor = colors.guidelinesColor.toArgb(),
                         editorBackgroundColor = if (imageContent == null) {
@@ -700,6 +707,13 @@ private fun CurveEditorPane(
                     cyanCurveColor = colors.cyanCurveColor.toArgb(),
                     magentaCurveColor = colors.magentaCurveColor.toArgb(),
                     yellowCurveColor = colors.yellowCurveColor.toArgb(),
+                    hueCurveColors = colors.hueCurveColors
+                        .map { it.toArgb() }
+                        .toIntArray(),
+                    lumaGradientStartColor = colors.lumaGradientStartColor.toArgb(),
+                    lumaGradientEndColor = colors.lumaGradientEndColor.toArgb(),
+                    saturationGradientStartColor = colors.saturationGradientStartColor.toArgb(),
+                    saturationGradientEndColor = colors.saturationGradientEndColor.toArgb(),
                     defaultCurveColor = colors.defaultCurveColor.toArgb(),
                     guidelinesColor = colors.guidelinesColor.toArgb(),
                     editorBackgroundColor = Color.Transparent.toArgb()

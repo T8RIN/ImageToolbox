@@ -93,6 +93,21 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var cyanCurveColor = AndroidColor.rgb(0, 188, 212)
     private var magentaCurveColor = AndroidColor.rgb(236, 64, 122)
     private var yellowCurveColor = AndroidColor.rgb(255, 193, 7)
+    private var hueCurveColors = intArrayOf(
+        AndroidColor.rgb(255, 82, 82),
+        AndroidColor.rgb(255, 171, 64),
+        AndroidColor.rgb(255, 224, 51),
+        AndroidColor.rgb(76, 217, 100),
+        AndroidColor.rgb(56, 214, 210),
+        AndroidColor.rgb(85, 150, 255),
+        AndroidColor.rgb(166, 107, 255),
+        AndroidColor.rgb(245, 92, 170),
+        AndroidColor.rgb(255, 82, 82)
+    )
+    private var lumaGradientStartColor = AndroidColor.rgb(116, 116, 116)
+    private var lumaGradientEndColor = AndroidColor.WHITE
+    private var saturationGradientStartColor = AndroidColor.WHITE
+    private var saturationGradientEndColor = AndroidColor.rgb(255, 209, 102)
     private var defaultCurveColor = -0x66000001
     private var guidelinesColor = -0x66000001
     private var editorBackgroundColor = Color.Black.copy(alpha = 0.18f).toArgb()
@@ -174,6 +189,11 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         cyanCurveColor: Int,
         magentaCurveColor: Int,
         yellowCurveColor: Int,
+        hueCurveColors: IntArray,
+        lumaGradientStartColor: Int,
+        lumaGradientEndColor: Int,
+        saturationGradientStartColor: Int,
+        saturationGradientEndColor: Int,
         defaultCurveColor: Int,
         guidelinesColor: Int,
         editorBackgroundColor: Int
@@ -185,6 +205,12 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         this.cyanCurveColor = cyanCurveColor
         this.magentaCurveColor = magentaCurveColor
         this.yellowCurveColor = yellowCurveColor
+        this.hueCurveColors = hueCurveColors.takeIf { it.size >= 2 }?.copyOf()
+            ?: this.hueCurveColors
+        this.lumaGradientStartColor = lumaGradientStartColor
+        this.lumaGradientEndColor = lumaGradientEndColor
+        this.saturationGradientStartColor = saturationGradientStartColor
+        this.saturationGradientEndColor = saturationGradientEndColor
         this.guidelinesColor = guidelinesColor
         this.defaultCurveColor = defaultCurveColor
         this.editorBackgroundColor = editorBackgroundColor
@@ -232,25 +258,20 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                 0f,
                 actualArea.x + actualArea.width,
                 0f,
-                intArrayOf(
-                    AndroidColor.RED,
-                    AndroidColor.YELLOW,
-                    AndroidColor.GREEN,
-                    AndroidColor.CYAN,
-                    AndroidColor.BLUE,
-                    AndroidColor.MAGENTA,
-                    AndroidColor.RED
-                ),
+                hueCurveColors,
                 null,
                 Shader.TileMode.CLAMP
             )
         } else {
             null
         }
-        luminanceCurveShader = gradient(defaultCurveColor, lumaCurveColor)
+        luminanceCurveShader = gradient(lumaGradientStartColor, lumaGradientEndColor)
         labACurveShader = gradient(greenCurveColor, magentaCurveColor)
         labBCurveShader = gradient(blueCurveColor, yellowCurveColor)
-        saturationCurveShader = gradient(lumaCurveColor, yellowCurveColor)
+        saturationCurveShader = gradient(
+            saturationGradientStartColor,
+            saturationGradientEndColor
+        )
     }
 
     private fun gradient(
@@ -728,20 +749,18 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private fun pointColor(position: Float): Int = when (curveValue.activeEditorType) {
         ImageCurvesEditorType.HueVsSat,
         ImageCurvesEditorType.HueVsHue,
-        ImageCurvesEditorType.HueVsLuma -> AndroidColor.HSVToColor(
-            floatArrayOf(position * 360f, 0.82f, 1f)
-        )
+        ImageCurvesEditorType.HueVsLuma -> gradientColorAt(hueCurveColors, position)
 
         ImageCurvesEditorType.LumaVsSat,
         ImageCurvesEditorType.LumaVsHue -> blendColor(
-            defaultCurveColor,
-            lumaCurveColor,
+            lumaGradientStartColor,
+            lumaGradientEndColor,
             position
         )
 
         ImageCurvesEditorType.SatVsSat -> blendColor(
-            lumaCurveColor,
-            yellowCurveColor,
+            saturationGradientStartColor,
+            saturationGradientEndColor,
             position
         )
 
@@ -752,6 +771,19 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
 
         else -> paintCurve.color
+    }
+
+    private fun gradientColorAt(colors: IntArray, position: Float): Int {
+        if (colors.isEmpty()) return lumaCurveColor
+        if (colors.size == 1) return colors.first()
+
+        val scaledPosition = position.coerceIn(0f, 1f) * colors.lastIndex
+        val startIndex = scaledPosition.toInt().coerceAtMost(colors.lastIndex - 1)
+        return blendColor(
+            start = colors[startIndex],
+            end = colors[startIndex + 1],
+            fraction = scaledPosition - startIndex
+        )
     }
 
     private fun blendColor(
@@ -906,21 +938,29 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
 
         private fun interpolateCenteredCurve(): FloatArray {
-            val controlPoints = points.fold(mutableListOf<PointF>()) { result, point ->
-                if (result.lastOrNull()?.x == point.x) {
-                    result[result.lastIndex] = point
-                } else {
-                    result += point
+            val controlPoints = points
+                .subList(1, points.lastIndex)
+                .fold(mutableListOf<PointF>()) { result, point ->
+                    if (result.lastOrNull()?.x == point.x) {
+                        result[result.lastIndex] = point
+                    } else {
+                        result += point
+                    }
+                    result
                 }
-                result
-            }
             val neutral = neutralValue ?: 0.5f
-            if (controlPoints.size < 2) {
+            if (controlPoints.isEmpty()) {
                 cachedDataPoints = FloatArray(CurveSampleCount) { neutral }
                 return floatArrayOf(0f, neutral, 1f, neutral)
             }
+            if (controlPoints.size == 1) {
+                val value = controlPoints.first().y
+                cachedDataPoints = FloatArray(CurveSampleCount) { value }
+                return floatArrayOf(0f, value, 1f, value)
+            }
 
             fun slope(index: Int): Float {
+                if (index == 0 || index == controlPoints.lastIndex) return 0f
                 val previous = controlPoints[(index - 1).coerceAtLeast(0)]
                 val next = controlPoints[(index + 1).coerceAtMost(controlPoints.lastIndex)]
                 return (next.y - previous.y) /
@@ -930,23 +970,29 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             var segmentIndex = 0
             val sampledPoints = List(CurveSampleCount + 1) { sample ->
                 val x = sample / CurveSampleCount.toFloat()
-                while (
-                    segmentIndex < controlPoints.lastIndex - 1 &&
-                    controlPoints[segmentIndex + 1].x < x
-                ) {
-                    segmentIndex++
+                if (x <= controlPoints.first().x) {
+                    PointF(x, controlPoints.first().y)
+                } else if (x >= controlPoints.last().x) {
+                    PointF(x, controlPoints.last().y)
+                } else {
+                    while (
+                        segmentIndex < controlPoints.lastIndex - 1 &&
+                        controlPoints[segmentIndex + 1].x < x
+                    ) {
+                        segmentIndex++
+                    }
+                    val point1 = controlPoints[segmentIndex]
+                    val point2 = controlPoints[segmentIndex + 1]
+                    val segmentWidth = (point2.x - point1.x).coerceAtLeast(0.00001f)
+                    val t = ((x - point1.x) / segmentWidth).coerceIn(0f, 1f)
+                    val tt = t * t
+                    val ttt = tt * t
+                    val y = (2f * ttt - 3f * tt + 1f) * point1.y +
+                            (ttt - 2f * tt + t) * segmentWidth * slope(segmentIndex) +
+                            (-2f * ttt + 3f * tt) * point2.y +
+                            (ttt - tt) * segmentWidth * slope(segmentIndex + 1)
+                    PointF(x, y.coerceIn(0f, 1f))
                 }
-                val point1 = controlPoints[segmentIndex]
-                val point2 = controlPoints[segmentIndex + 1]
-                val segmentWidth = (point2.x - point1.x).coerceAtLeast(0.00001f)
-                val t = ((x - point1.x) / segmentWidth).coerceIn(0f, 1f)
-                val tt = t * t
-                val ttt = tt * t
-                val y = (2f * ttt - 3f * tt + 1f) * point1.y +
-                        (ttt - 2f * tt + t) * segmentWidth * slope(segmentIndex) +
-                        (-2f * ttt + 3f * tt) * point2.y +
-                        (ttt - tt) * segmentWidth * slope(segmentIndex + 1)
-                PointF(x, y.coerceIn(0f, 1f))
             }
 
             cachedDataPoints = sampledPoints.dropLast(1).map { it.y }.toFloatArray()

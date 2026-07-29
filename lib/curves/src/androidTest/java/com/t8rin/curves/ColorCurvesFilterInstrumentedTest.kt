@@ -126,6 +126,34 @@ class ColorCurvesFilterInstrumentedTest {
             darkenedValue < 0.02f
         )
 
+        val neutralGray = Color.rgb(160, 160, 160)
+        val unchangedGray = renderFlatCurve(
+            type = ImageCurvesEditorType.HueVsLuma,
+            value = 0f,
+            sourceColor = neutralGray
+        )
+        assertTrue(abs(Color.red(neutralGray) - Color.red(unchangedGray)) <= 2)
+        assertTrue(abs(Color.green(neutralGray) - Color.green(unchangedGray)) <= 2)
+        assertTrue(abs(Color.blue(neutralGray) - Color.blue(unchangedGray)) <= 2)
+
+        val saturatedRed = Color.rgb(230, 20, 10)
+        val darkenedRed = renderFlatCurve(
+            type = ImageCurvesEditorType.HueVsLuma,
+            value = 0.3f,
+            sourceColor = saturatedRed
+        )
+        assertTrue(darkenedRed.luma() < 0.02f)
+
+        val darkColoredNoise = Color.rgb(16, 24, 28)
+        val preservedDarkDetail = renderFlatCurve(
+            type = ImageCurvesEditorType.HueVsLuma,
+            value = 1f,
+            sourceColor = darkColoredNoise
+        )
+        assertTrue(
+            abs(preservedDarkDetail.luma() - darkColoredNoise.luma()) < 0.03f
+        )
+
         val rotatedHue = renderFlatCurve(
             type = ImageCurvesEditorType.HueVsHue,
             value = 0.75f,
@@ -271,9 +299,12 @@ class ColorCurvesFilterInstrumentedTest {
         )
 
         val interpolated = curve.interpolateCurve()
+        val lut = curve.toLut()
 
         assertEquals(0.9f, interpolated[1], 0.00001f)
         assertEquals(0.1f, interpolated[interpolated.lastIndex], 0.00001f)
+        assertEquals(0.9f, lut[(0.3f * lut.lastIndex).toInt()], 0.00001f)
+        assertEquals(0.1f, lut[(0.7f * lut.lastIndex).toInt()], 0.00001f)
         assertTrue(
             interpolated
                 .toList()

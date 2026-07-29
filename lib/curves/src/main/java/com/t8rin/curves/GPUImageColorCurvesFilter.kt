@@ -347,7 +347,30 @@ private class GPUImageRelationCurveFilter(
                 """.trimIndent()
 
                 ImageCurvesEditorType.HueVsLuma -> {
-                    "hsv.z = clamp(hsv.z + delta * 2.0, 0.0, 1.0);"
+                    """
+                        highp vec3 rgb = hsvToRgb(hsv);
+                        highp float luma = dot(
+                            rgb,
+                            vec3(0.2126, 0.7152, 0.0722)
+                        );
+                        highp float chroma = hsv.y * hsv.z;
+                        highp float chromaWeight = smoothstep(0.04, 0.30, chroma);
+                        highp float targetLuma = clamp(
+                            luma + delta * 2.0 * chromaWeight,
+                            0.0,
+                            1.0
+                        );
+                        if (targetLuma < luma) {
+                            rgb *= targetLuma / max(luma, 0.00001);
+                        } else {
+                            rgb = mix(
+                                rgb,
+                                vec3(1.0),
+                                (targetLuma - luma) / max(1.0 - luma, 0.00001)
+                            );
+                        }
+                        hsv = rgbToHsv(clamp(rgb, 0.0, 1.0));
+                    """.trimIndent()
                 }
 
                 ImageCurvesEditorType.HueVsHue,
@@ -401,6 +424,40 @@ private class GPUImageRelationCurveFilter(
         private const val FRAGMENT_SHADER = """
             varying highp vec2 textureCoordinate;
             uniform sampler2D inputImageTexture;
+
+            highp vec3 hsvToRgb(highp vec3 hsv) {
+                highp vec3 hue = abs(
+                    fract(hsv.xxx + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0
+                );
+                return hsv.z * mix(
+                    vec3(1.0),
+                    clamp(hue - 1.0, 0.0, 1.0),
+                    hsv.y
+                );
+            }
+
+            highp vec3 rgbToHsv(highp vec3 rgb) {
+                highp vec4 first = mix(
+                    vec4(rgb.bg, -1.0, 2.0 / 3.0),
+                    vec4(rgb.gb, 0.0, -1.0 / 3.0),
+                    step(rgb.b, rgb.g)
+                );
+                highp vec4 second = mix(
+                    vec4(first.xyw, rgb.r),
+                    vec4(rgb.r, first.yzx),
+                    step(first.x, rgb.r)
+                );
+                highp float rgbDelta = second.x - min(second.w, second.y);
+                highp float epsilon = 0.0000001;
+                return vec3(
+                    abs(
+                        second.z +
+                            (second.w - second.y) / (6.0 * rgbDelta + epsilon)
+                    ),
+                    rgbDelta / (second.x + epsilon),
+                    second.x
+                );
+            }
 
             void main() {
                 highp vec4 source = texture2D(inputImageTexture, textureCoordinate);
