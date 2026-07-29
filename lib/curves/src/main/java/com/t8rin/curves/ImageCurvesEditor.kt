@@ -24,7 +24,10 @@ import android.graphics.Bitmap
 import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -667,40 +670,82 @@ private fun CurveChannelHistogram(
     colors: ImageCurvesEditorColors,
     modifier: Modifier
 ) {
-    var histogram by remember(bitmap) {
-        mutableStateOf(Histogram.Empty)
+    var histogram by remember {
+        mutableStateOf<Histogram?>(null)
     }
 
     LaunchedEffect(bitmap) {
-        histogram = Histogram.from(bitmap)
+        val updatedHistogram = withContext(Dispatchers.Default) {
+            Histogram.from(bitmap)
+        }
+        coroutineContext.ensureActive()
+        histogram = updatedHistogram
     }
 
-    val values = when (curveType) {
-        PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeRed -> histogram.redData
-        PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeGreen -> histogram.greenData
-        PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeBlue -> histogram.blueData
-        else -> histogram.brightnessData
+    val targetValues = remember(histogram, curveType) {
+        histogram?.let { data ->
+            when (curveType) {
+                PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeRed -> data.redData
+                PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeGreen -> data.greenData
+                PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeBlue -> data.blueData
+                else -> data.brightnessData
+            }.normalizedHistogramValues()
+        } ?: FloatArray(0)
     }
-    val color = when (curveType) {
+    var startValues by remember {
+        mutableStateOf(FloatArray(0))
+    }
+    var endValues by remember {
+        mutableStateOf(FloatArray(0))
+    }
+    val transitionProgress = remember {
+        Animatable(1f)
+    }
+
+    LaunchedEffect(targetValues) {
+        if (targetValues.isEmpty()) return@LaunchedEffect
+
+        val currentValues = interpolatedHistogramValues(
+            start = startValues,
+            end = endValues,
+            fraction = transitionProgress.value,
+            targetSize = targetValues.size
+        )
+        startValues = currentValues
+        endValues = currentValues
+        transitionProgress.snapTo(0f)
+        endValues = targetValues
+        transitionProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 240,
+                easing = FastOutSlowInEasing
+            )
+        )
+    }
+
+    val targetColor = when (curveType) {
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeRed -> colors.redCurveColor
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeGreen -> colors.greenCurveColor
         PhotoFilterCurvesControl.CurvesToolValue.CurvesTypeBlue -> colors.blueCurveColor
         else -> Color.White
     }
+    val color by animateColorAsState(targetColor)
 
     Canvas(modifier = modifier) {
-        if (histogram == Histogram.Empty || values.size < 2) return@Canvas
+        if (startValues.size < 2 || startValues.size != endValues.size) return@Canvas
 
-        val maxValue = values.maxOrNull()?.toFloat()?.takeIf { it > 0f } ?: return@Canvas
-        val step = size.width / (values.lastIndex)
+        val step = size.width / startValues.lastIndex
         val linePath = Path()
         val fillPath = Path().apply {
             moveTo(0f, size.height)
         }
 
-        values.forEachIndexed { index, value ->
+        startValues.indices.forEach { index ->
+            val value = startValues[index] +
+                    (endValues[index] - startValues[index]) * transitionProgress.value
             val x = index * step
-            val y = size.height * (1f - (value.toFloat() / maxValue).coerceIn(0f, 1f))
+            val y = size.height * (1f - value)
             if (index == 0) linePath.moveTo(x, y)
             else linePath.lineTo(x, y)
             fillPath.lineTo(x, y)
@@ -723,6 +768,39 @@ private fun CurveChannelHistogram(
             style = Stroke(width = 1.dp.toPx())
         )
     }
+}
+
+private fun List<Double>.normalizedHistogramValues(): FloatArray {
+    val maxValue = maxOrNull()?.takeIf { it > 0.0 } ?: return FloatArray(size)
+    return FloatArray(size) { index ->
+        (this[index] / maxValue).toFloat().coerceIn(0f, 1f)
+    }
+}
+
+private fun interpolatedHistogramValues(
+    start: FloatArray,
+    end: FloatArray,
+    fraction: Float,
+    targetSize: Int
+): FloatArray = FloatArray(targetSize) { index ->
+    val position = if (targetSize > 1) {
+        index / (targetSize - 1f)
+    } else {
+        0f
+    }
+    val startValue = start.valueAt(position)
+    startValue + (end.valueAt(position) - startValue) * fraction
+}
+
+private fun FloatArray.valueAt(position: Float): Float {
+    if (isEmpty()) return 0f
+    if (size == 1) return first()
+
+    val scaledIndex = position.coerceIn(0f, 1f) * lastIndex
+    val lowerIndex = scaledIndex.toInt()
+    val upperIndex = (lowerIndex + 1).coerceAtMost(lastIndex)
+    val fraction = scaledIndex - lowerIndex
+    return this[lowerIndex] + (this[upperIndex] - this[lowerIndex]) * fraction
 }
 
 @Composable
