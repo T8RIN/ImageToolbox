@@ -1161,6 +1161,15 @@ or click one of the badges below.
     - Harmonies
     - Shading
     - Tone Curves applying
+      - RGB
+      - CMYK
+      - Lab
+      - Hue vs Sat
+      - Hue vs Hue
+      - Hue vs Luma
+      - Luma vs Sat
+      - Luma vs Hue
+      - Sat vs Sat
 - Color Library with more than 33k different colors
 - Histograms
     - RGB
