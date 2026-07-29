@@ -73,7 +73,7 @@ internal fun SettingsBackdropWrapper(
             easing = FancyTransitionEasing
         )
     )
-    val canExpandSettings = ((currentScreen?.id ?: -1) >= 0)
+    val canExpandSettings = (currentScreen?.canExpandSettings == true)
         .and(settingsComponent.settingsState.fastSettingsSide != FastSettingsSide.None)
 
     var predictiveBackProgress by remember {

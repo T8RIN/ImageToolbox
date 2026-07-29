@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -40,6 +41,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -47,7 +49,9 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,7 +67,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 import com.t8rin.colors.parser.ColorWithName
+import com.t8rin.fastscroller.Material3FastScrollIndicator
+import com.t8rin.fastscroller.VerticalFastScroller
+import com.t8rin.fastscroller.rememberFastScrollerState
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -226,37 +234,78 @@ fun ColorLibraryContent(
         ) { isNotEmpty ->
             if (isNotEmpty) {
                 val reverseLayout = searchKeyword.isNotEmpty() && isKeyboardVisible
+                val gridState = rememberLazyGridState()
+                val fastScrollerState = rememberFastScrollerState()
 
-                LazyVerticalGrid(
-                    contentPadding = contentPadding + PaddingValues(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(
-                        space = 4.dp,
-                        alignment = if (reverseLayout) {
-                            Alignment.Bottom
-                        } else {
-                            Alignment.Top
+                Box(Modifier.fillMaxSize()) {
+                    LazyVerticalGrid(
+                        state = gridState,
+                        contentPadding = contentPadding + PaddingValues(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = 4.dp,
+                            alignment = if (reverseLayout) {
+                                Alignment.Bottom
+                            } else {
+                                Alignment.Top
+                            }
+                        ),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        flingBehavior = enhancedFlingBehavior(),
+                        columns = GridCells.Adaptive(180.dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(
+                            items = colors,
+                            key = { it.toString() }
+                        ) { colorWithName ->
+                            ColorWithNameItem(
+                                isFavorite = colorWithName.name in favoriteColors,
+                                color = colorWithName.color,
+                                name = colorWithName.name,
+                                onToggleFavorite = { component.toggleFavoriteColor(colorWithName) },
+                                onCopy = {
+                                    colorCopyTarget = colorWithName
+                                },
+                                modifier = Modifier.animateItem()
+                            )
                         }
-                    ),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    flingBehavior = enhancedFlingBehavior(),
-                    columns = GridCells.Adaptive(180.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(
-                        items = colors,
-                        key = { it.toString() }
-                    ) { colorWithName ->
-                        ColorWithNameItem(
-                            isFavorite = colorWithName.name in favoriteColors,
-                            color = colorWithName.color,
-                            name = colorWithName.name,
-                            onToggleFavorite = { component.toggleFavoriteColor(colorWithName) },
-                            onCopy = {
-                                colorCopyTarget = colorWithName
-                            },
-                            modifier = Modifier.animateItem()
-                        )
                     }
+
+                    VerticalFastScroller(
+                        state = gridState,
+                        fastScrollerState = fastScrollerState,
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        trackColor = MaterialTheme.colorScheme.surfaceColorAtElevation(8.dp),
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .fillMaxHeight()
+                            .padding(contentPadding)
+                            .padding(top = 12.dp)
+                    )
+
+                    val label by remember {
+                        derivedStateOf {
+                            gridState.firstVisibleItemIndex
+                                .let(colors::getOrNull)
+                                ?.name
+                                ?.firstOrNull()
+                                ?.uppercase()
+                                .orEmpty()
+                                .takeIf { !it.isDigitsOnly() } ?: "..."
+                        }
+                    }
+
+                    Material3FastScrollIndicator(
+                        label = label,
+                        position = fastScrollerState.thumbCenter,
+                        visible = fastScrollerState.isDragging &&
+                                fastScrollerState.isVisible &&
+                                label.isNotEmpty(),
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(end = 14.dp, top = 12.dp)
+                            .padding(contentPadding)
+                    )
                 }
             } else if (isSearching) {
                 Column(

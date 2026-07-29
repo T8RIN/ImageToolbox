@@ -161,6 +161,12 @@ import android.net.Uri as AndroidUri
 @Suppress("UnusedReceiverParameter")
 internal fun Screen.isBetaFeature(): Boolean = false
 
+internal fun Screen.canExpandSettings(): Boolean = when {
+    this is ColorLibrary -> false
+    id >= 0 -> true
+    else -> false
+}
+
 internal fun Screen.simpleName(): String = when (this) {
     is ApngTools -> "APNG_Tools"
     is Cipher -> "Cipher"

@@ -60,6 +60,8 @@ sealed class Screen(
 
     val twoToneIcon: ImageVector? by lazy { twoToneIcon() }
 
+    val canExpandSettings: Boolean by lazy { canExpandSettings() }
+
     @Serializable
     data class LibraryDetails(
         val name: String,

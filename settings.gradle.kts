@@ -151,5 +151,6 @@ include(":lib:colors")
 include(":lib:gesture")
 include(":lib:image")
 include(":lib:zoomable")
+include(":lib:fast-scroller")
 
 include(":benchmark")
