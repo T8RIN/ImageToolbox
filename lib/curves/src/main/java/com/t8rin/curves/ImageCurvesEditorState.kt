@@ -22,7 +22,7 @@ package com.t8rin.curves
 import android.graphics.PointF
 import com.t8rin.curves.view.PhotoFilterCurvesControl.CurvesToolValue
 import com.t8rin.curves.view.PhotoFilterCurvesControl.CurvesValue
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageToneCurveFilter
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 
 @ConsistentCopyVisibility
 data class ImageCurvesEditorState internal constructor(
@@ -35,6 +35,7 @@ data class ImageCurvesEditorState internal constructor(
     fun copy(
         controlPoints: List<List<Float>>
     ): ImageCurvesEditorState = ImageCurvesEditorState(controlPoints).also {
+        it.curvesToolValue.activeEditorType = curvesToolValue.activeEditorType
         it.curvesToolValue.activeType = curvesToolValue.activeType
     }
 
@@ -42,46 +43,27 @@ data class ImageCurvesEditorState internal constructor(
         curvesToolValue.copy()
     )
 
-    internal fun buildFilter(): GPUImageToneCurveFilter = GPUImageToneCurveFilter().apply {
-        setAllControlPoints(getControlPointsImpl())
-    }
+    internal fun buildFilter(): GPUImageFilter = buildCurvesFilter(curvesToolValue)
 
-    fun isDefault(): Boolean = listOf(
-        curvesToolValue.luminanceCurve,
-        curvesToolValue.redCurve,
-        curvesToolValue.greenCurve,
-        curvesToolValue.blueCurve
-    ).all { it.isDefault }
+    fun isDefault(): Boolean = curvesToolValue.allCurves.all { it.isDefault }
 
     /**
      * Serialized curve points. Legacy five-value curves contain only Y coordinates.
      * New curves are stored as flattened X/Y pairs so points can be placed anywhere.
      */
     val controlPoints: List<List<Float>>
-        get() = getControlPointsImpl().map { points ->
-            points.flatMap { point -> listOf(point.x, point.y) }
+        get() = curvesToolValue.allCurves.map { curve ->
+            curve.points.flatMap { point -> listOf(point.x, point.y) }
         }
 
     private fun initControlPoints(controlPoints: List<List<Float>>) {
-        val curves = listOf(
-            curvesToolValue.luminanceCurve,
-            curvesToolValue.redCurve,
-            curvesToolValue.greenCurve,
-            curvesToolValue.blueCurve
-        )
+        val curves = curvesToolValue.allCurves
         curves.forEachIndexed { index, curve ->
             controlPoints.getOrNull(index)?.let { points ->
                 curve.setPoints(points)
             }
         }
     }
-
-    private fun getControlPointsImpl(): List<Array<PointF>> = listOf(
-        curvesToolValue.luminanceCurve.toPoints(),
-        curvesToolValue.redCurve.toPoints(),
-        curvesToolValue.greenCurve.toPoints(),
-        curvesToolValue.blueCurve.toPoints()
-    )
 
     private fun CurvesValue.setPoints(points: List<Float>) {
         val parsedPoints = if (points.size == LegacyPointCount) {
@@ -97,10 +79,6 @@ data class ImageCurvesEditorState internal constructor(
         replacePoints(parsedPoints)
     }
 
-    private fun CurvesValue.toPoints(): Array<PointF> = points
-        .map { PointF(it.x, it.y) }
-        .toTypedArray()
-
     companion object {
         private const val LegacyPointCount = 5
 
@@ -111,10 +89,10 @@ data class ImageCurvesEditorState internal constructor(
 
 fun GPUImageToneCurveFilter(
     controlPoints: List<List<Float>>
-): GPUImageToneCurveFilter = GPUImageToneCurveFilter(
+): GPUImageFilter = GPUImageToneCurveFilter(
     state = ImageCurvesEditorState(controlPoints)
 )
 
 fun GPUImageToneCurveFilter(
     state: ImageCurvesEditorState
-): GPUImageToneCurveFilter = state.buildFilter()
+): GPUImageFilter = state.buildFilter()

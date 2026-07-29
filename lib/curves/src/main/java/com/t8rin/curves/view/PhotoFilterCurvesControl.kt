@@ -24,14 +24,17 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.DashPathEffect
+import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PointF
 import android.graphics.RectF
+import android.graphics.Shader
 import android.view.MotionEvent
 import android.view.View
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.t8rin.curves.ImageCurvesEditorType
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.pow
@@ -44,7 +47,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     value: CurvesToolValue = CurvesToolValue()
 ) : View(context) {
     private var activePointIndex = NoPoint
-    private val selectedPointIndices = IntArray(CurvesToolValue.CurveTypeCount) { NoPoint }
+    private val selectedPointIndices = IntArray(CurvesToolValue.CurveCount) { NoPoint }
     private var isMoving = false
     private var checkForMoving = true
     private var downX = 0f
@@ -64,10 +67,16 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private val pointPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val pointHaloPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val path = Path()
+    private var hueCurveShader: Shader? = null
+    private var luminanceCurveShader: Shader? = null
+    private var labACurveShader: Shader? = null
+    private var labBCurveShader: Shader? = null
+    private var saturationCurveShader: Shader? = null
     private var delegate: PhotoFilterCurvesControlDelegate? = null
     private var selectionDelegate: ((Boolean) -> Unit)? = null
     private var curveValue: CurvesToolValue
     private var displayedCurveType = value.activeType
+    private var displayedEditorType = value.activeEditorType
 
     fun updateValue(
         value: CurvesToolValue
@@ -81,22 +90,20 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var redCurveColor = -0x12c2b4
     private var greenCurveColor = -0xef1163
     private var blueCurveColor = -0xcc8805
+    private var cyanCurveColor = AndroidColor.rgb(0, 188, 212)
+    private var magentaCurveColor = AndroidColor.rgb(236, 64, 122)
+    private var yellowCurveColor = AndroidColor.rgb(255, 193, 7)
     private var defaultCurveColor = -0x66000001
     private var guidelinesColor = -0x66000001
     private var editorBackgroundColor = Color.Black.copy(alpha = 0.18f).toArgb()
 
     private val activeCurve: CurvesValue
-        get() = when (curveValue.activeType) {
-            CurvesToolValue.CurvesTypeRed -> curveValue.redCurve
-            CurvesToolValue.CurvesTypeGreen -> curveValue.greenCurve
-            CurvesToolValue.CurvesTypeBlue -> curveValue.blueCurve
-            else -> curveValue.luminanceCurve
-        }
+        get() = curveValue.activeCurve
 
     private var selectedPointIndex: Int
-        get() = selectedPointIndices[curveValue.activeType]
+        get() = selectedPointIndices[curveValue.activeCurveIndex]
         set(value) {
-            selectedPointIndices[curveValue.activeType] = value
+            selectedPointIndices[curveValue.activeCurveIndex] = value
             selectionDelegate?.invoke(canDeleteSelectedPoint)
         }
 
@@ -164,6 +171,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         redCurveColor: Int,
         greenCurveColor: Int,
         blueCurveColor: Int,
+        cyanCurveColor: Int,
+        magentaCurveColor: Int,
+        yellowCurveColor: Int,
         defaultCurveColor: Int,
         guidelinesColor: Int,
         editorBackgroundColor: Int
@@ -172,6 +182,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         this.redCurveColor = redCurveColor
         this.greenCurveColor = greenCurveColor
         this.blueCurveColor = blueCurveColor
+        this.cyanCurveColor = cyanCurveColor
+        this.magentaCurveColor = magentaCurveColor
+        this.yellowCurveColor = yellowCurveColor
         this.guidelinesColor = guidelinesColor
         this.defaultCurveColor = defaultCurveColor
         this.editorBackgroundColor = editorBackgroundColor
@@ -179,6 +192,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         paint.color = Color(guidelinesColor).copy(alpha = GridAlpha).toArgb()
         paintDash.color = Color(defaultCurveColor).copy(alpha = DiagonalAlpha).toArgb()
 
+        updateCurveShaders()
         invalidate()
     }
 
@@ -207,13 +221,72 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             actualArea.x + actualArea.width,
             actualArea.y + actualArea.height
         )
+        updateCurveShaders()
         invalidate()
     }
 
+    private fun updateCurveShaders() {
+        hueCurveShader = if (actualArea.width > 0f) {
+            LinearGradient(
+                actualArea.x,
+                0f,
+                actualArea.x + actualArea.width,
+                0f,
+                intArrayOf(
+                    AndroidColor.RED,
+                    AndroidColor.YELLOW,
+                    AndroidColor.GREEN,
+                    AndroidColor.CYAN,
+                    AndroidColor.BLUE,
+                    AndroidColor.MAGENTA,
+                    AndroidColor.RED
+                ),
+                null,
+                Shader.TileMode.CLAMP
+            )
+        } else {
+            null
+        }
+        luminanceCurveShader = gradient(defaultCurveColor, lumaCurveColor)
+        labACurveShader = gradient(greenCurveColor, magentaCurveColor)
+        labBCurveShader = gradient(blueCurveColor, yellowCurveColor)
+        saturationCurveShader = gradient(lumaCurveColor, yellowCurveColor)
+    }
+
+    private fun gradient(
+        startColor: Int,
+        endColor: Int
+    ): Shader? = if (actualArea.width > 0f) {
+        LinearGradient(
+            actualArea.x,
+            0f,
+            actualArea.x + actualArea.width,
+            0f,
+            startColor,
+            endColor,
+            Shader.TileMode.CLAMP
+        )
+    } else {
+        null
+    }
+
     fun setActiveCurveType(type: Int) {
-        curveValue.activeType = type
-        if (displayedCurveType != type) {
-            displayedCurveType = type
+        val safeType = type.coerceIn(0, curveValue.activeEditorType.channelCount - 1)
+        curveValue.activeType = safeType
+        if (displayedCurveType != safeType) {
+            displayedCurveType = safeType
+            activePointIndex = NoPoint
+            selectionDelegate?.invoke(canDeleteSelectedPoint)
+        }
+        invalidate()
+    }
+
+    fun setActiveEditorType(type: ImageCurvesEditorType) {
+        curveValue.activeEditorType = type
+        curveValue.activeType = curveValue.activeType.coerceIn(0, type.channelCount - 1)
+        if (displayedEditorType != type) {
+            displayedEditorType = type
+            displayedCurveType = curveValue.activeType
             activePointIndex = NoPoint
             selectionDelegate?.invoke(canDeleteSelectedPoint)
         }
@@ -223,6 +296,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     fun deleteSelectedPoint() {
         if (canDeleteSelectedPoint) {
             activeCurve.removePoint(selectedPointIndex)
+            normalizeCenteredCurveAfterRemoval()
             selectedPointIndex = NoPoint
             delegate?.valueChanged()
             invalidate()
@@ -237,7 +311,8 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         if (actualArea.width <= 0f || actualArea.height <= 0f) return false
 
         val touchRadius = dp(ControlPointTouchRadius).toFloat()
-        return activeCurve.points.any { point ->
+        return editablePointIndices.any { index ->
+            val point = activeCurve.points[index]
             distance(
                 x,
                 y,
@@ -338,6 +413,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                         now - lastTapTime <= DoubleTapTimeout
                     ) {
                         activeCurve.removePoint(activePointIndex)
+                        normalizeCenteredCurveAfterRemoval()
                         selectedPointIndex = NoPoint
                         delegate?.valueChanged()
                         lastTappedPointIndex = NoPoint
@@ -358,7 +434,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             return
         }
         val touchRadius = dp(ControlPointTouchRadius).toFloat()
-        activePointIndex = activeCurve.points.indices.minByOrNull { index ->
+        activePointIndex = editablePointIndices.minByOrNull { index ->
             val point = activeCurve.points[index]
             distance(
                 x,
@@ -377,14 +453,23 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         } ?: run {
             val pointCount = activeCurve.points.size
             activeCurve.addPoint(
-                x = ((x - actualArea.x) / actualArea.width).coerceIn(
-                    MinimumPointDistance,
-                    1f - MinimumPointDistance
-                ),
+                x = ((x - actualArea.x) / actualArea.width).let { position ->
+                    if (curveValue.activeEditorType.centeredCurve) {
+                        position.coerceIn(0f, 1f)
+                    } else {
+                        position.coerceIn(
+                            MinimumPointDistance,
+                            1f - MinimumPointDistance
+                        )
+                    }
+                },
                 y = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
             ).also {
                 pointWasCreated = activeCurve.points.size > pointCount
-                if (pointWasCreated) delegate?.valueChanged()
+                if (pointWasCreated) {
+                    syncCenteredEndpoints()
+                    delegate?.valueChanged()
+                }
             }
         }
         selectedPointIndex = activePointIndex
@@ -398,16 +483,64 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         val point = activeCurve.points[index]
         val normalizedY = (1f - (y - actualArea.y) / actualArea.height).coerceIn(0f, 1f)
         point.y = normalizedY
-        if (index != 0 && index != activeCurve.points.lastIndex) {
+        val isOnlyCenteredPoint = curveValue.activeEditorType.centeredCurve &&
+                activeCurve.points.size == 3 &&
+                index == 1
+        if (isOnlyCenteredPoint) {
+            point.x = ((x - actualArea.x) / actualArea.width).coerceIn(0f, 1f)
+        }
+        if (
+            curveValue.activeEditorType.hasCircularInput &&
+            (index == 0 || index == activeCurve.points.lastIndex)
+        ) {
+            activeCurve.points.first().y = normalizedY
+            activeCurve.points.last().y = normalizedY
+        }
+        if (
+            !isOnlyCenteredPoint &&
+            index != 0 &&
+            index != activeCurve.points.lastIndex
+        ) {
             val previousX = activeCurve.points[index - 1].x
             val nextX = activeCurve.points[index + 1].x
             val availableSpacing = (nextX - previousX).coerceAtLeast(0f)
-            val pointSpacing = minOf(MinimumPointDistance, availableSpacing / 2f)
+            val pointSpacing = if (curveValue.activeEditorType.centeredCurve) {
+                0f
+            } else {
+                minOf(MinimumPointDistance, availableSpacing / 2f)
+            }
             val minX = previousX + pointSpacing
             val maxX = nextX - pointSpacing
             point.x = ((x - actualArea.x) / actualArea.width).coerceIn(minX, maxX)
         }
+        syncCenteredEndpoints()
         activeCurve.invalidateCache()
+    }
+
+    private val editablePointIndices: IntRange
+        get() = if (curveValue.activeEditorType.centeredCurve) {
+            1 until activeCurve.points.lastIndex
+        } else {
+            activeCurve.points.indices
+        }
+
+    private fun syncCenteredEndpoints() {
+        if (curveValue.activeEditorType.centeredCurve && activeCurve.points.size > 2) {
+            activeCurve.points.first().y = activeCurve.points[1].y
+            activeCurve.points.last().y = activeCurve.points[activeCurve.points.lastIndex - 1].y
+            activeCurve.invalidateCache()
+        }
+    }
+
+    private fun normalizeCenteredCurveAfterRemoval() {
+        if (!curveValue.activeEditorType.centeredCurve) return
+        if (activeCurve.points.size > 2) {
+            syncCenteredEndpoints()
+        } else {
+            activeCurve.points.first().y = 0.5f
+            activeCurve.points.last().y = 0.5f
+            activeCurve.invalidateCache()
+        }
     }
 
     private fun unselectPoint() {
@@ -440,50 +573,54 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                 )
             }
 
-            canvas.drawLine(
-                actualArea.x,
-                actualArea.y + actualArea.height,
-                actualArea.x + actualArea.width,
-                actualArea.y,
-                paintDash
-            )
+            if (curveValue.activeEditorType.centeredCurve) {
+                canvas.drawLine(
+                    actualArea.x,
+                    actualArea.y + actualArea.height / 2f,
+                    actualArea.x + actualArea.width,
+                    actualArea.y + actualArea.height / 2f,
+                    paintDash
+                )
+            } else {
+                canvas.drawLine(
+                    actualArea.x,
+                    actualArea.y + actualArea.height,
+                    actualArea.x + actualArea.width,
+                    actualArea.y,
+                    paintDash
+                )
+            }
         }
 
-        var curvesValue: CurvesValue? = null
-        when (curveValue.activeType) {
-            CurvesToolValue.CurvesTypeLuminance -> {
-                paintCurve.color = lumaCurveColor
-                curvesValue = curveValue.luminanceCurve
+        val activeCurvesValue = curveValue.activeCurve
+        paintCurve.color = curveColor(
+            editorType = curveValue.activeEditorType,
+            channel = curveValue.activeType
+        )
+        paintCurve.shader = when (curveValue.activeEditorType) {
+            ImageCurvesEditorType.HueVsSat,
+            ImageCurvesEditorType.HueVsHue,
+            ImageCurvesEditorType.HueVsLuma -> hueCurveShader
+
+            ImageCurvesEditorType.LumaVsSat,
+            ImageCurvesEditorType.LumaVsHue -> luminanceCurveShader
+
+            ImageCurvesEditorType.SatVsSat -> saturationCurveShader
+            ImageCurvesEditorType.Lab -> when (curveValue.activeType) {
+                1 -> labACurveShader
+                2 -> labBCurveShader
+                else -> luminanceCurveShader
             }
 
-            CurvesToolValue.CurvesTypeRed -> {
-                paintCurve.color = redCurveColor
-                curvesValue = curveValue.redCurve
-            }
-
-            CurvesToolValue.CurvesTypeGreen -> {
-                paintCurve.color = greenCurveColor
-                curvesValue = curveValue.greenCurve
-            }
-
-            CurvesToolValue.CurvesTypeBlue -> {
-                paintCurve.color = blueCurveColor
-                curvesValue = curveValue.blueCurve
-            }
-
-            else -> Unit
+            else -> null
         }
-        val activeCurvesValue = curvesValue ?: return
         var points: FloatArray
 
         if (drawEditorContent) {
             if (drawNotActiveCurves) {
-                listOf(
-                    curveValue.luminanceCurve to lumaCurveColor,
-                    curveValue.redCurve to redCurveColor,
-                    curveValue.greenCurve to greenCurveColor,
-                    curveValue.blueCurve to blueCurveColor
-                ).filter {
+                curveValue.curvesFor(curveValue.activeEditorType).mapIndexed { index, curve ->
+                    curve to curveColor(curveValue.activeEditorType, index)
+                }.filter {
                     it.first != activeCurvesValue && !it.first.isDefault
                 }.forEach { (curve, color) ->
                     paintNotActiveCurve.color = Color(color).copy(0.7f).toArgb()
@@ -527,11 +664,17 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
 
         if (!drawControlPoints) return
-        pointPaint.color = paintCurve.color
         activeCurvesValue.points.forEachIndexed { index, point ->
+            if (
+                curveValue.activeEditorType.centeredCurve &&
+                (index == 0 || index == activeCurvesValue.points.lastIndex)
+            ) {
+                return@forEachIndexed
+            }
             val x = actualArea.x + point.x * actualArea.width
             val y = actualArea.y + (1f - point.y) * actualArea.height
             val isActive = index == activePointIndex || index == selectedPointIndex
+            pointPaint.color = pointColor(point.x)
             canvas.drawCircle(
                 x,
                 y,
@@ -555,14 +698,100 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
     }
 
+    private fun curveColor(
+        editorType: ImageCurvesEditorType,
+        channel: Int
+    ): Int = when (editorType) {
+        ImageCurvesEditorType.RGB -> when (channel) {
+            CurvesToolValue.CurvesTypeRed -> redCurveColor
+            CurvesToolValue.CurvesTypeGreen -> greenCurveColor
+            CurvesToolValue.CurvesTypeBlue -> blueCurveColor
+            else -> lumaCurveColor
+        }
+
+        ImageCurvesEditorType.CMYK -> when (channel) {
+            0 -> cyanCurveColor
+            1 -> magentaCurveColor
+            2 -> yellowCurveColor
+            else -> AndroidColor.LTGRAY
+        }
+
+        ImageCurvesEditorType.Lab -> when (channel) {
+            1 -> magentaCurveColor
+            2 -> blueCurveColor
+            else -> AndroidColor.WHITE
+        }
+
+        else -> AndroidColor.WHITE
+    }
+
+    private fun pointColor(position: Float): Int = when (curveValue.activeEditorType) {
+        ImageCurvesEditorType.HueVsSat,
+        ImageCurvesEditorType.HueVsHue,
+        ImageCurvesEditorType.HueVsLuma -> AndroidColor.HSVToColor(
+            floatArrayOf(position * 360f, 0.82f, 1f)
+        )
+
+        ImageCurvesEditorType.LumaVsSat,
+        ImageCurvesEditorType.LumaVsHue -> blendColor(
+            defaultCurveColor,
+            lumaCurveColor,
+            position
+        )
+
+        ImageCurvesEditorType.SatVsSat -> blendColor(
+            lumaCurveColor,
+            yellowCurveColor,
+            position
+        )
+
+        ImageCurvesEditorType.Lab -> when (curveValue.activeType) {
+            1 -> blendColor(greenCurveColor, magentaCurveColor, position)
+            2 -> blendColor(blueCurveColor, yellowCurveColor, position)
+            else -> blendColor(defaultCurveColor, lumaCurveColor, position)
+        }
+
+        else -> paintCurve.color
+    }
+
+    private fun blendColor(
+        start: Int,
+        end: Int,
+        fraction: Float
+    ): Int {
+        val amount = fraction.coerceIn(0f, 1f)
+        val alpha = AndroidColor.alpha(start) +
+                (AndroidColor.alpha(end) - AndroidColor.alpha(start)) * amount
+        val red = AndroidColor.red(start) +
+                (AndroidColor.red(end) - AndroidColor.red(start)) * amount
+        val green = AndroidColor.green(start) +
+                (AndroidColor.green(end) - AndroidColor.green(start)) * amount
+        val blue = AndroidColor.blue(start) +
+                (AndroidColor.blue(end) - AndroidColor.blue(start)) * amount
+        return AndroidColor.argb(
+            alpha.toInt(),
+            red.toInt(),
+            green.toInt(),
+            blue.toInt()
+        )
+    }
+
+    private val ImageCurvesEditorType.hasCircularInput: Boolean
+        get() = this == ImageCurvesEditorType.HueVsSat ||
+                this == ImageCurvesEditorType.HueVsHue ||
+                this == ImageCurvesEditorType.HueVsLuma
+
     fun interface PhotoFilterCurvesControlDelegate {
         fun valueChanged()
     }
 
-    internal class CurvesValue {
+    internal class CurvesValue(
+        private val neutralValue: Float? = null,
+        private val circularInput: Boolean = false
+    ) {
         val points: MutableList<PointF> = mutableListOf(
-            PointF(0f, 0f),
-            PointF(1f, 1f)
+            PointF(0f, neutralValue ?: 0f),
+            PointF(1f, neutralValue ?: 1f)
         )
 
         private var cachedDataPoints: FloatArray? = null
@@ -576,6 +805,13 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             }
 
         fun interpolateCurve(): FloatArray {
+            if (circularInput) {
+                return interpolateCircularCurve()
+            }
+            if (neutralValue != null) {
+                return interpolateCenteredCurve()
+            }
+
             val dataPoints = ArrayList<Float>(100)
             val interpolatedPoints = ArrayList<Float>(100)
 
@@ -622,6 +858,101 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             return interpolatedPoints.toFloatArray()
         }
 
+        private fun interpolateCircularCurve(): FloatArray {
+            val controlPoints = points.subList(1, points.lastIndex)
+            val neutral = neutralValue ?: 0.5f
+            if (controlPoints.isEmpty()) {
+                return floatArrayOf(0f, neutral, 1f, neutral)
+            }
+            if (controlPoints.size == 1) {
+                val value = controlPoints.first().y
+                cachedDataPoints = FloatArray(256) { value }
+                return floatArrayOf(0f, value, 1f, value)
+            }
+
+            fun periodicPoint(index: Int): PointF {
+                val size = controlPoints.size
+                val cycle = Math.floorDiv(index, size)
+                val point = controlPoints[Math.floorMod(index, size)]
+                return PointF(point.x + cycle, point.y)
+            }
+
+            val sampledPoints = List(CircularCurveSampleCount + 1) { sample ->
+                val x = sample / CircularCurveSampleCount.toFloat()
+                val nextPointIndex = controlPoints
+                    .indexOfFirst { point -> point.x >= x }
+                    .let { index -> if (index == -1) controlPoints.size else index }
+                val point0 = periodicPoint(nextPointIndex - 2)
+                val point1 = periodicPoint(nextPointIndex - 1)
+                val point2 = periodicPoint(nextPointIndex)
+                val point3 = periodicPoint(nextPointIndex + 1)
+                val segmentWidth = (point2.x - point1.x).coerceAtLeast(0.00001f)
+                val t = ((x - point1.x) / segmentWidth).coerceIn(0f, 1f)
+                val tt = t * t
+                val ttt = tt * t
+                val slope1 = (point2.y - point0.y) /
+                        (point2.x - point0.x).coerceAtLeast(0.00001f)
+                val slope2 = (point3.y - point1.y) /
+                        (point3.x - point1.x).coerceAtLeast(0.00001f)
+                val y = (2f * ttt - 3f * tt + 1f) * point1.y +
+                        (ttt - 2f * tt + t) * segmentWidth * slope1 +
+                        (-2f * ttt + 3f * tt) * point2.y +
+                        (ttt - tt) * segmentWidth * slope2
+                PointF(x, y.coerceIn(0f, 1f))
+            }
+
+            cachedDataPoints = sampledPoints.dropLast(1).map { it.y }.toFloatArray()
+            return sampledPoints.flatMap { listOf(it.x, it.y) }.toFloatArray()
+        }
+
+        private fun interpolateCenteredCurve(): FloatArray {
+            val controlPoints = points.fold(mutableListOf<PointF>()) { result, point ->
+                if (result.lastOrNull()?.x == point.x) {
+                    result[result.lastIndex] = point
+                } else {
+                    result += point
+                }
+                result
+            }
+            val neutral = neutralValue ?: 0.5f
+            if (controlPoints.size < 2) {
+                cachedDataPoints = FloatArray(CurveSampleCount) { neutral }
+                return floatArrayOf(0f, neutral, 1f, neutral)
+            }
+
+            fun slope(index: Int): Float {
+                val previous = controlPoints[(index - 1).coerceAtLeast(0)]
+                val next = controlPoints[(index + 1).coerceAtMost(controlPoints.lastIndex)]
+                return (next.y - previous.y) /
+                        (next.x - previous.x).coerceAtLeast(0.00001f)
+            }
+
+            var segmentIndex = 0
+            val sampledPoints = List(CurveSampleCount + 1) { sample ->
+                val x = sample / CurveSampleCount.toFloat()
+                while (
+                    segmentIndex < controlPoints.lastIndex - 1 &&
+                    controlPoints[segmentIndex + 1].x < x
+                ) {
+                    segmentIndex++
+                }
+                val point1 = controlPoints[segmentIndex]
+                val point2 = controlPoints[segmentIndex + 1]
+                val segmentWidth = (point2.x - point1.x).coerceAtLeast(0.00001f)
+                val t = ((x - point1.x) / segmentWidth).coerceIn(0f, 1f)
+                val tt = t * t
+                val ttt = tt * t
+                val y = (2f * ttt - 3f * tt + 1f) * point1.y +
+                        (ttt - 2f * tt + t) * segmentWidth * slope(segmentIndex) +
+                        (-2f * ttt + 3f * tt) * point2.y +
+                        (ttt - tt) * segmentWidth * slope(segmentIndex + 1)
+                PointF(x, y.coerceIn(0f, 1f))
+            }
+
+            cachedDataPoints = sampledPoints.dropLast(1).map { it.y }.toFloatArray()
+            return sampledPoints.flatMap { listOf(it.x, it.y) }.toFloatArray()
+        }
+
         fun addPoint(x: Float, y: Float): Int {
             if (points.size >= MaxPointCount) {
                 return points.indices.minBy { abs(points[it].x - x) }
@@ -629,8 +960,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             val index = points.indexOfFirst { it.x > x }
                 .let { if (it == -1) points.lastIndex else it }
                 .coerceAtLeast(1)
-            val minX = points[index - 1].x + MinimumPointDistance
-            val maxX = points[index].x - MinimumPointDistance
+            val pointSpacing = if (neutralValue == null) MinimumPointDistance else 0f
+            val minX = points[index - 1].x + pointSpacing
+            val maxX = points[index].x - pointSpacing
             if (minX > maxX) {
                 return if (abs(points[index - 1].x - x) <= abs(points[index].x - x)) {
                     index - 1
@@ -651,11 +983,14 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
 
         fun replacePoints(newPoints: List<PointF>) {
-            val normalized = newPoints
+            val sortedPoints = newPoints
                 .map { PointF(it.x.coerceIn(0f, 1f), it.y.coerceIn(0f, 1f)) }
                 .sortedBy { it.x }
-                .distinctBy { it.x }
-                .toMutableList()
+            val normalized = if (neutralValue == null) {
+                sortedPoints.distinctBy { it.x }.toMutableList()
+            } else {
+                sortedPoints.toMutableList()
+            }
             if (normalized.size < 2) return
             normalized.first().x = 0f
             normalized.last().x = 1f
@@ -667,6 +1002,10 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                     normalized.take(MaxPointCount - 1) + normalized.last()
                 }
             )
+            if (neutralValue != null && !circularInput && points.size > 2) {
+                points.first().y = points[1].y
+                points.last().y = points[points.lastIndex - 1].y
+            }
             invalidateCache()
         }
 
@@ -674,12 +1013,36 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             cachedDataPoints = null
         }
 
-        fun copy(): CurvesValue = CurvesValue().also { copy ->
+        fun copy(): CurvesValue = CurvesValue(neutralValue, circularInput).also { copy ->
             copy.replacePoints(points)
         }
 
         val isDefault: Boolean
-            get() = points.all { point -> abs(point.x - point.y) < 0.00001f }
+            get() = points.all { point ->
+                abs(point.y - (neutralValue ?: point.x)) < 0.00001f
+            }
+
+        fun toLut(size: Int = 256): FloatArray {
+            val interpolated = interpolateCurve()
+            if (interpolated.size < 4) return FloatArray(size) { it / (size - 1f) }
+
+            var segment = 0
+            return FloatArray(size) { index ->
+                val x = index / (size - 1f)
+                while (
+                    segment < interpolated.size / 2 - 2 &&
+                    interpolated[(segment + 1) * 2] < x
+                ) {
+                    segment++
+                }
+                val x0 = interpolated[segment * 2]
+                val y0 = interpolated[segment * 2 + 1]
+                val x1 = interpolated[(segment + 1) * 2]
+                val y1 = interpolated[(segment + 1) * 2 + 1]
+                val fraction = if (x1 > x0) ((x - x0) / (x1 - x0)).coerceIn(0f, 1f) else 0f
+                y0 + (y1 - y0) * fraction
+            }
+        }
     }
 
     internal class CurvesToolValue {
@@ -687,13 +1050,73 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         var redCurve: CurvesValue = CurvesValue()
         var greenCurve: CurvesValue = CurvesValue()
         var blueCurve: CurvesValue = CurvesValue()
+        var cyanCurve: CurvesValue = CurvesValue()
+        var magentaCurve: CurvesValue = CurvesValue()
+        var yellowCurve: CurvesValue = CurvesValue()
+        var blackCurve: CurvesValue = CurvesValue()
+        var labLuminanceCurve: CurvesValue = CurvesValue()
+        var labACurve: CurvesValue = CurvesValue()
+        var labBCurve: CurvesValue = CurvesValue()
+        var hueVsSatCurve: CurvesValue = CurvesValue(0.5f, circularInput = true)
+        var hueVsHueCurve: CurvesValue = CurvesValue(0.5f, circularInput = true)
+        var hueVsLumaCurve: CurvesValue = CurvesValue(0.5f, circularInput = true)
+        var lumaVsSatCurve: CurvesValue = CurvesValue(0.5f)
+        var lumaVsHueCurve: CurvesValue = CurvesValue(0.5f)
+        var satVsSatCurve: CurvesValue = CurvesValue(0.5f)
+        var activeEditorType: ImageCurvesEditorType = ImageCurvesEditorType.RGB
         var activeType: Int = CurvesTypeLuminance
 
+        val allCurves: List<CurvesValue>
+            get() = listOf(
+                luminanceCurve,
+                redCurve,
+                greenCurve,
+                blueCurve,
+                cyanCurve,
+                magentaCurve,
+                yellowCurve,
+                blackCurve,
+                labLuminanceCurve,
+                labACurve,
+                labBCurve,
+                hueVsSatCurve,
+                hueVsHueCurve,
+                hueVsLumaCurve,
+                lumaVsSatCurve,
+                lumaVsHueCurve,
+                satVsSatCurve
+            )
+
+        val activeCurveIndex: Int
+            get() = activeEditorType.curveOffset + activeType
+
+        val activeCurve: CurvesValue
+            get() = allCurves[activeCurveIndex]
+
+        fun curvesFor(type: ImageCurvesEditorType): List<CurvesValue> {
+            return allCurves.subList(type.curveOffset, type.curveOffset + type.channelCount)
+        }
+
         fun copy(): CurvesToolValue = CurvesToolValue().also {
-            it.luminanceCurve = luminanceCurve.copy()
-            it.redCurve = redCurve.copy()
-            it.greenCurve = greenCurve.copy()
-            it.blueCurve = blueCurve.copy()
+            val copies = allCurves.map(CurvesValue::copy)
+            it.luminanceCurve = copies[0]
+            it.redCurve = copies[1]
+            it.greenCurve = copies[2]
+            it.blueCurve = copies[3]
+            it.cyanCurve = copies[4]
+            it.magentaCurve = copies[5]
+            it.yellowCurve = copies[6]
+            it.blackCurve = copies[7]
+            it.labLuminanceCurve = copies[8]
+            it.labACurve = copies[9]
+            it.labBCurve = copies[10]
+            it.hueVsSatCurve = copies[11]
+            it.hueVsHueCurve = copies[12]
+            it.hueVsLumaCurve = copies[13]
+            it.lumaVsSatCurve = copies[14]
+            it.lumaVsHueCurve = copies[15]
+            it.satVsSatCurve = copies[16]
+            it.activeEditorType = activeEditorType
             it.activeType = activeType
         }
 
@@ -702,7 +1125,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             const val CurvesTypeRed: Int = 1
             const val CurvesTypeGreen: Int = 2
             const val CurvesTypeBlue: Int = 3
-            const val CurveTypeCount: Int = 4
+            const val CurveCount: Int = 17
         }
     }
 
@@ -711,10 +1134,12 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         private val density = Resources.getSystem().displayMetrics.density
         private const val NoPoint = -1
         private const val MaxPointCount = 16
+        private const val CurveSampleCount = 256
+        private const val CircularCurveSampleCount = CurveSampleCount
         private const val MinimumPointDistance = 0.015f
         private const val ControlPointTouchRadius = 22f
         private const val DoubleTapTimeout = 300L
-        private const val GridAlpha = 0.32f
+        private const val GridAlpha = 0.5f
         private const val DiagonalAlpha = 0.85f
         private const val GestureStateBegan = 1
         private const val GestureStateChanged = 2

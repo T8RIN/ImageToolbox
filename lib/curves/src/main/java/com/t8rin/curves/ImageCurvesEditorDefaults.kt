@@ -36,7 +36,10 @@ object ImageCurvesEditorDefaults {
                 blueCurveColor = Color(-0xcc8805).blend(MaterialTheme.colorScheme.primary),
                 guidelinesColor = Color(-0x66000001).blend(MaterialTheme.colorScheme.primary),
                 defaultCurveColor = Color(-0x66000001).blend(MaterialTheme.colorScheme.primary),
-                editorBackgroundColor = Color.Black.copy(alpha = 0.18f)
+                editorBackgroundColor = Color.Black.copy(alpha = 0.18f),
+                cyanCurveColor = Color(0xFF00BCD4).blend(MaterialTheme.colorScheme.primary),
+                magentaCurveColor = Color(0xFFEC407A).blend(MaterialTheme.colorScheme.primary),
+                yellowCurveColor = Color(0xFFFFC107).blend(MaterialTheme.colorScheme.primary)
             )
         }
 
