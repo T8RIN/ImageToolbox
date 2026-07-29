@@ -23,7 +23,7 @@ jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha24"
+material3 = "1.5.0-alpha25"
 composeVersion = "1.12.0-beta02"
 dataStore = "1.3.0-alpha09"
 appUpdateKtx = "2.1.0"
