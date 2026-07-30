@@ -218,6 +218,17 @@ class CurvesComponent @AssistedInject internal constructor(
         commitHistoryFrom(beforeSnapshot)
     }
 
+    fun resetValues() {
+        finalizePendingHistoryTransaction()
+        val defaultControlPoints = ImageCurvesEditorState.Default.controlPoints
+        if (curvesState.controlPoints == defaultControlPoints) return
+
+        val beforeSnapshot = currentHistorySnapshot()
+        _curvesState.value = curvesState.copy(controlPoints = defaultControlPoints)
+        lastControlPoints = defaultControlPoints
+        commitHistoryFrom(beforeSnapshot)
+    }
+
     fun updateSelectedUri(uri: Uri) {
         if (selectedUri == uri) return
         _selectedUri.value = uri

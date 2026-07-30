@@ -21,13 +21,16 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -38,14 +41,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.curves.ImageCurvesEditor
 import com.t8rin.curves.ImageCurvesEditorLayout
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
@@ -53,18 +61,23 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.curves.presentation.components.CurvesLivePreview
 import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
@@ -84,6 +97,9 @@ fun CurvesContent(component: CurvesComponent) {
     )
 
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
+    var showResetDialog by rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     val isPortrait by isPortraitOrientationAsState()
 
@@ -140,6 +156,15 @@ fun CurvesContent(component: CurvesComponent) {
                     onDismiss = { editSheetData = emptyList() },
                     onNavigate = component.onNavigate
                 )
+                EnhancedIconButton(
+                    enabled = component.bitmap != null,
+                    onClick = { showResetDialog = true }
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.ImageReset,
+                        contentDescription = stringResource(R.string.reset_image)
+                    )
+                }
                 if (isPortrait) {
                     UndoRedoButtons(
                         canUndo = component.canUndo,
@@ -238,6 +263,14 @@ fun CurvesContent(component: CurvesComponent) {
             )
         },
         topAppBarPersistentActions = {
+            CompareButton(
+                visible = component.selectedUri != null,
+                onClick = { showCompareSheet = true }
+            )
+            ZoomButton(
+                visible = component.selectedUri != null,
+                onClick = { showZoomSheet = true }
+            )
             if (component.bitmap == null) TopAppBarEmoji()
         },
         canShowScreenData = component.bitmap != null,
@@ -249,12 +282,55 @@ fun CurvesContent(component: CurvesComponent) {
         }
     )
 
+    ResetDialog(
+        visible = showResetDialog,
+        onDismiss = { showResetDialog = false },
+        onReset = component::resetValues
+    )
+
     val transformations by remember(
         component.imageInfo,
         component.curvesState
     ) {
         derivedStateOf(component::getConversionTransformation)
     }
+
+    CompareSheet(
+        beforeContent = {
+            var aspectRatio by remember(component.selectedUri) {
+                mutableFloatStateOf(1f)
+            }
+            Picture(
+                model = component.selectedUri,
+                modifier = Modifier.aspectRatio(aspectRatio),
+                onSuccess = {
+                    aspectRatio = it.result.image.safeAspectRatio
+                }
+            )
+        },
+        afterContent = {
+            var aspectRatio by remember(component.selectedUri) {
+                mutableFloatStateOf(1f)
+            }
+            Picture(
+                model = component.selectedUri,
+                transformations = transformations,
+                modifier = Modifier.aspectRatio(aspectRatio),
+                onSuccess = {
+                    aspectRatio = it.result.image.safeAspectRatio
+                }
+            )
+        },
+        visible = showCompareSheet,
+        onDismiss = { showCompareSheet = false }
+    )
+
+    ZoomModalSheet(
+        data = component.selectedUri,
+        transformations = transformations,
+        visible = showZoomSheet,
+        onDismiss = { showZoomSheet = false }
+    )
 
     PickImageFromUrisSheet(
         transformations = transformations,

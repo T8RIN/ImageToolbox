@@ -25,6 +25,7 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.curves"
 
 dependencies {
+    implementation(projects.feature.compare)
     implementation(projects.feature.settings)
     implementation(projects.lib.curves)
     implementation(libs.toolbox.gpuimage)
