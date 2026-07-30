@@ -23,6 +23,7 @@ import android.graphics.Bitmap
 import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -64,9 +65,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.compositeOver
@@ -79,6 +82,7 @@ import androidx.compose.ui.input.pointer.changedToDownIgnoreConsumed
 import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.node.ModifierNodeElement
 import androidx.compose.ui.node.PointerInputModifierNode
 import androidx.compose.ui.node.TouchBoundsExpansion
@@ -232,7 +236,7 @@ fun ImageCurvesEditor(
                 Unit
             }
             val onResetActiveCurve = {
-                curvesView?.resetActiveCurve()
+                curvesView?.resetActiveEditorType()
                 Unit
             }
 
@@ -637,16 +641,42 @@ private fun CurveEditorPane(
     val pointsView = remember {
         mutableStateOf<PhotoFilterCurvesControl?>(null)
     }
-    val pointOverflow = with(LocalDensity.current) {
+    val density = LocalDensity.current
+    val layoutDirection = LocalLayoutDirection.current
+    var editorSize by remember {
+        mutableStateOf(IntSize.Zero)
+    }
+    val pointOverflow = with(density) {
         CurvePointTouchExpansion.roundToPx()
     }
+    val borderRadius = remember(shape, editorSize, density, layoutDirection) {
+        if (editorSize == IntSize.Zero) {
+            0f
+        } else {
+            when (
+                val outline = shape.createOutline(
+                    size = Size(editorSize.width.toFloat(), editorSize.height.toFloat()),
+                    layoutDirection = layoutDirection,
+                    density = density
+                )
+            ) {
+                is Outline.Rounded -> outline.roundRect.topLeftCornerRadius.x
+                else -> 0f
+            }
+        }
+    }
+    val borderColor = colors.guidelinesColor
+        .copy(alpha = colors.gridLineAlpha)
+        .toArgb()
 
     Box(
-        modifier = modifier.expandedCurvePointTouchTarget(
-            expansion = pointOverflow,
-            coordinateOffset = pointOverflow,
-            viewProvider = { pointsView.value }
-        )
+        modifier = modifier
+            .onSizeChanged { editorSize = it }
+            .expandedCurvePointTouchTarget(
+                expansion = pointOverflow,
+                coordinateOffset = pointOverflow,
+                viewProvider = { pointsView.value }
+            )
     ) {
         Box(
             modifier = Modifier
@@ -714,6 +744,10 @@ private fun CurveEditorPane(
                         referenceLineAlpha = colors.referenceLineAlpha
                     )
                     view.setActualAreaInset(0f)
+                    view.setBorder(
+                        radius = borderRadius,
+                        color = borderColor
+                    )
                 }
             )
         }
@@ -980,7 +1014,12 @@ private fun CurvesControls(
         Column(
             verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier
+            modifier = modifier.animateContentSize(
+                animationSpec = tween(
+                    durationMillis = 220,
+                    easing = FastOutSlowInEasing
+                )
+            )
         ) {
             onEditorTypeChange?.let { onTypeChange ->
                 EditorTypeButton(
@@ -1004,7 +1043,14 @@ private fun CurvesControls(
             horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
             itemVerticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 220,
+                        easing = FastOutSlowInEasing
+                    )
+                )
         ) {
             onEditorTypeChange?.let { onTypeChange ->
                 EditorTypeButton(
@@ -1147,7 +1193,7 @@ private fun curveChannelColor(
         0 -> colors.cyanCurveColor
         1 -> colors.magentaCurveColor
         2 -> colors.yellowCurveColor
-        else -> colors.defaultCurveColor
+        else -> colors.lumaCurveColor
     }
 
     ImageCurvesEditorType.Lab -> when (channel) {

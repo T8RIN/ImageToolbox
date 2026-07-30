@@ -19,6 +19,7 @@
 
 package com.t8rin.curves.view
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
@@ -32,6 +33,7 @@ import android.graphics.RectF
 import android.graphics.Shader
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.PathInterpolator
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import com.t8rin.curves.ImageCurvesEditorType
@@ -59,7 +61,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var actualAreaInset = 0f
     private val actualArea = Rect()
     private val areaRect = RectF()
+    private val borderRect = RectF()
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val borderPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val paintDash = Paint(Paint.ANTI_ALIAS_FLAG)
     private val paintCurve = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -77,6 +81,18 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private var curveValue: CurvesToolValue
     private var displayedCurveType = value.activeType
     private var displayedEditorType = value.activeEditorType
+    private var previousCurveType = value.activeType
+    private var previousEditorType: ImageCurvesEditorType? = null
+    private var borderRadius = 0f
+    private var contentTransitionProgress = 1f
+    private val contentTransitionAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+        duration = ContentTransitionDuration
+        interpolator = PathInterpolator(0.2f, 0f, 0f, 1f)
+        addUpdateListener { animator ->
+            contentTransitionProgress = animator.animatedValue as Float
+            invalidate()
+        }
+    }
 
     fun updateValue(
         value: CurvesToolValue
@@ -128,8 +144,8 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     val canDeleteSelectedPoint: Boolean
         get() = selectedPointIndex in 1 until activeCurve.points.lastIndex
 
-    val canResetActiveCurve: Boolean
-        get() = !activeCurve.isDefault
+    val canResetActiveEditorType: Boolean
+        get() = curveValue.curvesFor(curveValue.activeEditorType).any { !it.isDefault }
 
     init {
         setWillNotDraw(false)
@@ -142,6 +158,10 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
 
         paint.strokeWidth = dp(0.75f).toFloat()
         paint.style = Paint.Style.STROKE
+
+        borderPaint.color = paint.color
+        borderPaint.strokeWidth = paint.strokeWidth
+        borderPaint.style = Paint.Style.STROKE
 
         paintDash.color = Color(defaultCurveColor).copy(alpha = referenceLineAlpha).toArgb()
         paintDash.strokeWidth = dp(1f).toFloat()
@@ -248,6 +268,12 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         updateActualArea(width, height)
     }
 
+    fun setBorder(radius: Float, color: Int) {
+        borderRadius = radius.coerceAtLeast(0f)
+        borderPaint.color = color
+        invalidate()
+    }
+
     private fun updateActualArea(width: Int, height: Int) {
         actualArea.x = actualAreaInset
         actualArea.y = actualAreaInset
@@ -305,22 +331,32 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
 
     fun setActiveCurveType(type: Int) {
         val safeType = type.coerceIn(0, curveValue.activeEditorType.channelCount - 1)
+        if (displayedCurveType != safeType) {
+            previousEditorType = displayedEditorType
+            previousCurveType = displayedCurveType
+        }
         curveValue.activeType = safeType
         if (displayedCurveType != safeType) {
             displayedCurveType = safeType
             activePointIndex = NoPoint
+            startContentTransition()
             notifyActionAvailability()
         }
         invalidate()
     }
 
     fun setActiveEditorType(type: ImageCurvesEditorType) {
+        if (displayedEditorType != type) {
+            previousEditorType = displayedEditorType
+            previousCurveType = displayedCurveType
+        }
         curveValue.activeEditorType = type
         curveValue.activeType = curveValue.activeType.coerceIn(0, type.channelCount - 1)
         if (displayedEditorType != type) {
             displayedEditorType = type
             displayedCurveType = curveValue.activeType
             activePointIndex = NoPoint
+            startContentTransition()
             notifyActionAvailability()
         }
         invalidate()
@@ -337,14 +373,23 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         }
     }
 
-    fun resetActiveCurve() {
-        if (!canResetActiveCurve) return
+    fun resetActiveEditorType() {
+        if (!canResetActiveEditorType) return
 
-        activeCurve.reset()
-        selectedPointIndex = NoPoint
+        curveValue.curvesFor(curveValue.activeEditorType).forEachIndexed { index, curve ->
+            curve.reset()
+            selectedPointIndices[curveValue.activeEditorType.curveOffset + index] = NoPoint
+        }
+        activePointIndex = NoPoint
         delegate?.valueChanged()
         notifyActionAvailability()
         invalidate()
+    }
+
+    private fun startContentTransition() {
+        contentTransitionAnimator.cancel()
+        contentTransitionProgress = 0f
+        contentTransitionAnimator.start()
     }
 
     fun setDisallowInterceptTouchEvents(disallow: Boolean) {
@@ -625,7 +670,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
     private fun notifyActionAvailability() {
         actionAvailabilityDelegate?.invoke(
             canDeleteSelectedPoint,
-            canResetActiveCurve
+            canResetActiveEditorType
         )
     }
 
@@ -653,48 +698,47 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                 )
             }
 
-            if (curveValue.activeEditorType.centeredCurve) {
-                canvas.drawLine(
-                    actualArea.x,
-                    actualArea.y + actualArea.height / 2f,
-                    actualArea.x + actualArea.width,
-                    actualArea.y + actualArea.height / 2f,
-                    paintDash
-                )
-            } else {
-                canvas.drawLine(
-                    actualArea.x,
-                    actualArea.y + actualArea.height,
-                    actualArea.x + actualArea.width,
-                    actualArea.y,
-                    paintDash
+            val previousReferenceType = previousEditorType?.takeIf { previousType ->
+                contentTransitionProgress < 1f &&
+                        previousType.centeredCurve != curveValue.activeEditorType.centeredCurve
+            }
+            previousReferenceType?.let { previousType ->
+                drawReferenceLine(
+                    canvas = canvas,
+                    editorType = previousType,
+                    alpha = 1f - contentTransitionProgress
                 )
             }
+            drawReferenceLine(
+                canvas = canvas,
+                editorType = curveValue.activeEditorType,
+                alpha = if (previousReferenceType == null) {
+                    1f
+                } else {
+                    contentTransitionProgress
+                }
+            )
+        }
+
+        if (drawEditorContent) {
+            previousEditorType
+                ?.takeIf { contentTransitionProgress < 1f }
+                ?.let { previousType ->
+                    val previousChannel = previousCurveType.coerceIn(
+                        0,
+                        previousType.channelCount - 1
+                    )
+                    drawCurve(
+                        canvas = canvas,
+                        editorType = previousType,
+                        channel = previousChannel,
+                        curve = curveValue.curvesFor(previousType)[previousChannel],
+                        alpha = 1f - contentTransitionProgress
+                    )
+                }
         }
 
         val activeCurvesValue = curveValue.activeCurve
-        paintCurve.color = curveColor(
-            editorType = curveValue.activeEditorType,
-            channel = curveValue.activeType
-        )
-        paintCurve.shader = when (curveValue.activeEditorType) {
-            ImageCurvesEditorType.HueVsSat,
-            ImageCurvesEditorType.HueVsHue,
-            ImageCurvesEditorType.HueVsLuma -> hueCurveShader
-
-            ImageCurvesEditorType.LumaVsSat,
-            ImageCurvesEditorType.LumaVsHue -> luminanceCurveShader
-
-            ImageCurvesEditorType.SatVsSat -> saturationCurveShader
-            ImageCurvesEditorType.Lab -> when (curveValue.activeType) {
-                1 -> labACurveShader
-                2 -> labBCurveShader
-                else -> null
-            }
-
-            else -> null
-        }
-        var points: FloatArray
 
         if (drawEditorContent) {
             if (drawNotActiveCurves) {
@@ -704,7 +748,9 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                     it.first != activeCurvesValue && !it.first.isDefault
                 }.forEach { (curve, color) ->
                     paintNotActiveCurve.color = Color(color).copy(0.7f).toArgb()
-                    points = curve.interpolateCurve()
+                    val originalAlpha = paintNotActiveCurve.alpha
+                    paintNotActiveCurve.alpha = transitionedAlpha(originalAlpha)
+                    val points = curve.interpolateCurve()
                     path.reset()
                     for (a in 0 until points.size / 2) {
                         if (a == 0) {
@@ -721,29 +767,36 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                     }
 
                     canvas.drawPath(path, paintNotActiveCurve)
+                    paintNotActiveCurve.alpha = originalAlpha
                 }
             }
 
-            points = activeCurvesValue.interpolateCurve()
-            path.reset()
-            for (a in 0 until points.size / 2) {
-                if (a == 0) {
-                    path.moveTo(
-                        actualArea.x + points[0] * actualArea.width,
-                        actualArea.y + (1.0f - points[1]) * actualArea.height
-                    )
-                } else {
-                    path.lineTo(
-                        actualArea.x + points[a * 2] * actualArea.width,
-                        actualArea.y + (1.0f - points[a * 2 + 1]) * actualArea.height
-                    )
-                }
-            }
+            drawCurve(
+                canvas = canvas,
+                editorType = curveValue.activeEditorType,
+                channel = curveValue.activeType,
+                curve = activeCurvesValue,
+                alpha = contentTransitionProgress
+            )
+        }
 
-            canvas.drawPath(path, paintCurve)
+        if (drawEditorContent) {
+            val halfStroke = borderPaint.strokeWidth / 2f
+            borderRect.set(areaRect)
+            borderRect.inset(halfStroke, halfStroke)
+            val radius = (borderRadius - halfStroke).coerceAtLeast(0f)
+            canvas.drawRoundRect(borderRect, radius, radius, borderPaint)
         }
 
         if (!drawControlPoints) return
+        paintCurve.color = curveColor(
+            editorType = curveValue.activeEditorType,
+            channel = curveValue.activeType
+        )
+        paintCurve.shader = curveShader(
+            editorType = curveValue.activeEditorType,
+            channel = curveValue.activeType
+        )
         activeCurvesValue.points.forEachIndexed { index, point ->
             if (
                 curveValue.activeEditorType.centeredCurve &&
@@ -755,6 +808,10 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             val y = actualArea.y + (1f - point.y) * actualArea.height
             val isActive = index == activePointIndex || index == selectedPointIndex
             pointPaint.color = pointColor(point.x)
+            val originalPointAlpha = pointPaint.alpha
+            val originalHaloAlpha = pointHaloPaint.alpha
+            pointPaint.alpha = transitionedAlpha(originalPointAlpha)
+            pointHaloPaint.alpha = transitionedAlpha(originalHaloAlpha)
             canvas.drawCircle(
                 x,
                 y,
@@ -771,11 +828,102 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
                 pointPaint.style = Paint.Style.STROKE
                 pointPaint.strokeWidth = dp(1.5f).toFloat()
                 pointPaint.color = AndroidColor.WHITE
+                pointPaint.alpha = transitionedAlpha(AndroidColor.alpha(AndroidColor.WHITE))
                 canvas.drawCircle(x, y, dp(8f).toFloat(), pointPaint)
                 pointPaint.style = Paint.Style.FILL
                 pointPaint.color = paintCurve.color
             }
+            pointPaint.alpha = originalPointAlpha
+            pointHaloPaint.alpha = originalHaloAlpha
         }
+    }
+
+    override fun onDetachedFromWindow() {
+        contentTransitionAnimator.cancel()
+        super.onDetachedFromWindow()
+    }
+
+    private fun transitionedAlpha(alpha: Int): Int {
+        return (alpha * contentTransitionProgress)
+            .toInt()
+            .coerceIn(0, 255)
+    }
+
+    private fun drawReferenceLine(
+        canvas: Canvas,
+        editorType: ImageCurvesEditorType,
+        alpha: Float
+    ) {
+        val originalAlpha = paintDash.alpha
+        paintDash.alpha = (originalAlpha * alpha)
+            .toInt()
+            .coerceIn(0, 255)
+        if (editorType.centeredCurve) {
+            canvas.drawLine(
+                actualArea.x,
+                actualArea.y + actualArea.height / 2f,
+                actualArea.x + actualArea.width,
+                actualArea.y + actualArea.height / 2f,
+                paintDash
+            )
+        } else {
+            canvas.drawLine(
+                actualArea.x,
+                actualArea.y + actualArea.height,
+                actualArea.x + actualArea.width,
+                actualArea.y,
+                paintDash
+            )
+        }
+        paintDash.alpha = originalAlpha
+    }
+
+    private fun drawCurve(
+        canvas: Canvas,
+        editorType: ImageCurvesEditorType,
+        channel: Int,
+        curve: CurvesValue,
+        alpha: Float
+    ) {
+        paintCurve.color = curveColor(editorType, channel)
+        paintCurve.shader = curveShader(editorType, channel)
+
+        val points = curve.interpolateCurve()
+        path.reset()
+        for (index in 0 until points.size / 2) {
+            val x = actualArea.x + points[index * 2] * actualArea.width
+            val y = actualArea.y + (1f - points[index * 2 + 1]) * actualArea.height
+            if (index == 0) path.moveTo(x, y)
+            else path.lineTo(x, y)
+        }
+
+        val originalAlpha = paintCurve.alpha
+        paintCurve.alpha = (originalAlpha * alpha)
+            .toInt()
+            .coerceIn(0, 255)
+        canvas.drawPath(path, paintCurve)
+        paintCurve.alpha = originalAlpha
+    }
+
+    private fun curveShader(
+        editorType: ImageCurvesEditorType,
+        channel: Int
+    ): Shader? = when (editorType) {
+        ImageCurvesEditorType.HueVsSat,
+        ImageCurvesEditorType.HueVsHue,
+        ImageCurvesEditorType.HueVsLuma -> hueCurveShader
+
+        ImageCurvesEditorType.LumaVsSat,
+        ImageCurvesEditorType.LumaVsHue -> luminanceCurveShader
+
+        ImageCurvesEditorType.SatVsSat -> saturationCurveShader
+        ImageCurvesEditorType.Lab -> when (channel) {
+            1 -> labACurveShader
+            2 -> labBCurveShader
+            else -> null
+        }
+
+        else -> null
     }
 
     private fun curveColor(
@@ -793,13 +941,13 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             0 -> cyanCurveColor
             1 -> magentaCurveColor
             2 -> yellowCurveColor
-            else -> AndroidColor.LTGRAY
+            else -> lumaCurveColor
         }
 
         ImageCurvesEditorType.Lab -> when (channel) {
             1 -> magentaCurveColor
             2 -> blueCurveColor
-            else -> AndroidColor.WHITE
+            else -> lumaCurveColor
         }
 
         else -> AndroidColor.WHITE
@@ -826,7 +974,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         ImageCurvesEditorType.Lab -> when (curveValue.activeType) {
             1 -> blendColor(greenCurveColor, magentaCurveColor, position)
             2 -> blendColor(blueCurveColor, yellowCurveColor, position)
-            else -> blendColor(defaultCurveColor, lumaCurveColor, position)
+            else -> lumaCurveColor
         }
 
         else -> paintCurve.color
@@ -1277,6 +1425,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         private const val ControlPointTouchRadius = 22f
         private const val DoubleTapTimeout = 300L
         private const val GridSectionCount = 8
+        private const val ContentTransitionDuration = 150L
         private const val GestureStateBegan = 1
         private const val GestureStateChanged = 2
         private const val GestureStateEnded = 3
