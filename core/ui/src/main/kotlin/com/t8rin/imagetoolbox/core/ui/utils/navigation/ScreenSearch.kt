@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Curves
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Draw
@@ -134,6 +135,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is ResizeAndConvert -> R.string.search_keywords_resize_and_convert
     is WeightResize -> R.string.search_keywords_weight_resize
     is Crop -> R.string.search_keywords_crop
+    is Curves -> R.string.search_keywords_tone_curves
     is Filter -> R.string.search_keywords_filter
     is Draw -> R.string.search_keywords_draw
     is DuplicateFinder -> R.string.search_keywords_duplicate_finder

@@ -44,6 +44,8 @@ import com.t8rin.imagetoolbox.feature.compare.presentation.CompareContent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.CropContent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
+import com.t8rin.imagetoolbox.feature.curves.presentation.CurvesContent
+import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.DeleteExifContent
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 import com.t8rin.imagetoolbox.feature.document_scanner.presentation.DocumentScannerContent
@@ -261,6 +263,11 @@ internal sealed interface NavigationChild {
     class FormatConversion(private val component: FormatConversionComponent) : NavigationChild {
         @Composable
         override fun Content() = FormatConversionContent(component)
+    }
+
+    class Curves(private val component: CurvesComponent) : NavigationChild {
+        @Composable
+        override fun Content() = CurvesContent(component)
     }
 
     class PaletteTools(private val component: PaletteToolsComponent) : NavigationChild {

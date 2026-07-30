@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.Ch
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
+import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
 import com.t8rin.imagetoolbox.feature.document_scanner.presentation.screenLogic.DocumentScannerComponent
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
@@ -99,6 +100,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CropPdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Curves
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DeleteExif
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.DocumentScanner
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Draw
@@ -190,6 +192,7 @@ internal class ChildProvider @Inject constructor(
     private val collageMakerComponentFactory: CollageMakerComponent.Factory,
     private val compareComponentFactory: CompareComponent.Factory,
     private val cropComponentFactory: CropComponent.Factory,
+    private val curvesComponentFactory: CurvesComponent.Factory,
     private val deleteExifComponentFactory: DeleteExifComponent.Factory,
     private val documentScannerComponentFactory: DocumentScannerComponent.Factory,
     private val drawComponentFactory: DrawComponent.Factory,
@@ -395,6 +398,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.FormatConversion -> FormatConversion(
             formatConversionComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.Curves -> Curves(
+            curvesComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,

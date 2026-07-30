@@ -1429,6 +1429,7 @@
     <string name="alignment">Выравнивание</string>
     <string name="saved_to_custom">Сохранено в папке с пользовательским именем</string>
     <string name="tone_curves">Тоновые кривые</string>
+    <string name="tone_curves_sub">Применяйте профессиональные цветовые кривые к одному или нескольким изображениям</string>
     <string name="reset_curves">Сбросить кривые</string>
     <string name="reset_curves_sub">Кривые будут возвращены к значениям по умолчанию</string>
     <string name="line_style">Стиль линии</string>
@@ -3223,6 +3224,7 @@
     <string name="search_keywords_weight_resize">сжать размер вес байты мб КБ уменьшить качество оптимизировать</string>
     <string name="search_keywords_crop">обрезка, обрезка, соотношение сторон обрезки</string>
     <string name="search_keywords_filter">Эффект фильтра Цветокоррекция Настройка маски яркости</string>
+    <string name="search_keywords_tone_curves">тоновые кривые rgb cmyk lab оттенок насыщенность яркость цветокоррекция пакетная обработка</string>
     <string name="search_keywords_draw">нарисовать кисть карандаш аннотировать разметку</string>
     <string name="search_keywords_cipher">шифровать шифровать расшифровать пароль секрет</string>
     <string name="search_keywords_erase_background">удаление фона стереть удалить вырез прозрачный альфа</string>

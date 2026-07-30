@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Curve
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
@@ -107,6 +108,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Curves
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DocumentScanner
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Draw
@@ -172,6 +174,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Cipher -> "Cipher"
     is Compare -> "Compare"
     is Crop -> "Crop"
+    is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
     is Draw -> "Draw"
     is DuplicateFinder -> "Duplicate_Finder"
@@ -267,6 +270,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Cipher -> Icons.Outlined.Encrypted
     is Compare -> Icons.Outlined.Compare
     is Crop -> Icons.Rounded.CropSmall
+    is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
     is Draw -> Icons.Outlined.Draw
     is DuplicateFinder -> Icons.Outlined.ImageSearch
@@ -352,6 +356,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
     is Crop -> Icons.TwoTone.CropSmall
+    is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is DuplicateFinder -> Icons.TwoTone.ImageSearch
@@ -473,6 +478,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     EraseBackground(),
                     MarkupLayers(),
                     AiTools(),
+                    Curves(),
                     CollageMaker(),
                     ImageStitching(),
                     ImageStacking(),
@@ -535,5 +541,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 88 + PdfTools.options.size
+    override val FEATURES_COUNT = 89 + PdfTools.options.size
 }

@@ -138,6 +138,7 @@ internal fun List<Uri>.screenList(
                     type = Screen.Filter.Type.Basic(uris)
                 ),
                 Screen.Draw(uris.firstOrNull()),
+                Screen.Curves(uris),
                 Screen.RecognizeText(
                     Screen.RecognizeText.Type.Extraction(uris.firstOrNull())
                 ),
@@ -213,6 +214,7 @@ internal fun List<Uri>.screenList(
             ).apply {
                 add(Screen.ImageStitching(uris))
                 add(Screen.PdfTools.ImagesToPdf(uris))
+                add(Screen.Curves(uris))
                 if (uris.size == 2) add(Screen.Compare(uris))
                 if (uris.size in 1..20) {
                     add(Screen.CollageMaker(uris))

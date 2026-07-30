@@ -57,6 +57,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -125,6 +126,36 @@ import kotlinx.coroutines.withContext
 enum class ImageCurvesEditorLayout {
     Overlay,
     Separate
+}
+
+@Composable
+fun ImageCurvesPreview(
+    bitmap: Bitmap,
+    state: ImageCurvesEditorState,
+    modifier: Modifier = Modifier,
+    showOriginal: Boolean = false
+) {
+    val context = LocalComponentActivity.current
+    val gpuImage = remember(context, bitmap) {
+        GPUImage(context).apply {
+            setImage(bitmap)
+            setFilter(state.buildFilter())
+        }
+    }
+
+    LaunchedEffect(gpuImage, showOriginal, state) {
+        gpuImage.setFilter(
+            if (showOriginal) GPUImageContrastFilter(1f)
+            else state.buildFilter()
+        )
+    }
+
+    key(bitmap) {
+        GPUImagePreview(
+            gpuImage = gpuImage,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable

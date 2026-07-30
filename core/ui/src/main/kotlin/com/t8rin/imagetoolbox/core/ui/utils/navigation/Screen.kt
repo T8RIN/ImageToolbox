@@ -1105,6 +1105,15 @@ sealed class Screen(
         subtitle = R.string.duplicate_finder_sub
     )
 
+    @Serializable
+    data class Curves(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 72,
+        title = R.string.tone_curves,
+        subtitle = R.string.tone_curves_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

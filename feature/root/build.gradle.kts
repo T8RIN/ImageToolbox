@@ -41,6 +41,7 @@ dependencies {
     implementation(projects.feature.eraseBackground)
     implementation(projects.feature.draw)
     implementation(projects.feature.filters)
+    implementation(projects.feature.curves)
     implementation(projects.feature.imageStitch)
     implementation(projects.feature.pickColor)
     implementation(projects.feature.recognizeText)

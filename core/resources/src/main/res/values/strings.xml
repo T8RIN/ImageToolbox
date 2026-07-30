@@ -2334,6 +2334,7 @@
     <string name="top_hat">Top Hat</string>
     <string name="black_hat">Black Hat</string>
     <string name="tone_curves">Tone Curves</string>
+    <string name="tone_curves_sub">Apply professional color curves to one or multiple images</string>
     <string name="reset_curves">Reset Curves</string>
     <string name="reset_curves_sub">Curves will be rolled back to default value</string>
     <string name="line_style">Line Style</string>
@@ -3360,6 +3361,7 @@
     <string name="search_keywords_weight_resize">compress size weight bytes mb kb reduce quality optimize</string>
     <string name="search_keywords_crop">crop trim cut aspect ratio</string>
     <string name="search_keywords_filter">filter effect color correction adjust lut mask</string>
+    <string name="search_keywords_tone_curves">tone curves rgb cmyk lab hue saturation luma color correction batch</string>
     <string name="search_keywords_draw">draw paint brush pencil annotate markup</string>
     <string name="search_keywords_cipher">cipher encrypt decrypt password secret</string>
     <string name="search_keywords_erase_background">background remover erase remove cutout transparent alpha</string>
