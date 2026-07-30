@@ -127,13 +127,15 @@ sealed interface Quality {
         override val qualityValue: Int = 50,
         @IntRange(from = 0, to = 2)
         val effort: Int = 0,
-        val chromaSubsampling: AvifChromaSubsampling = AvifChromaSubsampling.Auto
+        val chromaSubsampling: AvifChromaSubsampling = AvifChromaSubsampling.Auto,
+        val screenContentCoding: Boolean = false
     ) : Quality
 
     data class Heic(
         @IntRange(from = 0, to = 100)
         override val qualityValue: Int = 100,
-        val chromaSubsampling: HeicChromaSubsampling = HeicChromaSubsampling.Yuv420
+        val chromaSubsampling: HeicChromaSubsampling = HeicChromaSubsampling.Yuv420,
+        val screenContentCoding: Boolean = false
     ) : Quality
 
     data class Vvc(

@@ -3974,6 +3974,9 @@
     <string name="sheet_nested_scroll">Sheet nested scroll</string>
     <string name="sheet_nested_scroll_sub">Allow gestures in sheet content to drag and dismiss the sheet</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
+    <string name="screen_content_coding">Screen content coding</string>
+    <string name="screen_content_coding_sub">Optimizes encoding for screenshots, text, and graphics</string>
+    <string name="screen_content_coding_heic_sub">Optimizes encoding for screenshots, text, and graphics. Most HEVC decoders do not support the RExt SCC extension</string>
     <string name="bit_depth">Bit depth</string>
     <string name="lossless">Lossless</string>
     <string name="bit_depth_value">%1$d-bit</string>

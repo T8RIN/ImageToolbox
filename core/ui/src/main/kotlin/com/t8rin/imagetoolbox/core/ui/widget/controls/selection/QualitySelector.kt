@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.TiffCompressionScheme
 import com.t8rin.imagetoolbox.core.domain.image.model.VvcBitDepth
 import com.t8rin.imagetoolbox.core.domain.image.model.VvcChroma
+import com.t8rin.imagetoolbox.core.domain.image.model.isAv1
 import com.t8rin.imagetoolbox.core.domain.image.model.isJixel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -78,6 +79,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -295,6 +297,15 @@ fun QualitySelector(
                                 inactiveButtonColor = inactiveButtonColor,
                                 activeButtonColor = activeButtonColor
                             )
+                            ScreenContentCodingToggle(
+                                checked = heicQuality?.screenContentCoding == true,
+                                isHeic = true,
+                                onCheckedChange = {
+                                    heicQuality?.copy(screenContentCoding = it)
+                                        ?.coerceIn(actualImageFormat)
+                                        ?.let(onQualityChange)
+                                }
+                            )
                         }
                     }
 
@@ -315,6 +326,19 @@ fun QualitySelector(
                                 inactiveButtonColor = inactiveButtonColor,
                                 activeButtonColor = activeButtonColor
                             )
+                            AnimatedVisibility(
+                                visible = actualImageFormat.isAv1 && (avifQuality?.effort ?: 0) > 0
+                            ) {
+                                ScreenContentCodingToggle(
+                                    checked = avifQuality?.screenContentCoding == true,
+                                    isHeic = false,
+                                    onCheckedChange = {
+                                        avifQuality?.copy(screenContentCoding = it)
+                                            ?.coerceIn(actualImageFormat)
+                                            ?.let(onQualityChange)
+                                    }
+                                )
+                            }
                         }
                     }
 
@@ -634,6 +658,34 @@ private val Quality.Channels.title
         Quality.Channels.RGB -> "RGB"
         Quality.Channels.Monochrome -> stringResource(R.string.monochrome)
     }
+
+@Composable
+private fun ScreenContentCodingToggle(
+    checked: Boolean,
+    isHeic: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    PreferenceRowSwitch(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp),
+        title = stringResource(R.string.screen_content_coding),
+        subtitle = stringResource(
+            if (isHeic) {
+                R.string.screen_content_coding_heic_sub
+            } else {
+                R.string.screen_content_coding_sub
+            }
+        ),
+        checked = checked,
+        containerColor = MaterialTheme.colorScheme.surface,
+        shape = ShapeDefaults.large,
+        autoShadowElevation = 0.dp,
+        applyHorizontalPadding = false,
+        resultModifier = Modifier.padding(16.dp),
+        onClick = onCheckedChange
+    )
+}
 
 private val AvifChromaSubsampling.title: String
     @Composable

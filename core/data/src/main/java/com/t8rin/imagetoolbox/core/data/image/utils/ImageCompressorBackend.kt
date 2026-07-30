@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.compressor.WebpBackend
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.image.model.isAv1
 import com.t8rin.imagetoolbox.core.domain.image.model.isJixel
 import com.t8rin.imagetoolbox.core.domain.image.model.isLossless
 
@@ -95,8 +96,7 @@ internal interface ImageCompressorBackend {
             ImageFormat.Avif.LosslessAv2,
             ImageFormat.Avif.LossyAv2 -> AvifBackend(
                 isLossless = imageFormat.isLossless,
-                isAv1 = imageFormat == ImageFormat.Avif.LosslessAv1 ||
-                        imageFormat == ImageFormat.Avif.LossyAv1
+                isAv1 = imageFormat.isAv1
             )
 
             ImageFormat.Jpeg2000.J2k -> Jpeg2000Backend(isJ2K = true)

@@ -423,5 +423,6 @@ sealed class ImageFormat(
     }
 }
 
+val ImageFormat.isAv1 get() = this == ImageFormat.Avif.LosslessAv1 || this == ImageFormat.Avif.LossyAv1
 val ImageFormat.isLossless get() = this is ImageFormat.LosslessMarker
 val ImageFormat.isJixel get() = "Jixel" in title
