@@ -316,12 +316,96 @@ private class GPUImageRelationCurveFilter(
     curve: CurvesValue
 ) : GPUImageFilter(
     NO_FILTER_VERTEX_SHADER,
-    relationFragmentShader(type, curve)
+    relationFragmentShader(type)
 ) {
+    private val texture = intArrayOf(NoTexture)
+    private val textureData = createTextureData(curve)
+    private var curveTextureLocation = 0
+
+    override fun onInit() {
+        super.onInit()
+        curveTextureLocation = GLES20.glGetUniformLocation(program, "relationCurveTexture")
+
+        GLES20.glActiveTexture(CurveTextureUnit)
+        GLES20.glGenTextures(1, texture, 0)
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0])
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MIN_FILTER,
+            GLES20.GL_LINEAR
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_MAG_FILTER,
+            GLES20.GL_LINEAR
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_S,
+            GLES20.GL_CLAMP_TO_EDGE
+        )
+        GLES20.glTexParameteri(
+            GLES20.GL_TEXTURE_2D,
+            GLES20.GL_TEXTURE_WRAP_T,
+            GLES20.GL_CLAMP_TO_EDGE
+        )
+    }
+
+    override fun onInitialized() {
+        super.onInitialized()
+        runOnDraw {
+            GLES20.glActiveTexture(CurveTextureUnit)
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0])
+            textureData.position(0)
+            GLES20.glTexImage2D(
+                GLES20.GL_TEXTURE_2D,
+                0,
+                GLES20.GL_RGBA,
+                LutSize,
+                1,
+                0,
+                GLES20.GL_RGBA,
+                GLES20.GL_UNSIGNED_BYTE,
+                textureData
+            )
+        }
+    }
+
+    override fun onDrawArraysPre() {
+        if (texture[0] == NoTexture) return
+        GLES20.glActiveTexture(CurveTextureUnit)
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0])
+        GLES20.glUniform1i(curveTextureLocation, CurveTextureIndex)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (texture[0] != NoTexture) {
+            GLES20.glDeleteTextures(1, texture, 0)
+            texture[0] = NoTexture
+        }
+    }
+
+    private fun createTextureData(curve: CurvesValue): ByteBuffer {
+        val values = curve.toLut(LutSize)
+        return ByteBuffer.allocateDirect(LutSize * 4)
+            .order(ByteOrder.nativeOrder())
+            .apply {
+                values.forEach { value ->
+                    val byte = (value.coerceIn(0f, 1f) * 255f)
+                        .roundToInt()
+                        .toByte()
+                    repeat(4) {
+                        put(byte)
+                    }
+                }
+                position(0)
+            }
+    }
+
     companion object {
         private fun relationFragmentShader(
-            type: ImageCurvesEditorType,
-            curve: CurvesValue
+            type: ImageCurvesEditorType
         ): String {
             val inputValue = when (type) {
                 ImageCurvesEditorType.HueVsSat,
@@ -380,50 +464,20 @@ private class GPUImageRelationCurveFilter(
 
                 else -> ""
             }
-            val curveSampling = curveSampling(curve)
             return FRAGMENT_SHADER
                 .replace("INPUT_VALUE", inputValue)
-                .replace("CURVE_LAST_INDEX", "${SampleCount - 1}.0")
-                .replace("CURVE_SAMPLING", curveSampling)
                 .replace("APPLY_CURVE", applyCurve)
         }
 
-        private fun curveSampling(curve: CurvesValue): String {
-            val values = curve.toLut(SampleCount)
-            return buildString {
-                repeat(values.lastIndex) { index ->
-                    append(
-                        if (index == 0) {
-                            "if"
-                        } else {
-                            " else if"
-                        }
-                    )
-                    append(" (position < ${index + 1}.0) {\n")
-                    append(
-                        "    curve = mix(${values[index].glsl()}, " +
-                                "${values[index + 1].glsl()}, "
-                    )
-                    append("position - $index.0);\n")
-                    append("}")
-                }
-                append(" else {\n")
-                append("    curve = ${values.last().glsl()};\n")
-                append("}")
-            }
-        }
-
-        private fun Float.glsl(): String = when {
-            this == 0f -> "0.0"
-            this == toInt().toFloat() -> "${toInt()}.0"
-            else -> toString()
-        }
-
-        private const val SampleCount = 33
+        private const val LutSize = 256
+        private const val NoTexture = -1
+        private const val CurveTextureIndex = 3
+        private const val CurveTextureUnit = GLES20.GL_TEXTURE3
 
         private const val FRAGMENT_SHADER = """
             varying highp vec2 textureCoordinate;
             uniform sampler2D inputImageTexture;
+            uniform sampler2D relationCurveTexture;
 
             highp vec3 hsvToRgb(highp vec3 hsv) {
                 highp vec3 hue = abs(
@@ -462,9 +516,10 @@ private class GPUImageRelationCurveFilter(
             void main() {
                 highp vec4 source = texture2D(inputImageTexture, textureCoordinate);
                 highp vec3 hsv = source.rgb;
-                highp float position = clamp(INPUT_VALUE, 0.0, 1.0) * CURVE_LAST_INDEX;
-                highp float curve;
-                CURVE_SAMPLING
+                highp float curve = texture2D(
+                    relationCurveTexture,
+                    vec2(clamp(INPUT_VALUE, 0.0, 1.0), 0.5)
+                ).r;
                 curve = clamp(curve, 0.0, 1.0);
                 highp float delta = curve - 0.5;
 

@@ -121,13 +121,11 @@ class CurvesComponent @AssistedInject internal constructor(
     }
 
     fun setUris(uris: List<Uri>?) {
-        clearHistory()
-        registerChangesCleared()
         _uris.value = uris
-        _selectedUri.value = uris?.firstOrNull()
-        _bitmap.value = null
-
         val uri = uris?.firstOrNull() ?: return
+        _selectedUri.value = uri
+
+        _isImageLoading.update { true }
         _imageInfo.update { it.copy(originalUri = uri.toString()) }
         imageGetter.getImageAsync(
             uri = uri.toString(),

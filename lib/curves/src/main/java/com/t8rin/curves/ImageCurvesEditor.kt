@@ -226,11 +226,17 @@ fun ImageCurvesEditor(
                 }
             }
 
-            LaunchedEffect(showOriginal, state) {
-                gpuImage.setFilter(
-                    if (showOriginal) GPUImageContrastFilter(1f)
-                    else state.buildFilter()
-                )
+            val hasInternalPreview = layout == ImageCurvesEditorLayout.Overlay ||
+                    showImagePreview
+            val needsInternalFilter = hasInternalPreview || imageObtainingTrigger
+
+            LaunchedEffect(showOriginal, state, needsInternalFilter) {
+                if (needsInternalFilter) {
+                    gpuImage.setFilter(
+                        if (showOriginal) GPUImageContrastFilter(1f)
+                        else state.buildFilter()
+                    )
+                }
             }
 
             LaunchedEffect(imageObtainingTrigger, gpuImage) {
@@ -242,7 +248,9 @@ fun ImageCurvesEditor(
             val applyCurveChange = {
                 val snapshot = state.snapshot()
                 onStateChange(snapshot)
-                gpuImage.setFilter(snapshot.buildFilter())
+                if (hasInternalPreview) {
+                    gpuImage.setFilter(snapshot.buildFilter())
+                }
             }
             val onCurveTypeChange: (Int) -> Unit = { type ->
                 state.curvesToolValue.activeType = type
