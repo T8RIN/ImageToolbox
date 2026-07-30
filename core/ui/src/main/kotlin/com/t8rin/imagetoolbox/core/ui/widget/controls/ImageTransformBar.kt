@@ -178,7 +178,7 @@ fun ImageExtraTransformBar(
                 onClick = onApplyCurves
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.ToneCurve,
+                    imageVector = Icons.Rounded.ToneCurve,
                     contentDescription = stringResource(R.string.tone_curves)
                 )
             }

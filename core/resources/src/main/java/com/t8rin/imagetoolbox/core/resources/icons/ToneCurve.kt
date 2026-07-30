@@ -192,3 +192,36 @@ val Icons.TwoTone.ToneCurve: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         }
     }.build()
 }
+
+val Icons.Rounded.ToneCurve: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.ToneCurve",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(18.001f, 4f)
+            horizontalLineTo(5.999f)
+            curveToRelative(-1.104f, 0f, -1.999f, 0.895f, -1.999f, 1.999f)
+            verticalLineToRelative(12.001f)
+            curveToRelative(0f, 1.104f, 0.895f, 1.999f, 1.999f, 1.999f)
+            horizontalLineToRelative(12.001f)
+            curveToRelative(1.104f, 0f, 1.999f, -0.895f, 1.999f, -1.999f)
+            verticalLineTo(5.999f)
+            curveToRelative(0f, -1.104f, -0.895f, -1.999f, -1.999f, -1.999f)
+            close()
+            moveTo(16.5f, 8.5f)
+            curveToRelative(-2.464f, 0f, -2.96f, 1.378f, -3.624f, 3.814f)
+            curveToRelative(-0.597f, 2.188f, -1.414f, 5.186f, -5.376f, 5.186f)
+            curveToRelative(-0.552f, 0f, -1f, -0.447f, -1f, -1f)
+            reflectiveCurveToRelative(0.448f, -1f, 1f, -1f)
+            curveToRelative(2.326f, 0f, 2.781f, -1.272f, 3.446f, -3.712f)
+            curveToRelative(0.609f, -2.231f, 1.442f, -5.288f, 5.554f, -5.288f)
+            curveToRelative(0.553f, 0f, 1f, 0.448f, 1f, 1f)
+            reflectiveCurveToRelative(-0.447f, 1f, -1f, 1f)
+            close()
+        }
+    }.build()
+}
