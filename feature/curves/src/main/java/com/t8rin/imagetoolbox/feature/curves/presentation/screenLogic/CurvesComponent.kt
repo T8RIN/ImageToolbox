@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
+import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -179,9 +180,9 @@ class CurvesComponent @AssistedInject internal constructor(
         val newControlPoints = state.controlPoints
         if (newControlPoints == lastControlPoints) return
 
-        _curvesState.value = ImageCurvesEditorState(lastControlPoints)
+        _curvesState.value = curvesState.copy(controlPoints = lastControlPoints)
         beginPendingHistoryTransaction()
-        _curvesState.value = state.copy(newControlPoints)
+        _curvesState.value = state.copy(controlPoints = newControlPoints)
         lastControlPoints = newControlPoints
 
         registerChanges()
@@ -248,23 +249,33 @@ class CurvesComponent @AssistedInject internal constructor(
 
     private suspend fun renderFullImage(uri: String): Pair<Bitmap, ImageInfo>? {
         val source = imageGetter.getImage(uri)?.image ?: return null
-        val state = ImageCurvesEditorState(curvesState.controlPoints)
-        val rendered = withContext(defaultDispatcher) {
-            if (state.isDefault()) {
-                source
-            } else {
-                GPUImage(appContext).apply {
-                    setImage(source)
-                    setFilter(GPUImageToneCurveFilter(state))
-                }.bitmapWithFilterApplied
-            }
-        }
+        val rendered = renderCurves(
+            bitmap = source,
+            controlPoints = curvesState.controlPoints
+        )
         val info = imageInfo.copy(
             width = source.width,
             height = source.height,
             originalUri = uri
         )
         return rendered to info
+    }
+
+    private suspend fun renderCurves(
+        bitmap: Bitmap,
+        controlPoints: List<List<Float>>
+    ): Bitmap {
+        val state = ImageCurvesEditorState(controlPoints)
+        return withContext(defaultDispatcher) {
+            if (state.isDefault()) {
+                bitmap
+            } else {
+                GPUImage(appContext).apply {
+                    setImage(bitmap)
+                    setFilter(GPUImageToneCurveFilter(state))
+                }.bitmapWithFilterApplied
+            }
+        }
     }
 
     fun saveBitmaps(oneTimeSaveLocationUri: String?) {
@@ -385,12 +396,24 @@ class CurvesComponent @AssistedInject internal constructor(
     fun getFormatForFilenameSelection(): ImageFormat? =
         imageInfo.imageFormat.takeIf { uris?.size == 1 }
 
-    fun getConversionTransformation() = listOf(
-        imageInfoTransformationFactory(
-            imageInfo = imageInfo,
-            preset = Preset.Original
+    fun getConversionTransformation() = curvesState.controlPoints.let { controlPoints ->
+        listOf(
+            imageInfoTransformationFactory(
+                imageInfo = imageInfo,
+                preset = Preset.Original,
+                transformations = listOf(
+                    GenericTransformation(
+                        key = controlPoints
+                    ) { bitmap: Bitmap ->
+                        renderCurves(
+                            bitmap = bitmap,
+                            controlPoints = controlPoints
+                        )
+                    }
+                )
+            )
         )
-    )
+    }
 
     override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         controlPoints = curvesState.controlPoints,
@@ -403,7 +426,7 @@ class CurvesComponent @AssistedInject internal constructor(
     )
 
     override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
-        _curvesState.value = ImageCurvesEditorState(snapshot.controlPoints)
+        _curvesState.value = curvesState.copy(controlPoints = snapshot.controlPoints)
         lastControlPoints = snapshot.controlPoints
         _imageInfo.update {
             it.copy(

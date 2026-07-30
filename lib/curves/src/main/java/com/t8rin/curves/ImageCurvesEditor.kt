@@ -197,10 +197,10 @@ fun ImageCurvesEditor(
                     setFilter(state.buildFilter())
                 }
             }
-            var activeCurveType by remember(state) {
+            var activeCurveType by remember {
                 mutableIntStateOf(state.curvesToolValue.activeType)
             }
-            var internalEditorType by remember(state) {
+            var internalEditorType by remember {
                 mutableStateOf(state.curvesToolValue.activeEditorType)
             }
             val activeEditorType = curveType ?: internalEditorType

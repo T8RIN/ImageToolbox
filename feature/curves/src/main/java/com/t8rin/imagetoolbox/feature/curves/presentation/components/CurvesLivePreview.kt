@@ -35,6 +35,7 @@ import com.t8rin.curves.ImageCurvesPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 
 @Composable
@@ -76,12 +77,12 @@ internal fun CurvesLivePreview(
                             .aspectRatio(image.safeAspectRatio)
                             .clip(MaterialTheme.shapes.medium)
                             .transparencyChecker()
+                            .shimmer(isLoading)
                     )
                 }
-            }
-            if (isLoading) {
+            } ?: if (isLoading) {
                 EnhancedLoadingIndicator()
-            }
+            } else Unit
         }
     }
 }

@@ -65,7 +65,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
-import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.curves.presentation.components.CurvesLivePreview
 import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
@@ -101,10 +100,9 @@ fun CurvesContent(component: CurvesComponent) {
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.tone_curves),
-                input = component.bitmap,
-                isLoading = component.isImageLoading,
+                input = Unit,
+                isLoading = false,
                 size = null,
-                originalSize = component.selectedUri?.fileSize()
             )
         },
         onGoBack = onBack,
@@ -190,13 +188,13 @@ fun CurvesContent(component: CurvesComponent) {
                     showAsRow = false
                 )
             }
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(16.dp))
             SaveExifWidget(
                 imageFormat = component.imageInfo.imageFormat,
                 checked = component.keepExif,
                 onCheckedChange = component::setKeepExif
             )
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(8.dp))
             ImageFormatSelector(
                 value = component.imageInfo.imageFormat,
                 onValueChange = component::setImageFormat,

@@ -356,7 +356,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
     is Crop -> Icons.TwoTone.CropSmall
-    is Curves -> Icons.Outlined.Curve
+    is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is DuplicateFinder -> Icons.TwoTone.ImageSearch
