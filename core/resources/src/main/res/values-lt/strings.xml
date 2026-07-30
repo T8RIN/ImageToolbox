@@ -4521,4 +4521,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Pirmiausia konvertuokite vieną tipinį RAW failą, patikrinkite jį numatyto dydžio ir naudokite sėkmingus nustatymus likusiai fotografavimo daliai.</string>
     <string name="tone_curves_sub">Taikykite profesionalias spalvų kreives vienam ar keliems vaizdams</string>
     <string name="search_keywords_tone_curves">tonų kreivės rgb cmyk lab atspalvis sodrumas luma spalvos korekcija partija</string>
+    <string name="screen_content_coding">Ekrano turinio kodavimas</string>
+    <string name="screen_content_coding_sub">Optimizuoja ekrano kopijų, teksto ir grafikos kodavimą</string>
+    <string name="screen_content_coding_heic_sub">Optimizuoja ekrano kopijų, teksto ir grafikos kodavimą. Dauguma HEVC dekoderių nepalaiko RExt SCC plėtinio</string>
 </resources>

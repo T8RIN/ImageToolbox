@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Esmalt teisendage üks tüüpiline RAW-fail, kontrollige seda ettenähtud suuruses ja kasutage edukaid sätteid ülejäänud pildistamise ajal.</string>
     <string name="tone_curves_sub">Rakendage ühele või mitmele pildile professionaalseid värvikõveraid</string>
     <string name="search_keywords_tone_curves">toonikõverad rgb cmyk lab varjund küllastus luma värviparandus partii</string>
+    <string name="screen_content_coding">Ekraani sisu kodeerimine</string>
+    <string name="screen_content_coding_sub">Optimeerib ekraanipiltide, teksti ja graafika kodeeringut</string>
+    <string name="screen_content_coding_heic_sub">Optimeerib ekraanipiltide, teksti ja graafika kodeeringut. Enamik HEVC-dekoodereid ei toeta RExt SCC laiendust</string>
 </resources>

@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Önce temsili bir RAW dosyasını dönüştürün, istenen boyutta inceleyin ve başarılı ayarları çekimin geri kalanında yeniden kullanın.</string>
     <string name="tone_curves_sub">Bir veya daha fazla görüntüye profesyonel renk eğrileri uygulayın</string>
     <string name="search_keywords_tone_curves">ton eğrileri rgb cmyk lab renk tonu doygunluğu luma renk düzeltme toplu</string>
+    <string name="screen_content_coding">Ekran içeriği kodlaması</string>
+    <string name="screen_content_coding_sub">Ekran görüntüleri, metin ve grafikler için kodlamayı optimize eder</string>
+    <string name="screen_content_coding_heic_sub">Ekran görüntüleri, metin ve grafikler için kodlamayı optimize eder. Çoğu HEVC kod çözücü RExt SCC uzantısını desteklemez</string>
 </resources>

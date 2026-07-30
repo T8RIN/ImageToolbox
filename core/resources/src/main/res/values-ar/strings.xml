@@ -4523,4 +4523,7 @@
     <string name="help_tip_raw_development_page_3_step_3">قم بتحويل ملف RAW تمثيلي واحد أولاً، ثم افحصه بالحجم المطلوب، ثم أعد استخدام الإعدادات الناجحة لبقية جلسة التصوير.</string>
     <string name="tone_curves_sub">قم بتطبيق منحنيات ألوان احترافية على صورة واحدة أو عدة صور</string>
     <string name="search_keywords_tone_curves">منحنيات النغمة RGB CMYK Lab، تشبع اللون، دفعة تصحيح الألوان</string>
+    <string name="screen_content_coding">ترميز محتوى الشاشة</string>
+    <string name="screen_content_coding_sub">يعمل على تحسين ترميز لقطات الشاشة والنصوص والرسومات</string>
+    <string name="screen_content_coding_heic_sub">يعمل على تحسين ترميز لقطات الشاشة والنصوص والرسومات. لا تدعم معظم أجهزة فك ترميز HEVC امتداد RExt SCC</string>
 </resources>

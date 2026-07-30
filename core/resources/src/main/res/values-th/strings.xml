@@ -4518,4 +4518,7 @@
     <string name="help_tip_raw_development_page_3_step_3">แปลงไฟล์ RAW ตัวแทนหนึ่งไฟล์ก่อน ตรวจสอบตามขนาดที่ต้องการ และใช้การตั้งค่าที่สำเร็จอีกครั้งในช่วงที่เหลือของการถ่ายภาพ</string>
     <string name="tone_curves_sub">ใช้เส้นโค้งสีแบบมืออาชีพกับภาพเดียวหรือหลายภาพ</string>
     <string name="search_keywords_tone_curves">เส้นโค้งโทนสี RGB CMYK Lab ความอิ่มตัวของสี Luma ชุดการแก้ไขสี</string>
+    <string name="screen_content_coding">การเข้ารหัสเนื้อหาหน้าจอ</string>
+    <string name="screen_content_coding_sub">ปรับการเข้ารหัสให้เหมาะสมสำหรับภาพหน้าจอ ข้อความ และกราฟิก</string>
+    <string name="screen_content_coding_heic_sub">ปรับการเข้ารหัสให้เหมาะสมสำหรับภาพหน้าจอ ข้อความ และกราฟิก ตัวถอดรหัส HEVC ส่วนใหญ่ไม่รองรับส่วนขยาย RExt SCC</string>
 </resources>

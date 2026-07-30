@@ -4518,4 +4518,7 @@
     <string name="help_tip_raw_development_page_3_step_3">まず代表的な RAW ファイルを 1 つ変換し、意図したサイズで検査し、残りの撮影で成功した設定を再利用します。</string>
     <string name="tone_curves_sub">プロフェッショナルなカラーカーブを 1 つまたは複数の画像に適用します</string>
     <string name="search_keywords_tone_curves">トーンカーブ rgb cmyk ラボ 色相 彩度 ルミナンス カラーコレクション バッチ</string>
+    <string name="screen_content_coding">画面コンテンツのコーディング</string>
+    <string name="screen_content_coding_sub">スクリーンショット、テキスト、グラフィックのエンコードを最適化します。</string>
+    <string name="screen_content_coding_heic_sub">スクリーンショット、テキスト、グラフィックのエンコードを最適化します。ほとんどの HEVC デコーダは RExt SCC 拡張をサポートしていません</string>
 </resources>

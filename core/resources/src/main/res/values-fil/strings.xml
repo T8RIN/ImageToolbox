@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">I-convert muna ang isang kinatawan na RAW file, siyasatin ito sa nilalayong laki, at muling gamitin ang matagumpay na mga setting para sa natitirang bahagi ng shoot.</string>
     <string name="tone_curves_sub">Ilapat ang mga propesyonal na curve ng kulay sa isa o maraming larawan</string>
     <string name="search_keywords_tone_curves">tone curves rgb cmyk lab hue saturation luma color correction batch</string>
+    <string name="screen_content_coding">Screen content coding</string>
+    <string name="screen_content_coding_sub">Ino-optimize ang pag-encode para sa mga screenshot, text, at graphics</string>
+    <string name="screen_content_coding_heic_sub">Ino-optimize ang pag-encode para sa mga screenshot, text, at graphics. Karamihan sa mga HEVC decoder ay hindi sumusuporta sa RExt SCC extension</string>
 </resources>

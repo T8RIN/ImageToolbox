@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Convertissez d\'abord un fichier RAW représentatif, inspectez-le à la taille prévue et réutilisez les paramètres réussis pour le reste de la prise de vue.</string>
     <string name="tone_curves_sub">Appliquez des courbes de couleurs professionnelles à une ou plusieurs images</string>
     <string name="search_keywords_tone_curves">courbes de tonalité RVB CMJN laboratoire teinte saturation luma correction des couleurs lot</string>
+    <string name="screen_content_coding">Codage du contenu de l\'écran</string>
+    <string name="screen_content_coding_sub">Optimise l\'encodage pour les captures d\'écran, le texte et les graphiques</string>
+    <string name="screen_content_coding_heic_sub">Optimise l\'encodage des captures d\'écran, du texte et des graphiques. La plupart des décodeurs HEVC ne prennent pas en charge l\'extension RExt SCC</string>
 </resources>

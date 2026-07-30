@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Muunna ensin yksi edustava RAW-tiedosto, tarkasta se aiotussa koossa ja käytä onnistuneita asetuksia uudelleen loppukuvauksen aikana.</string>
     <string name="tone_curves_sub">Käytä ammattimaisia ​​värikäyriä yhteen tai useisiin kuviin</string>
     <string name="search_keywords_tone_curves">sävykäyrät rgb cmyk lab sävy kylläisyys luma värin korjaus erä</string>
+    <string name="screen_content_coding">Näytön sisällön koodaus</string>
+    <string name="screen_content_coding_sub">Optimoi kuvakaappausten, tekstin ja grafiikan koodauksen</string>
+    <string name="screen_content_coding_heic_sub">Optimoi kuvakaappausten, tekstin ja grafiikan koodauksen. Useimmat HEVC-dekooderit eivät tue RExt SCC -laajennusta</string>
 </resources>

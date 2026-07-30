@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Алдымен бір өкіл RAW файлын түрлендіріңіз, оны белгіленген өлшемде тексеріңіз және түсірудің қалған бөлігі үшін сәтті параметрлерді қайта пайдаланыңыз.</string>
     <string name="tone_curves_sub">Бір немесе бірнеше кескінге кәсіби түсті қисықтарды қолданыңыз</string>
     <string name="search_keywords_tone_curves">тон қисықтары rgb cmyk зертханалық реңк қанықтығы luma түсті түзету партиясы</string>
+    <string name="screen_content_coding">Экран мазмұнын кодтау</string>
+    <string name="screen_content_coding_sub">Скриншоттар, мәтін және графика үшін кодтауды оңтайландырады</string>
+    <string name="screen_content_coding_heic_sub">Скриншоттар, мәтін және графика үшін кодтауды оңтайландырады. Көптеген HEVC декодерлері Rext SCC кеңейтімін қолдамайды</string>
 </resources>

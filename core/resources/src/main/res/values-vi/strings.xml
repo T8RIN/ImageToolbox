@@ -4518,4 +4518,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Trước tiên, hãy chuyển đổi một tệp RAW đại diện, kiểm tra nó ở kích thước mong muốn và sử dụng lại các cài đặt thành công cho phần còn lại của quá trình chụp.</string>
     <string name="tone_curves_sub">Áp dụng các đường cong màu chuyên nghiệp cho một hoặc nhiều hình ảnh</string>
     <string name="search_keywords_tone_curves">đường cong giai điệu rgb cmyk lab màu sắc độ bão hòa luma chỉnh màu hàng loạt</string>
+    <string name="screen_content_coding">Mã hóa nội dung màn hình</string>
+    <string name="screen_content_coding_sub">Tối ưu hóa mã hóa cho ảnh chụp màn hình, văn bản và đồ họa</string>
+    <string name="screen_content_coding_heic_sub">Tối ưu hóa mã hóa cho ảnh chụp màn hình, văn bản và đồ họa. Hầu hết các bộ giải mã HEVC không hỗ trợ tiện ích mở rộng RExt SCC</string>
 </resources>

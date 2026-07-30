@@ -4520,4 +4520,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Convertiți mai întâi un fișier RAW reprezentativ, inspectați-l la dimensiunea dorită și reutilizați setările de succes pentru restul filmării.</string>
     <string name="tone_curves_sub">Aplicați curbe de culoare profesionale uneia sau mai multor imagini</string>
     <string name="search_keywords_tone_curves">curbe de ton rgb cmyk lab nuanță saturație luma corecție a culorii lot</string>
+    <string name="screen_content_coding">Codarea conținutului ecranului</string>
+    <string name="screen_content_coding_sub">Optimizează codificarea pentru capturi de ecran, text și grafică</string>
+    <string name="screen_content_coding_heic_sub">Optimizează codificarea pentru capturi de ecran, text și grafică. Majoritatea decodoarelor HEVC nu acceptă extensia RExt SCC</string>
 </resources>

@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Convertiu primer un fitxer RAW representatiu, inspeccioneu-lo a la mida prevista i reutilitzeu la configuració correcta per a la resta de la sessió.</string>
     <string name="tone_curves_sub">Apliqueu corbes de color professionals a una o diverses imatges</string>
     <string name="search_keywords_tone_curves">corbes de to rgb cmyk lab to saturació luma correcció de color lot</string>
+    <string name="screen_content_coding">Codificació del contingut de la pantalla</string>
+    <string name="screen_content_coding_sub">Optimitza la codificació per a captures de pantalla, text i gràfics</string>
+    <string name="screen_content_coding_heic_sub">Optimitza la codificació per a captures de pantalla, text i gràfics. La majoria de descodificadors HEVC no admeten l\'extensió RExt SCC</string>
 </resources>

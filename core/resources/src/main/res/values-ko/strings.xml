@@ -4518,4 +4518,7 @@
     <string name="help_tip_raw_development_page_3_step_3">하나의 대표 RAW 파일을 먼저 변환하고, 의도한 크기로 검사한 후, 나머지 촬영에서 성공적인 설정을 재사용합니다.</string>
     <string name="tone_curves_sub">하나 또는 여러 이미지에 전문적인 색상 곡선 적용</string>
     <string name="search_keywords_tone_curves">톤 곡선 rgb cmyk 랩 색조 채도 루마 색상 보정 배치</string>
+    <string name="screen_content_coding">화면 내용 코딩</string>
+    <string name="screen_content_coding_sub">스크린샷, 텍스트 및 그래픽에 대한 인코딩을 최적화합니다.</string>
+    <string name="screen_content_coding_heic_sub">스크린샷, 텍스트 및 그래픽에 대한 인코딩을 최적화합니다. 대부분의 HEVC 디코더는 RExt SCC 확장을 지원하지 않습니다.</string>
 </resources>
