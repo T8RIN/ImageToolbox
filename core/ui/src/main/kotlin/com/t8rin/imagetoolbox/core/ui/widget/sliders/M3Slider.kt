@@ -126,8 +126,8 @@ fun M3RangeSlider(
 ) {
     val settingsState = LocalSettingsState.current
     RangeSlider(
-        startInteractionSource = startInteractionSource,
-        endInteractionSource = endInteractionSource,
+        startThumbInteractionSource = startInteractionSource,
+        endThumbInteractionSource = endInteractionSource,
         enabled = enabled,
         modifier = modifier
             .then(

@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.image.utils.compressor
 import android.graphics.Bitmap
 import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.HeifQualityArg
+import com.radzivon.bartoshyk.avif.coder.HevcEncodingOptions
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
 import com.t8rin.imagetoolbox.core.domain.image.model.HeicChromaSubsampling
@@ -40,13 +41,15 @@ internal data class HeicBackend(
 
         return Coder().encodeHeic(
             bitmap = image,
-            quality = HeifQualityArg.Quality(heicQuality.qualityValue),
-            preciseMode = if (isLossless) {
-                PreciseMode.LOSSLESS
-            } else {
-                PreciseMode.LOSSY
-            },
-            chromaSubsampling = heicQuality.chromaSubsampling.toBackend()
+            options = HevcEncodingOptions(
+                quality = HeifQualityArg.Quality(heicQuality.qualityValue),
+                preciseMode = if (isLossless) {
+                    PreciseMode.LOSSLESS
+                } else {
+                    PreciseMode.LOSSY
+                },
+                chromaSubsampling = heicQuality.chromaSubsampling.toBackend()
+            )
         )
     }
 

@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.image.utils.compressor
 import android.graphics.Bitmap
 import com.radzivon.bartoshyk.avif.coder.AvKind
 import com.radzivon.bartoshyk.avif.coder.AvSpeed
+import com.radzivon.bartoshyk.avif.coder.AvifEncodingOptions
 import com.radzivon.bartoshyk.avif.coder.Coder
 import com.radzivon.bartoshyk.avif.coder.PreciseMode
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
@@ -40,21 +41,23 @@ internal data class AvifBackend(
 
         return Coder().encodeAvif(
             bitmap = image,
-            quality = avifQuality.qualityValue,
-            preciseMode = if (isLossless) {
-                PreciseMode.LOSSLESS
-            } else {
-                PreciseMode.LOSSY
-            },
-            avifChromaSubsampling = avifQuality.chromaSubsampling.toBackend(),
-            avKind = if (isAv1) {
-                AvKind.AV1
-            } else {
-                AvKind.AV2
-            },
-            speed = AvSpeed.entries.firstOrNull {
-                it.ordinal == (3 - avifQuality.effort)
-            } ?: AvSpeed.FAST
+            options = AvifEncodingOptions(
+                quality = avifQuality.qualityValue,
+                preciseMode = if (isLossless) {
+                    PreciseMode.LOSSLESS
+                } else {
+                    PreciseMode.LOSSY
+                },
+                chromaSubsampling = avifQuality.chromaSubsampling.toBackend(),
+                avKind = if (isAv1) {
+                    AvKind.AV1
+                } else {
+                    AvKind.AV2
+                },
+                speed = AvSpeed.entries.firstOrNull {
+                    it.ordinal == (3 - avifQuality.effort)
+                } ?: AvSpeed.FAST
+            )
         )
     }
 
