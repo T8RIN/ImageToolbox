@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3358,7 +3356,7 @@
     <string name="fbm_sc_noise">超导噪声</string>
     <string name="recent">最近的</string>
     <string name="no_recent_filters">还没有最近使用过的过滤器</string>
-    <string name="search_keywords_texture_generation">纹理生成器 拉丝金属 焦散 蜂窝棋盘 大理石 等离子被子 木砖 迷彩 细胞云 裂缝 织物 叶子 蜂窝 冰 熔岩 星云 纸 铁锈 沙子 烟 石头 地形 地形 水波纹</string>
+    <string name="search_keywords_texture_generation">纹理生成器 拉丝金属 焦散 细胞纹理 棋盘格 大理石 等离子 绗缝 木材 砖块 迷彩 单元格 云噪波 裂纹 织物 植被 蜂窝 冰 熔岩 星云 纸张 铁锈 沙土 烟雾 岩石 地形 高程地貌 水波纹</string>
     <string name="texture_brick">砖</string>
     <string name="texture_camouflage">伪装</string>
     <string name="texture_cell">细胞</string>
@@ -4464,7 +4462,7 @@
     <string name="help_tip_gmic_filters_title">探索 G\'MIC 过滤器</string>
     <string name="help_tip_gmic_filters_subtitle">将大型效果库转变为精心编辑，从微妙的清理到大胆的风格化</string>
     <string name="help_tip_gmic_filters_page_title">从图像的工作开始</string>
-    <string name="help_tip_gmic_filters_description">G’MIC 滤镜是一​​个创意和技术工具箱，而不是单一的外观。有些恢复局部对比度或细节，而另一些则构建马赛克、胶片损坏、线条艺术、投影和绘画变换。按意图进行选择使库更容易探索，并有助于防止隐藏图像中重要部分的效果。</string>
+    <string name="help_tip_gmic_filters_description">G’MIC 滤镜是一个创意和技术工具箱，而不是单一的外观。有些恢复局部对比度或细节，而另一些则构建马赛克、胶片损坏、线条艺术、投影和绘画变换。按意图进行选择使库更容易探索，并有助于防止隐藏图像中重要部分的效果。</string>
     <string name="help_tip_gmic_filters_step_1">当照片需要细化时，使用细节、对比度或清理效果；当您想要可见的变换时，请选择艺术、变形或故障效果。</string>
     <string name="help_tip_gmic_filters_step_2">从具有清晰主题和足够分辨率的副本开始，因为精美的图案和小文本是重效果可能压倒的第一个细节。</string>
     <string name="help_tip_gmic_filters_step_3">在深度调优之前预览几个相关的滤波器；良好的起始效果通常会让您通过较少的极端设置更接近目标。</string>
@@ -4517,5 +4515,5 @@
     <string name="help_tip_raw_development_page_3_step_2">当全分辨率处理没有带来明显好处时，使用半尺寸输出进行快速共享、预览或小型社交帖子。</string>
     <string name="help_tip_raw_development_page_3_step_3">首先转换一个具有代表性的 RAW 文件，以预期的尺寸检查它，然后在其余的拍摄中重复使用成功的设置。</string>
     <string name="tone_curves_sub">将专业的色彩曲线应用于一张或多张图像</string>
-    <string name="search_keywords_tone_curves">色调曲线 RGB cmyk Lab 色调 饱和度 Luma 颜色校正批次</string>
+    <string name="search_keywords_tone_curves">影调 曲线 RGB CMYK Lab 色相 饱和度 亮度 色彩校正 批量</string>
 </resources>
