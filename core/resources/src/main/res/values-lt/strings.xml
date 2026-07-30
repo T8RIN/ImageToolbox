@@ -4519,4 +4519,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Naudokite aukštesnės kokybės demozinį nustatymą detaliems kraštovaizdžiams, žalumynams, audiniams ar vaizdams, kurie vėliau gali būti apkarpyti.</string>
     <string name="help_tip_raw_development_page_3_step_2">Naudokite perpus mažesnę išvestį, kad galėtumėte greitai bendrinti, peržiūrėti ar nedidelius socialinius įrašus, kai visos raiškos apdorojimas neduoda jokios matomos naudos.</string>
     <string name="help_tip_raw_development_page_3_step_3">Pirmiausia konvertuokite vieną tipinį RAW failą, patikrinkite jį numatyto dydžio ir naudokite sėkmingus nustatymus likusiai fotografavimo daliai.</string>
+    <string name="tone_curves_sub">Taikykite profesionalias spalvų kreives vienam ar keliems vaizdams</string>
+    <string name="search_keywords_tone_curves">tonų kreivės rgb cmyk lab atspalvis sodrumas luma spalvos korekcija partija</string>
 </resources>

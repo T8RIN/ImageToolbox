@@ -4519,4 +4519,6 @@
     <string name="help_tip_raw_development_page_3_step_1">השתמש בהגדרה דמוזאית באיכות גבוהה יותר עבור נופים מפורטים, עלווה, בד או תמונות שעשויות להיחתך מאוחר יותר.</string>
     <string name="help_tip_raw_development_page_3_step_2">השתמש בפלט בגודל חצי לשיתוף מהיר, תצוגות מקדימות או פוסטים חברתיים קטנים כאשר עיבוד ברזולוציה מלאה אינו מוסיף שום תועלת גלויה.</string>
     <string name="help_tip_raw_development_page_3_step_3">המר תחילה קובץ RAW מייצג אחד, בדוק אותו בגודל המיועד, ועשה שימוש חוזר בהגדרות המוצלחות להמשך הצילום.</string>
+    <string name="tone_curves_sub">החל עקומות צבע מקצועיות על תמונה אחת או מרובות</string>
+    <string name="search_keywords_tone_curves">עקומות טון rgb cmyk מעבדה גוון רוויה לומה אצווה תיקון צבע</string>
 </resources>

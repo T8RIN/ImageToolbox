@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Gunakan pengaturan demosaik berkualitas lebih tinggi untuk detail lanskap, dedaunan, kain, atau gambar yang mungkin dipotong nanti.</string>
     <string name="help_tip_raw_development_page_3_step_2">Gunakan output setengah ukuran untuk berbagi cepat, pratinjau, atau postingan sosial kecil ketika pemrosesan resolusi penuh tidak memberikan manfaat yang terlihat.</string>
     <string name="help_tip_raw_development_page_3_step_3">Konversikan satu file RAW representatif terlebih dahulu, periksa pada ukuran yang diinginkan, dan gunakan kembali pengaturan yang berhasil untuk sisa pengambilan gambar.</string>
+    <string name="tone_curves_sub">Terapkan kurva warna profesional ke satu atau beberapa gambar</string>
+    <string name="search_keywords_tone_curves">kurva nada rgb cmyk lab rona saturasi luma batch koreksi warna</string>
 </resources>

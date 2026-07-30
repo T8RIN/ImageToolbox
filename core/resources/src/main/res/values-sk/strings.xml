@@ -4519,4 +4519,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Pre detailné krajiny, lístie, látky alebo obrázky, ktoré môžu byť neskôr orezané, použite nastavenie demomozaiky vyššej kvality.</string>
     <string name="help_tip_raw_development_page_3_step_2">Použite výstup polovičnej veľkosti na rýchle zdieľanie, ukážky alebo malé sociálne príspevky, keď spracovanie v plnom rozlíšení neprináša žiadne viditeľné výhody.</string>
     <string name="help_tip_raw_development_page_3_step_3">Najprv skonvertujte jeden reprezentatívny súbor RAW, skontrolujte ho v zamýšľanej veľkosti a znova použite úspešné nastavenia pre zvyšok snímania.</string>
+    <string name="tone_curves_sub">Aplikujte profesionálne farebné krivky na jeden alebo viacero obrázkov</string>
+    <string name="search_keywords_tone_curves">tónové krivky rgb cmyk lab sýtosť odtieňa luma korekcia farieb šarže</string>
 </resources>

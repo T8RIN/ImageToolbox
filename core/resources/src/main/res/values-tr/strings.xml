@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Ayrıntılı manzaralar, bitki örtüsü, kumaş veya daha sonra kırpılabilecek görüntüler için daha yüksek kaliteli bir demozaik ayar kullanın.</string>
     <string name="help_tip_raw_development_page_3_step_2">Tam çözünürlüklü işlemenin görünür bir fayda sağlamadığı durumlarda hızlı paylaşım, önizlemeler veya küçük sosyal paylaşımlar için yarım boyutlu çıktıyı kullanın.</string>
     <string name="help_tip_raw_development_page_3_step_3">Önce temsili bir RAW dosyasını dönüştürün, istenen boyutta inceleyin ve başarılı ayarları çekimin geri kalanında yeniden kullanın.</string>
+    <string name="tone_curves_sub">Bir veya daha fazla görüntüye profesyonel renk eğrileri uygulayın</string>
+    <string name="search_keywords_tone_curves">ton eğrileri rgb cmyk lab renk tonu doygunluğu luma renk düzeltme toplu</string>
 </resources>

@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Sử dụng cài đặt demosaic chất lượng cao hơn cho phong cảnh, tán lá, vải hoặc hình ảnh chi tiết có thể bị cắt sau này.</string>
     <string name="help_tip_raw_development_page_3_step_2">Sử dụng đầu ra có kích thước bằng một nửa để chia sẻ nhanh, xem trước hoặc các bài đăng nhỏ trên mạng xã hội khi quá trình xử lý ở độ phân giải đầy đủ không mang lại lợi ích rõ ràng nào.</string>
     <string name="help_tip_raw_development_page_3_step_3">Trước tiên, hãy chuyển đổi một tệp RAW đại diện, kiểm tra nó ở kích thước mong muốn và sử dụng lại các cài đặt thành công cho phần còn lại của quá trình chụp.</string>
+    <string name="tone_curves_sub">Áp dụng các đường cong màu chuyên nghiệp cho một hoặc nhiều hình ảnh</string>
+    <string name="search_keywords_tone_curves">đường cong giai điệu rgb cmyk lab màu sắc độ bão hòa luma chỉnh màu hàng loạt</string>
 </resources>

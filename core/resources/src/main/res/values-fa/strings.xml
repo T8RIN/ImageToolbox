@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">برای مناظر دقیق، شاخ و برگ، پارچه یا تصاویری که ممکن است بعداً برش داده شوند، از یک تنظیم دموزائیک با کیفیت بالاتر استفاده کنید.</string>
     <string name="help_tip_raw_development_page_3_step_2">از خروجی نیم‌اندازه برای اشتراک‌گذاری سریع، پیش‌نمایش یا پست‌های اجتماعی کوچک استفاده کنید، زمانی که پردازش با وضوح کامل هیچ مزیت قابل مشاهده‌ای اضافه نمی‌کند.</string>
     <string name="help_tip_raw_development_page_3_step_3">ابتدا یک فایل RAW نماینده را تبدیل کنید، آن را در اندازه مورد نظر بررسی کنید و از تنظیمات موفق برای بقیه عکسبرداری مجدد استفاده کنید.</string>
+    <string name="tone_curves_sub">منحنی های رنگی حرفه ای را روی یک یا چند تصویر اعمال کنید</string>
+    <string name="search_keywords_tone_curves">منحنی های تن rgb cmyk آزمایشگاهی اشباع رنگ luma دسته اصلاح رنگ</string>
 </resources>

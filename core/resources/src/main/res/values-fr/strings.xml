@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Utilisez un paramètre de dématriçage de meilleure qualité pour les paysages détaillés, le feuillage, les tissus ou les images qui pourront être recadrées ultérieurement.</string>
     <string name="help_tip_raw_development_page_3_step_2">Utilisez une sortie demi-taille pour un partage rapide, des aperçus ou de petites publications sur les réseaux sociaux lorsque le traitement en pleine résolution n\'apporte aucun avantage visible.</string>
     <string name="help_tip_raw_development_page_3_step_3">Convertissez d\'abord un fichier RAW représentatif, inspectez-le à la taille prévue et réutilisez les paramètres réussis pour le reste de la prise de vue.</string>
+    <string name="tone_curves_sub">Appliquez des courbes de couleurs professionnelles à une ou plusieurs images</string>
+    <string name="search_keywords_tone_curves">courbes de tonalité RVB CMJN laboratoire teinte saturation luma correction des couleurs lot</string>
 </resources>

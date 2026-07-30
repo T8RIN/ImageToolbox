@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Utilitzeu una configuració demosaica de millor qualitat per a paisatges detallats, fullatge, teixits o imatges que es puguin retallar més tard.</string>
     <string name="help_tip_raw_development_page_3_step_2">Utilitzeu la sortida de mitja mida per compartir ràpidament, visualitzar les previsualitzacions o petites publicacions socials quan el processament de resolució completa no afegeix cap benefici visible.</string>
     <string name="help_tip_raw_development_page_3_step_3">Convertiu primer un fitxer RAW representatiu, inspeccioneu-lo a la mida prevista i reutilitzeu la configuració correcta per a la resta de la sessió.</string>
+    <string name="tone_curves_sub">Apliqueu corbes de color professionals a una o diverses imatges</string>
+    <string name="search_keywords_tone_curves">corbes de to rgb cmyk lab to saturació luma correcció de color lot</string>
 </resources>

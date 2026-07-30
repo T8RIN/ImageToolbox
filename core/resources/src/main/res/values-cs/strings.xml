@@ -4519,4 +4519,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Použijte kvalitnější demosaické nastavení pro detailní krajiny, listí, látku nebo obrázky, které mohou být později oříznuty.</string>
     <string name="help_tip_raw_development_page_3_step_2">Použijte výstup poloviční velikosti pro rychlé sdílení, náhledy nebo malé sociální příspěvky, když zpracování v plném rozlišení nepřináší žádné viditelné výhody.</string>
     <string name="help_tip_raw_development_page_3_step_3">Nejprve převeďte jeden reprezentativní soubor RAW, zkontrolujte jej v zamýšlené velikosti a znovu použijte úspěšná nastavení pro zbytek fotografování.</string>
+    <string name="tone_curves_sub">Aplikujte profesionální barevné křivky na jeden nebo více obrázků</string>
+    <string name="search_keywords_tone_curves">tónové křivky rgb cmyk laboratoř odstín sytost luma korekce barev šarže</string>
 </resources>

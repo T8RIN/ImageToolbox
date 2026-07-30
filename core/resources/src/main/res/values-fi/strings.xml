@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Käytä laadukkaampaa demosaiikkiasetusta yksityiskohtaisille maisemille, lehdille, kankaille tai kuville, joita voidaan rajata myöhemmin.</string>
     <string name="help_tip_raw_development_page_3_step_2">Käytä puolikokoista tulostetta nopeaan jakamiseen, esikatseluun tai pieniin sosiaalisiin julkaisuihin, kun täyden resoluution käsittely ei tuota näkyvää hyötyä.</string>
     <string name="help_tip_raw_development_page_3_step_3">Muunna ensin yksi edustava RAW-tiedosto, tarkasta se aiotussa koossa ja käytä onnistuneita asetuksia uudelleen loppukuvauksen aikana.</string>
+    <string name="tone_curves_sub">Käytä ammattimaisia ​​värikäyriä yhteen tai useisiin kuviin</string>
+    <string name="search_keywords_tone_curves">sävykäyrät rgb cmyk lab sävy kylläisyys luma värin korjaus erä</string>
 </resources>

@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">나중에 잘릴 수 있는 자세한 풍경, 나뭇잎, 직물 또는 이미지에는 고품질 디모자이크 설정을 사용하세요.</string>
     <string name="help_tip_raw_development_page_3_step_2">전체 해상도 처리로 눈에 띄는 이점이 없는 경우 빠른 공유, 미리 보기 또는 작은 소셜 게시물을 위해 절반 크기 출력을 사용하십시오.</string>
     <string name="help_tip_raw_development_page_3_step_3">하나의 대표 RAW 파일을 먼저 변환하고, 의도한 크기로 검사한 후, 나머지 촬영에서 성공적인 설정을 재사용합니다.</string>
+    <string name="tone_curves_sub">하나 또는 여러 이미지에 전문적인 색상 곡선 적용</string>
+    <string name="search_keywords_tone_curves">톤 곡선 rgb cmyk 랩 색조 채도 루마 색상 보정 배치</string>
 </resources>

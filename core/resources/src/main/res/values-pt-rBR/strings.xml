@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Use uma configuração de mosaico de qualidade superior para paisagens detalhadas, folhagens, tecidos ou imagens que possam ser cortadas posteriormente.</string>
     <string name="help_tip_raw_development_page_3_step_2">Use saída com metade do tamanho para compartilhamento rápido, visualizações ou pequenas postagens sociais quando o processamento em resolução total não agrega nenhum benefício visível.</string>
     <string name="help_tip_raw_development_page_3_step_3">Converta primeiro um arquivo RAW representativo, inspecione-o no tamanho pretendido e reutilize as configurações bem-sucedidas para o restante da filmagem.</string>
+    <string name="tone_curves_sub">Aplique curvas de cores profissionais a uma ou várias imagens</string>
+    <string name="search_keywords_tone_curves">curvas de tom rgb cmyk laboratório matiz saturação luma lote de correção de cor</string>
 </resources>

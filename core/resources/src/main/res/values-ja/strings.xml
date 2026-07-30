@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">後でトリミングされる可能性のある詳細な風景、葉、布地、または画像には、高品質のデモザイク設定を使用してください。</string>
     <string name="help_tip_raw_development_page_3_step_2">フル解像度の処理では目に見える利点が得られない場合、クイック共有、プレビュー、または小さなソーシャル投稿にはハーフサイズの出力を使用してください。</string>
     <string name="help_tip_raw_development_page_3_step_3">まず代表的な RAW ファイルを 1 つ変換し、意図したサイズで検査し、残りの撮影で成功した設定を再利用します。</string>
+    <string name="tone_curves_sub">プロフェッショナルなカラーカーブを 1 つまたは複数の画像に適用します</string>
+    <string name="search_keywords_tone_curves">トーンカーブ rgb cmyk ラボ 色相 彩度 ルミナンス カラーコレクション バッチ</string>
 </resources>

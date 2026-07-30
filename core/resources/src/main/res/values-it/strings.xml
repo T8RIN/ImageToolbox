@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Utilizza un\'impostazione demosaica di qualità superiore per paesaggi, fogliame, tessuti o immagini dettagliati che potrebbero essere ritagliati in seguito.</string>
     <string name="help_tip_raw_development_page_3_step_2">Utilizza output di dimensioni dimezzate per condivisioni rapide, anteprime o piccoli post sui social quando l\'elaborazione a risoluzione massima non aggiunge alcun vantaggio visibile.</string>
     <string name="help_tip_raw_development_page_3_step_3">Converti prima un file RAW rappresentativo, controllalo alla dimensione desiderata e riutilizza le impostazioni corrette per il resto delle riprese.</string>
+    <string name="tone_curves_sub">Applica curve di colore professionali a una o più immagini</string>
+    <string name="search_keywords_tone_curves">curve di tono rgb cmyk lab tonalità saturazione luminanza batch di correzione del colore</string>
 </resources>

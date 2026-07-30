@@ -4519,4 +4519,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Użyj wyższej jakości ustawienia demozaikowego, aby uzyskać szczegółowe krajobrazy, liście, tkaniny lub obrazy, które można później przyciąć.</string>
     <string name="help_tip_raw_development_page_3_step_2">Użyj wyników o połowie rozmiaru do szybkiego udostępniania, podglądu lub małych postów w mediach społecznościowych, gdy przetwarzanie w pełnej rozdzielczości nie przynosi widocznych korzyści.</string>
     <string name="help_tip_raw_development_page_3_step_3">Najpierw przekonwertuj jeden reprezentatywny plik RAW, sprawdź go pod kątem zamierzonego rozmiaru i ponownie użyj pomyślnych ustawień przez resztę sesji.</string>
+    <string name="tone_curves_sub">Zastosuj profesjonalne krzywe kolorów do jednego lub wielu obrazów</string>
+    <string name="search_keywords_tone_curves">krzywe tonalne rgb cmyk lab hue nasycenie luma partia korekcji kolorów</string>
 </resources>

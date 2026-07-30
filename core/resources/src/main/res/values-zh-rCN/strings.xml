@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">对详细的风景、树叶、织物或稍后可能裁剪的图像使用更高质量的去马赛克设置。</string>
     <string name="help_tip_raw_development_page_3_step_2">当全分辨率处理没有带来明显好处时，使用半尺寸输出进行快速共享、预览或小型社交帖子。</string>
     <string name="help_tip_raw_development_page_3_step_3">首先转换一个具有代表性的 RAW 文件，以预期的尺寸检查它，然后在其余的拍摄中重复使用成功的设置。</string>
+    <string name="tone_curves_sub">将专业的色彩曲线应用于一张或多张图像</string>
+    <string name="search_keywords_tone_curves">色调曲线 RGB cmyk Lab 色调 饱和度 Luma 颜色校正批次</string>
 </resources>

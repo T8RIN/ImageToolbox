@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Gebruik een demosaïsche instelling van hogere kwaliteit voor gedetailleerde landschappen, bladeren, stoffen of afbeeldingen die later mogelijk worden bijgesneden.</string>
     <string name="help_tip_raw_development_page_3_step_2">Gebruik uitvoer op halve grootte voor snel delen, voorvertoningen of kleine sociale berichten wanneer verwerking op volledige resolutie geen zichtbaar voordeel oplevert.</string>
     <string name="help_tip_raw_development_page_3_step_3">Converteer eerst één representatief RAW-bestand, inspecteer het op de beoogde grootte en hergebruik de succesvolle instellingen voor de rest van de opname.</string>
+    <string name="tone_curves_sub">Pas professionele kleurcurven toe op één of meerdere afbeeldingen</string>
+    <string name="search_keywords_tone_curves">tooncurves rgb cmyk lab tintverzadiging luma kleurcorrectie batch</string>
 </resources>

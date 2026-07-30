@@ -4516,4 +4516,6 @@
     <string name="help_tip_raw_development_page_3_step_1">對詳細的風景、樹葉、織物或稍後可能裁剪的圖像使用更高品質的去馬賽克設置。</string>
     <string name="help_tip_raw_development_page_3_step_2">當全解析度處理沒有帶來明顯好處時，請使用半尺寸輸出進行快速分享、預覽或小型社交貼文。</string>
     <string name="help_tip_raw_development_page_3_step_3">首先轉換一個具有代表性的 RAW 文件，以預期的尺寸檢查它，然後在其餘的拍攝中重複使用成功的設定。</string>
+    <string name="tone_curves_sub">將專業的色彩曲線應用於一張或多張影像</string>
+    <string name="search_keywords_tone_curves">色調曲線 RGB cmyk Lab 色調 飽和度 Luma 顏色校正批次</string>
 </resources>

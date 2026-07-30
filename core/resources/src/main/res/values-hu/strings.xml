@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Használjon jobb minőségű demosaic beállítást a részletgazdag tájképek, lombozatok, szövetek vagy képek készítéséhez, amelyeket később le lehet vágni.</string>
     <string name="help_tip_raw_development_page_3_step_2">Használjon fél méretű kimenetet a gyors megosztáshoz, előnézetekhez vagy kis közösségi bejegyzésekhez, amikor a teljes felbontású feldolgozás nem jár hozzá látható előnyökkel.</string>
     <string name="help_tip_raw_development_page_3_step_3">Először konvertáljon egy reprezentatív RAW-fájlt, ellenőrizze a kívánt méretben, és használja újra a sikeres beállításokat a felvétel hátralévő részében.</string>
+    <string name="tone_curves_sub">Professzionális színgörbék alkalmazása egy vagy több képre</string>
+    <string name="search_keywords_tone_curves">tone curves rgb cmyk lab színárnyalat telítettség luma színkorrekció köteg</string>
 </resources>

@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Gumamit ng mas mataas na kalidad na demosaic na setting para sa mga detalyadong landscape, dahon, tela, o mga larawang maaaring i-crop sa ibang pagkakataon.</string>
     <string name="help_tip_raw_development_page_3_step_2">Gumamit ng kalahating laki ng output para sa mabilis na pagbabahagi, mga preview, o maliliit na social post kapag ang pagproseso ng full-resolution ay hindi nagdaragdag ng nakikitang benepisyo.</string>
     <string name="help_tip_raw_development_page_3_step_3">I-convert muna ang isang kinatawan na RAW file, siyasatin ito sa nilalayong laki, at muling gamitin ang matagumpay na mga setting para sa natitirang bahagi ng shoot.</string>
+    <string name="tone_curves_sub">Ilapat ang mga propesyonal na curve ng kulay sa isa o maraming larawan</string>
+    <string name="search_keywords_tone_curves">tone curves rgb cmyk lab hue saturation luma color correction batch</string>
 </resources>

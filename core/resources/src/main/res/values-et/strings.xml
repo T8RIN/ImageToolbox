@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Kasutage kvaliteetsemat demosaiikseadet üksikasjalike maastike, lehestiku, kanga või piltide jaoks, mida võidakse hiljem kärpida.</string>
     <string name="help_tip_raw_development_page_3_step_2">Kasutage poolesuurust väljundit kiireks jagamiseks, eelvaateks või väikesteks suhtluspostitusteks, kui täiseraldusvõimega töötlemine ei too nähtavat kasu.</string>
     <string name="help_tip_raw_development_page_3_step_3">Esmalt teisendage üks tüüpiline RAW-fail, kontrollige seda ettenähtud suuruses ja kasutage edukaid sätteid ülejäänud pildistamise ajal.</string>
+    <string name="tone_curves_sub">Rakendage ühele või mitmele pildile professionaalseid värvikõveraid</string>
+    <string name="search_keywords_tone_curves">toonikõverad rgb cmyk lab varjund küllastus luma värviparandus partii</string>
 </resources>

@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Verwenden Sie eine Demosaic-Einstellung mit höherer Qualität für detaillierte Landschaften, Blätter, Stoffe oder Bilder, die später zugeschnitten werden können.</string>
     <string name="help_tip_raw_development_page_3_step_2">Verwenden Sie die Ausgabe in halber Größe für schnelles Teilen, Vorschauen oder kleine Social-Media-Beiträge, wenn die Verarbeitung in voller Auflösung keinen sichtbaren Vorteil bringt.</string>
     <string name="help_tip_raw_development_page_3_step_3">Konvertieren Sie zunächst eine repräsentative RAW-Datei, überprüfen Sie sie in der beabsichtigten Größe und verwenden Sie die erfolgreichen Einstellungen für den Rest der Aufnahme wieder.</string>
+    <string name="tone_curves_sub">Wenden Sie professionelle Farbkurven auf ein oder mehrere Bilder an</string>
+    <string name="search_keywords_tone_curves">Tonkurven RGB CMYK Labor Farbton Sättigung Luma Farbkorrektur Batch</string>
 </resources>

@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Utilice una configuración de mosaico de mayor calidad para paisajes, follaje, telas o imágenes detalladas que puedan recortarse más adelante.</string>
     <string name="help_tip_raw_development_page_3_step_2">Utilice resultados de tamaño medio para compartir rápidamente, obtener vistas previas o pequeñas publicaciones en redes sociales cuando el procesamiento de resolución completa no agregue ningún beneficio visible.</string>
     <string name="help_tip_raw_development_page_3_step_3">Primero convierta un archivo RAW representativo, inspecciónelo en el tamaño deseado y reutilice la configuración correcta para el resto de la sesión.</string>
+    <string name="tone_curves_sub">Aplique curvas de color profesionales a una o varias imágenes.</string>
+    <string name="search_keywords_tone_curves">curvas de tono rgb cmyk laboratorio tono saturación luma corrección de color lote</string>
 </resources>

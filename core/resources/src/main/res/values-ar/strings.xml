@@ -4521,4 +4521,6 @@
     <string name="help_tip_raw_development_page_3_step_1">استخدم إعداد ديموزايك عالي الجودة للمناظر الطبيعية أو أوراق الشجر أو القماش أو الصور التفصيلية التي قد يتم اقتصاصها لاحقًا.</string>
     <string name="help_tip_raw_development_page_3_step_2">استخدم مخرجات بنصف الحجم للمشاركة السريعة أو المعاينات أو المنشورات الاجتماعية الصغيرة عندما لا تضيف المعالجة كاملة الدقة أي فائدة مرئية.</string>
     <string name="help_tip_raw_development_page_3_step_3">قم بتحويل ملف RAW تمثيلي واحد أولاً، ثم افحصه بالحجم المطلوب، ثم أعد استخدام الإعدادات الناجحة لبقية جلسة التصوير.</string>
+    <string name="tone_curves_sub">قم بتطبيق منحنيات ألوان احترافية على صورة واحدة أو عدة صور</string>
+    <string name="search_keywords_tone_curves">منحنيات النغمة RGB CMYK Lab، تشبع اللون، دفعة تصحيح الألوان</string>
 </resources>

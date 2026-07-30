@@ -4518,4 +4518,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Utilizați o setare demozaică de calitate superioară pentru peisaje detaliate, frunziș, țesături sau imagini care pot fi decupate ulterior.</string>
     <string name="help_tip_raw_development_page_3_step_2">Folosiți o ieșire de jumătate de dimensiune pentru partajare rapidă, previzualizări sau postări mici pe rețele sociale atunci când procesarea la rezoluție completă nu adaugă niciun beneficiu vizibil.</string>
     <string name="help_tip_raw_development_page_3_step_3">Convertiți mai întâi un fișier RAW reprezentativ, inspectați-l la dimensiunea dorită și reutilizați setările de succes pentru restul filmării.</string>
+    <string name="tone_curves_sub">Aplicați curbe de culoare profesionale uneia sau mai multor imagini</string>
+    <string name="search_keywords_tone_curves">curbe de ton rgb cmyk lab nuanță saturație luma corecție a culorii lot</string>
 </resources>

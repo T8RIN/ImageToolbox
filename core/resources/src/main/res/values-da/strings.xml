@@ -4517,4 +4517,6 @@
     <string name="help_tip_raw_development_page_3_step_1">Brug en demosaisk indstilling af højere kvalitet til detaljerede landskaber, løv, stof eller billeder, der kan blive beskåret senere.</string>
     <string name="help_tip_raw_development_page_3_step_2">Brug output i halv størrelse til hurtig deling, forhåndsvisninger eller små sociale indlæg, når behandling i fuld opløsning ikke tilføjer nogen synlig fordel.</string>
     <string name="help_tip_raw_development_page_3_step_3">Konverter først én repræsentativ RAW-fil, inspicér den i den tilsigtede størrelse, og genbrug de vellykkede indstillinger for resten af ​​optagelsen.</string>
+    <string name="tone_curves_sub">Anvend professionelle farvekurver på et eller flere billeder</string>
+    <string name="search_keywords_tone_curves">tonekurver rgb cmyk lab farvetone mætning luma farvekorrektion batch</string>
 </resources>
