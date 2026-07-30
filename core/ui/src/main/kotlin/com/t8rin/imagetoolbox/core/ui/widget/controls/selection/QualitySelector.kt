@@ -306,6 +306,29 @@ fun QualitySelector(
                                         ?.let(onQualityChange)
                                 }
                             )
+                            AnimatedVisibility(
+                                visible = actualImageFormat == ImageFormat.Heic.Lossless
+                                        || actualImageFormat == ImageFormat.Heic.HeifLossless
+                            ) {
+                                PreferenceRowSwitch(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(4.dp),
+                                    title = stringResource(R.string.gbr_lossless),
+                                    subtitle = stringResource(R.string.gbr_lossless_sub),
+                                    checked = heicQuality?.useGbrLossless == true,
+                                    containerColor = MaterialTheme.colorScheme.surface,
+                                    shape = ShapeDefaults.large,
+                                    autoShadowElevation = 0.dp,
+                                    applyHorizontalPadding = false,
+                                    resultModifier = Modifier.padding(16.dp),
+                                    onClick = {
+                                        heicQuality?.copy(useGbrLossless = it)
+                                            ?.coerceIn(actualImageFormat)
+                                            ?.let(onQualityChange)
+                                    }
+                                )
+                            }
                         }
                     }
 

@@ -49,7 +49,8 @@ internal data class HeicBackend(
                     PreciseMode.LOSSY
                 },
                 chromaSubsampling = heicQuality.chromaSubsampling.toBackend(),
-                screenContentCoding = heicQuality.screenContentCoding
+                screenContentCoding = heicQuality.screenContentCoding,
+                losslessYuvBt601 = !heicQuality.useGbrLossless && isLossless
             )
         )
     }

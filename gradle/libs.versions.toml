@@ -4,8 +4,8 @@ androidTargetSdk = "37"
 androidCompileSdk = "37"
 androidCompileSdkExtension = "-"
 
-versionName = "4.2.0-rc07"
-versionCode = "263"
+versionName = "4.2.0"
+versionCode = "264"
 
 jvmTarget = "21"
 
@@ -16,7 +16,7 @@ quickie = "1.19.0"
 fadingEdges = "1.0.4"
 composeHighlight = "0.32.0"
 
-avifCoder = "3.0.0-alpha13"
+avifCoder = "3.0.0-alpha14"
 aire = "0.18.1"
 jixelCoder = "3.0.0-alpha04"
 jxlCoder = "2.6.2"

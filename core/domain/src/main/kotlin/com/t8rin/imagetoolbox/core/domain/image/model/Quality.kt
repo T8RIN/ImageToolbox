@@ -135,7 +135,8 @@ sealed interface Quality {
         @IntRange(from = 0, to = 100)
         override val qualityValue: Int = 100,
         val chromaSubsampling: HeicChromaSubsampling = HeicChromaSubsampling.Yuv420,
-        val screenContentCoding: Boolean = false
+        val screenContentCoding: Boolean = false,
+        val useGbrLossless: Boolean = false
     ) : Quality
 
     data class Vvc(

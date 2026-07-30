@@ -3977,6 +3977,8 @@
     <string name="screen_content_coding">Screen content coding</string>
     <string name="screen_content_coding_sub">Optimizes encoding for screenshots, text, and graphics</string>
     <string name="screen_content_coding_heic_sub">Optimizes encoding for screenshots, text, and graphics. Most HEVC decoders do not support the RExt SCC extension</string>
+    <string name="gbr_lossless">True lossless (GBR)</string>
+    <string name="gbr_lossless_sub">Preserves RGB values without loss. GBR-encoded files may not open in some apps and decoders</string>
     <string name="bit_depth">Bit depth</string>
     <string name="lossless">Lossless</string>
     <string name="bit_depth_value">%1$d-bit</string>
