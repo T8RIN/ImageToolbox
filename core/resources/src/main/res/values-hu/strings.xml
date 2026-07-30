@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Először konvertáljon egy reprezentatív RAW-fájlt, ellenőrizze a kívánt méretben, és használja újra a sikeres beállításokat a felvétel hátralévő részében.</string>
     <string name="tone_curves_sub">Professzionális színgörbék alkalmazása egy vagy több képre</string>
     <string name="search_keywords_tone_curves">tone curves rgb cmyk lab színárnyalat telítettség luma színkorrekció köteg</string>
+    <string name="screen_content_coding">Képernyőtartalom kódolása</string>
+    <string name="screen_content_coding_sub">Optimalizálja a képernyőképek, szövegek és grafikák kódolását</string>
+    <string name="screen_content_coding_heic_sub">Optimalizálja a képernyőképek, szövegek és grafikák kódolását. A legtöbb HEVC dekóder nem támogatja a RExt SCC kiterjesztést</string>
 </resources>

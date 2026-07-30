@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">முதலில் ஒரு பிரதிநிதி RAW கோப்பை மாற்றவும், அதை உத்தேசித்த அளவில் பரிசோதிக்கவும், மீதமுள்ள படப்பிடிப்புக்கு வெற்றிகரமான அமைப்புகளை மீண்டும் பயன்படுத்தவும்.</string>
     <string name="tone_curves_sub">ஒன்று அல்லது பல படங்களுக்கு தொழில்முறை வண்ண வளைவுகளைப் பயன்படுத்துங்கள்</string>
     <string name="search_keywords_tone_curves">தொனி வளைவுகள் rgb cmyk ஆய்வக சாயல் செறிவூட்டல் லுமா வண்ணத் திருத்தம் தொகுதி</string>
+    <string name="screen_content_coding">திரை உள்ளடக்க குறியீட்டு முறை</string>
+    <string name="screen_content_coding_sub">ஸ்கிரீன்ஷாட்கள், உரை மற்றும் கிராபிக்ஸ் ஆகியவற்றிற்கான குறியாக்கத்தை மேம்படுத்துகிறது</string>
+    <string name="screen_content_coding_heic_sub">ஸ்கிரீன்ஷாட்கள், உரை மற்றும் கிராபிக்ஸ் ஆகியவற்றிற்கான குறியாக்கத்தை மேம்படுத்துகிறது. பெரும்பாலான HEVC டிகோடர்கள் RExt SCC நீட்டிப்பை ஆதரிக்கவில்லை</string>
 </resources>

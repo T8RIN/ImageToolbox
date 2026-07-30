@@ -4521,4 +4521,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Najpierw przekonwertuj jeden reprezentatywny plik RAW, sprawdź go pod kątem zamierzonego rozmiaru i ponownie użyj pomyślnych ustawień przez resztę sesji.</string>
     <string name="tone_curves_sub">Zastosuj profesjonalne krzywe kolorów do jednego lub wielu obrazów</string>
     <string name="search_keywords_tone_curves">krzywe tonalne rgb cmyk lab hue nasycenie luma partia korekcji kolorów</string>
+    <string name="screen_content_coding">Kodowanie zawartości ekranu</string>
+    <string name="screen_content_coding_sub">Optymalizuje kodowanie zrzutów ekranu, tekstu i grafiki</string>
+    <string name="screen_content_coding_heic_sub">Optymalizuje kodowanie zrzutów ekranu, tekstu i grafiki. Większość dekoderów HEVC nie obsługuje rozszerzenia RExt SCC</string>
 </resources>

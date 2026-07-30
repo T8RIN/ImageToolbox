@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">ابتدا یک فایل RAW نماینده را تبدیل کنید، آن را در اندازه مورد نظر بررسی کنید و از تنظیمات موفق برای بقیه عکسبرداری مجدد استفاده کنید.</string>
     <string name="tone_curves_sub">منحنی های رنگی حرفه ای را روی یک یا چند تصویر اعمال کنید</string>
     <string name="search_keywords_tone_curves">منحنی های تن rgb cmyk آزمایشگاهی اشباع رنگ luma دسته اصلاح رنگ</string>
+    <string name="screen_content_coding">کدگذاری محتوای صفحه</string>
+    <string name="screen_content_coding_sub">کدگذاری را برای اسکرین شات، متن و گرافیک بهینه می کند</string>
+    <string name="screen_content_coding_heic_sub">کدگذاری را برای اسکرین شات، متن و گرافیک بهینه می کند. اکثر رسیورهای HEVC از پسوند RExt SCC پشتیبانی نمی کنند</string>
 </resources>

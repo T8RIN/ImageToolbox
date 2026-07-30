@@ -4516,4 +4516,7 @@
     <string name="help_tip_raw_development_page_3_step_3">首先转换一个具有代表性的 RAW 文件，以预期的尺寸检查它，然后在其余的拍摄中重复使用成功的设置。</string>
     <string name="tone_curves_sub">将专业的色彩曲线应用于一张或多张图像</string>
     <string name="search_keywords_tone_curves">影调 曲线 RGB CMYK Lab 色相 饱和度 亮度 色彩校正 批量</string>
+    <string name="screen_content_coding">屏幕内容编码</string>
+    <string name="screen_content_coding_sub">优化屏幕截图、文本和图形的编码</string>
+    <string name="screen_content_coding_heic_sub">优化屏幕截图、文本和图形的编码。大多数 HEVC 解码器不支持 RExt SCC 扩展</string>
 </resources>

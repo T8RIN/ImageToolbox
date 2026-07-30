@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Konvertera först en representativ RAW-fil, inspektera den i avsedd storlek och återanvänd de lyckade inställningarna för resten av fotograferingen.</string>
     <string name="tone_curves_sub">Använd professionella färgkurvor på en eller flera bilder</string>
     <string name="search_keywords_tone_curves">ton kurvor rgb cmyk lab nyans mättnad luma färgkorrigering batch</string>
+    <string name="screen_content_coding">Skärminnehållskodning</string>
+    <string name="screen_content_coding_sub">Optimerar kodning för skärmdumpar, text och grafik</string>
+    <string name="screen_content_coding_heic_sub">Optimerar kodning för skärmdumpar, text och grafik. De flesta HEVC-avkodare stöder inte tillägget RExt SCC</string>
 </resources>

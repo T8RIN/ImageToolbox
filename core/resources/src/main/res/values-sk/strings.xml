@@ -4521,4 +4521,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Najprv skonvertujte jeden reprezentatívny súbor RAW, skontrolujte ho v zamýšľanej veľkosti a znova použite úspešné nastavenia pre zvyšok snímania.</string>
     <string name="tone_curves_sub">Aplikujte profesionálne farebné krivky na jeden alebo viacero obrázkov</string>
     <string name="search_keywords_tone_curves">tónové krivky rgb cmyk lab sýtosť odtieňa luma korekcia farieb šarže</string>
+    <string name="screen_content_coding">Kódovanie obsahu obrazovky</string>
+    <string name="screen_content_coding_sub">Optimalizuje kódovanie pre snímky obrazovky, text a grafiku</string>
+    <string name="screen_content_coding_heic_sub">Optimalizuje kódovanie pre snímky obrazovky, text a grafiku. Väčšina dekodérov HEVC nepodporuje rozšírenie RExt SCC</string>
 </resources>

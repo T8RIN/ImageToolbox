@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Converteer eerst één representatief RAW-bestand, inspecteer het op de beoogde grootte en hergebruik de succesvolle instellingen voor de rest van de opname.</string>
     <string name="tone_curves_sub">Pas professionele kleurcurven toe op één of meerdere afbeeldingen</string>
     <string name="search_keywords_tone_curves">tooncurves rgb cmyk lab tintverzadiging luma kleurcorrectie batch</string>
+    <string name="screen_content_coding">Codering van scherminhoud</string>
+    <string name="screen_content_coding_sub">Optimaliseert de codering voor schermafbeeldingen, tekst en afbeeldingen</string>
+    <string name="screen_content_coding_heic_sub">Optimaliseert de codering voor schermafbeeldingen, tekst en afbeeldingen. De meeste HEVC-decoders ondersteunen de RExt SCC-extensie niet</string>
 </resources>

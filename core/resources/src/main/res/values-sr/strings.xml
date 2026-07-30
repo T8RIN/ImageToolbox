@@ -4520,4 +4520,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Прво конвертујте једну репрезентативну РАВ датотеку, прегледајте је у предвиђеној величини и поново употребите успешна подешавања за остатак снимања.</string>
     <string name="tone_curves_sub">Примените професионалне криве боја на једну или више слика</string>
     <string name="search_keywords_tone_curves">тонске криве ргб цмик лаб нијанса засићеност лума серија корекције боје</string>
+    <string name="screen_content_coding">Кодирање садржаја екрана</string>
+    <string name="screen_content_coding_sub">Оптимизује кодирање за снимке екрана, текст и графику</string>
+    <string name="screen_content_coding_heic_sub">Оптимизује кодирање за снимке екрана, текст и графику. Већина ХЕВЦ декодера не подржава екстензију РЕкт СЦЦ</string>
 </resources>

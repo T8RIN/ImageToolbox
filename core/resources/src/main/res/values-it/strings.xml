@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">Converti prima un file RAW rappresentativo, controllalo alla dimensione desiderata e riutilizza le impostazioni corrette per il resto delle riprese.</string>
     <string name="tone_curves_sub">Applica curve di colore professionali a una o più immagini</string>
     <string name="search_keywords_tone_curves">curve di tono rgb cmyk lab tonalità saturazione luminanza batch di correzione del colore</string>
+    <string name="screen_content_coding">Codifica del contenuto dello schermo</string>
+    <string name="screen_content_coding_sub">Ottimizza la codifica per screenshot, testo e grafica</string>
+    <string name="screen_content_coding_heic_sub">Ottimizza la codifica per screenshot, testo e grafica. La maggior parte dei decoder HEVC non supporta l\'estensione RExt SCC</string>
 </resources>

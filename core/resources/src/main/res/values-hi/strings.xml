@@ -4519,4 +4519,7 @@
     <string name="help_tip_raw_development_page_3_step_3">पहले एक प्रतिनिधि RAW फ़ाइल को कनवर्ट करें, इच्छित आकार में इसका निरीक्षण करें, और शेष शूट के लिए सफल सेटिंग्स का पुन: उपयोग करें।</string>
     <string name="tone_curves_sub">एक या एकाधिक छवियों पर पेशेवर रंग वक्र लागू करें</string>
     <string name="search_keywords_tone_curves">टोन कर्व्स आरजीबी सीएमवाईके लैब ह्यू संतृप्ति लूमा रंग सुधार बैच</string>
+    <string name="screen_content_coding">स्क्रीन सामग्री कोडिंग</string>
+    <string name="screen_content_coding_sub">स्क्रीनशॉट, टेक्स्ट और ग्राफ़िक्स के लिए एन्कोडिंग को अनुकूलित करता है</string>
+    <string name="screen_content_coding_heic_sub">स्क्रीनशॉट, टेक्स्ट और ग्राफ़िक्स के लिए एन्कोडिंग को अनुकूलित करता है। अधिकांश HEVC डिकोडर RExt SCC एक्सटेंशन का समर्थन नहीं करते हैं</string>
 </resources>
