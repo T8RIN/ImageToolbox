@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Curve
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
@@ -86,7 +87,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
-import com.t8rin.imagetoolbox.core.resources.icons.ToneCurve
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
@@ -270,7 +270,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Cipher -> Icons.Outlined.Encrypted
     is Compare -> Icons.Outlined.Compare
     is Crop -> Icons.Rounded.CropSmall
-    is Curves -> Icons.Outlined.ToneCurve
+    is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
     is Draw -> Icons.Outlined.Draw
     is DuplicateFinder -> Icons.Outlined.ImageSearch
@@ -356,7 +356,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
     is Crop -> Icons.TwoTone.CropSmall
-    is Curves -> Icons.TwoTone.ToneCurve
+    is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
     is Draw -> Icons.TwoTone.Draw
     is DuplicateFinder -> Icons.TwoTone.ImageSearch

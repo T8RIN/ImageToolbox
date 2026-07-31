@@ -41,13 +41,13 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Curve
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.Flip
 import com.t8rin.imagetoolbox.core.resources.icons.RotateLeft
 import com.t8rin.imagetoolbox.core.resources.icons.RotateRight
-import com.t8rin.imagetoolbox.core.resources.icons.ToneCurve
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
@@ -178,7 +178,7 @@ fun ImageExtraTransformBar(
                 onClick = onApplyCurves
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.ToneCurve,
+                    imageVector = Icons.Outlined.Curve,
                     contentDescription = stringResource(R.string.tone_curves)
                 )
             }
