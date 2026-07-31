@@ -4527,6 +4527,5 @@
     <string name="gbr_lossless">Сапраўдныя страты (GBR)</string>
     <string name="gbr_lossless_sub">Захоўвае значэнні RGB без страт. Файлы, закадаваныя GBR, могуць не адкрывацца ў некаторых праграмах і дэкодэрах</string>
     <string name="midtones">Сярэднія тоны</string>
-    <string name="wavefrom">Wavefrom</string>
     <string name="vectorscope">Вектарны прыцэл</string>
 </resources>

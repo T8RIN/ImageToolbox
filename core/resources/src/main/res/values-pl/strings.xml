@@ -4527,6 +4527,5 @@
     <string name="gbr_lossless">Prawdziwie bezstratny (GBR)</string>
     <string name="gbr_lossless_sub">Zachowuje wartości RGB bez utraty. Pliki zakodowane w GBR mogą nie otwierać się w niektórych aplikacjach i dekoderach</string>
     <string name="midtones">Półtony</string>
-    <string name="wavefrom">od fali</string>
     <string name="vectorscope">Zakres wektorowy</string>
 </resources>

@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">Gerçek kayıpsız (GBR)</string>
     <string name="gbr_lossless_sub">RGB değerlerini kayıpsız korur. GBR kodlu dosyalar bazı uygulamalarda ve kod çözücülerde açılmayabilir</string>
     <string name="midtones">Orta tonlar</string>
-    <string name="wavefrom">Dalga kaynağı</string>
     <string name="vectorscope">Vektör kapsamı</string>
 </resources>

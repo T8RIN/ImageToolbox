@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">உண்மையான இழப்பற்ற (ஜிபிஆர்)</string>
     <string name="gbr_lossless_sub">RGB மதிப்புகளை இழப்பின்றி பாதுகாக்கிறது. GBR-குறியீடு செய்யப்பட்ட கோப்புகள் சில ஆப்ஸ் மற்றும் டிகோடர்களில் திறக்கப்படாமல் போகலாம்</string>
     <string name="midtones">மிட்டோன்கள்</string>
-    <string name="wavefrom">அலையிலிருந்து</string>
     <string name="vectorscope">திசையன் நோக்கம்</string>
 </resources>

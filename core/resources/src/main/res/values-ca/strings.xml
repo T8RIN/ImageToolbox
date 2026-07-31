@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">Veritable sense pèrdua (GBR)</string>
     <string name="gbr_lossless_sub">Conserva els valors RGB sense pèrdua. És possible que els fitxers codificats amb GBR no s\'obrin en algunes aplicacions i descodificadors</string>
     <string name="midtones">Tons mitjans</string>
-    <string name="wavefrom">Onada de</string>
     <string name="vectorscope">Àmbit vectorial</string>
 </resources>

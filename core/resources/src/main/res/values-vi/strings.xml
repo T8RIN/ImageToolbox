@@ -4524,6 +4524,5 @@
     <string name="gbr_lossless">Thực sự không mất dữ liệu (GBR)</string>
     <string name="gbr_lossless_sub">Bảo toàn giá trị RGB mà không bị mất. Các tệp được mã hóa GBR có thể không mở được trong một số ứng dụng và bộ giải mã</string>
     <string name="midtones">Midtones</string>
-    <string name="wavefrom">Sóng từ</string>
     <string name="vectorscope">phạm vi vectơ</string>
 </resources>

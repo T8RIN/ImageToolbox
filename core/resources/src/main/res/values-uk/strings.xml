@@ -4527,6 +4527,5 @@
     <string name="gbr_lossless">Без втрат (GBR)</string>
     <string name="gbr_lossless_sub">Зберігає значення RGB без втрат. Файли, закодовані GBR, можуть не відкриватися в деяких програмах і декодерах</string>
     <string name="midtones">Середні тони</string>
-    <string name="wavefrom">Wavefrom</string>
     <string name="vectorscope">Векторний обсяг</string>
 </resources>

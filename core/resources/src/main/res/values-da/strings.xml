@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">Ægte tabsfri (GBR)</string>
     <string name="gbr_lossless_sub">Bevarer RGB-værdier uden tab. GBR-kodede filer åbnes muligvis ikke i nogle apps og dekodere</string>
     <string name="midtones">Mellemtoner</string>
-    <string name="wavefrom">Bølge fra</string>
     <string name="vectorscope">Vector omfang</string>
 </resources>

@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">Echt verlustfrei (GBR)</string>
     <string name="gbr_lossless_sub">Behält RGB-Werte ohne Verlust bei. GBR-codierte Dateien werden in einigen Apps und Decodern möglicherweise nicht geöffnet</string>
     <string name="midtones">Mitteltöne</string>
-    <string name="wavefrom">Wavefrom</string>
     <string name="vectorscope">Vektorbereich</string>
 </resources>
