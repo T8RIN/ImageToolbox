@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">Préserve les valeurs RVB sans perte. Les fichiers codés en GBR peuvent ne pas s\'ouvrir dans certaines applications et décodeurs</string>
     <string name="midtones">Tons moyens</string>
     <string name="vectorscope">Portée vectorielle</string>
+    <string name="waveform">Forme d\'onde</string>
 </resources>

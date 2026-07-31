@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">बिना किसी हानि के RGB मानों को सुरक्षित रखता है। GBR-एन्कोडेड फ़ाइलें कुछ ऐप्स और डिकोडर्स में नहीं खुल सकती हैं</string>
     <string name="midtones">मि़डटॉन</string>
     <string name="vectorscope">वेक्टर दायरा</string>
+    <string name="waveform">तरंग</string>
 </resources>

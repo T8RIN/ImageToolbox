@@ -4525,4 +4525,5 @@
     <string name="gbr_lossless_sub">保留 RGB 值而不丟失。 GBR 編碼的檔案可能無法在某些應用程式和解碼器中開啟</string>
     <string name="midtones">中間色調</string>
     <string name="vectorscope">向量範圍</string>
+    <string name="waveform">波形</string>
 </resources>

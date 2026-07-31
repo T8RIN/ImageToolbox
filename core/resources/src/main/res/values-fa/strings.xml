@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">مقادیر RGB را بدون از دست دادن حفظ می کند. فایل‌های کدگذاری شده با GBR ممکن است در برخی از برنامه‌ها و رمزگشاها باز نشوند</string>
     <string name="midtones">آهنگ های میانی</string>
     <string name="vectorscope">دامنه برداری</string>
+    <string name="waveform">شکل موج</string>
 </resources>

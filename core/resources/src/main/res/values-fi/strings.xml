@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">Säilyttää RGB-arvot menettämättä. GBR-koodatut tiedostot eivät välttämättä avaudu joissakin sovelluksissa ja dekoodereissa</string>
     <string name="midtones">Keskisävyt</string>
     <string name="vectorscope">Vektorialue</string>
+    <string name="waveform">Aaltomuoto</string>
 </resources>

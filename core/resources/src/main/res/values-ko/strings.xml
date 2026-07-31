@@ -4525,4 +4525,5 @@
     <string name="gbr_lossless_sub">손실 없이 RGB 값을 보존합니다. 일부 앱 및 디코더에서는 GBR로 인코딩된 파일이 열리지 않을 수 있습니다.</string>
     <string name="midtones">중간톤</string>
     <string name="vectorscope">벡터 범위</string>
+    <string name="waveform">파형</string>
 </resources>

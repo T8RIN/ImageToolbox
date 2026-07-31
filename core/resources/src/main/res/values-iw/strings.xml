@@ -4528,4 +4528,5 @@
     <string name="gbr_lossless_sub">שומר על ערכי RGB ללא הפסד. ייתכן שקבצים מקודדי GBR לא ייפתחו בחלק מהאפליקציות והמפענחים</string>
     <string name="midtones">גווני ביניים</string>
     <string name="vectorscope">היקף וקטור</string>
+    <string name="waveform">צורת גל</string>
 </resources>

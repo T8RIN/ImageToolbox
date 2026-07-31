@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">Conserva los valores RGB sin pérdida. Es posible que los archivos codificados en GBR no se abran en algunas aplicaciones y decodificadores</string>
     <string name="midtones">Medios tonos</string>
     <string name="vectorscope">Alcance vectorial</string>
+    <string name="waveform">Forma de onda</string>
 </resources>

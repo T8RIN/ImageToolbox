@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">ক্ষতি ছাড়াই RGB মান সংরক্ষণ করে। কিছু অ্যাপ এবং ডিকোডারে GBR-এনকোড করা ফাইল নাও খুলতে পারে</string>
     <string name="midtones">মিডটোন</string>
     <string name="vectorscope">ভেক্টর সুযোগ</string>
+    <string name="waveform">তরঙ্গরূপ</string>
 </resources>

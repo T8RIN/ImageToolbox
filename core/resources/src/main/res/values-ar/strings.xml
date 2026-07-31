@@ -4530,4 +4530,5 @@
     <string name="gbr_lossless_sub">يحافظ على قيم RGB دون خسارة. قد لا يتم فتح الملفات المشفرة بـ GBR في بعض التطبيقات وأجهزة فك التشفير</string>
     <string name="midtones">النغمات النصفية</string>
     <string name="vectorscope">نطاق المتجهات</string>
+    <string name="waveform">الموجي</string>
 </resources>

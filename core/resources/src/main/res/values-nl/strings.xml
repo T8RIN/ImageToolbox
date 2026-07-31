@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">Behoudt RGB-waarden zonder verlies. GBR-gecodeerde bestanden worden mogelijk niet geopend in sommige apps en decoders</string>
     <string name="midtones">Middentonen</string>
     <string name="vectorscope">Vectorbereik</string>
+    <string name="waveform">Golfvorm</string>
 </resources>

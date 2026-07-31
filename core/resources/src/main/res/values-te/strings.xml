@@ -4526,4 +4526,5 @@
     <string name="gbr_lossless_sub">RGB విలువలను నష్టం లేకుండా భద్రపరుస్తుంది. GBR-ఎన్‌కోడ్ చేసిన ఫైల్‌లు కొన్ని యాప్‌లు మరియు డీకోడర్‌లలో తెరవబడకపోవచ్చు</string>
     <string name="midtones">మిడ్‌టోన్స్</string>
     <string name="vectorscope">వెక్టర్ స్కోప్</string>
+    <string name="waveform">తరంగ రూపం</string>
 </resources>
