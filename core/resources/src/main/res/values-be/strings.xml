@@ -4524,4 +4524,9 @@
     <string name="screen_content_coding">Кадзіраванне кантэнту экрана</string>
     <string name="screen_content_coding_sub">Аптымізуе кадзіроўку для скрыншотаў, тэксту і графікі</string>
     <string name="screen_content_coding_heic_sub">Аптымізуе кадзіроўку для скрыншотаў, тэксту і графікі. Большасць дэкодэраў HEVC не падтрымліваюць пашырэнне RExt SCC</string>
+    <string name="gbr_lossless">Сапраўдныя страты (GBR)</string>
+    <string name="gbr_lossless_sub">Захоўвае значэнні RGB без страт. Файлы, закадаваныя GBR, могуць не адкрывацца ў некаторых праграмах і дэкодэрах</string>
+    <string name="midtones">Сярэднія тоны</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">Вектарны прыцэл</string>
 </resources>

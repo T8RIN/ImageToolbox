@@ -4521,4 +4521,9 @@
     <string name="screen_content_coding">螢幕內容編碼</string>
     <string name="screen_content_coding_sub">優化螢幕截圖、文字和圖形的編碼</string>
     <string name="screen_content_coding_heic_sub">優化螢幕截圖、文字和圖形的編碼。大多數 HEVC 解碼器不支援 RExt SCC 擴展</string>
+    <string name="gbr_lossless">真正無損 (GBR)</string>
+    <string name="gbr_lossless_sub">保留 RGB 值而不丟失。 GBR 編碼的檔案可能無法在某些應用程式和解碼器中開啟</string>
+    <string name="midtones">中間色調</string>
+    <string name="wavefrom">波從</string>
+    <string name="vectorscope">向量範圍</string>
 </resources>

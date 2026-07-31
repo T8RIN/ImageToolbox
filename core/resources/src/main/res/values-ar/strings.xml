@@ -4526,4 +4526,9 @@
     <string name="screen_content_coding">ترميز محتوى الشاشة</string>
     <string name="screen_content_coding_sub">يعمل على تحسين ترميز لقطات الشاشة والنصوص والرسومات</string>
     <string name="screen_content_coding_heic_sub">يعمل على تحسين ترميز لقطات الشاشة والنصوص والرسومات. لا تدعم معظم أجهزة فك ترميز HEVC امتداد RExt SCC</string>
+    <string name="gbr_lossless">صحيح ضياع (GBR)</string>
+    <string name="gbr_lossless_sub">يحافظ على قيم RGB دون خسارة. قد لا يتم فتح الملفات المشفرة بـ GBR في بعض التطبيقات وأجهزة فك التشفير</string>
+    <string name="midtones">النغمات النصفية</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">نطاق المتجهات</string>
 </resources>

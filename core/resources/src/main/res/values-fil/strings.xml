@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Screen content coding</string>
     <string name="screen_content_coding_sub">Ino-optimize ang pag-encode para sa mga screenshot, text, at graphics</string>
     <string name="screen_content_coding_heic_sub">Ino-optimize ang pag-encode para sa mga screenshot, text, at graphics. Karamihan sa mga HEVC decoder ay hindi sumusuporta sa RExt SCC extension</string>
+    <string name="gbr_lossless">True lossless (GBR)</string>
+    <string name="gbr_lossless_sub">Pinapanatili ang mga halaga ng RGB nang walang pagkawala. Maaaring hindi bumukas ang mga file na naka-encode ng GBR sa ilang app at decoder</string>
+    <string name="midtones">Midtones</string>
+    <string name="wavefrom">Kaway mula sa</string>
+    <string name="vectorscope">Saklaw ng vector</string>
 </resources>

@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Codering van scherminhoud</string>
     <string name="screen_content_coding_sub">Optimaliseert de codering voor schermafbeeldingen, tekst en afbeeldingen</string>
     <string name="screen_content_coding_heic_sub">Optimaliseert de codering voor schermafbeeldingen, tekst en afbeeldingen. De meeste HEVC-decoders ondersteunen de RExt SCC-extensie niet</string>
+    <string name="gbr_lossless">Echt verliesvrij (GBR)</string>
+    <string name="gbr_lossless_sub">Behoudt RGB-waarden zonder verlies. GBR-gecodeerde bestanden worden mogelijk niet geopend in sommige apps en decoders</string>
+    <string name="midtones">Middentonen</string>
+    <string name="wavefrom">Zwaaivan</string>
+    <string name="vectorscope">Vectorbereik</string>
 </resources>

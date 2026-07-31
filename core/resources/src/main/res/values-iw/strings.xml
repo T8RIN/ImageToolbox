@@ -4524,4 +4524,9 @@
     <string name="screen_content_coding">קידוד תוכן מסך</string>
     <string name="screen_content_coding_sub">מייעל את הקידוד עבור צילומי מסך, טקסט וגרפיקה</string>
     <string name="screen_content_coding_heic_sub">מייעל את הקידוד עבור צילומי מסך, טקסט וגרפיקה. רוב מפענחי ה-HEVC אינם תומכים בתוסף RExt SCC</string>
+    <string name="gbr_lossless">ללא אובדן אמיתי (GBR)</string>
+    <string name="gbr_lossless_sub">שומר על ערכי RGB ללא הפסד. ייתכן שקבצים מקודדי GBR לא ייפתחו בחלק מהאפליקציות והמפענחים</string>
+    <string name="midtones">גווני ביניים</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">היקף וקטור</string>
 </resources>

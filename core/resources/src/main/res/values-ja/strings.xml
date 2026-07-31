@@ -4521,4 +4521,9 @@
     <string name="screen_content_coding">画面コンテンツのコーディング</string>
     <string name="screen_content_coding_sub">スクリーンショット、テキスト、グラフィックのエンコードを最適化します。</string>
     <string name="screen_content_coding_heic_sub">スクリーンショット、テキスト、グラフィックのエンコードを最適化します。ほとんどの HEVC デコーダは RExt SCC 拡張をサポートしていません</string>
+    <string name="gbr_lossless">真のロスレス (GBR)</string>
+    <string name="gbr_lossless_sub">RGB 値を損失なく保持します。 GBR エンコードされたファイルは、一部のアプリやデコーダーでは開けない場合があります</string>
+    <string name="midtones">中間調</string>
+    <string name="wavefrom">ウェーブフロム</string>
+    <string name="vectorscope">ベクトルスコープ</string>
 </resources>

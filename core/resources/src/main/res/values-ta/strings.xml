@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">திரை உள்ளடக்க குறியீட்டு முறை</string>
     <string name="screen_content_coding_sub">ஸ்கிரீன்ஷாட்கள், உரை மற்றும் கிராபிக்ஸ் ஆகியவற்றிற்கான குறியாக்கத்தை மேம்படுத்துகிறது</string>
     <string name="screen_content_coding_heic_sub">ஸ்கிரீன்ஷாட்கள், உரை மற்றும் கிராபிக்ஸ் ஆகியவற்றிற்கான குறியாக்கத்தை மேம்படுத்துகிறது. பெரும்பாலான HEVC டிகோடர்கள் RExt SCC நீட்டிப்பை ஆதரிக்கவில்லை</string>
+    <string name="gbr_lossless">உண்மையான இழப்பற்ற (ஜிபிஆர்)</string>
+    <string name="gbr_lossless_sub">RGB மதிப்புகளை இழப்பின்றி பாதுகாக்கிறது. GBR-குறியீடு செய்யப்பட்ட கோப்புகள் சில ஆப்ஸ் மற்றும் டிகோடர்களில் திறக்கப்படாமல் போகலாம்</string>
+    <string name="midtones">மிட்டோன்கள்</string>
+    <string name="wavefrom">அலையிலிருந்து</string>
+    <string name="vectorscope">திசையன் நோக்கம்</string>
 </resources>

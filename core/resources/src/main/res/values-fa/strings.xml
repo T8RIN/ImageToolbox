@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">کدگذاری محتوای صفحه</string>
     <string name="screen_content_coding_sub">کدگذاری را برای اسکرین شات، متن و گرافیک بهینه می کند</string>
     <string name="screen_content_coding_heic_sub">کدگذاری را برای اسکرین شات، متن و گرافیک بهینه می کند. اکثر رسیورهای HEVC از پسوند RExt SCC پشتیبانی نمی کنند</string>
+    <string name="gbr_lossless">بدون ضرر واقعی (GBR)</string>
+    <string name="gbr_lossless_sub">مقادیر RGB را بدون از دست دادن حفظ می کند. فایل‌های کدگذاری شده با GBR ممکن است در برخی از برنامه‌ها و رمزگشاها باز نشوند</string>
+    <string name="midtones">آهنگ های میانی</string>
+    <string name="wavefrom">موج از</string>
+    <string name="vectorscope">دامنه برداری</string>
 </resources>

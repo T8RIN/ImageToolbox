@@ -4524,4 +4524,9 @@
     <string name="screen_content_coding">Кодування вмісту екрана</string>
     <string name="screen_content_coding_sub">Оптимізує кодування для знімків екрана, тексту та графіки</string>
     <string name="screen_content_coding_heic_sub">Оптимізує кодування для знімків екрана, тексту та графіки. Більшість декодерів HEVC не підтримують розширення RExt SCC</string>
+    <string name="gbr_lossless">Без втрат (GBR)</string>
+    <string name="gbr_lossless_sub">Зберігає значення RGB без втрат. Файли, закодовані GBR, можуть не відкриватися в деяких програмах і декодерах</string>
+    <string name="midtones">Середні тони</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">Векторний обсяг</string>
 </resources>

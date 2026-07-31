@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Ekraani sisu kodeerimine</string>
     <string name="screen_content_coding_sub">Optimeerib ekraanipiltide, teksti ja graafika kodeeringut</string>
     <string name="screen_content_coding_heic_sub">Optimeerib ekraanipiltide, teksti ja graafika kodeeringut. Enamik HEVC-dekoodereid ei toeta RExt SCC laiendust</string>
+    <string name="gbr_lossless">Tõeline kadudeta (GBR)</string>
+    <string name="gbr_lossless_sub">Säilitab RGB väärtused kadudeta. GBR-kodeeringuga failid ei pruugi mõnes rakenduses ja dekooderis avaneda</string>
+    <string name="midtones">Kesktoonid</string>
+    <string name="wavefrom">Laine alates</string>
+    <string name="vectorscope">Vektori ulatus</string>
 </resources>

@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">स्क्रीन सामग्री कोडिंग</string>
     <string name="screen_content_coding_sub">स्क्रीनशॉट, टेक्स्ट और ग्राफ़िक्स के लिए एन्कोडिंग को अनुकूलित करता है</string>
     <string name="screen_content_coding_heic_sub">स्क्रीनशॉट, टेक्स्ट और ग्राफ़िक्स के लिए एन्कोडिंग को अनुकूलित करता है। अधिकांश HEVC डिकोडर RExt SCC एक्सटेंशन का समर्थन नहीं करते हैं</string>
+    <string name="gbr_lossless">सच्चा दोषरहित (GBR)</string>
+    <string name="gbr_lossless_sub">बिना किसी हानि के RGB मानों को सुरक्षित रखता है। GBR-एन्कोडेड फ़ाइलें कुछ ऐप्स और डिकोडर्स में नहीं खुल सकती हैं</string>
+    <string name="midtones">मि़डटॉन</string>
+    <string name="wavefrom">वेवफ्रॉम</string>
+    <string name="vectorscope">वेक्टर दायरा</string>
 </resources>

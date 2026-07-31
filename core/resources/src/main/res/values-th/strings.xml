@@ -4521,4 +4521,9 @@
     <string name="screen_content_coding">การเข้ารหัสเนื้อหาหน้าจอ</string>
     <string name="screen_content_coding_sub">ปรับการเข้ารหัสให้เหมาะสมสำหรับภาพหน้าจอ ข้อความ และกราฟิก</string>
     <string name="screen_content_coding_heic_sub">ปรับการเข้ารหัสให้เหมาะสมสำหรับภาพหน้าจอ ข้อความ และกราฟิก ตัวถอดรหัส HEVC ส่วนใหญ่ไม่รองรับส่วนขยาย RExt SCC</string>
+    <string name="gbr_lossless">ขาดทุนจริง (GBR)</string>
+    <string name="gbr_lossless_sub">รักษาค่า RGB ไว้โดยไม่สูญเสีย ไฟล์ที่เข้ารหัส GBR อาจไม่เปิดในบางแอปและตัวถอดรหัส</string>
+    <string name="midtones">มิดโทน</string>
+    <string name="wavefrom">คลื่นจาก</string>
+    <string name="vectorscope">ขอบเขตเวกเตอร์</string>
 </resources>

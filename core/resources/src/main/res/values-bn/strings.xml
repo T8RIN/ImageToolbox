@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">স্ক্রীন কন্টেন্ট কোডিং</string>
     <string name="screen_content_coding_sub">স্ক্রিনশট, পাঠ্য এবং গ্রাফিক্সের জন্য এনকোডিং অপ্টিমাইজ করে</string>
     <string name="screen_content_coding_heic_sub">স্ক্রিনশট, পাঠ্য এবং গ্রাফিক্সের জন্য এনকোডিং অপ্টিমাইজ করে। বেশিরভাগ HEVC ডিকোডার RExt SCC এক্সটেনশন সমর্থন করে না</string>
+    <string name="gbr_lossless">সত্য ক্ষতিহীন (GBR)</string>
+    <string name="gbr_lossless_sub">ক্ষতি ছাড়াই RGB মান সংরক্ষণ করে। কিছু অ্যাপ এবং ডিকোডারে GBR-এনকোড করা ফাইল নাও খুলতে পারে</string>
+    <string name="midtones">মিডটোন</string>
+    <string name="wavefrom">তরঙ্গ থেকে</string>
+    <string name="vectorscope">ভেক্টর সুযোগ</string>
 </resources>

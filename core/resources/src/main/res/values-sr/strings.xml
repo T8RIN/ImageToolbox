@@ -4523,4 +4523,9 @@
     <string name="screen_content_coding">Кодирање садржаја екрана</string>
     <string name="screen_content_coding_sub">Оптимизује кодирање за снимке екрана, текст и графику</string>
     <string name="screen_content_coding_heic_sub">Оптимизује кодирање за снимке екрана, текст и графику. Већина ХЕВЦ декодера не подржава екстензију РЕкт СЦЦ</string>
+    <string name="gbr_lossless">Право без губитака (ГБР)</string>
+    <string name="gbr_lossless_sub">Чува РГБ вредности без губитка. Датотеке кодиране ГБР-ом се можда неће отворити у неким апликацијама и декодерима</string>
+    <string name="midtones">Средњи тонови</string>
+    <string name="wavefrom">Вавефром</string>
+    <string name="vectorscope">Векторски опсег</string>
 </resources>

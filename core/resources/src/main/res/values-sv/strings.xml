@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Skärminnehållskodning</string>
     <string name="screen_content_coding_sub">Optimerar kodning för skärmdumpar, text och grafik</string>
     <string name="screen_content_coding_heic_sub">Optimerar kodning för skärmdumpar, text och grafik. De flesta HEVC-avkodare stöder inte tillägget RExt SCC</string>
+    <string name="gbr_lossless">Sann förlustfri (GBR)</string>
+    <string name="gbr_lossless_sub">Bevarar RGB-värden utan förlust. GBR-kodade filer kanske inte öppnas i vissa appar och avkodare</string>
+    <string name="midtones">Mellantoner</string>
+    <string name="wavefrom">Våg från</string>
+    <string name="vectorscope">Vektor omfattning</string>
 </resources>

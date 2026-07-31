@@ -4524,4 +4524,9 @@
     <string name="screen_content_coding">Kódovanie obsahu obrazovky</string>
     <string name="screen_content_coding_sub">Optimalizuje kódovanie pre snímky obrazovky, text a grafiku</string>
     <string name="screen_content_coding_heic_sub">Optimalizuje kódovanie pre snímky obrazovky, text a grafiku. Väčšina dekodérov HEVC nepodporuje rozšírenie RExt SCC</string>
+    <string name="gbr_lossless">Skutočná bezstratová (GBR)</string>
+    <string name="gbr_lossless_sub">Zachováva hodnoty RGB bez straty. Súbory s kódovaním GBR sa v niektorých aplikáciách a dekodéroch nemusia otvárať</string>
+    <string name="midtones">Stredné tóny</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">Vektorový rozsah</string>
 </resources>

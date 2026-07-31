@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">స్క్రీన్ కంటెంట్ కోడింగ్</string>
     <string name="screen_content_coding_sub">స్క్రీన్‌షాట్‌లు, టెక్స్ట్ మరియు గ్రాఫిక్స్ కోసం ఎన్‌కోడింగ్‌ను ఆప్టిమైజ్ చేస్తుంది</string>
     <string name="screen_content_coding_heic_sub">స్క్రీన్‌షాట్‌లు, టెక్స్ట్ మరియు గ్రాఫిక్స్ కోసం ఎన్‌కోడింగ్‌ను ఆప్టిమైజ్ చేస్తుంది. చాలా HEVC డీకోడర్‌లు RExt SCC పొడిగింపుకు మద్దతు ఇవ్వవు</string>
+    <string name="gbr_lossless">నిజమైన నష్టం లేని (GBR)</string>
+    <string name="gbr_lossless_sub">RGB విలువలను నష్టం లేకుండా భద్రపరుస్తుంది. GBR-ఎన్‌కోడ్ చేసిన ఫైల్‌లు కొన్ని యాప్‌లు మరియు డీకోడర్‌లలో తెరవబడకపోవచ్చు</string>
+    <string name="midtones">మిడ్‌టోన్స్</string>
+    <string name="wavefrom">వేవ్ నుండి</string>
+    <string name="vectorscope">వెక్టర్ స్కోప్</string>
 </resources>

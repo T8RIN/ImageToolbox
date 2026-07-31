@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Képernyőtartalom kódolása</string>
     <string name="screen_content_coding_sub">Optimalizálja a képernyőképek, szövegek és grafikák kódolását</string>
     <string name="screen_content_coding_heic_sub">Optimalizálja a képernyőképek, szövegek és grafikák kódolását. A legtöbb HEVC dekóder nem támogatja a RExt SCC kiterjesztést</string>
+    <string name="gbr_lossless">Valódi veszteségmentes (GBR)</string>
+    <string name="gbr_lossless_sub">Veszteség nélkül megőrzi az RGB értékeket. Előfordulhat, hogy a GBR-kódolású fájlok nem nyílnak meg bizonyos alkalmazásokban és dekódolókban</string>
+    <string name="midtones">Középtónusok</string>
+    <string name="wavefrom">Wave from</string>
+    <string name="vectorscope">Vektor hatálya</string>
 </resources>

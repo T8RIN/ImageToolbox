@@ -4521,4 +4521,9 @@
     <string name="screen_content_coding">Pengkodean konten layar</string>
     <string name="screen_content_coding_sub">Mengoptimalkan pengkodean untuk tangkapan layar, teks, dan grafik</string>
     <string name="screen_content_coding_heic_sub">Mengoptimalkan pengkodean untuk tangkapan layar, teks, dan grafik. Kebanyakan dekoder HEVC tidak mendukung ekstensi RExt SCC</string>
+    <string name="gbr_lossless">Tanpa kerugian sejati (GBR)</string>
+    <string name="gbr_lossless_sub">Mempertahankan nilai RGB tanpa kehilangan. File yang dikodekan GBR mungkin tidak terbuka di beberapa aplikasi dan decoder</string>
+    <string name="midtones">Nada tengah</string>
+    <string name="wavefrom">Gelombang dari</string>
+    <string name="vectorscope">Ruang lingkup vektor</string>
 </resources>

@@ -4523,4 +4523,9 @@
     <string name="screen_content_coding">Codarea conținutului ecranului</string>
     <string name="screen_content_coding_sub">Optimizează codificarea pentru capturi de ecran, text și grafică</string>
     <string name="screen_content_coding_heic_sub">Optimizează codificarea pentru capturi de ecran, text și grafică. Majoritatea decodoarelor HEVC nu acceptă extensia RExt SCC</string>
+    <string name="gbr_lossless">Adevărat fără pierderi (GBR)</string>
+    <string name="gbr_lossless_sub">Păstrează valorile RGB fără pierderi. Este posibil ca fișierele codificate GBR să nu se deschidă în unele aplicații și decodore</string>
+    <string name="midtones">Tonuri medii</string>
+    <string name="wavefrom">Val de la</string>
+    <string name="vectorscope">Domeniul de aplicare vectorial</string>
 </resources>

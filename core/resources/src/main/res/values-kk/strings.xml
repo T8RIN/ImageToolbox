@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Экран мазмұнын кодтау</string>
     <string name="screen_content_coding_sub">Скриншоттар, мәтін және графика үшін кодтауды оңтайландырады</string>
     <string name="screen_content_coding_heic_sub">Скриншоттар, мәтін және графика үшін кодтауды оңтайландырады. Көптеген HEVC декодерлері Rext SCC кеңейтімін қолдамайды</string>
+    <string name="gbr_lossless">Нағыз шығынсыз (GBR)</string>
+    <string name="gbr_lossless_sub">RGB мәндерін жоғалтпай сақтайды. GBR-кодталған файлдар кейбір қолданбалар мен декодерлерде ашылмауы мүмкін</string>
+    <string name="midtones">Ортаңғы тондар</string>
+    <string name="wavefrom">толқын</string>
+    <string name="vectorscope">Векторлық ауқым</string>
 </resources>

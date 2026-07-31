@@ -4524,4 +4524,9 @@
     <string name="screen_content_coding">Ekrano turinio kodavimas</string>
     <string name="screen_content_coding_sub">Optimizuoja ekrano kopijų, teksto ir grafikos kodavimą</string>
     <string name="screen_content_coding_heic_sub">Optimizuoja ekrano kopijų, teksto ir grafikos kodavimą. Dauguma HEVC dekoderių nepalaiko RExt SCC plėtinio</string>
+    <string name="gbr_lossless">Tikras be nuostolių (GBR)</string>
+    <string name="gbr_lossless_sub">Išsaugo RGB vertes be nuostolių. Kai kuriose programose ir dekoderiuose GBR užkoduoti failai gali neatsidaryti</string>
+    <string name="midtones">Viduriniai tonai</string>
+    <string name="wavefrom">Banga iš</string>
+    <string name="vectorscope">Vektorinė apimtis</string>
 </resources>

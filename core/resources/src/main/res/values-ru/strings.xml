@@ -4526,4 +4526,7 @@
     <string name="screen_content_coding_heic_sub">Оптимизирует кодирование скриншотов, текста и графики. Большинство HEVC-декодеров не поддерживают расширение RExt SCC</string>
     <string name="gbr_lossless">Настоящее lossless-сжатие (GBR)</string>
     <string name="gbr_lossless_sub">Сохраняет значения RGB без потерь. Файлы с кодированием GBR могут не открываться в некоторых приложениях и декодерах</string>
+    <string name="midtones">Средние</string>
+    <string name="wavefrom">Волнаот</string>
+    <string name="vectorscope">Векторная область видимости</string>
 </resources>

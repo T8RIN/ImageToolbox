@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Codifica del contenuto dello schermo</string>
     <string name="screen_content_coding_sub">Ottimizza la codifica per screenshot, testo e grafica</string>
     <string name="screen_content_coding_heic_sub">Ottimizza la codifica per screenshot, testo e grafica. La maggior parte dei decoder HEVC non supporta l\'estensione RExt SCC</string>
+    <string name="gbr_lossless">Vera perdita senza perdite (GBR)</string>
+    <string name="gbr_lossless_sub">Conserva i valori RGB senza perdita. I file con codifica GBR potrebbero non aprirsi in alcune app e decoder</string>
+    <string name="midtones">Mezzitoni</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">Ambito vettoriale</string>
 </resources>

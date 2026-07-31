@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Ekran içeriği kodlaması</string>
     <string name="screen_content_coding_sub">Ekran görüntüleri, metin ve grafikler için kodlamayı optimize eder</string>
     <string name="screen_content_coding_heic_sub">Ekran görüntüleri, metin ve grafikler için kodlamayı optimize eder. Çoğu HEVC kod çözücü RExt SCC uzantısını desteklemez</string>
+    <string name="gbr_lossless">Gerçek kayıpsız (GBR)</string>
+    <string name="gbr_lossless_sub">RGB değerlerini kayıpsız korur. GBR kodlu dosyalar bazı uygulamalarda ve kod çözücülerde açılmayabilir</string>
+    <string name="midtones">Orta tonlar</string>
+    <string name="wavefrom">Dalga kaynağı</string>
+    <string name="vectorscope">Vektör kapsamı</string>
 </resources>

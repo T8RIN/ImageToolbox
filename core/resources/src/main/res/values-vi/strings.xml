@@ -4521,4 +4521,9 @@
     <string name="screen_content_coding">Mã hóa nội dung màn hình</string>
     <string name="screen_content_coding_sub">Tối ưu hóa mã hóa cho ảnh chụp màn hình, văn bản và đồ họa</string>
     <string name="screen_content_coding_heic_sub">Tối ưu hóa mã hóa cho ảnh chụp màn hình, văn bản và đồ họa. Hầu hết các bộ giải mã HEVC không hỗ trợ tiện ích mở rộng RExt SCC</string>
+    <string name="gbr_lossless">Thực sự không mất dữ liệu (GBR)</string>
+    <string name="gbr_lossless_sub">Bảo toàn giá trị RGB mà không bị mất. Các tệp được mã hóa GBR có thể không mở được trong một số ứng dụng và bộ giải mã</string>
+    <string name="midtones">Midtones</string>
+    <string name="wavefrom">Sóng từ</string>
+    <string name="vectorscope">phạm vi vectơ</string>
 </resources>

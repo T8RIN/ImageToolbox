@@ -4522,4 +4522,9 @@
     <string name="screen_content_coding">Codificación del contenido de la pantalla</string>
     <string name="screen_content_coding_sub">Optimiza la codificación de capturas de pantalla, texto y gráficos.</string>
     <string name="screen_content_coding_heic_sub">Optimiza la codificación de capturas de pantalla, texto y gráficos. La mayoría de los decodificadores HEVC no son compatibles con la extensión RExt SCC</string>
+    <string name="gbr_lossless">Verdadero sin pérdidas (GBR)</string>
+    <string name="gbr_lossless_sub">Conserva los valores RGB sin pérdida. Es posible que los archivos codificados en GBR no se abran en algunas aplicaciones y decodificadores</string>
+    <string name="midtones">Medios tonos</string>
+    <string name="wavefrom">onda de</string>
+    <string name="vectorscope">Alcance vectorial</string>
 </resources>
