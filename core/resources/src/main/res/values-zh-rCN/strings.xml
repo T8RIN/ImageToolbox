@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -4524,6 +4522,6 @@
     <string name="gbr_lossless">真正无损 (GBR)</string>
     <string name="gbr_lossless_sub">保留 RGB 值而不丢失。 GBR 编码的文件可能无法在某些应用程序和解码器中打开</string>
     <string name="midtones">中间色调</string>
-    <string name="wavefrom">波从</string>
+    <string name="wavefrom">波形</string>
     <string name="vectorscope">矢量范围</string>
 </resources>
