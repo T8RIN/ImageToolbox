@@ -1160,7 +1160,7 @@ or click one of the badges below.
     - Conversion
     - Harmonies
     - Shading
-    - Tone Curves applying
+    - Tone Curves applying with previewing stats of image using Wavefrom, Vector scopes or Histogram
       - RGB
       - CMYK
       - Lab
@@ -1170,6 +1170,7 @@ or click one of the badges below.
       - Luma vs Sat
       - Luma vs Hue
       - Sat vs Sat
+      - Color Wheels
 - Color Library with more than 33k different colors
 - Histograms
     - RGB
