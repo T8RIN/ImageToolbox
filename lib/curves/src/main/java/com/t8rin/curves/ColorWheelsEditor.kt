@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,11 +64,8 @@ internal fun ColorWheelsEditor(
     modifier: Modifier = Modifier,
     imageContent: (@Composable () -> Unit)? = null
 ) {
-    var currentValue by remember {
+    var currentValue by remember(value) {
         mutableStateOf(value.normalized())
-    }
-    LaunchedEffect(value) {
-        currentValue = value.normalized()
     }
     val updateValue: (ColorWheelsValue) -> Unit = { updatedValue ->
         currentValue = updatedValue.normalized()

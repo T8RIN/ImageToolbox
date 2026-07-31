@@ -119,7 +119,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import jp.co.cyberagent.android.gpuimage.GLTextureView
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter
@@ -166,6 +165,7 @@ fun ImageCurvesPreview(
     }
 }
 
+@Suppress("KotlinConstantConditions")
 @Composable
 fun ImageCurvesEditor(
     bitmap: Bitmap?,
@@ -1385,45 +1385,108 @@ private fun CurvesControls(
             )
         }
     } else {
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
-            verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
-            itemVerticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .animateContentSize(
-                    animationSpec = tween(
-                        durationMillis = 220,
-                        easing = FastOutSlowInEasing
+        if (items.size > 1) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .animateContentSize(
+                        animationSpec = tween(
+                            durationMillis = 220,
+                            easing = FastOutSlowInEasing
+                        )
                     )
-                )
-        ) {
-            onEditorTypeChange?.let { onTypeChange ->
-                EditorTypeButton(
-                    activeType = activeEditorType,
-                    appliedTypes = appliedEditorTypes,
-                    onTypeChange = onTypeChange
-                )
-            }
-            AnimatedVisibility(
-                visible = onScopeTypeChange != null && activeEditorType != ImageCurvesEditorType.ColorWheels
             ) {
-                ScopeTypeButton(
-                    activeType = activeScopeType,
-                    histogramAvailable = activeEditorType.usesHistogram,
-                    onTypeChange = onScopeTypeChange ?: {}
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        6.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+                    itemVerticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    if (items.size > 1) {
+                        items.forEach { curveButton(it) }
+                    }
+                }
+
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        6.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+                    itemVerticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    onEditorTypeChange?.let { onTypeChange ->
+                        EditorTypeButton(
+                            activeType = activeEditorType,
+                            appliedTypes = appliedEditorTypes,
+                            onTypeChange = onTypeChange
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = onScopeTypeChange != null && activeEditorType != ImageCurvesEditorType.ColorWheels
+                    ) {
+                        ScopeTypeButton(
+                            activeType = activeScopeType,
+                            histogramAvailable = activeEditorType.usesHistogram,
+                            onTypeChange = onScopeTypeChange ?: {}
+                        )
+                    }
+                    CurveActionButtons(
+                        canResetActiveCurve = canResetActiveCurve,
+                        canDeleteSelectedPoint = canDeleteSelectedPoint,
+                        onResetActiveCurve = onResetActiveCurve,
+                        onDeleteSelectedPoint = onDeleteSelectedPoint,
+                        activeEditorType = activeEditorType
+                    )
+                }
+            }
+        } else {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+                itemVerticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .animateContentSize(
+                        animationSpec = tween(
+                            durationMillis = 220,
+                            easing = FastOutSlowInEasing
+                        )
+                    )
+            ) {
+                onEditorTypeChange?.let { onTypeChange ->
+                    EditorTypeButton(
+                        activeType = activeEditorType,
+                        appliedTypes = appliedEditorTypes,
+                        onTypeChange = onTypeChange
+                    )
+                }
+                AnimatedVisibility(
+                    visible = onScopeTypeChange != null && activeEditorType != ImageCurvesEditorType.ColorWheels
+                ) {
+                    ScopeTypeButton(
+                        activeType = activeScopeType,
+                        histogramAvailable = activeEditorType.usesHistogram,
+                        onTypeChange = onScopeTypeChange ?: {}
+                    )
+                }
+                if (items.size > 1) {
+                    items.forEach { curveButton(it) }
+                }
+                CurveActionButtons(
+                    canResetActiveCurve = canResetActiveCurve,
+                    canDeleteSelectedPoint = canDeleteSelectedPoint,
+                    onResetActiveCurve = onResetActiveCurve,
+                    onDeleteSelectedPoint = onDeleteSelectedPoint,
+                    activeEditorType = activeEditorType
                 )
             }
-            if (items.size > 1) {
-                items.forEach { curveButton(it) }
-            }
-            CurveActionButtons(
-                canResetActiveCurve = canResetActiveCurve,
-                canDeleteSelectedPoint = canDeleteSelectedPoint,
-                onResetActiveCurve = onResetActiveCurve,
-                onDeleteSelectedPoint = onDeleteSelectedPoint,
-                activeEditorType = activeEditorType
-            )
         }
     }
 }
@@ -1558,10 +1621,6 @@ private fun EditorTypeButton(
                 modifier = Modifier
                     .width(IntrinsicSize.Max)
                     .padding(horizontal = 8.dp)
-                    .fadingEdges(
-                        scrollableState = scrollState,
-                        isVertical = true
-                    )
             ) {
                 ImageCurvesEditorType.entries.forEachIndexed { index, type ->
                     val selected = activeType == type

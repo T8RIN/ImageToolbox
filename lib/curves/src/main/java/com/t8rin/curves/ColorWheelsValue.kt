@@ -17,6 +17,7 @@
 
 package com.t8rin.curves
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 internal data class ColorWheelPoint(
@@ -44,10 +45,13 @@ internal data class ColorWheelsValue(
     val shadows: ColorWheelPoint = ColorWheelPoint(),
     val midtones: ColorWheelPoint = ColorWheelPoint(),
     val highlights: ColorWheelPoint = ColorWheelPoint(),
-    val edges: Float = 0.5f
+    val edges: Float = DefaultEdges
 ) {
     val isDefault: Boolean
-        get() = shadows.isDefault && midtones.isDefault && highlights.isDefault
+        get() = shadows.isDefault &&
+                midtones.isDefault &&
+                highlights.isDefault &&
+                abs(edges - DefaultEdges) < DefaultEpsilon
 
     fun normalized(): ColorWheelsValue = copy(
         shadows = shadows.normalized(),
@@ -59,5 +63,8 @@ internal data class ColorWheelsValue(
     companion object {
         const val MinEdges = 0f
         const val MaxEdges = 1f
+        const val DefaultEdges = 0.5f
+
+        private const val DefaultEpsilon = 0.000001f
     }
 }
