@@ -75,6 +75,11 @@ enum class ImageCurvesEditorType(
         channelNames = listOf("Sat"),
         curveOffset = 16,
         centeredCurve = true
+    ),
+    ColorWheels(
+        title = "Color Wheels",
+        channelNames = emptyList(),
+        curveOffset = 17
     );
 
     internal val channelCount: Int

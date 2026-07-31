@@ -4550,4 +4550,7 @@
     <string name="tag_shading_correction">Shading correction</string>
     <string name="image_info">Image Info</string>
     <string name="mime_type">Mime Type</string>
+    <string name="midtones">Midtones</string>
+    <string name="wavefrom">Wavefrom</string>
+    <string name="vectorscope">Vector scope</string>
 </resources>

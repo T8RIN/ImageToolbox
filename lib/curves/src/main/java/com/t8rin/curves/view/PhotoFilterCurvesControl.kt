@@ -36,6 +36,7 @@ import android.view.View
 import android.view.animation.PathInterpolator
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import com.t8rin.curves.ColorWheelsValue
 import com.t8rin.curves.ImageCurvesEditorType
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -1347,6 +1348,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
         var lumaVsSatCurve: CurvesValue = CurvesValue(0.5f)
         var lumaVsHueCurve: CurvesValue = CurvesValue(0.5f)
         var satVsSatCurve: CurvesValue = CurvesValue(0.5f)
+        var colorWheels: ColorWheelsValue = ColorWheelsValue()
         var activeEditorType: ImageCurvesEditorType = ImageCurvesEditorType.RGB
         var activeType: Int = CurvesTypeLuminance
 
@@ -1378,6 +1380,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             get() = allCurves[activeCurveIndex]
 
         fun curvesFor(type: ImageCurvesEditorType): List<CurvesValue> {
+            if (type == ImageCurvesEditorType.ColorWheels) return emptyList()
             return allCurves.subList(type.curveOffset, type.curveOffset + type.channelCount)
         }
 
@@ -1400,6 +1403,7 @@ internal class PhotoFilterCurvesControl @JvmOverloads constructor(
             it.lumaVsSatCurve = copies[14]
             it.lumaVsHueCurve = copies[15]
             it.satVsSatCurve = copies[16]
+            it.colorWheels = colorWheels.copy()
             it.activeEditorType = activeEditorType
             it.activeType = activeType
         }

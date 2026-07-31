@@ -45,7 +45,8 @@ data class ImageCurvesEditorState internal constructor(
 
     internal fun buildFilter(): GPUImageFilter = buildCurvesFilter(curvesToolValue)
 
-    fun isDefault(): Boolean = curvesToolValue.allCurves.all { it.isDefault }
+    fun isDefault(): Boolean = curvesToolValue.allCurves.all { it.isDefault } &&
+            curvesToolValue.colorWheels.isDefault
 
     /**
      * Serialized curve points. Legacy five-value curves contain only Y coordinates.
@@ -54,6 +55,13 @@ data class ImageCurvesEditorState internal constructor(
     val controlPoints: List<List<Float>>
         get() = curvesToolValue.allCurves.map { curve ->
             curve.points.flatMap { point -> listOf(point.x, point.y) }
+        } + curvesToolValue.colorWheels.let { wheels ->
+            listOf(
+                listOf(wheels.shadows.x, wheels.shadows.y),
+                listOf(wheels.midtones.x, wheels.midtones.y),
+                listOf(wheels.highlights.x, wheels.highlights.y),
+                listOf(wheels.edges)
+            )
         }
 
     private fun initControlPoints(controlPoints: List<List<Float>>) {
@@ -63,7 +71,23 @@ data class ImageCurvesEditorState internal constructor(
                 curve.setPoints(points)
             }
         }
+        curvesToolValue.colorWheels = ColorWheelsValue(
+            shadows = controlPoints.pointAt(ColorWheelsOffset),
+            midtones = controlPoints.pointAt(ColorWheelsOffset + 1),
+            highlights = controlPoints.pointAt(ColorWheelsOffset + 2),
+            edges = controlPoints.getOrNull(ColorWheelsOffset + 3)
+                ?.firstOrNull()
+                ?: 1f
+        ).normalized()
     }
+
+    private fun List<List<Float>>.pointAt(index: Int): ColorWheelPoint =
+        getOrNull(index)?.let { values ->
+            ColorWheelPoint(
+                x = values.getOrNull(0) ?: 0f,
+                y = values.getOrNull(1) ?: 0f
+            )
+        } ?: ColorWheelPoint()
 
     private fun CurvesValue.setPoints(points: List<Float>) {
         val parsedPoints = if (points.size == LegacyPointCount) {
@@ -81,6 +105,7 @@ data class ImageCurvesEditorState internal constructor(
 
     companion object {
         private const val LegacyPointCount = 5
+        private const val ColorWheelsOffset = 17
 
         val Default: ImageCurvesEditorState
             get() = ImageCurvesEditorState(CurvesToolValue())

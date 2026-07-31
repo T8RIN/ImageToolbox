@@ -19,9 +19,12 @@
 
 package com.t8rin.curves
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.view.MotionEvent
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
@@ -43,6 +46,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -101,6 +105,7 @@ import com.t8rin.curves.view.PhotoFilterCurvesControl
 import com.t8rin.histogram.Histogram
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AreaChart
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
@@ -113,6 +118,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedDropdownMenu
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import jp.co.cyberagent.android.gpuimage.GLTextureView
 import jp.co.cyberagent.android.gpuimage.GPUImage
@@ -127,6 +133,8 @@ enum class ImageCurvesEditorLayout {
     Overlay,
     Separate
 }
+
+private const val EditorModeTransitionDuration = 220
 
 @Composable
 fun ImageCurvesPreview(
@@ -179,6 +187,7 @@ fun ImageCurvesEditor(
     layout: ImageCurvesEditorLayout = ImageCurvesEditorLayout.Overlay,
     curveType: ImageCurvesEditorType? = null,
     showHistogram: Boolean = true,
+    scopeType: ImageCurvesEditorScope? = null,
     showImagePreview: Boolean = true,
     showAsRow: Boolean = false,
     editorHeight: Dp = 220.dp
@@ -191,12 +200,6 @@ fun ImageCurvesEditor(
         transitionSpec = { fadeIn() togetherWith fadeOut() }
     ) { image ->
         if (image != null) {
-            val gpuImage = remember(context, image) {
-                GPUImage(context).apply {
-                    setImage(image)
-                    setFilter(state.buildFilter())
-                }
-            }
             var activeCurveType by remember {
                 mutableIntStateOf(state.curvesToolValue.activeType)
             }
@@ -204,6 +207,37 @@ fun ImageCurvesEditor(
                 mutableStateOf(state.curvesToolValue.activeEditorType)
             }
             val activeEditorType = curveType ?: internalEditorType
+            val gpuImage = remember(context, image) {
+                GPUImage(context).apply {
+                    setImage(image)
+                    setFilter(state.buildFilter())
+                }
+            }
+            var internalScopeType by remember {
+                mutableStateOf(ImageCurvesEditorScope.Histogram)
+            }
+            val requestedScopeType = scopeType ?: if (showHistogram) {
+                internalScopeType
+            } else {
+                ImageCurvesEditorScope.None
+            }
+            val activeScopeType = when {
+                activeEditorType == ImageCurvesEditorType.ColorWheels -> {
+                    ImageCurvesEditorScope.None
+                }
+
+                requestedScopeType == ImageCurvesEditorScope.Histogram &&
+                        !showHistogram -> {
+                    ImageCurvesEditorScope.None
+                }
+
+                requestedScopeType == ImageCurvesEditorScope.Histogram &&
+                        !activeEditorType.usesHistogram -> {
+                    ImageCurvesEditorScope.Waveform
+                }
+
+                else -> requestedScopeType
+            }
             var curvesView by remember(image, layout) {
                 mutableStateOf<PhotoFilterCurvesControl?>(null)
             }
@@ -220,8 +254,12 @@ fun ImageCurvesEditor(
                         state.curvesToolValue.activeEditorType = type
                         state.curvesToolValue.activeType = 0
                         activeCurveType = 0
-                        curvesView?.setActiveEditorType(type)
-                        curvesView?.setActiveCurveType(0)
+                        if (type == ImageCurvesEditorType.ColorWheels) {
+                            curvesView = null
+                        } else {
+                            curvesView?.setActiveEditorType(type)
+                            curvesView?.setActiveCurveType(0)
+                        }
                     }
                 }
             }
@@ -264,9 +302,19 @@ fun ImageCurvesEditor(
                         state.curvesToolValue.activeType = 0
                         internalEditorType = type
                         activeCurveType = 0
-                        curvesView?.setActiveEditorType(type)
-                        curvesView?.setActiveCurveType(0)
+                        if (type == ImageCurvesEditorType.ColorWheels) {
+                            curvesView = null
+                        } else {
+                            curvesView?.setActiveEditorType(type)
+                            curvesView?.setActiveCurveType(0)
+                        }
                     }
+                } else {
+                    null
+                }
+            val onScopeTypeChange: ((ImageCurvesEditorScope) -> Unit)? =
+                if (showHistogram && scopeType == null) {
+                    { internalScopeType = it }
                 } else {
                     null
                 }
@@ -275,8 +323,20 @@ fun ImageCurvesEditor(
                 Unit
             }
             val onResetActiveCurve = {
-                curvesView?.resetActiveEditorType()
+                if (activeEditorType == ImageCurvesEditorType.ColorWheels) {
+                    state.curvesToolValue.colorWheels = ColorWheelsValue()
+                    canResetActiveCurve = false
+                    applyCurveChange()
+                } else {
+                    curvesView?.resetActiveEditorType()
+                }
                 Unit
+            }
+            val onColorWheelsChange: (ColorWheelsValue) -> Unit = { value ->
+                state.curvesToolValue.colorWheels = value.normalized()
+                canDeleteSelectedPoint = false
+                canResetActiveCurve = !value.isDefault
+                applyCurveChange()
             }
 
             val editorContent: @Composable (Bitmap?, () -> Unit) -> Unit =
@@ -290,11 +350,14 @@ fun ImageCurvesEditor(
                                 state = state,
                                 activeEditorType = activeEditorType,
                                 activeCurveType = activeCurveType,
+                                activeScopeType = activeScopeType,
                                 canDeleteSelectedPoint = canDeleteSelectedPoint,
                                 canResetActiveCurve = canResetActiveCurve,
                                 onCurveChanged = onCurveChanged,
                                 onCurveTypeChange = onCurveTypeChange,
                                 onEditorTypeChange = onEditorTypeChange,
+                                onScopeTypeChange = onScopeTypeChange,
+                                onColorWheelsChange = onColorWheelsChange,
                                 onDeleteSelectedPoint = onDeleteSelectedPoint,
                                 onResetActiveCurve = onResetActiveCurve,
                                 onCurvesViewChange = { curvesView = it },
@@ -321,11 +384,14 @@ fun ImageCurvesEditor(
                                 state = state,
                                 activeEditorType = activeEditorType,
                                 activeCurveType = activeCurveType,
+                                activeScopeType = activeScopeType,
                                 canDeleteSelectedPoint = canDeleteSelectedPoint,
                                 canResetActiveCurve = canResetActiveCurve,
                                 onCurveChanged = onCurveChanged,
                                 onCurveTypeChange = onCurveTypeChange,
                                 onEditorTypeChange = onEditorTypeChange,
+                                onScopeTypeChange = onScopeTypeChange,
+                                onColorWheelsChange = onColorWheelsChange,
                                 onDeleteSelectedPoint = onDeleteSelectedPoint,
                                 onResetActiveCurve = onResetActiveCurve,
                                 onCurvesViewChange = { curvesView = it },
@@ -348,50 +414,83 @@ fun ImageCurvesEditor(
                     }
                 }
 
-            if (showHistogram) {
-                var histogramBitmap by remember(image) {
-                    mutableStateOf(image)
-                }
-                var histogramRevision by remember(image) {
-                    mutableIntStateOf(0)
-                }
+            val scopePreviewState = rememberScopePreviewState(
+                enabled = activeScopeType != ImageCurvesEditorScope.None &&
+                        activeEditorType != ImageCurvesEditorType.ColorWheels,
+                image = image,
+                context = context,
+                showOriginal = showOriginal,
+                state = state,
+                activeEditorType = activeEditorType,
+                onCurveChanged = applyCurveChange
+            )
 
-                LaunchedEffect(
-                    histogramRevision,
-                    showOriginal,
-                    state,
-                    activeEditorType
-                ) {
-                    if (!activeEditorType.usesHistogram) {
-                        return@LaunchedEffect
-                    }
-                    delay(90)
-                    histogramBitmap = if (showOriginal) {
-                        image
-                    } else {
-                        val filter = state.snapshot().buildFilter()
-                        withContext(Dispatchers.Default) {
-                            GPUImage(context).apply {
-                                setImage(image)
-                                setFilter(filter)
-                            }.bitmapWithFilterApplied
-                        }.also {
-                            coroutineContext.ensureActive()
-                        }
-                    }
-                }
+            editorContent(
+                scopePreviewState.bitmap,
+                scopePreviewState.onCurveChanged
+            )
+        }
+    }
+}
 
-                editorContent(histogramBitmap.takeIf { activeEditorType.usesHistogram }) {
-                    applyCurveChange()
-                    if (activeEditorType.usesHistogram) {
-                        histogramRevision++
-                    }
-                }
-            } else {
-                editorContent(null, applyCurveChange)
+private data class ScopePreviewState(
+    val bitmap: Bitmap?,
+    val onCurveChanged: () -> Unit
+)
+
+@Composable
+private fun rememberScopePreviewState(
+    enabled: Boolean,
+    image: Bitmap,
+    context: Context,
+    showOriginal: Boolean,
+    state: ImageCurvesEditorState,
+    activeEditorType: ImageCurvesEditorType,
+    onCurveChanged: () -> Unit
+): ScopePreviewState {
+    if (!enabled) {
+        return ScopePreviewState(
+            bitmap = null,
+            onCurveChanged = onCurveChanged
+        )
+    }
+
+    var scopeBitmap by remember(image) {
+        mutableStateOf<Bitmap?>(null)
+    }
+    var scopeRevision by remember(image) {
+        mutableIntStateOf(0)
+    }
+
+    LaunchedEffect(
+        scopeRevision,
+        showOriginal,
+        state,
+        activeEditorType
+    ) {
+        delay(90)
+        scopeBitmap = if (showOriginal) {
+            image
+        } else {
+            val filter = state.snapshot().buildFilter()
+            withContext(Dispatchers.Default) {
+                GPUImage(context).apply {
+                    setImage(image)
+                    setFilter(filter)
+                }.bitmapWithFilterApplied
+            }.also {
+                coroutineContext.ensureActive()
             }
         }
     }
+
+    return ScopePreviewState(
+        bitmap = scopeBitmap,
+        onCurveChanged = {
+            onCurveChanged()
+            scopeRevision++
+        }
+    )
 }
 
 @Composable
@@ -402,11 +501,14 @@ private fun OverlayEditor(
     state: ImageCurvesEditorState,
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
     canDeleteSelectedPoint: Boolean,
     canResetActiveCurve: Boolean,
     onCurveChanged: () -> Unit,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
+    onScopeTypeChange: ((ImageCurvesEditorScope) -> Unit)?,
+    onColorWheelsChange: (ColorWheelsValue) -> Unit,
     onDeleteSelectedPoint: () -> Unit,
     onResetActiveCurve: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
@@ -428,12 +530,14 @@ private fun OverlayEditor(
         contentAlignment = Alignment.Center,
         modifier = modifier
     ) {
-        CurveEditorPane(
+        EditorPane(
             bitmap = histogramBitmap,
             state = state,
             activeEditorType = activeEditorType,
             activeCurveType = activeCurveType,
+            activeScopeType = activeScopeType,
             onCurveChanged = onCurveChanged,
+            onColorWheelsChange = onColorWheelsChange,
             onCurvesViewChange = onCurvesViewChange,
             onActionAvailabilityChange = onActionAvailabilityChange,
             colors = colors,
@@ -467,6 +571,8 @@ private fun OverlayEditor(
             canResetActiveCurve = canResetActiveCurve,
             onCurveTypeChange = onCurveTypeChange,
             onEditorTypeChange = onEditorTypeChange,
+            activeScopeType = activeScopeType,
+            onScopeTypeChange = onScopeTypeChange,
             onDeleteSelectedPoint = onDeleteSelectedPoint,
             onResetActiveCurve = onResetActiveCurve,
             colors = colors,
@@ -509,11 +615,14 @@ private fun SeparateEditor(
     state: ImageCurvesEditorState,
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
     canDeleteSelectedPoint: Boolean,
     canResetActiveCurve: Boolean,
     onCurveChanged: () -> Unit,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
+    onScopeTypeChange: ((ImageCurvesEditorScope) -> Unit)?,
+    onColorWheelsChange: (ColorWheelsValue) -> Unit,
     onDeleteSelectedPoint: () -> Unit,
     onResetActiveCurve: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
@@ -544,12 +653,14 @@ private fun SeparateEditor(
                         .clip(shape)
                 )
             }
-            CurveEditorPane(
+            EditorPane(
                 bitmap = histogramBitmap,
                 state = state,
                 activeEditorType = activeEditorType,
                 activeCurveType = activeCurveType,
+                activeScopeType = activeScopeType,
                 onCurveChanged = onCurveChanged,
+                onColorWheelsChange = onColorWheelsChange,
                 onCurvesViewChange = onCurvesViewChange,
                 onActionAvailabilityChange = onActionAvailabilityChange,
                 colors = colors,
@@ -559,9 +670,10 @@ private fun SeparateEditor(
                 modifier = Modifier
                     .weight(1f)
                     .height(editorHeight)
-                    .background(
+                    .container(
                         color = MaterialTheme.colorScheme.surfaceContainer,
-                        shape = shape
+                        shape = shape,
+                        resultPadding = 0.dp
                     ),
                 shape = shape
             )
@@ -573,6 +685,8 @@ private fun SeparateEditor(
                 canResetActiveCurve = canResetActiveCurve,
                 onCurveTypeChange = onCurveTypeChange,
                 onEditorTypeChange = onEditorTypeChange,
+                activeScopeType = activeScopeType,
+                onScopeTypeChange = onScopeTypeChange,
                 onDeleteSelectedPoint = onDeleteSelectedPoint,
                 onResetActiveCurve = onResetActiveCurve,
                 colors = colors,
@@ -607,12 +721,14 @@ private fun SeparateEditor(
                         .clip(shape)
                 )
             }
-            CurveEditorPane(
+            EditorPane(
                 bitmap = histogramBitmap,
                 state = state,
                 activeEditorType = activeEditorType,
                 activeCurveType = activeCurveType,
+                activeScopeType = activeScopeType,
                 onCurveChanged = onCurveChanged,
+                onColorWheelsChange = onColorWheelsChange,
                 onCurvesViewChange = onCurvesViewChange,
                 onActionAvailabilityChange = onActionAvailabilityChange,
                 colors = colors,
@@ -629,9 +745,10 @@ private fun SeparateEditor(
                     )
                     .fillMaxWidth()
                     .height(editorHeight)
-                    .background(
+                    .container(
                         color = MaterialTheme.colorScheme.surfaceContainer,
-                        shape = shape
+                        shape = shape,
+                        resultPadding = 0.dp
                     ),
                 shape = shape
             )
@@ -643,6 +760,8 @@ private fun SeparateEditor(
                 canResetActiveCurve = canResetActiveCurve,
                 onCurveTypeChange = onCurveTypeChange,
                 onEditorTypeChange = onEditorTypeChange,
+                activeScopeType = activeScopeType,
+                onScopeTypeChange = onScopeTypeChange,
                 onDeleteSelectedPoint = onDeleteSelectedPoint,
                 onResetActiveCurve = onResetActiveCurve,
                 colors = colors,
@@ -658,11 +777,157 @@ private fun SeparateEditor(
 }
 
 @Composable
+private fun EditorPane(
+    bitmap: Bitmap?,
+    state: ImageCurvesEditorState,
+    activeEditorType: ImageCurvesEditorType,
+    activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
+    onCurveChanged: () -> Unit,
+    onColorWheelsChange: (ColorWheelsValue) -> Unit,
+    onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
+    onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
+    colors: ImageCurvesEditorColors,
+    drawNotActiveCurves: Boolean,
+    disallowInterceptTouchEvents: Boolean,
+    histogramAlpha: Float,
+    modifier: Modifier,
+    shape: Shape,
+    imageContent: (@Composable () -> Unit)? = null
+) {
+    if (imageContent == null) {
+        AnimatedContent(
+            targetState = activeEditorType,
+            modifier = modifier,
+            contentKey = { it == ImageCurvesEditorType.ColorWheels },
+            transitionSpec = {
+                fadeIn(
+                    animationSpec = tween(
+                        durationMillis = EditorModeTransitionDuration,
+                        easing = FastOutSlowInEasing
+                    )
+                ) togetherWith fadeOut(
+                    animationSpec = tween(
+                        durationMillis = EditorModeTransitionDuration
+                    )
+                ) using SizeTransform(clip = false)
+            },
+            label = "CurvesEditorMode"
+        ) { editorType ->
+            val editorState = if (editorType == activeEditorType) {
+                state
+            } else {
+                remember(editorType, state) {
+                    state.snapshot().also { snapshot ->
+                        snapshot.curvesToolValue.activeEditorType = editorType
+                        snapshot.curvesToolValue.activeType = if (editorType.channelCount > 0) {
+                            activeCurveType.coerceIn(0, editorType.channelCount - 1)
+                        } else {
+                            0
+                        }
+                    }
+                }
+            }
+            EditorPaneContent(
+                bitmap = bitmap,
+                state = editorState,
+                activeEditorType = editorType,
+                activeCurveType = activeCurveType,
+                activeScopeType = activeScopeType,
+                onCurveChanged = onCurveChanged,
+                onColorWheelsChange = onColorWheelsChange,
+                onCurvesViewChange = onCurvesViewChange,
+                onActionAvailabilityChange = onActionAvailabilityChange,
+                colors = colors,
+                drawNotActiveCurves = drawNotActiveCurves,
+                disallowInterceptTouchEvents = disallowInterceptTouchEvents,
+                histogramAlpha = histogramAlpha,
+                modifier = Modifier.fillMaxSize(),
+                shape = shape
+            )
+        }
+    } else {
+        EditorPaneContent(
+            bitmap = bitmap,
+            state = state,
+            activeEditorType = activeEditorType,
+            activeCurveType = activeCurveType,
+            activeScopeType = activeScopeType,
+            onCurveChanged = onCurveChanged,
+            onColorWheelsChange = onColorWheelsChange,
+            onCurvesViewChange = onCurvesViewChange,
+            onActionAvailabilityChange = onActionAvailabilityChange,
+            colors = colors,
+            drawNotActiveCurves = drawNotActiveCurves,
+            disallowInterceptTouchEvents = disallowInterceptTouchEvents,
+            histogramAlpha = histogramAlpha,
+            modifier = modifier,
+            shape = shape,
+            imageContent = imageContent
+        )
+    }
+}
+
+@Composable
+private fun EditorPaneContent(
+    bitmap: Bitmap?,
+    state: ImageCurvesEditorState,
+    activeEditorType: ImageCurvesEditorType,
+    activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
+    onCurveChanged: () -> Unit,
+    onColorWheelsChange: (ColorWheelsValue) -> Unit,
+    onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
+    onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
+    colors: ImageCurvesEditorColors,
+    drawNotActiveCurves: Boolean,
+    disallowInterceptTouchEvents: Boolean,
+    histogramAlpha: Float,
+    modifier: Modifier,
+    shape: Shape,
+    imageContent: (@Composable () -> Unit)? = null
+) {
+    if (activeEditorType == ImageCurvesEditorType.ColorWheels) {
+        val value = state.curvesToolValue.colorWheels
+        LaunchedEffect(value) {
+            onActionAvailabilityChange(false, !value.isDefault)
+        }
+        ColorWheelsEditor(
+            value = value,
+            onValueChange = onColorWheelsChange,
+            colors = colors,
+            shape = shape,
+            modifier = modifier,
+            imageContent = imageContent
+        )
+    } else {
+        CurveEditorPane(
+            bitmap = bitmap,
+            state = state,
+            activeEditorType = activeEditorType,
+            activeCurveType = activeCurveType,
+            activeScopeType = activeScopeType,
+            onCurveChanged = onCurveChanged,
+            onCurvesViewChange = onCurvesViewChange,
+            onActionAvailabilityChange = onActionAvailabilityChange,
+            colors = colors,
+            drawNotActiveCurves = drawNotActiveCurves,
+            disallowInterceptTouchEvents = disallowInterceptTouchEvents,
+            histogramAlpha = histogramAlpha,
+            modifier = modifier,
+            shape = shape,
+            imageContent = imageContent
+        )
+    }
+}
+
+@Composable
 private fun CurveEditorPane(
     bitmap: Bitmap?,
     state: ImageCurvesEditorState,
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
     onCurveChanged: () -> Unit,
     onCurvesViewChange: (PhotoFilterCurvesControl) -> Unit,
     onActionAvailabilityChange: (Boolean, Boolean) -> Unit,
@@ -727,14 +992,36 @@ private fun CurveEditorPane(
         ) {
             imageContent?.invoke()
             if (bitmap != null) {
-                CurveChannelHistogram(
-                    bitmap = bitmap,
-                    curveType = activeCurveType,
-                    colors = colors,
-                    modifier = Modifier
-                        .matchParentSize()
-                        .graphicsLayer(alpha = histogramAlpha.coerceIn(0f, 1f))
-                )
+                when (activeScopeType) {
+                    ImageCurvesEditorScope.Histogram -> {
+                        CurveChannelHistogram(
+                            bitmap = bitmap,
+                            curveType = activeCurveType,
+                            colors = colors,
+                            modifier = Modifier
+                                .matchParentSize()
+                                .graphicsLayer(
+                                    alpha = histogramAlpha.coerceIn(0f, 1f)
+                                )
+                        )
+                    }
+
+                    ImageCurvesEditorScope.Waveform,
+                    ImageCurvesEditorScope.Vectorscope -> {
+                        ImageScopeOverlay(
+                            bitmap = bitmap,
+                            type = activeScopeType,
+                            colors = colors,
+                            modifier = Modifier
+                                .matchParentSize()
+                                .graphicsLayer(
+                                    alpha = histogramAlpha.coerceIn(0f, 1f)
+                                )
+                        )
+                    }
+
+                    ImageCurvesEditorScope.None -> Unit
+                }
             }
 
             AndroidView(
@@ -998,14 +1285,18 @@ private fun GPUImagePreview(
     gpuImage: GPUImage,
     modifier: Modifier
 ) {
-    AndroidView(
-        modifier = modifier.graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen),
-        factory = { context ->
-            GLTextureView(context).apply {
-                gpuImage.setGLTextureView(this)
+    key(gpuImage) {
+        AndroidView(
+            modifier = modifier.graphicsLayer(
+                compositingStrategy = CompositingStrategy.Offscreen
+            ),
+            factory = { context ->
+                GLTextureView(context).apply {
+                    gpuImage.setGLTextureView(this)
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable
@@ -1013,10 +1304,12 @@ private fun CurvesControls(
     state: ImageCurvesEditorState,
     activeEditorType: ImageCurvesEditorType,
     activeCurveType: Int,
+    activeScopeType: ImageCurvesEditorScope,
     canDeleteSelectedPoint: Boolean,
     canResetActiveCurve: Boolean,
     onCurveTypeChange: (Int) -> Unit,
     onEditorTypeChange: ((ImageCurvesEditorType) -> Unit)?,
+    onScopeTypeChange: ((ImageCurvesEditorScope) -> Unit)?,
     onDeleteSelectedPoint: () -> Unit,
     onResetActiveCurve: () -> Unit,
     colors: ImageCurvesEditorColors,
@@ -1025,7 +1318,11 @@ private fun CurvesControls(
 ) {
     val appliedEditorTypes = ImageCurvesEditorType.entries
         .filterTo(mutableSetOf()) { type ->
-            state.curvesToolValue.curvesFor(type).any { !it.isDefault }
+            if (type == ImageCurvesEditorType.ColorWheels) {
+                !state.curvesToolValue.colorWheels.isDefault
+            } else {
+                state.curvesToolValue.curvesFor(type).any { !it.isDefault }
+            }
         }
     val items = activeEditorType.channelNames.indices.map { channel ->
         channel to curveChannelColor(activeEditorType, channel, colors)
@@ -1067,6 +1364,15 @@ private fun CurvesControls(
                     onTypeChange = onTypeChange
                 )
             }
+            AnimatedVisibility(
+                visible = onScopeTypeChange != null && activeEditorType != ImageCurvesEditorType.ColorWheels
+            ) {
+                ScopeTypeButton(
+                    activeType = activeScopeType,
+                    histogramAvailable = activeEditorType.usesHistogram,
+                    onTypeChange = onScopeTypeChange ?: {}
+                )
+            }
             if (items.size > 1) {
                 items.forEach { curveButton(it) }
             }
@@ -1074,7 +1380,8 @@ private fun CurvesControls(
                 canResetActiveCurve = canResetActiveCurve,
                 canDeleteSelectedPoint = canDeleteSelectedPoint,
                 onResetActiveCurve = onResetActiveCurve,
-                onDeleteSelectedPoint = onDeleteSelectedPoint
+                onDeleteSelectedPoint = onDeleteSelectedPoint,
+                activeEditorType = activeEditorType
             )
         }
     } else {
@@ -1098,6 +1405,15 @@ private fun CurvesControls(
                     onTypeChange = onTypeChange
                 )
             }
+            AnimatedVisibility(
+                visible = onScopeTypeChange != null && activeEditorType != ImageCurvesEditorType.ColorWheels
+            ) {
+                ScopeTypeButton(
+                    activeType = activeScopeType,
+                    histogramAvailable = activeEditorType.usesHistogram,
+                    onTypeChange = onScopeTypeChange ?: {}
+                )
+            }
             if (items.size > 1) {
                 items.forEach { curveButton(it) }
             }
@@ -1105,8 +1421,93 @@ private fun CurvesControls(
                 canResetActiveCurve = canResetActiveCurve,
                 canDeleteSelectedPoint = canDeleteSelectedPoint,
                 onResetActiveCurve = onResetActiveCurve,
-                onDeleteSelectedPoint = onDeleteSelectedPoint
+                onDeleteSelectedPoint = onDeleteSelectedPoint,
+                activeEditorType = activeEditorType
             )
+        }
+    }
+}
+
+@Composable
+private fun ScopeTypeButton(
+    activeType: ImageCurvesEditorScope,
+    histogramAvailable: Boolean,
+    onTypeChange: (ImageCurvesEditorScope) -> Unit
+) {
+    var expanded by remember {
+        mutableStateOf(false)
+    }
+    val availableTypes = ImageCurvesEditorScope.entries.filter {
+        it != ImageCurvesEditorScope.Histogram || histogramAvailable
+    }
+
+    Box {
+        val selected = activeType != ImageCurvesEditorScope.None
+        val containerColor = takeColorFromScheme {
+            if (selected) tertiaryContainer else surfaceContainerHigh
+        }
+        val contentColor = takeColorFromScheme {
+            if (selected) onTertiaryContainer else onSurface
+        }
+
+        EnhancedIconButton(
+            onClick = { expanded = true },
+            containerColor = containerColor,
+            contentColor = contentColor,
+            forceMinimumInteractiveComponentSize = false,
+            modifier = Modifier.size(40.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.AreaChart,
+                contentDescription = null
+            )
+        }
+
+        EnhancedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            shape = ShapeDefaults.large
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier
+                    .width(IntrinsicSize.Max)
+                    .padding(horizontal = 8.dp)
+            ) {
+                availableTypes.forEachIndexed { index, type ->
+                    val selected = type == activeType
+                    EnhancedButton(
+                        onClick = {
+                            expanded = false
+                            onTypeChange(type)
+                        },
+                        shape = ShapeDefaults.byIndex(
+                            index = index,
+                            size = availableTypes.size
+                        ),
+                        containerColor = if (selected) {
+                            MaterialTheme.colorScheme.tertiary
+                        } else {
+                            MaterialTheme.colorScheme.surfaceContainerHigh
+                        },
+                        contentColor = if (selected) {
+                            MaterialTheme.colorScheme.onTertiary
+                        } else {
+                            MaterialTheme.colorScheme.onSurface
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            when (type) {
+                                ImageCurvesEditorScope.None -> stringResource(R.string.none)
+                                ImageCurvesEditorScope.Histogram -> stringResource(R.string.histogram)
+                                ImageCurvesEditorScope.Waveform -> stringResource(R.string.wavefrom)
+                                ImageCurvesEditorScope.Vectorscope -> stringResource(R.string.vectorscope)
+                            }
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -1325,6 +1726,7 @@ private fun CurveActionButtons(
     canDeleteSelectedPoint: Boolean,
     onResetActiveCurve: () -> Unit,
     onDeleteSelectedPoint: () -> Unit,
+    activeEditorType: ImageCurvesEditorType,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -1345,18 +1747,20 @@ private fun CurveActionButtons(
                 contentDescription = stringResource(R.string.reset)
             )
         }
-        EnhancedIconButton(
-            onClick = onDeleteSelectedPoint,
-            enabled = canDeleteSelectedPoint,
-            containerColor = MaterialTheme.colorScheme.errorContainer,
-            contentColor = MaterialTheme.colorScheme.onErrorContainer,
-            forceMinimumInteractiveComponentSize = false,
-            modifier = Modifier.size(40.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.RemoveCircle,
-                contentDescription = stringResource(R.string.remove)
-            )
+        AnimatedVisibility(activeEditorType != ImageCurvesEditorType.ColorWheels) {
+            EnhancedIconButton(
+                onClick = onDeleteSelectedPoint,
+                enabled = canDeleteSelectedPoint,
+                containerColor = MaterialTheme.colorScheme.errorContainer,
+                contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                forceMinimumInteractiveComponentSize = false,
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.RemoveCircle,
+                    contentDescription = stringResource(R.string.remove)
+                )
+            }
         }
     }
 }

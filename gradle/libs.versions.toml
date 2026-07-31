@@ -9,7 +9,7 @@ versionCode = "264"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "7.8.1"
+imageToolboxLibs = "7.8.2"
 trickle = "1.9.2"
 evaluator = "1.0.0"
 quickie = "1.19.0"
@@ -87,7 +87,7 @@ materialKolor = "5.0.0"
 paletteKtx = "1.0.0"
 kotlinxSerializationJson = "1.11.0"
 
-firebaseBom = "34.16.0"
+firebaseBom = "34.17.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
 coilResvg = "1.0.0"

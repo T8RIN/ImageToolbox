@@ -71,10 +71,152 @@ internal fun buildCurvesFilter(value: CurvesToolValue): GPUImageFilter {
         )
     }
 
+    if (!value.colorWheels.isDefault) {
+        filters += GPUImageColorWheelsFilter(value.colorWheels)
+    }
+
     return when (filters.size) {
         0 -> GPUImageFilter()
         1 -> filters.first()
         else -> GPUImageFilterGroup(filters)
+    }
+}
+
+private class GPUImageColorWheelsFilter(
+    private val value: ColorWheelsValue
+) : GPUImageFilter(
+    NO_FILTER_VERTEX_SHADER,
+    COLOR_WHEELS_FRAGMENT_SHADER
+) {
+    private var shadowsLocation = 0
+    private var midtonesLocation = 0
+    private var highlightsLocation = 0
+    private var edgesLocation = 0
+
+    override fun onInit() {
+        super.onInit()
+        shadowsLocation = GLES20.glGetUniformLocation(program, "shadows")
+        midtonesLocation = GLES20.glGetUniformLocation(program, "midtones")
+        highlightsLocation = GLES20.glGetUniformLocation(program, "highlights")
+        edgesLocation = GLES20.glGetUniformLocation(program, "edges")
+    }
+
+    override fun onDrawArraysPre() {
+        super.onDrawArraysPre()
+        GLES20.glUniform2f(shadowsLocation, value.shadows.x, value.shadows.y)
+        GLES20.glUniform2f(midtonesLocation, value.midtones.x, value.midtones.y)
+        GLES20.glUniform2f(highlightsLocation, value.highlights.x, value.highlights.y)
+        GLES20.glUniform1f(edgesLocation, value.edges)
+    }
+
+    private companion object {
+        const val COLOR_WHEELS_FRAGMENT_SHADER = """
+            varying highp vec2 textureCoordinate;
+            uniform sampler2D inputImageTexture;
+            uniform highp vec2 shadows;
+            uniform highp vec2 midtones;
+            uniform highp vec2 highlights;
+            uniform highp float edges;
+
+            highp vec3 hsvToRgb(highp vec3 hsv) {
+                highp vec3 p = abs(
+                    fract(hsv.xxx + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0
+                );
+                return hsv.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), hsv.y);
+            }
+
+            highp vec3 srgbToLinear(highp vec3 color) {
+                highp vec3 lower = color / 12.92;
+                highp vec3 upper = pow(
+                    (color + vec3(0.055)) / 1.055,
+                    vec3(2.4)
+                );
+                return mix(lower, upper, step(vec3(0.04045), color));
+            }
+
+            highp vec3 linearToSrgb(highp vec3 color) {
+                highp vec3 safeColor = max(color, vec3(0.0));
+                highp vec3 lower = safeColor * 12.92;
+                highp vec3 upper = 1.055 * pow(
+                    safeColor,
+                    vec3(1.0 / 2.4)
+                ) - vec3(0.055);
+                return mix(lower, upper, step(vec3(0.0031308), safeColor));
+            }
+
+            highp vec3 linearToOklab(highp vec3 color) {
+                highp vec3 lms = vec3(
+                    dot(color, vec3(0.4122214708, 0.5363325363, 0.0514459929)),
+                    dot(color, vec3(0.2119034982, 0.6806995451, 0.1073969566)),
+                    dot(color, vec3(0.0883024619, 0.2817188376, 0.6299787005))
+                );
+                lms = sign(lms) * pow(abs(lms), vec3(1.0 / 3.0));
+                return vec3(
+                    dot(lms, vec3(0.2104542553, 0.7936177850, -0.0040720468)),
+                    dot(lms, vec3(1.9779984951, -2.4285922050, 0.4505937099)),
+                    dot(lms, vec3(0.0259040371, 0.7827717662, -0.8086757660))
+                );
+            }
+
+            highp vec3 oklabToLinear(highp vec3 color) {
+                highp vec3 lms = vec3(
+                    color.x + 0.3963377774 * color.y + 0.2158037573 * color.z,
+                    color.x - 0.1055613458 * color.y - 0.0638541728 * color.z,
+                    color.x - 0.0894841775 * color.y - 1.2914855480 * color.z
+                );
+                lms = lms * lms * lms;
+                return vec3(
+                    dot(lms, vec3(4.0767416621, -3.3077115913, 0.2309699292)),
+                    dot(lms, vec3(-1.2684380046, 2.6097574011, -0.3413193965)),
+                    dot(lms, vec3(-0.0041960863, -0.7034186147, 1.7076147010))
+                );
+            }
+
+            highp vec2 balance(highp vec2 wheel) {
+                highp float strength = min(length(wheel), 1.0);
+                highp float angle = atan(-wheel.y, wheel.x);
+                highp float hue = fract((angle - 1.5707963268) / 6.2831853072);
+                highp vec3 color = hsvToRgb(vec3(hue, 1.0, 1.0));
+                highp vec3 lab = linearToOklab(srgbToLinear(color));
+                highp vec2 chroma = lab.yz;
+                return chroma / max(length(chroma), 0.0001) * strength;
+            }
+
+            void main() {
+                lowp vec4 source = texture2D(inputImageTexture, textureCoordinate);
+                highp vec3 lab = linearToOklab(srgbToLinear(source.rgb));
+                highp float tonalLuma = dot(
+                    source.rgb,
+                    vec3(0.2126, 0.7152, 0.0722)
+                );
+                highp float sharpness = mix(
+                    0.8,
+                    16.0,
+                    smoothstep(0.0, 1.0, clamp(edges, 0.0, 1.0))
+                );
+                highp vec3 distances = vec3(
+                    tonalLuma,
+                    abs(tonalLuma - 0.5),
+                    1.0 - tonalLuma
+                );
+                highp vec3 weights = exp(
+                    -sharpness * distances * distances
+                );
+                weights /= max(
+                    weights.x + weights.y + weights.z,
+                    0.0001
+                );
+                highp vec2 adjustment =
+                    balance(shadows) * weights.x +
+                    balance(midtones) * weights.y +
+                    balance(highlights) * weights.z;
+                lab.yz += adjustment * 0.115;
+                gl_FragColor = vec4(
+                    clamp(linearToSrgb(oklabToLinear(lab)), 0.0, 1.0),
+                    source.a
+                );
+            }
+        """
     }
 }
 

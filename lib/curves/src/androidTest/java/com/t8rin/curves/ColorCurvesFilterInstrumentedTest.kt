@@ -23,7 +23,10 @@ import android.graphics.Color
 import android.graphics.PointF
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.t8rin.histogram.ImageScope
+import com.t8rin.histogram.ImageScopeType
 import jp.co.cyberagent.android.gpuimage.GPUImage
+import kotlinx.coroutines.runBlocking
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup
 import org.junit.Assert.assertEquals
@@ -50,26 +53,156 @@ class ColorCurvesFilterInstrumentedTest {
             Bitmap.Config.ARGB_8888
         )
 
-        ImageCurvesEditorType.entries.forEach { type ->
-            val state = ImageCurvesEditorState.Default
-            val curve = state.curvesToolValue.curvesFor(type).first()
-            curve.addPoint(
-                x = 0.5f,
-                y = if (type.centeredCurve) 0.65f else 0.4f
-            )
+        ImageCurvesEditorType.entries
+            .filterNot { it == ImageCurvesEditorType.ColorWheels }
+            .forEach { type ->
+                val state = ImageCurvesEditorState.Default
+                val curve = state.curvesToolValue.curvesFor(type).first()
+                curve.addPoint(
+                    x = 0.5f,
+                    y = if (type.centeredCurve) 0.65f else 0.4f
+                )
 
-            val result = GPUImage(context).run {
-                setImage(source)
-                setFilter(state.buildFilter())
-                bitmapWithFilterApplied
+                val result = GPUImage(context).run {
+                    setImage(source)
+                    setFilter(state.buildFilter())
+                    bitmapWithFilterApplied
+                }
+
+                assertEquals(type.title, 2, result.width)
+                assertEquals(type.title, 2, result.height)
+                result.recycle()
             }
 
-            assertEquals(type.title, 2, result.width)
-            assertEquals(type.title, 2, result.height)
-            result.recycle()
+        source.recycle()
+    }
+
+    @Test
+    fun colorWheelsCompileAndRender() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val sourceColors = intArrayOf(
+            Color.rgb(32, 32, 32),
+            Color.rgb(128, 128, 128),
+            Color.rgb(224, 224, 224)
+        )
+        val source = Bitmap.createBitmap(
+            IntArray(300) { index -> sourceColors[index / 100] },
+            300,
+            1,
+            Bitmap.Config.ARGB_8888
+        )
+        val state = ImageCurvesEditorState.Default
+        state.curvesToolValue.colorWheels = ColorWheelsValue(
+            shadows = ColorWheelPoint(x = 0f, y = -0.7f),
+            edges = 1f
+        )
+
+        val result = GPUImage(context).run {
+            setImage(source)
+            setFilter(state.buildFilter())
+            bitmapWithFilterApplied
+        }
+
+        val resultColor = result.getPixel(50, 0)
+        assertTrue(Color.red(resultColor) != Color.red(sourceColors[0]))
+        assertTrue(Color.red(resultColor) + Color.green(resultColor) + Color.blue(resultColor) > 0)
+        val shadowsDelta = result.getPixel(50, 0).distanceFrom(sourceColors[0])
+        val highlightsDelta = result.getPixel(250, 0).distanceFrom(sourceColors[2])
+        assertTrue(
+            "Expected shadows delta ($shadowsDelta) to exceed highlights delta " +
+                    "($highlightsDelta)",
+            shadowsDelta > highlightsDelta
+        )
+        result.recycle()
+        source.recycle()
+    }
+
+    @Test
+    fun colorWheelsPreserveToneAndEdgesControlTonalOverlap() {
+        val sourceColor = Color.rgb(56, 56, 56)
+        val points = ColorWheelsValue(
+            shadows = ColorWheelPoint(x = 0f, y = -0.85f),
+            midtones = ColorWheelPoint(x = 0f, y = 0.85f),
+            highlights = ColorWheelPoint(x = 0.85f, y = 0f)
+        )
+        val blended = renderColorWheels(
+            value = points.copy(edges = 0f),
+            sourceColor = sourceColor
+        )
+        val isolated = renderColorWheels(
+            value = points.copy(edges = 1f),
+            sourceColor = sourceColor
+        )
+        val blendedRedBias = Color.red(blended) -
+                (Color.green(blended) + Color.blue(blended)) / 2
+        val isolatedRedBias = Color.red(isolated) -
+                (Color.green(isolated) + Color.blue(isolated)) / 2
+
+        assertTrue(
+            "Edges should isolate the red shadow grade: " +
+                    "$isolatedRedBias vs $blendedRedBias",
+            isolatedRedBias > blendedRedBias
+        )
+        assertTrue(
+            "Color grading should preserve perceptual tone",
+            abs(isolated.luma() - sourceColor.luma()) < 0.08f
+        )
+
+        val cyanMidtones = renderColorWheels(
+            value = ColorWheelsValue(
+                midtones = ColorWheelPoint(x = 0f, y = 0.8f),
+                edges = 1f
+            ),
+            sourceColor = Color.rgb(128, 128, 128)
+        )
+        assertTrue(Color.green(cyanMidtones) > Color.red(cyanMidtones))
+        assertTrue(Color.blue(cyanMidtones) > Color.red(cyanMidtones))
+    }
+
+    private fun Int.distanceFrom(other: Int): Int =
+        kotlin.math.abs(Color.red(this) - Color.red(other)) +
+                kotlin.math.abs(Color.green(this) - Color.green(other)) +
+                kotlin.math.abs(Color.blue(this) - Color.blue(other))
+
+    @Test
+    fun nativeScopesRenderCompactBitmaps() = runBlocking {
+        val source = Bitmap.createBitmap(
+            IntArray(32 * 32) { index ->
+                Color.rgb(
+                    index % 256,
+                    index / 4 % 256,
+                    255 - index % 256
+                )
+            },
+            32,
+            32,
+            Bitmap.Config.ARGB_8888
+        )
+
+        ImageScopeType.entries.forEach { type ->
+            val scope = ImageScope.from(
+                bitmap = source,
+                type = type,
+                size = 64
+            )
+
+            assertEquals(type.name, 64, scope.size)
+            assertEquals(
+                type.name,
+                64 * 64 * ImageScope.ChannelCount,
+                scope.data.capacity()
+            )
+            assertTrue(type.name, scope.containsVisibleData())
         }
 
         source.recycle()
+    }
+
+    private fun ImageScope.containsVisibleData(): Boolean {
+        for (index in 3 until data.capacity() step ImageScope.ChannelCount) {
+            if (data.get(index).toInt() and 0xFF > 0) return true
+        }
+        return false
     }
 
     @Test
@@ -398,6 +531,30 @@ class ColorCurvesFilterInstrumentedTest {
             bitmapWithFilterApplied.also {
                 assertProgramsCompiled(type, filter)
             }
+        }
+        return result.getPixel(0, 0).also {
+            source.recycle()
+            result.recycle()
+        }
+    }
+
+    private fun renderColorWheels(
+        value: ColorWheelsValue,
+        sourceColor: Int
+    ): Int {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val state = ImageCurvesEditorState.Default
+        state.curvesToolValue.colorWheels = value
+        val source = Bitmap.createBitmap(
+            IntArray(16) { sourceColor },
+            4,
+            4,
+            Bitmap.Config.ARGB_8888
+        )
+        val result = GPUImage(context).run {
+            setImage(source)
+            setFilter(state.buildFilter())
+            bitmapWithFilterApplied
         }
         return result.getPixel(0, 0).also {
             source.recycle()
