@@ -88,8 +88,8 @@ fun StitchModeSelector(
                         bottom = 10.dp
                     ),
                 icon = Icons.Rounded.TableRows,
-                valueRange = 2f..6f,
-                steps = 3,
+                valueRange = 2f..20f,
+                steps = 17,
                 internalStateTransformation = {
                     it.roundToInt()
                 },
@@ -120,8 +120,8 @@ fun StitchModeSelector(
                         bottom = 10.dp
                     ),
                 icon = Icons.Rounded.ViewColumn,
-                valueRange = 2f..6f,
-                steps = 3,
+                valueRange = 2f..20f,
+                steps = 17,
                 internalStateTransformation = {
                     it.roundToInt()
                 },

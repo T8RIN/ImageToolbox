@@ -1564,7 +1564,7 @@ private fun ScopeTypeButton(
                             when (type) {
                                 ImageCurvesEditorScope.None -> stringResource(R.string.none)
                                 ImageCurvesEditorScope.Histogram -> stringResource(R.string.histogram)
-                                ImageCurvesEditorScope.Waveform -> stringResource(R.string.wavefrom)
+                                ImageCurvesEditorScope.Waveform -> stringResource(R.string.waveform)
                                 ImageCurvesEditorScope.Vectorscope -> stringResource(R.string.vectorscope)
                             }
                         )
