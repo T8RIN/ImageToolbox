@@ -4526,6 +4526,5 @@
     <string name="gbr_lossless">Право без губитака (ГБР)</string>
     <string name="gbr_lossless_sub">Чува РГБ вредности без губитка. Датотеке кодиране ГБР-ом се можда неће отворити у неким апликацијама и декодерима</string>
     <string name="midtones">Средњи тонови</string>
-    <string name="wavefrom">Вавефром</string>
     <string name="vectorscope">Векторски опсег</string>
 </resources>

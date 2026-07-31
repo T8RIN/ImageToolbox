@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">True lossless (GBR)</string>
     <string name="gbr_lossless_sub">Pinapanatili ang mga halaga ng RGB nang walang pagkawala. Maaaring hindi bumukas ang mga file na naka-encode ng GBR sa ilang app at decoder</string>
     <string name="midtones">Midtones</string>
-    <string name="wavefrom">Kaway mula sa</string>
     <string name="vectorscope">Saklaw ng vector</string>
 </resources>

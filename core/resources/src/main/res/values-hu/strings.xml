@@ -4525,6 +4525,5 @@
     <string name="gbr_lossless">Valódi veszteségmentes (GBR)</string>
     <string name="gbr_lossless_sub">Veszteség nélkül megőrzi az RGB értékeket. Előfordulhat, hogy a GBR-kódolású fájlok nem nyílnak meg bizonyos alkalmazásokban és dekódolókban</string>
     <string name="midtones">Középtónusok</string>
-    <string name="wavefrom">Wave from</string>
     <string name="vectorscope">Vektor hatálya</string>
 </resources>

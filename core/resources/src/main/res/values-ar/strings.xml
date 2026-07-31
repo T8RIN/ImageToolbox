@@ -4529,6 +4529,5 @@
     <string name="gbr_lossless">صحيح ضياع (GBR)</string>
     <string name="gbr_lossless_sub">يحافظ على قيم RGB دون خسارة. قد لا يتم فتح الملفات المشفرة بـ GBR في بعض التطبيقات وأجهزة فك التشفير</string>
     <string name="midtones">النغمات النصفية</string>
-    <string name="wavefrom">Wavefrom</string>
     <string name="vectorscope">نطاق المتجهات</string>
 </resources>
