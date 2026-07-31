@@ -101,6 +101,9 @@ fun ToneCurvesEditOption(
         var isDefault by remember(editorState) {
             mutableStateOf(editorState.isDefault())
         }
+        var currentEditorState by remember(editorState) {
+            mutableStateOf(editorState)
+        }
 
         FullscreenEditOption(
             showControls = false,
@@ -166,7 +169,7 @@ fun ToneCurvesEditOption(
             ) {
                 ImageCurvesEditor(
                     bitmap = bitmap,
-                    state = editorState,
+                    state = currentEditorState,
                     showAsRow = !useScaffold,
                     placeControlsAtTheEnd = !useScaffold,
                     layout = ImageCurvesEditorLayout.Separate,
@@ -194,6 +197,7 @@ fun ToneCurvesEditOption(
                     containerModifier = Modifier.align(Alignment.Center),
                     showOriginal = showOriginal,
                     onStateChange = {
+                        currentEditorState = it
                         isDefault = it.isDefault()
                     }
                 )

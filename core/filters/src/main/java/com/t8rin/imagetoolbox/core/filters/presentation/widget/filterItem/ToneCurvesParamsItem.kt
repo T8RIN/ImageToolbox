@@ -67,6 +67,7 @@ internal fun ToneCurvesParamsItem(
             showImagePreview = false,
             containerModifier = Modifier.fillMaxWidth(),
             onStateChange = {
+                editorState = it
                 onFilterChange(
                     ToneCurvesParams(
                         controlPoints = it.controlPoints
