@@ -111,9 +111,13 @@ class DynamicCropState internal constructor(
     internal var pressedHandle by mutableStateOf(TouchRegion.None)
         private set
 
-    override suspend fun updateProperties(cropProperties: CropProperties, forceUpdate: Boolean) {
+    override suspend fun updateProperties(
+        cropProperties: CropProperties,
+        forceUpdate: Boolean,
+        animate: Boolean
+    ) {
         handleSize = cropProperties.handleSize
-        super.updateProperties(cropProperties, forceUpdate)
+        super.updateProperties(cropProperties, forceUpdate, animate)
     }
 
     override suspend fun onDown(change: PointerInputChange) {

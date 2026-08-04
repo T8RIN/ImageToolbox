@@ -34,12 +34,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.magnifier
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -65,6 +68,7 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -90,6 +94,8 @@ fun FreeCornersCropper(
     sourceImageSize: IntSize = IntSize(bitmap.width, bitmap.height),
     croppingTrigger: Boolean,
     onCropped: (Uri?) -> Unit,
+    state: FreeCornersCropperState = rememberFreeCornersCropperState(),
+    onTransformationCommitted: () -> Unit = {},
     modifier: Modifier = Modifier,
     showMagnifier: Boolean = true,
     handlesSize: Dp = 8.dp,
@@ -105,10 +111,12 @@ fun FreeCornersCropper(
     val density = LocalDensity.current
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val imageKey = FreeCornersCropperImageKey(
+    val currentOnTransformationCommitted by rememberUpdatedState(onTransformationCommitted)
+    val imageKey: Any = sourceImageUri ?: FreeCornersCropperImageKey(
         bitmap = bitmap,
         generationId = bitmap.generationId
     )
+    val attachmentKey = remember(imageKey) { Any() }
 
     val handleRadiusPx = with(density) {
         handlesSize.toPx()
@@ -139,7 +147,70 @@ fun FreeCornersCropper(
     var drawPoints by remember(imageKey) { mutableStateOf(emptyList<Offset>()) }
     var imageScale by remember(imageKey) { mutableFloatStateOf(1f) }
     var imageTranslation by remember(imageKey) { mutableStateOf(Offset.Zero) }
+    var viewportBounds by remember(imageKey) { mutableStateOf(Rect.Zero) }
+    var pendingLayoutSnapshot by remember(imageKey) {
+        mutableStateOf<FreeCornersCropSnapshot?>(null)
+    }
     var transformAnimationJob by remember { mutableStateOf<Job?>(null) }
+
+    fun captureLayoutSnapshot() {
+        if (pendingLayoutSnapshot != null) return
+        pendingLayoutSnapshot = state.snapshotForLayoutChange()
+    }
+
+    fun attachState() {
+        state.attach(
+            attachmentKey = attachmentKey,
+            imageKey = imageKey,
+            captureSnapshot = {
+                captureFreeCornersCropSnapshot(
+                    points = drawPoints,
+                    imageBounds = baseImageBounds,
+                    imageScale = imageScale,
+                    imageTranslation = imageTranslation,
+                    viewportBounds = viewportBounds
+                )
+            },
+            restoreSnapshot = { snapshot ->
+                transformAnimationJob?.cancel()
+                restoreFreeCornersCropSnapshot(
+                    snapshot = snapshot,
+                    imageBounds = baseImageBounds,
+                    viewportBounds = viewportBounds,
+                    coercePointsToImageArea = coercePointsToImageArea
+                )?.let { restored ->
+                    drawPoints = restored.points
+                    imageScale = restored.imageScale
+                    imageTranslation = restored.imageTranslation
+                }
+                dragTarget = DragTarget.None
+                magnifierCenter = Offset.Unspecified
+            }
+        )
+    }
+
+    fun beginTransformation() {
+        transformAnimationJob?.cancel()
+        attachState()
+        state.beginTransformation()
+    }
+
+    fun endTransformation() {
+        if (state.endTransformation()) {
+            currentOnTransformationCommitted()
+        }
+    }
+
+    SideEffect {
+        attachState()
+    }
+    DisposableEffect(state, attachmentKey) {
+        onDispose {
+            transformAnimationJob?.cancel()
+            state.prepareForReattachment(attachmentKey)
+            state.detach(attachmentKey)
+        }
+    }
 
     fun updateImageTransform(scale: Float, translation: Offset) {
         imageScale = scale
@@ -151,10 +222,25 @@ fun FreeCornersCropper(
     ImageWithConstraints(
         modifier = modifier
             .clipToBounds()
+            .onSizeChanged { size ->
+                val newViewportBounds = Rect(
+                    left = handleRadiusPx.coerceAtMost(size.width / 2f),
+                    top = handleRadiusPx.coerceAtMost(size.height / 2f),
+                    right = size.width - handleRadiusPx.coerceAtMost(size.width / 2f),
+                    bottom = size.height - handleRadiusPx.coerceAtMost(size.height / 2f)
+                )
+                if (
+                    viewportBounds.hasPositiveSize() &&
+                    viewportBounds != newViewportBounds
+                ) {
+                    captureLayoutSnapshot()
+                }
+                viewportBounds = newViewportBounds
+            }
             .pointerInput(imageKey, coercePointsToImageArea) {
                 detectOneFingerZoomGestures(
                     onDoubleTap = { position ->
-                        transformAnimationJob?.cancel()
+                        beginTransformation()
                         val minScale = if (coercePointsToImageArea) {
                             calculateMinimumScale(
                                 cropBounds = drawPoints.boundingRect(),
@@ -196,10 +282,11 @@ fun FreeCornersCropper(
                                 },
                                 onUpdate = ::updateImageTransform
                             )
+                            endTransformation()
                         }
                     },
                     onZoomStart = {
-                        transformAnimationJob?.cancel()
+                        beginTransformation()
                     },
                     onZoom = { centroid, zoom ->
                         val minScale = if (coercePointsToImageArea) {
@@ -236,6 +323,7 @@ fun FreeCornersCropper(
                     },
                     onZoomEnd = {
                         if (!coercePointsToImageArea) {
+                            endTransformation()
                             return@detectOneFingerZoomGestures
                         }
 
@@ -259,6 +347,7 @@ fun FreeCornersCropper(
                                 targetTranslation = targetTranslation,
                                 onUpdate = ::updateImageTransform
                             )
+                            endTransformation()
                         }
                     }
                 )
@@ -275,7 +364,7 @@ fun FreeCornersCropper(
                     onGesture = { centroid, pan, zoom, _, _, _ ->
                         if (!transformGestureActive) {
                             transformGestureActive = true
-                            transformAnimationJob?.cancel()
+                            beginTransformation()
                         }
                         val minScale = if (coercePointsToImageArea) {
                             calculateMinimumScale(
@@ -300,7 +389,11 @@ fun FreeCornersCropper(
                         imageTranslation = target.translation + pan
                     },
                     onGestureEnd = {
-                        if (!transformGestureActive || !coercePointsToImageArea) {
+                        if (!transformGestureActive) {
+                            return@detectTransformGestures
+                        }
+                        if (!coercePointsToImageArea) {
+                            endTransformation()
                             return@detectTransformGestures
                         }
 
@@ -324,6 +417,7 @@ fun FreeCornersCropper(
                                 targetTranslation = targetTranslation,
                                 onUpdate = ::updateImageTransform
                             )
+                            endTransformation()
                         }
                     }
                 )
@@ -407,10 +501,17 @@ fun FreeCornersCropper(
                 .aspectRatio(bitmap.width / bitmap.height.toFloat())
                 .onGloballyPositioned {
                     val position = it.positionInParent()
-                    baseImageBounds = Rect(
+                    val newImageBounds = Rect(
                         offset = position,
                         size = it.size.toSize()
                     )
+                    if (
+                        baseImageBounds.hasPositiveSize() &&
+                        baseImageBounds != newImageBounds
+                    ) {
+                        captureLayoutSnapshot()
+                    }
+                    baseImageBounds = newImageBounds
                 }
                 .graphicsLayer {
                     scaleX = imageScale
@@ -421,18 +522,38 @@ fun FreeCornersCropper(
             contentScale = ContentScale.FillBounds
         )
 
-        LaunchedEffect(imageKey, baseImageBounds) {
-            if (baseImageBounds.hasPositiveSize()) {
+        LaunchedEffect(imageKey, baseImageBounds, viewportBounds) {
+            if (baseImageBounds.hasPositiveSize() && viewportBounds.hasPositiveSize()) {
                 transformAnimationJob?.cancel()
                 transformAnimationJob = null
-                val inset = internalPadding.coerceAtMost(
-                    minOf(baseImageBounds.width, baseImageBounds.height) / 4f
-                )
-                drawPoints = baseImageBounds.insetBy(inset).corners()
-                imageScale = 1f
-                imageTranslation = Offset.Zero
                 dragTarget = DragTarget.None
                 magnifierCenter = Offset.Unspecified
+                attachState()
+                val layoutSnapshot = pendingLayoutSnapshot
+                    ?: state.snapshotForLayoutChange()
+                val restored = layoutSnapshot?.let { snapshot ->
+                    restoreFreeCornersCropSnapshot(
+                        snapshot = snapshot,
+                        imageBounds = baseImageBounds,
+                        viewportBounds = viewportBounds,
+                        coercePointsToImageArea = coercePointsToImageArea
+                    )
+                }
+                if (restored != null) {
+                    drawPoints = restored.points
+                    imageScale = restored.imageScale
+                    imageTranslation = restored.imageTranslation
+                } else if (drawPoints.size != CROP_POINTS_COUNT) {
+                    val inset = internalPadding.coerceAtMost(
+                        minOf(baseImageBounds.width, baseImageBounds.height) / 4f
+                    )
+                    drawPoints = baseImageBounds.insetBy(inset).corners()
+                    imageScale = 1f
+                    imageTranslation = Offset.Zero
+                }
+                pendingLayoutSnapshot = null
+                attachState()
+                state.onCropperReady()
             }
         }
 
@@ -467,13 +588,8 @@ fun FreeCornersCropper(
             )
         }
 
-        LaunchedEffect(coercePointsToImageArea, containerBounds, baseImageBounds) {
+        LaunchedEffect(coercePointsToImageArea) {
             transformAnimationJob?.cancel()
-            if (drawPoints.size == CROP_POINTS_COUNT) {
-                drawPoints = drawPoints.map {
-                    it.coerceToPointBounds()
-                }
-            }
         }
 
         LaunchedEffect(drawPoints, coercePointsToImageArea, dragTarget) {
@@ -509,7 +625,10 @@ fun FreeCornersCropper(
                         targetTranslation = targetTranslation,
                         onUpdate = ::updateImageTransform
                     )
+                    endTransformation()
                 }
+            } else {
+                endTransformation()
             }
         }
 
@@ -561,6 +680,7 @@ fun FreeCornersCropper(
                             )
                         },
                         onDragStart = { target ->
+                            beginTransformation()
                             dragTarget = target
                             magnifierCenter =
                                 if (showMagnifier && dragTarget != DragTarget.None) {
@@ -595,10 +715,16 @@ fun FreeCornersCropper(
                         onDragEnd = {
                             dragTarget = DragTarget.None
                             magnifierCenter = Offset.Unspecified
+                            if (!coercePointsToImageArea) {
+                                endTransformation()
+                            }
                         },
                         onDragCancel = {
                             dragTarget = DragTarget.None
                             magnifierCenter = Offset.Unspecified
+                            if (!coercePointsToImageArea) {
+                                endTransformation()
+                            }
                         }
                     )
                 }
@@ -1167,6 +1293,124 @@ private fun Offset.untransform(
     translation: Offset
 ): Offset = center + (this - center - translation) / scale
 
+internal data class RestoredFreeCornersCropSnapshot(
+    val points: List<Offset>,
+    val imageScale: Float,
+    val imageTranslation: Offset
+)
+
+internal fun captureFreeCornersCropSnapshot(
+    points: List<Offset>,
+    imageBounds: Rect,
+    imageScale: Float,
+    imageTranslation: Offset,
+    viewportBounds: Rect
+): FreeCornersCropSnapshot? {
+    if (
+        points.size != CROP_POINTS_COUNT ||
+        !imageBounds.hasPositiveSize() ||
+        imageScale <= 0f ||
+        !viewportBounds.hasPositiveSize()
+    ) {
+        return null
+    }
+
+    val normalizedPoints = points.map { point ->
+        val untransformed = point.untransform(
+            center = imageBounds.center,
+            scale = imageScale,
+            translation = imageTranslation
+        )
+        Offset(
+            x = (untransformed.x - imageBounds.left) / imageBounds.width,
+            y = (untransformed.y - imageBounds.top) / imageBounds.height
+        )
+    }
+    val cropBounds = points.boundingRect()
+    return FreeCornersCropSnapshot(
+        normalizedPoints = normalizedPoints,
+        normalizedViewportCenter = Offset(
+            x = (cropBounds.center.x - viewportBounds.left) / viewportBounds.width,
+            y = (cropBounds.center.y - viewportBounds.top) / viewportBounds.height
+        ),
+        viewportFillFraction = maxOf(
+            cropBounds.width / viewportBounds.width,
+            cropBounds.height / viewportBounds.height
+        ).coerceIn(MIN_VIEWPORT_FILL_FRACTION, 1f)
+    )
+}
+
+internal fun restoreFreeCornersCropSnapshot(
+    snapshot: FreeCornersCropSnapshot,
+    imageBounds: Rect,
+    viewportBounds: Rect,
+    coercePointsToImageArea: Boolean = true
+): RestoredFreeCornersCropSnapshot? {
+    if (
+        snapshot.normalizedPoints.size != CROP_POINTS_COUNT ||
+        !imageBounds.hasPositiveSize() ||
+        !viewportBounds.hasPositiveSize()
+    ) {
+        return null
+    }
+
+    val normalizedPoints = if (coercePointsToImageArea) {
+        snapshot.normalizedPoints.map { point ->
+            Offset(point.x.coerceIn(0f, 1f), point.y.coerceIn(0f, 1f))
+        }
+    } else {
+        snapshot.normalizedPoints
+    }
+    val imagePoints = normalizedPoints.map { point ->
+        Offset(
+            x = imageBounds.left + point.x * imageBounds.width,
+            y = imageBounds.top + point.y * imageBounds.height
+        )
+    }
+    val imageCropBounds = imagePoints.boundingRect()
+    if (!imageCropBounds.hasPositiveSize()) return null
+
+    val fillFraction = snapshot.viewportFillFraction
+        .coerceIn(MIN_VIEWPORT_FILL_FRACTION, 1f)
+    val imageScale = minOf(
+        viewportBounds.width * fillFraction / imageCropBounds.width,
+        viewportBounds.height * fillFraction / imageCropBounds.height,
+        MAX_ZOOM
+    ).coerceAtLeast(MINIMUM_CROP_ZOOM)
+    val scaledCropSize = imageCropBounds.size * imageScale
+    val halfCropWidth = scaledCropSize.width / 2f
+    val halfCropHeight = scaledCropSize.height / 2f
+    val preferredCenter = Offset(
+        x = viewportBounds.left +
+                snapshot.normalizedViewportCenter.x * viewportBounds.width,
+        y = viewportBounds.top +
+                snapshot.normalizedViewportCenter.y * viewportBounds.height
+    )
+    val targetCenter = Offset(
+        x = preferredCenter.x.coerceIn(
+            viewportBounds.left + halfCropWidth,
+            viewportBounds.right - halfCropWidth
+        ),
+        y = preferredCenter.y.coerceIn(
+            viewportBounds.top + halfCropHeight,
+            viewportBounds.bottom - halfCropHeight
+        )
+    )
+    val imageTranslation = targetCenter - imageBounds.center -
+            (imageCropBounds.center - imageBounds.center) * imageScale
+    return RestoredFreeCornersCropSnapshot(
+        points = imagePoints.map { point ->
+            point.transform(
+                center = imageBounds.center,
+                scale = imageScale,
+                translation = imageTranslation
+            )
+        },
+        imageScale = imageScale,
+        imageTranslation = imageTranslation
+    )
+}
+
 private val edgeIndices = listOf(
     0 to 1,
     1 to 2,
@@ -1187,6 +1431,7 @@ private const val MIDDLE_HANDLE_LENGTH_MULTIPLIER = 1.5f
 private val MiddleHandleStrokeWidth = 3.5.dp
 private const val DOUBLE_TAP_POSITION_TOLERANCE_MULTIPLIER = 4f
 private const val MINIMUM_CROP_ZOOM = 0.05f
+private const val MIN_VIEWPORT_FILL_FRACTION = 0.1f
 private const val CROP_POINTS_COUNT = 4
 private const val MAX_ZOOM = 20f
 private const val DEFAULT_DOUBLE_TAP_SCALE = 3f

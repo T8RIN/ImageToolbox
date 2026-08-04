@@ -17,22 +17,20 @@
 
 package com.t8rin.cropper
 
-import android.content.res.Configuration
 import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +41,6 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -62,14 +59,18 @@ import com.t8rin.cropper.settings.CropProperties
 import com.t8rin.cropper.settings.CropStyle
 import com.t8rin.cropper.settings.CropType
 import com.t8rin.cropper.state.DynamicCropState
+import com.t8rin.cropper.state.cropSnapshot
 import com.t8rin.cropper.state.rememberCropState
+import com.t8rin.cropper.state.restoreCropSnapshot
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 @Composable
 fun ImageCropper(
@@ -80,6 +81,7 @@ fun ImageCropper(
     contentDescription: String? = null,
     cropStyle: CropStyle = CropDefaults.style(),
     cropProperties: CropProperties,
+    state: ImageCropperState = rememberImageCropperState(),
     filterQuality: FilterQuality = DrawScope.DefaultFilterQuality,
     crop: Boolean = false,
     enableOneFingerZoom: Boolean = true,
@@ -87,6 +89,7 @@ fun ImageCropper(
     onCropStart: () -> Unit,
     onZoomChange: (Float) -> Unit,
     onCropSuccess: (Uri?) -> Unit,
+    onTransformationCommitted: () -> Unit = {},
     backgroundModifier: Modifier = Modifier
 ) {
     val minCropDimension = with(LocalDensity.current) {
@@ -138,9 +141,7 @@ fun ImageCropper(
 
         with(LocalDensity.current) {
             imageWidthPx = imageWidth.roundToPx()
-            imageHeightPx =
-                imageHeight.roundToPx() - if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) 0
-                else WindowInsets.navigationBars.getBottom(LocalDensity.current)
+            imageHeightPx = imageHeight.roundToPx()
             containerWidth = containerWidthPx.toDp()
             containerHeight = containerHeightPx.toDp()
         }
@@ -170,6 +171,79 @@ fun ImageCropper(
             isOverlayDraggable = isOverlayDraggable,
             keys = resetKeys
         )
+        val scope = rememberCoroutineScope()
+        val currentOnTransformationCommitted by rememberUpdatedState(onTransformationCommitted)
+        var finishTransformationJob by remember(cropState) {
+            mutableStateOf<Job?>(null)
+        }
+        var restoreSnapshotJob by remember(cropState) {
+            mutableStateOf<Job?>(null)
+        }
+        val attachmentKey = remember(cropState) { Any() }
+
+        fun attachState() {
+            state.attach(
+                attachmentKey = attachmentKey,
+                imageKey = sourceImageUri ?: imageBitmap,
+                layoutKey = ImageCropperLayoutKey(
+                    containerSize = cropState.containerSize,
+                    drawAreaSize = IntSize(imageWidthPx, imageHeightPx)
+                ),
+                configurationKey = ImageCropperConfigurationKey(
+                    contentScale = contentScale,
+                    cropType = cropType,
+                    fixedAspectRatio = fixedAspectRatio
+                ),
+                captureSnapshot = {
+                    cropState.cropSnapshot
+                },
+                restoreSnapshot = { snapshot ->
+                    finishTransformationJob?.cancel()
+                    restoreSnapshotJob?.cancel()
+                    restoreSnapshotJob = scope.launch {
+                        cropState.restoreCropSnapshot(snapshot)
+                    }
+                }
+            )
+        }
+
+        fun beginTransformation() {
+            finishTransformationJob?.cancel()
+            attachState()
+            state.beginTransformation()
+        }
+
+        fun endTransformation() {
+            finishTransformationJob?.cancel()
+            finishTransformationJob = scope.launch {
+                delay(300)
+                if (state.endTransformation()) {
+                    currentOnTransformationCommitted()
+                }
+            }
+        }
+
+        SideEffect {
+            attachState()
+        }
+        LaunchedEffect(cropState, state, resolvedCropProperties) {
+            cropState.awaitInitialization()
+            cropState.updateProperties(
+                cropProperties = resolvedCropProperties,
+                animate = false
+            )
+            attachState()
+            state.onCropperReady()
+            restoreSnapshotJob?.join()
+        }
+        DisposableEffect(state, attachmentKey) {
+            onDispose {
+                finishTransformationJob?.cancel()
+                restoreSnapshotJob?.cancel()
+                state.prepareForReattachment(attachmentKey)
+                state.detach(attachmentKey)
+            }
+        }
 
         LaunchedEffect(cropState, isOverlayDraggable) {
             if (cropState is DynamicCropState) {
@@ -219,24 +293,15 @@ fun ImageCropper(
             .crop(
                 keys = resetKeys,
                 cropState = cropState,
-                enableOneFingerZoom = enableOneFingerZoom
+                enableOneFingerZoom = enableOneFingerZoom,
+                onDown = { beginTransformation() },
+                onUp = { endTransformation() },
+                onGestureStart = { beginTransformation() },
+                onGestureEnd = { endTransformation() }
             )
-
-        LaunchedEffect(key1 = resolvedCropProperties) {
-            cropState.updateProperties(resolvedCropProperties)
-        }
-
-        /// Create a MutableTransitionState<Boolean> for the AnimatedVisibility.
-        var visible by remember { mutableStateOf(false) }
-
-        LaunchedEffect(Unit) {
-            delay(100)
-            visible = true
-        }
 
         ImageCropper(
             modifier = imageModifier,
-            visible = visible,
             imageBitmap = imageBitmap,
             containerWidth = containerWidth,
             containerHeight = containerHeight,
@@ -258,7 +323,6 @@ fun ImageCropper(
 @Composable
 private fun ImageCropper(
     modifier: Modifier,
-    visible: Boolean,
     imageBitmap: ImageBitmap,
     containerWidth: Dp,
     containerHeight: Dp,
@@ -280,10 +344,7 @@ private fun ImageCropper(
             .then(backgroundModifier)
     ) {
 
-        AnimatedVisibility(
-            visible = visible,
-            enter = fadeIn(tween(500))
-        ) {
+        Box {
             ImageCropperImpl(
                 modifier = modifier,
                 imageBitmap = imageBitmap,
@@ -461,3 +522,14 @@ private fun getResetKeys(
 }
 
 private val MinCropDimension = 100.dp
+
+private data class ImageCropperLayoutKey(
+    val containerSize: IntSize,
+    val drawAreaSize: IntSize
+)
+
+private data class ImageCropperConfigurationKey(
+    val contentScale: ContentScale,
+    val cropType: CropType,
+    val fixedAspectRatio: Boolean
+)

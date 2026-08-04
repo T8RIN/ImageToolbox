@@ -76,6 +76,7 @@ fun Cropper(
     onImageCropFinished: (Uri?) -> Unit,
     cropType: CropType,
     coercePointsToImageArea: Boolean,
+    state: CropperState,
     rotationState: MutableFloatState,
     cropProperties: CropProperties,
     addVerticalInsets: Boolean
@@ -129,8 +130,12 @@ fun Cropper(
                             )
                         },
                         isOverlayDraggable = settingsState.cropOverlayDraggable,
+                        state = state.advancedCropperState,
                         rotationAngleState = rotationState,
                         onLoadingStateChange = onLoadingStateChange,
+                        onTransformationCommitted = {
+                            state.recordCropperTransformation(CropType.Default)
+                        },
                         onZoomChange = { newZoom ->
                             zoomLevel = newZoom
                         },
@@ -151,10 +156,10 @@ fun Cropper(
 
             CropType.NoRotation -> {
                 AnimatedContent(
-                    targetState = (cropProperties.aspectRatio != AspectRatio.Original) to bitmap,
+                    targetState = bitmap,
                     transitionSpec = { fadeIn() togetherWith fadeOut() },
                     modifier = modifier.fillMaxSize(),
-                ) { (fixedAspectRatio, bitmap) ->
+                ) { bitmap ->
                     Box {
                         var zoomLevel by remember {
                             mutableFloatStateOf(1f)
@@ -167,9 +172,10 @@ fun Cropper(
                             sourceImageSize = imageSize,
                             contentDescription = null,
                             cropProperties = cropProperties.copy(
-                                fixedAspectRatio = fixedAspectRatio,
+                                fixedAspectRatio = cropProperties.fixedAspectRatio,
                                 maxZoom = 20f
                             ),
+                            state = state.imageCropperState,
                             onCropStart = onImageCropStarted,
                             crop = crop,
                             cropStyle = CropDefaults.style(
@@ -180,6 +186,9 @@ fun Cropper(
                                 zoomLevel = newZoom
                             },
                             onCropSuccess = onImageCropFinished,
+                            onTransformationCommitted = {
+                                state.recordCropperTransformation(CropType.NoRotation)
+                            },
                             isOverlayDraggable = settingsState.cropOverlayDraggable
                         )
                         ZoomBadge(
@@ -206,6 +215,10 @@ fun Cropper(
                             sourceImageSize = imageSize,
                             croppingTrigger = crop,
                             onCropped = onImageCropFinished,
+                            state = state.freeCornersCropperState,
+                            onTransformationCommitted = {
+                                state.recordCropperTransformation(CropType.FreeCorners)
+                            },
                             coercePointsToImageArea = coercePointsToImageArea,
                             modifier = Modifier.transparencyChecker(),
                             contentPadding = WindowInsets.systemBars
