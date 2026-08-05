@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.unit.IntSize
 
 private const val MaxHistorySize = 50
 
@@ -46,6 +47,8 @@ class ImageCropperState {
     private var pendingLayoutSnapshot: ImageCropSnapshot? = null
     private var currentSnapshot: ImageCropSnapshot? = null
     private var restoreCurrentSnapshotOnCropperReady = false
+    private var skipSnapshotSyncForAttachment: Any? = null
+    private var restoredAttachmentKey: Any? = null
     private var restoreGeneration = 0
     internal var isRestoring by mutableStateOf(false)
         private set
@@ -78,6 +81,9 @@ class ImageCropperState {
 
     fun beginTransformation() {
         restoreCurrentSnapshotOnCropperReady = false
+        if (restoredAttachmentKey === attachmentKey) {
+            restoredAttachmentKey = null
+        }
         if (pendingSnapshot == null) {
             pendingSnapshot = captureSnapshot?.invoke()
         }
@@ -148,18 +154,29 @@ class ImageCropperState {
             pendingSnapshot = null
             pendingLayoutSnapshot = null
         }
+        val configurationChanged = !imageChanged &&
+                this.configurationKey != null &&
+                this.configurationKey != configurationKey
         if (imageChanged) {
             this.imageKey = imageKey
             pendingSnapshot = null
             pendingLayoutSnapshot = null
             currentSnapshot = null
             restoreCurrentSnapshotOnCropperReady = false
+            skipSnapshotSyncForAttachment = null
+            restoredAttachmentKey = null
             isRestoring = false
             undoHistory.clear()
             redoHistory.clear()
             updateAvailability()
-        } else if (this.configurationKey != null && this.configurationKey != configurationKey) {
+        } else if (configurationChanged) {
+            pendingSnapshot = null
             pendingLayoutSnapshot = null
+            currentSnapshot = null
+            restoreCurrentSnapshotOnCropperReady = false
+            skipSnapshotSyncForAttachment = null
+            restoredAttachmentKey = null
+            isRestoring = false
         }
         this.attachmentKey = attachmentKey
         this.layoutKey = layoutKey
@@ -170,6 +187,9 @@ class ImageCropperState {
 
     internal fun detach(attachmentKey: Any) {
         if (this.attachmentKey !== attachmentKey) return
+        if (skipSnapshotSyncForAttachment === attachmentKey) {
+            skipSnapshotSyncForAttachment = null
+        }
         this.attachmentKey = null
         captureSnapshot = null
         restoreSnapshot = null
@@ -181,7 +201,11 @@ class ImageCropperState {
      * Unlike a callback captured during attachment, this state still uses the old immutable
      * container and draw-area sizes, so it cannot contain a partially measured frame.
      */
-    internal fun captureLayoutSnapshot(snapshot: ImageCropSnapshot?) {
+    internal fun captureLayoutSnapshot(
+        attachmentKey: Any?,
+        snapshot: ImageCropSnapshot?
+    ) {
+        if (attachmentKey != null && restoredAttachmentKey === attachmentKey) return
         if (snapshot != null) {
             pendingLayoutSnapshot = snapshot
         }
@@ -191,6 +215,8 @@ class ImageCropperState {
         if (restoreCurrentSnapshotOnCropperReady) {
             currentSnapshot?.let { restoreSnapshot?.invoke(it) }
             restoreCurrentSnapshotOnCropperReady = false
+            skipSnapshotSyncForAttachment = attachmentKey
+            restoredAttachmentKey = attachmentKey
         } else if (currentSnapshot == null) {
             currentSnapshot = captureSnapshot?.invoke()
         }
@@ -202,6 +228,10 @@ class ImageCropperState {
      * existed before the aspect-ratio change.
      */
     internal fun syncSnapshot() {
+        if (skipSnapshotSyncForAttachment === attachmentKey) {
+            skipSnapshotSyncForAttachment = null
+            return
+        }
         if (pendingSnapshot == null && !restoreCurrentSnapshotOnCropperReady) {
             currentSnapshot = captureSnapshot?.invoke() ?: currentSnapshot
         }
@@ -224,6 +254,8 @@ class ImageCropperState {
         pendingLayoutSnapshot = null
         currentSnapshot = captureSnapshot?.invoke()
         restoreCurrentSnapshotOnCropperReady = false
+        skipSnapshotSyncForAttachment = null
+        restoredAttachmentKey = null
         isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
@@ -238,6 +270,8 @@ class ImageCropperState {
         pendingLayoutSnapshot = null
         currentSnapshot = null
         restoreCurrentSnapshotOnCropperReady = false
+        skipSnapshotSyncForAttachment = null
+        restoredAttachmentKey = null
         isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
@@ -259,6 +293,19 @@ class ImageCropperState {
         return restoreCurrentSnapshotOnCropperReady || attachmentChanged || layoutChanged
     }
 
+    internal fun preferredContainerSize(
+        imageKey: Any?,
+        measuredSize: IntSize
+    ): IntSize {
+        // An adaptive parent can report a taller max constraint after an orientation round trip
+        // while the visible viewport keeps its old size. Reuse that viewport only when its width
+        // still matches; a real orientation change must use the newly measured dimensions.
+        val snapshotSize = currentSnapshot?.containerSize ?: return measuredSize
+        if (this.imageKey != imageKey || snapshotSize.height <= 0) return measuredSize
+
+        return if (snapshotSize.width == measuredSize.width) snapshotSize else measuredSize
+    }
+
     private fun updateAvailability() {
         canUndo = undoHistory.isNotEmpty()
         canRedo = redoHistory.isNotEmpty()
@@ -278,5 +325,6 @@ internal data class ImageCropSnapshot(
     val normalizedCropRect: Rect,
     val normalizedOverlayCenter: Offset = Offset(0.5f, 0.5f),
     val overlaySizeFraction: Float = 0.8f,
+    val containerSize: IntSize = IntSize.Zero,
     val rotation: Float
 )

@@ -126,9 +126,13 @@ fun ImageCropper(
             contentScale = resolvedCropProperties.contentScale,
         )
 
+        val imageKey = sourceImageUri ?: imageBitmap
+
         // Container Dimensions
-        val containerWidthPx = constraints.maxWidth
-        val containerHeightPx = constraints.maxHeight
+        val measuredContainerSize = IntSize(constraints.maxWidth, constraints.maxHeight)
+        val containerSize = state.preferredContainerSize(imageKey, measuredContainerSize)
+        val containerWidthPx = containerSize.width
+        val containerHeightPx = containerSize.height
 
         val containerWidth: Dp
         val containerHeight: Dp
@@ -182,7 +186,6 @@ fun ImageCropper(
             mutableStateOf<Job?>(null)
         }
         val attachmentKey = remember(cropState) { Any() }
-        val imageKey = sourceImageUri ?: imageBitmap
         val layoutKey = ImageCropperLayoutKey(
             containerSize = cropState.containerSize,
             drawAreaSize = IntSize(imageWidthPx, imageHeightPx)
@@ -195,6 +198,7 @@ fun ImageCropper(
             overlayRatio = resolvedCropProperties.overlayRatio
         )
         var previousCropState by remember(state) { mutableStateOf<CropState?>(null) }
+        var previousAttachmentKey by remember(state) { mutableStateOf<Any?>(null) }
         var previousImageKey by remember(state) { mutableStateOf<Any?>(null) }
         var previousConfigurationKey by remember(state) {
             mutableStateOf<ImageCropperConfigurationKey?>(null)
@@ -253,9 +257,13 @@ fun ImageCropper(
                 previousImageKey == imageKey &&
                 previousConfigurationKey == configurationKey
             ) {
-                state.captureLayoutSnapshot(previousCropState?.cropSnapshot)
+                state.captureLayoutSnapshot(
+                    attachmentKey = previousAttachmentKey,
+                    snapshot = previousCropState?.cropSnapshot
+                )
             }
             previousCropState = cropState
+            previousAttachmentKey = attachmentKey
             previousImageKey = imageKey
             previousConfigurationKey = configurationKey
         }

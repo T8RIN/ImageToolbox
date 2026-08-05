@@ -83,6 +83,7 @@ internal val CropState.cropSnapshot: ImageCropSnapshot?
                 overlayRect = overlayRect,
                 containerSize = containerSize
             ),
+            containerSize = containerSize,
             rotation = animatableRotation.targetValue
         )
     }
@@ -155,10 +156,22 @@ internal fun calculateRestoreGeometry(
 
     val overlayWidth = cropWidthAtZoomOne * zoom
     val overlayHeight = cropHeightAtZoomOne * zoom
-    val requestedCenter = Offset(
-        x = snapshot.normalizedOverlayCenter.x.coerceIn(0f, 1f) * containerWidth,
-        y = snapshot.normalizedOverlayCenter.y.coerceIn(0f, 1f) * containerHeight
-    )
+    val sourceContainerSize = snapshot.containerSize
+    val keepAbsoluteCenter = sourceContainerSize.width == containerSize.width &&
+            sourceContainerSize.height > 0
+    val requestedCenter = if (keepAbsoluteCenter) {
+        Offset(
+            x = snapshot.normalizedOverlayCenter.x.coerceIn(0f, 1f) *
+                    sourceContainerSize.width,
+            y = snapshot.normalizedOverlayCenter.y.coerceIn(0f, 1f) *
+                    sourceContainerSize.height
+        )
+    } else {
+        Offset(
+            x = snapshot.normalizedOverlayCenter.x.coerceIn(0f, 1f) * containerWidth,
+            y = snapshot.normalizedOverlayCenter.y.coerceIn(0f, 1f) * containerHeight
+        )
+    }
     val overlayCenter = Offset(
         x = constrainedCenter(requestedCenter.x, overlayWidth, containerWidth),
         y = constrainedCenter(requestedCenter.y, overlayHeight, containerHeight)
