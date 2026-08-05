@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -812,7 +810,7 @@
     <string name="motion_blur">Pohybový efekt</string>
     <string name="apng_type_to_image">APNG k obrázkom</string>
     <string name="select_apng_image_to_start">Začnite výberom obrázka APNG</string>
-    <string name="zip">PSČ</string>
+    <string name="zip">Zip</string>
     <string name="zip_sub">Vytvorte súbor zip z daných súborov alebo obrázkov</string>
     <string name="drag_handle_width">Šírka rukoväte ťahania</string>
     <string name="confetti_type">Typ konfety</string>
@@ -1610,7 +1608,7 @@
     <string name="ocr_write_to_file">Zápis do súboru</string>
     <string name="ocr_write_to_file_sub">Extrahujte text z dávky obrázkov a uložte ho do jedného textového súboru</string>
     <string name="ocr_write_to_metadata">Zápis do metadát</string>
-    <string name="ocr_write_to_metadata_sub">Extrahujte text z každého obrázka a umiestnite ho do EXIF ​​informácií o príbuzných fotografiách</string>
+    <string name="ocr_write_to_metadata_sub">Extrahujte text z každého obrázka a umiestnite ho do EXIF informácií o príbuzných fotografiách</string>
     <string name="invisible_mode">Neviditeľný režim</string>
     <string name="invisible_mode_sub">Použite steganografiu na vytvorenie okom neviditeľných vodoznakov vo vnútri bajtov vašich obrázkov</string>
     <string name="use_lsb">Použite LSB</string>
@@ -1686,7 +1684,7 @@
     <string name="density">Hustota</string>
     <string name="mix">Zmiešajte</string>
     <string name="sphere_lensh_distortion">Skreslenie sférickej šošovky</string>
-    <string name="refraction_index">Index lomu</string>
+    <string name="refraction_index">Index refrakcie</string>
     <string name="arc">Arc</string>
     <string name="spread_angle">Uhol rozpätia</string>
     <string name="sparkle">Sparkle</string>
@@ -1828,7 +1826,7 @@
     <string name="square_particles">Štvorcové častice</string>
     <string name="square_particles_sub">Častice spreja budú mať štvorcový tvar namiesto kruhov</string>
     <string name="palette_tools">Paletové nástroje</string>
-    <string name="palette_tools_sub">Vygenerujte základný materiál/materiál z palety z obrázka alebo importujte/exportujte cez rôzne formáty paliet</string>
+    <string name="palette_tools_sub">Vytvorte si základnú paletu farieb alebo paletu materiálov na základe obrázku, prípadne importujte alebo exportujte medzi rôznymi formátmi paliet</string>
     <string name="edit_palette">Upraviť paletu</string>
     <string name="edit_palette_sub">Export/import palety v rôznych formátoch</string>
     <string name="color_name">Názov farby</string>
@@ -1863,7 +1861,7 @@
     <string name="pulse_grid_pixelization">Pixelizácia pulznej mriežky</string>
     <string name="nucleus_pixelization">Pixelizácia jadra</string>
     <string name="radial_weave_pixelization">Radial Weave Pixelization</string>
-    <string name="cannot_open_uri">Nedá sa otvoriť UR \"%1$s\"</string>
+    <string name="cannot_open_uri">Nie je možné otvoriť URI „%1$s“</string>
     <string name="snowfall_mode">Režim sneženia</string>
     <string name="enabled">Povolené</string>
     <string name="border_frame">Hraničný rám</string>
@@ -1879,7 +1877,7 @@
     <string name="pixel_melt">Pixel Melt</string>
     <string name="max_drop">Maximálny pokles</string>
     <string name="ai_tools">Nástroje AI</string>
-    <string name="ai_tools_sub">Rôzne nástroje na spracovanie obrázkov prostredníctvom modelov AI, ako je odstraňovanie artefaktov alebo odšumovanie</string>
+    <string name="ai_tools_sub">Rôzne nástroje na spracovanie obrázkov pomocou modelov umelej inteligencie, ako je odstraňovanie artefaktov alebo odšumovanie</string>
     <string name="model_anime_undeint">Kompresia, zubaté línie</string>
     <string name="model_broadcast">Karikatúry, kompresia vysielania</string>
     <string name="model_rgb_max_denoise_fp16">Všeobecná kompresia, všeobecný šum</string>
@@ -2008,7 +2006,7 @@
     <string name="model_u2net">Vysoko presný model segmentácie obrazu na odstránenie pozadia</string>
     <string name="model_u2netp">Odľahčená verzia U2Net pre rýchlejšie odstraňovanie pozadia s menšou spotrebou pamäte.</string>
     <string name="model_ddcolor">Úplný model DDColor poskytuje vysokokvalitné zafarbenie pre bežné obrázky s minimálnymi artefaktmi. Najlepšia voľba zo všetkých farebných modelov.</string>
-    <string name="model_ddcolor_artistic">DDColor vyškolené a súkromné ​​​​umelecké súbory údajov; vytvára rôznorodé a umelecké výsledky sfarbenia s menším počtom nerealistických farebných artefaktov.</string>
+    <string name="model_ddcolor_artistic">DDColor vyškolené a súkromné umelecké súbory údajov; vytvára rôznorodé a umelecké výsledky sfarbenia s menším počtom nerealistických farebných artefaktov.</string>
     <string name="model_birefnet">Ľahký model BiRefNet založený na Swin Transformer pre presné odstránenie pozadia.</string>
     <string name="model_inspyrenet">Vysokokvalitné odstránenie pozadia s ostrými hranami a vynikajúcim zachovaním detailov, najmä na zložitých objektoch a zložitých pozadiach.</string>
     <string name="model_isnet">Model odstraňovania pozadia, ktorý vytvára presné masky s hladkými okrajmi, vhodné pre bežné objekty a miernym zachovaním detailov.</string>
@@ -2399,7 +2397,7 @@
     <string name="shader_parse_error_vec2_component_count_expected">%1$s musí obsahovať presne 2 čísla.</string>
     <string name="duplicate">Duplicitné</string>
     <string name="always_clear_exif">Vždy vymažte EXIF</string>
-    <string name="always_clear_exif_sub">Odstráňte EXIF ​​údaje obrázka pri uložení, aj keď nástroj vyžaduje uchovanie metadát</string>
+    <string name="always_clear_exif_sub">Odstráňte EXIF údaje obrázka pri uložení, aj keď nástroj vyžaduje uchovanie metadát</string>
     <string name="help_tips">Pomocník a tipy</string>
     <string name="tutorials_count">%1$d návodov</string>
     <string name="open_tool">Otvorte nástroj</string>
@@ -2531,7 +2529,7 @@
     <string name="help_tip_preview_before_editing_description">Ukážka obrázka je užitočná, keď súbor pochádza z chatu, cloudového úložiska alebo inej aplikácie a nie ste si istí, čo obsahuje. Kontrola rozmerov, priehľadnosti, orientácie a vizuálnej kvality najprv pomôže vybrať správny nadväzujúci nástroj.</string>
     <string name="help_tip_preview_before_editing_step_1">Otvorte Ukážku obrázka, keď potrebujete skontrolovať niekoľko obrázkov predtým, ako sa rozhodnete, čo s nimi urobiť.</string>
     <string name="help_tip_preview_before_editing_step_2">Hľadajte problémy s otáčaním, priehľadné oblasti, kompresné artefakty a neočakávane veľké rozmery.</string>
-    <string name="help_tip_preview_before_editing_step_3">Presuňte sa na Zmeniť veľkosť, Orezať, Porovnať, EXIF ​​alebo odstraňovač pozadia až potom, čo viete, čo je potrebné opraviť.</string>
+    <string name="help_tip_preview_before_editing_step_3">Presuňte sa na Zmeniť veľkosť, Orezať, Porovnať, EXIF alebo odstraňovač pozadia až potom, čo viete, čo je potrebné opraviť.</string>
     <string name="help_tip_background_remover_title">Odstráňte alebo obnovte pozadie</string>
     <string name="help_tip_background_remover_subtitle">Vymažte pozadie automaticky alebo upravte okraje manuálne pomocou nástrojov na obnovenie</string>
     <string name="help_tip_background_remover_page_title">Ponechajte predmet, zvyšok odstráňte</string>
@@ -2567,20 +2565,20 @@
     <string name="help_tip_format_conversion_step_1">Použite JPEG pre kompatibilné fotografie, PNG pre bezstratové obrázky a alfa a WebP pre kompaktné zdieľanie.</string>
     <string name="help_tip_format_conversion_step_2">Upravte kvalitu, keď to formát podporuje; nižšie hodnoty zmenšia veľkosť, ale môžu pridať artefakty.</string>
     <string name="help_tip_format_conversion_step_3">Originály si ponechajte, kým neoveríte, že konvertované súbory sa správne otvorili v cieľovej aplikácii.</string>
-    <string name="help_tip_exif_privacy_title">Skontrolujte EXIF ​​a súkromie</string>
+    <string name="help_tip_exif_privacy_title">Skontrolujte EXIF a súkromie</string>
     <string name="help_tip_exif_privacy_subtitle">Zobrazte, upravte alebo odstráňte metadáta pred zdieľaním citlivých fotografií</string>
     <string name="help_tip_exif_privacy_page_title">Ovládajte skryté obrazové údaje</string>
-    <string name="help_tip_exif_privacy_description">EXIF môže obsahovať údaje fotoaparátu, dátumy, polohu, orientáciu a ďalšie podrobnosti, ktoré nie sú viditeľné na obrázku. Pred verejným zdieľaním, správami podpory, zoznamami na trhu alebo akoukoľvek fotkou, ktorá môže odhaliť súkromné ​​miesto, sa oplatí skontrolovať.</string>
+    <string name="help_tip_exif_privacy_description">EXIF môže obsahovať údaje fotoaparátu, dátumy, polohu, orientáciu a ďalšie podrobnosti, ktoré nie sú viditeľné na obrázku. Pred verejným zdieľaním, správami podpory, zoznamami na trhu alebo akoukoľvek fotkou, ktorá môže odhaliť súkromné miesto, sa oplatí skontrolovať.</string>
     <string name="help_tip_exif_privacy_step_1">Pred zdieľaním fotografií, ktoré môžu obsahovať informácie o polohe alebo súkromnom zariadení, otvorte nástroje EXIF.</string>
     <string name="help_tip_exif_privacy_step_2">Odstráňte citlivé polia alebo upravte nesprávne značky, ako sú dátum, orientácia, autor alebo údaje fotoaparátu.</string>
     <string name="help_tip_exif_privacy_step_3">Uložte si novú kópiu a zdieľajte túto kópiu namiesto originálu, keď na ochrane osobných údajov záleží.</string>
     <string name="help_tip_automatic_exif_cleanup_title">Automatické čistenie EXIF</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">Predvolene odstráňte metadáta pri rozhodovaní, či sa majú dátumy zachovať</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">Nastavte súkromie ako predvolené</string>
-    <string name="help_tip_automatic_exif_cleanup_description">Skupina nastavení EXIF ​​je užitočná, keď chcete, aby čistenie súkromia prebiehalo automaticky namiesto toho, aby ste si ho pamätali pri každom exporte. Ponechať dátum a čas je samostatné rozhodnutie, pretože dátumy môžu byť užitočné na triedenie, ale citlivé na zdieľanie.</string>
+    <string name="help_tip_automatic_exif_cleanup_description">Skupina nastavení EXIF je užitočná, keď chcete, aby čistenie súkromia prebiehalo automaticky namiesto toho, aby ste si ho pamätali pri každom exporte. Ponechať dátum a čas je samostatné rozhodnutie, pretože dátumy môžu byť užitočné na triedenie, ale citlivé na zdieľanie.</string>
     <string name="help_tip_automatic_exif_cleanup_step_1">Povoľte vždy jasné EXIF, keď je väčšina vašich exportov určená na verejné alebo poloverejné zdieľanie.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">Zachovať čas dátumu povoľte iba vtedy, keď je zachovanie času snímania dôležitejšie ako odstránenie každej časovej pečiatky.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_3">Použite manuálnu úpravu EXIF ​​pre jednorazové súbory, kde potrebujete niektoré polia ponechať a iné odstrániť.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_3">Použite manuálnu úpravu EXIF pre jednorazové súbory, kde potrebujete niektoré polia ponechať a iné odstrániť.</string>
     <string name="help_tip_filenames_title">Ovládanie názvov súborov</string>
     <string name="help_tip_filenames_subtitle">Používajte predpony, prípony, časové pečiatky, predvoľby, kontrolné súčty a poradové čísla</string>
     <string name="help_tip_filenames_page_title">Uľahčite vyhľadávanie exportov</string>
@@ -2858,9 +2856,9 @@
     <string name="help_tip_screen_behavior_title">Upravte správanie obrazovky</string>
     <string name="help_tip_screen_behavior_subtitle">Na sústredenú prácu používajte možnosti celej obrazovky, zabezpečeného režimu, jasu a systémovej lišty</string>
     <string name="help_tip_screen_behavior_page_title">Prispôsobte rozhranie situácii</string>
-    <string name="help_tip_screen_behavior_description">Nastavenia obrazovky pomáhajú, keď upravujete na šírku, prezentujete súkromné ​​obrázky alebo potrebujete konzistentný jas. Na bežné používanie nie sú potrebné, ale riešia nepríjemné situácie ako kontrola QR, súkromné ​​náhľady, či stiesnené úpravy krajiny.</string>
+    <string name="help_tip_screen_behavior_description">Nastavenia obrazovky pomáhajú, keď upravujete na šírku, prezentujete súkromné obrázky alebo potrebujete konzistentný jas. Na bežné používanie nie sú potrebné, ale riešia nepríjemné situácie ako kontrola QR, súkromné náhľady, či stiesnené úpravy krajiny.</string>
     <string name="help_tip_screen_behavior_step_1">Ak je úprava priestoru dôležitejšia ako navigačný prehliadač, použite nastavenia na celú obrazovku alebo systémový panel.</string>
-    <string name="help_tip_screen_behavior_step_2">Ak sa na snímkach obrazovky alebo ukážkach aplikácií nemajú zobrazovať súkromné ​​obrázky, použite zabezpečený režim.</string>
+    <string name="help_tip_screen_behavior_step_2">Ak sa na snímkach obrazovky alebo ukážkach aplikácií nemajú zobrazovať súkromné obrázky, použite zabezpečený režim.</string>
     <string name="help_tip_screen_behavior_step_3">Použite vynútenie jasu pre nástroje, kde je ťažké skontrolovať tmavé obrázky alebo QR kódy.</string>
     <string name="help_tip_transparent_output_title">Udržujte transparentnosť</string>
     <string name="help_tip_transparent_output_subtitle">Zabráňte tomu, aby sa priehľadné pozadie zmenilo na biele, čierne alebo sploštené</string>
@@ -2889,7 +2887,7 @@
     <string name="help_tip_logs_feedback_description">Prehľadná správa s krokmi, verziou aplikácie, typom vstupu a protokolmi je oveľa jednoduchšia na diagnostiku. Protokoly sú najužitočnejšie hneď po reprodukovaní problému, pretože udržiavajú okolitý kontext čerstvý.</string>
     <string name="help_tip_logs_feedback_step_1">Poznamenajte si názov nástroja, presnú akciu a to, či sa to stane s jedným súborom alebo každým súborom.</string>
     <string name="help_tip_logs_feedback_step_2">Po zopakovaní problému otvorte denníky aplikácií a zdieľajte príslušný výstup denníka, keď je to možné.</string>
-    <string name="help_tip_logs_feedback_step_3">Snímky obrazovky alebo vzorové súbory pripájajte iba vtedy, keď neobsahujú súkromné ​​informácie.</string>
+    <string name="help_tip_logs_feedback_step_3">Snímky obrazovky alebo vzorové súbory pripájajte iba vtedy, keď neobsahujú súkromné informácie.</string>
     <string name="crash_foreground_service_timeout_title">Spracovanie na pozadí bolo zastavené</string>
     <string name="crash_foreground_service_timeout_description">Android nenechal včas spustiť upozornenie na spracovanie na pozadí. Toto je časové obmedzenie systému, ktoré nemožno spoľahlivo opraviť. Reštartujte aplikáciu a skúste to znova; môže pomôcť ponechanie aplikácie otvorenej a povolenie upozornení alebo práce na pozadí.</string>
     <string name="help_tip_skip_file_picking_title">Preskočiť výber súboru</string>
@@ -2947,7 +2945,7 @@
     <string name="help_tip_load_net_image_description">Web Image Loading analyzuje zdroje obrázkov z poskytnutej adresy URL, zobrazí ukážku prvého dostupného obrázka a umožní vám uložiť alebo zdieľať vybrané analyzované obrázky. Niektoré stránky používajú dočasné, chránené odkazy alebo odkazy vygenerované skriptom, takže stránka, ktorá funguje v prehliadači, stále nemusí vracať žiadne použiteľné obrázky.</string>
     <string name="help_tip_load_net_image_step_1">Prilepte priamu webovú adresu obrázka alebo webovú adresu stránky a počkajte, kým sa zobrazí zoznam analyzovaných obrázkov.</string>
     <string name="help_tip_load_net_image_step_2">Ak stránka obsahuje niekoľko obrázkov a potrebujete len niektoré, použite ovládacie prvky rámčeka alebo výberu.</string>
-    <string name="help_tip_load_net_image_step_3">Ak sa nič nenačíta, vyskúšajte priamy odkaz na obrázok alebo si ho najprv stiahnite cez prehliadač; stránka môže blokovať analýzu alebo používať súkromné ​​odkazy.</string>
+    <string name="help_tip_load_net_image_step_3">Ak sa nič nenačíta, vyskúšajte priamy odkaz na obrázok alebo si ho najprv stiahnite cez prehliadač; stránka môže blokovať analýzu alebo používať súkromné odkazy.</string>
     <string name="help_tip_resize_type_title">Vyberte typ zmeny veľkosti</string>
     <string name="help_tip_resize_type_subtitle">Pochopte explicitné, flexibilné, orezanie a prispôsobenie predtým, ako vnútite obrázok do nových rozmerov</string>
     <string name="help_tip_resize_type_page_title">Ovládajte tvar, plátno a pomer strán</string>
@@ -3042,7 +3040,7 @@
     <string name="help_tip_metadata_dates_location_title">Metadáta dátumov a polohy</string>
     <string name="help_tip_metadata_dates_location_subtitle">Rozhodnite sa, čo zachovať, keď záleží na čase snímania, ale údaje GPS alebo zariadenia by nemali uniknúť</string>
     <string name="help_tip_metadata_dates_location_page_title">Oddeľte užitočné metadáta od súkromných metadát</string>
-    <string name="help_tip_metadata_dates_location_description">Metaúdaje nie sú všetky rovnako rizikové. Dátumy zachytenia môžu byť užitočné pri archívoch a triedení, zatiaľ čo GPS, sériové polia zariadenia, softvérové ​​značky alebo polia vlastníka môžu odhaliť viac, ako bolo zamýšľané.</string>
+    <string name="help_tip_metadata_dates_location_description">Metaúdaje nie sú všetky rovnako rizikové. Dátumy zachytenia môžu byť užitočné pri archívoch a triedení, zatiaľ čo GPS, sériové polia zariadenia, softvérové značky alebo polia vlastníka môžu odhaliť viac, ako bolo zamýšľané.</string>
     <string name="help_tip_metadata_dates_location_step_1">Uchovávajte značky dátumu a času, keď záleží na chronologickom poradí albumov, skenov alebo histórie projektov.</string>
     <string name="help_tip_metadata_dates_location_step_2">Pred verejným zdieľaním alebo odosielaním obrázkov neznámym osobám odstráňte značky GPS a zariadenia na identifikáciu.</string>
     <string name="help_tip_metadata_dates_location_step_3">Exportujte vzorku a znova skontrolujte EXIF, keď sú požiadavky na ochranu osobných údajov prísne.</string>
@@ -3126,7 +3124,7 @@
     <string name="help_tip_clipboard_privacy_title">Súkromie schránky</string>
     <string name="help_tip_clipboard_privacy_subtitle">Používajte funkcie automatickej schránky bez náhodného odhalenia súkromných skopírovaných údajov</string>
     <string name="help_tip_clipboard_privacy_page_title">Ponechajte skopírovaný obsah zámerne</string>
-    <string name="help_tip_clipboard_privacy_description">Automatizácia schránky je pohodlná, ale skopírovaný text môže obsahovať heslá, odkazy, adresy, tokeny alebo súkromné ​​poznámky. Zadávanie zo schránky považujte za funkciu rýchlosti, ktorá by mala zodpovedať vašim zvykom a očakávaniam ochrany súkromia.</string>
+    <string name="help_tip_clipboard_privacy_description">Automatizácia schránky je pohodlná, ale skopírovaný text môže obsahovať heslá, odkazy, adresy, tokeny alebo súkromné poznámky. Zadávanie zo schránky považujte za funkciu rýchlosti, ktorá by mala zodpovedať vašim zvykom a očakávaniam ochrany súkromia.</string>
     <string name="help_tip_clipboard_privacy_step_1">Zakážte automatické používanie schránky, ak sa v nástrojoch neočakávane objaví súkromný text.</string>
     <string name="help_tip_clipboard_privacy_step_2">Ukladanie len do schránky použite iba vtedy, ak chcete, aby sa výsledok neukladal.</string>
     <string name="help_tip_clipboard_privacy_step_3">Po manipulácii s citlivým textom, údajmi QR alebo dátami Base64 vymažte alebo vymeňte schránku.</string>
@@ -3248,12 +3246,12 @@
     <string name="search_keywords_pdf_unlock">pdf odomknúť heslo dešifrovať odstrániť ochranu</string>
     <string name="search_keywords_pdf_compress">pdf komprimovať znížiť veľkosť optimalizovať</string>
     <string name="search_keywords_pdf_grayscale">pdf čiernobiele jednofarebné v odtieňoch sivej</string>
-    <string name="search_keywords_pdf_repair">pdf opraviť opraviť obnoviť rozbité</string>
+    <string name="search_keywords_pdf_repair">oprava PDF, obnovenie poškodeného súboru</string>
     <string name="search_keywords_pdf_metadata">Vlastnosti metadát pdf Názov autora exif</string>
-    <string name="search_keywords_pdf_remove_pages">pdf odstrániť odstrániť stránky</string>
+    <string name="search_keywords_pdf_remove_pages">odstránenie stránok z PDF</string>
     <string name="search_keywords_pdf_crop">pdf okraje orezania</string>
     <string name="search_keywords_pdf_flatten">pdf vyrovnať anotácie formuje vrstvy</string>
-    <string name="search_keywords_pdf_extract_images">pdf extrahovať obrázky obrázky</string>
+    <string name="search_keywords_pdf_extract_images">pdf – extrahovať obrázky</string>
     <string name="search_keywords_pdf_zip_convert">komprimovať archív zip vo formáte pdf</string>
     <string name="search_keywords_pdf_print">tlačiareň na tlač pdf</string>
     <string name="search_keywords_pdf_preview">pdf náhľad prehliadač čítať</string>
@@ -4484,7 +4482,7 @@
     <string name="help_tip_texture_generation_title">Vytvorte opakovane použiteľné textúry</string>
     <string name="help_tip_texture_generation_subtitle">Vytvárajte hladko vyzerajúce materiály, abstraktné pozadia a procedurálne detaily vo veľkosti, ktorú potrebujete</string>
     <string name="help_tip_texture_generation_page_title">Dizajn pre destináciu</string>
-    <string name="help_tip_texture_generation_description">Generovanie textúr vytvára obrázok z receptúry, takže najlepšie funguje, keď sa pred doladením vzoru rozhodnete, kde bude obrázok žiť. Pozadie, prekrytie, tapeta alebo maska ​​môžu vyžadovať iné rozmery, kontrast a detaily. Začať s cieľom zabráni tomu, aby sa krásna textúra po orezaní alebo kompresii stala nepoužiteľnou.</string>
+    <string name="help_tip_texture_generation_description">Generovanie textúr vytvára obrázok z receptúry, takže najlepšie funguje, keď sa pred doladením vzoru rozhodnete, kde bude obrázok žiť. Pozadie, prekrytie, tapeta alebo maska môžu vyžadovať iné rozmery, kontrast a detaily. Začať s cieľom zabráni tomu, aby sa krásna textúra po orezaní alebo kompresii stala nepoužiteľnou.</string>
     <string name="help_tip_texture_generation_step_1">Najprv vyberte konečnú veľkosť a orientáciu plátna, najmä v prípade tapiet, príspevkov na sociálnych sieťach a pozadia na tlač.</string>
     <string name="help_tip_texture_generation_step_2">Začnite so širokým vzorom, potom upravte mierku, farby, kontrast a skreslenie, až kým textúra nepodporí obsah v popredí, ale bude mu konkurovať.</string>
     <string name="help_tip_texture_generation_step_3">Ponechajte si užitočné kombinácie parametrov ako predvoľby alebo poznámky, aby bolo možné neskôr vygenerovať zodpovedajúcu textúru namiesto kopírovania zo splošteného obrázka.</string>
