@@ -30,6 +30,45 @@ import org.junit.Test
 class ImageCropperStateTest {
 
     @Test
+    fun savedStateIsRestoredAfterImageChange() {
+        val beforeCrop = snapshot(0.35f)
+        val newImageInitial = snapshot(0.8f)
+        val state = ImageCropperState()
+        var restoredSnapshot: ImageCropSnapshot? = null
+
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "before-crop",
+            captureSnapshot = { beforeCrop },
+            restoreSnapshot = {}
+        )
+        state.onCropperReady()
+        val savedState = requireNotNull(state.saveState())
+
+        state.restoreStateOnNextImageChange(savedState)
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "after-undo",
+            captureSnapshot = { newImageInitial },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(beforeCrop.copy(preferExactTransform = true), restoredSnapshot)
+
+        restoredSnapshot = null
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "after-transition",
+            captureSnapshot = { newImageInitial },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(beforeCrop.copy(preferExactTransform = true), restoredSnapshot)
+    }
+
+    @Test
     fun undoRedoKeepsLogicalSnapshotsWhileRestoreIsPending() {
         val before = snapshot(10f)
         val after = snapshot(20f)
@@ -572,6 +611,65 @@ class ImageCropperStateTest {
                 drawAreaSize = IntSize(1440, 1080)
             )
         )
+    }
+
+    @Test
+    fun sameViewportRestoresExactTransform() {
+        val imageSize = IntSize(1200, 900)
+        val containerSize = IntSize(1080, 1600)
+        val drawAreaSize = IntSize(1080, 810)
+        val exactOverlayRect = Rect(56f, 700f, 1024f, 1038f)
+        val exactPan = Offset(18f, -74f)
+        val snapshot = ImageCropSnapshot(
+            normalizedCropRect = Rect(0.12f, 0.23f, 0.81f, 0.67f),
+            containerSize = containerSize,
+            rotation = 0f,
+            imageSize = imageSize,
+            drawAreaSize = drawAreaSize,
+            exactOverlayRect = exactOverlayRect,
+            exactZoom = 1.73f,
+            exactPan = exactPan
+        )
+
+        val restored = requireNotNull(
+            calculateRestoreGeometry(
+                snapshot = snapshot,
+                imageSize = imageSize,
+                containerSize = containerSize,
+                drawAreaSize = drawAreaSize
+            )
+        )
+
+        assertEquals(exactOverlayRect, restored.overlayRect)
+        assertEquals(1.73f, restored.zoom, 0f)
+        assertEquals(exactPan, restored.pan)
+    }
+
+    @Test
+    fun exactTransformCompensatesContainerCenterChange() {
+        val snapshot = ImageCropSnapshot(
+            normalizedCropRect = Rect(0.12f, 0.23f, 0.81f, 0.67f),
+            containerSize = IntSize(1080, 1600),
+            rotation = 0f,
+            drawAreaSize = IntSize(1080, 810),
+            exactOverlayRect = Rect(56f, 700f, 1024f, 1038f),
+            exactZoom = 1.73f,
+            exactPan = Offset(18f, -74f),
+            preferExactTransform = true
+        )
+
+        val restored = requireNotNull(
+            calculateRestoreGeometry(
+                snapshot = snapshot,
+                imageSize = IntSize(1200, 900),
+                containerSize = IntSize(1080, 1888),
+                drawAreaSize = IntSize(1080, 810)
+            )
+        )
+
+        assertEquals(Rect(56f, 844f, 1024f, 1182f), restored.overlayRect)
+        assertEquals(1.73f, restored.zoom, 0f)
+        assertEquals(Offset(18f, -74f), restored.pan)
     }
 
     @Test

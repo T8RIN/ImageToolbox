@@ -46,7 +46,30 @@ val CropState.cropData: CropData
     )
 
 internal val CropState.cropSnapshot: ImageCropSnapshot?
-    get() {
+    get() = createCropSnapshot(
+        overlayRect = targetOverlayRect,
+        cropRect = snapshotCropRect(),
+        zoom = animatableZoom.targetValue,
+        pan = Offset(animatablePanX.targetValue, animatablePanY.targetValue),
+        rotation = animatableRotation.targetValue
+    )
+
+internal val CropState.cropCheckpointSnapshot: ImageCropSnapshot?
+    get() = createCropSnapshot(
+        overlayRect = overlayRect,
+        cropRect = currentCropRect(),
+        zoom = zoom,
+        pan = pan,
+        rotation = rotation
+    )
+
+private fun CropState.createCropSnapshot(
+    overlayRect: Rect,
+    cropRect: Rect,
+    zoom: Float,
+    pan: Offset,
+    rotation: Float
+): ImageCropSnapshot? {
         if (
             imageSize.width <= 0 ||
             imageSize.height <= 0 ||
@@ -60,8 +83,6 @@ internal val CropState.cropSnapshot: ImageCropSnapshot?
 
         val imageWidth = imageSize.width.toFloat().coerceAtLeast(1f)
         val imageHeight = imageSize.height.toFloat().coerceAtLeast(1f)
-        val overlayRect = targetOverlayRect
-        val cropRect = snapshotCropRect()
         if (cropRect.width <= 0f || cropRect.height <= 0f ||
             overlayRect.width <= 0f || overlayRect.height <= 0f
         ) {
@@ -84,9 +105,14 @@ internal val CropState.cropSnapshot: ImageCropSnapshot?
                 containerSize = containerSize
             ),
             containerSize = containerSize,
-            rotation = animatableRotation.targetValue
+            rotation = rotation,
+            imageSize = imageSize,
+            drawAreaSize = drawAreaSize,
+            exactOverlayRect = overlayRect,
+            exactZoom = zoom,
+            exactPan = pan
         )
-    }
+}
 
 internal suspend fun CropState.restoreCropSnapshot(snapshot: ImageCropSnapshot) {
     val geometry = calculateRestoreGeometry(
@@ -132,6 +158,38 @@ internal fun calculateRestoreGeometry(
         drawAreaSize.height <= 0
     ) {
         return null
+    }
+
+    val exactOverlayRect = snapshot.exactOverlayRect
+    val exactZoom = snapshot.exactZoom
+    val exactPan = snapshot.exactPan
+    val hasSameOrientation =
+        (snapshot.containerSize.width >= snapshot.containerSize.height) ==
+                (containerSize.width >= containerSize.height)
+    if (
+        (snapshot.preferExactTransform && hasSameOrientation ||
+                snapshot.containerSize == containerSize && snapshot.drawAreaSize == drawAreaSize) &&
+        exactOverlayRect != null &&
+        exactOverlayRect.width > 0f &&
+        exactOverlayRect.height > 0f &&
+        exactZoom != null &&
+        exactZoom.isFinite() &&
+        exactPan != null &&
+        exactPan.x.isFinite() &&
+        exactPan.y.isFinite()
+    ) {
+        val containerCenterOffset = Offset(
+            x = (containerSize.width - snapshot.containerSize.width) / 2f,
+            y = (containerSize.height - snapshot.containerSize.height) / 2f
+        )
+        return RestoredCropGeometry(
+            overlayRect = exactOverlayRect.translate(containerCenterOffset),
+            zoom = exactZoom.coerceIn(
+                minimumValue = minZoom.coerceAtLeast(0.01f),
+                maximumValue = maxZoom.coerceAtLeast(minZoom)
+            ),
+            pan = exactPan
+        )
     }
 
     val normalizedCropRect = snapshot.normalizedCropRect.coerceToImageBounds()
@@ -297,6 +355,13 @@ abstract class CropState internal constructor(
         bitmapHeight = imageSize.height,
         drawAreaRect = updateImageDrawRectFromTransformation(),
         overlayRect = animatableRectOverlay.targetValue
+    )
+
+    internal fun currentCropRect(): Rect = getCropRectangle(
+        bitmapWidth = imageSize.width,
+        bitmapHeight = imageSize.height,
+        drawAreaRect = drawAreaRect,
+        overlayRect = animatableRectOverlay.value
     )
 
     var cropRect: Rect = Rect.Zero

@@ -420,6 +420,7 @@ fun CropContent(
                     } else {
                         job?.cancel()
                         job = scope.launch {
+                            cropperState.prepareAppliedAction()
                             delay(500)
                             crop = true
                         }

@@ -26,6 +26,45 @@ import org.junit.Test
 class FreeCornersCropSnapshotTest {
 
     @Test
+    fun savedStateIsRestoredAfterImageChange() {
+        val beforeCrop = snapshotAt(0.3f)
+        val newImageInitial = snapshotAt(0.8f)
+        val state = FreeCornersCropperState()
+        var restoredSnapshot: FreeCornersCropSnapshot? = null
+
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "before-crop",
+            captureSnapshot = { beforeCrop },
+            restoreSnapshot = {}
+        )
+        state.onCropperReady()
+        val savedState = requireNotNull(state.saveState())
+
+        state.restoreStateOnNextImageChange(savedState)
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "after-undo",
+            captureSnapshot = { newImageInitial },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(beforeCrop, restoredSnapshot)
+
+        restoredSnapshot = null
+        state.attach(
+            attachmentKey = Any(),
+            imageKey = "after-transition",
+            captureSnapshot = { newImageInitial },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(beforeCrop, restoredSnapshot)
+    }
+
+    @Test
     fun newAttachmentCapturesOutgoingCropperBeforeReplacingCallbacks() {
         val initial = snapshotAt(0.1f)
         val outgoing = snapshotAt(0.3f)
@@ -175,6 +214,41 @@ class FreeCornersCropSnapshotTest {
         initialSnapshot.normalizedPoints.zip(capturedInLandscape.normalizedPoints)
             .forEach { (expected, actual) -> assertOffsetEquals(expected, actual) }
         assertTrue(landscape.points.all { isInside(landscapeViewport, it) })
+    }
+
+    @Test
+    fun sameViewportRestoresExactTransform() {
+        val imageBounds = Rect(140f, 320f, 940f, 920f)
+        val viewportBounds = Rect(16f, 16f, 1064f, 1904f)
+        val points = listOf(
+            Offset(210f, 430f),
+            Offset(830f, 390f),
+            Offset(870f, 810f),
+            Offset(250f, 850f)
+        )
+        val imageScale = 1.42f
+        val imageTranslation = Offset(17f, -63f)
+        val snapshot = requireNotNull(
+            captureFreeCornersCropSnapshot(
+                points = points,
+                imageBounds = imageBounds,
+                imageScale = imageScale,
+                imageTranslation = imageTranslation,
+                viewportBounds = viewportBounds
+            )
+        )
+
+        val restored = requireNotNull(
+            restoreFreeCornersCropSnapshot(
+                snapshot = snapshot,
+                imageBounds = imageBounds,
+                viewportBounds = viewportBounds
+            )
+        )
+
+        assertEquals(points, restored.points)
+        assertEquals(imageScale, restored.imageScale, 0f)
+        assertEquals(imageTranslation, restored.imageTranslation)
     }
 
     @Test

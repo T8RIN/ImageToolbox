@@ -20,6 +20,7 @@ package com.t8rin.cropper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,10 +32,17 @@ private const val MaxHistorySize = 50
 
 @Stable
 class ImageCropperState {
+    class SavedState internal constructor(
+        internal val snapshot: ImageCropSnapshot
+    )
+
     var canUndo: Boolean by mutableStateOf(false)
         private set
 
     var canRedo: Boolean by mutableStateOf(false)
+        private set
+
+    internal var resetVersion: Int by mutableIntStateOf(0)
         private set
 
     private var imageKey: Any? = null
@@ -42,6 +50,7 @@ class ImageCropperState {
     private var layoutKey: Any? = null
     private var configurationKey: Any? = null
     private var captureSnapshot: (() -> ImageCropSnapshot?)? = null
+    private var captureSavedStateSnapshot: (() -> ImageCropSnapshot?)? = null
     private var restoreSnapshot: ((ImageCropSnapshot) -> Unit)? = null
     private var pendingSnapshot: ImageCropSnapshot? = null
     private var pendingLayoutSnapshot: ImageCropSnapshot? = null
@@ -49,6 +58,7 @@ class ImageCropperState {
     private var restoreCurrentSnapshotOnCropperReady = false
     private var skipSnapshotSyncForAttachment: Any? = null
     private var restoredAttachmentKey: Any? = null
+    private var snapshotToRestoreOnImageChange: ImageCropSnapshot? = null
     private var restoreGeneration = 0
     internal var isRestoring by mutableStateOf(false)
         private set
@@ -80,6 +90,7 @@ class ImageCropperState {
     }
 
     fun beginTransformation() {
+        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         if (restoredAttachmentKey === attachmentKey) {
             restoredAttachmentKey = null
@@ -109,6 +120,15 @@ class ImageCropperState {
         pendingSnapshot = null
     }
 
+    fun saveState(): SavedState? = (captureSavedStateSnapshot ?: captureSnapshot)
+        ?.invoke()
+        ?.copy(preferExactTransform = true)
+        ?.let(::SavedState)
+
+    fun restoreStateOnNextImageChange(savedState: SavedState) {
+        snapshotToRestoreOnImageChange = savedState.snapshot
+    }
+
     fun prepareForReattachment(attachmentKey: Any? = null) {
         if (attachmentKey != null && this.attachmentKey !== attachmentKey) return
         if (restoreCurrentSnapshotOnCropperReady) return
@@ -129,7 +149,8 @@ class ImageCropperState {
         layoutKey: Any? = null,
         configurationKey: Any? = null,
         captureSnapshot: () -> ImageCropSnapshot?,
-        restoreSnapshot: (ImageCropSnapshot) -> Unit
+        restoreSnapshot: (ImageCropSnapshot) -> Unit,
+        captureSavedStateSnapshot: (() -> ImageCropSnapshot?)? = null
     ) {
         val imageChanged = this.imageKey != imageKey
         val attachmentChanged = this.attachmentKey != null &&
@@ -158,14 +179,15 @@ class ImageCropperState {
                 this.configurationKey != null &&
                 this.configurationKey != configurationKey
         if (imageChanged) {
+            val snapshotToRestore = snapshotToRestoreOnImageChange
             this.imageKey = imageKey
             pendingSnapshot = null
             pendingLayoutSnapshot = null
-            currentSnapshot = null
-            restoreCurrentSnapshotOnCropperReady = false
+            currentSnapshot = snapshotToRestore
+            restoreCurrentSnapshotOnCropperReady = snapshotToRestore != null
             skipSnapshotSyncForAttachment = null
             restoredAttachmentKey = null
-            isRestoring = false
+            isRestoring = restoreCurrentSnapshotOnCropperReady
             undoHistory.clear()
             redoHistory.clear()
             updateAvailability()
@@ -182,6 +204,7 @@ class ImageCropperState {
         this.layoutKey = layoutKey
         this.configurationKey = configurationKey
         this.captureSnapshot = captureSnapshot
+        this.captureSavedStateSnapshot = captureSavedStateSnapshot
         this.restoreSnapshot = restoreSnapshot
     }
 
@@ -192,6 +215,7 @@ class ImageCropperState {
         }
         this.attachmentKey = null
         captureSnapshot = null
+        captureSavedStateSnapshot = null
         restoreSnapshot = null
         pendingSnapshot = null
     }
@@ -253,12 +277,14 @@ class ImageCropperState {
         pendingSnapshot = null
         pendingLayoutSnapshot = null
         currentSnapshot = captureSnapshot?.invoke()
+        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         skipSnapshotSyncForAttachment = null
         restoredAttachmentKey = null
         isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
+        resetVersion++
         updateAvailability()
     }
 
@@ -269,6 +295,7 @@ class ImageCropperState {
         pendingSnapshot = null
         pendingLayoutSnapshot = null
         currentSnapshot = null
+        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         skipSnapshotSyncForAttachment = null
         restoredAttachmentKey = null
@@ -326,5 +353,11 @@ internal data class ImageCropSnapshot(
     val normalizedOverlayCenter: Offset = Offset(0.5f, 0.5f),
     val overlaySizeFraction: Float = 0.8f,
     val containerSize: IntSize = IntSize.Zero,
-    val rotation: Float
+    val rotation: Float,
+    val imageSize: IntSize = IntSize.Zero,
+    val drawAreaSize: IntSize = IntSize.Zero,
+    val exactOverlayRect: Rect? = null,
+    val exactZoom: Float? = null,
+    val exactPan: Offset? = null,
+    val preferExactTransform: Boolean = false
 )

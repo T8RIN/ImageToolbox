@@ -61,6 +61,7 @@ import com.t8rin.cropper.settings.CropStyle
 import com.t8rin.cropper.settings.CropType
 import com.t8rin.cropper.state.CropState
 import com.t8rin.cropper.state.DynamicCropState
+import com.t8rin.cropper.state.cropCheckpointSnapshot
 import com.t8rin.cropper.state.cropSnapshot
 import com.t8rin.cropper.state.rememberCropState
 import com.t8rin.cropper.state.restoreCropSnapshot
@@ -126,7 +127,10 @@ fun ImageCropper(
             contentScale = resolvedCropProperties.contentScale,
         )
 
-        val imageKey = sourceImageUri ?: imageBitmap
+        val imageKey = ImageCropperImageKey(
+            sourceImageUri = sourceImageUri,
+            imageBitmap = imageBitmap
+        )
 
         // Container Dimensions
         val measuredContainerSize = IntSize(constraints.maxWidth, constraints.maxHeight)
@@ -166,7 +170,8 @@ fun ImageCropper(
                 imageHeightPx,
                 contentScale,
                 cropType,
-                fixedAspectRatio
+                fixedAspectRatio,
+                state.resetVersion
             )
 
         val cropState = rememberCropState(
@@ -230,7 +235,8 @@ fun ImageCropper(
                             state.restoreCompleted(restoreGeneration)
                         }
                     }
-                }
+                },
+                captureSavedStateSnapshot = { cropState.cropCheckpointSnapshot }
             )
         }
 
@@ -551,6 +557,7 @@ private fun getResetKeys(
     contentScale: ContentScale,
     cropType: CropType,
     fixedAspectRatio: Boolean,
+    resetVersion: Int,
 ) = remember(
     scaledImageBitmap,
     imageWidthPx,
@@ -558,6 +565,7 @@ private fun getResetKeys(
     contentScale,
     cropType,
     fixedAspectRatio,
+    resetVersion,
 ) {
     arrayOf(
         scaledImageBitmap,
@@ -566,6 +574,7 @@ private fun getResetKeys(
         contentScale,
         cropType,
         fixedAspectRatio,
+        resetVersion,
     )
 }
 
@@ -582,4 +591,9 @@ private data class ImageCropperConfigurationKey(
     val fixedAspectRatio: Boolean,
     val aspectRatio: AspectRatio,
     val overlayRatio: Float
+)
+
+private data class ImageCropperImageKey(
+    val sourceImageUri: Uri?,
+    val imageBitmap: ImageBitmap
 )

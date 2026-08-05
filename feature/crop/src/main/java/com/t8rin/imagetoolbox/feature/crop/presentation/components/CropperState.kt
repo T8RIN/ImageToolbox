@@ -45,6 +45,7 @@ class CropperState internal constructor(
     private val undoHistory = ArrayDeque<HistoryAction>()
     private val redoHistory = ArrayDeque<HistoryAction>()
     private var pendingCombinedAction: HistoryAction.Combined? = null
+    private var pendingAppliedCropperState: AppliedCropperState? = null
     private var activeCropType = CropType.Default
 
     fun undo() {
@@ -130,16 +131,37 @@ class CropperState internal constructor(
         undo: () -> Unit,
         redo: () -> Unit
     ) {
+        val appliedCropperState = pendingAppliedCropperState
+        pendingAppliedCropperState = null
         finishActiveTransformation(recordAction = false)
         undoHistory.removeAll { it is HistoryAction.Cropper }
         undoHistory.filterIsInstance<HistoryAction.Combined>().forEach {
             it.includesCropperTransformation = false
         }
         redoHistory.clear()
-        advancedCropperState.clearHistory()
-        imageCropperState.clearHistory()
-        freeCornersCropperState.clearHistory()
-        recordAction(HistoryAction.External(undoAction = undo, redoAction = redo))
+        resetCropperStates()
+        recordAction(
+            HistoryAction.External(
+                undoAction = {
+                    appliedCropperState?.let(::prepareRestore)
+                    undo()
+                },
+                redoAction = {
+                    resetCropperStates()
+                    redo()
+                }
+            )
+        )
+    }
+
+    fun prepareAppliedAction() {
+        finishActiveTransformation(recordAction = true)
+        pendingAppliedCropperState = when (activeCropType) {
+            CropType.Default -> advancedCropperState.saveState()?.let(AppliedCropperState::Advanced)
+            CropType.NoRotation -> imageCropperState.saveState()?.let(AppliedCropperState::Image)
+            CropType.FreeCorners -> freeCornersCropperState.saveState()
+                ?.let(AppliedCropperState::FreeCorners)
+        }
     }
 
     fun recordCropperTransformation(cropType: CropType) {
@@ -180,6 +202,7 @@ class CropperState internal constructor(
 
     fun clearHistory() {
         pendingCombinedAction = null
+        pendingAppliedCropperState = null
         undoHistory.clear()
         redoHistory.clear()
         advancedCropperState.clearHistory()
@@ -190,6 +213,7 @@ class CropperState internal constructor(
 
     fun resetCropperStates() {
         pendingCombinedAction = null
+        pendingAppliedCropperState = null
         advancedCropperState.reset()
         imageCropperState.reset()
         freeCornersCropperState.reset()
@@ -268,6 +292,22 @@ class CropperState internal constructor(
         }
     }
 
+    private fun prepareRestore(state: AppliedCropperState) {
+        when (state) {
+            is AppliedCropperState.Advanced -> {
+                advancedCropperState.restoreStateOnNextImageChange(state.state)
+            }
+
+            is AppliedCropperState.Image -> {
+                imageCropperState.restoreStateOnNextImageChange(state.state)
+            }
+
+            is AppliedCropperState.FreeCorners -> {
+                freeCornersCropperState.restoreStateOnNextImageChange(state.state)
+            }
+        }
+    }
+
     private fun recordAction(action: HistoryAction) {
         undoHistory.addLast(action)
         undoHistory.trimToMaxSize()
@@ -322,6 +362,20 @@ class CropperState internal constructor(
                 if (includesCropperTransformation) redoCropperAction()
             }
         }
+    }
+
+    private sealed interface AppliedCropperState {
+        data class Advanced(
+            val state: AdvancedCropperState.SavedState
+        ) : AppliedCropperState
+
+        data class Image(
+            val state: ImageCropperState.SavedState
+        ) : AppliedCropperState
+
+        data class FreeCorners(
+            val state: FreeCornersCropperState.SavedState
+        ) : AppliedCropperState
     }
 }
 

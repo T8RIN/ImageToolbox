@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.unit.IntSize
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -145,17 +146,21 @@ class CropComponent @AssistedInject internal constructor(
 
     fun updateBitmap(
         bitmap: Bitmap?,
-        newBitmap: Boolean = false
+        newBitmap: Boolean = false,
+        onUpdated: () -> Unit = {}
     ) {
         componentScope.launch {
             isBitmapLoading = true
             updateImageLoadingState()
             try {
                 val bmp = imageScaler.scaleUntilCanShow(bitmap)
-                if (newBitmap) {
-                    internalBitmap.value = bmp
+                Snapshot.withMutableSnapshot {
+                    if (newBitmap) {
+                        internalBitmap.value = bmp
+                    }
+                    _bitmap.value = bmp
+                    onUpdated()
                 }
-                _bitmap.value = bmp
             } finally {
                 isBitmapLoading = false
                 updateImageLoadingState()
@@ -307,11 +312,12 @@ class CropComponent @AssistedInject internal constructor(
             uri = uri.toString(),
             originalSize = true,
             onGetImage = {
-                _currentUri.value = uri
-                _imageSize.value = IntSize(it.imageInfo.width, it.imageInfo.height)
-                updateBitmap(it.image)
-                if (commitHistoryChange(beforeSnapshot)) {
-                    onHistoryCommitted()
+                updateBitmap(it.image) {
+                    _currentUri.value = uri
+                    _imageSize.value = IntSize(it.imageInfo.width, it.imageInfo.height)
+                    if (commitHistoryChange(beforeSnapshot)) {
+                        onHistoryCommitted()
+                    }
                 }
             },
             onFailure = AppToastHost::showFailureToast
@@ -389,20 +395,24 @@ class CropComponent @AssistedInject internal constructor(
 
     override fun applyHistorySnapshot(snapshot: CropHistorySnapshot) {
         val shouldReloadImage = _currentUri.value != snapshot.uri
-        _currentUri.value = snapshot.uri
-        _imageSize.value = snapshot.imageSize
-        _selectedAspectRatio.value = snapshot.selectedAspectRatio
-        _cropProperties.value = snapshot.cropProperties
-        _cropType.value = snapshot.cropType
+        val applySnapshot = {
+            _currentUri.value = snapshot.uri
+            _imageSize.value = snapshot.imageSize
+            _selectedAspectRatio.value = snapshot.selectedAspectRatio
+            _cropProperties.value = snapshot.cropProperties
+            _cropType.value = snapshot.cropType
+        }
         if (shouldReloadImage) {
             imageGetter.getImageAsync(
                 uri = snapshot.uri.toString(),
                 originalSize = true,
                 onGetImage = {
-                    updateBitmap(it.image)
+                    updateBitmap(it.image, onUpdated = applySnapshot)
                 },
                 onFailure = AppToastHost::showFailureToast
             )
+        } else {
+            applySnapshot()
         }
     }
 
