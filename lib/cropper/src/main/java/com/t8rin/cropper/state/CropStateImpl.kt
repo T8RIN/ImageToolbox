@@ -45,11 +45,28 @@ val CropState.cropData: CropData
         cropRect = cropRect
     )
 
-internal val CropState.cropSnapshot: ImageCropSnapshot
+internal val CropState.cropSnapshot: ImageCropSnapshot?
     get() {
+        if (
+            imageSize.width <= 0 ||
+            imageSize.height <= 0 ||
+            containerSize.width <= 0 ||
+            containerSize.height <= 0 ||
+            drawAreaSize.width <= 0 ||
+            drawAreaSize.height <= 0
+        ) {
+            return null
+        }
+
         val imageWidth = imageSize.width.toFloat().coerceAtLeast(1f)
         val imageHeight = imageSize.height.toFloat().coerceAtLeast(1f)
-        val cropRect = cropRect
+        val overlayRect = targetOverlayRect
+        val cropRect = snapshotCropRect()
+        if (cropRect.width <= 0f || cropRect.height <= 0f ||
+            overlayRect.width <= 0f || overlayRect.height <= 0f
+        ) {
+            return null
+        }
 
         return ImageCropSnapshot(
             normalizedCropRect = Rect(
@@ -125,18 +142,15 @@ internal fun calculateRestoreGeometry(
     val cropHeightAtZoomOne = normalizedCropRect.height * drawAreaSize.height
     if (cropWidthAtZoomOne <= 0f || cropHeightAtZoomOne <= 0f) return null
 
-    val cropAspectRatio = cropWidthAtZoomOne / cropHeightAtZoomOne
-    val maximumOverlayWidth = minOf(containerWidth, containerHeight * cropAspectRatio)
-    val restoredOverlayWidth = maximumOverlayWidth *
-            snapshot.overlaySizeFraction.coerceIn(0.1f, 1f)
-    val preferredZoom = minOf(
-        restoredOverlayWidth / cropWidthAtZoomOne,
-        maxZoom.coerceAtLeast(0.5f)
-    )
-    val zoom = preferredZoom.coerceIn(
-        minZoom.coerceAtLeast(0.01f),
+    // Geometry is stored in image coordinates and restored relative to both viewport axes.
+    // A numeric zoom value is tied to the old draw area, so carrying it across a rotation can
+    // skew the frame even when undo and redo use the same snapshot.
+    val viewportFillFraction = snapshot.overlaySizeFraction.coerceIn(0.1f, 1f)
+    val zoom = minOf(
+        containerWidth * viewportFillFraction / cropWidthAtZoomOne,
+        containerHeight * viewportFillFraction / cropHeightAtZoomOne,
         maxZoom.coerceAtLeast(minZoom)
-    )
+    ).coerceAtLeast(minZoom.coerceAtLeast(0.01f))
     if (!zoom.isFinite() || zoom <= 0f) return null
 
     val overlayWidth = cropWidthAtZoomOne * zoom
@@ -177,12 +191,10 @@ private fun overlaySizeFraction(
 ): Float {
     if (overlayRect.width <= 0f || overlayRect.height <= 0f) return 0.8f
 
-    val aspectRatio = overlayRect.width / overlayRect.height
-    val maximumWidth = minOf(
-        containerSize.width.toFloat(),
-        containerSize.height * aspectRatio
-    )
-    return (overlayRect.width / maximumWidth.coerceAtLeast(1f)).coerceIn(0.1f, 1f)
+    return maxOf(
+        overlayRect.width / containerSize.width.coerceAtLeast(1),
+        overlayRect.height / containerSize.height.coerceAtLeast(1)
+    ).coerceIn(0.1f, 1f)
 }
 
 private fun constrainedCenter(
@@ -257,6 +269,22 @@ abstract class CropState internal constructor(
 
     val overlayRect: Rect
         get() = animatableRectOverlay.value
+
+    internal val targetOverlayRect: Rect
+        get() = animatableRectOverlay.targetValue
+
+    /**
+     * Returns crop geometry from one coherent set of target values. During a configuration
+     * change Compose can expose a new [CropState] while its rendered draw rectangle is still
+     * catching up with the target pan and zoom. Saving [drawAreaRect] in that interval creates
+     * a snapshot that neither undo nor redo can repair.
+     */
+    internal fun snapshotCropRect(): Rect = getCropRectangle(
+        bitmapWidth = imageSize.width,
+        bitmapHeight = imageSize.height,
+        drawAreaRect = updateImageDrawRectFromTransformation(),
+        overlayRect = animatableRectOverlay.targetValue
+    )
 
     var cropRect: Rect = Rect.Zero
         get() = getCropRectangle(

@@ -53,11 +53,13 @@ import com.t8rin.cropper.draw.DrawingOverlay
 import com.t8rin.cropper.draw.ImageDrawCanvas
 import com.t8rin.cropper.image.ImageWithConstraints
 import com.t8rin.cropper.image.getScaledImageBitmap
+import com.t8rin.cropper.model.AspectRatio
 import com.t8rin.cropper.model.CropOutline
 import com.t8rin.cropper.settings.CropDefaults
 import com.t8rin.cropper.settings.CropProperties
 import com.t8rin.cropper.settings.CropStyle
 import com.t8rin.cropper.settings.CropType
+import com.t8rin.cropper.state.CropState
 import com.t8rin.cropper.state.DynamicCropState
 import com.t8rin.cropper.state.cropSnapshot
 import com.t8rin.cropper.state.rememberCropState
@@ -180,28 +182,49 @@ fun ImageCropper(
             mutableStateOf<Job?>(null)
         }
         val attachmentKey = remember(cropState) { Any() }
+        val imageKey = sourceImageUri ?: imageBitmap
+        val layoutKey = ImageCropperLayoutKey(
+            containerSize = cropState.containerSize,
+            drawAreaSize = IntSize(imageWidthPx, imageHeightPx)
+        )
+        val configurationKey = ImageCropperConfigurationKey(
+            contentScale = contentScale,
+            cropType = cropType,
+            fixedAspectRatio = fixedAspectRatio,
+            aspectRatio = resolvedCropProperties.aspectRatio,
+            overlayRatio = resolvedCropProperties.overlayRatio
+        )
+        var previousCropState by remember(state) { mutableStateOf<CropState?>(null) }
+        var previousImageKey by remember(state) { mutableStateOf<Any?>(null) }
+        var previousConfigurationKey by remember(state) {
+            mutableStateOf<ImageCropperConfigurationKey?>(null)
+        }
+        val isRestoring = state.isRestoring || state.needsRestoreForLayout(
+            attachmentKey = attachmentKey,
+            imageKey = imageKey,
+            layoutKey = layoutKey,
+            configurationKey = configurationKey
+        )
 
         fun attachState() {
             state.attach(
                 attachmentKey = attachmentKey,
-                imageKey = sourceImageUri ?: imageBitmap,
-                layoutKey = ImageCropperLayoutKey(
-                    containerSize = cropState.containerSize,
-                    drawAreaSize = IntSize(imageWidthPx, imageHeightPx)
-                ),
-                configurationKey = ImageCropperConfigurationKey(
-                    contentScale = contentScale,
-                    cropType = cropType,
-                    fixedAspectRatio = fixedAspectRatio
-                ),
+                imageKey = imageKey,
+                layoutKey = layoutKey,
+                configurationKey = configurationKey,
                 captureSnapshot = {
                     cropState.cropSnapshot
                 },
                 restoreSnapshot = { snapshot ->
                     finishTransformationJob?.cancel()
                     restoreSnapshotJob?.cancel()
+                    val restoreGeneration = state.beginRestore()
                     restoreSnapshotJob = scope.launch {
-                        cropState.restoreCropSnapshot(snapshot)
+                        try {
+                            cropState.restoreCropSnapshot(snapshot)
+                        } finally {
+                            state.restoreCompleted(restoreGeneration)
+                        }
                     }
                 }
             )
@@ -224,6 +247,19 @@ fun ImageCropper(
         }
 
         SideEffect {
+            if (
+                previousCropState != null &&
+                previousCropState !== cropState &&
+                previousImageKey == imageKey &&
+                previousConfigurationKey == configurationKey
+            ) {
+                state.captureLayoutSnapshot(previousCropState?.cropSnapshot)
+            }
+            previousCropState = cropState
+            previousImageKey = imageKey
+            previousConfigurationKey = configurationKey
+        }
+        SideEffect {
             attachState()
         }
         LaunchedEffect(cropState, state, resolvedCropProperties) {
@@ -235,6 +271,7 @@ fun ImageCropper(
             attachState()
             state.onCropperReady()
             restoreSnapshotJob?.join()
+            state.syncSnapshot()
         }
         DisposableEffect(state, attachmentKey) {
             onDispose {
@@ -251,7 +288,9 @@ fun ImageCropper(
             }
         }
 
-        onZoomChange(cropState.zoom)
+        if (!isRestoring) {
+            onZoomChange(cropState.zoom)
+        }
 
         val selectedHandle = if (cropState is DynamicCropState) {
             cropState.pressedHandle
@@ -342,6 +381,7 @@ private fun ImageCropper(
         modifier = Modifier
             .fillMaxSize()
             .then(backgroundModifier)
+            .clipToBounds()
     ) {
 
         Box {
@@ -531,5 +571,7 @@ private data class ImageCropperLayoutKey(
 private data class ImageCropperConfigurationKey(
     val contentScale: ContentScale,
     val cropType: CropType,
-    val fixedAspectRatio: Boolean
+    val fixedAspectRatio: Boolean,
+    val aspectRatio: AspectRatio,
+    val overlayRatio: Float
 )

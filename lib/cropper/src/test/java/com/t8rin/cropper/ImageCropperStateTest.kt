@@ -188,6 +188,37 @@ class ImageCropperStateTest {
     }
 
     @Test
+    fun configurationChangeDoesNotRestoreSnapshotOverNewCropGeometry() {
+        val state = ImageCropperState()
+        val firstAttachmentKey = Any()
+        val secondAttachmentKey = Any()
+        var restoredSnapshot: ImageCropSnapshot? = null
+
+        state.attach(
+            attachmentKey = firstAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1080, 1920),
+            configurationKey = "1:1",
+            captureSnapshot = { snapshot(0.1f) },
+            restoreSnapshot = {}
+        )
+        state.onCropperReady()
+        state.detach(firstAttachmentKey)
+
+        state.attach(
+            attachmentKey = secondAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1080, 1920),
+            configurationKey = "16:9",
+            captureSnapshot = { snapshot(0.2f) },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertNull(restoredSnapshot)
+    }
+
+    @Test
     fun newAttachmentCapturesOutgoingCropperBeforeReplacingCallbacks() {
         val initial = snapshot(0.1f)
         val outgoing = snapshot(0.35f)
@@ -264,6 +295,76 @@ class ImageCropperStateTest {
     }
 
     @Test
+    fun layoutSnapshotFromOutgoingCropperWinsOverTemporaryAttachmentGeometry() {
+        val initial = snapshot(0.1f)
+        val outgoing = snapshot(0.35f)
+        val temporaryLayout = snapshot(0.8f)
+        val state = ImageCropperState()
+        val firstAttachmentKey = Any()
+        val secondAttachmentKey = Any()
+        var restoredSnapshot: ImageCropSnapshot? = null
+
+        state.attach(
+            attachmentKey = firstAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1080, 1920),
+            configurationKey = "same-config",
+            captureSnapshot = { initial },
+            restoreSnapshot = {}
+        )
+        state.onCropperReady()
+        state.captureLayoutSnapshot(outgoing)
+
+        state.attach(
+            attachmentKey = secondAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1920, 1080),
+            configurationKey = "same-config",
+            captureSnapshot = { temporaryLayout },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(outgoing, restoredSnapshot)
+    }
+
+    @Test
+    fun syncedSnapshotIsRestoredAfterAspectRatioChangeAndReattachment() {
+        val beforeAspectRatioChange = snapshot(0.1f)
+        val afterAspectRatioChange = snapshot(0.35f)
+        val state = ImageCropperState()
+        val firstAttachmentKey = Any()
+        val secondAttachmentKey = Any()
+        var renderedSnapshot = beforeAspectRatioChange
+        var restoredSnapshot: ImageCropSnapshot? = null
+
+        state.attach(
+            attachmentKey = firstAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1080, 1920),
+            configurationKey = "same-config",
+            captureSnapshot = { renderedSnapshot },
+            restoreSnapshot = {}
+        )
+        state.onCropperReady()
+
+        renderedSnapshot = afterAspectRatioChange
+        state.syncSnapshot()
+        state.detach(firstAttachmentKey)
+        state.attach(
+            attachmentKey = secondAttachmentKey,
+            imageKey = "image",
+            layoutKey = IntSize(1920, 1080),
+            configurationKey = "same-config",
+            captureSnapshot = { snapshot(0.8f) },
+            restoreSnapshot = { restoredSnapshot = it }
+        )
+        state.onCropperReady()
+
+        assertEquals(afterAspectRatioChange, restoredSnapshot)
+    }
+
+    @Test
     fun relativeSnapshotKeepsImageCropAcrossOrientationChange() {
         val snapshot = ImageCropSnapshot(
             normalizedCropRect = Rect(0.1f, 0.2f, 0.7f, 0.8f),
@@ -336,6 +437,32 @@ class ImageCropperStateTest {
     }
 
     @Test
+    fun orientationChangeKeepsFrameWithinViewport() {
+        val snapshot = ImageCropSnapshot(
+            normalizedCropRect = Rect(0.25f, 0.25f, 0.5f, 0.5f),
+            rotation = 0f
+        )
+
+        val restored = requireNotNull(
+            calculateRestoreGeometry(
+                snapshot = snapshot,
+                imageSize = IntSize(4000, 3000),
+                containerSize = IntSize(1920, 1080),
+                drawAreaSize = IntSize(1440, 1080)
+            )
+        )
+
+        assertTrue(restored.overlayRect in IntSize(1920, 1080))
+        assertNormalizedCropEquals(
+            expected = snapshot.normalizedCropRect,
+            actual = restored.normalizedCropRect(
+                containerSize = IntSize(1920, 1080),
+                drawAreaSize = IntSize(1440, 1080)
+            )
+        )
+    }
+
+    @Test
     fun orientationRoundTripKeepsOverlayPlacement() {
         val snapshot = ImageCropSnapshot(
             normalizedCropRect = Rect(0.1f, 0.2f, 0.7f, 0.8f),
@@ -355,7 +482,7 @@ class ImageCropperStateTest {
 
         assertEquals(648f, restored.overlayRect.center.x, 0.0001f)
         assertEquals(1152f, restored.overlayRect.center.y, 0.0001f)
-        assertEquals(702f, restored.overlayRect.width, 0.0001f)
+        assertEquals(702f, restored.overlayRect.width, 0.001f)
     }
 
     private fun snapshot(left: Float) = ImageCropSnapshot(

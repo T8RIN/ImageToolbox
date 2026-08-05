@@ -43,8 +43,12 @@ class ImageCropperState {
     private var captureSnapshot: (() -> ImageCropSnapshot?)? = null
     private var restoreSnapshot: ((ImageCropSnapshot) -> Unit)? = null
     private var pendingSnapshot: ImageCropSnapshot? = null
+    private var pendingLayoutSnapshot: ImageCropSnapshot? = null
     private var currentSnapshot: ImageCropSnapshot? = null
     private var restoreCurrentSnapshotOnCropperReady = false
+    private var restoreGeneration = 0
+    internal var isRestoring by mutableStateOf(false)
+        private set
     private val undoHistory = ArrayDeque<ImageCropSnapshot>()
     private val redoHistory = ArrayDeque<ImageCropSnapshot>()
 
@@ -102,6 +106,7 @@ class ImageCropperState {
     fun prepareForReattachment(attachmentKey: Any? = null) {
         if (attachmentKey != null && this.attachmentKey !== attachmentKey) return
         if (restoreCurrentSnapshotOnCropperReady) return
+
         if (pendingSnapshot != null || currentSnapshot == null) {
             captureSnapshot?.invoke()?.let { currentSnapshot = it }
         }
@@ -123,33 +128,38 @@ class ImageCropperState {
         val imageChanged = this.imageKey != imageKey
         val attachmentChanged = this.attachmentKey != null &&
                 this.attachmentKey !== attachmentKey
-        if (
-            !imageChanged &&
-            attachmentChanged &&
-            this.configurationKey == configurationKey
-        ) {
-            if (pendingSnapshot != null || currentSnapshot == null) {
-                this.captureSnapshot?.invoke()?.let { currentSnapshot = it }
-            }
-            restoreCurrentSnapshotOnCropperReady = currentSnapshot != null
-            pendingSnapshot = null
-        }
         val layoutChanged = !imageChanged &&
                 this.layoutKey != null &&
                 layoutKey != null &&
-                this.layoutKey != layoutKey &&
-                this.configurationKey == configurationKey
-        if (layoutChanged) {
+                this.layoutKey != layoutKey
+        val canRestorePreviousLayout = !imageChanged &&
+                this.configurationKey == configurationKey &&
+                (attachmentChanged || layoutChanged)
+        if (canRestorePreviousLayout) {
+            pendingLayoutSnapshot?.let { currentSnapshot = it }
+            // A pending transformation belongs to the outgoing CropState, so capture its live
+            // geometry. Otherwise keep the committed snapshot: the old layout can already be in
+            // a temporary measure state while the replacement CropState is being attached.
+            if (pendingLayoutSnapshot == null && (pendingSnapshot != null || currentSnapshot == null)) {
+                this.captureSnapshot?.invoke()?.let { currentSnapshot = it }
+            }
             restoreCurrentSnapshotOnCropperReady = currentSnapshot != null
+            isRestoring = restoreCurrentSnapshotOnCropperReady
+            pendingSnapshot = null
+            pendingLayoutSnapshot = null
         }
         if (imageChanged) {
             this.imageKey = imageKey
             pendingSnapshot = null
+            pendingLayoutSnapshot = null
             currentSnapshot = null
             restoreCurrentSnapshotOnCropperReady = false
+            isRestoring = false
             undoHistory.clear()
             redoHistory.clear()
             updateAvailability()
+        } else if (this.configurationKey != null && this.configurationKey != configurationKey) {
+            pendingLayoutSnapshot = null
         }
         this.attachmentKey = attachmentKey
         this.layoutKey = layoutKey
@@ -166,6 +176,17 @@ class ImageCropperState {
         pendingSnapshot = null
     }
 
+    /**
+     * Stores geometry from the outgoing CropState before Compose replaces it for a new viewport.
+     * Unlike a callback captured during attachment, this state still uses the old immutable
+     * container and draw-area sizes, so it cannot contain a partially measured frame.
+     */
+    internal fun captureLayoutSnapshot(snapshot: ImageCropSnapshot?) {
+        if (snapshot != null) {
+            pendingLayoutSnapshot = snapshot
+        }
+    }
+
     internal fun onCropperReady() {
         if (restoreCurrentSnapshotOnCropperReady) {
             currentSnapshot?.let { restoreSnapshot?.invoke(it) }
@@ -175,10 +196,35 @@ class ImageCropperState {
         }
     }
 
+    /**
+     * Refreshes the reattachment snapshot after a non-gesture geometry change, such as choosing
+     * another aspect ratio. Without this, a later configuration change restores the frame that
+     * existed before the aspect-ratio change.
+     */
+    internal fun syncSnapshot() {
+        if (pendingSnapshot == null && !restoreCurrentSnapshotOnCropperReady) {
+            currentSnapshot = captureSnapshot?.invoke() ?: currentSnapshot
+        }
+    }
+
+    internal fun beginRestore(): Int {
+        restoreGeneration++
+        isRestoring = true
+        return restoreGeneration
+    }
+
+    internal fun restoreCompleted(generation: Int) {
+        if (restoreGeneration == generation) {
+            isRestoring = false
+        }
+    }
+
     fun clearHistory() {
         pendingSnapshot = null
+        pendingLayoutSnapshot = null
         currentSnapshot = captureSnapshot?.invoke()
         restoreCurrentSnapshotOnCropperReady = false
+        isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
         updateAvailability()
@@ -189,11 +235,28 @@ class ImageCropperState {
         layoutKey = null
         configurationKey = null
         pendingSnapshot = null
+        pendingLayoutSnapshot = null
         currentSnapshot = null
         restoreCurrentSnapshotOnCropperReady = false
+        isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
         updateAvailability()
+    }
+
+    internal fun needsRestoreForLayout(
+        attachmentKey: Any,
+        imageKey: Any?,
+        layoutKey: Any?,
+        configurationKey: Any?
+    ): Boolean {
+        if (this.imageKey != imageKey || this.configurationKey != configurationKey) return false
+        if (currentSnapshot == null) return false
+
+        val attachmentChanged = this.attachmentKey != null && this.attachmentKey !== attachmentKey
+        val layoutChanged =
+            this.layoutKey != null && layoutKey != null && this.layoutKey != layoutKey
+        return restoreCurrentSnapshotOnCropperReady || attachmentChanged || layoutChanged
     }
 
     private fun updateAvailability() {
