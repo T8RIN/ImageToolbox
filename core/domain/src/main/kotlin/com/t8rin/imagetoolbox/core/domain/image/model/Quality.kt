@@ -30,7 +30,7 @@ sealed interface Quality {
                 val value = this as? Jxl ?: return Jxl()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(1..10),
+                    effort = effort.coerceIn(if (imageFormat.isJixel) 1..2 else 1..10),
                     speed = speed.coerceIn(0..4)
                 )
             }
