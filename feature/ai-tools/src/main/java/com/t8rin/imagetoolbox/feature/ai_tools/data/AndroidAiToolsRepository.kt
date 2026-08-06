@@ -85,6 +85,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
+    private val styleTransferProcessor: StyleTransferProcessor,
     private val keepAliveService: KeepAliveService,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
@@ -170,6 +171,21 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         )
                     )
                 }
+        } else if (model.isStyleTransfer) {
+            styleTransferProcessor.startDownload(model)
+                .onStart {
+                    trySend(
+                        DownloadProgress(
+                            currentPercent = 0f,
+                            currentTotalSize = model.downloadSize
+                        )
+                    )
+                }
+                .onCompletion { error ->
+                    if (error == null) selectModelForced(model)
+                    close(error)
+                }
+                .collect(::trySend)
         } else if (model.name.contains("u2netp")) {
             extractU2NetP()
             selectModelForced(model)
@@ -317,6 +333,19 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
             }
 
+            model.isStyleTransfer -> {
+                processImage {
+                    withClosedSession(listener) {
+                        styleTransferProcessor.process(
+                            content = image,
+                            model = model,
+                            params = params,
+                            listener = listener
+                        )
+                    }
+                }
+            }
+
             else -> {
                 processImage {
                     val ortSession = session.makeLog("Held session")
@@ -358,11 +387,13 @@ internal class AndroidAiToolsRepository @Inject constructor(
     }
 
     override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {
-        if (model.isWatermarkRemover) {
-            WatermarkRemoverProcessor.deleteDownloadedModels()
-        } else {
-            model.file.delete()
-            model.asBgRemover()?.checkModel()
+        when {
+            model.isWatermarkRemover -> WatermarkRemoverProcessor.deleteDownloadedModels()
+            model.isStyleTransfer -> styleTransferProcessor.deleteModels(model)
+            else -> {
+                model.file.delete()
+                model.asBgRemover()?.checkModel()
+            }
         }
         if (selectedModel.value?.name == model.name) selectModel(null)
         updateFlow.emit(Unit)
@@ -371,6 +402,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override fun cleanup() {
         BgRemover.closeAll()
         WatermarkRemoverProcessor.close()
+        styleTransferProcessor.close()
         closeSession()
         System.gc()
     }
@@ -462,22 +494,32 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             if (name.isNullOrEmpty() || it.length() <= 0) return@mapNotNull null
 
+            if (styleTransferProcessor.isModelFile(name)) return@mapNotNull null
+
             NeuralModel.find(name) ?: NeuralModel.Imported(
                 name = name,
                 checksum = HashingType.SHA_256.computeFromReadable(FileReadable(it))
             )
-        }.let { fromDir ->
-            if (WatermarkRemoverProcessor.isDownloaded.value) {
+        }.let { files ->
+            val withWatermark = if (WatermarkRemoverProcessor.isDownloaded.value) {
                 val watermarkModel = NeuralModel.entries.find { it.isWatermarkRemover }
-                    ?: return@let fromDir
+                    ?: return@let files
 
-                if (fromDir.none { it.name == watermarkModel.name }) {
-                    fromDir + watermarkModel
+                if (files.none { it.name == watermarkModel.name }) {
+                    files + watermarkModel
                 } else {
-                    fromDir
+                    files
                 }
             } else {
-                fromDir.filter { !it.isWatermarkRemover }
+                files.filter { !it.isWatermarkRemover }
+            }
+
+            NeuralModel.entries.filter { it.isStyleTransfer }.fold(withWatermark) { models, model ->
+                if (styleTransferProcessor.isDownloaded(model)) {
+                    if (models.none { it.name == model.name }) models + model else models
+                } else {
+                    models.filter { it.name != model.name }
+                }
             }
         }
     }

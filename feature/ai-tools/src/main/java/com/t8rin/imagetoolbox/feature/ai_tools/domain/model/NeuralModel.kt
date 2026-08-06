@@ -32,19 +32,22 @@ data class NeuralModel(
     val downloadSize: Long,
     val checksum: String
 ) {
-    val supportsStrength = name.contains("fbcnn_", true)
+    val isStyleTransfer = type == Type.STYLE_TRANSFER
+    val supportsStrength = name.contains("fbcnn_", true) || isStyleTransfer
     val isImported = downloadLink == "imported"
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
     val isUvDocUnwarper = name == "uvdoc_grid.onnx"
 
     val isNonChunkable =
-        name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover || isUvDocUnwarper
+        name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
+                isUvDocUnwarper || isStyleTransfer
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
     enum class Type {
-        UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS
+        UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS,
+        STYLE_TRANSFER
     }
 
     sealed interface Speed {
@@ -82,6 +85,33 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("arbitrary_style_transfer_onnx.zip"),
+                    title = "Arbitrary Style Transfer",
+                    description = R.string.model_arbitrary_style_transfer,
+                    type = Type.STYLE_TRANSFER,
+                    downloadSize = 10_826_290,
+                    speed = Speed.Fast(0.95f),
+                    checksum = "f772d5af93a523949fc5e9ac44aadde4b42b11376608a046993644f65ef80e8f"
+                ),
+                NeuralModel(
+                    downloadLink = res("microast_style_transfer_onnx.zip"),
+                    title = "MicroAST",
+                    description = R.string.model_microast_style_transfer,
+                    type = Type.STYLE_TRANSFER,
+                    downloadSize = 1_764_122,
+                    speed = Speed.VeryFast(0.5f),
+                    checksum = "1129bbd19ec754d01405368b8583e669469a77ba3d771b8b93896586beaf52d2"
+                ),
+                NeuralModel(
+                    downloadLink = res("aesfa_style_transfer_onnx.zip"),
+                    title = "AesFA",
+                    description = R.string.model_aesfa_style_transfer,
+                    type = Type.STYLE_TRANSFER,
+                    downloadSize = 11_986_814,
+                    speed = Speed.Fast(1.5f),
+                    checksum = "efb744958b7adc29de1577b785d27c75929798aaa54b36f5adc2f608a136df51"
+                ),
                 NeuralModel(
                     downloadLink = res("onnx/enhance/fbcnn/fbcnn_color_fp16.onnx"),
                     title = "FBCNN Color",

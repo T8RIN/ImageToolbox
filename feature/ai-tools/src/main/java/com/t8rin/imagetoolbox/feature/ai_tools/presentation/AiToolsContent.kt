@@ -105,6 +105,9 @@ fun AiToolsContent(
     }
 
     val selectedModel by component.selectedModel.collectAsStateWithLifecycle()
+    val canProcess = selectedModel != null && (
+            selectedModel?.isStyleTransfer != true || component.styleUri != null
+            )
     val isPreviewMode = component.previewResults.isNotEmpty()
     val screenWidthPx = LocalScreenSize.current.widthPx
 
@@ -235,7 +238,7 @@ fun AiToolsContent(
                 }
                 BottomButtonsBlock(
                     isNoData = component.uris.isNullOrEmpty() && !previewMode,
-                    isPrimaryButtonVisible = selectedModel != null || previewMode,
+                    isPrimaryButtonVisible = canProcess || previewMode,
                     isSecondaryButtonVisible = !previewMode,
                     onSecondaryButtonClick = pickImage,
                     onPrimaryButtonClick = {
@@ -244,7 +247,7 @@ fun AiToolsContent(
                     onPrimaryButtonLongClick = {
                         showFolderSelectionDialog = true
                     },
-                    middleFab = if (!component.uris.isNullOrEmpty() && selectedModel != null && !previewMode) {
+                    middleFab = if (!component.uris.isNullOrEmpty() && canProcess && !previewMode) {
                         {
                             EnhancedFloatingActionButton(
                                 onClick = component::processToPreview,

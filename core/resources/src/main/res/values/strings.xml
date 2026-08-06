@@ -4560,4 +4560,11 @@
     <string name="displacement_strength_x">Horizontal strength</string>
     <string name="displacement_strength_y">Vertical strength</string>
     <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Style transfer</string>
+    <string name="style_image">Style image</string>
+    <string name="style_image_subtitle">Choose an artwork or photo whose visual style should be applied</string>
+    <string name="style_image_not_selected">Select a style image first</string>
+    <string name="model_arbitrary_style_transfer">Transfers the colors, textures, and artistic features of a reference image while preserving the composition and key details of the original.</string>
+    <string name="model_microast_style_transfer">A lightweight arbitrary style transfer model that preserves the main structure while applying pronounced colors and textures from the reference image.</string>
+    <string name="model_aesfa_style_transfer">An aesthetic feature-aware style transfer model that captures local brushstrokes, textures, tones, and spatial features from the reference image.</string>
 </resources>

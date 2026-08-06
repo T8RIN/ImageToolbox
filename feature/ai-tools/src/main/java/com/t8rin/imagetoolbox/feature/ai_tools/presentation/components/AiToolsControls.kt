@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Memory
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.OnlyAllowedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -75,29 +76,42 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     )
 
     AnimatedVisibility(
+        visible = selectedModel?.isStyleTransfer == true,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        ImageSelector(
+            value = component.styleUri,
+            onValueChange = component::updateStyleUri,
+            title = stringResource(R.string.style_image),
+            subtitle = stringResource(R.string.style_image_subtitle),
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+
+    AnimatedVisibility(
+        visible = selectedModel?.supportsStrength == true,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        EnhancedSliderItem(
+            value = component.params.strength,
+            internalStateTransformation = { it.roundToInt() },
+            steps = 100,
+            valueRange = 0f..100f,
+            onValueChange = {
+                component.updateParams { copy(strength = it) }
+            },
+            title = stringResource(R.string.strength),
+            icon = Icons.Outlined.Exercise,
+            modifier = Modifier.padding(top = 8.dp),
+            shape = ShapeDefaults.large,
+        )
+    }
+
+    AnimatedVisibility(
         visible = isChunkable,
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
-            AnimatedVisibility(
-                visible = selectedModel?.supportsStrength == true,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                EnhancedSliderItem(
-                    value = component.params.strength,
-                    internalStateTransformation = { it.roundToInt() },
-                    steps = 100,
-                    valueRange = 0f..100f,
-                    onValueChange = {
-                        component.updateParams { copy(strength = it) }
-                    },
-                    title = stringResource(R.string.strength),
-                    icon = Icons.Outlined.Exercise,
-                    modifier = Modifier.padding(top = 8.dp),
-                    shape = ShapeDefaults.large,
-                )
-            }
-
             Spacer(Modifier.height(8.dp))
 
             val chunkPowers = remember {
