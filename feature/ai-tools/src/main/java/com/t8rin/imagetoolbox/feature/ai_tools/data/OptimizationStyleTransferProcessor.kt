@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -47,7 +48,6 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.security.MessageDigest
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -274,7 +274,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
                     optimizeLbfgs(
                         image = image,
                         evaluate = { candidate ->
-                            coroutineContext.ensureActive()
+                            currentCoroutineContext().ensureActive()
                             imageBuffer.clear()
                             imageBuffer.put(candidate)
                             imageBuffer.rewind()
@@ -311,7 +311,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         evaluate: suspend (FloatArray) -> OptimizationValue,
         onIteration: (Int) -> Unit
     ) {
-        var current = evaluate(image)
+        val current = evaluate(image)
         var loss = current.loss
         var gradient = current.gradient
         var direction = FloatArray(image.size)
@@ -323,7 +323,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         var hessianScale = 1.0
 
         repeat(OPTIMIZATION_STEPS) { iteration ->
-            coroutineContext.ensureActive()
+            currentCoroutineContext().ensureActive()
             if (iteration == 0) {
                 direction = FloatArray(image.size) { -gradient[it] }
             } else {
@@ -640,7 +640,27 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         val data: FloatArray,
         val width: Int,
         val height: Int
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as PreparedImage
+
+            if (width != other.width) return false
+            if (height != other.height) return false
+            if (!data.contentEquals(other.data)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = width
+            result = 31 * result + height
+            result = 31 * result + data.contentHashCode()
+            return result
+        }
+    }
 
     private data class OptimizationTargets(
         val content: TensorData,
@@ -650,7 +670,25 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
     private data class OptimizationValue(
         val loss: Double,
         val gradient: FloatArray
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as OptimizationValue
+
+            if (loss != other.loss) return false
+            if (!gradient.contentEquals(other.gradient)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = loss.hashCode()
+            result = 31 * result + gradient.contentHashCode()
+            return result
+        }
+    }
 
     private data class LineSearchPoint(
         val step: Double,
@@ -668,6 +706,23 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         val shape: LongArray
     ) {
         fun copyData(): TensorData = copy(data = data.copyOf(), shape = shape.copyOf())
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as TensorData
+
+            if (!data.contentEquals(other.data)) return false
+            if (!shape.contentEquals(other.shape)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = data.contentHashCode()
+            result = 31 * result + shape.contentHashCode()
+            return result
+        }
     }
 
     private data class TensorOutput(
@@ -675,6 +730,25 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         val shape: LongArray
     ) {
         val size: Int = shape.fold(1L, Long::times).toInt()
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as TensorOutput
+
+            if (size != other.size) return false
+            if (name != other.name) return false
+            if (!shape.contentEquals(other.shape)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = size
+            result = 31 * result + name.hashCode()
+            result = 31 * result + shape.contentHashCode()
+            return result
+        }
     }
 
     private data class ModelFile(

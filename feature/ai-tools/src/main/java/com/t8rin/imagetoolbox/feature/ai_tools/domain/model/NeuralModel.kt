@@ -94,7 +94,7 @@ data class NeuralModel(
                     description = R.string.model_arbitrary_style_transfer,
                     type = Type.STYLE_TRANSFER,
                     downloadSize = 10_826_290,
-                    speed = Speed.Fast(0.95f),
+                    speed = Speed.Fast(0.953f),
                     checksum = "f772d5af93a523949fc5e9ac44aadde4b42b11376608a046993644f65ef80e8f"
                 ),
                 NeuralModel(
@@ -103,7 +103,7 @@ data class NeuralModel(
                     description = R.string.model_microast_style_transfer,
                     type = Type.STYLE_TRANSFER,
                     downloadSize = 1_764_122,
-                    speed = Speed.VeryFast(0.5f),
+                    speed = Speed.VeryFast(0.512f),
                     checksum = "1129bbd19ec754d01405368b8583e669469a77ba3d771b8b93896586beaf52d2"
                 ),
                 NeuralModel(
@@ -112,7 +112,7 @@ data class NeuralModel(
                     description = R.string.model_aesfa_style_transfer,
                     type = Type.STYLE_TRANSFER,
                     downloadSize = 11_986_814,
-                    speed = Speed.Fast(1.5f),
+                    speed = Speed.Fast(1.514f),
                     checksum = "efb744958b7adc29de1577b785d27c75929798aaa54b36f5adc2f608a136df51"
                 ),
                 NeuralModel(
@@ -121,7 +121,7 @@ data class NeuralModel(
                     description = R.string.model_vgg19_optimization_style_transfer,
                     type = Type.STYLE_TRANSFER,
                     downloadSize = 47_994_728,
-                    speed = Speed.VerySlow(480f),
+                    speed = Speed.VerySlow(43.912f),
                     checksum = "d1a4cd235ab08f2aa531f3a668f8e245bd0ad80caf4c444d597172142657a811"
                 ),
                 NeuralModel(
