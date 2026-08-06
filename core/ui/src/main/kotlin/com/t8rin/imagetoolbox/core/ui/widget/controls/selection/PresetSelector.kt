@@ -55,10 +55,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.BuiltInImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AspectRatio
@@ -120,8 +123,14 @@ fun PresetSelector(
 
     val state = rememberRevealState()
     val scope = rememberCoroutineScope()
-    val imagePresets =
+    val customImageProfiles =
         imageExportProfilesHolder?.imageProfiles?.collectAsState()?.value ?: emptyList()
+    val builtInImageProfiles = remember {
+        BuiltInImageExportProfile.entries
+    }
+    val imagePresets = remember(customImageProfiles, builtInImageProfiles) {
+        builtInImageProfiles.map { it.profile } + customImageProfiles
+    }
     val currentBackgroundColorForNoAlphaFormats = settingsState
         .backgroundForNoAlphaImageFormats
         .toArgb()
@@ -325,7 +334,7 @@ fun PresetSelector(
                         if (imageInfo != null && imageExportProfilesHolder != null) {
                             item(key = "image_presets") {
                                 ImageExportProfileSelector(
-                                    profiles = imagePresets,
+                                    profiles = customImageProfiles,
                                     selectedProfile = selectedProfile,
                                     imageInfo = imageInfo,
                                     preset = value,
@@ -454,7 +463,7 @@ fun PresetSelector(
     )
 }
 
-private fun ImageExportProfile.matchesCurrentPreset(
+internal fun ImageExportProfile.matchesCurrentPreset(
     imageInfo: ImageInfo,
     preset: Preset,
     keepExif: Boolean?,
@@ -476,6 +485,12 @@ private fun ImageInfo.comparableFor(
 ): ImageInfo = copy(
     width = width.takeIf { preset.isEmpty() } ?: 0,
     height = height.takeIf { preset.isEmpty() } ?: 0,
+    resizeType = resizeType.withoutTransientCropState(),
     sizeInBytes = 0,
     originalUri = null
 )
+
+private fun ResizeType.withoutTransientCropState(): ResizeType =
+    if (this is ResizeType.CenterCrop) {
+        copy(originalSize = IntegerSize.Undefined)
+    } else this

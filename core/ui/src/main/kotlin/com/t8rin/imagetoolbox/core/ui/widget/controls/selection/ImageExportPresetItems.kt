@@ -192,7 +192,7 @@ internal fun AddImagePresetBlock(
         modifier = modifier
             .container(
                 shape = ShapeDefaults.default,
-                resultPadding = 16.dp
+                resultPadding = 12.dp
             )
     ) {
         TitleItem(
@@ -311,7 +311,7 @@ private fun ImagePresetMenuAction(
 }
 
 @Composable
-private fun ImageExportProfile.subtitle(): String = imageInfo.summary(preset)
+internal fun ImageExportProfile.subtitle(): String = imageInfo.summary(preset)
 
 private val ImageExportProfile.fileName: String
     get() = "${name.safeFileName()}.itpreset"

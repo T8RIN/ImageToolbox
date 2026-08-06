@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeDefaults
@@ -84,6 +85,7 @@ fun TitleItem(
     endContent: (@Composable RowScope.() -> Unit)? = null,
     iconContainerColor: Color = IconShapeDefaults.containerColor,
     iconContentColor: Color = IconShapeDefaults.contentColor,
+    iconPadding: Dp = Dp.Unspecified
 ) {
     Row(
         modifier = modifier,
@@ -95,7 +97,8 @@ fun TitleItem(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = LocalContentColor.current
+                        tint = LocalContentColor.current,
+                        modifier = if (iconPadding.isSpecified) Modifier.padding(iconPadding) else Modifier
                     )
                 },
                 containerColor = iconContainerColor,

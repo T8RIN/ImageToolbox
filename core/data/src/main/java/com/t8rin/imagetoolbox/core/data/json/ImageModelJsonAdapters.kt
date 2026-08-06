@@ -89,7 +89,8 @@ internal class ResizeTypeJsonAdapter {
             blurRadius = value.blurRadius,
             originalSize = value.originalSize,
             scaleFactor = value.scaleFactor,
-            position = value.position
+            position = value.position,
+            upscaleToFitCanvas = value.upscaleToFitCanvas
         )
 
         Fit -> ResizeType.Fit(
@@ -116,7 +117,8 @@ internal class ResizeTypeJsonAdapter {
             blurRadius = value.blurRadius,
             originalSize = value.originalSize,
             scaleFactor = value.scaleFactor,
-            position = value.position
+            position = value.position,
+            upscaleToFitCanvas = value.upscaleToFitCanvas
         )
 
         is ResizeType.Fit -> ResizeTypeJson(
@@ -167,7 +169,8 @@ internal data class ResizeTypeJson(
     val blurRadius: Int = 35,
     val originalSize: IntegerSize = IntegerSize.Undefined,
     val scaleFactor: Float = 1f,
-    val position: Position = Position.Center
+    val position: Position = Position.Center,
+    val upscaleToFitCanvas: Boolean = false
 )
 
 internal data class ImageScaleModeJson(

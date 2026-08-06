@@ -18,15 +18,19 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,17 +38,36 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.BuiltInImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageExportProfile
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Bluesky
+import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Discord
+import com.t8rin.imagetoolbox.core.resources.icons.Facebook
+import com.t8rin.imagetoolbox.core.resources.icons.Instagram
+import com.t8rin.imagetoolbox.core.resources.icons.LinkedIn
 import com.t8rin.imagetoolbox.core.resources.icons.Loyalty
+import com.t8rin.imagetoolbox.core.resources.icons.Pinterest
+import com.t8rin.imagetoolbox.core.resources.icons.Public
+import com.t8rin.imagetoolbox.core.resources.icons.Telegram
+import com.t8rin.imagetoolbox.core.resources.icons.Threads
+import com.t8rin.imagetoolbox.core.resources.icons.TikTok
+import com.t8rin.imagetoolbox.core.resources.icons.Twitch
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
+import com.t8rin.imagetoolbox.core.resources.icons.X
+import com.t8rin.imagetoolbox.core.resources.icons.YouTube
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.ImageExportProfilesHolder
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
@@ -52,9 +75,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import kotlinx.coroutines.delay
 
 @Composable
 fun ImageExportProfileSelector(
@@ -65,29 +92,85 @@ fun ImageExportProfileSelector(
     imageExportProfilesHolder: ImageExportProfilesHolder,
     modifier: Modifier = Modifier
 ) {
+    val builtInProfiles = BuiltInImageExportProfile.entries
     var showSheet by rememberSaveable { mutableStateOf(false) }
     var profileToDelete by remember { mutableStateOf<ImageExportProfile?>(null) }
+    var preferredBuiltInId by rememberSaveable { mutableStateOf<String?>(null) }
+    var preferredCustomProfile by remember { mutableStateOf<ImageExportProfile?>(null) }
+    var preferredProfileConfirmed by remember { mutableStateOf(false) }
+    val backgroundColorForNoAlphaFormats = LocalSettingsState.current
+        .backgroundForNoAlphaImageFormats
+        .toArgb()
+    val preferredBuiltIn = builtInProfiles.firstOrNull { it.id == preferredBuiltInId }
+    val activeBuiltIn = preferredBuiltIn
+        ?: selectedProfile
+            ?.takeIf { preferredCustomProfile == null }
+            ?.let { profile -> builtInProfiles.firstOrNull { it.profile == profile } }
+    val displayedSelectedProfile = preferredBuiltIn?.profile
+        ?: preferredCustomProfile
+        ?: selectedProfile
+
+    LaunchedEffect(
+        imageInfo,
+        preset,
+        imageExportProfilesHolder.currentProfileKeepExif,
+        backgroundColorForNoAlphaFormats,
+        preferredBuiltInId,
+        preferredCustomProfile,
+        preferredProfileConfirmed
+    ) {
+        val preferredProfile = preferredBuiltIn?.profile
+            ?: preferredCustomProfile
+            ?: return@LaunchedEffect
+        val matchesPreferredProfile = preferredProfile.matchesCurrentPreset(
+            imageInfo = imageInfo,
+            preset = preset,
+            keepExif = imageExportProfilesHolder.currentProfileKeepExif,
+            backgroundColorForNoAlphaFormats = backgroundColorForNoAlphaFormats
+        )
+
+        if (matchesPreferredProfile && !preferredProfileConfirmed) {
+            delay(PROFILE_CONFIRMATION_TIME)
+            preferredProfileConfirmed = true
+        } else if (!matchesPreferredProfile && preferredProfileConfirmed) {
+            delay(PROFILE_MISMATCH_TIME)
+            preferredBuiltInId = null
+            preferredCustomProfile = null
+            preferredProfileConfirmed = false
+        }
+    }
     val importPicker = rememberFilePicker(
         mimeType = MimeType.All,
         onSuccess = imageExportProfilesHolder::importProfile
     )
 
     EnhancedChip(
-        selected = selectedProfile != null,
+        selected = displayedSelectedProfile != null,
         onClick = { showSheet = true },
         selectedColor = MaterialTheme.colorScheme.primary,
         shape = MaterialTheme.shapes.medium,
         modifier = modifier
     ) {
         Icon(
-            imageVector = Icons.Outlined.Loyalty,
-            contentDescription = stringResource(R.string.export_profiles)
+            imageVector = activeBuiltIn?.platform?.icon ?: Icons.Outlined.Loyalty,
+            contentDescription = stringResource(R.string.export_profiles),
+            modifier = if (
+                activeBuiltIn == null ||
+                activeBuiltIn.platform == BuiltInImageExportProfile.Platform.Telegram ||
+                activeBuiltIn.platform == BuiltInImageExportProfile.Platform.Web
+            ) {
+                Modifier.size(24.dp)
+            } else {
+                Modifier.size(20.dp)
+            }
         )
     }
 
     EnhancedModalBottomSheet(
         visible = showSheet,
-        onDismiss = { showSheet = it },
+        onDismiss = {
+            showSheet = it
+        },
         title = {
             TitleItem(
                 icon = Icons.Rounded.Loyalty,
@@ -125,7 +208,75 @@ fun ImageExportProfileSelector(
                 .animateContentSizeNoClip()
                 .clearFocusOnTap()
         ) {
-            if (selectedProfile == null || profiles.isEmpty()) {
+            if (builtInProfiles.isNotEmpty()) {
+                item("BuiltInExportProfiles") {
+                    ExpandableItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp),
+                        visibleContent = {
+                            TitleItem(
+                                icon = Icons.Outlined.Build,
+                                text = stringResource(R.string.built_in_export_profiles),
+                                subtitle = builtInProfiles.size.toString(),
+                                modifier = Modifier.padding(8.dp)
+                            )
+                        },
+                        expandableContent = {
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                modifier = Modifier
+                                    .padding(horizontal = 8.dp)
+                                    .padding(bottom = 2.dp)
+                                    .container(
+                                        resultPadding = 12.dp,
+                                        shape = ShapeDefaults.large,
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                            ) {
+                                builtInProfiles.groupBy { it.platform }
+                                    .forEach { (platform, items) ->
+                                        TitleItem(
+                                            icon = platform.icon,
+                                            text = platform.title,
+                                            modifier = Modifier.padding(
+                                                horizontal = 4.dp,
+                                                vertical = 8.dp
+                                            ),
+                                            iconPadding = if (
+                                                platform == BuiltInImageExportProfile.Platform.Telegram ||
+                                                platform == BuiltInImageExportProfile.Platform.Web
+                                            ) {
+                                                Dp.Unspecified
+                                            } else 2.dp
+                                        )
+                                        Column(
+                                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            items.forEachIndexed { index, item ->
+                                                BuiltInImagePresetItem(
+                                                    index = index,
+                                                    profilesCount = items.size,
+                                                    item = item,
+                                                    selected = item.id == activeBuiltIn?.id,
+                                                    onApplyProfile = { profile ->
+                                                        preferredBuiltInId = item.id
+                                                        preferredCustomProfile = null
+                                                        preferredProfileConfirmed = false
+                                                        imageExportProfilesHolder.applyProfile(
+                                                            profile
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                    )
+                }
+            }
+            if (displayedSelectedProfile !in profiles || profiles.isEmpty()) {
                 item("AddImagePresetBlock") {
                     AddImagePresetBlock(
                         preset = preset,
@@ -147,8 +298,13 @@ fun ImageExportProfileSelector(
                     index = index,
                     profilesCount = profiles.size,
                     item = item,
-                    selected = item == selectedProfile,
-                    onApplyProfile = imageExportProfilesHolder::applyProfile,
+                    selected = item == displayedSelectedProfile,
+                    onApplyProfile = { profile ->
+                        preferredBuiltInId = null
+                        preferredCustomProfile = profile
+                        preferredProfileConfirmed = false
+                        imageExportProfilesHolder.applyProfile(profile)
+                    },
                     onExportProfile = imageExportProfilesHolder::exportProfile,
                     onShareProfile = imageExportProfilesHolder::shareProfile,
                     onWantDelete = { profileToDelete = it }
@@ -180,7 +336,13 @@ fun ImageExportProfileSelector(
         confirmButton = {
             EnhancedButton(
                 onClick = {
-                    profileToDelete?.let(imageExportProfilesHolder::deleteProfile)
+                    profileToDelete?.let { profile ->
+                        imageExportProfilesHolder.deleteProfile(profile)
+                        if (preferredCustomProfile == profile) {
+                            preferredCustomProfile = null
+                            preferredProfileConfirmed = false
+                        }
+                    }
                     profileToDelete = null
                 }
             ) {
@@ -198,3 +360,23 @@ fun ImageExportProfileSelector(
         placeAboveAll = true
     )
 }
+
+private val BuiltInImageExportProfile.Platform.icon: ImageVector
+    get() = when (this) {
+        BuiltInImageExportProfile.Platform.Web -> Icons.Rounded.Public
+        BuiltInImageExportProfile.Platform.Instagram -> Icons.Rounded.Instagram
+        BuiltInImageExportProfile.Platform.Facebook -> Icons.Rounded.Facebook
+        BuiltInImageExportProfile.Platform.X -> Icons.Rounded.X
+        BuiltInImageExportProfile.Platform.YouTube -> Icons.Rounded.YouTube
+        BuiltInImageExportProfile.Platform.TikTok -> Icons.Rounded.TikTok
+        BuiltInImageExportProfile.Platform.Threads -> Icons.Rounded.Threads
+        BuiltInImageExportProfile.Platform.Bluesky -> Icons.Rounded.Bluesky
+        BuiltInImageExportProfile.Platform.LinkedIn -> Icons.Rounded.LinkedIn
+        BuiltInImageExportProfile.Platform.Pinterest -> Icons.Rounded.Pinterest
+        BuiltInImageExportProfile.Platform.Telegram -> Icons.Rounded.Telegram
+        BuiltInImageExportProfile.Platform.Discord -> Icons.Rounded.Discord
+        BuiltInImageExportProfile.Platform.Twitch -> Icons.Rounded.Twitch
+    }
+
+private const val PROFILE_CONFIRMATION_TIME = 750L
+private const val PROFILE_MISMATCH_TIME = 150L

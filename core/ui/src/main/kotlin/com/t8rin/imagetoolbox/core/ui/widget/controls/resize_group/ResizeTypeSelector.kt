@@ -55,7 +55,9 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeAnchor
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.Position
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.LinearScale
 import com.t8rin.imagetoolbox.core.ui.utils.state.derivedValueOf
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.resize_group.components.BlurRadiusSelector
@@ -69,6 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -94,6 +97,9 @@ fun ResizeTypeSelector(
     var position by rememberSaveable {
         mutableStateOf(Position.Center)
     }
+    var upscaleToFitCanvas by rememberSaveable {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(value) {
         when (value) {
@@ -102,6 +108,7 @@ fun ResizeTypeSelector(
                 useBlurredBgInsteadOfColor = value.canvasColor == null
                 blurRadius = value.blurRadius
                 position = value.position
+                upscaleToFitCanvas = value.upscaleToFitCanvas
             }
 
             is ResizeType.Fit -> {
@@ -119,14 +126,16 @@ fun ResizeTypeSelector(
         canvasColor,
         useBlurredBgInsteadOfColor,
         blurRadius,
-        position
+        position,
+        upscaleToFitCanvas
     ) {
         derivedStateOf {
             ResizeType.CenterCrop(
                 canvasColor = canvasColor.toArgb()
                     .takeIf { !useBlurredBgInsteadOfColor },
                 blurRadius = blurRadius,
-                position = position
+                position = position,
+                upscaleToFitCanvas = upscaleToFitCanvas
             )
         }
     }
@@ -268,6 +277,24 @@ fun ResizeTypeSelector(
                     color = MaterialTheme.colorScheme.surface
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+                AnimatedVisibility(value is ResizeType.CenterCrop) {
+                    Column {
+                        PreferenceRowSwitch(
+                            modifier = Modifier.fillMaxWidth(),
+                            title = stringResource(R.string.upscale_to_fit_canvas),
+                            subtitle = stringResource(R.string.upscale_to_fit_canvas_sub),
+                            checked = upscaleToFitCanvas,
+                            onClick = {
+                                upscaleToFitCanvas = it
+                                updateCompoundResizeType()
+                            },
+                            startIcon = Icons.Rounded.LinearScale,
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                }
                 UseBlurredBackgroundToggle(
                     checked = useBlurredBgInsteadOfColor,
                     onCheckedChange = {

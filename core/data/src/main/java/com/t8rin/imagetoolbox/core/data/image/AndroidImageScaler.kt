@@ -264,19 +264,28 @@ internal class AndroidImageScaler @Inject constructor(
             return@withContext image
         }
 
-        val originalWidth: Int
-        val originalHeight: Int
+        val unscaledWidth: Int
+        val unscaledHeight: Int
 
         val aspect = image.aspectRatio
         val originalAspect = originalSize.aspectRatio
 
         if (abs(aspect - originalAspect) > 0.001f) {
-            originalWidth = originalSize.height
-            originalHeight = originalSize.width
+            unscaledWidth = originalSize.height
+            unscaledHeight = originalSize.width
         } else {
-            originalWidth = originalSize.width
-            originalHeight = originalSize.height
+            unscaledWidth = originalSize.width
+            unscaledHeight = originalSize.height
         }
+
+        val upscaleFactor = if (upscaleToFitCanvas) {
+            max(
+                targetWidth.toFloat() / unscaledWidth,
+                targetHeight.toFloat() / unscaledHeight
+            ).coerceAtLeast(1f)
+        } else 1f
+        val originalWidth = (unscaledWidth * upscaleFactor).toInt()
+        val originalHeight = (unscaledHeight * upscaleFactor).toInt()
 
         val drawImage = createScaledBitmap(
             image = image,
