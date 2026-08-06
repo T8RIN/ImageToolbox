@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -97,7 +98,9 @@ fun ImageExportProfileSelector(
     var profileToDelete by remember { mutableStateOf<ImageExportProfile?>(null) }
     var preferredBuiltInId by rememberSaveable { mutableStateOf<String?>(null) }
     var preferredCustomProfile by remember { mutableStateOf<ImageExportProfile?>(null) }
-    var preferredProfileConfirmed by remember { mutableStateOf(false) }
+    var applyRevision by remember { mutableIntStateOf(0) }
+    var isApplyingPreferredProfile by remember { mutableStateOf(false) }
+    var appliedProfileSettings by remember { mutableStateOf<AppliedProfileSettings?>(null) }
     val backgroundColorForNoAlphaFormats = LocalSettingsState.current
         .backgroundForNoAlphaImageFormats
         .toArgb()
@@ -117,25 +120,28 @@ fun ImageExportProfileSelector(
         backgroundColorForNoAlphaFormats,
         preferredBuiltInId,
         preferredCustomProfile,
-        preferredProfileConfirmed
+        isApplyingPreferredProfile,
+        appliedProfileSettings
     ) {
-        val preferredProfile = preferredBuiltIn?.profile
-            ?: preferredCustomProfile
-            ?: return@LaunchedEffect
-        val matchesPreferredProfile = preferredProfile.matchesCurrentPreset(
-            imageInfo = imageInfo,
+        if (isApplyingPreferredProfile) return@LaunchedEffect
+        if (preferredBuiltIn == null && preferredCustomProfile == null) {
+            return@LaunchedEffect
+        }
+        val currentSettings = AppliedProfileSettings(
+            imageInfo = imageInfo.comparableFor(preset),
             preset = preset,
             keepExif = imageExportProfilesHolder.currentProfileKeepExif,
             backgroundColorForNoAlphaFormats = backgroundColorForNoAlphaFormats
         )
 
-        if (matchesPreferredProfile && !preferredProfileConfirmed) {
-            preferredProfileConfirmed = true
-        } else if (!matchesPreferredProfile && preferredProfileConfirmed) {
+        if (appliedProfileSettings == null) {
+            delay(PROFILE_SETTINGS_SETTLING_TIME)
+            appliedProfileSettings = currentSettings
+        } else if (appliedProfileSettings != currentSettings) {
             delay(PROFILE_MISMATCH_TIME)
             preferredBuiltInId = null
             preferredCustomProfile = null
-            preferredProfileConfirmed = false
+            appliedProfileSettings = null
         }
     }
     val importPicker = rememberFilePicker(
@@ -268,9 +274,17 @@ fun ImageExportProfileSelector(
                                                     onApplyProfile = { profile ->
                                                         preferredBuiltInId = item.id
                                                         preferredCustomProfile = null
-                                                        preferredProfileConfirmed = false
+                                                        val revision = ++applyRevision
+                                                        isApplyingPreferredProfile = true
+                                                        appliedProfileSettings = null
                                                         imageExportProfilesHolder.applyProfile(
-                                                            profile
+                                                            profile = profile,
+                                                            onApplied = {
+                                                                if (revision == applyRevision) {
+                                                                    isApplyingPreferredProfile =
+                                                                        false
+                                                                }
+                                                            }
                                                         )
                                                     }
                                                 )
@@ -308,8 +322,17 @@ fun ImageExportProfileSelector(
                     onApplyProfile = { profile ->
                         preferredBuiltInId = null
                         preferredCustomProfile = profile
-                        preferredProfileConfirmed = false
-                        imageExportProfilesHolder.applyProfile(profile)
+                        val revision = ++applyRevision
+                        isApplyingPreferredProfile = true
+                        appliedProfileSettings = null
+                        imageExportProfilesHolder.applyProfile(
+                            profile = profile,
+                            onApplied = {
+                                if (revision == applyRevision) {
+                                    isApplyingPreferredProfile = false
+                                }
+                            }
+                        )
                     },
                     onExportProfile = imageExportProfilesHolder::exportProfile,
                     onShareProfile = imageExportProfilesHolder::shareProfile,
@@ -346,7 +369,7 @@ fun ImageExportProfileSelector(
                         imageExportProfilesHolder.deleteProfile(profile)
                         if (preferredCustomProfile == profile) {
                             preferredCustomProfile = null
-                            preferredProfileConfirmed = false
+                            appliedProfileSettings = null
                         }
                     }
                     profileToDelete = null
@@ -384,4 +407,12 @@ private val BuiltInImageExportProfile.Platform.icon: ImageVector
         BuiltInImageExportProfile.Platform.Twitch -> Icons.Rounded.Twitch
     }
 
+private data class AppliedProfileSettings(
+    private val imageInfo: ImageInfo,
+    private val preset: Preset,
+    private val keepExif: Boolean?,
+    private val backgroundColorForNoAlphaFormats: Int
+)
+
+private const val PROFILE_SETTINGS_SETTLING_TIME = 300L
 private const val PROFILE_MISMATCH_TIME = 150L

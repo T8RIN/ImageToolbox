@@ -463,7 +463,7 @@ fun PresetSelector(
     )
 }
 
-internal fun ImageExportProfile.matchesCurrentPreset(
+private fun ImageExportProfile.matchesCurrentPreset(
     imageInfo: ImageInfo,
     preset: Preset,
     keepExif: Boolean?,
@@ -480,7 +480,7 @@ internal fun ImageExportProfile.matchesCurrentPreset(
     return this.imageInfo.comparableFor(preset) == imageInfo.comparableFor(preset)
 }
 
-private fun ImageInfo.comparableFor(
+internal fun ImageInfo.comparableFor(
     preset: Preset
 ): ImageInfo = copy(
     width = width.takeIf { preset.isEmpty() } ?: 0,

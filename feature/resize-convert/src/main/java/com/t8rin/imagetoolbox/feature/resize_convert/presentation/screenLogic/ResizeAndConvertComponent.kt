@@ -606,29 +606,36 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
         }
     }
 
-    override fun applyProfile(profile: ImageExportProfile) {
+    override fun applyProfile(
+        profile: ImageExportProfile,
+        onApplied: () -> Unit
+    ) {
         componentScope.launch {
-            finalizePendingHistoryTransaction()
-            val beforeSnapshot = currentHistorySnapshot()
-            restoreProfileBackgroundColor(profile)
-            val restoredInfo = profile.toImageInfo(imageInfo).copy(
-                originalUri = selectedUri?.toString()
-            )
-            setBitmapInfo(
-                profile.applyExportSettingsTo(
-                    imageTransformer.applyPresetBy(
-                        image = bitmap,
-                        preset = profile.preset,
-                        currentInfo = restoredInfo,
-                        originalSize = originalSize
+            try {
+                finalizePendingHistoryTransaction()
+                val beforeSnapshot = currentHistorySnapshot()
+                restoreProfileBackgroundColor(profile)
+                val restoredInfo = profile.toImageInfo(imageInfo).copy(
+                    originalUri = selectedUri?.toString()
+                )
+                setBitmapInfo(
+                    profile.applyExportSettingsTo(
+                        imageTransformer.applyPresetBy(
+                            image = bitmap,
+                            preset = profile.preset,
+                            currentInfo = restoredInfo,
+                            originalSize = originalSize
+                        )
                     )
                 )
-            )
-            _presetSelected.update { profile.preset }
-            profile.keepExif?.let { keepExif ->
-                _keepExif.update { keepExif }
+                _presetSelected.update { profile.preset }
+                profile.keepExif?.let { keepExif ->
+                    _keepExif.update { keepExif }
+                }
+                commitHistoryFrom(beforeSnapshot)
+            } finally {
+                onApplied()
             }
-            commitHistoryFrom(beforeSnapshot)
         }
     }
 

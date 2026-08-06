@@ -38,7 +38,10 @@ interface ImageExportProfilesHolder {
 
     fun updateProfile(profile: Preset)
 
-    fun applyProfile(profile: ImageExportProfile)
+    fun applyProfile(
+        profile: ImageExportProfile,
+        onApplied: () -> Unit = {}
+    )
 
     fun saveProfile(name: String)
 
@@ -76,7 +79,10 @@ private class ImageExportProfilesHolderImpl(
 
     override fun updateProfile(profile: Preset) = Unit
 
-    override fun applyProfile(profile: ImageExportProfile) = Unit
+    override fun applyProfile(
+        profile: ImageExportProfile,
+        onApplied: () -> Unit
+    ) = onApplied()
 
     override fun saveProfile(name: String) = Unit
 

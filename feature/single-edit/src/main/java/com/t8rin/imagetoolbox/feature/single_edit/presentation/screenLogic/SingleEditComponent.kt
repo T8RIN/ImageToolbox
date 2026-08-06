@@ -754,26 +754,33 @@ class SingleEditComponent @AssistedInject internal constructor(
         }
     }
 
-    override fun applyProfile(profile: ImageExportProfile) {
+    override fun applyProfile(
+        profile: ImageExportProfile,
+        onApplied: () -> Unit
+    ) {
         componentScope.launch {
-            finalizePendingHistoryTransaction()
-            val beforeSnapshot = currentHistorySnapshot()
-            restoreProfileBackgroundColor(profile)
-            val restoredInfo = profile.toImageInfo(imageInfo).copy(
-                originalUri = currentImageUriString()
-            )
-            setBitmapInfo(
-                profile.applyExportSettingsTo(
-                    imageTransformer.applyPresetBy(
-                        image = bitmap,
-                        preset = profile.preset,
-                        currentInfo = restoredInfo,
-                        originalSize = originalSize
+            try {
+                finalizePendingHistoryTransaction()
+                val beforeSnapshot = currentHistorySnapshot()
+                restoreProfileBackgroundColor(profile)
+                val restoredInfo = profile.toImageInfo(imageInfo).copy(
+                    originalUri = currentImageUriString()
+                )
+                setBitmapInfo(
+                    profile.applyExportSettingsTo(
+                        imageTransformer.applyPresetBy(
+                            image = bitmap,
+                            preset = profile.preset,
+                            currentInfo = restoredInfo,
+                            originalSize = originalSize
+                        )
                     )
                 )
-            )
-            _presetSelected.update { profile.preset }
-            commitHistoryFrom(beforeSnapshot)
+                _presetSelected.update { profile.preset }
+                commitHistoryFrom(beforeSnapshot)
+            } finally {
+                onApplied()
+            }
         }
     }
 
