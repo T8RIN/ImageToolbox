@@ -33,6 +33,7 @@ data class NeuralModel(
     val checksum: String
 ) {
     val isStyleTransfer = type == Type.STYLE_TRANSFER
+    val isOptimizationStyleTransfer = name == OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME
     val supportsStrength = name.contains("fbcnn_", true) || isStyleTransfer
     val isImported = downloadLink == "imported"
 
@@ -82,6 +83,8 @@ data class NeuralModel(
 
     companion object {
         private const val WATERMARK_REMOVER_MODEL_NAME = "watermark_mit_b5_sigmoid.onnx"
+        private const val OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME =
+            "vgg19_optimization_style_transfer_onnx.zip"
 
         val entries: List<NeuralModel> by lazy {
             listOf(
@@ -111,6 +114,15 @@ data class NeuralModel(
                     downloadSize = 11_986_814,
                     speed = Speed.Fast(1.5f),
                     checksum = "efb744958b7adc29de1577b785d27c75929798aaa54b36f5adc2f608a136df51"
+                ),
+                NeuralModel(
+                    downloadLink = res(OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME),
+                    title = "VGG19 Optimization Style Transfer",
+                    description = R.string.model_vgg19_optimization_style_transfer,
+                    type = Type.STYLE_TRANSFER,
+                    downloadSize = 47_994_728,
+                    speed = Speed.VerySlow(480f),
+                    checksum = "d1a4cd235ab08f2aa531f3a668f8e245bd0ad80caf4c444d597172142657a811"
                 ),
                 NeuralModel(
                     downloadLink = res("onnx/enhance/fbcnn/fbcnn_color_fp16.onnx"),

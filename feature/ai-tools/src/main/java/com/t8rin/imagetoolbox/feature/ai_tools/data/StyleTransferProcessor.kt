@@ -413,7 +413,7 @@ internal class StyleTransferProcessor @Inject constructor(
             if (modelUsesStrength) {
                 tensors[STRENGTH_INPUT_NAME] = OnnxTensor.createTensor(
                     environment,
-                    floatArrayOf(amount).toDirectFloatBuffer(),
+                    floatArrayOf(1f).toDirectFloatBuffer(),
                     longArrayOf(1)
                 )
             }
@@ -440,7 +440,7 @@ internal class StyleTransferProcessor @Inject constructor(
             tensorWidth = paddedWidth,
             tensorHeight = paddedHeight,
             normalize = normalize,
-            amount = if (modelUsesStrength) 1f else amount
+            amount = amount
         )
     }
 

@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.filename
@@ -86,6 +87,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val appScope: AppScope,
     private val processor: AiProcessor,
     private val styleTransferProcessor: StyleTransferProcessor,
+    private val optimizationStyleTransferProcessor: OptimizationStyleTransferProcessor,
     private val keepAliveService: KeepAliveService,
     dispatchersHolder: DispatchersHolder,
     resourceManager: ResourceManager,
@@ -171,6 +173,21 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         )
                     )
                 }
+        } else if (model.isOptimizationStyleTransfer) {
+            optimizationStyleTransferProcessor.startDownload(model)
+                .onStart {
+                    trySend(
+                        DownloadProgress(
+                            currentPercent = 0f,
+                            currentTotalSize = model.downloadSize
+                        )
+                    )
+                }
+                .onCompletion { error ->
+                    if (error == null) selectModelForced(model)
+                    close(error)
+                }
+                .collect(::trySend)
         } else if (model.isStyleTransfer) {
             styleTransferProcessor.startDownload(model)
                 .onStart {
@@ -333,6 +350,18 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
             }
 
+            model.isOptimizationStyleTransfer -> {
+                processImage {
+                    withClosedSession(listener) {
+                        optimizationStyleTransferProcessor.process(
+                            content = image,
+                            params = params,
+                            listener = listener.withNotificationProgress()
+                        )
+                    }
+                }
+            }
+
             model.isStyleTransfer -> {
                 processImage {
                     withClosedSession(listener) {
@@ -386,9 +415,28 @@ internal class AndroidAiToolsRepository @Inject constructor(
         onError(getString(R.string.failed_to_open_session))
     }
 
+    private fun AiProgressListener.withNotificationProgress(): AiProgressListener {
+        val source = this
+        return object : AiProgressListener {
+            override fun onError(error: String) = source.onError(error)
+
+            override fun onProgress(currentChunkIndex: Int, totalChunks: Int) {
+                source.onProgress(currentChunkIndex, totalChunks)
+                keepAliveService.updateProgress(
+                    done = currentChunkIndex,
+                    total = totalChunks
+                )
+            }
+        }
+    }
+
     override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {
         when {
             model.isWatermarkRemover -> WatermarkRemoverProcessor.deleteDownloadedModels()
+            model.isOptimizationStyleTransfer -> {
+                optimizationStyleTransferProcessor.deleteModels(model)
+            }
+
             model.isStyleTransfer -> styleTransferProcessor.deleteModels(model)
             else -> {
                 model.file.delete()
@@ -403,6 +451,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
         BgRemover.closeAll()
         WatermarkRemoverProcessor.close()
         styleTransferProcessor.close()
+        optimizationStyleTransferProcessor.close()
         closeSession()
         System.gc()
     }
@@ -494,7 +543,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             if (name.isNullOrEmpty() || it.length() <= 0) return@mapNotNull null
 
-            if (styleTransferProcessor.isModelFile(name)) return@mapNotNull null
+            if (
+                styleTransferProcessor.isModelFile(name) ||
+                optimizationStyleTransferProcessor.isModelFile(name)
+            ) return@mapNotNull null
 
             NeuralModel.find(name) ?: NeuralModel.Imported(
                 name = name,
@@ -515,7 +567,12 @@ internal class AndroidAiToolsRepository @Inject constructor(
             }
 
             NeuralModel.entries.filter { it.isStyleTransfer }.fold(withWatermark) { models, model ->
-                if (styleTransferProcessor.isDownloaded(model)) {
+                val isDownloaded = if (model.isOptimizationStyleTransfer) {
+                    optimizationStyleTransferProcessor.isDownloaded(model)
+                } else {
+                    styleTransferProcessor.isDownloaded(model)
+                }
+                if (isDownloaded) {
                     if (models.none { it.name == model.name }) models + model else models
                 } else {
                     models.filter { it.name != model.name }
