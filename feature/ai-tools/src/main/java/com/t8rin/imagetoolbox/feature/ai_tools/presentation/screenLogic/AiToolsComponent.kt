@@ -124,9 +124,10 @@ class AiToolsComponent @AssistedInject internal constructor(
         scope = componentScope,
         initial = SavableNeuralParams.Default
     )
+    private val savableParams by _params
     private val auxiliaryImage = mutableStateOf<String?>(null)
     val params: NeuralParams
-        get() = _params.value.withAuxiliaryImage(auxiliaryImage.value)
+        get() = savableParams.withAuxiliaryImage(auxiliaryImage.value)
     val styleUri: Uri?
         get() = auxiliaryImage.value?.toUri()
 

@@ -24,6 +24,7 @@ import ai.onnxruntime.TensorInfo
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
+import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadManager
@@ -496,7 +497,7 @@ internal class StyleTransferProcessor @Inject constructor(
         val scale = maxSize.toFloat() / maxOf(width, height)
         val targetWidth = (width * scale).toInt().coerceAtLeast(1)
         val targetHeight = (height * scale).toInt().coerceAtLeast(1)
-        return Bitmap.createScaledBitmap(this, targetWidth, targetHeight, true)
+        return this.scale(targetWidth, targetHeight)
     }
 
     private fun Bitmap.centerCrop(size: Int): Bitmap {
@@ -508,7 +509,7 @@ internal class StyleTransferProcessor @Inject constructor(
             cropSize,
             cropSize
         )
-        return Bitmap.createScaledBitmap(cropped, size, size, true).also {
+        return cropped.scale(size, size).also {
             if (cropped !== this && cropped !== it) cropped.recycle()
         }
     }
