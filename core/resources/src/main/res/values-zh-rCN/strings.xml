@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -4539,4 +4541,68 @@
     <string name="model_microast_style_transfer">一种轻量级的任意风格迁移模型，可保留主要结构，同时应用参考图像中的明显颜色和纹理。</string>
     <string name="model_aesfa_style_transfer">一种审美特征感知风格转移模型，可从参考图像中捕获局部笔触、纹理、色调和空间特征。</string>
     <string name="model_vgg19_optimization_style_transfer">基于优化的神经风格迁移模型，使用 VGG19 特征和 Gram 矩阵来重新创建参考图像的颜色、纹理和笔触。</string>
+    <string name="built_in_export_profiles">内置配置文件</string>
+    <string name="custom_export_profiles">定制配置文件</string>
+    <string name="export_profile_web_optimized">网页优化</string>
+    <string name="export_profile_web_thumbnail">网页缩略图</string>
+    <string name="export_profile_instagram_square">Instagram 方柱</string>
+    <string name="export_profile_instagram_portrait">Instagram 肖像帖子</string>
+    <string name="export_profile_instagram_landscape">Instagram 风景帖子</string>
+    <string name="export_profile_instagram_story">Instagram 故事</string>
+    <string name="export_profile_instagram_reel_cover">卷轴盖</string>
+    <string name="export_profile_instagram_profile">个人资料图片</string>
+    <string name="export_profile_telegram_sticker">电报贴纸</string>
+    <string name="export_profile_facebook_post">景观柱</string>
+    <string name="export_profile_facebook_square">方柱</string>
+    <string name="export_profile_facebook_story">故事</string>
+    <string name="export_profile_facebook_cover">封面</string>
+    <string name="export_profile_facebook_event_cover">活动封面</string>
+    <string name="export_profile_facebook_profile">个人资料图片</string>
+    <string name="export_profile_x_post">景观柱</string>
+    <string name="export_profile_x_square">方柱</string>
+    <string name="export_profile_x_portrait">肖像柱</string>
+    <string name="export_profile_x_header">标头</string>
+    <string name="export_profile_x_profile">个人资料图片</string>
+    <string name="export_profile_youtube_thumbnail">视频缩略图</string>
+    <string name="export_profile_youtube_banner">频道横幅</string>
+    <string name="export_profile_youtube_profile">频道图片</string>
+    <string name="export_profile_youtube_community">社区帖子</string>
+    <string name="export_profile_tiktok_portrait">肖像柱</string>
+    <string name="export_profile_tiktok_landscape">景观柱</string>
+    <string name="export_profile_tiktok_square">方柱</string>
+    <string name="export_profile_tiktok_profile">个人资料图片</string>
+    <string name="export_profile_linkedin_post">景观柱</string>
+    <string name="export_profile_linkedin_portrait">肖像柱</string>
+    <string name="export_profile_linkedin_cover">型材盖</string>
+    <string name="export_profile_linkedin_article_cover">文章封面</string>
+    <string name="export_profile_linkedin_company_cover">公司页面封面</string>
+    <string name="export_profile_linkedin_profile">个人资料图片</string>
+    <string name="export_profile_pinterest_pin">肖像别针</string>
+    <string name="export_profile_pinterest_square">方针</string>
+    <string name="export_profile_pinterest_story">全屏图钉</string>
+    <string name="export_profile_vk_community_cover">社区封面</string>
+    <string name="export_profile_vk_profile">个人资料图片</string>
+    <string name="export_profile_reddit_community_banner">社区横幅</string>
+    <string name="export_profile_reddit_community_icon">社区图标</string>
+    <string name="export_profile_snapchat_single_image_ad">单图广告</string>
+    <string name="export_profile_snapchat_story_ad">故事广告</string>
+    <string name="export_profile_behance_project_cover">项目封面</string>
+    <string name="export_profile_behance_project_image">项目形象</string>
+    <string name="export_profile_behance_lightbox_image">灯箱图片</string>
+    <string name="export_profile_threads_square">方柱</string>
+    <string name="export_profile_threads_portrait">肖像柱</string>
+    <string name="export_profile_threads_landscape">景观柱</string>
+    <string name="export_profile_bluesky_landscape">景观柱</string>
+    <string name="export_profile_bluesky_square">方柱</string>
+    <string name="export_profile_bluesky_portrait">肖像柱</string>
+    <string name="export_profile_telegram_custom_emoji">自定义表情符号</string>
+    <string name="export_profile_discord_profile_banner">简介横幅</string>
+    <string name="export_profile_discord_server_banner">服务器横幅</string>
+    <string name="export_profile_discord_invite_splash">邀请泼水</string>
+    <string name="export_profile_discord_avatar">阿凡达</string>
+    <string name="export_profile_twitch_profile_banner">简介横幅</string>
+    <string name="export_profile_twitch_thumbnail">视频缩略图</string>
+    <string name="export_profile_twitch_profile">个人资料图片</string>
+    <string name="upscale_to_fit_canvas">高档填充画布</string>
+    <string name="upscale_to_fit_canvas_sub">放大较小的图像，直到它完全覆盖裁剪画布</string>
 </resources>
