@@ -195,6 +195,10 @@ class CropperState internal constructor(
         freeCornersCropperState.reset()
     }
 
+    fun resetImageCropperState() {
+        imageCropperState.reset()
+    }
+
     private fun finishActiveTransformation(recordAction: Boolean) {
         finishTransformation(activeCropType, recordAction)
     }

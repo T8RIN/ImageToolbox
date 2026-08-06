@@ -20,6 +20,7 @@ package com.t8rin.cropper
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -35,6 +36,9 @@ class ImageCropperState {
         private set
 
     var canRedo: Boolean by mutableStateOf(false)
+        private set
+
+    internal var resetVersion: Int by mutableIntStateOf(0)
         private set
 
     private var imageKey: Any? = null
@@ -275,6 +279,7 @@ class ImageCropperState {
         isRestoring = false
         undoHistory.clear()
         redoHistory.clear()
+        resetVersion++
         updateAvailability()
     }
 

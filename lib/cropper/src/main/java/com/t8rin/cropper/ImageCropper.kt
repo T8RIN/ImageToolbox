@@ -166,7 +166,8 @@ fun ImageCropper(
                 imageHeightPx,
                 contentScale,
                 cropType,
-                fixedAspectRatio
+                fixedAspectRatio,
+                state.resetVersion
             )
 
         val cropState = rememberCropState(
@@ -195,7 +196,8 @@ fun ImageCropper(
             cropType = cropType,
             fixedAspectRatio = fixedAspectRatio,
             aspectRatio = resolvedCropProperties.aspectRatio,
-            overlayRatio = resolvedCropProperties.overlayRatio
+            overlayRatio = resolvedCropProperties.overlayRatio,
+            resetVersion = state.resetVersion
         )
         var previousCropState by remember(state) { mutableStateOf<CropState?>(null) }
         var previousAttachmentKey by remember(state) { mutableStateOf<Any?>(null) }
@@ -551,6 +553,7 @@ private fun getResetKeys(
     contentScale: ContentScale,
     cropType: CropType,
     fixedAspectRatio: Boolean,
+    resetVersion: Int,
 ) = remember(
     scaledImageBitmap,
     imageWidthPx,
@@ -558,6 +561,7 @@ private fun getResetKeys(
     contentScale,
     cropType,
     fixedAspectRatio,
+    resetVersion,
 ) {
     arrayOf(
         scaledImageBitmap,
@@ -566,6 +570,7 @@ private fun getResetKeys(
         contentScale,
         cropType,
         fixedAspectRatio,
+        resetVersion,
     )
 }
 
@@ -581,5 +586,6 @@ private data class ImageCropperConfigurationKey(
     val cropType: CropType,
     val fixedAspectRatio: Boolean,
     val aspectRatio: AspectRatio,
-    val overlayRatio: Float
+    val overlayRatio: Float,
+    val resetVersion: Int
 )

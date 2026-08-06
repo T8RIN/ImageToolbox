@@ -246,6 +246,9 @@ fun CropContent(
                                         undo = component::undo,
                                         redo = component::redo
                                     )
+                                    if (component.cropType == CropType.NoRotation) {
+                                        cropperState.resetImageCropperState()
+                                    }
                                 }
                             }
                             crop = false
