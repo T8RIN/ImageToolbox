@@ -20,7 +20,7 @@
   </br>
   </br>
 
- <img src="https://img.shields.io/badge/450.1K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
+ <img src="https://img.shields.io/badge/452.1K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
 
 <img src="https://img.shields.io/github/commits-since/t8rin/ImageToolbox/v1.0?color=palegreen&label=Commits&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnNvdXJjZS1jb21taXQ8L3RpdGxlPjxwYXRoIGQ9Ik0xNywxMkMxNywxNC40MiAxNS4yOCwxNi40NCAxMywxNi45VjIxSDExVjE2LjlDOC43MiwxNi40NCA3LDE0LjQyIDcsMTJDNyw5LjU4IDguNzIsNy41NiAxMSw3LjFWM0gxM1Y3LjFDMTUuMjgsNy41NiAxNyw5LjU4IDE3LDEyTTEyLDlBMywzIDAgMCwwIDksMTJBMywzIDAgMCwwIDEyLDE1QTMsMyAwIDAsMCAxNSwxMkEzLDMgMCAwLDAgMTIsOVoiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg==&labelColor=07ab4e&v=2">
  
@@ -1199,26 +1199,26 @@ or click one of the badges below.
           <summary>Available built-in export profiles</summary>
           <br>
 
-            - **Web:** Optimized (up to 1920 px), Thumbnail (up to 640 px)
-            - **Instagram:** Square Post (1080×1080), Portrait Post (1080×1440), Landscape Post (
-              1080×566), Story (1080×1920), Reel Cover (1080×1920), Profile Picture (320×320)
-            - **Facebook:** Landscape Post (1200×630), Square Post (1080×1080), Story (1080×1920),
-              Page Cover (851×315), Event Cover (1920×1005), Profile Picture (320×320)
-            - **X:** Landscape Post (1600×900), Square Post (1080×1080), Portrait Post (1080×1350),
-              Header (1500×500), Profile Picture (400×400)
-            - **YouTube:** Video Thumbnail (3840×2160), Channel Banner (2560×1440), Channel
-              Picture (800×800), Community Post (1200×1200)
-            - **TikTok:** Portrait Post (1080×1920), Landscape Post (1200×628), Square Post (
-              640×640), Profile Picture (200×200)
-            - **Threads:** Square Post (1080×1080), Portrait Post (1080×1440), Landscape Post (
-              1080×566)
-            - **Bluesky:** Landscape Post (1200×675), Square Post (1080×1080), Portrait Post (
-              1080×1350)
-            - **LinkedIn:** Landscape Post (1200×627), Portrait Post (1080×1350), Profile Cover (
-              1584×396), Article Cover (1920×1080), Company Page Cover (4200×700), Profile Picture (
-              400×400)
-            - **Pinterest:** Portrait Pin (1000×1500), Square Pin (1000×1000), Full-screen Pin (
-              1080×1920)
+          - **Web:** Optimized (up to 1920 px), Thumbnail (up to 640 px)
+          - **Instagram:** Square Post (1080×1080), Portrait Post (1080×1440), Landscape Post (
+            1080×566), Story (1080×1920), Reel Cover (1080×1920), Profile Picture (320×320)
+          - **Facebook:** Landscape Post (1200×630), Square Post (1080×1080), Story (1080×1920),
+            Page Cover (851×315), Event Cover (1920×1005), Profile Picture (320×320)
+          - **X:** Landscape Post (1600×900), Square Post (1080×1080), Portrait Post (1080×1350),
+            Header (1500×500), Profile Picture (400×400)
+          - **YouTube:** Video Thumbnail (3840×2160), Channel Banner (2560×1440), Channel
+            Picture (800×800), Community Post (1200×1200)
+          - **TikTok:** Portrait Post (1080×1920), Landscape Post (1200×628), Square Post (
+            640×640), Profile Picture (200×200)
+          - **Threads:** Square Post (1080×1080), Portrait Post (1080×1440), Landscape Post (
+            1080×566)
+          - **Bluesky:** Landscape Post (1200×675), Square Post (1080×1080), Portrait Post (
+            1080×1350)
+          - **LinkedIn:** Landscape Post (1200×627), Portrait Post (1080×1350), Profile Cover (
+            1584×396), Article Cover (1920×1080), Company Page Cover (4200×700), Profile Picture (
+            400×400)
+          - **Pinterest:** Portrait Pin (1000×1500), Square Pin (1000×1000), Full-screen Pin (
+            1080×1920)
           - **VK:** Community Cover (1590×400), Profile Picture (500×500)
           - **Reddit:** Community Banner (1080×128), Community Icon (300×300)
           - **Snapchat:** Single Image Ad (720×1280), Story Ad (720×1560)
@@ -1231,6 +1231,7 @@ or click one of the badges below.
               256×256)
 
           </details>
+          
     - Undo and redo history in editing tools
     - Randomizing output filename
     - Using image cheksum as filename
