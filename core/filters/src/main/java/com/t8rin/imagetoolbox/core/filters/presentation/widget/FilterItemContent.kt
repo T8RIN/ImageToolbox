@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DisplacementParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
@@ -70,6 +71,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Boolea
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ChannelMixParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ClaheParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.CropOrPerspectiveParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DisplacementParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DistortPerspectiveParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.DropShadowParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.EnhancedZoomBlurParamsItem
@@ -121,6 +123,15 @@ internal fun <T : Any> FilterItemContent(
                 GmicFilterParamsItem(
                     value = value,
                     filter = filter as GmicUiFilter,
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
+            is DisplacementParams -> {
+                DisplacementParamsItem(
+                    value = value,
+                    filter = filter.cast(),
                     onFilterChange = onFilterChange,
                     previewOnly = previewOnly
                 )

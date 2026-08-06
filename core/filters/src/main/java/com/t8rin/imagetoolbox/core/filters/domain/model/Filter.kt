@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.BloomParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ChannelMixParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ClaheParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.CropOrPerspectiveParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.DisplacementParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DistortPerspectiveParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.EnhancedZoomBlurParams
@@ -476,6 +477,7 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface Flower : GmicFilter
     interface SquareToCircle : GmicFilter
     interface WarpByIntensity : GmicFilter
+    interface Displacement : Filter<DisplacementParams>
     interface Droste : GmicFilter
     interface ConformalMap : GmicFilter
     interface PoincareDisk : GmicFilter

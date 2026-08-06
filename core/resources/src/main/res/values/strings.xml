@@ -4553,4 +4553,11 @@
     <string name="midtones">Midtones</string>
     <string name="vectorscope">Vector scope</string>
     <string name="waveform">Waveform</string>
+    <string name="displacement">Displacement</string>
+    <string name="horizontal_displacement_map">Horizontal displacement map</string>
+    <string name="vertical_displacement_map">Vertical displacement map</string>
+    <string name="use_separate_vertical_map">Use separate vertical map</string>
+    <string name="displacement_strength_x">Horizontal strength</string>
+    <string name="displacement_strength_y">Vertical strength</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
 </resources>
