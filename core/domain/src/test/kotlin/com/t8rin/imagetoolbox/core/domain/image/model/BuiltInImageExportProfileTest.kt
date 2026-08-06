@@ -69,10 +69,16 @@ class BuiltInImageExportProfileTest {
         entries
             .filter { it.platform != BuiltInImageExportProfile.Platform.Web }
             .filter { it.id != "telegram_sticker" }
+            .filter { it.profile.imageInfo.resizeType is ResizeType.CenterCrop }
             .forEach { entry ->
                 val resizeType = entry.profile.imageInfo.resizeType as ResizeType.CenterCrop
                 assertTrue(resizeType.upscaleToFitCanvas)
             }
+    }
+
+    @Test
+    fun containsExpectedNumberOfBuiltInProfiles() {
+        assertEquals(60, entries.size)
     }
 
     @Test

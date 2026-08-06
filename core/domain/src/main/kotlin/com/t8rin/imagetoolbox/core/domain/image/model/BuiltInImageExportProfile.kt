@@ -38,6 +38,10 @@ data class BuiltInImageExportProfile(
         Bluesky("Bluesky"),
         LinkedIn("LinkedIn"),
         Pinterest("Pinterest"),
+        VK("VK"),
+        Reddit("Reddit"),
+        Snapchat("Snapchat"),
+        Behance("Behance"),
         Telegram("Telegram"),
         Discord("Discord"),
         Twitch("Twitch")
@@ -338,6 +342,67 @@ data class BuiltInImageExportProfile(
                     width = 1080,
                     height = 1920
                 ),
+                socialProfile(
+                    id = "vk_community_cover",
+                    platform = Platform.VK,
+                    titleRes = R.string.export_profile_vk_community_cover,
+                    width = 1590,
+                    height = 400
+                ),
+                socialProfile(
+                    id = "vk_profile",
+                    platform = Platform.VK,
+                    titleRes = R.string.export_profile_vk_profile,
+                    width = 500,
+                    height = 500
+                ),
+                socialProfile(
+                    id = "reddit_community_banner",
+                    platform = Platform.Reddit,
+                    titleRes = R.string.export_profile_reddit_community_banner,
+                    width = 1080,
+                    height = 128
+                ),
+                fixedPngProfile(
+                    id = "reddit_community_icon",
+                    platform = Platform.Reddit,
+                    titleRes = R.string.export_profile_reddit_community_icon,
+                    width = 300,
+                    height = 300
+                ),
+                socialProfile(
+                    id = "snapchat_single_image_ad",
+                    platform = Platform.Snapchat,
+                    titleRes = R.string.export_profile_snapchat_single_image_ad,
+                    width = 720,
+                    height = 1280
+                ),
+                socialProfile(
+                    id = "snapchat_story_ad",
+                    platform = Platform.Snapchat,
+                    titleRes = R.string.export_profile_snapchat_story_ad,
+                    width = 720,
+                    height = 1560
+                ),
+                socialProfile(
+                    id = "behance_project_cover",
+                    platform = Platform.Behance,
+                    titleRes = R.string.export_profile_behance_project_cover,
+                    width = 808,
+                    height = 632
+                ),
+                flexibleSocialProfile(
+                    id = "behance_project_image",
+                    platform = Platform.Behance,
+                    titleRes = R.string.export_profile_behance_project_image,
+                    maxSize = 1400
+                ),
+                flexibleSocialProfile(
+                    id = "behance_lightbox_image",
+                    platform = Platform.Behance,
+                    titleRes = R.string.export_profile_behance_lightbox_image,
+                    maxSize = 2800
+                ),
                 BuiltInImageExportProfile(
                     id = "telegram_sticker",
                     platform = Platform.Telegram,
@@ -489,6 +554,30 @@ data class BuiltInImageExportProfile(
                     quality = Quality.Base(100),
                     imageFormat = ImageFormat.Png.Lossless,
                     resizeType = ResizeType.CenterCrop(upscaleToFitCanvas = true),
+                    imageScaleMode = ImageScaleMode.Lanczos3()
+                ),
+                preset = Preset.None,
+                keepExif = false
+            )
+        )
+
+        private fun flexibleSocialProfile(
+            id: String,
+            platform: Platform,
+            @StringRes titleRes: Int,
+            maxSize: Int
+        ) = BuiltInImageExportProfile(
+            id = id,
+            platform = platform,
+            titleRes = titleRes,
+            profile = ImageExportProfile(
+                name = id.toProfileName(),
+                imageInfo = ImageInfo(
+                    width = maxSize,
+                    height = maxSize,
+                    quality = Quality.Base(SOCIAL_QUALITY),
+                    imageFormat = ImageFormat.Jpg,
+                    resizeType = ResizeType.Flexible,
                     imageScaleMode = ImageScaleMode.Lanczos3()
                 ),
                 preset = Preset.None,

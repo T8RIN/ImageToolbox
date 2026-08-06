@@ -3471,6 +3471,15 @@
     <string name="export_profile_pinterest_pin">Portrait pin</string>
     <string name="export_profile_pinterest_square">Square pin</string>
     <string name="export_profile_pinterest_story">Full-screen pin</string>
+    <string name="export_profile_vk_community_cover">Community cover</string>
+    <string name="export_profile_vk_profile">Profile picture</string>
+    <string name="export_profile_reddit_community_banner">Community banner</string>
+    <string name="export_profile_reddit_community_icon">Community icon</string>
+    <string name="export_profile_snapchat_single_image_ad">Single image ad</string>
+    <string name="export_profile_snapchat_story_ad">Story ad</string>
+    <string name="export_profile_behance_project_cover">Project cover</string>
+    <string name="export_profile_behance_project_image">Project image</string>
+    <string name="export_profile_behance_lightbox_image">Lightbox image</string>
     <string name="export_profile_threads_square">Square post</string>
     <string name="export_profile_threads_portrait">Portrait post</string>
     <string name="export_profile_threads_landscape">Landscape post</string>

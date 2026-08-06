@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Behance
 import com.t8rin.imagetoolbox.core.resources.icons.Bluesky
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -61,11 +62,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.LinkedIn
 import com.t8rin.imagetoolbox.core.resources.icons.Loyalty
 import com.t8rin.imagetoolbox.core.resources.icons.Pinterest
 import com.t8rin.imagetoolbox.core.resources.icons.Public
+import com.t8rin.imagetoolbox.core.resources.icons.Reddit
+import com.t8rin.imagetoolbox.core.resources.icons.Snapchat
 import com.t8rin.imagetoolbox.core.resources.icons.Telegram
 import com.t8rin.imagetoolbox.core.resources.icons.Threads
 import com.t8rin.imagetoolbox.core.resources.icons.TikTok
 import com.t8rin.imagetoolbox.core.resources.icons.Twitch
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
+import com.t8rin.imagetoolbox.core.resources.icons.Vk
 import com.t8rin.imagetoolbox.core.resources.icons.X
 import com.t8rin.imagetoolbox.core.resources.icons.YouTube
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -402,6 +406,10 @@ private val BuiltInImageExportProfile.Platform.icon: ImageVector
         BuiltInImageExportProfile.Platform.Bluesky -> Icons.Rounded.Bluesky
         BuiltInImageExportProfile.Platform.LinkedIn -> Icons.Rounded.LinkedIn
         BuiltInImageExportProfile.Platform.Pinterest -> Icons.Rounded.Pinterest
+        BuiltInImageExportProfile.Platform.VK -> Icons.Rounded.Vk
+        BuiltInImageExportProfile.Platform.Reddit -> Icons.Rounded.Reddit
+        BuiltInImageExportProfile.Platform.Snapchat -> Icons.Rounded.Snapchat
+        BuiltInImageExportProfile.Platform.Behance -> Icons.Rounded.Behance
         BuiltInImageExportProfile.Platform.Telegram -> Icons.Rounded.Telegram
         BuiltInImageExportProfile.Platform.Discord -> Icons.Rounded.Discord
         BuiltInImageExportProfile.Platform.Twitch -> Icons.Rounded.Twitch

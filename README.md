@@ -1193,7 +1193,7 @@ or click one of the badges below.
     - Saving beside original files or deleting originals after a successful export
     - Long press on save to choose one time output folder
     - Reusable export profiles for Single Edit and Resize & Convert
-        - 51 built-in profiles for web publishing and popular social platforms
+      - 60 built-in profiles for web publishing and popular social platforms
 
           <details>
           <summary>Available built-in export profiles</summary>
@@ -1219,6 +1219,11 @@ or click one of the badges below.
               400×400)
             - **Pinterest:** Portrait Pin (1000×1500), Square Pin (1000×1000), Full-screen Pin (
               1080×1920)
+          - **VK:** Community Cover (1590×400), Profile Picture (500×500)
+          - **Reddit:** Community Banner (1080×128), Community Icon (300×300)
+          - **Snapchat:** Single Image Ad (720×1280), Story Ad (720×1560)
+          - **Behance:** Project Cover (808×632), Project Image (up to 1400 px), Lightbox Image (
+            up to 2800 px)
             - **Telegram:** Sticker (512×512), Custom Emoji (100×100)
             - **Discord:** Profile Banner (680×240), Server Banner (960×540), Invite Splash (
               1920×1080), Avatar (512×512)
