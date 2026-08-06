@@ -41,10 +41,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.curves.ImageCurvesEditor
 import com.t8rin.curves.ImageCurvesEditorLayout
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
@@ -79,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.curves.presentation.components.CurvesLivePreview
+import com.t8rin.imagetoolbox.feature.curves.presentation.components.CurvesPresetImportExport
 import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
 
@@ -90,6 +94,15 @@ fun CurvesContent(component: CurvesComponent) {
         component.setUris(uris)
     }
     val pickImage = imagePicker::pickImage
+
+    val presetPicker = rememberFilePicker(
+        mimeType = MimeType.All,
+        onSuccess = component::importCurvesPreset
+    )
+
+    val presetCreator = rememberFileCreator(
+        onSuccess = { component.exportCurvesPreset(it) }
+    )
 
     AutoFilePicker(
         onAutoPick = pickImage,
@@ -213,6 +226,13 @@ fun CurvesContent(component: CurvesComponent) {
                     showAsRow = false
                 )
             }
+            Spacer(Modifier.height(16.dp))
+            CurvesPresetImportExport(
+                onImport = presetPicker::pickFile,
+                onExport = {
+                    presetCreator.make(component.createTargetFilename())
+                }
+            )
             Spacer(Modifier.height(16.dp))
             SaveExifWidget(
                 imageFormat = component.imageInfo.imageFormat,
