@@ -4527,4 +4527,19 @@
     <string name="midtones">మిడ్‌టోన్స్</string>
     <string name="vectorscope">వెక్టర్ స్కోప్</string>
     <string name="waveform">తరంగ రూపం</string>
+    <string name="displacement">స్థానభ్రంశం</string>
+    <string name="horizontal_displacement_map">క్షితిజసమాంతర స్థానభ్రంశం మ్యాప్</string>
+    <string name="vertical_displacement_map">నిలువు స్థానభ్రంశం మ్యాప్</string>
+    <string name="use_separate_vertical_map">ప్రత్యేక నిలువు మ్యాప్‌ని ఉపయోగించండి</string>
+    <string name="displacement_strength_x">క్షితిజ సమాంతర బలం</string>
+    <string name="displacement_strength_y">నిలువు బలం</string>
+    <string name="displacement_boundary_transparent">పారదర్శకం</string>
+    <string name="type_style_transfer">శైలి బదిలీ</string>
+    <string name="style_image">శైలి చిత్రం</string>
+    <string name="style_image_subtitle">దృశ్యమాన శైలిని వర్తింపజేయవలసిన కళాకృతిని లేదా ఫోటోను ఎంచుకోండి</string>
+    <string name="style_image_not_selected">ముందుగా శైలి చిత్రాన్ని ఎంచుకోండి</string>
+    <string name="model_arbitrary_style_transfer">ఒరిజినల్ యొక్క కూర్పు మరియు కీలక వివరాలను సంరక్షించేటప్పుడు సూచన చిత్రం యొక్క రంగులు, అల్లికలు మరియు కళాత్మక లక్షణాలను బదిలీ చేస్తుంది.</string>
+    <string name="model_microast_style_transfer">రిఫరెన్స్ ఇమేజ్ నుండి ఉచ్ఛరించే రంగులు మరియు అల్లికలను వర్తింపజేసేటప్పుడు ప్రధాన నిర్మాణాన్ని సంరక్షించే తేలికపాటి ఏకపక్ష శైలి బదిలీ మోడల్.</string>
+    <string name="model_aesfa_style_transfer">రిఫరెన్స్ ఇమేజ్ నుండి స్థానిక బ్రష్‌స్ట్రోక్‌లు, అల్లికలు, టోన్‌లు మరియు ప్రాదేశిక లక్షణాలను క్యాప్చర్ చేసే సౌందర్య ఫీచర్-అవేర్ స్టైల్ బదిలీ మోడల్.</string>
+    <string name="model_vgg19_optimization_style_transfer">రిఫరెన్స్ ఇమేజ్ యొక్క రంగులు, అల్లికలు మరియు బ్రష్‌వర్క్‌లను పునఃసృష్టి చేయడానికి VGG19 ఫీచర్లు మరియు గ్రామ్ మ్యాట్రిక్‌లను ఉపయోగించే ఆప్టిమైజేషన్-ఆధారిత న్యూరల్ స్టైల్ బదిలీ మోడల్.</string>
 </resources>

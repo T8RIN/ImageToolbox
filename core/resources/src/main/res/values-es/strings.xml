@@ -4527,4 +4527,19 @@
     <string name="midtones">Medios tonos</string>
     <string name="vectorscope">Alcance vectorial</string>
     <string name="waveform">Forma de onda</string>
+    <string name="displacement">Desplazamiento</string>
+    <string name="horizontal_displacement_map">Mapa de desplazamiento horizontal</string>
+    <string name="vertical_displacement_map">Mapa de desplazamiento vertical</string>
+    <string name="use_separate_vertical_map">Usar mapa vertical separado</string>
+    <string name="displacement_strength_x">Fuerza horizontal</string>
+    <string name="displacement_strength_y">fuerza vertical</string>
+    <string name="displacement_boundary_transparent">Transparente</string>
+    <string name="type_style_transfer">Transferencia de estilo</string>
+    <string name="style_image">Imagen de estilo</string>
+    <string name="style_image_subtitle">Elija una obra de arte o fotografía cuyo estilo visual deba aplicarse</string>
+    <string name="style_image_not_selected">Seleccione una imagen de estilo primero</string>
+    <string name="model_arbitrary_style_transfer">Transfiere los colores, texturas y características artísticas de una imagen de referencia conservando al mismo tiempo la composición y los detalles clave del original.</string>
+    <string name="model_microast_style_transfer">Un modelo ligero de transferencia de estilo arbitrario que conserva la estructura principal mientras aplica colores y texturas pronunciados de la imagen de referencia.</string>
+    <string name="model_aesfa_style_transfer">Un modelo de transferencia de estilo estético consciente de las características que captura pinceladas, texturas, tonos y características espaciales locales de la imagen de referencia.</string>
+    <string name="model_vgg19_optimization_style_transfer">Un modelo de transferencia de estilo neuronal basado en optimización que utiliza características VGG19 y matrices de Gram para recrear los colores, texturas y pinceladas de la imagen de referencia.</string>
 </resources>

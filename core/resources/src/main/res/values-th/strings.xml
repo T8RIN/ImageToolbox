@@ -4526,4 +4526,19 @@
     <string name="midtones">มิดโทน</string>
     <string name="vectorscope">ขอบเขตเวกเตอร์</string>
     <string name="waveform">รูปคลื่น</string>
+    <string name="displacement">การกระจัด</string>
+    <string name="horizontal_displacement_map">แผนที่การเคลื่อนที่ในแนวนอน</string>
+    <string name="vertical_displacement_map">แผนที่การเคลื่อนที่ในแนวตั้ง</string>
+    <string name="use_separate_vertical_map">ใช้แผนที่แนวตั้งแยกกัน</string>
+    <string name="displacement_strength_x">ความแข็งแรงในแนวนอน</string>
+    <string name="displacement_strength_y">ความแข็งแรงในแนวตั้ง</string>
+    <string name="displacement_boundary_transparent">โปร่งใส</string>
+    <string name="type_style_transfer">การถ่ายโอนสไตล์</string>
+    <string name="style_image">ภาพสไตล์</string>
+    <string name="style_image_subtitle">เลือกงานศิลปะหรือภาพถ่ายที่ควรใช้สไตล์ภาพ</string>
+    <string name="style_image_not_selected">เลือกรูปภาพสไตล์ก่อน</string>
+    <string name="model_arbitrary_style_transfer">ถ่ายโอนสี พื้นผิว และคุณสมบัติทางศิลปะของภาพอ้างอิง ในขณะที่ยังคงรักษาองค์ประกอบและรายละเอียดที่สำคัญของต้นฉบับ</string>
+    <string name="model_microast_style_transfer">โมเดลการถ่ายโอนสไตล์ตามอำเภอใจน้ำหนักเบาที่รักษาโครงสร้างหลักในขณะที่ใช้สีและพื้นผิวที่เด่นชัดจากรูปภาพอ้างอิง</string>
+    <string name="model_aesfa_style_transfer">โมเดลการถ่ายโอนสไตล์ที่คำนึงถึงสุนทรียภาพซึ่งจับฝีแปรง พื้นผิว โทนสี และคุณสมบัติเชิงพื้นที่ในท้องถิ่นจากรูปภาพอ้างอิง</string>
+    <string name="model_vgg19_optimization_style_transfer">โมเดลการถ่ายโอนสไตล์ประสาทตามการปรับให้เหมาะสมซึ่งใช้คุณสมบัติ VGG19 และเมทริกซ์แกรมเพื่อสร้างสี พื้นผิว และงานพู่กันของรูปภาพอ้างอิงขึ้นมาใหม่</string>
 </resources>

@@ -4527,4 +4527,19 @@
     <string name="midtones">Mellemtoner</string>
     <string name="vectorscope">Vector omfang</string>
     <string name="waveform">Bølgeform</string>
+    <string name="displacement">Forskydning</string>
+    <string name="horizontal_displacement_map">Vandret forskydningskort</string>
+    <string name="vertical_displacement_map">Lodret forskydningskort</string>
+    <string name="use_separate_vertical_map">Brug separat lodret kort</string>
+    <string name="displacement_strength_x">Vandret styrke</string>
+    <string name="displacement_strength_y">Lodret styrke</string>
+    <string name="displacement_boundary_transparent">Gennemsigtig</string>
+    <string name="type_style_transfer">Stiloverførsel</string>
+    <string name="style_image">Stilbillede</string>
+    <string name="style_image_subtitle">Vælg et kunstværk eller et billede, hvis visuelle stil skal anvendes</string>
+    <string name="style_image_not_selected">Vælg først et stilbillede</string>
+    <string name="model_arbitrary_style_transfer">Overfører farver, teksturer og kunstneriske træk ved et referencebillede, mens originalens komposition og nøgledetaljer bevares.</string>
+    <string name="model_microast_style_transfer">En let vilkårlig overføringsmodel, der bevarer hovedstrukturen, mens der påføres markante farver og teksturer fra referencebilledet.</string>
+    <string name="model_aesfa_style_transfer">En æstetisk funktionsbevidst stiloverførselsmodel, der fanger lokale penselstrøg, teksturer, toner og rumlige træk fra referencebilledet.</string>
+    <string name="model_vgg19_optimization_style_transfer">En optimeringsbaseret neural stiloverførselsmodel, der bruger VGG19-funktioner og Gram-matricer til at genskabe referencebilledets farver, teksturer og penselføring.</string>
 </resources>

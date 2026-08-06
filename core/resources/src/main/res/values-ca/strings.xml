@@ -4527,4 +4527,19 @@
     <string name="midtones">Tons mitjans</string>
     <string name="vectorscope">Àmbit vectorial</string>
     <string name="waveform">Forma d\'ona</string>
+    <string name="displacement">Desplaçament</string>
+    <string name="horizontal_displacement_map">Mapa de desplaçaments horitzontals</string>
+    <string name="vertical_displacement_map">Mapa de desplaçament vertical</string>
+    <string name="use_separate_vertical_map">Utilitzeu un mapa vertical separat</string>
+    <string name="displacement_strength_x">Força horitzontal</string>
+    <string name="displacement_strength_y">Força vertical</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Transferència d\'estil</string>
+    <string name="style_image">Imatge d\'estil</string>
+    <string name="style_image_subtitle">Trieu una obra d\'art o una foto l\'estil visual de la qual s\'ha d\'aplicar</string>
+    <string name="style_image_not_selected">Seleccioneu primer una imatge d\'estil</string>
+    <string name="model_arbitrary_style_transfer">Transfereix els colors, les textures i les característiques artístiques d\'una imatge de referència tot conservant la composició i els detalls clau de l\'original.</string>
+    <string name="model_microast_style_transfer">Un model de transferència d\'estil arbitrari lleuger que conserva l\'estructura principal alhora que aplica colors i textures pronunciats de la imatge de referència.</string>
+    <string name="model_aesfa_style_transfer">Un model de transferència d\'estil conscient de les característiques estètiques que captura pinzellades, textures, tons i característiques espacials locals de la imatge de referència.</string>
+    <string name="model_vgg19_optimization_style_transfer">Un model de transferència d\'estil neuronal basat en l\'optimització que utilitza funcions VGG19 i matrius Gram per recrear els colors, textures i pinzellades de la imatge de referència.</string>
 </resources>

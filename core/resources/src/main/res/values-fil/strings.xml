@@ -4527,4 +4527,19 @@
     <string name="midtones">Midtones</string>
     <string name="vectorscope">Saklaw ng vector</string>
     <string name="waveform">Anyong alon</string>
+    <string name="displacement">Pag-alis</string>
+    <string name="horizontal_displacement_map">Pahalang na mapa ng displacement</string>
+    <string name="vertical_displacement_map">Vertical displacement map</string>
+    <string name="use_separate_vertical_map">Gumamit ng hiwalay na patayong mapa</string>
+    <string name="displacement_strength_x">Pahalang na lakas</string>
+    <string name="displacement_strength_y">Patayong lakas</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Paglipat ng istilo</string>
+    <string name="style_image">Imahe ng istilo</string>
+    <string name="style_image_subtitle">Pumili ng isang likhang sining o larawan na dapat ilapat ang biswal na istilo</string>
+    <string name="style_image_not_selected">Pumili muna ng istilong larawan</string>
+    <string name="model_arbitrary_style_transfer">Inililipat ang mga kulay, texture, at artistikong feature ng isang reference na larawan habang pinapanatili ang komposisyon at mahahalagang detalye ng orihinal.</string>
+    <string name="model_microast_style_transfer">Isang magaan na arbitrary na modelo ng paglipat ng istilo na nagpapanatili sa pangunahing istraktura habang inilalapat ang mga binibigkas na kulay at mga texture mula sa reference na larawan.</string>
+    <string name="model_aesfa_style_transfer">Isang aesthetic feature-aware style transfer model na kumukuha ng mga lokal na brushstroke, texture, tono, at spatial na feature mula sa reference na larawan.</string>
+    <string name="model_vgg19_optimization_style_transfer">Isang modelo ng paglipat ng istilo ng neural na nakabatay sa pag-optimize na gumagamit ng mga feature ng VGG19 at Gram matrice para muling likhain ang mga kulay, texture, at brushwork ng reference na imahe.</string>
 </resources>

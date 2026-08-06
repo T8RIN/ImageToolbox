@@ -4527,4 +4527,19 @@
     <string name="midtones">मि़डटॉन</string>
     <string name="vectorscope">वेक्टर दायरा</string>
     <string name="waveform">तरंग</string>
+    <string name="displacement">विस्थापन</string>
+    <string name="horizontal_displacement_map">क्षैतिज विस्थापन मानचित्र</string>
+    <string name="vertical_displacement_map">ऊर्ध्वाधर विस्थापन मानचित्र</string>
+    <string name="use_separate_vertical_map">अलग ऊर्ध्वाधर मानचित्र का प्रयोग करें</string>
+    <string name="displacement_strength_x">क्षैतिज शक्ति</string>
+    <string name="displacement_strength_y">ऊर्ध्वाधर शक्ति</string>
+    <string name="displacement_boundary_transparent">पारदर्शी</string>
+    <string name="type_style_transfer">शैली स्थानांतरण</string>
+    <string name="style_image">शैली छवि</string>
+    <string name="style_image_subtitle">ऐसी कलाकृति या फोटो चुनें जिसकी दृश्य शैली लागू की जानी चाहिए</string>
+    <string name="style_image_not_selected">पहले एक शैली छवि चुनें</string>
+    <string name="model_arbitrary_style_transfer">मूल की संरचना और मुख्य विवरण को संरक्षित करते हुए संदर्भ छवि के रंग, बनावट और कलात्मक विशेषताओं को स्थानांतरित करता है।</string>
+    <string name="model_microast_style_transfer">एक हल्का मनमाना स्टाइल ट्रांसफर मॉडल जो संदर्भ छवि से स्पष्ट रंग और बनावट लागू करते समय मुख्य संरचना को संरक्षित करता है।</string>
+    <string name="model_aesfa_style_transfer">एक सौंदर्य सुविधा-जागरूक शैली हस्तांतरण मॉडल जो संदर्भ छवि से स्थानीय ब्रशस्ट्रोक, बनावट, टोन और स्थानिक विशेषताओं को कैप्चर करता है।</string>
+    <string name="model_vgg19_optimization_style_transfer">एक अनुकूलन-आधारित तंत्रिका शैली स्थानांतरण मॉडल जो संदर्भ छवि के रंग, बनावट और ब्रशवर्क को फिर से बनाने के लिए वीजीजी19 सुविधाओं और ग्राम मैट्रिसेस का उपयोग करता है।</string>
 </resources>

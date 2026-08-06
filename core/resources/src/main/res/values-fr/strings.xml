@@ -4527,4 +4527,19 @@
     <string name="midtones">Tons moyens</string>
     <string name="vectorscope">Portée vectorielle</string>
     <string name="waveform">Forme d\'onde</string>
+    <string name="displacement">Déplacement</string>
+    <string name="horizontal_displacement_map">Carte de déplacement horizontal</string>
+    <string name="vertical_displacement_map">Carte de déplacement vertical</string>
+    <string name="use_separate_vertical_map">Utiliser une carte verticale distincte</string>
+    <string name="displacement_strength_x">Résistance horizontale</string>
+    <string name="displacement_strength_y">Force verticale</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Transfert de styles</string>
+    <string name="style_image">Image de style</string>
+    <string name="style_image_subtitle">Choisissez une œuvre d\'art ou une photo dont le style visuel doit être appliqué</string>
+    <string name="style_image_not_selected">Sélectionnez d\'abord une image de style</string>
+    <string name="model_arbitrary_style_transfer">Transfère les couleurs, les textures et les caractéristiques artistiques d’une image de référence tout en préservant la composition et les détails clés de l’original.</string>
+    <string name="model_microast_style_transfer">Un modèle de transfert de style arbitraire léger qui préserve la structure principale tout en appliquant des couleurs et des textures prononcées à partir de l\'image de référence.</string>
+    <string name="model_aesfa_style_transfer">Un modèle de transfert de style prenant en compte les caractéristiques esthétiques qui capture les coups de pinceau, les textures, les tons et les caractéristiques spatiales locales à partir de l\'image de référence.</string>
+    <string name="model_vgg19_optimization_style_transfer">Un modèle de transfert de style neuronal basé sur l\'optimisation qui utilise les fonctionnalités VGG19 et les matrices Gram pour recréer les couleurs, les textures et le pinceau de l\'image de référence.</string>
 </resources>

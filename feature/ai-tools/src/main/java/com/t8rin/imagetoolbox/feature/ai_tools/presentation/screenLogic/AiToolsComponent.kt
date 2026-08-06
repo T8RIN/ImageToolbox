@@ -55,6 +55,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.SavableNeuralParams
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.withAuxiliaryImage
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsPreviewResult
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgress
 import dagger.assisted.Assisted
@@ -120,9 +122,14 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private val _params = fileController.savable(
         scope = componentScope,
-        initial = NeuralParams.Default
+        initial = SavableNeuralParams.Default
     )
-    val params by _params
+    private val savableParams by _params
+    private val auxiliaryImage = mutableStateOf<String?>(null)
+    val params: NeuralParams
+        get() = savableParams.withAuxiliaryImage(auxiliaryImage.value)
+    val styleUri: Uri?
+        get() = auxiliaryImage.value?.toUri()
 
     private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
     val imageFormat by _imageFormat
@@ -212,7 +219,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     }
 
     fun updateParams(
-        action: NeuralParams.() -> NeuralParams
+        action: SavableNeuralParams.() -> SavableNeuralParams
     ) {
         _params.update { action(it) }
         registerChanges()
@@ -223,10 +230,20 @@ class AiToolsComponent @AssistedInject internal constructor(
         _uris.value = uris
     }
 
+    fun updateStyleUri(uri: Uri) {
+        auxiliaryImage.value = uri.toString()
+        registerChanges()
+    }
+
     fun saveBitmaps(
         oneTimeSaveLocationUri: String?
     ) {
         savingJob = trackProgress {
+            if (selectedModel.value?.isStyleTransfer == true && params.auxiliaryImage == null) {
+                AppToastHost.showFailureToast(getString(R.string.style_image_not_selected))
+                return@trackProgress
+            }
+            if (selectedModel.value?.isStyleTransfer == true) aiToolsRepository.cleanup()
             if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
                 setImageFormat(ImageFormat.Png.Lossless)
             }
@@ -332,6 +349,11 @@ class AiToolsComponent @AssistedInject internal constructor(
     private suspend fun processImagesToCache(
         onCached: (originalUri: Uri, cachedUri: Uri, imageInfo: ImageInfo) -> Unit
     ) {
+        if (selectedModel.value?.isStyleTransfer == true && params.auxiliaryImage == null) {
+            AppToastHost.showFailureToast(getString(R.string.style_image_not_selected))
+            return
+        }
+        if (selectedModel.value?.isStyleTransfer == true) aiToolsRepository.cleanup()
         if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
             setImageFormat(ImageFormat.Png.Lossless)
         }

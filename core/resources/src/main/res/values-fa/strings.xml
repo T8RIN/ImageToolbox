@@ -4527,4 +4527,19 @@
     <string name="midtones">آهنگ های میانی</string>
     <string name="vectorscope">دامنه برداری</string>
     <string name="waveform">شکل موج</string>
+    <string name="displacement">جابجایی</string>
+    <string name="horizontal_displacement_map">نقشه جابجایی افقی</string>
+    <string name="vertical_displacement_map">نقشه جابجایی عمودی</string>
+    <string name="use_separate_vertical_map">از نقشه عمودی جداگانه استفاده کنید</string>
+    <string name="displacement_strength_x">استحکام افقی</string>
+    <string name="displacement_strength_y">قدرت عمودی</string>
+    <string name="displacement_boundary_transparent">شفاف</string>
+    <string name="type_style_transfer">انتقال سبک</string>
+    <string name="style_image">تصویر سبک</string>
+    <string name="style_image_subtitle">اثر هنری یا عکسی را انتخاب کنید که سبک بصری آن باید اعمال شود</string>
+    <string name="style_image_not_selected">ابتدا یک تصویر سبک را انتخاب کنید</string>
+    <string name="model_arbitrary_style_transfer">رنگ‌ها، بافت‌ها و ویژگی‌های هنری یک تصویر مرجع را با حفظ ترکیب بندی و جزئیات کلیدی تصویر اصلی منتقل می‌کند.</string>
+    <string name="model_microast_style_transfer">یک مدل انتقال سبک دلخواه سبک وزن که ساختار اصلی را حفظ می کند و در عین حال رنگ ها و بافت های برجسته را از تصویر مرجع اعمال می کند.</string>
+    <string name="model_aesfa_style_transfer">یک مدل انتقال سبک آگاه از ویژگی‌های زیبایی‌شناختی که ضربه‌های قلم مو، بافت‌ها، رنگ‌ها و ویژگی‌های فضایی را از تصویر مرجع می‌گیرد.</string>
+    <string name="model_vgg19_optimization_style_transfer">یک مدل انتقال سبک عصبی مبتنی بر بهینه‌سازی که از ویژگی‌های VGG19 و ماتریس‌های Gram برای بازسازی رنگ‌ها، بافت‌ها و قلم‌موهای تصویر مرجع استفاده می‌کند.</string>
 </resources>

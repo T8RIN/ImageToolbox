@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("ConstPropertyName")
+
 package com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic
 
 import android.graphics.Bitmap
@@ -25,6 +27,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.curves.CurvesPresetCodec
 import com.t8rin.curves.GPUImageToneCurveFilter
 import com.t8rin.curves.ImageCurvesEditorState
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -47,6 +50,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.transformation.ImageInfoTransformation
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
@@ -226,6 +230,40 @@ class CurvesComponent @AssistedInject internal constructor(
         lastControlPoints = defaultControlPoints
         commitHistoryFrom(beforeSnapshot)
     }
+
+    fun importCurvesPreset(uri: Uri) {
+        componentScope.launch {
+            runSuspendCatching {
+                val bytes = fileController.readBytes(uri.toString())
+                require(bytes.size <= MaxPresetSizeBytes) { "The curve preset is too large" }
+                val importedState = CurvesPresetCodec.decode(bytes)
+
+                finalizePendingHistoryTransaction()
+                val beforeSnapshot = currentHistorySnapshot()
+                _curvesState.value = importedState
+                lastControlPoints = importedState.controlPoints
+                commitHistoryFrom(beforeSnapshot)
+                AppToastHost.showConfetti()
+            }.onFailure(AppToastHost::showFailureToast)
+        }
+    }
+
+    fun exportCurvesPreset(uri: Uri) {
+        componentScope.launch {
+            fileController.writeBytes(uri.toString()) { output ->
+                output.writeBytes(
+                    CurvesPresetCodec.encode(curvesState).toByteArray(Charsets.UTF_8)
+                )
+            }.onSuccess(AppToastHost::showConfetti)
+                .let { result ->
+                    if (result is SaveResult.Error) {
+                        AppToastHost.showFailureToast(result.throwable)
+                    }
+                }
+        }
+    }
+
+    fun createTargetFilename(): String = "ImageToolbox_Curves_${timestamp()}.itcurve"
 
     fun updateSelectedUri(uri: Uri) {
         if (selectedUri == uri) return
@@ -461,6 +499,10 @@ class CurvesComponent @AssistedInject internal constructor(
         val keepExif: Boolean,
         val backgroundColorForNoAlphaFormats: ColorModel
     )
+
+    private companion object {
+        const val MaxPresetSizeBytes = 20 * 1024 * 1024
+    }
 
     @AssistedFactory
     fun interface Factory {

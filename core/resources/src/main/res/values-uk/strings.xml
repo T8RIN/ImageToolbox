@@ -4529,4 +4529,19 @@
     <string name="midtones">Середні тони</string>
     <string name="vectorscope">Векторний обсяг</string>
     <string name="waveform">Форма хвилі</string>
+    <string name="displacement">Переміщення</string>
+    <string name="horizontal_displacement_map">Карта горизонтальних переміщень</string>
+    <string name="vertical_displacement_map">Карта вертикальних переміщень</string>
+    <string name="use_separate_vertical_map">Використовуйте окрему вертикальну карту</string>
+    <string name="displacement_strength_x">Горизонтальна міцність</string>
+    <string name="displacement_strength_y">Вертикальна міцність</string>
+    <string name="displacement_boundary_transparent">Прозорий</string>
+    <string name="type_style_transfer">Передача стилю</string>
+    <string name="style_image">Стильний образ</string>
+    <string name="style_image_subtitle">Виберіть твір мистецтва чи фотографію, візуальний стиль якого потрібно застосувати</string>
+    <string name="style_image_not_selected">Спочатку виберіть зображення стилю</string>
+    <string name="model_arbitrary_style_transfer">Передає кольори, текстури та художні особливості еталонного зображення, зберігаючи композицію та ключові деталі оригіналу.</string>
+    <string name="model_microast_style_transfer">Легка модель передачі довільного стилю, яка зберігає основну структуру, одночасно застосовуючи яскраво виражені кольори та текстури з контрольного зображення.</string>
+    <string name="model_aesfa_style_transfer">Модель передачі стилю з урахуванням естетичних особливостей, яка фіксує локальні мазки пензля, текстури, тони та просторові особливості з контрольного зображення.</string>
+    <string name="model_vgg19_optimization_style_transfer">Модель передачі нейронного стилю на основі оптимізації, яка використовує функції VGG19 і матриці Грама для відтворення кольорів, текстур і мазків еталонного зображення.</string>
 </resources>

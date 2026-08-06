@@ -4527,4 +4527,19 @@
     <string name="midtones">Kesktoonid</string>
     <string name="vectorscope">Vektori ulatus</string>
     <string name="waveform">Lainekuju</string>
+    <string name="displacement">Nihestus</string>
+    <string name="horizontal_displacement_map">Horisontaalse nihke kaart</string>
+    <string name="vertical_displacement_map">Vertikaalse nihke kaart</string>
+    <string name="use_separate_vertical_map">Kasutage eraldi vertikaalset kaarti</string>
+    <string name="displacement_strength_x">Horisontaalne tugevus</string>
+    <string name="displacement_strength_y">Vertikaalne tugevus</string>
+    <string name="displacement_boundary_transparent">Läbipaistev</string>
+    <string name="type_style_transfer">Stiili ülekanne</string>
+    <string name="style_image">Stiilipilt</string>
+    <string name="style_image_subtitle">Valige kunstiteos või foto, mille visuaalset stiili tuleks rakendada</string>
+    <string name="style_image_not_selected">Esmalt valige stiilipilt</string>
+    <string name="model_arbitrary_style_transfer">Kannab üle võrdluspildi värvid, tekstuurid ja kunstilised omadused, säilitades samal ajal originaali kompositsiooni ja põhidetailid.</string>
+    <string name="model_microast_style_transfer">Kerge suvalise stiili ülekandemudel, mis säilitab põhistruktuuri, rakendades samal ajal etalonpildilt väljendunud värve ja tekstuure.</string>
+    <string name="model_aesfa_style_transfer">Esteetiliste omadustega stiiliedastusmudel, mis jäädvustab võrdluspildilt kohalikud pintslitõmbed, tekstuurid, toonid ja ruumilised omadused.</string>
+    <string name="model_vgg19_optimization_style_transfer">Optimeerimisel põhinev närvistiili edastusmudel, mis kasutab VGG19 funktsioone ja Gram-maatriksiid, et taastada võrdluspildi värvid, tekstuurid ja pintslitöö.</string>
 </resources>

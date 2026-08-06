@@ -4531,4 +4531,19 @@
     <string name="midtones">النغمات النصفية</string>
     <string name="vectorscope">نطاق المتجهات</string>
     <string name="waveform">الموجي</string>
+    <string name="displacement">النزوح</string>
+    <string name="horizontal_displacement_map">خريطة النزوح الأفقي</string>
+    <string name="vertical_displacement_map">خريطة النزوح العمودي</string>
+    <string name="use_separate_vertical_map">استخدم خريطة عمودية منفصلة</string>
+    <string name="displacement_strength_x">القوة الأفقية</string>
+    <string name="displacement_strength_y">القوة العمودية</string>
+    <string name="displacement_boundary_transparent">شفاف</string>
+    <string name="type_style_transfer">نقل النمط</string>
+    <string name="style_image">صورة النمط</string>
+    <string name="style_image_subtitle">اختر عملاً فنيًا أو صورة يجب تطبيق أسلوبها البصري</string>
+    <string name="style_image_not_selected">حدد صورة النمط أولاً</string>
+    <string name="model_arbitrary_style_transfer">ينقل الألوان والأنسجة والميزات الفنية لصورة مرجعية مع الحفاظ على التركيبة والتفاصيل الرئيسية للأصل.</string>
+    <string name="model_microast_style_transfer">نموذج نقل تعسفي خفيف الوزن يحافظ على البنية الرئيسية مع تطبيق الألوان والأنسجة الواضحة من الصورة المرجعية.</string>
+    <string name="model_aesfa_style_transfer">نموذج نقل نمطي مدرك للميزات الجمالية يلتقط ضربات الفرشاة والأنسجة والألوان والميزات المكانية المحلية من الصورة المرجعية.</string>
+    <string name="model_vgg19_optimization_style_transfer">نموذج نقل نمط عصبي قائم على التحسين يستخدم ميزات VGG19 ومصفوفات جرام لإعادة إنشاء ألوان الصورة المرجعية وأنسجةها وفرشاة عملها.</string>
 </resources>

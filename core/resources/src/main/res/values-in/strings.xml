@@ -4526,4 +4526,19 @@
     <string name="midtones">Nada tengah</string>
     <string name="vectorscope">Ruang lingkup vektor</string>
     <string name="waveform">Bentuk gelombang</string>
+    <string name="displacement">Pemindahan</string>
+    <string name="horizontal_displacement_map">Peta perpindahan horizontal</string>
+    <string name="vertical_displacement_map">Peta perpindahan vertikal</string>
+    <string name="use_separate_vertical_map">Gunakan peta vertikal terpisah</string>
+    <string name="displacement_strength_x">Kekuatan horisontal</string>
+    <string name="displacement_strength_y">Kekuatan vertikal</string>
+    <string name="displacement_boundary_transparent">Transparan</string>
+    <string name="type_style_transfer">Perpindahan gaya</string>
+    <string name="style_image">Gambar gaya</string>
+    <string name="style_image_subtitle">Pilih karya seni atau foto yang gaya visualnya ingin diterapkan</string>
+    <string name="style_image_not_selected">Pilih gambar gaya terlebih dahulu</string>
+    <string name="model_arbitrary_style_transfer">Mentransfer warna, tekstur, dan fitur artistik dari gambar referensi sambil mempertahankan komposisi dan detail penting dari gambar aslinya.</string>
+    <string name="model_microast_style_transfer">Model transfer gaya arbitrer ringan yang mempertahankan struktur utama sambil menerapkan warna dan tekstur yang jelas dari gambar referensi.</string>
+    <string name="model_aesfa_style_transfer">Model transfer gaya sadar fitur estetika yang menangkap sapuan kuas, tekstur, corak, dan fitur spasial lokal dari gambar referensi.</string>
+    <string name="model_vgg19_optimization_style_transfer">Model transfer gaya saraf berbasis pengoptimalan yang menggunakan fitur VGG19 dan matriks Gram untuk membuat ulang warna, tekstur, dan sapuan kuas gambar referensi.</string>
 </resources>

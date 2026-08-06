@@ -4526,4 +4526,19 @@
     <string name="midtones">中間調</string>
     <string name="vectorscope">ベクトルスコープ</string>
     <string name="waveform">波形</string>
+    <string name="displacement">変位</string>
+    <string name="horizontal_displacement_map">水平変位マップ</string>
+    <string name="vertical_displacement_map">垂直変位マップ</string>
+    <string name="use_separate_vertical_map">個別の垂直マップを使用する</string>
+    <string name="displacement_strength_x">横方向の強度</string>
+    <string name="displacement_strength_y">垂直強度</string>
+    <string name="displacement_boundary_transparent">透明</string>
+    <string name="type_style_transfer">スタイル転送</string>
+    <string name="style_image">スタイルイメージ</string>
+    <string name="style_image_subtitle">ビジュアル スタイルを適用するアートワークまたは写真を選択してください</string>
+    <string name="style_image_not_selected">最初にスタイル画像を選択してください</string>
+    <string name="model_arbitrary_style_transfer">オリジナルの構成と重要な詳細を維持しながら、参照画像の色、テクスチャ、および芸術的特徴を転送します。</string>
+    <string name="model_microast_style_transfer">参照画像から顕著な色とテクスチャを適用しながら、主要な構造を保持する軽量の任意スタイル転送モデル。</string>
+    <string name="model_aesfa_style_transfer">参照画像からローカルのブラシストローク、テクスチャ、トーン、空間的特徴をキャプチャする、美的特徴を意識したスタイル転送モデル。</string>
+    <string name="model_vgg19_optimization_style_transfer">VGG19 機能とグラム行列を使用して参照画像の色、テクスチャ、ブラシワークを再作成する、最適化ベースのニューラル スタイル転送モデル。</string>
 </resources>

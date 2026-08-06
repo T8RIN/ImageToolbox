@@ -4527,4 +4527,19 @@
     <string name="midtones">Middentonen</string>
     <string name="vectorscope">Vectorbereik</string>
     <string name="waveform">Golfvorm</string>
+    <string name="displacement">Verplaatsing</string>
+    <string name="horizontal_displacement_map">Horizontale verplaatsingskaart</string>
+    <string name="vertical_displacement_map">Verticale verplaatsingskaart</string>
+    <string name="use_separate_vertical_map">Gebruik een aparte verticale kaart</string>
+    <string name="displacement_strength_x">Horizontale sterkte</string>
+    <string name="displacement_strength_y">Verticale sterkte</string>
+    <string name="displacement_boundary_transparent">Transparant</string>
+    <string name="type_style_transfer">Stijloverdracht</string>
+    <string name="style_image">Stijl afbeelding</string>
+    <string name="style_image_subtitle">Kies een kunstwerk of foto waarvan de visuele stijl moet worden toegepast</string>
+    <string name="style_image_not_selected">Selecteer eerst een stijlafbeelding</string>
+    <string name="model_arbitrary_style_transfer">Brengt de kleuren, texturen en artistieke kenmerken van een referentiebeeld over, terwijl de compositie en de belangrijkste details van het origineel behouden blijven.</string>
+    <string name="model_microast_style_transfer">Een lichtgewicht overdrachtsmodel in willekeurige stijl dat de hoofdstructuur behoudt en tegelijkertijd uitgesproken kleuren en texturen uit de referentieafbeelding toepast.</string>
+    <string name="model_aesfa_style_transfer">Een esthetisch, kenmerkend stijloverdrachtsmodel dat lokale penseelstreken, texturen, tinten en ruimtelijke kenmerken van het referentiebeeld vastlegt.</string>
+    <string name="model_vgg19_optimization_style_transfer">Een op optimalisatie gebaseerd model voor neurale stijloverdracht dat VGG19-functies en Gram-matrices gebruikt om de kleuren, texturen en penseelvoering van de referentieafbeelding opnieuw te creëren.</string>
 </resources>

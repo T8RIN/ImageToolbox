@@ -4525,4 +4525,19 @@
     <string name="vectorscope">矢量范围</string>
     <string name="waveform">波形</string>
     <string name="displacement_boundary_transparent">透明</string>
+    <string name="displacement">排量</string>
+    <string name="horizontal_displacement_map">水平位移图</string>
+    <string name="vertical_displacement_map">垂直位移图</string>
+    <string name="use_separate_vertical_map">使用单独的垂直地图</string>
+    <string name="displacement_strength_x">横向强度</string>
+    <string name="displacement_strength_y">垂直强度</string>
+    <string name="displacement_boundary_transparent">透明的</string>
+    <string name="type_style_transfer">风格转移</string>
+    <string name="style_image">风格形象</string>
+    <string name="style_image_subtitle">选择应应用其视觉风格的艺术品或照片</string>
+    <string name="style_image_not_selected">首先选择样式图片</string>
+    <string name="model_arbitrary_style_transfer">传输参考图像的颜色、纹理和艺术特征，同时保留原始图像的构图和关键细节。</string>
+    <string name="model_microast_style_transfer">一种轻量级的任意风格迁移模型，可保留主要结构，同时应用参考图像中的明显颜色和纹理。</string>
+    <string name="model_aesfa_style_transfer">一种审美特征感知风格转移模型，可从参考图像中捕获局部笔触、纹理、色调和空间特征。</string>
+    <string name="model_vgg19_optimization_style_transfer">基于优化的神经风格迁移模型，使用 VGG19 特征和 Gram 矩阵来重新创建参考图像的颜色、纹理和笔触。</string>
 </resources>
