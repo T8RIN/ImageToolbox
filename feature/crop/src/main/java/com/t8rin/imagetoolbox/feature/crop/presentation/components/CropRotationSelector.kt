@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 fun CropRotationSelector(
     value: Float,
     onValueChange: (Float) -> Unit,
+    onValueChangeFinished: ((Float) -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     EnhancedSliderItem(
@@ -41,6 +42,7 @@ fun CropRotationSelector(
         valueRange = -45f..45f,
         internalStateTransformation = { it.roundTo(1) },
         onValueChange = onValueChange,
+        onValueChangeFinished = onValueChangeFinished,
         shape = ShapeDefaults.large
     )
 }

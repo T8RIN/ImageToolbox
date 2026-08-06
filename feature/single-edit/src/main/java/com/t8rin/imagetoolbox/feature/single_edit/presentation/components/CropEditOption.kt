@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.feature.crop.presentation.components.CropRotationS
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.CropType
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.Cropper
 import com.t8rin.imagetoolbox.feature.crop.presentation.components.FreeCornersCropToggle
+import com.t8rin.imagetoolbox.feature.crop.presentation.components.rememberCropperState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -102,11 +103,19 @@ fun CropEditOption(
     val rotationState = rememberSaveable {
         mutableFloatStateOf(0f)
     }
+    val cropperState = rememberCropperState()
     var coercePointsToImageArea by rememberSaveable {
         mutableStateOf(true)
     }
     var cropType by rememberSaveable {
         mutableStateOf(CropType.Default)
+    }
+
+    LaunchedEffect(visible, imageUri) {
+        if (visible) {
+            cropperState.clearHistory()
+            rotationState.floatValue = 0f
+        }
     }
 
     LaunchedEffect(cropProperties.cropOutlineProperty) {
@@ -133,6 +142,10 @@ fun CropEditOption(
         var stateBitmap by remember(bitmap, imageUri, visible) { mutableStateOf(bitmap) }
         var stateUri by remember(imageUri, visible) { mutableStateOf(imageUri) }
         var stateImageSize by remember(imageSize, imageUri, visible) { mutableStateOf(imageSize) }
+        var loading by remember(bitmap, imageUri, visible) { mutableStateOf(false) }
+        var previewLoadingJob by remember(bitmap, imageUri, visible) {
+            mutableStateOf<Job?>(null)
+        }
 
         FullscreenEditOption(
             canGoBack = stateUri == imageUri,
@@ -177,7 +190,9 @@ fun CropEditOption(
                 ) {
                     CropRotationSelector(
                         value = rotationState.floatValue,
-                        onValueChange = { rotationState.floatValue = it },
+                        onValueChange = {
+                            rotationState.floatValue = it
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp)
@@ -196,7 +211,9 @@ fun CropEditOption(
                     ) {
                         CoercePointsToImageBoundsToggle(
                             value = coercePointsToImageArea,
-                            onValueChange = { coercePointsToImageArea = it },
+                            onValueChange = { value ->
+                                coercePointsToImageArea = value
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(Modifier.height(8.dp))
@@ -218,14 +235,23 @@ fun CropEditOption(
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
                             selectedAspectRatio = selectedAspectRatio,
-                            onAspectRatioChange = setCropAspectRatio
+                            onAspectRatioChange = { domainAspectRatio, aspectRatio ->
+                                setCropAspectRatio(domainAspectRatio, aspectRatio)
+                            }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         CropMaskSelection(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
-                            onCropMaskChange = setCropMask,
+                            onCropMaskChange = { cropOutlineProperty ->
+                                setCropMask(cropOutlineProperty)
+                                cropType = if (cropOutlineProperty.cropOutline.id != 0) {
+                                    CropType.NoRotation
+                                } else {
+                                    CropType.Default
+                                }
+                            },
                             selectedItem = cropProperties.cropOutlineProperty,
                             loadImage = {
                                 loadImage(it)?.asImageBitmap()
@@ -283,7 +309,6 @@ fun CropEditOption(
                 )
             }
         ) {
-            var loading by remember { mutableStateOf(false) }
             Box(contentAlignment = Alignment.Center) {
                 Cropper(
                     bitmap = stateBitmap,
@@ -298,7 +323,8 @@ fun CropEditOption(
                             stateImageSize = uri.imageSize()
                                 ?.let { IntSize(it.width, it.height) }
                                 ?: stateImageSize
-                            scope.launch {
+                            previewLoadingJob?.cancel()
+                            previewLoadingJob = scope.launch {
                                 loading = true
                                 loadImagePreview(uri)?.let { preview ->
                                     stateBitmap = preview
@@ -311,6 +337,7 @@ fun CropEditOption(
                         }
                     },
                     rotationState = rotationState,
+                    state = cropperState,
                     cropProperties = cropProperties,
                     cropType = cropType,
                     addVerticalInsets = !useScaffold,

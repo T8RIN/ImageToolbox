@@ -34,8 +34,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.CropOverlayDraggableSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
@@ -107,15 +108,17 @@ fun CropContent(
 
     AutoContentBasedColors(component.bitmap)
 
-    var coercePointsToImageArea by rememberSaveable {
-        mutableStateOf(true)
+    var coercePointsToImageArea by component.coercePointsToImageAreaState
+    val rotationState = component.rotationState
+    val cropperState = component.cropperState
+    SideEffect {
+        cropperState.setActiveCropType(component.cropType)
     }
-
-    val rotationState = rememberSaveable {
-        mutableFloatStateOf(0f)
-    }
+    var rotationHistoryJob by remember { mutableStateOf<Job?>(null) }
+    var coerceHistoryJob by remember { mutableStateOf<Job?>(null) }
 
     val imagePicker = rememberImagePicker { uri: Uri ->
+        cropperState.clearHistory()
         rotationState.floatValue = 0f
         component.setUri(uri)
     }
@@ -139,10 +142,21 @@ fun CropContent(
 
     var crop by remember { mutableStateOf(false) }
 
+    val undoRedoButtons = @Composable {
+        UndoRedoButtons(
+            canUndo = cropperState.canUndo,
+            canRedo = cropperState.canRedo,
+            onUndo = cropperState::undo,
+            onRedo = cropperState::redo,
+            modifier = Modifier.padding(2.dp)
+        )
+    }
+
     val actions = @Composable {
         var editSheetData by remember {
             mutableStateOf(listOf<Uri>())
         }
+        if (!isPortrait) undoRedoButtons()
         ShareButton(
             enabled = component.bitmap != null,
             onShare = component::shareBitmap,
@@ -163,6 +177,7 @@ fun CropContent(
             },
             onNavigate = component.onNavigate
         )
+        if (isPortrait) undoRedoButtons()
     }
 
     AdaptiveBottomScaffoldLayoutScreen(
@@ -226,11 +241,20 @@ fun CropContent(
                         onImageCropFinished = { uri ->
                             component.imageCropFinished()
                             if (uri != null) {
-                                component.updateImageUri(uri)
+                                component.updateImageUri(uri) {
+                                    cropperState.recordAppliedAction(
+                                        undo = component::undo,
+                                        redo = component::redo
+                                    )
+                                    if (component.cropType == CropType.NoRotation) {
+                                        cropperState.resetImageCropperState()
+                                    }
+                                }
                             }
                             crop = false
                         },
                         rotationState = rotationState,
+                        state = cropperState,
                         cropProperties = component.cropProperties,
                         cropType = component.cropType,
                         addVerticalInsets = !isPortrait,
@@ -247,7 +271,17 @@ fun CropContent(
                 FreeCornersCropToggle(
                     modifier = Modifier.fillMaxWidth(),
                     value = component.cropType == CropType.FreeCorners,
-                    onClick = component::toggleFreeCornersCrop
+                    onClick = {
+                        val previousCropType = component.cropType
+                        if (component.toggleFreeCornersCrop()) {
+                            cropperState.recordExternalAction(
+                                previousCropType = previousCropType,
+                                currentCropType = component.cropType,
+                                undo = component::undo,
+                                redo = component::redo
+                            )
+                        }
+                    }
                 )
                 BoxAnimatedVisibility(
                     visible = component.cropType != CropType.Default ||
@@ -267,7 +301,18 @@ fun CropContent(
                 ) {
                     CropRotationSelector(
                         value = rotationState.floatValue,
-                        onValueChange = { rotationState.floatValue = it }
+                        onValueChange = {
+                            rotationHistoryJob?.cancel()
+                            cropperState.beginRotation()
+                            rotationState.floatValue = it
+                        },
+                        onValueChangeFinished = {
+                            rotationHistoryJob?.cancel()
+                            rotationHistoryJob = scope.launch {
+                                delay(350)
+                                cropperState.endRotation()
+                            }
+                        }
                     )
                 }
                 BoxAnimatedVisibility(
@@ -278,7 +323,22 @@ fun CropContent(
                     Column {
                         CoercePointsToImageBoundsToggle(
                             value = coercePointsToImageArea,
-                            onValueChange = { coercePointsToImageArea = it },
+                            onValueChange = { value ->
+                                val previous = coercePointsToImageArea
+                                coerceHistoryJob?.cancel()
+                                cropperState.recordExternalCropperAction(
+                                    cropType = CropType.FreeCorners,
+                                    undo = { coercePointsToImageArea = previous },
+                                    redo = { coercePointsToImageArea = value }
+                                )
+                                coercePointsToImageArea = value
+                                coerceHistoryJob = scope.launch {
+                                    delay(500)
+                                    cropperState.finishExternalCropperAction(
+                                        CropType.FreeCorners
+                                    )
+                                }
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(Modifier.height(8.dp))
@@ -297,11 +357,31 @@ fun CropContent(
                         AspectRatioSelector(
                             modifier = Modifier.fillMaxWidth(),
                             selectedAspectRatio = component.selectedAspectRatio,
-                            onAspectRatioChange = component::setCropAspectRatio
+                            onAspectRatioChange = { domainAspectRatio, aspectRatio ->
+                                if (component.setCropAspectRatio(domainAspectRatio, aspectRatio)) {
+                                    val cropType = component.cropType
+                                    cropperState.recordExternalAction(
+                                        previousCropType = cropType,
+                                        currentCropType = cropType,
+                                        undo = component::undo,
+                                        redo = component::redo
+                                    )
+                                }
+                            }
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         CropMaskSelection(
-                            onCropMaskChange = component::setCropMask,
+                            onCropMaskChange = { cropOutlineProperty ->
+                                val previousCropType = component.cropType
+                                if (component.setCropMask(cropOutlineProperty)) {
+                                    cropperState.recordExternalAction(
+                                        previousCropType = previousCropType,
+                                        currentCropType = component.cropType,
+                                        undo = component::undo,
+                                        redo = component::redo
+                                    )
+                                }
+                            },
                             selectedItem = component.cropProperties.cropOutlineProperty,
                             loadImage = {
                                 component.loadImage(it)?.asImageBitmap()
@@ -399,7 +479,20 @@ fun CropContent(
     ResetDialog(
         visible = showResetDialog,
         onDismiss = { showResetDialog = false },
-        onReset = component::resetBitmap
+        onReset = {
+            if (component.resetBitmap()) {
+                rotationState.floatValue = 0f
+                cropperState.resetCropperStates()
+                cropperState.recordAppliedAction(
+                    undo = component::undo,
+                    redo = {
+                        component.redo()
+                        rotationState.floatValue = 0f
+                        cropperState.resetCropperStates()
+                    }
+                )
+            }
+        }
     )
 
     ExitWithoutSavingDialog(

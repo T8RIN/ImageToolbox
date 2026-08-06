@@ -28,4 +28,5 @@ dependencies {
     implementation(projects.lib.opencvTools)
     implementation(projects.lib.cropper)
     implementation(libs.toolbox.advancedCrop)
+    testImplementation(libs.junit)
 }

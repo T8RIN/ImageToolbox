@@ -29,4 +29,5 @@ dependencies {
     implementation(projects.lib.image)
     implementation(projects.lib.zoomable)
     implementation(projects.lib.gesture)
+    testImplementation(libs.junit)
 }
