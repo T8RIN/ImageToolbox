@@ -56,31 +56,4 @@ class CropperStateTest {
             assertEquals(1, aspectRatio)
         }
     }
-
-    @Test
-    fun appliedCropSupportsRepeatedUndoRedo() {
-        val state = CropperState(
-            advancedCropperState = AdvancedCropperState(),
-            imageCropperState = ImageCropperState(),
-            freeCornersCropperState = FreeCornersCropperState()
-        )
-        var image = 1
-
-        state.recordAppliedAction(
-            undo = { image = 0 },
-            redo = { image = 1 }
-        )
-
-        repeat(3) {
-            assertTrue(state.canUndo)
-            assertFalse(state.canRedo)
-            state.undo()
-            assertEquals(0, image)
-            assertFalse(state.canUndo)
-            assertTrue(state.canRedo)
-
-            state.redo()
-            assertEquals(1, image)
-        }
-    }
 }

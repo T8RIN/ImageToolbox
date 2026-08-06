@@ -24,16 +24,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 
 private const val MaxHistorySize = 50
 
 @Stable
 class FreeCornersCropperState {
-    class SavedState internal constructor(
-        internal val snapshot: FreeCornersCropSnapshot
-    )
-
     var canUndo: Boolean by mutableStateOf(false)
         private set
 
@@ -47,7 +42,6 @@ class FreeCornersCropperState {
     private var pendingSnapshot: FreeCornersCropSnapshot? = null
     private var currentSnapshot: FreeCornersCropSnapshot? = null
     private var restoreCurrentSnapshotOnCropperReady = false
-    private var snapshotToRestoreOnImageChange: FreeCornersCropSnapshot? = null
     private val undoHistory = ArrayDeque<FreeCornersCropSnapshot>()
     private val redoHistory = ArrayDeque<FreeCornersCropSnapshot>()
 
@@ -76,7 +70,6 @@ class FreeCornersCropperState {
     }
 
     fun beginTransformation() {
-        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         if (pendingSnapshot == null) {
             pendingSnapshot = captureSnapshot?.invoke()
@@ -101,12 +94,6 @@ class FreeCornersCropperState {
 
     fun discardPendingTransformation() {
         pendingSnapshot = null
-    }
-
-    fun saveState(): SavedState? = captureSnapshot?.invoke()?.let(::SavedState)
-
-    fun restoreStateOnNextImageChange(savedState: SavedState) {
-        snapshotToRestoreOnImageChange = savedState.snapshot
     }
 
     fun prepareForReattachment(attachmentKey: Any? = null) {
@@ -147,11 +134,10 @@ class FreeCornersCropperState {
             pendingSnapshot = null
         }
         if (imageChanged) {
-            val snapshotToRestore = snapshotToRestoreOnImageChange
             this.imageKey = imageKey
             pendingSnapshot = null
-            currentSnapshot = snapshotToRestore
-            restoreCurrentSnapshotOnCropperReady = snapshotToRestore != null
+            currentSnapshot = null
+            restoreCurrentSnapshotOnCropperReady = false
             undoHistory.clear()
             redoHistory.clear()
             updateAvailability()
@@ -182,7 +168,6 @@ class FreeCornersCropperState {
     fun clearHistory() {
         pendingSnapshot = null
         currentSnapshot = captureSnapshot?.invoke()
-        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         undoHistory.clear()
         redoHistory.clear()
@@ -193,7 +178,6 @@ class FreeCornersCropperState {
         attachmentKey = null
         pendingSnapshot = null
         currentSnapshot = null
-        snapshotToRestoreOnImageChange = null
         restoreCurrentSnapshotOnCropperReady = false
         undoHistory.clear()
         redoHistory.clear()
@@ -218,10 +202,5 @@ fun rememberFreeCornersCropperState(): FreeCornersCropperState = remember {
 internal data class FreeCornersCropSnapshot(
     val normalizedPoints: List<Offset>,
     val normalizedViewportCenter: Offset,
-    val viewportFillFraction: Float,
-    val exactPoints: List<Offset> = emptyList(),
-    val exactImageBounds: Rect = Rect.Zero,
-    val exactViewportBounds: Rect = Rect.Zero,
-    val exactImageScale: Float? = null,
-    val exactImageTranslation: Offset? = null
+    val viewportFillFraction: Float
 )

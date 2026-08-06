@@ -112,8 +112,7 @@ fun FreeCornersCropper(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val currentOnTransformationCommitted by rememberUpdatedState(onTransformationCommitted)
-    val imageKey: Any = FreeCornersCropperImageKey(
-        sourceImageUri = sourceImageUri,
+    val imageKey: Any = sourceImageUri ?: FreeCornersCropperImageKey(
         bitmap = bitmap,
         generationId = bitmap.generationId
     )
@@ -910,7 +909,6 @@ private suspend fun PointerInputScope.detectCropDragGestures(
 }
 
 private data class FreeCornersCropperImageKey(
-    val sourceImageUri: Uri?,
     val bitmap: Bitmap,
     val generationId: Int
 )
@@ -1338,12 +1336,7 @@ internal fun captureFreeCornersCropSnapshot(
         viewportFillFraction = maxOf(
             cropBounds.width / viewportBounds.width,
             cropBounds.height / viewportBounds.height
-        ).coerceIn(MIN_VIEWPORT_FILL_FRACTION, 1f),
-        exactPoints = points,
-        exactImageBounds = imageBounds,
-        exactViewportBounds = viewportBounds,
-        exactImageScale = imageScale,
-        exactImageTranslation = imageTranslation
+        ).coerceIn(MIN_VIEWPORT_FILL_FRACTION, 1f)
     )
 }
 
@@ -1359,26 +1352,6 @@ internal fun restoreFreeCornersCropSnapshot(
         !viewportBounds.hasPositiveSize()
     ) {
         return null
-    }
-
-    val exactImageScale = snapshot.exactImageScale
-    val exactImageTranslation = snapshot.exactImageTranslation
-    if (
-        snapshot.exactPoints.size == CROP_POINTS_COUNT &&
-        snapshot.exactImageBounds == imageBounds &&
-        snapshot.exactViewportBounds == viewportBounds &&
-        exactImageScale != null &&
-        exactImageScale.isFinite() &&
-        exactImageScale > 0f &&
-        exactImageTranslation != null &&
-        exactImageTranslation.x.isFinite() &&
-        exactImageTranslation.y.isFinite()
-    ) {
-        return RestoredFreeCornersCropSnapshot(
-            points = snapshot.exactPoints,
-            imageScale = exactImageScale,
-            imageTranslation = exactImageTranslation
-        )
     }
 
     val normalizedPoints = if (coercePointsToImageArea) {
