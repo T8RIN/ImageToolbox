@@ -250,7 +250,8 @@ internal class AndroidPdfManager @Inject constructor(
         usePdf(uri) { document ->
             createPdf { newDoc ->
                 pages.orAll(document).forEach { index ->
-                    newDoc.addPage(document.getPageSafe(index))
+                    val sourcePage = document.getPageSafe(index)
+                    newDoc.importPage(sourcePage).resources = sourcePage.resources
                 }
 
                 newDoc.save(
