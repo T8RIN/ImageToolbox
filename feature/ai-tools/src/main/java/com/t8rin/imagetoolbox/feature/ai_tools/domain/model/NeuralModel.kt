@@ -117,7 +117,7 @@ data class NeuralModel(
                 ),
                 NeuralModel(
                     downloadLink = res(OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME),
-                    title = "VGG19 Optimization Style Transfer",
+                    title = "VGG19 Optimization",
                     description = R.string.model_vgg19_optimization_style_transfer,
                     type = Type.STYLE_TRANSFER,
                     downloadSize = 47_994_728,
