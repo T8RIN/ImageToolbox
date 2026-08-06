@@ -4524,7 +4524,6 @@
     <string name="midtones">中间色调</string>
     <string name="vectorscope">矢量范围</string>
     <string name="waveform">波形</string>
-    <string name="displacement_boundary_transparent">透明</string>
     <string name="displacement">排量</string>
     <string name="horizontal_displacement_map">水平位移图</string>
     <string name="vertical_displacement_map">垂直位移图</string>
