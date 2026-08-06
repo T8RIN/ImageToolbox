@@ -4527,4 +4527,19 @@
     <string name="midtones">Orta tonlar</string>
     <string name="vectorscope">Vektör kapsamı</string>
     <string name="waveform">Dalga formu</string>
+    <string name="displacement">Yer Değiştirme</string>
+    <string name="horizontal_displacement_map">Yatay yer değiştirme haritası</string>
+    <string name="vertical_displacement_map">Dikey yer değiştirme haritası</string>
+    <string name="use_separate_vertical_map">Ayrı dikey harita kullan</string>
+    <string name="displacement_strength_x">Yatay güç</string>
+    <string name="displacement_strength_y">Dikey güç</string>
+    <string name="displacement_boundary_transparent">Şeffaf</string>
+    <string name="type_style_transfer">Stil aktarımı</string>
+    <string name="style_image">Stil resmi</string>
+    <string name="style_image_subtitle">Görsel stilinin uygulanması gereken bir sanat eseri veya fotoğraf seçin</string>
+    <string name="style_image_not_selected">Önce bir stil resmi seçin</string>
+    <string name="model_arbitrary_style_transfer">Orijinalin kompozisyonunu ve önemli ayrıntılarını korurken referans görüntünün renklerini, dokularını ve sanatsal özelliklerini aktarır.</string>
+    <string name="model_microast_style_transfer">Referans görüntüdeki belirgin renkleri ve dokuları uygularken ana yapıyı koruyan, hafif, isteğe bağlı tarzda bir aktarım modeli.</string>
+    <string name="model_aesfa_style_transfer">Referans görüntüdeki yerel fırça darbelerini, dokuları, tonları ve mekansal özellikleri yakalayan, estetik özelliklere duyarlı bir stil aktarım modeli.</string>
+    <string name="model_vgg19_optimization_style_transfer">Referans görüntünün renklerini, dokularını ve fırça çalışmalarını yeniden oluşturmak için VGG19 özelliklerini ve Gram matrislerini kullanan optimizasyon tabanlı bir sinir tarzı aktarım modeli.</string>
 </resources>

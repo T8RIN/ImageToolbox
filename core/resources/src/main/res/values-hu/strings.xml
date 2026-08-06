@@ -4527,4 +4527,19 @@
     <string name="midtones">Középtónusok</string>
     <string name="vectorscope">Vektor hatálya</string>
     <string name="waveform">Hullámforma</string>
+    <string name="displacement">Elmozdulás</string>
+    <string name="horizontal_displacement_map">Vízszintes elmozdulás térkép</string>
+    <string name="vertical_displacement_map">Függőleges eltolási térkép</string>
+    <string name="use_separate_vertical_map">Használjon külön függőleges térképet</string>
+    <string name="displacement_strength_x">Vízszintes erő</string>
+    <string name="displacement_strength_y">Függőleges szilárdság</string>
+    <string name="displacement_boundary_transparent">Átlátszó</string>
+    <string name="type_style_transfer">Stílusátvitel</string>
+    <string name="style_image">Stíluskép</string>
+    <string name="style_image_subtitle">Válasszon egy alkotást vagy fotót, amelynek vizuális stílusát alkalmazni kell</string>
+    <string name="style_image_not_selected">Először válasszon ki egy stílusképet</string>
+    <string name="model_arbitrary_style_transfer">Átviszi a referenciakép színeit, textúráit és művészi jellemzőit, miközben megőrzi az eredeti kompozícióját és legfontosabb részleteit.</string>
+    <string name="model_microast_style_transfer">Könnyű, tetszőleges stílusátviteli modell, amely megőrzi a fő szerkezetet, miközben kifejezett színeket és textúrákat alkalmaz a referenciaképről.</string>
+    <string name="model_aesfa_style_transfer">Esztétikus jellemzőket figyelembe vevő stílusátviteli modell, amely a referenciaképből rögzíti a helyi ecsetvonásokat, textúrákat, tónusokat és térbeli jellemzőket.</string>
+    <string name="model_vgg19_optimization_style_transfer">Optimalizáláson alapuló neurális stílus átviteli modell, amely VGG19 funkciókat és Gram-mátrixokat használ a referenciakép színeinek, textúráinak és ecsetfestésének újraalkotásához.</string>
 </resources>

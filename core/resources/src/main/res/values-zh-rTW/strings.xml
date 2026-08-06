@@ -4526,4 +4526,19 @@
     <string name="midtones">中間色調</string>
     <string name="vectorscope">向量範圍</string>
     <string name="waveform">波形</string>
+    <string name="displacement">排氣量</string>
+    <string name="horizontal_displacement_map">水平位移圖</string>
+    <string name="vertical_displacement_map">垂直位移圖</string>
+    <string name="use_separate_vertical_map">使用單獨的垂直地圖</string>
+    <string name="displacement_strength_x">橫向強度</string>
+    <string name="displacement_strength_y">垂直強度</string>
+    <string name="displacement_boundary_transparent">透明的</string>
+    <string name="type_style_transfer">風格轉移</string>
+    <string name="style_image">風格形象</string>
+    <string name="style_image_subtitle">選擇應應用其視覺風格的藝術品或照片</string>
+    <string name="style_image_not_selected">首先選擇樣式圖片</string>
+    <string name="model_arbitrary_style_transfer">傳輸參考影像的色彩、紋理和藝術特徵，同時保留原始影像的構圖和關鍵細節。</string>
+    <string name="model_microast_style_transfer">一種輕量級的任意風格遷移模型，可保留主要結構，同時套用參考影像中的明顯顏色和紋理。</string>
+    <string name="model_aesfa_style_transfer">一種美學特徵感知風格轉移模型，可從參考影像中捕捉局部筆觸、紋理、色調和空間特徵。</string>
+    <string name="model_vgg19_optimization_style_transfer">基於最佳化的神經風格遷移模型，使用 VGG19 特徵和 Gram 矩陣來重新建立參考影像的色彩、紋理和筆觸。</string>
 </resources>

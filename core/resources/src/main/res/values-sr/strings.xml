@@ -4528,4 +4528,19 @@
     <string name="midtones">Средњи тонови</string>
     <string name="vectorscope">Векторски опсег</string>
     <string name="waveform">Вавеформ</string>
+    <string name="displacement">Дисплацемент</string>
+    <string name="horizontal_displacement_map">Мапа хоризонталног померања</string>
+    <string name="vertical_displacement_map">Карта вертикалног померања</string>
+    <string name="use_separate_vertical_map">Користите посебну вертикалну мапу</string>
+    <string name="displacement_strength_x">Хоризонтална снага</string>
+    <string name="displacement_strength_y">Вертикална снага</string>
+    <string name="displacement_boundary_transparent">Транспарент</string>
+    <string name="type_style_transfer">Пренос стила</string>
+    <string name="style_image">Стилска слика</string>
+    <string name="style_image_subtitle">Изаберите уметничко дело или фотографију чији визуелни стил треба применити</string>
+    <string name="style_image_not_selected">Прво изаберите слику у стилу</string>
+    <string name="model_arbitrary_style_transfer">Преноси боје, текстуре и уметничке карактеристике референтне слике уз очување композиције и кључних детаља оригинала.</string>
+    <string name="model_microast_style_transfer">Лагани модел преноса произвољног стила који чува главну структуру док примењује изражене боје и текстуре са референтне слике.</string>
+    <string name="model_aesfa_style_transfer">Модел преноса стила са свесним естетским карактеристикама који снима локалне потезе четкицом, текстуре, тонове и просторне карактеристике са референтне слике.</string>
+    <string name="model_vgg19_optimization_style_transfer">Модел преноса неуронског стила заснован на оптимизацији који користи ВГГ19 карактеристике и Грам матрице да поново креира боје, текстуре и кистове референтне слике.</string>
 </resources>

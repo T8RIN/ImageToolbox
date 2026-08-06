@@ -4527,4 +4527,19 @@
     <string name="midtones">Mezzitoni</string>
     <string name="vectorscope">Ambito vettoriale</string>
     <string name="waveform">Forma d\'onda</string>
+    <string name="displacement">Spostamento</string>
+    <string name="horizontal_displacement_map">Mappa di spostamento orizzontale</string>
+    <string name="vertical_displacement_map">Mappa di spostamento verticale</string>
+    <string name="use_separate_vertical_map">Utilizza una mappa verticale separata</string>
+    <string name="displacement_strength_x">Forza orizzontale</string>
+    <string name="displacement_strength_y">Forza verticale</string>
+    <string name="displacement_boundary_transparent">Trasparente</string>
+    <string name="type_style_transfer">Trasferimento di stile</string>
+    <string name="style_image">Immagine di stile</string>
+    <string name="style_image_subtitle">Scegli un\'opera d\'arte o una foto a cui applicare lo stile visivo</string>
+    <string name="style_image_not_selected">Seleziona prima un\'immagine di stile</string>
+    <string name="model_arbitrary_style_transfer">Trasferisce i colori, le trame e le caratteristiche artistiche di un\'immagine di riferimento preservando la composizione e i dettagli chiave dell\'originale.</string>
+    <string name="model_microast_style_transfer">Un modello di trasferimento leggero dallo stile arbitrario che preserva la struttura principale applicando colori e texture pronunciati dall\'immagine di riferimento.</string>
+    <string name="model_aesfa_style_transfer">Un modello di trasferimento di stile in grado di riconoscere le caratteristiche estetiche che cattura pennellate, trame, toni e caratteristiche spaziali locali dall\'immagine di riferimento.</string>
+    <string name="model_vgg19_optimization_style_transfer">Un modello di trasferimento dello stile neurale basato sull\'ottimizzazione che utilizza le funzionalità VGG19 e le matrici Gram per ricreare i colori, le trame e la pennellata dell\'immagine di riferimento.</string>
 </resources>

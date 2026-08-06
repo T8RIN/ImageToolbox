@@ -4529,4 +4529,19 @@
     <string name="midtones">גווני ביניים</string>
     <string name="vectorscope">היקף וקטור</string>
     <string name="waveform">צורת גל</string>
+    <string name="displacement">תְזוּזָה</string>
+    <string name="horizontal_displacement_map">מפת תזוזה אופקית</string>
+    <string name="vertical_displacement_map">מפת תזוזה אנכית</string>
+    <string name="use_separate_vertical_map">השתמש במפה אנכית נפרדת</string>
+    <string name="displacement_strength_x">חוזק אופקי</string>
+    <string name="displacement_strength_y">חוזק אנכי</string>
+    <string name="displacement_boundary_transparent">שָׁקוּף</string>
+    <string name="type_style_transfer">העברת סגנון</string>
+    <string name="style_image">תמונה בסגנון</string>
+    <string name="style_image_subtitle">בחר יצירת אמנות או תמונה שיש ליישם את הסגנון החזותי שלה</string>
+    <string name="style_image_not_selected">תחילה בחר תמונת סגנון</string>
+    <string name="model_arbitrary_style_transfer">מעביר את הצבעים, המרקמים והמאפיינים האמנותיים של תמונת התייחסות תוך שמירה על הקומפוזיציה ופרטי המפתח של המקור.</string>
+    <string name="model_microast_style_transfer">דגם העברת סגנון שרירותי קל משקל המשמר את המבנה הראשי תוך החלת צבעים ומרקמים בולטים מתמונת ההתייחסות.</string>
+    <string name="model_aesfa_style_transfer">מודל העברת סגנון המודע לתכונה אסתטית הלוכד משיכות מכחול מקומיות, טקסטורות, גוונים ומאפיינים מרחביים מתמונת ההתייחסות.</string>
+    <string name="model_vgg19_optimization_style_transfer">מודל העברת סגנון עצבי מבוסס אופטימיזציה המשתמש בתכונות VGG19 ומטריצות גראם כדי ליצור מחדש את הצבעים, המרקמים ועבודת המכחול של תמונת הייחוס.</string>
 </resources>

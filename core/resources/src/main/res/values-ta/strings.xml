@@ -4527,4 +4527,19 @@
     <string name="midtones">மிட்டோன்கள்</string>
     <string name="vectorscope">திசையன் நோக்கம்</string>
     <string name="waveform">அலைவடிவம்</string>
+    <string name="displacement">இடப்பெயர்ச்சி</string>
+    <string name="horizontal_displacement_map">கிடைமட்ட இடப்பெயர்ச்சி வரைபடம்</string>
+    <string name="vertical_displacement_map">செங்குத்து இடப்பெயர்ச்சி வரைபடம்</string>
+    <string name="use_separate_vertical_map">தனி செங்குத்து வரைபடத்தைப் பயன்படுத்தவும்</string>
+    <string name="displacement_strength_x">கிடைமட்ட வலிமை</string>
+    <string name="displacement_strength_y">செங்குத்து வலிமை</string>
+    <string name="displacement_boundary_transparent">வெளிப்படையானது</string>
+    <string name="type_style_transfer">உடை பரிமாற்றம்</string>
+    <string name="style_image">உடை படம்</string>
+    <string name="style_image_subtitle">காட்சி பாணியைப் பயன்படுத்த வேண்டிய கலைப்படைப்பு அல்லது புகைப்படத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="style_image_not_selected">முதலில் ஒரு ஸ்டைல் ​​படத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="model_arbitrary_style_transfer">அசல் படத்தின் கலவை மற்றும் முக்கிய விவரங்களைப் பாதுகாக்கும் போது, ​​குறிப்புப் படத்தின் வண்ணங்கள், கட்டமைப்புகள் மற்றும் கலை அம்சங்களை மாற்றுகிறது.</string>
+    <string name="model_microast_style_transfer">ஒரு இலகுரக தன்னிச்சையான பாணி பரிமாற்ற மாதிரி, குறிப்புப் படத்தில் இருந்து உச்சரிக்கப்படும் வண்ணங்கள் மற்றும் அமைப்புகளைப் பயன்படுத்தும்போது முக்கிய கட்டமைப்பைப் பாதுகாக்கிறது.</string>
+    <string name="model_aesfa_style_transfer">ஒரு அழகியல் அம்சம்-விழிப்புணர்வு பாணி பரிமாற்ற மாதிரி, இது குறிப்புப் படத்திலிருந்து உள்ளூர் தூரிகைகள், இழைமங்கள், டோன்கள் மற்றும் இடஞ்சார்ந்த அம்சங்களைப் பிடிக்கும்.</string>
+    <string name="model_vgg19_optimization_style_transfer">குறிப்புப் படத்தின் வண்ணங்கள், கட்டமைப்புகள் மற்றும் தூரிகைகளை மீண்டும் உருவாக்க VGG19 அம்சங்கள் மற்றும் கிராம் மெட்ரிக்குகளைப் பயன்படுத்தும் மேம்படுத்தல் அடிப்படையிலான நரம்பியல் பாணி பரிமாற்ற மாதிரி.</string>
 </resources>

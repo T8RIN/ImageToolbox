@@ -4527,4 +4527,19 @@
     <string name="midtones">Mellantoner</string>
     <string name="vectorscope">Vektor omfattning</string>
     <string name="waveform">Vågform</string>
+    <string name="displacement">Förflyttning</string>
+    <string name="horizontal_displacement_map">Horisontell förskjutningskarta</string>
+    <string name="vertical_displacement_map">Vertikal förskjutningskarta</string>
+    <string name="use_separate_vertical_map">Använd separat vertikal karta</string>
+    <string name="displacement_strength_x">Horisontell styrka</string>
+    <string name="displacement_strength_y">Vertikal styrka</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Stilöverföring</string>
+    <string name="style_image">Stilbild</string>
+    <string name="style_image_subtitle">Välj ett konstverk eller foto vars visuella stil ska tillämpas</string>
+    <string name="style_image_not_selected">Välj en stilbild först</string>
+    <string name="model_arbitrary_style_transfer">Överför färger, texturer och konstnärliga egenskaper i en referensbild samtidigt som originalets komposition och nyckeldetaljer bevaras.</string>
+    <string name="model_microast_style_transfer">En lätt överföringsmodell med godtycklig stil som bevarar huvudstrukturen samtidigt som uttalade färger och texturer från referensbilden appliceras.</string>
+    <string name="model_aesfa_style_transfer">En estetisk funktionsmedveten stilöverföringsmodell som fångar lokala penseldrag, texturer, toner och rumsliga egenskaper från referensbilden.</string>
+    <string name="model_vgg19_optimization_style_transfer">En optimeringsbaserad modell för överföring av neural stil som använder VGG19-funktioner och Gram-matriser för att återskapa referensbildens färger, texturer och pensel.</string>
 </resources>

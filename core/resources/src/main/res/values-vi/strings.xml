@@ -4526,4 +4526,19 @@
     <string name="midtones">Midtones</string>
     <string name="vectorscope">phạm vi vectơ</string>
     <string name="waveform">Dạng sóng</string>
+    <string name="displacement">Sự dịch chuyển</string>
+    <string name="horizontal_displacement_map">Bản đồ dịch chuyển ngang</string>
+    <string name="vertical_displacement_map">Bản đồ dịch chuyển dọc</string>
+    <string name="use_separate_vertical_map">Sử dụng bản đồ dọc riêng biệt</string>
+    <string name="displacement_strength_x">Sức mạnh ngang</string>
+    <string name="displacement_strength_y">Sức mạnh dọc</string>
+    <string name="displacement_boundary_transparent">Minh bạch</string>
+    <string name="type_style_transfer">Chuyển phong cách</string>
+    <string name="style_image">Hình ảnh phong cách</string>
+    <string name="style_image_subtitle">Chọn một tác phẩm nghệ thuật hoặc ảnh có phong cách trực quan sẽ được áp dụng</string>
+    <string name="style_image_not_selected">Chọn một hình ảnh phong cách đầu tiên</string>
+    <string name="model_arbitrary_style_transfer">Chuyển màu sắc, kết cấu và đặc điểm nghệ thuật của hình ảnh tham chiếu trong khi vẫn giữ nguyên bố cục và các chi tiết chính của ảnh gốc.</string>
+    <string name="model_microast_style_transfer">Một mô hình chuyển kiểu tùy ý nhẹ giúp bảo tồn cấu trúc chính trong khi áp dụng các màu sắc và họa tiết rõ rệt từ hình ảnh tham chiếu.</string>
+    <string name="model_aesfa_style_transfer">Một mô hình chuyển giao phong cách nhận biết tính năng thẩm mỹ giúp ghi lại các nét vẽ, kết cấu, tông màu và đặc điểm không gian cục bộ từ hình ảnh tham chiếu.</string>
+    <string name="model_vgg19_optimization_style_transfer">Mô hình chuyển kiểu thần kinh dựa trên tối ưu hóa sử dụng các tính năng VGG19 và ma trận Gram để tái tạo màu sắc, kết cấu và nét vẽ của hình ảnh tham chiếu.</string>
 </resources>

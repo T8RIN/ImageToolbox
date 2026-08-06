@@ -4529,4 +4529,19 @@
     <string name="midtones">Střední tóny</string>
     <string name="vectorscope">Vektorový rozsah</string>
     <string name="waveform">Průběh</string>
+    <string name="displacement">Přemístění</string>
+    <string name="horizontal_displacement_map">Mapa horizontálního posunu</string>
+    <string name="vertical_displacement_map">Mapa vertikálního posunu</string>
+    <string name="use_separate_vertical_map">Použijte samostatnou vertikální mapu</string>
+    <string name="displacement_strength_x">Horizontální pevnost</string>
+    <string name="displacement_strength_y">Vertikální pevnost</string>
+    <string name="displacement_boundary_transparent">Průhledný</string>
+    <string name="type_style_transfer">Přenos stylu</string>
+    <string name="style_image">Obrázek stylu</string>
+    <string name="style_image_subtitle">Vyberte umělecké dílo nebo fotografii, jejíž vizuální styl by měl být použit</string>
+    <string name="style_image_not_selected">Nejprve vyberte obrázek stylu</string>
+    <string name="model_arbitrary_style_transfer">Přenese barvy, textury a umělecké prvky referenčního obrazu při zachování kompozice a klíčových detailů originálu.</string>
+    <string name="model_microast_style_transfer">Lehký model pro přenos libovolného stylu, který zachovává hlavní strukturu při použití výrazných barev a textur z referenčního obrázku.</string>
+    <string name="model_aesfa_style_transfer">Estetický model přenosu stylu s ohledem na funkce, který zachycuje místní tahy štětcem, textury, tóny a prostorové prvky z referenčního obrázku.</string>
+    <string name="model_vgg19_optimization_style_transfer">Model přenosu neurálního stylu založený na optimalizaci, který využívá funkce VGG19 a Gramovy matice k obnovení barev, textur a štětců referenčního obrázku.</string>
 </resources>

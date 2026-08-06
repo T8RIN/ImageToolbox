@@ -4527,4 +4527,19 @@
     <string name="midtones">মিডটোন</string>
     <string name="vectorscope">ভেক্টর সুযোগ</string>
     <string name="waveform">তরঙ্গরূপ</string>
+    <string name="displacement">স্থানচ্যুতি</string>
+    <string name="horizontal_displacement_map">অনুভূমিক স্থানচ্যুতি মানচিত্র</string>
+    <string name="vertical_displacement_map">উল্লম্ব স্থানচ্যুতি মানচিত্র</string>
+    <string name="use_separate_vertical_map">পৃথক উল্লম্ব মানচিত্র ব্যবহার করুন</string>
+    <string name="displacement_strength_x">অনুভূমিক শক্তি</string>
+    <string name="displacement_strength_y">উল্লম্ব শক্তি</string>
+    <string name="displacement_boundary_transparent">স্বচ্ছ</string>
+    <string name="type_style_transfer">শৈলী স্থানান্তর</string>
+    <string name="style_image">শৈলী ইমেজ</string>
+    <string name="style_image_subtitle">একটি আর্টওয়ার্ক বা ফটো চয়ন করুন যার ভিজ্যুয়াল শৈলী প্রয়োগ করা উচিত</string>
+    <string name="style_image_not_selected">প্রথমে একটি শৈলী চিত্র নির্বাচন করুন</string>
+    <string name="model_arbitrary_style_transfer">মূলের রচনা এবং মূল বিবরণ সংরক্ষণ করার সময় একটি রেফারেন্স চিত্রের রঙ, টেক্সচার এবং শৈল্পিক বৈশিষ্ট্য স্থানান্তর করে।</string>
+    <string name="model_microast_style_transfer">একটি লাইটওয়েট স্বেচ্ছাচারী শৈলী স্থানান্তর মডেল যা রেফারেন্স ইমেজ থেকে উচ্চারিত রং এবং টেক্সচার প্রয়োগ করার সময় মূল কাঠামো সংরক্ষণ করে।</string>
+    <string name="model_aesfa_style_transfer">একটি নান্দনিক বৈশিষ্ট্য-সচেতন শৈলী স্থানান্তর মডেল যা রেফারেন্স চিত্র থেকে স্থানীয় ব্রাশস্ট্রোক, টেক্সচার, টোন এবং স্থানিক বৈশিষ্ট্যগুলি ক্যাপচার করে৷</string>
+    <string name="model_vgg19_optimization_style_transfer">একটি অপ্টিমাইজেশান-ভিত্তিক নিউরাল স্টাইল ট্রান্সফার মডেল যা রেফারেন্স ইমেজের রঙ, টেক্সচার এবং ব্রাশওয়ার্ক পুনরায় তৈরি করতে VGG19 বৈশিষ্ট্য এবং গ্রাম ম্যাট্রিক্স ব্যবহার করে।</string>
 </resources>

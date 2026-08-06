@@ -4529,4 +4529,19 @@
     <string name="midtones">Półtony</string>
     <string name="vectorscope">Zakres wektorowy</string>
     <string name="waveform">Przebieg</string>
+    <string name="displacement">Przemieszczenie</string>
+    <string name="horizontal_displacement_map">Mapa przemieszczeń poziomych</string>
+    <string name="vertical_displacement_map">Mapa przemieszczeń pionowych</string>
+    <string name="use_separate_vertical_map">Użyj osobnej mapy pionowej</string>
+    <string name="displacement_strength_x">Siła pozioma</string>
+    <string name="displacement_strength_y">Siła pionowa</string>
+    <string name="displacement_boundary_transparent">Przezroczysty</string>
+    <string name="type_style_transfer">Transfer stylu</string>
+    <string name="style_image">Stylowy obraz</string>
+    <string name="style_image_subtitle">Wybierz grafikę lub zdjęcie, którego styl wizualny ma zostać zastosowany</string>
+    <string name="style_image_not_selected">Najpierw wybierz obraz stylu</string>
+    <string name="model_arbitrary_style_transfer">Przenosi kolory, tekstury i cechy artystyczne obrazu referencyjnego, zachowując jednocześnie kompozycję i kluczowe szczegóły oryginału.</string>
+    <string name="model_microast_style_transfer">Lekki model przeniesienia dowolnego stylu, który zachowuje główną strukturę, stosując wyraźne kolory i tekstury z obrazu referencyjnego.</string>
+    <string name="model_aesfa_style_transfer">Estetyczny model przenoszenia stylu uwzględniający cechy, który przechwytuje lokalne pociągnięcia pędzla, tekstury, tony i cechy przestrzenne z obrazu referencyjnego.</string>
+    <string name="model_vgg19_optimization_style_transfer">Oparty na optymalizacji model transferu stylu neuronowego, który wykorzystuje funkcje VGG19 i macierze Grama do odtworzenia kolorów, tekstur i wyglądu pędzla obrazu referencyjnego.</string>
 </resources>

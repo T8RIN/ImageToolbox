@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -4527,4 +4529,19 @@
     <string name="midtones">Stredné tóny</string>
     <string name="vectorscope">Vektorový rozsah</string>
     <string name="waveform">Tvar vlny</string>
+    <string name="displacement">Výtlak</string>
+    <string name="horizontal_displacement_map">Mapa horizontálneho posunu</string>
+    <string name="vertical_displacement_map">Mapa vertikálneho posunu</string>
+    <string name="use_separate_vertical_map">Použite samostatnú vertikálnu mapu</string>
+    <string name="displacement_strength_x">Horizontálna pevnosť</string>
+    <string name="displacement_strength_y">Vertikálna pevnosť</string>
+    <string name="displacement_boundary_transparent">Transparentné</string>
+    <string name="type_style_transfer">Prenos štýlu</string>
+    <string name="style_image">Štýlový obrázok</string>
+    <string name="style_image_subtitle">Vyberte umelecké dielo alebo fotografiu, ktorej vizuálny štýl sa má použiť</string>
+    <string name="style_image_not_selected">Najprv vyberte obrázok štýlu</string>
+    <string name="model_arbitrary_style_transfer">Prenesie farby, textúry a umelecké prvky referenčného obrázka pri zachovaní kompozície a kľúčových detailov originálu.</string>
+    <string name="model_microast_style_transfer">Ľahký model prenosu ľubovoľného štýlu, ktorý zachováva hlavnú štruktúru a zároveň aplikuje výrazné farby a textúry z referenčného obrázku.</string>
+    <string name="model_aesfa_style_transfer">Estetický model prenosu štýlu, ktorý zachytáva miestne ťahy štetcom, textúry, tóny a priestorové prvky z referenčného obrázku.</string>
+    <string name="model_vgg19_optimization_style_transfer">Model prenosu neurónového štýlu založený na optimalizácii, ktorý využíva funkcie VGG19 a Gramove matice na opätovné vytvorenie farieb, textúr a štetca na referenčnom obrázku.</string>
 </resources>

@@ -4527,4 +4527,19 @@
     <string name="midtones">Keskisävyt</string>
     <string name="vectorscope">Vektorialue</string>
     <string name="waveform">Aaltomuoto</string>
+    <string name="displacement">Siirtyminen</string>
+    <string name="horizontal_displacement_map">Vaakasuuntainen siirtymäkartta</string>
+    <string name="vertical_displacement_map">Pystysuuntainen siirtymäkartta</string>
+    <string name="use_separate_vertical_map">Käytä erillistä pystysuuntaista karttaa</string>
+    <string name="displacement_strength_x">Vaakasuora voima</string>
+    <string name="displacement_strength_y">Pystysuuntainen vahvuus</string>
+    <string name="displacement_boundary_transparent">Läpinäkyvä</string>
+    <string name="type_style_transfer">Tyylin siirto</string>
+    <string name="style_image">Tyylikuva</string>
+    <string name="style_image_subtitle">Valitse taideteos tai valokuva, jonka visuaalista tyyliä tulisi käyttää</string>
+    <string name="style_image_not_selected">Valitse ensin tyylikuva</string>
+    <string name="model_arbitrary_style_transfer">Siirtää vertailukuvan värit, tekstuurit ja taiteelliset ominaisuudet säilyttäen samalla alkuperäisen sommittelun ja keskeiset yksityiskohdat.</string>
+    <string name="model_microast_style_transfer">Kevyt mielivaltaisen tyylin siirtomalli, joka säilyttää päärakenteen soveltaen samalla viitekuvan voimakkaita värejä ja tekstuureja.</string>
+    <string name="model_aesfa_style_transfer">Esteettinen ominaisuustietoinen tyylinsiirtomalli, joka vangitsee paikalliset siveltimen vedot, tekstuurit, sävyt ja tilapiirteet viitekuvasta.</string>
+    <string name="model_vgg19_optimization_style_transfer">Optimointiin perustuva hermotyylin siirtomalli, joka käyttää VGG19-ominaisuuksia ja Gram-matriiseja referenssikuvan värien, tekstuurien ja siveltimen luomiseen.</string>
 </resources>

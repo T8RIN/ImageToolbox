@@ -4537,4 +4537,11 @@
     <string name="model_microast_style_transfer">Лёгкая модель произвольного переноса стиля, сохраняющая основную структуру и применяющая выраженные цвета и текстуры изображения-референса.</string>
     <string name="model_aesfa_style_transfer">Модель переноса стиля с учётом эстетических признаков, передающая локальные мазки, текстуры, тона и пространственные особенности изображения-референса.</string>
     <string name="model_vgg19_optimization_style_transfer">Модель нейронного переноса стиля на основе оптимизации, использующая признаки VGG19 и матрицы Грама для воссоздания цветов, текстур и мазков изображения-референса.</string>
+    <string name="displacement">Смещение</string>
+    <string name="horizontal_displacement_map">Карта горизонтального смещения</string>
+    <string name="vertical_displacement_map">Карта вертикального смещения</string>
+    <string name="use_separate_vertical_map">Использовать отдельную вертикальную карту</string>
+    <string name="displacement_strength_x">Горизонтальная прочность</string>
+    <string name="displacement_strength_y">Вертикальная сила</string>
+    <string name="displacement_boundary_transparent">Прозрачный</string>
 </resources>

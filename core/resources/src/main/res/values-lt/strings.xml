@@ -4529,4 +4529,19 @@
     <string name="midtones">Viduriniai tonai</string>
     <string name="vectorscope">Vektorinė apimtis</string>
     <string name="waveform">Bangos forma</string>
+    <string name="displacement">Poslinkis</string>
+    <string name="horizontal_displacement_map">Horizontalaus poslinkio žemėlapis</string>
+    <string name="vertical_displacement_map">Vertikalaus poslinkio žemėlapis</string>
+    <string name="use_separate_vertical_map">Naudokite atskirą vertikalų žemėlapį</string>
+    <string name="displacement_strength_x">Horizontalus stiprumas</string>
+    <string name="displacement_strength_y">Vertikalus stiprumas</string>
+    <string name="displacement_boundary_transparent">Skaidrus</string>
+    <string name="type_style_transfer">Stiliaus perkėlimas</string>
+    <string name="style_image">Stiliaus vaizdas</string>
+    <string name="style_image_subtitle">Pasirinkite meno kūrinį ar nuotrauką, kurios vizualinis stilius turėtų būti pritaikytas</string>
+    <string name="style_image_not_selected">Pirmiausia pasirinkite stiliaus vaizdą</string>
+    <string name="model_arbitrary_style_transfer">Perkelia pamatinio vaizdo spalvas, tekstūras ir menines ypatybes, išsaugant originalo kompoziciją ir pagrindines detales.</string>
+    <string name="model_microast_style_transfer">Lengvas savavališko stiliaus perkėlimo modelis, išsaugantis pagrindinę struktūrą, pritaikant ryškias spalvas ir tekstūras iš pamatinio vaizdo.</string>
+    <string name="model_aesfa_style_transfer">Estetinių ypatybių stiliaus perkėlimo modelis, fiksuojantis vietinius teptuko potėpius, tekstūras, tonus ir erdvines pamatinio vaizdo ypatybes.</string>
+    <string name="model_vgg19_optimization_style_transfer">Optimizavimu pagrįstas neuroninio stiliaus perdavimo modelis, kuris naudoja VGG19 funkcijas ir Gram matricas, kad atkurtų pamatinio vaizdo spalvas, tekstūras ir teptuku.</string>
 </resources>

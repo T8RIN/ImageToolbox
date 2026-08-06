@@ -4527,4 +4527,19 @@
     <string name="midtones">Mitteltöne</string>
     <string name="vectorscope">Vektorbereich</string>
     <string name="waveform">Wellenform</string>
+    <string name="displacement">Verschiebung</string>
+    <string name="horizontal_displacement_map">Horizontale Verschiebungskarte</string>
+    <string name="vertical_displacement_map">Vertikale Verschiebungskarte</string>
+    <string name="use_separate_vertical_map">Verwenden Sie eine separate vertikale Karte</string>
+    <string name="displacement_strength_x">Horizontale Stärke</string>
+    <string name="displacement_strength_y">Vertikale Stärke</string>
+    <string name="displacement_boundary_transparent">Transparent</string>
+    <string name="type_style_transfer">Stilübertragung</string>
+    <string name="style_image">Stilbild</string>
+    <string name="style_image_subtitle">Wählen Sie ein Kunstwerk oder Foto aus, dessen visueller Stil angewendet werden soll</string>
+    <string name="style_image_not_selected">Wählen Sie zunächst ein Stilbild aus</string>
+    <string name="model_arbitrary_style_transfer">Überträgt die Farben, Texturen und künstlerischen Merkmale eines Referenzbilds und behält dabei die Komposition und wichtige Details des Originals bei.</string>
+    <string name="model_microast_style_transfer">Ein leichtes Transfermodell im beliebigen Stil, das die Hauptstruktur beibehält und gleichzeitig ausgeprägte Farben und Texturen aus dem Referenzbild anwendet.</string>
+    <string name="model_aesfa_style_transfer">Ein ästhetisches, merkmalsbewusstes Stilübertragungsmodell, das lokale Pinselstriche, Texturen, Töne und räumliche Merkmale aus dem Referenzbild erfasst.</string>
+    <string name="model_vgg19_optimization_style_transfer">Ein optimierungsbasiertes Übertragungsmodell im neuronalen Stil, das VGG19-Funktionen und Gram-Matrizen verwendet, um die Farben, Texturen und Pinselführung des Referenzbilds wiederherzustellen.</string>
 </resources>

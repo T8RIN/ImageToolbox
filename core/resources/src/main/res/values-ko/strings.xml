@@ -4526,4 +4526,19 @@
     <string name="midtones">중간톤</string>
     <string name="vectorscope">벡터 범위</string>
     <string name="waveform">파형</string>
+    <string name="displacement">배수량</string>
+    <string name="horizontal_displacement_map">수평 변위 맵</string>
+    <string name="vertical_displacement_map">수직 변위 맵</string>
+    <string name="use_separate_vertical_map">별도의 수직 지도 사용</string>
+    <string name="displacement_strength_x">수평강도</string>
+    <string name="displacement_strength_y">수직 강도</string>
+    <string name="displacement_boundary_transparent">투명한</string>
+    <string name="type_style_transfer">스타일 전송</string>
+    <string name="style_image">스타일 이미지</string>
+    <string name="style_image_subtitle">시각적 스타일을 적용해야 하는 예술작품이나 사진을 선택하세요.</string>
+    <string name="style_image_not_selected">먼저 스타일 이미지를 선택하세요.</string>
+    <string name="model_arbitrary_style_transfer">원본의 구성과 주요 세부 정보를 유지하면서 참조 이미지의 색상, 질감 및 예술적 특징을 전송합니다.</string>
+    <string name="model_microast_style_transfer">참조 이미지의 뚜렷한 색상과 질감을 적용하면서 기본 구조를 유지하는 경량 임의 스타일 전송 모델입니다.</string>
+    <string name="model_aesfa_style_transfer">참조 이미지에서 로컬 브러시 스트로크, 텍스처, 톤 및 공간적 특징을 캡처하는 미적 특징 인식 스타일 전송 모델입니다.</string>
+    <string name="model_vgg19_optimization_style_transfer">VGG19 기능과 그램 행렬을 사용하여 참조 이미지의 색상, 질감 및 브러시 작업을 재현하는 최적화 기반 신경 스타일 전송 모델입니다.</string>
 </resources>

@@ -4529,4 +4529,19 @@
     <string name="midtones">Сярэднія тоны</string>
     <string name="vectorscope">Вектарны прыцэл</string>
     <string name="waveform">Форма сігналу</string>
+    <string name="displacement">Водазмяшчэнне</string>
+    <string name="horizontal_displacement_map">Карта гарызантальнага перамяшчэння</string>
+    <string name="vertical_displacement_map">Карта вертыкальнага перамяшчэння</string>
+    <string name="use_separate_vertical_map">Выкарыстоўвайце асобную вертыкальную карту</string>
+    <string name="displacement_strength_x">Гарызантальная трываласць</string>
+    <string name="displacement_strength_y">Вертыкальная трываласць</string>
+    <string name="displacement_boundary_transparent">Празрысты</string>
+    <string name="type_style_transfer">Перадача стылю</string>
+    <string name="style_image">Стыльны вобраз</string>
+    <string name="style_image_subtitle">Выберыце твор мастацтва або фатаграфію, візуальны стыль якой трэба прымяніць</string>
+    <string name="style_image_not_selected">Спачатку выберыце малюнак у стылі</string>
+    <string name="model_arbitrary_style_transfer">Перадае колеры, тэкстуры і мастацкія асаблівасці эталоннага відарыса, захоўваючы кампазіцыю і ключавыя дэталі арыгінала.</string>
+    <string name="model_microast_style_transfer">Лёгкая мадэль перадачы адвольнага стылю, якая захоўвае асноўную структуру пры ўжыванні ярка выяўленых колераў і тэкстур з эталоннага відарыса.</string>
+    <string name="model_aesfa_style_transfer">Мадэль перадачы стылю з улікам эстэтычных функцый, якая фіксуе лакальныя мазкі, тэкстуры, тоны і прасторавыя асаблівасці з эталоннага відарыса.</string>
+    <string name="model_vgg19_optimization_style_transfer">Мадэль перадачы нейронавага стылю на аснове аптымізацыі, якая выкарыстоўвае функцыі VGG19 і матрыцы Грама для ўзнаўлення колераў, тэкстур і мазкоў эталоннага відарыса.</string>
 </resources>

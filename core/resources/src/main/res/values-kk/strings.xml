@@ -4527,4 +4527,19 @@
     <string name="midtones">Ортаңғы тондар</string>
     <string name="vectorscope">Векторлық ауқым</string>
     <string name="waveform">Толқын пішіні</string>
+    <string name="displacement">Ауыстыру</string>
+    <string name="horizontal_displacement_map">Көлденең орын ауыстыру картасы</string>
+    <string name="vertical_displacement_map">Тік орын ауыстыру картасы</string>
+    <string name="use_separate_vertical_map">Бөлек тік картаны пайдаланыңыз</string>
+    <string name="displacement_strength_x">Көлденең күш</string>
+    <string name="displacement_strength_y">Тік күш</string>
+    <string name="displacement_boundary_transparent">Мөлдір</string>
+    <string name="type_style_transfer">Стильді тасымалдау</string>
+    <string name="style_image">Стильдік кескін</string>
+    <string name="style_image_subtitle">Көрнекі стилі қолданылатын өнер туындысын немесе фотосуретті таңдаңыз</string>
+    <string name="style_image_not_selected">Алдымен стиль кескінін таңдаңыз</string>
+    <string name="model_arbitrary_style_transfer">Түпнұсқаның композициясы мен негізгі бөлшектерін сақтай отырып, анықтамалық кескіннің түстерін, текстурасын және көркемдік ерекшеліктерін тасымалдайды.</string>
+    <string name="model_microast_style_transfer">Анықтамалық кескіннен айқын түстер мен текстураларды қолдану кезінде негізгі құрылымды сақтайтын жеңіл еркін стильді тасымалдау үлгісі.</string>
+    <string name="model_aesfa_style_transfer">Анықтамалық кескіннен жергілікті қылқаламдарды, текстураларды, реңктерді және кеңістіктік мүмкіндіктерді түсіретін эстетикалық мүмкіндікті ескеретін стильді тасымалдау үлгісі.</string>
+    <string name="model_vgg19_optimization_style_transfer">Анықтамалық кескіннің түстерін, текстураларын және қылқалам жұмыстарын қайта жасау үшін VGG19 мүмкіндіктері мен Грам матрицаларын пайдаланатын оңтайландыруға негізделген нейрондық стильді тасымалдау үлгісі.</string>
 </resources>
