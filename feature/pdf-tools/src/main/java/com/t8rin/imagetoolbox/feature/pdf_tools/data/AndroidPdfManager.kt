@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.crop
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.defaultFont
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getAllImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.getPageSafe
+import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.importPageForCopy
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.metadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.orAll
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.pageIndices
@@ -249,9 +250,10 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         usePdf(uri) { document ->
             createPdf { newDoc ->
+                newDoc.document.version = document.version
+
                 pages.orAll(document).forEach { index ->
-                    val sourcePage = document.getPageSafe(index)
-                    newDoc.importPage(sourcePage).resources = sourcePage.resources
+                    newDoc.importPageForCopy(document.getPageSafe(index))
                 }
 
                 newDoc.save(
@@ -269,22 +271,27 @@ internal class AndroidPdfManager @Inject constructor(
         pages: List<Int>
     ): String = catchPdf {
         usePdf(uri) { document ->
-            createPdf { newDoc ->
-                document.pageIndices.forEach { index ->
-                    if (index !in pages) newDoc.addPage(document.getPage(index))
-                }
+            val indicesToRemove = pages
+                .asSequence()
+                .filter { it in 0 until document.numberOfPages }
+                .distinct()
+                .sortedDescending()
+                .toList()
 
-                if (newDoc.numberOfPages <= 0) {
-                    error(getString(R.string.cant_remove_all))
-                }
-
-                newDoc.save(
-                    filename = tempName(
-                        key = "removed",
-                        uri = uri
-                    )
-                )
+            if (indicesToRemove.size >= document.numberOfPages) {
+                error(getString(R.string.cant_remove_all))
             }
+
+            indicesToRemove.forEach { index ->
+                document.removePage(index)
+            }
+
+            document.save(
+                filename = tempName(
+                    key = "removed",
+                    uri = uri
+                )
+            )
         }
     }
 
@@ -313,8 +320,10 @@ internal class AndroidPdfManager @Inject constructor(
     ): String = catchPdf {
         usePdf(uri) { document ->
             createPdf { newDoc ->
+                newDoc.document.version = document.version
+
                 newOrder.forEach { pageIndex ->
-                    newDoc.addPage(document.getPageSafe(pageIndex))
+                    newDoc.importPageForCopy(document.getPageSafe(pageIndex))
                 }
 
                 newDoc.save(
@@ -839,8 +848,10 @@ internal class AndroidPdfManager @Inject constructor(
                         .chunked(interval.coerceAtLeast(1))
                         .forEach { pages ->
                             createPdf { newDoc ->
+                                newDoc.document.version = document.version
+
                                 pages.forEach { pageIndex ->
-                                    newDoc.addPage(document.getPageSafe(pageIndex))
+                                    newDoc.importPageForCopy(document.getPageSafe(pageIndex))
                                 }
 
                                 zip.putEntry(

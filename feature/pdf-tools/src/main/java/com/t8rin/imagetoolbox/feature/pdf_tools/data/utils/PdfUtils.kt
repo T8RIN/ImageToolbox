@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.tom_roush.harmony.awt.AWTColor
+import com.tom_roush.pdfbox.cos.COSName
 import com.tom_roush.pdfbox.io.MemoryUsageSetting
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
@@ -115,6 +116,19 @@ internal fun PDDocument.getPageSafe(index: Int): PDPage = getPage(
         maximumValue = numberOfPages - 1
     )
 )
+
+internal fun PDDocument.importPageForCopy(sourcePage: PDPage): PDPage {
+    val importedPage = importPage(sourcePage)
+
+    if (
+        sourcePage.resources != null &&
+        !sourcePage.cosObject.containsKey(COSName.RESOURCES)
+    ) {
+        importedPage.resources = sourcePage.resources
+    }
+
+    return importedPage
+}
 
 internal val PDDocument.pageIndices: List<Int> get() = List(numberOfPages) { it }
 

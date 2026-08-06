@@ -22,7 +22,13 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
+android {
+    namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
 
 dependencies {
     implementation(libs.androidx.pdfviewer.fragment)
@@ -32,4 +38,7 @@ dependencies {
     implementation(libs.pdfbox)
 
     testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.runner)
 }
