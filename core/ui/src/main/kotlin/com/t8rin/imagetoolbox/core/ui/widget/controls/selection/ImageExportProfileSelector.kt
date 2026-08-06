@@ -130,7 +130,6 @@ fun ImageExportProfileSelector(
         )
 
         if (matchesPreferredProfile && !preferredProfileConfirmed) {
-            delay(PROFILE_CONFIRMATION_TIME)
             preferredProfileConfirmed = true
         } else if (!matchesPreferredProfile && preferredProfileConfirmed) {
             delay(PROFILE_MISMATCH_TIME)
@@ -222,16 +221,23 @@ fun ImageExportProfileSelector(
                                 modifier = Modifier.padding(8.dp)
                             )
                         },
+                        shape = ShapeDefaults.extraLarge,
                         expandableContent = {
                             Column(
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                                 modifier = Modifier
-                                    .padding(horizontal = 8.dp)
+                                    .padding(horizontal = 10.dp)
                                     .padding(bottom = 2.dp)
                                     .container(
-                                        resultPadding = 12.dp,
+                                        resultPadding = 0.dp,
                                         shape = ShapeDefaults.large,
                                         color = MaterialTheme.colorScheme.surface
+                                    )
+                                    .padding(
+                                        top = 8.dp,
+                                        end = 12.dp,
+                                        start = 12.dp,
+                                        bottom = 12.dp
                                     )
                             ) {
                                 builtInProfiles.groupBy { it.platform }
@@ -378,5 +384,4 @@ private val BuiltInImageExportProfile.Platform.icon: ImageVector
         BuiltInImageExportProfile.Platform.Twitch -> Icons.Rounded.Twitch
     }
 
-private const val PROFILE_CONFIRMATION_TIME = 750L
 private const val PROFILE_MISMATCH_TIME = 150L
