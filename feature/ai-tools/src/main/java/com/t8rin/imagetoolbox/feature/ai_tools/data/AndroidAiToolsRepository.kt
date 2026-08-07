@@ -55,8 +55,9 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
+import com.t8rin.neural_tools.inpaint.LaMaProcessor
 import com.t8rin.neural_tools.inpaint.WatermarkRemoverProcessor
-import com.t8rin.neural_tools.outpaint.MiganOutpaintProcessor
+import com.t8rin.neural_tools.outpaint.LamaOutpaintProcessor
 import com.t8rin.neural_tools.scans.UvDocUnwarper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -118,7 +119,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
         merge(
             modelsDir.observeHasChanges().debounce(100),
             updateFlow,
-            WatermarkRemoverProcessor.isDownloaded
+            WatermarkRemoverProcessor.isDownloaded,
+            LaMaProcessor.isDownloaded
         ).map {
             fetchDownloadedModels { files ->
                 occupiedStorageSize.update { files.sumOf { it.length() } }
@@ -152,7 +154,29 @@ internal class AndroidAiToolsRepository @Inject constructor(
     ): Flow<DownloadProgress> = channelFlow {
         ensureActive()
 
-        if (model.isWatermarkRemover) {
+        if (model.isOutpaint) {
+            LaMaProcessor.startDownload()
+                .onStart {
+                    trySend(
+                        DownloadProgress(
+                            currentPercent = 0f,
+                            currentTotalSize = model.downloadSize
+                        )
+                    )
+                }
+                .onCompletion { error ->
+                    if (error == null) selectModelForced(model)
+                    close(error)
+                }
+                .collect {
+                    trySend(
+                        DownloadProgress(
+                            currentPercent = it.currentPercent,
+                            currentTotalSize = it.currentTotalSize
+                        )
+                    )
+                }
+        } else if (model.isWatermarkRemover) {
             WatermarkRemoverProcessor.startDownload()
                 .onStart {
                     trySend(
@@ -222,17 +246,8 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 onProgress = ::trySend,
                 destinationPath = model.file.absolutePath,
                 onFinish = {
-                    val failure = if (it == null && model.isOutpaint) {
-                        val actualChecksum = HashingType.SHA_256.computeFromReadable(
-                            FileReadable(model.file)
-                        )
-                        if (actualChecksum != model.checksum) {
-                            model.file.delete()
-                            IllegalStateException("MI-GAN model checksum mismatch")
-                        } else null
-                    } else it
-                    if (failure == null) selectModelForced(model)
-                    close(failure)
+                    if (it == null) selectModelForced(model)
+                    close(it)
                 }
             )
         }
@@ -388,16 +403,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
             model.isOutpaint -> {
                 processImage {
                     val progressListener = listener.withNotificationProgress()
-                    val ortSession = session.makeLog("Held session")
-                        ?: createSession(model).makeLog("New session")
-                        ?: return@withContext null.also {
-                            listener.onError(getString(R.string.failed_to_open_session))
-                        }
                     keepAliveService.track(
                         onFailure = { listener.onError(it.extractMessage()) },
                         action = {
-                            MiganOutpaintProcessor.process(
-                                session = ortSession,
+                            LamaOutpaintProcessor.process(
                                 source = image,
                                 targetWidth = image.width + params.outpaintLeft + params.outpaintRight,
                                 targetHeight = image.height + params.outpaintTop + params.outpaintBottom,
@@ -467,6 +476,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
     override suspend fun deleteModel(model: NeuralModel) = withContext(ioDispatcher) {
         when {
+            model.isOutpaint -> LaMaProcessor.deleteDownloadedModel()
             model.isWatermarkRemover -> WatermarkRemoverProcessor.deleteDownloadedModels()
             model.isOptimizationStyleTransfer -> {
                 optimizationStyleTransferProcessor.deleteModels(model)
@@ -485,6 +495,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     override fun cleanup() {
         BgRemover.closeAll()
         WatermarkRemoverProcessor.close()
+        LaMaProcessor.close()
         styleTransferProcessor.close()
         optimizationStyleTransferProcessor.close()
         closeSession()
@@ -588,17 +599,30 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 checksum = HashingType.SHA_256.computeFromReadable(FileReadable(it))
             )
         }.let { files ->
-            val withWatermark = if (WatermarkRemoverProcessor.isDownloaded.value) {
-                val watermarkModel = NeuralModel.entries.find { it.isWatermarkRemover }
+            val withOutpaint = if (LaMaProcessor.isDownloaded.value) {
+                val outpaintModel = NeuralModel.entries.find { it.isOutpaint }
                     ?: return@let files
 
-                if (files.none { it.name == watermarkModel.name }) {
-                    files + watermarkModel
+                if (files.none { it.name == outpaintModel.name }) {
+                    files + outpaintModel
                 } else {
                     files
                 }
             } else {
-                files.filter { !it.isWatermarkRemover }
+                files.filter { !it.isOutpaint }
+            }
+
+            val withWatermark = if (WatermarkRemoverProcessor.isDownloaded.value) {
+                val watermarkModel = NeuralModel.entries.find { it.isWatermarkRemover }
+                    ?: return@let withOutpaint
+
+                if (withOutpaint.none { it.name == watermarkModel.name }) {
+                    withOutpaint + watermarkModel
+                } else {
+                    withOutpaint
+                }
+            } else {
+                withOutpaint.filter { !it.isWatermarkRemover }
             }
 
             NeuralModel.entries.filter { it.isStyleTransfer }.fold(withWatermark) { models, model ->

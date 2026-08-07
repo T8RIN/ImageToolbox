@@ -97,6 +97,17 @@ object LaMaProcessor : NeuralTool() {
         check(_isDownloaded.value)
     }.flowOn(Dispatchers.IO)
 
+    fun deleteDownloadedModel() {
+        close()
+        modelFile.delete()
+        _isDownloaded.update { false }
+    }
+
+    fun close() {
+        sessionHolder?.close()
+        sessionHolder = null
+    }
+
     fun inpaint(
         image: Bitmap,
         mask: Bitmap
