@@ -183,9 +183,10 @@ internal class AndroidPdfManager @Inject constructor(
                 captionGap + maxCaptionLines * lineHeight
             } else 0f
             val imageHeight = (cellHeight - captionHeight).coerceAtLeast(1f)
+            val imageScale = 300f / 72f
             val decodeSize = IntegerSize(
-                width = (cellWidth * 2f).roundToInt().coerceIn(64, 2048),
-                height = (imageHeight * 2f).roundToInt().coerceIn(64, 2048)
+                width = (cellWidth * imageScale).roundToInt().coerceIn(64, 4096),
+                height = (imageHeight * imageScale).roundToInt().coerceIn(64, 4096)
             )
 
             imageUris.chunked(columns * rows).forEachIndexed { pageIndex, pageUris ->
