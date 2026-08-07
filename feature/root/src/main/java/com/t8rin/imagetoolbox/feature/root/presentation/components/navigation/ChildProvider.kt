@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponen
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
@@ -75,8 +76,10 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rearrange.screenLog
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_annotations.screenLogic.RemoveAnnotationsPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.resize_pages.screenLogic.ResizePdfPagesToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.sanitize.screenLogic.SanitizePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.SplitPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
@@ -98,6 +101,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorLibrary
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Compare
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComparePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CropPdfTool
@@ -149,8 +153,10 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RemovePagesPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RepairPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ResizeAndConvert
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ResizePdfPagesTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RootPdfTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RotatePdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SanitizePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ShaderStudio
@@ -246,6 +252,9 @@ internal class ChildProvider @Inject constructor(
     private val aiToolsComponentFactory: AiToolsComponent.Factory,
     private val colorLibraryComponentFactory: ColorLibraryComponent.Factory,
     private val mergePdfToolComponentFactory: MergePdfToolComponent.Factory,
+    private val comparePdfToolComponentFactory: ComparePdfToolComponent.Factory,
+    private val resizePdfPagesToolComponentFactory: ResizePdfPagesToolComponent.Factory,
+    private val sanitizePdfToolComponentFactory: SanitizePdfToolComponent.Factory,
     private val splitPdfToolComponentFactory: SplitPdfToolComponent.Factory,
     private val rotatePdfToolComponentFactory: RotatePdfToolComponent.Factory,
     private val rearrangePdfToolComponentFactory: RearrangePdfToolComponent.Factory,
@@ -973,6 +982,33 @@ internal class ChildProvider @Inject constructor(
         is Screen.PdfTools.PdfContactSheet -> PdfContactSheetTool(
             pdfContactSheetToolComponentFactory(
                 initialUris = config.uris,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ComparePdf -> ComparePdfTool(
+            comparePdfToolComponentFactory(
+                initialUris = config.uris,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ResizePdfPages -> ResizePdfPagesTool(
+            resizePdfPagesToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.SanitizePdf -> SanitizePdfTool(
+            sanitizePdfToolComponentFactory(
+                initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::replaceTo

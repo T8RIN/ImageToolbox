@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">ข้อความที่กำหนดเอง</string>
     <string name="caption_custom_text_hint">ข้อความที่ปรากฏในทุกภาพ ตัวแบ่งบรรทัดจะถูกเก็บรักษาไว้</string>
     <string name="search_keywords_pdf_contact_sheet">pdf แผ่นติดต่อ รูปภาพ ตาราง ภาพขนาดย่อ คำอธิบายภาพ</string>
+    <string name="compare_pdf">เปรียบเทียบ PDF</string>
+    <string name="compare_pdf_sub">เน้นความแตกต่างทางสายตาระหว่างไฟล์ PDF สองไฟล์</string>
+    <string name="compare_pdf_info">พื้นที่ที่เปลี่ยนแปลงจะถูกเน้นด้วยสีที่เลือกในรายงาน PDF ที่ส่งออก</string>
+    <string name="first_pdf">PDF แรก</string>
+    <string name="second_pdf">PDF ที่สอง</string>
+    <string name="resize_pdf_pages">ปรับขนาดหน้า PDF</string>
+    <string name="resize_pdf_pages_sub">ปรับขนาดทุกหน้าตามขนาดกระดาษที่เลือก</string>
+    <string name="sanitize_pdf">ฆ่าเชื้อ PDF</string>
+    <string name="sanitize_pdf_sub">ลบข้อมูลเอกสารส่วนตัวและข้อมูลที่อาจใช้งานอยู่</string>
+    <string name="pdf_forms">แบบฟอร์ม</string>
+    <string name="pdf_attachments">ไฟล์แนบแบบฝัง</string>
+    <string name="pdf_scripts">สคริปต์และการดำเนินการอัตโนมัติ</string>
 </resources>

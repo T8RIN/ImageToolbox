@@ -4626,4 +4626,16 @@
     <string name="caption_custom_text">نص مخصص</string>
     <string name="caption_custom_text_hint">النص الموضح على كل صورة؛ يتم الحفاظ على فواصل الأسطر</string>
     <string name="search_keywords_pdf_contact_sheet">pdf ورقة اتصال صورة شبكة الصور المصغرة التسميات التوضيحية</string>
+    <string name="compare_pdf">قارن قوات الدفاع الشعبي</string>
+    <string name="compare_pdf_sub">قم بتمييز الاختلافات المرئية بين ملفي PDF</string>
+    <string name="compare_pdf_info">يتم تمييز المناطق التي تم تغييرها باللون المحدد في تقرير PDF المُصدر</string>
+    <string name="first_pdf">قوات الدفاع الشعبي الأولى</string>
+    <string name="second_pdf">قوات الدفاع الشعبي الثانية</string>
+    <string name="resize_pdf_pages">تغيير حجم صفحات PDF</string>
+    <string name="resize_pdf_pages_sub">قم بقياس كل صفحة إلى حجم الورق المحدد</string>
+    <string name="sanitize_pdf">تعقيم قوات الدفاع الشعبي</string>
+    <string name="sanitize_pdf_sub">قم بإزالة بيانات المستندات الخاصة والتي يحتمل أن تكون نشطة</string>
+    <string name="pdf_forms">النماذج</string>
+    <string name="pdf_attachments">المرفقات المضمنة</string>
+    <string name="pdf_scripts">البرامج النصية والإجراءات التلقائية</string>
 </resources>

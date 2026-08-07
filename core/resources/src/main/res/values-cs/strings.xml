@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">Vlastní text</string>
     <string name="caption_custom_text_hint">Text zobrazený na každém obrázku; zalomení řádků je zachováno</string>
     <string name="search_keywords_pdf_contact_sheet">pdf kontaktní list obrázku s titulky miniatury</string>
+    <string name="compare_pdf">Porovnejte PDF</string>
+    <string name="compare_pdf_sub">Zvýrazněte vizuální rozdíly mezi dvěma soubory PDF</string>
+    <string name="compare_pdf_info">Změněné oblasti jsou v exportované zprávě PDF zvýrazněny vybranou barvou</string>
+    <string name="first_pdf">První PDF</string>
+    <string name="second_pdf">Druhé PDF</string>
+    <string name="resize_pdf_pages">Změna velikosti stránek PDF</string>
+    <string name="resize_pdf_pages_sub" />
+    <string name="sanitize_pdf">Dezinfikovat PDF</string>
+    <string name="sanitize_pdf_sub">Odstraňte soukromá a potenciálně aktivní data dokumentu</string>
+    <string name="pdf_forms">Formuláře</string>
+    <string name="pdf_attachments">Vložené přílohy</string>
+    <string name="pdf_scripts" />
 </resources>

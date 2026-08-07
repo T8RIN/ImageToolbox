@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Benutzerdefinierter Text</string>
     <string name="caption_custom_text_hint">Auf jedem Bild angezeigter Text; Zeilenumbrüche bleiben erhalten</string>
     <string name="search_keywords_pdf_contact_sheet">PDF-Kontaktabzug, Bildraster, Miniaturansichten, Bildunterschriften</string>
+    <string name="compare_pdf">PDF vergleichen</string>
+    <string name="compare_pdf_sub">Markieren Sie visuelle Unterschiede zwischen zwei PDF-Dateien</string>
+    <string name="compare_pdf_info">Geänderte Bereiche werden im exportierten PDF-Bericht mit der ausgewählten Farbe hervorgehoben</string>
+    <string name="first_pdf">Erstes PDF</string>
+    <string name="second_pdf">Zweites PDF</string>
+    <string name="resize_pdf_pages">Ändern Sie die Größe von PDF-Seiten</string>
+    <string name="resize_pdf_pages_sub">Skalieren Sie jede Seite auf ein ausgewähltes Papierformat</string>
+    <string name="sanitize_pdf">PDF bereinigen</string>
+    <string name="sanitize_pdf_sub">Entfernen Sie private und potenziell aktive Dokumentdaten</string>
+    <string name="pdf_forms">Formulare</string>
+    <string name="pdf_attachments">Eingebettete Anhänge</string>
+    <string name="pdf_scripts">Skripte und automatische Aktionen</string>
 </resources>

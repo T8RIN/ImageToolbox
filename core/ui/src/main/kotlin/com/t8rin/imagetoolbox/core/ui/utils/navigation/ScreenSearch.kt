@@ -204,6 +204,9 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is PdfTools.Preview -> R.string.search_keywords_pdf_preview
     is PdfTools.ImagesToPdf -> R.string.search_keywords_pdf_images_to_pdf
     is PdfTools.PdfContactSheet -> R.string.search_keywords_pdf_contact_sheet
+    is PdfTools.ComparePdf -> R.string.compare_pdf_sub
+    is PdfTools.ResizePdfPages -> R.string.resize_pdf_pages_sub
+    is PdfTools.SanitizePdf -> R.string.sanitize_pdf_sub
     is PdfTools.ExtractPages -> R.string.search_keywords_pdf_extract_pages
     is PdfTools.RemoveAnnotations -> R.string.search_keywords_pdf_remove_annotations
     is EasterEgg,

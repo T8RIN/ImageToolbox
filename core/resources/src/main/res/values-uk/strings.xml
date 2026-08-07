@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">Спеціальний текст</string>
     <string name="caption_custom_text_hint">Текст на кожному зображенні; розриви рядків зберігаються</string>
     <string name="search_keywords_pdf_contact_sheet">pdf контактний аркуш зображення сітка мініатюри підписи</string>
+    <string name="compare_pdf">Порівняти PDF</string>
+    <string name="compare_pdf_sub">Виділіть візуальні відмінності між двома файлами PDF</string>
+    <string name="compare_pdf_info">Змінені області виділяються вибраним кольором в експортованому PDF-звіті</string>
+    <string name="first_pdf">Перший PDF</string>
+    <string name="second_pdf">Другий PDF</string>
+    <string name="resize_pdf_pages">Змінити розмір сторінок PDF</string>
+    <string name="resize_pdf_pages_sub">Масштабуйте кожну сторінку до вибраного розміру паперу</string>
+    <string name="sanitize_pdf">Очистити PDF</string>
+    <string name="sanitize_pdf_sub">Видаліть особисті та потенційно активні дані документа</string>
+    <string name="pdf_forms">Форми</string>
+    <string name="pdf_attachments">Вбудовані вкладення</string>
+    <string name="pdf_scripts">Скрипти та автоматичні дії</string>
 </resources>

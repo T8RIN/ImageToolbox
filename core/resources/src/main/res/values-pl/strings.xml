@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">Tekst niestandardowy</string>
     <string name="caption_custom_text_hint">Tekst wyświetlany na każdym obrazie; podziały wierszy są zachowywane</string>
     <string name="search_keywords_pdf_contact_sheet">pdf stykówka obraz siatka miniatur podpisy</string>
+    <string name="compare_pdf">Porównaj PDF</string>
+    <string name="compare_pdf_sub">Podkreśl różnice wizualne między dwoma plikami PDF</string>
+    <string name="compare_pdf_info">Zmienione obszary są podświetlane wybranym kolorem w wyeksportowanym raporcie PDF</string>
+    <string name="first_pdf">Pierwszy PDF</string>
+    <string name="second_pdf">Drugi PDF</string>
+    <string name="resize_pdf_pages">Zmień rozmiar stron PDF</string>
+    <string name="resize_pdf_pages_sub">Skaluj każdą stronę do wybranego rozmiaru papieru</string>
+    <string name="sanitize_pdf">Oczyść plik PDF</string>
+    <string name="sanitize_pdf_sub">Usuń prywatne i potencjalnie aktywne dane dokumentu</string>
+    <string name="pdf_forms">Formularze</string>
+    <string name="pdf_attachments">Wbudowane załączniki</string>
+    <string name="pdf_scripts">Skrypty i akcje automatyczne</string>
 </resources>

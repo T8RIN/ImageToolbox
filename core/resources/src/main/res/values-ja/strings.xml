@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">カスタムテキスト</string>
     <string name="caption_custom_text_hint">すべての画像にテキストが表示されます。改行は保持されます</string>
     <string name="search_keywords_pdf_contact_sheet">PDF コンタクト シート 画像グリッド サムネイル キャプション</string>
+    <string name="compare_pdf">PDF を比較</string>
+    <string name="compare_pdf_sub">2 つの PDF ファイル間の視覚的な違いを強調表示する</string>
+    <string name="compare_pdf_info">エクスポートされた PDF レポートでは、変更された領域が選択した色で強調表示されます。</string>
+    <string name="first_pdf">最初の PDF</string>
+    <string name="second_pdf">2 番目の PDF</string>
+    <string name="resize_pdf_pages">PDF ページのサイズを変更する</string>
+    <string name="resize_pdf_pages_sub">すべてのページを選択した用紙サイズに合わせて拡大縮小します</string>
+    <string name="sanitize_pdf">PDFをサニタイズする</string>
+    <string name="sanitize_pdf_sub">プライベートなドキュメント データと潜在的にアクティブなドキュメント データを削除する</string>
+    <string name="pdf_forms">フォーム</string>
+    <string name="pdf_attachments">埋め込み添付ファイル</string>
+    <string name="pdf_scripts">スクリプトと自動アクション</string>
 </resources>

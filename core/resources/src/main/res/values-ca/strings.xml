@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Text personalitzat</string>
     <string name="caption_custom_text_hint">Text que es mostra a cada imatge; Es conserven els salts de línia</string>
     <string name="search_keywords_pdf_contact_sheet">pdf full de contacte imatges quadrícula miniatures subtítols</string>
+    <string name="compare_pdf">Comparar PDF</string>
+    <string name="compare_pdf_sub">Ressalteu les diferències visuals entre dos fitxers PDF</string>
+    <string name="compare_pdf_info">Les àrees canviades es ressalten amb el color seleccionat a l\'informe PDF exportat</string>
+    <string name="first_pdf">Primer PDF</string>
+    <string name="second_pdf">Segon PDF</string>
+    <string name="resize_pdf_pages">Canviar la mida de les pàgines PDF</string>
+    <string name="resize_pdf_pages_sub">Escala cada pàgina a la mida de paper seleccionada</string>
+    <string name="sanitize_pdf">Desinfectar PDF</string>
+    <string name="sanitize_pdf_sub">Elimineu les dades de documents privades i potencialment actives</string>
+    <string name="pdf_forms">Formes</string>
+    <string name="pdf_attachments">Fitxers adjunts incrustats</string>
+    <string name="pdf_scripts">Scripts i accions automàtiques</string>
 </resources>

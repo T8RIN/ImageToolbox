@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Texto personalizado</string>
     <string name="caption_custom_text_hint">Texto que se muestra en cada imagen; los saltos de línea se conservan</string>
     <string name="search_keywords_pdf_contact_sheet">pdf hoja de contacto imagen cuadrícula miniaturas subtítulos</string>
+    <string name="compare_pdf">Comparar PDF</string>
+    <string name="compare_pdf_sub">Resalte las diferencias visuales entre dos archivos PDF</string>
+    <string name="compare_pdf_info">Las áreas modificadas se resaltan con el color seleccionado en el informe PDF exportado.</string>
+    <string name="first_pdf">Primer PDF</string>
+    <string name="second_pdf">Segundo PDF</string>
+    <string name="resize_pdf_pages">Cambiar el tamaño de las páginas PDF</string>
+    <string name="resize_pdf_pages_sub">Escale cada página a un tamaño de papel seleccionado</string>
+    <string name="sanitize_pdf">Desinfectar PDF</string>
+    <string name="sanitize_pdf_sub">Eliminar datos de documentos privados y potencialmente activos</string>
+    <string name="pdf_forms">Formularios</string>
+    <string name="pdf_attachments">Archivos adjuntos integrados</string>
+    <string name="pdf_scripts">Scripts y acciones automáticas</string>
 </resources>

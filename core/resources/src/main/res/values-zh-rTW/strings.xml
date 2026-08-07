@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">自訂文字</string>
     <string name="caption_custom_text_hint">每張圖像上顯示的文字；換行符被保留</string>
     <string name="search_keywords_pdf_contact_sheet">pdf 聯絡表 圖像網格 縮圖 標題</string>
+    <string name="compare_pdf">比較 PDF</string>
+    <string name="compare_pdf_sub">突出顯示兩個 PDF 文件之間的視覺差異</string>
+    <string name="compare_pdf_info">更改的區域在匯出的 PDF 報告中以所選顏色突出顯示</string>
+    <string name="first_pdf">第一個 PDF</string>
+    <string name="second_pdf">第二個 PDF</string>
+    <string name="resize_pdf_pages">調整 PDF 頁面大小</string>
+    <string name="resize_pdf_pages_sub">將每個頁面縮放到選定的紙張尺寸</string>
+    <string name="sanitize_pdf">清理 PDF</string>
+    <string name="sanitize_pdf_sub">刪除私有和潛在活動的文檔數據</string>
+    <string name="pdf_forms">表格</string>
+    <string name="pdf_attachments">嵌入式附件</string>
+    <string name="pdf_scripts">腳本和自動操作</string>
 </resources>

@@ -62,6 +62,12 @@ class RootPdfToolsComponent @AssistedInject internal constructor(
                 is Screen.PdfTools.PdfContactSheet -> screen.copy(
                     uris = tempSelectionUri?.let(::listOf)
                 )
+                is Screen.PdfTools.ComparePdf -> screen.copy(
+                    uris = tempSelectionUri?.let(::listOf)
+                )
+
+                is Screen.PdfTools.ResizePdfPages -> screen.copy(uri = tempSelectionUri)
+                is Screen.PdfTools.SanitizePdf -> screen.copy(uri = tempSelectionUri)
                 else -> screen
             }
         )

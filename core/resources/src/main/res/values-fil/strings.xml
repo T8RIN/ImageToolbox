@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Custom na text</string>
     <string name="caption_custom_text_hint">Tekstong ipinapakita sa bawat larawan; ang mga line break ay napanatili</string>
     <string name="search_keywords_pdf_contact_sheet">pdf mga caption ng mga thumbnail ng grid ng larawan ng contact sheet</string>
+    <string name="compare_pdf">Ihambing ang PDF</string>
+    <string name="compare_pdf_sub">I-highlight ang mga visual na pagkakaiba sa pagitan ng dalawang PDF file</string>
+    <string name="compare_pdf_info">Ang mga nabagong lugar ay naka-highlight sa napiling kulay sa na-export na ulat na PDF</string>
+    <string name="first_pdf">Unang PDF</string>
+    <string name="second_pdf">Pangalawang PDF</string>
+    <string name="resize_pdf_pages">Baguhin ang laki ng Mga Pahina ng PDF</string>
+    <string name="resize_pdf_pages_sub">I-scale ang bawat pahina sa napiling laki ng papel</string>
+    <string name="sanitize_pdf">I-sanitize ang PDF</string>
+    <string name="sanitize_pdf_sub">Alisin ang pribado at potensyal na aktibong data ng dokumento</string>
+    <string name="pdf_forms">Mga porma</string>
+    <string name="pdf_attachments">Mga naka-embed na attachment</string>
+    <string name="pdf_scripts">Mga script at awtomatikong pagkilos</string>
 </resources>

@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">అనుకూల వచనం</string>
     <string name="caption_custom_text_hint">ప్రతి చిత్రంపై వచనం చూపబడింది; లైన్ బ్రేక్‌లు భద్రపరచబడ్డాయి</string>
     <string name="search_keywords_pdf_contact_sheet">pdf కాంటాక్ట్ షీట్ ఇమేజ్ గ్రిడ్ సూక్ష్మచిత్రాల శీర్షికలు</string>
+    <string name="compare_pdf">PDFని సరిపోల్చండి</string>
+    <string name="compare_pdf_sub">రెండు PDF ఫైల్‌ల మధ్య దృశ్యమాన తేడాలను హైలైట్ చేయండి</string>
+    <string name="compare_pdf_info">ఎగుమతి చేసిన PDF నివేదికలో ఎంచుకున్న రంగుతో మార్చబడిన ప్రాంతాలు హైలైట్ చేయబడతాయి</string>
+    <string name="first_pdf">మొదటి PDF</string>
+    <string name="second_pdf">రెండవ PDF</string>
+    <string name="resize_pdf_pages">PDF పేజీల పరిమాణాన్ని మార్చండి</string>
+    <string name="resize_pdf_pages_sub">ఎంచుకున్న కాగితం పరిమాణానికి ప్రతి పేజీని స్కేల్ చేయండి</string>
+    <string name="sanitize_pdf">PDFని శానిటైజ్ చేయండి</string>
+    <string name="sanitize_pdf_sub">ప్రైవేట్ మరియు సంభావ్య యాక్టివ్ డాక్యుమెంట్ డేటాను తీసివేయండి</string>
+    <string name="pdf_forms">ఫారమ్‌లు</string>
+    <string name="pdf_attachments">పొందుపరిచిన జోడింపులు</string>
+    <string name="pdf_scripts">స్క్రిప్ట్‌లు మరియు ఆటోమేటిక్ చర్యలు</string>
 </resources>

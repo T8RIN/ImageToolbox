@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">Pasirinktinis tekstas</string>
     <string name="caption_custom_text_hint">Tekstas rodomas kiekviename paveikslėlyje; išsaugomi eilučių lūžiai</string>
     <string name="search_keywords_pdf_contact_sheet">pdf kontaktinio lapo vaizdo tinklelio miniatiūrų antraštės</string>
+    <string name="compare_pdf">Palyginti PDF</string>
+    <string name="compare_pdf_sub">Pabrėžkite dviejų PDF failų vaizdinius skirtumus</string>
+    <string name="compare_pdf_info">Eksportuotoje PDF ataskaitoje pakeistos sritys yra paryškintos pasirinkta spalva</string>
+    <string name="first_pdf">Pirmasis PDF</string>
+    <string name="second_pdf">Antrasis PDF</string>
+    <string name="resize_pdf_pages">Pakeiskite PDF puslapių dydį</string>
+    <string name="resize_pdf_pages_sub">Kiekvieną puslapį pakeiskite iki pasirinkto popieriaus dydžio</string>
+    <string name="sanitize_pdf">Išvalyti PDF</string>
+    <string name="sanitize_pdf_sub">Pašalinkite privačius ir potencialiai aktyvius dokumento duomenis</string>
+    <string name="pdf_forms">Formos</string>
+    <string name="pdf_attachments">Įterpti priedai</string>
+    <string name="pdf_scripts">Scenarijai ir automatiniai veiksmai</string>
 </resources>

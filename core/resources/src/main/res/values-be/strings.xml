@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">Карыстацкі тэкст</string>
     <string name="caption_custom_text_hint">Тэкст, паказаны на кожнай выяве; разрывы радкоў захаваны</string>
     <string name="search_keywords_pdf_contact_sheet">pdf кантактны аркуш выява сеткі мініяцюры подпісы</string>
+    <string name="compare_pdf">Параўнаць pdf</string>
+    <string name="compare_pdf_sub">Вылучыце візуальныя адрозненні паміж двума файламі PDF</string>
+    <string name="compare_pdf_info">У экспартаванай справаздачы PDF змененыя вобласці вылучаюцца абраным колерам</string>
+    <string name="first_pdf">Першы pdf</string>
+    <string name="second_pdf">Другі pdf</string>
+    <string name="resize_pdf_pages">Змяніць памер старонак PDF</string>
+    <string name="resize_pdf_pages_sub">Маштабуйце кожную старонку да выбранага памеру паперы</string>
+    <string name="sanitize_pdf">Ачысціць pdf</string>
+    <string name="sanitize_pdf_sub">Выдаліце ​​прыватныя і патэнцыйна актыўныя даныя дакументаў</string>
+    <string name="pdf_forms">Формы</string>
+    <string name="pdf_attachments">Убудаваныя ўкладанні</string>
+    <string name="pdf_scripts">Скрыпты і аўтаматычныя дзеянні</string>
 </resources>

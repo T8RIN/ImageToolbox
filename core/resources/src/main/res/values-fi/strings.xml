@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Mukautettu teksti</string>
     <string name="caption_custom_text_hint">Jokaisessa kuvassa näkyvä teksti; rivinvaihdot säilyvät</string>
     <string name="search_keywords_pdf_contact_sheet">pdf-yhteystietosivun kuvaruudukon pikkukuvien kuvatekstit</string>
+    <string name="compare_pdf">Vertaa PDF</string>
+    <string name="compare_pdf_sub">Korosta visuaalisia eroja kahden PDF-tiedoston välillä</string>
+    <string name="compare_pdf_info">Muutetut alueet korostetaan valitulla värillä viedyssä PDF-raportissa</string>
+    <string name="first_pdf">Ensimmäinen PDF</string>
+    <string name="second_pdf">Toinen PDF</string>
+    <string name="resize_pdf_pages">Muuta PDF-sivujen kokoa</string>
+    <string name="resize_pdf_pages_sub">Skaalaa jokainen sivu valittuun paperikokoon</string>
+    <string name="sanitize_pdf">Puhdista PDF</string>
+    <string name="sanitize_pdf_sub">Poista yksityiset ja mahdollisesti aktiiviset asiakirjatiedot</string>
+    <string name="pdf_forms">Lomakkeet</string>
+    <string name="pdf_attachments">Upotetut liitteet</string>
+    <string name="pdf_scripts">Skriptit ja automaattiset toiminnot</string>
 </resources>

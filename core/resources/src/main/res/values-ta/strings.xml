@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">விருப்ப உரை</string>
     <string name="caption_custom_text_hint">ஒவ்வொரு படத்திலும் காட்டப்படும் உரை; வரி முறிவுகள் பாதுகாக்கப்படுகின்றன</string>
     <string name="search_keywords_pdf_contact_sheet">pdf தொடர்பு தாள் பட கட்ட சிறு உருவங்கள் தலைப்புகள்</string>
+    <string name="compare_pdf">PDF ஐ ஒப்பிடுக</string>
+    <string name="compare_pdf_sub">இரண்டு PDF கோப்புகளுக்கு இடையிலான காட்சி வேறுபாடுகளை முன்னிலைப்படுத்தவும்</string>
+    <string name="compare_pdf_info">ஏற்றுமதி செய்யப்பட்ட PDF அறிக்கையில் தேர்ந்தெடுக்கப்பட்ட வண்ணத்துடன் மாற்றப்பட்ட பகுதிகள் முன்னிலைப்படுத்தப்படுகின்றன</string>
+    <string name="first_pdf">முதல் PDF</string>
+    <string name="second_pdf">இரண்டாவது PDF</string>
+    <string name="resize_pdf_pages">PDF பக்கங்களின் அளவை மாற்றவும்</string>
+    <string name="resize_pdf_pages_sub">தேர்ந்தெடுக்கப்பட்ட காகித அளவிற்கு ஒவ்வொரு பக்கத்தையும் அளவிடவும்</string>
+    <string name="sanitize_pdf">PDF ஐ சுத்தப்படுத்தவும்</string>
+    <string name="sanitize_pdf_sub">தனிப்பட்ட மற்றும் செயலில் உள்ள ஆவணத் தரவை அகற்றவும்</string>
+    <string name="pdf_forms">படிவங்கள்</string>
+    <string name="pdf_attachments">உட்பொதிக்கப்பட்ட இணைப்புகள்</string>
+    <string name="pdf_scripts">ஸ்கிரிப்டுகள் மற்றும் தானியங்கி செயல்கள்</string>
 </resources>

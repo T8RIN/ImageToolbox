@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">কাস্টম পাঠ্য</string>
     <string name="caption_custom_text_hint">প্রতিটি ছবিতে দেখানো টেক্সট; লাইন বিরতি সংরক্ষিত হয়</string>
     <string name="search_keywords_pdf_contact_sheet">পিডিএফ যোগাযোগ শীট ইমেজ গ্রিড থাম্বনেল ক্যাপশন</string>
+    <string name="compare_pdf">পিডিএফ তুলনা করুন</string>
+    <string name="compare_pdf_sub">দুটি পিডিএফ ফাইলের মধ্যে ভিজ্যুয়াল পার্থক্য হাইলাইট করুন</string>
+    <string name="compare_pdf_info">রপ্তানি করা PDF রিপোর্টে নির্বাচিত রঙ দিয়ে পরিবর্তিত এলাকাগুলিকে হাইলাইট করা হয়েছে</string>
+    <string name="first_pdf">প্রথম পিডিএফ</string>
+    <string name="second_pdf">দ্বিতীয় পিডিএফ</string>
+    <string name="resize_pdf_pages">পিডিএফ পৃষ্ঠাগুলির আকার পরিবর্তন করুন</string>
+    <string name="resize_pdf_pages_sub">প্রতিটি পৃষ্ঠাকে একটি নির্বাচিত কাগজের আকারে স্কেল করুন</string>
+    <string name="sanitize_pdf">পিডিএফ স্যানিটাইজ করুন</string>
+    <string name="sanitize_pdf_sub">ব্যক্তিগত এবং সম্ভাব্য সক্রিয় নথি ডেটা সরান</string>
+    <string name="pdf_forms">ফর্ম</string>
+    <string name="pdf_attachments">সংযুক্ত সংযুক্তি</string>
+    <string name="pdf_scripts">স্ক্রিপ্ট এবং স্বয়ংক্রিয় কর্ম</string>
 </resources>

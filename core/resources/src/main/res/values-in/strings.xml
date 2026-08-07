@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">Teks khusus</string>
     <string name="caption_custom_text_hint">Teks ditampilkan pada setiap gambar; jeda baris dipertahankan</string>
     <string name="search_keywords_pdf_contact_sheet">keterangan thumbnail kotak gambar lembar kontak pdf</string>
+    <string name="compare_pdf">Bandingkan PDF</string>
+    <string name="compare_pdf_sub">Sorot perbedaan visual antara dua file PDF</string>
+    <string name="compare_pdf_info">Area yang diubah disorot dengan warna yang dipilih dalam laporan PDF yang diekspor</string>
+    <string name="first_pdf">PDF pertama</string>
+    <string name="second_pdf">PDF kedua</string>
+    <string name="resize_pdf_pages">Ubah ukuran Halaman PDF</string>
+    <string name="resize_pdf_pages_sub">Skalakan setiap halaman ke ukuran kertas yang dipilih</string>
+    <string name="sanitize_pdf">Sanitasi PDF</string>
+    <string name="sanitize_pdf_sub">Hapus data dokumen pribadi dan yang berpotensi aktif</string>
+    <string name="pdf_forms">Formulir</string>
+    <string name="pdf_attachments">Lampiran yang tertanam</string>
+    <string name="pdf_scripts">Skrip dan tindakan otomatis</string>
 </resources>

@@ -4623,4 +4623,16 @@
     <string name="caption_custom_text">Прилагођени текст</string>
     <string name="caption_custom_text_hint">Текст приказан на свакој слици; преломи редова су сачувани</string>
     <string name="search_keywords_pdf_contact_sheet">пдф наслови сличица слике на контактној табли</string>
+    <string name="compare_pdf">Упоредите ПДФ</string>
+    <string name="compare_pdf_sub">Истакните визуелне разлике између две ПДФ датотеке</string>
+    <string name="compare_pdf_info">Промењене области су означене изабраном бојом у извезеном ПДФ извештају</string>
+    <string name="first_pdf">Први ПДФ</string>
+    <string name="second_pdf">Други ПДФ</string>
+    <string name="resize_pdf_pages">Промена величине ПДФ страница</string>
+    <string name="resize_pdf_pages_sub">Скалирајте сваку страницу на изабрану величину папира</string>
+    <string name="sanitize_pdf">Санитизе ПДФ</string>
+    <string name="sanitize_pdf_sub">Уклоните приватне и потенцијално активне податке документа</string>
+    <string name="pdf_forms">Формс</string>
+    <string name="pdf_attachments">Уграђени прилози</string>
+    <string name="pdf_scripts">Скрипте и аутоматске радње</string>
 </resources>

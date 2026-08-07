@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">متن سفارشی</string>
     <string name="caption_custom_text_hint">متن نشان داده شده در هر تصویر؛ شکست خط حفظ می شود</string>
     <string name="search_keywords_pdf_contact_sheet">زیرنویس‌های ریز عکس‌های شبکه تصویر صفحه تماس pdf</string>
+    <string name="compare_pdf">PDF را مقایسه کنید</string>
+    <string name="compare_pdf_sub">تفاوت های بصری بین دو فایل PDF را برجسته کنید</string>
+    <string name="compare_pdf_info">مناطق تغییر یافته با رنگ انتخاب شده در گزارش PDF صادر شده برجسته می شوند</string>
+    <string name="first_pdf">پی دی اف اول</string>
+    <string name="second_pdf">پی دی اف دوم</string>
+    <string name="resize_pdf_pages">تغییر اندازه صفحات PDF</string>
+    <string name="resize_pdf_pages_sub">هر صفحه را به اندازه کاغذ انتخابی تغییر دهید</string>
+    <string name="sanitize_pdf">PDF را ضد عفونی کنید</string>
+    <string name="sanitize_pdf_sub">اطلاعات اسناد خصوصی و بالقوه فعال را حذف کنید</string>
+    <string name="pdf_forms">فرم ها</string>
+    <string name="pdf_attachments">پیوست های تعبیه شده</string>
+    <string name="pdf_scripts">اسکریپت ها و اقدامات خودکار</string>
 </resources>

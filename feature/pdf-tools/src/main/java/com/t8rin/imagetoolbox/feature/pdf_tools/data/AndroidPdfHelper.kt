@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color.WHITE
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
@@ -58,6 +59,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCheckResult
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
+import com.t8rin.opencv_tools.image_comparison.ImageDiffTool
+import com.t8rin.opencv_tools.image_comparison.model.ComparisonType
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
@@ -80,11 +83,16 @@ import javax.inject.Inject
 import kotlin.io.deleteRecursively
 import kotlin.io.outputStream
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import kotlin.random.Random
 import kotlin.use
 import android.graphics.Matrix as AndroidMatrix
 import android.graphics.pdf.PdfRenderer as AndroidPdfRenderer
+
+private const val MAX_RENDERED_PDF_PAGE_DIMENSION = 4096
+private const val MAX_RENDERED_PDF_PAGE_PIXELS = 12_000_000
 
 internal class AndroidPdfHelper @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -270,17 +278,30 @@ internal class AndroidPdfHelper @Inject constructor(
         pageIndex: Int,
         scale: Float
     ): Bitmap = openPage(pageIndex).use { page ->
+        val pageWidth = page.width.coerceAtLeast(1)
+        val pageHeight = page.height.coerceAtLeast(1)
+        val dimensionScale = minOf(
+            MAX_RENDERED_PDF_PAGE_DIMENSION / pageWidth.toFloat(),
+            MAX_RENDERED_PDF_PAGE_DIMENSION / pageHeight.toFloat()
+        )
+        val pixelScale = sqrt(
+            MAX_RENDERED_PDF_PAGE_PIXELS.toDouble() /
+                    (pageWidth.toDouble() * pageHeight.toDouble())
+        ).toFloat()
+        val safeScale = minOf(scale, dimensionScale, pixelScale).coerceAtLeast(0.01f)
+
         createBitmap(
-            (page.width * scale).toInt().coerceAtLeast(1),
-            (page.height * scale).toInt().coerceAtLeast(1)
+            (pageWidth * safeScale).toInt().coerceAtLeast(1),
+            (pageHeight * safeScale).toInt().coerceAtLeast(1)
         ).apply {
             eraseColor(WHITE)
             page.render(
                 this,
                 null,
-                AndroidMatrix().apply { setScale(scale, scale) },
+                AndroidMatrix().apply { setScale(safeScale, safeScale) },
                 AndroidPdfRenderer.Page.RENDER_MODE_FOR_DISPLAY
             )
+            setHasAlpha(false)
         }
     }
 
@@ -487,5 +508,34 @@ internal class AndroidPdfHelper @Inject constructor(
         }
         return ""
     }
+
+    internal fun createPdfDifferenceBitmap(
+        first: Bitmap?,
+        second: Bitmap?,
+        highlightColor: Int,
+        comparisonType: ComparisonType
+    ): Bitmap {
+        val sourceWidth = max(first?.width ?: 1, second?.width ?: 1)
+        val sourceHeight = max(first?.height ?: 1, second?.height ?: 1)
+        val scale = min(1f, 1600f / max(sourceWidth, sourceHeight))
+        val width = (sourceWidth * scale).roundToInt().coerceAtLeast(1)
+        val height = (sourceHeight * scale).roundToInt().coerceAtLeast(1)
+        val firstPage = first?.scale(width, height) ?: createBitmap(width, height).apply {
+            eraseColor(WHITE)
+        }
+        val secondPage = second?.scale(width, height) ?: createBitmap(width, height).apply {
+            eraseColor(WHITE)
+        }
+
+        return ImageDiffTool.highlightDifferences(
+            input = firstPage,
+            other = secondPage,
+            comparisonType = comparisonType,
+            highlightColor = highlightColor
+        ).highlightedBitmap.apply {
+            setHasAlpha(false)
+        }
+    }
+
 
 }

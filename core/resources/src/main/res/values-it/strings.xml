@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Testo personalizzato</string>
     <string name="caption_custom_text_hint">Testo mostrato su ogni immagine; le interruzioni di riga vengono preservate</string>
     <string name="search_keywords_pdf_contact_sheet">pdf provino griglia di immagini miniature didascalie</string>
+    <string name="compare_pdf">Confronta PDF</string>
+    <string name="compare_pdf_sub">Evidenzia le differenze visive tra due file PDF</string>
+    <string name="compare_pdf_info">Le aree modificate vengono evidenziate con il colore selezionato nel report PDF esportato</string>
+    <string name="first_pdf">Primo PDF</string>
+    <string name="second_pdf">Secondo PDF</string>
+    <string name="resize_pdf_pages">Ridimensiona le pagine PDF</string>
+    <string name="resize_pdf_pages_sub">Ridimensiona ogni pagina in base al formato carta selezionato</string>
+    <string name="sanitize_pdf">Disinfetta PDF</string>
+    <string name="sanitize_pdf_sub">Rimuovi i dati dei documenti privati ​​e potenzialmente attivi</string>
+    <string name="pdf_forms">Forme</string>
+    <string name="pdf_attachments">Allegati incorporati</string>
+    <string name="pdf_scripts">Script e azioni automatiche</string>
 </resources>

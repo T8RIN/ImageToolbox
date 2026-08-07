@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
@@ -25,6 +26,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesPara
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfRemoveAnnotationParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfResizeParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSanitizeParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
@@ -164,6 +167,22 @@ interface PdfManager : PdfHelper {
     suspend fun removeAnnotations(
         uri: String,
         params: PdfRemoveAnnotationParams
+    ): String
+
+    suspend fun comparePdfs(
+        firstUri: String,
+        secondUri: String,
+        params: PdfCompareParams
+    ): String
+
+    suspend fun resizePdfPages(
+        uri: String,
+        params: PdfResizeParams
+    ): String
+
+    suspend fun sanitizePdf(
+        uri: String,
+        params: PdfSanitizeParams
     ): String
 
 }

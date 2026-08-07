@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Brugerdefineret tekst</string>
     <string name="caption_custom_text_hint">Tekst vist på hvert billede; linjeskift bevares</string>
     <string name="search_keywords_pdf_contact_sheet">pdf kontaktark billedgitter thumbnails billedtekster</string>
+    <string name="compare_pdf">Sammenlign PDF</string>
+    <string name="compare_pdf_sub">Fremhæv visuelle forskelle mellem to PDF-filer</string>
+    <string name="compare_pdf_info">Ændrede områder er fremhævet med den valgte farve i den eksporterede PDF-rapport</string>
+    <string name="first_pdf">Første PDF</string>
+    <string name="second_pdf">Anden PDF</string>
+    <string name="resize_pdf_pages">Ændr størrelsen på PDF-sider</string>
+    <string name="resize_pdf_pages_sub">Skaler hver side til en valgt papirstørrelse</string>
+    <string name="sanitize_pdf">Rengør PDF</string>
+    <string name="sanitize_pdf_sub">Fjern private og potentielt aktive dokumentdata</string>
+    <string name="pdf_forms">Formularer</string>
+    <string name="pdf_attachments">Indlejrede vedhæftede filer</string>
+    <string name="pdf_scripts">Scripts og automatiske handlinger</string>
 </resources>

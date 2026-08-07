@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Арнаулы мәтін</string>
     <string name="caption_custom_text_hint">Әрбір суретте көрсетілген мәтін; жол үзілімдері сақталады</string>
     <string name="search_keywords_pdf_contact_sheet">pdf контакт парағы кескін торының нобайларының тақырыптары</string>
+    <string name="compare_pdf">PDF салыстырыңыз</string>
+    <string name="compare_pdf_sub">Екі PDF файлы арасындағы көрнекі айырмашылықтарды бөлектеңіз</string>
+    <string name="compare_pdf_info">Өзгертілген аумақтар экспортталған PDF есебінде таңдалған түспен бөлектеледі</string>
+    <string name="first_pdf">Бірінші PDF</string>
+    <string name="second_pdf">Екінші PDF</string>
+    <string name="resize_pdf_pages">PDF беттерінің өлшемін өзгерту</string>
+    <string name="resize_pdf_pages_sub">Әрбір бетті таңдалған қағаз өлшеміне масштабтаңыз</string>
+    <string name="sanitize_pdf">PDF файлын зарарсыздандыру</string>
+    <string name="sanitize_pdf_sub">Жеке және ықтимал белсенді құжат деректерін жойыңыз</string>
+    <string name="pdf_forms">Пішіндер</string>
+    <string name="pdf_attachments">Енгізілген тіркемелер</string>
+    <string name="pdf_scripts">Сценарийлер және автоматты әрекеттер</string>
 </resources>

@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Anpassad text</string>
     <string name="caption_custom_text_hint">Text som visas på varje bild; radbrytningar bevaras</string>
     <string name="search_keywords_pdf_contact_sheet">pdf kontaktblad bildrutnät miniatyrer bildtexter</string>
+    <string name="compare_pdf">Jämför PDF</string>
+    <string name="compare_pdf_sub">Markera visuella skillnader mellan två PDF-filer</string>
+    <string name="compare_pdf_info">Ändrade områden markeras med den valda färgen i den exporterade PDF-rapporten</string>
+    <string name="first_pdf">Första PDF</string>
+    <string name="second_pdf">Andra PDF-filen</string>
+    <string name="resize_pdf_pages">Ändra storlek på PDF-sidor</string>
+    <string name="resize_pdf_pages_sub">Skala varje sida till en vald pappersstorlek</string>
+    <string name="sanitize_pdf">Sanera PDF</string>
+    <string name="sanitize_pdf_sub">Ta bort privata och potentiellt aktiva dokumentdata</string>
+    <string name="pdf_forms">Blanketter</string>
+    <string name="pdf_attachments">Inbäddade bilagor</string>
+    <string name="pdf_scripts">Skript och automatiska åtgärder</string>
 </resources>

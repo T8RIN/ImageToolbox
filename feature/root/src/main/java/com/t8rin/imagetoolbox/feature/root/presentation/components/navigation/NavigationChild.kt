@@ -92,6 +92,8 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsC
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.PdfContactSheetToolContent
@@ -130,10 +132,14 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.Remove
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.remove_pages.screenLogic.RemovePagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.RepairPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.repair.screenLogic.RepairPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.resize_pages.ResizePdfPagesToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.resize_pages.screenLogic.ResizePdfPagesToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.RootPdfToolsContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.root.screenLogic.RootPdfToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.RotatePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.rotate.screenLogic.RotatePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.sanitize.SanitizePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.sanitize.screenLogic.SanitizePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.SignaturePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.signature.screenLogic.SignaturePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.SplitPdfToolContent
@@ -487,6 +493,21 @@ internal sealed interface NavigationChild {
     class MergePdfTool(private val component: MergePdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = MergePdfToolContent(component)
+    }
+
+    class ComparePdfTool(private val component: ComparePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ComparePdfToolContent(component)
+    }
+
+    class ResizePdfPagesTool(private val component: ResizePdfPagesToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ResizePdfPagesToolContent(component)
+    }
+
+    class SanitizePdfTool(private val component: SanitizePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = SanitizePdfToolContent(component)
     }
 
     class SplitPdfTool(private val component: SplitPdfToolComponent) : NavigationChild {

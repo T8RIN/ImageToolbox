@@ -343,6 +343,9 @@ sealed class Screen(
                 OCR(),
                 ZipConvert(),
                 PdfContactSheet(),
+                ComparePdf(),
+                ResizePdfPages(),
+                SanitizePdf(),
             )
         }
 
@@ -569,6 +572,33 @@ sealed class Screen(
             id = 73,
             title = R.string.pdf_contact_sheet,
             subtitle = R.string.pdf_contact_sheet_sub
+        )
+
+        @Serializable
+        data class ComparePdf(
+            val uris: List<Uri>? = null
+        ) : Screen(
+            id = 74,
+            title = R.string.compare_pdf,
+            subtitle = R.string.compare_pdf_sub
+        )
+
+        @Serializable
+        data class ResizePdfPages(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 75,
+            title = R.string.resize_pdf_pages,
+            subtitle = R.string.resize_pdf_pages_sub
+        )
+
+        @Serializable
+        data class SanitizePdf(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 76,
+            title = R.string.sanitize_pdf,
+            subtitle = R.string.sanitize_pdf_sub
         )
     }
 

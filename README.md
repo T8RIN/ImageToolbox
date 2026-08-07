@@ -977,6 +977,10 @@ or click one of the badges below.
     - Print PDF
     - PDF to Text (OCR)
     - Remove Annotations
+  - Contact Sheet
+  - Compare
+  - Resize
+  - Sanitize
 - Document Scanning
 - AI tools (100+ ready to use models available)
     - Upscale

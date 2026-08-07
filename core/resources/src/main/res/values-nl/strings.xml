@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Aangepaste tekst</string>
     <string name="caption_custom_text_hint">Tekst getoond op elke afbeelding; regeleinden blijven behouden</string>
     <string name="search_keywords_pdf_contact_sheet">pdf-contactblad afbeeldingsraster miniaturen bijschriften</string>
+    <string name="compare_pdf">Vergelijk pdf</string>
+    <string name="compare_pdf_sub">Markeer visuele verschillen tussen twee PDF-bestanden</string>
+    <string name="compare_pdf_info">Gewijzigde gebieden worden in het geëxporteerde PDF-rapport gemarkeerd met de geselecteerde kleur</string>
+    <string name="first_pdf">Eerste PDF-bestand</string>
+    <string name="second_pdf">Tweede pdf</string>
+    <string name="resize_pdf_pages">Formaat van PDF-pagina\'s wijzigen</string>
+    <string name="resize_pdf_pages_sub">Schaal elke pagina naar een geselecteerd papierformaat</string>
+    <string name="sanitize_pdf">PDF opschonen</string>
+    <string name="sanitize_pdf_sub">Verwijder privé- en mogelijk actieve documentgegevens</string>
+    <string name="pdf_forms">Formulieren</string>
+    <string name="pdf_attachments">Ingesloten bijlagen</string>
+    <string name="pdf_scripts">Scripts en automatische acties</string>
 </resources>

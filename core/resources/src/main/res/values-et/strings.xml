@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Kohandatud tekst</string>
     <string name="caption_custom_text_hint">Igal pildil näidatud tekst; reavahetused säilivad</string>
     <string name="search_keywords_pdf_contact_sheet">pdf-i kontaktlehe pildiruudustiku pisipiltide pealdised</string>
+    <string name="compare_pdf">Võrdle PDF-i</string>
+    <string name="compare_pdf_sub">Tõstke esile visuaalsed erinevused kahe PDF-faili vahel</string>
+    <string name="compare_pdf_info">Muudetud alad tõstetakse eksporditud PDF-aruandes esile valitud värviga</string>
+    <string name="first_pdf">Esimene PDF</string>
+    <string name="second_pdf">Teine PDF</string>
+    <string name="resize_pdf_pages">PDF-lehtede suuruse muutmine</string>
+    <string name="resize_pdf_pages_sub">Skaleerige iga leht valitud paberiformaadile</string>
+    <string name="sanitize_pdf">Puhastage PDF</string>
+    <string name="sanitize_pdf_sub">Eemaldage privaatsed ja potentsiaalselt aktiivsed dokumendiandmed</string>
+    <string name="pdf_forms">Vormid</string>
+    <string name="pdf_attachments">Manustatud manused</string>
+    <string name="pdf_scripts">Skriptid ja automaatsed toimingud</string>
 </resources>

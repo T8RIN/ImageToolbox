@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Egyedi szöveg</string>
     <string name="caption_custom_text_hint">Minden képen látható szöveg; sortörések megmaradnak</string>
     <string name="search_keywords_pdf_contact_sheet">pdf névjegylap kép rács miniatűrök feliratok</string>
+    <string name="compare_pdf">PDF összehasonlítása</string>
+    <string name="compare_pdf_sub">Emelje ki a vizuális különbségeket két PDF-fájl között</string>
+    <string name="compare_pdf_info">A módosított területek a kiválasztott színnel kiemelve lesznek az exportált PDF-jelentésben</string>
+    <string name="first_pdf">Első PDF</string>
+    <string name="second_pdf">Második PDF</string>
+    <string name="resize_pdf_pages">PDF-oldalak átméretezése</string>
+    <string name="resize_pdf_pages_sub">Minden oldal átméretezése a kiválasztott papírméretre</string>
+    <string name="sanitize_pdf">PDF fertőtlenítése</string>
+    <string name="sanitize_pdf_sub">Távolítsa el a privát és potenciálisan aktív dokumentumadatokat</string>
+    <string name="pdf_forms">Űrlapok</string>
+    <string name="pdf_attachments">Beágyazott mellékletek</string>
+    <string name="pdf_scripts">Szkriptek és automatikus műveletek</string>
 </resources>

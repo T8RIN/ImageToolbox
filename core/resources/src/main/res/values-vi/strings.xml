@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">Văn bản tùy chỉnh</string>
     <string name="caption_custom_text_hint">Văn bản hiển thị trên mỗi hình ảnh; ngắt dòng được giữ nguyên</string>
     <string name="search_keywords_pdf_contact_sheet">chú thích lưới hình ảnh thu nhỏ của bảng liên hệ pdf</string>
+    <string name="compare_pdf">So sánh PDF</string>
+    <string name="compare_pdf_sub">Làm nổi bật sự khác biệt trực quan giữa hai tệp PDF</string>
+    <string name="compare_pdf_info">Các khu vực đã thay đổi được đánh dấu bằng màu đã chọn trong báo cáo PDF đã xuất</string>
+    <string name="first_pdf">PDF đầu tiên</string>
+    <string name="second_pdf">PDF thứ hai</string>
+    <string name="resize_pdf_pages">Thay đổi kích thước trang PDF</string>
+    <string name="resize_pdf_pages_sub">Chia tỷ lệ mỗi trang theo khổ giấy đã chọn</string>
+    <string name="sanitize_pdf">Vệ sinh PDF</string>
+    <string name="sanitize_pdf_sub">Xóa dữ liệu tài liệu riêng tư và có khả năng hoạt động</string>
+    <string name="pdf_forms">Biểu mẫu</string>
+    <string name="pdf_attachments">Tệp đính kèm được nhúng</string>
+    <string name="pdf_scripts">Tập lệnh và hành động tự động</string>
 </resources>

@@ -66,20 +66,28 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfAnnotationType
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageResizeMode
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfRemoveAnnotationParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfResizeParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSanitizeParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfSignatureParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfWatermarkParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PrintPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.SearchablePdfPage
+import com.tom_roush.pdfbox.cos.COSDictionary
+import com.tom_roush.pdfbox.cos.COSName
 import com.tom_roush.pdfbox.multipdf.PDFMergerUtility
 import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.PDDocumentInformation
 import com.tom_roush.pdfbox.pdmodel.PDPage
+import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
@@ -103,6 +111,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -1055,7 +1064,10 @@ internal class AndroidPdfManager @Inject constructor(
                                 }
 
                                 val pdImage = renderer
-                                    .safeRenderDpi(pageIndex, dpi)
+                                    .safeRenderDpi(
+                                        pageIndex = pageIndex,
+                                        dpi = (dpi * scale).coerceAtLeast(36f)
+                                    )
                                     .asXObject(
                                         document = newDoc,
                                         quality = params.quality
@@ -1113,6 +1125,166 @@ internal class AndroidPdfManager @Inject constructor(
             document.save(
                 filename = tempName(
                     key = "annotations_removed",
+                    uri = uri
+                )
+            )
+        }
+    }
+
+    override suspend fun comparePdfs(
+        firstUri: String,
+        secondUri: String,
+        params: PdfCompareParams
+    ): String = catchPdf {
+        useAndroidPdfRenderer(firstUri) { firstRenderer ->
+            useAndroidPdfRenderer(secondUri) { secondRenderer ->
+                createPdf { document ->
+                    val pageCount = max(firstRenderer.pageCount, secondRenderer.pageCount)
+
+                    repeat(pageCount) { pageIndex ->
+                        val first = pageIndex.takeIf { it < firstRenderer.pageCount }?.let {
+                            firstRenderer.safeRenderDpi(it, 36f)
+                        }
+                        val second = pageIndex.takeIf { it < secondRenderer.pageCount }?.let {
+                            secondRenderer.safeRenderDpi(it, 36f)
+                        }
+                        val difference = createPdfDifferenceBitmap(
+                            first = first,
+                            second = second,
+                            highlightColor = params.highlightColor,
+                            comparisonType = params.comparisonType
+                        )
+                        val pageSize = PDRectangle(
+                            difference.width.toFloat(),
+                            difference.height.toFloat()
+                        )
+
+                        document.createPage(PDPage(pageSize)) {
+                            drawImage(
+                                difference.asXObject(document, 0.9f),
+                                0f,
+                                0f,
+                                pageSize.width,
+                                pageSize.height
+                            )
+                        }
+                    }
+
+                    document.save(
+                        filename = createTempName(
+                            key = "compared"
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    override suspend fun resizePdfPages(
+        uri: String,
+        params: PdfResizeParams
+    ): String = catchPdf {
+        usePdf(uri) { document ->
+            val targetWidth = params.pageSize.width.toFloat()
+            val targetHeight = params.pageSize.height.toFloat()
+
+            document.pages.forEach { page ->
+                val source = page.cropBox
+                val scaleX = targetWidth / source.width
+                val scaleY = targetHeight / source.height
+                val (contentScaleX, contentScaleY) = when (params.mode) {
+                    PdfPageResizeMode.Fit -> min(scaleX, scaleY).let { it to it }
+                    PdfPageResizeMode.Fill -> max(scaleX, scaleY).let { it to it }
+                    PdfPageResizeMode.Stretch -> scaleX to scaleY
+                }
+                val offsetX = (targetWidth - source.width * contentScaleX) / 2f -
+                        source.lowerLeftX * contentScaleX
+                val offsetY = (targetHeight - source.height * contentScaleY) / 2f -
+                        source.lowerLeftY * contentScaleY
+
+                PDPageContentStream(
+                    document,
+                    page,
+                    PDPageContentStream.AppendMode.PREPEND,
+                    true,
+                    true
+                ).use { stream ->
+                    stream.transform(
+                        Matrix(
+                            contentScaleX,
+                            0f,
+                            0f,
+                            contentScaleY,
+                            offsetX,
+                            offsetY
+                        )
+                    )
+                }
+                page.annotations.forEach { annotation ->
+                    val rectangle = annotation.rectangle
+                    val left = rectangle.lowerLeftX * contentScaleX + offsetX
+                    val bottom = rectangle.lowerLeftY * contentScaleY + offsetY
+                    val right = rectangle.upperRightX * contentScaleX + offsetX
+                    val top = rectangle.upperRightY * contentScaleY + offsetY
+                    annotation.rectangle = PDRectangle(
+                        left,
+                        bottom,
+                        right - left,
+                        top - bottom
+                    )
+                }
+                page.mediaBox = PDRectangle(targetWidth, targetHeight)
+                page.cropBox = PDRectangle(targetWidth, targetHeight)
+            }
+
+            document.save(filename = tempName(key = "resized_pages", uri = uri))
+        }
+    }
+
+    override suspend fun sanitizePdf(
+        uri: String,
+        params: PdfSanitizeParams
+    ): String = catchPdf {
+        usePdf(uri) { document ->
+            val catalog = document.documentCatalog.cosObject
+
+            if (params.metadata) {
+                document.documentInformation = PDDocumentInformation()
+                document.document.trailer.removeItem(COSName.INFO)
+                catalog.removeItem(COSName.METADATA)
+            }
+            if (params.scripts) {
+                catalog.removeItem(COSName.OPEN_ACTION)
+                catalog.removeItem(COSName.AA)
+            }
+            if (params.forms) {
+                catalog.removeItem(COSName.ACRO_FORM)
+            }
+            val names = catalog.getDictionaryObject(COSName.NAMES) as? COSDictionary
+            if (params.attachments) {
+                names?.removeItem(COSName.getPDFName("EmbeddedFiles"))
+            }
+            if (params.scripts) {
+                names?.removeItem(COSName.getPDFName("JavaScript"))
+            }
+
+            document.pages.forEach { page ->
+                page.annotations = when {
+                    params.annotations -> emptyList()
+                    params.forms || params.attachments -> page.annotations.filterNot { annotation ->
+                        params.forms && annotation is PDAnnotationWidget ||
+                                params.attachments && annotation is PDAnnotationFileAttachment
+                    }
+
+                    else -> page.annotations
+                }
+                if (params.metadata) page.cosObject.removeItem(COSName.METADATA)
+                if (params.scripts) page.cosObject.removeItem(COSName.AA)
+            }
+
+            document.save(
+                filename = tempName(
+                    key = "sanitized",
                     uri = uri
                 )
             )

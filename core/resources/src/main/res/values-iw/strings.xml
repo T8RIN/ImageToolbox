@@ -4624,4 +4624,16 @@
     <string name="caption_custom_text">טקסט מותאם אישית</string>
     <string name="caption_custom_text_hint">טקסט המוצג על כל תמונה; מעברי שורות נשמרים</string>
     <string name="search_keywords_pdf_contact_sheet">כתוביות תמונות ממוזערות של גיליון איש קשר ב-pdf</string>
+    <string name="compare_pdf">השווה PDF</string>
+    <string name="compare_pdf_sub">הדגש הבדלים חזותיים בין שני קובצי PDF</string>
+    <string name="compare_pdf_info">אזורים שהשתנו מודגשים בצבע שנבחר בדוח ה-PDF המיוצא</string>
+    <string name="first_pdf">PDF ראשון</string>
+    <string name="second_pdf">PDF שני</string>
+    <string name="resize_pdf_pages">שנה גודל של דפי PDF</string>
+    <string name="resize_pdf_pages_sub">שנה כל עמוד לגודל נייר נבחר</string>
+    <string name="sanitize_pdf">חיטוי PDF</string>
+    <string name="sanitize_pdf_sub">הסר נתוני מסמכים פרטיים ועלולים להיות פעילים</string>
+    <string name="pdf_forms">טפסים</string>
+    <string name="pdf_attachments">קבצים מצורפים משובצים</string>
+    <string name="pdf_scripts">סקריפטים ופעולות אוטומטיות</string>
 </resources>

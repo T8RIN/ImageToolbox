@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">自定义文本</string>
     <string name="caption_custom_text_hint">每张图像上显示的文字；换行符被保留</string>
     <string name="search_keywords_pdf_contact_sheet">pdf 联系表 图像网格 缩略图 标题</string>
+    <string name="compare_pdf">比较 PDF</string>
+    <string name="compare_pdf_sub">突出显示两个 PDF 文件之间的视觉差异</string>
+    <string name="compare_pdf_info">更改的区域在导出的 PDF 报告中以所选颜色突出显示</string>
+    <string name="first_pdf">第一个 PDF</string>
+    <string name="second_pdf">第二个 PDF</string>
+    <string name="resize_pdf_pages">调整 PDF 页面大小</string>
+    <string name="resize_pdf_pages_sub">将每个页面缩放到选定的纸张尺寸</string>
+    <string name="sanitize_pdf">清理 PDF</string>
+    <string name="sanitize_pdf_sub">删除私有和潜在活动的文档数据</string>
+    <string name="pdf_forms">表格</string>
+    <string name="pdf_attachments">嵌入式附件</string>
+    <string name="pdf_scripts">脚本和自动操作</string>
 </resources>

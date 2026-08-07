@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.GifBox
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
+import com.t8rin.imagetoolbox.core.resources.icons.HouseholdSupplies
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -252,6 +253,9 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Preview -> "PdfTools_Preview"
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
     is PdfTools.PdfContactSheet -> "PdfTools_PdfContactSheet"
+    is PdfTools.ComparePdf -> "PdfTools_Compare"
+    is PdfTools.ResizePdfPages -> "PdfTools_ResizePages"
+    is PdfTools.SanitizePdf -> "PdfTools_Sanitize"
     is PdfTools.ExtractPages -> "PdfTools_ExtractPages"
     is PdfTools.RemoveAnnotations -> "PdfTools_RemoveAnnotations"
 }
@@ -339,6 +343,9 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Preview -> Icons.Outlined.Preview
     is PdfTools.ImagesToPdf -> Icons.Outlined.Scanner
     is PdfTools.PdfContactSheet -> Icons.Outlined.GridOn
+    is PdfTools.ComparePdf -> Icons.Outlined.Compare
+    is PdfTools.ResizePdfPages -> Icons.Outlined.ImageResize
+    is PdfTools.SanitizePdf -> Icons.Outlined.HouseholdSupplies
     is PdfTools.ExtractPages -> Icons.Outlined.ArtTrack
     is PdfTools.RemoveAnnotations -> Icons.Outlined.BubbleDelete
 }
@@ -426,6 +433,9 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Preview -> Icons.TwoTone.Preview
     is PdfTools.ImagesToPdf -> Icons.TwoTone.Scanner
     is PdfTools.PdfContactSheet -> Icons.TwoTone.GridOn
+    is PdfTools.ComparePdf -> Icons.TwoTone.Compare
+    is PdfTools.ResizePdfPages -> Icons.TwoTone.ImageResize
+    is PdfTools.SanitizePdf -> Icons.TwoTone.HouseholdSupplies
     is PdfTools.ExtractPages -> Icons.TwoTone.ArtTrack
     is PdfTools.RemoveAnnotations -> Icons.TwoTone.BubbleDelete
 }

@@ -4623,4 +4623,16 @@
     <string name="caption_custom_text">Text personalizat</string>
     <string name="caption_custom_text_hint">Text afișat pe fiecare imagine; rupturile de linie sunt păstrate</string>
     <string name="search_keywords_pdf_contact_sheet">pdf foaie de contact imagine grilă miniaturi subtitrări</string>
+    <string name="compare_pdf">Comparați PDF</string>
+    <string name="compare_pdf_sub">Evidențiați diferențele vizuale dintre două fișiere PDF</string>
+    <string name="compare_pdf_info">Zonele modificate sunt evidențiate cu culoarea selectată în raportul PDF exportat</string>
+    <string name="first_pdf">Primul PDF</string>
+    <string name="second_pdf">Al doilea PDF</string>
+    <string name="resize_pdf_pages">Redimensionați paginile PDF</string>
+    <string name="resize_pdf_pages_sub">Scalați fiecare pagină la dimensiunea de hârtie selectată</string>
+    <string name="sanitize_pdf">Dezinfectează PDF</string>
+    <string name="sanitize_pdf_sub">Eliminați datele private și potențial active ale documentului</string>
+    <string name="pdf_forms">Forme</string>
+    <string name="pdf_attachments">Atașamente încorporate</string>
+    <string name="pdf_scripts">Scripturi și acțiuni automate</string>
 </resources>

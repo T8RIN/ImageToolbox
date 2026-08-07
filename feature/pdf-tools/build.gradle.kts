@@ -31,6 +31,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.lib.opencvTools)
     implementation(libs.androidx.pdfviewer.fragment)
     implementation(libs.androidx.fragment.compose)
     implementation(libs.trickle)

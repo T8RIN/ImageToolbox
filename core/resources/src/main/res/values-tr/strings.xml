@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">Özel metin</string>
     <string name="caption_custom_text_hint">Her resimde gösterilen metin; satır sonları korunur</string>
     <string name="search_keywords_pdf_contact_sheet">pdf iletişim sayfası görüntü ızgarası küçük resimler başlıklar</string>
+    <string name="compare_pdf">PDF\'yi karşılaştır</string>
+    <string name="compare_pdf_sub">İki PDF dosyası arasındaki görsel farklılıkları vurgulayın</string>
+    <string name="compare_pdf_info">Dışa aktarılan PDF raporunda değiştirilen alanlar seçilen renkle vurgulanır</string>
+    <string name="first_pdf">İlk PDF</string>
+    <string name="second_pdf">İkinci PDF</string>
+    <string name="resize_pdf_pages">PDF Sayfalarını Yeniden Boyutlandır</string>
+    <string name="resize_pdf_pages_sub">Her sayfayı seçilen kağıt boyutuna göre ölçeklendirin</string>
+    <string name="sanitize_pdf">PDF\'yi sterilize edin</string>
+    <string name="sanitize_pdf_sub">Özel ve potansiyel olarak etkin belge verilerini kaldırın</string>
+    <string name="pdf_forms">Formlar</string>
+    <string name="pdf_attachments">Gömülü ekler</string>
+    <string name="pdf_scripts">Komut dosyaları ve otomatik eylemler</string>
 </resources>

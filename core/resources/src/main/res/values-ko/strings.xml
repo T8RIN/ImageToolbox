@@ -4621,4 +4621,16 @@
     <string name="caption_custom_text">맞춤 텍스트</string>
     <string name="caption_custom_text_hint">모든 이미지에 텍스트가 표시됩니다. 줄 바꿈이 유지됩니다</string>
     <string name="search_keywords_pdf_contact_sheet">PDF 밀착 인화 이미지 격자선 축소판 캡션</string>
+    <string name="compare_pdf">PDF 비교</string>
+    <string name="compare_pdf_sub">두 PDF 파일 간의 시각적 차이점 강조</string>
+    <string name="compare_pdf_info">변경된 영역은 내보낸 PDF 보고서에서 선택한 색상으로 강조 표시됩니다.</string>
+    <string name="first_pdf">첫 번째 PDF</string>
+    <string name="second_pdf">두 번째 PDF</string>
+    <string name="resize_pdf_pages">PDF 페이지 크기 조정</string>
+    <string name="resize_pdf_pages_sub">모든 페이지를 선택한 용지 크기에 맞게 조정</string>
+    <string name="sanitize_pdf">PDF를 삭제하세요</string>
+    <string name="sanitize_pdf_sub">개인 및 잠재적으로 활성인 문서 데이터 제거</string>
+    <string name="pdf_forms">양식</string>
+    <string name="pdf_attachments">내장된 첨부 파일</string>
+    <string name="pdf_scripts">스크립트 및 자동 작업</string>
 </resources>

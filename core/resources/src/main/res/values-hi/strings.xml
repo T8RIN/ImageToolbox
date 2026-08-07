@@ -4622,4 +4622,16 @@
     <string name="caption_custom_text">कस्टम पाठ</string>
     <string name="caption_custom_text_hint">प्रत्येक छवि पर दिखाया गया पाठ; लाइन ब्रेक संरक्षित हैं</string>
     <string name="search_keywords_pdf_contact_sheet">पीडीएफ संपर्क शीट छवि ग्रिड थंबनेल कैप्शन</string>
+    <string name="compare_pdf">पीडीएफ की तुलना करें</string>
+    <string name="compare_pdf_sub">दो पीडीएफ फाइलों के बीच दृश्य अंतर को उजागर करें</string>
+    <string name="compare_pdf_info">निर्यातित पीडीएफ रिपोर्ट में बदले हुए क्षेत्रों को चयनित रंग से हाइलाइट किया गया है</string>
+    <string name="first_pdf">पहला पीडीएफ</string>
+    <string name="second_pdf">दूसरा पीडीएफ</string>
+    <string name="resize_pdf_pages">पीडीएफ पेजों का आकार बदलें</string>
+    <string name="resize_pdf_pages_sub">प्रत्येक पृष्ठ को चयनित पेपर आकार में स्केल करें</string>
+    <string name="sanitize_pdf">पीडीएफ को स्वच्छ करें</string>
+    <string name="sanitize_pdf_sub">निजी और संभावित रूप से सक्रिय दस्तावेज़ डेटा हटाएँ</string>
+    <string name="pdf_forms">फार्म</string>
+    <string name="pdf_attachments">एंबेडेड अनुलग्नक</string>
+    <string name="pdf_scripts">स्क्रिप्ट और स्वचालित क्रियाएँ</string>
 </resources>
