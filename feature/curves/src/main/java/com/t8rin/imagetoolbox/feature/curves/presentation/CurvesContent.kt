@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -223,7 +224,8 @@ fun CurvesContent(component: CurvesComponent) {
                     containerModifier = Modifier.fillMaxWidth(),
                     layout = ImageCurvesEditorLayout.Separate,
                     showImagePreview = false,
-                    showAsRow = false
+                    showAsRow = false,
+                    backgroundColor = MaterialTheme.colorScheme.surface
                 )
             }
             Spacer(Modifier.height(16.dp))

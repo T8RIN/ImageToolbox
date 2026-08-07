@@ -38,7 +38,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -73,13 +72,7 @@ internal fun ColorWheelsEditor(
     }
 
     Box(
-        modifier = modifier
-            .clip(shape)
-            .background(
-                color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = shape
-            )
-            .padding(8.dp)
+        modifier = modifier.padding(8.dp)
     ) {
         imageContent?.invoke()
         Column(

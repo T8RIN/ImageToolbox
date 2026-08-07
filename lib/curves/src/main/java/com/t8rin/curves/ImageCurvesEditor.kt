@@ -190,7 +190,8 @@ fun ImageCurvesEditor(
     scopeType: ImageCurvesEditorScope? = null,
     showImagePreview: Boolean = true,
     showAsRow: Boolean = false,
-    editorHeight: Dp = 220.dp
+    editorHeight: Dp = 220.dp,
+    backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainer
 ) {
     val context = LocalComponentActivity.current
 
@@ -408,7 +409,8 @@ fun ImageCurvesEditor(
                                 disallowInterceptTouchEvents = disallowInterceptTouchEvents,
                                 histogramAlpha = 0.5f,
                                 showImagePreview = showImagePreview,
-                                editorHeight = editorHeight
+                                editorHeight = editorHeight,
+                                backgroundColor = backgroundColor
                             )
                         }
                     }
@@ -636,7 +638,8 @@ private fun SeparateEditor(
     disallowInterceptTouchEvents: Boolean,
     histogramAlpha: Float,
     showImagePreview: Boolean,
-    editorHeight: Dp
+    editorHeight: Dp,
+    backgroundColor: Color
 ) {
     if (showAsRow) {
         Row(
@@ -671,7 +674,7 @@ private fun SeparateEditor(
                     .weight(1f)
                     .height(editorHeight)
                     .container(
-                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        color = backgroundColor,
                         shape = shape,
                         resultPadding = 0.dp
                     ),
@@ -746,7 +749,7 @@ private fun SeparateEditor(
                     .fillMaxWidth()
                     .height(editorHeight)
                     .container(
-                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        color = backgroundColor,
                         shape = shape,
                         resultPadding = 0.dp
                     ),
