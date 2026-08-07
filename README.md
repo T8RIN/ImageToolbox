@@ -992,6 +992,7 @@ or click one of the badges below.
     - Enhance
     - Anime
     - Scans
+    - Style Transfer
 - Barcodes
     - Scanning
     - Creating & Parsing common types
