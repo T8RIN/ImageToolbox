@@ -254,7 +254,7 @@ fun ImageExportProfileSelector(
                                     .forEach { (platform, items) ->
                                         TitleItem(
                                             icon = platform.icon,
-                                            text = platform.title,
+                                            text = platform.name,
                                             modifier = Modifier.padding(
                                                 horizontal = 4.dp,
                                                 vertical = 8.dp

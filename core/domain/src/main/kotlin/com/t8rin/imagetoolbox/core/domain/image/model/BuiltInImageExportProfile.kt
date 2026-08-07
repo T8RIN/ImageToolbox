@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("SameParameterValue")
+
 package com.t8rin.imagetoolbox.core.domain.image.model
 
 import androidx.annotation.StringRes
@@ -27,24 +29,24 @@ data class BuiltInImageExportProfile(
     val profile: ImageExportProfile
 ) {
 
-    enum class Platform(val title: String) {
-        Web("Web"),
-        Instagram("Instagram"),
-        Facebook("Facebook"),
-        X("X"),
-        YouTube("YouTube"),
-        TikTok("TikTok"),
-        Threads("Threads"),
-        Bluesky("Bluesky"),
-        LinkedIn("LinkedIn"),
-        Pinterest("Pinterest"),
-        VK("VK"),
-        Reddit("Reddit"),
-        Snapchat("Snapchat"),
-        Behance("Behance"),
-        Telegram("Telegram"),
-        Discord("Discord"),
-        Twitch("Twitch")
+    enum class Platform {
+        Web,
+        Instagram,
+        Facebook,
+        X,
+        YouTube,
+        TikTok,
+        Threads,
+        Bluesky,
+        LinkedIn,
+        Pinterest,
+        VK,
+        Reddit,
+        Snapchat,
+        Behance,
+        Telegram,
+        Discord,
+        Twitch
     }
 
     companion object {
