@@ -348,16 +348,59 @@ internal class CvStitchHelper @Inject constructor(
             return null
         }
 
-        val overlaps = images.zipWithNext { previous, next ->
-            findScreenshotOverlap(previous, next)
+        val candidates = listOfNotNull(
+            stitchScreenshots(
+                images = images,
+                transpose = false,
+                safeEndInsetRatio = SCREENSHOT_BOTTOM_SAFE_INSET_RATIO
+            ),
+            stitchScreenshots(
+                images = images,
+                transpose = true,
+                safeEndInsetRatio = 0.0
+            )
+        )
+        images.forEach(Mat::release)
+
+        val best = candidates.maxByOrNull(ScreenshotStitchCandidate::score)
+            ?: return null
+        candidates.filterNot { it === best }.forEach { it.image.release() }
+
+        val result = best.image
+        val output = if (stitchMode.cropToContent) {
+            cropToOpaqueArea(result)
+        } else result
+        return output.toBitmap().also {
+            if (output !== result) output.release()
+            result.release()
+        }
+    }
+
+    private fun stitchScreenshots(
+        images: List<Mat>,
+        transpose: Boolean,
+        safeEndInsetRatio: Double
+    ): ScreenshotStitchCandidate? {
+        val orientedImages = if (transpose) {
+            images.map { image ->
+                Mat().also { transposed -> Core.transpose(image, transposed) }
+            }
+        } else images
+
+        val overlaps = orientedImages.zipWithNext { previous, next ->
+            findScreenshotOverlap(
+                previous = previous,
+                next = next,
+                safeEndInsetRatio = safeEndInsetRatio
+            )
         }
         if (overlaps.any { it == null }) {
-            images.forEach(Mat::release)
+            if (transpose) orientedImages.forEach(Mat::release)
             return null
         }
 
         val segments = mutableListOf<Mat>()
-        images.forEachIndexed { index, image ->
+        orientedImages.forEachIndexed { index, image ->
             val start = if (index == 0) {
                 0
             } else {
@@ -375,27 +418,32 @@ internal class CvStitchHelper @Inject constructor(
         }
         if (segments.size < 2) {
             segments.forEach(Mat::release)
-            images.forEach(Mat::release)
+            if (transpose) orientedImages.forEach(Mat::release)
             return null
         }
 
-        val result = Mat()
-        Core.vconcat(segments, result)
+        val combined = Mat()
+        Core.vconcat(segments, combined)
         segments.forEach(Mat::release)
-        images.forEach(Mat::release)
+        if (transpose) orientedImages.forEach(Mat::release)
 
-        val output = if (stitchMode.cropToContent) {
-            cropToOpaqueArea(result)
-        } else result
-        return output.toBitmap().also {
-            if (output !== result) output.release()
-            result.release()
-        }
+        val result = if (transpose) {
+            Mat().also { restored ->
+                Core.transpose(combined, restored)
+                combined.release()
+            }
+        } else combined
+
+        return ScreenshotStitchCandidate(
+            image = result,
+            score = overlaps.mapNotNull { it?.score }.average()
+        )
     }
 
     private fun findScreenshotOverlap(
         previous: Mat,
-        next: Mat
+        next: Mat,
+        safeEndInsetRatio: Double
     ): ScreenshotOverlap? {
         val previousPrepared = prepareScreenshotForMatching(previous)
         val nextPrepared = prepareScreenshotForMatching(next)
@@ -460,10 +508,12 @@ internal class CvStitchHelper @Inject constructor(
 
             val scaleY = previous.rows().toDouble() / previousPrepared.rows()
             val originalOffset = (best.offset * scaleY).roundToInt()
-            val assemblyFixedBottom = max(
-                fixedBottom,
-                (previousPrepared.rows() * SCREENSHOT_BOTTOM_SAFE_INSET_RATIO).roundToInt()
-            )
+            val assemblyFixedBottom = if (fixedBottom > 0) {
+                max(
+                    fixedBottom,
+                    (previousPrepared.rows() * safeEndInsetRatio).roundToInt()
+                )
+            } else 0
             val originalFixedBottom = (assemblyFixedBottom * scaleY).roundToInt()
             val previousContentEnd = previous.rows() - originalFixedBottom
             val nextOverlapEnd = (previousContentEnd - originalOffset)
@@ -471,7 +521,8 @@ internal class CvStitchHelper @Inject constructor(
 
             return ScreenshotOverlap(
                 previousContentEnd = previousContentEnd,
-                nextOverlapEnd = nextOverlapEnd
+                nextOverlapEnd = nextOverlapEnd,
+                score = overlapScore
             )
         } finally {
             previousPrepared.release()
@@ -1118,7 +1169,13 @@ internal class CvStitchHelper @Inject constructor(
 
     private data class ScreenshotOverlap(
         val previousContentEnd: Int,
-        val nextOverlapEnd: Int
+        val nextOverlapEnd: Int,
+        val score: Double
+    )
+
+    private data class ScreenshotStitchCandidate(
+        val image: Mat,
+        val score: Double
     )
 
     private data class OffsetCandidate(
