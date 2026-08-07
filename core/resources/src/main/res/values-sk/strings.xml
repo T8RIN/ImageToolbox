@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Upscale na vyplnenie plátna</string>
     <string name="upscale_to_fit_canvas_sub">Zväčšite menší obrázok, kým úplne nezakryje orezané plátno</string>
     <string name="export_profile_github_repository_social_preview">Sociálny náhľad úložiska</string>
+    <string name="pdf_contact_sheet">Kontaktný hárok PDF</string>
+    <string name="pdf_contact_sheet_sub">Usporiadajte viacero obrázkov do mriežky na stránkach PDF</string>
+    <string name="image_captions">Popisky obrázkov</string>
+    <string name="image_captions_sub">Vyberte ľubovoľné polia a spojte ich do viacriadkových titulkov</string>
+    <string name="caption_file_name_without_extension">Názov súboru bez prípony</string>
+    <string name="caption_sequence_number">Poradové číslo</string>
+    <string name="caption_image_dimensions">Rozmery obrázka</string>
+    <string name="caption_date_taken">Dátum zhotovenia</string>
+    <string name="caption_camera_model">Model fotoaparátu</string>
+    <string name="caption_lens">Objektív</string>
+    <string name="caption_exposure_settings">Nastavenia expozície</string>
+    <string name="caption_parent_folder">Nadradený priečinok</string>
+    <string name="caption_custom_text">Vlastný text</string>
+    <string name="caption_custom_text_hint">Text zobrazený na každom obrázku; zalomenia riadkov sú zachované</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf kontaktný hárok s miniatúrami obrázkov mriežky titulky</string>
 </resources>

@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Hochskaliert, um die Leinwand zu füllen</string>
     <string name="upscale_to_fit_canvas_sub">Vergrößern Sie ein kleineres Bild, bis es die Zuschneidefläche vollständig bedeckt</string>
     <string name="export_profile_github_repository_social_preview">Repository-Social-Preview</string>
+    <string name="pdf_contact_sheet">PDF-Kontaktformular</string>
+    <string name="pdf_contact_sheet_sub">Ordnen Sie mehrere Bilder in einem Raster auf PDF-Seiten an</string>
+    <string name="image_captions">Bildunterschriften</string>
+    <string name="image_captions_sub">Wählen Sie beliebige Felder aus, um sie zu mehrzeiligen Beschriftungen zusammenzufassen</string>
+    <string name="caption_file_name_without_extension">Dateiname ohne Erweiterung</string>
+    <string name="caption_sequence_number">Sequenznummer</string>
+    <string name="caption_image_dimensions">Bildabmessungen</string>
+    <string name="caption_date_taken">Aufnahmedatum</string>
+    <string name="caption_camera_model">Kameramodell</string>
+    <string name="caption_lens">Linse</string>
+    <string name="caption_exposure_settings">Belichtungseinstellungen</string>
+    <string name="caption_parent_folder">Übergeordneter Ordner</string>
+    <string name="caption_custom_text">Benutzerdefinierter Text</string>
+    <string name="caption_custom_text_hint">Auf jedem Bild angezeigter Text; Zeilenumbrüche bleiben erhalten</string>
+    <string name="search_keywords_pdf_contact_sheet">PDF-Kontaktabzug, Bildraster, Miniaturansichten, Bildunterschriften</string>
 </resources>

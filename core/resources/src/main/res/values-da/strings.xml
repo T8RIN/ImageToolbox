@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Opskalere til at fylde lærred</string>
     <string name="upscale_to_fit_canvas_sub">Forstør et mindre billede, indtil det helt dækker beskæringslærredet</string>
     <string name="export_profile_github_repository_social_preview">Repository social preview</string>
+    <string name="pdf_contact_sheet">PDF kontaktark</string>
+    <string name="pdf_contact_sheet_sub">Arranger flere billeder i et gitter på tværs af PDF-sider</string>
+    <string name="image_captions">Billedtekster</string>
+    <string name="image_captions_sub">Vælg et hvilket som helst felt for at kombinere dem til billedtekster med flere linjer</string>
+    <string name="caption_file_name_without_extension">Filnavn uden filtypenavn</string>
+    <string name="caption_sequence_number">Sekvensnummer</string>
+    <string name="caption_image_dimensions">Billeddimensioner</string>
+    <string name="caption_date_taken">Dato taget</string>
+    <string name="caption_camera_model">Kamera model</string>
+    <string name="caption_lens">Linse</string>
+    <string name="caption_exposure_settings">Eksponeringsindstillinger</string>
+    <string name="caption_parent_folder">Forældremappe</string>
+    <string name="caption_custom_text">Brugerdefineret tekst</string>
+    <string name="caption_custom_text_hint">Tekst vist på hvert billede; linjeskift bevares</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf kontaktark billedgitter thumbnails billedtekster</string>
 </resources>

@@ -94,6 +94,8 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsCon
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.PdfContactSheetToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.CropPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.ExtractImagesPdfToolContent
@@ -591,6 +593,12 @@ internal sealed interface NavigationChild {
     class ImagesToPdfTool(private val component: ImagesToPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = ImagesToPdfToolContent(component)
+    }
+
+    class PdfContactSheetTool(private val component: PdfContactSheetToolComponent) :
+        NavigationChild {
+        @Composable
+        override fun Content() = PdfContactSheetToolContent(component)
     }
 
     class ExtractPagesPdfTool(private val component: ExtractPagesPdfToolComponent) :

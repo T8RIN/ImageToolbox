@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Ekskluzywny, aby wypełnić płótno</string>
     <string name="upscale_to_fit_canvas_sub">Powiększ mniejszy obraz, aż całkowicie zakryje obszar kadrowania</string>
     <string name="export_profile_github_repository_social_preview">Podgląd społecznościowy repozytorium</string>
+    <string name="pdf_contact_sheet">Arkusz kontaktowy w formacie PDF</string>
+    <string name="pdf_contact_sheet_sub">Ułóż wiele obrazów w siatce na stronach PDF</string>
+    <string name="image_captions">Podpisy obrazów</string>
+    <string name="image_captions_sub">Wybierz dowolne pola, aby połączyć je w wielowierszowe podpisy</string>
+    <string name="caption_file_name_without_extension">Nazwa pliku bez rozszerzenia</string>
+    <string name="caption_sequence_number">Numer sekwencyjny</string>
+    <string name="caption_image_dimensions">Wymiary obrazu</string>
+    <string name="caption_date_taken">Data podjęcia</string>
+    <string name="caption_camera_model">Model aparatu</string>
+    <string name="caption_lens">Obiektyw</string>
+    <string name="caption_exposure_settings">Ustawienia ekspozycji</string>
+    <string name="caption_parent_folder">Folder nadrzędny</string>
+    <string name="caption_custom_text">Tekst niestandardowy</string>
+    <string name="caption_custom_text_hint">Tekst wyświetlany na każdym obrazie; podziały wierszy są zachowywane</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf stykówka obraz siatka miniatur podpisy</string>
 </resources>

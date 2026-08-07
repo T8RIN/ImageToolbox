@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Di lusso per riempire la tela</string>
     <string name="upscale_to_fit_canvas_sub">Ingrandisci un\'immagine più piccola fino a coprire completamente la tela di ritaglio</string>
     <string name="export_profile_github_repository_social_preview">Anteprima sociale del repository</string>
+    <string name="pdf_contact_sheet">PDF Foglio di contatto</string>
+    <string name="pdf_contact_sheet_sub">Disporre più immagini in una griglia su pagine PDF</string>
+    <string name="image_captions">Didascalie delle immagini</string>
+    <string name="image_captions_sub">Seleziona i campi per combinarli in didascalie su più righe</string>
+    <string name="caption_file_name_without_extension">Nome del file senza estensione</string>
+    <string name="caption_sequence_number">Numero di sequenza</string>
+    <string name="caption_image_dimensions">Dimensioni dell\'immagine</string>
+    <string name="caption_date_taken">Data scattata</string>
+    <string name="caption_camera_model">Modello di fotocamera</string>
+    <string name="caption_lens">Lente</string>
+    <string name="caption_exposure_settings">Impostazioni di esposizione</string>
+    <string name="caption_parent_folder">Cartella principale</string>
+    <string name="caption_custom_text">Testo personalizzato</string>
+    <string name="caption_custom_text_hint">Testo mostrato su ogni immagine; le interruzioni di riga vengono preservate</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf provino griglia di immagini miniature didascalie</string>
 </resources>

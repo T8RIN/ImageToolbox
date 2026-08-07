@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Sofisticado para preencher a tela</string>
     <string name="upscale_to_fit_canvas_sub">Amplie uma imagem menor até cobrir completamente a tela de corte</string>
     <string name="export_profile_github_repository_social_preview">Visualização social do repositório</string>
+    <string name="pdf_contact_sheet">Folha de contato em PDF</string>
+    <string name="pdf_contact_sheet_sub">Organize várias imagens em uma grade nas páginas do PDF</string>
+    <string name="image_captions">Legendas de imagens</string>
+    <string name="image_captions_sub">Selecione quaisquer campos para combiná-los em legendas de várias linhas</string>
+    <string name="caption_file_name_without_extension">Nome do arquivo sem extensão</string>
+    <string name="caption_sequence_number">Número de sequência</string>
+    <string name="caption_image_dimensions">Dimensões da imagem</string>
+    <string name="caption_date_taken">Data tirada</string>
+    <string name="caption_camera_model">Modelo de câmera</string>
+    <string name="caption_lens">Lente</string>
+    <string name="caption_exposure_settings">Configurações de exposição</string>
+    <string name="caption_parent_folder">Pasta pai</string>
+    <string name="caption_custom_text">Texto personalizado</string>
+    <string name="caption_custom_text_hint">Texto mostrado em cada imagem; quebras de linha são preservadas</string>
+    <string name="search_keywords_pdf_contact_sheet">legendas de miniaturas de grade de imagem de folha de contato em pdf</string>
 </resources>

@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Высокакласны для запаўнення палатна</string>
     <string name="upscale_to_fit_canvas_sub">Павялічвайце малюнак меншага памеру, пакуль ён цалкам не пакрые палатно кадравання</string>
     <string name="export_profile_github_repository_social_preview">Сацыяльны папярэдні прагляд рэпазітара</string>
+    <string name="pdf_contact_sheet">Кантактны аркуш PDF</string>
+    <string name="pdf_contact_sheet_sub">Размясціце некалькі малюнкаў у сетку на старонках PDF</string>
+    <string name="image_captions">Подпісы да малюнкаў</string>
+    <string name="image_captions_sub">Выберыце любыя палі, каб аб\'яднаць іх у шматрадковыя подпісы</string>
+    <string name="caption_file_name_without_extension">Імя файла без пашырэння</string>
+    <string name="caption_sequence_number">Парадкавы нумар</string>
+    <string name="caption_image_dimensions">Памеры выявы</string>
+    <string name="caption_date_taken">Дата ўзяцця</string>
+    <string name="caption_camera_model">Мадэль камеры</string>
+    <string name="caption_lens">Аб\'ектыў</string>
+    <string name="caption_exposure_settings">Налады экспазіцыі</string>
+    <string name="caption_parent_folder">Бацькоўская папка</string>
+    <string name="caption_custom_text">Карыстацкі тэкст</string>
+    <string name="caption_custom_text_hint">Тэкст, паказаны на кожнай выяве; разрывы радкоў захаваны</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf кантактны аркуш выява сеткі мініяцюры подпісы</string>
 </resources>

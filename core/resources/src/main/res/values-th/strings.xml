@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">ยกระดับสู่การเติมเต็มผืนผ้าใบ</string>
     <string name="upscale_to_fit_canvas_sub">ขยายรูปภาพให้เล็กลงจนครอบคลุมพื้นที่ครอบตัดทั้งหมด</string>
     <string name="export_profile_github_repository_social_preview">การแสดงตัวอย่างทางสังคมของพื้นที่เก็บข้อมูล</string>
+    <string name="pdf_contact_sheet">เอกสารติดต่อ PDF</string>
+    <string name="pdf_contact_sheet_sub">จัดเรียงภาพหลายภาพในตารางในหน้า PDF</string>
+    <string name="image_captions">คำบรรยายภาพ</string>
+    <string name="image_captions_sub">เลือกฟิลด์ใดก็ได้เพื่อรวมเป็นคำบรรยายแบบหลายบรรทัด</string>
+    <string name="caption_file_name_without_extension">ชื่อไฟล์ที่ไม่มีนามสกุล</string>
+    <string name="caption_sequence_number">หมายเลขลำดับ</string>
+    <string name="caption_image_dimensions">ขนาดภาพ</string>
+    <string name="caption_date_taken">วันที่ถ่าย</string>
+    <string name="caption_camera_model">รุ่นกล้อง</string>
+    <string name="caption_lens">เลนส์</string>
+    <string name="caption_exposure_settings">การตั้งค่าการรับแสง</string>
+    <string name="caption_parent_folder">โฟลเดอร์หลัก</string>
+    <string name="caption_custom_text">ข้อความที่กำหนดเอง</string>
+    <string name="caption_custom_text_hint">ข้อความที่ปรากฏในทุกภาพ ตัวแบ่งบรรทัดจะถูกเก็บรักษาไว้</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf แผ่นติดต่อ รูปภาพ ตาราง ภาพขนาดย่อ คำอธิบายภาพ</string>
 </resources>

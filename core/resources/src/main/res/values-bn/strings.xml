@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">ক্যানভাস পূরণ করতে আপস্কেল</string>
     <string name="upscale_to_fit_canvas_sub">একটি ছোট ছবি বড় করুন যতক্ষণ না এটি সম্পূর্ণভাবে ক্রপ ক্যানভাসকে কভার করে</string>
     <string name="export_profile_github_repository_social_preview">সংগ্রহস্থল সামাজিক পূর্বরূপ</string>
+    <string name="pdf_contact_sheet">পিডিএফ যোগাযোগ পত্রক</string>
+    <string name="pdf_contact_sheet_sub">পিডিএফ পৃষ্ঠা জুড়ে একটি গ্রিডে একাধিক ছবি সাজান</string>
+    <string name="image_captions">ছবির ক্যাপশন</string>
+    <string name="image_captions_sub">মাল্টি-লাইন ক্যাপশনে একত্রিত করতে যেকোনো ক্ষেত্র নির্বাচন করুন</string>
+    <string name="caption_file_name_without_extension">এক্সটেনশন ছাড়া ফাইলের নাম</string>
+    <string name="caption_sequence_number">ক্রম সংখ্যা</string>
+    <string name="caption_image_dimensions">ছবির মাত্রা</string>
+    <string name="caption_date_taken">নেওয়ার তারিখ</string>
+    <string name="caption_camera_model">ক্যামেরা মডেল</string>
+    <string name="caption_lens">লেন্স</string>
+    <string name="caption_exposure_settings">এক্সপোজার সেটিংস</string>
+    <string name="caption_parent_folder">মূল ফোল্ডার</string>
+    <string name="caption_custom_text">কাস্টম পাঠ্য</string>
+    <string name="caption_custom_text_hint">প্রতিটি ছবিতে দেখানো টেক্সট; লাইন বিরতি সংরক্ষিত হয়</string>
+    <string name="search_keywords_pdf_contact_sheet">পিডিএফ যোগাযোগ শীট ইমেজ গ্রিড থাম্বনেল ক্যাপশন</string>
 </resources>

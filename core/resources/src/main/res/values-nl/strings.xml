@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Upscale om canvas te vullen</string>
     <string name="upscale_to_fit_canvas_sub">Vergroot een kleinere afbeelding totdat deze het bijsnijddoek volledig bedekt</string>
     <string name="export_profile_github_repository_social_preview">Sociale preview van repository</string>
+    <string name="pdf_contact_sheet">PDF-contactblad</string>
+    <string name="pdf_contact_sheet_sub">Rangschik meerdere afbeeldingen in een raster over PDF-pagina\'s</string>
+    <string name="image_captions">Onderschriften van afbeeldingen</string>
+    <string name="image_captions_sub">Selecteer velden om ze te combineren in bijschriften met meerdere regels</string>
+    <string name="caption_file_name_without_extension">Bestandsnaam zonder extensie</string>
+    <string name="caption_sequence_number">Volgnummer</string>
+    <string name="caption_image_dimensions">Afmetingen afbeelding</string>
+    <string name="caption_date_taken">Datum genomen</string>
+    <string name="caption_camera_model">Cameramodel</string>
+    <string name="caption_lens">Lens</string>
+    <string name="caption_exposure_settings">Belichtingsinstellingen</string>
+    <string name="caption_parent_folder">Bovenliggende map</string>
+    <string name="caption_custom_text">Aangepaste tekst</string>
+    <string name="caption_custom_text_hint">Tekst getoond op elke afbeelding; regeleinden blijven behouden</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf-contactblad afbeeldingsraster miniaturen bijschriften</string>
 </resources>

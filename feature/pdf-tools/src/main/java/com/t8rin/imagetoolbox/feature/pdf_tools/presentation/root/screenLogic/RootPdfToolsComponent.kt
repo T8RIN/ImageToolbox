@@ -59,6 +59,9 @@ class RootPdfToolsComponent @AssistedInject internal constructor(
                 is Screen.PdfTools.OCR -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.ZipConvert -> screen.copy(uri = tempSelectionUri)
                 is Screen.PdfTools.Preview -> screen.copy(uri = tempSelectionUri)
+                is Screen.PdfTools.PdfContactSheet -> screen.copy(
+                    uris = tempSelectionUri?.let(::listOf)
+                )
                 else -> screen
             }
         )

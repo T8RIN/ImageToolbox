@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Upscale vyplnit plátno</string>
     <string name="upscale_to_fit_canvas_sub">Zvětšete menší obrázek, dokud zcela nezakryje oříznuté plátno</string>
     <string name="export_profile_github_repository_social_preview">Sociální náhled úložiště</string>
+    <string name="pdf_contact_sheet">Kontaktní list PDF</string>
+    <string name="pdf_contact_sheet_sub">Uspořádejte více obrázků do mřížky na stránkách PDF</string>
+    <string name="image_captions">Popisky obrázků</string>
+    <string name="image_captions_sub">Vyberte libovolná pole a spojte je do víceřádkových titulků</string>
+    <string name="caption_file_name_without_extension">Název souboru bez přípony</string>
+    <string name="caption_sequence_number">Pořadové číslo</string>
+    <string name="caption_image_dimensions">Rozměry obrázku</string>
+    <string name="caption_date_taken">Datum pořízení</string>
+    <string name="caption_camera_model">Model fotoaparátu</string>
+    <string name="caption_lens">Čočka</string>
+    <string name="caption_exposure_settings">Nastavení expozice</string>
+    <string name="caption_parent_folder">Nadřazená složka</string>
+    <string name="caption_custom_text">Vlastní text</string>
+    <string name="caption_custom_text_hint">Text zobrazený na každém obrázku; zalomení řádků je zachováno</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf kontaktní list obrázku s titulky miniatury</string>
 </resources>

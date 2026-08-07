@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">سطح بالا برای پر کردن بوم</string>
     <string name="upscale_to_fit_canvas_sub">یک تصویر کوچکتر را تا جایی بزرگ کنید که بوم برش را کاملاً بپوشاند</string>
     <string name="export_profile_github_repository_social_preview">پیش نمایش اجتماعی مخزن</string>
+    <string name="pdf_contact_sheet">برگه تماس PDF</string>
+    <string name="pdf_contact_sheet_sub">چندین تصویر را در یک شبکه در صفحات PDF مرتب کنید</string>
+    <string name="image_captions">شرح تصاویر</string>
+    <string name="image_captions_sub">هر فیلد را انتخاب کنید تا آنها را در زیرنویس های چند خطی ترکیب کنید</string>
+    <string name="caption_file_name_without_extension">نام فایل بدون پسوند</string>
+    <string name="caption_sequence_number">شماره دنباله</string>
+    <string name="caption_image_dimensions">ابعاد تصویر</string>
+    <string name="caption_date_taken">تاریخ گرفته شده</string>
+    <string name="caption_camera_model">مدل دوربین</string>
+    <string name="caption_lens">لنز</string>
+    <string name="caption_exposure_settings">تنظیمات نوردهی</string>
+    <string name="caption_parent_folder">پوشه والد</string>
+    <string name="caption_custom_text">متن سفارشی</string>
+    <string name="caption_custom_text_hint">متن نشان داده شده در هر تصویر؛ شکست خط حفظ می شود</string>
+    <string name="search_keywords_pdf_contact_sheet">زیرنویس‌های ریز عکس‌های شبکه تصویر صفحه تماس pdf</string>
 </resources>

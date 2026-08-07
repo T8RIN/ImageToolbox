@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Kallis lõuendi täitmiseks</string>
     <string name="upscale_to_fit_canvas_sub">Suurendage väiksemat pilti, kuni see katab täielikult kärbitud lõuendi</string>
     <string name="export_profile_github_repository_social_preview">Hoidla sotsiaalne eelvaade</string>
+    <string name="pdf_contact_sheet">PDF kontaktileht</string>
+    <string name="pdf_contact_sheet_sub">Järjestage mitu pilti PDF-lehtede ruudustikus</string>
+    <string name="image_captions">Piltide pealdised</string>
+    <string name="image_captions_sub">Valige mis tahes väljad, et ühendada need mitmerealisteks pealdisteks</string>
+    <string name="caption_file_name_without_extension">Failinimi ilma laiendita</string>
+    <string name="caption_sequence_number">Järjestuse number</string>
+    <string name="caption_image_dimensions">Pildi mõõtmed</string>
+    <string name="caption_date_taken">Võtte kuupäev</string>
+    <string name="caption_camera_model">Kaamera mudel</string>
+    <string name="caption_lens">Objektiiv</string>
+    <string name="caption_exposure_settings">Särituse seaded</string>
+    <string name="caption_parent_folder">Ülemkaust</string>
+    <string name="caption_custom_text">Kohandatud tekst</string>
+    <string name="caption_custom_text_hint">Igal pildil näidatud tekst; reavahetused säilivad</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf-i kontaktlehe pildiruudustiku pisipiltide pealdised</string>
 </resources>

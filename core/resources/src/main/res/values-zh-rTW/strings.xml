@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">高檔填充畫布</string>
     <string name="upscale_to_fit_canvas_sub">放大較小的圖像，直到它完全覆蓋裁剪畫布</string>
     <string name="export_profile_github_repository_social_preview">儲存庫社交預覽</string>
+    <string name="pdf_contact_sheet">PDF 聯絡表</string>
+    <string name="pdf_contact_sheet_sub">將多個影像排列在 PDF 頁面的網格中</string>
+    <string name="image_captions">圖片說明</string>
+    <string name="image_captions_sub">選擇任何欄位以將它們組合成多行標題</string>
+    <string name="caption_file_name_without_extension">不含副檔名的檔名</string>
+    <string name="caption_sequence_number">序號</string>
+    <string name="caption_image_dimensions">圖片尺寸</string>
+    <string name="caption_date_taken">拍攝日期</string>
+    <string name="caption_camera_model">相機型號</string>
+    <string name="caption_lens">鏡片</string>
+    <string name="caption_exposure_settings">曝光設定</string>
+    <string name="caption_parent_folder">父資料夾</string>
+    <string name="caption_custom_text">自訂文字</string>
+    <string name="caption_custom_text_hint">每張圖像上顯示的文字；換行符被保留</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf 聯絡表 圖像網格 縮圖 標題</string>
 </resources>

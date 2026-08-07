@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Előkelő vászon kitöltésére</string>
     <string name="upscale_to_fit_canvas_sub">Nagyítson fel egy kisebb képet, amíg teljesen el nem fedi a vágóvászont</string>
     <string name="export_profile_github_repository_social_preview">Repository közösségi előnézet</string>
+    <string name="pdf_contact_sheet">PDF kapcsolattartó lap</string>
+    <string name="pdf_contact_sheet_sub">Több kép elrendezése egy rácsban PDF-oldalak között</string>
+    <string name="image_captions">Képfeliratok</string>
+    <string name="image_captions_sub">Jelölje ki a mezőket, hogy többsoros feliratokká egyesítse őket</string>
+    <string name="caption_file_name_without_extension">Fájlnév kiterjesztés nélkül</string>
+    <string name="caption_sequence_number">Sorozatszám</string>
+    <string name="caption_image_dimensions">Kép méretei</string>
+    <string name="caption_date_taken">Felvétel dátuma</string>
+    <string name="caption_camera_model">Kamera modell</string>
+    <string name="caption_lens">Lencse</string>
+    <string name="caption_exposure_settings">Expozíciós beállítások</string>
+    <string name="caption_parent_folder">Szülőmappa</string>
+    <string name="caption_custom_text">Egyedi szöveg</string>
+    <string name="caption_custom_text_hint">Minden képen látható szöveg; sortörések megmaradnak</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf névjegylap kép rács miniatűrök feliratok</string>
 </resources>

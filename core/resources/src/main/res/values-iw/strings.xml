@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">יוקרתי למילוי בד</string>
     <string name="upscale_to_fit_canvas_sub">הגדל תמונה קטנה יותר עד שתכסה לחלוטין את בד החיתוך</string>
     <string name="export_profile_github_repository_social_preview">תצוגה מקדימה חברתית של מאגר</string>
+    <string name="pdf_contact_sheet">גיליון יצירת קשר בפורמט PDF</string>
+    <string name="pdf_contact_sheet_sub">סדר מספר תמונות ברשת על פני דפי PDF</string>
+    <string name="image_captions">כתוביות תמונה</string>
+    <string name="image_captions_sub">בחר בשדות כלשהם כדי לשלב אותם לכיתובים מרובי שורות</string>
+    <string name="caption_file_name_without_extension">שם קובץ ללא סיומת</string>
+    <string name="caption_sequence_number">מספר רצף</string>
+    <string name="caption_image_dimensions">מידות תמונה</string>
+    <string name="caption_date_taken">תאריך נלקח</string>
+    <string name="caption_camera_model">דגם מצלמה</string>
+    <string name="caption_lens">עֲדָשָׁה</string>
+    <string name="caption_exposure_settings">הגדרות חשיפה</string>
+    <string name="caption_parent_folder">תיקיית אב</string>
+    <string name="caption_custom_text">טקסט מותאם אישית</string>
+    <string name="caption_custom_text_hint">טקסט המוצג על כל תמונה; מעברי שורות נשמרים</string>
+    <string name="search_keywords_pdf_contact_sheet">כתוביות תמונות ממוזערות של גיליון איש קשר ב-pdf</string>
 </resources>

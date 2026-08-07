@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">キャンバスいっぱいに広がる高級感</string>
     <string name="upscale_to_fit_canvas_sub">トリミングキャンバスを完全に覆うまで小さい画像を拡大します。</string>
     <string name="export_profile_github_repository_social_preview">リポジトリのソーシャル プレビュー</string>
+    <string name="pdf_contact_sheet">PDFコンタクトシート</string>
+    <string name="pdf_contact_sheet_sub">PDF ページ全体で複数の画像をグリッドに配置します</string>
+    <string name="image_captions">画像のキャプション</string>
+    <string name="image_captions_sub">フィールドを選択して複数行のキャプションに結合します</string>
+    <string name="caption_file_name_without_extension">拡張子のないファイル名</string>
+    <string name="caption_sequence_number">シーケンス番号</string>
+    <string name="caption_image_dimensions">画像の寸法</string>
+    <string name="caption_date_taken">撮影日</string>
+    <string name="caption_camera_model">カメラのモデル</string>
+    <string name="caption_lens">レンズ</string>
+    <string name="caption_exposure_settings">露出設定</string>
+    <string name="caption_parent_folder">親フォルダー</string>
+    <string name="caption_custom_text">カスタムテキスト</string>
+    <string name="caption_custom_text_hint">すべての画像にテキストが表示されます。改行は保持されます</string>
+    <string name="search_keywords_pdf_contact_sheet">PDF コンタクト シート 画像グリッド サムネイル キャプション</string>
 </resources>

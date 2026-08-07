@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Uppskala för att fylla duk</string>
     <string name="upscale_to_fit_canvas_sub">Förstora en mindre bild tills den helt täcker beskärningsduken</string>
     <string name="export_profile_github_repository_social_preview">Repository social förhandsvisning</string>
+    <string name="pdf_contact_sheet">PDF kontaktblad</string>
+    <string name="pdf_contact_sheet_sub">Ordna flera bilder i ett rutnät över PDF-sidor</string>
+    <string name="image_captions">Bildtexter</string>
+    <string name="image_captions_sub">Välj valfria fält för att kombinera dem till bildtexter med flera rader</string>
+    <string name="caption_file_name_without_extension">Filnamn utan tillägg</string>
+    <string name="caption_sequence_number">Sekvensnummer</string>
+    <string name="caption_image_dimensions">Bildmått</string>
+    <string name="caption_date_taken">Taget datum</string>
+    <string name="caption_camera_model">Kameramodell</string>
+    <string name="caption_lens">Lins</string>
+    <string name="caption_exposure_settings">Exponeringsinställningar</string>
+    <string name="caption_parent_folder">Föräldramapp</string>
+    <string name="caption_custom_text">Anpassad text</string>
+    <string name="caption_custom_text_hint">Text som visas på varje bild; radbrytningar bevaras</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf kontaktblad bildrutnät miniatyrer bildtexter</string>
 </resources>

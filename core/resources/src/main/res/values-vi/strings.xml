@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">Nâng cấp để lấp đầy canvas</string>
     <string name="upscale_to_fit_canvas_sub">Phóng to hình ảnh nhỏ hơn cho đến khi nó bao phủ hoàn toàn khung vẽ</string>
     <string name="export_profile_github_repository_social_preview">Bản xem trước xã hội của kho lưu trữ</string>
+    <string name="pdf_contact_sheet">Bảng liên hệ PDF</string>
+    <string name="pdf_contact_sheet_sub">Sắp xếp nhiều hình ảnh thành một lưới trên các trang PDF</string>
+    <string name="image_captions">Chú thích hình ảnh</string>
+    <string name="image_captions_sub">Chọn bất kỳ trường nào để kết hợp chúng thành chú thích nhiều dòng</string>
+    <string name="caption_file_name_without_extension">Tên tệp không có phần mở rộng</string>
+    <string name="caption_sequence_number">Số thứ tự</string>
+    <string name="caption_image_dimensions">Kích thước hình ảnh</string>
+    <string name="caption_date_taken">Ngày chụp</string>
+    <string name="caption_camera_model">Mẫu máy ảnh</string>
+    <string name="caption_lens">Ống kính</string>
+    <string name="caption_exposure_settings">Cài đặt phơi sáng</string>
+    <string name="caption_parent_folder">Thư mục mẹ</string>
+    <string name="caption_custom_text">Văn bản tùy chỉnh</string>
+    <string name="caption_custom_text_hint">Văn bản hiển thị trên mỗi hình ảnh; ngắt dòng được giữ nguyên</string>
+    <string name="search_keywords_pdf_contact_sheet">chú thích lưới hình ảnh thu nhỏ của bảng liên hệ pdf</string>
 </resources>

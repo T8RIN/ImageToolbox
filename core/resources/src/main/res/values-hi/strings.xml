@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">कैनवास भरने के लिए अपस्केल</string>
     <string name="upscale_to_fit_canvas_sub">एक छोटी छवि को तब तक बड़ा करें जब तक कि वह क्रॉप कैनवास को पूरी तरह से कवर न कर ले</string>
     <string name="export_profile_github_repository_social_preview">रिपोजिटरी सामाजिक पूर्वावलोकन</string>
+    <string name="pdf_contact_sheet">पीडीएफ संपर्क पत्रक</string>
+    <string name="pdf_contact_sheet_sub">पीडीएफ पृष्ठों पर एक ग्रिड में एकाधिक छवियों को व्यवस्थित करें</string>
+    <string name="image_captions">छवि कैप्शन</string>
+    <string name="image_captions_sub">किसी भी फ़ील्ड को मल्टी-लाइन कैप्शन में संयोजित करने के लिए उसका चयन करें</string>
+    <string name="caption_file_name_without_extension">एक्सटेंशन के बिना फ़ाइल नाम</string>
+    <string name="caption_sequence_number">अनुक्रम संख्या</string>
+    <string name="caption_image_dimensions">छवि आयाम</string>
+    <string name="caption_date_taken">दिनांक लिया गया</string>
+    <string name="caption_camera_model">कैमरा मॉडल</string>
+    <string name="caption_lens">लेंस</string>
+    <string name="caption_exposure_settings">एक्सपोज़र सेटिंग्स</string>
+    <string name="caption_parent_folder">मूल फ़ोल्डर</string>
+    <string name="caption_custom_text">कस्टम पाठ</string>
+    <string name="caption_custom_text_hint">प्रत्येक छवि पर दिखाया गया पाठ; लाइन ब्रेक संरक्षित हैं</string>
+    <string name="search_keywords_pdf_contact_sheet">पीडीएफ संपर्क शीट छवि ग्रिड थंबनेल कैप्शन</string>
 </resources>

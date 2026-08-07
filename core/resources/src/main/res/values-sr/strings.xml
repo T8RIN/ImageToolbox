@@ -4608,4 +4608,19 @@
     <string name="upscale_to_fit_canvas">Врхунски за попуњавање платна</string>
     <string name="upscale_to_fit_canvas_sub">Увећајте мању слику док потпуно не покрије платно за изрезивање</string>
     <string name="export_profile_github_repository_social_preview">Друштвени преглед спремишта</string>
+    <string name="pdf_contact_sheet">ПДФ контакт лист</string>
+    <string name="pdf_contact_sheet_sub">Распоредите више слика у мрежу на ПДФ страницама</string>
+    <string name="image_captions">Наслови слика</string>
+    <string name="image_captions_sub">Изаберите било која поља да бисте их комбиновали у вишередне наслове</string>
+    <string name="caption_file_name_without_extension">Име датотеке без екстензије</string>
+    <string name="caption_sequence_number">Редни број</string>
+    <string name="caption_image_dimensions">Димензије слике</string>
+    <string name="caption_date_taken">Датум снимања</string>
+    <string name="caption_camera_model">Модел камере</string>
+    <string name="caption_lens">Ленс</string>
+    <string name="caption_exposure_settings">Подешавања експозиције</string>
+    <string name="caption_parent_folder">Родитељски директоријум</string>
+    <string name="caption_custom_text">Прилагођени текст</string>
+    <string name="caption_custom_text_hint">Текст приказан на свакој слици; преломи редова су сачувани</string>
+    <string name="search_keywords_pdf_contact_sheet">пдф наслови сличица слике на контактној табли</string>
 </resources>

@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Висококласний для заповнення полотна</string>
     <string name="upscale_to_fit_canvas_sub">Збільште зображення меншого розміру, доки воно повністю не закриє полотно кадрування</string>
     <string name="export_profile_github_repository_social_preview">Соціальний попередній перегляд сховища</string>
+    <string name="pdf_contact_sheet">Контактний аркуш PDF</string>
+    <string name="pdf_contact_sheet_sub">Розмістіть кілька зображень у сітці на сторінках PDF</string>
+    <string name="image_captions">Підписи до зображень</string>
+    <string name="image_captions_sub">Виберіть будь-які поля, щоб об’єднати їх у багаторядкові підписи</string>
+    <string name="caption_file_name_without_extension">Ім\'я файлу без розширення</string>
+    <string name="caption_sequence_number">Порядковий номер</string>
+    <string name="caption_image_dimensions">Розміри зображення</string>
+    <string name="caption_date_taken">Дата зйомки</string>
+    <string name="caption_camera_model">Модель камери</string>
+    <string name="caption_lens">Об\'єктив</string>
+    <string name="caption_exposure_settings">Налаштування експозиції</string>
+    <string name="caption_parent_folder">Батьківська папка</string>
+    <string name="caption_custom_text">Спеціальний текст</string>
+    <string name="caption_custom_text_hint">Текст на кожному зображенні; розриви рядків зберігаються</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf контактний аркуш зображення сітка мініатюри підписи</string>
 </resources>

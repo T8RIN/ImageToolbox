@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Position
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -65,6 +66,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfAnnotationType
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
@@ -101,6 +103,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 internal class AndroidPdfManager @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -150,6 +154,102 @@ internal class AndroidPdfManager @Inject constructor(
             scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
             addTextLayer = null
         )
+    }
+
+    override suspend fun createContactSheet(
+        imageUris: List<String>,
+        captions: List<List<String>>,
+        params: PdfContactSheetParams
+    ): String = catchPdf {
+        if (imageUris.isEmpty()) error("No PDF created")
+
+        val columns = params.columns.coerceIn(1, 10)
+        val rows = params.rows.coerceIn(1, 10)
+        val pageWidth = PDRectangle.A4.width
+        val pageHeight = PDRectangle.A4.height
+        val margin = params.margin.coerceIn(0f, min(pageWidth, pageHeight) / 3f)
+        val spacing = params.spacing.coerceAtLeast(0f)
+        val cellWidth = (pageWidth - margin * 2f - spacing * (columns - 1)) / columns
+        val cellHeight = (pageHeight - margin * 2f - spacing * (rows - 1)) / rows
+        if (cellWidth <= 0f || cellHeight <= 0f) error("Invalid contact sheet layout")
+
+        createPdf { document ->
+            val maxCaptionLines = captions.maxOfOrNull(List<String>::size) ?: 0
+            val font = if (maxCaptionLines > 0) document.defaultFont else null
+            val fontSize = 9f
+            val lineHeight = 11f
+            val captionGap = 4f
+            val captionHeight = if (font != null) {
+                captionGap + maxCaptionLines * lineHeight
+            } else 0f
+            val imageHeight = (cellHeight - captionHeight).coerceAtLeast(1f)
+            val decodeSize = IntegerSize(
+                width = (cellWidth * 2f).roundToInt().coerceIn(64, 2048),
+                height = (imageHeight * 2f).roundToInt().coerceIn(64, 2048)
+            )
+
+            imageUris.chunked(columns * rows).forEachIndexed { pageIndex, pageUris ->
+                val page = PDPage(PDRectangle.A4)
+                document.addPage(page)
+                pageUris.forEachIndexed cell@{ cellIndex, imageUri ->
+                    val column = cellIndex % columns
+                    val row = cellIndex / columns
+                    val cellX = margin + column * (cellWidth + spacing)
+                    val cellTop = pageHeight - margin - row * (cellHeight + spacing)
+                    val bitmap = imageGetter.getImage(
+                        data = imageUri,
+                        size = decodeSize
+                    ) ?: return@cell
+                    document.writePage(page) {
+                        val scale = min(
+                            cellWidth / bitmap.width,
+                            imageHeight / bitmap.height
+                        )
+                        val drawWidth = bitmap.width * scale
+                        val drawHeight = bitmap.height * scale
+                        val drawX = cellX + (cellWidth - drawWidth) / 2f
+                        val drawY = cellTop - imageHeight + (imageHeight - drawHeight) / 2f
+
+                        drawImage(
+                            bitmap.asXObject(document, params.quality),
+                            drawX,
+                            drawY,
+                            drawWidth,
+                            drawHeight
+                        )
+
+                        font?.let { captionFont ->
+                            captions
+                                .getOrNull(pageIndex * columns * rows + cellIndex)
+                                .orEmpty()
+                                .forEachIndexed { lineIndex, rawLine ->
+                                    val caption = rawLine
+                                        .replace(Regex("[\\p{Cc}\\p{Cf}]"), " ")
+                                        .trim()
+                                        .fitPdfWidth(captionFont, fontSize, cellWidth)
+                                    if (caption.isNotEmpty()) {
+                                        val textWidth = captionFont.getStringWidth(caption) /
+                                                1000f * fontSize
+                                        beginText()
+                                        setFont(captionFont, fontSize)
+                                        newLineAtOffset(
+                                            cellX + (cellWidth - textWidth) / 2f,
+                                            drawY - captionGap - fontSize - lineIndex * lineHeight
+                                        )
+                                        showText(caption)
+                                        endText()
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+
+            shareProvider.cacheData(
+                writeData = document::save,
+                filename = tempName("contact_sheet")
+            ) ?: error("No PDF created")
+        }
     }
 
     override suspend fun createSearchablePdf(

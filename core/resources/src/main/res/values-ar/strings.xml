@@ -4611,4 +4611,19 @@
     <string name="upscale_to_fit_canvas">الراقي لملء القماش</string>
     <string name="upscale_to_fit_canvas_sub">قم بتكبير الصورة الأصغر حتى تغطي لوحة القطع بالكامل</string>
     <string name="export_profile_github_repository_social_preview">المعاينة الاجتماعية للمستودع</string>
+    <string name="pdf_contact_sheet">ورقة الاتصال PDF</string>
+    <string name="pdf_contact_sheet_sub">ترتيب صور متعددة في شبكة عبر صفحات PDF</string>
+    <string name="image_captions">التسميات التوضيحية للصورة</string>
+    <string name="image_captions_sub">حدد أي حقول لدمجها في تسميات توضيحية متعددة الأسطر</string>
+    <string name="caption_file_name_without_extension">اسم الملف بدون امتداد</string>
+    <string name="caption_sequence_number">رقم التسلسل</string>
+    <string name="caption_image_dimensions">أبعاد الصورة</string>
+    <string name="caption_date_taken">تاريخ الالتقاط</string>
+    <string name="caption_camera_model">طراز الكاميرا</string>
+    <string name="caption_lens">عدسة</string>
+    <string name="caption_exposure_settings">إعدادات التعرض</string>
+    <string name="caption_parent_folder">المجلد الأصل</string>
+    <string name="caption_custom_text">نص مخصص</string>
+    <string name="caption_custom_text_hint">النص الموضح على كل صورة؛ يتم الحفاظ على فواصل الأسطر</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf ورقة اتصال صورة شبكة الصور المصغرة التسميات التوضيحية</string>
 </resources>

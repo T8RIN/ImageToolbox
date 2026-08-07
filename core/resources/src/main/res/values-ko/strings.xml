@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">캔버스를 가득 채울 수 있는 고급화</string>
     <string name="upscale_to_fit_canvas_sub">자르기 캔버스를 완전히 덮을 때까지 작은 이미지를 확대합니다.</string>
     <string name="export_profile_github_repository_social_preview">저장소 소셜 미리보기</string>
+    <string name="pdf_contact_sheet">PDF 밀착 시트</string>
+    <string name="pdf_contact_sheet_sub">PDF 페이지 전체에 걸쳐 여러 이미지를 격자로 정렬</string>
+    <string name="image_captions">이미지 캡션</string>
+    <string name="image_captions_sub">여러 줄 캡션으로 결합하려면 필드를 선택하세요.</string>
+    <string name="caption_file_name_without_extension">확장자가 없는 파일 이름</string>
+    <string name="caption_sequence_number">시퀀스 번호</string>
+    <string name="caption_image_dimensions">이미지 크기</string>
+    <string name="caption_date_taken">촬영 날짜</string>
+    <string name="caption_camera_model">카메라 모델</string>
+    <string name="caption_lens">렌즈</string>
+    <string name="caption_exposure_settings">노출 설정</string>
+    <string name="caption_parent_folder">상위 폴더</string>
+    <string name="caption_custom_text">맞춤 텍스트</string>
+    <string name="caption_custom_text_hint">모든 이미지에 텍스트가 표시됩니다. 줄 바꿈이 유지됩니다</string>
+    <string name="search_keywords_pdf_contact_sheet">PDF 밀착 인화 이미지 격자선 축소판 캡션</string>
 </resources>

@@ -4609,4 +4609,19 @@
     <string name="upscale_to_fit_canvas">Prabangus užpildyti drobę</string>
     <string name="upscale_to_fit_canvas_sub">Padidinkite mažesnį vaizdą, kol jis visiškai uždengs apkarpymo drobę</string>
     <string name="export_profile_github_repository_social_preview">Saugyklos socialinė peržiūra</string>
+    <string name="pdf_contact_sheet">PDF kontaktų lapas</string>
+    <string name="pdf_contact_sheet_sub">Išdėstykite kelis vaizdus tinklelyje PDF puslapiuose</string>
+    <string name="image_captions">Vaizdo antraštės</string>
+    <string name="image_captions_sub">Pasirinkite bet kuriuos laukus, kad sujungtumėte juos į kelių eilučių antraštes</string>
+    <string name="caption_file_name_without_extension">Failo pavadinimas be plėtinio</string>
+    <string name="caption_sequence_number">Eilės numeris</string>
+    <string name="caption_image_dimensions">Vaizdo matmenys</string>
+    <string name="caption_date_taken">Paėmimo data</string>
+    <string name="caption_camera_model">Kameros modelis</string>
+    <string name="caption_lens">Objektyvas</string>
+    <string name="caption_exposure_settings">Ekspozicijos nustatymai</string>
+    <string name="caption_parent_folder">Pirminis aplankas</string>
+    <string name="caption_custom_text">Pasirinktinis tekstas</string>
+    <string name="caption_custom_text_hint">Tekstas rodomas kiekviename paveikslėlyje; išsaugomi eilučių lūžiai</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf kontaktinio lapo vaizdo tinklelio miniatiūrų antraštės</string>
 </resources>

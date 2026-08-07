@@ -342,6 +342,7 @@ sealed class Screen(
                 ExtractImages(),
                 OCR(),
                 ZipConvert(),
+                PdfContactSheet(),
             )
         }
 
@@ -559,6 +560,15 @@ sealed class Screen(
             id = 67,
             title = R.string.remove_annotations,
             subtitle = R.string.remove_annotations_sub
+        )
+
+        @Serializable
+        data class PdfContactSheet(
+            val uris: List<Uri>? = null
+        ) : Screen(
+            id = 73,
+            title = R.string.pdf_contact_sheet,
+            subtitle = R.string.pdf_contact_sheet_sub
         )
     }
 

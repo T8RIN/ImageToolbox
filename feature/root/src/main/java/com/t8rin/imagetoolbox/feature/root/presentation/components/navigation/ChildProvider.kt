@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.Mar
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.screenLogic.ExtractPagesPdfToolComponent
@@ -137,6 +138,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.OCRPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfContactSheetTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PrintPdfTool
@@ -265,6 +267,7 @@ internal class ChildProvider @Inject constructor(
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
     private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
     private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
+    private val pdfContactSheetToolComponentFactory: PdfContactSheetToolComponent.Factory,
     private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
     private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
     private val helpComponentFactory: HelpComponent.Factory,
@@ -960,6 +963,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.ImagesToPdf -> ImagesToPdfTool(
             imagesToPdfToolComponentFactory(
+                initialUris = config.uris,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.PdfContactSheet -> PdfContactSheetTool(
+            pdfContactSheetToolComponentFactory(
                 initialUris = config.uris,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

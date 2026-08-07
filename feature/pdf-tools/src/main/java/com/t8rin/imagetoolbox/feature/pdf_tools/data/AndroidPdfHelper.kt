@@ -468,4 +468,24 @@ internal class AndroidPdfHelper @Inject constructor(
         }
     }
 
+    internal fun String.fitPdfWidth(
+        font: PDFont,
+        fontSize: Float,
+        maxWidth: Float
+    ): String {
+        if (isEmpty()) return this
+        if (font.getStringWidth(this) / 1000f * fontSize <= maxWidth) return this
+
+        val suffix = "…"
+        var result = this
+        while (result.isNotEmpty()) {
+            result = result.dropLast(1)
+            val candidate = result.trimEnd() + suffix
+            if (font.getStringWidth(candidate) / 1000f * fontSize <= maxWidth) {
+                return candidate
+            }
+        }
+        return ""
+    }
+
 }

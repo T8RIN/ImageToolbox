@@ -142,7 +142,7 @@
     <string name="zoom">Приближение</string>
     <string name="share">Поделиться</string>
     <string name="prefix">Префикс</string>
-    <string name="filename">Название файла</string>
+    <string name="filename">Имя файла</string>
     <string name="emoji">Эмодзи</string>
     <string name="emoji_sub">Выберите, какие эмодзи отображать на главном экране</string>
     <string name="add_file_size">Добавить размер файла</string>
@@ -441,6 +441,20 @@
     <string name="preview_pdf">Предпросмотр PDF</string>
     <string name="pdf_to_images">PDF в изображения</string>
     <string name="images_to_pdf_sub">Упакуйте набор изображений в PDF файл</string>
+    <string name="pdf_contact_sheet">Контактный лист PDF</string>
+    <string name="pdf_contact_sheet_sub">Разместить изображения в виде сетки на страницах PDF</string>
+    <string name="image_captions">Подписи к изображениям</string>
+    <string name="image_captions_sub">Выберите поля, чтобы объединить их в многострочные подписи</string>
+    <string name="caption_file_name_without_extension">Имя файла без расширения</string>
+    <string name="caption_sequence_number">Порядковый номер</string>
+    <string name="caption_image_dimensions">Размеры изображения</string>
+    <string name="caption_date_taken">Дата съёмки</string>
+    <string name="caption_camera_model">Модель камеры</string>
+    <string name="caption_lens">Объектив</string>
+    <string name="caption_exposure_settings">Параметры экспозиции</string>
+    <string name="caption_parent_folder">Родительская папка</string>
+    <string name="caption_custom_text">Свой текст</string>
+    <string name="caption_custom_text_hint">Текст для каждого изображения; переносы строк сохраняются</string>
     <string name="preview_pdf_sub">Простой просмотрщик PDF</string>
     <string name="pdf_tools_sub">Совершайте операции с PDF файлами: просмотрите, конвертируйте в набор изображений или создайте новый файл</string>
     <string name="pdf_to_images_sub">Конвертируйте PDF в изображения в заданном формате</string>
@@ -3288,6 +3302,7 @@
     <string name="search_keywords_pdf_print">PDF-принтер для печати</string>
     <string name="search_keywords_pdf_preview">просмотрщик PDF-файлов читать</string>
     <string name="search_keywords_pdf_images_to_pdf">изображения в PDF конвертировать документ jpg jpeg png</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf контактный лист изображения сетка миниатюры подписи</string>
     <string name="search_keywords_pdf_extract_pages">PDF в изображения, экспорт страниц jpg png</string>
     <string name="search_keywords_pdf_remove_annotations">pdf аннотации комментарии удалить очистить</string>
     <string name="neutral_variant">Нейтральный вариант</string>

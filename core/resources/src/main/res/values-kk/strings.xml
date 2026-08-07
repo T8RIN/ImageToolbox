@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Кенепті толтыру үшін жоғары деңгейлі</string>
     <string name="upscale_to_fit_canvas_sub">Кескін кенепті толығымен жапқанша кішірек кескінді үлкейтіңіз</string>
     <string name="export_profile_github_repository_social_preview">Репозиторийдің әлеуметтік алдын ала қарауы</string>
+    <string name="pdf_contact_sheet">PDF байланыс парағы</string>
+    <string name="pdf_contact_sheet_sub">PDF беттерінде бірнеше кескінді торға орналастырыңыз</string>
+    <string name="image_captions">Кескінді жазулар</string>
+    <string name="image_captions_sub">Оларды көп жолды жазуларға біріктіру үшін кез келген өрістерді таңдаңыз</string>
+    <string name="caption_file_name_without_extension">Кеңейтімсіз файл атауы</string>
+    <string name="caption_sequence_number">Реттік нөмірі</string>
+    <string name="caption_image_dimensions">Кескін өлшемдері</string>
+    <string name="caption_date_taken">Алынған күні</string>
+    <string name="caption_camera_model">Камера үлгісі</string>
+    <string name="caption_lens">Объектив</string>
+    <string name="caption_exposure_settings">Экспозиция параметрлері</string>
+    <string name="caption_parent_folder">Негізгі қалта</string>
+    <string name="caption_custom_text">Арнаулы мәтін</string>
+    <string name="caption_custom_text_hint">Әрбір суретте көрсетілген мәтін; жол үзілімдері сақталады</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf контакт парағы кескін торының нобайларының тақырыптары</string>
 </resources>

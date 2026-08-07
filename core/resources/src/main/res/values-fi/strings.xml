@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Laadukas kankaalle täytettäväksi</string>
     <string name="upscale_to_fit_canvas_sub">Suurenna pienempi kuva, kunnes se peittää rajauskankaan kokonaan</string>
     <string name="export_profile_github_repository_social_preview">Tietovaraston sosiaalinen esikatselu</string>
+    <string name="pdf_contact_sheet">PDF Yhteystiedot</string>
+    <string name="pdf_contact_sheet_sub">Järjestä useita kuvia ruudukossa PDF-sivuille</string>
+    <string name="image_captions">Kuvatekstit</string>
+    <string name="image_captions_sub">Valitse kentät yhdistääksesi ne monirivisiksi kuvateksteiksi</string>
+    <string name="caption_file_name_without_extension">Tiedostonimi ilman päätettä</string>
+    <string name="caption_sequence_number">Järjestysnumero</string>
+    <string name="caption_image_dimensions">Kuvan mitat</string>
+    <string name="caption_date_taken">Otettu päivämäärä</string>
+    <string name="caption_camera_model">Kameran malli</string>
+    <string name="caption_lens">Linssi</string>
+    <string name="caption_exposure_settings">Valotusasetukset</string>
+    <string name="caption_parent_folder">Pääkansio</string>
+    <string name="caption_custom_text">Mukautettu teksti</string>
+    <string name="caption_custom_text_hint">Jokaisessa kuvassa näkyvä teksti; rivinvaihdot säilyvät</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf-yhteystietosivun kuvaruudukon pikkukuvien kuvatekstit</string>
 </resources>

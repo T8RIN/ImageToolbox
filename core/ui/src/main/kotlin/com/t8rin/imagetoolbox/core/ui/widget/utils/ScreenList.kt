@@ -156,6 +156,7 @@ internal fun List<Uri>.screenList(
                 Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),
                 Screen.GradientMaker(uris),
                 Screen.PdfTools.ImagesToPdf(uris),
+                Screen.PdfTools.PdfContactSheet(uris),
                 Screen.GifTools(
                     Screen.GifTools.Type.ImageToGif(uris)
                 ),
@@ -214,6 +215,7 @@ internal fun List<Uri>.screenList(
             ).apply {
                 add(Screen.ImageStitching(uris))
                 add(Screen.PdfTools.ImagesToPdf(uris))
+                add(Screen.PdfTools.PdfContactSheet(uris))
                 add(Screen.Curves(uris))
                 if (uris.size == 2) add(Screen.Compare(uris))
                 if (uris.size in 1..20) {

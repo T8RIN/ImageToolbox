@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Exclusivo para llenar el lienzo</string>
     <string name="upscale_to_fit_canvas_sub">Amplíe una imagen más pequeña hasta que cubra completamente el lienzo de recorte.</string>
     <string name="export_profile_github_repository_social_preview">Vista previa social del repositorio</string>
+    <string name="pdf_contact_sheet">Hoja de contacto en PDF</string>
+    <string name="pdf_contact_sheet_sub">Organice varias imágenes en una cuadrícula en páginas PDF</string>
+    <string name="image_captions">Títulos de imagen</string>
+    <string name="image_captions_sub">Seleccione cualquier campo para combinarlos en títulos de varias líneas</string>
+    <string name="caption_file_name_without_extension">Nombre de archivo sin extensión</string>
+    <string name="caption_sequence_number">Número de secuencia</string>
+    <string name="caption_image_dimensions">Dimensiones de la imagen</string>
+    <string name="caption_date_taken">Fecha tomada</string>
+    <string name="caption_camera_model">modelo de cámara</string>
+    <string name="caption_lens">Lente</string>
+    <string name="caption_exposure_settings">Configuración de exposición</string>
+    <string name="caption_parent_folder">Carpeta principal</string>
+    <string name="caption_custom_text">Texto personalizado</string>
+    <string name="caption_custom_text_hint">Texto que se muestra en cada imagen; los saltos de línea se conservan</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf hoja de contacto imagen cuadrícula miniaturas subtítulos</string>
 </resources>

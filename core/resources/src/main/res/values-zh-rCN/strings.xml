@@ -4606,4 +4606,19 @@
     <string name="upscale_to_fit_canvas">放大填满画布</string>
     <string name="upscale_to_fit_canvas_sub">放大较小的图像，直到它完全覆盖裁剪画布</string>
     <string name="export_profile_github_repository_social_preview">存储库社交预览</string>
+    <string name="pdf_contact_sheet">PDF 联系表</string>
+    <string name="pdf_contact_sheet_sub">将多个图像排列在 PDF 页面的网格中</string>
+    <string name="image_captions">图片说明</string>
+    <string name="image_captions_sub">选择任何字段以将它们组合成多行标题</string>
+    <string name="caption_file_name_without_extension">不带扩展名的文件名</string>
+    <string name="caption_sequence_number">序号</string>
+    <string name="caption_image_dimensions">图片尺寸</string>
+    <string name="caption_date_taken">拍摄日期</string>
+    <string name="caption_camera_model">相机型号</string>
+    <string name="caption_lens">镜片</string>
+    <string name="caption_exposure_settings">曝光设置</string>
+    <string name="caption_parent_folder">父文件夹</string>
+    <string name="caption_custom_text">自定义文本</string>
+    <string name="caption_custom_text_hint">每张图像上显示的文字；换行符被保留</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf 联系表 图像网格 缩略图 标题</string>
 </resources>

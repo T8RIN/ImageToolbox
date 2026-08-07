@@ -105,3 +105,95 @@ val Icons.Outlined.GridOn: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
         }
     }.build()
 }
+
+val Icons.TwoTone.GridOn: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.GridOn",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(5f, 21f)
+            curveToRelative(-0.55f, 0f, -1.021f, -0.196f, -1.413f, -0.587f)
+            curveToRelative(-0.392f, -0.392f, -0.587f, -0.863f, -0.587f, -1.413f)
+            verticalLineTo(5f)
+            curveToRelative(0f, -0.55f, 0.196f, -1.021f, 0.587f, -1.413f)
+            curveToRelative(0.392f, -0.392f, 0.863f, -0.587f, 1.413f, -0.587f)
+            horizontalLineToRelative(14f)
+            curveToRelative(0.55f, 0f, 1.021f, 0.196f, 1.413f, 0.587f)
+            reflectiveCurveToRelative(0.587f, 0.863f, 0.587f, 1.413f)
+            verticalLineToRelative(14f)
+            curveToRelative(0f, 0.55f, -0.196f, 1.021f, -0.587f, 1.413f)
+            curveToRelative(-0.392f, 0.392f, -0.863f, 0.587f, -1.413f, 0.587f)
+            horizontalLineTo(5f)
+            close()
+            moveTo(5f, 19f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.325f)
+            close()
+            moveTo(10.325f, 19f)
+            horizontalLineToRelative(3.35f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.35f)
+            verticalLineToRelative(3.325f)
+            close()
+            moveTo(15.675f, 19f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.325f)
+            close()
+            moveTo(5f, 13.675f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.35f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.35f)
+            close()
+            moveTo(10.325f, 13.675f)
+            horizontalLineToRelative(3.35f)
+            verticalLineToRelative(-3.35f)
+            horizontalLineToRelative(-3.35f)
+            verticalLineToRelative(3.35f)
+            close()
+            moveTo(15.675f, 13.675f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.35f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.35f)
+            close()
+            moveTo(5f, 8.325f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.325f)
+            close()
+            moveTo(10.325f, 8.325f)
+            horizontalLineToRelative(3.35f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.35f)
+            verticalLineToRelative(3.325f)
+            close()
+            moveTo(15.675f, 8.325f)
+            horizontalLineToRelative(3.325f)
+            verticalLineToRelative(-3.325f)
+            horizontalLineToRelative(-3.325f)
+            verticalLineToRelative(3.325f)
+            close()
+        }
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(5f, 5f)
+            horizontalLineToRelative(14f)
+            verticalLineToRelative(14f)
+            horizontalLineToRelative(-14f)
+            close()
+        }
+    }.build()
+}

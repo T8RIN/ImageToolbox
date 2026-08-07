@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Upscale para punan ang canvas</string>
     <string name="upscale_to_fit_canvas_sub">Palakihin ang isang mas maliit na larawan hanggang sa ganap nitong masakop ang crop canvas</string>
     <string name="export_profile_github_repository_social_preview">Preview ng social repository</string>
+    <string name="pdf_contact_sheet">PDF Contact Sheet</string>
+    <string name="pdf_contact_sheet_sub">Ayusin ang maramihang mga larawan sa isang grid sa mga PDF page</string>
+    <string name="image_captions">Mga caption ng larawan</string>
+    <string name="image_captions_sub">Pumili ng anumang mga field upang pagsamahin ang mga ito sa mga caption na maraming linya</string>
+    <string name="caption_file_name_without_extension">Filename na walang extension</string>
+    <string name="caption_sequence_number">Sequence number</string>
+    <string name="caption_image_dimensions">Mga sukat ng larawan</string>
+    <string name="caption_date_taken">Nakuha ang petsa</string>
+    <string name="caption_camera_model">Modelo ng camera</string>
+    <string name="caption_lens">Lens</string>
+    <string name="caption_exposure_settings">Mga setting ng exposure</string>
+    <string name="caption_parent_folder">folder ng magulang</string>
+    <string name="caption_custom_text">Custom na text</string>
+    <string name="caption_custom_text_hint">Tekstong ipinapakita sa bawat larawan; ang mga line break ay napanatili</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf mga caption ng mga thumbnail ng grid ng larawan ng contact sheet</string>
 </resources>

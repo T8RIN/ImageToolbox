@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Haut de gamme pour remplir la toile</string>
     <string name="upscale_to_fit_canvas_sub">Agrandissez une image plus petite jusqu\'à ce qu\'elle recouvre complètement la toile de recadrage</string>
     <string name="export_profile_github_repository_social_preview">Aperçu social du référentiel</string>
+    <string name="pdf_contact_sheet">Feuille de contact PDF</string>
+    <string name="pdf_contact_sheet_sub">Disposez plusieurs images dans une grille sur les pages PDF</string>
+    <string name="image_captions">Légendes des images</string>
+    <string name="image_captions_sub">Sélectionnez n\'importe quel champ pour les combiner dans des légendes multilignes</string>
+    <string name="caption_file_name_without_extension">Nom de fichier sans extension</string>
+    <string name="caption_sequence_number">Numéro de séquence</string>
+    <string name="caption_image_dimensions">Dimensions de l\'image</string>
+    <string name="caption_date_taken">Date de prise</string>
+    <string name="caption_camera_model">Modèle de caméra</string>
+    <string name="caption_lens">Lentille</string>
+    <string name="caption_exposure_settings">Paramètres d\'exposition</string>
+    <string name="caption_parent_folder">Dossier parent</string>
+    <string name="caption_custom_text">Texte personnalisé</string>
+    <string name="caption_custom_text_hint">Texte affiché sur chaque image ; les sauts de ligne sont conservés</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf planche contact grille d\'images vignettes légendes</string>
 </resources>

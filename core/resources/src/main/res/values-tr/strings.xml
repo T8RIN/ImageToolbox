@@ -4607,4 +4607,19 @@
     <string name="upscale_to_fit_canvas">Tuvali dolduracak kadar lüks</string>
     <string name="upscale_to_fit_canvas_sub">Daha küçük bir resmi, kırpma tuvalini tamamen kaplayana kadar büyütün</string>
     <string name="export_profile_github_repository_social_preview">Depo sosyal önizlemesi</string>
+    <string name="pdf_contact_sheet">PDF İletişim Sayfası</string>
+    <string name="pdf_contact_sheet_sub">Birden fazla görüntüyü PDF sayfalarında bir ızgarada düzenleyin</string>
+    <string name="image_captions">Resim yazıları</string>
+    <string name="image_captions_sub">Çok satırlı başlıklarda birleştirmek için herhangi bir alanı seçin</string>
+    <string name="caption_file_name_without_extension">Uzantısız dosya adı</string>
+    <string name="caption_sequence_number">Sıra numarası</string>
+    <string name="caption_image_dimensions">Resim boyutları</string>
+    <string name="caption_date_taken">Alındığı tarih</string>
+    <string name="caption_camera_model">Kamera modeli</string>
+    <string name="caption_lens">Objektif</string>
+    <string name="caption_exposure_settings">Pozlama ayarları</string>
+    <string name="caption_parent_folder">Ana klasör</string>
+    <string name="caption_custom_text">Özel metin</string>
+    <string name="caption_custom_text_hint">Her resimde gösterilen metin; satır sonları korunur</string>
+    <string name="search_keywords_pdf_contact_sheet">pdf iletişim sayfası görüntü ızgarası küçük resimler başlıklar</string>
 </resources>

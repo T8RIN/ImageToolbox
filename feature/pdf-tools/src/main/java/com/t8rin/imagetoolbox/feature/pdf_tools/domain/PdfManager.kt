@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
@@ -40,6 +41,12 @@ interface PdfManager : PdfHelper {
     suspend fun createPdf(
         imageUris: List<String>,
         params: PdfCreationParams
+    ): String
+
+    suspend fun createContactSheet(
+        imageUris: List<String>,
+        captions: List<List<String>>,
+        params: PdfContactSheetParams
     ): String
 
     suspend fun createSearchablePdf(
