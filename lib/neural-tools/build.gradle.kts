@@ -27,4 +27,5 @@ android {
 dependencies {
     api(libs.onnx.runtime)
     implementation(libs.aire)
+    testImplementation(libs.junit)
 }

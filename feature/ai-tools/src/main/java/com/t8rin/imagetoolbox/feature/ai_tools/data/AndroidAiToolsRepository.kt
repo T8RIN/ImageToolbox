@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
 import com.t8rin.neural_tools.inpaint.WatermarkRemoverProcessor
+import com.t8rin.neural_tools.outpaint.MiganOutpaintProcessor
 import com.t8rin.neural_tools.scans.UvDocUnwarper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -221,8 +222,17 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 onProgress = ::trySend,
                 destinationPath = model.file.absolutePath,
                 onFinish = {
-                    if (it == null) selectModelForced(model)
-                    close(it)
+                    val failure = if (it == null && model.isOutpaint) {
+                        val actualChecksum = HashingType.SHA_256.computeFromReadable(
+                            FileReadable(model.file)
+                        )
+                        if (actualChecksum != model.checksum) {
+                            model.file.delete()
+                            IllegalStateException("MI-GAN model checksum mismatch")
+                        } else null
+                    } else it
+                    if (failure == null) selectModelForced(model)
+                    close(failure)
                 }
             )
         }
@@ -372,6 +382,31 @@ internal class AndroidAiToolsRepository @Inject constructor(
                             listener = listener
                         )
                     }
+                }
+            }
+
+            model.isOutpaint -> {
+                processImage {
+                    val progressListener = listener.withNotificationProgress()
+                    val ortSession = session.makeLog("Held session")
+                        ?: createSession(model).makeLog("New session")
+                        ?: return@withContext null.also {
+                            listener.onError(getString(R.string.failed_to_open_session))
+                        }
+                    keepAliveService.track(
+                        onFailure = { listener.onError(it.extractMessage()) },
+                        action = {
+                            MiganOutpaintProcessor.process(
+                                session = ortSession,
+                                source = image,
+                                targetWidth = image.width + params.outpaintLeft + params.outpaintRight,
+                                targetHeight = image.height + params.outpaintTop + params.outpaintBottom,
+                                offsetX = params.outpaintLeft,
+                                offsetY = params.outpaintTop,
+                                onProgress = progressListener::onProgress
+                            )
+                        }
+                    )
                 }
             }
 

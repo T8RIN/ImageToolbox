@@ -31,12 +31,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.ArrowDropDown
+import com.t8rin.imagetoolbox.core.resources.icons.ArrowDropUp
+import com.t8rin.imagetoolbox.core.resources.icons.ArrowLeft
+import com.t8rin.imagetoolbox.core.resources.icons.ArrowRight
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Memory
@@ -105,6 +110,41 @@ internal fun AiToolsControls(component: AiToolsComponent) {
             modifier = Modifier.padding(top = 8.dp),
             shape = ShapeDefaults.large,
         )
+    }
+
+    AnimatedVisibility(
+        visible = selectedModel?.isOutpaint == true,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(top = 8.dp)) {
+            OutpaintSlider(
+                value = component.params.outpaintTop,
+                title = stringResource(R.string.top),
+                icon = Icons.Rounded.ArrowDropUp,
+                onValueChange = { component.updateParams { copy(outpaintTop = it) } }
+            )
+            Spacer(Modifier.height(8.dp))
+            OutpaintSlider(
+                value = component.params.outpaintLeft,
+                title = stringResource(R.string.start),
+                icon = Icons.Rounded.ArrowLeft,
+                onValueChange = { component.updateParams { copy(outpaintLeft = it) } }
+            )
+            Spacer(Modifier.height(8.dp))
+            OutpaintSlider(
+                value = component.params.outpaintRight,
+                title = stringResource(R.string.end),
+                icon = Icons.Rounded.ArrowRight,
+                onValueChange = { component.updateParams { copy(outpaintRight = it) } }
+            )
+            Spacer(Modifier.height(8.dp))
+            OutpaintSlider(
+                value = component.params.outpaintBottom,
+                title = stringResource(R.string.bottom),
+                icon = Icons.Rounded.ArrowDropDown,
+                onValueChange = { component.updateParams { copy(outpaintBottom = it) } }
+            )
+        }
     }
 
     AnimatedVisibility(
@@ -197,19 +237,21 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         }
     }
 
-    Spacer(Modifier.height(8.dp))
+    if (selectedModel?.isOutpaint != true) {
+        Spacer(Modifier.height(8.dp))
 
-    InfoContainer(
-        text = if (isChunkable) {
-            stringResource(R.string.note_chunk_info, component.params.chunkSize)
-        } else if (!isModelChunkable) {
-            stringResource(R.string.current_model_not_chunkable)
-        } else {
-            stringResource(R.string.chunking_disabled)
-        },
-        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
-        contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f)
-    )
+        InfoContainer(
+            text = if (isChunkable) {
+                stringResource(R.string.note_chunk_info, component.params.chunkSize)
+            } else if (!isModelChunkable) {
+                stringResource(R.string.current_model_not_chunkable)
+            } else {
+                stringResource(R.string.chunking_disabled)
+            },
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f)
+        )
+    }
 
     Spacer(Modifier.height(8.dp))
 
@@ -222,5 +264,25 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         },
         onValueChange = component::setImageFormat,
         onAutoClick = { component.setImageFormat(null) }
+    )
+}
+
+@Composable
+private fun OutpaintSlider(
+    value: Int,
+    title: String,
+    icon: ImageVector,
+    onValueChange: (Int) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value,
+        title = title,
+        icon = icon,
+        valueRange = 0f..2048f,
+        steps = 255,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(it.roundToInt()) },
+        valueSuffix = " px",
+        shape = ShapeDefaults.large
     )
 }

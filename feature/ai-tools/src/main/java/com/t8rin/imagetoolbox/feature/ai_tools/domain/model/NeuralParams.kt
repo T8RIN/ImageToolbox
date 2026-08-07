@@ -23,7 +23,11 @@ data class NeuralParams(
     val overlap: Int,
     val enableChunking: Boolean,
     val parallelWorkers: Int = 0,
-    val auxiliaryImage: String? = null
+    val auxiliaryImage: String? = null,
+    val outpaintTop: Int = 128,
+    val outpaintLeft: Int = 128,
+    val outpaintRight: Int = 128,
+    val outpaintBottom: Int = 128
 )
 
 data class SavableNeuralParams(
@@ -31,7 +35,11 @@ data class SavableNeuralParams(
     val chunkSize: Int,
     val overlap: Int,
     val enableChunking: Boolean,
-    val parallelWorkers: Int = 0
+    val parallelWorkers: Int = 0,
+    val outpaintTop: Int = 128,
+    val outpaintLeft: Int = 128,
+    val outpaintRight: Int = 128,
+    val outpaintBottom: Int = 128
 ) {
     companion object {
         val Default by lazy {
@@ -52,5 +60,9 @@ fun SavableNeuralParams.withAuxiliaryImage(auxiliaryImage: String?): NeuralParam
     overlap = overlap,
     enableChunking = enableChunking,
     parallelWorkers = parallelWorkers,
-    auxiliaryImage = auxiliaryImage
+    auxiliaryImage = auxiliaryImage,
+    outpaintTop = outpaintTop,
+    outpaintLeft = outpaintLeft,
+    outpaintRight = outpaintRight,
+    outpaintBottom = outpaintBottom
 )

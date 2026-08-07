@@ -58,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.File
 import com.t8rin.imagetoolbox.core.resources.icons.Jpg
+import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.Manga
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
@@ -90,6 +91,7 @@ fun NeuralModel.Type.title(): Int = when (this) {
     NeuralModel.Type.UPSCALE -> R.string.type_upscale
     NeuralModel.Type.REMOVE_BG -> R.string.type_removebg
     NeuralModel.Type.STYLE_TRANSFER -> R.string.type_style_transfer
+    NeuralModel.Type.OUTPAINT -> R.string.type_outpaint
 }
 
 fun NeuralModel.Type.icon(): ImageVector = when (this) {
@@ -103,6 +105,7 @@ fun NeuralModel.Type.icon(): ImageVector = when (this) {
     NeuralModel.Type.UPSCALE -> Icons.Rounded.QualityHigh
     NeuralModel.Type.REMOVE_BG -> Icons.Rounded.Eraser
     NeuralModel.Type.STYLE_TRANSFER -> Icons.Rounded.Palette
+    NeuralModel.Type.OUTPAINT -> Icons.Outlined.ImageResize
 }
 
 fun NeuralModel.Speed.icon(): ImageVector = when (this) {

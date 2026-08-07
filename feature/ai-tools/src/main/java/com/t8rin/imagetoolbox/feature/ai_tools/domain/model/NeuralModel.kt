@@ -39,16 +39,17 @@ data class NeuralModel(
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
     val isUvDocUnwarper = name == "uvdoc_grid.onnx"
+    val isOutpaint = type == Type.OUTPAINT
 
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
-                isUvDocUnwarper || isStyleTransfer
+                isUvDocUnwarper || isStyleTransfer || isOutpaint
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
     enum class Type {
         UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS,
-        STYLE_TRANSFER
+        STYLE_TRANSFER, OUTPAINT
     }
 
     sealed interface Speed {
@@ -88,6 +89,15 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("onnx/outpaint/migan_outpaint_512.onnx"),
+                    title = "MI-GAN",
+                    description = R.string.model_migan_outpaint,
+                    type = Type.OUTPAINT,
+                    downloadSize = 29_546_882L,
+                    speed = Speed.Normal(12.143f),
+                    checksum = "593eba0b7e04730f1b61c0a3cbca68d97d8d6a7ff5c6a44a7b9d7fcd880fc5ae"
+                ),
                 NeuralModel(
                     downloadLink = res("arbitrary_style_transfer_onnx.zip"),
                     title = "Arbitrary Style Transfer",
