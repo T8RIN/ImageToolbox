@@ -210,6 +210,9 @@ fun ImageExportProfileSelector(
             }
         }
     ) {
+        val showAddBlock =
+            (displayedSelectedProfile !in profiles || profiles.isEmpty()) && activeBuiltIn == null
+
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(12.dp),
@@ -222,7 +225,9 @@ fun ImageExportProfileSelector(
                     ExpandableItem(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 8.dp),
+                            .padding(
+                                bottom = if (showAddBlock || profiles.isNotEmpty()) 8.dp else 0.dp
+                            ),
                         visibleContent = {
                             TitleItem(
                                 icon = Icons.Outlined.Build,
@@ -300,7 +305,7 @@ fun ImageExportProfileSelector(
                     )
                 }
             }
-            if (displayedSelectedProfile !in profiles || profiles.isEmpty()) {
+            if (showAddBlock) {
                 item("AddImagePresetBlock") {
                     AddImagePresetBlock(
                         preset = preset,
