@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Discord
 import com.t8rin.imagetoolbox.core.resources.icons.Facebook
+import com.t8rin.imagetoolbox.core.resources.icons.Github
 import com.t8rin.imagetoolbox.core.resources.icons.Instagram
 import com.t8rin.imagetoolbox.core.resources.icons.LinkedIn
 import com.t8rin.imagetoolbox.core.resources.icons.Loyalty
@@ -166,7 +167,8 @@ fun ImageExportProfileSelector(
             modifier = if (
                 activeBuiltIn == null ||
                 activeBuiltIn.platform == BuiltInImageExportProfile.Platform.Telegram ||
-                activeBuiltIn.platform == BuiltInImageExportProfile.Platform.Web
+                activeBuiltIn.platform == BuiltInImageExportProfile.Platform.Web ||
+                activeBuiltIn.platform == BuiltInImageExportProfile.Platform.GitHub
             ) {
                 Modifier.size(24.dp)
             } else {
@@ -266,7 +268,8 @@ fun ImageExportProfileSelector(
                                             ),
                                             iconPadding = if (
                                                 platform == BuiltInImageExportProfile.Platform.Telegram ||
-                                                platform == BuiltInImageExportProfile.Platform.Web
+                                                platform == BuiltInImageExportProfile.Platform.Web ||
+                                                platform == BuiltInImageExportProfile.Platform.GitHub
                                             ) {
                                                 Dp.Unspecified
                                             } else 2.dp
@@ -415,6 +418,7 @@ private val BuiltInImageExportProfile.Platform.icon: ImageVector
         BuiltInImageExportProfile.Platform.Reddit -> Icons.Rounded.Reddit
         BuiltInImageExportProfile.Platform.Snapchat -> Icons.Rounded.Snapchat
         BuiltInImageExportProfile.Platform.Behance -> Icons.Rounded.Behance
+        BuiltInImageExportProfile.Platform.GitHub -> Icons.Rounded.Github
         BuiltInImageExportProfile.Platform.Telegram -> Icons.Rounded.Telegram
         BuiltInImageExportProfile.Platform.Discord -> Icons.Rounded.Discord
         BuiltInImageExportProfile.Platform.Twitch -> Icons.Rounded.Twitch

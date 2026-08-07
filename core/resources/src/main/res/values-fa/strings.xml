@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">عکس پروفایل</string>
     <string name="upscale_to_fit_canvas">سطح بالا برای پر کردن بوم</string>
     <string name="upscale_to_fit_canvas_sub">یک تصویر کوچکتر را تا جایی بزرگ کنید که بوم برش را کاملاً بپوشاند</string>
+    <string name="export_profile_github_repository_social_preview">پیش نمایش اجتماعی مخزن</string>
 </resources>

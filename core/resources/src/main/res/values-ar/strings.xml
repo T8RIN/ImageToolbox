@@ -4610,4 +4610,5 @@
     <string name="export_profile_twitch_profile">صورة الملف الشخصي</string>
     <string name="upscale_to_fit_canvas">الراقي لملء القماش</string>
     <string name="upscale_to_fit_canvas_sub">قم بتكبير الصورة الأصغر حتى تغطي لوحة القطع بالكامل</string>
+    <string name="export_profile_github_repository_social_preview">المعاينة الاجتماعية للمستودع</string>
 </resources>

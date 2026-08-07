@@ -4608,4 +4608,5 @@
     <string name="export_profile_twitch_profile">Profilová fotka</string>
     <string name="upscale_to_fit_canvas">Upscale na vyplnenie plátna</string>
     <string name="upscale_to_fit_canvas_sub">Zväčšite menší obrázok, kým úplne nezakryje orezané plátno</string>
+    <string name="export_profile_github_repository_social_preview">Sociálny náhľad úložiska</string>
 </resources>

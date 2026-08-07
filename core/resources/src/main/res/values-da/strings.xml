@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">Profilbillede</string>
     <string name="upscale_to_fit_canvas">Opskalere til at fylde lærred</string>
     <string name="upscale_to_fit_canvas_sub">Forstør et mindre billede, indtil det helt dækker beskæringslærredet</string>
+    <string name="export_profile_github_repository_social_preview">Repository social preview</string>
 </resources>

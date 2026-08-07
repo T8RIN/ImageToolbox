@@ -4608,4 +4608,5 @@
     <string name="export_profile_twitch_profile">תמונת פרופיל</string>
     <string name="upscale_to_fit_canvas">יוקרתי למילוי בד</string>
     <string name="upscale_to_fit_canvas_sub">הגדל תמונה קטנה יותר עד שתכסה לחלוטין את בד החיתוך</string>
+    <string name="export_profile_github_repository_social_preview">תצוגה מקדימה חברתית של מאגר</string>
 </resources>

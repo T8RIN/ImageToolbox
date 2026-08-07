@@ -4608,4 +4608,5 @@
     <string name="export_profile_twitch_profile">Изображение профиля</string>
     <string name="upscale_to_fit_canvas">Увеличение масштаба до заполнения холста</string>
     <string name="upscale_to_fit_canvas_sub">Увеличьте изображение меньшего размера, пока оно полностью не покроет холст обрезки.</string>
+    <string name="export_profile_github_repository_social_preview">Предварительный просмотр репозитория в социальных сетях</string>
 </resources>

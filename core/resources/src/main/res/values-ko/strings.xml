@@ -4605,4 +4605,5 @@
     <string name="export_profile_twitch_profile">프로필 사진</string>
     <string name="upscale_to_fit_canvas">캔버스를 가득 채울 수 있는 고급화</string>
     <string name="upscale_to_fit_canvas_sub">자르기 캔버스를 완전히 덮을 때까지 작은 이미지를 확대합니다.</string>
+    <string name="export_profile_github_repository_social_preview">저장소 소셜 미리보기</string>
 </resources>

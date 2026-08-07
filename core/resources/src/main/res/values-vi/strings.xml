@@ -4605,4 +4605,5 @@
     <string name="export_profile_twitch_profile">Ảnh hồ sơ</string>
     <string name="upscale_to_fit_canvas">Nâng cấp để lấp đầy canvas</string>
     <string name="upscale_to_fit_canvas_sub">Phóng to hình ảnh nhỏ hơn cho đến khi nó bao phủ hoàn toàn khung vẽ</string>
+    <string name="export_profile_github_repository_social_preview">Bản xem trước xã hội của kho lưu trữ</string>
 </resources>

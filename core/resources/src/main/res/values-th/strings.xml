@@ -4605,4 +4605,5 @@
     <string name="export_profile_twitch_profile">รูปโปรไฟล์</string>
     <string name="upscale_to_fit_canvas">ยกระดับสู่การเติมเต็มผืนผ้าใบ</string>
     <string name="upscale_to_fit_canvas_sub">ขยายรูปภาพให้เล็กลงจนครอบคลุมพื้นที่ครอบตัดทั้งหมด</string>
+    <string name="export_profile_github_repository_social_preview">การแสดงตัวอย่างทางสังคมของพื้นที่เก็บข้อมูล</string>
 </resources>

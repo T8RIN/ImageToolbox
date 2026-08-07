@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">ప్రొఫైల్ చిత్రం</string>
     <string name="upscale_to_fit_canvas">కాన్వాస్‌ని పూరించడానికి ఉన్నత స్థాయి</string>
     <string name="upscale_to_fit_canvas_sub">క్రాప్ కాన్వాస్‌ను పూర్తిగా కవర్ చేసే వరకు చిన్న చిత్రాన్ని పెద్దదిగా చేయండి</string>
+    <string name="export_profile_github_repository_social_preview">రిపోజిటరీ సామాజిక పరిదృశ్యం</string>
 </resources>

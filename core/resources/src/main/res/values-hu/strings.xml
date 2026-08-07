@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">Profilkép</string>
     <string name="upscale_to_fit_canvas">Előkelő vászon kitöltésére</string>
     <string name="upscale_to_fit_canvas_sub">Nagyítson fel egy kisebb képet, amíg teljesen el nem fedi a vágóvászont</string>
+    <string name="export_profile_github_repository_social_preview">Repository közösségi előnézet</string>
 </resources>

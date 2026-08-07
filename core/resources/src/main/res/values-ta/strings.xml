@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">சுயவிவரப் படம்</string>
     <string name="upscale_to_fit_canvas">கேன்வாஸை நிரப்ப உயர்தரம்</string>
     <string name="upscale_to_fit_canvas_sub">செதுக்கப்பட்ட கேன்வாஸை முழுவதுமாக மறைக்கும் வரை சிறிய படத்தை பெரிதாக்கவும்</string>
+    <string name="export_profile_github_repository_social_preview">களஞ்சிய சமூக முன்னோட்டம்</string>
 </resources>

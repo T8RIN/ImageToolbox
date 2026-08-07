@@ -44,6 +44,7 @@ data class BuiltInImageExportProfile(
         Reddit,
         Snapchat,
         Behance,
+        GitHub,
         Telegram,
         Discord,
         Twitch
@@ -404,6 +405,13 @@ data class BuiltInImageExportProfile(
                     platform = Platform.Behance,
                     titleRes = R.string.export_profile_behance_lightbox_image,
                     maxSize = 2800
+                ),
+                socialProfile(
+                    id = "github_repository_social_preview",
+                    platform = Platform.GitHub,
+                    titleRes = R.string.export_profile_github_repository_social_preview,
+                    width = 1280,
+                    height = 640
                 ),
                 BuiltInImageExportProfile(
                     id = "telegram_sticker",

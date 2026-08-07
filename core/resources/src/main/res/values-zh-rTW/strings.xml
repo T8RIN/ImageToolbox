@@ -4605,4 +4605,5 @@
     <string name="export_profile_twitch_profile">個人資料圖片</string>
     <string name="upscale_to_fit_canvas">高檔填充畫布</string>
     <string name="upscale_to_fit_canvas_sub">放大較小的圖像，直到它完全覆蓋裁剪畫布</string>
+    <string name="export_profile_github_repository_social_preview">儲存庫社交預覽</string>
 </resources>

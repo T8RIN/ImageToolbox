@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">Immagine del profilo</string>
     <string name="upscale_to_fit_canvas">Di lusso per riempire la tela</string>
     <string name="upscale_to_fit_canvas_sub">Ingrandisci un\'immagine più piccola fino a coprire completamente la tela di ritaglio</string>
+    <string name="export_profile_github_repository_social_preview">Anteprima sociale del repository</string>
 </resources>

@@ -4606,4 +4606,5 @@
     <string name="export_profile_twitch_profile">প্রোফাইল ছবি</string>
     <string name="upscale_to_fit_canvas">ক্যানভাস পূরণ করতে আপস্কেল</string>
     <string name="upscale_to_fit_canvas_sub">একটি ছোট ছবি বড় করুন যতক্ষণ না এটি সম্পূর্ণভাবে ক্রপ ক্যানভাসকে কভার করে</string>
+    <string name="export_profile_github_repository_social_preview">সংগ্রহস্থল সামাজিক পূর্বরূপ</string>
 </resources>

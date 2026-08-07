@@ -78,7 +78,7 @@ class BuiltInImageExportProfileTest {
 
     @Test
     fun containsExpectedNumberOfBuiltInProfiles() {
-        assertEquals(60, entries.size)
+        assertEquals(61, entries.size)
     }
 
     @Test

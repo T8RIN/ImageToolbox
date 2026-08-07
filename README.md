@@ -1193,7 +1193,7 @@ or click one of the badges below.
     - Saving beside original files or deleting originals after a successful export
     - Long press on save to choose one time output folder
     - Reusable export profiles for Single Edit and Resize & Convert
-      - 60 built-in profiles for web publishing and popular social platforms
+      - 61 built-in profiles for web publishing and popular social platforms
 
           <details>
           <summary>Available built-in export profiles</summary>
@@ -1224,14 +1224,15 @@ or click one of the badges below.
           - **Snapchat:** Single Image Ad (720×1280), Story Ad (720×1560)
           - **Behance:** Project Cover (808×632), Project Image (up to 1400 px), Lightbox Image (
             up to 2800 px)
-            - **Telegram:** Sticker (512×512), Custom Emoji (100×100)
-            - **Discord:** Profile Banner (680×240), Server Banner (960×540), Invite Splash (
-              1920×1080), Avatar (512×512)
-            - **Twitch:** Profile Banner (1200×480), Video Thumbnail (1280×720), Profile Picture (
-              256×256)
+        - **GitHub:** Repository Social Preview (1280×640)
+        - **Telegram:** Sticker (512×512), Custom Emoji (100×100)
+        - **Discord:** Profile Banner (680×240), Server Banner (960×540), Invite Splash (
+          1920×1080), Avatar (512×512)
+        - **Twitch:** Profile Banner (1200×480), Video Thumbnail (1280×720), Profile Picture (
+          256×256)
 
           </details>
-          
+
     - Undo and redo history in editing tools
     - Randomizing output filename
     - Using image cheksum as filename

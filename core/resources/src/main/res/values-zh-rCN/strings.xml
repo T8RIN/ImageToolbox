@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -4603,4 +4605,5 @@
     <string name="export_profile_twitch_profile">简介图片</string>
     <string name="upscale_to_fit_canvas">放大填满画布</string>
     <string name="upscale_to_fit_canvas_sub">放大较小的图像，直到它完全覆盖裁剪画布</string>
+    <string name="export_profile_github_repository_social_preview">存储库社交预览</string>
 </resources>
