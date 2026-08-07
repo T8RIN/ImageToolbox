@@ -303,6 +303,7 @@ fun StitchModeSelector(
 @Composable
 private fun StitchMode.title(): String = when (this) {
     is StitchMode.Auto -> stringResource(R.string.auto)
+    is StitchMode.Screenshot -> stringResource(R.string.screenshot)
     is StitchMode.Panorama -> stringResource(R.string.panorama)
     is StitchMode.Grid.Horizontal -> stringResource(R.string.horizontal_grid)
     is StitchMode.Grid.Vertical -> stringResource(R.string.vertical_grid)

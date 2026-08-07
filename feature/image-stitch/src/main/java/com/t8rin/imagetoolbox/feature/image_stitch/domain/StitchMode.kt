@@ -36,7 +36,7 @@ sealed class StitchMode(val ordinal: Int) {
         )
     } else emptyList()
 
-    fun isAuto(): Boolean = this is Auto || this is Panorama
+    fun isAuto(): Boolean = this is Auto || this is Screenshot || this is Panorama
 
     fun copyWithDrops(
         topDrop: Int = this.topDrop,
@@ -47,6 +47,15 @@ sealed class StitchMode(val ordinal: Int) {
         blendRadius: Int = this.blendRadius
     ): StitchMode = when (this) {
         is Auto -> copy(
+            topDrop = topDrop,
+            bottomDrop = bottomDrop,
+            startDrop = startDrop,
+            endDrop = endDrop,
+            cropToContent = cropToContent,
+            blendRadius = blendRadius
+        )
+
+        is Screenshot -> copy(
             topDrop = topDrop,
             bottomDrop = bottomDrop,
             startDrop = startDrop,
@@ -75,6 +84,24 @@ sealed class StitchMode(val ordinal: Int) {
         override val cropToContent: Boolean = false,
         override val blendRadius: Int = 0
     ) : StitchMode(-1) {
+        constructor(drops: List<Int>) : this(
+            topDrop = drops.getOrNull(0) ?: 0,
+            bottomDrop = drops.getOrNull(1) ?: 0,
+            startDrop = drops.getOrNull(2) ?: 0,
+            endDrop = drops.getOrNull(3) ?: 0,
+            cropToContent = drops.getOrNull(4) == 1,
+            blendRadius = drops.getOrNull(5) ?: 0
+        )
+    }
+
+    data class Screenshot(
+        override val topDrop: Int = 0,
+        override val bottomDrop: Int = 0,
+        override val startDrop: Int = 0,
+        override val endDrop: Int = 0,
+        override val cropToContent: Boolean = false,
+        override val blendRadius: Int = 0
+    ) : StitchMode(5) {
         constructor(drops: List<Int>) : this(
             topDrop = drops.getOrNull(0) ?: 0,
             bottomDrop = drops.getOrNull(1) ?: 0,
@@ -130,6 +157,7 @@ sealed class StitchMode(val ordinal: Int) {
             2 -> Grid.Horizontal()
             3 -> Grid.Vertical()
             4 -> Panorama()
+            5 -> Screenshot()
             else -> Horizontal
         }
 
@@ -139,8 +167,9 @@ sealed class StitchMode(val ordinal: Int) {
                 Vertical,
                 Grid.Horizontal(),
                 Grid.Vertical(),
+                Screenshot(),
+                Panorama(),
                 Auto(),
-                Panorama()
             )
         }
     }
