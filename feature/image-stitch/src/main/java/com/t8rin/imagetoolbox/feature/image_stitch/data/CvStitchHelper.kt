@@ -292,10 +292,6 @@ internal class CvStitchHelper @Inject constructor(
                 uris = imageUris,
                 imageScale = combiningParams.outputScale,
                 stitchMode = combiningParams.stitchMode
-            ) ?: cvStitch(
-                uris = imageUris,
-                imageScale = combiningParams.outputScale,
-                stitchMode = combiningParams.stitchMode
             )
 
             is StitchMode.Panorama -> cvPanorama(
@@ -387,29 +383,27 @@ internal class CvStitchHelper @Inject constructor(
             }
         } else images
 
-        val overlaps = orientedImages.zipWithNext { previous, next ->
-            findScreenshotOverlap(
-                previous = previous,
-                next = next,
-                safeEndInsetRatio = safeEndInsetRatio
-            )
-        }
-        if (overlaps.any { it == null }) {
+        val order = findScreenshotOrder(
+            images = orientedImages,
+            safeEndInsetRatio = safeEndInsetRatio
+        )
+        if (order == null) {
             if (transpose) orientedImages.forEach(Mat::release)
             return null
         }
 
         val segments = mutableListOf<Mat>()
-        orientedImages.forEachIndexed { index, image ->
+        order.indices.forEachIndexed { index, imageIndex ->
+            val image = orientedImages[imageIndex]
             val start = if (index == 0) {
                 0
             } else {
-                overlaps[index - 1]!!.nextOverlapEnd
+                order.overlaps[index - 1].nextOverlapEnd
             }
-            val end = if (index == images.lastIndex) {
+            val end = if (index == order.indices.lastIndex) {
                 image.rows()
             } else {
-                overlaps[index]!!.previousContentEnd
+                order.overlaps[index].previousContentEnd
             }
 
             if (end > start) {
@@ -436,8 +430,67 @@ internal class CvStitchHelper @Inject constructor(
 
         return ScreenshotStitchCandidate(
             image = result,
-            score = overlaps.mapNotNull { it?.score }.average()
+            score = order.score
         )
+    }
+
+    private fun findScreenshotOrder(
+        images: List<Mat>,
+        safeEndInsetRatio: Double
+    ): ScreenshotOrder? {
+        val overlaps = Array(images.size) {
+            arrayOfNulls<ScreenshotOverlap>(images.size)
+        }
+        val checked = Array(images.size) { BooleanArray(images.size) }
+
+        fun overlap(from: Int, to: Int): ScreenshotOverlap? {
+            if (!checked[from][to]) {
+                checked[from][to] = true
+                overlaps[from][to] = findScreenshotOverlap(
+                    previous = images[from],
+                    next = images[to],
+                    safeEndInsetRatio = safeEndInsetRatio
+                )
+            }
+            return overlaps[from][to]
+        }
+
+        val originalOverlaps = images.indices.zipWithNext { previous, next ->
+            overlap(previous, next)
+        }
+        if (originalOverlaps.all { it != null }) {
+            return ScreenshotOrder(
+                indices = images.indices.toList(),
+                overlaps = originalOverlaps.filterNotNull()
+            )
+        }
+
+        var candidates = images.indices.map { index ->
+            ScreenshotOrder(
+                indices = listOf(index),
+                overlaps = emptyList()
+            )
+        }
+        repeat(images.lastIndex) {
+            candidates = candidates.flatMap { candidate ->
+                images.indices.mapNotNull { next ->
+                    if (next in candidate.indices) return@mapNotNull null
+                    val nextOverlap = overlap(candidate.indices.last(), next)
+                        ?: return@mapNotNull null
+                    ScreenshotOrder(
+                        indices = candidate.indices + next,
+                        overlaps = candidate.overlaps + nextOverlap
+                    )
+                }
+            }.sortedWith(
+                compareByDescending<ScreenshotOrder> { it.minimumScore }
+                    .thenByDescending { it.score }
+            ).take(MAX_SCREENSHOT_ORDER_CANDIDATES)
+
+            if (candidates.isEmpty()) return null
+        }
+
+        return candidates.firstOrNull()
     }
 
     private fun findScreenshotOverlap(
@@ -508,7 +561,7 @@ internal class CvStitchHelper @Inject constructor(
 
             val scaleY = previous.rows().toDouble() / previousPrepared.rows()
             val originalOffset = (best.offset * scaleY).roundToInt()
-            val assemblyFixedBottom = if (fixedBottom > 0) {
+            val assemblyFixedBottom = if (fixedTop > 0 || fixedBottom > 0) {
                 max(
                     fixedBottom,
                     (previousPrepared.rows() * safeEndInsetRatio).roundToInt()
@@ -1178,6 +1231,14 @@ internal class CvStitchHelper @Inject constructor(
         val score: Double
     )
 
+    private data class ScreenshotOrder(
+        val indices: List<Int>,
+        val overlaps: List<ScreenshotOverlap>
+    ) {
+        val minimumScore: Double = overlaps.minOfOrNull(ScreenshotOverlap::score) ?: 1.0
+        val score: Double = overlaps.map(ScreenshotOverlap::score).average()
+    }
+
     private data class OffsetCandidate(
         val offset: Int,
         val score: Double
@@ -1204,6 +1265,7 @@ internal class CvStitchHelper @Inject constructor(
         const val OFFSET_CLUSTER_RADIUS = 2
         const val MIN_TEMPLATE_SCORE = 0.6
         const val MIN_OVERLAP_SCORE = 0.45
+        const val MAX_SCREENSHOT_ORDER_CANDIDATES = 256
         const val EXPOSURE_BLEND_RADIUS = 32.0
         const val FEATHER_REFERENCE_RADIUS = 32.0
         const val MIN_FEATHER_POWER = 0.25
