@@ -1143,10 +1143,10 @@ internal class AndroidPdfManager @Inject constructor(
 
                     repeat(pageCount) { pageIndex ->
                         val first = pageIndex.takeIf { it < firstRenderer.pageCount }?.let {
-                            firstRenderer.safeRenderDpi(it, 36f)
+                            firstRenderer.safeRenderDpi(it, 144f)
                         }
                         val second = pageIndex.takeIf { it < secondRenderer.pageCount }?.let {
-                            secondRenderer.safeRenderDpi(it, 36f)
+                            secondRenderer.safeRenderDpi(it, 144f)
                         }
                         val difference = createPdfDifferenceBitmap(
                             first = first,
