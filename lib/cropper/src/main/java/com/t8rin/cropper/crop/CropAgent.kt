@@ -36,7 +36,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toComposeRect
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.toSize
 import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import coil3.imageLoader
@@ -52,6 +55,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.roundToInt
 import android.graphics.Rect as AndroidRect
 import coil3.size.Size as CoilSize
 
@@ -76,12 +80,16 @@ internal class CropAgent {
         density: Density,
     ): ImageBitmap {
         return runCatching {
+            val roundedCropRect = cropRect.roundedInBounds(
+                width = imageBitmap.width,
+                height = imageBitmap.height
+            )
             val croppedBitmap: Bitmap = Bitmap.createBitmap(
                 imageBitmap.asAndroidBitmap(),
-                cropRect.left.toInt(),
-                cropRect.top.toInt(),
-                cropRect.width.toInt(),
-                cropRect.height.toInt(),
+                roundedCropRect.left,
+                roundedCropRect.top,
+                roundedCropRect.width,
+                roundedCropRect.height,
             )
 
             val imageToCrop = croppedBitmap
@@ -89,7 +97,13 @@ internal class CropAgent {
                 .apply { setHasAlpha(true) }
                 .asImageBitmap()
 
-            drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
+            drawCroppedImage(
+                cropOutline = cropOutline,
+                cropSize = roundedCropRect.size,
+                layoutDirection = layoutDirection,
+                density = density,
+                imageToCrop = imageToCrop
+            )
 
             imageToCrop
         }.getOrNull() ?: imageBitmap
@@ -152,7 +166,7 @@ internal class CropAgent {
 
     private fun drawCroppedImage(
         cropOutline: CropOutline,
-        cropRect: Rect,
+        cropSize: IntSize,
         layoutDirection: LayoutDirection,
         density: Density,
         imageToCrop: ImageBitmap,
@@ -163,7 +177,7 @@ internal class CropAgent {
 
                 val path = Path().apply {
                     val outline =
-                        cropOutline.shape.createOutline(cropRect.size, layoutDirection, density)
+                        cropOutline.shape.createOutline(cropSize.toSize(), layoutDirection, density)
                     addOutline(outline)
                 }
 
@@ -190,12 +204,12 @@ internal class CropAgent {
                     addPath(cropOutline.path)
 
                     val pathSize = getBounds().size
-                    val rectSize = cropRect.size
+                    val rectSize = cropSize.toSize()
 
                     val matrix = android.graphics.Matrix()
                     matrix.postScale(
                         rectSize.width / pathSize.width,
-                        cropRect.height / pathSize.height
+                        rectSize.height / pathSize.height
                     )
                     this.asAndroidPath().transform(matrix)
 
@@ -220,7 +234,7 @@ internal class CropAgent {
             is CropImageMask -> {
 
                 val imageMask = cropOutline.image.asAndroidBitmap()
-                    .scale(cropRect.width.toInt(), cropRect.height.toInt()).asImageBitmap()
+                    .scale(cropSize.width, cropSize.height).asImageBitmap()
 
                 Canvas(image = imageToCrop).run {
                     saveLayer(nativeCanvas.clipBounds.toComposeRect(), imagePaint)
@@ -315,12 +329,29 @@ private fun Rect.toAndroidRect(
     width: Int,
     height: Int
 ): AndroidRect {
-    val safeRect = coerceIn(width, height)
+    val safeRect = roundedInBounds(width, height)
 
     return AndroidRect(
-        safeRect.left.toInt(),
-        safeRect.top.toInt(),
-        safeRect.right.toInt(),
-        safeRect.bottom.toInt()
+        safeRect.left,
+        safeRect.top,
+        safeRect.right,
+        safeRect.bottom
+    )
+}
+
+internal fun Rect.roundedInBounds(
+    width: Int,
+    height: Int
+): IntRect {
+    val roundedWidth = this.width.roundToInt().coerceIn(1, width)
+    val roundedHeight = this.height.roundToInt().coerceIn(1, height)
+    val roundedLeft = left.roundToInt().coerceIn(0, width - roundedWidth)
+    val roundedTop = top.roundToInt().coerceIn(0, height - roundedHeight)
+
+    return IntRect(
+        left = roundedLeft,
+        top = roundedTop,
+        right = roundedLeft + roundedWidth,
+        bottom = roundedTop + roundedHeight
     )
 }
