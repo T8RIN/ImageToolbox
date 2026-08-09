@@ -181,7 +181,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (More than 440 various filters)
+- Applying filter chains (500+ various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -623,6 +623,72 @@ or click one of the badges below.
     - [x] Vector Painting
     - [x] Warp By Intensity
     - [x] Water Reflection
+    - [x] Color Balance
+    - [x] Color Overlay
+    - [x] Native Stack Blur
+    - [x] Radial Tilt Shift
+    - [x] Linear Tilt Shift
+    - [x] Convex
+    - [x] Canny
+    - [x] Displacement
+    - [x] Unpurple
+    - [x] Unstrip
+    - [x] Banding Denoise
+    - [x] DCP Dehaze
+    - [x] Hessian Sharpen
+    - [x] Whiten Sharpen
+    - [x] Hough Sketch
+    - [x] Warhol
+    - [x] Descreen
+    - [x] Denoise Smooth
+    - [x] Clean Text
+    - [x] Fill Holes
+    - [x] Remove Scratches
+    - [x] Remove Hot Pixels
+    - [x] Texture Sharpen
+    - [x] Polaroid Frame
+    - [x] Pen Drawing
+    - [x] Old Photograph
+    - [x] Retro Fade
+    - [x] 60's Cinema
+    - [x] Metallic Look
+    - [x] Zone System
+    - [x] Buffer Error
+    - [x] Freaky B&amp;W
+    - [x] Dodge Sketch
+    - [x] Posterized Dithering
+    - [x] Hedcut
+    - [x] Distort Lens
+    - [x] Power Twirl
+    - [x] Random Deformations
+    - [x] Shock Waves
+    - [x] Row Shifter
+    - [x] Polar Transform
+    - [x] Fish-Eye
+    - [x] Boost Chromaticity
+    - [x] Equalize Light
+    - [x] Equalize Shadow
+    - [x] Light Glow
+    - [x] Color Temperature
+    - [x] Temperature Balance
+    - [x] Selective Desaturation
+    - [x] Graduated Color Accent
+    - [x] HSL Adjustment
+    - [x] Specific Saturation
+    - [x] Channel Processing
+    - [x] HSV Equalizer
+    - [x] Target Color Spot
+    - [x] Black and White Film
+    - [x] Local Contrast Enhancement
+    - [x] Local Variance Normalization
+    - [x] Gradient Sharpen
+    - [x] Tone Sharpen
+    - [x] Constrained Sharpen
+    - [x] Highlight Synthesis
+    - [x] Desaturate Norm
+    - [x] Saturation Equalizer
+    - [x] Dynamic Contrast
+    - [x] Tone Enhance
 
 
   </details>
