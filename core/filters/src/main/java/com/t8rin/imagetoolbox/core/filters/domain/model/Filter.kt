@@ -510,6 +510,64 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface ReliefLight : GmicFilter
     interface ShadowPatch : GmicFilter
     interface RawGmic : Filter<String>
+    interface Unpurple : GmicFilter
+    interface Unstrip : GmicFilter
+    interface BandingDenoise : GmicFilter
+    interface DcpDehaze : GmicFilter
+    interface HessianSharpen : GmicFilter
+    interface WhitenSharpen : GmicFilter
+    interface HoughSketch : GmicFilter
+    interface Warhol : GmicFilter
+    interface Descreen : GmicFilter
+    interface DenoiseSmooth : GmicFilter
+    interface CleanText : GmicFilter
+    interface FillHoles : GmicFilter
+    interface RemoveScratches : GmicFilter
+    interface RemoveHotPixels : GmicFilter
+    interface TextureSharpen : GmicFilter
+    interface PolaroidFrame : GmicFilter
+    interface PenDrawing : GmicFilter
+    interface OldPhotograph : GmicFilter
+    interface RetroFade : GmicFilter
+    interface SixtiesCinema : GmicFilter
+    interface MetallicLook : GmicFilter
+    interface ZoneSystem : GmicFilter
+    interface BufferError : GmicFilter
+    interface FreakyBlackAndWhite : GmicFilter
+    interface DodgeSketch : GmicFilter
+    interface PosterizedDithering : GmicFilter
+    interface Hedcut : GmicFilter
+    interface LensDistortion : GmicFilter
+    interface PowerTwirl : GmicFilter
+    interface RandomDeformations : GmicFilter
+    interface ShockWaves : GmicFilter
+    interface RowShifter : GmicFilter
+    interface PolarTransform : GmicFilter
+    interface FishEye : GmicFilter
+    interface BoostChromaticity : GmicFilter
+    interface EqualizeLight : GmicFilter
+    interface EqualizeShadow : GmicFilter
+    interface LightGlow : GmicFilter
+    interface ColorTemperature : GmicFilter
+    interface TemperatureBalance : GmicFilter
+    interface SelectiveDesaturation : GmicFilter
+    interface GraduatedColorAccent : GmicFilter
+    interface HslAdjustment : GmicFilter
+    interface SpecificSaturation : GmicFilter
+    interface ChannelProcessing : GmicFilter
+    interface HsvEqualizer : GmicFilter
+    interface TargetColorSpot : GmicFilter
+    interface BlackAndWhiteFilm : GmicFilter
+    interface LocalContrastEnhancement : GmicFilter
+    interface LocalVarianceNormalization : GmicFilter
+    interface GradientSharpen : GmicFilter
+    interface ToneSharpen : GmicFilter
+    interface ConstrainedSharpen : GmicFilter
+    interface HighlightSynthesis : GmicFilter
+    interface DesaturateNorm : GmicFilter
+    interface SaturationEqualizer : GmicFilter
+    interface DynamicContrast : GmicFilter
+    interface ToneEnhance : GmicFilter
 }
 
 interface SimpleFilter : Filter<Unit>
