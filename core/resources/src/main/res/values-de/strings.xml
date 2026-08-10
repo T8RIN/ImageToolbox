@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Glätte der Töne</string>
     <string name="gmic_param_x_position">X-Position</string>
     <string name="gmic_param_y_position">Y-Position</string>
+    <string name="enhancement">Erweiterung</string>
+    <string name="artistic">Künstlerisch</string>
+    <string name="frames">Rahmen</string>
 </resources>

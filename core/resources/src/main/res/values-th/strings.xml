@@ -4853,4 +4853,7 @@
     <string name="gmic_param_tones_smoothness">โทนสีเรียบเนียน</string>
     <string name="gmic_param_x_position">ตำแหน่ง X</string>
     <string name="gmic_param_y_position">ตำแหน่ง Y</string>
+    <string name="enhancement">การเพิ่มประสิทธิภาพ</string>
+    <string name="artistic">ศิลปะ</string>
+    <string name="frames">เฟรม</string>
 </resources>

@@ -4855,4 +4855,7 @@
     <string name="gmic_param_tones_smoothness">Tonuri Netezime</string>
     <string name="gmic_param_x_position">Poziția X</string>
     <string name="gmic_param_y_position">Poziția Y</string>
+    <string name="enhancement">Îmbunătățire</string>
+    <string name="artistic">Artistic</string>
+    <string name="frames">Rame</string>
 </resources>

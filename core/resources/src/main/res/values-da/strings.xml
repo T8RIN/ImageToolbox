@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Toner Glathed</string>
     <string name="gmic_param_x_position">X position</string>
     <string name="gmic_param_y_position">Y-position</string>
+    <string name="enhancement">Forbedring</string>
+    <string name="artistic">Kunstnerisk</string>
+    <string name="frames">Rammer</string>
 </resources>

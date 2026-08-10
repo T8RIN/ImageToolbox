@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Toonid Siledus</string>
     <string name="gmic_param_x_position">X positsioon</string>
     <string name="gmic_param_y_position">Y-asend</string>
+    <string name="enhancement">Täiendus</string>
+    <string name="artistic">Kunstiline</string>
+    <string name="frames">Raamid</string>
 </resources>

@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Sävyt Pehmeys</string>
     <string name="gmic_param_x_position">X-asento</string>
     <string name="gmic_param_y_position">Y-asento</string>
+    <string name="enhancement">Tehostaminen</string>
+    <string name="artistic">Taiteellinen</string>
+    <string name="frames">Kehykset</string>
 </resources>

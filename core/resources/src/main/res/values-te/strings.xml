@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">టోన్స్ స్మూత్‌నెస్</string>
     <string name="gmic_param_x_position">X స్థానం</string>
     <string name="gmic_param_y_position">Y స్థానం</string>
+    <string name="enhancement">మెరుగుదల</string>
+    <string name="artistic">కళాత్మకమైనది</string>
+    <string name="frames">ఫ్రేమ్‌లు</string>
 </resources>

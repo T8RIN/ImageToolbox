@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">גוונים חלקות</string>
     <string name="gmic_param_x_position">מיקום X</string>
     <string name="gmic_param_y_position">מיקום Y</string>
+    <string name="enhancement">הַגבָּרָה</string>
+    <string name="artistic">אָמָנוּתִי</string>
+    <string name="frames">מסגרות</string>
 </resources>

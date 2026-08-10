@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Hladkosť tónov</string>
     <string name="gmic_param_x_position">Poloha X</string>
     <string name="gmic_param_y_position">Poloha Y</string>
+    <string name="enhancement">Vylepšenie</string>
+    <string name="artistic">Umelecké</string>
+    <string name="frames">Rámy</string>
 </resources>

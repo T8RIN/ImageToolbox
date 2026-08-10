@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Tons Suavitat</string>
     <string name="gmic_param_x_position">Posició X</string>
     <string name="gmic_param_y_position">Posició Y</string>
+    <string name="enhancement">Millora</string>
+    <string name="artistic">Artístic</string>
+    <string name="frames">Marcs</string>
 </resources>

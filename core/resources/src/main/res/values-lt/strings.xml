@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Tonai Lygus</string>
     <string name="gmic_param_x_position">X pozicija</string>
     <string name="gmic_param_y_position">Y padėtis</string>
+    <string name="enhancement">Patobulinimas</string>
+    <string name="artistic">Meniškas</string>
+    <string name="frames">Rėmeliai</string>
 </resources>

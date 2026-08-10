@@ -4853,4 +4853,7 @@
     <string name="gmic_param_tones_smoothness">Kehalusan Nada</string>
     <string name="gmic_param_x_position">Posisi X</string>
     <string name="gmic_param_y_position">Posisi Y</string>
+    <string name="enhancement">Peningkatan</string>
+    <string name="artistic">Artistik</string>
+    <string name="frames">Bingkai</string>
 </resources>

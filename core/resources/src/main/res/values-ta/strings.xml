@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">டோன்ஸ் மென்மையானது</string>
     <string name="gmic_param_x_position">X நிலை</string>
     <string name="gmic_param_y_position">ஒய் நிலை</string>
+    <string name="enhancement">மேம்படுத்தல்</string>
+    <string name="artistic">கலை</string>
+    <string name="frames">சட்டங்கள்</string>
 </resources>

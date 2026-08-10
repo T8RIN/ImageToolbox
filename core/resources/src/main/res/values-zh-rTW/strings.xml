@@ -4853,4 +4853,7 @@
     <string name="gmic_param_tones_smoothness">色調平滑度</string>
     <string name="gmic_param_x_position">X 位置</string>
     <string name="gmic_param_y_position">Y 軸位置</string>
+    <string name="enhancement">強化</string>
+    <string name="artistic">藝術性</string>
+    <string name="frames">鏡框</string>
 </resources>

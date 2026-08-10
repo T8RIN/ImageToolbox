@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Tonifie la douceur</string>
     <string name="gmic_param_x_position">Position X</string>
     <string name="gmic_param_y_position">Position Y</string>
+    <string name="enhancement">Renforcement</string>
+    <string name="artistic">Artistique</string>
+    <string name="frames">Cadres</string>
 </resources>

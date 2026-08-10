@@ -4853,4 +4853,7 @@
     <string name="gmic_param_tones_smoothness">Tông màu mượt mà</string>
     <string name="gmic_param_x_position">Vị trí X</string>
     <string name="gmic_param_y_position">Vị trí Y</string>
+    <string name="enhancement">Sự nâng cao</string>
+    <string name="artistic">nghệ thuật</string>
+    <string name="frames">Khung</string>
 </resources>

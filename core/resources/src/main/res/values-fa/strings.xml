@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">تن ها صافی</string>
     <string name="gmic_param_x_position">موقعیت X</string>
     <string name="gmic_param_y_position">موقعیت Y</string>
+    <string name="enhancement">افزایش</string>
+    <string name="artistic">هنری</string>
+    <string name="frames">قاب ها</string>
 </resources>

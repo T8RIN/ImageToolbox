@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Tones Smoothness</string>
     <string name="gmic_param_x_position">X Posisyon</string>
     <string name="gmic_param_y_position">Y Posisyon</string>
+    <string name="enhancement">Pagpapahusay</string>
+    <string name="artistic">Maarte</string>
+    <string name="frames">Mga frame</string>
 </resources>

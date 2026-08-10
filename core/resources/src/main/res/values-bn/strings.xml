@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">টোন মসৃণতা</string>
     <string name="gmic_param_x_position">এক্স পজিশন</string>
     <string name="gmic_param_y_position">Y অবস্থান</string>
+    <string name="enhancement">বর্ধন</string>
+    <string name="artistic">শৈল্পিক</string>
+    <string name="frames">ফ্রেম</string>
 </resources>

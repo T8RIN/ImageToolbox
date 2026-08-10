@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Tonuje gładkość</string>
     <string name="gmic_param_x_position">Pozycja X</string>
     <string name="gmic_param_y_position">Pozycja Y</string>
+    <string name="enhancement">Wzmocnienie</string>
+    <string name="artistic">Artystyczny</string>
+    <string name="frames">Ramki</string>
 </resources>

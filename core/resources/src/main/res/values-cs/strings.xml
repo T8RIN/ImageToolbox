@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Hladkost tónů</string>
     <string name="gmic_param_x_position">Pozice X</string>
     <string name="gmic_param_y_position">Poloha Y</string>
+    <string name="enhancement">Zvýšení</string>
+    <string name="artistic">Umělecký</string>
+    <string name="frames">Rámečky</string>
 </resources>

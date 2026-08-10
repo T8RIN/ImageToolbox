@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Тондардың тегістігі</string>
     <string name="gmic_param_x_position">X позициясы</string>
     <string name="gmic_param_y_position">Y позициясы</string>
+    <string name="enhancement">Жақсарту</string>
+    <string name="artistic">Көркем</string>
+    <string name="frames">Жақтаулар</string>
 </resources>

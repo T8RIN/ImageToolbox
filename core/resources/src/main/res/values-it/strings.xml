@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Toni Morbidezza</string>
     <string name="gmic_param_x_position">Posizione X</string>
     <string name="gmic_param_y_position">Posizione Y</string>
+    <string name="enhancement">Miglioramento</string>
+    <string name="artistic">Artistico</string>
+    <string name="frames">Cornici</string>
 </resources>

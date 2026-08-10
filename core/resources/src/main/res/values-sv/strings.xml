@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Toner Jämnhet</string>
     <string name="gmic_param_x_position">X-position</string>
     <string name="gmic_param_y_position">Y-position</string>
+    <string name="enhancement">Förbättring</string>
+    <string name="artistic">Konstnärlig</string>
+    <string name="frames">Ramar</string>
 </resources>

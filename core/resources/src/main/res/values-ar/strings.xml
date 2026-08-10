@@ -4858,4 +4858,7 @@
     <string name="gmic_param_tones_smoothness">نعومة النغمات</string>
     <string name="gmic_param_x_position">الموضع X</string>
     <string name="gmic_param_y_position">موقف Y</string>
+    <string name="enhancement">تعزيز</string>
+    <string name="artistic">فني</string>
+    <string name="frames">إطارات</string>
 </resources>

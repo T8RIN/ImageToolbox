@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">टोन चिकनाई</string>
     <string name="gmic_param_x_position">एक्स स्थिति</string>
     <string name="gmic_param_y_position">वाई स्थिति</string>
+    <string name="enhancement">उन्नति</string>
+    <string name="artistic">कलात्मक</string>
+    <string name="frames">फ्रेम्स</string>
 </resources>

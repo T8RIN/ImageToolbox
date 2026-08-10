@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Тоны Гладкость</string>
     <string name="gmic_param_x_position">Позиция X</string>
     <string name="gmic_param_y_position">Позиция Y</string>
+    <string name="enhancement">Улучшение</string>
+    <string name="artistic">Художественный</string>
+    <string name="frames">Рамки</string>
 </resources>

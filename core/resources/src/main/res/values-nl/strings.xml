@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Tonen Gladheid</string>
     <string name="gmic_param_x_position">X-positie</string>
     <string name="gmic_param_y_position">Y-positie</string>
+    <string name="enhancement">Verbetering</string>
+    <string name="artistic">Artistiek</string>
+    <string name="frames">Lijsten</string>
 </resources>

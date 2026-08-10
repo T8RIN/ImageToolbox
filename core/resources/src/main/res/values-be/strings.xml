@@ -4856,4 +4856,7 @@
     <string name="gmic_param_tones_smoothness">Тоны Гладкасць</string>
     <string name="gmic_param_x_position">X Пазіцыя</string>
     <string name="gmic_param_y_position">Y пазіцыя</string>
+    <string name="enhancement">Паляпшэнне</string>
+    <string name="artistic">Мастацкі</string>
+    <string name="frames">Рамкі</string>
 </resources>

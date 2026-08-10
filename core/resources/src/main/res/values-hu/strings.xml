@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Hangok Simaság</string>
     <string name="gmic_param_x_position">X pozíció</string>
     <string name="gmic_param_y_position">Y pozíció</string>
+    <string name="enhancement">Javítás</string>
+    <string name="artistic">Művészeti</string>
+    <string name="frames">Keretek</string>
 </resources>

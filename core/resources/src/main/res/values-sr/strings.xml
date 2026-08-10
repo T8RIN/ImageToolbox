@@ -4855,4 +4855,7 @@
     <string name="gmic_param_tones_smoothness">Тонес Смоотхнесс</string>
     <string name="gmic_param_x_position">Кс позиција</string>
     <string name="gmic_param_y_position">И Поситион</string>
+    <string name="enhancement">Енханцемент</string>
+    <string name="artistic">Уметнички</string>
+    <string name="frames">Оквири</string>
 </resources>

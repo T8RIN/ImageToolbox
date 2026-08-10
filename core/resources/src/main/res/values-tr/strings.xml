@@ -4854,4 +4854,7 @@
     <string name="gmic_param_tones_smoothness">Ton Pürüzsüzlüğü</string>
     <string name="gmic_param_x_position">X Konumu</string>
     <string name="gmic_param_y_position">Y Konumu</string>
+    <string name="enhancement">Geliştirme</string>
+    <string name="artistic">Sanatsal</string>
+    <string name="frames">Çerçeveler</string>
 </resources>
