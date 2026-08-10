@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ENHANCEMENT)
 class UiToneSharpenFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("1.2", "128", "NormalizeLuma")

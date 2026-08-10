@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.PIXELATION)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiHoughSketchFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("1.25", "18", "5", "70", "0.35", "ColorOnWhite")

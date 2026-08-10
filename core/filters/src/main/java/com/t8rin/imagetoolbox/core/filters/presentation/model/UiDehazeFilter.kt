@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.LIGHT)
+@UiFilterInject(group = UiFilterInject.Groups.ENHANCEMENT)
 class UiDehazeFilter(
     override val value: Pair<Float, Float> = 17f to 0.45f,
 ) : UiFilter<Pair<Float, Float>>(

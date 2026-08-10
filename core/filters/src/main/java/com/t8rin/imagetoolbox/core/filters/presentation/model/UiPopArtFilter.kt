@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.COLOR)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiPopArtFilter(
     override val value: Triple<Float, ColorModel, PopArtBlendingMode> = Triple(
         first = 1f,

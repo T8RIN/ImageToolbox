@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.PIXELATION)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiStainedGlassFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("40", "0.1", "false", "true", "1", "0", "0", "0")

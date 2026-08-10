@@ -4089,7 +4089,7 @@
     <string name="gmic_filter_filaments">Нити</string>
     <string name="gmic_filter_flip_and_rotate_blocks">Переворачивать и вращать блоки</string>
     <string name="gmic_filter_flower">Цветок</string>
-    <string name="gmic_filter_fractalize">фрактализировать</string>
+    <string name="gmic_filter_fractalize">Фрактализировать</string>
     <string name="gmic_filter_freaky_details">Причудливые детали</string>
     <string name="gmic_filter_frosted_glass">Матовое стекло</string>
     <string name="gmic_filter_fuzzy_frame">Нечеткая рамка</string>
@@ -4153,7 +4153,7 @@
     <string name="gmic_filter_taquin">Дразнить</string>
     <string name="gmic_filter_tileable_rotation">Мозаичное вращение</string>
     <string name="gmic_filter_tunnel">Туннель</string>
-    <string name="gmic_filter_vector_painting">векторная живопись</string>
+    <string name="gmic_filter_vector_painting">Векторная живопись</string>
     <string name="gmic_filter_warp_by_intensity">Деформация по интенсивности</string>
     <string name="gmic_filter_water_reflection">Отражение воды</string>
     <string name="gmic_param_aberration_x">Аберрация Икс</string>

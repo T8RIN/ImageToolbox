@@ -280,6 +280,9 @@ private class UiFilterInjectProcessorImpl(
         UiFilterInject.Groups.COLOR -> "colorGroupFilters"
         UiFilterInject.Groups.LUT -> "lutGroupFilters"
         UiFilterInject.Groups.LIGHT -> "lightGroupFilters"
+        UiFilterInject.Groups.ENHANCEMENT -> "enhancementGroupFilters"
+        UiFilterInject.Groups.ARTISTIC -> "artisticGroupFilters"
+        UiFilterInject.Groups.FRAMES -> "framesGroupFilters"
         UiFilterInject.Groups.EFFECTS -> "effectsGroupFilters"
         UiFilterInject.Groups.BLUR -> "blurGroupFilters"
         UiFilterInject.Groups.PIXELATION -> "pixelationGroupFilters"
@@ -307,6 +310,9 @@ private class UiFilterInjectProcessorImpl(
             UiFilterInject.Groups.COLOR,
             UiFilterInject.Groups.LUT,
             UiFilterInject.Groups.LIGHT,
+            UiFilterInject.Groups.ENHANCEMENT,
+            UiFilterInject.Groups.ARTISTIC,
+            UiFilterInject.Groups.FRAMES,
             UiFilterInject.Groups.EFFECTS,
             UiFilterInject.Groups.BLUR,
             UiFilterInject.Groups.PIXELATION,

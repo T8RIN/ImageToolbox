@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.TornEdgeParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.FRAMES)
 class UiTornEdgeFilter(
     override val value: TornEdgeParams = TornEdgeParams.Default
 ) : UiFilter<TornEdgeParams>(

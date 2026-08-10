@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.COLOR)
 class UiOpacityFilter(
     override val value: Float = 0.5f,
 ) : UiFilter<Float>(

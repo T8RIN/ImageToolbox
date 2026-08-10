@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.BLUR)
+@UiFilterInject(group = UiFilterInject.Groups.ENHANCEMENT)
 class UiHighPassFilter(
     override val value: Float = 10f
 ) : UiFilter<Float>(

@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.LIGHT)
+@UiFilterInject(group = UiFilterInject.Groups.COLOR)
 class UiVibranceFilter(
     override val value: Float = 3f,
 ) : UiFilter<Float>(

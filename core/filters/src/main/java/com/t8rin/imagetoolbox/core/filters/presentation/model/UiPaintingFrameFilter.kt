@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.FRAMES)
 class UiPaintingFrameFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("10", "0.4", "6", "-1980296", "2", "400", "50", "10", "1", "0.5", "123456")

@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.SideFadeParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.FRAMES)
 class UiSideFadeFilter(
     override val value: SideFadeParams = SideFadeParams.Relative(FadeSide.End, 0.5f),
 ) : UiFilter<SideFadeParams>(

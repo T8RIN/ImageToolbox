@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.LIGHT)
 class UiVignetteFilter(
     override val value: Triple<Float, Float, ColorModel> = Triple(
         first = 0.3f,

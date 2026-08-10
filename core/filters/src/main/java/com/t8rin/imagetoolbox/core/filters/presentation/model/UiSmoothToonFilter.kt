@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiSmoothToonFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.5f, 0.2f, 10f)
 ) : UiFilter<Triple<Float, Float, Float>>(

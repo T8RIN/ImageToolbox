@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.VoronoiCrystalliz
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.PIXELATION)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiPointillizeFilter(
     override val value: VoronoiCrystallizeParams = VoronoiCrystallizeParams.Default
 ) : UiFilter<VoronoiCrystallizeParams>(

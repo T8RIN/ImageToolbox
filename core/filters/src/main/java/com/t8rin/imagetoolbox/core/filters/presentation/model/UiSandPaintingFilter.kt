@@ -25,7 +25,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.PIXELATION)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiSandPaintingFilter(
     override val value: Triple<Int, Int, ColorModel> = Triple(5000, 50, Color.Black.toModel())
 ) : UiFilter<Triple<Int, Int, ColorModel>>(

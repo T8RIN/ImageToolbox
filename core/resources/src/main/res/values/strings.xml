@@ -1030,6 +1030,9 @@
     <string name="shadows">Shadows</string>
     <string name="haze">Haze</string>
     <string name="effect">Effect</string>
+    <string name="enhancement">Enhancement</string>
+    <string name="artistic">Artistic</string>
+    <string name="frames">Frames</string>
     <string name="distance">Distance</string>
     <string name="slope">Slope</string>
     <string name="sharpen">Sharpen</string>

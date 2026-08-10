@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ENHANCEMENT)
 class UiAnisotropicDiffusionFilter(
     override val value: Triple<Float, Float, Float> = Triple(20f, 0.6f, 0.5f)
 ) : UiFilter<Triple<Float, Float, Float>>(

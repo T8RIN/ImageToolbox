@@ -25,12 +25,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.filterIsNotInstance
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.artisticGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.blurGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.colorGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.copyUiFilterInstance
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.distortionGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.ditheringGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.effectsGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.enhancementGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.framesGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lightGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lutGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilterToUiFilter
@@ -45,11 +48,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.resources.icons.FilterFrames
 import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
+import com.t8rin.imagetoolbox.core.resources.icons.FilterVintage
 import com.t8rin.imagetoolbox.core.resources.icons.FloodFill
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
+import com.t8rin.imagetoolbox.core.resources.icons.StarShine
 import com.t8rin.imagetoolbox.core.resources.icons.TableEye
 import com.t8rin.imagetoolbox.core.utils.appContext
 
@@ -161,6 +167,24 @@ sealed class UiFilter<T : Any>(
             data = lightGroupFilters()
         )
 
+        data object Enhancement : Group(
+            icon = Icons.Rounded.StarShine,
+            title = R.string.enhancement,
+            data = enhancementGroupFilters()
+        )
+
+        data object Artistic : Group(
+            icon = Icons.Rounded.FilterVintage,
+            title = R.string.artistic,
+            data = artisticGroupFilters()
+        )
+
+        data object Frames : Group(
+            icon = Icons.Rounded.FilterFrames,
+            title = R.string.frames,
+            data = framesGroupFilters()
+        )
+
         data object Effects : Group(
             icon = Icons.Rounded.FilterHdr,
             title = R.string.effect,
@@ -210,6 +234,9 @@ sealed class UiFilter<T : Any>(
                 Group.Color,
                 Group.LUT,
                 Group.Light,
+                Group.Enhancement,
+                Group.Artistic,
+                Group.Frames,
                 Group.Effects,
                 Group.Blur,
                 Group.Pixelation,

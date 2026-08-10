@@ -21,7 +21,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiToonFilter(
     override val value: Pair<Float, Float> = 0.2f to 10f,
 ) : UiFilter<Pair<Float, Float>>(

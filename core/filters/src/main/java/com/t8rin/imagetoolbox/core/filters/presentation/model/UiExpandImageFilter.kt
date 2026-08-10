@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
 class UiExpandImageFilter(
     override val value: Quad<Float, Float, Float, Float> = 64f to 64f qto (64f to 64f)
 ) : UiFilter<Quad<Float, Float, Float, Float>>(

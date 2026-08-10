@@ -26,7 +26,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.PIXELATION)
+@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
 class UiContourFilter(
     override val value: Quad<Float, Float, Float, ColorModel> = Quad(
         first = 5f,

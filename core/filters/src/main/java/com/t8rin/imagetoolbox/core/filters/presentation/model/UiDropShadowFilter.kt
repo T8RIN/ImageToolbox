@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.DropShadowParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.FRAMES)
 class UiDropShadowFilter(
     override val value: DropShadowParams = DropShadowParams.Default
 ) : UiFilter<DropShadowParams>(

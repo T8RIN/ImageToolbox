@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiOilFilter(
     override val value: Pair<Float, Float> = 4f to 1f
 ) : UiFilter<Pair<Float, Float>>(

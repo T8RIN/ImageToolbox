@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.COLOR)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiRubberStampFilter(
     override val value: RubberStampParams = RubberStampParams.Default
 ) : UiFilter<RubberStampParams>(

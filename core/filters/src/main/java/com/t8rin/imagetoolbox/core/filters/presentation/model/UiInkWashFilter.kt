@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.ARTISTIC)
 class UiInkWashFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("0.14", "23", "false", "0.5", "0.54", "2.25", "None", "2", "6", "5", "20")

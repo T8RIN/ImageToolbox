@@ -25,7 +25,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.EFFECTS)
+@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
 class UiCropToContentFilter(
     override val value: Pair<Float, ColorModel> = 0f to Color.Black.toModel()
 ) : UiFilter<Pair<Float, ColorModel>>(
