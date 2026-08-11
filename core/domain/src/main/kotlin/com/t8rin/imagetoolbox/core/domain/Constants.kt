@@ -61,3 +61,5 @@ const val TON_WALLET = "UQB8YI7eEJsFkr05juS-Ix1pRxhgRvCDF9S0g_aXayVJoGtg"
 const val BOOSTY_LINK = "https://boosty.to/t8rin"
 
 const val LEGACY_CAMERA_ACTION_REVIEW = "com.android.camera.action.REVIEW"
+
+const val GMIC_VERSION = "4.0.2"

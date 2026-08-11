@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberRetainedLazyListState
 import kotlinx.coroutines.delay
 
 @Composable
@@ -220,7 +221,8 @@ fun ImageExportProfileSelector(
             contentPadding = PaddingValues(12.dp),
             modifier = Modifier
                 .animateContentSizeNoClip()
-                .clearFocusOnTap()
+                .clearFocusOnTap(),
+            state = rememberRetainedLazyListState("EXPORT")
         ) {
             if (builtInProfiles.isNotEmpty()) {
                 item("BuiltInExportProfiles") {
