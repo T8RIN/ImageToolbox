@@ -151,6 +151,91 @@ class MultiFrameFusionEngineTest {
     }
 
     @Test
+    fun longExposureAveragesFramesInLinearLight() {
+        val black = solidBitmap(Color.BLACK)
+        val white = solidBitmap(Color.WHITE)
+
+        val result = engine.fuse(
+            bitmaps = listOf(black, white),
+            params = FusionParams(
+                mode = FusionMode.LongExposure,
+                alignImages = false
+            )
+        )
+
+        assertNotNull(result)
+        val value = Color.red(result!!.getPixel(0, 0))
+        assertTrue("Expected a linear-light average, got $value", value in 184..188)
+    }
+
+    @Test
+    fun lightTrailsKeepBackgroundAndRevealBrightChanges() {
+        val background = Color.rgb(20, 24, 28)
+        val first = solidBitmap(background)
+        val second = solidBitmap(background).apply {
+            fillRect(left = 4, top = 8, right = 14, bottom = 20, color = Color.RED)
+        }
+        val third = solidBitmap(background).apply {
+            fillRect(left = 28, top = 8, right = 38, bottom = 20, color = Color.BLUE)
+        }
+
+        val result = engine.fuse(
+            bitmaps = listOf(first, second, third),
+            params = FusionParams(
+                mode = FusionMode.LightTrails,
+                alignImages = false,
+                lightTrailThreshold = 0.05f,
+                trailStrength = 1f
+            )
+        )
+
+        assertNotNull(result)
+        result!!
+        assertColorClose(background, result.getPixel(20, 4), tolerance = 2)
+        assertTrue(Color.red(result.getPixel(8, 12)) > 180)
+        assertTrue(Color.blue(result.getPixel(32, 12)) > 180)
+    }
+
+    @Test
+    fun motionTrailsFadeOlderFramesInSequenceOrder() {
+        val background = Color.rgb(8, 8, 8)
+        val oldest = solidBitmap(background).apply {
+            fillRect(left = 4, top = 8, right = 10, bottom = 20, color = Color.WHITE)
+        }
+        val middle = solidBitmap(background).apply {
+            fillRect(left = 20, top = 8, right = 26, bottom = 20, color = Color.WHITE)
+        }
+        val newest = solidBitmap(background).apply {
+            fillRect(left = 36, top = 8, right = 42, bottom = 20, color = Color.WHITE)
+        }
+
+        val result = engine.fuse(
+            bitmaps = listOf(oldest, middle, newest),
+            params = FusionParams(
+                mode = FusionMode.MotionTrails,
+                alignImages = false,
+                trailStrength = 1f,
+                trailPersistence = 0.5f
+            )
+        )
+
+        assertNotNull(result)
+        result!!
+        val oldestValue = Color.red(result.getPixel(6, 12))
+        val middleValue = Color.red(result.getPixel(22, 12))
+        val newestValue = Color.red(result.getPixel(38, 12))
+        assertTrue(
+            "Trail did not fade in order: $oldestValue, $middleValue, $newestValue",
+            oldestValue < middleValue
+        )
+        assertTrue(
+            "Newest frame is not strongest: $oldestValue, $middleValue, $newestValue",
+            middleValue < newestValue
+        )
+        assertTrue(oldestValue > Color.red(background))
+    }
+
+    @Test
     fun original8kDimensionsArePreserved() {
         val first = createBitmap(7680, 512).apply {
             eraseColor(Color.rgb(32, 96, 160))
@@ -236,6 +321,20 @@ class MultiFrameFusionEngineTest {
                 canvas.drawCircle(x + 8f, y + 8f, 4f + index % 7, paint)
             } else {
                 canvas.drawRect(x, y, x + 7f + index % 13, y + 7f + index % 11, paint)
+            }
+        }
+    }
+
+    private fun Bitmap.fillRect(
+        left: Int,
+        top: Int,
+        right: Int,
+        bottom: Int,
+        color: Int
+    ) {
+        for (y in top until bottom) {
+            for (x in left until right) {
+                setPixel(x, y, color)
             }
         }
     }

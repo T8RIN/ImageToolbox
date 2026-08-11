@@ -4893,6 +4893,12 @@
     <string name="focus_stacking_sub">Собирает резкие области из кадров с разной дистанцией фокусировки</string>
     <string name="median_stack">Медиана</string>
     <string name="median_stack_sub">Убирает случайный шум и движущиеся объекты из серии одинаковых кадров</string>
+    <string name="long_exposure">Длинная выдержка</string>
+    <string name="long_exposure_sub">Сглаживает движение, усредняя серию в линейном свете и сохраняя неподвижные детали</string>
+    <string name="light_trails">Световые следы</string>
+    <string name="light_trails_sub">Сохраняет яркие изменения серии, создавая следы от света, фейерверков и звёзд</string>
+    <string name="motion_trails">Следы движения</string>
+    <string name="motion_trails_sub">Накладывает кадры по порядку с постепенным затуханием. Последний кадр считается самым новым</string>
     <string name="automatic_alignment">Автоматическое выравнивание</string>
     <string name="automatic_alignment_sub">Совмещать каждый кадр с первым изображением перед обработкой</string>
     <string name="crop_to_overlap">Обрезать до общей области</string>
@@ -4902,7 +4908,9 @@
     <string name="exposure_weight">Вес экспозиции</string>
     <string name="focus_radius">Радиус определения фокуса</string>
     <string name="focus_strength">Разделение фокуса</string>
+    <string name="light_threshold">Порог света</string>
+    <string name="trail_persistence">Длина следа</string>
     <string name="source_frames">Исходные кадры</string>
     <string name="fusion_image_limit">За один раз можно объединить до %1$d кадров</string>
-    <string name="search_keywords_multi_frame_fusion">слияние кадров экспозиция hdr фокус стекинг медиана шум удаление людей брекетинг</string>
+    <string name="search_keywords_multi_frame_fusion">слияние кадров экспозиция hdr фокус стекинг медиана шум удаление людей брекетинг длинная выдержка свет движение звёздные следы</string>
 </resources>

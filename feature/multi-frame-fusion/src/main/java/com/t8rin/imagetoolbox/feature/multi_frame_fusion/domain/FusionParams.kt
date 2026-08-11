@@ -25,7 +25,10 @@ data class FusionParams(
     val saturationWeight: Float = 1f,
     val exposureWeight: Float = 1f,
     val focusRadius: Int = 7,
-    val focusStrength: Float = 2f
+    val focusStrength: Float = 2f,
+    val lightTrailThreshold: Float = 0.08f,
+    val trailStrength: Float = 1f,
+    val trailPersistence: Float = 0.7f
 ) {
     fun normalized(): FusionParams = copy(
         contrastWeight = contrastWeight.coerceIn(MIN_WEIGHT, MAX_WEIGHT),
@@ -35,7 +38,16 @@ data class FusionParams(
             .coerceIn(MIN_FOCUS_RADIUS, MAX_FOCUS_RADIUS)
             .let { if (it % 2 == 0) it + 1 else it }
             .coerceAtMost(MAX_FOCUS_RADIUS),
-        focusStrength = focusStrength.coerceIn(MIN_FOCUS_STRENGTH, MAX_FOCUS_STRENGTH)
+        focusStrength = focusStrength.coerceIn(MIN_FOCUS_STRENGTH, MAX_FOCUS_STRENGTH),
+        lightTrailThreshold = lightTrailThreshold.coerceIn(
+            MIN_LIGHT_TRAIL_THRESHOLD,
+            MAX_LIGHT_TRAIL_THRESHOLD
+        ),
+        trailStrength = trailStrength.coerceIn(MIN_TRAIL_STRENGTH, MAX_TRAIL_STRENGTH),
+        trailPersistence = trailPersistence.coerceIn(
+            MIN_TRAIL_PERSISTENCE,
+            MAX_TRAIL_PERSISTENCE
+        )
     )
 
     companion object {
@@ -49,5 +61,12 @@ data class FusionParams(
         const val MAX_FOCUS_RADIUS = 21
         const val MIN_FOCUS_STRENGTH = 1f
         const val MAX_FOCUS_STRENGTH = 6f
+
+        const val MIN_LIGHT_TRAIL_THRESHOLD = 0f
+        const val MAX_LIGHT_TRAIL_THRESHOLD = 0.5f
+        const val MIN_TRAIL_STRENGTH = 0f
+        const val MAX_TRAIL_STRENGTH = 1f
+        const val MIN_TRAIL_PERSISTENCE = 0.1f
+        const val MAX_TRAIL_PERSISTENCE = 1f
     }
 }

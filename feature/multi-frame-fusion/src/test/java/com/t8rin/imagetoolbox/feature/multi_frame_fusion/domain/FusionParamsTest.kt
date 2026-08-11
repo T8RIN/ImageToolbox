@@ -28,7 +28,10 @@ class FusionParamsTest {
             saturationWeight = 3f,
             exposureWeight = 4f,
             focusRadius = 8,
-            focusStrength = 20f
+            focusStrength = 20f,
+            lightTrailThreshold = 2f,
+            trailStrength = -1f,
+            trailPersistence = 4f
         ).normalized()
 
         assertEquals(FusionParams.MIN_WEIGHT, normalized.contrastWeight)
@@ -36,6 +39,9 @@ class FusionParamsTest {
         assertEquals(FusionParams.MAX_WEIGHT, normalized.exposureWeight)
         assertEquals(9, normalized.focusRadius)
         assertEquals(FusionParams.MAX_FOCUS_STRENGTH, normalized.focusStrength)
+        assertEquals(FusionParams.MAX_LIGHT_TRAIL_THRESHOLD, normalized.lightTrailThreshold)
+        assertEquals(FusionParams.MIN_TRAIL_STRENGTH, normalized.trailStrength)
+        assertEquals(FusionParams.MAX_TRAIL_PERSISTENCE, normalized.trailPersistence)
     }
 
 }

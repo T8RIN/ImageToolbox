@@ -4917,6 +4917,12 @@
     <string name="focus_stacking_sub">Combine the sharpest regions from photos focused at different distances</string>
     <string name="median_stack">Median</string>
     <string name="median_stack_sub">Remove transient objects and random noise from a series of matching frames</string>
+    <string name="long_exposure">Long exposure</string>
+    <string name="long_exposure_sub">Smooth motion by averaging the sequence in linear light while keeping static details</string>
+    <string name="light_trails">Light trails</string>
+    <string name="light_trails_sub">Keep bright changes from the sequence to build light, firework and star trails</string>
+    <string name="motion_trails">Motion trails</string>
+    <string name="motion_trails_sub">Blend frames in order with a fading history. Place the newest frame last</string>
     <string name="automatic_alignment">Automatic alignment</string>
     <string name="automatic_alignment_sub">Match every frame to the first image before fusion</string>
     <string name="crop_to_overlap">Crop to common area</string>
@@ -4926,7 +4932,9 @@
     <string name="exposure_weight">Exposure weight</string>
     <string name="focus_radius">Focus detection radius</string>
     <string name="focus_strength">Focus separation</string>
+    <string name="light_threshold">Light threshold</string>
+    <string name="trail_persistence">Trail persistence</string>
     <string name="source_frames">Source frames</string>
     <string name="fusion_image_limit">Up to %1$d frames can be fused at once</string>
-    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people removal bracket</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people removal bracket long exposure light motion star trails</string>
 </resources>

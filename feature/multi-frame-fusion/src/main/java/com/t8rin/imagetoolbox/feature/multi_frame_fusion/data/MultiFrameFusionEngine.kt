@@ -39,6 +39,7 @@ import org.opencv.geometry.Geometry
 import org.opencv.imgproc.Imgproc
 import org.opencv.photo.Photo
 import javax.inject.Inject
+import kotlin.math.pow
 
 internal class MultiFrameFusionEngine @Inject constructor() : OpenCV() {
 
@@ -68,6 +69,9 @@ internal class MultiFrameFusionEngine @Inject constructor() : OpenCV() {
                 FusionMode.Exposure -> exposureFusion(images, normalizedParams)
                 FusionMode.Focus -> focusStack(images, normalizedParams)
                 FusionMode.Median -> medianStack(images)
+                FusionMode.LongExposure -> longExposure(images)
+                FusionMode.LightTrails -> lightTrails(images, normalizedParams)
+                FusionMode.MotionTrails -> motionTrails(images, normalizedParams)
             }
             output.toBitmapAndRelease()
         } finally {
@@ -460,6 +464,169 @@ internal class MultiFrameFusionEngine @Inject constructor() : OpenCV() {
         }
     }
 
+    private fun longExposure(images: List<Mat>): Mat {
+        val average = linearAverage(images)
+        return try {
+            average.toRgb8()
+        } finally {
+            average.release()
+        }
+    }
+
+    private fun lightTrails(images: List<Mat>, params: FusionParams): Mat {
+        val base = linearAverage(images)
+        val brightest = images.first().toLinearFloat()
+        val brightestIntensity = brightest.intensity()
+        val candidate = Mat()
+        val candidateIntensity = Mat()
+        val brighterMask = Mat()
+        val baseIntensity = Mat()
+        val trailMask = Mat()
+        val trailMaskChannels = Mat()
+        val delta = Mat()
+        val weightedDelta = Mat()
+        val resultLinear = Mat()
+
+        return try {
+            images.drop(1).forEach { image ->
+                image.convertTo(candidate, CvType.CV_32FC3, BYTE_TO_UNIT)
+                Core.pow(candidate, LINEAR_GAMMA, candidate)
+                candidate.intensity(candidateIntensity)
+                Core.compare(candidateIntensity, brightestIntensity, brighterMask, Core.CMP_GT)
+                candidate.copyTo(brightest, brighterMask)
+                candidateIntensity.copyTo(brightestIntensity, brighterMask)
+            }
+
+            base.intensity(baseIntensity)
+            Core.subtract(brightestIntensity, baseIntensity, trailMask)
+            Core.subtract(
+                trailMask,
+                Scalar.all(params.lightTrailThreshold.toDouble()),
+                trailMask
+            )
+            Core.max(trailMask, Scalar.all(0.0), trailMask)
+            Core.multiply(
+                trailMask,
+                Scalar.all(1.0 / (1.0 - params.lightTrailThreshold)),
+                trailMask
+            )
+            Core.min(trailMask, Scalar.all(1.0), trailMask)
+            Core.sqrt(trailMask, trailMask)
+            Core.multiply(
+                trailMask,
+                Scalar.all(params.trailStrength.toDouble()),
+                trailMask
+            )
+            Core.merge(listOf(trailMask, trailMask, trailMask), trailMaskChannels)
+            Core.subtract(brightest, base, delta)
+            Core.multiply(delta, trailMaskChannels, weightedDelta)
+            Core.add(base, weightedDelta, resultLinear)
+            resultLinear.toRgb8()
+        } finally {
+            base.release()
+            brightest.release()
+            brightestIntensity.release()
+            candidate.release()
+            candidateIntensity.release()
+            brighterMask.release()
+            baseIntensity.release()
+            trailMask.release()
+            trailMaskChannels.release()
+            delta.release()
+            weightedDelta.release()
+            resultLinear.release()
+        }
+    }
+
+    private fun motionTrails(images: List<Mat>, params: FusionParams): Mat {
+        val accumulator = Mat.zeros(
+            images.first().rows(),
+            images.first().cols(),
+            CvType.CV_32FC3
+        )
+        val frame = Mat()
+        val weightedFrame = Mat()
+        val average = Mat()
+        val latest = images.last().toLinearFloat()
+        val resultLinear = Mat()
+        var weightSum = 0.0
+
+        return try {
+            images.forEachIndexed { index, image ->
+                val weight = params.trailPersistence.toDouble()
+                    .pow(images.lastIndex - index)
+                image.convertTo(frame, CvType.CV_32FC3, BYTE_TO_UNIT)
+                Core.pow(frame, LINEAR_GAMMA, frame)
+                Core.multiply(frame, Scalar.all(weight), weightedFrame)
+                Core.add(accumulator, weightedFrame, accumulator)
+                weightSum += weight
+            }
+            Core.multiply(accumulator, Scalar.all(1.0 / weightSum), average)
+            Core.addWeighted(
+                latest,
+                1.0 - params.trailStrength,
+                average,
+                params.trailStrength.toDouble(),
+                0.0,
+                resultLinear
+            )
+            resultLinear.toRgb8()
+        } finally {
+            accumulator.release()
+            frame.release()
+            weightedFrame.release()
+            average.release()
+            latest.release()
+            resultLinear.release()
+        }
+    }
+
+    private fun linearAverage(images: List<Mat>): Mat {
+        val accumulator = Mat.zeros(
+            images.first().rows(),
+            images.first().cols(),
+            CvType.CV_32FC3
+        )
+        val frame = Mat()
+        try {
+            images.forEach { image ->
+                image.convertTo(frame, CvType.CV_32FC3, BYTE_TO_UNIT)
+                Core.pow(frame, LINEAR_GAMMA, frame)
+                Core.add(accumulator, frame, accumulator)
+            }
+            Core.multiply(accumulator, Scalar.all(1.0 / images.size), accumulator)
+            return accumulator
+        } catch (throwable: Throwable) {
+            accumulator.release()
+            throw throwable
+        } finally {
+            frame.release()
+        }
+    }
+
+    private fun Mat.toLinearFloat(): Mat = Mat().also { output ->
+        convertTo(output, CvType.CV_32FC3, BYTE_TO_UNIT)
+        Core.pow(output, LINEAR_GAMMA, output)
+    }
+
+    private fun Mat.intensity(): Mat = Mat().also { output -> intensity(output) }
+
+    private fun Mat.intensity(output: Mat) {
+        val channels = mutableListOf<Mat>()
+        try {
+            Core.split(this, channels)
+            Core.max(channels[0], channels[1], output)
+            Core.max(output, channels[2], output)
+        } finally {
+            channels.forEach(Mat::release)
+        }
+    }
+
+    private fun Mat.toRgb8(): Mat = Mat().also { output ->
+        Core.pow(this, INVERSE_LINEAR_GAMMA, output)
+        output.convertTo(output, CvType.CV_8UC3, 255.0)
+    }
+
     private fun Mat.toBitmapAndRelease(): Bitmap {
         val rgba = Mat()
         return try {
@@ -499,5 +666,8 @@ internal class MultiFrameFusionEngine @Inject constructor() : OpenCV() {
         const val MIN_BRIGHTNESS = 1.0
         const val MIN_EXPOSURE_SCALE = 0.25
         const val MAX_EXPOSURE_SCALE = 4.0
+        const val BYTE_TO_UNIT = 1.0 / 255.0
+        const val LINEAR_GAMMA = 2.2
+        const val INVERSE_LINEAR_GAMMA = 1.0 / LINEAR_GAMMA
     }
 }

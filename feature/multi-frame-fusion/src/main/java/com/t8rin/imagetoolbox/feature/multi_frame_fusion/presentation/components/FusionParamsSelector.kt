@@ -34,7 +34,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.AutoMode
 import com.t8rin.imagetoolbox.core.resources.icons.CenterFocusStrong
 import com.t8rin.imagetoolbox.core.resources.icons.Contrast
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
+import com.t8rin.imagetoolbox.core.resources.icons.LightMode
+import com.t8rin.imagetoolbox.core.resources.icons.MotionPhotosAuto
 import com.t8rin.imagetoolbox.core.resources.icons.Opacity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -79,13 +82,23 @@ internal fun FusionParamsSelector(
         }
     }
 
-    if (value.mode != FusionMode.Median) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            when (value.mode) {
-                FusionMode.Exposure -> ExposureControls(value, onValueChange)
-                FusionMode.Focus -> FocusControls(value, onValueChange)
+    when (value.mode) {
+        FusionMode.Exposure,
+        FusionMode.Focus,
+        FusionMode.LightTrails,
+        FusionMode.MotionTrails -> {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                when (value.mode) {
+                    FusionMode.Exposure -> ExposureControls(value, onValueChange)
+                    FusionMode.Focus -> FocusControls(value, onValueChange)
+                    FusionMode.LightTrails -> LightTrailControls(value, onValueChange)
+                    FusionMode.MotionTrails -> MotionTrailControls(value, onValueChange)
+                }
             }
         }
+
+        FusionMode.Median,
+        FusionMode.LongExposure -> Unit
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -179,11 +192,72 @@ private fun FocusControls(
 }
 
 @Composable
+private fun LightTrailControls(
+    value: FusionParams,
+    onValueChange: (FusionParams) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value.lightTrailThreshold,
+        title = stringResource(R.string.light_threshold),
+        icon = Icons.Outlined.LightMode,
+        valueRange = FusionParams.MIN_LIGHT_TRAIL_THRESHOLD..FusionParams.MAX_LIGHT_TRAIL_THRESHOLD,
+        steps = 9,
+        internalStateTransformation = { (it * 20).roundToInt() / 20f },
+        onValueChange = {},
+        onValueChangeFinished = { onValueChange(value.copy(lightTrailThreshold = it)) },
+        shape = ShapeDefaults.byIndex(0, 2)
+    )
+    EnhancedSliderItem(
+        value = value.trailStrength,
+        title = stringResource(R.string.strength),
+        icon = Icons.Outlined.Exercise,
+        valueRange = FusionParams.MIN_TRAIL_STRENGTH..FusionParams.MAX_TRAIL_STRENGTH,
+        steps = 9,
+        internalStateTransformation = { (it * 10).roundToInt() / 10f },
+        onValueChange = {},
+        onValueChangeFinished = { onValueChange(value.copy(trailStrength = it)) },
+        shape = ShapeDefaults.byIndex(1, 2)
+    )
+}
+
+@Composable
+private fun MotionTrailControls(
+    value: FusionParams,
+    onValueChange: (FusionParams) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value.trailPersistence,
+        title = stringResource(R.string.trail_persistence),
+        icon = Icons.Rounded.MotionPhotosAuto,
+        valueRange = FusionParams.MIN_TRAIL_PERSISTENCE..FusionParams.MAX_TRAIL_PERSISTENCE,
+        steps = 8,
+        internalStateTransformation = { (it * 10).roundToInt() / 10f },
+        onValueChange = {},
+        onValueChangeFinished = { onValueChange(value.copy(trailPersistence = it)) },
+        shape = ShapeDefaults.byIndex(0, 2)
+    )
+    EnhancedSliderItem(
+        value = value.trailStrength,
+        title = stringResource(R.string.strength),
+        icon = Icons.Outlined.Exercise,
+        valueRange = FusionParams.MIN_TRAIL_STRENGTH..FusionParams.MAX_TRAIL_STRENGTH,
+        steps = 9,
+        internalStateTransformation = { (it * 10).roundToInt() / 10f },
+        onValueChange = {},
+        onValueChangeFinished = { onValueChange(value.copy(trailStrength = it)) },
+        shape = ShapeDefaults.byIndex(1, 2)
+    )
+}
+
+@Composable
 private fun FusionMode.title(): String = stringResource(
     when (this) {
         FusionMode.Exposure -> R.string.exposure_fusion
         FusionMode.Focus -> R.string.focus_stacking
         FusionMode.Median -> R.string.median_stack
+        FusionMode.LongExposure -> R.string.long_exposure
+        FusionMode.LightTrails -> R.string.light_trails
+        FusionMode.MotionTrails -> R.string.motion_trails
     }
 )
 
@@ -193,5 +267,8 @@ private fun FusionMode.description(): String = stringResource(
         FusionMode.Exposure -> R.string.exposure_fusion_sub
         FusionMode.Focus -> R.string.focus_stacking_sub
         FusionMode.Median -> R.string.median_stack_sub
+        FusionMode.LongExposure -> R.string.long_exposure_sub
+        FusionMode.LightTrails -> R.string.light_trails_sub
+        FusionMode.MotionTrails -> R.string.motion_trails_sub
     }
 )

@@ -20,5 +20,8 @@ package com.t8rin.imagetoolbox.feature.multi_frame_fusion.domain
 enum class FusionMode {
     Exposure,
     Focus,
-    Median
+    Median,
+    LongExposure,
+    LightTrails,
+    MotionTrails
 }
