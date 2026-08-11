@@ -4858,4 +4858,13 @@
     <string name="enhancement">Енханцемент</string>
     <string name="artistic">Уметнички</string>
     <string name="frames">Оквири</string>
+    <string name="photomosaic">Фотомозаик</string>
+    <string name="photomosaic_sub">Поново направите слику користећи колекцију мањих фотографија</string>
+    <string name="photomosaic_tiles">Колекција плочица</string>
+    <string name="photomosaic_tiles_empty_sub">Додајте изворне фотографије. Можете их прегледати и уклонити овде.</string>
+    <string name="photomosaic_columns">Мозаик стубови</string>
+    <string name="photomosaic_color_blend">Циљна мешавина боја</string>
+    <string name="photomosaic_repeat_distance">Поновите избегавање</string>
+    <string name="photomosaic_max_tiles">Максималан извор слика</string>
+    <string name="search_keywords_photomosaic">фото мозаик плочице колаж албум мрежа поново креирати</string>
 </resources>

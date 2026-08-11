@@ -4857,4 +4857,13 @@
     <string name="enhancement">افزایش</string>
     <string name="artistic">هنری</string>
     <string name="frames">قاب ها</string>
+    <string name="photomosaic">فوتوموزائیک</string>
+    <string name="photomosaic_sub">با استفاده از مجموعه‌ای از عکس‌های کوچک‌تر، یک تصویر را بازسازی کنید</string>
+    <string name="photomosaic_tiles">مجموعه کاشی</string>
+    <string name="photomosaic_tiles_empty_sub">اضافه کردن عکس های منبع می توانید آنها را در اینجا پیش نمایش و حذف کنید.</string>
+    <string name="photomosaic_columns">ستون های موزاییک</string>
+    <string name="photomosaic_color_blend">ترکیب رنگ هدف</string>
+    <string name="photomosaic_repeat_distance">تکرار اجتناب</string>
+    <string name="photomosaic_max_tiles">حداکثر تصاویر منبع</string>
+    <string name="search_keywords_photomosaic">عکس موزاییک کاشی کلاژ آلبوم شبکه بازآفرینی</string>
 </resources>

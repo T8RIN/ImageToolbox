@@ -4856,4 +4856,13 @@
     <string name="enhancement">強化</string>
     <string name="artistic">芸術的</string>
     <string name="frames">フレーム</string>
+    <string name="photomosaic">フォトモザイク</string>
+    <string name="photomosaic_sub">小さな写真のコレクションを使用してイメージを再作成する</string>
+    <string name="photomosaic_tiles">タイルコレクション</string>
+    <string name="photomosaic_tiles_empty_sub">ソース写真を追加します。ここでプレビューして削除できます。</string>
+    <string name="photomosaic_columns">モザイク柱</string>
+    <string name="photomosaic_color_blend">ターゲットカラーブレンド</string>
+    <string name="photomosaic_repeat_distance">繰り返し回避</string>
+    <string name="photomosaic_max_tiles">最大ソース画像</string>
+    <string name="search_keywords_photomosaic">写真モザイクタイルコラージュアルバムグリッド再作成</string>
 </resources>

@@ -4856,4 +4856,13 @@
     <string name="enhancement">强化</string>
     <string name="artistic">艺术性</string>
     <string name="frames">镜框</string>
+    <string name="photomosaic">照片马赛克</string>
+    <string name="photomosaic_sub">使用一组较小的照片重新创建图像</string>
+    <string name="photomosaic_tiles">瓷砖系列</string>
+    <string name="photomosaic_tiles_empty_sub">添加源照片。您可以在此处预览和删除它们。</string>
+    <string name="photomosaic_columns">马赛克柱</string>
+    <string name="photomosaic_color_blend">目标颜色混合</string>
+    <string name="photomosaic_repeat_distance">重复避免</string>
+    <string name="photomosaic_max_tiles">最大源图像数</string>
+    <string name="search_keywords_photomosaic">照片马赛克瓷砖拼贴专辑网格重新创建</string>
 </resources>

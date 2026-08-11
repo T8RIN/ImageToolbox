@@ -4857,4 +4857,13 @@
     <string name="enhancement">Aprimoramento</string>
     <string name="artistic">Artístico</string>
     <string name="frames">Molduras</string>
+    <string name="photomosaic">Fotomosaico</string>
+    <string name="photomosaic_sub">Recrie uma imagem usando uma coleção de fotos menores</string>
+    <string name="photomosaic_tiles">Coleção de azulejos</string>
+    <string name="photomosaic_tiles_empty_sub">Adicione fotos de origem. Você pode visualizá-los e removê-los aqui.</string>
+    <string name="photomosaic_columns">Colunas de mosaico</string>
+    <string name="photomosaic_color_blend">Mistura de cores alvo</string>
+    <string name="photomosaic_repeat_distance">Repetir evitação</string>
+    <string name="photomosaic_max_tiles">Máximo de imagens de origem</string>
+    <string name="search_keywords_photomosaic">foto mosaico telhas colagem álbum grade recriar</string>
 </resources>

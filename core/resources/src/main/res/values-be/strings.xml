@@ -4859,4 +4859,13 @@
     <string name="enhancement">Паляпшэнне</string>
     <string name="artistic">Мастацкі</string>
     <string name="frames">Рамкі</string>
+    <string name="photomosaic">Фотамазаіка</string>
+    <string name="photomosaic_sub">Узнавіць малюнак, выкарыстоўваючы калекцыю фатаграфій меншага памеру</string>
+    <string name="photomosaic_tiles">Калекцыя пліткі</string>
+    <string name="photomosaic_tiles_empty_sub">Дадаць зыходныя фатаграфіі. Вы можаце праглядзець і выдаліць іх тут.</string>
+    <string name="photomosaic_columns">Мазаічныя калоны</string>
+    <string name="photomosaic_color_blend">Мэтавая каляровая сумесь</string>
+    <string name="photomosaic_repeat_distance">Пазбяганне паўтораў</string>
+    <string name="photomosaic_max_tiles">Максімум зыходных малюнкаў</string>
+    <string name="search_keywords_photomosaic">фота мазаіка плітка калаж альбом сетка аднавіць</string>
 </resources>

@@ -4857,4 +4857,13 @@
     <string name="enhancement">Millora</string>
     <string name="artistic">Artístic</string>
     <string name="frames">Marcs</string>
+    <string name="photomosaic">Fotomosaic</string>
+    <string name="photomosaic_sub">Recrea una imatge amb una col·lecció de fotos més petites</string>
+    <string name="photomosaic_tiles">Col·lecció de rajoles</string>
+    <string name="photomosaic_tiles_empty_sub">Afegeix fotos d\'origen. Podeu previsualitzar-los i eliminar-los aquí.</string>
+    <string name="photomosaic_columns">Columnes de mosaic</string>
+    <string name="photomosaic_color_blend">Barreja de colors objectiu</string>
+    <string name="photomosaic_repeat_distance">Repetir l\'evitació</string>
+    <string name="photomosaic_max_tiles">Màxim d\'imatges d\'origen</string>
+    <string name="search_keywords_photomosaic">mosaic fotogràfic rajoles collage àlbum quadrícula recrear</string>
 </resources>

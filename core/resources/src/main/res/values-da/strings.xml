@@ -4857,4 +4857,13 @@
     <string name="enhancement">Forbedring</string>
     <string name="artistic">Kunstnerisk</string>
     <string name="frames">Rammer</string>
+    <string name="photomosaic">Fotomosaik</string>
+    <string name="photomosaic_sub">Genskab et billede ved hjælp af en samling af mindre fotos</string>
+    <string name="photomosaic_tiles">Flisesamling</string>
+    <string name="photomosaic_tiles_empty_sub">Tilføj kildebilleder. Du kan forhåndsvise og fjerne dem her.</string>
+    <string name="photomosaic_columns">Mosaik søjler</string>
+    <string name="photomosaic_color_blend">Målfarveblanding</string>
+    <string name="photomosaic_repeat_distance">Gentag undgåelse</string>
+    <string name="photomosaic_max_tiles">Maksimal kildebilleder</string>
+    <string name="search_keywords_photomosaic">foto mosaik fliser collage album gitter genskabe</string>
 </resources>

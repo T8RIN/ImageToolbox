@@ -4856,4 +4856,13 @@
     <string name="enhancement">Sự nâng cao</string>
     <string name="artistic">nghệ thuật</string>
     <string name="frames">Khung</string>
+    <string name="photomosaic">quang khảm</string>
+    <string name="photomosaic_sub">Tạo lại hình ảnh bằng bộ sưu tập ảnh nhỏ hơn</string>
+    <string name="photomosaic_tiles">Bộ sưu tập ngói</string>
+    <string name="photomosaic_tiles_empty_sub">Thêm ảnh nguồn. Bạn có thể xem trước và xóa chúng ở đây.</string>
+    <string name="photomosaic_columns">Cột khảm</string>
+    <string name="photomosaic_color_blend">Pha trộn màu mục tiêu</string>
+    <string name="photomosaic_repeat_distance">Tránh lặp lại</string>
+    <string name="photomosaic_max_tiles">Hình ảnh nguồn tối đa</string>
+    <string name="search_keywords_photomosaic">ảnh khảm gạch cắt dán album lưới tái tạo</string>
 </resources>

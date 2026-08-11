@@ -4857,4 +4857,13 @@
     <string name="enhancement">Geliştirme</string>
     <string name="artistic">Sanatsal</string>
     <string name="frames">Çerçeveler</string>
+    <string name="photomosaic">Fotomozaik</string>
+    <string name="photomosaic_sub">Daha küçük fotoğraflardan oluşan bir koleksiyon kullanarak bir görüntüyü yeniden oluşturun</string>
+    <string name="photomosaic_tiles">Çini koleksiyonu</string>
+    <string name="photomosaic_tiles_empty_sub">Kaynak fotoğrafları ekleyin. Bunları burada önizleyebilir ve kaldırabilirsiniz.</string>
+    <string name="photomosaic_columns">Mozaik sütunlar</string>
+    <string name="photomosaic_color_blend">Hedef renk karışımı</string>
+    <string name="photomosaic_repeat_distance">Kaçınmayı tekrarla</string>
+    <string name="photomosaic_max_tiles">Maksimum kaynak görselleri</string>
+    <string name="search_keywords_photomosaic">fotoğraf mozaik fayans kolaj albüm ızgara yeniden oluşturma</string>
 </resources>

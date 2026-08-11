@@ -4857,4 +4857,13 @@
     <string name="enhancement">Renforcement</string>
     <string name="artistic">Artistique</string>
     <string name="frames">Cadres</string>
+    <string name="photomosaic">Photomosaïque</string>
+    <string name="photomosaic_sub">Recréez une image à l\'aide d\'une collection de photos plus petites</string>
+    <string name="photomosaic_tiles">Collection de carreaux</string>
+    <string name="photomosaic_tiles_empty_sub">Ajoutez des photos sources. Vous pouvez les prévisualiser et les supprimer ici.</string>
+    <string name="photomosaic_columns">Colonnes en mosaïque</string>
+    <string name="photomosaic_color_blend">Mélange de couleurs cible</string>
+    <string name="photomosaic_repeat_distance">Répéter l\'évitement</string>
+    <string name="photomosaic_max_tiles">Images sources maximales</string>
+    <string name="search_keywords_photomosaic">photo mosaïque carreaux collage album grille recréer</string>
 </resources>

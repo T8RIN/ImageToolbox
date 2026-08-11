@@ -4857,4 +4857,13 @@
     <string name="enhancement">Förbättring</string>
     <string name="artistic">Konstnärlig</string>
     <string name="frames">Ramar</string>
+    <string name="photomosaic">Fotomosaik</string>
+    <string name="photomosaic_sub">Återskapa en bild med en samling mindre foton</string>
+    <string name="photomosaic_tiles">Kakel samling</string>
+    <string name="photomosaic_tiles_empty_sub">Lägg till källfoton. Du kan förhandsgranska och ta bort dem här.</string>
+    <string name="photomosaic_columns">Mosaikkolonner</string>
+    <string name="photomosaic_color_blend">Målfärgsblandning</string>
+    <string name="photomosaic_repeat_distance">Upprepa undvikande</string>
+    <string name="photomosaic_max_tiles">Maximalt antal källbilder</string>
+    <string name="search_keywords_photomosaic">foto mosaik plattor collage album rutnät återskapa</string>
 </resources>

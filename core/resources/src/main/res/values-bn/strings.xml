@@ -4857,4 +4857,13 @@
     <string name="enhancement">বর্ধন</string>
     <string name="artistic">শৈল্পিক</string>
     <string name="frames">ফ্রেম</string>
+    <string name="photomosaic">ফটোমোজাইক</string>
+    <string name="photomosaic_sub">ছোট ফটোগুলির একটি সংগ্রহ ব্যবহার করে একটি চিত্র পুনরায় তৈরি করুন</string>
+    <string name="photomosaic_tiles">টালি সংগ্রহ</string>
+    <string name="photomosaic_tiles_empty_sub">উত্স ফটো যোগ করুন. আপনি এখানে তাদের পূর্বরূপ এবং সরাতে পারেন।</string>
+    <string name="photomosaic_columns">মোজাইক কলাম</string>
+    <string name="photomosaic_color_blend">টার্গেট রঙের মিশ্রণ</string>
+    <string name="photomosaic_repeat_distance">পুনরাবৃত্তি পরিহার</string>
+    <string name="photomosaic_max_tiles">সর্বাধিক উত্স ছবি</string>
+    <string name="search_keywords_photomosaic">ছবির মোজাইক টাইলস কোলাজ অ্যালবাম গ্রিড পুনরায় তৈরি</string>
 </resources>

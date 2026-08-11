@@ -4856,4 +4856,13 @@
     <string name="enhancement">Peningkatan</string>
     <string name="artistic">Artistik</string>
     <string name="frames">Bingkai</string>
+    <string name="photomosaic">fotomosaik</string>
+    <string name="photomosaic_sub">Buat ulang gambar menggunakan kumpulan foto yang lebih kecil</string>
+    <string name="photomosaic_tiles">Koleksi ubin</string>
+    <string name="photomosaic_tiles_empty_sub">Tambahkan foto sumber. Anda dapat melihat pratinjau dan menghapusnya di sini.</string>
+    <string name="photomosaic_columns">Kolom mosaik</string>
+    <string name="photomosaic_color_blend">Campuran warna sasaran</string>
+    <string name="photomosaic_repeat_distance">Penghindaran berulang</string>
+    <string name="photomosaic_max_tiles">Gambar sumber maksimal</string>
+    <string name="search_keywords_photomosaic">foto mosaik ubin kolase album grid dibuat ulang</string>
 </resources>

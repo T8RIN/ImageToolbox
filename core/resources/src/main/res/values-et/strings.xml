@@ -4857,4 +4857,13 @@
     <string name="enhancement">Täiendus</string>
     <string name="artistic">Kunstiline</string>
     <string name="frames">Raamid</string>
+    <string name="photomosaic">Fotomosaiik</string>
+    <string name="photomosaic_sub">Looge pilt uuesti, kasutades väiksemate fotode kogu</string>
+    <string name="photomosaic_tiles">Plaatide kollektsioon</string>
+    <string name="photomosaic_tiles_empty_sub">Lisage lähtefotod. Siin saate neid eelvaadata ja eemaldada.</string>
+    <string name="photomosaic_columns">Mosaiigist sambad</string>
+    <string name="photomosaic_color_blend">Sihtvärvide segu</string>
+    <string name="photomosaic_repeat_distance">Korduv vältimine</string>
+    <string name="photomosaic_max_tiles">Maksimaalne lähtekujutis</string>
+    <string name="search_keywords_photomosaic">fotomosaiikplaadid kollaažialbumi ruudustik taasloo</string>
 </resources>

@@ -4859,4 +4859,13 @@
     <string name="enhancement">Wzmocnienie</string>
     <string name="artistic">Artystyczny</string>
     <string name="frames">Ramki</string>
+    <string name="photomosaic">Fotomozaika</string>
+    <string name="photomosaic_sub">Odtwórz obraz, korzystając z kolekcji mniejszych zdjęć</string>
+    <string name="photomosaic_tiles">Kolekcja płytek</string>
+    <string name="photomosaic_tiles_empty_sub">Dodaj zdjęcia źródłowe. Tutaj możesz wyświetlić podgląd i usunąć je.</string>
+    <string name="photomosaic_columns">Kolumny mozaikowe</string>
+    <string name="photomosaic_color_blend">Docelowa mieszanka kolorów</string>
+    <string name="photomosaic_repeat_distance">Powtórz unikanie</string>
+    <string name="photomosaic_max_tiles">Maksymalne obrazy źródłowe</string>
+    <string name="search_keywords_photomosaic">odtwórz siatkę albumów z mozaikami fotograficznymi</string>
 </resources>

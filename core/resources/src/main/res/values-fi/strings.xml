@@ -4857,4 +4857,13 @@
     <string name="enhancement">Tehostaminen</string>
     <string name="artistic">Taiteellinen</string>
     <string name="frames">Kehykset</string>
+    <string name="photomosaic">Photomosaic</string>
+    <string name="photomosaic_sub">Luo kuva uudelleen käyttämällä pienempien valokuvien kokoelmaa</string>
+    <string name="photomosaic_tiles">Laattojen kokoelma</string>
+    <string name="photomosaic_tiles_empty_sub">Lisää lähdekuvia. Voit esikatsella ja poistaa niitä täällä.</string>
+    <string name="photomosaic_columns">Mosaiikkipylväät</string>
+    <string name="photomosaic_color_blend">Kohdevärien sekoitus</string>
+    <string name="photomosaic_repeat_distance">Toista välttäminen</string>
+    <string name="photomosaic_max_tiles">Suurin sallittu lähdekuvia</string>
+    <string name="search_keywords_photomosaic">valokuvamosaiikkilaatat kollaasi albumin ruudukko luo uudelleen</string>
 </resources>

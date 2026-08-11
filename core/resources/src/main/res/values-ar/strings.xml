@@ -4861,4 +4861,13 @@
     <string name="enhancement">تعزيز</string>
     <string name="artistic">فني</string>
     <string name="frames">إطارات</string>
+    <string name="photomosaic">الفسيفساء الضوئية</string>
+    <string name="photomosaic_sub">أعد إنشاء صورة باستخدام مجموعة من الصور الأصغر حجمًا</string>
+    <string name="photomosaic_tiles">جمع البلاط</string>
+    <string name="photomosaic_tiles_empty_sub">أضف صور المصدر. يمكنك معاينتها وإزالتها هنا.</string>
+    <string name="photomosaic_columns">أعمدة الفسيفساء</string>
+    <string name="photomosaic_color_blend">مزيج الألوان المستهدف</string>
+    <string name="photomosaic_repeat_distance">كرر التجنب</string>
+    <string name="photomosaic_max_tiles">الحد الأقصى للصور المصدر</string>
+    <string name="search_keywords_photomosaic">إعادة إنشاء شبكة ألبوم صور بلاط الموزاييك</string>
 </resources>

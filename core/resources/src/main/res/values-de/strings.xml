@@ -4857,4 +4857,13 @@
     <string name="enhancement">Erweiterung</string>
     <string name="artistic">Künstlerisch</string>
     <string name="frames">Rahmen</string>
+    <string name="photomosaic">Fotomosaik</string>
+    <string name="photomosaic_sub">Erstellen Sie ein Bild mithilfe einer Sammlung kleinerer Fotos neu</string>
+    <string name="photomosaic_tiles">Fliesensammlung</string>
+    <string name="photomosaic_tiles_empty_sub">Fügen Sie Quellfotos hinzu. Sie können sie hier in der Vorschau anzeigen und entfernen.</string>
+    <string name="photomosaic_columns">Mosaiksäulen</string>
+    <string name="photomosaic_color_blend">Zielfarbmischung</string>
+    <string name="photomosaic_repeat_distance">Wiederholen Sie die Vermeidung</string>
+    <string name="photomosaic_max_tiles">Maximale Quellbilder</string>
+    <string name="search_keywords_photomosaic">Fotomosaikfliesen Collage Album Raster neu erstellen</string>
 </resources>

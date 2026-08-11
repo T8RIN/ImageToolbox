@@ -4857,4 +4857,13 @@
     <string name="enhancement">Verbetering</string>
     <string name="artistic">Artistiek</string>
     <string name="frames">Lijsten</string>
+    <string name="photomosaic">Fotomozaïek</string>
+    <string name="photomosaic_sub">Maak een afbeelding opnieuw met behulp van een verzameling kleinere foto\'s</string>
+    <string name="photomosaic_tiles">Tegel collectie</string>
+    <string name="photomosaic_tiles_empty_sub">Voeg bronfoto\'s toe. U kunt ze hier bekijken en verwijderen.</string>
+    <string name="photomosaic_columns">Mozaïek kolommen</string>
+    <string name="photomosaic_color_blend">Doelkleurmenging</string>
+    <string name="photomosaic_repeat_distance">Herhaal vermijding</string>
+    <string name="photomosaic_max_tiles">Maximale bronafbeeldingen</string>
+    <string name="search_keywords_photomosaic">fotomozaïek tegels collage albumraster opnieuw creëren</string>
 </resources>

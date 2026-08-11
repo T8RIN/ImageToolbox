@@ -4859,4 +4859,13 @@
     <string name="enhancement">Vylepšenie</string>
     <string name="artistic">Umelecké</string>
     <string name="frames">Rámy</string>
+    <string name="photomosaic">Fotomozaika</string>
+    <string name="photomosaic_sub">Znovu vytvorte obrázok pomocou zbierky menších fotografií</string>
+    <string name="photomosaic_tiles">Zber dlaždíc</string>
+    <string name="photomosaic_tiles_empty_sub">Pridajte zdrojové fotografie. Tu si ich môžete pozrieť a odstrániť.</string>
+    <string name="photomosaic_columns">Mozaikové stĺpy</string>
+    <string name="photomosaic_color_blend">Cieľová farebná zmes</string>
+    <string name="photomosaic_repeat_distance">Opakované vyhýbanie sa</string>
+    <string name="photomosaic_max_tiles">Maximálny počet zdrojových obrázkov</string>
+    <string name="search_keywords_photomosaic">foto mozaikové dlaždice koláž album mriežka obnoviť</string>
 </resources>

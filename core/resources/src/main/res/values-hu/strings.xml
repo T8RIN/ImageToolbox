@@ -4857,4 +4857,13 @@
     <string name="enhancement">Javítás</string>
     <string name="artistic">Művészeti</string>
     <string name="frames">Keretek</string>
+    <string name="photomosaic">Fotomozaik</string>
+    <string name="photomosaic_sub">Hozzon létre egy képet kisebb fotók gyűjteményével</string>
+    <string name="photomosaic_tiles">Csempe gyűjtemény</string>
+    <string name="photomosaic_tiles_empty_sub">Forrásfotók hozzáadása. Itt megtekintheti és eltávolíthatja őket.</string>
+    <string name="photomosaic_columns">Mozaik oszlopok</string>
+    <string name="photomosaic_color_blend">Célszín keverék</string>
+    <string name="photomosaic_repeat_distance">Ismételje meg az elkerülést</string>
+    <string name="photomosaic_max_tiles">Maximális forrásképek</string>
+    <string name="search_keywords_photomosaic">fotó mozaik csempe kollázs album rács újra</string>
 </resources>

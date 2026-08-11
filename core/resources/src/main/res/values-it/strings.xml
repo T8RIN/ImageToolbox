@@ -4857,4 +4857,13 @@
     <string name="enhancement">Miglioramento</string>
     <string name="artistic">Artistico</string>
     <string name="frames">Cornici</string>
+    <string name="photomosaic">Fotomosaico</string>
+    <string name="photomosaic_sub">Ricrea un\'immagine utilizzando una raccolta di foto più piccole</string>
+    <string name="photomosaic_tiles">Collezione di piastrelle</string>
+    <string name="photomosaic_tiles_empty_sub">Aggiungi foto di origine. Puoi visualizzarli in anteprima e rimuoverli qui.</string>
+    <string name="photomosaic_columns">Colonne di mosaico</string>
+    <string name="photomosaic_color_blend">Miscela di colori target</string>
+    <string name="photomosaic_repeat_distance">Ripeti l\'evitamento</string>
+    <string name="photomosaic_max_tiles">Immagini sorgente massime</string>
+    <string name="search_keywords_photomosaic">foto mosaico tessere collage album griglia ricreare</string>
 </resources>

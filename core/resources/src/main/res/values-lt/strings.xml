@@ -4859,4 +4859,13 @@
     <string name="enhancement">Patobulinimas</string>
     <string name="artistic">Meniškas</string>
     <string name="frames">Rėmeliai</string>
+    <string name="photomosaic">Fotomozaika</string>
+    <string name="photomosaic_sub">Atkurkite vaizdą naudodami mažesnių nuotraukų kolekciją</string>
+    <string name="photomosaic_tiles">Plytelių kolekcija</string>
+    <string name="photomosaic_tiles_empty_sub">Pridėkite šaltinio nuotraukas. Čia galite juos peržiūrėti ir pašalinti.</string>
+    <string name="photomosaic_columns">Mozaikinės kolonos</string>
+    <string name="photomosaic_color_blend">Tikslinis spalvų derinys</string>
+    <string name="photomosaic_repeat_distance">Pakartokite vengimą</string>
+    <string name="photomosaic_max_tiles">Maksimalus šaltinio vaizdų skaičius</string>
+    <string name="search_keywords_photomosaic">nuotraukų mozaikos plytelės koliažo albumo tinklelis atkurti</string>
 </resources>

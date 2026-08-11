@@ -4859,4 +4859,13 @@
     <string name="enhancement">Улучшение</string>
     <string name="artistic">Художественный</string>
     <string name="frames">Рамки</string>
+    <string name="photomosaic">Фотомозаика</string>
+    <string name="photomosaic_sub">Воссоздайте изображение, используя коллекцию фотографий меньшего размера.</string>
+    <string name="photomosaic_tiles">Коллекция плитки</string>
+    <string name="photomosaic_tiles_empty_sub">Добавьте исходные фотографии. Вы можете просмотреть и удалить их здесь.</string>
+    <string name="photomosaic_columns">Мозаичные колонны</string>
+    <string name="photomosaic_color_blend">Целевое сочетание цветов</string>
+    <string name="photomosaic_repeat_distance">Повторное избегание</string>
+    <string name="photomosaic_max_tiles">Максимальное количество исходных изображений</string>
+    <string name="search_keywords_photomosaic">фото мозаика плитка коллаж альбом сетка воссоздать</string>
 </resources>

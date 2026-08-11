@@ -4857,4 +4857,13 @@
     <string name="enhancement">उन्नति</string>
     <string name="artistic">कलात्मक</string>
     <string name="frames">फ्रेम्स</string>
+    <string name="photomosaic">फोटोमोज़ेक</string>
+    <string name="photomosaic_sub">छोटी तस्वीरों के संग्रह का उपयोग करके एक छवि दोबारा बनाएं</string>
+    <string name="photomosaic_tiles">टाइल संग्रह</string>
+    <string name="photomosaic_tiles_empty_sub">स्रोत फ़ोटो जोड़ें. आप यहां उनका पूर्वावलोकन कर सकते हैं और उन्हें हटा सकते हैं.</string>
+    <string name="photomosaic_columns">मोज़ेक स्तंभ</string>
+    <string name="photomosaic_color_blend">लक्ष्य रंग मिश्रण</string>
+    <string name="photomosaic_repeat_distance">बार-बार टालना</string>
+    <string name="photomosaic_max_tiles">अधिकतम स्रोत छवियाँ</string>
+    <string name="search_keywords_photomosaic">फोटो मोज़ेक टाइल्स कोलाज एल्बम ग्रिड पुनः बनाएँ</string>
 </resources>

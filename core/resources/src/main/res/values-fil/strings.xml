@@ -4857,4 +4857,13 @@
     <string name="enhancement">Pagpapahusay</string>
     <string name="artistic">Maarte</string>
     <string name="frames">Mga frame</string>
+    <string name="photomosaic">Photomosaic</string>
+    <string name="photomosaic_sub">Muling likhain ang isang imahe gamit ang isang koleksyon ng mas maliliit na larawan</string>
+    <string name="photomosaic_tiles">Koleksyon ng tile</string>
+    <string name="photomosaic_tiles_empty_sub">Magdagdag ng mga larawan ng pinagmulan. Maaari mong i-preview at alisin ang mga ito dito.</string>
+    <string name="photomosaic_columns">Mga haligi ng mosaic</string>
+    <string name="photomosaic_color_blend">Target na timpla ng kulay</string>
+    <string name="photomosaic_repeat_distance">Ulitin ang pag-iwas</string>
+    <string name="photomosaic_max_tiles">Pinakamataas na pinagmumulan ng mga larawan</string>
+    <string name="search_keywords_photomosaic">larawan mosaic tile collage album grid muling likhain</string>
 </resources>

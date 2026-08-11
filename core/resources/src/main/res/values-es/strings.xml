@@ -4857,4 +4857,13 @@
     <string name="enhancement">Realce</string>
     <string name="artistic">Artístico</string>
     <string name="frames">Marcos</string>
+    <string name="photomosaic">fotomosaico</string>
+    <string name="photomosaic_sub">Recrea una imagen usando una colección de fotografías más pequeñas.</string>
+    <string name="photomosaic_tiles">Colección de azulejos</string>
+    <string name="photomosaic_tiles_empty_sub">Añade fotos de origen. Puede obtener una vista previa y eliminarlos aquí.</string>
+    <string name="photomosaic_columns">columnas de mosaico</string>
+    <string name="photomosaic_color_blend">Mezcla de colores objetivo</string>
+    <string name="photomosaic_repeat_distance">Repetir evitación</string>
+    <string name="photomosaic_max_tiles">Imágenes de origen máximas</string>
+    <string name="search_keywords_photomosaic">foto mosaico azulejos collage álbum cuadrícula recrear</string>
 </resources>

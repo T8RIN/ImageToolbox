@@ -4856,4 +4856,13 @@
     <string name="enhancement">상승</string>
     <string name="artistic">예술적</string>
     <string name="frames">프레임</string>
+    <string name="photomosaic">포토모자이크</string>
+    <string name="photomosaic_sub">더 작은 사진 모음을 사용하여 이미지를 다시 만듭니다.</string>
+    <string name="photomosaic_tiles">타일 ​​컬렉션</string>
+    <string name="photomosaic_tiles_empty_sub">원본 사진을 추가하세요. 여기에서 미리 보고 제거할 수 있습니다.</string>
+    <string name="photomosaic_columns">모자이크 기둥</string>
+    <string name="photomosaic_color_blend">대상 색상 혼합</string>
+    <string name="photomosaic_repeat_distance">반복 회피</string>
+    <string name="photomosaic_max_tiles">최대 소스 이미지</string>
+    <string name="search_keywords_photomosaic">사진 모자이크 타일 콜라주 앨범 그리드 다시 만들기</string>
 </resources>

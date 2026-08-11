@@ -4858,4 +4858,13 @@
     <string name="enhancement">Îmbunătățire</string>
     <string name="artistic">Artistic</string>
     <string name="frames">Rame</string>
+    <string name="photomosaic">Fotomozaic</string>
+    <string name="photomosaic_sub">Recreează o imagine folosind o colecție de fotografii mai mici</string>
+    <string name="photomosaic_tiles">Colecția de faianță</string>
+    <string name="photomosaic_tiles_empty_sub">Adăugați fotografii sursă. Le puteți previzualiza și elimina aici.</string>
+    <string name="photomosaic_columns">Coloane din mozaic</string>
+    <string name="photomosaic_color_blend">Amestec de culori țintă</string>
+    <string name="photomosaic_repeat_distance">Repetați evitarea</string>
+    <string name="photomosaic_max_tiles">Imagini sursă maximă</string>
+    <string name="search_keywords_photomosaic">foto mozaic plăci colaj album grilă recrea</string>
 </resources>

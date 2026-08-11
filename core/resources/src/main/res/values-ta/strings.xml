@@ -4857,4 +4857,13 @@
     <string name="enhancement">மேம்படுத்தல்</string>
     <string name="artistic">கலை</string>
     <string name="frames">சட்டங்கள்</string>
+    <string name="photomosaic">ஃபோட்டோமோசைக்</string>
+    <string name="photomosaic_sub">சிறிய புகைப்படங்களின் தொகுப்பைப் பயன்படுத்தி படத்தை மீண்டும் உருவாக்கவும்</string>
+    <string name="photomosaic_tiles">ஓடு சேகரிப்பு</string>
+    <string name="photomosaic_tiles_empty_sub">மூல புகைப்படங்களைச் சேர்க்கவும். அவற்றை இங்கே நீங்கள் முன்னோட்டமிட்டு அகற்றலாம்.</string>
+    <string name="photomosaic_columns">மொசைக் நெடுவரிசைகள்</string>
+    <string name="photomosaic_color_blend">இலக்கு வண்ண கலவை</string>
+    <string name="photomosaic_repeat_distance">மீண்டும் தவிர்க்கவும்</string>
+    <string name="photomosaic_max_tiles">அதிகபட்ச மூலப் படங்கள்</string>
+    <string name="search_keywords_photomosaic">புகைப்பட மொசைக் டைல்ஸ் படத்தொகுப்பு ஆல்பம் கட்டம் மீண்டும் உருவாக்கவும்</string>
 </resources>

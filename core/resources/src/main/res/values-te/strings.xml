@@ -4857,4 +4857,13 @@
     <string name="enhancement">మెరుగుదల</string>
     <string name="artistic">కళాత్మకమైనది</string>
     <string name="frames">ఫ్రేమ్‌లు</string>
+    <string name="photomosaic">ఫోటోమోజాయిక్</string>
+    <string name="photomosaic_sub">చిన్న ఫోటోల సేకరణను ఉపయోగించి చిత్రాన్ని పునఃసృష్టించండి</string>
+    <string name="photomosaic_tiles">టైల్ సేకరణ</string>
+    <string name="photomosaic_tiles_empty_sub">మూల ఫోటోలను జోడించండి. మీరు వాటిని ఇక్కడ ప్రివ్యూ చేసి తీసివేయవచ్చు.</string>
+    <string name="photomosaic_columns">మొజాయిక్ స్తంభాలు</string>
+    <string name="photomosaic_color_blend">లక్ష్య రంగు మిశ్రమం</string>
+    <string name="photomosaic_repeat_distance">పునరావృత ఎగవేత</string>
+    <string name="photomosaic_max_tiles">గరిష్ట మూల చిత్రాలు</string>
+    <string name="search_keywords_photomosaic">ఫోటో మొజాయిక్ టైల్స్ కోల్లెజ్ ఆల్బమ్ గ్రిడ్ పునఃసృష్టి</string>
 </resources>

@@ -4856,4 +4856,13 @@
     <string name="enhancement">強化</string>
     <string name="artistic">藝術性</string>
     <string name="frames">鏡框</string>
+    <string name="photomosaic">照片馬賽克</string>
+    <string name="photomosaic_sub">使用一組較小的照片重新創建圖像</string>
+    <string name="photomosaic_tiles">磁磚系列</string>
+    <string name="photomosaic_tiles_empty_sub">新增來源照片。您可以在此處預覽和刪除它們。</string>
+    <string name="photomosaic_columns">馬賽克柱</string>
+    <string name="photomosaic_color_blend">目標顏色混合</string>
+    <string name="photomosaic_repeat_distance">重複避免</string>
+    <string name="photomosaic_max_tiles">最大源影像數</string>
+    <string name="search_keywords_photomosaic">照片馬賽克磁磚拼貼專輯網格重新創建</string>
 </resources>

@@ -4856,4 +4856,13 @@
     <string name="enhancement">การเพิ่มประสิทธิภาพ</string>
     <string name="artistic">ศิลปะ</string>
     <string name="frames">เฟรม</string>
+    <string name="photomosaic">โฟโต้โมเสค</string>
+    <string name="photomosaic_sub">สร้างภาพขึ้นมาใหม่โดยใช้คอลเลกชันภาพถ่ายขนาดเล็ก</string>
+    <string name="photomosaic_tiles">คอลเลกชันกระเบื้อง</string>
+    <string name="photomosaic_tiles_empty_sub">เพิ่มรูปภาพต้นฉบับ คุณสามารถดูตัวอย่างและนำออกได้ที่นี่</string>
+    <string name="photomosaic_columns">คอลัมน์โมเสก</string>
+    <string name="photomosaic_color_blend">การผสมสีเป้าหมาย</string>
+    <string name="photomosaic_repeat_distance">ทำซ้ำการหลีกเลี่ยง</string>
+    <string name="photomosaic_max_tiles">รูปภาพต้นฉบับสูงสุด</string>
+    <string name="search_keywords_photomosaic">ตารางอัลบั้มภาพตัดปะกระเบื้องโมเสคภาพสร้างขึ้นใหม่</string>
 </resources>

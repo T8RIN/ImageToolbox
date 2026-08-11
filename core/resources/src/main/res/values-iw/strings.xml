@@ -4859,4 +4859,13 @@
     <string name="enhancement">הַגבָּרָה</string>
     <string name="artistic">אָמָנוּתִי</string>
     <string name="frames">מסגרות</string>
+    <string name="photomosaic">פוטומוזאיקה</string>
+    <string name="photomosaic_sub">צור מחדש תמונה באמצעות אוסף של תמונות קטנות יותר</string>
+    <string name="photomosaic_tiles">אוסף אריחים</string>
+    <string name="photomosaic_tiles_empty_sub">הוסף תמונות מקור. אתה יכול להציג אותם בתצוגה מקדימה ולהסיר אותם כאן.</string>
+    <string name="photomosaic_columns">עמודי פסיפס</string>
+    <string name="photomosaic_color_blend">שילוב צבעי יעד</string>
+    <string name="photomosaic_repeat_distance">חזור על הימנעות</string>
+    <string name="photomosaic_max_tiles">מקסימום תמונות מקור</string>
+    <string name="search_keywords_photomosaic">אריחי פסיפס תמונה קולאז\' רשת אלבום ליצור מחדש</string>
 </resources>

@@ -4857,4 +4857,13 @@
     <string name="enhancement">Жақсарту</string>
     <string name="artistic">Көркем</string>
     <string name="frames">Жақтаулар</string>
+    <string name="photomosaic">Фотомозаикалық</string>
+    <string name="photomosaic_sub">Кішірек фотосуреттер жинағын пайдаланып кескінді қайта жасаңыз</string>
+    <string name="photomosaic_tiles">Плитка жинағы</string>
+    <string name="photomosaic_tiles_empty_sub">Бастапқы фотосуреттерді қосыңыз. Оларды осы жерден қарап шығуға және жоюға болады.</string>
+    <string name="photomosaic_columns">Мозаикалық бағаналар</string>
+    <string name="photomosaic_color_blend">Мақсатты түс қоспасы</string>
+    <string name="photomosaic_repeat_distance">Қайталанудан аулақ болу</string>
+    <string name="photomosaic_max_tiles">Максималды бастапқы кескіндер</string>
+    <string name="search_keywords_photomosaic">фото мозаикалық плиткалар коллаж альбом торын қайта жасайды</string>
 </resources>
