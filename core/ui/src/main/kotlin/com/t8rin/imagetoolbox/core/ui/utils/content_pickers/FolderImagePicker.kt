@@ -33,7 +33,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.utils.listFilesInDirectoryProgressive
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -99,6 +101,7 @@ internal fun rememberFolderImagePicker(
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 suspend fun Uri.loadableImagesFromFolder(
     context: Context,
     limit: Int = Int.MAX_VALUE,
@@ -107,8 +110,10 @@ suspend fun Uri.loadableImagesFromFolder(
     var count = 0
 
     return listFilesInDirectoryProgressive()
-        .mapNotNull { uri ->
-            uri.takeIf { it.isLoadableImage(context) }
+        .flatMapMerge(concurrency = URI_VALIDATION_CONCURRENCY) { uri ->
+            flow {
+                if (uri.isLoadableImage(context)) emit(uri)
+            }
         }
         .onEach {
             onProgress(++count)
@@ -152,3 +157,5 @@ private val EXCLUDED = listOf(
     "gz",
     "rar"
 )
+
+private const val URI_VALIDATION_CONCURRENCY = 8
