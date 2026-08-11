@@ -85,6 +85,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.split.screenLogic.S
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.unlock.screenLogic.UnlockPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.screenLogic.ZipConvertPdfToolComponent
+import com.t8rin.imagetoolbox.feature.photomosaic.presentation.screenLogic.PhotomosaicComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.screenLogic.RecognizeTextComponent
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
@@ -143,6 +144,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfContactSheetTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Photomosaic
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PrintPdfTool
@@ -214,6 +216,7 @@ internal class ChildProvider @Inject constructor(
     private val imagePreviewComponentFactory: ImagePreviewComponent.Factory,
     private val imageSplittingComponentFactory: ImageSplitterComponent.Factory,
     private val imageStackingComponentFactory: ImageStackingComponent.Factory,
+    private val photomosaicComponentFactory: PhotomosaicComponent.Factory,
     private val imageStitchingComponentFactory: ImageStitchingComponent.Factory,
     private val jxlToolsComponentFactory: JxlToolsComponent.Factory,
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
@@ -474,6 +477,15 @@ internal class ChildProvider @Inject constructor(
             imageStackingComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.Photomosaic -> Photomosaic(
+            photomosaicComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

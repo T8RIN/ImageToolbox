@@ -151,6 +151,7 @@ internal fun List<Uri>.screenList(
                 Screen.Watermarking(uris),
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),
+                Screen.Photomosaic(uris.firstOrNull()),
                 Screen.ImageSplitting(uris.firstOrNull()),
                 Screen.ImageCutter(uris),
                 Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),

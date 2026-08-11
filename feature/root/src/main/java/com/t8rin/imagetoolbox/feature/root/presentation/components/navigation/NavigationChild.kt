@@ -150,6 +150,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.Watermark
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.watermark.screenLogic.WatermarkPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.ZipConvertPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.zip_convert.screenLogic.ZipConvertPdfToolComponent
+import com.t8rin.imagetoolbox.feature.photomosaic.presentation.PhotomosaicContent
+import com.t8rin.imagetoolbox.feature.photomosaic.presentation.screenLogic.PhotomosaicComponent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.PickColorFromImageContent
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.screenLogic.PickColorFromImageComponent
 import com.t8rin.imagetoolbox.feature.recognize.text.presentation.RecognizeTextContent
@@ -306,6 +308,11 @@ internal sealed interface NavigationChild {
     class ImageStacking(private val component: ImageStackingComponent) : NavigationChild {
         @Composable
         override fun Content() = ImageStackingContent(component)
+    }
+
+    class Photomosaic(private val component: PhotomosaicComponent) : NavigationChild {
+        @Composable
+        override fun Content() = PhotomosaicContent(component)
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {

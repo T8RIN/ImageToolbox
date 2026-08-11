@@ -83,4 +83,5 @@ dependencies {
     implementation(projects.feature.usageStatistics)
     implementation(projects.feature.batchRename)
     implementation(projects.feature.duplicateFinder)
+    implementation(projects.feature.photomosaic)
 }

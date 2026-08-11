@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Photomosaic
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PickColorFromImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
@@ -146,6 +147,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is LoadNetImage -> R.string.search_keywords_load_net_image
     is PickColorFromImage -> R.string.search_keywords_pick_color_from_image
     is PaletteTools -> R.string.search_keywords_palette_tools
+    is Photomosaic -> R.string.search_keywords_photomosaic
     is DeleteExif -> R.string.search_keywords_delete_exif
     is Compare -> R.string.search_keywords_compare
     is LimitResize -> R.string.search_keywords_limit_resize

@@ -1154,6 +1154,15 @@ sealed class Screen(
         subtitle = R.string.tone_curves_sub
     )
 
+    @Serializable
+    data class Photomosaic(
+        val uri: Uri? = null
+    ) : Screen(
+        id = 73,
+        title = R.string.photomosaic,
+        subtitle = R.string.photomosaic_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

@@ -91,6 +91,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.TagText
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandShine
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
@@ -139,6 +140,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Photomosaic
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PickColorFromImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
@@ -184,6 +186,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is EraseBackground -> "Erase_Background"
     is Filter -> "Filter"
     is PaletteTools -> "Palette_Tools"
+    is Photomosaic -> "Photomosaic"
     is GifTools -> "GIF_Tools"
     is GradientMaker -> "Gradient_Maker"
     is ImagePreview -> "Image_Preview"
@@ -283,6 +286,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is EraseBackground -> Icons.Rounded.Eraser
     is Filter -> Icons.Outlined.AutoFixHigh
     is PaletteTools -> Icons.Outlined.PaletteSwatch
+    is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
     is ImagePreview -> Icons.Outlined.Landscape
@@ -373,6 +377,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is EraseBackground -> Icons.TwoTone.Eraser
     is Filter -> Icons.TwoTone.AutoFixHigh
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
+    is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
     is ImagePreview -> Icons.TwoTone.Landscape
@@ -494,6 +499,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     AiTools(),
                     Curves(),
                     CollageMaker(),
+                    Photomosaic(),
                     ImageStitching(),
                     ImageStacking(),
                     ImageSplitting(),
@@ -555,5 +561,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 89 + PdfTools.options.size
+    override val FEATURES_COUNT = 90 + PdfTools.options.size
 }
