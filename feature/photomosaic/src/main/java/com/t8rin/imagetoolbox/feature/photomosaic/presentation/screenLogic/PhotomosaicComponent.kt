@@ -45,12 +45,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicMaker
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicParams
+import com.t8rin.imagetoolbox.feature.photomosaic.presentation.screenLogic.PhotomosaicComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -68,7 +69,7 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val settingsManager: SettingsManager,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(dispatchersHolder, componentContext) {
 
     init {
         debounce {
@@ -110,13 +111,15 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     val total by _total
 
     fun setUris(uris: List<Uri>) {
+        clearHistory()
+        registerChangesCleared()
         val targetUris = uris.distinct()
         _uris.update { targetUris }
         _selectedUri.update { targetUris.firstOrNull() }
         _previewBitmap.update { null }
         _tileUris.update { tiles -> tiles.filterNot(targetUris::contains) }
-        registerChanges()
         calculatePreview()
+        resetHistory()
     }
 
     fun updateSelectedUri(uri: Uri) {
@@ -139,11 +142,17 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     }
 
     fun setTileUris(uris: List<Uri>) {
-        _tileUris.update {
-            uris.filterNot(this.uris::contains).distinct().take(params.maxTiles)
-        }
-        registerChanges()
+        val updatedUris = uris
+            .filterNot(this.uris::contains)
+            .distinct()
+            .take(params.maxTiles)
+        if (updatedUris == tileUris) return
+
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
+        _tileUris.update { updatedUris }
         calculatePreview()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun addTileUris(uris: List<Uri>) {
@@ -155,22 +164,41 @@ class PhotomosaicComponent @AssistedInject internal constructor(
     }
 
     fun updateParams(value: PhotomosaicParams) {
-        _params.update { value.normalized() }
+        val normalized = value.normalized()
+        if (normalized == params) return
+
+        beginPendingHistoryTransaction()
+        _params.update { normalized }
         if (tileUris.size > params.maxTiles) {
             _tileUris.update { it.take(params.maxTiles) }
         }
         registerChanges()
         calculatePreview()
+        schedulePendingHistoryCommit()
     }
 
     fun setImageFormat(value: ImageFormat) {
+        if (value == imageFormat) return
+
+        if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+            finalizePendingHistoryTransaction()
+        }
+        beginPendingHistoryTransaction(
+            mode = PendingHistoryMode.FormatChange,
+            commitDelayMillis = formatHistoryTransactionDebounce
+        )
         _imageFormat.update { value }
         registerChanges()
+        schedulePendingHistoryCommit()
     }
 
     fun setQuality(value: Quality) {
+        if (value == quality) return
+
+        beginPendingHistoryTransaction()
         _quality.update { value }
         registerChanges()
+        schedulePendingHistoryCommit()
     }
 
     private fun calculatePreview() {
@@ -357,6 +385,28 @@ class PhotomosaicComponent @AssistedInject internal constructor(
 
     fun getFormatForFilenameSelection(): ImageFormat? =
         imageFormat.takeIf { uris.size == 1 }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        tileUris = tileUris,
+        params = params,
+        imageFormat = imageFormat,
+        quality = quality
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _tileUris.update { snapshot.tileUris }
+        _params.update { snapshot.params }
+        _imageFormat.update { snapshot.imageFormat }
+        _quality.update { snapshot.quality }
+        calculatePreview()
+    }
+
+    data class HistorySnapshot(
+        val tileUris: List<Uri>,
+        val params: PhotomosaicParams,
+        val imageFormat: ImageFormat,
+        val quality: Quality
+    )
 
     private fun Bitmap.imageInfo(uri: Uri) = ImageInfo(
         width = width,

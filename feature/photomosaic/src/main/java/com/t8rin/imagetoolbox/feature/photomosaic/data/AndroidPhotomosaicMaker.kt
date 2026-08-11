@@ -22,19 +22,21 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.utils.getSuitableConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.feature.photomosaic.domain.AdaptiveTileLayout
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.LabColor
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicMaker
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicParams
-import com.t8rin.imagetoolbox.feature.photomosaic.domain.TileMatcher
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.math.abs
 import kotlin.math.cbrt
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -77,23 +79,17 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         val normalizedParams = params.normalized()
 
         val columns = normalizedParams.columns.coerceAtMost(target.width)
-        val rows = (columns * target.height.toFloat() / target.width)
-            .roundToInt()
-            .coerceIn(1, target.height)
         val requestedTiles = tileUris
             .asSequence()
             .distinct()
             .take(normalizedParams.maxTiles)
             .toList()
-        val totalProgress = requestedTiles.size + rows
 
         val sampleSize = if (preview) {
             PREVIEW_TILE_SIZE
         } else {
-            val desiredSize = maxOf(
-                target.width / columns,
-                target.height / rows
-            ).coerceIn(MIN_TILE_SIZE, MAX_TILE_SIZE)
+            val desiredSize = (target.width / columns)
+                .coerceIn(MIN_TILE_SIZE, MAX_TILE_SIZE)
             val memorySafeSize = sqrt(
                 MAX_TILE_MEMORY_BYTES.toDouble() /
                     (requestedTiles.size.coerceAtLeast(1) * BYTES_PER_PIXEL)
@@ -102,7 +98,7 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
             desiredSize.coerceAtMost(memorySafeSize.coerceAtLeast(MIN_TILE_SIZE))
         }
 
-        val tiles = requestedTiles.mapIndexedNotNull { index, uri ->
+        val tiles = requestedTiles.mapNotNull { uri ->
             coroutineContext.ensureActive()
             val bitmap = imageGetter.getImage(
                 data = uri,
@@ -112,41 +108,43 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
                     image = it,
                     width = sampleSize,
                     height = sampleSize,
-                    resizeType = ResizeType.CenterCrop(0x00000000)
+                    resizeType = ResizeType.Flexible
                 )
             }
-            onProgress(index + 1, totalProgress)
-            bitmap?.let { Tile(bitmap = it, color = it.averageLabColor()) }
+            bitmap?.let {
+                Tile(
+                    bitmap = it,
+                    color = it.averageLabColor(),
+                    aspectRatio = it.width / it.height.toFloat()
+                )
+            }
         }
         if (tiles.isEmpty()) return@withContext null
 
-        val colorMap = createBitmap(
-            width = columns,
-            height = rows,
-            config = Bitmap.Config.ARGB_8888
-        ).also { bitmap ->
-            Canvas(bitmap).drawBitmap(
-                target,
-                Rect(0, 0, target.width, target.height),
-                Rect(0, 0, columns, rows),
-                Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
-            )
-        }
-        val targetColors = buildList(columns * rows) {
-            for (row in 0 until rows) {
-                for (column in 0 until columns) {
-                    add(colorMap.getPixel(column, row).toLabColor())
-                }
-            }
-        }
-        colorMap.recycle()
-
-        val matches = TileMatcher.match(
-            targets = targetColors,
-            tiles = tiles.map(Tile::color),
+        val colorSampleRadius = (minOf(target.width, target.height) / COLOR_SAMPLE_DIVISOR)
+            .coerceAtLeast(1)
+        val placements = AdaptiveTileLayout.create(
+            width = target.width,
+            height = target.height,
             columns = columns,
-            repeatDistance = normalizedParams.repeatDistance
+            tiles = tiles.map {
+                AdaptiveTileLayout.Tile(
+                    aspectRatio = it.aspectRatio,
+                    color = it.color
+                )
+            },
+            repeatDistance = normalizedParams.repeatDistance,
+            colorAt = { x, y ->
+                target.averageLabColorAt(
+                    x = x,
+                    y = y,
+                    radius = colorSampleRadius
+                )
+            },
+            detailAt = { y -> target.detailAt(y) }
         )
+        val totalProgress = requestedTiles.size + placements.size
+        onProgress(requestedTiles.size, totalProgress)
 
         createBitmap(
             width = target.width,
@@ -154,33 +152,39 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
             config = getSuitableConfig()
         ).also { result ->
             val canvas = Canvas(result)
-            val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
+            val source = Rect(0, 0, target.width, target.height)
+            val destination = Rect(0, 0, result.width, result.height)
+            canvas.drawBitmap(
+                target,
+                source,
+                destination,
+                Paint(Paint.FILTER_BITMAP_FLAG)
+            )
+            val paint = Paint(Paint.FILTER_BITMAP_FLAG)
 
-            for (row in 0 until rows) {
+            placements.forEachIndexed { index, placement ->
                 coroutineContext.ensureActive()
-                val top = row * result.height / rows
-                val bottom = (row + 1) * result.height / rows
-
-                for (column in 0 until columns) {
-                    val left = column * result.width / columns
-                    val right = (column + 1) * result.width / columns
-                    val bitmap = tiles[matches[row * columns + column]].bitmap
-                    canvas.drawBitmap(
-                        bitmap,
-                        Rect(0, 0, bitmap.width, bitmap.height),
-                        Rect(left, top, right, bottom),
-                        paint
-                    )
-                }
-                onProgress(requestedTiles.size + row + 1, totalProgress)
+                val bitmap = tiles[placement.tileIndex].bitmap
+                canvas.drawBitmap(
+                    bitmap,
+                    Rect(0, 0, bitmap.width, bitmap.height),
+                    RectF(
+                        placement.left,
+                        placement.top,
+                        placement.right,
+                        placement.bottom
+                    ),
+                    paint
+                )
+                onProgress(requestedTiles.size + index + 1, totalProgress)
             }
 
             if (normalizedParams.colorBlend > 0f) {
                 paint.alpha = (normalizedParams.colorBlend * ALPHA_MAX).roundToInt()
                 canvas.drawBitmap(
                     target,
-                    Rect(0, 0, target.width, target.height),
-                    Rect(0, 0, result.width, result.height),
+                    source,
+                    destination,
                     paint
                 )
             }
@@ -189,8 +193,67 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
 
     private data class Tile(
         val bitmap: Bitmap,
-        val color: LabColor
+        val color: LabColor,
+        val aspectRatio: Float
     )
+
+    private fun Bitmap.averageLabColorAt(
+        x: Int,
+        y: Int,
+        radius: Int
+    ): LabColor {
+        var red = 0L
+        var green = 0L
+        var blue = 0L
+        var count = 0L
+
+        for (sampleY in (y - radius).coerceAtLeast(0)..(y + radius).coerceAtMost(height - 1)) {
+            for (sampleX in (x - radius).coerceAtLeast(0)..(x + radius).coerceAtMost(width - 1)) {
+                val color = getPixel(sampleX, sampleY)
+                red += Color.red(color)
+                green += Color.green(color)
+                blue += Color.blue(color)
+                count++
+            }
+        }
+
+        return rgbToLab(
+            red = (red / count).toInt(),
+            green = (green / count).toInt(),
+            blue = (blue / count).toInt()
+        )
+    }
+
+    private fun Bitmap.detailAt(y: Int): Float {
+        val step = (width / DETAIL_SAMPLE_COUNT).coerceAtLeast(1)
+        val offset = (minOf(width, height) / DETAIL_OFFSET_DIVISOR).coerceAtLeast(1)
+        val sampleY = y.coerceIn(0, height - 1)
+        var difference = 0L
+        var count = 0
+
+        for (x in 0 until width step step) {
+            val center = getPixel(x, sampleY).luminance()
+            val horizontal = getPixel(
+                (x + offset).coerceAtMost(width - 1),
+                sampleY
+            ).luminance()
+            val vertical = getPixel(
+                x,
+                (sampleY + offset).coerceAtMost(height - 1)
+            ).luminance()
+            difference += abs(center - horizontal) + abs(center - vertical)
+            count += 2
+        }
+
+        return (difference / (count * COLOR_CHANNEL_MAX).toFloat() * DETAIL_GAIN)
+            .coerceIn(0f, 1f)
+    }
+
+    private fun Int.luminance(): Int = (
+            Color.red(this) * RED_LUMINANCE_WEIGHT +
+                    Color.green(this) * GREEN_LUMINANCE_WEIGHT +
+                    Color.blue(this) * BLUE_LUMINANCE_WEIGHT
+            ).roundToInt()
 
     private fun Bitmap.averageLabColor(): LabColor {
         val pixels = IntArray(width * height)
@@ -217,12 +280,6 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
             blue = (blue / count).toInt()
         )
     }
-
-    private fun Int.toLabColor(): LabColor = rgbToLab(
-        red = Color.red(this),
-        green = Color.green(this),
-        blue = Color.blue(this)
-    )
 
     private fun rgbToLab(
         red: Int,
@@ -270,5 +327,13 @@ internal class AndroidPhotomosaicMaker @Inject constructor(
         const val BYTES_PER_PIXEL = 4
         const val ALPHA_MAX = 255
         const val MIN_VISIBLE_ALPHA = 16
+        const val COLOR_CHANNEL_MAX = 255
+        const val COLOR_SAMPLE_DIVISOR = 256
+        const val DETAIL_SAMPLE_COUNT = 24
+        const val DETAIL_OFFSET_DIVISOR = 128
+        const val DETAIL_GAIN = 4f
+        const val RED_LUMINANCE_WEIGHT = 0.2126f
+        const val GREEN_LUMINANCE_WEIGHT = 0.7152f
+        const val BLUE_LUMINANCE_WEIGHT = 0.0722f
     }
 }
