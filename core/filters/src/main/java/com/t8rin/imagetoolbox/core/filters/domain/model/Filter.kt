@@ -411,6 +411,7 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface MirroredArray : GmicFilter
     interface RandomPatchArray : GmicFilter
     interface RandomColorArray : GmicFilter
+    interface Blocks3D : GmicFilter
     interface ChessboardOverlay : GmicFilter
     interface DiceMosaic : GmicFilter
     interface Ministeck : GmicFilter
