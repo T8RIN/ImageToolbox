@@ -23,6 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import coil3.imageLoader
+import coil3.request.CachePolicy
+import coil3.request.ErrorResult
+import coil3.request.ImageRequest
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
@@ -33,6 +37,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -55,24 +60,22 @@ internal fun rememberFolderImagePicker(
         onFailure = onFailure,
         onSuccess = { folderUri ->
             scope.launch {
-                val requestId = eventEmitter.onFolderProcessingStarted()
+                val requestId = eventEmitter.onFolderProcessingStarted(
+                    onCancel = coroutineContext.job::cancel
+                )
                 try {
                     val targetAllowMultiple = allowMultiple.value
                     val uris = withContext(Dispatchers.IO) {
-                        var count = 0
-                        val flow = folderUri.listFilesInDirectoryProgressive()
-                            .mapNotNull { uri ->
-                                uri.takeIf { it.isAcceptedImage(context) }
-                            }
-                            .onEach {
-                                count++
+                        folderUri.loadableImagesFromFolder(
+                            context = context,
+                            limit = if (targetAllowMultiple) Int.MAX_VALUE else 1,
+                            onProgress = { count ->
                                 eventEmitter.onFolderProcessingProgress(
                                     requestId = requestId,
                                     count = count
                                 )
                             }
-
-                        if (targetAllowMultiple) flow.toList() else flow.take(1).toList()
+                        )
                     }
 
                     uris.takeIf { it.isNotEmpty() }?.let(onSuccess) ?: onFailure()
@@ -96,11 +99,44 @@ internal fun rememberFolderImagePicker(
     }
 }
 
-private fun Uri.isAcceptedImage(context: Context): Boolean {
+suspend fun Uri.loadableImagesFromFolder(
+    context: Context,
+    limit: Int = Int.MAX_VALUE,
+    onProgress: suspend (count: Int) -> Unit = {}
+): List<Uri> {
+    var count = 0
+
+    return listFilesInDirectoryProgressive()
+        .mapNotNull { uri ->
+            uri.takeIf { it.isLoadableImage(context) }
+        }
+        .onEach {
+            onProgress(++count)
+        }
+        .take(limit)
+        .toList()
+}
+
+private suspend fun Uri.isLoadableImage(context: Context): Boolean {
     if (EXCLUDED.any { toString().endsWith(".$it", true) }) return false
 
     val mime = context.contentResolver.getType(this).orEmpty()
-    return "audio" !in mime && "video" !in mime
+    if ("audio" in mime || "video" in mime) return false
+
+    return try {
+        val result = context.imageLoader.execute(
+            ImageRequest.Builder(context)
+                .data(this)
+                .size(8)
+                .memoryCachePolicy(CachePolicy.DISABLED)
+                .build()
+        )
+        result !is ErrorResult && result.image != null
+    } catch (e: CancellationException) {
+        throw e
+    } catch (_: Throwable) {
+        false
+    }
 }
 
 private val EXCLUDED = listOf(

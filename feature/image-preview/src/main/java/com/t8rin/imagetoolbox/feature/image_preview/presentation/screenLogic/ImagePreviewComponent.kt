@@ -21,14 +21,12 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
-import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.loadableImagesFromFolder
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -36,7 +34,7 @@ import com.t8rin.imagetoolbox.core.utils.appContext
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 
 class ImagePreviewComponent @AssistedInject internal constructor(
@@ -45,7 +43,6 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val shareProvider: ShareProvider,
-    private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -57,6 +54,9 @@ class ImagePreviewComponent @AssistedInject internal constructor(
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
+
+    private val _folderLoadingCount: MutableState<Int?> = mutableStateOf(null)
+    val folderLoadingCount by _folderLoadingCount
 
     private val _imageFrames: MutableState<ImageFrames> = mutableStateOf(
         ImageFrames.ManualSelection(
@@ -105,29 +105,31 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     }
 
     fun updateUrisFromTree(uri: Uri) {
-        asyncUpdateUris { _ ->
-            withContext(ioDispatcher) {
-                val buffer = SnapshotStateList<Uri>()
-                _uris.update { buffer }
+        _folderLoadingCount.value = 0
 
-                buildList {
-                    fileController.listFilesInDirectoryAsFlow(uri.toString())
-                        .mapNotNull { uri ->
-                            if (EXCLUDED.any { uri.endsWith(".$it", true) }) return@mapNotNull null
-
-                            uri.toUri().also {
-                                val mime = appContext.contentResolver.getType(it).orEmpty()
-
-                                if ("audio" in mime || "video" in mime) return@mapNotNull null
+        asyncUpdateUris { previousUris ->
+            try {
+                withContext(ioDispatcher) {
+                    uri.loadableImagesFromFolder(
+                        context = appContext,
+                        onProgress = { count ->
+                            withContext(uiDispatcher) {
+                                _folderLoadingCount.value = count
                             }
                         }
-                        .collect { uri ->
-                            add(uri)
-                            buffer.add(uri)
-                        }
+                    ).ifEmpty { previousUris.orEmpty() }
+                }
+            } finally {
+                withContext(NonCancellable + uiDispatcher) {
+                    _folderLoadingCount.value = null
                 }
             }
         }
+    }
+
+    fun cancelLoading() {
+        _folderLoadingCount.value = null
+        cancelImageLoading()
     }
 
     fun asyncUpdateUris(
@@ -150,17 +152,3 @@ class ImagePreviewComponent @AssistedInject internal constructor(
     }
 
 }
-
-private val EXCLUDED = listOf(
-    "xml",
-    "mov",
-    "zip",
-    "apk",
-    "mp4",
-    "mp3",
-    "pdf",
-    "ldb",
-    "ttf",
-    "gz",
-    "rar"
-)

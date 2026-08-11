@@ -110,6 +110,7 @@ fun LoadingDialog(
     loaderSize: Dp = 60.dp,
     switchToIndicator: Boolean = false,
     isLayoutSwappable: Boolean = true,
+    isForSaving: Boolean = true,
     additionalContent: @Composable (Dp) -> Unit = {}
 ) {
     val progress = progress()
@@ -118,7 +119,8 @@ fun LoadingDialog(
         LoadingDialog(
             visible = true,
             onCancelLoading = onCancelLoading,
-            canCancel = canCancel
+            canCancel = canCancel,
+            isForSaving = isForSaving
         )
     } else {
         var showWantDismissDialog by remember(canCancel, visible) { mutableStateOf(false) }
@@ -171,6 +173,7 @@ fun LoadingDialog(
             onDismissDialog = {
                 showWantDismissDialog = false
             },
+            isForSaving = isForSaving,
             modifier = Modifier.keepScreenOn()
         )
     }

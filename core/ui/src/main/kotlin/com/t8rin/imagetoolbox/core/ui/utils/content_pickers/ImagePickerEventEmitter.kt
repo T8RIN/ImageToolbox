@@ -33,16 +33,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 
 internal interface ImagePickerEventEmitter {
     val events: Flow<ImagePickerEvent>
 
-    fun onFolderProcessingStarted(): Long
+    fun onFolderProcessingStarted(onCancel: () -> Unit): Long
 
     fun onFolderProcessingProgress(requestId: Long, count: Int)
 
     fun onFolderProcessingFinished(requestId: Long)
+
+    fun cancelFolderProcessing()
 }
 
 @Composable
@@ -61,17 +64,25 @@ private class ImagePickerEventEmitterImpl : ImagePickerEventEmitter {
     override val events: Flow<ImagePickerEvent> = eventChannel.receiveAsFlow()
 
     private val nextRequestId = AtomicLong()
+    private val cancellationActions = ConcurrentHashMap<Long, () -> Unit>()
 
-    override fun onFolderProcessingStarted(): Long = nextRequestId.incrementAndGet().also {
-        eventChannel.trySend(ImagePickerEvent.FolderProcessingStarted(it))
-    }
+    override fun onFolderProcessingStarted(onCancel: () -> Unit): Long =
+        nextRequestId.incrementAndGet().also { requestId ->
+            cancellationActions[requestId] = onCancel
+            eventChannel.trySend(ImagePickerEvent.FolderProcessingStarted(requestId))
+        }
 
     override fun onFolderProcessingProgress(requestId: Long, count: Int) {
         eventChannel.trySend(ImagePickerEvent.FolderProcessingProgress(requestId, count))
     }
 
     override fun onFolderProcessingFinished(requestId: Long) {
+        cancellationActions.remove(requestId)
         eventChannel.trySend(ImagePickerEvent.FolderProcessingFinished(requestId))
+    }
+
+    override fun cancelFolderProcessing() {
+        cancellationActions.values.toList().forEach { it() }
     }
 }
 
@@ -106,15 +117,29 @@ internal fun ImagePickerEventsHandler() {
         activeRequests.values.sum()
     }
 
-    LoadingDialog(
+    FolderImagePickerLoadingDialog(
         visible = activeRequests.isNotEmpty(),
+        count = count,
+        onCancelLoading = eventEmitter::cancelFolderProcessing
+    )
+}
+
+@Composable
+fun FolderImagePickerLoadingDialog(
+    visible: Boolean,
+    count: Int,
+    onCancelLoading: () -> Unit
+) {
+    LoadingDialog(
+        visible = visible,
         progress = { if (count <= 0) 1f else 0f },
-        canCancel = false,
+        onCancelLoading = onCancelLoading,
         isLayoutSwappable = count <= 0,
+        isForSaving = false,
         additionalContent = { size ->
-            if (count > 0) {
+            count.takeIf { it > 0 }?.let {
                 AutoSizeText(
-                    text = count.toString(),
+                    text = it.toString(),
                     maxLines = 1,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,

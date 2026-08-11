@@ -78,6 +78,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.SelectAll
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.FolderImagePickerLoadingDialog
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -85,7 +86,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SortButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
-import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -181,8 +181,10 @@ fun ImagePreviewContent(
                                     EnhancedBadge(
                                         content = {
                                             val prefix = if (isLoadingImages) "~" else ""
+                                            val count = component.folderLoadingCount
+                                                ?: component.uris.orEmpty().size
                                             Text(
-                                                text = "$prefix${component.uris.orEmpty().size}"
+                                                text = "$prefix$count"
                                             )
                                         },
                                         containerColor = MaterialTheme.colorScheme.tertiary,
@@ -451,10 +453,10 @@ fun ImagePreviewContent(
         }
     }
 
-    LoadingDialog(
+    FolderImagePickerLoadingDialog(
         visible = isLoadingImages,
-        onCancelLoading = component::cancelImageLoading,
-        isForSaving = false
+        count = component.folderLoadingCount ?: 0,
+        onCancelLoading = component::cancelLoading
     )
 
     ExitWithoutSavingDialog(
