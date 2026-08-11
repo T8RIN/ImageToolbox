@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">Ánh sáng X</string>
     <string name="gmic_param_y_light">Ánh sáng Y</string>
     <string name="gmic_param_z_light">Ánh sáng Z</string>
+    <string name="multi_frame_fusion">Hợp nhất nhiều khung</string>
+    <string name="multi_frame_fusion_sub">Kết hợp một loạt ảnh thành một hình ảnh sạch hơn, sắc nét hơn hoặc có độ phơi sáng tốt hơn</string>
+    <string name="fusion_mode">Chế độ kết hợp</string>
+    <string name="exposure_fusion">Phơi bày</string>
+    <string name="exposure_fusion_sub">Trộn các mức phơi sáng trong khung trong khi vẫn giữ được chi tiết vùng sáng và vùng tối</string>
+    <string name="focus_stacking">Tập trung</string>
+    <string name="focus_stacking_sub">Kết hợp các vùng sắc nét nhất từ ​​các bức ảnh được lấy nét ở những khoảng cách khác nhau</string>
+    <string name="median_stack">trung vị</string>
+    <string name="median_stack_sub">Loại bỏ các đối tượng nhất thời và nhiễu ngẫu nhiên khỏi một loạt khung phù hợp</string>
+    <string name="automatic_alignment">Căn chỉnh tự động</string>
+    <string name="automatic_alignment_sub">Ghép mọi khung hình với hình ảnh đầu tiên trước khi hợp nhất</string>
+    <string name="crop_to_overlap">Cắt theo khu vực chung</string>
+    <string name="crop_to_overlap_sub">Loại bỏ các cạnh trống được giới thiệu trong khi căn chỉnh khung</string>
+    <string name="contrast_weight">trọng lượng tương phản</string>
+    <string name="saturation_weight">Trọng lượng bão hòa</string>
+    <string name="exposure_weight">Trọng lượng tiếp xúc</string>
+    <string name="focus_radius">Bán kính phát hiện tiêu điểm</string>
+    <string name="focus_strength">Tách tiêu điểm</string>
+    <string name="source_frames">Khung nguồn</string>
+    <string name="fusion_image_limit">Có thể hợp nhất tối đa %1$d khung hình cùng một lúc</string>
+    <string name="search_keywords_multi_frame_fusion">tiếp xúc tổng hợp đa khung hình hdr tập trung xếp chồng tiếng ồn trung bình khung loại bỏ người</string>
 </resources>

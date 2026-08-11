@@ -4883,4 +4883,25 @@
     <string name="gmic_param_x_light">Кс Лигхт</string>
     <string name="gmic_param_y_light">И Лигхт</string>
     <string name="gmic_param_z_light">З Лигхт</string>
+    <string name="multi_frame_fusion">Мулти-фраме фузија</string>
+    <string name="multi_frame_fusion_sub">Комбинујте серију фотографија у једну чистију, оштрију или боље експонирану слику</string>
+    <string name="fusion_mode">Фусион моде</string>
+    <string name="exposure_fusion">Изложеност</string>
+    <string name="exposure_fusion_sub">Комбинујте брацкетед експозиције уз очување детаља светла и сенке</string>
+    <string name="focus_stacking">Фоцус</string>
+    <string name="focus_stacking_sub">Комбинујте најоштрије области са фотографија фокусираних на различитим раздаљинама</string>
+    <string name="median_stack">медијана</string>
+    <string name="median_stack_sub">Уклоните пролазне објекте и насумични шум из серије одговарајућих оквира</string>
+    <string name="automatic_alignment">Аутоматско поравнање</string>
+    <string name="automatic_alignment_sub">Ускладите сваки кадар са првом сликом пре спајања</string>
+    <string name="crop_to_overlap">Обрезивање у заједнички простор</string>
+    <string name="crop_to_overlap_sub">Уклоните празне ивице уведене док поравнате оквире</string>
+    <string name="contrast_weight">Тежина контраста</string>
+    <string name="saturation_weight">Тежина засићења</string>
+    <string name="exposure_weight">Тежина изложености</string>
+    <string name="focus_radius">Радијус детекције фокуса</string>
+    <string name="focus_strength">Одвајање фокуса</string>
+    <string name="source_frames">Изворни оквири</string>
+    <string name="fusion_image_limit">Може се спојити до __ПХ_0__ оквира одједном</string>
+    <string name="search_keywords_multi_frame_fusion">мулти фраме фусион експозиција хдр фокус слагање медијана шума носач за уклањање људи</string>
 </resources>

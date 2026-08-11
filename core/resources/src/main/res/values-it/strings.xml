@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Luce</string>
     <string name="gmic_param_y_light">Y Luce</string>
     <string name="gmic_param_z_light">Luce Z</string>
+    <string name="multi_frame_fusion">Fusione multi-frame</string>
+    <string name="multi_frame_fusion_sub">Combina una serie di foto in un\'unica immagine più pulita, più nitida o con una migliore esposizione</string>
+    <string name="fusion_mode">Modalità fusione</string>
+    <string name="exposure_fusion">Esposizione</string>
+    <string name="exposure_fusion_sub">Unisci le esposizioni tra parentesi preservando i dettagli di luci e ombre</string>
+    <string name="focus_stacking">Messa a fuoco</string>
+    <string name="focus_stacking_sub">Combina le regioni più nitide delle foto focalizzate a distanze diverse</string>
+    <string name="median_stack">Mediano</string>
+    <string name="median_stack_sub">Rimuovi oggetti transitori e rumore casuale da una serie di fotogrammi corrispondenti</string>
+    <string name="automatic_alignment">Allineamento automatico</string>
+    <string name="automatic_alignment_sub">Abbina ogni fotogramma alla prima immagine prima della fusione</string>
+    <string name="crop_to_overlap">Ritaglia nell\'area comune</string>
+    <string name="crop_to_overlap_sub">Rimuovere i bordi vuoti introdotti durante l\'allineamento delle cornici</string>
+    <string name="contrast_weight">Peso a contrasto</string>
+    <string name="saturation_weight">Peso di saturazione</string>
+    <string name="exposure_weight">Peso dell\'esposizione</string>
+    <string name="focus_radius">Raggio di rilevamento della messa a fuoco</string>
+    <string name="focus_strength">Separazione del fuoco</string>
+    <string name="source_frames">Fotogrammi di origine</string>
+    <string name="fusion_image_limit">È possibile fondere fino a %1$d fotogrammi contemporaneamente</string>
+    <string name="search_keywords_multi_frame_fusion">esposizione fusione multi frame hdr focus stacking rumore mediano staffa di rimozione persone</string>
 </resources>

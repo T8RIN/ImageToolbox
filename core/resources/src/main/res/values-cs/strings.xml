@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">X světlo</string>
     <string name="gmic_param_y_light">Y Světlo</string>
     <string name="gmic_param_z_light">Z Light</string>
+    <string name="multi_frame_fusion">Vícesnímkové fúze</string>
+    <string name="multi_frame_fusion_sub">Spojte sérii fotografií do jednoho čistšího, ostřejšího nebo lépe exponovaného snímku</string>
+    <string name="fusion_mode">Režim fúze</string>
+    <string name="exposure_fusion">Vystavení</string>
+    <string name="exposure_fusion_sub">Smíchejte odstupňované expozice při zachování detailů ve světlech a stínech</string>
+    <string name="focus_stacking">Soustředit</string>
+    <string name="focus_stacking_sub">Kombinujte nejostřejší oblasti z fotografií zaostřených na různé vzdálenosti</string>
+    <string name="median_stack">Medián</string>
+    <string name="median_stack_sub">Odstraňte přechodné objekty a náhodný šum ze série odpovídajících snímků</string>
+    <string name="automatic_alignment">Automatické zarovnání</string>
+    <string name="automatic_alignment_sub">Před fúzí přiřaďte každý snímek k prvnímu snímku</string>
+    <string name="crop_to_overlap">Oříznout do společného prostoru</string>
+    <string name="crop_to_overlap_sub">Odstraňte prázdné okraje zavedené při zarovnávání rámečků</string>
+    <string name="contrast_weight">Kontrastní hmotnost</string>
+    <string name="saturation_weight">Saturační hmotnost</string>
+    <string name="exposure_weight">Expoziční hmotnost</string>
+    <string name="focus_radius">Poloměr detekce zaostření</string>
+    <string name="focus_strength">Oddělení zaostření</string>
+    <string name="source_frames">Zdrojové rámy</string>
+    <string name="fusion_image_limit">Najednou lze sloučit až %1$d rámců</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people removal bracket</string>
 </resources>

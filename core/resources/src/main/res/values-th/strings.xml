@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">เอ็กซ์ ไลท์</string>
     <string name="gmic_param_y_light">วาย ไลท์</string>
     <string name="gmic_param_z_light">ซี ไลท์</string>
+    <string name="multi_frame_fusion">ฟิวชั่นหลายเฟรม</string>
+    <string name="multi_frame_fusion_sub">รวมชุดภาพถ่ายให้เป็นภาพที่สะอาดตา คมชัดขึ้น หรือเปิดรับแสงได้ดีขึ้น</string>
+    <string name="fusion_mode">โหมดฟิวชั่น</string>
+    <string name="exposure_fusion">การรับสัมผัสเชื้อ</string>
+    <string name="exposure_fusion_sub">ผสมผสานค่าแสงที่ถ่ายคร่อมโดยยังคงรักษารายละเอียดของไฮไลท์และเงาไว้</string>
+    <string name="focus_stacking">จุดสนใจ</string>
+    <string name="focus_stacking_sub">รวมขอบเขตที่คมชัดที่สุดจากภาพถ่ายที่เน้นในระยะทางต่างๆ</string>
+    <string name="median_stack">ค่ามัธยฐาน</string>
+    <string name="median_stack_sub">ลบวัตถุชั่วคราวและเสียงสุ่มออกจากชุดเฟรมที่ตรงกัน</string>
+    <string name="automatic_alignment">การจัดตำแหน่งอัตโนมัติ</string>
+    <string name="automatic_alignment_sub">จับคู่ทุกเฟรมกับภาพแรกก่อนฟิวชั่น</string>
+    <string name="crop_to_overlap">ครอบตัดเป็นพื้นที่ส่วนกลาง</string>
+    <string name="crop_to_overlap_sub">ลบขอบว่างที่นำมาใช้ขณะจัดแนวเฟรม</string>
+    <string name="contrast_weight">น้ำหนักที่ตัดกัน</string>
+    <string name="saturation_weight">น้ำหนักอิ่มตัว</string>
+    <string name="exposure_weight">น้ำหนักสัมผัส</string>
+    <string name="focus_radius">รัศมีการตรวจจับโฟกัส</string>
+    <string name="focus_strength">การแยกโฟกัส</string>
+    <string name="source_frames">เฟรมที่มา</string>
+    <string name="fusion_image_limit">สามารถรวมเฟรมได้สูงสุด %1$d เฟรมในคราวเดียว</string>
+    <string name="search_keywords_multi_frame_fusion">การเปิดรับแสงฟิวชั่นแบบหลายเฟรม โฟกัส hdr ซ้อนวงเล็บกำจัดเสียงรบกวนค่ามัธยฐาน</string>
 </resources>

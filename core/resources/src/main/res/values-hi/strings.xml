@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">एक्स लाइट</string>
     <string name="gmic_param_y_light">वाई लाइट</string>
     <string name="gmic_param_z_light">जेड लाइट</string>
+    <string name="multi_frame_fusion">मल्टी-फ़्रेम फ़्यूज़न</string>
+    <string name="multi_frame_fusion_sub">एक फोटो शृंखला को एक साफ़, स्पष्ट या बेहतर-उजागर छवि में संयोजित करें</string>
+    <string name="fusion_mode">फ़्यूज़न मोड</string>
+    <string name="exposure_fusion">खुलासा</string>
+    <string name="exposure_fusion_sub">हाइलाइट और छाया विवरण को संरक्षित करते हुए ब्रैकेटेड एक्सपोज़र को ब्लेंड करें</string>
+    <string name="focus_stacking">केंद्र</string>
+    <string name="focus_stacking_sub">विभिन्न दूरियों पर केंद्रित तस्वीरों से सबसे स्पष्ट क्षेत्रों को संयोजित करें</string>
+    <string name="median_stack">मंझला</string>
+    <string name="median_stack_sub">मिलान फ़्रेमों की श्रृंखला से क्षणिक वस्तुओं और यादृच्छिक शोर को हटा दें</string>
+    <string name="automatic_alignment">स्वचालित संरेखण</string>
+    <string name="automatic_alignment_sub">फ़्यूज़न से पहले प्रत्येक फ़्रेम को पहली छवि से मिलाएं</string>
+    <string name="crop_to_overlap">सामान्य क्षेत्र में फसल लगाएं</string>
+    <string name="crop_to_overlap_sub">फ़्रेम को संरेखित करते समय लगाए गए खाली किनारों को हटा दें</string>
+    <string name="contrast_weight">कंट्रास्ट वज़न</string>
+    <string name="saturation_weight">संतृप्ति भार</string>
+    <string name="exposure_weight">एक्सपोज़र वजन</string>
+    <string name="focus_radius">फोकस पहचान त्रिज्या</string>
+    <string name="focus_strength">फोकस पृथक्करण</string>
+    <string name="source_frames">स्रोत फ़्रेम</string>
+    <string name="fusion_image_limit">%1$d तक फ़्रेम को एक बार में फ़्यूज़ किया जा सकता है</string>
+    <string name="search_keywords_multi_frame_fusion">मल्टी फ्रेम फ्यूजन एक्सपोज़र एचडीआर फोकस स्टैकिंग मीडियन नॉइज़ पीपल रिमूवल ब्रैकेट</string>
 </resources>

@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Licht</string>
     <string name="gmic_param_y_light">Y Licht</string>
     <string name="gmic_param_z_light">Z-licht</string>
+    <string name="multi_frame_fusion">Multi-frame fusie</string>
+    <string name="multi_frame_fusion_sub">Combineer een fotoserie tot één schoner, scherper of beter belicht beeld</string>
+    <string name="fusion_mode">Fusion-modus</string>
+    <string name="exposure_fusion">Blootstelling</string>
+    <string name="exposure_fusion_sub">Combineer opnamen met belichtingsbracketing en behoud de details van hoge lichten en schaduwen</string>
+    <string name="focus_stacking">Focus</string>
+    <string name="focus_stacking_sub">Combineer de scherpste gebieden van foto\'s die op verschillende afstanden zijn scherpgesteld</string>
+    <string name="median_stack">Mediaan</string>
+    <string name="median_stack_sub">Verwijder voorbijgaande objecten en willekeurige ruis uit een reeks bijpassende frames</string>
+    <string name="automatic_alignment">Automatische uitlijning</string>
+    <string name="automatic_alignment_sub">Zorg ervoor dat elk frame overeenkomt met de eerste afbeelding vóór de fusie</string>
+    <string name="crop_to_overlap">Bijsnijden naar gemeenschappelijke ruimte</string>
+    <string name="crop_to_overlap_sub">Verwijder lege randen die zijn geïntroduceerd tijdens het uitlijnen van frames</string>
+    <string name="contrast_weight">Contrasterend gewicht</string>
+    <string name="saturation_weight">Verzadiging gewicht</string>
+    <string name="exposure_weight">Blootstellingsgewicht</string>
+    <string name="focus_radius">Focusdetectieradius</string>
+    <string name="focus_strength">Focusscheiding</string>
+    <string name="source_frames">Bronframes</string>
+    <string name="fusion_image_limit">Er kunnen maximaal %1$d frames tegelijk worden gefuseerd</string>
+    <string name="search_keywords_multi_frame_fusion">multi-frame fusiebelichting hdr focus stapelen middengeluid mensen verwijderen beugel</string>
 </resources>

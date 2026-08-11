@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">X Світло</string>
     <string name="gmic_param_y_light">Y Світло</string>
     <string name="gmic_param_z_light">Z Світло</string>
+    <string name="multi_frame_fusion">Багатокадрове злиття</string>
+    <string name="multi_frame_fusion_sub">Об’єднайте серію фотографій в одне чіткіше, чіткіше або з кращою експозицією</string>
+    <string name="fusion_mode">Режим Fusion</string>
+    <string name="exposure_fusion">Контакт</string>
+    <string name="exposure_fusion_sub">Змішуйте експозицію в дужках, зберігаючи деталі світла й тіні</string>
+    <string name="focus_stacking">Фокус</string>
+    <string name="focus_stacking_sub">Комбінуйте найрізкіші області фотографій, сфокусованих на різних відстанях</string>
+    <string name="median_stack">Медіана</string>
+    <string name="median_stack_sub">Видаліть перехідні об’єкти та випадковий шум із серії відповідних кадрів</string>
+    <string name="automatic_alignment">Автоматичне вирівнювання</string>
+    <string name="automatic_alignment_sub">Зіставте кожен кадр із першим зображенням перед об’єднанням</string>
+    <string name="crop_to_overlap">Обрізати загальну територію</string>
+    <string name="crop_to_overlap_sub">Видаліть порожні краї, які з’явилися під час вирівнювання кадрів</string>
+    <string name="contrast_weight">Контрастна вага</string>
+    <string name="saturation_weight">Вага насичення</string>
+    <string name="exposure_weight">Вага експозиції</string>
+    <string name="focus_radius">Радіус виявлення фокусу</string>
+    <string name="focus_strength">Поділ фокусу</string>
+    <string name="source_frames">Вихідні кадри</string>
+    <string name="fusion_image_limit">Одночасно можна об’єднати до %1$d кадрів</string>
+    <string name="search_keywords_multi_frame_fusion">багатокадровий злиття експозиція hdr фокус укладання середній шум люди видалення кронштейн</string>
 </resources>

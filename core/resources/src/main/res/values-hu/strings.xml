@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Light</string>
     <string name="gmic_param_y_light">Y Fény</string>
     <string name="gmic_param_z_light">Z Light</string>
+    <string name="multi_frame_fusion">Multi-frame fúzió</string>
+    <string name="multi_frame_fusion_sub">Kombináljon egy fotósorozatot egyetlen tisztább, élesebb vagy jobban megvilágított képpé</string>
+    <string name="fusion_mode">Fúziós mód</string>
+    <string name="exposure_fusion">Kitettség</string>
+    <string name="exposure_fusion_sub">Keverje össze a sorozatos expozíciókat, miközben megőrzi a csúcsfény és az árnyék részleteit</string>
+    <string name="focus_stacking">Fókusz</string>
+    <string name="focus_stacking_sub">Kombinálja a legélesebb régiókat a különböző távolságokra fókuszált fényképekről</string>
+    <string name="median_stack">Középső</string>
+    <string name="median_stack_sub">Távolítsa el a tranziens objektumokat és a véletlenszerű zajokat egy sor egyező képkockából</string>
+    <string name="automatic_alignment">Automatikus igazítás</string>
+    <string name="automatic_alignment_sub">Az egyesítés előtt minden képkockát igazítson az első képhez</string>
+    <string name="crop_to_overlap">Vágja ki a közös területet</string>
+    <string name="crop_to_overlap_sub">Távolítsa el a keretek igazítása közben bevezetett üres éleket</string>
+    <string name="contrast_weight">Kontraszt súly</string>
+    <string name="saturation_weight">Telítettségi súly</string>
+    <string name="exposure_weight">Expozíciós súly</string>
+    <string name="focus_radius">Fókusz érzékelési sugár</string>
+    <string name="focus_strength">Fókusz szétválasztás</string>
+    <string name="source_frames">Forrás keretek</string>
+    <string name="fusion_image_limit">Egyszerre legfeljebb %1$d képkocka egyesíthető</string>
+    <string name="search_keywords_multi_frame_fusion">több képkocka fúziós expozíció hdr fókusz halmozás medián zaj emberek eltávolítása konzol</string>
 </resources>

@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">X Cahaya</string>
     <string name="gmic_param_y_light">kamu ringan</string>
     <string name="gmic_param_z_light">Z Cahaya</string>
+    <string name="multi_frame_fusion">Fusi multi-bingkai</string>
+    <string name="multi_frame_fusion_sub">Gabungkan serangkaian foto menjadi satu gambar yang lebih bersih, lebih tajam, atau lebih terang</string>
+    <string name="fusion_mode">Modus fusi</string>
+    <string name="exposure_fusion">Paparan</string>
+    <string name="exposure_fusion_sub">Padukan eksposur dalam tanda kurung sambil mempertahankan detail sorotan dan bayangan</string>
+    <string name="focus_stacking">Fokus</string>
+    <string name="focus_stacking_sub">Gabungkan area paling tajam dari foto yang difokuskan pada jarak berbeda</string>
+    <string name="median_stack">median</string>
+    <string name="median_stack_sub">Hapus objek sementara dan noise acak dari serangkaian bingkai yang cocok</string>
+    <string name="automatic_alignment">Penyelarasan otomatis</string>
+    <string name="automatic_alignment_sub">Cocokkan setiap frame dengan gambar pertama sebelum fusi</string>
+    <string name="crop_to_overlap">Pangkas ke area umum</string>
+    <string name="crop_to_overlap_sub">Hapus tepi kosong yang muncul saat menyelaraskan bingkai</string>
+    <string name="contrast_weight">Berat kontras</string>
+    <string name="saturation_weight">Berat saturasi</string>
+    <string name="exposure_weight">Berat paparan</string>
+    <string name="focus_radius">Radius deteksi fokus</string>
+    <string name="focus_strength">Pemisahan fokus</string>
+    <string name="source_frames">Bingkai sumber</string>
+    <string name="fusion_image_limit">Hingga %1$d bingkai dapat digabungkan sekaligus</string>
+    <string name="search_keywords_multi_frame_fusion">paparan fusi multi bingkai fokus hdr menumpuk braket penghilang kebisingan median orang</string>
 </resources>

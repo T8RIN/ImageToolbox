@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">எக்ஸ் லைட்</string>
     <string name="gmic_param_y_light">ஒய் லைட்</string>
     <string name="gmic_param_z_light">Z லைட்</string>
+    <string name="multi_frame_fusion">பல-சட்ட இணைவு</string>
+    <string name="multi_frame_fusion_sub">புகைப்படத் தொடரை ஒரு தூய்மையான, கூர்மையான அல்லது சிறப்பாக வெளிப்படும் படமாக இணைக்கவும்</string>
+    <string name="fusion_mode">இணைவு முறை</string>
+    <string name="exposure_fusion">நேரிடுவது</string>
+    <string name="exposure_fusion_sub">சிறப்பம்சத்தையும் நிழல் விவரங்களையும் பாதுகாக்கும் போது அடைப்புக்குறியிடப்பட்ட வெளிப்பாடுகளை கலக்கவும்</string>
+    <string name="focus_stacking">கவனம்</string>
+    <string name="focus_stacking_sub">வெவ்வேறு தூரங்களில் கவனம் செலுத்திய படங்களிலிருந்து கூர்மையான பகுதிகளை இணைக்கவும்</string>
+    <string name="median_stack">இடைநிலை</string>
+    <string name="median_stack_sub">பொருந்தும் பிரேம்களின் தொடரிலிருந்து நிலையற்ற பொருள்கள் மற்றும் சீரற்ற சத்தத்தை அகற்றவும்</string>
+    <string name="automatic_alignment">தானியங்கி சீரமைப்பு</string>
+    <string name="automatic_alignment_sub">இணைவதற்கு முன் ஒவ்வொரு சட்டகத்தையும் முதல் படத்துடன் பொருத்தவும்</string>
+    <string name="crop_to_overlap">பொதுவான பகுதிக்கு பயிர்</string>
+    <string name="crop_to_overlap_sub">சட்டங்களை சீரமைக்கும் போது அறிமுகப்படுத்தப்பட்ட வெற்று விளிம்புகளை அகற்றவும்</string>
+    <string name="contrast_weight">மாறுபட்ட எடை</string>
+    <string name="saturation_weight">செறிவூட்டல் எடை</string>
+    <string name="exposure_weight">வெளிப்பாடு எடை</string>
+    <string name="focus_radius">ஃபோகஸ் கண்டறிதல் ஆரம்</string>
+    <string name="focus_strength">கவனம் பிரித்தல்</string>
+    <string name="source_frames">மூல சட்டங்கள்</string>
+    <string name="fusion_image_limit">ஒரே நேரத்தில் %1$d ஃப்ரேம்கள் வரை இணைக்கப்படலாம்</string>
+    <string name="search_keywords_multi_frame_fusion">மல்டி பிரேம் ஃப்யூஷன் எக்ஸ்போஷர் ஹெச்டிஆர் ஃபோகஸ் ஸ்டாக்கிங் மீடியன் சத்தம் மக்கள் அகற்றும் அடைப்புக்குறி</string>
 </resources>

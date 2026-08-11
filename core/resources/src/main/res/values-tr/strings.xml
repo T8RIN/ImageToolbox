@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Işık</string>
     <string name="gmic_param_y_light">Y Işık</string>
     <string name="gmic_param_z_light">Z Işık</string>
+    <string name="multi_frame_fusion">Çok çerçeveli füzyon</string>
+    <string name="multi_frame_fusion_sub">Bir fotoğraf serisini daha temiz, daha keskin veya daha iyi pozlanmış bir görüntüde birleştirin</string>
+    <string name="fusion_mode">Füzyon modu</string>
+    <string name="exposure_fusion">Maruziyet</string>
+    <string name="exposure_fusion_sub">Vurgu ve gölge ayrıntılarını korurken basamaklı pozlamaları karıştırın</string>
+    <string name="focus_stacking">Odak</string>
+    <string name="focus_stacking_sub">Farklı mesafelere odaklanmış fotoğraflardaki en keskin bölgeleri birleştirin</string>
+    <string name="median_stack">Medyan</string>
+    <string name="median_stack_sub">Bir dizi eşleşen kareden geçici nesneleri ve rastgele gürültüyü kaldırın</string>
+    <string name="automatic_alignment">Otomatik hizalama</string>
+    <string name="automatic_alignment_sub">Füzyondan önce her kareyi ilk görüntüyle eşleştirin</string>
+    <string name="crop_to_overlap">Ortak alana kırp</string>
+    <string name="crop_to_overlap_sub">Çerçeveleri hizalarken ortaya çıkan boş kenarları kaldırın</string>
+    <string name="contrast_weight">Kontrast ağırlığı</string>
+    <string name="saturation_weight">Doygunluk ağırlığı</string>
+    <string name="exposure_weight">Pozlama ağırlığı</string>
+    <string name="focus_radius">Odak algılama yarıçapı</string>
+    <string name="focus_strength">Odak ayrımı</string>
+    <string name="source_frames">Kaynak çerçeveleri</string>
+    <string name="fusion_image_limit">Tek seferde en fazla %1$d kare birleştirilebilir</string>
+    <string name="search_keywords_multi_frame_fusion">çoklu çerçeve füzyon pozlama hdr odak istifleme medyan gürültü insanları kaldırma braketi</string>
 </resources>

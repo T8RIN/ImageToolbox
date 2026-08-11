@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">X šviesa</string>
     <string name="gmic_param_y_light">Y Šviesa</string>
     <string name="gmic_param_z_light">Z šviesa</string>
+    <string name="multi_frame_fusion">Kelių kadrų suliejimas</string>
+    <string name="multi_frame_fusion_sub">Sujunkite nuotraukų seriją į vieną švaresnį, ryškesnį ar geresnės ekspozicijos vaizdą</string>
+    <string name="fusion_mode">Fusion režimas</string>
+    <string name="exposure_fusion">Poveikis</string>
+    <string name="exposure_fusion_sub">Derinkite ekspozicijas su gretelėmis išsaugodami ryškių ir šešėlių detales</string>
+    <string name="focus_stacking">Fokusas</string>
+    <string name="focus_stacking_sub">Sujunkite ryškiausias sritis iš nuotraukų, sufokusuotų skirtingais atstumais</string>
+    <string name="median_stack">Mediana</string>
+    <string name="median_stack_sub">Pašalinkite trumpalaikius objektus ir atsitiktinį triukšmą iš atitinkančių kadrų serijos</string>
+    <string name="automatic_alignment">Automatinis derinimas</string>
+    <string name="automatic_alignment_sub">Prieš suliedami kiekvieną kadrą suderinkite su pirmuoju vaizdu</string>
+    <string name="crop_to_overlap">Apkarpyti į bendrą plotą</string>
+    <string name="crop_to_overlap_sub">Pašalinkite tuščius kraštus, atsiradusius lygiuojant rėmelius</string>
+    <string name="contrast_weight">Kontrastinis svoris</string>
+    <string name="saturation_weight">Prisotinimo svoris</string>
+    <string name="exposure_weight">Ekspozicijos svoris</string>
+    <string name="focus_radius">Židinio aptikimo spindulys</string>
+    <string name="focus_strength">Fokusavimo atskyrimas</string>
+    <string name="source_frames">Šaltinio rėmeliai</string>
+    <string name="fusion_image_limit">Vienu metu galima sujungti iki %1$d kadrų</string>
+    <string name="search_keywords_multi_frame_fusion">kelių kadrų suliejimo ekspozicija hdr fokusavimo krovimas median noise people pašalinimo laikiklis</string>
 </resources>

@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">Xライト</string>
     <string name="gmic_param_y_light">Yライト</string>
     <string name="gmic_param_z_light">ゼットライト</string>
+    <string name="multi_frame_fusion">マルチフレームフュージョン</string>
+    <string name="multi_frame_fusion_sub">一連の写真を結合して、より鮮明で、より鮮明な、または露出の高い 1 つの画像を作成します。</string>
+    <string name="fusion_mode">フュージョンモード</string>
+    <string name="exposure_fusion">暴露</string>
+    <string name="exposure_fusion_sub">ハイライトとシャドウのディテールを維持しながらブラケット露出をブレンドします</string>
+    <string name="focus_stacking">集中</string>
+    <string name="focus_stacking_sub">さまざまな距離に焦点を合わせた写真から最も鮮明な領域を結合します</string>
+    <string name="median_stack">中央値</string>
+    <string name="median_stack_sub">一連の一致するフレームから一時的なオブジェクトとランダム ノイズを除去します。</string>
+    <string name="automatic_alignment">自動位置合わせ</string>
+    <string name="automatic_alignment_sub">融合前のすべてのフレームを最初の画像と一致させる</string>
+    <string name="crop_to_overlap">共有エリアを切り取る</string>
+    <string name="crop_to_overlap_sub">フレームの位置合わせ中に発生した空のエッジを削除します</string>
+    <string name="contrast_weight">コントラストウェイト</string>
+    <string name="saturation_weight">飽和重み</string>
+    <string name="exposure_weight">露出の重み</string>
+    <string name="focus_radius">焦点検出半径</string>
+    <string name="focus_strength">焦点の分離</string>
+    <string name="source_frames">ソースフレーム</string>
+    <string name="fusion_image_limit">最大 %1$d フレームを一度に融合できます</string>
+    <string name="search_keywords_multi_frame_fusion">マルチフレーム フュージョン 露光 HDR フォーカス スタッキング メディアン ノイズ 人物除去 ブラケット</string>
 </resources>

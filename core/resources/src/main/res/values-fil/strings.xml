@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Liwanag</string>
     <string name="gmic_param_y_light">Y Liwanag</string>
     <string name="gmic_param_z_light">Z Liwanag</string>
+    <string name="multi_frame_fusion">Multi-frame fusion</string>
+    <string name="multi_frame_fusion_sub">Pagsamahin ang isang serye ng larawan sa isang mas malinis, mas matalas o mas nalantad na larawan</string>
+    <string name="fusion_mode">Fusion mode</string>
+    <string name="exposure_fusion">Pagkalantad</string>
+    <string name="exposure_fusion_sub">Paghaluin ang mga naka-bracket na exposure habang pinapanatili ang detalye ng highlight at anino</string>
+    <string name="focus_stacking">Focus</string>
+    <string name="focus_stacking_sub">Pagsamahin ang pinakamatalim na mga rehiyon mula sa mga larawang nakatutok sa iba\'t ibang distansya</string>
+    <string name="median_stack">Median</string>
+    <string name="median_stack_sub">Alisin ang mga lumilipas na bagay at random na ingay mula sa isang serye ng magkatugmang mga frame</string>
+    <string name="automatic_alignment">Awtomatikong pagkakahanay</string>
+    <string name="automatic_alignment_sub">Itugma ang bawat frame sa unang larawan bago ang pagsasanib</string>
+    <string name="crop_to_overlap">I-crop sa karaniwang lugar</string>
+    <string name="crop_to_overlap_sub">Alisin ang mga walang laman na gilid na ipinakilala habang inihanay ang mga frame</string>
+    <string name="contrast_weight">Contrast weight</string>
+    <string name="saturation_weight">Saturation na timbang</string>
+    <string name="exposure_weight">Timbang ng pagkakalantad</string>
+    <string name="focus_radius">radius ng pagtuklas ng focus</string>
+    <string name="focus_strength">Paghihiwalay ng focus</string>
+    <string name="source_frames">Pinagmulan ng mga frame</string>
+    <string name="fusion_image_limit">Hanggang %1$d na mga frame ang maaaring i-fuse nang sabay-sabay</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median ingay sa pagtanggal ng bracket ng mga tao</string>
 </resources>

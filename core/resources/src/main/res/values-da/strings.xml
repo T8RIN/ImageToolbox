@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X lys</string>
     <string name="gmic_param_y_light">Y Lys</string>
     <string name="gmic_param_z_light">Z lys</string>
+    <string name="multi_frame_fusion">Multi-frame fusion</string>
+    <string name="multi_frame_fusion_sub">Kombiner en fotoserie til et renere, skarpere eller bedre eksponeret billede</string>
+    <string name="fusion_mode">Fusionstilstand</string>
+    <string name="exposure_fusion">Eksponering</string>
+    <string name="exposure_fusion_sub">Bland eksponeringer med bracketing, mens du bevarer højlys og skyggedetaljer</string>
+    <string name="focus_stacking">Fokus</string>
+    <string name="focus_stacking_sub">Kombiner de skarpeste områder fra fotos fokuseret på forskellige afstande</string>
+    <string name="median_stack">Median</string>
+    <string name="median_stack_sub">Fjern forbigående objekter og tilfældig støj fra en række matchende rammer</string>
+    <string name="automatic_alignment">Automatisk justering</string>
+    <string name="automatic_alignment_sub">Match hvert billede til det første billede før fusion</string>
+    <string name="crop_to_overlap">Beskær til fællesareal</string>
+    <string name="crop_to_overlap_sub">Fjern tomme kanter, der er indført, mens rammerne justeres</string>
+    <string name="contrast_weight">Kontrastvægt</string>
+    <string name="saturation_weight">Mætningsvægt</string>
+    <string name="exposure_weight">Eksponeringsvægt</string>
+    <string name="focus_radius">Fokus detektionsradius</string>
+    <string name="focus_strength">Fokus adskillelse</string>
+    <string name="source_frames">Kilderammer</string>
+    <string name="fusion_image_limit">Op til %1$d rammer kan fusioneres på én gang</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion eksponering hdr fokus stabling median støj folk fjernelse beslag</string>
 </resources>

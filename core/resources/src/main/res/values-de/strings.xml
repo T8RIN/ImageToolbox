@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Licht</string>
     <string name="gmic_param_y_light">Y-Licht</string>
     <string name="gmic_param_z_light">Z-Licht</string>
+    <string name="multi_frame_fusion">Multi-Frame-Fusion</string>
+    <string name="multi_frame_fusion_sub">Kombinieren Sie eine Fotoserie zu einem saubereren, schärferen oder besser belichteten Bild</string>
+    <string name="fusion_mode">Fusionsmodus</string>
+    <string name="exposure_fusion">Belichtung</string>
+    <string name="exposure_fusion_sub">Blenden Sie Belichtungsreihen zusammen und bewahren Sie dabei die Details von Lichtern und Schatten</string>
+    <string name="focus_stacking">Fokus</string>
+    <string name="focus_stacking_sub">Kombinieren Sie die schärfsten Bereiche aus Fotos, die auf unterschiedliche Entfernungen fokussiert sind</string>
+    <string name="median_stack">Mittlere</string>
+    <string name="median_stack_sub">Entfernen Sie vorübergehende Objekte und zufälliges Rauschen aus einer Reihe passender Frames</string>
+    <string name="automatic_alignment">Automatische Ausrichtung</string>
+    <string name="automatic_alignment_sub">Ordnen Sie jedes Bild vor der Fusion dem ersten Bild zu</string>
+    <string name="crop_to_overlap">Auf den Gemeinschaftsbereich zuschneiden</string>
+    <string name="crop_to_overlap_sub">Entfernen Sie leere Kanten, die beim Ausrichten von Rahmen entstanden sind</string>
+    <string name="contrast_weight">Kontrastgewicht</string>
+    <string name="saturation_weight">Sättigungsgewicht</string>
+    <string name="exposure_weight">Belichtungsgewicht</string>
+    <string name="focus_radius">Fokuserkennungsradius</string>
+    <string name="focus_strength">Fokustrennung</string>
+    <string name="source_frames">Quellrahmen</string>
+    <string name="fusion_image_limit">Bis zu %1$d Frames können gleichzeitig zusammengeführt werden</string>
+    <string name="search_keywords_multi_frame_fusion">Multi-Frame-Fusion-Belichtung HDR-Fokus-Stacking Median-Rauschen Personenentfernungshalterung</string>
 </resources>

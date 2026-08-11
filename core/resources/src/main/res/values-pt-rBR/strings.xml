@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">Luz X</string>
     <string name="gmic_param_y_light">Luz Y</string>
     <string name="gmic_param_z_light">Luz Z</string>
+    <string name="multi_frame_fusion">Fusão de vários quadros</string>
+    <string name="multi_frame_fusion_sub">Combine uma série de fotos em uma imagem mais limpa, nítida ou com melhor exposição</string>
+    <string name="fusion_mode">Modo de fusão</string>
+    <string name="exposure_fusion">Exposição</string>
+    <string name="exposure_fusion_sub">Combine exposições com colchetes preservando detalhes de realces e sombras</string>
+    <string name="focus_stacking">Foco</string>
+    <string name="focus_stacking_sub">Combine as regiões mais nítidas de fotos focadas em distâncias diferentes</string>
+    <string name="median_stack">Mediana</string>
+    <string name="median_stack_sub">Remova objetos transitórios e ruídos aleatórios de uma série de quadros correspondentes</string>
+    <string name="automatic_alignment">Alinhamento automático</string>
+    <string name="automatic_alignment_sub">Combine cada quadro com a primeira imagem antes da fusão</string>
+    <string name="crop_to_overlap">Cortar para área comum</string>
+    <string name="crop_to_overlap_sub">Remover bordas vazias introduzidas ao alinhar quadros</string>
+    <string name="contrast_weight">Peso de contraste</string>
+    <string name="saturation_weight">Peso de saturação</string>
+    <string name="exposure_weight">Peso de exposição</string>
+    <string name="focus_radius">Raio de detecção de foco</string>
+    <string name="focus_strength">Separação de foco</string>
+    <string name="source_frames">Quadros de origem</string>
+    <string name="fusion_image_limit">Até %1$d quadros podem ser fundidos de uma só vez</string>
+    <string name="search_keywords_multi_frame_fusion">exposição de fusão multiquadro foco hdr empilhamento ruído mediano suporte de remoção de pessoas</string>
 </resources>

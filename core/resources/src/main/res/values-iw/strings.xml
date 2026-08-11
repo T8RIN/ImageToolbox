@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">X אור</string>
     <string name="gmic_param_y_light">Y אור</string>
     <string name="gmic_param_z_light">Z אור</string>
+    <string name="multi_frame_fusion">ריבוי מסגרות היתוך</string>
+    <string name="multi_frame_fusion_sub">שלבו סדרת תמונות לתמונה אחת נקייה יותר, חדה יותר או חשופה יותר</string>
+    <string name="fusion_mode">מצב פיוז\'ן</string>
+    <string name="exposure_fusion">חשיפה</string>
+    <string name="exposure_fusion_sub">ערבב חשיפות בסוגריים תוך שמירה על פרטי הדגשה והצל</string>
+    <string name="focus_stacking">מוֹקֵד</string>
+    <string name="focus_stacking_sub">שלב את האזורים החדים ביותר מתמונות ממוקדות במרחקים שונים</string>
+    <string name="median_stack">חֲצִיוֹן</string>
+    <string name="median_stack_sub">הסר אובייקטים חולפים ורעש אקראי מסדרה של מסגרות תואמות</string>
+    <string name="automatic_alignment">יישור אוטומטי</string>
+    <string name="automatic_alignment_sub">התאם כל פריים לתמונה הראשונה לפני היתוך</string>
+    <string name="crop_to_overlap">חתוך לאזור משותף</string>
+    <string name="crop_to_overlap_sub">הסר קצוות ריקים שהוכנסו תוך כדי יישור מסגרות</string>
+    <string name="contrast_weight">משקל ניגודיות</string>
+    <string name="saturation_weight">משקל רוויה</string>
+    <string name="exposure_weight">משקל חשיפה</string>
+    <string name="focus_radius">רדיוס זיהוי פוקוס</string>
+    <string name="focus_strength">הפרדת מיקוד</string>
+    <string name="source_frames">מסגרות מקור</string>
+    <string name="fusion_image_limit">ניתן למזג עד %1$d מסגרות בבת אחת</string>
+    <string name="search_keywords_multi_frame_fusion">רב מסגרת היתוך חשיפת hdr פוקוס הערמה חציון רעש אנשים הסרת סוגר</string>
 </resources>

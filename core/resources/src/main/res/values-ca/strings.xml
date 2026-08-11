@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Llum</string>
     <string name="gmic_param_y_light">Y Llum</string>
     <string name="gmic_param_z_light">Llum Z</string>
+    <string name="multi_frame_fusion">Fusió de múltiples marcs</string>
+    <string name="multi_frame_fusion_sub">Combina una sèrie de fotos en una imatge més neta, nítida o millor exposada</string>
+    <string name="fusion_mode">Mode de fusió</string>
+    <string name="exposure_fusion">Exposició</string>
+    <string name="exposure_fusion_sub">Combina les exposicions entre parèntesis conservant els detalls de llum i ombra</string>
+    <string name="focus_stacking">Focus</string>
+    <string name="focus_stacking_sub">Combina les regions més nítides de les fotos enfocades a diferents distàncies</string>
+    <string name="median_stack">Mitjana</string>
+    <string name="median_stack_sub">Elimina els objectes transitoris i el soroll aleatori d\'una sèrie de fotogrames coincidents</string>
+    <string name="automatic_alignment">Alineació automàtica</string>
+    <string name="automatic_alignment_sub">Relaciona cada fotograma amb la primera imatge abans de la fusió</string>
+    <string name="crop_to_overlap">Cultiu a la zona comuna</string>
+    <string name="crop_to_overlap_sub">Traieu les vores buides introduïdes mentre alineeu els marcs</string>
+    <string name="contrast_weight">Pes de contrast</string>
+    <string name="saturation_weight">Pes de saturació</string>
+    <string name="exposure_weight">Pes d\'exposició</string>
+    <string name="focus_radius">Radi de detecció del focus</string>
+    <string name="focus_strength">Separació del focus</string>
+    <string name="source_frames">Fotogrames font</string>
+    <string name="fusion_image_limit">Es poden fusionar fins a %1$d fotogrames alhora</string>
+    <string name="search_keywords_multi_frame_fusion">exposició de fusió de marcs múltiples hdr focus apilament soroll mitjà suport d\'eliminació de persones</string>
 </resources>

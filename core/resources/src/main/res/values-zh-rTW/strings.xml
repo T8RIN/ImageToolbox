@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">X光</string>
     <string name="gmic_param_y_light">Y光</string>
     <string name="gmic_param_z_light">Z光</string>
+    <string name="multi_frame_fusion">多幀融合</string>
+    <string name="multi_frame_fusion_sub">將一系列照片組合成一張更清晰、更銳利或曝光更好的影像</string>
+    <string name="fusion_mode">融合模式</string>
+    <string name="exposure_fusion">曝露</string>
+    <string name="exposure_fusion_sub">混合包圍曝光，同時保留高光和陰影細節</string>
+    <string name="focus_stacking">重點</string>
+    <string name="focus_stacking_sub">組合聚焦在不同距離的照片中最清晰的區域</string>
+    <string name="median_stack">中位數</string>
+    <string name="median_stack_sub">從一系列匹配幀中刪除瞬態物件和隨機噪聲</string>
+    <string name="automatic_alignment">自動對齊</string>
+    <string name="automatic_alignment_sub">將每一幀與融合前的第一張影像進行匹配</string>
+    <string name="crop_to_overlap">裁剪到公共區域</string>
+    <string name="crop_to_overlap_sub">刪除對齊框架時引入的空邊</string>
+    <string name="contrast_weight">對比重量</string>
+    <string name="saturation_weight">飽和權重</string>
+    <string name="exposure_weight">曝光重量</string>
+    <string name="focus_radius">焦點偵測半徑</string>
+    <string name="focus_strength">焦點分離</string>
+    <string name="source_frames">來源畫面</string>
+    <string name="fusion_image_limit">一次最多可以融合 %1$d 幀</string>
+    <string name="search_keywords_multi_frame_fusion">多畫面融合曝光 hdr 焦點堆疊中位數雜訊人物去除支架</string>
 </resources>

@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Valo</string>
     <string name="gmic_param_y_light">Y Valo</string>
     <string name="gmic_param_z_light">Z Light</string>
+    <string name="multi_frame_fusion">Multi-frame fuusio</string>
+    <string name="multi_frame_fusion_sub">Yhdistä valokuvasarja yhdeksi puhtaammaksi, terävämmäksi tai paremmin valotetuksi kuvaksi</string>
+    <string name="fusion_mode">Fuusiotila</string>
+    <string name="exposure_fusion">Altistuminen</string>
+    <string name="exposure_fusion_sub">Sekoita haarukoituja valotuksia säilyttäen valojen ja varjojen yksityiskohdat</string>
+    <string name="focus_stacking">Keskity</string>
+    <string name="focus_stacking_sub">Yhdistä eri etäisyyksille tarkennettujen valokuvien terävimmät alueet</string>
+    <string name="median_stack">Mediaani</string>
+    <string name="median_stack_sub">Poista ohimenevät esineet ja satunnainen kohina sarjasta vastaavia kehyksiä</string>
+    <string name="automatic_alignment">Automaattinen kohdistus</string>
+    <string name="automatic_alignment_sub">Yhdistä jokainen kehys ensimmäiseen kuvaan ennen yhdistämistä</string>
+    <string name="crop_to_overlap">Rajaa yhteiselle alueelle</string>
+    <string name="crop_to_overlap_sub">Poista kehyksiä kohdistaessasi tulleet tyhjät reunat</string>
+    <string name="contrast_weight">Kontrastipaino</string>
+    <string name="saturation_weight">Kyllästyspaino</string>
+    <string name="exposure_weight">Altistuspaino</string>
+    <string name="focus_radius">Tarkennuksen tunnistussäde</string>
+    <string name="focus_strength">Tarkennusten erottelu</string>
+    <string name="source_frames">Lähdekehykset</string>
+    <string name="fusion_image_limit">Jopa %1$d kehystä voidaan yhdistää kerralla</string>
+    <string name="search_keywords_multi_frame_fusion">monen kehyksen fuusiovalotus hdr-tarkennus pinoaminen mediaanikohina ihmiset poistoteline</string>
 </resources>

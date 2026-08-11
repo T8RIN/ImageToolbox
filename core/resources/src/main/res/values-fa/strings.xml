@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">ایکس نور</string>
     <string name="gmic_param_y_light">Y Light</string>
     <string name="gmic_param_z_light">Z Light</string>
+    <string name="multi_frame_fusion">همجوشی چند فریمی</string>
+    <string name="multi_frame_fusion_sub">یک سری عکس را در یک تصویر تمیزتر، واضح تر یا با نوردهی بهتر ترکیب کنید</string>
+    <string name="fusion_mode">حالت فیوژن</string>
+    <string name="exposure_fusion">قرار گرفتن در معرض بیماری</string>
+    <string name="exposure_fusion_sub">نوردهی های براکتی را با حفظ جزئیات برجسته و سایه ترکیب کنید</string>
+    <string name="focus_stacking">تمرکز کنید</string>
+    <string name="focus_stacking_sub">واضح ترین مناطق را از عکس های فوکوس شده در فواصل مختلف ترکیب کنید</string>
+    <string name="median_stack">میانه</string>
+    <string name="median_stack_sub">اشیاء گذرا و نویز تصادفی را از یک سری فریم های منطبق حذف کنید</string>
+    <string name="automatic_alignment">تراز خودکار</string>
+    <string name="automatic_alignment_sub">قبل از ادغام، هر فریم را با اولین تصویر مطابقت دهید</string>
+    <string name="crop_to_overlap">به منطقه مشترک برش دهید</string>
+    <string name="crop_to_overlap_sub">لبه های خالی وارد شده هنگام تراز کردن فریم ها را بردارید</string>
+    <string name="contrast_weight">وزن کنتراست</string>
+    <string name="saturation_weight">وزن اشباع</string>
+    <string name="exposure_weight">وزن قرار گرفتن در معرض</string>
+    <string name="focus_radius">شعاع تشخیص فوکوس</string>
+    <string name="focus_strength">جداسازی تمرکز</string>
+    <string name="source_frames">فریم های منبع</string>
+    <string name="fusion_image_limit">حداکثر %1$d فریم را می توان به طور همزمان ترکیب کرد</string>
+    <string name="search_keywords_multi_frame_fusion">براکت حذف افراد با نوردهی فیوژن چند فریم hdr فوکوس انباشته نویز متوسط</string>
 </resources>

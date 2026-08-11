@@ -4883,4 +4883,25 @@
     <string name="gmic_param_x_light">X Lumină</string>
     <string name="gmic_param_y_light">Y Lumină</string>
     <string name="gmic_param_z_light">Z Lumină</string>
+    <string name="multi_frame_fusion">Fuziune cu mai multe cadre</string>
+    <string name="multi_frame_fusion_sub">Combinați o serie de fotografii într-o singură imagine mai curată, mai clară sau mai bine expusă</string>
+    <string name="fusion_mode">Modul Fusion</string>
+    <string name="exposure_fusion">Expunere</string>
+    <string name="exposure_fusion_sub">Amestecați expunerile între paranteze, păstrând în același timp detaliile luminoase și umbre</string>
+    <string name="focus_stacking">Concentrează-te</string>
+    <string name="focus_stacking_sub">Combinați cele mai clare regiuni din fotografiile focalizate la distanțe diferite</string>
+    <string name="median_stack">Median</string>
+    <string name="median_stack_sub">Eliminați obiectele trecătoare și zgomotul aleatoriu dintr-o serie de cadre potrivite</string>
+    <string name="automatic_alignment">Aliniere automată</string>
+    <string name="automatic_alignment_sub">Potriviți fiecare cadru cu prima imagine înainte de fuziune</string>
+    <string name="crop_to_overlap">Decupați în zona comună</string>
+    <string name="crop_to_overlap_sub">Îndepărtați marginile goale introduse în timp ce aliniați cadrele</string>
+    <string name="contrast_weight">Greutate de contrast</string>
+    <string name="saturation_weight">Greutate de saturație</string>
+    <string name="exposure_weight">Greutatea de expunere</string>
+    <string name="focus_radius">Raza de detectare a focalizării</string>
+    <string name="focus_strength">Separarea focalizării</string>
+    <string name="source_frames">Cadre sursă</string>
+    <string name="fusion_image_limit">Până la %1$d cadre pot fi fuzionate simultan</string>
+    <string name="search_keywords_multi_frame_fusion">multi cadru fuziune expunere hdr focus stivuire zgomot median oameni suport de eliminare</string>
 </resources>

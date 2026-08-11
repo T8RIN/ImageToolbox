@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X-Lumière</string>
     <string name="gmic_param_y_light">Lumière Y</string>
     <string name="gmic_param_z_light">Lumière Z</string>
+    <string name="multi_frame_fusion">Fusion multi-images</string>
+    <string name="multi_frame_fusion_sub">Combinez une série de photos en une image plus nette, plus nette ou mieux exposée</string>
+    <string name="fusion_mode">Mode Fusion</string>
+    <string name="exposure_fusion">Exposition</string>
+    <string name="exposure_fusion_sub">Mélangez les expositions bracketées tout en préservant les détails des hautes lumières et des ombres</string>
+    <string name="focus_stacking">Se concentrer</string>
+    <string name="focus_stacking_sub">Combinez les régions les plus nettes de photos focalisées à différentes distances</string>
+    <string name="median_stack">Médian</string>
+    <string name="median_stack_sub">Supprimez les objets transitoires et le bruit aléatoire d\'une série d\'images correspondantes</string>
+    <string name="automatic_alignment">Alignement automatique</string>
+    <string name="automatic_alignment_sub">Faites correspondre chaque image à la première image avant la fusion</string>
+    <string name="crop_to_overlap">Recadrer dans la zone commune</string>
+    <string name="crop_to_overlap_sub">Supprimer les bords vides introduits lors de l\'alignement des cadres</string>
+    <string name="contrast_weight">Poids de contraste</string>
+    <string name="saturation_weight">Poids de saturation</string>
+    <string name="exposure_weight">Poids d\'exposition</string>
+    <string name="focus_radius">Rayon de détection de mise au point</string>
+    <string name="focus_strength">Séparation de mise au point</string>
+    <string name="source_frames">Images sources</string>
+    <string name="fusion_image_limit">Jusqu\'à %1$d trames peuvent être fusionnées à la fois</string>
+    <string name="search_keywords_multi_frame_fusion">exposition à la fusion multi-trames mise au point hdr empilement bruit médian support de retrait des personnes</string>
 </resources>

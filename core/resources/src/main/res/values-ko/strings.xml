@@ -4881,4 +4881,25 @@
     <string name="gmic_param_x_light">X 라이트</string>
     <string name="gmic_param_y_light">Y 라이트</string>
     <string name="gmic_param_z_light">Z 라이트</string>
+    <string name="multi_frame_fusion">다중 프레임 융합</string>
+    <string name="multi_frame_fusion_sub">일련의 사진을 하나의 더 깨끗하고 선명하며 노출이 더 나은 이미지로 결합합니다.</string>
+    <string name="fusion_mode">퓨전 모드</string>
+    <string name="exposure_fusion">노출</string>
+    <string name="exposure_fusion_sub">하이라이트와 섀도우 디테일을 유지하면서 브라켓 노출을 혼합하세요</string>
+    <string name="focus_stacking">집중하다</string>
+    <string name="focus_stacking_sub">서로 다른 거리에 초점을 맞춘 사진에서 가장 선명한 영역을 결합합니다.</string>
+    <string name="median_stack">중앙값</string>
+    <string name="median_stack_sub">일련의 일치하는 프레임에서 일시적인 개체와 임의의 노이즈를 제거합니다.</string>
+    <string name="automatic_alignment">자동 정렬</string>
+    <string name="automatic_alignment_sub">융합 전 모든 프레임을 첫 번째 이미지와 일치시킵니다.</string>
+    <string name="crop_to_overlap">공용 구역으로 자르기</string>
+    <string name="crop_to_overlap_sub">프레임을 정렬하는 동안 도입된 빈 가장자리 제거</string>
+    <string name="contrast_weight">명암비</string>
+    <string name="saturation_weight">포화 가중치</string>
+    <string name="exposure_weight">노출 가중치</string>
+    <string name="focus_radius">초점 감지 반경</string>
+    <string name="focus_strength">초점 분리</string>
+    <string name="source_frames">소스 프레임</string>
+    <string name="fusion_image_limit">한 번에 최대 %1$d 프레임을 융합할 수 있습니다.</string>
+    <string name="search_keywords_multi_frame_fusion">멀티 프레임 퓨전 노출 hdr 포커스 스태킹 중앙값 소음 사람 제거 브래킷</string>
 </resources>

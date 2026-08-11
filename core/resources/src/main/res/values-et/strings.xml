@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Valgus</string>
     <string name="gmic_param_y_light">Y Valgus</string>
     <string name="gmic_param_z_light">Z Valgus</string>
+    <string name="multi_frame_fusion">Mitme kaadri liitmine</string>
+    <string name="multi_frame_fusion_sub">Ühendage fotoseeria üheks puhtamaks, teravamaks või paremini säritatud pildiks</string>
+    <string name="fusion_mode">Fusioonirežiim</string>
+    <string name="exposure_fusion">Kokkupuude</string>
+    <string name="exposure_fusion_sub">Segage kahvlid säritused, säilitades samal ajal eredate ja varjude üksikasjad</string>
+    <string name="focus_stacking">Keskendu</string>
+    <string name="focus_stacking_sub">Kombineerige erinevatele vahemaadele teravustatud fotode teravamad piirkonnad</string>
+    <string name="median_stack">Mediaan</string>
+    <string name="median_stack_sub">Eemaldage sobivatest kaadrite seeriast mööduvad objektid ja juhuslik müra</string>
+    <string name="automatic_alignment">Automaatne joondamine</string>
+    <string name="automatic_alignment_sub">Enne liitmist sobitage iga kaader esimese pildiga</string>
+    <string name="crop_to_overlap">Kärbi ühisesse ruumi</string>
+    <string name="crop_to_overlap_sub">Eemaldage raamide joondamise ajal tekkinud tühjad servad</string>
+    <string name="contrast_weight">Kontrastne kaal</string>
+    <string name="saturation_weight">Küllastuskaal</string>
+    <string name="exposure_weight">Kokkupuute kaal</string>
+    <string name="focus_radius">Fookuse tuvastamise raadius</string>
+    <string name="focus_strength">Fookuse eraldamine</string>
+    <string name="source_frames">Lähteraamid</string>
+    <string name="fusion_image_limit">Korraga saab liita kuni %1$d kaadrit</string>
+    <string name="search_keywords_multi_frame_fusion">mitme kaadri liitmine säritus HD-fookuse virnastamine mediaanmüra inimeste eemaldamise sulg</string>
 </resources>

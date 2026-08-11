@@ -4886,4 +4886,25 @@
     <string name="gmic_param_x_light">X لايت</string>
     <string name="gmic_param_y_light">واي لايت</string>
     <string name="gmic_param_z_light">زي لايت</string>
+    <string name="multi_frame_fusion">الانصهار متعدد الإطارات</string>
+    <string name="multi_frame_fusion_sub">قم بدمج سلسلة من الصور في صورة واحدة أكثر وضوحًا أو وضوحًا أو تعرضًا بشكل أفضل</string>
+    <string name="fusion_mode">وضع الانصهار</string>
+    <string name="exposure_fusion">التعرض</string>
+    <string name="exposure_fusion_sub">قم بمزج التعريضات بين قوسين مع الحفاظ على تفاصيل التمييز والظل</string>
+    <string name="focus_stacking">ركز</string>
+    <string name="focus_stacking_sub">اجمع بين المناطق الأكثر وضوحًا من الصور التي تم التركيز عليها على مسافات مختلفة</string>
+    <string name="median_stack">متوسط</string>
+    <string name="median_stack_sub">إزالة الكائنات العابرة والضوضاء العشوائية من سلسلة من الإطارات المطابقة</string>
+    <string name="automatic_alignment">المحاذاة التلقائية</string>
+    <string name="automatic_alignment_sub">قم بمطابقة كل إطار بالصورة الأولى قبل الدمج</string>
+    <string name="crop_to_overlap">المحاصيل إلى المنطقة المشتركة</string>
+    <string name="crop_to_overlap_sub">قم بإزالة الحواف الفارغة المقدمة أثناء محاذاة الإطارات</string>
+    <string name="contrast_weight">وزن التباين</string>
+    <string name="saturation_weight">وزن التشبع</string>
+    <string name="exposure_weight">وزن التعرض</string>
+    <string name="focus_radius">نصف قطر كشف التركيز</string>
+    <string name="focus_strength">فصل التركيز</string>
+    <string name="source_frames">إطارات المصدر</string>
+    <string name="fusion_image_limit">يمكن دمج ما يصل إلى %1$d من الإطارات مرة واحدة</string>
+    <string name="search_keywords_multi_frame_fusion">إطار متعدد للتعرض للانصهار والتركيز عالي الدقة وتكديس الضوضاء المتوسطة ودعامة إزالة الأشخاص</string>
 </resources>

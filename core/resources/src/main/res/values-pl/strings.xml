@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">X Światło</string>
     <string name="gmic_param_y_light">Y Światło</string>
     <string name="gmic_param_z_light">Światło Z</string>
+    <string name="multi_frame_fusion">Fuzja wielu klatek</string>
+    <string name="multi_frame_fusion_sub">Połącz serię zdjęć w jeden czystszy, ostrzejszy i lepiej naświetlony obraz</string>
+    <string name="fusion_mode">Tryb fuzji</string>
+    <string name="exposure_fusion">Narażenie</string>
+    <string name="exposure_fusion_sub">Łącz ekspozycję w nawiasach, zachowując szczegóły świateł i cieni</string>
+    <string name="focus_stacking">Centrum</string>
+    <string name="focus_stacking_sub">Połącz najostrzejsze obszary ze zdjęć wykonanych z różnych odległości</string>
+    <string name="median_stack">Mediana</string>
+    <string name="median_stack_sub">Usuń przejściowe obiekty i losowy szum z serii pasujących klatek</string>
+    <string name="automatic_alignment">Automatyczne wyrównanie</string>
+    <string name="automatic_alignment_sub">Dopasuj każdą klatkę do pierwszego obrazu przed fuzją</string>
+    <string name="crop_to_overlap">Przytnij do obszaru wspólnego</string>
+    <string name="crop_to_overlap_sub">Usuń puste krawędzie powstałe podczas wyrównywania ramek</string>
+    <string name="contrast_weight">Waga kontrastowa</string>
+    <string name="saturation_weight">Waga nasycenia</string>
+    <string name="exposure_weight">Waga ekspozycji</string>
+    <string name="focus_radius">Promień wykrywania ostrości</string>
+    <string name="focus_strength">Separacja ostrości</string>
+    <string name="source_frames">Ramki źródłowe</string>
+    <string name="fusion_image_limit">Jednorazowo można połączyć do %1$d ramek</string>
+    <string name="search_keywords_multi_frame_fusion">wieloklatkowa fuzja ekspozycja HDR ostrość układanie mediana szumu wspornik usuwania ludzi</string>
 </resources>

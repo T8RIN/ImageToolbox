@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X కాంతి</string>
     <string name="gmic_param_y_light">Y లైట్</string>
     <string name="gmic_param_z_light">Z లైట్</string>
+    <string name="multi_frame_fusion">బహుళ-ఫ్రేమ్ కలయిక</string>
+    <string name="multi_frame_fusion_sub">ఫోటో సిరీస్‌ని ఒక క్లీనర్, షార్ప్ లేదా మెరుగ్గా బహిర్గతం చేసే ఇమేజ్‌గా కలపండి</string>
+    <string name="fusion_mode">ఫ్యూజన్ మోడ్</string>
+    <string name="exposure_fusion">బహిరంగపరచడం</string>
+    <string name="exposure_fusion_sub">హైలైట్ మరియు షాడో వివరాలను సంరక్షించేటప్పుడు బ్రాకెట్డ్ ఎక్స్‌పోజర్‌లను బ్లెండ్ చేయండి</string>
+    <string name="focus_stacking">దృష్టి పెట్టండి</string>
+    <string name="focus_stacking_sub">విభిన్న దూరాలలో ఫోకస్ చేసిన ఫోటోల నుండి పదునైన ప్రాంతాలను కలపండి</string>
+    <string name="median_stack">మధ్యస్థ</string>
+    <string name="median_stack_sub">సరిపోలే ఫ్రేమ్‌ల శ్రేణి నుండి తాత్కాలిక వస్తువులు మరియు యాదృచ్ఛిక శబ్దాన్ని తీసివేయండి</string>
+    <string name="automatic_alignment">స్వయంచాలక అమరిక</string>
+    <string name="automatic_alignment_sub">ప్రతి ఫ్రేమ్‌ను ఫ్యూజన్‌కు ముందు మొదటి చిత్రానికి సరిపోల్చండి</string>
+    <string name="crop_to_overlap">సాధారణ ప్రాంతానికి పంట</string>
+    <string name="crop_to_overlap_sub">ఫ్రేమ్‌లను సమలేఖనం చేస్తున్నప్పుడు ప్రవేశపెట్టిన ఖాళీ అంచులను తీసివేయండి</string>
+    <string name="contrast_weight">కాంట్రాస్ట్ బరువు</string>
+    <string name="saturation_weight">సంతృప్త బరువు</string>
+    <string name="exposure_weight">ఎక్స్పోజర్ బరువు</string>
+    <string name="focus_radius">ఫోకస్ డిటెక్షన్ వ్యాసార్థం</string>
+    <string name="focus_strength">దృష్టి వేరు</string>
+    <string name="source_frames">మూల ఫ్రేమ్‌లు</string>
+    <string name="fusion_image_limit">గరిష్టంగా %1$d ఫ్రేమ్‌లను ఒకేసారి ఫ్యూజ్ చేయవచ్చు</string>
+    <string name="search_keywords_multi_frame_fusion">మల్టీ ఫ్రేమ్ ఫ్యూజన్ ఎక్స్‌పోజర్ హెచ్‌డిఆర్ ఫోకస్ స్టాకింగ్ మీడియన్ నాయిస్ పీపుల్ రిమూవల్ బ్రాకెట్</string>
 </resources>

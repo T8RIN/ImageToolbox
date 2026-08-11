@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">এক্স লাইট</string>
     <string name="gmic_param_y_light">ওয়াই লাইট</string>
     <string name="gmic_param_z_light">জেড লাইট</string>
+    <string name="multi_frame_fusion">মাল্টি-ফ্রেম ফিউশন</string>
+    <string name="multi_frame_fusion_sub">একটি ক্লিনার, তীক্ষ্ণ বা আরও ভালোভাবে প্রকাশ করা ছবিতে একটি ফটো সিরিজকে একত্রিত করুন৷</string>
+    <string name="fusion_mode">ফিউশন মোড</string>
+    <string name="exposure_fusion">প্রকাশ</string>
+    <string name="exposure_fusion_sub">হাইলাইট এবং ছায়ার বিশদ সংরক্ষণ করার সময় বন্ধনীযুক্ত এক্সপোজারগুলিকে মিশ্রিত করুন</string>
+    <string name="focus_stacking">ফোকাস</string>
+    <string name="focus_stacking_sub">বিভিন্ন দূরত্বে ফোকাস করা ফটোগুলি থেকে তীক্ষ্ণতম অঞ্চলগুলিকে একত্রিত করুন৷</string>
+    <string name="median_stack">মাঝামাঝি</string>
+    <string name="median_stack_sub">ম্যাচিং ফ্রেমের একটি সিরিজ থেকে ক্ষণস্থায়ী বস্তু এবং এলোমেলো শব্দ সরান</string>
+    <string name="automatic_alignment">স্বয়ংক্রিয় প্রান্তিককরণ</string>
+    <string name="automatic_alignment_sub">ফিউশনের আগে প্রতিটি ফ্রেমকে প্রথম চিত্রের সাথে মিলিয়ে নিন</string>
+    <string name="crop_to_overlap">সাধারণ এলাকায় ফসল কাটা</string>
+    <string name="crop_to_overlap_sub">ফ্রেম সারিবদ্ধ করার সময় চালু করা খালি প্রান্তগুলি সরান৷</string>
+    <string name="contrast_weight">কনট্রাস্ট ওজন</string>
+    <string name="saturation_weight">স্যাচুরেশন ওজন</string>
+    <string name="exposure_weight">এক্সপোজার ওজন</string>
+    <string name="focus_radius">ফোকাস সনাক্তকরণ ব্যাসার্ধ</string>
+    <string name="focus_strength">ফোকাস বিচ্ছেদ</string>
+    <string name="source_frames">উৎস ফ্রেম</string>
+    <string name="fusion_image_limit">একবারে %1$d ফ্রেম পর্যন্ত ফিউজ করা যায়</string>
+    <string name="search_keywords_multi_frame_fusion">মাল্টি ফ্রেম ফিউশন এক্সপোজার এইচডিআর ফোকাস স্ট্যাকিং মিডিয়ান নয়েজ পিপল রিমুভাল ব্র্যাকেট</string>
 </resources>

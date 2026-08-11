@@ -4882,4 +4882,25 @@
     <string name="gmic_param_x_light">X Жарық</string>
     <string name="gmic_param_y_light">Y Жарық</string>
     <string name="gmic_param_z_light">Z Жарық</string>
+    <string name="multi_frame_fusion">Көп кадрлы біріктіру</string>
+    <string name="multi_frame_fusion_sub">Фотосуреттер сериясын бір таза, айқынырақ немесе жақсырақ ашылатын кескінге біріктіріңіз</string>
+    <string name="fusion_mode">Біріктіру режимі</string>
+    <string name="exposure_fusion">Экспозиция</string>
+    <string name="exposure_fusion_sub">Бөлек және көлеңке мәліметтерін сақтай отырып, жақшаға алынған экспозицияларды араластырыңыз</string>
+    <string name="focus_stacking">Фокус</string>
+    <string name="focus_stacking_sub">Әртүрлі қашықтыққа бағытталған фотосуреттердің ең айқын аймақтарын біріктіріңіз</string>
+    <string name="median_stack">Медиана</string>
+    <string name="median_stack_sub">Сәйкес кадрлар сериясынан өтпелі нысандарды және кездейсоқ шуды алып тастаңыз</string>
+    <string name="automatic_alignment">Автоматты туралау</string>
+    <string name="automatic_alignment_sub">Әрбір кадрды біріктіру алдында бірінші суретке сәйкестендіріңіз</string>
+    <string name="crop_to_overlap">Жалпы аумаққа кесіңіз</string>
+    <string name="crop_to_overlap_sub">Жақтауларды туралау кезінде енгізілген бос жиектерді алып тастаңыз</string>
+    <string name="contrast_weight">Контраст салмағы</string>
+    <string name="saturation_weight">Қанықтылық салмағы</string>
+    <string name="exposure_weight">Экспозиция салмағы</string>
+    <string name="focus_radius">Фокусты анықтау радиусы</string>
+    <string name="focus_strength">Фокусты бөлу</string>
+    <string name="source_frames">Бастапқы фреймдер</string>
+    <string name="fusion_image_limit">Бір уақытта %1$d кадрға дейін біріктіруге болады</string>
+    <string name="search_keywords_multi_frame_fusion">мульти кадр фьюжн экспозициясы hdr фокусты жинақтау медиана шуы адамдарды жою кронштейні</string>
 </resources>
