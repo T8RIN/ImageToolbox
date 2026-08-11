@@ -18,9 +18,12 @@
 package com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.components
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,70 +58,86 @@ internal fun FusionParamsSelector(
     onValueChange: (FusionParams) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.container(ShapeDefaults.extraLarge),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        EnhancedButtonGroup(
-            entries = FusionMode.entries,
-            value = value.mode,
-            title = stringResource(R.string.fusion_mode),
-            onValueChange = { onValueChange(value.copy(mode = it)) },
-            itemContent = { mode -> Text(mode.title()) },
-            modifier = Modifier.padding(horizontal = 3.dp)
-        )
-        AnimatedContent(
-            targetState = value.mode,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) { mode ->
-            InfoContainer(
-                text = mode.description(),
-                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.85f),
-                modifier = Modifier.fillMaxWidth()
+    Column {
+        Column(
+            modifier = modifier.container(ShapeDefaults.extraLarge),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            EnhancedButtonGroup(
+                entries = FusionMode.entries,
+                value = value.mode,
+                title = stringResource(R.string.fusion_mode),
+                onValueChange = { onValueChange(value.copy(mode = it)) },
+                itemContent = { mode -> Text(mode.title()) },
+                modifier = Modifier.padding(horizontal = 3.dp)
             )
-        }
-    }
-
-    when (value.mode) {
-        FusionMode.Exposure,
-        FusionMode.Focus,
-        FusionMode.LightTrails,
-        FusionMode.MotionTrails -> {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                when (value.mode) {
-                    FusionMode.Exposure -> ExposureControls(value, onValueChange)
-                    FusionMode.Focus -> FocusControls(value, onValueChange)
-                    FusionMode.LightTrails -> LightTrailControls(value, onValueChange)
-                    FusionMode.MotionTrails -> MotionTrailControls(value, onValueChange)
-                }
+            AnimatedContent(
+                targetState = value.mode,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) { mode ->
+                InfoContainer(
+                    text = mode.description(),
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.85f),
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
 
-        FusionMode.Median,
-        FusionMode.LongExposure -> Unit
-    }
+        AnimatedContent(
+            targetState = value.mode,
+            modifier = Modifier.fillMaxWidth()
+        ) { mode ->
+            when (mode) {
+                FusionMode.Exposure,
+                FusionMode.Focus,
+                FusionMode.LightTrails,
+                FusionMode.MotionTrails -> {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        when (mode) {
+                            FusionMode.Exposure -> ExposureControls(value, onValueChange)
+                            FusionMode.Focus -> FocusControls(value, onValueChange)
+                            FusionMode.LightTrails -> LightTrailControls(value, onValueChange)
+                            FusionMode.MotionTrails -> MotionTrailControls(value, onValueChange)
+                        }
+                    }
+                }
 
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        PreferenceRowSwitch(
-            title = stringResource(R.string.automatic_alignment),
-            subtitle = stringResource(R.string.automatic_alignment_sub),
-            startIcon = Icons.Rounded.AutoMode,
-            checked = value.alignImages,
-            onClick = { onValueChange(value.copy(alignImages = it)) },
-            shape = ShapeDefaults.byIndex(0, if (value.alignImages) 2 else 1)
-        )
-        if (value.alignImages) {
+                FusionMode.Median,
+                FusionMode.LongExposure -> Unit
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Column {
             PreferenceRowSwitch(
-                title = stringResource(R.string.crop_to_overlap),
-                subtitle = stringResource(R.string.crop_to_overlap_sub),
-                startIcon = Icons.Rounded.CropSmall,
-                checked = value.cropToOverlap,
-                onClick = { onValueChange(value.copy(cropToOverlap = it)) },
-                shape = ShapeDefaults.byIndex(1, 2)
+                title = stringResource(R.string.automatic_alignment),
+                subtitle = stringResource(R.string.automatic_alignment_sub),
+                startIcon = Icons.Rounded.AutoMode,
+                checked = value.alignImages,
+                onClick = { onValueChange(value.copy(alignImages = it)) },
+                shape = ShapeDefaults.byIndex(0, if (value.alignImages) 2 else 1)
             )
+            AnimatedVisibility(
+                visible = value.alignImages,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.crop_to_overlap),
+                    subtitle = stringResource(R.string.crop_to_overlap_sub),
+                    startIcon = Icons.Rounded.CropSmall,
+                    checked = value.cropToOverlap,
+                    onClick = { onValueChange(value.copy(cropToOverlap = it)) },
+                    shape = ShapeDefaults.byIndex(1, 2),
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
         }
     }
 }
