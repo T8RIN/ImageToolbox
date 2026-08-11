@@ -840,6 +840,7 @@ or click one of the badges below.
 
   </details>
 
+- Photomosaic creation
 - Files encryption and decryption with 100+ different algorithms available
 - Adding Stickers and Text (Markup Layers Mode)
 - Extract Text From Images (OCR)
