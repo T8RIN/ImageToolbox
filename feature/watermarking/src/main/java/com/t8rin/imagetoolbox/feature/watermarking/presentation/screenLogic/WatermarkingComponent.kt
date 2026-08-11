@@ -488,7 +488,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun selectLeftUri() {
         uris
             .indexOf(selectedUri)
-            .takeIf { it >= 0 }
+            .takeIf { it >= 0 && uris.size > 1 }
             ?.let {
                 uris.leftFrom(it)
             }
@@ -498,7 +498,7 @@ class WatermarkingComponent @AssistedInject internal constructor(
     fun selectRightUri() {
         uris
             .indexOf(selectedUri)
-            .takeIf { it >= 0 }
+            .takeIf { it >= 0 && uris.size > 1 }
             ?.let {
                 uris.rightFrom(it)
             }

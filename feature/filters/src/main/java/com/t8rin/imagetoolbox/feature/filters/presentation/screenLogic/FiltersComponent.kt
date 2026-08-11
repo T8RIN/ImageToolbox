@@ -1060,7 +1060,7 @@ class FiltersComponent @AssistedInject internal constructor(
     fun selectLeftUri() {
         basicFilterState.uris
             ?.indexOf(basicFilterState.selectedUri ?: Uri.EMPTY)
-            ?.takeIf { it >= 0 }
+            ?.takeIf { it >= 0 && basicFilterState.uris.orEmpty().size > 1 }
             ?.let {
                 basicFilterState.uris?.leftFrom(it)
             }
@@ -1070,7 +1070,7 @@ class FiltersComponent @AssistedInject internal constructor(
     fun selectRightUri() {
         basicFilterState.uris
             ?.indexOf(basicFilterState.selectedUri ?: Uri.EMPTY)
-            ?.takeIf { it >= 0 }
+            ?.takeIf { it >= 0 && basicFilterState.uris.orEmpty().size > 1 }
             ?.let {
                 basicFilterState.uris?.rightFrom(it)
             }

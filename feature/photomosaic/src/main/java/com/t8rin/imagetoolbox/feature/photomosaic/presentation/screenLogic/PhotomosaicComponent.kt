@@ -343,14 +343,14 @@ class PhotomosaicComponent @AssistedInject internal constructor(
 
     fun selectLeftUri() {
         uris.indexOf(selectedUri)
-            .takeIf { it >= 0 }
+            .takeIf { it >= 0 && uris.size > 1 }
             ?.let { uris.leftFrom(it) }
             ?.let(::updateSelectedUri)
     }
 
     fun selectRightUri() {
         uris.indexOf(selectedUri)
-            .takeIf { it >= 0 }
+            .takeIf { it >= 0 && uris.size > 1 }
             ?.let { uris.rightFrom(it) }
             ?.let(::updateSelectedUri)
     }

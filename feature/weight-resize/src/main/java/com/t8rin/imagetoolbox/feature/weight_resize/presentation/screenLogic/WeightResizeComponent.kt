@@ -545,7 +545,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     fun selectLeftUri() {
         uris
             ?.indexOf(selectedUri ?: Uri.EMPTY)
-            ?.takeIf { it >= 0 }
+            ?.takeIf { it >= 0 && uris.orEmpty().size > 1 }
             ?.let {
                 uris?.leftFrom(it)
             }
@@ -555,7 +555,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     fun selectRightUri() {
         uris
             ?.indexOf(selectedUri ?: Uri.EMPTY)
-            ?.takeIf { it >= 0 }
+            ?.takeIf { it >= 0 && uris.orEmpty().size > 1 }
             ?.let {
                 uris?.rightFrom(it)
             }
