@@ -4903,4 +4903,12 @@
     <string name="source_frames">Bronframes</string>
     <string name="fusion_image_limit">Er kunnen maximaal %1$d frames tegelijk worden gefuseerd</string>
     <string name="search_keywords_multi_frame_fusion">multi-frame fusiebelichting hdr focus stapelen middengeluid mensen verwijderen beugel</string>
+    <string name="long_exposure">Lange blootstelling</string>
+    <string name="long_exposure_sub">Vloeiende bewegingen door de reeks in lineair licht te middelen met behoud van statische details</string>
+    <string name="light_trails">Lichte paden</string>
+    <string name="light_trails_sub">Houd heldere veranderingen uit de reeks behouden om licht-, vuurwerk- en sterrensporen te bouwen</string>
+    <string name="motion_trails">Bewegingspaden</string>
+    <string name="motion_trails_sub">Meng frames op volgorde met een vervagende geschiedenis. Plaats het nieuwste frame als laatste</string>
+    <string name="light_threshold">Lichtdrempel</string>
+    <string name="trail_persistence">Doorzettingsvermogen</string>
 </resources>

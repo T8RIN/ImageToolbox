@@ -4902,4 +4902,12 @@
     <string name="source_frames">Bingkai sumber</string>
     <string name="fusion_image_limit">Hingga %1$d bingkai dapat digabungkan sekaligus</string>
     <string name="search_keywords_multi_frame_fusion">paparan fusi multi bingkai fokus hdr menumpuk braket penghilang kebisingan median orang</string>
+    <string name="long_exposure">Paparan panjang</string>
+    <string name="long_exposure_sub">Gerakan halus dengan merata-ratakan urutan dalam cahaya linier sambil menjaga detail statis</string>
+    <string name="light_trails">Jalur cahaya</string>
+    <string name="light_trails_sub">Pertahankan perubahan terang dari urutannya untuk membuat cahaya, kembang api, dan jejak bintang</string>
+    <string name="motion_trails">Jalur gerak</string>
+    <string name="motion_trails_sub">Padukan bingkai secara berurutan dengan riwayat yang memudar. Tempatkan bingkai terbaru terakhir</string>
+    <string name="light_threshold">Ambang batas cahaya</string>
+    <string name="trail_persistence">Kegigihan jejak</string>
 </resources>

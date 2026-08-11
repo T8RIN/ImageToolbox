@@ -4903,4 +4903,12 @@
     <string name="source_frames">Quellrahmen</string>
     <string name="fusion_image_limit">Bis zu %1$d Frames können gleichzeitig zusammengeführt werden</string>
     <string name="search_keywords_multi_frame_fusion">Multi-Frame-Fusion-Belichtung HDR-Fokus-Stacking Median-Rauschen Personenentfernungshalterung</string>
+    <string name="long_exposure">Lange Exposition</string>
+    <string name="long_exposure_sub">Reibungslose Bewegung durch Mittelung der Sequenz im linearen Licht unter Beibehaltung statischer Details</string>
+    <string name="light_trails">Leichte Wanderwege</string>
+    <string name="light_trails_sub">Behalten Sie helle Änderungen aus der Sequenz bei, um Licht, Feuerwerk und Sternenspuren zu erstellen</string>
+    <string name="motion_trails">Bewegungsspuren</string>
+    <string name="motion_trails_sub">Mischen Sie die Bilder der Reihe nach mit einem verblassenden Verlauf. Platzieren Sie den neuesten Rahmen zuletzt</string>
+    <string name="light_threshold">Lichtschwelle</string>
+    <string name="trail_persistence">Trail-Beharrlichkeit</string>
 </resources>

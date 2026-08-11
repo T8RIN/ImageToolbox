@@ -4902,4 +4902,12 @@
     <string name="source_frames">來源畫面</string>
     <string name="fusion_image_limit">一次最多可以融合 %1$d 幀</string>
     <string name="search_keywords_multi_frame_fusion">多畫面融合曝光 hdr 焦點堆疊中位數雜訊人物去除支架</string>
+    <string name="long_exposure">長期曝露</string>
+    <string name="long_exposure_sub">透過平均線性光中的序列來平滑運動，同時保持靜態細節</string>
+    <string name="light_trails">光跡</string>
+    <string name="light_trails_sub">保持序列中的明亮變化以構建燈光、煙火和星軌</string>
+    <string name="motion_trails">運動軌跡</string>
+    <string name="motion_trails_sub">按淡入淡出歷史的順序混合影格。將最新的幀放在最後</string>
+    <string name="light_threshold">光閾值</string>
+    <string name="trail_persistence">踪跡堅持</string>
 </resources>

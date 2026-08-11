@@ -4902,4 +4902,12 @@
     <string name="source_frames">เฟรมที่มา</string>
     <string name="fusion_image_limit">สามารถรวมเฟรมได้สูงสุด %1$d เฟรมในคราวเดียว</string>
     <string name="search_keywords_multi_frame_fusion">การเปิดรับแสงฟิวชั่นแบบหลายเฟรม โฟกัส hdr ซ้อนวงเล็บกำจัดเสียงรบกวนค่ามัธยฐาน</string>
+    <string name="long_exposure">การเปิดรับแสงนาน</string>
+    <string name="long_exposure_sub">การเคลื่อนไหวที่ราบรื่นโดยการหาค่าเฉลี่ยลำดับในแสงเชิงเส้นโดยยังคงรายละเอียดที่คงที่</string>
+    <string name="light_trails">เส้นทางแสง</string>
+    <string name="light_trails_sub">เก็บการเปลี่ยนแปลงที่สดใสจากซีเควนซ์เพื่อสร้างแสง ดอกไม้ไฟ และเส้นแสงดาว</string>
+    <string name="motion_trails">เส้นทางการเคลื่อนไหว</string>
+    <string name="motion_trails_sub">ผสมผสานเฟรมตามลำดับโดยมีประวัติการซีดจาง วางเฟรมใหม่ล่าสุดไว้ท้ายสุด</string>
+    <string name="light_threshold">เกณฑ์แสง</string>
+    <string name="trail_persistence">ความคงอยู่ของเส้นทาง</string>
 </resources>

@@ -4902,4 +4902,12 @@
     <string name="source_frames">ソースフレーム</string>
     <string name="fusion_image_limit">最大 %1$d フレームを一度に融合できます</string>
     <string name="search_keywords_multi_frame_fusion">マルチフレーム フュージョン 露光 HDR フォーカス スタッキング メディアン ノイズ 人物除去 ブラケット</string>
+    <string name="long_exposure">長期露出</string>
+    <string name="long_exposure_sub">静的なディテールを維持しながら、リニアライト内でシーケンスを平均化することでスムーズなモーションを実現</string>
+    <string name="light_trails">光跡</string>
+    <string name="light_trails_sub">シーケンスの明るい変化を維持して、光、花火、星の軌跡を構築します</string>
+    <string name="motion_trails">モーショントレイル</string>
+    <string name="motion_trails_sub">消えていく履歴とともにフレームを順番にブレンドします。最新のフレームを最後に配置する</string>
+    <string name="light_threshold">光の閾値</string>
+    <string name="trail_persistence">トレイルの持続性</string>
 </resources>

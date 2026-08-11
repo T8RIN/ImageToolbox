@@ -4905,4 +4905,12 @@
     <string name="source_frames">מסגרות מקור</string>
     <string name="fusion_image_limit">ניתן למזג עד %1$d מסגרות בבת אחת</string>
     <string name="search_keywords_multi_frame_fusion">רב מסגרת היתוך חשיפת hdr פוקוס הערמה חציון רעש אנשים הסרת סוגר</string>
+    <string name="long_exposure">חשיפה ארוכה</string>
+    <string name="long_exposure_sub">תנועה חלקה על ידי ממוצע של הרצף באור ליניארי תוך שמירה על פרטים סטטיים</string>
+    <string name="light_trails">שבילים אור</string>
+    <string name="light_trails_sub">שמור על שינויים בהירים מהרצף כדי לבנות שבילי אור, זיקוקים וכוכבים</string>
+    <string name="motion_trails">שבילי תנועה</string>
+    <string name="motion_trails_sub">מערבבים מסגרות לפי הסדר עם היסטוריה דועכת. הנח את המסגרת החדשה ביותר אחרונה</string>
+    <string name="light_threshold">סף אור</string>
+    <string name="trail_persistence">התמדה בשביל</string>
 </resources>

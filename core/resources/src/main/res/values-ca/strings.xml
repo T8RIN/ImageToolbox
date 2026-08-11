@@ -4903,4 +4903,12 @@
     <string name="source_frames">Fotogrames font</string>
     <string name="fusion_image_limit">Es poden fusionar fins a %1$d fotogrames alhora</string>
     <string name="search_keywords_multi_frame_fusion">exposició de fusió de marcs múltiples hdr focus apilament soroll mitjà suport d\'eliminació de persones</string>
+    <string name="long_exposure">Llarga exposició</string>
+    <string name="long_exposure_sub">Moviment suau fent la mitjana de la seqüència en llum lineal mantenint els detalls estàtics</string>
+    <string name="light_trails">Senders lleugers</string>
+    <string name="light_trails_sub">Manteniu els canvis brillants de la seqüència per crear rastres de llum, focs artificials i estels</string>
+    <string name="motion_trails">Rastres de moviment</string>
+    <string name="motion_trails_sub">Combina els marcs en ordre amb un historial que s\'esvaeix. Col·loca el marc més recent per darrer</string>
+    <string name="light_threshold">Llindar de llum</string>
+    <string name="trail_persistence">La persistència del camí</string>
 </resources>

@@ -4903,4 +4903,12 @@
     <string name="source_frames">Kaynak çerçeveleri</string>
     <string name="fusion_image_limit">Tek seferde en fazla %1$d kare birleştirilebilir</string>
     <string name="search_keywords_multi_frame_fusion">çoklu çerçeve füzyon pozlama hdr odak istifleme medyan gürültü insanları kaldırma braketi</string>
+    <string name="long_exposure">Uzun pozlama</string>
+    <string name="long_exposure_sub">Statik ayrıntıları korurken doğrusal ışıktaki sekansın ortalamasını alarak yumuşak hareket</string>
+    <string name="light_trails">Hafif yollar</string>
+    <string name="light_trails_sub">Işık, havai fişek ve yıldız izleri oluşturmak için dizideki parlak değişiklikleri koruyun</string>
+    <string name="motion_trails">Hareket izleri</string>
+    <string name="motion_trails_sub">Kareleri solma geçmişine göre sırayla karıştırın. En yeni çerçeveyi en sona yerleştirin</string>
+    <string name="light_threshold">Işık eşiği</string>
+    <string name="trail_persistence">İz kalıcılığı</string>
 </resources>

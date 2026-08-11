@@ -4904,4 +4904,12 @@
     <string name="source_frames">Изворни оквири</string>
     <string name="fusion_image_limit">Може се спојити до __ПХ_0__ оквира одједном</string>
     <string name="search_keywords_multi_frame_fusion">мулти фраме фусион експозиција хдр фокус слагање медијана шума носач за уклањање људи</string>
+    <string name="long_exposure">Дуга експозиција</string>
+    <string name="long_exposure_sub">Глатко кретање усредњавањем секвенце у линеарном светлу уз задржавање статичних детаља</string>
+    <string name="light_trails">Светле стазе</string>
+    <string name="light_trails_sub">Задржите светле промене у низу да бисте направили светло, ватромет и звездане стазе</string>
+    <string name="motion_trails">Трагови кретања</string>
+    <string name="motion_trails_sub">Мешајте оквире по реду са историјом која бледи. Поставите најновији оквир последњи</string>
+    <string name="light_threshold">Светлосни праг</string>
+    <string name="trail_persistence">Траил персистенце</string>
 </resources>

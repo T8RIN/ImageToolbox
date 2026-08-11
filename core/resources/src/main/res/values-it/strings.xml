@@ -4903,4 +4903,12 @@
     <string name="source_frames">Fotogrammi di origine</string>
     <string name="fusion_image_limit">È possibile fondere fino a %1$d fotogrammi contemporaneamente</string>
     <string name="search_keywords_multi_frame_fusion">esposizione fusione multi frame hdr focus stacking rumore mediano staffa di rimozione persone</string>
+    <string name="long_exposure">Esposizione prolungata</string>
+    <string name="long_exposure_sub">Movimento fluido calcolando la media della sequenza in luce lineare mantenendo i dettagli statici</string>
+    <string name="light_trails">Scie luminose</string>
+    <string name="light_trails_sub">Mantieni cambiamenti luminosi dalla sequenza per creare luci, fuochi d\'artificio e scie stellari</string>
+    <string name="motion_trails">Percorsi di movimento</string>
+    <string name="motion_trails_sub">Unisci i fotogrammi in ordine con una storia in dissolvenza. Posiziona il fotogramma più recente per ultimo</string>
+    <string name="light_threshold">Soglia luminosa</string>
+    <string name="trail_persistence">Persistenza della traccia</string>
 </resources>

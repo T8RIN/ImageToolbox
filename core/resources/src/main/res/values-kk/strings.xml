@@ -4903,4 +4903,12 @@
     <string name="source_frames">Бастапқы фреймдер</string>
     <string name="fusion_image_limit">Бір уақытта %1$d кадрға дейін біріктіруге болады</string>
     <string name="search_keywords_multi_frame_fusion">мульти кадр фьюжн экспозициясы hdr фокусты жинақтау медиана шуы адамдарды жою кронштейні</string>
+    <string name="long_exposure">Ұзақ экспозиция</string>
+    <string name="long_exposure_sub">Статикалық бөлшектерді сақтай отырып, сызықтық жарықтағы ретті орташалау арқылы бірқалыпты қозғалыс</string>
+    <string name="light_trails">Жеңіл жолдар</string>
+    <string name="light_trails_sub">Жарық, отшашу және жұлдызды жолдарды салу үшін реттіліктегі жарқын өзгерістерді сақтаңыз</string>
+    <string name="motion_trails">Қозғалыс жолдары</string>
+    <string name="motion_trails_sub">Өшіп бара жатқан тарихы бар жақтауларды ретімен араластырыңыз. Ең жаңа жақтауды ең соңына қойыңыз</string>
+    <string name="light_threshold">Жарық табалдырығы</string>
+    <string name="trail_persistence">Соққыдағы табандылық</string>
 </resources>

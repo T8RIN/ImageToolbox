@@ -4903,4 +4903,12 @@
     <string name="source_frames">فریم های منبع</string>
     <string name="fusion_image_limit">حداکثر %1$d فریم را می توان به طور همزمان ترکیب کرد</string>
     <string name="search_keywords_multi_frame_fusion">براکت حذف افراد با نوردهی فیوژن چند فریم hdr فوکوس انباشته نویز متوسط</string>
+    <string name="long_exposure">قرارگیری طولانی مدت در معرض بیماری</string>
+    <string name="long_exposure_sub">حرکت صاف را با میانگین گرفتن توالی در نور خطی و در عین حال حفظ جزئیات ایستا انجام دهید</string>
+    <string name="light_trails">مسیرهای نورانی</string>
+    <string name="light_trails_sub">برای ساختن مسیرهای نور، آتش بازی و ستاره، تغییرات روشن را از دنباله حفظ کنید</string>
+    <string name="motion_trails">مسیرهای حرکتی</string>
+    <string name="motion_trails_sub">فریم ها را به ترتیب با تاریخچه محو شده ترکیب کنید. جدیدترین قاب را در آخر قرار دهید</string>
+    <string name="light_threshold">آستانه نور</string>
+    <string name="trail_persistence">ماندگاری در مسیر</string>
 </resources>

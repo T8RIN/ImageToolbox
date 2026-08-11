@@ -4903,4 +4903,12 @@
     <string name="source_frames">మూల ఫ్రేమ్‌లు</string>
     <string name="fusion_image_limit">గరిష్టంగా %1$d ఫ్రేమ్‌లను ఒకేసారి ఫ్యూజ్ చేయవచ్చు</string>
     <string name="search_keywords_multi_frame_fusion">మల్టీ ఫ్రేమ్ ఫ్యూజన్ ఎక్స్‌పోజర్ హెచ్‌డిఆర్ ఫోకస్ స్టాకింగ్ మీడియన్ నాయిస్ పీపుల్ రిమూవల్ బ్రాకెట్</string>
+    <string name="long_exposure">లాంగ్ ఎక్స్పోజర్</string>
+    <string name="long_exposure_sub">స్టాటిక్ వివరాలను ఉంచేటప్పుడు సరళ కాంతిలో క్రమాన్ని సగటున చేయడం ద్వారా స్మూత్ మోషన్</string>
+    <string name="light_trails">లైట్ ట్రైల్స్</string>
+    <string name="light_trails_sub">కాంతి, బాణసంచా మరియు నక్షత్ర మార్గాలను నిర్మించడానికి క్రమం నుండి ప్రకాశవంతమైన మార్పులను ఉంచండి</string>
+    <string name="motion_trails">మోషన్ ట్రయల్స్</string>
+    <string name="motion_trails_sub">క్షీణిస్తున్న చరిత్రతో క్రమంలో ఫ్రేమ్‌లను కలపండి. సరికొత్త ఫ్రేమ్‌ను చివరిగా ఉంచండి</string>
+    <string name="light_threshold">లైట్ థ్రెషోల్డ్</string>
+    <string name="trail_persistence">కాలిబాట పట్టుదల</string>
 </resources>

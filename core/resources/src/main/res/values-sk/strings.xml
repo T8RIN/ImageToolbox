@@ -4905,4 +4905,12 @@
     <string name="source_frames">Zdrojové rámy</string>
     <string name="fusion_image_limit">Naraz je možné zlúčiť až %1$d rámcov</string>
     <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people remove bracket</string>
+    <string name="long_exposure">Dlhá expozícia</string>
+    <string name="long_exposure_sub">Plynulý pohyb spriemerovaním sekvencie v lineárnom svetle pri zachovaní statických detailov</string>
+    <string name="light_trails">Svetlé chodníky</string>
+    <string name="light_trails_sub">Udržujte jasné zmeny v sekvencii, aby ste vytvorili svetlo, ohňostroj a hviezdne stopy</string>
+    <string name="motion_trails">Pohybové stopy</string>
+    <string name="motion_trails_sub">Zmiešajte snímky v poradí s vyblednutou históriou. Najnovší rám umiestnite ako posledný</string>
+    <string name="light_threshold">Svetelný prah</string>
+    <string name="trail_persistence">Vytrvalosť stopy</string>
 </resources>

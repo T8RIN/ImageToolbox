@@ -4903,4 +4903,12 @@
     <string name="source_frames">Pinagmulan ng mga frame</string>
     <string name="fusion_image_limit">Hanggang %1$d na mga frame ang maaaring i-fuse nang sabay-sabay</string>
     <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median ingay sa pagtanggal ng bracket ng mga tao</string>
+    <string name="long_exposure">Mahabang exposure</string>
+    <string name="long_exposure_sub">Makinis na paggalaw sa pamamagitan ng pag-average ng sequence sa linear na liwanag habang pinapanatili ang mga static na detalye</string>
+    <string name="light_trails">Banayad na mga landas</string>
+    <string name="light_trails_sub">Panatilihin ang mga maliliwanag na pagbabago mula sa pagkakasunud-sunod upang makabuo ng liwanag, firework at star trail</string>
+    <string name="motion_trails">Mga landas ng paggalaw</string>
+    <string name="motion_trails_sub">Paghaluin ang mga frame sa pagkakasunud-sunod sa isang kumukupas na kasaysayan. Ilagay ang pinakabagong frame sa huli</string>
+    <string name="light_threshold">Banayad na threshold</string>
+    <string name="trail_persistence">Pagtitiyaga ng landas</string>
 </resources>

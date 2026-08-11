@@ -4907,4 +4907,12 @@
     <string name="source_frames">إطارات المصدر</string>
     <string name="fusion_image_limit">يمكن دمج ما يصل إلى %1$d من الإطارات مرة واحدة</string>
     <string name="search_keywords_multi_frame_fusion">إطار متعدد للتعرض للانصهار والتركيز عالي الدقة وتكديس الضوضاء المتوسطة ودعامة إزالة الأشخاص</string>
+    <string name="long_exposure">التعرض لفترة طويلة</string>
+    <string name="long_exposure_sub">حركة سلسة عن طريق حساب متوسط ​​التسلسل في الضوء الخطي مع الحفاظ على التفاصيل الثابتة</string>
+    <string name="light_trails">مسارات خفيفة</string>
+    <string name="light_trails_sub">احتفظ بالتغييرات الساطعة من التسلسل لإنشاء مسارات الضوء والألعاب النارية والنجوم</string>
+    <string name="motion_trails">مسارات الحركة</string>
+    <string name="motion_trails_sub">قم بمزج الإطارات بالترتيب مع تاريخ التلاشي. ضع الإطار الأحدث أخيرًا</string>
+    <string name="light_threshold">عتبة الضوء</string>
+    <string name="trail_persistence">ثبات الدرب</string>
 </resources>

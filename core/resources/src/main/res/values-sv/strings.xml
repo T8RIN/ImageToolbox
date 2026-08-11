@@ -4903,4 +4903,12 @@
     <string name="source_frames">Källramar</string>
     <string name="fusion_image_limit">Upp till %1$d ramar kan smältas ihop på en gång</string>
     <string name="search_keywords_multi_frame_fusion">multi frame fusion exponering hdr fokus stapling median brus människor borttagning fäste</string>
+    <string name="long_exposure">Lång exponering</string>
+    <string name="long_exposure_sub">Jämna rörelser genom att medelvärdesbilda sekvensen i linjärt ljus samtidigt som statiska detaljer bibehålls</string>
+    <string name="light_trails">Ljusspår</string>
+    <string name="light_trails_sub">Håll ljusa förändringar från sekvensen för att bygga ljus, fyrverkerier och stjärnspår</string>
+    <string name="motion_trails">Rörelsespår</string>
+    <string name="motion_trails_sub">Blanda ramar i ordning med en blekningshistorik. Placera den nyaste ramen sist</string>
+    <string name="light_threshold">Lätt tröskel</string>
+    <string name="trail_persistence">Trail uthållighet</string>
 </resources>

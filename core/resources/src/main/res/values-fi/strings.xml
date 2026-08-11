@@ -4903,4 +4903,12 @@
     <string name="source_frames">Lähdekehykset</string>
     <string name="fusion_image_limit">Jopa %1$d kehystä voidaan yhdistää kerralla</string>
     <string name="search_keywords_multi_frame_fusion">monen kehyksen fuusiovalotus hdr-tarkennus pinoaminen mediaanikohina ihmiset poistoteline</string>
+    <string name="long_exposure">Pitkä altistus</string>
+    <string name="long_exposure_sub">Tasainen liike laskemalla sekvenssin keskiarvo lineaarisessa valossa säilyttäen samalla staattiset yksityiskohdat</string>
+    <string name="light_trails">Kevyitä polkuja</string>
+    <string name="light_trails_sub">Pidä kirkkaat muutokset sarjassa rakentaaksesi valo-, ilotulitus- ja tähtipolkuja</string>
+    <string name="motion_trails">Liikeradat</string>
+    <string name="motion_trails_sub">Sekoita kehyksiä järjestyksessä haalistuvan historian kanssa. Aseta uusin kehys viimeiseksi</string>
+    <string name="light_threshold">Valon kynnys</string>
+    <string name="trail_persistence">Polun pysyvyys</string>
 </resources>

@@ -4903,4 +4903,12 @@
     <string name="source_frames">Images sources</string>
     <string name="fusion_image_limit">Jusqu\'à %1$d trames peuvent être fusionnées à la fois</string>
     <string name="search_keywords_multi_frame_fusion">exposition à la fusion multi-trames mise au point hdr empilement bruit médian support de retrait des personnes</string>
+    <string name="long_exposure">Exposition longue</string>
+    <string name="long_exposure_sub">Mouvement fluide en faisant la moyenne de la séquence en lumière linéaire tout en conservant les détails statiques</string>
+    <string name="light_trails">Sentiers lumineux</string>
+    <string name="light_trails_sub">Conservez les changements lumineux de la séquence pour créer des traînées de lumière, de feux d\'artifice et d\'étoiles.</string>
+    <string name="motion_trails">Sentiers de mouvement</string>
+    <string name="motion_trails_sub">Mélangez les images dans l\'ordre avec un historique qui s\'estompe. Placez le cadre le plus récent en dernier</string>
+    <string name="light_threshold">Seuil de lumière</string>
+    <string name="trail_persistence">Persistance du sentier</string>
 </resources>

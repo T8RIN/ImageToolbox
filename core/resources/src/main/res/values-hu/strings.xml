@@ -4903,4 +4903,12 @@
     <string name="source_frames">Forrás keretek</string>
     <string name="fusion_image_limit">Egyszerre legfeljebb %1$d képkocka egyesíthető</string>
     <string name="search_keywords_multi_frame_fusion">több képkocka fúziós expozíció hdr fókusz halmozás medián zaj emberek eltávolítása konzol</string>
+    <string name="long_exposure">Hosszú expozíció</string>
+    <string name="long_exposure_sub">Sima mozgás a sorozat átlagolásával lineáris fényben, miközben megőrzi a statikus részleteket</string>
+    <string name="light_trails">Könnyű pályák</string>
+    <string name="light_trails_sub">Tartsa be a sorozat fényes változásait, hogy fény-, tűzijáték- és csillagösvényeket építsen</string>
+    <string name="motion_trails">Mozgásösvények</string>
+    <string name="motion_trails_sub">Keverje a kereteket sorrendben az elhalványuló előzményekkel. Helyezze a legújabb keretet utoljára</string>
+    <string name="light_threshold">Fényküszöb</string>
+    <string name="trail_persistence">A nyomvonal kitartása</string>
 </resources>

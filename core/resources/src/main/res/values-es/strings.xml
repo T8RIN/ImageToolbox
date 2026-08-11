@@ -4903,4 +4903,12 @@
     <string name="source_frames">Marcos de origen</string>
     <string name="fusion_image_limit">Se pueden fusionar hasta %1$d cuadros a la vez</string>
     <string name="search_keywords_multi_frame_fusion">exposición de fusión de fotogramas múltiples enfoque hdr apilado ruido medio personas eliminación soporte</string>
+    <string name="long_exposure">Exposición prolongada</string>
+    <string name="long_exposure_sub">Movimiento suave promediando la secuencia en luz lineal manteniendo detalles estáticos</string>
+    <string name="light_trails">Estelas de luz</string>
+    <string name="light_trails_sub">Mantén los cambios brillantes de la secuencia para crear luces, fuegos artificiales y senderos de estrellas.</string>
+    <string name="motion_trails">Senderos de movimiento</string>
+    <string name="motion_trails_sub">Combine fotogramas en orden con un historial que se desvanece. Coloque el marco más nuevo al final</string>
+    <string name="light_threshold">Umbral de luz</string>
+    <string name="trail_persistence">Persistencia del sendero</string>
 </resources>

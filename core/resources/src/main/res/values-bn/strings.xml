@@ -4903,4 +4903,12 @@
     <string name="source_frames">উৎস ফ্রেম</string>
     <string name="fusion_image_limit">একবারে %1$d ফ্রেম পর্যন্ত ফিউজ করা যায়</string>
     <string name="search_keywords_multi_frame_fusion">মাল্টি ফ্রেম ফিউশন এক্সপোজার এইচডিআর ফোকাস স্ট্যাকিং মিডিয়ান নয়েজ পিপল রিমুভাল ব্র্যাকেট</string>
+    <string name="long_exposure">দীর্ঘ এক্সপোজার</string>
+    <string name="long_exposure_sub">স্থিতিশীল বিবরণ রেখে রৈখিক আলোতে ক্রম গড় করে মসৃণ গতি</string>
+    <string name="light_trails">হালকা পথচলা</string>
+    <string name="light_trails_sub">আলো, আতশবাজি এবং তারকা ট্রেইল তৈরি করতে ক্রম থেকে উজ্জ্বল পরিবর্তনগুলি রাখুন</string>
+    <string name="motion_trails">মোশন ট্রেইল</string>
+    <string name="motion_trails_sub">একটি বিবর্ণ ইতিহাসের সাথে ক্রমানুসারে ফ্রেমগুলিকে মিশ্রিত করুন। সর্বশেষতম ফ্রেমটি শেষ করুন</string>
+    <string name="light_threshold">হালকা থ্রেশহোল্ড</string>
+    <string name="trail_persistence">ট্রেল অধ্যবসায়</string>
 </resources>

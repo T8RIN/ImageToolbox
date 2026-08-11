@@ -4905,4 +4905,12 @@
     <string name="source_frames">Зыходныя кадры</string>
     <string name="fusion_image_limit">Адначасова можна аб\'яднаць да %1$d кадраў</string>
     <string name="search_keywords_multi_frame_fusion">мультыкадравы фьюжн экспазіцыя hdr факусіраванне сярэдні шум людзі выдаленне кранштэйн</string>
+    <string name="long_exposure">Доўгая вытрымка</string>
+    <string name="long_exposure_sub">Плыўны рух за кошт асераднення паслядоўнасці ў лінейным святле з захаваннем статычных дэталяў</string>
+    <string name="light_trails">Светлыя сцежкі</string>
+    <string name="light_trails_sub">Захоўвайце яркія змены паслядоўнасці, каб стварыць святло, феерверк і зорныя сцежкі</string>
+    <string name="motion_trails">Сляды руху</string>
+    <string name="motion_trails_sub">Змяшайце кадры ў парадку з бляклай гісторыяй. Змесціце самую новую рамку апошняй</string>
+    <string name="light_threshold">Светлы парог</string>
+    <string name="trail_persistence">Настойлівасць следу</string>
 </resources>

@@ -4902,4 +4902,12 @@
     <string name="source_frames">源帧</string>
     <string name="fusion_image_limit">一次最多可以融合 %1$d 帧</string>
     <string name="search_keywords_multi_frame_fusion">多帧融合曝光 hdr 焦点堆叠中值噪声人物去除支架</string>
+    <string name="long_exposure">长期接触</string>
+    <string name="long_exposure_sub">通过平均线性光中的序列来平滑运动，同时保持静态细节</string>
+    <string name="light_trails">光迹</string>
+    <string name="light_trails_sub">保持序列中的明亮变化以构建灯光、烟花和星轨</string>
+    <string name="motion_trails">运动轨迹</string>
+    <string name="motion_trails_sub">按淡入淡出历史的顺序混合帧。将最新的帧放在最后</string>
+    <string name="light_threshold">光阈值</string>
+    <string name="trail_persistence">踪迹坚持</string>
 </resources>

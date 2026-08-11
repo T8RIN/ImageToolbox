@@ -4903,4 +4903,12 @@
     <string name="source_frames">மூல சட்டங்கள்</string>
     <string name="fusion_image_limit">ஒரே நேரத்தில் %1$d ஃப்ரேம்கள் வரை இணைக்கப்படலாம்</string>
     <string name="search_keywords_multi_frame_fusion">மல்டி பிரேம் ஃப்யூஷன் எக்ஸ்போஷர் ஹெச்டிஆர் ஃபோகஸ் ஸ்டாக்கிங் மீடியன் சத்தம் மக்கள் அகற்றும் அடைப்புக்குறி</string>
+    <string name="long_exposure">நீண்ட வெளிப்பாடு</string>
+    <string name="long_exposure_sub">நிலையான விவரங்களை வைத்து, நேரியல் ஒளியில் வரிசையை சராசரியாக வைத்து மென்மையான இயக்கம்</string>
+    <string name="light_trails">ஒளி பாதைகள்</string>
+    <string name="light_trails_sub">ஒளி, பட்டாசு மற்றும் நட்சத்திரப் பாதைகளை உருவாக்க, வரிசையிலிருந்து பிரகாசமான மாற்றங்களைச் செய்யுங்கள்</string>
+    <string name="motion_trails">இயக்க தடங்கள்</string>
+    <string name="motion_trails_sub">மங்கலான வரலாற்றுடன் பிரேம்களைக் கலக்கவும். புதிய சட்டத்தை கடைசியாக வைக்கவும்</string>
+    <string name="light_threshold">ஒளி வாசல்</string>
+    <string name="trail_persistence">பாதை நிலைத்தன்மை</string>
 </resources>

@@ -4905,4 +4905,12 @@
     <string name="source_frames">Ramki źródłowe</string>
     <string name="fusion_image_limit">Jednorazowo można połączyć do %1$d ramek</string>
     <string name="search_keywords_multi_frame_fusion">wieloklatkowa fuzja ekspozycja HDR ostrość układanie mediana szumu wspornik usuwania ludzi</string>
+    <string name="long_exposure">Długi czas ekspozycji</string>
+    <string name="long_exposure_sub">Płynny ruch poprzez uśrednienie sekwencji w świetle liniowym przy zachowaniu statycznych szczegółów</string>
+    <string name="light_trails">Lekkie ślady</string>
+    <string name="light_trails_sub">Zachowaj jasne zmiany w sekwencji, aby zbudować ślady świateł, fajerwerków i gwiazd</string>
+    <string name="motion_trails">Ślady ruchu</string>
+    <string name="motion_trails_sub">Mieszaj klatki w kolejności z zanikającą historią. Umieść najnowszą ramkę jako ostatnią</string>
+    <string name="light_threshold">Próg świetlny</string>
+    <string name="trail_persistence">Trwałość szlaku</string>
 </resources>

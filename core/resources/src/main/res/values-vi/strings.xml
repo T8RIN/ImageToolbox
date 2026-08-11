@@ -4902,4 +4902,12 @@
     <string name="source_frames">Khung nguồn</string>
     <string name="fusion_image_limit">Có thể hợp nhất tối đa %1$d khung hình cùng một lúc</string>
     <string name="search_keywords_multi_frame_fusion">tiếp xúc tổng hợp đa khung hình hdr tập trung xếp chồng tiếng ồn trung bình khung loại bỏ người</string>
+    <string name="long_exposure">Tiếp xúc lâu</string>
+    <string name="long_exposure_sub">Chuyển động mượt mà bằng cách lấy trung bình chuỗi trong ánh sáng tuyến tính trong khi vẫn giữ các chi tiết tĩnh</string>
+    <string name="light_trails">Vệt sáng</string>
+    <string name="light_trails_sub">Giữ những thay đổi sáng sủa từ trình tự để xây dựng các vệt ánh sáng, pháo hoa và ngôi sao</string>
+    <string name="motion_trails">Đường mòn chuyển động</string>
+    <string name="motion_trails_sub">Trộn các khung theo thứ tự với lịch sử mờ dần. Đặt khung mới nhất cuối cùng</string>
+    <string name="light_threshold">Ngưỡng ánh sáng</string>
+    <string name="trail_persistence">Kiên trì theo dõi</string>
 </resources>

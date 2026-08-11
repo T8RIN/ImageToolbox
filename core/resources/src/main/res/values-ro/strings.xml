@@ -4904,4 +4904,12 @@
     <string name="source_frames">Cadre sursă</string>
     <string name="fusion_image_limit">Până la %1$d cadre pot fi fuzionate simultan</string>
     <string name="search_keywords_multi_frame_fusion">multi cadru fuziune expunere hdr focus stivuire zgomot median oameni suport de eliminare</string>
+    <string name="long_exposure">Expunere lungă</string>
+    <string name="long_exposure_sub">Mișcarea lină prin medierea secvenței în lumină liniară, păstrând în același timp detaliile statice</string>
+    <string name="light_trails">Trasee ușoare</string>
+    <string name="light_trails_sub">Păstrați modificări luminoase ale secvenței pentru a construi trasee de lumină, artificii și stele</string>
+    <string name="motion_trails">Urme de mișcare</string>
+    <string name="motion_trails_sub">Amestecați cadrele în ordine cu o istorie care se estompează. Așezați cel mai nou cadru ultimul</string>
+    <string name="light_threshold">Pragul de lumină</string>
+    <string name="trail_persistence">Persistența traseului</string>
 </resources>

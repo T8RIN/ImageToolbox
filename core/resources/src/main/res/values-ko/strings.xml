@@ -4902,4 +4902,12 @@
     <string name="source_frames">소스 프레임</string>
     <string name="fusion_image_limit">한 번에 최대 %1$d 프레임을 융합할 수 있습니다.</string>
     <string name="search_keywords_multi_frame_fusion">멀티 프레임 퓨전 노출 hdr 포커스 스태킹 중앙값 소음 사람 제거 브래킷</string>
+    <string name="long_exposure">장시간 노출</string>
+    <string name="long_exposure_sub">정적 세부 사항을 유지하면서 선형 조명의 시퀀스를 평균화하여 부드러운 동작</string>
+    <string name="light_trails">가벼운 산책로</string>
+    <string name="light_trails_sub">빛, 불꽃, 별의 흔적을 만들기 위해 시퀀스의 밝은 변화를 유지하세요.</string>
+    <string name="motion_trails">모션 트레일</string>
+    <string name="motion_trails_sub">페이드 히스토리에 따라 프레임을 순서대로 혼합합니다. 최신 프레임을 마지막에 배치</string>
+    <string name="light_threshold">가벼운 임계값</string>
+    <string name="trail_persistence">트레일 지속성</string>
 </resources>

@@ -4903,4 +4903,12 @@
     <string name="source_frames">Lähteraamid</string>
     <string name="fusion_image_limit">Korraga saab liita kuni %1$d kaadrit</string>
     <string name="search_keywords_multi_frame_fusion">mitme kaadri liitmine säritus HD-fookuse virnastamine mediaanmüra inimeste eemaldamise sulg</string>
+    <string name="long_exposure">Pikk säritus</string>
+    <string name="long_exposure_sub">Sujuv liikumine, keskmistades jada lineaarses valguses, säilitades samas staatilisi üksikasju</string>
+    <string name="light_trails">Kerged rajad</string>
+    <string name="light_trails_sub">Hoidke järjestuses eredaid muudatusi valguse, ilutulestiku ja täheradade ehitamiseks</string>
+    <string name="motion_trails">Liikumisrajad</string>
+    <string name="motion_trails_sub">Segage raamid tuhmuva ajalooga järjestikku. Asetage uusim raam viimaseks</string>
+    <string name="light_threshold">Valguslävi</string>
+    <string name="trail_persistence">Raja püsivus</string>
 </resources>

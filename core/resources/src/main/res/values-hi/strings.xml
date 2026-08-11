@@ -4903,4 +4903,12 @@
     <string name="source_frames">स्रोत फ़्रेम</string>
     <string name="fusion_image_limit">%1$d तक फ़्रेम को एक बार में फ़्यूज़ किया जा सकता है</string>
     <string name="search_keywords_multi_frame_fusion">मल्टी फ्रेम फ्यूजन एक्सपोज़र एचडीआर फोकस स्टैकिंग मीडियन नॉइज़ पीपल रिमूवल ब्रैकेट</string>
+    <string name="long_exposure">लंबा प्रदर्शन</string>
+    <string name="long_exposure_sub">स्थिर विवरण रखते हुए रैखिक प्रकाश में अनुक्रम को औसत करके चिकनी गति</string>
+    <string name="light_trails">हल्की पगडंडियाँ</string>
+    <string name="light_trails_sub">प्रकाश, आतिशबाजी और स्टार ट्रेल्स बनाने के लिए अनुक्रम से उज्ज्वल परिवर्तन रखें</string>
+    <string name="motion_trails">मोशन ट्रेल्स</string>
+    <string name="motion_trails_sub">लुप्त होते इतिहास के अनुसार फ़्रेमों को मिश्रित करें। नवीनतम फ़्रेम को अंतिम स्थान पर रखें</string>
+    <string name="light_threshold">प्रकाश दहलीज</string>
+    <string name="trail_persistence">राह की दृढ़ता</string>
 </resources>

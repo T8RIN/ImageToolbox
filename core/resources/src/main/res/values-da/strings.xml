@@ -4903,4 +4903,12 @@
     <string name="source_frames">Kilderammer</string>
     <string name="fusion_image_limit">Op til %1$d rammer kan fusioneres på én gang</string>
     <string name="search_keywords_multi_frame_fusion">multi frame fusion eksponering hdr fokus stabling median støj folk fjernelse beslag</string>
+    <string name="long_exposure">Lang eksponering</string>
+    <string name="long_exposure_sub">Jævn bevægelse ved at tage et gennemsnit af sekvensen i lineært lys, mens statiske detaljer bevares</string>
+    <string name="light_trails">Lysstier</string>
+    <string name="light_trails_sub">Hold lyse ændringer fra sekvensen for at bygge lys, fyrværkeri og stjernestier</string>
+    <string name="motion_trails">Bevægelsesstier</string>
+    <string name="motion_trails_sub">Blend rammer i rækkefølge med en falmende historie. Placer den nyeste ramme til sidst</string>
+    <string name="light_threshold">Lys tærskel</string>
+    <string name="trail_persistence">Trail vedholdenhed</string>
 </resources>

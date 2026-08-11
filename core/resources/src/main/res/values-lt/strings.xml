@@ -4905,4 +4905,12 @@
     <string name="source_frames">Šaltinio rėmeliai</string>
     <string name="fusion_image_limit">Vienu metu galima sujungti iki %1$d kadrų</string>
     <string name="search_keywords_multi_frame_fusion">kelių kadrų suliejimo ekspozicija hdr fokusavimo krovimas median noise people pašalinimo laikiklis</string>
+    <string name="long_exposure">Ilgas ekspozicija</string>
+    <string name="long_exposure_sub">Sklandus judesys nustatant sekos vidurkį tiesinėje šviesoje, išlaikant statines detales</string>
+    <string name="light_trails">Šviesos takai</string>
+    <string name="light_trails_sub">Išlaikykite ryškius sekos pokyčius, kad sukurtumėte šviesos, fejerverkų ir žvaigždžių takus</string>
+    <string name="motion_trails">Judėjimo takai</string>
+    <string name="motion_trails_sub">Sumaišykite kadrus eilės tvarka su blėstančia istorija. Naujausią rėmelį įdėkite paskutinį</string>
+    <string name="light_threshold">Šviesos slenkstis</string>
+    <string name="trail_persistence">Tako atkaklumas</string>
 </resources>

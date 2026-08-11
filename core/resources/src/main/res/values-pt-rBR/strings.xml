@@ -4903,4 +4903,12 @@
     <string name="source_frames">Quadros de origem</string>
     <string name="fusion_image_limit">Até %1$d quadros podem ser fundidos de uma só vez</string>
     <string name="search_keywords_multi_frame_fusion">exposição de fusão multiquadro foco hdr empilhamento ruído mediano suporte de remoção de pessoas</string>
+    <string name="long_exposure">Longa exposição</string>
+    <string name="long_exposure_sub">Movimento suave calculando a média da sequência em luz linear, mantendo os detalhes estáticos</string>
+    <string name="light_trails">Trilhas leves</string>
+    <string name="light_trails_sub">Mantenha mudanças brilhantes na sequência para criar trilhas de luz, fogos de artifício e estrelas</string>
+    <string name="motion_trails">Trilhas de movimento</string>
+    <string name="motion_trails_sub">Misture os quadros em ordem com um histórico desbotado. Coloque o quadro mais novo por último</string>
+    <string name="light_threshold">Limiar de luz</string>
+    <string name="trail_persistence">Persistência de trilha</string>
 </resources>
