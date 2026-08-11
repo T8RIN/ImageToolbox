@@ -152,6 +152,7 @@ internal fun List<Uri>.screenList(
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),
                 Screen.Photomosaic(uris),
+                Screen.MultiFrameFusion(uris),
                 Screen.ImageSplitting(uris.firstOrNull()),
                 Screen.ImageCutter(uris),
                 Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),
@@ -246,6 +247,7 @@ internal fun List<Uri>.screenList(
                     )
                 )
                 add(Screen.ImageStacking(uris))
+                add(Screen.MultiFrameFusion(uris))
                 add(Screen.ImageCutter(uris))
                 add(Screen.ImagePreview(uris))
                 add(Screen.DuplicateFinder(uris))

@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.Lo
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
+import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
@@ -139,6 +140,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MergePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MeshGradients
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MetadataPdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.MultiFrameFusion
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.OCRPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
@@ -217,6 +219,7 @@ internal class ChildProvider @Inject constructor(
     private val imageSplittingComponentFactory: ImageSplitterComponent.Factory,
     private val imageStackingComponentFactory: ImageStackingComponent.Factory,
     private val photomosaicComponentFactory: PhotomosaicComponent.Factory,
+    private val multiFrameFusionComponentFactory: MultiFrameFusionComponent.Factory,
     private val imageStitchingComponentFactory: ImageStitchingComponent.Factory,
     private val jxlToolsComponentFactory: JxlToolsComponent.Factory,
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
@@ -484,6 +487,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.Photomosaic -> Photomosaic(
             photomosaicComponentFactory(
+                componentContext = componentContext,
+                initialUris = config.uris,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.MultiFrameFusion -> MultiFrameFusion(
+            multiFrameFusionComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
                 onGoBack = ::navigateBack,

@@ -64,6 +64,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
+import com.t8rin.imagetoolbox.core.resources.icons.JoinInner
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
 import com.t8rin.imagetoolbox.core.resources.icons.Landscape
@@ -137,6 +138,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LoadNetImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Main
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MarkupLayers
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MultiFrameFusion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
@@ -218,6 +220,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is AppLogs -> "App_Logs"
     is LibrariesInfo -> "Libraries_Info"
     is MarkupLayers -> "Markup_Layers"
+    is MultiFrameFusion -> "Multi_Frame_Fusion"
     is Base64Tools -> "Base64_Tools"
     is BatchRename -> "Batch_Rename"
     is ChecksumTools -> "Checksum_Tools"
@@ -313,6 +316,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is TextureGeneration -> Icons.Outlined.Brick
     is CollageMaker -> Icons.Outlined.Collage
     is MarkupLayers -> Icons.Outlined.Stacks
+    is MultiFrameFusion -> Icons.Outlined.JoinInner
     is Base64Tools -> Icons.Outlined.Base64
     is BatchRename -> Icons.Outlined.FileRename
     is ChecksumTools -> Icons.Rounded.HashTag
@@ -404,6 +408,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is TextureGeneration -> Icons.TwoTone.Brick
     is CollageMaker -> Icons.TwoTone.Collage
     is MarkupLayers -> Icons.TwoTone.Stacks
+    is MultiFrameFusion -> Icons.TwoTone.JoinInner
     is Base64Tools -> Icons.TwoTone.Base64
     is BatchRename -> Icons.TwoTone.FileRename
     is ChecksumTools -> Icons.Rounded.HashTag
@@ -505,6 +510,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     ImageSplitting(),
                     Watermarking(),
                     GradientMaker(),
+                    MultiFrameFusion(),
                     ShaderStudio,
                     NoiseGeneration,
                     TextureGeneration,
@@ -561,5 +567,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 90 + PdfTools.options.size
+    override val FEATURES_COUNT = 91 + PdfTools.options.size
 }

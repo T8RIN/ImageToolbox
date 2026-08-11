@@ -1163,6 +1163,15 @@ sealed class Screen(
         subtitle = R.string.photomosaic_sub
     )
 
+    @Serializable
+    data class MultiFrameFusion(
+        val uris: List<Uri>? = null
+    ) : Screen(
+        id = 77,
+        title = R.string.multi_frame_fusion,
+        subtitle = R.string.multi_frame_fusion_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

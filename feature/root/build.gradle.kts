@@ -84,4 +84,5 @@ dependencies {
     implementation(projects.feature.batchRename)
     implementation(projects.feature.duplicateFinder)
     implementation(projects.feature.photomosaic)
+    implementation(projects.feature.multiFrameFusion)
 }

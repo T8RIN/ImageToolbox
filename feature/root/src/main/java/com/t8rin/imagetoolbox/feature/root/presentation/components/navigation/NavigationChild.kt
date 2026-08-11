@@ -90,6 +90,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.MarkupLayersCon
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsContent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
+import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.MultiFrameFusionContent
+import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
@@ -313,6 +315,11 @@ internal sealed interface NavigationChild {
     class Photomosaic(private val component: PhotomosaicComponent) : NavigationChild {
         @Composable
         override fun Content() = PhotomosaicContent(component)
+    }
+
+    class MultiFrameFusion(private val component: MultiFrameFusionComponent) : NavigationChild {
+        @Composable
+        override fun Content() = MultiFrameFusionContent(component)
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {

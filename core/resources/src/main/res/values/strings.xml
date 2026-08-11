@@ -4908,4 +4908,25 @@
     <string name="photomosaic_repeat_distance">Repeat avoidance</string>
     <string name="photomosaic_max_tiles">Maximum source images</string>
     <string name="search_keywords_photomosaic">photo mosaic tiles collage album grid recreate</string>
+    <string name="multi_frame_fusion">Multi-frame fusion</string>
+    <string name="multi_frame_fusion_sub">Combine a photo series into one cleaner, sharper or better-exposed image</string>
+    <string name="fusion_mode">Fusion mode</string>
+    <string name="exposure_fusion">Exposure</string>
+    <string name="exposure_fusion_sub">Blend bracketed exposures while preserving highlight and shadow detail</string>
+    <string name="focus_stacking">Focus</string>
+    <string name="focus_stacking_sub">Combine the sharpest regions from photos focused at different distances</string>
+    <string name="median_stack">Median</string>
+    <string name="median_stack_sub">Remove transient objects and random noise from a series of matching frames</string>
+    <string name="automatic_alignment">Automatic alignment</string>
+    <string name="automatic_alignment_sub">Match every frame to the first image before fusion</string>
+    <string name="crop_to_overlap">Crop to common area</string>
+    <string name="crop_to_overlap_sub">Remove empty edges introduced while aligning frames</string>
+    <string name="contrast_weight">Contrast weight</string>
+    <string name="saturation_weight">Saturation weight</string>
+    <string name="exposure_weight">Exposure weight</string>
+    <string name="focus_radius">Focus detection radius</string>
+    <string name="focus_strength">Focus separation</string>
+    <string name="source_frames">Source frames</string>
+    <string name="fusion_image_limit">Up to %1$d frames can be fused at once</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people removal bracket</string>
 </resources>

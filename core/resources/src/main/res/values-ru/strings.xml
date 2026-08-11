@@ -4884,4 +4884,25 @@
     <string name="gmic_param_x_light">Х Свет</string>
     <string name="gmic_param_y_light">Y Свет</string>
     <string name="gmic_param_z_light">Z Свет</string>
+    <string name="multi_frame_fusion">Слияние кадров</string>
+    <string name="multi_frame_fusion_sub">Объединяйте серию фотографий в один более чистый, резкий или сбалансированный кадр</string>
+    <string name="fusion_mode">Режим слияния</string>
+    <string name="exposure_fusion">Экспозиция</string>
+    <string name="exposure_fusion_sub">Объединяет брекетинг, сохраняя детали в светах и тенях</string>
+    <string name="focus_stacking">Фокус</string>
+    <string name="focus_stacking_sub">Собирает резкие области из кадров с разной дистанцией фокусировки</string>
+    <string name="median_stack">Медиана</string>
+    <string name="median_stack_sub">Убирает случайный шум и движущиеся объекты из серии одинаковых кадров</string>
+    <string name="automatic_alignment">Автоматическое выравнивание</string>
+    <string name="automatic_alignment_sub">Совмещать каждый кадр с первым изображением перед обработкой</string>
+    <string name="crop_to_overlap">Обрезать до общей области</string>
+    <string name="crop_to_overlap_sub">Убирать пустые края, появившиеся после выравнивания кадров</string>
+    <string name="contrast_weight">Вес контраста</string>
+    <string name="saturation_weight">Вес насыщенности</string>
+    <string name="exposure_weight">Вес экспозиции</string>
+    <string name="focus_radius">Радиус определения фокуса</string>
+    <string name="focus_strength">Разделение фокуса</string>
+    <string name="source_frames">Исходные кадры</string>
+    <string name="fusion_image_limit">За один раз можно объединить до %1$d кадров</string>
+    <string name="search_keywords_multi_frame_fusion">слияние кадров экспозиция hdr фокус стекинг медиана шум удаление людей брекетинг</string>
 </resources>

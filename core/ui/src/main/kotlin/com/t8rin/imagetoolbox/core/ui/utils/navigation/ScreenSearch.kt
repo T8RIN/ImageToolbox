@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.LoadNetImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Main
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MarkupLayers
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MultiFrameFusion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
@@ -148,6 +149,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is PickColorFromImage -> R.string.search_keywords_pick_color_from_image
     is PaletteTools -> R.string.search_keywords_palette_tools
     is Photomosaic -> R.string.search_keywords_photomosaic
+    is MultiFrameFusion -> R.string.search_keywords_multi_frame_fusion
     is DeleteExif -> R.string.search_keywords_delete_exif
     is Compare -> R.string.search_keywords_compare
     is LimitResize -> R.string.search_keywords_limit_resize
