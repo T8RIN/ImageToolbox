@@ -1156,7 +1156,7 @@ sealed class Screen(
 
     @Serializable
     data class Photomosaic(
-        val uri: Uri? = null
+        val uris: List<Uri>? = null
     ) : Screen(
         id = 73,
         title = R.string.photomosaic,

@@ -485,7 +485,7 @@ internal class ChildProvider @Inject constructor(
         is Screen.Photomosaic -> Photomosaic(
             photomosaicComponentFactory(
                 componentContext = componentContext,
-                initialUri = config.uri,
+                initialUris = config.uris,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

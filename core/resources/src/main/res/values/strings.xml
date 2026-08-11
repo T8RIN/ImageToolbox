@@ -4885,8 +4885,6 @@
     <string name="gmic_param_y_position">Y Position</string>
     <string name="photomosaic">Photomosaic</string>
     <string name="photomosaic_sub">Recreate an image using a collection of smaller photos</string>
-    <string name="photomosaic_target">Target image</string>
-    <string name="photomosaic_target_sub">Choose the image that the mosaic should reproduce</string>
     <string name="photomosaic_tiles">Tile collection</string>
     <string name="photomosaic_tiles_empty_sub">Add source photos. You can preview and remove them here.</string>
     <string name="photomosaic_columns">Mosaic columns</string>

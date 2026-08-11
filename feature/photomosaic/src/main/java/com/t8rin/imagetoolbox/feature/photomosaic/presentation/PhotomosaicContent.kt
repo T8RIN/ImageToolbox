@@ -4,15 +4,15 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
 package com.t8rin.imagetoolbox.feature.photomosaic.presentation
@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,6 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
-import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Opacity
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
@@ -61,7 +61,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -72,13 +74,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
+import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.photomosaic.domain.PhotomosaicParams
 import com.t8rin.imagetoolbox.feature.photomosaic.presentation.screenLogic.PhotomosaicComponent
 import kotlin.math.roundToInt
@@ -87,17 +95,21 @@ import kotlin.math.roundToInt
 fun PhotomosaicContent(component: PhotomosaicComponent) {
     AutoContentBasedColors(component.previewBitmap)
 
-    val targetPicker = rememberImagePicker { uri: Uri -> component.setTargetUri(uri) }
+    val imagePicker = rememberImagePicker(onSuccess = component::setUris)
+    val pickImage = imagePicker::pickImage
     val tilePicker = rememberImagePicker(onSuccess = component::addTileUris)
 
     AutoFilePicker(
-        onAutoPick = targetPicker::pickImage,
-        isPickedAlready = component.initialUri != null
+        onAutoPick = pickImage,
+        isPickedAlready = !component.initialUris.isNullOrEmpty()
     )
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showSaveFolderDialog by rememberSaveable { mutableStateOf(false) }
     var showTilePickerDialog by rememberSaveable { mutableStateOf(false) }
+    var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+    var showCompareSheet by rememberSaveable { mutableStateOf(false) }
     var editSheetData by remember { mutableStateOf(listOf<Uri>()) }
     val isPortrait by isPortraitOrientationAsState()
 
@@ -114,18 +126,29 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.photomosaic),
-                input = component.targetUri,
+                input = component.selectedUri,
                 isLoading = component.isImageLoading,
                 size = null
             )
         },
         onGoBack = onBack,
+        topAppBarPersistentActions = {
+            if (component.previewBitmap == null) TopAppBarEmoji()
+            CompareButton(
+                onClick = { showCompareSheet = true },
+                visible = component.selectedUri != null && component.previewBitmap != null
+            )
+            ZoomButton(
+                onClick = { showZoomSheet = true },
+                visible = component.previewBitmap != null
+            )
+        },
         actions = {
             ShareButton(
                 enabled = component.previewBitmap != null,
                 onShare = component::share,
                 onCopy = { component.cache(Clipboard::copy) },
-                onEdit = { component.cache { editSheetData = listOf(it) } }
+                onEdit = { component.cacheAll { editSheetData = it } }
             )
             ProcessImagesPreferenceSheet(
                 uris = editSheetData,
@@ -141,10 +164,15 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                 }
 
                 Picture(
-                    model = component.targetUri,
+                    model = component.selectedUri,
                     size = 1024,
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.aspectRatio(aspectRatio),
+                    modifier = Modifier
+                        .aspectRatio(aspectRatio)
+                        .detectSwipes(
+                            onSwipeRight = component::selectLeftUri,
+                            onSwipeLeft = component::selectRightUri
+                        ),
                     onSuccess = {
                         aspectRatio = it.result.image.toBitmap().safeAspectRatio
                     },
@@ -174,6 +202,10 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                 )
             } else {
                 ImageContainer(
+                    modifier = Modifier.detectSwipes(
+                        onSwipeRight = component::selectLeftUri,
+                        onSwipeLeft = component::selectRightUri
+                    ),
                     imageInside = isPortrait,
                     showOriginal = false,
                     previewBitmap = component.previewBitmap,
@@ -188,14 +220,9 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                PreferenceItem(
-                    title = stringResource(R.string.photomosaic_target),
-                    subtitle = stringResource(R.string.photomosaic_target_sub),
-                    startIcon = Icons.Outlined.Image,
-                    endIcon = Icons.Rounded.MiniEdit,
-                    onClick = targetPicker::pickImage,
-                    shape = ShapeDefaults.extraLarge,
-                    modifier = Modifier.fillMaxWidth()
+                ImageCounter(
+                    imageCount = component.uris.size.takeIf { it > 1 },
+                    onRepick = { showPickImageFromUrisSheet = true }
                 )
                 AnimatedContent(
                     targetState = component.tileUris.isEmpty()
@@ -287,14 +314,22 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                 )
             }
         },
-        buttons = {
+        buttons = { actions ->
+            var showOneTimeImagePickingDialog by rememberSaveable {
+                mutableStateOf(false)
+            }
             BottomButtonsBlock(
-                isNoData = component.targetUri == null,
-                onSecondaryButtonClick = targetPicker::pickImage,
+                isNoData = component.uris.isEmpty(),
+                onSecondaryButtonClick = pickImage,
+                onSecondaryButtonLongClick = {
+                    showOneTimeImagePickingDialog = true
+                },
                 onPrimaryButtonClick = { component.save(null) },
                 onPrimaryButtonLongClick = { showSaveFolderDialog = true },
                 isPrimaryButtonEnabled = component.previewBitmap != null,
-                actions = {}
+                actions = {
+                    if (isPortrait) actions()
+                }
             )
             OneTimeSaveLocationSelectionDialog(
                 visible = showSaveFolderDialog,
@@ -303,11 +338,61 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
                 formatForFilenameSelection = component.getFormatForFilenameSelection(),
                 hasOriginalUri = false
             )
+            OneTimeImagePickingDialog(
+                visible = showOneTimeImagePickingDialog,
+                onDismiss = { showOneTimeImagePickingDialog = false },
+                picker = Picker.Multiple,
+                imagePicker = imagePicker
+            )
         },
         noDataControls = {
-            ImageNotPickedWidget(onPickImage = targetPicker::pickImage)
+            ImageNotPickedWidget(onPickImage = pickImage)
         },
-        canShowScreenData = component.targetUri != null
+        canShowScreenData = component.uris.isNotEmpty()
+    )
+
+    val transformations by remember(component.params, component.tileUris) {
+        derivedStateOf {
+            listOf(component.getPhotomosaicTransformation())
+        }
+    }
+
+    PickImageFromUrisSheet(
+        transformations = transformations,
+        visible = showPickImageFromUrisSheet,
+        onDismiss = { showPickImageFromUrisSheet = false },
+        uris = component.uris,
+        selectedUri = component.selectedUri,
+        onUriPicked = component::updateSelectedUri,
+        onUriRemoved = component::updateUrisSilently,
+        columns = if (isPortrait) 2 else 4
+    )
+
+    CompareSheet(
+        beforeContent = {
+            Picture(
+                model = component.selectedUri,
+                modifier = Modifier.aspectRatio(
+                    component.previewBitmap?.safeAspectRatio ?: 1f
+                )
+            )
+        },
+        afterContent = {
+            Picture(
+                model = component.previewBitmap,
+                modifier = Modifier.aspectRatio(
+                    component.previewBitmap?.safeAspectRatio ?: 1f
+                )
+            )
+        },
+        visible = showCompareSheet,
+        onDismiss = { showCompareSheet = false }
+    )
+
+    ZoomModalSheet(
+        data = component.previewBitmap,
+        visible = showZoomSheet,
+        onDismiss = { showZoomSheet = false }
     )
 
     OneTimeImagePickingDialog(
