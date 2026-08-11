@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">పునరావృత ఎగవేత</string>
     <string name="photomosaic_max_tiles">గరిష్ట మూల చిత్రాలు</string>
     <string name="search_keywords_photomosaic">ఫోటో మొజాయిక్ టైల్స్ కోల్లెజ్ ఆల్బమ్ గ్రిడ్ పునఃసృష్టి</string>
+    <string name="gmic_filter_blocks_3d">3D బ్లాక్‌లు</string>
+    <string name="gmic_commands_info">ఆదేశాలు మరియు పారామితులు</string>
+    <string name="gmic_commands_title">ఆదేశాలు</string>
+    <string name="gmic_commands_count">%1$s · %2$d ఆదేశాలు</string>
+    <string name="gmic_parameters">పారామితులు</string>
+    <string name="gmic_default_value">డిఫాల్ట్: %1$s</string>
+    <string name="gmic_value_range">పరిధి: %1$s%2$s</string>
+    <string name="gmic_choices">ఎంపికలు: %1$s</string>
+    <string name="gmic_param_elevation">ఎలివేషన్</string>
+    <string name="gmic_param_fov">వీక్షణ క్షేత్రం</string>
+    <string name="gmic_param_specular_shininess">అద్భుతమైన మెరుపు</string>
+    <string name="gmic_param_tilt">వంపు</string>
+    <string name="gmic_param_use_light">లైట్ ఉపయోగించండి</string>
+    <string name="gmic_param_x_light">X కాంతి</string>
+    <string name="gmic_param_y_light">Y లైట్</string>
+    <string name="gmic_param_z_light">Z లైట్</string>
 </resources>

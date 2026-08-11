@@ -4867,4 +4867,20 @@
     <string name="photomosaic_repeat_distance">Поновите избегавање</string>
     <string name="photomosaic_max_tiles">Максималан извор слика</string>
     <string name="search_keywords_photomosaic">фото мозаик плочице колаж албум мрежа поново креирати</string>
+    <string name="gmic_filter_blocks_3d">3Д Блоцкс</string>
+    <string name="gmic_commands_info">Команде и параметри</string>
+    <string name="gmic_commands_title">Команде</string>
+    <string name="gmic_commands_count">__ПХ_0__ · __ПХ_1__ команде</string>
+    <string name="gmic_parameters">Параметерс</string>
+    <string name="gmic_default_value">Подразумевано: __ПХ_0__</string>
+    <string name="gmic_value_range">Опсег: __ПХ_0__…__ПХ_1__</string>
+    <string name="gmic_choices">Опције: __ПХ_0__</string>
+    <string name="gmic_param_elevation">Елеватион</string>
+    <string name="gmic_param_fov">Видно поље</string>
+    <string name="gmic_param_specular_shininess">Спецулар Схининесс</string>
+    <string name="gmic_param_tilt">Тилт</string>
+    <string name="gmic_param_use_light">Користи Светлост</string>
+    <string name="gmic_param_x_light">Кс Лигхт</string>
+    <string name="gmic_param_y_light">И Лигхт</string>
+    <string name="gmic_param_z_light">З Лигхт</string>
 </resources>

@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Kaçınmayı tekrarla</string>
     <string name="photomosaic_max_tiles">Maksimum kaynak görselleri</string>
     <string name="search_keywords_photomosaic">fotoğraf mozaik fayans kolaj albüm ızgara yeniden oluşturma</string>
+    <string name="gmic_filter_blocks_3d">3D Bloklar</string>
+    <string name="gmic_commands_info">Komutlar ve parametreler</string>
+    <string name="gmic_commands_title">Komutlar</string>
+    <string name="gmic_commands_count">%1$s · %2$d komutları</string>
+    <string name="gmic_parameters">Parametreler</string>
+    <string name="gmic_default_value">Varsayılan: %1$s</string>
+    <string name="gmic_value_range">Aralık: %1$s…%2$s</string>
+    <string name="gmic_choices">Seçenekler: %1$s</string>
+    <string name="gmic_param_elevation">Yükseklik</string>
+    <string name="gmic_param_fov">Görüş Alanı</string>
+    <string name="gmic_param_specular_shininess">Aynasal Parlaklık</string>
+    <string name="gmic_param_tilt">Eğim</string>
+    <string name="gmic_param_use_light">Işık Kullan</string>
+    <string name="gmic_param_x_light">X Işık</string>
+    <string name="gmic_param_y_light">Y Işık</string>
+    <string name="gmic_param_z_light">Z Işık</string>
 </resources>

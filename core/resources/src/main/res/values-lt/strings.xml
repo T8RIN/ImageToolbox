@@ -4868,4 +4868,20 @@
     <string name="photomosaic_repeat_distance">Pakartokite vengimą</string>
     <string name="photomosaic_max_tiles">Maksimalus šaltinio vaizdų skaičius</string>
     <string name="search_keywords_photomosaic">nuotraukų mozaikos plytelės koliažo albumo tinklelis atkurti</string>
+    <string name="gmic_filter_blocks_3d">3D blokai</string>
+    <string name="gmic_commands_info">Komandos ir parametrai</string>
+    <string name="gmic_commands_title">Komandos</string>
+    <string name="gmic_commands_count">%1$s · %2$d komandos</string>
+    <string name="gmic_parameters">Parametrai</string>
+    <string name="gmic_default_value">Numatytasis: %1$s</string>
+    <string name="gmic_value_range">Diapazonas: %1$s…%2$s</string>
+    <string name="gmic_choices">Parinktys: %1$s</string>
+    <string name="gmic_param_elevation">Pakilimas</string>
+    <string name="gmic_param_fov">Matymo laukas</string>
+    <string name="gmic_param_specular_shininess">Veidrodinis blizgesys</string>
+    <string name="gmic_param_tilt">Pakreipti</string>
+    <string name="gmic_param_use_light">Naudokite šviesą</string>
+    <string name="gmic_param_x_light">X šviesa</string>
+    <string name="gmic_param_y_light">Y Šviesa</string>
+    <string name="gmic_param_z_light">Z šviesa</string>
 </resources>

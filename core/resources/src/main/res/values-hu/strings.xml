@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Ismételje meg az elkerülést</string>
     <string name="photomosaic_max_tiles">Maximális forrásképek</string>
     <string name="search_keywords_photomosaic">fotó mozaik csempe kollázs album rács újra</string>
+    <string name="gmic_filter_blocks_3d">3D blokkok</string>
+    <string name="gmic_commands_info">Parancsok és paraméterek</string>
+    <string name="gmic_commands_title">Parancsok</string>
+    <string name="gmic_commands_count">%1$s · %2$d parancsok</string>
+    <string name="gmic_parameters">Paraméterek</string>
+    <string name="gmic_default_value">Alapértelmezett: %1$s</string>
+    <string name="gmic_value_range">Tartomány: %1$s…%2$s</string>
+    <string name="gmic_choices">Opciók: %1$s</string>
+    <string name="gmic_param_elevation">Magasság</string>
+    <string name="gmic_param_fov">Látómező</string>
+    <string name="gmic_param_specular_shininess">Tükörfényes ragyogás</string>
+    <string name="gmic_param_tilt">Döntés</string>
+    <string name="gmic_param_use_light">Használja a Fényt</string>
+    <string name="gmic_param_x_light">X Light</string>
+    <string name="gmic_param_y_light">Y Fény</string>
+    <string name="gmic_param_z_light">Z Light</string>
 </resources>

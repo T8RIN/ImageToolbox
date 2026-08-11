@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">ทำซ้ำการหลีกเลี่ยง</string>
     <string name="photomosaic_max_tiles">รูปภาพต้นฉบับสูงสุด</string>
     <string name="search_keywords_photomosaic">ตารางอัลบั้มภาพตัดปะกระเบื้องโมเสคภาพสร้างขึ้นใหม่</string>
+    <string name="gmic_filter_blocks_3d">บล็อก 3 มิติ</string>
+    <string name="gmic_commands_info">คำสั่งและพารามิเตอร์</string>
+    <string name="gmic_commands_title">คำสั่ง</string>
+    <string name="gmic_commands_count">%1$s · %2$d คำสั่ง</string>
+    <string name="gmic_parameters">พารามิเตอร์</string>
+    <string name="gmic_default_value">ค่าเริ่มต้น: %1$s</string>
+    <string name="gmic_value_range">ช่วง: %1$s…%2$s</string>
+    <string name="gmic_choices">ตัวเลือก: %1$s</string>
+    <string name="gmic_param_elevation">ระดับความสูง</string>
+    <string name="gmic_param_fov">สาขาการมองเห็น</string>
+    <string name="gmic_param_specular_shininess">ความแวววาวเป็นพิเศษ</string>
+    <string name="gmic_param_tilt">เอียง</string>
+    <string name="gmic_param_use_light">ใช้แสง</string>
+    <string name="gmic_param_x_light">เอ็กซ์ ไลท์</string>
+    <string name="gmic_param_y_light">วาย ไลท์</string>
+    <string name="gmic_param_z_light">ซี ไลท์</string>
 </resources>

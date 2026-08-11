@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Korduv vältimine</string>
     <string name="photomosaic_max_tiles">Maksimaalne lähtekujutis</string>
     <string name="search_keywords_photomosaic">fotomosaiikplaadid kollaažialbumi ruudustik taasloo</string>
+    <string name="gmic_filter_blocks_3d">3D plokid</string>
+    <string name="gmic_commands_info">Käsud ja parameetrid</string>
+    <string name="gmic_commands_title">Käsud</string>
+    <string name="gmic_commands_count">%1$s · %2$d käsud</string>
+    <string name="gmic_parameters">Parameetrid</string>
+    <string name="gmic_default_value">Vaikimisi: %1$s</string>
+    <string name="gmic_value_range">Vahemik: %1$s…%2$s</string>
+    <string name="gmic_choices">Valikud: %1$s</string>
+    <string name="gmic_param_elevation">Kõrgus</string>
+    <string name="gmic_param_fov">Vaateväli</string>
+    <string name="gmic_param_specular_shininess">Spekulaarne sära</string>
+    <string name="gmic_param_tilt">Kallutage</string>
+    <string name="gmic_param_use_light">Kasutage valgust</string>
+    <string name="gmic_param_x_light">X Valgus</string>
+    <string name="gmic_param_y_light">Y Valgus</string>
+    <string name="gmic_param_z_light">Z Valgus</string>
 </resources>

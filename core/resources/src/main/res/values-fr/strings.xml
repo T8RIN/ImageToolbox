@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Répéter l\'évitement</string>
     <string name="photomosaic_max_tiles">Images sources maximales</string>
     <string name="search_keywords_photomosaic">photo mosaïque carreaux collage album grille recréer</string>
+    <string name="gmic_filter_blocks_3d">Blocs 3D</string>
+    <string name="gmic_commands_info">Commandes et paramètres</string>
+    <string name="gmic_commands_title">Commandes</string>
+    <string name="gmic_commands_count">%1$s · %2$d commandes</string>
+    <string name="gmic_parameters">Paramètres</string>
+    <string name="gmic_default_value">Par défaut : %1$s</string>
+    <string name="gmic_value_range">Plage : %1$s…%2$s</string>
+    <string name="gmic_choices">Options : %1$s</string>
+    <string name="gmic_param_elevation">Élévation</string>
+    <string name="gmic_param_fov">Champ de vision</string>
+    <string name="gmic_param_specular_shininess">Brillance spéculaire</string>
+    <string name="gmic_param_tilt">Inclinaison</string>
+    <string name="gmic_param_use_light">Utiliser la lumière</string>
+    <string name="gmic_param_x_light">X-Lumière</string>
+    <string name="gmic_param_y_light">Lumière Y</string>
+    <string name="gmic_param_z_light">Lumière Z</string>
 </resources>

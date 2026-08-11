@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Қайталанудан аулақ болу</string>
     <string name="photomosaic_max_tiles">Максималды бастапқы кескіндер</string>
     <string name="search_keywords_photomosaic">фото мозаикалық плиткалар коллаж альбом торын қайта жасайды</string>
+    <string name="gmic_filter_blocks_3d">3D блоктары</string>
+    <string name="gmic_commands_info">Командалар мен параметрлер</string>
+    <string name="gmic_commands_title">Командалар</string>
+    <string name="gmic_commands_count">%1$s · %2$d пәрмендері</string>
+    <string name="gmic_parameters">Параметрлер</string>
+    <string name="gmic_default_value">Әдепкі: %1$s</string>
+    <string name="gmic_value_range">Ауқым: %1$s…%2$s</string>
+    <string name="gmic_choices">Опциялар: %1$s</string>
+    <string name="gmic_param_elevation">Биіктігі</string>
+    <string name="gmic_param_fov">Көру өрісі</string>
+    <string name="gmic_param_specular_shininess">Айналмалы жылтырлық</string>
+    <string name="gmic_param_tilt">Еңкейту</string>
+    <string name="gmic_param_use_light">Жарық пайдаланыңыз</string>
+    <string name="gmic_param_x_light">X Жарық</string>
+    <string name="gmic_param_y_light">Y Жарық</string>
+    <string name="gmic_param_z_light">Z Жарық</string>
 </resources>

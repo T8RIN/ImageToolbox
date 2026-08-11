@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">重複避免</string>
     <string name="photomosaic_max_tiles">最大源影像數</string>
     <string name="search_keywords_photomosaic">照片馬賽克磁磚拼貼專輯網格重新創建</string>
+    <string name="gmic_filter_blocks_3d">3D 區塊</string>
+    <string name="gmic_commands_info">命令和參數</string>
+    <string name="gmic_commands_title">命令</string>
+    <string name="gmic_commands_count">%1$s · %2$d 指令</string>
+    <string name="gmic_parameters">參數</string>
+    <string name="gmic_default_value">預設值：%1$s</string>
+    <string name="gmic_value_range">範圍：%1$s…%2$s</string>
+    <string name="gmic_choices">選項：%1$s</string>
+    <string name="gmic_param_elevation">海拔</string>
+    <string name="gmic_param_fov">視野</string>
+    <string name="gmic_param_specular_shininess">鏡面光澤度</string>
+    <string name="gmic_param_tilt">傾斜</string>
+    <string name="gmic_param_use_light">使用光</string>
+    <string name="gmic_param_x_light">X光</string>
+    <string name="gmic_param_y_light">Y光</string>
+    <string name="gmic_param_z_light">Z光</string>
 </resources>

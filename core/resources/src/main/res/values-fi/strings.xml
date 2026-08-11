@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Toista välttäminen</string>
     <string name="photomosaic_max_tiles">Suurin sallittu lähdekuvia</string>
     <string name="search_keywords_photomosaic">valokuvamosaiikkilaatat kollaasi albumin ruudukko luo uudelleen</string>
+    <string name="gmic_filter_blocks_3d">3D-lohkot</string>
+    <string name="gmic_commands_info">Komennot ja parametrit</string>
+    <string name="gmic_commands_title">komennot</string>
+    <string name="gmic_commands_count">%1$s · %2$d komennot</string>
+    <string name="gmic_parameters">Parametrit</string>
+    <string name="gmic_default_value">Oletus: %1$s</string>
+    <string name="gmic_value_range">Alue: %1$s…%2$s</string>
+    <string name="gmic_choices">Vaihtoehdot: %1$s</string>
+    <string name="gmic_param_elevation">Korkeus</string>
+    <string name="gmic_param_fov">Näkökenttä</string>
+    <string name="gmic_param_specular_shininess">Spekulaarista kiiltoa</string>
+    <string name="gmic_param_tilt">Kallistaa</string>
+    <string name="gmic_param_use_light">Käytä valoa</string>
+    <string name="gmic_param_x_light">X Valo</string>
+    <string name="gmic_param_y_light">Y Valo</string>
+    <string name="gmic_param_z_light">Z Light</string>
 </resources>

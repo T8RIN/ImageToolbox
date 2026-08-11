@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Wiederholen Sie die Vermeidung</string>
     <string name="photomosaic_max_tiles">Maximale Quellbilder</string>
     <string name="search_keywords_photomosaic">Fotomosaikfliesen Collage Album Raster neu erstellen</string>
+    <string name="gmic_filter_blocks_3d">3D-Blöcke</string>
+    <string name="gmic_commands_info">Befehle und Parameter</string>
+    <string name="gmic_commands_title">Befehle</string>
+    <string name="gmic_commands_count">%1$s · %2$d Befehle</string>
+    <string name="gmic_parameters">Parameter</string>
+    <string name="gmic_default_value">Standard: %1$s</string>
+    <string name="gmic_value_range">Bereich: %1$s…%2$s</string>
+    <string name="gmic_choices">Optionen: %1$s</string>
+    <string name="gmic_param_elevation">Elevation</string>
+    <string name="gmic_param_fov">Sichtfeld</string>
+    <string name="gmic_param_specular_shininess">Spiegelnder Glanz</string>
+    <string name="gmic_param_tilt">Neigung</string>
+    <string name="gmic_param_use_light">Benutze Licht</string>
+    <string name="gmic_param_x_light">X Licht</string>
+    <string name="gmic_param_y_light">Y-Licht</string>
+    <string name="gmic_param_z_light">Z-Licht</string>
 </resources>

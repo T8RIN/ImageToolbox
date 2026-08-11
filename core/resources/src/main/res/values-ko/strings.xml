@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">반복 회피</string>
     <string name="photomosaic_max_tiles">최대 소스 이미지</string>
     <string name="search_keywords_photomosaic">사진 모자이크 타일 콜라주 앨범 그리드 다시 만들기</string>
+    <string name="gmic_filter_blocks_3d">3D 블록</string>
+    <string name="gmic_commands_info">명령 및 매개변수</string>
+    <string name="gmic_commands_title">명령</string>
+    <string name="gmic_commands_count">%1$s · %2$d 명령</string>
+    <string name="gmic_parameters">매개변수</string>
+    <string name="gmic_default_value">기본값: %1$s</string>
+    <string name="gmic_value_range">범위: %1$s…%2$s</string>
+    <string name="gmic_choices">옵션: %1$s</string>
+    <string name="gmic_param_elevation">높이</string>
+    <string name="gmic_param_fov">시야</string>
+    <string name="gmic_param_specular_shininess">반사광 광택</string>
+    <string name="gmic_param_tilt">경사</string>
+    <string name="gmic_param_use_light">빛을 사용하다</string>
+    <string name="gmic_param_x_light">X 라이트</string>
+    <string name="gmic_param_y_light">Y 라이트</string>
+    <string name="gmic_param_z_light">Z 라이트</string>
 </resources>

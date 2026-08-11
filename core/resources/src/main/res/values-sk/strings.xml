@@ -4868,4 +4868,20 @@
     <string name="photomosaic_repeat_distance">Opakované vyhýbanie sa</string>
     <string name="photomosaic_max_tiles">Maximálny počet zdrojových obrázkov</string>
     <string name="search_keywords_photomosaic">foto mozaikové dlaždice koláž album mriežka obnoviť</string>
+    <string name="gmic_filter_blocks_3d">3D bloky</string>
+    <string name="gmic_commands_info">Príkazy a parametre</string>
+    <string name="gmic_commands_title">Príkazy</string>
+    <string name="gmic_commands_count">%1$s · %2$d príkazy</string>
+    <string name="gmic_parameters">Parametre</string>
+    <string name="gmic_default_value">Predvolená hodnota: %1$s</string>
+    <string name="gmic_value_range">Rozsah: %1$s…%2$s</string>
+    <string name="gmic_choices">Možnosti: %1$s</string>
+    <string name="gmic_param_elevation">Nadmorská výška</string>
+    <string name="gmic_param_fov">Zorné pole</string>
+    <string name="gmic_param_specular_shininess">Zrkadlový lesk</string>
+    <string name="gmic_param_tilt">Nakloniť</string>
+    <string name="gmic_param_use_light">Použite Svetlo</string>
+    <string name="gmic_param_x_light">X svetlo</string>
+    <string name="gmic_param_y_light">Y Svetlo</string>
+    <string name="gmic_param_z_light">Z Light</string>
 </resources>

@@ -4868,4 +4868,20 @@
     <string name="photomosaic_repeat_distance">חזור על הימנעות</string>
     <string name="photomosaic_max_tiles">מקסימום תמונות מקור</string>
     <string name="search_keywords_photomosaic">אריחי פסיפס תמונה קולאז\' רשת אלבום ליצור מחדש</string>
+    <string name="gmic_filter_blocks_3d">בלוקים תלת מימדיים</string>
+    <string name="gmic_commands_info">פקודות ופרמטרים</string>
+    <string name="gmic_commands_title">פקודות</string>
+    <string name="gmic_commands_count">%1$s · %2$d פקודות</string>
+    <string name="gmic_parameters">פרמטרים</string>
+    <string name="gmic_default_value">ברירת מחדל: %1$s</string>
+    <string name="gmic_value_range">טווח: %1$s…%2$s</string>
+    <string name="gmic_choices">אפשרויות: %1$s</string>
+    <string name="gmic_param_elevation">גוֹבַה</string>
+    <string name="gmic_param_fov">שדה ראיה</string>
+    <string name="gmic_param_specular_shininess">זוהר מרהיב</string>
+    <string name="gmic_param_tilt">לְהַטוֹת</string>
+    <string name="gmic_param_use_light">השתמש באור</string>
+    <string name="gmic_param_x_light">X אור</string>
+    <string name="gmic_param_y_light">Y אור</string>
+    <string name="gmic_param_z_light">Z אור</string>
 </resources>

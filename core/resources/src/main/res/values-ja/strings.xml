@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">繰り返し回避</string>
     <string name="photomosaic_max_tiles">最大ソース画像</string>
     <string name="search_keywords_photomosaic">写真モザイクタイルコラージュアルバムグリッド再作成</string>
+    <string name="gmic_filter_blocks_3d">3Dブロック</string>
+    <string name="gmic_commands_info">コマンドとパラメータ</string>
+    <string name="gmic_commands_title">コマンド</string>
+    <string name="gmic_commands_count">%1$s · %2$d コマンド</string>
+    <string name="gmic_parameters">パラメータ</string>
+    <string name="gmic_default_value">デフォルト: %1$s</string>
+    <string name="gmic_value_range">範囲: %1$s…%2$s</string>
+    <string name="gmic_choices">オプション: %1$s</string>
+    <string name="gmic_param_elevation">標高</string>
+    <string name="gmic_param_fov">視野</string>
+    <string name="gmic_param_specular_shininess">鏡面光沢</string>
+    <string name="gmic_param_tilt">傾ける</string>
+    <string name="gmic_param_use_light">光を使う</string>
+    <string name="gmic_param_x_light">Xライト</string>
+    <string name="gmic_param_y_light">Yライト</string>
+    <string name="gmic_param_z_light">ゼットライト</string>
 </resources>

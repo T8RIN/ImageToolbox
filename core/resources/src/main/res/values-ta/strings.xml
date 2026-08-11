@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">மீண்டும் தவிர்க்கவும்</string>
     <string name="photomosaic_max_tiles">அதிகபட்ச மூலப் படங்கள்</string>
     <string name="search_keywords_photomosaic">புகைப்பட மொசைக் டைல்ஸ் படத்தொகுப்பு ஆல்பம் கட்டம் மீண்டும் உருவாக்கவும்</string>
+    <string name="gmic_filter_blocks_3d">3D தொகுதிகள்</string>
+    <string name="gmic_commands_info">கட்டளைகள் மற்றும் அளவுருக்கள்</string>
+    <string name="gmic_commands_title">கட்டளைகள்</string>
+    <string name="gmic_commands_count">%1$s · %2$d கட்டளைகள்</string>
+    <string name="gmic_parameters">அளவுருக்கள்</string>
+    <string name="gmic_default_value">இயல்புநிலை: %1$s</string>
+    <string name="gmic_value_range">வரம்பு: %1$s%2$s</string>
+    <string name="gmic_choices">விருப்பங்கள்: %1$s</string>
+    <string name="gmic_param_elevation">உயரம்</string>
+    <string name="gmic_param_fov">பார்வை புலம்</string>
+    <string name="gmic_param_specular_shininess">கண்கவர் பளபளப்பு</string>
+    <string name="gmic_param_tilt">சாய்வு</string>
+    <string name="gmic_param_use_light">ஒளியைப் பயன்படுத்தவும்</string>
+    <string name="gmic_param_x_light">எக்ஸ் லைட்</string>
+    <string name="gmic_param_y_light">ஒய் லைட்</string>
+    <string name="gmic_param_z_light">Z லைட்</string>
 </resources>

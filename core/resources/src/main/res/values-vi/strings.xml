@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">Tránh lặp lại</string>
     <string name="photomosaic_max_tiles">Hình ảnh nguồn tối đa</string>
     <string name="search_keywords_photomosaic">ảnh khảm gạch cắt dán album lưới tái tạo</string>
+    <string name="gmic_filter_blocks_3d">Khối 3D</string>
+    <string name="gmic_commands_info">Lệnh và tham số</string>
+    <string name="gmic_commands_title">Lệnh</string>
+    <string name="gmic_commands_count">%1$s · %2$d lệnh</string>
+    <string name="gmic_parameters">Thông số</string>
+    <string name="gmic_default_value">Mặc định: %1$s</string>
+    <string name="gmic_value_range">Phạm vi: %1$s…%2$s</string>
+    <string name="gmic_choices">Tùy chọn: %1$s</string>
+    <string name="gmic_param_elevation">Độ cao</string>
+    <string name="gmic_param_fov">Trường nhìn</string>
+    <string name="gmic_param_specular_shininess">Độ bóng đặc biệt</string>
+    <string name="gmic_param_tilt">Nghiêng</string>
+    <string name="gmic_param_use_light">Sử dụng ánh sáng</string>
+    <string name="gmic_param_x_light">Ánh sáng X</string>
+    <string name="gmic_param_y_light">Ánh sáng Y</string>
+    <string name="gmic_param_z_light">Ánh sáng Z</string>
 </resources>

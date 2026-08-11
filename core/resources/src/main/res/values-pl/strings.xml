@@ -4868,4 +4868,20 @@
     <string name="photomosaic_repeat_distance">Powtórz unikanie</string>
     <string name="photomosaic_max_tiles">Maksymalne obrazy źródłowe</string>
     <string name="search_keywords_photomosaic">odtwórz siatkę albumów z mozaikami fotograficznymi</string>
+    <string name="gmic_filter_blocks_3d">Bloki 3D</string>
+    <string name="gmic_commands_info">Polecenia i parametry</string>
+    <string name="gmic_commands_title">Polecenia</string>
+    <string name="gmic_commands_count">%1$s · %2$d polecenia</string>
+    <string name="gmic_parameters">Parametry</string>
+    <string name="gmic_default_value">Wartość domyślna: %1$s</string>
+    <string name="gmic_value_range">Zakres: %1$s…%2$s</string>
+    <string name="gmic_choices">Opcje: %1$s</string>
+    <string name="gmic_param_elevation">Podniesienie</string>
+    <string name="gmic_param_fov">Pole widzenia</string>
+    <string name="gmic_param_specular_shininess">Odblaskowy połysk</string>
+    <string name="gmic_param_tilt">Nachylenie</string>
+    <string name="gmic_param_use_light">Użyj Światła</string>
+    <string name="gmic_param_x_light">X Światło</string>
+    <string name="gmic_param_y_light">Y Światło</string>
+    <string name="gmic_param_z_light">Światło Z</string>
 </resources>

@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">Gentag undgåelse</string>
     <string name="photomosaic_max_tiles">Maksimal kildebilleder</string>
     <string name="search_keywords_photomosaic">foto mosaik fliser collage album gitter genskabe</string>
+    <string name="gmic_filter_blocks_3d">3D blokke</string>
+    <string name="gmic_commands_info">Kommandoer og parametre</string>
+    <string name="gmic_commands_title">Kommandoer</string>
+    <string name="gmic_commands_count">%1$s · %2$d kommandoer</string>
+    <string name="gmic_parameters">Parametre</string>
+    <string name="gmic_default_value">Standard: %1$s</string>
+    <string name="gmic_value_range">Interval: %1$s…%2$s</string>
+    <string name="gmic_choices">Valgmuligheder: %1$s</string>
+    <string name="gmic_param_elevation">Højde</string>
+    <string name="gmic_param_fov">Synsfelt</string>
+    <string name="gmic_param_specular_shininess">Spekulær glans</string>
+    <string name="gmic_param_tilt">Tilt</string>
+    <string name="gmic_param_use_light">Brug lys</string>
+    <string name="gmic_param_x_light">X lys</string>
+    <string name="gmic_param_y_light">Y Lys</string>
+    <string name="gmic_param_z_light">Z lys</string>
 </resources>

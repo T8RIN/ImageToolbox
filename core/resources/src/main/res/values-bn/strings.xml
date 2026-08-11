@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">পুনরাবৃত্তি পরিহার</string>
     <string name="photomosaic_max_tiles">সর্বাধিক উত্স ছবি</string>
     <string name="search_keywords_photomosaic">ছবির মোজাইক টাইলস কোলাজ অ্যালবাম গ্রিড পুনরায় তৈরি</string>
+    <string name="gmic_filter_blocks_3d">3D ব্লক</string>
+    <string name="gmic_commands_info">কমান্ড এবং পরামিতি</string>
+    <string name="gmic_commands_title">কমান্ড</string>
+    <string name="gmic_commands_count">%1$s · %2$d কমান্ড</string>
+    <string name="gmic_parameters">পরামিতি</string>
+    <string name="gmic_default_value">ডিফল্ট: %1$s</string>
+    <string name="gmic_value_range">ব্যাপ্তি: %1$s…%2$s</string>
+    <string name="gmic_choices">বিকল্প: %1$s</string>
+    <string name="gmic_param_elevation">উচ্চতা</string>
+    <string name="gmic_param_fov">দেখার ক্ষেত্র</string>
+    <string name="gmic_param_specular_shininess">স্পেকুলার চকচকেতা</string>
+    <string name="gmic_param_tilt">কাত</string>
+    <string name="gmic_param_use_light">আলো ব্যবহার করুন</string>
+    <string name="gmic_param_x_light">এক্স লাইট</string>
+    <string name="gmic_param_y_light">ওয়াই লাইট</string>
+    <string name="gmic_param_z_light">জেড লাইট</string>
 </resources>

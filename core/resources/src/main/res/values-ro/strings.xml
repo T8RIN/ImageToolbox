@@ -4867,4 +4867,20 @@
     <string name="photomosaic_repeat_distance">Repetați evitarea</string>
     <string name="photomosaic_max_tiles">Imagini sursă maximă</string>
     <string name="search_keywords_photomosaic">foto mozaic plăci colaj album grilă recrea</string>
+    <string name="gmic_filter_blocks_3d">Blocuri 3D</string>
+    <string name="gmic_commands_info">Comenzi și parametri</string>
+    <string name="gmic_commands_title">Comenzi</string>
+    <string name="gmic_commands_count">%1$s · %2$d comenzi</string>
+    <string name="gmic_parameters">Parametrii</string>
+    <string name="gmic_default_value">Implicit: %1$s</string>
+    <string name="gmic_value_range">Interval: %1$s…%2$s</string>
+    <string name="gmic_choices">Opțiuni: %1$s</string>
+    <string name="gmic_param_elevation">Altitudinea</string>
+    <string name="gmic_param_fov">Câmp de vedere</string>
+    <string name="gmic_param_specular_shininess">Strălucire speculară</string>
+    <string name="gmic_param_tilt">Înclinare</string>
+    <string name="gmic_param_use_light">Folosește Lumină</string>
+    <string name="gmic_param_x_light">X Lumină</string>
+    <string name="gmic_param_y_light">Y Lumină</string>
+    <string name="gmic_param_z_light">Z Lumină</string>
 </resources>

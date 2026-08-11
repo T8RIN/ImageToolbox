@@ -4870,4 +4870,20 @@
     <string name="photomosaic_repeat_distance">كرر التجنب</string>
     <string name="photomosaic_max_tiles">الحد الأقصى للصور المصدر</string>
     <string name="search_keywords_photomosaic">إعادة إنشاء شبكة ألبوم صور بلاط الموزاييك</string>
+    <string name="gmic_filter_blocks_3d">كتل ثلاثية الأبعاد</string>
+    <string name="gmic_commands_info">الأوامر والمعلمات</string>
+    <string name="gmic_commands_title">الأوامر</string>
+    <string name="gmic_commands_count">%1$s · %2$d الأوامر</string>
+    <string name="gmic_parameters">حدود</string>
+    <string name="gmic_default_value">الافتراضي: %1$s</string>
+    <string name="gmic_value_range">النطاق: %1$s…%2$s</string>
+    <string name="gmic_choices">الخيارات: %1$s</string>
+    <string name="gmic_param_elevation">ارتفاع</string>
+    <string name="gmic_param_fov">مجال الرؤية</string>
+    <string name="gmic_param_specular_shininess">لمعان براق</string>
+    <string name="gmic_param_tilt">إمالة</string>
+    <string name="gmic_param_use_light">استخدم الضوء</string>
+    <string name="gmic_param_x_light">X لايت</string>
+    <string name="gmic_param_y_light">واي لايت</string>
+    <string name="gmic_param_z_light">زي لايت</string>
 </resources>

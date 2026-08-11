@@ -4865,4 +4865,20 @@
     <string name="photomosaic_repeat_distance">Penghindaran berulang</string>
     <string name="photomosaic_max_tiles">Gambar sumber maksimal</string>
     <string name="search_keywords_photomosaic">foto mosaik ubin kolase album grid dibuat ulang</string>
+    <string name="gmic_filter_blocks_3d">Blok 3D</string>
+    <string name="gmic_commands_info">Perintah dan parameter</string>
+    <string name="gmic_commands_title">Perintah</string>
+    <string name="gmic_commands_count">%1$s · %2$d perintah</string>
+    <string name="gmic_parameters">Parameter</string>
+    <string name="gmic_default_value">Bawaan: %1$s</string>
+    <string name="gmic_value_range">Rentang: %1$s…%2$s</string>
+    <string name="gmic_choices">Pilihan: %1$s</string>
+    <string name="gmic_param_elevation">Ketinggian</string>
+    <string name="gmic_param_fov">Bidang Pandang</string>
+    <string name="gmic_param_specular_shininess">Kecemerlangan Spektakuler</string>
+    <string name="gmic_param_tilt">Memiringkan</string>
+    <string name="gmic_param_use_light">Gunakan Cahaya</string>
+    <string name="gmic_param_x_light">X Cahaya</string>
+    <string name="gmic_param_y_light">kamu ringan</string>
+    <string name="gmic_param_z_light">Z Cahaya</string>
 </resources>

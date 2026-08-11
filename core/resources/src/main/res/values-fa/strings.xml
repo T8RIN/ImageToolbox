@@ -4866,4 +4866,20 @@
     <string name="photomosaic_repeat_distance">تکرار اجتناب</string>
     <string name="photomosaic_max_tiles">حداکثر تصاویر منبع</string>
     <string name="search_keywords_photomosaic">عکس موزاییک کاشی کلاژ آلبوم شبکه بازآفرینی</string>
+    <string name="gmic_filter_blocks_3d">بلوک های سه بعدی</string>
+    <string name="gmic_commands_info">دستورات و پارامترها</string>
+    <string name="gmic_commands_title">دستورات</string>
+    <string name="gmic_commands_count">%1$s · دستورات %2$d</string>
+    <string name="gmic_parameters">پارامترها</string>
+    <string name="gmic_default_value">پیش فرض: %1$s</string>
+    <string name="gmic_value_range">محدوده: %1$s…%2$s</string>
+    <string name="gmic_choices">گزینه ها: %1$s</string>
+    <string name="gmic_param_elevation">ارتفاع</string>
+    <string name="gmic_param_fov">میدان دید</string>
+    <string name="gmic_param_specular_shininess">درخشندگی چشمگیر</string>
+    <string name="gmic_param_tilt">کج کردن</string>
+    <string name="gmic_param_use_light">از نور استفاده کنید</string>
+    <string name="gmic_param_x_light">ایکس نور</string>
+    <string name="gmic_param_y_light">Y Light</string>
+    <string name="gmic_param_z_light">Z Light</string>
 </resources>

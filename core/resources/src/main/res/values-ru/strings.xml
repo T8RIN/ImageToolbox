@@ -4868,4 +4868,20 @@
     <string name="photomosaic_repeat_distance">Повторное избегание</string>
     <string name="photomosaic_max_tiles">Максимальное количество исходных изображений</string>
     <string name="search_keywords_photomosaic">фото мозаика плитка коллаж альбом сетка воссоздать</string>
+    <string name="gmic_filter_blocks_3d">3D-блоки</string>
+    <string name="gmic_commands_info">Команды и параметры</string>
+    <string name="gmic_commands_title">Команды</string>
+    <string name="gmic_commands_count">%1$s · %2$d команд</string>
+    <string name="gmic_parameters">Параметры</string>
+    <string name="gmic_default_value">По умолчанию: %1$s</string>
+    <string name="gmic_value_range">Диапазон: %1$s…%2$s</string>
+    <string name="gmic_choices">Опции: %1$s</string>
+    <string name="gmic_param_elevation">Высота</string>
+    <string name="gmic_param_fov">Поле зрения</string>
+    <string name="gmic_param_specular_shininess">Зеркальный блеск</string>
+    <string name="gmic_param_tilt">Наклон</string>
+    <string name="gmic_param_use_light">Используйте свет</string>
+    <string name="gmic_param_x_light">Х Свет</string>
+    <string name="gmic_param_y_light">Y Свет</string>
+    <string name="gmic_param_z_light">Z Свет</string>
 </resources>
