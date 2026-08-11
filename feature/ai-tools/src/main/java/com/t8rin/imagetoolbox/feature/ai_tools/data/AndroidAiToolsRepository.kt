@@ -86,6 +86,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
+    private val depthProcessor: DepthProcessor,
     private val styleTransferProcessor: StyleTransferProcessor,
     private val optimizationStyleTransferProcessor: OptimizationStyleTransferProcessor,
     private val keepAliveService: KeepAliveService,
@@ -346,6 +347,23 @@ internal class AndroidAiToolsRepository @Inject constructor(
                                 null
                             }
                         }
+                    )
+                }
+            }
+
+            model.type == NeuralModel.Type.DEPTH -> {
+                processImage {
+                    val ortSession = session.makeLog("Held session")
+                        ?: createSession(selectedModel.value).makeLog("New session")
+                        ?: return@withContext null.also {
+                            listener.onError(getString(R.string.failed_to_open_session))
+                        }
+
+                    depthProcessor.process(
+                        session = ortSession,
+                        source = image,
+                        params = params.depthParams,
+                        listener = listener
                     )
                 }
             }

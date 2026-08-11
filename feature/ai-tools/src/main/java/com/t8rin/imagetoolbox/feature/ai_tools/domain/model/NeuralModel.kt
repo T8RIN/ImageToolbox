@@ -42,13 +42,13 @@ data class NeuralModel(
 
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
-                isUvDocUnwarper || isStyleTransfer
+                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
     enum class Type {
         UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS,
-        STYLE_TRANSFER
+        STYLE_TRANSFER, DEPTH
     }
 
     sealed interface Speed {
@@ -88,6 +88,33 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vits_q4.onnx"),
+                    title = "Depth Anything V2 Small",
+                    description = R.string.model_depth_anything_v2_small,
+                    type = Type.DEPTH,
+                    downloadSize = 27_404_416,
+                    speed = Speed.Normal(2.5f),
+                    checksum = "5d55b02762e1907589158af3e366bd61ddf648155852a07bbf5e3a074639fcf8"
+                ),
+                NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vitb_q4.onnx"),
+                    title = "Depth Anything V2 Base",
+                    description = R.string.model_depth_anything_v2_base,
+                    type = Type.DEPTH,
+                    downloadSize = 102_269_714,
+                    speed = Speed.Slow(8f),
+                    checksum = "af9d3df88b2a0776a5c512bd98f4c1d94cc1328b6334745b196de38b0da2468d"
+                ),
+                NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vitl_q4.onnx"),
+                    title = "Depth Anything V2 Large",
+                    description = R.string.model_depth_anything_v2_large,
+                    type = Type.DEPTH,
+                    downloadSize = 317_720_789,
+                    speed = Speed.VerySlow(25f),
+                    checksum = "995173eacf031473a88682e0f5d5c3c984c64a270ca6e669228dc790b0448ce0"
+                ),
                 NeuralModel(
                     downloadLink = res("arbitrary_style_transfer_onnx.zip"),
                     title = "Arbitrary Style Transfer",

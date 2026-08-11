@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.SavableNeuralParams
@@ -125,9 +126,16 @@ class AiToolsComponent @AssistedInject internal constructor(
         initial = SavableNeuralParams.Default
     )
     private val savableParams by _params
+    private val _depthParams = fileController.savable(
+        scope = componentScope,
+        initial = DepthParams.Default
+    )
+    val depthParams by _depthParams
     private val auxiliaryImage = mutableStateOf<String?>(null)
     val params: NeuralParams
-        get() = savableParams.withAuxiliaryImage(auxiliaryImage.value)
+        get() = savableParams.withAuxiliaryImage(auxiliaryImage.value).copy(
+            depthParams = depthParams
+        )
     val styleUri: Uri?
         get() = auxiliaryImage.value?.toUri()
 
@@ -222,6 +230,13 @@ class AiToolsComponent @AssistedInject internal constructor(
         action: SavableNeuralParams.() -> SavableNeuralParams
     ) {
         _params.update { action(it) }
+        registerChanges()
+    }
+
+    fun updateDepthParams(
+        action: DepthParams.() -> DepthParams
+    ) {
+        _depthParams.update { action(it) }
         registerChanges()
     }
 

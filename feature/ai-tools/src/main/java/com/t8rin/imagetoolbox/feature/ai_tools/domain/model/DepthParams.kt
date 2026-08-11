@@ -17,41 +17,29 @@
 
 package com.t8rin.imagetoolbox.feature.ai_tools.domain.model
 
-data class NeuralParams(
+data class DepthParams(
+    val effect: DepthEffect,
     val strength: Float,
-    val chunkSize: Int,
-    val overlap: Int,
-    val enableChunking: Boolean,
-    val parallelWorkers: Int = 0,
-    val auxiliaryImage: String? = null,
-    val depthParams: DepthParams = DepthParams.Default
-)
-
-data class SavableNeuralParams(
-    val strength: Float,
-    val chunkSize: Int,
-    val overlap: Int,
-    val enableChunking: Boolean,
-    val parallelWorkers: Int = 0
+    val focus: Float,
+    val focusRange: Float,
+    val lightAngle: Float
 ) {
     companion object {
         val Default by lazy {
-            SavableNeuralParams(
+            DepthParams(
+                effect = DepthEffect.Map,
                 strength = 65f,
-                chunkSize = 512,
-                overlap = 16,
-                enableChunking = true,
-                parallelWorkers = 0
+                focus = 65f,
+                focusRange = 18f,
+                lightAngle = 315f
             )
         }
     }
 }
 
-fun SavableNeuralParams.withAuxiliaryImage(auxiliaryImage: String?): NeuralParams = NeuralParams(
-    strength = strength,
-    chunkSize = chunkSize,
-    overlap = overlap,
-    enableChunking = enableChunking,
-    parallelWorkers = parallelWorkers,
-    auxiliaryImage = auxiliaryImage
-)
+enum class DepthEffect {
+    Map,
+    LensBlur,
+    Fog,
+    Relight
+}

@@ -59,6 +59,7 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     val downloadedModels by component.downloadedModels.collectAsStateWithLifecycle()
     val notDownloadedModels by component.notDownloadedModels.collectAsStateWithLifecycle()
     val occupiedStorageSize by component.occupiedStorageSize.collectAsStateWithLifecycle()
+    val isDepthModel = selectedModel?.type == NeuralModel.Type.DEPTH
     val isModelChunkable = selectedModel?.isNonChunkable != true
     val isChunkable = isModelChunkable && component.params.enableChunking
 
@@ -84,6 +85,19 @@ internal fun AiToolsControls(component: AiToolsComponent) {
             onValueChange = component::updateStyleUri,
             title = stringResource(R.string.style_image),
             subtitle = stringResource(R.string.style_image_subtitle),
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+
+    AnimatedVisibility(
+        visible = isDepthModel,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        DepthParamsSelector(
+            value = component.depthParams,
+            onValueChange = { updated ->
+                component.updateDepthParams { updated }
+            },
             modifier = Modifier.padding(top = 8.dp)
         )
     }
@@ -200,12 +214,10 @@ internal fun AiToolsControls(component: AiToolsComponent) {
     Spacer(Modifier.height(8.dp))
 
     InfoContainer(
-        text = if (isChunkable) {
-            stringResource(R.string.note_chunk_info, component.params.chunkSize)
-        } else if (!isModelChunkable) {
-            stringResource(R.string.current_model_not_chunkable)
-        } else {
-            stringResource(R.string.chunking_disabled)
+        text = when {
+            isChunkable -> stringResource(R.string.note_chunk_info, component.params.chunkSize)
+            !isModelChunkable -> stringResource(R.string.current_model_not_chunkable)
+            else -> stringResource(R.string.chunking_disabled)
         },
         containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
         contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f)
