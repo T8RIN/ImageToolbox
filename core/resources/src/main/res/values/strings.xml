@@ -4941,6 +4941,9 @@
     <string name="model_depth_anything_v2_small">Fast 24.8M parameter depth model for most photos</string>
     <string name="model_depth_anything_v2_base">Detailed 97.5M parameter depth model.</string>
     <string name="model_depth_anything_v2_large">Highest-detail 335.3M parameter depth model.</string>
+    <string name="model_depth_anything_v3_small">Compact next-generation model with improved scene geometry and object boundaries.</string>
+    <string name="model_depth_anything_v3_base">More stable depth and finer details for complex scenes.</string>
+    <string name="model_depth_anything_v3_large">Maximum geometry quality and detail from the Depth Anything 3 series.</string>
     <string name="depth_result">Depth result</string>
     <string name="depth_map">Depth map</string>
     <string name="depth_blur">Depth blur</string>
@@ -4949,8 +4952,15 @@
     <string name="depth_fog_sub">Add atmospheric haze that grows stronger with distance</string>
     <string name="depth_relight">Relight</string>
     <string name="depth_relight_sub">Build directional light and shadow from the estimated scene relief</string>
+    <string name="depth_normal_map">Normals</string>
+    <string name="depth_normal_map_sub">Create an RGB normal map for 3D, texturing and displacement workflows</string>
+    <string name="depth_stereo">3D</string>
+    <string name="depth_stereo_sub">Generate a red-cyan stereoscopic view with parallax driven by scene depth</string>
     <string name="depth_focus">Focus depth</string>
     <string name="depth_focus_range">Focus range</string>
+    <string name="depth_zero_plane">Zero parallax plane</string>
+    <string name="depth_3d_strength">3D depth</string>
+    <string name="relief_strength">Relief</string>
     <string name="blur_strength">Blur strength</string>
     <string name="light_angle">Light angle</string>
 </resources>

@@ -91,8 +91,19 @@ internal fun DepthParamsSelector(
                 when (effect) {
                     DepthEffect.Map -> Unit
                     DepthEffect.LensBlur -> LensBlurControls(value, onValueChange)
-                    DepthEffect.Fog -> StrengthControl(value, onValueChange)
+                    DepthEffect.Fog -> StrengthControl(
+                        value = value,
+                        onValueChange = onValueChange,
+                        title = stringResource(R.string.strength)
+                    )
                     DepthEffect.Relight -> RelightControls(value, onValueChange)
+                    DepthEffect.NormalMap -> StrengthControl(
+                        value = value,
+                        onValueChange = onValueChange,
+                        title = stringResource(R.string.relief_strength)
+                    )
+
+                    DepthEffect.Stereo -> StereoControls(value, onValueChange)
                 }
             }
         }
@@ -139,17 +150,45 @@ private fun LensBlurControls(
 @Composable
 private fun StrengthControl(
     value: DepthParams,
-    onValueChange: (DepthParams) -> Unit
+    onValueChange: (DepthParams) -> Unit,
+    title: String
 ) {
     EnhancedSliderItem(
         value = value.strength,
-        title = stringResource(R.string.strength),
+        title = title,
         icon = Icons.Outlined.Exercise,
         valueRange = 0f..100f,
         steps = 99,
         internalStateTransformation = { it.roundToInt() },
         onValueChange = { onValueChange(value.copy(strength = it)) },
         shape = ShapeDefaults.large
+    )
+}
+
+@Composable
+private fun StereoControls(
+    value: DepthParams,
+    onValueChange: (DepthParams) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value.strength,
+        title = stringResource(R.string.depth_3d_strength),
+        icon = Icons.Outlined.Exercise,
+        valueRange = 0f..100f,
+        steps = 99,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(strength = it)) },
+        shape = ShapeDefaults.byIndex(0, 2)
+    )
+    EnhancedSliderItem(
+        value = value.focus,
+        title = stringResource(R.string.depth_zero_plane),
+        icon = Icons.Rounded.CenterFocusStrong,
+        valueRange = 0f..100f,
+        steps = 99,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(focus = it)) },
+        shape = ShapeDefaults.byIndex(1, 2)
     )
 }
 
@@ -187,6 +226,8 @@ private fun DepthEffect.title(): String = stringResource(
         DepthEffect.LensBlur -> R.string.depth_blur
         DepthEffect.Fog -> R.string.depth_fog
         DepthEffect.Relight -> R.string.depth_relight
+        DepthEffect.NormalMap -> R.string.depth_normal_map
+        DepthEffect.Stereo -> R.string.depth_stereo
     }
 )
 
@@ -197,5 +238,7 @@ private fun DepthEffect.description(): String? = stringResource(
         DepthEffect.LensBlur -> R.string.depth_blur_sub
         DepthEffect.Fog -> R.string.depth_fog_sub
         DepthEffect.Relight -> R.string.depth_relight_sub
+        DepthEffect.NormalMap -> R.string.depth_normal_map_sub
+        DepthEffect.Stereo -> R.string.depth_stereo_sub
     }
 )

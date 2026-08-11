@@ -40,6 +40,8 @@ data class DepthParams(
 enum class DepthEffect {
     Map,
     LensBlur,
+    NormalMap,
+    Stereo,
     Fog,
     Relight
 }
