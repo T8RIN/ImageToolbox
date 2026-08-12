@@ -361,6 +361,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
                     depthProcessor.process(
                         session = ortSession,
+                        model = model,
                         source = image,
                         params = params.depthParams,
                         listener = listener

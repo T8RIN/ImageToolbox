@@ -29,6 +29,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Shader
 import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
@@ -37,6 +38,8 @@ import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthEffect
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel.Type
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -60,6 +63,7 @@ internal class DepthProcessor @Inject constructor(
 
     suspend fun process(
         session: OrtSession,
+        model: NeuralModel,
         source: Bitmap,
         params: DepthParams,
         listener: AiProgressListener
@@ -68,7 +72,7 @@ internal class DepthProcessor @Inject constructor(
             onFailure = { listener.onError(it.extractMessage()) },
             action = {
                 reportProgress(listener, 0)
-                val depth = inferDepth(session, source)
+                val depth = inferDepth(session, model, source)
                 reportProgress(listener, 1)
                 renderEffect(
                     source = source,
@@ -94,11 +98,12 @@ internal class DepthProcessor @Inject constructor(
 
     private suspend fun inferDepth(
         session: OrtSession,
+        model: NeuralModel,
         source: Bitmap
     ): DepthField = coroutineScope {
         val inputName = session.inputNames.firstOrNull()
             ?: error("Depth model has no input tensor")
-        val inputSpec = depthInputSpec(session, inputName)
+        val inputSpec = depthInputSpec(session, inputName, model)
         val input = prepareInput(source, inputSpec)
 
         try {
@@ -120,10 +125,40 @@ internal class DepthProcessor @Inject constructor(
                         "Unexpected depth output size ${depthValues.size}, " +
                                 "expected ${input.bitmap.width * input.bitmap.height}"
                     }
+                    if (
+                        inputSpec.outputContract ==
+                        DepthOutputContract.DirectWithSky
+                    ) {
+                        val skyIndex = result.size() - 1
+                        val skyValues = flattenFloatOutput(result[skyIndex].value)
+                        check(skyValues.size == depthValues.size) {
+                            "Unexpected sky output size ${skyValues.size}, " +
+                                    "expected ${depthValues.size}"
+                        }
+                        applySkyDepth(depthValues, skyValues)
+                    } else if (
+                        inputSpec.outputContract == DepthOutputContract.Direct
+                    ) {
+                        val confidenceIndex = session.outputNames.indexOf("confidence")
+                        if (confidenceIndex >= 0) {
+                            val confidence = flattenFloatOutput(
+                                result[confidenceIndex].value
+                            )
+                            if (confidence.size == depthValues.size) {
+                                suppressUncertainBackground(
+                                    depth = depthValues,
+                                    confidence = confidence,
+                                    width = input.bitmap.width,
+                                    height = input.bitmap.height
+                                )
+                            }
+                        }
+                    }
                     cropDepth(depthValues, input).also { depth ->
                         normalizeDepth(
                             values = depth.values,
-                            directDepth = inputSpec.isDirectDepth
+                            directDepth = inputSpec.outputContract !=
+                                    DepthOutputContract.Disparity
                         )
                     }
                 }
@@ -135,7 +170,8 @@ internal class DepthProcessor @Inject constructor(
 
     private fun depthInputSpec(
         session: OrtSession,
-        inputName: String
+        inputName: String,
+        model: NeuralModel
     ): DepthInputSpec {
         val shape = (session.inputInfo[inputName]?.info as? TensorInfo)?.shape
             ?: error("Depth model input is not a tensor")
@@ -147,7 +183,8 @@ internal class DepthProcessor @Inject constructor(
             rank = shape.size,
             fixedWidth = shape.last().takeIf { it > 0 }?.toInt(),
             fixedHeight = shape[shape.lastIndex - 1].takeIf { it > 0 }?.toInt(),
-            isDirectDepth = shape.size == 5 || session.outputNames.size > 1
+            outputContract = model.depthOutputContract
+                ?: error("Unknown depth output contract for ${model.name}")
         )
     }
 
@@ -167,7 +204,7 @@ internal class DepthProcessor @Inject constructor(
             val contentHeight = (source.height * scale).roundToInt().coerceIn(1, fixedHeight)
             val left = (fixedWidth - contentWidth) / 2
             val top = (fixedHeight - contentHeight) / 2
-            val scaled = Bitmap.createScaledBitmap(source, contentWidth, contentHeight, true)
+            val scaled = source.scale(contentWidth, contentHeight)
             val bitmap = createBitmap(fixedWidth, fixedHeight).apply {
                 density = source.density
                 val shader = BitmapShader(
@@ -195,7 +232,9 @@ internal class DepthProcessor @Inject constructor(
                 contentTop = top,
                 contentWidth = contentWidth,
                 contentHeight = contentHeight,
-                edgeInset = if (spec.isDirectDepth && spec.rank == 4) {
+                edgeInset = if (
+                    spec.outputContract == DepthOutputContract.DirectWithSky
+                ) {
                     MONO_EDGE_INSET
                 } else 0
             )
@@ -204,12 +243,14 @@ internal class DepthProcessor @Inject constructor(
         val size = depthInputSize(
             width = source.width,
             height = source.height,
-            maxSide = if (spec.isDirectDepth) DA3_INPUT_MAX_SIDE else DA2_INPUT_MAX_SIDE
+            maxSide = if (
+                spec.outputContract == DepthOutputContract.Disparity
+            ) DA2_INPUT_MAX_SIDE else DA3_INPUT_MAX_SIDE
         )
         val bitmap = if (source.width == size.width && source.height == size.height) {
             source
         } else {
-            Bitmap.createScaledBitmap(source, size.width, size.height, true)
+            source.scale(size.width, size.height)
         }
 
         return InputFrame(
@@ -344,6 +385,92 @@ internal class DepthProcessor @Inject constructor(
                 .takeIf(Float::isFinite)
                 ?.coerceIn(0f, 1f)
                 ?: 0f
+        }
+    }
+
+    private fun applySkyDepth(
+        depth: FloatArray,
+        sky: FloatArray
+    ) {
+        var nonSkyCount = 0
+        var skyCount = 0
+        val nonSkyDepth = FloatArray(depth.size)
+
+        depth.indices.forEach { index ->
+            if (sky[index] < SKY_THRESHOLD) {
+                val value = depth[index]
+                if (value.isFinite()) nonSkyDepth[nonSkyCount++] = value
+            } else {
+                skyCount++
+            }
+        }
+        if (nonSkyCount <= MIN_SKY_PIXELS || skyCount <= MIN_SKY_PIXELS) return
+
+        val farDepth = nonSkyDepth.copyOf(nonSkyCount)
+            .apply { sort() }
+            .percentile(SKY_DEPTH_PERCENTILE)
+        depth.indices.forEach { index ->
+            if (sky[index] >= SKY_THRESHOLD) depth[index] = farDepth
+        }
+    }
+
+    private fun suppressUncertainBackground(
+        depth: FloatArray,
+        confidence: FloatArray,
+        width: Int,
+        height: Int
+    ) {
+        if (width * height != depth.size) return
+
+        val finiteConfidence = confidence.filter(Float::isFinite).toFloatArray()
+        if (finiteConfidence.size <= MIN_SKY_PIXELS) return
+        finiteConfidence.sort()
+        val threshold = finiteConfidence.percentile(BACKGROUND_CONFIDENCE_PERCENTILE)
+        val background = BooleanArray(depth.size)
+        val queue = IntArray(depth.size)
+        var queueStart = 0
+        var queueEnd = 0
+
+        fun enqueue(index: Int) {
+            if (!background[index] && confidence[index] <= threshold) {
+                background[index] = true
+                queue[queueEnd++] = index
+            }
+        }
+
+        repeat(width) { x ->
+            enqueue(x)
+            enqueue((height - 1) * width + x)
+        }
+        repeat(height) { y ->
+            enqueue(y * width)
+            enqueue(y * width + width - 1)
+        }
+        while (queueStart < queueEnd) {
+            val index = queue[queueStart++]
+            val x = index % width
+            if (index >= width) enqueue(index - width)
+            if (index < depth.size - width) enqueue(index + width)
+            if (x > 0) enqueue(index - 1)
+            if (x < width - 1) enqueue(index + 1)
+        }
+        if (queueEnd <= MIN_SKY_PIXELS) return
+
+        val foregroundDepth = FloatArray(depth.size - queueEnd)
+        var foregroundCount = 0
+        depth.indices.forEach { index ->
+            val value = depth[index]
+            if (!background[index] && value.isFinite()) {
+                foregroundDepth[foregroundCount++] = value
+            }
+        }
+        if (foregroundCount <= MIN_SKY_PIXELS) return
+
+        val farDepth = foregroundDepth.copyOf(foregroundCount)
+            .apply { sort() }
+            .percentile(SKY_DEPTH_PERCENTILE)
+        background.indices.forEach { index ->
+            if (background[index]) depth[index] = farDepth
         }
     }
 
@@ -813,7 +940,7 @@ internal class DepthProcessor @Inject constructor(
         val bitmap = if (width == source.width && height == source.height) {
             source
         } else {
-            Bitmap.createScaledBitmap(source, width, height, true)
+            source.scale(width, height)
         }
 
         try {
@@ -964,7 +1091,7 @@ internal class DepthProcessor @Inject constructor(
         val rank: Int,
         val fixedWidth: Int?,
         val fixedHeight: Int?,
-        val isDirectDepth: Boolean
+        val outputContract: DepthOutputContract
     ) {
         fun tensorShape(bitmap: Bitmap): LongArray = if (rank == 5) {
             longArrayOf(1, 1, 3, bitmap.height.toLong(), bitmap.width.toLong())
@@ -990,6 +1117,26 @@ internal class DepthProcessor @Inject constructor(
         operator fun get(x: Int, y: Int): Float = values[
             y.coerceIn(0, height - 1) * width + x.coerceIn(0, width - 1)
         ]
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as DepthField
+
+            if (width != other.width) return false
+            if (height != other.height) return false
+            if (!values.contentEquals(other.values)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = width
+            result = 31 * result + height
+            result = 31 * result + values.contentHashCode()
+            return result
+        }
     }
 
     private class FieldSampler(
@@ -1052,7 +1199,43 @@ internal class DepthProcessor @Inject constructor(
             val sourceY = (y.toLong() * height / targetHeight).toInt().coerceIn(0, height - 1)
             return pixels[sourceY * width + sourceX]
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as BlurFrame
+
+            if (width != other.width) return false
+            if (height != other.height) return false
+            if (!pixels.contentEquals(other.pixels)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = width
+            result = 31 * result + height
+            result = 31 * result + pixels.contentHashCode()
+            return result
+        }
     }
+
+    private enum class DepthOutputContract {
+        Disparity,
+        Direct,
+        DirectWithSky
+    }
+
+    private val NeuralModel.depthOutputContract: DepthOutputContract?
+        get() = when {
+            name.startsWith("depth_anything_v2_") -> DepthOutputContract.Disparity
+            name.startsWith("depth_anything_v3_mono_") -> DepthOutputContract.DirectWithSky
+            name.startsWith("depth_anything_v3_") -> DepthOutputContract.Direct
+            type == Type.DEPTH -> DepthOutputContract.Disparity
+            else -> null
+        }
+
 
     private companion object {
         val DEPTH_OUTPUT_NAMES = setOf("predicted_depth", "depth", "output")
@@ -1063,6 +1246,10 @@ internal class DepthProcessor @Inject constructor(
         const val DEPTH_PERCENTILE = 0.02f
         const val MIN_VALID_DEPTH = 1e-6f
         const val MONO_EDGE_INSET = 7
+        const val SKY_THRESHOLD = 0.3f
+        const val SKY_DEPTH_PERCENTILE = 0.99f
+        const val BACKGROUND_CONFIDENCE_PERCENTILE = 0.3f
+        const val MIN_SKY_PIXELS = 10
         const val BLUR_MAX_SIDE = 1536f
         const val MAX_BLUR_RADIUS = 36f
         const val MAX_STEREO_SHIFT = 96f
