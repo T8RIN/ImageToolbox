@@ -90,57 +90,111 @@ data class NeuralModel(
             listOf(
                 NeuralModel(
                     downloadLink = res("depth/depth_anything_v2_vits_q4.onnx"),
-                    title = "Depth Anything V2 Small",
+                    title = "Depth Anything V2 Small (Q4)",
                     description = R.string.model_depth_anything_v2_small,
                     type = Type.DEPTH,
                     downloadSize = 27_404_416,
-                    speed = Speed.Normal(2.5f),
+                    speed = Speed.Normal(2.537f),
                     checksum = "5d55b02762e1907589158af3e366bd61ddf648155852a07bbf5e3a074639fcf8"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vits_fp32.onnx"),
+                    title = "Depth Anything V2 Small (FP32)",
+                    description = R.string.model_depth_anything_v2_small_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 99_060_839,
+                    speed = Speed.Normal(4.917f),
+                    checksum = "afb6a5c28f3b6bf1618c6e43f02073ef9dfdc70e937502d51603e57b0a1df10c"
+                ),
+                NeuralModel(
                     downloadLink = res("depth/depth_anything_v2_vitb_q4.onnx"),
-                    title = "Depth Anything V2 Base",
+                    title = "Depth Anything V2 Base (Q4)",
                     description = R.string.model_depth_anything_v2_base,
                     type = Type.DEPTH,
                     downloadSize = 102_269_714,
-                    speed = Speed.Slow(8f),
+                    speed = Speed.Slow(8.147f),
                     checksum = "af9d3df88b2a0776a5c512bd98f4c1d94cc1328b6334745b196de38b0da2468d"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vitb_fp32.onnx"),
+                    title = "Depth Anything V2 Base (FP32)",
+                    description = R.string.model_depth_anything_v2_base_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 388_917_010,
+                    speed = Speed.Slow(15.761f),
+                    checksum = "dab40f67d5ead5e0ed52acfae41a717a708b02bc57f6cb761c5de828f26a7289"
+                ),
+                NeuralModel(
                     downloadLink = res("depth/depth_anything_v2_vitl_q4.onnx"),
-                    title = "Depth Anything V2 Large",
+                    title = "Depth Anything V2 Large (Q4)",
                     description = R.string.model_depth_anything_v2_large,
                     type = Type.DEPTH,
                     downloadSize = 317_720_789,
-                    speed = Speed.VerySlow(25f),
+                    speed = Speed.VerySlow(25.274f),
                     checksum = "995173eacf031473a88682e0f5d5c3c984c64a270ca6e669228dc790b0448ce0"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v2_vitl_fp32.onnx"),
+                    title = "Depth Anything V2 Large (FP32)",
+                    description = R.string.model_depth_anything_v2_large_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 1_336_922_232,
+                    speed = Speed.VerySlow(49.386f),
+                    checksum = "a93aa89b5e92e30e0afbe0f7c3ec692b35cfca791ae9004a190fb0ca2010e905"
+                ),
+                NeuralModel(
                     downloadLink = res("depth/depth_anything_v3_small_int8.onnx"),
-                    title = "Depth Anything 3 Small",
+                    title = "Depth Anything 3 Small (INT8)",
                     description = R.string.model_depth_anything_v3_small,
                     type = Type.DEPTH,
                     downloadSize = 28_941_058,
-                    speed = Speed.Normal(4f),
+                    speed = Speed.Normal(4.183f),
                     checksum = "b6eaf064414e1474c88ca58cdafe414771e058996b99ea58e694e256e8738b43"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v3_small_fp32.onnx"),
+                    title = "Depth Anything 3 Small (FP32)",
+                    description = R.string.model_depth_anything_v3_small_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 105_329_872,
+                    speed = Speed.Normal(5.947f),
+                    checksum = "b622801c69643a7e32fafbba4190b3c6de0a3f06b6d8cc566d4a582035003b65"
+                ),
+                NeuralModel(
                     downloadLink = res("depth/depth_anything_v3_base_int4.onnx"),
-                    title = "Depth Anything 3 Base",
+                    title = "Depth Anything 3 Base (INT4)",
                     description = R.string.model_depth_anything_v3_base,
                     type = Type.DEPTH,
                     downloadSize = 118_091_821,
-                    speed = Speed.Slow(12f),
+                    speed = Speed.Slow(12.443f),
                     checksum = "dc4630d051cd8492431ff11f6d8ea440181a98e5a765442198d2b99c694ee0d3"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v3_base_fp32.onnx"),
+                    title = "Depth Anything 3 Base (FP32)",
+                    description = R.string.model_depth_anything_v3_base_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 412_701_787,
+                    speed = Speed.Slow(19.682f),
+                    checksum = "10d93bf3dfe27d0c5f47f6774dd1c14ae9c4c2d1165a0182d44833b3f518e198"
+                ),
+                NeuralModel(
                     downloadLink = res("depth/depth_anything_v3_large_int4.onnx"),
-                    title = "Depth Anything 3 Large",
+                    title = "Depth Anything 3 Large (INT4)",
                     description = R.string.model_depth_anything_v3_large,
                     type = Type.DEPTH,
                     downloadSize = 306_328_602,
-                    speed = Speed.VerySlow(35f),
+                    speed = Speed.VerySlow(35.718f),
                     checksum = "133787b3e634e9a24d5547494d3ead64d217ba79f3431178ecf033c15d8ff7a9"
+                ),
+                NeuralModel(
+                    downloadLink = res("depth/depth_anything_v3_large_fp32.onnx"),
+                    title = "Depth Anything 3 Large (FP32)",
+                    description = R.string.model_depth_anything_v3_large_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 1_382_809_180,
+                    speed = Speed.VerySlow(58.241f),
+                    checksum = "a8d5ddab18bc2c2974d8359c06b582a6e78938e5a2e6be6d5c1712d51b7701bb"
                 ),
                 NeuralModel(
                     downloadLink = res("arbitrary_style_transfer_onnx.zip"),

@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.alphaContainedEntries
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -53,6 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.updateNotNull
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthEffect
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
@@ -141,6 +143,10 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
     val imageFormat by _imageFormat
+    val requiresAlphaOutput: Boolean
+        get() = selectedModel.value?.type == NeuralModel.Type.REMOVE_BG ||
+                selectedModel.value?.type == NeuralModel.Type.DEPTH &&
+                depthParams.effect == DepthEffect.Cutout
 
     private val _previewResults = mutableStateOf<List<AiToolsPreviewResult>>(emptyList())
     val previewResults by _previewResults
@@ -259,9 +265,7 @@ class AiToolsComponent @AssistedInject internal constructor(
                 return@trackProgress
             }
             if (selectedModel.value?.isStyleTransfer == true) aiToolsRepository.cleanup()
-            if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
-                setImageFormat(ImageFormat.Png.Lossless)
-            }
+            ensureAlphaOutput()
             delay(400)
             _saveProgress.update {
                 NeuralSaveProgress(
@@ -369,9 +373,7 @@ class AiToolsComponent @AssistedInject internal constructor(
             return
         }
         if (selectedModel.value?.isStyleTransfer == true) aiToolsRepository.cleanup()
-        if (selectedModel.value?.type == NeuralModel.Type.REMOVE_BG && imageFormat == null) {
-            setImageFormat(ImageFormat.Png.Lossless)
-        }
+        ensureAlphaOutput()
         delay(400)
         _saveProgress.update {
             NeuralSaveProgress(
@@ -496,6 +498,12 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     fun setImageFormat(imageFormat: ImageFormat?) {
         _imageFormat.update { imageFormat }
+    }
+
+    private fun ensureAlphaOutput() {
+        if (requiresAlphaOutput && imageFormat !in ImageFormat.alphaContainedEntries) {
+            setImageFormat(ImageFormat.Png.Lossless)
+        }
     }
 
     fun getFormatForFilenameSelection(): ImageFormat? = imageFormat?.takeIf {

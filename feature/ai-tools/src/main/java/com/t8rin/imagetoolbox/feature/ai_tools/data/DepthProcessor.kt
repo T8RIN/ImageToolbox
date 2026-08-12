@@ -312,6 +312,9 @@ internal class DepthProcessor @Inject constructor(
         DepthEffect.Relight -> renderRelight(source, depth, params)
         DepthEffect.NormalMap -> renderNormalMap(source, depth, params.strength / 100f)
         DepthEffect.Stereo -> renderStereo(source, depth, params)
+        DepthEffect.DepthMask -> renderDepthMask(source, depth, params)
+        DepthEffect.Cutout -> renderCutout(source, depth, params)
+        DepthEffect.FocusColor -> renderFocusColor(source, depth, params)
     }
 
     private suspend fun renderDepthMap(
@@ -507,12 +510,76 @@ internal class DepthProcessor @Inject constructor(
         output
     }
 
+    private suspend fun renderDepthMask(
+        source: Bitmap,
+        depth: DepthField,
+        params: DepthParams
+    ): Bitmap = renderRows(source, depth) { sourceColor, depthValue, _, _ ->
+        val selection = depthSelection(depthValue, params)
+        val channel = (selection * 255f).roundToInt().coerceIn(0, 255)
+        Color.argb(Color.alpha(sourceColor), channel, channel, channel)
+    }
+
+    private suspend fun renderCutout(
+        source: Bitmap,
+        depth: DepthField,
+        params: DepthParams
+    ): Bitmap = renderRows(
+        source = source,
+        field = depth,
+        forceAlpha = true
+    ) { sourceColor, depthValue, _, _ ->
+        val alpha = (Color.alpha(sourceColor) * depthSelection(depthValue, params))
+            .roundToInt()
+            .coerceIn(0, 255)
+        Color.argb(
+            alpha,
+            Color.red(sourceColor),
+            Color.green(sourceColor),
+            Color.blue(sourceColor)
+        )
+    }
+
+    private suspend fun renderFocusColor(
+        source: Bitmap,
+        depth: DepthField,
+        params: DepthParams
+    ): Bitmap {
+        val strength = (params.strength / 100f).coerceIn(0f, 1f)
+        return renderRows(source, depth) { sourceColor, depthValue, _, _ ->
+            val grayscale = (
+                    Color.red(sourceColor) * 0.2126f +
+                            Color.green(sourceColor) * 0.7152f +
+                            Color.blue(sourceColor) * 0.0722f
+                    ).roundToInt().coerceIn(0, 255)
+            mixRgb(
+                from = sourceColor,
+                to = Color.rgb(grayscale, grayscale, grayscale),
+                amount = (1f - depthSelection(depthValue, params)) * strength,
+                alpha = Color.alpha(sourceColor)
+            )
+        }
+    }
+
+    private fun depthSelection(
+        depthValue: Float,
+        params: DepthParams
+    ): Float {
+        val range = (params.focusRange / 100f).coerceAtLeast(0.01f)
+        return 1f - smoothStep(
+            edge0 = range * 0.55f,
+            edge1 = range,
+            value = abs(depthValue - params.focus / 100f)
+        )
+    }
+
     private suspend fun renderRows(
         source: Bitmap,
         field: DepthField,
+        forceAlpha: Boolean = false,
         transform: (sourceColor: Int, value: Float, x: Int, y: Int) -> Int
     ): Bitmap = coroutineScope {
-        val output = createOutputBitmap(source)
+        val output = createOutputBitmap(source, forceAlpha)
         val sourceRow = IntArray(source.width)
         val outputRow = IntArray(source.width)
         val fieldRow = FloatArray(source.width)
@@ -531,10 +598,13 @@ internal class DepthProcessor @Inject constructor(
         output
     }
 
-    private fun createOutputBitmap(source: Bitmap): Bitmap =
+    private fun createOutputBitmap(
+        source: Bitmap,
+        forceAlpha: Boolean = false
+    ): Bitmap =
         createBitmap(source.width, source.height).apply {
             density = source.density
-            setHasAlpha(source.hasAlpha())
+            setHasAlpha(forceAlpha || source.hasAlpha())
         }
 
     private suspend fun createBlurFrame(

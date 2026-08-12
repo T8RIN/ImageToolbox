@@ -227,10 +227,10 @@ internal fun AiToolsControls(component: AiToolsComponent) {
 
     ImageFormatSelector(
         value = component.imageFormat,
-        entries = if (selectedModel?.type != NeuralModel.Type.REMOVE_BG) {
-            ImageFormatGroup.entries
-        } else {
+        entries = if (component.requiresAlphaOutput) {
             ImageFormatGroup.alphaContainedEntries
+        } else {
+            ImageFormatGroup.entries
         },
         onValueChange = component::setImageFormat,
         onAutoClick = { component.setImageFormat(null) }

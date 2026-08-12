@@ -104,6 +104,10 @@ internal fun DepthParamsSelector(
                     )
 
                     DepthEffect.Stereo -> StereoControls(value, onValueChange)
+                    DepthEffect.DepthMask,
+                    DepthEffect.Cutout -> DepthSelectionControls(value, onValueChange)
+
+                    DepthEffect.FocusColor -> FocusColorControls(value, onValueChange)
                 }
             }
         }
@@ -193,6 +197,70 @@ private fun StereoControls(
 }
 
 @Composable
+private fun DepthSelectionControls(
+    value: DepthParams,
+    onValueChange: (DepthParams) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value.focus,
+        title = stringResource(R.string.depth_focus),
+        icon = Icons.Rounded.CenterFocusStrong,
+        valueRange = 0f..100f,
+        steps = 99,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(focus = it)) },
+        shape = ShapeDefaults.byIndex(0, 2)
+    )
+    EnhancedSliderItem(
+        value = value.focusRange,
+        title = stringResource(R.string.depth_focus_range),
+        icon = Icons.Rounded.Opacity,
+        valueRange = 1f..50f,
+        steps = 48,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(focusRange = it)) },
+        shape = ShapeDefaults.byIndex(1, 2)
+    )
+}
+
+@Composable
+private fun FocusColorControls(
+    value: DepthParams,
+    onValueChange: (DepthParams) -> Unit
+) {
+    EnhancedSliderItem(
+        value = value.strength,
+        title = stringResource(R.string.strength),
+        icon = Icons.Outlined.Exercise,
+        valueRange = 0f..100f,
+        steps = 99,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(strength = it)) },
+        shape = ShapeDefaults.byIndex(0, 3)
+    )
+    EnhancedSliderItem(
+        value = value.focus,
+        title = stringResource(R.string.depth_focus),
+        icon = Icons.Rounded.CenterFocusStrong,
+        valueRange = 0f..100f,
+        steps = 99,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(focus = it)) },
+        shape = ShapeDefaults.byIndex(1, 3)
+    )
+    EnhancedSliderItem(
+        value = value.focusRange,
+        title = stringResource(R.string.depth_focus_range),
+        icon = Icons.Rounded.Opacity,
+        valueRange = 1f..50f,
+        steps = 48,
+        internalStateTransformation = { it.roundToInt() },
+        onValueChange = { onValueChange(value.copy(focusRange = it)) },
+        shape = ShapeDefaults.byIndex(2, 3)
+    )
+}
+
+@Composable
 private fun RelightControls(
     value: DepthParams,
     onValueChange: (DepthParams) -> Unit
@@ -228,6 +296,9 @@ private fun DepthEffect.title(): String = stringResource(
         DepthEffect.Relight -> R.string.depth_relight
         DepthEffect.NormalMap -> R.string.depth_normal_map
         DepthEffect.Stereo -> R.string.depth_stereo
+        DepthEffect.DepthMask -> R.string.depth_mask
+        DepthEffect.Cutout -> R.string.depth_cutout
+        DepthEffect.FocusColor -> R.string.depth_focus_color
     }
 )
 
@@ -240,5 +311,8 @@ private fun DepthEffect.description(): String? = stringResource(
         DepthEffect.Relight -> R.string.depth_relight_sub
         DepthEffect.NormalMap -> R.string.depth_normal_map_sub
         DepthEffect.Stereo -> R.string.depth_stereo_sub
+        DepthEffect.DepthMask -> R.string.depth_mask_sub
+        DepthEffect.Cutout -> R.string.depth_cutout_sub
+        DepthEffect.FocusColor -> R.string.depth_focus_color_sub
     }
 )

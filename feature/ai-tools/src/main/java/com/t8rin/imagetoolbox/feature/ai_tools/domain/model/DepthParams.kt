@@ -42,6 +42,9 @@ enum class DepthEffect {
     LensBlur,
     NormalMap,
     Stereo,
+    DepthMask,
+    Cutout,
+    FocusColor,
     Fog,
     Relight
 }
