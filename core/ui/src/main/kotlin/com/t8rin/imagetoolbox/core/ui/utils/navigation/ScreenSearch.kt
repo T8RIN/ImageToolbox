@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CompressionLab
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Curves
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
@@ -152,6 +153,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is MultiFrameFusion -> R.string.search_keywords_multi_frame_fusion
     is DeleteExif -> R.string.search_keywords_delete_exif
     is Compare -> R.string.search_keywords_compare
+    is CompressionLab -> R.string.search_keywords_compression_lab
     is LimitResize -> R.string.search_keywords_limit_resize
     is PdfTools -> R.string.search_keywords_pdf_tools
     is RecognizeText -> R.string.search_keywords_recognize_text

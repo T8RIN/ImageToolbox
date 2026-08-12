@@ -1172,6 +1172,15 @@ sealed class Screen(
         subtitle = R.string.multi_frame_fusion_sub
     )
 
+    @Serializable
+    data class CompressionLab(
+        val uri: Uri? = null
+    ) : Screen(
+        id = 78,
+        title = R.string.compression_lab,
+        subtitle = R.string.compression_lab_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

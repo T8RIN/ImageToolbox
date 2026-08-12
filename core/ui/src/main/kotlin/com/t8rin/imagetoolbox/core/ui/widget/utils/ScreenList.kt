@@ -132,6 +132,7 @@ internal fun List<Uri>.screenList(
                 Screen.SingleEdit(uris.firstOrNull()),
                 Screen.ResizeAndConvert(uris),
                 Screen.FormatConversion(uris),
+                Screen.CompressionLab(uris.firstOrNull()),
                 Screen.WeightResize(uris),
                 Screen.Crop(uris.firstOrNull()),
                 Screen.Filter(

@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
 import com.t8rin.imagetoolbox.core.resources.icons.JoinInner
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
+import com.t8rin.imagetoolbox.core.resources.icons.Labs
 import com.t8rin.imagetoolbox.core.resources.icons.Landscape
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
@@ -111,6 +112,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CompressionLab
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Curves
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
@@ -179,6 +181,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ApngTools -> "APNG_Tools"
     is Cipher -> "Cipher"
     is Compare -> "Compare"
+    is CompressionLab -> "Compression_Lab"
     is Crop -> "Crop"
     is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
@@ -281,6 +284,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ApngTools -> Icons.Outlined.ApngBox
     is Cipher -> Icons.Outlined.Encrypted
     is Compare -> Icons.Outlined.Compare
+    is CompressionLab -> Icons.Rounded.Labs
     is Crop -> Icons.Rounded.CropSmall
     is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
@@ -373,6 +377,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ApngTools -> Icons.TwoTone.ApngBox
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
+    is CompressionLab -> Icons.TwoTone.Labs
     is Crop -> Icons.TwoTone.CropSmall
     is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
@@ -524,6 +529,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     PickColorFromImage(),
                     RecognizeText(),
                     Compare(),
+                    CompressionLab(),
                     DuplicateFinder(),
                     ImagePreview(),
                     WallpapersExport,
@@ -567,5 +573,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 91 + PdfTools.options.size
+    override val FEATURES_COUNT = 92 + PdfTools.options.size
 }

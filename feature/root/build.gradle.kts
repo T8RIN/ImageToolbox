@@ -85,4 +85,5 @@ dependencies {
     implementation(projects.feature.duplicateFinder)
     implementation(projects.feature.photomosaic)
     implementation(projects.feature.multiFrameFusion)
+    implementation(projects.feature.compressionLab)
 }

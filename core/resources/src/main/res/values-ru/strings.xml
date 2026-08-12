@@ -4961,4 +4961,19 @@
     <string name="relief_strength">Рельеф</string>
     <string name="blur_strength">Сила размытия</string>
     <string name="light_angle">Угол света</string>
+    <string name="compression_lab">Лаборатория сжатия</string>
+    <string name="compression_lab_sub">Сравнение форматов по размеру, скорости, SSIM и PSNR</string>
+    <string name="compression_lab_formats">Форматы для сравнения</string>
+    <string name="compression_lab_search_mode">Стратегия поиска</string>
+    <string name="compression_lab_mode_manual">Заданное качество</string>
+    <string name="compression_lab_mode_target_quality">Минимум при качестве</string>
+    <string name="compression_lab_mode_target_size">Лучшее до размера</string>
+    <string name="compression_lab_target_quality">Целевое визуальное качество</string>
+    <string name="compression_lab_target_size">Целевой размер файла</string>
+    <string name="compression_lab_run">Запустить сравнение</string>
+    <string name="compression_lab_result_details">Энкодер: %1$s · %2$d мс\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">фиксированные настройки</string>
+    <string name="compression_lab_target_not_reached">Для этого формата не удалось достичь заданной цели.</string>
+    <string name="compression_lab_failed_formats">Не удалось проверить: %1$s</string>
+    <string name="search_keywords_compression_lab">сжатие сравнение кодек энкодер пакет размер файла качество SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

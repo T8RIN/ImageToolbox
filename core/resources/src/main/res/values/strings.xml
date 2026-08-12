@@ -4985,4 +4985,19 @@
     <string name="relief_strength">Relief</string>
     <string name="blur_strength">Blur strength</string>
     <string name="light_angle">Light angle</string>
+    <string name="compression_lab">Compression Lab</string>
+    <string name="compression_lab_sub">Compare formats by size, speed, SSIM, and PSNR</string>
+    <string name="compression_lab_formats">Formats to compare</string>
+    <string name="compression_lab_search_mode">Search strategy</string>
+    <string name="compression_lab_mode_manual">Fixed quality</string>
+    <string name="compression_lab_mode_target_quality">Smallest at quality</string>
+    <string name="compression_lab_mode_target_size">Best under size</string>
+    <string name="compression_lab_target_quality">Target visual quality</string>
+    <string name="compression_lab_target_size">Target file size</string>
+    <string name="compression_lab_run">Run comparison</string>
+    <string name="compression_lab_result_details">Encoder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">fixed settings</string>
+    <string name="compression_lab_target_not_reached">The requested target could not be reached with this format.</string>
+    <string name="compression_lab_failed_formats">Could not test: %1$s</string>
+    <string name="search_keywords_compression_lab">compression benchmark codec encoder batch file size quality SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

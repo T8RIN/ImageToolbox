@@ -125,6 +125,7 @@ include(":feature:batch-rename")
 include(":feature:duplicate-finder")
 include(":feature:photomosaic")
 include(":feature:multi-frame-fusion")
+include(":feature:compression-lab")
 
 include(":feature:root")
 
