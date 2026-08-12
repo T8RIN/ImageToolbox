@@ -197,6 +197,24 @@ data class NeuralModel(
                     checksum = "a8d5ddab18bc2c2974d8359c06b582a6e78938e5a2e6be6d5c1712d51b7701bb"
                 ),
                 NeuralModel(
+                    downloadLink = res("depth/depth_anything_v3_mono_large_q4.onnx"),
+                    title = "Depth Anything 3 Mono Large (Q4)",
+                    description = R.string.model_depth_anything_v3_mono_large,
+                    type = Type.DEPTH,
+                    downloadSize = 292_902_819,
+                    speed = Speed.VerySlow(31.684f),
+                    checksum = "153ccf2305e05a8ed9548b5beae843f9ff4242ab9f37c19d3f0ad658abec6dbb"
+                ),
+                NeuralModel(
+                    downloadLink = res("depth/depth_anything_v3_mono_large_fp32.onnx"),
+                    title = "Depth Anything 3 Mono Large (FP32)",
+                    description = R.string.model_depth_anything_v3_mono_large_fp32,
+                    type = Type.DEPTH,
+                    downloadSize = 1_340_744_258,
+                    speed = Speed.VerySlow(46.927f),
+                    checksum = "4f251eb04cc30d00cdea29a09656acb0ff42e27689ca65a3b292c2ec5718cfa0"
+                ),
+                NeuralModel(
                     downloadLink = res("arbitrary_style_transfer_onnx.zip"),
                     title = "Arbitrary Style Transfer",
                     description = R.string.model_arbitrary_style_transfer,

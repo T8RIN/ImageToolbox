@@ -91,6 +91,9 @@ internal fun DepthParamsSelector(
                 when (effect) {
                     DepthEffect.Map -> Unit
                     DepthEffect.LensBlur -> LensBlurControls(value, onValueChange)
+                    DepthEffect.BackgroundBlur,
+                    DepthEffect.ColorGrade,
+                    DepthEffect.DepthEdges,
                     DepthEffect.Fog -> StrengthControl(
                         value = value,
                         onValueChange = onValueChange,
@@ -107,7 +110,8 @@ internal fun DepthParamsSelector(
                     DepthEffect.DepthMask,
                     DepthEffect.Cutout -> DepthSelectionControls(value, onValueChange)
 
-                    DepthEffect.FocusColor -> FocusColorControls(value, onValueChange)
+                    DepthEffect.Portrait,
+                    DepthEffect.FocusColor -> FocusEffectControls(value, onValueChange)
                 }
             }
         }
@@ -224,7 +228,7 @@ private fun DepthSelectionControls(
 }
 
 @Composable
-private fun FocusColorControls(
+private fun FocusEffectControls(
     value: DepthParams,
     onValueChange: (DepthParams) -> Unit
 ) {
@@ -292,6 +296,10 @@ private fun DepthEffect.title(): String = stringResource(
     when (this) {
         DepthEffect.Map -> R.string.depth_map
         DepthEffect.LensBlur -> R.string.depth_blur
+        DepthEffect.BackgroundBlur -> R.string.depth_background_blur
+        DepthEffect.Portrait -> R.string.depth_portrait
+        DepthEffect.ColorGrade -> R.string.depth_color_grade
+        DepthEffect.DepthEdges -> R.string.depth_edges
         DepthEffect.Fog -> R.string.depth_fog
         DepthEffect.Relight -> R.string.depth_relight
         DepthEffect.NormalMap -> R.string.depth_normal_map
@@ -307,6 +315,10 @@ private fun DepthEffect.description(): String? = stringResource(
     when (this) {
         DepthEffect.Map -> return null
         DepthEffect.LensBlur -> R.string.depth_blur_sub
+        DepthEffect.BackgroundBlur -> R.string.depth_background_blur_sub
+        DepthEffect.Portrait -> R.string.depth_portrait_sub
+        DepthEffect.ColorGrade -> R.string.depth_color_grade_sub
+        DepthEffect.DepthEdges -> R.string.depth_edges_sub
         DepthEffect.Fog -> R.string.depth_fog_sub
         DepthEffect.Relight -> R.string.depth_relight_sub
         DepthEffect.NormalMap -> R.string.depth_normal_map_sub

@@ -22,9 +22,12 @@ import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import ai.onnxruntime.TensorInfo
 import android.graphics.Bitmap
+import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.Paint
+import android.graphics.Shader
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
@@ -109,7 +112,7 @@ internal class DepthProcessor @Inject constructor(
             ).use { tensor ->
                 session.run(mapOf(inputName to tensor)).use { result ->
                     val outputIndex = session.outputNames
-                        .indexOf(DEPTH_OUTPUT_NAME)
+                        .indexOfFirst { it in DEPTH_OUTPUT_NAMES }
                         .takeIf { it >= 0 }
                         ?: 0
                     val depthValues = flattenFloatOutput(result[outputIndex].value)
@@ -143,7 +146,8 @@ internal class DepthProcessor @Inject constructor(
         return DepthInputSpec(
             rank = shape.size,
             fixedWidth = shape.last().takeIf { it > 0 }?.toInt(),
-            fixedHeight = shape[shape.lastIndex - 1].takeIf { it > 0 }?.toInt()
+            fixedHeight = shape[shape.lastIndex - 1].takeIf { it > 0 }?.toInt(),
+            isDirectDepth = shape.size == 5 || session.outputNames.size > 1
         )
     }
 
@@ -166,15 +170,22 @@ internal class DepthProcessor @Inject constructor(
             val scaled = Bitmap.createScaledBitmap(source, contentWidth, contentHeight, true)
             val bitmap = createBitmap(fixedWidth, fixedHeight).apply {
                 density = source.density
-                Canvas(this).apply {
-                    drawColor(INPUT_PADDING_COLOR)
-                    drawBitmap(
-                        scaled,
-                        left.toFloat(),
-                        top.toFloat(),
-                        Paint(Paint.FILTER_BITMAP_FLAG)
-                    )
+                val shader = BitmapShader(
+                    scaled,
+                    Shader.TileMode.CLAMP,
+                    Shader.TileMode.CLAMP
+                ).apply {
+                    setLocalMatrix(Matrix().apply {
+                        setTranslate(left.toFloat(), top.toFloat())
+                    })
                 }
+                Canvas(this).drawRect(
+                    0f,
+                    0f,
+                    fixedWidth.toFloat(),
+                    fixedHeight.toFloat(),
+                    Paint(Paint.FILTER_BITMAP_FLAG).apply { this.shader = shader }
+                )
             }
             if (scaled !== source) scaled.recycle()
 
@@ -183,7 +194,10 @@ internal class DepthProcessor @Inject constructor(
                 contentLeft = left,
                 contentTop = top,
                 contentWidth = contentWidth,
-                contentHeight = contentHeight
+                contentHeight = contentHeight,
+                edgeInset = if (spec.isDirectDepth && spec.rank == 4) {
+                    MONO_EDGE_INSET
+                } else 0
             )
         }
 
@@ -203,7 +217,8 @@ internal class DepthProcessor @Inject constructor(
             contentLeft = 0,
             contentTop = 0,
             contentWidth = bitmap.width,
-            contentHeight = bitmap.height
+            contentHeight = bitmap.height,
+            edgeInset = 0
         )
     }
 
@@ -212,6 +227,7 @@ internal class DepthProcessor @Inject constructor(
         input: InputFrame
     ): DepthField {
         if (
+            input.edgeInset == 0 &&
             input.contentLeft == 0 && input.contentTop == 0 &&
             input.contentWidth == input.bitmap.width &&
             input.contentHeight == input.bitmap.height
@@ -219,17 +235,20 @@ internal class DepthProcessor @Inject constructor(
             return DepthField(values, input.bitmap.width, input.bitmap.height)
         }
 
-        val cropped = FloatArray(input.contentWidth * input.contentHeight)
-        repeat(input.contentHeight) { row ->
+        val croppedWidth = input.contentWidth - input.edgeInset * 2
+        val croppedHeight = input.contentHeight - input.edgeInset * 2
+        val startX = input.contentLeft + input.edgeInset
+        val startY = input.contentTop + input.edgeInset
+        val cropped = FloatArray(croppedWidth * croppedHeight)
+        repeat(croppedHeight) { row ->
             values.copyInto(
                 destination = cropped,
-                destinationOffset = row * input.contentWidth,
-                startIndex = (input.contentTop + row) * input.bitmap.width + input.contentLeft,
-                endIndex = (input.contentTop + row) * input.bitmap.width +
-                        input.contentLeft + input.contentWidth
+                destinationOffset = row * croppedWidth,
+                startIndex = (startY + row) * input.bitmap.width + startX,
+                endIndex = (startY + row) * input.bitmap.width + startX + croppedWidth
             )
         }
-        return DepthField(cropped, input.contentWidth, input.contentHeight)
+        return DepthField(cropped, croppedWidth, croppedHeight)
     }
 
     private suspend fun normalizedInput(bitmap: Bitmap): FloatArray = coroutineScope {
@@ -343,6 +362,10 @@ internal class DepthProcessor @Inject constructor(
     ): Bitmap = when (params.effect) {
         DepthEffect.Map -> renderDepthMap(source, depth)
         DepthEffect.LensBlur -> renderLensBlur(source, depth, params)
+        DepthEffect.BackgroundBlur -> renderBackgroundBlur(source, depth, params)
+        DepthEffect.Portrait -> renderPortrait(source, depth, params)
+        DepthEffect.ColorGrade -> renderColorGrade(source, depth, params.strength / 100f)
+        DepthEffect.DepthEdges -> renderDepthEdges(source, depth, params.strength / 100f)
         DepthEffect.Fog -> renderFog(source, depth, params.strength / 100f)
         DepthEffect.Relight -> renderRelight(source, depth, params)
         DepthEffect.NormalMap -> renderNormalMap(source, depth, params.strength / 100f)
@@ -416,6 +439,144 @@ internal class DepthProcessor @Inject constructor(
                     to = blurFrame.sample(x, y, source.width, source.height),
                     amount = blurAmount,
                     alpha = Color.alpha(sourceRow[x])
+                )
+            }
+
+            output.setPixels(outputRow, 0, source.width, 0, y, source.width, 1)
+        }
+
+        output
+    }
+
+    private suspend fun renderBackgroundBlur(
+        source: Bitmap,
+        depth: DepthField,
+        params: DepthParams
+    ): Bitmap = coroutineScope {
+        val strength = (params.strength / 100f).coerceIn(0f, 1f)
+        val blurFrame = createBlurFrame(
+            source = source,
+            radius = (strength * MAX_BLUR_RADIUS).roundToInt().coerceAtLeast(1)
+        )
+        val output = createOutputBitmap(source)
+        val sourceRow = IntArray(source.width)
+        val outputRow = IntArray(source.width)
+        val depthRow = FloatArray(source.width)
+        val sampler = FieldSampler(depth, source.width, source.height)
+
+        for (y in 0 until source.height) {
+            ensureActive()
+            source.getPixels(sourceRow, 0, source.width, 0, y, source.width, 1)
+            sampler.sampleRow(y, depthRow)
+
+            for (x in sourceRow.indices) {
+                val amount = (1f - depthRow[x]).pow(1.45f) * strength
+                outputRow[x] = mixRgb(
+                    from = sourceRow[x],
+                    to = blurFrame.sample(x, y, source.width, source.height),
+                    amount = amount,
+                    alpha = Color.alpha(sourceRow[x])
+                )
+            }
+
+            output.setPixels(outputRow, 0, source.width, 0, y, source.width, 1)
+        }
+
+        output
+    }
+
+    private suspend fun renderPortrait(
+        source: Bitmap,
+        depth: DepthField,
+        params: DepthParams
+    ): Bitmap {
+        val strength = (params.strength / 100f).coerceIn(0f, 1f)
+        return renderRows(source, depth) { sourceColor, depthValue, _, _ ->
+            val selection = depthSelection(depthValue, params)
+            val background = (1f - selection) * strength
+            val grayscale = (
+                    Color.red(sourceColor) * 0.2126f +
+                            Color.green(sourceColor) * 0.7152f +
+                            Color.blue(sourceColor) * 0.0722f
+                    ).roundToInt().coerceIn(0, 255)
+            val muted = mixRgb(
+                from = sourceColor,
+                to = Color.rgb(grayscale, grayscale, grayscale),
+                amount = background * 0.6f,
+                alpha = Color.alpha(sourceColor)
+            )
+            val light = (1f - background * 0.22f + selection * strength * 0.08f)
+            Color.argb(
+                Color.alpha(sourceColor),
+                (Color.red(muted) * light).roundToInt().coerceIn(0, 255),
+                (Color.green(muted) * light).roundToInt().coerceIn(0, 255),
+                (Color.blue(muted) * light).roundToInt().coerceIn(0, 255)
+            )
+        }
+    }
+
+    private suspend fun renderColorGrade(
+        source: Bitmap,
+        depth: DepthField,
+        strength: Float
+    ): Bitmap = renderRows(source, depth) { sourceColor, depthValue, _, _ ->
+        val grade = mixRgb(
+            from = FAR_DEPTH_COLOR,
+            to = NEAR_DEPTH_COLOR,
+            amount = smoothStep(0.08f, 0.92f, depthValue),
+            alpha = 255
+        )
+        mixRgb(
+            from = sourceColor,
+            to = grade,
+            amount = strength.coerceIn(0f, 1f) * 0.38f,
+            alpha = Color.alpha(sourceColor)
+        )
+    }
+
+    private suspend fun renderDepthEdges(
+        source: Bitmap,
+        depth: DepthField,
+        strength: Float
+    ): Bitmap = coroutineScope {
+        val output = createOutputBitmap(source)
+        val sourceRow = IntArray(source.width)
+        val outputRow = IntArray(source.width)
+        val topRow = FloatArray(source.width)
+        val middleRow = FloatArray(source.width)
+        val bottomRow = FloatArray(source.width)
+        val sampler = FieldSampler(depth, source.width, source.height)
+        val horizontalScale = source.width / depth.width.toFloat()
+        val verticalScale = source.height / depth.height.toFloat()
+
+        for (y in 0 until source.height) {
+            ensureActive()
+            source.getPixels(sourceRow, 0, source.width, 0, y, source.width, 1)
+            sampler.sampleRow(y - 1, topRow)
+            sampler.sampleRow(y, middleRow)
+            sampler.sampleRow(y + 1, bottomRow)
+
+            for (x in sourceRow.indices) {
+                val left = middleRow[(x - 1).coerceAtLeast(0)]
+                val right = middleRow[(x + 1).coerceAtMost(middleRow.lastIndex)]
+                val horizontal = (right - left) * horizontalScale
+                val vertical = (bottomRow[x] - topRow[x]) * verticalScale
+                val edge = smoothStep(
+                    edge0 = 0.008f,
+                    edge1 = 0.075f,
+                    value = sqrt(horizontal * horizontal + vertical * vertical)
+                ) * strength.coerceIn(0f, 1f)
+                val sourceColor = sourceRow[x]
+                val luminance = (
+                        Color.red(sourceColor) * 0.2126f +
+                                Color.green(sourceColor) * 0.7152f +
+                                Color.blue(sourceColor) * 0.0722f
+                        ) / 255f
+                outputRow[x] = mixRgb(
+                    from = sourceColor,
+                    to = if (luminance > 0.55f) EDGE_DARK_COLOR else EDGE_LIGHT_COLOR,
+                    amount = edge,
+                    alpha = Color.alpha(sourceColor)
                 )
             }
 
@@ -802,10 +963,9 @@ internal class DepthProcessor @Inject constructor(
     private data class DepthInputSpec(
         val rank: Int,
         val fixedWidth: Int?,
-        val fixedHeight: Int?
+        val fixedHeight: Int?,
+        val isDirectDepth: Boolean
     ) {
-        val isDirectDepth: Boolean = rank == 5
-
         fun tensorShape(bitmap: Bitmap): LongArray = if (rank == 5) {
             longArrayOf(1, 1, 3, bitmap.height.toLong(), bitmap.width.toLong())
         } else {
@@ -818,7 +978,8 @@ internal class DepthProcessor @Inject constructor(
         val contentLeft: Int,
         val contentTop: Int,
         val contentWidth: Int,
-        val contentHeight: Int
+        val contentHeight: Int,
+        val edgeInset: Int
     )
 
     private data class DepthField(
@@ -894,20 +1055,24 @@ internal class DepthProcessor @Inject constructor(
     }
 
     private companion object {
-        const val DEPTH_OUTPUT_NAME = "predicted_depth"
+        val DEPTH_OUTPUT_NAMES = setOf("predicted_depth", "depth", "output")
         const val TOTAL_STEPS = 2
         const val MODEL_ALIGNMENT = 14
         const val DA2_INPUT_MAX_SIDE = 518
         const val DA3_INPUT_MAX_SIDE = 504
         const val DEPTH_PERCENTILE = 0.02f
         const val MIN_VALID_DEPTH = 1e-6f
+        const val MONO_EDGE_INSET = 7
         const val BLUR_MAX_SIDE = 1536f
         const val MAX_BLUR_RADIUS = 36f
         const val MAX_STEREO_SHIFT = 96f
         val IMAGE_MEAN = floatArrayOf(0.485f, 0.456f, 0.406f)
         val IMAGE_STD = floatArrayOf(0.229f, 0.224f, 0.225f)
         val FOG_COLOR = Color.rgb(222, 232, 242)
-        val INPUT_PADDING_COLOR = Color.rgb(124, 116, 104)
+        val FAR_DEPTH_COLOR = Color.rgb(35, 72, 104)
+        val NEAR_DEPTH_COLOR = Color.rgb(245, 151, 79)
+        val EDGE_DARK_COLOR = Color.rgb(18, 21, 28)
+        val EDGE_LIGHT_COLOR = Color.rgb(237, 242, 248)
         val SPECTRAL_R = intArrayOf(
             Color.rgb(94, 79, 162),
             Color.rgb(50, 136, 189),

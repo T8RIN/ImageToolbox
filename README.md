@@ -1061,6 +1061,11 @@ or click one of the badges below.
     - Anime
     - Scans
     - Style Transfer
+  - Depth (14 models and 13 depth-aware effects)
+    - Depth maps, masks and cutouts
+    - Lens and background blur
+    - Portrait focus and cinematic depth grading
+    - Relighting, fog, normals, stereo and depth edges
 - Barcodes
     - Scanning
     - Creating & Parsing common types
