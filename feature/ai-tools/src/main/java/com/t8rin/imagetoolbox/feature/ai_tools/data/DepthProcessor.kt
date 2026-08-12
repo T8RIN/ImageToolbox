@@ -108,7 +108,11 @@ internal class DepthProcessor @Inject constructor(
                 shape
             ).use { tensor ->
                 session.run(mapOf(inputName to tensor)).use { result ->
-                    val depthValues = flattenFloatOutput(result[0].value)
+                    val outputIndex = session.outputNames
+                        .indexOf(DEPTH_OUTPUT_NAME)
+                        .takeIf { it >= 0 }
+                        ?: 0
+                    val depthValues = flattenFloatOutput(result[outputIndex].value)
                     check(depthValues.size == input.bitmap.width * input.bitmap.height) {
                         "Unexpected depth output size ${depthValues.size}, " +
                                 "expected ${input.bitmap.width * input.bitmap.height}"
@@ -116,7 +120,7 @@ internal class DepthProcessor @Inject constructor(
                     cropDepth(depthValues, input).also { depth ->
                         normalizeDepth(
                             values = depth.values,
-                            invert = inputSpec.isDirectDepth
+                            directDepth = inputSpec.isDirectDepth
                         )
                     }
                 }
@@ -274,15 +278,39 @@ internal class DepthProcessor @Inject constructor(
 
     private fun normalizeDepth(
         values: FloatArray,
-        invert: Boolean
+        directDepth: Boolean
     ) {
+        val normalizedValues = if (directDepth) {
+            FloatArray(values.size) { index ->
+                values[index]
+                    .takeIf { it.isFinite() && it > MIN_VALID_DEPTH }
+                    ?.let { 1f / it }
+                    ?: Float.NaN
+            }
+        } else {
+            values
+        }
+
         var minimum = Float.POSITIVE_INFINITY
         var maximum = Float.NEGATIVE_INFINITY
 
-        values.forEach { value ->
-            if (value.isFinite()) {
-                minimum = min(minimum, value)
-                maximum = max(maximum, value)
+        if (directDepth) {
+            val finiteValues = FloatArray(normalizedValues.size)
+            var finiteCount = 0
+            normalizedValues.forEach { value ->
+                if (value.isFinite()) finiteValues[finiteCount++] = value
+            }
+            if (finiteCount > 0) {
+                val sorted = finiteValues.copyOf(finiteCount).apply { sort() }
+                minimum = sorted.percentile(DEPTH_PERCENTILE)
+                maximum = sorted.percentile(1f - DEPTH_PERCENTILE)
+            }
+        } else {
+            normalizedValues.forEach { value ->
+                if (value.isFinite()) {
+                    minimum = min(minimum, value)
+                    maximum = max(maximum, value)
+                }
             }
         }
 
@@ -293,12 +321,19 @@ internal class DepthProcessor @Inject constructor(
         }
 
         values.indices.forEach { index ->
-            val normalized = ((values[index] - minimum) / range)
+            values[index] = ((normalizedValues[index] - minimum) / range)
                 .takeIf(Float::isFinite)
                 ?.coerceIn(0f, 1f)
                 ?: 0f
-            values[index] = if (invert) 1f - normalized else normalized
         }
+    }
+
+    private fun FloatArray.percentile(fraction: Float): Float {
+        val position = (lastIndex * fraction.coerceIn(0f, 1f))
+        val lowerIndex = position.toInt()
+        val upperIndex = (lowerIndex + 1).coerceAtMost(lastIndex)
+        val amount = position - lowerIndex
+        return this[lowerIndex] * (1f - amount) + this[upperIndex] * amount
     }
 
     private suspend fun renderEffect(
@@ -859,10 +894,13 @@ internal class DepthProcessor @Inject constructor(
     }
 
     private companion object {
+        const val DEPTH_OUTPUT_NAME = "predicted_depth"
         const val TOTAL_STEPS = 2
         const val MODEL_ALIGNMENT = 14
         const val DA2_INPUT_MAX_SIDE = 518
         const val DA3_INPUT_MAX_SIDE = 504
+        const val DEPTH_PERCENTILE = 0.02f
+        const val MIN_VALID_DEPTH = 1e-6f
         const val BLUR_MAX_SIDE = 1536f
         const val MAX_BLUR_RADIUS = 36f
         const val MAX_STEREO_SHIFT = 96f
