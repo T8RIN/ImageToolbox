@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Kaginhawaan</string>
     <string name="blur_strength">Lakas ng blur</string>
     <string name="light_angle">Banayad na anggulo</string>
+    <string name="compression_lab">Compression Lab</string>
+    <string name="compression_lab_sub">Paghambingin ang mga format ayon sa laki, bilis, SSIM, at PSNR</string>
+    <string name="compression_lab_formats">Mga format na ihahambing</string>
+    <string name="compression_lab_search_mode">Diskarte sa paghahanap</string>
+    <string name="compression_lab_mode_manual">Nakapirming kalidad</string>
+    <string name="compression_lab_mode_target_quality">Pinakamaliit sa kalidad</string>
+    <string name="compression_lab_mode_target_size">Pinakamahusay sa ilalim ng laki</string>
+    <string name="compression_lab_target_quality">Target na kalidad ng visual</string>
+    <string name="compression_lab_target_size">Target na laki ng file</string>
+    <string name="compression_lab_run">Patakbuhin ang paghahambing</string>
+    <string name="compression_lab_result_details">Encoder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">mga nakapirming setting</string>
+    <string name="compression_lab_target_not_reached">Ang hiniling na target ay hindi maabot gamit ang format na ito.</string>
+    <string name="compression_lab_failed_formats">Hindi masuri: %1$s</string>
+    <string name="search_keywords_compression_lab">compression benchmark codec encoder batch laki ng file kalidad SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

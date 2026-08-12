@@ -4959,4 +4959,19 @@
     <string name="relief_strength">நிவாரணம்</string>
     <string name="blur_strength">மங்கலான வலிமை</string>
     <string name="light_angle">ஒளி கோணம்</string>
+    <string name="compression_lab">சுருக்க ஆய்வகம்</string>
+    <string name="compression_lab_sub">அளவு, வேகம், SSIM மற்றும் PSNR ஆகியவற்றின் படி வடிவங்களை ஒப்பிடுக</string>
+    <string name="compression_lab_formats">ஒப்பிடுவதற்கான வடிவங்கள்</string>
+    <string name="compression_lab_search_mode">தேடல் உத்தி</string>
+    <string name="compression_lab_mode_manual">நிலையான தரம்</string>
+    <string name="compression_lab_mode_target_quality">தரத்தில் மிகச் சிறியது</string>
+    <string name="compression_lab_mode_target_size">அளவு கீழ் சிறந்தது</string>
+    <string name="compression_lab_target_quality">இலக்கு காட்சி தரம்</string>
+    <string name="compression_lab_target_size">இலக்கு கோப்பு அளவு</string>
+    <string name="compression_lab_run">ஒப்பீட்டை இயக்கவும்</string>
+    <string name="compression_lab_result_details">குறியாக்கி: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">நிலையான அமைப்புகள்</string>
+    <string name="compression_lab_target_not_reached">இந்த வடிவமைப்பில் கோரப்பட்ட இலக்கை அடைய முடியவில்லை.</string>
+    <string name="compression_lab_failed_formats">சோதிக்க முடியவில்லை: %1$s</string>
+    <string name="search_keywords_compression_lab">சுருக்க பெஞ்ச்மார்க் கோடெக் குறியாக்கி தொகுதி கோப்பு அளவு தரம் SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

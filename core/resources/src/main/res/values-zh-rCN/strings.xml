@@ -4958,4 +4958,19 @@
     <string name="relief_strength">宽慰</string>
     <string name="blur_strength">模糊强度</string>
     <string name="light_angle">发光角度</string>
+    <string name="compression_lab">压缩实验室</string>
+    <string name="compression_lab_sub">按大小、速度、SSIM 和 PSNR 比较格式</string>
+    <string name="compression_lab_formats">要比较的格式</string>
+    <string name="compression_lab_search_mode">搜索策略</string>
+    <string name="compression_lab_mode_manual">固定质量</string>
+    <string name="compression_lab_mode_target_quality">质量最小</string>
+    <string name="compression_lab_mode_target_size">最佳尺码偏小</string>
+    <string name="compression_lab_target_quality">目标视觉质量</string>
+    <string name="compression_lab_target_size">目标文件大小</string>
+    <string name="compression_lab_run">运行比较</string>
+    <string name="compression_lab_result_details">编码器：%1$s · %2$d ms\nSSIM：%3$s · PSNR：%4$s</string>
+    <string name="compression_lab_fixed_settings">固定设置</string>
+    <string name="compression_lab_target_not_reached">使用此格式无法达到请求的目标。</string>
+    <string name="compression_lab_failed_formats">无法测试：%1$s</string>
+    <string name="search_keywords_compression_lab">压缩基准 编解码器 编码器 批处理 文件大小 质量 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

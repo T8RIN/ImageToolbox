@@ -4960,4 +4960,19 @@
     <string name="relief_strength">Рељеф</string>
     <string name="blur_strength">Снага замућења</string>
     <string name="light_angle">Светлосни угао</string>
+    <string name="compression_lab">Цомпрессион Лаб</string>
+    <string name="compression_lab_sub">Упоредите формате према величини, брзини, ССИМ-у и ПСНР-у</string>
+    <string name="compression_lab_formats">Формати за поређење</string>
+    <string name="compression_lab_search_mode">Стратегија претраживања</string>
+    <string name="compression_lab_mode_manual">Фиксни квалитет</string>
+    <string name="compression_lab_mode_target_quality">Најмањи по квалитету</string>
+    <string name="compression_lab_mode_target_size">Најбоље испод величине</string>
+    <string name="compression_lab_target_quality">Циљани визуелни квалитет</string>
+    <string name="compression_lab_target_size">Циљана величина датотеке</string>
+    <string name="compression_lab_run">Покрените поређење</string>
+    <string name="compression_lab_result_details">Енкодер: __ПХ_0__ · __ПХ_1__ мс\нССИМ: __ПХ_2__ · ПСНР: __ПХ_3__</string>
+    <string name="compression_lab_fixed_settings">фиксна подешавања</string>
+    <string name="compression_lab_target_not_reached">Није могуће постићи тражени циљ са овим форматом.</string>
+    <string name="compression_lab_failed_formats">Није могуће тестирати: __ПХ_0__</string>
+    <string name="search_keywords_compression_lab">стандард за компресију кодек енкодер величина пакетне датотеке квалитет ССИМ ПСНР АВИФ ВебП ЈПЕГ ЈКСЛ ХЕИЦ ПНГ ТИФФ КОИ</string>
 </resources>

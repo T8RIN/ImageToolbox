@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Rahatlama</string>
     <string name="blur_strength">Bulanıklık gücü</string>
     <string name="light_angle">Işık açısı</string>
+    <string name="compression_lab">Sıkıştırma Laboratuvarı</string>
+    <string name="compression_lab_sub">Formatları boyut, hız, SSIM ve PSNR\'ye göre karşılaştırın</string>
+    <string name="compression_lab_formats">Karşılaştırılacak formatlar</string>
+    <string name="compression_lab_search_mode">Arama stratejisi</string>
+    <string name="compression_lab_mode_manual">Sabit kalite</string>
+    <string name="compression_lab_mode_target_quality">Kalitede en küçük</string>
+    <string name="compression_lab_mode_target_size">En iyi boyut altı</string>
+    <string name="compression_lab_target_quality">Görsel kaliteyi hedefleyin</string>
+    <string name="compression_lab_target_size">Hedef dosya boyutu</string>
+    <string name="compression_lab_run">Karşılaştırmayı çalıştır</string>
+    <string name="compression_lab_result_details">Kodlayıcı: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">sabit ayarlar</string>
+    <string name="compression_lab_target_not_reached">Bu formatla istenilen hedefe ulaşılamadı.</string>
+    <string name="compression_lab_failed_formats">Test edilemedi: %1$s</string>
+    <string name="search_keywords_compression_lab">sıkıştırma kıyaslaması codec kodlayıcı toplu dosya boyutu kalite SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

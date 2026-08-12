@@ -4958,4 +4958,19 @@
     <string name="relief_strength">안도</string>
     <string name="blur_strength">흐림 강도</string>
     <string name="light_angle">빛의 각도</string>
+    <string name="compression_lab">압축 연구실</string>
+    <string name="compression_lab_sub">크기, 속도, SSIM 및 PSNR별로 형식을 비교합니다.</string>
+    <string name="compression_lab_formats">비교할 형식</string>
+    <string name="compression_lab_search_mode">검색 전략</string>
+    <string name="compression_lab_mode_manual">고정 품질</string>
+    <string name="compression_lab_mode_target_quality">품질이 가장 작은</string>
+    <string name="compression_lab_mode_target_size">베스트 언더 사이즈</string>
+    <string name="compression_lab_target_quality">목표 시각적 품질</string>
+    <string name="compression_lab_target_size">대상 파일 크기</string>
+    <string name="compression_lab_run">비교 실행</string>
+    <string name="compression_lab_result_details">인코더: %1$s · %2$dms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">고정 설정</string>
+    <string name="compression_lab_target_not_reached">이 형식으로는 요청한 대상에 도달할 수 없습니다.</string>
+    <string name="compression_lab_failed_formats">테스트할 수 없음: %1$s</string>
+    <string name="search_keywords_compression_lab">압축 벤치마크 코덱 인코더 배치 파일 크기 품질 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Leevendus</string>
     <string name="blur_strength">Hägususe tugevus</string>
     <string name="light_angle">Valgusnurk</string>
+    <string name="compression_lab">Compression Lab</string>
+    <string name="compression_lab_sub">Võrrelge vorminguid suuruse, kiiruse, SSIM-i ja PSNR-i järgi</string>
+    <string name="compression_lab_formats">Võrreldavad vormingud</string>
+    <string name="compression_lab_search_mode">Otsingustrateegia</string>
+    <string name="compression_lab_mode_manual">Fikseeritud kvaliteet</string>
+    <string name="compression_lab_mode_target_quality">Kvaliteetselt väikseim</string>
+    <string name="compression_lab_mode_target_size">Parim alla suuruse</string>
+    <string name="compression_lab_target_quality">Eesmärk visuaalne kvaliteet</string>
+    <string name="compression_lab_target_size">Sihtfaili suurus</string>
+    <string name="compression_lab_run">Käivitage võrdlus</string>
+    <string name="compression_lab_result_details">Kodeerija: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">fikseeritud seaded</string>
+    <string name="compression_lab_target_not_reached">Selle vorminguga ei õnnestunud soovitud sihtmärki saavutada.</string>
+    <string name="compression_lab_failed_formats">Ei saanud testida: %1$s</string>
+    <string name="search_keywords_compression_lab">tihendus etalonkoodek kodeerija pakkfaili suurus kvaliteet SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

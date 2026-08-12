@@ -4961,4 +4961,19 @@
     <string name="relief_strength">Úleva</string>
     <string name="blur_strength">Síla rozmazání</string>
     <string name="light_angle">Světelný úhel</string>
+    <string name="compression_lab">Kompresní laboratoř</string>
+    <string name="compression_lab_sub">Porovnejte formáty podle velikosti, rychlosti, SSIM a PSNR</string>
+    <string name="compression_lab_formats">Formáty k porovnání</string>
+    <string name="compression_lab_search_mode">Strategie vyhledávání</string>
+    <string name="compression_lab_mode_manual">Pevná kvalita</string>
+    <string name="compression_lab_mode_target_quality">Nejmenší v kvalitě</string>
+    <string name="compression_lab_mode_target_size">Nejlépe pod velikost</string>
+    <string name="compression_lab_target_quality">Cílová vizuální kvalita</string>
+    <string name="compression_lab_target_size">Cílová velikost souboru</string>
+    <string name="compression_lab_run">Spustit srovnání</string>
+    <string name="compression_lab_result_details">Kodér: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">pevná nastavení</string>
+    <string name="compression_lab_target_not_reached">S tímto formátem nebylo možné dosáhnout požadovaného cíle.</string>
+    <string name="compression_lab_failed_formats">Nelze testovat: %1$s</string>
+    <string name="search_keywords_compression_lab">benchmark komprese kodek kodér velikost dávkového souboru kvalita SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Opluchting</string>
     <string name="blur_strength">Vervaging kracht</string>
     <string name="light_angle">Lichte hoek</string>
+    <string name="compression_lab">Compressie laboratorium</string>
+    <string name="compression_lab_sub">Vergelijk formaten op grootte, snelheid, SSIM en PSNR</string>
+    <string name="compression_lab_formats">Formaten om te vergelijken</string>
+    <string name="compression_lab_search_mode">Zoekstrategie</string>
+    <string name="compression_lab_mode_manual">Vaste kwaliteit</string>
+    <string name="compression_lab_mode_target_quality">Kleinste in kwaliteit</string>
+    <string name="compression_lab_mode_target_size">Beste onder maat</string>
+    <string name="compression_lab_target_quality">Doel visuele kwaliteit</string>
+    <string name="compression_lab_target_size">Doelbestandsgrootte</string>
+    <string name="compression_lab_run">Voer een vergelijking uit</string>
+    <string name="compression_lab_result_details">Encoder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">vaste instellingen</string>
+    <string name="compression_lab_target_not_reached">Het gevraagde doel kan met dit formaat niet worden bereikt.</string>
+    <string name="compression_lab_failed_formats">Kon niet testen: %1$s</string>
+    <string name="search_keywords_compression_lab">compressiebenchmark codec encoder batchbestandsgrootte kwaliteit SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Helpotus</string>
     <string name="blur_strength">Sumennuksen voimakkuus</string>
     <string name="light_angle">Valokulma</string>
+    <string name="compression_lab">Compression Lab</string>
+    <string name="compression_lab_sub">Vertaa formaatteja koon, nopeuden, SSIM:n ja PSNR:n mukaan</string>
+    <string name="compression_lab_formats">Vertailumuotoja</string>
+    <string name="compression_lab_search_mode">Hakustrategia</string>
+    <string name="compression_lab_mode_manual">Kiinteä laatu</string>
+    <string name="compression_lab_mode_target_quality">Laadultaan pienin</string>
+    <string name="compression_lab_mode_target_size">Paras alle koon</string>
+    <string name="compression_lab_target_quality">Tavoite visuaalinen laatu</string>
+    <string name="compression_lab_target_size">Kohdetiedoston koko</string>
+    <string name="compression_lab_run">Suorita vertailu</string>
+    <string name="compression_lab_result_details">Enkooderi: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">kiinteät asetukset</string>
+    <string name="compression_lab_target_not_reached">Pyydettyä tavoitetta ei voitu saavuttaa tällä muodolla.</string>
+    <string name="compression_lab_failed_formats">Ei voitu testata: %1$s</string>
+    <string name="search_keywords_compression_lab">pakkaus benchmark koodekki enkooderi erätiedoston koko laatu SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

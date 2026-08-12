@@ -4963,4 +4963,19 @@
     <string name="relief_strength">اِرتِياح</string>
     <string name="blur_strength">قوة طمس</string>
     <string name="light_angle">زاوية الضوء</string>
+    <string name="compression_lab">مختبر الضغط</string>
+    <string name="compression_lab_sub">قارن التنسيقات حسب الحجم والسرعة وSSIM وPSNR</string>
+    <string name="compression_lab_formats">تنسيقات للمقارنة</string>
+    <string name="compression_lab_search_mode">استراتيجية البحث</string>
+    <string name="compression_lab_mode_manual">جودة ثابتة</string>
+    <string name="compression_lab_mode_target_quality">الأصغر من حيث الجودة</string>
+    <string name="compression_lab_mode_target_size">أفضل تحت الحجم</string>
+    <string name="compression_lab_target_quality">استهداف الجودة البصرية</string>
+    <string name="compression_lab_target_size">حجم الملف المستهدف</string>
+    <string name="compression_lab_run">تشغيل المقارنة</string>
+    <string name="compression_lab_result_details">جهاز التشفير: %1$s · %2$d مللي ثانية\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">إعدادات ثابتة</string>
+    <string name="compression_lab_target_not_reached">لا يمكن الوصول إلى الهدف المطلوب بهذا التنسيق.</string>
+    <string name="compression_lab_failed_formats">تعذر الاختبار: %1$s</string>
+    <string name="search_keywords_compression_lab">معيار الضغط الترميز التشفير حجم الملف الدفعي الجودة SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4959,4 +4959,19 @@
     <string name="relief_strength">ఉపశమనం</string>
     <string name="blur_strength">మసక బలం</string>
     <string name="light_angle">కాంతి కోణం</string>
+    <string name="compression_lab">కంప్రెషన్ ల్యాబ్</string>
+    <string name="compression_lab_sub">పరిమాణం, వేగం, SSIM మరియు PSNR ద్వారా ఫార్మాట్‌లను సరిపోల్చండి</string>
+    <string name="compression_lab_formats">పోల్చడానికి ఫార్మాట్‌లు</string>
+    <string name="compression_lab_search_mode">శోధన వ్యూహం</string>
+    <string name="compression_lab_mode_manual">స్థిర నాణ్యత</string>
+    <string name="compression_lab_mode_target_quality">నాణ్యతలో చిన్నది</string>
+    <string name="compression_lab_mode_target_size">పరిమాణంలో ఉత్తమమైనది</string>
+    <string name="compression_lab_target_quality">లక్ష్యం దృశ్య నాణ్యత</string>
+    <string name="compression_lab_target_size">లక్ష్య ఫైల్ పరిమాణం</string>
+    <string name="compression_lab_run">పోలికను అమలు చేయండి</string>
+    <string name="compression_lab_result_details">ఎన్‌కోడర్: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">స్థిర సెట్టింగులు</string>
+    <string name="compression_lab_target_not_reached">ఈ ఫార్మాట్‌తో అభ్యర్థించిన లక్ష్యాన్ని చేరుకోలేకపోయింది.</string>
+    <string name="compression_lab_failed_formats">పరీక్షించడం సాధ్యపడలేదు: %1$s</string>
+    <string name="search_keywords_compression_lab">కంప్రెషన్ బెంచ్‌మార్క్ కోడెక్ ఎన్‌కోడర్ బ్యాచ్ ఫైల్ పరిమాణం నాణ్యత SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

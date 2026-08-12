@@ -4959,4 +4959,19 @@
     <string name="relief_strength">ত্রাণ</string>
     <string name="blur_strength">ঝাপসা শক্তি</string>
     <string name="light_angle">হালকা কোণ</string>
+    <string name="compression_lab">কম্প্রেশন ল্যাব</string>
+    <string name="compression_lab_sub">আকার, গতি, SSIM, এবং PSNR দ্বারা বিন্যাস তুলনা করুন</string>
+    <string name="compression_lab_formats">তুলনা করার জন্য বিন্যাস</string>
+    <string name="compression_lab_search_mode">অনুসন্ধান কৌশল</string>
+    <string name="compression_lab_mode_manual">স্থির গুণমান</string>
+    <string name="compression_lab_mode_target_quality">মানের দিক থেকে সবচেয়ে ছোট</string>
+    <string name="compression_lab_mode_target_size">আকারের অধীনে সেরা</string>
+    <string name="compression_lab_target_quality">লক্ষ্য চাক্ষুষ মান</string>
+    <string name="compression_lab_target_size">টার্গেট ফাইল সাইজ</string>
+    <string name="compression_lab_run">তুলনা চালান</string>
+    <string name="compression_lab_result_details">এনকোডার: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">স্থির সেটিংস</string>
+    <string name="compression_lab_target_not_reached">এই বিন্যাসের সাথে অনুরোধ করা লক্ষ্যে পৌঁছানো যায়নি।</string>
+    <string name="compression_lab_failed_formats">পরীক্ষা করা যায়নি: %1$s</string>
+    <string name="search_keywords_compression_lab">কম্প্রেশন বেঞ্চমার্ক কোডেক এনকোডার ব্যাচ ফাইল সাইজ মানের SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

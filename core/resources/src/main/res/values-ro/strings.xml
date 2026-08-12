@@ -4960,4 +4960,19 @@
     <string name="relief_strength">Relief</string>
     <string name="blur_strength">Puterea estomparii</string>
     <string name="light_angle">Unghiul de lumină</string>
+    <string name="compression_lab">Laboratorul de compresie</string>
+    <string name="compression_lab_sub">Comparați formatele după dimensiune, viteză, SSIM și PSNR</string>
+    <string name="compression_lab_formats">Formate de comparat</string>
+    <string name="compression_lab_search_mode">Strategia de căutare</string>
+    <string name="compression_lab_mode_manual">Calitate fixă</string>
+    <string name="compression_lab_mode_target_quality">Cel mai mic la calitate</string>
+    <string name="compression_lab_mode_target_size">Cel mai bun sub dimensiune</string>
+    <string name="compression_lab_target_quality">Calitatea vizuală vizată</string>
+    <string name="compression_lab_target_size">Dimensiunea țintă a fișierului</string>
+    <string name="compression_lab_run">Rulați comparația</string>
+    <string name="compression_lab_result_details">Codificator: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">setări fixe</string>
+    <string name="compression_lab_target_not_reached">Ținta solicitată nu a putut fi atinsă cu acest format.</string>
+    <string name="compression_lab_failed_formats">Nu s-a putut testa: %1$s</string>
+    <string name="search_keywords_compression_lab">comprimare benchmark codec codificator batch dimensiune fișier calitate SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

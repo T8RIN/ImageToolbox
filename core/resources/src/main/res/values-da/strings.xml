@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Lettelse</string>
     <string name="blur_strength">Sløringsstyrke</string>
     <string name="light_angle">Lysvinkel</string>
+    <string name="compression_lab">Kompressionslaboratorium</string>
+    <string name="compression_lab_sub">Sammenlign formater efter størrelse, hastighed, SSIM og PSNR</string>
+    <string name="compression_lab_formats">Formater til sammenligning</string>
+    <string name="compression_lab_search_mode">Søgestrategi</string>
+    <string name="compression_lab_mode_manual">Fast kvalitet</string>
+    <string name="compression_lab_mode_target_quality">Mindst i kvalitet</string>
+    <string name="compression_lab_mode_target_size">Bedst under størrelse</string>
+    <string name="compression_lab_target_quality">Mål visuel kvalitet</string>
+    <string name="compression_lab_target_size">Mål filstørrelse</string>
+    <string name="compression_lab_run">Kør sammenligning</string>
+    <string name="compression_lab_result_details">Indkoder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">faste indstillinger</string>
+    <string name="compression_lab_target_not_reached">Det ønskede mål kunne ikke nås med dette format.</string>
+    <string name="compression_lab_failed_formats">Kunne ikke teste: %1$s</string>
+    <string name="search_keywords_compression_lab">kompression benchmark codec encoder batch filstørrelse kvalitet SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

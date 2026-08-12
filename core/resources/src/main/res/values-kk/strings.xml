@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Рельеф</string>
     <string name="blur_strength">Бұлыңғырлық күші</string>
     <string name="light_angle">Жарық бұрышы</string>
+    <string name="compression_lab">Сығымдау зертханасы</string>
+    <string name="compression_lab_sub">Пішімдерді өлшемі, жылдамдығы, SSIM және PSNR бойынша салыстырыңыз</string>
+    <string name="compression_lab_formats">Салыстыру үшін форматтар</string>
+    <string name="compression_lab_search_mode">Іздеу стратегиясы</string>
+    <string name="compression_lab_mode_manual">Бекітілген сапа</string>
+    <string name="compression_lab_mode_target_quality">Сапасы бойынша ең кішкентай</string>
+    <string name="compression_lab_mode_target_size">Көлемі бойынша ең жақсы</string>
+    <string name="compression_lab_target_quality">Мақсатты көру сапасы</string>
+    <string name="compression_lab_target_size">Мақсатты файл өлшемі</string>
+    <string name="compression_lab_run">Салыстыруды іске қосыңыз</string>
+    <string name="compression_lab_result_details">Кодер: %1$s · %2$d мс\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">бекітілген параметрлер</string>
+    <string name="compression_lab_target_not_reached">Сұралған мақсатқа бұл пішіммен жету мүмкін емес.</string>
+    <string name="compression_lab_failed_formats">Тестілеу мүмкін болмады: %1$s</string>
+    <string name="search_keywords_compression_lab">қысу эталоны кодек кодер пакеттік файл өлшемі сапасы SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4961,4 +4961,19 @@
     <string name="relief_strength">Palengvėjimas</string>
     <string name="blur_strength">Suliejimo stiprumas</string>
     <string name="light_angle">Šviesos kampas</string>
+    <string name="compression_lab">Suspaudimo laboratorija</string>
+    <string name="compression_lab_sub">Palyginkite formatus pagal dydį, greitį, SSIM ir PSNR</string>
+    <string name="compression_lab_formats">Palyginti formatai</string>
+    <string name="compression_lab_search_mode">Paieškos strategija</string>
+    <string name="compression_lab_mode_manual">Fiksuota kokybė</string>
+    <string name="compression_lab_mode_target_quality">Mažiausias pagal kokybę</string>
+    <string name="compression_lab_mode_target_size">Geriausias mažesnio dydžio</string>
+    <string name="compression_lab_target_quality">Tikslinė vaizdo kokybė</string>
+    <string name="compression_lab_target_size">Tikslinis failo dydis</string>
+    <string name="compression_lab_run">Vykdykite palyginimą</string>
+    <string name="compression_lab_result_details">Koduotuvas: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">fiksuoti nustatymai</string>
+    <string name="compression_lab_target_not_reached">Šiuo formatu nepavyko pasiekti prašomo tikslo.</string>
+    <string name="compression_lab_failed_formats">Nepavyko išbandyti: %1$s</string>
+    <string name="search_keywords_compression_lab">glaudinimo etalonas kodekas koduotuvas paketinio failo dydžio kokybė SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

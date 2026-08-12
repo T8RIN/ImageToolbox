@@ -4959,4 +4959,19 @@
     <string name="relief_strength">राहत</string>
     <string name="blur_strength">धुंधला ताकत</string>
     <string name="light_angle">प्रकाश कोण</string>
+    <string name="compression_lab">संपीड़न प्रयोगशाला</string>
+    <string name="compression_lab_sub">आकार, गति, एसएसआईएम और पीएसएनआर के आधार पर प्रारूपों की तुलना करें</string>
+    <string name="compression_lab_formats">तुलना करने के लिए प्रारूप</string>
+    <string name="compression_lab_search_mode">कार्यनीति खोजें</string>
+    <string name="compression_lab_mode_manual">निश्चित गुणवत्ता</string>
+    <string name="compression_lab_mode_target_quality">गुणवत्ता में सबसे छोटा</string>
+    <string name="compression_lab_mode_target_size">साइज़ के अंतर्गत सर्वोत्तम</string>
+    <string name="compression_lab_target_quality">लक्ष्य दृश्य गुणवत्ता</string>
+    <string name="compression_lab_target_size">लक्ष्य फ़ाइल आकार</string>
+    <string name="compression_lab_run">तुलना चलाएँ</string>
+    <string name="compression_lab_result_details">एनकोडर: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">निश्चित सेटिंग्स</string>
+    <string name="compression_lab_target_not_reached">इस प्रारूप से अनुरोधित लक्ष्य तक नहीं पहुंचा जा सका।</string>
+    <string name="compression_lab_failed_formats">परीक्षण नहीं किया जा सका: %1$s</string>
+    <string name="search_keywords_compression_lab">संपीड़न बेंचमार्क कोडेक एनकोडर बैच फ़ाइल आकार गुणवत्ता एसएसआईएम पीएसएनआर एवीआईएफ वेबपी जेपीईजी जेएक्सएल एचईआईसी पीएनजी टीआईएफएफ क्यूओआई</string>
 </resources>

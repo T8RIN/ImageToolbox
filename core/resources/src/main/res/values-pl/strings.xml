@@ -4961,4 +4961,19 @@
     <string name="relief_strength">Ulga</string>
     <string name="blur_strength">Siła rozmycia</string>
     <string name="light_angle">Kąt światła</string>
+    <string name="compression_lab">Laboratorium Kompresji</string>
+    <string name="compression_lab_sub">Porównaj formaty według rozmiaru, szybkości, SSIM i PSNR</string>
+    <string name="compression_lab_formats">Formaty do porównania</string>
+    <string name="compression_lab_search_mode">Strategia wyszukiwania</string>
+    <string name="compression_lab_mode_manual">Stała jakość</string>
+    <string name="compression_lab_mode_target_quality">Najmniejszy pod względem jakości</string>
+    <string name="compression_lab_mode_target_size">Najlepiej poniżej rozmiaru</string>
+    <string name="compression_lab_target_quality">Docelowa jakość wizualna</string>
+    <string name="compression_lab_target_size">Docelowy rozmiar pliku</string>
+    <string name="compression_lab_run">Uruchom porównanie</string>
+    <string name="compression_lab_result_details">Koder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">stałe ustawienia</string>
+    <string name="compression_lab_target_not_reached">Żądany cel nie został osiągnięty w tym formacie.</string>
+    <string name="compression_lab_failed_formats">Nie można przetestować: %1$s</string>
+    <string name="search_keywords_compression_lab">test porównawczy kompresji kodek koder rozmiar pliku wsadowego jakość SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

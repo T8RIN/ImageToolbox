@@ -4958,4 +4958,19 @@
     <string name="relief_strength">การบรรเทา</string>
     <string name="blur_strength">ความเบลอ</string>
     <string name="light_angle">มุมแสง</string>
+    <string name="compression_lab">ห้องปฏิบัติการการบีบอัด</string>
+    <string name="compression_lab_sub">เปรียบเทียบรูปแบบตามขนาด ความเร็ว SSIM และ PSNR</string>
+    <string name="compression_lab_formats">รูปแบบที่จะเปรียบเทียบ</string>
+    <string name="compression_lab_search_mode">กลยุทธ์การค้นหา</string>
+    <string name="compression_lab_mode_manual">คุณภาพคงที่</string>
+    <string name="compression_lab_mode_target_quality">เล็กที่สุดในคุณภาพ</string>
+    <string name="compression_lab_mode_target_size">ดีที่สุดภายใต้ขนาด</string>
+    <string name="compression_lab_target_quality">คุณภาพของภาพเป้าหมาย</string>
+    <string name="compression_lab_target_size">ขนาดไฟล์เป้าหมาย</string>
+    <string name="compression_lab_run">เรียกใช้การเปรียบเทียบ</string>
+    <string name="compression_lab_result_details">ตัวเข้ารหัส: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">การตั้งค่าคงที่</string>
+    <string name="compression_lab_target_not_reached">ไม่สามารถเข้าถึงเป้าหมายที่ร้องขอด้วยรูปแบบนี้</string>
+    <string name="compression_lab_failed_formats">ไม่สามารถทดสอบได้: %1$s</string>
+    <string name="search_keywords_compression_lab">การบีบอัด เกณฑ์มาตรฐาน โคเดก ตัวเข้ารหัส คุณภาพขนาดไฟล์แบทช์ SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

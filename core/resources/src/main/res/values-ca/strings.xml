@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Relleu</string>
     <string name="blur_strength">Força de desenfocament</string>
     <string name="light_angle">Angle de llum</string>
+    <string name="compression_lab">Laboratori de compressió</string>
+    <string name="compression_lab_sub">Compara formats per mida, velocitat, SSIM i PSNR</string>
+    <string name="compression_lab_formats">Formats per comparar</string>
+    <string name="compression_lab_search_mode">Estratègia de cerca</string>
+    <string name="compression_lab_mode_manual">Qualitat fixa</string>
+    <string name="compression_lab_mode_target_quality">El més petit en qualitat</string>
+    <string name="compression_lab_mode_target_size">Millor sota mida</string>
+    <string name="compression_lab_target_quality">Qualitat visual objectiu</string>
+    <string name="compression_lab_target_size">Mida del fitxer objectiu</string>
+    <string name="compression_lab_run">Executa la comparació</string>
+    <string name="compression_lab_result_details">Codificador: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">configuracions fixes</string>
+    <string name="compression_lab_target_not_reached">No s\'ha pogut assolir l\'objectiu sol·licitat amb aquest format.</string>
+    <string name="compression_lab_failed_formats">No s\'ha pogut provar: %1$s</string>
+    <string name="search_keywords_compression_lab">codificador de còdec de referència de compressió mida de fitxer per lots qualitat SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

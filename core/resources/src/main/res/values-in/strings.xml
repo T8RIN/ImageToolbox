@@ -4958,4 +4958,19 @@
     <string name="relief_strength">Lega</string>
     <string name="blur_strength">Kekuatan kabur</string>
     <string name="light_angle">Sudut cahaya</string>
+    <string name="compression_lab">Laboratorium Kompresi</string>
+    <string name="compression_lab_sub">Bandingkan format berdasarkan ukuran, kecepatan, SSIM, dan PSNR</string>
+    <string name="compression_lab_formats">Format untuk dibandingkan</string>
+    <string name="compression_lab_search_mode">Strategi pencarian</string>
+    <string name="compression_lab_mode_manual">Kualitas tetap</string>
+    <string name="compression_lab_mode_target_quality">Kualitas terkecil</string>
+    <string name="compression_lab_mode_target_size">Ukuran terbaik di bawah</string>
+    <string name="compression_lab_target_quality">Targetkan kualitas visual</string>
+    <string name="compression_lab_target_size">Ukuran file sasaran</string>
+    <string name="compression_lab_run">Jalankan perbandingan</string>
+    <string name="compression_lab_result_details">Pembuat enkode: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">pengaturan tetap</string>
+    <string name="compression_lab_target_not_reached">Target yang diminta tidak dapat dicapai dengan format ini.</string>
+    <string name="compression_lab_failed_formats">Tidak dapat menguji: %1$s</string>
+    <string name="search_keywords_compression_lab">kompresi benchmark codec encoder ukuran file batch kualitas SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

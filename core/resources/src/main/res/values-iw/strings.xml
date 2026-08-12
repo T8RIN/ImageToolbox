@@ -4961,4 +4961,19 @@
     <string name="relief_strength">הֲקָלָה</string>
     <string name="blur_strength">חוזק טשטוש</string>
     <string name="light_angle">זווית אור</string>
+    <string name="compression_lab">מעבדת דחיסה</string>
+    <string name="compression_lab_sub">השווה פורמטים לפי גודל, מהירות, SSIM ו-PSNR</string>
+    <string name="compression_lab_formats">פורמטים להשוואה</string>
+    <string name="compression_lab_search_mode">אסטרטגיית חיפוש</string>
+    <string name="compression_lab_mode_manual">איכות קבועה</string>
+    <string name="compression_lab_mode_target_quality">הכי קטן באיכות</string>
+    <string name="compression_lab_mode_target_size">הכי טוב מתחת לגודל</string>
+    <string name="compression_lab_target_quality">כוון לאיכות ויזואלית</string>
+    <string name="compression_lab_target_size">גודל קובץ יעד</string>
+    <string name="compression_lab_run">הפעל השוואה</string>
+    <string name="compression_lab_result_details">מקודד: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">הגדרות קבועות</string>
+    <string name="compression_lab_target_not_reached">לא ניתן היה להגיע ליעד המבוקש עם פורמט זה.</string>
+    <string name="compression_lab_failed_formats">לא ניתן לבדוק: %1$s</string>
+    <string name="search_keywords_compression_lab">מדדי דחיסה מקודד codec אצווה גודל קובץ איכות SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

@@ -4961,4 +4961,19 @@
     <string name="relief_strength">Рэльеф</string>
     <string name="blur_strength">Сіла размыцця</string>
     <string name="light_angle">Светлы ракурс</string>
+    <string name="compression_lab">Лабараторыя сціску</string>
+    <string name="compression_lab_sub">Параўнайце фарматы па памеры, хуткасці, SSIM і PSNR</string>
+    <string name="compression_lab_formats">Фарматы для параўнання</string>
+    <string name="compression_lab_search_mode">Стратэгія пошуку</string>
+    <string name="compression_lab_mode_manual">Выпраўленая якасць</string>
+    <string name="compression_lab_mode_target_quality">Самы маленькі па якасці</string>
+    <string name="compression_lab_mode_target_size">Лепшае пад памер</string>
+    <string name="compression_lab_target_quality">Мэтавая візуальная якасць</string>
+    <string name="compression_lab_target_size">Мэтавы памер файла</string>
+    <string name="compression_lab_run">Запусціць параўнанне</string>
+    <string name="compression_lab_result_details">Кадавальнік: %1$s · %2$d мс\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">фіксаваныя налады</string>
+    <string name="compression_lab_target_not_reached">Запытаная мэта не можа быць дасягнута з дапамогай гэтага фармату.</string>
+    <string name="compression_lab_failed_formats">Не атрымалася праверыць: %1$s</string>
+    <string name="search_keywords_compression_lab">эталон сціску кодэк кадавальнік пакетны памер файла якасць SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

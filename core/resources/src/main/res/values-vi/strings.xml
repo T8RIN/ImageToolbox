@@ -4958,4 +4958,19 @@
     <string name="relief_strength">Sự cứu tế</string>
     <string name="blur_strength">Độ mờ</string>
     <string name="light_angle">Góc sáng</string>
+    <string name="compression_lab">Phòng thí nghiệm nén</string>
+    <string name="compression_lab_sub">So sánh các định dạng theo kích thước, tốc độ, SSIM và PSNR</string>
+    <string name="compression_lab_formats">Các định dạng để so sánh</string>
+    <string name="compression_lab_search_mode">Chiến lược tìm kiếm</string>
+    <string name="compression_lab_mode_manual">chất lượng cố định</string>
+    <string name="compression_lab_mode_target_quality">Nhỏ nhất về chất lượng</string>
+    <string name="compression_lab_mode_target_size">Tốt nhất dưới kích thước</string>
+    <string name="compression_lab_target_quality">Mục tiêu chất lượng hình ảnh</string>
+    <string name="compression_lab_target_size">Kích thước tệp mục tiêu</string>
+    <string name="compression_lab_run">Chạy so sánh</string>
+    <string name="compression_lab_result_details">Bộ mã hóa: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">cài đặt cố định</string>
+    <string name="compression_lab_target_not_reached">Không thể đạt được mục tiêu được yêu cầu với định dạng này.</string>
+    <string name="compression_lab_failed_formats">Không thể kiểm tra: %1$s</string>
+    <string name="search_keywords_compression_lab">nén điểm chuẩn codec bộ mã hóa chất lượng kích thước tệp hàng loạt SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

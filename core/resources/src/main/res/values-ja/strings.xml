@@ -4958,4 +4958,19 @@
     <string name="relief_strength">安心</string>
     <string name="blur_strength">ぼかしの強さ</string>
     <string name="light_angle">光の角度</string>
+    <string name="compression_lab">圧縮ラボ</string>
+    <string name="compression_lab_sub">サイズ、速度、SSIM、PSNR によるフォーマットの比較</string>
+    <string name="compression_lab_formats">比較するフォーマット</string>
+    <string name="compression_lab_search_mode">検索戦略</string>
+    <string name="compression_lab_mode_manual">固定品質</string>
+    <string name="compression_lab_mode_target_quality">品質的には最小</string>
+    <string name="compression_lab_mode_target_size">ベストアンダーサイズ</string>
+    <string name="compression_lab_target_quality">目標のビジュアル品質</string>
+    <string name="compression_lab_target_size">対象ファイルサイズ</string>
+    <string name="compression_lab_run">比較を実行する</string>
+    <string name="compression_lab_result_details">エンコーダー: %1$s · %2$d ミリ秒\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">固定設定</string>
+    <string name="compression_lab_target_not_reached">この形式では、要求されたターゲットに到達できませんでした。</string>
+    <string name="compression_lab_failed_formats">テストできませんでした: %1$s</string>
+    <string name="search_keywords_compression_lab">圧縮ベンチマーク コーデック エンコーダ バッチ ファイル サイズ 品質 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

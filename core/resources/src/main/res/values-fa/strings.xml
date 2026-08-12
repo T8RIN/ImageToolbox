@@ -4959,4 +4959,19 @@
     <string name="relief_strength">امداد</string>
     <string name="blur_strength">قدرت تاری</string>
     <string name="light_angle">زاویه نور</string>
+    <string name="compression_lab">آزمایشگاه فشرده سازی</string>
+    <string name="compression_lab_sub">فرمت ها را بر اساس اندازه، سرعت، SSIM و PSNR مقایسه کنید</string>
+    <string name="compression_lab_formats">فرمت هایی برای مقایسه</string>
+    <string name="compression_lab_search_mode">استراتژی جستجو</string>
+    <string name="compression_lab_mode_manual">کیفیت ثابت</string>
+    <string name="compression_lab_mode_target_quality">کوچکترین با کیفیت</string>
+    <string name="compression_lab_mode_target_size">بهترین زیر اندازه</string>
+    <string name="compression_lab_target_quality">کیفیت بصری را هدف قرار دهید</string>
+    <string name="compression_lab_target_size">اندازه فایل مورد نظر</string>
+    <string name="compression_lab_run">مقایسه را اجرا کنید</string>
+    <string name="compression_lab_result_details">رمزگذار: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">تنظیمات ثابت</string>
+    <string name="compression_lab_target_not_reached">هدف درخواستی با این قالب قابل دستیابی نیست.</string>
+    <string name="compression_lab_failed_formats">آزمایش نشد: %1$s</string>
+    <string name="search_keywords_compression_lab">فشرده سازی معیار فشرده سازی کدک رمزگذار دسته ای اندازه فایل کیفیت SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>

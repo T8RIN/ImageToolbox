@@ -4959,4 +4959,19 @@
     <string name="relief_strength">Megkönnyebbülés</string>
     <string name="blur_strength">Elmosódás erőssége</string>
     <string name="light_angle">Fényszög</string>
+    <string name="compression_lab">Compression Lab</string>
+    <string name="compression_lab_sub">Hasonlítsa össze a formátumokat méret, sebesség, SSIM és PSNR szerint</string>
+    <string name="compression_lab_formats">Összehasonlítandó formátumok</string>
+    <string name="compression_lab_search_mode">Keresési stratégia</string>
+    <string name="compression_lab_mode_manual">Fix minőség</string>
+    <string name="compression_lab_mode_target_quality">Minőségben a legkisebb</string>
+    <string name="compression_lab_mode_target_size">Legjobb méret alatt</string>
+    <string name="compression_lab_target_quality">Cél vizuális minőség</string>
+    <string name="compression_lab_target_size">Cél fájlméret</string>
+    <string name="compression_lab_run">Futtassa az összehasonlítást</string>
+    <string name="compression_lab_result_details">Kódoló: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
+    <string name="compression_lab_fixed_settings">rögzített beállítások</string>
+    <string name="compression_lab_target_not_reached">A kért cél nem érhető el ezzel a formátummal.</string>
+    <string name="compression_lab_failed_formats">Nem sikerült tesztelni: %1$s</string>
+    <string name="search_keywords_compression_lab">tömörítés benchmark kodek kódoló kötegelt fájl méret minőség SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
 </resources>
