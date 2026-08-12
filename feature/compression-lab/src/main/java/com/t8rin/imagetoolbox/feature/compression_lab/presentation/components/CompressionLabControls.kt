@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.compression_lab.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -86,39 +87,43 @@ internal fun CompressionLabControls(
             onValueChange = component::setSearchMode
         )
 
-        when (component.searchMode) {
-            CompressionSearchMode.Manual -> EnhancedSliderItem(
-                value = component.manualQuality,
-                title = stringResource(R.string.quality),
-                valueRange = 0f..100f,
-                steps = 99,
-                shape = ShapeDefaults.large,
-                onValueChange = { component.setManualQuality(it.toInt()) }
-            )
+        AnimatedContent(
+            targetState = component.searchMode
+        ) { searchMode ->
+            when (searchMode) {
+                CompressionSearchMode.Manual -> EnhancedSliderItem(
+                    value = component.manualQuality,
+                    title = stringResource(R.string.quality),
+                    valueRange = 0f..100f,
+                    steps = 99,
+                    shape = ShapeDefaults.large,
+                    onValueChange = { component.setManualQuality(it.toInt()) }
+                )
 
-            CompressionSearchMode.TargetQuality -> EnhancedSliderItem(
-                value = component.targetQuality,
-                title = stringResource(R.string.compression_lab_target_quality),
-                valueSuffix = "% SSIM",
-                valueRange = 50f..100f,
-                steps = 49,
-                shape = ShapeDefaults.large,
-                onValueChange = { component.setTargetQuality(it.toInt()) }
-            )
+                CompressionSearchMode.TargetQuality -> EnhancedSliderItem(
+                    value = component.targetQuality,
+                    title = stringResource(R.string.compression_lab_target_quality),
+                    valueSuffix = "% SSIM",
+                    valueRange = 50f..100f,
+                    steps = 49,
+                    shape = ShapeDefaults.large,
+                    onValueChange = { component.setTargetQuality(it.toInt()) }
+                )
 
-            CompressionSearchMode.TargetSize -> EnhancedSliderItem(
-                value = component.targetSizeKb,
-                title = stringResource(R.string.compression_lab_target_size),
-                valueSuffix = " kB",
-                valueRange = 10f..10_000f,
-                shape = ShapeDefaults.large,
-                onValueChange = { component.setTargetSizeKb(it.toInt()) }
-            )
+                CompressionSearchMode.TargetSize -> EnhancedSliderItem(
+                    value = component.targetSizeKb,
+                    title = stringResource(R.string.compression_lab_target_size),
+                    valueSuffix = " kB",
+                    valueRange = 10f..10_000f,
+                    shape = ShapeDefaults.large,
+                    onValueChange = { component.setTargetSizeKb(it.toInt()) }
+                )
+            }
         }
 
         FilledTonalButton(
             onClick = component::runLab,
-            enabled = !component.isImageLoading,
+            enabled = !component.isImageLoading && !component.isSaving,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth()

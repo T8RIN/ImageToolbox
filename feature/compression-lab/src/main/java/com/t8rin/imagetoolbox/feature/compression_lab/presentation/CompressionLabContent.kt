@@ -17,16 +17,26 @@
 
 package com.t8rin.imagetoolbox.feature.compression_lab.presentation
 
+import android.net.Uri
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Labs
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -38,12 +48,14 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
@@ -80,13 +92,18 @@ fun CompressionLabContent(
     }
 
     CompareSheet(
-        data = component.sourceBitmap to component.resultBitmap,
+        beforeContent = {
+            CompressionLabPicture(model = component.benchmarkUri)
+        },
+        afterContent = {
+            CompressionLabPicture(model = component.selectedResult?.uri)
+        },
         visible = showCompareSheet,
         onDismiss = { showCompareSheet = false }
     )
 
     ZoomModalSheet(
-        data = component.resultBitmap ?: component.sourceBitmap,
+        data = component.selectedUri,
         visible = showZoomSheet,
         onDismiss = { showZoomSheet = false }
     )
@@ -101,7 +118,7 @@ fun CompressionLabContent(
                 input = component.sourceBitmap,
                 isLoading = component.isImageLoading,
                 size = component.selectedResult?.sizeBytes,
-                originalSize = component.selectedUri?.fileSize()
+                originalSize = component.benchmarkUri?.fileSize()
             )
         },
         onGoBack = onBack,
@@ -118,17 +135,24 @@ fun CompressionLabContent(
             )
         },
         imagePreview = {
-            ImageContainer(
-                modifier = Modifier.detectSwipes(
-                    onSwipeRight = component::selectPreviousBenchmark,
-                    onSwipeLeft = component::selectNextBenchmark
-                ),
-                imageInside = isPortrait,
-                showOriginal = false,
-                previewBitmap = component.resultBitmap ?: component.sourceBitmap,
-                originalBitmap = component.sourceBitmap,
-                isLoading = component.isImageLoading,
-                shouldShowPreview = true
+            var aspectRatio by remember(component.selectedUri) {
+                mutableFloatStateOf(1f)
+            }
+            Picture(
+                model = component.selectedUri,
+                modifier = Modifier
+                    .detectSwipes(
+                        onSwipeRight = component::selectPreviousBenchmark,
+                        onSwipeLeft = component::selectNextBenchmark
+                    )
+                    .container(MaterialTheme.shapes.medium)
+                    .aspectRatio(aspectRatio),
+                shape = MaterialTheme.shapes.medium,
+                contentScale = ContentScale.FillBounds,
+                isLoadingFromDifferentPlace = component.isImageLoading,
+                onSuccess = {
+                    aspectRatio = it.result.image.safeAspectRatio
+                }
             )
         },
         controls = {
@@ -141,24 +165,46 @@ fun CompressionLabContent(
         buttons = { actions ->
             var showFolderSelectionDialog by rememberSaveable { mutableStateOf(false) }
             var showOneTimeImagePickingDialog by rememberSaveable { mutableStateOf(false) }
+            var editSheetData by remember { mutableStateOf(emptyList<Uri>()) }
+            val hasResult = component.selectedResult != null
 
             BottomButtonsBlock(
                 isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = pickImages,
                 onSecondaryButtonLongClick = { showOneTimeImagePickingDialog = true },
-                onPrimaryButtonClick = { component.saveResults(null) },
-                onPrimaryButtonLongClick = { showFolderSelectionDialog = true },
-                isPrimaryButtonVisible = component.selectedResult != null,
-                isPrimaryButtonEnabled = component.selectedResult != null &&
+                onPrimaryButtonClick = {
+                    if (hasResult) component.saveResults(null)
+                    else component.runLab()
+                },
+                onPrimaryButtonLongClick = if (hasResult) {
+                    { showFolderSelectionDialog = true }
+                } else null,
+                primaryButtonIcon = if (hasResult) {
+                    Icons.Rounded.Save
+                } else {
+                    Icons.Rounded.Labs
+                },
+                isPrimaryButtonVisible = true,
+                isPrimaryButtonEnabled = component.sourceBitmap != null &&
                         !component.isImageLoading && !component.isSaving,
                 actions = {
                     actions()
                     ShareButton(
-                        enabled = component.selectedResult != null &&
+                        enabled = hasResult &&
                                 !component.isImageLoading && !component.isSaving,
-                        onShare = component::shareResults
+                        onShare = component::shareResults,
+                        onEdit = {
+                            component.cacheResults { editSheetData = it }
+                        }
                     )
                 }
+            )
+
+            ProcessImagesPreferenceSheet(
+                uris = editSheetData,
+                visible = editSheetData.isNotEmpty(),
+                onDismiss = { editSheetData = emptyList() },
+                onNavigate = component.onNavigate
             )
 
             OneTimeSaveLocationSelectionDialog(
@@ -192,7 +238,7 @@ fun CompressionLabContent(
         visible = showReferenceImageSheet,
         onDismiss = { showReferenceImageSheet = false },
         uris = component.uris,
-        selectedUri = component.selectedUri,
+        selectedUri = component.benchmarkUri,
         onUriPicked = component::selectBenchmark,
         onUriRemoved = component::removeUri,
         columns = if (isPortrait) 2 else 4
@@ -209,5 +255,23 @@ fun CompressionLabContent(
         done = component.done,
         left = component.uris.size,
         onCancelLoading = component::cancelSaving
+    )
+}
+
+@Composable
+private fun CompressionLabPicture(
+    model: Any?,
+    modifier: Modifier = Modifier
+) {
+    var aspectRatio by remember(model) {
+        mutableFloatStateOf(1f)
+    }
+    Picture(
+        model = model,
+        modifier = modifier.aspectRatio(aspectRatio),
+        contentScale = ContentScale.FillBounds,
+        onSuccess = {
+            aspectRatio = it.result.image.safeAspectRatio
+        }
     )
 }

@@ -187,9 +187,11 @@ fun <T : Any> DataSelector(
         if (canExpand) {
             val state = rememberLazyStaggeredGridState()
 
-            LaunchedEffect(value, entries) {
+            LaunchedEffect(value) {
                 delay(300)
-                val targetIndex = entries.indexOf(value).takeIf { it >= 0 } ?: 0
+                val targetIndex = entries.indexOfFirst {
+                    itemEqualityDelegate(value, it)
+                }.takeIf { it >= 0 } ?: 0
                 if (state.layoutInfo.visibleItemsInfo.all { it.index != targetIndex }) {
                     state.scrollToItem(targetIndex)
                 }

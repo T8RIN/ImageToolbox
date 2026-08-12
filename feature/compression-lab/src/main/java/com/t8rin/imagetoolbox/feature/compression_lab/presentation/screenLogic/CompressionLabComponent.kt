@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.opencv_tools.image_comparison.ImageDiffTool
 import com.t8rin.opencv_tools.image_comparison.model.ComparisonType
@@ -54,6 +55,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val fileController: FileController,
@@ -68,14 +70,11 @@ class CompressionLabComponent @AssistedInject internal constructor(
     private val _uris: MutableState<List<Uri>> = mutableStateOf(emptyList())
     val uris: List<Uri> by _uris
 
-    private val _selectedUri: MutableState<Uri?> = mutableStateOf(null)
-    val selectedUri: Uri? by _selectedUri
+    private val _benchmarkUri: MutableState<Uri?> = mutableStateOf(null)
+    val benchmarkUri: Uri? by _benchmarkUri
 
     private val _sourceBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val sourceBitmap: Bitmap? by _sourceBitmap
-
-    private val _resultBitmap: MutableState<Bitmap?> = mutableStateOf(null)
-    val resultBitmap: Bitmap? by _resultBitmap
 
     private val _selectedFormats = mutableStateOf(DefaultFormats)
     val selectedFormats: List<ImageFormat> by _selectedFormats
@@ -102,6 +101,8 @@ class CompressionLabComponent @AssistedInject internal constructor(
     val selectedResultIndex: Int by _selectedResultIndex
     val selectedResult: CompressionLabResult?
         get() = results.getOrNull(selectedResultIndex)
+    val selectedUri: Uri?
+        get() = selectedResult?.uri ?: benchmarkUri
 
     private val _done = mutableIntStateOf(0)
     val done: Int by _done
@@ -109,8 +110,6 @@ class CompressionLabComponent @AssistedInject internal constructor(
     private var analysisJob: Job? by smartJob {
         _isImageLoading.update { false }
     }
-
-    private var previewJob: Job? by smartJob()
 
     private val _isSaving = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -134,22 +133,25 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
         if (distinctUris.isEmpty()) {
             cancelRunning()
-            _selectedUri.update { null }
+            _benchmarkUri.update { null }
             _sourceBitmap.update { null }
             clearResults()
             return
         }
 
-        val benchmarkUri = selectedUri
+        val selectedBenchmarkUri = benchmarkUri
             ?.takeIf { it in distinctUris }
             ?: distinctUris.first()
 
-        loadBenchmark(benchmarkUri)
+        loadBenchmark(selectedBenchmarkUri)
     }
 
     fun selectBenchmark(uri: Uri) {
-        if (uri !in uris || uri == selectedUri) return
-        loadBenchmark(uri)
+        if (uri !in uris || uri == benchmarkUri) return
+        loadBenchmark(
+            uri = uri,
+            runAnalysis = false
+        )
     }
 
     fun removeUri(uri: Uri) {
@@ -161,8 +163,11 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
         if (updatedUris.isEmpty()) {
             setUris(emptyList())
-        } else if (selectedUri == uri) {
-            loadBenchmark(updatedUris[index.coerceAtMost(updatedUris.lastIndex)])
+        } else if (benchmarkUri == uri) {
+            loadBenchmark(
+                uri = updatedUris[index.coerceAtMost(updatedUris.lastIndex)],
+                runAnalysis = false
+            )
         }
     }
 
@@ -215,8 +220,6 @@ class CompressionLabComponent @AssistedInject internal constructor(
         val newIndex = index.coerceIn(0, results.lastIndex.coerceAtLeast(0))
         if (newIndex != selectedResultIndex) {
             _selectedResultIndex.update { newIndex }
-            _resultBitmap.update { null }
-            results.getOrNull(newIndex)?.let(::loadResultPreview)
             registerChanges()
         }
     }
@@ -289,6 +292,33 @@ class CompressionLabComponent @AssistedInject internal constructor(
         }
     }
 
+    fun cacheResults(onComplete: (List<Uri>) -> Unit) {
+        val profile = selectedResult ?: return
+        val inputUris = uris
+        if (inputUris.isEmpty()) return
+
+        savingJob = trackProgress {
+            _isSaving.update { true }
+            _done.update { 0 }
+            val cachedUris = mutableListOf<Uri>()
+            var firstFailure: Throwable? = null
+
+            inputUris.forEachIndexed { index, uri ->
+                runSuspendCatching {
+                    encodeWithProfile(uri, profile).uri
+                }.onSuccess(cachedUris::add).onFailure {
+                    if (firstFailure == null) firstFailure = it
+                }
+                _done.update { index + 1 }
+                updateProgress(done = done, total = inputUris.size)
+            }
+
+            firstFailure?.let(AppToastHost::showFailureToast)
+            onComplete(cachedUris)
+            _isSaving.update { false }
+        }
+    }
+
     fun getFormatForFilenameSelection(): ImageFormat? = selectedResult?.format
 
     fun cancelRunning() {
@@ -303,8 +333,11 @@ class CompressionLabComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
-    private fun loadBenchmark(uri: Uri) {
-        _selectedUri.update { uri }
+    private fun loadBenchmark(
+        uri: Uri,
+        runAnalysis: Boolean = true
+    ) {
+        _benchmarkUri.update { uri }
         clearResults()
 
         analysisJob = componentScope.launch(defaultDispatcher) {
@@ -316,7 +349,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
                 )?.image ?: error("Unable to decode image")
             }.onSuccess { bitmap ->
                 _sourceBitmap.update { bitmap }
-                analyze(bitmap)
+                if (runAnalysis) analyze(bitmap)
             }.onFailure(AppToastHost::showFailureToast)
             _isImageLoading.update { false }
         }
@@ -324,7 +357,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
     private fun selectBenchmarkByOffset(offset: Int) {
         if (uris.size < 2) return
-        val currentIndex = uris.indexOf(selectedUri).coerceAtLeast(0)
+        val currentIndex = uris.indexOf(benchmarkUri).coerceAtLeast(0)
         val nextIndex = (currentIndex + offset).mod(uris.size)
         selectBenchmark(uris[nextIndex])
     }
@@ -334,7 +367,6 @@ class CompressionLabComponent @AssistedInject internal constructor(
         _failedFormats.update { emptyList() }
         _results.update { emptyList() }
         _selectedResultIndex.update { 0 }
-        _resultBitmap.update { null }
 
         val successful = mutableListOf<CompressionLabResult>()
         val failed = mutableListOf<String>()
@@ -345,9 +377,6 @@ class CompressionLabComponent @AssistedInject internal constructor(
                 findCandidate(bitmap, format).toResult(bitmap, format)
             }.onSuccess { result ->
                 successful += result
-                if (successful.size == 1) {
-                    loadResultPreview(result)
-                }
                 registerChanges()
             }.onFailure {
                 failed += format.title
@@ -503,7 +532,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
         uri: Uri,
         profile: CompressionLabResult
     ): EncodedOutput {
-        if (uri == selectedUri) {
+        if (uri == benchmarkUri) {
             return EncodedOutput(
                 uri = profile.uri,
                 width = profile.width,
@@ -558,19 +587,6 @@ class CompressionLabComponent @AssistedInject internal constructor(
         filename = filenameCreator.constructRandomFilename(format.extension)
     )?.let(Uri::parse) ?: error("Unable to cache ${format.title} result")
 
-    private fun loadResultPreview(result: CompressionLabResult) {
-        previewJob = componentScope.launch(defaultDispatcher) {
-            val bitmap = imageGetter.getImage(
-                uri = result.uri.toString(),
-                originalSize = true
-            )?.image ?: return@launch
-
-            if (selectedResult?.uri == result.uri) {
-                _resultBitmap.update { bitmap }
-            }
-        }
-    }
-
     private fun metric(
         source: Bitmap,
         result: Bitmap,
@@ -588,11 +604,8 @@ class CompressionLabComponent @AssistedInject internal constructor(
     private fun clearResults() {
         analysisJob?.cancel()
         analysisJob = null
-        previewJob?.cancel()
-        previewJob = null
         _isImageLoading.update { false }
         _results.update { emptyList() }
-        _resultBitmap.update { null }
         _failedFormats.update { emptyList() }
         _selectedResultIndex.update { 0 }
         registerChangesCleared()
@@ -603,7 +616,8 @@ class CompressionLabComponent @AssistedInject internal constructor(
         operator fun invoke(
             componentContext: ComponentContext,
             initialUri: Uri?,
-            onGoBack: () -> Unit
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit
         ): CompressionLabComponent
     }
 

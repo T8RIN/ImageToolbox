@@ -510,7 +510,8 @@ internal class ChildProvider @Inject constructor(
             compressionLabComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 
