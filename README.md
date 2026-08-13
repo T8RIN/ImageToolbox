@@ -1517,11 +1517,11 @@ And **[follow](https://github.com/t8rin)** me for my next creations! 🤩
 
 # ⭐ Star History
 
-<a href="https://www.star-history.com/?repos=T8RIN%2FImageToolbox">
+<a href="https://www.star-history.com/?repos=T8RIN%2FImageToolbox&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&theme=dark&legend=top-left&sealed_token=ViSa8-VDH4Sf5WWNm4ZWb-FLJVTjmQMHv2Aq3D1jPkzYmm6VJSr_gosi7f4tr-U2beF_mTbjtUlwRLGN_AgQx5JV9FqzzLZxsOLOHrXDRII_gdV1xoHFPu093-radwKlTJDbkohvcJz4BppN1J9Mn5obJspMnJ0RTzyFghxKoM416U1pEwS2SEciDU2n" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&legend=top-left&sealed_token=ViSa8-VDH4Sf5WWNm4ZWb-FLJVTjmQMHv2Aq3D1jPkzYmm6VJSr_gosi7f4tr-U2beF_mTbjtUlwRLGN_AgQx5JV9FqzzLZxsOLOHrXDRII_gdV1xoHFPu093-radwKlTJDbkohvcJz4BppN1J9Mn5obJspMnJ0RTzyFghxKoM416U1pEwS2SEciDU2n" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&legend=top-left&sealed_token=ViSa8-VDH4Sf5WWNm4ZWb-FLJVTjmQMHv2Aq3D1jPkzYmm6VJSr_gosi7f4tr-U2beF_mTbjtUlwRLGN_AgQx5JV9FqzzLZxsOLOHrXDRII_gdV1xoHFPu093-radwKlTJDbkohvcJz4BppN1J9Mn5obJspMnJ0RTzyFghxKoM416U1pEwS2SEciDU2n" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&theme=dark&legend=top-left&sealed_token=bax19KPqslDQWTFQCUF6Z2ssnhBRyfb4wzAXUhlv4xoTVJKALSyjCWz9LwLibaROfXSggJ1qj6Gs7yWyitKmu6epYeGJ3fOd7GqcLRftkbnVPUXnTg3f_6RuppBbk8zScTpNERdD-1HxnfOaKnTC3eu6easJ-jyPpsT19xAGE-vKzr3W6zanQQTACRHG" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&legend=top-left&sealed_token=bax19KPqslDQWTFQCUF6Z2ssnhBRyfb4wzAXUhlv4xoTVJKALSyjCWz9LwLibaROfXSggJ1qj6Gs7yWyitKmu6epYeGJ3fOd7GqcLRftkbnVPUXnTg3f_6RuppBbk8zScTpNERdD-1HxnfOaKnTC3eu6easJ-jyPpsT19xAGE-vKzr3W6zanQQTACRHG" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=T8RIN/ImageToolbox&type=date&legend=top-left&sealed_token=bax19KPqslDQWTFQCUF6Z2ssnhBRyfb4wzAXUhlv4xoTVJKALSyjCWz9LwLibaROfXSggJ1qj6Gs7yWyitKmu6epYeGJ3fOd7GqcLRftkbnVPUXnTg3f_6RuppBbk8zScTpNERdD-1HxnfOaKnTC3eu6easJ-jyPpsT19xAGE-vKzr3W6zanQQTACRHG" />
  </picture>
 </a>
 
