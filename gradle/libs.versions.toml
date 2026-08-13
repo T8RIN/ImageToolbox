@@ -23,8 +23,8 @@ jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha25"
-composeVersion = "1.12.0-rc01"
+material3 = "1.5.0-alpha26"
+composeVersion = "1.13.0-alpha01"
 dataStore = "1.3.0-alpha10"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
@@ -44,8 +44,8 @@ gms = "4.5.0"
 
 ktor = "3.5.2"
 coil = "3.5.0"
-dotlottieAndroid = "0.15.0"
-appCompat = "1.8.0-rc01"
+dotlottieAndroid = "0.16.0"
+appCompat = "1.8.0"
 androidxCore = "1.19.0"
 androidxGraphicsPath = "1.1.0"
 desugaring = "2.1.5"
@@ -62,7 +62,7 @@ ksp = "2.3.11"
 androidx-test-ext-junit = "1.3.0"
 documentfile = "1.1.0"
 uiautomator = "2.4.0"
-androidxMacroBenchmark = "1.5.0-beta01"
+androidxMacroBenchmark = "1.5.0-rc01"
 
 material = "1.14.0"
 jsoup = "1.23.1"
@@ -73,24 +73,25 @@ squircle-shape = "5.3.0"
 mlkitDocumentScanner = "16.0.0"
 moshi = "1.15.2"
 bouncycastle = "1.85"
+bouncycastleProvider = "1.85.2"
 pdfviewer = "1.0.0-alpha19"
-fragmentCompose = "1.9.0-rc01"
+fragmentCompose = "1.9.0"
 aboutlibraries = "15.0.4"
 flinger = "2.1.0"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 
-onnx = "1.28.0"
+onnx = "1.29.0"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.0"
-paletteKtx = "1.0.0"
+palette = "1.1.0-alpha01"
 kotlinxSerializationJson = "1.11.0"
 
 firebaseBom = "34.17.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
-coilResvg = "1.0.0"
+coilResvg = "1.1.0"
 runner = "1.7.0"
 
 [libraries]
@@ -101,7 +102,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
-androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
+androidx-palette-ktx = { module = "androidx.palette:palette", version.ref = "palette" }
 opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
@@ -191,7 +192,7 @@ androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 tesseract = { module = "com.github.adaptech-cz.Tesseract4Android:tesseract4android-openmp", version.ref = "tesseract" }
 
 bouncycastle-pkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
-bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
+bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastleProvider" }
 
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 baselineprofile-gradle = { group = "androidx.benchmark", name = "benchmark-baseline-profile-gradle-plugin", version.ref = "androidxMacroBenchmark" }
