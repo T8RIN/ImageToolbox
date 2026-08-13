@@ -89,7 +89,7 @@ class RootComponent @AssistedInject internal constructor(
     private val client: HttpClient,
     private val filterParamsInteractor: FilterParamsInteractor,
     private val fileController: FileController,
-    private val appHistoryRepository: AppHistoryRepository,
+    internal val appHistoryRepository: AppHistoryRepository,
     autoCacheCleanupUseCase: AutoCacheCleanupUseCase,
     dispatchersHolder: DispatchersHolder,
     settingsComponentFactory: SettingsComponent.Factory,

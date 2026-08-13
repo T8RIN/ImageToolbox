@@ -35,6 +35,7 @@ fun RootContent(
 
     ImageToolboxCompositionLocals(
         settingsState = component.uiSettingsState(),
+        appHistoryRepository = component.appHistoryRepository,
         filterPreviewModel = component.filterPreviewModel,
         canSetDynamicFilterPreview = component.canSetDynamicFilterPreview,
         currentScreen = stack.items.lastOrNull()?.configuration,

@@ -68,6 +68,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -89,6 +91,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.matchesSearchQuery
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalAppHistoryRepository
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -98,6 +101,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.UrisCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.RecentToolsCard
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.ScreenPreference
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesSheetTitle.Companion.processImagesSheetTitle
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -105,6 +109,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.utils.screenList
 import com.t8rin.imagetoolbox.core.utils.appContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun ProcessImagesPreferenceSheet(
@@ -120,6 +126,15 @@ fun ProcessImagesPreferenceSheet(
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
     }
+
+    val appHistoryRepository = LocalAppHistoryRepository.current
+    val lastUsedToolsFlow: Flow<List<LastUsedTool>> = remember(appHistoryRepository) {
+        appHistoryRepository?.lastUsedTools(maxCount = Screen.entries.size)
+            ?: flowOf(emptyList())
+    }
+    val lastUsedTools by lastUsedToolsFlow.collectAsStateWithLifecycle(
+        initialValue = emptyList()
+    )
 
     val (rawScreenList, hiddenScreenList) = uris.screenList(extraDataType).value
     val sheetTitle = remember(extraDataType, uris.size) {
@@ -138,6 +153,13 @@ fun ProcessImagesPreferenceSheet(
             } else {
                 rawScreenList
             }
+        }
+    }
+    val recentScreens by remember(rawScreenList, lastUsedTools) {
+        derivedStateOf {
+            lastUsedTools.mapNotNull { tool ->
+                rawScreenList.find { screen -> screen.id == tool.screenId }
+            }.take(5)
         }
     }
 
@@ -252,6 +274,20 @@ fun ProcessImagesPreferenceSheet(
                                 span = StaggeredGridItemSpan.FullLine
                             ) {
                                 UrisCarousel(uris)
+                            }
+                        }
+                        if (recentScreens.isNotEmpty() && searchKeyword.isBlank()) {
+                            item(
+                                key = "recentTools",
+                                span = StaggeredGridItemSpan.FullLine
+                            ) {
+                                RecentToolsCard(
+                                    tools = recentScreens,
+                                    onNavigate = { screen ->
+                                        onNavigate(screen)
+                                        onDismiss()
+                                    }
+                                )
                             }
                         }
                         items(

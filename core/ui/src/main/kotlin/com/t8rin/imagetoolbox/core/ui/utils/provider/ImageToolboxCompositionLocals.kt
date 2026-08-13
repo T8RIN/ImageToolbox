@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalUriHandler
+import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.settings.presentation.model.UiSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
@@ -53,6 +54,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun ImageToolboxCompositionLocals(
     settingsState: UiSettingsState,
+    appHistoryRepository: AppHistoryRepository? = null,
     filterPreviewModel: ImageModel? = null,
     canSetDynamicFilterPreview: Boolean = false,
     currentScreen: Screen? = null,
@@ -75,6 +77,7 @@ fun ImageToolboxCompositionLocals(
         editPresetsController,
         customHapticFeedback,
         screenSize,
+        appHistoryRepository,
         filterPreviewModel,
         currentScreen,
         safeUriHandler
@@ -82,6 +85,7 @@ fun ImageToolboxCompositionLocals(
         derivedStateOf {
             listOfNotNull(
                 LocalSettingsState provides settingsState,
+                LocalAppHistoryRepository provides appHistoryRepository,
                 LocalEditPresetsController provides editPresetsController,
                 LocalFilterPreviewModelProvider providesOrNull previewProvider,
                 LocalHapticFeedback provides customHapticFeedback,
