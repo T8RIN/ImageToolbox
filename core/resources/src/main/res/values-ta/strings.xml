@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">இந்த வடிவமைப்பில் கோரப்பட்ட இலக்கை அடைய முடியவில்லை.</string>
     <string name="compression_lab_failed_formats">சோதிக்க முடியவில்லை: %1$s</string>
     <string name="search_keywords_compression_lab">சுருக்க பெஞ்ச்மார்க் கோடெக் குறியாக்கி தொகுதி கோப்பு அளவு தரம் SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">துணை படங்கள்</string>
+    <string name="gmic_auxiliary_images_empty_sub">கட்டளையின் மூலம் பயன்படுத்த ஒன்று அல்லது அதற்கு மேற்பட்ட படங்களை இணைக்கவும்</string>
+    <string name="gmic_auxiliary_images_usage_sub">செயலாக்கப்பட்ட படம் [0]. இணைக்கப்பட்ட படங்கள் [1], [2], … காட்டப்படும் வரிசையில் உள்ளன</string>
 </resources>

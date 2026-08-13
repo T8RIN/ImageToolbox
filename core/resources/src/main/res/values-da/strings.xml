@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Det ønskede mål kunne ikke nås med dette format.</string>
     <string name="compression_lab_failed_formats">Kunne ikke teste: %1$s</string>
     <string name="search_keywords_compression_lab">kompression benchmark codec encoder batch filstørrelse kvalitet SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Hjælpebilleder</string>
+    <string name="gmic_auxiliary_images_empty_sub">Vedhæft et eller flere billeder til brug for kommandoen</string>
+    <string name="gmic_auxiliary_images_usage_sub">Det behandlede billede er [0]. Vedhæftede billeder er [1], [2], … i den viste rækkefølge</string>
 </resources>

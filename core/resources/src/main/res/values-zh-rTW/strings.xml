@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">使用此格式無法達到請求的目標。</string>
     <string name="compression_lab_failed_formats">無法測試：%1$s</string>
     <string name="search_keywords_compression_lab">壓縮基準 編解碼器 編碼器 批次 檔案大小 品質 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images" />
+    <string name="gmic_auxiliary_images_empty_sub" />
+    <string name="gmic_auxiliary_images_usage_sub" />
 </resources>

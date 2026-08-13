@@ -4975,4 +4975,7 @@
     <string name="compression_lab_target_not_reached">Није могуће постићи тражени циљ са овим форматом.</string>
     <string name="compression_lab_failed_formats">Није могуће тестирати: __ПХ_0__</string>
     <string name="search_keywords_compression_lab">стандард за компресију кодек енкодер величина пакетне датотеке квалитет ССИМ ПСНР АВИФ ВебП ЈПЕГ ЈКСЛ ХЕИЦ ПНГ ТИФФ КОИ</string>
+    <string name="gmic_auxiliary_images">Помоћне слике</string>
+    <string name="gmic_auxiliary_images_empty_sub">Приложите једну или више слика које ће користити наредба</string>
+    <string name="gmic_auxiliary_images_usage_sub">Обрађена слика је [0]. Приложене слике су [1], [2], … приказаним редоследом</string>
 </resources>

@@ -4978,4 +4978,7 @@
     <string name="compression_lab_target_not_reached">لا يمكن الوصول إلى الهدف المطلوب بهذا التنسيق.</string>
     <string name="compression_lab_failed_formats">تعذر الاختبار: %1$s</string>
     <string name="search_keywords_compression_lab">معيار الضغط الترميز التشفير حجم الملف الدفعي الجودة SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">الصور المساعدة</string>
+    <string name="gmic_auxiliary_images_empty_sub">قم بإرفاق صورة واحدة أو أكثر لاستخدامها بواسطة الأمر</string>
+    <string name="gmic_auxiliary_images_usage_sub">الصورة المعالجة هي [0]. الصور المرفقة هي [1]، [2]، … حسب ترتيب العرض</string>
 </resources>

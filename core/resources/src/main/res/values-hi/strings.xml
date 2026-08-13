@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">इस प्रारूप से अनुरोधित लक्ष्य तक नहीं पहुंचा जा सका।</string>
     <string name="compression_lab_failed_formats">परीक्षण नहीं किया जा सका: %1$s</string>
     <string name="search_keywords_compression_lab">संपीड़न बेंचमार्क कोडेक एनकोडर बैच फ़ाइल आकार गुणवत्ता एसएसआईएम पीएसएनआर एवीआईएफ वेबपी जेपीईजी जेएक्सएल एचईआईसी पीएनजी टीआईएफएफ क्यूओआई</string>
+    <string name="gmic_auxiliary_images">सहायक छवियाँ</string>
+    <string name="gmic_auxiliary_images_empty_sub">कमांड द्वारा उपयोग के लिए एक या अधिक छवियाँ संलग्न करें</string>
+    <string name="gmic_auxiliary_images_usage_sub">संसाधित छवि [0] है. संलग्न छवियाँ प्रदर्शित क्रम में [1], [2],… हैं</string>
 </resources>

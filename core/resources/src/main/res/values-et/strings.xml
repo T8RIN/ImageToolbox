@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Selle vorminguga ei õnnestunud soovitud sihtmärki saavutada.</string>
     <string name="compression_lab_failed_formats">Ei saanud testida: %1$s</string>
     <string name="search_keywords_compression_lab">tihendus etalonkoodek kodeerija pakkfaili suurus kvaliteet SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Abipildid</string>
+    <string name="gmic_auxiliary_images_empty_sub">Manustage käsuga kasutamiseks üks või mitu pilti</string>
+    <string name="gmic_auxiliary_images_usage_sub">Töödeldud pilt on [0]. Manustatud pildid on [1], [2], … kuvatavas järjekorras</string>
 </resources>

@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">Không thể đạt được mục tiêu được yêu cầu với định dạng này.</string>
     <string name="compression_lab_failed_formats">Không thể kiểm tra: %1$s</string>
     <string name="search_keywords_compression_lab">nén điểm chuẩn codec bộ mã hóa chất lượng kích thước tệp hàng loạt SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Hình ảnh phụ trợ</string>
+    <string name="gmic_auxiliary_images_empty_sub">Đính kèm một hoặc nhiều hình ảnh để sử dụng bằng lệnh</string>
+    <string name="gmic_auxiliary_images_usage_sub">Hình ảnh được xử lý là [0]. Hình ảnh đính kèm là [1], [2],… theo thứ tự hiển thị</string>
 </resources>

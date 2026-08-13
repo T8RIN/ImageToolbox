@@ -4975,4 +4975,7 @@
     <string name="compression_lab_target_not_reached">Ținta solicitată nu a putut fi atinsă cu acest format.</string>
     <string name="compression_lab_failed_formats">Nu s-a putut testa: %1$s</string>
     <string name="search_keywords_compression_lab">comprimare benchmark codec codificator batch dimensiune fișier calitate SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Imagini auxiliare</string>
+    <string name="gmic_auxiliary_images_empty_sub">Atașați una sau mai multe imagini pentru a fi utilizate de către comandă</string>
+    <string name="gmic_auxiliary_images_usage_sub">Imaginea procesată este [0]. Imaginile atașate sunt [1], [2], … în ordinea afișată</string>
 </resources>

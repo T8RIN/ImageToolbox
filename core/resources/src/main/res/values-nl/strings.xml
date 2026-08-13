@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Het gevraagde doel kan met dit formaat niet worden bereikt.</string>
     <string name="compression_lab_failed_formats">Kon niet testen: %1$s</string>
     <string name="search_keywords_compression_lab">compressiebenchmark codec encoder batchbestandsgrootte kwaliteit SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Hulpafbeeldingen</string>
+    <string name="gmic_auxiliary_images_empty_sub">Voeg een of meer afbeeldingen toe voor gebruik door de opdracht</string>
+    <string name="gmic_auxiliary_images_usage_sub">Het verwerkte beeld is [0]. Bijgevoegde afbeeldingen zijn [1], [2], … in de weergegeven volgorde</string>
 </resources>

@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">이 형식으로는 요청한 대상에 도달할 수 없습니다.</string>
     <string name="compression_lab_failed_formats">테스트할 수 없음: %1$s</string>
     <string name="search_keywords_compression_lab">압축 벤치마크 코덱 인코더 배치 파일 크기 품질 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">보조 이미지</string>
+    <string name="gmic_auxiliary_images_empty_sub">명령에 사용할 하나 이상의 이미지 첨부</string>
+    <string name="gmic_auxiliary_images_usage_sub">처리된 이미지는 [0]입니다. 첨부된 이미지는 표시된 순서대로 [1], [2], …</string>
 </resources>

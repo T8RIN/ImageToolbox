@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">Żądany cel nie został osiągnięty w tym formacie.</string>
     <string name="compression_lab_failed_formats">Nie można przetestować: %1$s</string>
     <string name="search_keywords_compression_lab">test porównawczy kompresji kodek koder rozmiar pliku wsadowego jakość SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Obrazy pomocnicze</string>
+    <string name="gmic_auxiliary_images_empty_sub">Dołącz jeden lub więcej obrazów do użycia przez polecenie</string>
+    <string name="gmic_auxiliary_images_usage_sub">Przetworzony obraz to [0]. Załączone obrazy to [1], [2], … w wyświetlanej kolejności</string>
 </resources>

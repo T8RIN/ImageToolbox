@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">No se pudo alcanzar el objetivo solicitado con este formato.</string>
     <string name="compression_lab_failed_formats">No se pudo probar: %1$s</string>
     <string name="search_keywords_compression_lab">compresión punto de referencia códec codificador tamaño de archivo por lotes calidad SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Imágenes auxiliares</string>
+    <string name="gmic_auxiliary_images_empty_sub">Adjunte una o más imágenes para que las use el comando</string>
+    <string name="gmic_auxiliary_images_usage_sub">La imagen procesada es [0]. Las imágenes adjuntas son [1], [2],… en el orden mostrado</string>
 </resources>

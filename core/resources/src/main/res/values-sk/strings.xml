@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">Požadovaný cieľ nebolo možné dosiahnuť s týmto formátom.</string>
     <string name="compression_lab_failed_formats">Nepodarilo sa otestovať: %1$s</string>
     <string name="search_keywords_compression_lab">benchmark kompresie kodek kodér veľkosť súboru dávka kvalita SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Pomocné obrázky</string>
+    <string name="gmic_auxiliary_images_empty_sub">Pripojte jeden alebo viac obrázkov na použitie príkazom</string>
+    <string name="gmic_auxiliary_images_usage_sub">Spracovaný obrázok je [0]. Priložené obrázky sú [1], [2], ... v zobrazenom poradí</string>
 </resources>

@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">Target yang diminta tidak dapat dicapai dengan format ini.</string>
     <string name="compression_lab_failed_formats">Tidak dapat menguji: %1$s</string>
     <string name="search_keywords_compression_lab">kompresi benchmark codec encoder ukuran file batch kualitas SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Gambar tambahan</string>
+    <string name="gmic_auxiliary_images_empty_sub">Lampirkan satu atau lebih gambar untuk digunakan oleh perintah</string>
+    <string name="gmic_auxiliary_images_usage_sub">Gambar yang diproses adalah [0]. Gambar terlampir adalah [1], [2], … dalam urutan yang ditampilkan</string>
 </resources>

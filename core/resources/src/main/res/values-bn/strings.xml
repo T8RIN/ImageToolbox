@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">এই বিন্যাসের সাথে অনুরোধ করা লক্ষ্যে পৌঁছানো যায়নি।</string>
     <string name="compression_lab_failed_formats">পরীক্ষা করা যায়নি: %1$s</string>
     <string name="search_keywords_compression_lab">কম্প্রেশন বেঞ্চমার্ক কোডেক এনকোডার ব্যাচ ফাইল সাইজ মানের SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">সহায়ক ছবি</string>
+    <string name="gmic_auxiliary_images_empty_sub">কমান্ড দ্বারা ব্যবহারের জন্য এক বা একাধিক ছবি সংযুক্ত করুন</string>
+    <string name="gmic_auxiliary_images_usage_sub">প্রক্রিয়াকৃত চিত্রটি হল [0]। সংযুক্ত ছবিগুলি হল [1], [2], … প্রদর্শিত ক্রমে</string>
 </resources>

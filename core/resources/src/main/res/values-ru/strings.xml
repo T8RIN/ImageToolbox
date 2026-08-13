@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">Для этого формата не удалось достичь заданной цели.</string>
     <string name="compression_lab_failed_formats">Не удалось проверить: %1$s</string>
     <string name="search_keywords_compression_lab">сжатие сравнение кодек энкодер пакет размер файла качество SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Вспомогательные изображения</string>
+    <string name="gmic_auxiliary_images_empty_sub">Прикрепите одно или несколько изображений для использования командой</string>
+    <string name="gmic_auxiliary_images_usage_sub">Обработанное изображение — [0]. Прикрепленные изображения: [1], [2], … в отображаемом порядке.</string>
 </resources>

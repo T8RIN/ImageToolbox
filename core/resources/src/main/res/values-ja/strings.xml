@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">この形式では、要求されたターゲットに到達できませんでした。</string>
     <string name="compression_lab_failed_formats">テストできませんでした: %1$s</string>
     <string name="search_keywords_compression_lab">圧縮ベンチマーク コーデック エンコーダ バッチ ファイル サイズ 品質 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">補助画像</string>
+    <string name="gmic_auxiliary_images_empty_sub">コマンドで使用する 1 つ以上の画像を添付します</string>
+    <string name="gmic_auxiliary_images_usage_sub">加工後の画像は「0」になります。添付画像は表示順に[1]、[2]、…となります。</string>
 </resources>

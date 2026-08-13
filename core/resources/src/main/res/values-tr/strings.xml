@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Bu formatla istenilen hedefe ulaşılamadı.</string>
     <string name="compression_lab_failed_formats">Test edilemedi: %1$s</string>
     <string name="search_keywords_compression_lab">sıkıştırma kıyaslaması codec kodlayıcı toplu dosya boyutu kalite SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Yardımcı görüntüler</string>
+    <string name="gmic_auxiliary_images_empty_sub">Komut tarafından kullanılmak üzere bir veya daha fazla resim ekleyin</string>
+    <string name="gmic_auxiliary_images_usage_sub">İşlenen görüntü [0]\'dır. Eklenen resimler görüntülenme sırasına göre [1], [2], … şeklindedir</string>
 </resources>

@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Pyydettyä tavoitetta ei voitu saavuttaa tällä muodolla.</string>
     <string name="compression_lab_failed_formats">Ei voitu testata: %1$s</string>
     <string name="search_keywords_compression_lab">pakkaus benchmark koodekki enkooderi erätiedoston koko laatu SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Apukuvat</string>
+    <string name="gmic_auxiliary_images_empty_sub">Liitä yksi tai useampi kuva komennon käyttöön</string>
+    <string name="gmic_auxiliary_images_usage_sub">Käsitelty kuva on [0]. Liitteenä olevat kuvat ovat [1], [2], … näytetyssä järjestyksessä</string>
 </resources>

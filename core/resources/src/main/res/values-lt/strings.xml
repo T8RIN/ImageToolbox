@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">Šiuo formatu nepavyko pasiekti prašomo tikslo.</string>
     <string name="compression_lab_failed_formats">Nepavyko išbandyti: %1$s</string>
     <string name="search_keywords_compression_lab">glaudinimo etalonas kodekas koduotuvas paketinio failo dydžio kokybė SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Pagalbiniai vaizdai</string>
+    <string name="gmic_auxiliary_images_empty_sub">Pridėkite vieną ar daugiau vaizdų, skirtų naudoti pagal komandą</string>
+    <string name="gmic_auxiliary_images_usage_sub">Apdorotas vaizdas yra [0]. Pridedami vaizdai yra [1], [2], … rodoma tvarka</string>
 </resources>

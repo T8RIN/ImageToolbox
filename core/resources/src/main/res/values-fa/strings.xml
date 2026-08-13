@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">هدف درخواستی با این قالب قابل دستیابی نیست.</string>
     <string name="compression_lab_failed_formats">آزمایش نشد: %1$s</string>
     <string name="search_keywords_compression_lab">فشرده سازی معیار فشرده سازی کدک رمزگذار دسته ای اندازه فایل کیفیت SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">تصاویر کمکی</string>
+    <string name="gmic_auxiliary_images_empty_sub">یک یا چند تصویر را برای استفاده توسط دستور ضمیمه کنید</string>
+    <string name="gmic_auxiliary_images_usage_sub">تصویر پردازش شده [0] است. تصاویر پیوست شده [1]، [2]، … به ترتیب نمایش داده شده هستند</string>
 </resources>

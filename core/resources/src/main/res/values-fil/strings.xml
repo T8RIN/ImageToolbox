@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Ang hiniling na target ay hindi maabot gamit ang format na ito.</string>
     <string name="compression_lab_failed_formats">Hindi masuri: %1$s</string>
     <string name="search_keywords_compression_lab">compression benchmark codec encoder batch laki ng file kalidad SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Mga pantulong na larawan</string>
+    <string name="gmic_auxiliary_images_empty_sub">Maglakip ng isa o higit pang mga larawan para magamit ng command</string>
+    <string name="gmic_auxiliary_images_usage_sub">Ang naprosesong imahe ay [0]. Ang mga kalakip na larawan ay [1], [2], … sa ipinapakitang pagkakasunud-sunod</string>
 </resources>

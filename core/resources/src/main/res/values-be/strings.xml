@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">Запытаная мэта не можа быць дасягнута з дапамогай гэтага фармату.</string>
     <string name="compression_lab_failed_formats">Не атрымалася праверыць: %1$s</string>
     <string name="search_keywords_compression_lab">эталон сціску кодэк кадавальнік пакетны памер файла якасць SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Дапаможныя выявы</string>
+    <string name="gmic_auxiliary_images_empty_sub">Далучыце адну або некалькі выяваў для выкарыстання камандай</string>
+    <string name="gmic_auxiliary_images_usage_sub">Апрацаваны відарыс [0]. Далучаныя выявы [1], [2], … у паказаным парадку</string>
 </resources>

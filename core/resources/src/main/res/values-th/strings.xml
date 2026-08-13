@@ -4973,4 +4973,7 @@
     <string name="compression_lab_target_not_reached">ไม่สามารถเข้าถึงเป้าหมายที่ร้องขอด้วยรูปแบบนี้</string>
     <string name="compression_lab_failed_formats">ไม่สามารถทดสอบได้: %1$s</string>
     <string name="search_keywords_compression_lab">การบีบอัด เกณฑ์มาตรฐาน โคเดก ตัวเข้ารหัส คุณภาพขนาดไฟล์แบทช์ SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">ภาพเสริม</string>
+    <string name="gmic_auxiliary_images_empty_sub">แนบรูปภาพหนึ่งภาพขึ้นไปเพื่อใช้ตามคำสั่ง</string>
+    <string name="gmic_auxiliary_images_usage_sub">ภาพที่ประมวลผลคือ [0] ภาพที่แนบมาคือ [1], [2] … ตามลำดับที่แสดง</string>
 </resources>

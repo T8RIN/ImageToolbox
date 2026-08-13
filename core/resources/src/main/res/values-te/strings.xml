@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">ఈ ఫార్మాట్‌తో అభ్యర్థించిన లక్ష్యాన్ని చేరుకోలేకపోయింది.</string>
     <string name="compression_lab_failed_formats">పరీక్షించడం సాధ్యపడలేదు: %1$s</string>
     <string name="search_keywords_compression_lab">కంప్రెషన్ బెంచ్‌మార్క్ కోడెక్ ఎన్‌కోడర్ బ్యాచ్ ఫైల్ పరిమాణం నాణ్యత SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">సహాయక చిత్రాలు</string>
+    <string name="gmic_auxiliary_images_empty_sub">కమాండ్ ద్వారా ఉపయోగం కోసం ఒకటి లేదా అంతకంటే ఎక్కువ చిత్రాలను అటాచ్ చేయండి</string>
+    <string name="gmic_auxiliary_images_usage_sub">ప్రాసెస్ చేయబడిన చిత్రం [0]. జోడించిన చిత్రాలు [1], [2], … ప్రదర్శించబడే క్రమంలో ఉన్నాయి</string>
 </resources>

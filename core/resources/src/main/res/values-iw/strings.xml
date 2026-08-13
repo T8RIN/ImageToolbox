@@ -4976,4 +4976,7 @@
     <string name="compression_lab_target_not_reached">לא ניתן היה להגיע ליעד המבוקש עם פורמט זה.</string>
     <string name="compression_lab_failed_formats">לא ניתן לבדוק: %1$s</string>
     <string name="search_keywords_compression_lab">מדדי דחיסה מקודד codec אצווה גודל קובץ איכות SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">תמונות עזר</string>
+    <string name="gmic_auxiliary_images_empty_sub">צרף תמונה אחת או יותר לשימוש בפקודה</string>
+    <string name="gmic_auxiliary_images_usage_sub">התמונה המעובדת היא [0]. התמונות המצורפות הן [1], [2], … בסדר המוצג</string>
 </resources>

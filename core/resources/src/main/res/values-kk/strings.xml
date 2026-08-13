@@ -4974,4 +4974,7 @@
     <string name="compression_lab_target_not_reached">Сұралған мақсатқа бұл пішіммен жету мүмкін емес.</string>
     <string name="compression_lab_failed_formats">Тестілеу мүмкін болмады: %1$s</string>
     <string name="search_keywords_compression_lab">қысу эталоны кодек кодер пакеттік файл өлшемі сапасы SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="gmic_auxiliary_images">Көмекші суреттер</string>
+    <string name="gmic_auxiliary_images_empty_sub">Пәрмен арқылы пайдалану үшін бір немесе бірнеше суретті тіркеңіз</string>
+    <string name="gmic_auxiliary_images_usage_sub">Өңделген кескін [0]. Тіркелген кескіндер [1], [2], … көрсетілген тәртіпте</string>
 </resources>
