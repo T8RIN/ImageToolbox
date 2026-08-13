@@ -102,7 +102,8 @@ fun ImageReorderCarousel(
     onNeedToAddImage: () -> Unit,
     onNeedToRemoveImageAt: (Int) -> Unit,
     onNavigate: (Screen) -> Unit,
-    title: String = stringResource(R.string.images_order)
+    title: String = stringResource(R.string.images_order),
+    minimumImageCount: Int = 2
 ) {
     val data = remember { mutableStateOf(images ?: emptyList()) }
 
@@ -121,7 +122,7 @@ fun ImageReorderCarousel(
     )
 
     LaunchedEffect(images) {
-        if (data.value.sorted() != images?.sorted()) {
+        if (data.value != images.orEmpty()) {
             data.value = images ?: emptyList()
             listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
         }
@@ -184,7 +185,7 @@ fun ImageReorderCarousel(
             )
         }
         Box {
-            val showButton = (images?.size ?: 0) > 2 && !state.isAnyItemDragging
+            val showButton = (images?.size ?: 0) > minimumImageCount && !state.isAnyItemDragging
             LazyRow(
                 state = listState,
                 modifier = Modifier

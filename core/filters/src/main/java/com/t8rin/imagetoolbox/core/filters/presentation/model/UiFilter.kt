@@ -94,7 +94,11 @@ sealed class UiFilter<T : Any>(
     ): UiFilter<*> = copyUiFilterInstance(
         filter = this,
         newValue = value
-    )
+    ).also { copied ->
+        if (this is Filter.RawGmic && copied is Filter.RawGmic) {
+            copied.auxiliaryImages = auxiliaryImages
+        }
+    }
 
     fun newInstance(): UiFilter<*> = newUiFilterInstance(this)
 
@@ -257,7 +261,12 @@ fun Filter<*>.toUiFilter(
 ): UiFilter<*> = mapFilterToUiFilter(
     filter = this,
     preserveVisibility = preserveVisibility
-).also { uiFilter -> uiFilter.pushError(error) }
+).also { uiFilter ->
+    uiFilter.pushError(error)
+    if (this is Filter.RawGmic && uiFilter is Filter.RawGmic) {
+        uiFilter.auxiliaryImages = auxiliaryImages
+    }
+}
 
 infix fun Int.paramTo(valueRange: ClosedFloatingPointRange<Float>) = FilterParam(
     title = this,

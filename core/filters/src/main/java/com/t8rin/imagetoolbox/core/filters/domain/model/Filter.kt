@@ -510,7 +510,11 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface LightPatch : GmicFilter
     interface ReliefLight : GmicFilter
     interface ShadowPatch : GmicFilter
-    interface RawGmic : Filter<String>
+
+    interface RawGmic : Filter<String> {
+        var auxiliaryImages: List<ImageModel>
+    }
+
     interface Unpurple : GmicFilter
     interface Unstrip : GmicFilter
     interface BandingDenoise : GmicFilter

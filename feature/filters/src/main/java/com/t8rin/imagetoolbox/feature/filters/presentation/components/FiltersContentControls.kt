@@ -46,6 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
@@ -166,26 +167,41 @@ internal fun FiltersContentControls(
                                                 )
                                             )
                                         },
-                                        additionalContent = (filter.value as? SeamCarvingParams)?.let { params ->
+                                        additionalContent = if (filter is Filter.RawGmic) {
                                             {
-                                                SeamCarvingMaskItem(
-                                                    maskUri = params.maskFile.uri,
-                                                    useMaskAsRemoval = params.useMaskAsRemoval,
-                                                    onUseMaskAsRemovalChange = { useMaskAsRemoval ->
-                                                        component.updateFilter(
-                                                            value = params.copy(
-                                                                useMaskAsRemoval = useMaskAsRemoval
-                                                            ),
+                                                RawGmicAuxiliaryImagesItem(
+                                                    images = filter.auxiliaryImages,
+                                                    onImagesChange = { images ->
+                                                        component.updateRawGmicAuxiliaryImages(
+                                                            images = images,
                                                             index = index
                                                         )
                                                     },
-                                                    onAddMask = {
-                                                        seamMaskFilterIndex = index
-                                                    },
-                                                    onRemoveMask = {
-                                                        component.removeSeamCarvingMask(index)
-                                                    }
+                                                    onNavigate = component.onNavigate
                                                 )
+                                            }
+                                        } else {
+                                            (filter.value as? SeamCarvingParams)?.let { params ->
+                                                {
+                                                    SeamCarvingMaskItem(
+                                                        maskUri = params.maskFile.uri,
+                                                        useMaskAsRemoval = params.useMaskAsRemoval,
+                                                        onUseMaskAsRemovalChange = { useMaskAsRemoval ->
+                                                            component.updateFilter(
+                                                                value = params.copy(
+                                                                    useMaskAsRemoval = useMaskAsRemoval
+                                                                ),
+                                                                index = index
+                                                            )
+                                                        },
+                                                        onAddMask = {
+                                                            seamMaskFilterIndex = index
+                                                        },
+                                                        onRemoveMask = {
+                                                            component.removeSeamCarvingMask(index)
+                                                        }
+                                                    )
+                                                }
                                             }
                                         }
                                     )

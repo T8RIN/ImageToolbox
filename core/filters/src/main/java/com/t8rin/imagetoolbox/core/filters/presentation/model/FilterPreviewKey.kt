@@ -27,7 +27,11 @@ data class FilterPreviewKey(
 
 fun Filter<*>.previewKey(): FilterPreviewKey = FilterPreviewKey(
     filterType = this::class.simpleName,
-    value = value.toPreviewKeyValue(),
+    value = if (this is Filter.RawGmic) {
+        value.toPreviewKeyValue() to auxiliaryImages.toPreviewKeyValue()
+    } else {
+        value.toPreviewKeyValue()
+    },
     isVisible = isVisible
 )
 

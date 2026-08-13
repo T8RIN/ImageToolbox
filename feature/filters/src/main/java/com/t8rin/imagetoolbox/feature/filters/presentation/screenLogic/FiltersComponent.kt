@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
+import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -58,6 +59,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.hasSameState
@@ -455,6 +457,27 @@ class FiltersComponent @AssistedInject internal constructor(
             _basicFilterState.update {
                 it.copy(filters = list)
             }
+        }
+        updateCanSave()
+        updatePreview()
+        schedulePendingHistoryCommit()
+    }
+
+    fun updateRawGmicAuxiliaryImages(
+        images: List<ImageModel>,
+        index: Int
+    ) {
+        val list = _basicFilterState.value.filters.toMutableList()
+        val current = list.getOrNull(index) ?: return
+        if (current !is Filter.RawGmic) return
+        if (current.auxiliaryImages == images) return
+
+        beginPendingHistoryTransaction()
+        list[index] = current.copy(current.value).apply {
+            (this as Filter.RawGmic).auxiliaryImages = images
+        }
+        _basicFilterState.update {
+            it.copy(filters = list)
         }
         updateCanSave()
         updatePreview()

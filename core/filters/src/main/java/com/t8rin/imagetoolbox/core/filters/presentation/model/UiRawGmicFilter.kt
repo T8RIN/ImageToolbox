@@ -17,6 +17,10 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.model
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
@@ -29,4 +33,6 @@ class UiRawGmicFilter(
     title = R.string.gmic_filter,
     paramsInfo = listOf(FilterParam(title = R.string.command, valueRange = 0f..1f)),
     value = value
-), Filter.RawGmic
+), Filter.RawGmic {
+    override var auxiliaryImages: List<ImageModel> by mutableStateOf(emptyList())
+}

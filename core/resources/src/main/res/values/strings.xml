@@ -4816,6 +4816,9 @@
     <string name="gmic_filter_tone_sharpen">Tone Sharpen</string>
     <string name="gmic_filter_blocks_3d">3D Blocks</string>
     <string name="gmic_commands_info">Commands and parameters</string>
+    <string name="gmic_auxiliary_images">Auxiliary images</string>
+    <string name="gmic_auxiliary_images_empty_sub">Attach one or more images for use by the command</string>
+    <string name="gmic_auxiliary_images_usage_sub">The processed image is [0]. Attached images are [1], [2], … in the displayed order</string>
     <string name="gmic_commands_title">Commands</string>
     <string name="gmic_commands_count">%1$s · %2$d commands</string>
     <string name="gmic_parameters">Parameters</string>
