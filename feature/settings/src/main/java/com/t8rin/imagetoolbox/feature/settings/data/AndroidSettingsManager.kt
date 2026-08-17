@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_ANALYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_AUTO_PASTE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_COLLAPSING_SETTINGS_GROUPS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_CRASHLYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
@@ -783,6 +784,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleUseFullscreenSettings() = toggle(
         key = USE_FULLSCREEN_SETTINGS,
         defaultValue = default.useFullscreenSettings
+    )
+
+    override suspend fun toggleAllowCollapsingSettingsGroups() = toggle(
+        key = ALLOW_COLLAPSING_SETTINGS_GROUPS,
+        defaultValue = default.allowCollapsingSettingsGroups
     )
 
     override suspend fun setSwitchType(type: SwitchType) = edit {

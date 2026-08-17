@@ -23,6 +23,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
@@ -45,7 +46,10 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
@@ -68,10 +72,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
@@ -84,12 +90,16 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
+import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
+import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -106,11 +116,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SearchableSettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -123,6 +135,8 @@ fun SettingsContent(
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
     val settingsState = LocalSettingsState.current
+    val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
+    val scope = rememberCoroutineScope()
     val layoutDirection = LocalLayoutDirection.current
     val initialSettingGroups = SettingsGroup.entries
 
@@ -380,8 +394,19 @@ fun SettingsContent(
                                 } else true
                             ) {
                                 if (isStandaloneScreen) {
+                                    val groupTitle = stringResource(group.titleId)
+                                    val initialState = targetSetting in group.settingsList
+                                            || (settingsState.settingGroupsInitialVisibility[group.id]
+                                        ?: group.initialState)
+                                    var expanded by rememberSaveable(group.id) {
+                                        mutableStateOf(initialState)
+                                    }
+                                    val canCollapse = settingsState.allowCollapsingSettingsGroups
+                                    val arrowRotation by animateFloatAsState(
+                                        targetValue = if (expanded) 180f else 0f
+                                    )
+
                                     Column(
-                                        verticalArrangement = Arrangement.spacedBy(4.dp),
                                         modifier = if (!oneColumn) {
                                             Modifier.container(
                                                 shape = ShapeDefaults.large,
@@ -390,36 +415,82 @@ fun SettingsContent(
                                             )
                                         } else Modifier
                                     ) {
+
                                         TitleItem(
-                                            modifier = Modifier.padding(
-                                                start = 8.dp,
-                                                end = 8.dp,
-                                                top = 12.dp,
-                                                bottom = 12.dp
-                                            ),
+                                            modifier = Modifier.padding(8.dp),
                                             icon = group.icon,
-                                            text = stringResource(group.titleId),
+                                            text = groupTitle,
                                             iconContainerColor = takeColorFromScheme {
                                                 primary.blend(tertiary, 0.5f)
                                             },
                                             iconContentColor = takeColorFromScheme {
                                                 onPrimary.blend(onTertiary, 0.5f)
-                                            }
-                                        )
-                                        Column(
-                                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                                            modifier = Modifier.padding(bottom = 8.dp)
-                                        ) {
-                                            group.settingsList.forEach { setting ->
-                                                SettingItem(
-                                                    setting = setting,
-                                                    component = component,
-                                                    containerColor = if (showTargetHighlight && setting == targetSetting) {
-                                                        highlightedContainerColor
-                                                    } else {
-                                                        MaterialTheme.colorScheme.surfaceContainerLow
+                                            },
+                                            endContent = if (canCollapse) {
+                                                {
+                                                    EnhancedIconButton(
+                                                        containerColor = Color.Transparent,
+                                                        onClick = { expanded = !expanded },
+                                                        onLongClick = {
+                                                            expanded = !expanded
+
+                                                            scope.launch {
+                                                                simpleSettingsInteractor
+                                                                    .toggleSettingsGroupVisibility(
+                                                                        key = group.id,
+                                                                        value = !initialState
+                                                                    )
+
+                                                                AppToastHost.showToast(
+                                                                    message = getString(
+                                                                        if (initialState) {
+                                                                            R.string.settings_group_visibility_hidden
+                                                                        } else {
+                                                                            R.string.settings_group_visibility_visible
+                                                                        },
+                                                                        groupTitle
+                                                                    ),
+                                                                    icon = Icons.Outlined.Settings
+                                                                )
+                                                            }
+                                                        },
+                                                        modifier = Modifier.offset(x = 4.dp)
+                                                    ) {
+                                                        Icon(
+                                                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                                                            contentDescription = stringResource(
+                                                                if (expanded) R.string.hide
+                                                                else R.string.show
+                                                            ),
+                                                            modifier = Modifier.rotate(arrowRotation)
+                                                        )
                                                     }
-                                                )
+                                                }
+                                            } else null
+                                        )
+
+                                        if (!canCollapse) {
+                                            Spacer(Modifier.height(8.dp))
+                                        }
+
+                                        BoxAnimatedVisibility(
+                                            visible = !canCollapse || expanded,
+                                            modifier = Modifier.fillMaxWidth()
+                                        ) {
+                                            Column(
+                                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                                            ) {
+                                                group.settingsList.forEach { setting ->
+                                                    SettingItem(
+                                                        setting = setting,
+                                                        component = component,
+                                                        containerColor = if (showTargetHighlight && setting == targetSetting) {
+                                                            highlightedContainerColor
+                                                        } else {
+                                                            MaterialTheme.colorScheme.surfaceContainerLow
+                                                        }
+                                                    )
+                                                }
                                             }
                                         }
                                     }

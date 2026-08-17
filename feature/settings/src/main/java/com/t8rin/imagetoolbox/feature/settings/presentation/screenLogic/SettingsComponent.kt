@@ -472,6 +472,10 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 
+    fun toggleAllowCollapsingSettingsGroups() = settingsScope {
+        toggleAllowCollapsingSettingsGroups()
+    }
+
     fun setDefaultDrawLineWidth(value: Float) = settingsScope { setDefaultDrawLineWidth(value) }
 
     fun toggleOpenEditInsteadOfPreview() = settingsScope { toggleOpenEditInsteadOfPreview() }

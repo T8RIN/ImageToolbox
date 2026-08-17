@@ -187,6 +187,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleUseFullscreenSettings()
 
+    suspend fun toggleAllowCollapsingSettingsGroups()
+
     suspend fun setSwitchType(type: SwitchType)
 
     suspend fun setDefaultDrawLineWidth(value: Float)

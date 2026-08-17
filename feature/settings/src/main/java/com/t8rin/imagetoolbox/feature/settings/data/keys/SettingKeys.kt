@@ -103,6 +103,8 @@ internal val ENABLE_SHEET_GESTURES = booleanPreferencesKey("ENABLE_SHEET_GESTURE
 internal val SHEET_NESTED_SCROLL = booleanPreferencesKey("SHEET_NESTED_SCROLL")
 internal val SHOW_SETTINGS_IN_LANDSCAPE = booleanPreferencesKey("SHOW_SETTINGS_IN_LANDSCAPE")
 internal val USE_FULLSCREEN_SETTINGS = booleanPreferencesKey("USE_FULLSCREEN_SETTINGS")
+internal val ALLOW_COLLAPSING_SETTINGS_GROUPS =
+    booleanPreferencesKey("ALLOW_COLLAPSING_SETTINGS_GROUPS")
 internal val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")
 internal val DEFAULT_DRAW_LINE_WIDTH = floatPreferencesKey("DEFAULT_DRAW_LINE_WIDTH")
 internal val ONE_TIME_SAVE_LOCATIONS = stringPreferencesKey("ONE_TIME_SAVE_LOCATIONS")

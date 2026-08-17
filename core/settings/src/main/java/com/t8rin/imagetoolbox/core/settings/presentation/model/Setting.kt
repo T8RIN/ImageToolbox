@@ -518,6 +518,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object AllowCollapsingSettingsGroups : Setting(
+        title = R.string.collapsible_settings_groups,
+        subtitle = R.string.collapsible_settings_groups_sub
+    )
+
+    @Serializable
     data object DefaultDrawLineWidth : Setting(
         title = R.string.default_line_width,
         subtitle = null

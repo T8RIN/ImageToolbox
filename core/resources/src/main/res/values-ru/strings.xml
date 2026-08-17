@@ -917,6 +917,8 @@
     <string name="show_settings_in_landscape_sub">Если это отключено, то в ландшафтном режиме настройки будут открываться по кнопке в верхней панели приложения, как всегда, вместо постоянной видимой опции</string>
     <string name="fullscreen_settings">Полноэкранные настройки</string>
     <string name="fullscreen_settings_sub">Включите его, и страница настроек всегда будет открываться в полноэкранном режиме, а не в выдвижном ящике</string>
+    <string name="collapsible_settings_groups">Сворачиваемые группы настроек</string>
+    <string name="collapsible_settings_groups_sub">Разрешить разворачивать и сворачивать группы в полноэкранном режиме</string>
     <string name="max">Максимум</string>
     <string name="resize_anchor">Привязка к размеру</string>
     <string name="fluent_switch_sub">Использует переключатель в стиле Windows 11 на основе системы дизайна Fluent</string>

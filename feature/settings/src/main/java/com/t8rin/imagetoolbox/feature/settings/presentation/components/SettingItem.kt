@@ -536,6 +536,12 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.AllowCollapsingSettingsGroups -> {
+                AllowCollapsingSettingsGroupsSettingItem(
+                    onClick = component::toggleAllowCollapsingSettingsGroups
+                )
+            }
+
             Setting.DefaultDrawLineWidth -> {
                 DefaultDrawLineWidthSettingItem(onValueChange = component::setDefaultDrawLineWidth)
             }
