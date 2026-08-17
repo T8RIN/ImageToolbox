@@ -1061,6 +1061,7 @@ or click one of the badges below.
     - Anime
     - Scans
     - Style Transfer
+    - AI detection
   - Depth (14 models and 13 depth-aware effects)
     - Depth maps, masks and cutouts
     - Lens and background blur
