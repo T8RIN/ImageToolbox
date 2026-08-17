@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Hängen Sie ein oder mehrere Bilder zur Verwendung durch den Befehl an</string>
     <string name="gmic_auxiliary_images_usage_sub">Das verarbeitete Bild ist [0]. Angehängte Bilder sind [1], [2], … in der angezeigten Reihenfolge</string>
     <string name="markup_layer_text_defaults_sub">Standarddarstellung der Textebene</string>
+    <string name="collapsible_settings_groups">Reduzierbare Einstellungsgruppen</string>
+    <string name="collapsible_settings_groups_sub">Ermöglichen Sie das Erweitern und Reduzieren von Einstellungsgruppen im Vollbildmodus</string>
+    <string name="filename_already_exists">Im Zielordner ist bereits eine Datei mit dem Namen „%1$s“ vorhanden. Die vorhandene Datei wurde nicht geändert.</string>
 </resources>

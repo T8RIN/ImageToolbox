@@ -4982,4 +4982,7 @@
     <string name="gmic_auxiliary_images_empty_sub">قم بإرفاق صورة واحدة أو أكثر لاستخدامها بواسطة الأمر</string>
     <string name="gmic_auxiliary_images_usage_sub">الصورة المعالجة هي [0]. الصور المرفقة هي [1]، [2]، … حسب ترتيب العرض</string>
     <string name="markup_layer_text_defaults_sub">المظهر الافتراضي لطبقة النص</string>
+    <string name="collapsible_settings_groups">مجموعات الإعدادات القابلة للطي</string>
+    <string name="collapsible_settings_groups_sub">السماح بتوسيع مجموعات الإعدادات وطيها في وضع ملء الشاشة</string>
+    <string name="filename_already_exists">يوجد ملف باسم \"%1$s\" بالفعل في المجلد الهدف. لم يتم تغيير الملف الموجود.</string>
 </resources>

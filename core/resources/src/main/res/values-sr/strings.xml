@@ -4979,4 +4979,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Приложите једну или више слика које ће користити наредба</string>
     <string name="gmic_auxiliary_images_usage_sub">Обрађена слика је [0]. Приложене слике су [1], [2], … приказаним редоследом</string>
     <string name="markup_layer_text_defaults_sub">Подразумевани изглед слоја текста</string>
+    <string name="collapsible_settings_groups">Групе подешавања које се могу склопити</string>
+    <string name="collapsible_settings_groups_sub">Дозволите да групе подешавања буду проширене и скупљене у режиму целог екрана</string>
+    <string name="filename_already_exists">Датотека под називом „__ПХ_0__“ већ постоји у циљној фасцикли. Постојећа датотека није промењена.</string>
 </resources>

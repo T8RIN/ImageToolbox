@@ -4979,4 +4979,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Atașați una sau mai multe imagini pentru a fi utilizate de către comandă</string>
     <string name="gmic_auxiliary_images_usage_sub">Imaginea procesată este [0]. Imaginile atașate sunt [1], [2], … în ordinea afișată</string>
     <string name="markup_layer_text_defaults_sub">Aspectul implicit al stratului de text</string>
+    <string name="collapsible_settings_groups">Grupuri de setări pliabile</string>
+    <string name="collapsible_settings_groups_sub">Permiteți extinderea și restrângerea grupurilor de setări în modul ecran complet</string>
+    <string name="filename_already_exists">Un fișier numit „%1$s” există deja în folderul țintă. Fișierul existent nu a fost modificat.</string>
 </resources>

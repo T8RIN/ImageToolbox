@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Đính kèm một hoặc nhiều hình ảnh để sử dụng bằng lệnh</string>
     <string name="gmic_auxiliary_images_usage_sub">Hình ảnh được xử lý là [0]. Hình ảnh đính kèm là [1], [2],… theo thứ tự hiển thị</string>
     <string name="markup_layer_text_defaults_sub">Giao diện lớp văn bản mặc định</string>
+    <string name="collapsible_settings_groups">Nhóm cài đặt có thể thu gọn</string>
+    <string name="collapsible_settings_groups_sub">Cho phép mở rộng và thu gọn các nhóm cài đặt ở chế độ toàn màn hình</string>
+    <string name="filename_already_exists">Tệp có tên “%1$s” đã tồn tại trong thư mục đích. Tệp hiện có không bị thay đổi.</string>
 </resources>

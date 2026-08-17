@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">కమాండ్ ద్వారా ఉపయోగం కోసం ఒకటి లేదా అంతకంటే ఎక్కువ చిత్రాలను అటాచ్ చేయండి</string>
     <string name="gmic_auxiliary_images_usage_sub">ప్రాసెస్ చేయబడిన చిత్రం [0]. జోడించిన చిత్రాలు [1], [2], … ప్రదర్శించబడే క్రమంలో ఉన్నాయి</string>
     <string name="markup_layer_text_defaults_sub">డిఫాల్ట్ టెక్స్ట్ లేయర్ ప్రదర్శన</string>
+    <string name="collapsible_settings_groups">ధ్వంసమయ్యే సెట్టింగ్‌ల సమూహాలు</string>
+    <string name="collapsible_settings_groups_sub">పూర్తి స్క్రీన్ మోడ్‌లో సెట్టింగ్‌ల సమూహాలను విస్తరించడానికి మరియు కుదించడానికి అనుమతించండి</string>
+    <string name="filename_already_exists">లక్ష్య ఫోల్డర్‌లో “%1$s” అనే ఫైల్ ఇప్పటికే ఉంది. ఇప్పటికే ఉన్న ఫైల్ మార్చబడలేదు.</string>
 </resources>

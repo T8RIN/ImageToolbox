@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub" />
     <string name="gmic_auxiliary_images_usage_sub" />
     <string name="markup_layer_text_defaults_sub">預設文字圖層外觀</string>
+    <string name="collapsible_settings_groups">可折疊設定組</string>
+    <string name="collapsible_settings_groups_sub">允許在全螢幕模式下展開和折疊設定組</string>
+    <string name="filename_already_exists">目標資料夾中已存在名為「%1$s」的檔案。現有文件未更改。</string>
 </resources>

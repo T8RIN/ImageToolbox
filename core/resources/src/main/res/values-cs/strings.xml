@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Připojte jeden nebo více obrázků pro použití příkazem</string>
     <string name="gmic_auxiliary_images_usage_sub">Zpracovaný snímek je [0]. Připojené snímky jsou [1], [2], … v zobrazeném pořadí</string>
     <string name="markup_layer_text_defaults_sub">Výchozí vzhled textové vrstvy</string>
+    <string name="collapsible_settings_groups">Sbalitelné skupiny nastavení</string>
+    <string name="collapsible_settings_groups_sub">Povolit rozbalování a sbalování skupin nastavení v režimu celé obrazovky</string>
+    <string name="filename_already_exists">Soubor s názvem „%1$s“ již v cílové složce existuje. Stávající soubor nebyl změněn.</string>
 </resources>

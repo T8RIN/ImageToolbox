@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">コマンドで使用する 1 つ以上の画像を添付します</string>
     <string name="gmic_auxiliary_images_usage_sub">加工後の画像は「0」になります。添付画像は表示順に[1]、[2]、…となります。</string>
     <string name="markup_layer_text_defaults_sub">デフォルトのテキストレイヤーの外観</string>
+    <string name="collapsible_settings_groups">折りたたみ可能な設定グループ</string>
+    <string name="collapsible_settings_groups_sub">全画面モードで設定グループを展開および折りたたむことができるようにする</string>
+    <string name="filename_already_exists">対象フォルダーには「%1$s」という名前のファイルが既に存在します。既存のファイルは変更されませんでした。</string>
 </resources>

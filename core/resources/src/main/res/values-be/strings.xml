@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Далучыце адну або некалькі выяваў для выкарыстання камандай</string>
     <string name="gmic_auxiliary_images_usage_sub">Апрацаваны відарыс [0]. Далучаныя выявы [1], [2], … у паказаным парадку</string>
     <string name="markup_layer_text_defaults_sub">Выгляд тэкставага пласта па змаўчанні</string>
+    <string name="collapsible_settings_groups">Згортваюцца групы налад</string>
+    <string name="collapsible_settings_groups_sub">Дазволіць разгортванне і згортванне груп налад у поўнаэкранным рэжыме</string>
+    <string name="filename_already_exists">Файл пад назвай “%1$s” ужо існуе ў мэтавай папцы. Існуючы файл не быў зменены.</string>
 </resources>

@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">कमांड द्वारा उपयोग के लिए एक या अधिक छवियाँ संलग्न करें</string>
     <string name="gmic_auxiliary_images_usage_sub">संसाधित छवि [0] है. संलग्न छवियाँ प्रदर्शित क्रम में [1], [2],… हैं</string>
     <string name="markup_layer_text_defaults_sub">डिफ़ॉल्ट पाठ परत उपस्थिति</string>
+    <string name="collapsible_settings_groups">बंधने योग्य सेटिंग समूह</string>
+    <string name="collapsible_settings_groups_sub">सेटिंग समूहों को फ़ुलस्क्रीन मोड में विस्तारित और संक्षिप्त करने की अनुमति दें</string>
+    <string name="filename_already_exists">लक्ष्य फ़ोल्डर में \"%1$s\" नामक फ़ाइल पहले से मौजूद है। मौजूदा फ़ाइल नहीं बदली गई थी.</string>
 </resources>

@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">یک یا چند تصویر را برای استفاده توسط دستور ضمیمه کنید</string>
     <string name="gmic_auxiliary_images_usage_sub">تصویر پردازش شده [0] است. تصاویر پیوست شده [1]، [2]، … به ترتیب نمایش داده شده هستند</string>
     <string name="markup_layer_text_defaults_sub">ظاهر لایه متنی پیش فرض</string>
+    <string name="collapsible_settings_groups">گروه های تنظیمات تاشو</string>
+    <string name="collapsible_settings_groups_sub">اجازه دهید گروه های تنظیمات در حالت تمام صفحه بزرگ و جمع شوند</string>
+    <string name="filename_already_exists">فایلی با نام \"%1$s\" از قبل در پوشه مورد نظر وجود دارد. فایل موجود تغییر نکرده است.</string>
 </resources>

@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Csatoljon egy vagy több képet a parancs általi használatra</string>
     <string name="gmic_auxiliary_images_usage_sub">A feldolgozott kép [0]. A csatolt képek [1], [2], … a megjelenített sorrendben</string>
     <string name="markup_layer_text_defaults_sub">Alapértelmezett szövegréteg megjelenés</string>
+    <string name="collapsible_settings_groups">Összecsukható beállítási csoportok</string>
+    <string name="collapsible_settings_groups_sub">Lehetővé teszi a beállítási csoportok kibontását és összecsukását teljes képernyős módban</string>
+    <string name="filename_already_exists">A „%1$s” nevű fájl már létezik a célmappában. A meglévő fájl nem változott.</string>
 </resources>

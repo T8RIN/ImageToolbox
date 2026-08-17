@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Adjunte una o más imágenes para que las use el comando</string>
     <string name="gmic_auxiliary_images_usage_sub">La imagen procesada es [0]. Las imágenes adjuntas son [1], [2],… en el orden mostrado</string>
     <string name="markup_layer_text_defaults_sub">Aspecto predeterminado de la capa de texto</string>
+    <string name="collapsible_settings_groups">Grupos de configuración plegables</string>
+    <string name="collapsible_settings_groups_sub">Permitir que los grupos de configuración se expandan y contraigan en modo de pantalla completa</string>
+    <string name="filename_already_exists">Ya existe un archivo llamado \"%1$s\" en la carpeta de destino. El archivo existente no fue modificado.</string>
 </resources>

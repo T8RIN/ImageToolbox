@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Manustage käsuga kasutamiseks üks või mitu pilti</string>
     <string name="gmic_auxiliary_images_usage_sub">Töödeldud pilt on [0]. Manustatud pildid on [1], [2], … kuvatavas järjekorras</string>
     <string name="markup_layer_text_defaults_sub">Tekstikihi vaikevälimus</string>
+    <string name="collapsible_settings_groups">Kokkupandavad seadete rühmad</string>
+    <string name="collapsible_settings_groups_sub">Lubage seadete rühmi täisekraanrežiimis laiendada ja ahendada</string>
+    <string name="filename_already_exists">Fail nimega \"%1$s\" on sihtkaustas juba olemas. Olemasolevat faili ei muudetud.</string>
 </resources>

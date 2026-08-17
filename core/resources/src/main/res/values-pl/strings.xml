@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Dołącz jeden lub więcej obrazów do użycia przez polecenie</string>
     <string name="gmic_auxiliary_images_usage_sub">Przetworzony obraz to [0]. Załączone obrazy to [1], [2], … w wyświetlanej kolejności</string>
     <string name="markup_layer_text_defaults_sub">Domyślny wygląd warstwy tekstowej</string>
+    <string name="collapsible_settings_groups">Składane grupy ustawień</string>
+    <string name="collapsible_settings_groups_sub">Zezwalaj na rozwijanie i zwijanie grup ustawień w trybie pełnoekranowym</string>
+    <string name="filename_already_exists">Plik o nazwie „%1$s” już istnieje w folderze docelowym. Istniejący plik nie został zmieniony.</string>
 </resources>

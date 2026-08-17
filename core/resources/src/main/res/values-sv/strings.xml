@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Bifoga en eller flera bilder för användning av kommandot</string>
     <string name="gmic_auxiliary_images_usage_sub">Den bearbetade bilden är [0]. Bifogade bilder är [1], [2], … i den ordning som visas</string>
     <string name="markup_layer_text_defaults_sub">Standardutseende för textlager</string>
+    <string name="collapsible_settings_groups">Hopfällbara inställningsgrupper</string>
+    <string name="collapsible_settings_groups_sub">Tillåt inställningsgrupper att utökas och komprimeras i helskärmsläge</string>
+    <string name="filename_already_exists">En fil med namnet \"%1$s\" finns redan i målmappen. Den befintliga filen ändrades inte.</string>
 </resources>

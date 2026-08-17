@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Adjunteu una o més imatges per utilitzar-les amb l\'ordre</string>
     <string name="gmic_auxiliary_images_usage_sub">La imatge processada és [0]. Les imatges adjuntes són [1], [2], … en l\'ordre que es mostren</string>
     <string name="markup_layer_text_defaults_sub">Aspecte predeterminat de la capa de text</string>
+    <string name="collapsible_settings_groups">Grups de configuració plegables</string>
+    <string name="collapsible_settings_groups_sub">Permet que els grups de configuració s\'ampliïn i es replegaran en mode de pantalla completa</string>
+    <string name="filename_already_exists">Un fitxer anomenat \"%1$s\" ja existeix a la carpeta de destinació. El fitxer existent no s\'ha canviat.</string>
 </resources>

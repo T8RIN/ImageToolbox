@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">கட்டளையின் மூலம் பயன்படுத்த ஒன்று அல்லது அதற்கு மேற்பட்ட படங்களை இணைக்கவும்</string>
     <string name="gmic_auxiliary_images_usage_sub">செயலாக்கப்பட்ட படம் [0]. இணைக்கப்பட்ட படங்கள் [1], [2], … காட்டப்படும் வரிசையில் உள்ளன</string>
     <string name="markup_layer_text_defaults_sub">இயல்புநிலை உரை அடுக்கு தோற்றம்</string>
+    <string name="collapsible_settings_groups">மடிக்கக்கூடிய அமைப்புகள் குழுக்கள்</string>
+    <string name="collapsible_settings_groups_sub">அமைப்புகள் குழுக்களை விரிவுபடுத்தவும், முழுத்திரை பயன்முறையில் சுருக்கவும் அனுமதிக்கவும்</string>
+    <string name="filename_already_exists">இலக்கு கோப்புறையில் \"%1$s\" என்ற கோப்பு ஏற்கனவே உள்ளது. ஏற்கனவே உள்ள கோப்பு மாற்றப்படவில்லை.</string>
 </resources>

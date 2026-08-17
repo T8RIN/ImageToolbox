@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">צרף תמונה אחת או יותר לשימוש בפקודה</string>
     <string name="gmic_auxiliary_images_usage_sub">התמונה המעובדת היא [0]. התמונות המצורפות הן [1], [2], … בסדר המוצג</string>
     <string name="markup_layer_text_defaults_sub">מראה שכבת טקסט ברירת מחדל</string>
+    <string name="collapsible_settings_groups">קבוצות הגדרות מתקפלות</string>
+    <string name="collapsible_settings_groups_sub">אפשר להרחיב ולכווץ קבוצות הגדרות במצב מסך מלא</string>
+    <string name="filename_already_exists">קובץ בשם \"%1$s\" כבר קיים בתיקיית היעד. הקובץ הקיים לא השתנה.</string>
 </resources>

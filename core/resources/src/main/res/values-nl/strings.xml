@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Voeg een of meer afbeeldingen toe voor gebruik door de opdracht</string>
     <string name="gmic_auxiliary_images_usage_sub">Het verwerkte beeld is [0]. Bijgevoegde afbeeldingen zijn [1], [2], … in de weergegeven volgorde</string>
     <string name="markup_layer_text_defaults_sub">Standaardweergave van tekstlaag</string>
+    <string name="collapsible_settings_groups">Opvouwbare instellingengroepen</string>
+    <string name="collapsible_settings_groups_sub">Sta toe dat instellingengroepen worden uit- en samengevouwen in de modus Volledig scherm</string>
+    <string name="filename_already_exists">Er bestaat al een bestand met de naam “%1$s” in de doelmap. Het bestaande bestand is niet gewijzigd.</string>
 </resources>

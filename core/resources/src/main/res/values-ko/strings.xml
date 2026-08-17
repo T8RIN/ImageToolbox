@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">명령에 사용할 하나 이상의 이미지 첨부</string>
     <string name="gmic_auxiliary_images_usage_sub">처리된 이미지는 [0]입니다. 첨부된 이미지는 표시된 순서대로 [1], [2], …</string>
     <string name="markup_layer_text_defaults_sub">기본 텍스트 레이어 모양</string>
+    <string name="collapsible_settings_groups">축소 가능한 설정 그룹</string>
+    <string name="collapsible_settings_groups_sub">전체 화면 모드에서 설정 그룹을 확장하고 축소할 수 있도록 허용</string>
+    <string name="filename_already_exists">대상 폴더에 \"%1$s\"이라는 파일이 이미 존재합니다. 기존 파일은 변경되지 않았습니다.</string>
 </resources>

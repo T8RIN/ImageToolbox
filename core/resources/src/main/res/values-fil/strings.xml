@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Maglakip ng isa o higit pang mga larawan para magamit ng command</string>
     <string name="gmic_auxiliary_images_usage_sub">Ang naprosesong imahe ay [0]. Ang mga kalakip na larawan ay [1], [2], … sa ipinapakitang pagkakasunud-sunod</string>
     <string name="markup_layer_text_defaults_sub">Default na hitsura ng layer ng teksto</string>
+    <string name="collapsible_settings_groups">Nako-collapse na mga pangkat ng mga setting</string>
+    <string name="collapsible_settings_groups_sub">Payagan ang mga pangkat ng mga setting na palawakin at i-collapse sa fullscreen mode</string>
+    <string name="filename_already_exists">Ang isang file na pinangalanang \"%1$s\" ay umiiral na sa target na folder. Ang umiiral na file ay hindi nabago.</string>
 </resources>

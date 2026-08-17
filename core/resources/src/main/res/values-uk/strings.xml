@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Додайте одне або кілька зображень для використання командою</string>
     <string name="gmic_auxiliary_images_usage_sub">Оброблене зображення [0]. Прикріплені зображення [1], [2], … у відображеному порядку</string>
     <string name="markup_layer_text_defaults_sub">Вигляд текстового шару за замовчуванням</string>
+    <string name="collapsible_settings_groups">Групи налаштувань, що згортаються</string>
+    <string name="collapsible_settings_groups_sub">Дозволити розгортання та згортання груп налаштувань у повноекранному режимі</string>
+    <string name="filename_already_exists">Файл із назвою «%1$s» уже існує в цільовій папці. Існуючий файл не змінено.</string>
 </resources>

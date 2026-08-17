@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">แนบรูปภาพหนึ่งภาพขึ้นไปเพื่อใช้ตามคำสั่ง</string>
     <string name="gmic_auxiliary_images_usage_sub">ภาพที่ประมวลผลคือ [0] ภาพที่แนบมาคือ [1], [2] … ตามลำดับที่แสดง</string>
     <string name="markup_layer_text_defaults_sub">ลักษณะเลเยอร์ข้อความเริ่มต้น</string>
+    <string name="collapsible_settings_groups">กลุ่มการตั้งค่าที่ยุบได้</string>
+    <string name="collapsible_settings_groups_sub">อนุญาตให้ขยายและยุบกลุ่มการตั้งค่าในโหมดเต็มหน้าจอ</string>
+    <string name="filename_already_exists">มีไฟล์ชื่อ “%1$s” อยู่แล้วในโฟลเดอร์เป้าหมาย ไฟล์ที่มีอยู่ไม่มีการเปลี่ยนแปลง</string>
 </resources>

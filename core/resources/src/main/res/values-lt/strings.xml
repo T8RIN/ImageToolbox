@@ -4980,4 +4980,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Pridėkite vieną ar daugiau vaizdų, skirtų naudoti pagal komandą</string>
     <string name="gmic_auxiliary_images_usage_sub">Apdorotas vaizdas yra [0]. Pridedami vaizdai yra [1], [2], … rodoma tvarka</string>
     <string name="markup_layer_text_defaults_sub">Numatytoji teksto sluoksnio išvaizda</string>
+    <string name="collapsible_settings_groups">Sutraukiamos nustatymų grupės</string>
+    <string name="collapsible_settings_groups_sub">Leisti nustatymų grupes išplėsti ir sutraukti viso ekrano režimu</string>
+    <string name="filename_already_exists">Failas pavadinimu „%1$s“ jau yra tiksliniame aplanke. Esamas failas nebuvo pakeistas.</string>
 </resources>

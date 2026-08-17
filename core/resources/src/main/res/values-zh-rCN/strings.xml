@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">附加一张或多张图像以供命令使用</string>
     <string name="gmic_auxiliary_images_usage_sub">处理后的图像为[0]。附件图像按显示顺序为 [1]、[2]、...</string>
     <string name="markup_layer_text_defaults_sub">默认文本图层外观</string>
+    <string name="collapsible_settings_groups">可折叠设置组</string>
+    <string name="collapsible_settings_groups_sub">允许在全屏模式下展开和折叠设置组</string>
+    <string name="filename_already_exists">目标文件夹中已存在名为“%1$s”的文件。现有文件未更改。</string>
 </resources>

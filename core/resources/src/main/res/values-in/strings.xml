@@ -4977,4 +4977,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Lampirkan satu atau lebih gambar untuk digunakan oleh perintah</string>
     <string name="gmic_auxiliary_images_usage_sub">Gambar yang diproses adalah [0]. Gambar terlampir adalah [1], [2], … dalam urutan yang ditampilkan</string>
     <string name="markup_layer_text_defaults_sub">Tampilan lapisan teks default</string>
+    <string name="collapsible_settings_groups">Grup pengaturan yang dapat diciutkan</string>
+    <string name="collapsible_settings_groups_sub">Izinkan grup pengaturan diperluas dan diciutkan dalam mode layar penuh</string>
+    <string name="filename_already_exists">File bernama “%1$s” sudah ada di folder target. File yang ada tidak diubah.</string>
 </resources>

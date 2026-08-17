@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Joindre une ou plusieurs images à utiliser par la commande</string>
     <string name="gmic_auxiliary_images_usage_sub">L\'image traitée est [0]. Les images jointes sont [1], [2],… dans l\'ordre affiché</string>
     <string name="markup_layer_text_defaults_sub">Apparence du calque de texte par défaut</string>
+    <string name="collapsible_settings_groups">Groupes de paramètres pliables</string>
+    <string name="collapsible_settings_groups_sub">Autoriser le développement et la réduction des groupes de paramètres en mode plein écran</string>
+    <string name="filename_already_exists">Un fichier nommé « %1$s » existe déjà dans le dossier cible. Le fichier existant n\'a pas été modifié.</string>
 </resources>

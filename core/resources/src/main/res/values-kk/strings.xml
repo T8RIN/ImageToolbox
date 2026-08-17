@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Пәрмен арқылы пайдалану үшін бір немесе бірнеше суретті тіркеңіз</string>
     <string name="gmic_auxiliary_images_usage_sub">Өңделген кескін [0]. Тіркелген кескіндер [1], [2], … көрсетілген тәртіпте</string>
     <string name="markup_layer_text_defaults_sub">Әдепкі мәтін қабатының көрінісі</string>
+    <string name="collapsible_settings_groups">Жиналатын параметрлер топтары</string>
+    <string name="collapsible_settings_groups_sub">Параметрлер топтарын толық экран режимінде кеңейтуге және жиюге рұқсат беріңіз</string>
+    <string name="filename_already_exists">«%1$s» атты файл мақсатты қалтада әлдеқашан бар. Бар файл өзгертілмеді.</string>
 </resources>

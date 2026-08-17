@@ -4978,4 +4978,7 @@
     <string name="gmic_auxiliary_images_empty_sub">Komut tarafından kullanılmak üzere bir veya daha fazla resim ekleyin</string>
     <string name="gmic_auxiliary_images_usage_sub">İşlenen görüntü [0]\'dır. Eklenen resimler görüntülenme sırasına göre [1], [2], … şeklindedir</string>
     <string name="markup_layer_text_defaults_sub">Varsayılan metin katmanı görünümü</string>
+    <string name="collapsible_settings_groups">Daraltılabilir ayar grupları</string>
+    <string name="collapsible_settings_groups_sub">Ayar gruplarının tam ekran modunda genişletilmesine ve daraltılmasına izin ver</string>
+    <string name="filename_already_exists">Hedef klasörde “%1$s” adlı bir dosya zaten mevcut. Mevcut dosya değiştirilmedi.</string>
 </resources>
