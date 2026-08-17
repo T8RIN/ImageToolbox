@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
@@ -561,6 +562,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setDefaultQuality(quality: Quality) =
         settingsScope { setDefaultQuality(quality) }
+
+    fun setMarkupLayerTextDefaults(defaults: MarkupLayerTextDefaults) =
+        settingsScope { setMarkupLayerTextDefaults(defaults) }
 
     fun setShapesType(shapeType: ShapeType) = settingsScope { setShapesType(shapeType) }
 

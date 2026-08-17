@@ -164,6 +164,7 @@ internal val ENABLE_BACKGROUND_COLOR_FOR_ALPHA_FORMATS =
 internal val PERFORMANCE_VERSION = intPreferencesKey("PERFORMANCE_VERSION")
 internal val SHOW_TOOLS_HISTORY = booleanPreferencesKey("SHOW_TOOLS_HISTORY")
 internal val MOTION_DURATION_SCALE = floatPreferencesKey("MOTION_DURATION_SCALE")
+internal val MARKUP_LAYER_TEXT_DEFAULTS = stringPreferencesKey("MARKUP_LAYER_TEXT_DEFAULTS")
 internal val RAW_USE_CAMERA_WHITE_BALANCE =
     booleanPreferencesKey("RAW_USE_CAMERA_WHITE_BALANCE")
 internal val RAW_USE_AUTO_WHITE_BALANCE =

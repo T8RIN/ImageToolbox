@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -285,6 +286,12 @@ internal fun Preferences.toSettingsState(
     showToolsHistory = this[SHOW_TOOLS_HISTORY] ?: default.showToolsHistory,
     motionDurationScale = (this[MOTION_DURATION_SCALE] ?: default.motionDurationScale)
         .coerceIn(0f, 5f),
+    markupLayerTextDefaults = this[MARKUP_LAYER_TEXT_DEFAULTS]?.let {
+        jsonParser.fromJson(
+            json = it,
+            type = MarkupLayerTextDefaults::class.java
+        )
+    } ?: default.markupLayerTextDefaults,
     rawDevelopSettings = RawDevelopSettings(
         useEmbeddedPreview = this[RAW_USE_EMBEDDED_PREVIEW]
             ?: default.rawDevelopSettings.useEmbeddedPreview,

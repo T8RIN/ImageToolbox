@@ -4979,4 +4979,5 @@
     <string name="gmic_auxiliary_images">Вспомогательные изображения</string>
     <string name="gmic_auxiliary_images_empty_sub">Прикрепите одно или несколько изображений для использования командой</string>
     <string name="gmic_auxiliary_images_usage_sub">Обработанное изображение — [0]. Прикрепленные изображения: [1], [2], … в отображаемом порядке.</string>
+    <string name="markup_layer_text_defaults_sub">Оформление текстового слоя по умолчанию</string>
 </resources>

@@ -716,6 +716,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object MarkupLayerTextDefaults : Setting(
+        title = R.string.markup_layers,
+        subtitle = R.string.markup_layer_text_defaults_sub
+    )
+
+    @Serializable
     data object ShapeType : Setting(
         title = R.string.shapes_type,
         subtitle = null

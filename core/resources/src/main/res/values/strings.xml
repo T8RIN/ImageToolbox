@@ -5003,4 +5003,5 @@
     <string name="compression_lab_target_not_reached">The requested target could not be reached with this format.</string>
     <string name="compression_lab_failed_formats">Could not test: %1$s</string>
     <string name="search_keywords_compression_lab">compression benchmark codec encoder batch file size quality SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
+    <string name="markup_layer_text_defaults_sub">Default text layer appearance</string>
 </resources>

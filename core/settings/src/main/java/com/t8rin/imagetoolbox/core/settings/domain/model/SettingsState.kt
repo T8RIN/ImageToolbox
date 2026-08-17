@@ -155,6 +155,7 @@ data class SettingsState(
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
     val motionDurationScale: Float,
+    val markupLayerTextDefaults: MarkupLayerTextDefaults,
     val rawDevelopSettings: RawDevelopSettings,
 ) {
 
@@ -287,6 +288,7 @@ data class SettingsState(
                 enableBackgroundColorForAlphaFormats = false,
                 showToolsHistory = true,
                 motionDurationScale = 1f,
+                markupLayerTextDefaults = MarkupLayerTextDefaults.Default,
                 rawDevelopSettings = RawDevelopSettings(),
             )
         }

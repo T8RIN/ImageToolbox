@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -34,13 +33,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.TextSticky
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.toLayerType
 
 @Composable
 internal fun AddTextLayerDialog(
@@ -48,6 +49,7 @@ internal fun AddTextLayerDialog(
     onDismiss: () -> Unit,
     onAddLayer: (UiMarkupLayer) -> Unit
 ) {
+    val textDefaults = LocalSettingsState.current.markupLayerTextDefaults
     var dialogText by rememberSaveable(visible) {
         mutableStateOf("")
     }
@@ -95,9 +97,7 @@ internal fun AddTextLayerDialog(
                 onClick = {
                     onAddLayer(
                         UiMarkupLayer(
-                            type = LayerType.Text.Default.copy(
-                                text = dialogText
-                            )
+                            type = textDefaults.toLayerType(dialogText)
                         )
                     )
                     onDismiss()

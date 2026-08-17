@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
@@ -156,6 +157,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_T
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAIN_SCREEN_TITLE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.MARKUP_LAYER_TEXT_DEFAULTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MOTION_DURATION_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.NIGHT_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
@@ -1132,6 +1134,12 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setDefaultQuality(quality: Quality) = edit {
         jsonParser.toJson(quality, Quality::class.java)?.apply {
             it[DEFAULT_QUALITY] = this
+        }
+    }
+
+    override suspend fun setMarkupLayerTextDefaults(defaults: MarkupLayerTextDefaults) = edit {
+        jsonParser.toJson(defaults, MarkupLayerTextDefaults::class.java)?.apply {
+            it[MARKUP_LAYER_TEXT_DEFAULTS] = this
         }
     }
 

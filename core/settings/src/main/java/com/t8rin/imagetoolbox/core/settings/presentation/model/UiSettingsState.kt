@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
@@ -193,6 +194,7 @@ data class UiSettingsState(
     val enableBackgroundColorForAlphaFormats: Boolean,
     val showToolsHistory: Boolean,
     val motionDurationScale: Float,
+    val markupLayerTextDefaults: MarkupLayerTextDefaults,
     val rawDevelopSettings: RawDevelopSettings,
 )
 
@@ -465,6 +467,7 @@ fun SettingsState.toUiState(
                 enableBackgroundColorForAlphaFormats = enableBackgroundColorForAlphaFormats,
                 showToolsHistory = showToolsHistory,
                 motionDurationScale = motionDurationScale,
+                markupLayerTextDefaults = markupLayerTextDefaults,
                 rawDevelopSettings = rawDevelopSettings,
             )
         }

@@ -190,7 +190,8 @@ sealed class SettingsGroup(
             Setting.DefaultColorSpace,
             Setting.DefaultImageFormat,
             Setting.DefaultQuality,
-            Setting.DefaultResizeType
+            Setting.DefaultResizeType,
+            Setting.MarkupLayerTextDefaults
         ),
         initialState = false
     )

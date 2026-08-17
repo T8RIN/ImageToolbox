@@ -659,6 +659,12 @@ internal fun SettingItem(
                 DefaultQualitySettingItem(onValueChange = component::setDefaultQuality)
             }
 
+            Setting.MarkupLayerTextDefaults -> {
+                MarkupLayerTextDefaultsSettingItem(
+                    onValueChange = component::setMarkupLayerTextDefaults
+                )
+            }
+
             Setting.ShapeType -> {
                 ShapeTypeSettingItem(onValueChange = component::setShapesType)
             }
