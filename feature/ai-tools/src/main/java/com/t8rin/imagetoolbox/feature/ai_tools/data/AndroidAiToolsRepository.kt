@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiToolsRepository
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.AiDetectionResult
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
@@ -86,6 +87,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val appScope: AppScope,
     private val processor: AiProcessor,
+    private val aiImageDetectorProcessor: AiImageDetectorProcessor,
     private val depthProcessor: DepthProcessor,
     private val styleTransferProcessor: StyleTransferProcessor,
     private val optimizationStyleTransferProcessor: OptimizationStyleTransferProcessor,
@@ -414,6 +416,36 @@ internal class AndroidAiToolsRepository @Inject constructor(
         }
     }
 
+    override suspend fun detectAiImage(
+        image: Bitmap,
+        listener: AiProgressListener
+    ): AiDetectionResult? = withContext(defaultDispatcher) {
+        val model = selectedModel.value
+            ?.takeIf(NeuralModel::isAiDetector)
+            ?: return@withContext listener.failedSession()
+
+        processImage {
+            val ortSession = session.makeLog("Held detector session")
+                ?: createSession(model).makeLog("New detector session")
+                ?: return@withContext null.also {
+                    listener.onError(getString(R.string.failed_to_open_session))
+                }
+
+            runCatching {
+                listener.onProgress(0, 1)
+                aiImageDetectorProcessor.detect(
+                    session = ortSession,
+                    source = image,
+                    model = model
+                ).also {
+                    listener.onProgress(1, 1)
+                }
+            }.onFailure {
+                listener.onError(it.extractMessage())
+            }.getOrNull()
+        }
+    }
+
     private suspend fun withClosedSession(
         listener: AiProgressListener,
         function: suspend () -> Bitmap?
@@ -508,6 +540,9 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     "Error setting InterOpNumThreads: ${e.message}".makeLog("ModelManager")
                 }
                 try {
+                    if (model?.isAiDetector == true) {
+                        addConfigEntry("mlas.disable_kleidiai", "1")
+                    }
                     when {
                         modelName.endsWith(".ort") -> { // prevent double optimizations (.ort models are already optimized)
                             setOptimizationLevel(

@@ -30,7 +30,8 @@ data class NeuralModel(
     val type: Type?,
     val speed: Speed?,
     val downloadSize: Long,
-    val checksum: String
+    val checksum: String,
+    val aiDetectionContract: AiDetectionContract? = null
 ) {
     val isStyleTransfer = type == Type.STYLE_TRANSFER
     val isOptimizationStyleTransfer = name == OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME
@@ -39,16 +40,17 @@ data class NeuralModel(
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
     val isUvDocUnwarper = name == "uvdoc_grid.onnx"
+    val isAiDetector = type == Type.AI_DETECTION && aiDetectionContract != null
 
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
-                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH
+                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
     enum class Type {
         UPSCALE, REMOVE_BG, COLORIZE, DE_JPEG, DENOISE, ARTIFACTS, ENHANCE, ANIME, SCANS,
-        STYLE_TRANSFER, DEPTH
+        STYLE_TRANSFER, DEPTH, AI_DETECTION
     }
 
     sealed interface Speed {
@@ -88,6 +90,163 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_lpx_swinv2_large_fp32.onnx"),
+                    title = "LPX AI Detector SwinV2 Large",
+                    description = R.string.model_ai_detector_lpx_swinv2,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 904_854_552,
+                    speed = Speed.VerySlow(0.451f),
+                    checksum = "a2346d0e9f56d2d1593ba76758988b4e8da4e65a5bc65e7c3cf9798a86c9a2bf",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 256,
+                        mean = RgbValues(0.485f, 0.456f, 0.406f),
+                        std = RgbValues(0.229f, 0.224f, 0.225f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_convnext_tiny_fp32.onnx"),
+                    title = "ConvNeXT Tiny AI Detector",
+                    description = R.string.model_ai_detector_convnext,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 111_372_433,
+                    speed = Speed.VeryFast(0.070f),
+                    checksum = "fa1a4cc62639a1d2c8020a46dca21810f50766b9f961ac2e497c0908ab4a4110",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        resizeSize = 256,
+                        resizeMode = AiDetectionContract.ResizeMode.ShortestSideCenterCrop,
+                        mean = RgbValues(0.485f, 0.456f, 0.406f),
+                        std = RgbValues(0.229f, 0.224f, 0.225f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_resnet50_fp32.onnx"),
+                    title = "ResNet-50 AI Detector",
+                    description = R.string.model_ai_detector_resnet,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 93_978_312,
+                    speed = Speed.VeryFast(0.046f),
+                    checksum = "ce8e30aebdad71e7a6b55d1ce08ff25496d1be3207bfd1dbd7285d8133a102ee",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        resizeSize = 256,
+                        resizeMode = AiDetectionContract.ResizeMode.ShortestSideCenterCrop,
+                        mean = RgbValues(0.485f, 0.456f, 0.406f),
+                        std = RgbValues(0.229f, 0.224f, 0.225f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_ai_vs_deepfake_vs_real_fp32.onnx"),
+                    title = "AI vs Deepfake vs Real",
+                    description = R.string.model_ai_detector_ai_vs_deepfake,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 343_417_229,
+                    speed = Speed.Normal(0.178f),
+                    checksum = "6ce5eb048dbf95c9702525abc24db5a38030221754024e0e1e31fdebc6c512b1",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.5f, 0.5f, 0.5f),
+                        std = RgbValues(0.5f, 0.5f, 0.5f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0, 1)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_capcheck_vit_base_fp32.onnx"),
+                    title = "CapCheck AI Image Detection",
+                    description = R.string.model_ai_detector_capcheck,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 343_401_688,
+                    speed = Speed.Fast(0.136f),
+                    checksum = "44cb205f596f2530686bf4895e3678f08f9483c926b6bdc0e02998d5b54978a2",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.5f, 0.5f, 0.5f),
+                        std = RgbValues(0.5f, 0.5f, 0.5f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(1)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_deepfake_v2_vit_base_fp32.onnx"),
+                    title = "Deep Fake Detector V2",
+                    description = R.string.model_ai_detector_deepfake_v2,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 343_401_688,
+                    speed = Speed.Fast(0.144f),
+                    checksum = "2e0662a81744aca769e240fd1daa3f44225c50d0565fd8fb8f702d1f26609c91",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.5f, 0.5f, 0.5f),
+                        std = RgbValues(0.5f, 0.5f, 0.5f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(1)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_distilled_vit_small_fp32.onnx"),
+                    title = "AI Image Detect Distilled",
+                    description = R.string.model_ai_detector_distilled,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 58_410_332,
+                    speed = Speed.VeryFast(0.041f),
+                    checksum = "87b4331f22418a4cb50901851a1c28f64a0ca4f58728442d073b4bed9922ba86",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.5f, 0.5f, 0.5f),
+                        std = RgbValues(0.5f, 0.5f, 0.5f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0)
+                        )
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_community_forensics_vit_small_384_fp32.onnx"),
+                    title = "Community Forensics ViT-S/384",
+                    description = R.string.model_ai_detector_community_forensics,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 143_845_409,
+                    speed = Speed.Slow(0.214f),
+                    checksum = "55602c73f457858f0b48c19bfa03bc6bd218f37027cb1f6b569ee24e2f954d03",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 384,
+                        resizeSize = 440,
+                        resizeMode = AiDetectionContract.ResizeMode.ShortestSideCenterCrop,
+                        mean = RgbValues(0.48145467f, 0.4578275f, 0.40821072f),
+                        std = RgbValues(0.26862955f, 0.2613026f, 0.2757771f),
+                        output = AiDetectionContract.Output.Sigmoid
+                    )
+                ),
+                NeuralModel(
+                    downloadLink = res("detectors/ai_detector_smogy_swin_base_fp32.onnx"),
+                    title = "SMOGY Swin Base",
+                    description = R.string.model_ai_detector_smogy,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 351_983_641,
+                    speed = Speed.Fast(0.153f),
+                    checksum = "51bd73cb17e68cde821eda4b978ef63b3ae4063e25b79a2c99bf84399988ea39",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.485f, 0.456f, 0.406f),
+                        std = RgbValues(0.229f, 0.224f, 0.225f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(0)
+                        )
+                    )
+                ),
                 NeuralModel(
                     downloadLink = res("depth/depth_anything_v2_vits_q4.onnx"),
                     title = "Depth Anything V2 Small (Q4)",

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.ai_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.remote.DownloadProgress
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.AiDetectionResult
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,11 @@ interface AiToolsRepository<Image> {
         listener: AiProgressListener,
         params: NeuralParams
     ): Image?
+
+    suspend fun detectAiImage(
+        image: Image,
+        listener: AiProgressListener
+    ): AiDetectionResult?
 
     suspend fun deleteModel(model: NeuralModel)
 

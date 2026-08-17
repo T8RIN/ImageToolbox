@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.SavableNeuralParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.withAuxiliaryImage
+import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiDetectionPreviewResult
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.AiToolsPreviewResult
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.components.NeuralSaveProgress
 import dagger.assisted.Assisted
@@ -119,6 +120,12 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     val selectedModel: StateFlow<NeuralModel?> = aiToolsRepository.selectedModel
 
+    val isAiDetectionMode = selectedModel.map { it?.isAiDetector == true }.stateIn(
+        scope = componentScope,
+        started = SharingStarted.Eagerly,
+        initialValue = false
+    )
+
     private val _downloadProgresses: SnapshotStateMap<String, DownloadProgress> =
         mutableStateMapOf()
     val downloadProgresses: Map<String, DownloadProgress> = _downloadProgresses
@@ -151,6 +158,10 @@ class AiToolsComponent @AssistedInject internal constructor(
     private val _previewResults = mutableStateOf<List<AiToolsPreviewResult>>(emptyList())
     val previewResults by _previewResults
 
+    private val _aiDetectionResults =
+        mutableStateOf<List<AiDetectionPreviewResult>>(emptyList())
+    val aiDetectionResults by _aiDetectionResults
+
     private val aiProgressListener = object : AiProgressListener {
         override fun onError(error: String) {
             AppToastHost.showFailureToast(error)
@@ -172,6 +183,7 @@ class AiToolsComponent @AssistedInject internal constructor(
     fun selectModel(model: NeuralModel) {
         componentScope.launch {
             aiToolsRepository.selectModel(model)
+            clearResults()
             registerChanges()
         }
     }
@@ -249,6 +261,52 @@ class AiToolsComponent @AssistedInject internal constructor(
     fun updateUris(uris: List<Uri>?) {
         _uris.value = null
         _uris.value = uris
+        clearResults()
+    }
+
+    fun detectAiImages() {
+        savingJob = trackProgress {
+            delay(400)
+            _saveProgress.update {
+                NeuralSaveProgress(
+                    doneImages = 0,
+                    totalImages = uris.orEmpty().size,
+                    doneChunks = 0,
+                    totalChunks = 1
+                )
+            }
+
+            val results = mutableListOf<AiDetectionPreviewResult>()
+            try {
+                uris.orEmpty().forEach { uri ->
+                    runSuspendCatching {
+                        val image = imageGetter.getImage(uri.toString())?.image
+                            ?: return@runSuspendCatching null
+                        aiToolsRepository.detectAiImage(
+                            image = image,
+                            listener = aiProgressListener
+                        )
+                    }.onFailure(AppToastHost::showFailureToast)
+                        .getOrNull()
+                        ?.let { result ->
+                            results.add(
+                                AiDetectionPreviewResult(
+                                    uri = uri,
+                                    result = result
+                                )
+                            )
+                        }
+
+                    _saveProgress.updateNotNull {
+                        it.copy(doneImages = it.doneImages + 1)
+                    }
+                }
+                _aiDetectionResults.value = results
+            } finally {
+                _saveProgress.update { null }
+                aiToolsRepository.cleanup()
+            }
+        }
     }
 
     fun updateStyleUri(uri: Uri) {
@@ -466,6 +524,21 @@ class AiToolsComponent @AssistedInject internal constructor(
         _previewResults.value = emptyList()
     }
 
+    fun clearAiDetectionResults() {
+        _aiDetectionResults.value = emptyList()
+    }
+
+    private fun clearResults() {
+        clearPreviewResults()
+        clearAiDetectionResults()
+    }
+
+    private fun removeAiDetectionResult(uri: Uri) {
+        _aiDetectionResults.update { results ->
+            results.filterNot { it.uri == uri }
+        }
+    }
+
     fun removePreviewResult(uri: Uri) {
         _previewResults.update { results ->
             results.filterNot { it.cachedUri == uri }
@@ -490,6 +563,7 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     fun removeUri(uri: Uri) {
         _uris.update { it.orEmpty() - uri }
+        removeAiDetectionResult(uri)
     }
 
     fun addUris(uris: List<Uri>) {

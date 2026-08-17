@@ -76,6 +76,16 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         onCancelDownload = component::cancelDownload
     )
 
+    if (component.isAiDetectionMode.collectAsStateWithLifecycle().value) {
+        Spacer(Modifier.height(8.dp))
+        InfoContainer(
+            text = stringResource(R.string.ai_detector_disclaimer),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.4f),
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(0.8f)
+        )
+        return
+    }
+
     AnimatedVisibility(
         visible = selectedModel?.isStyleTransfer == true,
         modifier = Modifier.fillMaxWidth()
