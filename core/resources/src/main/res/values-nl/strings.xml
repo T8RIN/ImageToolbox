@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Hulpafbeeldingen</string>
     <string name="gmic_auxiliary_images_empty_sub">Voeg een of meer afbeeldingen toe voor gebruik door de opdracht</string>
     <string name="gmic_auxiliary_images_usage_sub">Het verwerkte beeld is [0]. Bijgevoegde afbeeldingen zijn [1], [2], … in de weergegeven volgorde</string>
+    <string name="markup_layer_text_defaults_sub">Standaardweergave van tekstlaag</string>
 </resources>

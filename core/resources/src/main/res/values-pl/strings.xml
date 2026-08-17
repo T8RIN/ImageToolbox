@@ -4979,4 +4979,5 @@
     <string name="gmic_auxiliary_images">Obrazy pomocnicze</string>
     <string name="gmic_auxiliary_images_empty_sub">Dołącz jeden lub więcej obrazów do użycia przez polecenie</string>
     <string name="gmic_auxiliary_images_usage_sub">Przetworzony obraz to [0]. Załączone obrazy to [1], [2], … w wyświetlanej kolejności</string>
+    <string name="markup_layer_text_defaults_sub">Domyślny wygląd warstwy tekstowej</string>
 </resources>

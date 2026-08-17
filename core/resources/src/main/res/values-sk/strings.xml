@@ -4979,4 +4979,5 @@
     <string name="gmic_auxiliary_images">Pomocné obrázky</string>
     <string name="gmic_auxiliary_images_empty_sub">Pripojte jeden alebo viac obrázkov na použitie príkazom</string>
     <string name="gmic_auxiliary_images_usage_sub">Spracovaný obrázok je [0]. Priložené obrázky sú [1], [2], ... v zobrazenom poradí</string>
+    <string name="markup_layer_text_defaults_sub">Predvolený vzhľad textovej vrstvy</string>
 </resources>

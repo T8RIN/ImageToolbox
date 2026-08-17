@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Segédképek</string>
     <string name="gmic_auxiliary_images_empty_sub">Csatoljon egy vagy több képet a parancs általi használatra</string>
     <string name="gmic_auxiliary_images_usage_sub">A feldolgozott kép [0]. A csatolt képek [1], [2], … a megjelenített sorrendben</string>
+    <string name="markup_layer_text_defaults_sub">Alapértelmezett szövegréteg megjelenés</string>
 </resources>

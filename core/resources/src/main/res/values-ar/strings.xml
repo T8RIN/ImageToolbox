@@ -4981,4 +4981,5 @@
     <string name="gmic_auxiliary_images">الصور المساعدة</string>
     <string name="gmic_auxiliary_images_empty_sub">قم بإرفاق صورة واحدة أو أكثر لاستخدامها بواسطة الأمر</string>
     <string name="gmic_auxiliary_images_usage_sub">الصورة المعالجة هي [0]. الصور المرفقة هي [1]، [2]، … حسب ترتيب العرض</string>
+    <string name="markup_layer_text_defaults_sub">المظهر الافتراضي لطبقة النص</string>
 </resources>

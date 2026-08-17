@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">సహాయక చిత్రాలు</string>
     <string name="gmic_auxiliary_images_empty_sub">కమాండ్ ద్వారా ఉపయోగం కోసం ఒకటి లేదా అంతకంటే ఎక్కువ చిత్రాలను అటాచ్ చేయండి</string>
     <string name="gmic_auxiliary_images_usage_sub">ప్రాసెస్ చేయబడిన చిత్రం [0]. జోడించిన చిత్రాలు [1], [2], … ప్రదర్శించబడే క్రమంలో ఉన్నాయి</string>
+    <string name="markup_layer_text_defaults_sub">డిఫాల్ట్ టెక్స్ట్ లేయర్ ప్రదర్శన</string>
 </resources>

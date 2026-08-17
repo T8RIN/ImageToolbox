@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Hjälpbilder</string>
     <string name="gmic_auxiliary_images_empty_sub">Bifoga en eller flera bilder för användning av kommandot</string>
     <string name="gmic_auxiliary_images_usage_sub">Den bearbetade bilden är [0]. Bifogade bilder är [1], [2], … i den ordning som visas</string>
+    <string name="markup_layer_text_defaults_sub">Standardutseende för textlager</string>
 </resources>

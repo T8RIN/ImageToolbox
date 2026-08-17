@@ -4978,4 +4978,5 @@
     <string name="gmic_auxiliary_images">Помоћне слике</string>
     <string name="gmic_auxiliary_images_empty_sub">Приложите једну или више слика које ће користити наредба</string>
     <string name="gmic_auxiliary_images_usage_sub">Обрађена слика је [0]. Приложене слике су [1], [2], … приказаним редоследом</string>
+    <string name="markup_layer_text_defaults_sub">Подразумевани изглед слоја текста</string>
 </resources>

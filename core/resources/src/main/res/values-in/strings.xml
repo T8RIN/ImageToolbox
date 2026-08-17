@@ -4976,4 +4976,5 @@
     <string name="gmic_auxiliary_images">Gambar tambahan</string>
     <string name="gmic_auxiliary_images_empty_sub">Lampirkan satu atau lebih gambar untuk digunakan oleh perintah</string>
     <string name="gmic_auxiliary_images_usage_sub">Gambar yang diproses adalah [0]. Gambar terlampir adalah [1], [2], … dalam urutan yang ditampilkan</string>
+    <string name="markup_layer_text_defaults_sub">Tampilan lapisan teks default</string>
 </resources>

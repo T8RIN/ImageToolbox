@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Hilfsbilder</string>
     <string name="gmic_auxiliary_images_empty_sub">Hängen Sie ein oder mehrere Bilder zur Verwendung durch den Befehl an</string>
     <string name="gmic_auxiliary_images_usage_sub">Das verarbeitete Bild ist [0]. Angehängte Bilder sind [1], [2], … in der angezeigten Reihenfolge</string>
+    <string name="markup_layer_text_defaults_sub">Standarddarstellung der Textebene</string>
 </resources>

@@ -4976,4 +4976,5 @@
     <string name="gmic_auxiliary_images" />
     <string name="gmic_auxiliary_images_empty_sub" />
     <string name="gmic_auxiliary_images_usage_sub" />
+    <string name="markup_layer_text_defaults_sub">預設文字圖層外觀</string>
 </resources>

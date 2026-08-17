@@ -4976,4 +4976,5 @@
     <string name="gmic_auxiliary_images">補助画像</string>
     <string name="gmic_auxiliary_images_empty_sub">コマンドで使用する 1 つ以上の画像を添付します</string>
     <string name="gmic_auxiliary_images_usage_sub">加工後の画像は「0」になります。添付画像は表示順に[1]、[2]、…となります。</string>
+    <string name="markup_layer_text_defaults_sub">デフォルトのテキストレイヤーの外観</string>
 </resources>

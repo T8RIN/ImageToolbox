@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Imagens auxiliares</string>
     <string name="gmic_auxiliary_images_empty_sub">Anexe uma ou mais imagens para uso pelo comando</string>
     <string name="gmic_auxiliary_images_usage_sub">A imagem processada é [0]. As imagens anexadas são [1], [2],… na ordem exibida</string>
+    <string name="markup_layer_text_defaults_sub">Aparência padrão da camada de texto</string>
 </resources>

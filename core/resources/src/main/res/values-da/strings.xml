@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Hjælpebilleder</string>
     <string name="gmic_auxiliary_images_empty_sub">Vedhæft et eller flere billeder til brug for kommandoen</string>
     <string name="gmic_auxiliary_images_usage_sub">Det behandlede billede er [0]. Vedhæftede billeder er [1], [2], … i den viste rækkefølge</string>
+    <string name="markup_layer_text_defaults_sub">Standardtekstlagsudseende</string>
 </resources>

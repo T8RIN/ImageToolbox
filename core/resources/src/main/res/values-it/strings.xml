@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Immagini ausiliarie</string>
     <string name="gmic_auxiliary_images_empty_sub">Allega una o più immagini da utilizzare con il comando</string>
     <string name="gmic_auxiliary_images_usage_sub">L\'immagine elaborata è [0]. Le immagini allegate sono [1], [2], … nell\'ordine visualizzato</string>
+    <string name="markup_layer_text_defaults_sub">Aspetto predefinito del livello di testo</string>
 </resources>

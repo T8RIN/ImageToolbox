@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Apukuvat</string>
     <string name="gmic_auxiliary_images_empty_sub">Liitä yksi tai useampi kuva komennon käyttöön</string>
     <string name="gmic_auxiliary_images_usage_sub">Käsitelty kuva on [0]. Liitteenä olevat kuvat ovat [1], [2], … näytetyssä järjestyksessä</string>
+    <string name="markup_layer_text_defaults_sub">Tekstikerroksen oletusulkonäkö</string>
 </resources>

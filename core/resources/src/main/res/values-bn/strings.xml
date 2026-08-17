@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">সহায়ক ছবি</string>
     <string name="gmic_auxiliary_images_empty_sub">কমান্ড দ্বারা ব্যবহারের জন্য এক বা একাধিক ছবি সংযুক্ত করুন</string>
     <string name="gmic_auxiliary_images_usage_sub">প্রক্রিয়াকৃত চিত্রটি হল [0]। সংযুক্ত ছবিগুলি হল [1], [2], … প্রদর্শিত ক্রমে</string>
+    <string name="markup_layer_text_defaults_sub">ডিফল্ট টেক্সট স্তর চেহারা</string>
 </resources>

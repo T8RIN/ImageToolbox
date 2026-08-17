@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Imatges auxiliars</string>
     <string name="gmic_auxiliary_images_empty_sub">Adjunteu una o més imatges per utilitzar-les amb l\'ordre</string>
     <string name="gmic_auxiliary_images_usage_sub">La imatge processada és [0]. Les imatges adjuntes són [1], [2], … en l\'ordre que es mostren</string>
+    <string name="markup_layer_text_defaults_sub">Aspecte predeterminat de la capa de text</string>
 </resources>

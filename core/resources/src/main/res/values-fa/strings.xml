@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">تصاویر کمکی</string>
     <string name="gmic_auxiliary_images_empty_sub">یک یا چند تصویر را برای استفاده توسط دستور ضمیمه کنید</string>
     <string name="gmic_auxiliary_images_usage_sub">تصویر پردازش شده [0] است. تصاویر پیوست شده [1]، [2]، … به ترتیب نمایش داده شده هستند</string>
+    <string name="markup_layer_text_defaults_sub">ظاهر لایه متنی پیش فرض</string>
 </resources>

@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">सहायक छवियाँ</string>
     <string name="gmic_auxiliary_images_empty_sub">कमांड द्वारा उपयोग के लिए एक या अधिक छवियाँ संलग्न करें</string>
     <string name="gmic_auxiliary_images_usage_sub">संसाधित छवि [0] है. संलग्न छवियाँ प्रदर्शित क्रम में [1], [2],… हैं</string>
+    <string name="markup_layer_text_defaults_sub">डिफ़ॉल्ट पाठ परत उपस्थिति</string>
 </resources>

@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Mga pantulong na larawan</string>
     <string name="gmic_auxiliary_images_empty_sub">Maglakip ng isa o higit pang mga larawan para magamit ng command</string>
     <string name="gmic_auxiliary_images_usage_sub">Ang naprosesong imahe ay [0]. Ang mga kalakip na larawan ay [1], [2], … sa ipinapakitang pagkakasunud-sunod</string>
+    <string name="markup_layer_text_defaults_sub">Default na hitsura ng layer ng teksto</string>
 </resources>

@@ -4976,4 +4976,5 @@
     <string name="gmic_auxiliary_images">ภาพเสริม</string>
     <string name="gmic_auxiliary_images_empty_sub">แนบรูปภาพหนึ่งภาพขึ้นไปเพื่อใช้ตามคำสั่ง</string>
     <string name="gmic_auxiliary_images_usage_sub">ภาพที่ประมวลผลคือ [0] ภาพที่แนบมาคือ [1], [2] … ตามลำดับที่แสดง</string>
+    <string name="markup_layer_text_defaults_sub">ลักษณะเลเยอร์ข้อความเริ่มต้น</string>
 </resources>

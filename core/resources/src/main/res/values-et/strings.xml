@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Abipildid</string>
     <string name="gmic_auxiliary_images_empty_sub">Manustage käsuga kasutamiseks üks või mitu pilti</string>
     <string name="gmic_auxiliary_images_usage_sub">Töödeldud pilt on [0]. Manustatud pildid on [1], [2], … kuvatavas järjekorras</string>
+    <string name="markup_layer_text_defaults_sub">Tekstikihi vaikevälimus</string>
 </resources>

@@ -4976,4 +4976,5 @@
     <string name="gmic_auxiliary_images">Hình ảnh phụ trợ</string>
     <string name="gmic_auxiliary_images_empty_sub">Đính kèm một hoặc nhiều hình ảnh để sử dụng bằng lệnh</string>
     <string name="gmic_auxiliary_images_usage_sub">Hình ảnh được xử lý là [0]. Hình ảnh đính kèm là [1], [2],… theo thứ tự hiển thị</string>
+    <string name="markup_layer_text_defaults_sub">Giao diện lớp văn bản mặc định</string>
 </resources>

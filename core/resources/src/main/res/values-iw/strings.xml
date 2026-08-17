@@ -4979,4 +4979,5 @@
     <string name="gmic_auxiliary_images">תמונות עזר</string>
     <string name="gmic_auxiliary_images_empty_sub">צרף תמונה אחת או יותר לשימוש בפקודה</string>
     <string name="gmic_auxiliary_images_usage_sub">התמונה המעובדת היא [0]. התמונות המצורפות הן [1], [2], … בסדר המוצג</string>
+    <string name="markup_layer_text_defaults_sub">מראה שכבת טקסט ברירת מחדל</string>
 </resources>

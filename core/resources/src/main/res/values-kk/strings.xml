@@ -4977,4 +4977,5 @@
     <string name="gmic_auxiliary_images">Көмекші суреттер</string>
     <string name="gmic_auxiliary_images_empty_sub">Пәрмен арқылы пайдалану үшін бір немесе бірнеше суретті тіркеңіз</string>
     <string name="gmic_auxiliary_images_usage_sub">Өңделген кескін [0]. Тіркелген кескіндер [1], [2], … көрсетілген тәртіпте</string>
+    <string name="markup_layer_text_defaults_sub">Әдепкі мәтін қабатының көрінісі</string>
 </resources>
