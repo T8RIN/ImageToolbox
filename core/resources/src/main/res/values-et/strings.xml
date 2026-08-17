@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Kokkupandavad seadete rühmad</string>
     <string name="collapsible_settings_groups_sub">Lubage seadete rühmi täisekraanrežiimis laiendada ja ahendada</string>
     <string name="filename_already_exists">Fail nimega \"%1$s\" on sihtkaustas juba olemas. Olemasolevat faili ei muudetud.</string>
+    <string name="ai_detector_analyze">Analüüsida</string>
+    <string name="ai_detector_disclaimer">Tulemuseks on tõenäosushinnang, mitte tõestus. Pakkimine, redigeerimine, ekraanipildid ja generaatorid väljaspool mudeli treeningandmeid võivad seda mõjutada.</string>
+    <string name="ai_detector_likely_ai">Tõenäoliselt AI loodud</string>
+    <string name="ai_detector_uncertain">Ebakindel</string>
+    <string name="ai_detector_likely_human">Tõenäoliselt inimese loodud</string>
+    <string name="ai_probability">AI tõenäosus: %1$s</string>
+    <string name="type_ai_detection">AI tuvastamine</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-detektor, mis eraldab kunstlikud, sügavalt võltsitud ja tõelised pildid.</string>
+    <string name="model_ai_detector_capcheck">ViT-detektor, mis on peenhäälestatud AI-ga loodud ja tegelike piltide eraldamiseks.</string>
+    <string name="model_ai_detector_lpx_swinv2">Suur SwinV2 detektor, mis on koolitatud eristama tehislikke ja reaalseid pilte.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Pisike detektor, mis on koolitatud eristama tehisintellekti loodud ja reaalseid pilte.</string>
+    <string name="model_ai_detector_resnet">ResNet-50 detektor, mis on koolitatud eristama tehisintellekti loodud ja reaalseid pilte.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT-detektor, mis on koolitatud suure hulga tõeliste ja võltsitud näopiltide kogumiseks.</string>
+    <string name="model_ai_detector_distilled">Kompaktne ViT detektor. Saadaolevatest detektoritest kiireim, kuid tundmatute generaatorite puhul vähem täpne.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 on koolitatud laiaulatusliku generaatoritevahelise kujutise kohtuekspertiisi jaoks.</string>
+    <string name="model_ai_detector_smogy">Inimeste ja tehisintellekti loodud piltide jaoks väljaõpetatud kiikadedetektor.</string>
 </resources>

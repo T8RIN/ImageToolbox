@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">बंधने योग्य सेटिंग समूह</string>
     <string name="collapsible_settings_groups_sub">सेटिंग समूहों को फ़ुलस्क्रीन मोड में विस्तारित और संक्षिप्त करने की अनुमति दें</string>
     <string name="filename_already_exists">लक्ष्य फ़ोल्डर में \"%1$s\" नामक फ़ाइल पहले से मौजूद है। मौजूदा फ़ाइल नहीं बदली गई थी.</string>
+    <string name="ai_detector_analyze">विश्लेषण करें</string>
+    <string name="ai_detector_disclaimer">परिणाम एक संभाव्य अनुमान है, प्रमाण नहीं। किसी मॉडल के प्रशिक्षण डेटा के बाहर संपीड़न, संपादन, स्क्रीनशॉट और जनरेटर इसे प्रभावित कर सकते हैं।</string>
+    <string name="ai_detector_likely_ai">संभवतः AI-जनित</string>
+    <string name="ai_detector_uncertain">ढुलमुल</string>
+    <string name="ai_detector_likely_human">संभवतः मानव-निर्मित</string>
+    <string name="ai_probability">एआई संभावना: %1$s</string>
+    <string name="type_ai_detection">एआई का पता लगाना</string>
+    <string name="model_ai_detector_ai_vs_deepfake">वीआईटी डिटेक्टर जो कृत्रिम, डीपफेक और वास्तविक छवियों को अलग करता है।</string>
+    <string name="model_ai_detector_capcheck">एआई-जनरेटेड और वास्तविक छवियों को अलग करने के लिए वीआईटी डिटेक्टर को ठीक किया गया है।</string>
+    <string name="model_ai_detector_lpx_swinv2">बड़े SwinV2 डिटेक्टर को कृत्रिम और वास्तविक छवियों में अंतर करने के लिए प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_convnext">ConvNeXT टिनी डिटेक्टर को AI-जनरेटेड और वास्तविक छवियों को अलग करने के लिए प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_resnet">ResNet-50 डिटेक्टर को AI-जनरेटेड और वास्तविक छवियों को अलग करने के लिए प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_deepfake_v2">वीआईटी डिटेक्टर को वास्तविक और डीपफेक चेहरे की छवियों के एक बड़े संग्रह पर प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_distilled">कॉम्पैक्ट वीआईटी डिटेक्टर। उपलब्ध डिटेक्टरों में सबसे तेज़, लेकिन अपरिचित जनरेटर पर कम सटीक।</string>
+    <string name="model_ai_detector_community_forensics">वीआईटी-एस/384 को व्यापक क्रॉस-जनरेटर छवि फोरेंसिक के लिए प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_smogy">स्वाइन डिटेक्टर को मानव और एआई-जनित छवियों पर प्रशिक्षित किया गया।</string>
 </resources>

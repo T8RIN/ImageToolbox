@@ -4985,4 +4985,20 @@
     <string name="collapsible_settings_groups">مجموعات الإعدادات القابلة للطي</string>
     <string name="collapsible_settings_groups_sub">السماح بتوسيع مجموعات الإعدادات وطيها في وضع ملء الشاشة</string>
     <string name="filename_already_exists">يوجد ملف باسم \"%1$s\" بالفعل في المجلد الهدف. لم يتم تغيير الملف الموجود.</string>
+    <string name="ai_detector_analyze">تحليل</string>
+    <string name="ai_detector_disclaimer">والنتيجة هي تقدير احتمالي، وليس دليلا. يمكن أن يؤثر عليه الضغط والتحرير ولقطات الشاشة والمولدات خارج بيانات التدريب الخاصة بالنموذج.</string>
+    <string name="ai_detector_likely_ai">من المحتمل أن يتم إنشاؤها بواسطة الذكاء الاصطناعي</string>
+    <string name="ai_detector_uncertain">غير مؤكد</string>
+    <string name="ai_detector_likely_human">من المحتمل أن يكون من صنع الإنسان</string>
+    <string name="ai_probability">احتمالية الذكاء الاصطناعي: %1$s</string>
+    <string name="type_ai_detection">كشف الذكاء الاصطناعي</string>
+    <string name="model_ai_detector_ai_vs_deepfake">كاشف ViT الذي يفصل بين الصور الاصطناعية والعميقة والحقيقية.</string>
+    <string name="model_ai_detector_capcheck">تم ضبط كاشف ViT بدقة لفصل الصور التي تم إنشاؤها بواسطة الذكاء الاصطناعي والصور الحقيقية.</string>
+    <string name="model_ai_detector_lpx_swinv2">كاشف SwinV2 كبير تم تدريبه على التمييز بين الصور الاصطناعية والحقيقية.</string>
+    <string name="model_ai_detector_convnext">تم تدريب كاشف ConvNeXT الصغير على التمييز بين الصور الحقيقية والمولدة بواسطة الذكاء الاصطناعي.</string>
+    <string name="model_ai_detector_resnet">تم تدريب كاشف ResNet-50 على التمييز بين الصور الحقيقية والمولدة بواسطة الذكاء الاصطناعي.</string>
+    <string name="model_ai_detector_deepfake_v2">تم تدريب كاشف ViT على مجموعة كبيرة من صور الوجوه الحقيقية والمزيفة.</string>
+    <string name="model_ai_detector_distilled">كاشف ViT مدمج. أسرع أجهزة الكشف المتوفرة، ولكنها أقل دقة في المولدات غير المألوفة.</string>
+    <string name="model_ai_detector_community_forensics">تم تدريب ViT-S/384 على التحليل الجنائي للصور الشاملة عبر المولدات.</string>
+    <string name="model_ai_detector_smogy">تم تدريب كاشف Swin على الصور البشرية والصور المولدة بالذكاء الاصطناعي.</string>
 </resources>

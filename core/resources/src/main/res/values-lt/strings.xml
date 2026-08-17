@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">Sutraukiamos nustatymų grupės</string>
     <string name="collapsible_settings_groups_sub">Leisti nustatymų grupes išplėsti ir sutraukti viso ekrano režimu</string>
     <string name="filename_already_exists">Failas pavadinimu „%1$s“ jau yra tiksliniame aplanke. Esamas failas nebuvo pakeistas.</string>
+    <string name="ai_detector_analyze">Analizuoti</string>
+    <string name="ai_detector_disclaimer">Rezultatas yra tikimybinis įvertinimas, o ne įrodymas. Suspaudimas, redagavimas, ekrano kopijos ir generatoriai, nepriklausantys modelio mokymo duomenims, gali jį paveikti.</string>
+    <string name="ai_detector_likely_ai">Tikėtina, kad sukurta dirbtinio intelekto</string>
+    <string name="ai_detector_uncertain">Neaiškus</string>
+    <string name="ai_detector_likely_human">Tikėtina, kad sukurta žmogaus</string>
+    <string name="ai_probability">AI tikimybė: %1$s</string>
+    <string name="type_ai_detection">AI aptikimas</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT detektorius, atskiriantis dirbtinius, netikrus ir tikrus vaizdus.</string>
+    <string name="model_ai_detector_capcheck">ViT detektorius, pritaikytas atskirti dirbtinio intelekto sukurtus ir tikrus vaizdus.</string>
+    <string name="model_ai_detector_lpx_swinv2">Didelis SwinV2 detektorius, išmokytas atskirti dirbtinius ir tikrus vaizdus.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT mažas detektorius, išmokytas atskirti dirbtinio intelekto sukurtus ir tikrus vaizdus.</string>
+    <string name="model_ai_detector_resnet">ResNet-50 detektorius, išmokytas atskirti AI sukurtus ir tikrus vaizdus.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT detektorius apmokytas naudoti didelę realių ir netikrų veido vaizdų kolekciją.</string>
+    <string name="model_ai_detector_distilled">Kompaktiškas ViT detektorius. Greičiausias iš galimų detektorių, bet ne toks tikslus naudojant nepažįstamus generatorius.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 parengtas plataus masto kryžminio generatoriaus vaizdo kriminalistikai.</string>
+    <string name="model_ai_detector_smogy">Žmogaus ir dirbtinio intelekto sukurtų vaizdų apmokytas „Swin“ detektorius.</string>
 </resources>

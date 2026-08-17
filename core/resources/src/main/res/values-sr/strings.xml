@@ -4982,4 +4982,20 @@
     <string name="collapsible_settings_groups">Групе подешавања које се могу склопити</string>
     <string name="collapsible_settings_groups_sub">Дозволите да групе подешавања буду проширене и скупљене у режиму целог екрана</string>
     <string name="filename_already_exists">Датотека под називом „__ПХ_0__“ већ постоји у циљној фасцикли. Постојећа датотека није промењена.</string>
+    <string name="ai_detector_analyze">Анализирај</string>
+    <string name="ai_detector_disclaimer">Резултат је вероватноћа процена, а не доказ. Компресија, уређивање, снимци екрана и генератори ван података о обуци модела могу да утичу на то.</string>
+    <string name="ai_detector_likely_ai">Вероватно АИ генерисан</string>
+    <string name="ai_detector_uncertain">Неизвесно</string>
+    <string name="ai_detector_likely_human">Вероватно створено људима</string>
+    <string name="ai_probability">АИ вероватноћа: __ПХ_0__</string>
+    <string name="type_ai_detection">АИ детекција</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ВиТ детектор који раздваја вештачке, дубоко лажне и стварне слике.</string>
+    <string name="model_ai_detector_capcheck">ВиТ детектор фино подешен за одвајање слика које генерише вештачка интелигенција и стварних слика.</string>
+    <string name="model_ai_detector_lpx_swinv2">Велики СвинВ2 детектор обучен да разликује вештачке и стварне слике.</string>
+    <string name="model_ai_detector_convnext">ЦонвНеКСТ Мали детектор обучен да разликује слике генерисане вештачком интелигенцијом и стварне слике.</string>
+    <string name="model_ai_detector_resnet">РесНет-50 детектор обучен да разликује слике генерисане вештачком интелигенцијом и стварне слике.</string>
+    <string name="model_ai_detector_deepfake_v2">ВиТ детектор обучен на великој колекцији стварних и лажних слика лица.</string>
+    <string name="model_ai_detector_distilled">Компактни ВиТ детектор. Најбржи од доступних детектора, али мање прецизни на непознатим генераторима.</string>
+    <string name="model_ai_detector_community_forensics">ВиТ-С/384 обучен за широку форензику слике унакрсних генератора.</string>
+    <string name="model_ai_detector_smogy">Свин детектор обучен на људским и АИ сликама.</string>
 </resources>

@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">Składane grupy ustawień</string>
     <string name="collapsible_settings_groups_sub">Zezwalaj na rozwijanie i zwijanie grup ustawień w trybie pełnoekranowym</string>
     <string name="filename_already_exists">Plik o nazwie „%1$s” już istnieje w folderze docelowym. Istniejący plik nie został zmieniony.</string>
+    <string name="ai_detector_analyze">Analizować</string>
+    <string name="ai_detector_disclaimer">Rezultatem jest probabilistyczne oszacowanie, a nie dowód. Kompresja, edycja, zrzuty ekranu i generatory poza danymi szkoleniowymi modelu mogą na to wpływać.</string>
+    <string name="ai_detector_likely_ai">Prawdopodobnie wygenerowane przez sztuczną inteligencję</string>
+    <string name="ai_detector_uncertain">Niepewny</string>
+    <string name="ai_detector_likely_human">Prawdopodobnie stworzony przez człowieka</string>
+    <string name="ai_probability">Prawdopodobieństwo AI: %1$s</string>
+    <string name="type_ai_detection">Wykrywanie sztucznej inteligencji</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Detektor ViT, który oddziela obrazy sztuczne, deepfake i prawdziwe.</string>
+    <string name="model_ai_detector_capcheck">Detektor ViT dostosowany do oddzielania obrazów generowanych przez sztuczną inteligencję od obrazów rzeczywistych.</string>
+    <string name="model_ai_detector_lpx_swinv2">Duży detektor SwinV2 przeszkolony do rozróżniania obrazów sztucznych i rzeczywistych.</string>
+    <string name="model_ai_detector_convnext">Detektor ConvNeXT Tiny przeszkolony do odróżniania obrazów generowanych przez sztuczną inteligencję od obrazów rzeczywistych.</string>
+    <string name="model_ai_detector_resnet">Detektor ResNet-50 przeszkolony do odróżniania obrazów generowanych przez sztuczną inteligencję od obrazów rzeczywistych.</string>
+    <string name="model_ai_detector_deepfake_v2">Detektor ViT przeszkolony na dużej kolekcji prawdziwych i głęboko fałszywych obrazów twarzy.</string>
+    <string name="model_ai_detector_distilled">Kompaktowy detektor ViT. Najszybszy z dostępnych detektorów, ale mniej dokładny w przypadku nieznanych generatorów.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 przeszkolony w zakresie szeroko zakrojonej kryminalistyki obrazu obejmującej różne generatory.</string>
+    <string name="model_ai_detector_smogy">Detektor łabędzi szkolony na obrazach generowanych przez ludzi i sztuczną inteligencję.</string>
 </resources>

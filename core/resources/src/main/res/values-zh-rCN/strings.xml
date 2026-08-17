@@ -4980,4 +4980,20 @@
     <string name="collapsible_settings_groups">可折叠设置组</string>
     <string name="collapsible_settings_groups_sub">允许在全屏模式下展开和折叠设置组</string>
     <string name="filename_already_exists">目标文件夹中已存在名为“%1$s”的文件。现有文件未更改。</string>
+    <string name="ai_detector_analyze">分析</string>
+    <string name="ai_detector_disclaimer">结果是概率估计，而不是证明。模型训练数据之外的压缩、编辑、屏幕截图和生成器可能会影响它。</string>
+    <string name="ai_detector_likely_ai">可能是人工智能生成的</string>
+    <string name="ai_detector_uncertain">不确定</string>
+    <string name="ai_detector_likely_human">可能是人类创造的</string>
+    <string name="ai_probability">AI 概率：%1$s</string>
+    <string name="type_ai_detection">人工智能检测</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT 检测器可区分人造图像、深度伪造图像和真实图像。</string>
+    <string name="model_ai_detector_capcheck">ViT 检测器经过微调，可分离 AI 生成的图像和真实图像。</string>
+    <string name="model_ai_detector_lpx_swinv2">大型 SwinV2 检测器经过训练可以区分人造图像和真实图像。</string>
+    <string name="model_ai_detector_convnext">ConvNeXT 微型检测器，经过训练可以区分人工智能生成的图像和真实图像。</string>
+    <string name="model_ai_detector_resnet">ResNet-50 检测器经过训练可以区分 AI 生成的图像和真实图像。</string>
+    <string name="model_ai_detector_deepfake_v2">ViT 检测器在大量真实和深度伪造的面部图像上进行训练。</string>
+    <string name="model_ai_detector_distilled">紧凑型 ViT 探测器。最快的可用探测器，但在不熟悉的发生器上精度较低。</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 经过培训，可进行广泛的跨生成器图像取证。</string>
+    <string name="model_ai_detector_smogy">Swin 探测器在人类和人工智能生成的图像上进行训练。</string>
 </resources>

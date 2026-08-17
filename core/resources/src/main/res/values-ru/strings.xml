@@ -4983,4 +4983,20 @@
     <string name="gmic_auxiliary_images_usage_sub">Обработанное изображение — [0]. Прикрепленные изображения: [1], [2], … в отображаемом порядке.</string>
     <string name="markup_layer_text_defaults_sub">Оформление текстового слоя по умолчанию</string>
     <string name="filename_already_exists">Файл с именем «%1$s» уже существует в целевой папке. Существующий файл не был изменен.</string>
+    <string name="ai_detector_analyze">Анализировать</string>
+    <string name="ai_detector_disclaimer">Результатом является вероятностная оценка, а не доказательство. На нее могут повлиять сжатие, редактирование, снимки экрана и генераторы вне обучающих данных модели.</string>
+    <string name="ai_detector_likely_ai">Вероятно, созданный ИИ</string>
+    <string name="ai_detector_uncertain">Неопределенный</string>
+    <string name="ai_detector_likely_human">Вероятно, создан человеком</string>
+    <string name="ai_probability">Вероятность ИИ: %1$s</string>
+    <string name="type_ai_detection">Обнаружение ИИ</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Детектор ViT, разделяющий искусственные, дипфейковые и реальные изображения.</string>
+    <string name="model_ai_detector_capcheck">Детектор ViT настроен для разделения сгенерированных искусственным интеллектом и реальных изображений.</string>
+    <string name="model_ai_detector_lpx_swinv2">Большой детектор SwinV2, обученный различать искусственные и реальные изображения.</string>
+    <string name="model_ai_detector_convnext">Детектор ConvNeXT Tiny, обученный различать сгенерированные искусственным интеллектом и реальные изображения.</string>
+    <string name="model_ai_detector_resnet">Детектор ResNet-50 обучен различать сгенерированные ИИ и реальные изображения.</string>
+    <string name="model_ai_detector_deepfake_v2">Детектор ViT обучен на большой коллекции реальных и поддельных изображений лиц.</string>
+    <string name="model_ai_detector_distilled">Компактный детектор ВИТ. Самый быстрый из доступных детекторов, но менее точный на незнакомых генераторах.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 подготовлен для проведения широкой криминалистической экспертизы изображений с использованием различных генераторов.</string>
+    <string name="model_ai_detector_smogy">Детектор Swin обучен на изображениях, созданных людьми и искусственным интеллектом.</string>
 </resources>

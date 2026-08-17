@@ -4980,4 +4980,20 @@
     <string name="collapsible_settings_groups">축소 가능한 설정 그룹</string>
     <string name="collapsible_settings_groups_sub">전체 화면 모드에서 설정 그룹을 확장하고 축소할 수 있도록 허용</string>
     <string name="filename_already_exists">대상 폴더에 \"%1$s\"이라는 파일이 이미 존재합니다. 기존 파일은 변경되지 않았습니다.</string>
+    <string name="ai_detector_analyze">분석하다</string>
+    <string name="ai_detector_disclaimer">결과는 증거가 아닌 확률적 추정입니다. 모델 교육 데이터 외부의 압축, 편집, 스크린샷 및 생성기가 영향을 미칠 수 있습니다.</string>
+    <string name="ai_detector_likely_ai">AI가 생성했을 가능성이 높음</string>
+    <string name="ai_detector_uncertain">불확실한</string>
+    <string name="ai_detector_likely_human">인간이 만든 것으로 추정됨</string>
+    <string name="ai_probability">AI 확률: %1$s</string>
+    <string name="type_ai_detection">AI 감지</string>
+    <string name="model_ai_detector_ai_vs_deepfake">인공, 딥페이크, 실제 이미지를 구분하는 ViT 감지기입니다.</string>
+    <string name="model_ai_detector_capcheck">AI 생성 이미지와 실제 이미지를 분리하기 위해 미세 조정된 ViT 감지기.</string>
+    <string name="model_ai_detector_lpx_swinv2">인공 이미지와 실제 이미지를 구별하도록 훈련된 대형 SwinV2 감지기입니다.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Tiny 감지기는 AI 생성 이미지와 실제 이미지를 구별하도록 훈련되었습니다.</string>
+    <string name="model_ai_detector_resnet">AI 생성 이미지와 실제 이미지를 구별하도록 훈련된 ResNet-50 검출기.</string>
+    <string name="model_ai_detector_deepfake_v2">실제 및 딥페이크 얼굴 이미지의 대규모 컬렉션에 대해 훈련된 ViT 탐지기입니다.</string>
+    <string name="model_ai_detector_distilled">소형 ViT 검출기. 사용 가능한 감지기 중 가장 빠르지만 익숙하지 않은 생성기에서는 정확도가 떨어집니다.</string>
+    <string name="model_ai_detector_community_forensics">광범위한 교차 생성기 이미지 포렌식을 위해 훈련된 ViT-S/384.</string>
+    <string name="model_ai_detector_smogy">인간 및 AI 생성 이미지에 대해 훈련된 Swin 감지기입니다.</string>
 </resources>

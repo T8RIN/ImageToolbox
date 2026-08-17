@@ -4980,4 +4980,20 @@
     <string name="collapsible_settings_groups">Grup pengaturan yang dapat diciutkan</string>
     <string name="collapsible_settings_groups_sub">Izinkan grup pengaturan diperluas dan diciutkan dalam mode layar penuh</string>
     <string name="filename_already_exists">File bernama “%1$s” sudah ada di folder target. File yang ada tidak diubah.</string>
+    <string name="ai_detector_analyze">Menganalisa</string>
+    <string name="ai_detector_disclaimer">Hasilnya hanyalah perkiraan probabilistik, bukan bukti. Kompresi, pengeditan, tangkapan layar, dan generator di luar data pelatihan model dapat memengaruhinya.</string>
+    <string name="ai_detector_likely_ai">Kemungkinan besar dihasilkan oleh AI</string>
+    <string name="ai_detector_uncertain">Tidak pasti</string>
+    <string name="ai_detector_likely_human">Kemungkinan besar diciptakan oleh manusia</string>
+    <string name="ai_probability">Kemungkinan AI: %1$s</string>
+    <string name="type_ai_detection">Deteksi AI</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Detektor ViT yang memisahkan gambar buatan, deepfake, dan nyata.</string>
+    <string name="model_ai_detector_capcheck">Detektor ViT disempurnakan untuk memisahkan gambar yang dihasilkan AI dan gambar nyata.</string>
+    <string name="model_ai_detector_lpx_swinv2">Detektor SwinV2 besar dilatih untuk membedakan gambar buatan dan nyata.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Detektor kecil dilatih untuk membedakan gambar yang dihasilkan AI dan gambar nyata.</string>
+    <string name="model_ai_detector_resnet">Detektor ResNet-50 dilatih untuk membedakan gambar yang dihasilkan AI dan gambar nyata.</string>
+    <string name="model_ai_detector_deepfake_v2">Detektor ViT dilatih pada banyak koleksi gambar wajah asli dan palsu.</string>
+    <string name="model_ai_detector_distilled">Detektor ViT yang ringkas. Detektor tercepat yang ada, namun kurang akurat pada generator yang tidak dikenal.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 dilatih untuk forensik gambar lintas-generator yang luas.</string>
+    <string name="model_ai_detector_smogy">Detektor babi dilatih pada gambar manusia dan gambar yang dihasilkan AI.</string>
 </resources>

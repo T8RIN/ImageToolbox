@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Hopfällbara inställningsgrupper</string>
     <string name="collapsible_settings_groups_sub">Tillåt inställningsgrupper att utökas och komprimeras i helskärmsläge</string>
     <string name="filename_already_exists">En fil med namnet \"%1$s\" finns redan i målmappen. Den befintliga filen ändrades inte.</string>
+    <string name="ai_detector_analyze">Analysera</string>
+    <string name="ai_detector_disclaimer">Resultatet är en probabilistisk uppskattning, inte bevis. Kompression, redigering, skärmdumpar och generatorer utanför en modells träningsdata kan påverka den.</string>
+    <string name="ai_detector_likely_ai">Troligen AI-genererad</string>
+    <string name="ai_detector_uncertain">Osäker</string>
+    <string name="ai_detector_likely_human">Troligtvis skapad av människor</string>
+    <string name="ai_probability">AI-sannolikhet: %1$s</string>
+    <string name="type_ai_detection">AI-detektion</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-detektor som separerar artificiella, deepfake- och verkliga bilder.</string>
+    <string name="model_ai_detector_capcheck">ViT-detektor finjusterad för att separera AI-genererade och verkliga bilder.</string>
+    <string name="model_ai_detector_lpx_swinv2">Stor SwinV2-detektor tränad för att särskilja konstgjorda och verkliga bilder.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Tiny detektor tränad för att skilja AI-genererade och verkliga bilder.</string>
+    <string name="model_ai_detector_resnet">ResNet-50-detektor tränad för att skilja AI-genererade och verkliga bilder.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT-detektor tränad på en stor samling av verkliga och djupt falska ansiktsbilder.</string>
+    <string name="model_ai_detector_distilled">Kompakt ViT-detektor. Snabbaste av de tillgängliga detektorerna, men mindre exakt på okända generatorer.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 utbildad för bred bildkriminalteknik.</string>
+    <string name="model_ai_detector_smogy">Svindetektor tränad på mänskliga och AI-genererade bilder.</string>
 </resources>

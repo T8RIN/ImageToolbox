@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Nako-collapse na mga pangkat ng mga setting</string>
     <string name="collapsible_settings_groups_sub">Payagan ang mga pangkat ng mga setting na palawakin at i-collapse sa fullscreen mode</string>
     <string name="filename_already_exists">Ang isang file na pinangalanang \"%1$s\" ay umiiral na sa target na folder. Ang umiiral na file ay hindi nabago.</string>
+    <string name="ai_detector_analyze">Pag-aralan</string>
+    <string name="ai_detector_disclaimer">Ang resulta ay isang probabilistikong pagtatantya, hindi patunay. Maaaring makaapekto dito ang compression, pag-edit, mga screenshot, at generator sa labas ng data ng pagsasanay ng isang modelo.</string>
+    <string name="ai_detector_likely_ai">Malamang AI-generated</string>
+    <string name="ai_detector_uncertain">Hindi sigurado</string>
+    <string name="ai_detector_likely_human">Malamang na nilikha ng tao</string>
+    <string name="ai_probability">AI Probability: %1$s</string>
+    <string name="type_ai_detection">AI detection</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT detector na naghihiwalay sa artipisyal, deepfake, at totoong mga imahe.</string>
+    <string name="model_ai_detector_capcheck">ViT detector fine-tune para sa paghihiwalay ng AI-generated at real images.</string>
+    <string name="model_ai_detector_lpx_swinv2">Malaking SwinV2 detector na sinanay upang makilala ang mga artipisyal at tunay na larawan.</string>
+    <string name="model_ai_detector_convnext">Ang ConvNeXT Tiny detector ay sinanay upang makilala ang AI-generated at real images.</string>
+    <string name="model_ai_detector_resnet">Ang ResNet-50 detector ay sinanay upang makilala ang AI-generated at real images.</string>
+    <string name="model_ai_detector_deepfake_v2">Ang ViT detector ay nagsanay sa isang malaking koleksyon ng mga tunay at malalim na larawan ng mukha.</string>
+    <string name="model_ai_detector_distilled">Compact na ViT detector. Pinakamabilis sa mga available na detector, ngunit hindi gaanong tumpak sa mga hindi pamilyar na generator.</string>
+    <string name="model_ai_detector_community_forensics">Ang ViT-S/384 ay sinanay para sa malawak na cross-generator image forensics.</string>
+    <string name="model_ai_detector_smogy">Swin detector na sinanay sa tao at AI-generated na mga imahe.</string>
 </resources>

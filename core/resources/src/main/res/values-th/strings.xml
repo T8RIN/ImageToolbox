@@ -4980,4 +4980,20 @@
     <string name="collapsible_settings_groups">กลุ่มการตั้งค่าที่ยุบได้</string>
     <string name="collapsible_settings_groups_sub">อนุญาตให้ขยายและยุบกลุ่มการตั้งค่าในโหมดเต็มหน้าจอ</string>
     <string name="filename_already_exists">มีไฟล์ชื่อ “%1$s” อยู่แล้วในโฟลเดอร์เป้าหมาย ไฟล์ที่มีอยู่ไม่มีการเปลี่ยนแปลง</string>
+    <string name="ai_detector_analyze">วิเคราะห์</string>
+    <string name="ai_detector_disclaimer">ผลลัพธ์คือการประมาณความน่าจะเป็น ไม่ใช่การพิสูจน์ การบีบอัด การแก้ไข ภาพหน้าจอ และตัวสร้างภายนอกข้อมูลการฝึกของโมเดลอาจส่งผลต่อข้อมูลดังกล่าวได้</string>
+    <string name="ai_detector_likely_ai">น่าจะเกิดจาก AI</string>
+    <string name="ai_detector_uncertain">ไม่แน่นอน</string>
+    <string name="ai_detector_likely_human">น่าจะเป็นฝีมือมนุษย์</string>
+    <string name="ai_probability">ความน่าจะเป็นของ AI: %1$s</string>
+    <string name="type_ai_detection">การตรวจจับเอไอ</string>
+    <string name="model_ai_detector_ai_vs_deepfake">เครื่องตรวจจับ ViT ที่แยกภาพเทียม ภาพลึก และภาพจริง</string>
+    <string name="model_ai_detector_capcheck">เครื่องตรวจจับ ViT ได้รับการปรับแต่งอย่างละเอียดเพื่อแยกภาพที่สร้างโดย AI และภาพจริง</string>
+    <string name="model_ai_detector_lpx_swinv2">เครื่องตรวจจับ SwinV2 ขนาดใหญ่ที่ผ่านการฝึกฝนเพื่อแยกความแตกต่างระหว่างภาพเทียมและภาพจริง</string>
+    <string name="model_ai_detector_convnext">เครื่องตรวจจับ ConvNeXT Tiny ได้รับการฝึกฝนให้แยกแยะภาพที่สร้างโดย AI และภาพจริง</string>
+    <string name="model_ai_detector_resnet">เครื่องตรวจจับ ResNet-50 ได้รับการฝึกให้แยกแยะภาพที่สร้างโดย AI และภาพจริง</string>
+    <string name="model_ai_detector_deepfake_v2">เครื่องตรวจจับ ViT ได้รับการฝึกอบรมเกี่ยวกับคอลเลกชั่นภาพใบหน้าจริงและภาพใบหน้าปลอมจำนวนมาก</string>
+    <string name="model_ai_detector_distilled">เครื่องตรวจจับ ViT ขนาดกะทัดรัด เครื่องตรวจจับที่เร็วที่สุดที่มีอยู่ แต่มีความแม่นยำน้อยกว่าในเครื่องกำเนิดไฟฟ้าที่ไม่คุ้นเคย</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 ได้รับการฝึกอบรมสำหรับการตรวจพิสูจน์หลักฐานทางภาพข้ามเครื่องกำเนิดไฟฟ้าในวงกว้าง</string>
+    <string name="model_ai_detector_smogy">เครื่องตรวจจับ Swin ได้รับการฝึกฝนเกี่ยวกับภาพของมนุษย์และภาพที่ AI สร้างขึ้น</string>
 </resources>

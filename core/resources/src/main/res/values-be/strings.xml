@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">Згортваюцца групы налад</string>
     <string name="collapsible_settings_groups_sub">Дазволіць разгортванне і згортванне груп налад у поўнаэкранным рэжыме</string>
     <string name="filename_already_exists">Файл пад назвай “%1$s” ужо існуе ў мэтавай папцы. Існуючы файл не быў зменены.</string>
+    <string name="ai_detector_analyze">Прааналізаваць</string>
+    <string name="ai_detector_disclaimer">Вынік - імавернасная ацэнка, а не доказ. Сцісканне, рэдагаванне, скрыншоты і генератары па-за навучальнымі дадзенымі мадэлі могуць паўплываць на гэта.</string>
+    <string name="ai_detector_likely_ai">Верагодна, створаны штучным інтэлектам</string>
+    <string name="ai_detector_uncertain">Нявызначаны</string>
+    <string name="ai_detector_likely_human">Верагодна, створаны чалавекам</string>
+    <string name="ai_probability">Верагоднасць штучнага інтэлекту: %1$s</string>
+    <string name="type_ai_detection">Выяўленне штучнага інтэлекту</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Дэтэктар ViT, які аддзяляе штучныя выявы, падробленыя і сапраўдныя выявы.</string>
+    <string name="model_ai_detector_capcheck">Дэтэктар ViT, настроены на аддзяленне ад рэальных відарысаў, створаных штучным інтэлектам.</string>
+    <string name="model_ai_detector_lpx_swinv2">Вялікі дэтэктар SwinV2, навучаны адрозніваць штучныя выявы ад рэальных.</string>
+    <string name="model_ai_detector_convnext">Малюсенькі дэтэктар ConvNeXT, навучаны адрозніваць выявы, створаныя штучным інтэлектам, ад рэальных.</string>
+    <string name="model_ai_detector_resnet">Дэтэктар ResNet-50 навучаны адрозніваць выявы, створаныя штучным інтэлектам, ад рэальных.</string>
+    <string name="model_ai_detector_deepfake_v2">Дэтэктар ViT навучаўся на вялікай калекцыі сапраўдных і фальшывых выяваў твараў.</string>
+    <string name="model_ai_detector_distilled">Кампактны дэтэктар ViT. Самы хуткі з даступных дэтэктараў, але менш дакладны на незнаёмых генератарах.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 падрыхтаваны для шырокай крыміналістыкі малюнкаў паміж генератарамі.</string>
+    <string name="model_ai_detector_smogy">Дэтэктар свін, які навучаецца на выявах, створаных чалавекам і штучным інтэлектам.</string>
 </resources>

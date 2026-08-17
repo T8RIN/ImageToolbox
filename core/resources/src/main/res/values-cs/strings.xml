@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">Sbalitelné skupiny nastavení</string>
     <string name="collapsible_settings_groups_sub">Povolit rozbalování a sbalování skupin nastavení v režimu celé obrazovky</string>
     <string name="filename_already_exists">Soubor s názvem „%1$s“ již v cílové složce existuje. Stávající soubor nebyl změněn.</string>
+    <string name="ai_detector_analyze">Analyzovat</string>
+    <string name="ai_detector_disclaimer">Výsledkem je pravděpodobnostní odhad, nikoli důkaz. Může to ovlivnit komprese, úpravy, snímky obrazovky a generátory mimo tréninková data modelu.</string>
+    <string name="ai_detector_likely_ai">Pravděpodobně generované AI</string>
+    <string name="ai_detector_uncertain">Nejistý</string>
+    <string name="ai_detector_likely_human">Pravděpodobně vytvořený lidmi</string>
+    <string name="ai_probability">Pravděpodobnost umělé inteligence: %1$s</string>
+    <string name="type_ai_detection">Detekce AI</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT detektor, který odděluje umělý, deepfake a skutečný obraz.</string>
+    <string name="model_ai_detector_capcheck">Detektor ViT vyladěný pro oddělení obrazů generovaných umělou inteligencí a skutečných obrazů.</string>
+    <string name="model_ai_detector_lpx_swinv2">Velký detektor SwinV2 trénovaný na rozlišení umělých a skutečných obrazů.</string>
+    <string name="model_ai_detector_convnext">Detektor ConvNeXT Tiny trénovaný k rozlišení obrázků generovaných umělou inteligencí a skutečných obrázků.</string>
+    <string name="model_ai_detector_resnet">Detektor ResNet-50 trénovaný k rozlišení AI generovaných a skutečných obrázků.</string>
+    <string name="model_ai_detector_deepfake_v2">Detektor ViT trénoval na velké sbírce skutečných a hluboce falešných obrázků obličejů.</string>
+    <string name="model_ai_detector_distilled">Kompaktní detektor ViT. Nejrychlejší z dostupných detektorů, ale méně přesný na neznámých generátorech.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 vyškolený pro širokou forenzní analýzu obrazu napříč generátory.</string>
+    <string name="model_ai_detector_smogy">Swin detektor trénovaný na lidech a obrazech generovaných AI.</string>
 </resources>

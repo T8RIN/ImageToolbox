@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">மடிக்கக்கூடிய அமைப்புகள் குழுக்கள்</string>
     <string name="collapsible_settings_groups_sub">அமைப்புகள் குழுக்களை விரிவுபடுத்தவும், முழுத்திரை பயன்முறையில் சுருக்கவும் அனுமதிக்கவும்</string>
     <string name="filename_already_exists">இலக்கு கோப்புறையில் \"%1$s\" என்ற கோப்பு ஏற்கனவே உள்ளது. ஏற்கனவே உள்ள கோப்பு மாற்றப்படவில்லை.</string>
+    <string name="ai_detector_analyze">பகுப்பாய்வு செய்யவும்</string>
+    <string name="ai_detector_disclaimer">இதன் விளைவாக ஒரு நிகழ்தகவு மதிப்பீடு, ஆதாரம் அல்ல. மாதிரியின் பயிற்சித் தரவுகளுக்கு வெளியே சுருக்கம், எடிட்டிங், ஸ்கிரீன்ஷாட்கள் மற்றும் ஜெனரேட்டர்கள் ஆகியவை அதைப் பாதிக்கலாம்.</string>
+    <string name="ai_detector_likely_ai">AI-உருவாக்கப்பட்டிருக்கலாம்</string>
+    <string name="ai_detector_uncertain">நிச்சயமற்றது</string>
+    <string name="ai_detector_likely_human">மனிதனால் உருவாக்கப்பட்டதாக இருக்கலாம்</string>
+    <string name="ai_probability">AI நிகழ்தகவு: %1$s</string>
+    <string name="type_ai_detection">AI கண்டறிதல்</string>
+    <string name="model_ai_detector_ai_vs_deepfake">செயற்கை, ஆழமான மற்றும் உண்மையான படங்களை பிரிக்கும் ViT டிடெக்டர்.</string>
+    <string name="model_ai_detector_capcheck">AI-உருவாக்கப்பட்ட மற்றும் உண்மையான படங்களைப் பிரிப்பதற்காக ViT டிடெக்டர் நன்றாக வடிவமைக்கப்பட்டுள்ளது.</string>
+    <string name="model_ai_detector_lpx_swinv2">பெரிய ஸ்வின்வி2 டிடெக்டர் செயற்கை மற்றும் உண்மையான படங்களை வேறுபடுத்தி அறிய பயிற்சியளிக்கப்பட்டது.</string>
+    <string name="model_ai_detector_convnext">AI-உருவாக்கப்பட்ட மற்றும் உண்மையான படங்களை வேறுபடுத்துவதற்கு ConvNeXT சிறிய கண்டறிதல் பயிற்சியளிக்கப்பட்டது.</string>
+    <string name="model_ai_detector_resnet">AI-உருவாக்கப்பட்ட மற்றும் உண்மையான படங்களை வேறுபடுத்துவதற்கு ResNet-50 டிடெக்டர் பயிற்சியளிக்கப்பட்டது.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT டிடெக்டர் உண்மையான மற்றும் ஆழமான முகப் படங்களின் பெரிய தொகுப்பில் பயிற்சி பெற்றது.</string>
+    <string name="model_ai_detector_distilled">காம்பாக்ட் விஐடி டிடெக்டர். கிடைக்கக்கூடிய டிடெக்டர்களில் வேகமானது, ஆனால் அறிமுகமில்லாத ஜெனரேட்டர்களில் குறைவான துல்லியமானது.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 பரந்த குறுக்கு-ஜெனரேட்டர் பட தடயவியல் பயிற்சி பெற்றது.</string>
+    <string name="model_ai_detector_smogy">ஸ்வின் டிடெக்டர் மனித மற்றும் AI-உருவாக்கிய படங்களில் பயிற்சி பெற்றது.</string>
 </resources>

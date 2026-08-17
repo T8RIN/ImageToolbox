@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Összecsukható beállítási csoportok</string>
     <string name="collapsible_settings_groups_sub">Lehetővé teszi a beállítási csoportok kibontását és összecsukását teljes képernyős módban</string>
     <string name="filename_already_exists">A „%1$s” nevű fájl már létezik a célmappában. A meglévő fájl nem változott.</string>
+    <string name="ai_detector_analyze">Elemezze</string>
+    <string name="ai_detector_disclaimer">Az eredmény valószínűségi becslés, nem bizonyíték. A modell edzési adatain kívüli tömörítés, szerkesztés, képernyőképek és generátorok hatással lehetnek rá.</string>
+    <string name="ai_detector_likely_ai">Valószínűleg AI által generált</string>
+    <string name="ai_detector_uncertain">Bizonytalan</string>
+    <string name="ai_detector_likely_human">Valószínűleg ember alkotta</string>
+    <string name="ai_probability">AI valószínűsége: %1$s</string>
+    <string name="type_ai_detection">AI észlelés</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT detektor, amely elválasztja a mesterséges, mélyhamisított és valós képeket.</string>
+    <string name="model_ai_detector_capcheck">A mesterséges intelligencia által generált és valós képek szétválasztására finomhangolt ViT detektor.</string>
+    <string name="model_ai_detector_lpx_swinv2">Nagyméretű SwinV2 detektor, amely képes megkülönböztetni a mesterséges és a valódi képeket.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Apró detektor, amely képes megkülönböztetni a mesterséges intelligencia által generált és valós képeket.</string>
+    <string name="model_ai_detector_resnet">A ResNet-50 detektor az AI által generált és valós képek megkülönböztetésére lett kiképezve.</string>
+    <string name="model_ai_detector_deepfake_v2">A ViT detektor valódi és mélyhamisított arcképek nagy gyűjteményére lett kiképezve.</string>
+    <string name="model_ai_detector_distilled">Kompakt ViT detektor. A rendelkezésre álló detektorok közül a leggyorsabb, de kevésbé pontos ismeretlen generátorokon.</string>
+    <string name="model_ai_detector_community_forensics">A ViT-S/384 széleskörű keresztgenerátoros képtörvényszéki vizsgálatra lett kiképezve.</string>
+    <string name="model_ai_detector_smogy">Emberi és mesterséges intelligencia által generált képekre kiképzett sertésdetektor.</string>
 </resources>

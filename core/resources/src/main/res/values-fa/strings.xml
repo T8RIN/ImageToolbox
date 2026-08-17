@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">گروه های تنظیمات تاشو</string>
     <string name="collapsible_settings_groups_sub">اجازه دهید گروه های تنظیمات در حالت تمام صفحه بزرگ و جمع شوند</string>
     <string name="filename_already_exists">فایلی با نام \"%1$s\" از قبل در پوشه مورد نظر وجود دارد. فایل موجود تغییر نکرده است.</string>
+    <string name="ai_detector_analyze">تحلیل کنید</string>
+    <string name="ai_detector_disclaimer">نتیجه یک تخمین احتمالی است نه اثبات. فشرده‌سازی، ویرایش، اسکرین‌شات‌ها و تولیدکننده‌های خارج از داده‌های آموزشی مدل می‌تواند بر آن تأثیر بگذارد.</string>
+    <string name="ai_detector_likely_ai">به احتمال زیاد توسط هوش مصنوعی تولید شده است</string>
+    <string name="ai_detector_uncertain">نامشخص</string>
+    <string name="ai_detector_likely_human">به احتمال زیاد توسط انسان ساخته شده است</string>
+    <string name="ai_probability">احتمال هوش مصنوعی: %1$s</string>
+    <string name="type_ai_detection">تشخیص هوش مصنوعی</string>
+    <string name="model_ai_detector_ai_vs_deepfake">آشکارساز ViT که تصاویر مصنوعی، عمیق و واقعی را از هم جدا می کند.</string>
+    <string name="model_ai_detector_capcheck">آشکارساز ViT برای جدا کردن تصاویر واقعی و تولید شده توسط هوش مصنوعی به خوبی تنظیم شده است.</string>
+    <string name="model_ai_detector_lpx_swinv2">آشکارساز بزرگ SwinV2 که برای تشخیص تصاویر مصنوعی و واقعی آموزش دیده است.</string>
+    <string name="model_ai_detector_convnext">آشکارساز کوچک ConvNeXT برای تشخیص تصاویر واقعی و تولید شده توسط هوش مصنوعی آموزش دیده است.</string>
+    <string name="model_ai_detector_resnet">آشکارساز ResNet-50 برای تشخیص تصاویر واقعی و تولید شده توسط هوش مصنوعی آموزش دیده است.</string>
+    <string name="model_ai_detector_deepfake_v2">آشکارساز ViT روی مجموعه بزرگی از تصاویر چهره واقعی و عمیق آموزش داده شده است.</string>
+    <string name="model_ai_detector_distilled">آشکارساز ViT فشرده سریعترین آشکارسازهای موجود، اما در ژنراتورهای ناآشنا دقت کمتری دارد.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 برای پزشکی قانونی تصویر متقابل گسترده آموزش دیده است.</string>
+    <string name="model_ai_detector_smogy">ردیاب سوئن آموزش دیده بر روی تصاویر تولید شده توسط انسان و هوش مصنوعی.</string>
 </resources>

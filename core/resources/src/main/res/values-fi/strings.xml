@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Taitettavat asetusryhmät</string>
     <string name="collapsible_settings_groups_sub">Salli asetusryhmien laajentaminen ja tiivistäminen koko näytön tilassa</string>
     <string name="filename_already_exists">Kohdekansiossa on jo tiedosto nimeltä \"%1$s\". Olemassa olevaa tiedostoa ei muutettu.</string>
+    <string name="ai_detector_analyze">Analysoida</string>
+    <string name="ai_detector_disclaimer">Tuloksena on todennäköisyysarvio, ei todiste. Pakkaus, muokkaus, kuvakaappaukset ja generaattorit mallin harjoitustietojen ulkopuolella voivat vaikuttaa siihen.</string>
+    <string name="ai_detector_likely_ai">Todennäköisesti tekoälyn luoma</string>
+    <string name="ai_detector_uncertain">Epävarma</string>
+    <string name="ai_detector_likely_human">Todennäköisesti ihmisen luoma</string>
+    <string name="ai_probability">AI-todennäköisyys: %1$s</string>
+    <string name="type_ai_detection">AI-tunnistus</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-ilmaisin, joka erottaa keinotekoiset, syvät väärennökset ja todelliset kuvat.</string>
+    <string name="model_ai_detector_capcheck">ViT-ilmaisin, joka on hienosäädetty erottamaan tekoälyn luomat ja todelliset kuvat.</string>
+    <string name="model_ai_detector_lpx_swinv2">Suuri SwinV2-ilmaisin, joka on koulutettu erottamaan keinotekoiset ja todelliset kuvat.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Pieni ilmaisin, joka on koulutettu erottamaan tekoälyn luomat ja todelliset kuvat.</string>
+    <string name="model_ai_detector_resnet">ResNet-50-ilmaisin, joka on koulutettu erottamaan tekoälyn luomat ja todelliset kuvat.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT-ilmaisin on koulutettu suureen kokoelmaan oikeita ja syvää väärennettyjä kasvokuvia.</string>
+    <string name="model_ai_detector_distilled">Kompakti ViT-anturi. Nopein saatavilla olevista ilmaisimista, mutta vähemmän tarkka tuntemattomilla generaattoreilla.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 on koulutettu laajaan cross-generator-kuvarikostutkimukseen.</string>
+    <string name="model_ai_detector_smogy">Swin-ilmaisin, joka on koulutettu ihmisen ja tekoälyn luomiin kuviin.</string>
 </resources>

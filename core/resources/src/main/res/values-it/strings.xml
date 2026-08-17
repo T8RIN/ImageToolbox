@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Gruppi di impostazioni comprimibili</string>
     <string name="collapsible_settings_groups_sub">Consenti l\'espansione e la compressione dei gruppi di impostazioni in modalità a schermo intero</string>
     <string name="filename_already_exists">Nella cartella di destinazione esiste già un file denominato \"%1$s\". Il file esistente non è stato modificato.</string>
+    <string name="ai_detector_analyze">Analizzare</string>
+    <string name="ai_detector_disclaimer">Il risultato è una stima probabilistica, non una prova. Compressione, modifica, screenshot e generatori esterni ai dati di addestramento di un modello possono influenzarlo.</string>
+    <string name="ai_detector_likely_ai">Probabilmente generato dall\'intelligenza artificiale</string>
+    <string name="ai_detector_uncertain">Incerto</string>
+    <string name="ai_detector_likely_human">Probabilmente creato dall\'uomo</string>
+    <string name="ai_probability">Probabilità IA: %1$s</string>
+    <string name="type_ai_detection">Rilevamento dell\'intelligenza artificiale</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Rilevatore ViT che separa immagini artificiali, deepfake e reali.</string>
+    <string name="model_ai_detector_capcheck">Rilevatore ViT ottimizzato per separare le immagini generate dall\'intelligenza artificiale da quelle reali.</string>
+    <string name="model_ai_detector_lpx_swinv2">Rilevatore SwinV2 di grandi dimensioni addestrato a distinguere immagini artificiali da immagini reali.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Piccolo rilevatore addestrato a distinguere le immagini generate dall\'intelligenza artificiale da quelle reali.</string>
+    <string name="model_ai_detector_resnet">Rilevatore ResNet-50 addestrato per distinguere le immagini generate dall\'intelligenza artificiale da quelle reali.</string>
+    <string name="model_ai_detector_deepfake_v2">Rilevatore ViT addestrato su un\'ampia raccolta di immagini di volti reali e deepfake.</string>
+    <string name="model_ai_detector_distilled">Rilevatore ViT compatto. Il più veloce dei rilevatori disponibili, ma meno accurato su generatori sconosciuti.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 addestrato per un\'ampia analisi forense di immagini tra generatori.</string>
+    <string name="model_ai_detector_smogy">Rilevatore di swin addestrato su immagini umane e generate dall\'intelligenza artificiale.</string>
 </resources>

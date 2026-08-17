@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Opvouwbare instellingengroepen</string>
     <string name="collapsible_settings_groups_sub">Sta toe dat instellingengroepen worden uit- en samengevouwen in de modus Volledig scherm</string>
     <string name="filename_already_exists">Er bestaat al een bestand met de naam “%1$s” in de doelmap. Het bestaande bestand is niet gewijzigd.</string>
+    <string name="ai_detector_analyze">Analyseren</string>
+    <string name="ai_detector_disclaimer">Het resultaat is een probabilistische schatting, geen bewijs. Compressie, bewerking, schermafbeeldingen en generatoren buiten de trainingsgegevens van een model kunnen hierop van invloed zijn.</string>
+    <string name="ai_detector_likely_ai">Waarschijnlijk door AI gegenereerd</string>
+    <string name="ai_detector_uncertain">Onzeker</string>
+    <string name="ai_detector_likely_human">Waarschijnlijk door de mens gecreëerd</string>
+    <string name="ai_probability">AI-waarschijnlijkheid: %1$s</string>
+    <string name="type_ai_detection">AI-detectie</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-detector die kunstmatige, deepfake en echte beelden scheidt.</string>
+    <string name="model_ai_detector_capcheck">ViT-detector verfijnd voor het scheiden van door AI gegenereerde en echte beelden.</string>
+    <string name="model_ai_detector_lpx_swinv2">Grote SwinV2-detector getraind om kunstmatige en echte beelden te onderscheiden.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Kleine detector getraind om door AI gegenereerde en echte beelden te onderscheiden.</string>
+    <string name="model_ai_detector_resnet">ResNet-50-detector getraind om door AI gegenereerde en echte beelden te onderscheiden.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT-detector getraind op een grote verzameling echte en deepfake gezichtsafbeeldingen.</string>
+    <string name="model_ai_detector_distilled">Compacte ViT-detector. De snelste van de beschikbare detectoren, maar minder nauwkeurig op onbekende generatoren.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 getraind voor breed cross-generator beeldforensisch onderzoek.</string>
+    <string name="model_ai_detector_smogy">Zwanendetector getraind op menselijke en AI-gegenereerde beelden.</string>
 </resources>

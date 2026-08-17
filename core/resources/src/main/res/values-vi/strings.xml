@@ -4980,4 +4980,20 @@
     <string name="collapsible_settings_groups">Nhóm cài đặt có thể thu gọn</string>
     <string name="collapsible_settings_groups_sub">Cho phép mở rộng và thu gọn các nhóm cài đặt ở chế độ toàn màn hình</string>
     <string name="filename_already_exists">Tệp có tên “%1$s” đã tồn tại trong thư mục đích. Tệp hiện có không bị thay đổi.</string>
+    <string name="ai_detector_analyze">Phân tích</string>
+    <string name="ai_detector_disclaimer">Kết quả là một ước tính xác suất, không phải bằng chứng. Việc nén, chỉnh sửa, ảnh chụp màn hình và trình tạo bên ngoài dữ liệu huấn luyện của mô hình có thể ảnh hưởng đến nó.</string>
+    <string name="ai_detector_likely_ai">Có khả năng do AI tạo ra</string>
+    <string name="ai_detector_uncertain">không chắc chắn</string>
+    <string name="ai_detector_likely_human">Có lẽ do con người tạo ra</string>
+    <string name="ai_probability">Xác suất AI: %1$s</string>
+    <string name="type_ai_detection">Phát hiện AI</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Máy dò ViT phân tách hình ảnh nhân tạo, deepfake và thật.</string>
+    <string name="model_ai_detector_capcheck">Máy dò ViT được tinh chỉnh để phân tách hình ảnh thực và hình ảnh do AI tạo ra.</string>
+    <string name="model_ai_detector_lpx_swinv2">Máy dò SwinV2 lớn được đào tạo để phân biệt hình ảnh nhân tạo và thực tế.</string>
+    <string name="model_ai_detector_convnext">Máy dò ConvNeXT Tiny được đào tạo để phân biệt hình ảnh thực và hình ảnh do AI tạo ra.</string>
+    <string name="model_ai_detector_resnet">Máy dò ResNet-50 được đào tạo để phân biệt hình ảnh thực và hình ảnh do AI tạo ra.</string>
+    <string name="model_ai_detector_deepfake_v2">Máy dò ViT được đào tạo trên một bộ sưu tập lớn các hình ảnh khuôn mặt thật và giả.</string>
+    <string name="model_ai_detector_distilled">Máy dò ViT nhỏ gọn. Máy dò nhanh nhất hiện có nhưng kém chính xác hơn trên các máy phát điện không quen thuộc.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 được đào tạo để điều tra hình ảnh trên nhiều máy phát điện.</string>
+    <string name="model_ai_detector_smogy">Máy dò Swin được đào tạo về hình ảnh do con người và AI tạo ra.</string>
 </resources>

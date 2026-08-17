@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Sammenfoldelige indstillingsgrupper</string>
     <string name="collapsible_settings_groups_sub">Tillad, at indstillingsgrupper kan udvides og skjules i fuldskærmstilstand</string>
     <string name="filename_already_exists">En fil med navnet \"%1$s\" findes allerede i målmappen. Den eksisterende fil blev ikke ændret.</string>
+    <string name="ai_detector_analyze">Analysere</string>
+    <string name="ai_detector_disclaimer">Resultatet er et probabilistisk skøn, ikke bevis. Kompression, redigering, skærmbilleder og generatorer uden for en models træningsdata kan påvirke det.</string>
+    <string name="ai_detector_likely_ai">Sandsynligvis AI-genereret</string>
+    <string name="ai_detector_uncertain">Usikker</string>
+    <string name="ai_detector_likely_human">Sandsynligvis menneskeskabt</string>
+    <string name="ai_probability">AI-sandsynlighed: %1$s</string>
+    <string name="type_ai_detection">AI-detektion</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-detektor, der adskiller kunstige, deepfake og rigtige billeder.</string>
+    <string name="model_ai_detector_capcheck">ViT-detektor finjusteret til at adskille AI-genererede og rigtige billeder.</string>
+    <string name="model_ai_detector_lpx_swinv2">Stor SwinV2 detektor trænet til at skelne kunstige og rigtige billeder.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Tiny detektor trænet til at skelne AI-genererede og rigtige billeder.</string>
+    <string name="model_ai_detector_resnet">ResNet-50-detektor trænet til at skelne AI-genererede og rigtige billeder.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT-detektor trænet på en stor samling af ægte og dybfalske ansigtsbilleder.</string>
+    <string name="model_ai_detector_distilled">Kompakt ViT-detektor. Hurtigste af de tilgængelige detektorer, men mindre nøjagtige på ukendte generatorer.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 trænet til bred krydsgenerator billedforensik.</string>
+    <string name="model_ai_detector_smogy">Svinedetektor trænet på menneskelige og AI-genererede billeder.</string>
 </resources>

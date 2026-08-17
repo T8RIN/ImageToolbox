@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">ధ్వంసమయ్యే సెట్టింగ్‌ల సమూహాలు</string>
     <string name="collapsible_settings_groups_sub">పూర్తి స్క్రీన్ మోడ్‌లో సెట్టింగ్‌ల సమూహాలను విస్తరించడానికి మరియు కుదించడానికి అనుమతించండి</string>
     <string name="filename_already_exists">లక్ష్య ఫోల్డర్‌లో “%1$s” అనే ఫైల్ ఇప్పటికే ఉంది. ఇప్పటికే ఉన్న ఫైల్ మార్చబడలేదు.</string>
+    <string name="ai_detector_analyze">విశ్లేషించండి</string>
+    <string name="ai_detector_disclaimer">ఫలితం సంభావ్య అంచనా, రుజువు కాదు. మోడల్ శిక్షణ డేటా వెలుపల కుదింపు, సవరణ, స్క్రీన్‌షాట్‌లు మరియు జనరేటర్‌లు దానిని ప్రభావితం చేయవచ్చు.</string>
+    <string name="ai_detector_likely_ai">AI- రూపొందించబడి ఉండవచ్చు</string>
+    <string name="ai_detector_uncertain">అనిశ్చితం</string>
+    <string name="ai_detector_likely_human">బహుశా మానవుడు సృష్టించినది</string>
+    <string name="ai_probability">AI సంభావ్యత: %1$s</string>
+    <string name="type_ai_detection">AI గుర్తింపు</string>
+    <string name="model_ai_detector_ai_vs_deepfake">కృత్రిమ, డీప్‌ఫేక్ మరియు నిజమైన చిత్రాలను వేరు చేసే ViT డిటెక్టర్.</string>
+    <string name="model_ai_detector_capcheck">AI- రూపొందించిన మరియు వాస్తవ చిత్రాలను వేరు చేయడానికి ViT డిటెక్టర్ చక్కగా ట్యూన్ చేయబడింది.</string>
+    <string name="model_ai_detector_lpx_swinv2">కృత్రిమ మరియు నిజమైన చిత్రాలను వేరు చేయడానికి పెద్ద SwinV2 డిటెక్టర్ శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT చిన్న డిటెక్టర్ AI- రూపొందించిన మరియు నిజమైన చిత్రాలను వేరు చేయడానికి శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_resnet">ResNet-50 డిటెక్టర్ AI- రూపొందించిన మరియు నిజమైన చిత్రాలను వేరు చేయడానికి శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT డిటెక్టర్ నిజమైన మరియు డీప్‌ఫేక్ ముఖ చిత్రాల యొక్క పెద్ద సేకరణపై శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_distilled">కాంపాక్ట్ ViT డిటెక్టర్. అందుబాటులో ఉన్న డిటెక్టర్‌లలో వేగవంతమైనది, కానీ తెలియని జనరేటర్‌లపై తక్కువ ఖచ్చితమైనది.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 విస్తృత క్రాస్-జనరేటర్ ఇమేజ్ ఫోరెన్సిక్స్ కోసం శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_smogy">స్విన్ డిటెక్టర్ మానవ మరియు AI- రూపొందించిన చిత్రాలపై శిక్షణ పొందింది.</string>
 </resources>

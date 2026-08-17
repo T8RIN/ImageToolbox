@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Reduzierbare Einstellungsgruppen</string>
     <string name="collapsible_settings_groups_sub">Ermöglichen Sie das Erweitern und Reduzieren von Einstellungsgruppen im Vollbildmodus</string>
     <string name="filename_already_exists">Im Zielordner ist bereits eine Datei mit dem Namen „%1$s“ vorhanden. Die vorhandene Datei wurde nicht geändert.</string>
+    <string name="ai_detector_analyze">Analysieren</string>
+    <string name="ai_detector_disclaimer">Das Ergebnis ist eine probabilistische Schätzung, kein Beweis. Komprimierung, Bearbeitung, Screenshots und Generatoren außerhalb der Trainingsdaten eines Modells können sich darauf auswirken.</string>
+    <string name="ai_detector_likely_ai">Wahrscheinlich KI-generiert</string>
+    <string name="ai_detector_uncertain">Unsicher</string>
+    <string name="ai_detector_likely_human">Wahrscheinlich von Menschenhand geschaffen</string>
+    <string name="ai_probability">KI-Wahrscheinlichkeit: %1$s</string>
+    <string name="type_ai_detection">KI-Erkennung</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ViT-Detektor, der künstliche, gefälschte und echte Bilder trennt.</string>
+    <string name="model_ai_detector_capcheck">Fein abgestimmter ViT-Detektor für die Trennung von KI-generierten und realen Bildern.</string>
+    <string name="model_ai_detector_lpx_swinv2">Großer SwinV2-Detektor, der darauf trainiert ist, künstliche und reale Bilder zu unterscheiden.</string>
+    <string name="model_ai_detector_convnext">Der ConvNeXT Tiny-Detektor ist darauf trainiert, KI-generierte und reale Bilder zu unterscheiden.</string>
+    <string name="model_ai_detector_resnet">Der ResNet-50-Detektor ist darauf trainiert, KI-generierte und reale Bilder zu unterscheiden.</string>
+    <string name="model_ai_detector_deepfake_v2">Der ViT-Detektor wurde auf eine große Sammlung echter und gefälschter Gesichtsbilder trainiert.</string>
+    <string name="model_ai_detector_distilled">Kompakter ViT-Detektor. Der schnellste der verfügbaren Detektoren, aber bei unbekannten Generatoren weniger genau.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 ist für die umfassende Bildforensik über mehrere Generatoren hinweg trainiert.</string>
+    <string name="model_ai_detector_smogy">Swin-Detektor, trainiert auf menschlichen und KI-generierten Bildern.</string>
 </resources>

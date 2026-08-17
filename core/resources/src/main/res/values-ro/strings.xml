@@ -4982,4 +4982,20 @@
     <string name="collapsible_settings_groups">Grupuri de setări pliabile</string>
     <string name="collapsible_settings_groups_sub">Permiteți extinderea și restrângerea grupurilor de setări în modul ecran complet</string>
     <string name="filename_already_exists">Un fișier numit „%1$s” există deja în folderul țintă. Fișierul existent nu a fost modificat.</string>
+    <string name="ai_detector_analyze">Analiza</string>
+    <string name="ai_detector_disclaimer">Rezultatul este o estimare probabilistică, nu o dovadă. Comprimarea, editarea, capturile de ecran și generatoarele din afara datelor de antrenament ale unui model îl pot afecta.</string>
+    <string name="ai_detector_likely_ai">Probabil generat de AI</string>
+    <string name="ai_detector_uncertain">Nesigur</string>
+    <string name="ai_detector_likely_human">Probabil creat de om</string>
+    <string name="ai_probability">Probabilitate AI: %1$s</string>
+    <string name="type_ai_detection">Detectare AI</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Detector ViT care separă imaginile artificiale, deepfake și reale.</string>
+    <string name="model_ai_detector_capcheck">Detector ViT reglat fin pentru a separa imaginile generate de AI și imaginile reale.</string>
+    <string name="model_ai_detector_lpx_swinv2">Detector mare SwinV2 antrenat pentru a distinge imaginile artificiale și reale.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Tiny detector antrenat pentru a distinge imaginile generate de AI și imaginile reale.</string>
+    <string name="model_ai_detector_resnet">Detector ResNet-50 instruit pentru a distinge imaginile generate de AI și imaginile reale.</string>
+    <string name="model_ai_detector_deepfake_v2">Detector ViT instruit pe o colecție mare de imagini reale și deepfake ale feței.</string>
+    <string name="model_ai_detector_distilled">Detector ViT compact. Cel mai rapid dintre detectoarele disponibile, dar mai puțin precis la generatoarele necunoscute.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 instruit pentru criminalistica de imagini cu generatoare încrucișate.</string>
+    <string name="model_ai_detector_smogy">Detector Swin antrenat pe imagini umane și generate de AI.</string>
 </resources>

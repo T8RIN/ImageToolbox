@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">সংকোচনযোগ্য সেটিংস গ্রুপ</string>
     <string name="collapsible_settings_groups_sub">সেটিংস গোষ্ঠীগুলিকে পূর্ণস্ক্রীন মোডে প্রসারিত এবং সঙ্কুচিত করার অনুমতি দিন</string>
     <string name="filename_already_exists">লক্ষ্য ফোল্ডারে \"%1$s\" নামের একটি ফাইল ইতিমধ্যেই বিদ্যমান। বিদ্যমান ফাইল পরিবর্তন করা হয়নি.</string>
+    <string name="ai_detector_analyze">বিশ্লেষণ করুন</string>
+    <string name="ai_detector_disclaimer">ফলাফল একটি সম্ভাব্য অনুমান, প্রমাণ নয়। একটি মডেলের প্রশিক্ষণ ডেটার বাইরে কম্প্রেশন, সম্পাদনা, স্ক্রিনশট এবং জেনারেটর এটিকে প্রভাবিত করতে পারে।</string>
+    <string name="ai_detector_likely_ai">সম্ভবত AI-উত্পন্ন</string>
+    <string name="ai_detector_uncertain">অনিশ্চিত</string>
+    <string name="ai_detector_likely_human">সম্ভবত মানব সৃষ্ট</string>
+    <string name="ai_probability">AI সম্ভাবনা: %1$s</string>
+    <string name="type_ai_detection">এআই সনাক্তকরণ</string>
+    <string name="model_ai_detector_ai_vs_deepfake">ভিআইটি ডিটেক্টর যা কৃত্রিম, ডিপফেক এবং বাস্তব চিত্রগুলিকে আলাদা করে।</string>
+    <string name="model_ai_detector_capcheck">এআই-জেনারেটেড এবং বাস্তব চিত্রগুলিকে আলাদা করার জন্য ভিআইটি ডিটেক্টর ফাইন-টিউনড।</string>
+    <string name="model_ai_detector_lpx_swinv2">বড় SwinV2 ডিটেক্টর কৃত্রিম এবং বাস্তব চিত্রের পার্থক্য করতে প্রশিক্ষিত।</string>
+    <string name="model_ai_detector_convnext">ConvNeXT টিনি ডিটেক্টর এআই-জেনারেটেড এবং বাস্তব চিত্রগুলিকে আলাদা করার জন্য প্রশিক্ষিত।</string>
+    <string name="model_ai_detector_resnet">ResNet-50 ডিটেক্টর এআই-উত্পন্ন এবং বাস্তব চিত্রগুলিকে আলাদা করার জন্য প্রশিক্ষিত।</string>
+    <string name="model_ai_detector_deepfake_v2">ভিআইটি ডিটেক্টর আসল এবং ডিপফেক মুখের চিত্রগুলির একটি বড় সংগ্রহের উপর প্রশিক্ষিত।</string>
+    <string name="model_ai_detector_distilled">কমপ্যাক্ট ভিআইটি আবিষ্কারক। উপলব্ধ ডিটেক্টরগুলির মধ্যে দ্রুততম, কিন্তু অপরিচিত জেনারেটরগুলিতে কম সঠিক।</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 বিস্তৃত ক্রস-জেনারেটর ইমেজ ফরেনসিকের জন্য প্রশিক্ষিত।</string>
+    <string name="model_ai_detector_smogy">সুইন ডিটেক্টর মানব এবং এআই-উত্পন্ন চিত্রের উপর প্রশিক্ষিত।</string>
 </resources>

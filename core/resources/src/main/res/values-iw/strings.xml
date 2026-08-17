@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">קבוצות הגדרות מתקפלות</string>
     <string name="collapsible_settings_groups_sub">אפשר להרחיב ולכווץ קבוצות הגדרות במצב מסך מלא</string>
     <string name="filename_already_exists">קובץ בשם \"%1$s\" כבר קיים בתיקיית היעד. הקובץ הקיים לא השתנה.</string>
+    <string name="ai_detector_analyze">לְנַתֵחַ</string>
+    <string name="ai_detector_disclaimer">התוצאה היא הערכה הסתברותית, לא הוכחה. דחיסה, עריכה, צילומי מסך ומחוללים מחוץ לנתוני ההדרכה של המודל יכולים להשפיע עליו.</string>
+    <string name="ai_detector_likely_ai">כנראה שנוצר בינה מלאכותית</string>
+    <string name="ai_detector_uncertain">לֹא בָּטוּחַ</string>
+    <string name="ai_detector_likely_human">כנראה נוצר על ידי אדם</string>
+    <string name="ai_probability">הסתברות AI: %1$s</string>
+    <string name="type_ai_detection">זיהוי AI</string>
+    <string name="model_ai_detector_ai_vs_deepfake">גלאי ViT המפריד בין תמונות מלאכותיות, מזויפות עמוקות ואמיתיות.</string>
+    <string name="model_ai_detector_capcheck">גלאי ViT מכוון עדין להפרדה בין תמונות שנוצרו בינה מלאכותית לבין תמונות אמיתיות.</string>
+    <string name="model_ai_detector_lpx_swinv2">גלאי SwinV2 גדול מאומן להבחין בין תמונות מלאכותיות ואמיתיות.</string>
+    <string name="model_ai_detector_convnext">גלאי ConvNeXT Tiny מאומן להבחין בין תמונות שנוצרו בינה מלאכותית לבין תמונות אמיתיות.</string>
+    <string name="model_ai_detector_resnet">גלאי ResNet-50 מאומן להבחין בין תמונות שנוצרו בינה מלאכותית לבין תמונות אמיתיות.</string>
+    <string name="model_ai_detector_deepfake_v2">גלאי ViT מאומן על אוסף גדול של תמונות פנים אמיתיות ומזויפות עמוקות.</string>
+    <string name="model_ai_detector_distilled">גלאי ViT קומפקטי. המהיר ביותר מבין הגלאים הזמינים, אך פחות מדויק על גנרטורים לא מוכרים.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 מאומן לזיהוי פלילי רחב של תמונות צולבות.</string>
+    <string name="model_ai_detector_smogy">גלאי חזירים מאומן על תמונות של בני אדם ו-AI.</string>
 </resources>

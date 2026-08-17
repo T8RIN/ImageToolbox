@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Grups de configuració plegables</string>
     <string name="collapsible_settings_groups_sub">Permet que els grups de configuració s\'ampliïn i es replegaran en mode de pantalla completa</string>
     <string name="filename_already_exists">Un fitxer anomenat \"%1$s\" ja existeix a la carpeta de destinació. El fitxer existent no s\'ha canviat.</string>
+    <string name="ai_detector_analyze">Analitzar</string>
+    <string name="ai_detector_disclaimer">El resultat és una estimació probabilística, no una prova. La compressió, l\'edició, les captures de pantalla i els generadors fora de les dades d\'entrenament d\'un model poden afectar-hi.</string>
+    <string name="ai_detector_likely_ai">Probablement generat per IA</string>
+    <string name="ai_detector_uncertain">Incerta</string>
+    <string name="ai_detector_likely_human">Probablement creat per l\'home</string>
+    <string name="ai_probability">Probabilitat d\'IA: %1$s</string>
+    <string name="type_ai_detection">Detecció d\'IA</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Detector ViT que separa imatges artificials, deepfake i reals.</string>
+    <string name="model_ai_detector_capcheck">Detector ViT ajustat per separar imatges reals i generades per IA.</string>
+    <string name="model_ai_detector_lpx_swinv2">Gran detector SwinV2 entrenat per distingir imatges artificials i reals.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Tiny detector entrenat per distingir imatges generades per IA i imatges reals.</string>
+    <string name="model_ai_detector_resnet">Detector ResNet-50 entrenat per distingir imatges generades per IA i imatges reals.</string>
+    <string name="model_ai_detector_deepfake_v2">Detector ViT entrenat en una gran col·lecció d\'imatges facials reals i falses.</string>
+    <string name="model_ai_detector_distilled">Detector compacte de ViT. El més ràpid dels detectors disponibles, però menys precís en generadors desconeguts.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 entrenat per a la investigació forense d\'imatges de generadors creuats.</string>
+    <string name="model_ai_detector_smogy">Detector Swin entrenat en imatges humanes i generades per IA.</string>
 </resources>

@@ -4981,4 +4981,20 @@
     <string name="collapsible_settings_groups">Daraltılabilir ayar grupları</string>
     <string name="collapsible_settings_groups_sub">Ayar gruplarının tam ekran modunda genişletilmesine ve daraltılmasına izin ver</string>
     <string name="filename_already_exists">Hedef klasörde “%1$s” adlı bir dosya zaten mevcut. Mevcut dosya değiştirilmedi.</string>
+    <string name="ai_detector_analyze">Analiz et</string>
+    <string name="ai_detector_disclaimer">Sonuç kanıt değil, olasılıksal bir tahmindir. Bir modelin eğitim verileri dışındaki sıkıştırma, düzenleme, ekran görüntüleri ve oluşturucular onu etkileyebilir.</string>
+    <string name="ai_detector_likely_ai">Muhtemelen yapay zeka tarafından oluşturulmuş</string>
+    <string name="ai_detector_uncertain">Belirsiz</string>
+    <string name="ai_detector_likely_human">Muhtemelen insan yapımı</string>
+    <string name="ai_probability">Yapay Zeka Olasılığı: %1$s</string>
+    <string name="type_ai_detection">AI tespiti</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Yapay, derin sahte ve gerçek görüntüleri ayıran ViT dedektörü.</string>
+    <string name="model_ai_detector_capcheck">Yapay zeka tarafından oluşturulan ve gerçek görüntüleri ayırmak için ince ayarlı ViT dedektörü.</string>
+    <string name="model_ai_detector_lpx_swinv2">Yapay ve gerçek görüntüleri ayırt edecek şekilde eğitilmiş büyük SwinV2 dedektörü.</string>
+    <string name="model_ai_detector_convnext">ConvNeXT Yapay zeka tarafından oluşturulan ve gerçek görüntüleri ayırt edecek şekilde eğitilmiş küçük dedektör.</string>
+    <string name="model_ai_detector_resnet">Yapay zeka tarafından oluşturulan ve gerçek görüntüleri ayırt edecek şekilde eğitilmiş ResNet-50 dedektörü.</string>
+    <string name="model_ai_detector_deepfake_v2">ViT dedektörü, gerçek ve derin sahte yüz görüntülerinden oluşan geniş bir koleksiyonla eğitilmiştir.</string>
+    <string name="model_ai_detector_distilled">Kompakt ViT dedektörü. Mevcut dedektörler arasında en hızlısıdır ancak tanımadığınız jeneratörlerde doğruluğu daha düşüktür.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384, geniş kapsamlı çapraz görüntü adli bilişimi için eğitilmiştir.</string>
+    <string name="model_ai_detector_smogy">Swin dedektörü, insan ve yapay zeka tarafından oluşturulan görüntüler üzerinde eğitilmiştir.</string>
 </resources>

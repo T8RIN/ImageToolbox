@@ -4983,4 +4983,20 @@
     <string name="collapsible_settings_groups">Групи налаштувань, що згортаються</string>
     <string name="collapsible_settings_groups_sub">Дозволити розгортання та згортання груп налаштувань у повноекранному режимі</string>
     <string name="filename_already_exists">Файл із назвою «%1$s» уже існує в цільовій папці. Існуючий файл не змінено.</string>
+    <string name="ai_detector_analyze">Аналізуйте</string>
+    <string name="ai_detector_disclaimer">Результат є імовірнісною оцінкою, а не доказом. Стиснення, редагування, знімки екрана та генератори за межами навчальних даних моделі можуть впливати на це.</string>
+    <string name="ai_detector_likely_ai">Ймовірно, створено ШІ</string>
+    <string name="ai_detector_uncertain">Невизначений</string>
+    <string name="ai_detector_likely_human">Ймовірно, створений людиною</string>
+    <string name="ai_probability">ШІ ймовірність: %1$s</string>
+    <string name="type_ai_detection">виявлення ШІ</string>
+    <string name="model_ai_detector_ai_vs_deepfake">Детектор ViT, який розділяє штучні, дипфейкові та справжні зображення.</string>
+    <string name="model_ai_detector_capcheck">Детектор ViT, налаштований на відокремлення зображень, створених ШІ, від реальних.</string>
+    <string name="model_ai_detector_lpx_swinv2">Великий детектор SwinV2, навчений розрізняти штучні та справжні зображення.</string>
+    <string name="model_ai_detector_convnext">Крихітний детектор ConvNeXT, навчений розрізняти створені штучним інтелектом зображення та реальні.</string>
+    <string name="model_ai_detector_resnet">Детектор ResNet-50, навчений розрізняти створені ШІ зображення та реальні.</string>
+    <string name="model_ai_detector_deepfake_v2">Детектор ViT навчений на великій колекції справжніх і підроблених зображень облич.</string>
+    <string name="model_ai_detector_distilled">Компактний детектор ViT. Найшвидший із доступних детекторів, але менш точний на незнайомих генераторах.</string>
+    <string name="model_ai_detector_community_forensics">ViT-S/384 навчений широкому аналізу зображень між генераторами.</string>
+    <string name="model_ai_detector_smogy">Детектор свиней, навчений на зображеннях, створених людиною та ШІ.</string>
 </resources>
