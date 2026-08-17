@@ -30,6 +30,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.path
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
@@ -56,12 +57,7 @@ internal data class SavingFolder private constructor(
         ): SavingFolder? = coroutineScope {
             val originalFolder = if (saveToOriginalFolder) {
                 runCatching {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
-                        createLegacyFile(
-                            saveTarget = saveTarget,
-                            parent = saveTarget.originalParentFile(context)
-                        )
-                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         saveTarget.originalRelativePath(context)?.let {
                             context.createViaMediaStore(
                                 saveTarget = saveTarget,
@@ -70,11 +66,12 @@ internal data class SavingFolder private constructor(
                         }
                     } else {
                         createLegacyFile(
+                            context = context,
                             saveTarget = saveTarget,
                             parent = saveTarget.originalParentFile(context)
                         )
                     }
-                }.onFailure { it.makeLog("saveToOriginalFolder") }.getOrNull()
+                }.onFailure { it.makeLog("saveToOriginalFolder") }.getOrThrow()
             } else null
 
             if (originalFolder != null) return@coroutineScope originalFolder
@@ -87,7 +84,10 @@ internal data class SavingFolder private constructor(
                         relativePath = null
                     )
                 } else {
-                    createDefaultFolderFile(saveTarget)
+                    createDefaultFolderFile(
+                        context = context,
+                        saveTarget = saveTarget
+                    )
                 }
             } else if (DocumentFile.isDocumentUri(context, treeUri)) {
                 SavingFolder(
@@ -105,12 +105,20 @@ internal data class SavingFolder private constructor(
 
                 val filename = saveTarget.filename ?: return@coroutineScope null
 
+                if (documentFile.findFile(filename) != null) {
+                    throw context.filenameCollision(filename)
+                }
+
                 val file = documentFile.createFile(
                     saveTarget.mimeType.entry,
                     filename
                 )
 
                 val imageUri = file?.uri ?: return@coroutineScope null
+                if (file.name != filename) {
+                    file.delete()
+                    throw context.filenameCollision(filename)
+                }
 
                 SavingFolder(
                     outputStream = context.contentResolver.openOutputStream(imageUri)
@@ -183,6 +191,28 @@ internal data class SavingFolder private constructor(
                     }.getOrNull()
                 } ?: return null
 
+            val actualFilename = contentResolver.query(
+                uri,
+                arrayOf(MediaStore.MediaColumns.DISPLAY_NAME),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    cursor.getString(
+                        cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                    )
+                } else null
+            }
+            if (actualFilename != null && actualFilename != filename) {
+                runCatching {
+                    contentResolver.delete(uri, null, null)
+                }.onFailure {
+                    it.makeLog("createViaMediaStore collision cleanup")
+                }
+                throw filenameCollision(filename)
+            }
+
             return SavingFolder(
                 outputStream = contentResolver.openOutputStream(uri)
                     ?: return null,
@@ -192,8 +222,10 @@ internal data class SavingFolder private constructor(
         }
 
         private fun createDefaultFolderFile(
+            context: Context,
             saveTarget: SaveTarget
         ): SavingFolder? = createLegacyFile(
+            context = context,
             saveTarget = saveTarget,
             parent = File(
                 Environment.getExternalStoragePublicDirectory(
@@ -204,6 +236,7 @@ internal data class SavingFolder private constructor(
         )
 
         private fun createLegacyFile(
+            context: Context,
             saveTarget: SaveTarget,
             parent: File?
         ): SavingFolder? {
@@ -214,6 +247,7 @@ internal data class SavingFolder private constructor(
             if (!dir.exists() || !dir.isDirectory) return null
 
             val file = File(dir, filename)
+            if (file.exists()) throw context.filenameCollision(filename)
 
             return SavingFolder(
                 outputStream = FileOutputStream(file),
@@ -249,7 +283,7 @@ internal data class SavingFolder private constructor(
 
             originalUri.externalStorageRelativePath(context)?.let { return it }
 
-            return context.contentResolver.query(
+            context.contentResolver.query(
                 originalUri,
                 arrayOf(MediaStore.MediaColumns.RELATIVE_PATH),
                 null,
@@ -263,7 +297,13 @@ internal data class SavingFolder private constructor(
                 )
             }?.takeIf {
                 it.isNotBlank() && ".transforms" !in it
-            }
+            }?.let { return it }
+
+            return originalParentFile(context)
+                ?.relativeToOrNull(Environment.getExternalStorageDirectory())
+                ?.path
+                ?.takeIf { it.isNotBlank() && !it.startsWith("..") }
+                ?.plus('/')
         }
 
         private fun Uri.externalStorageRelativePath(context: Context): String? = runCatching {
@@ -291,5 +331,9 @@ internal data class SavingFolder private constructor(
                 File(Environment.getExternalStorageDirectory(), path).absolutePath
             } else null
         }.onFailure { it.makeLog("externalStoragePath") }.getOrNull()
+
+        private fun Context.filenameCollision(filename: String) = IllegalArgumentException(
+            getString(R.string.filename_already_exists, filename)
+        )
     }
 }
