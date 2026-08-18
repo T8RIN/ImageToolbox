@@ -4999,4 +4999,6 @@
     <string name="model_ai_detector_distilled">Kompaktowy detektor ViT. Najszybszy z dostępnych detektorów, ale mniej dokładny w przypadku nieznanych generatorów.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 przeszkolony w zakresie szeroko zakrojonej kryminalistyki obrazu obejmującej różne generatory.</string>
     <string name="model_ai_detector_smogy">Detektor łabędzi szkolony na obrazach generowanych przez ludzi i sztuczną inteligencję.</string>
+    <string name="model_ai_detector_mirage">Detektor SigLIP2 Base przeszkolony w oparciu o zbiór danych informacyjnych Mirage w celu rozróżnienia obrazów rzeczywistych od obrazów wygenerowanych przez sztuczną inteligencję.</string>
+    <string name="model_ai_detector_mirage_fp32">W pełni precyzyjny detektor SigLIP2 Base przeszkolony w oparciu o zbiór danych informacyjnych Mirage w celu rozróżnienia obrazów rzeczywistych od obrazów wygenerowanych przez sztuczną inteligencję.</string>
 </resources>

@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">కాంపాక్ట్ ViT డిటెక్టర్. అందుబాటులో ఉన్న డిటెక్టర్‌లలో వేగవంతమైనది, కానీ తెలియని జనరేటర్‌లపై తక్కువ ఖచ్చితమైనది.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 విస్తృత క్రాస్-జనరేటర్ ఇమేజ్ ఫోరెన్సిక్స్ కోసం శిక్షణ పొందింది.</string>
     <string name="model_ai_detector_smogy">స్విన్ డిటెక్టర్ మానవ మరియు AI- రూపొందించిన చిత్రాలపై శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_mirage">SigLIP2 బేస్ డిటెక్టర్ నిజమైన మరియు AI-సృష్టించిన చిత్రాలను వేరు చేయడానికి మిరాజ్ వార్తల డేటాసెట్‌లో శిక్షణ పొందింది.</string>
+    <string name="model_ai_detector_mirage_fp32">పూర్తి-ఖచ్చితమైన SigLIP2 బేస్ డిటెక్టర్ నిజమైన మరియు AI- రూపొందించిన చిత్రాలను వేరు చేయడానికి Mirage వార్తల డేటాసెట్‌పై శిక్షణ పొందింది.</string>
 </resources>

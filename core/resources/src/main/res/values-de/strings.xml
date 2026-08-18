@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">Kompakter ViT-Detektor. Der schnellste der verfügbaren Detektoren, aber bei unbekannten Generatoren weniger genau.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 ist für die umfassende Bildforensik über mehrere Generatoren hinweg trainiert.</string>
     <string name="model_ai_detector_smogy">Swin-Detektor, trainiert auf menschlichen und KI-generierten Bildern.</string>
+    <string name="model_ai_detector_mirage">SigLIP2-Basisdetektor, der auf dem Mirage-Nachrichtendatensatz trainiert wurde, um echte und KI-generierte Bilder zu unterscheiden.</string>
+    <string name="model_ai_detector_mirage_fp32">Hochpräziser SigLIP2-Basisdetektor, der auf dem Mirage-Nachrichtendatensatz trainiert wurde, um echte und KI-generierte Bilder zu unterscheiden.</string>
 </resources>

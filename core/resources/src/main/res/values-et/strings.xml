@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">Kompaktne ViT detektor. Saadaolevatest detektoritest kiireim, kuid tundmatute generaatorite puhul vähem täpne.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 on koolitatud laiaulatusliku generaatoritevahelise kujutise kohtuekspertiisi jaoks.</string>
     <string name="model_ai_detector_smogy">Inimeste ja tehisintellekti loodud piltide jaoks väljaõpetatud kiikadedetektor.</string>
+    <string name="model_ai_detector_mirage">SigLIP2 Base detektor, mis on treenitud Mirage\'i uudiste andmestiku põhjal, et eristada tegelikke ja tehisintellektiga loodud pilte.</string>
+    <string name="model_ai_detector_mirage_fp32">Täistäpne SigLIP2 Base detektor, mis on treenitud Mirage\'i uudiste andmestiku põhjal, et eristada tegelikke ja tehisintellektiga loodud pilte.</string>
 </resources>

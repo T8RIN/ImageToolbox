@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">कॉम्पैक्ट वीआईटी डिटेक्टर। उपलब्ध डिटेक्टरों में सबसे तेज़, लेकिन अपरिचित जनरेटर पर कम सटीक।</string>
     <string name="model_ai_detector_community_forensics">वीआईटी-एस/384 को व्यापक क्रॉस-जनरेटर छवि फोरेंसिक के लिए प्रशिक्षित किया गया।</string>
     <string name="model_ai_detector_smogy">स्वाइन डिटेक्टर को मानव और एआई-जनित छवियों पर प्रशिक्षित किया गया।</string>
+    <string name="model_ai_detector_mirage">SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
+    <string name="model_ai_detector_mirage_fp32">पूर्ण-परिशुद्धता SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
 </resources>

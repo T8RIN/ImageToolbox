@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">آشکارساز ViT فشرده سریعترین آشکارسازهای موجود، اما در ژنراتورهای ناآشنا دقت کمتری دارد.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 برای پزشکی قانونی تصویر متقابل گسترده آموزش دیده است.</string>
     <string name="model_ai_detector_smogy">ردیاب سوئن آموزش دیده بر روی تصاویر تولید شده توسط انسان و هوش مصنوعی.</string>
+    <string name="model_ai_detector_mirage">آشکارساز SigLIP2 Base بر روی مجموعه داده خبری Mirage برای تشخیص تصاویر واقعی و تولید شده توسط هوش مصنوعی آموزش دیده است.</string>
+    <string name="model_ai_detector_mirage_fp32">آشکارساز پایه SigLIP2 با دقت کامل که روی مجموعه داده خبری Mirage آموزش دیده است تا تصاویر واقعی و تولید شده توسط هوش مصنوعی را تشخیص دهد.</string>
 </resources>

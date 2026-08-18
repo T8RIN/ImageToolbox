@@ -4996,4 +4996,6 @@
     <string name="model_ai_detector_distilled">Máy dò ViT nhỏ gọn. Máy dò nhanh nhất hiện có nhưng kém chính xác hơn trên các máy phát điện không quen thuộc.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 được đào tạo để điều tra hình ảnh trên nhiều máy phát điện.</string>
     <string name="model_ai_detector_smogy">Máy dò Swin được đào tạo về hình ảnh do con người và AI tạo ra.</string>
+    <string name="model_ai_detector_mirage">Trình phát hiện cơ sở SigLIP2 được đào tạo trên tập dữ liệu tin tức Mirage để phân biệt hình ảnh thật và hình ảnh do AI tạo ra.</string>
+    <string name="model_ai_detector_mirage_fp32">Trình phát hiện cơ sở SigLIP2 có độ chính xác hoàn toàn được đào tạo trên tập dữ liệu tin tức Mirage để phân biệt hình ảnh thật và hình ảnh do AI tạo ra.</string>
 </resources>

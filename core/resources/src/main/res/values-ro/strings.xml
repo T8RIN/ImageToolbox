@@ -4998,4 +4998,6 @@
     <string name="model_ai_detector_distilled">Detector ViT compact. Cel mai rapid dintre detectoarele disponibile, dar mai puțin precis la generatoarele necunoscute.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 instruit pentru criminalistica de imagini cu generatoare încrucișate.</string>
     <string name="model_ai_detector_smogy">Detector Swin antrenat pe imagini umane și generate de AI.</string>
+    <string name="model_ai_detector_mirage">Detector de bază SigLIP2 instruit pe setul de date de știri Mirage pentru a distinge imaginile reale și cele generate de AI.</string>
+    <string name="model_ai_detector_mirage_fp32">Detector de bază SigLIP2 de precizie completă instruit pe setul de date de știri Mirage pentru a distinge imaginile reale și cele generate de AI.</string>
 </resources>

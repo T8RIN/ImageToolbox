@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">Rilevatore ViT compatto. Il più veloce dei rilevatori disponibili, ma meno accurato su generatori sconosciuti.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 addestrato per un\'ampia analisi forense di immagini tra generatori.</string>
     <string name="model_ai_detector_smogy">Rilevatore di swin addestrato su immagini umane e generate dall\'intelligenza artificiale.</string>
+    <string name="model_ai_detector_mirage">Rilevatore SigLIP2 Base addestrato sul set di dati delle notizie Mirage per distinguere le immagini reali da quelle generate dall\'intelligenza artificiale.</string>
+    <string name="model_ai_detector_mirage_fp32">Rilevatore Base SigLIP2 ad alta precisione addestrato sul set di dati delle notizie Mirage per distinguere le immagini reali da quelle generate dall\'intelligenza artificiale.</string>
 </resources>

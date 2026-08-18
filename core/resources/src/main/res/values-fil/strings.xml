@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">Compact na ViT detector. Pinakamabilis sa mga available na detector, ngunit hindi gaanong tumpak sa mga hindi pamilyar na generator.</string>
     <string name="model_ai_detector_community_forensics">Ang ViT-S/384 ay sinanay para sa malawak na cross-generator image forensics.</string>
     <string name="model_ai_detector_smogy">Swin detector na sinanay sa tao at AI-generated na mga imahe.</string>
+    <string name="model_ai_detector_mirage">Ang SigLIP2 Base detector ay sinanay sa Mirage news dataset para makilala ang tunay at AI-generated na mga imahe.</string>
+    <string name="model_ai_detector_mirage_fp32">Full-precision SigLIP2 Base detector na sinanay sa Mirage news dataset para makilala ang tunay at AI-generated na mga imahe.</string>
 </resources>

@@ -4996,4 +4996,6 @@
     <string name="model_ai_detector_distilled">紧凑型 ViT 探测器。最快的可用探测器，但在不熟悉的发生器上精度较低。</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 经过培训，可进行广泛的跨生成器图像取证。</string>
     <string name="model_ai_detector_smogy">Swin 探测器在人类和人工智能生成的图像上进行训练。</string>
+    <string name="model_ai_detector_mirage">SigLIP2 Base 检测器在 Mirage 新闻数据集上进行训练，以区分真实图像和 AI 生成的图像。</string>
+    <string name="model_ai_detector_mirage_fp32">全精度 SigLIP2 Base 检测器在 Mirage 新闻数据集上进行训练，以区分真实图像和人工智能生成的图像。</string>
 </resources>

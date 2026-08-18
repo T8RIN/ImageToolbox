@@ -5001,4 +5001,6 @@
     <string name="model_ai_detector_distilled">كاشف ViT مدمج. أسرع أجهزة الكشف المتوفرة، ولكنها أقل دقة في المولدات غير المألوفة.</string>
     <string name="model_ai_detector_community_forensics">تم تدريب ViT-S/384 على التحليل الجنائي للصور الشاملة عبر المولدات.</string>
     <string name="model_ai_detector_smogy">تم تدريب كاشف Swin على الصور البشرية والصور المولدة بالذكاء الاصطناعي.</string>
+    <string name="model_ai_detector_mirage">تم تدريب كاشف SigLIP2 Base على مجموعة بيانات Mirage الإخبارية لتمييز الصور الحقيقية وتلك التي تم إنشاؤها بواسطة الذكاء الاصطناعي.</string>
+    <string name="model_ai_detector_mirage_fp32">تم تدريب كاشف SigLIP2 Base عالي الدقة على مجموعة بيانات Mirage الإخبارية لتمييز الصور الحقيقية وتلك التي تم إنشاؤها بواسطة الذكاء الاصطناعي.</string>
 </resources>

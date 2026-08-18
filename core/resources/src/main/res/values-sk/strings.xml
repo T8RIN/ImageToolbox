@@ -4999,4 +4999,6 @@
     <string name="model_ai_detector_distilled">Kompaktný detektor ViT. Najrýchlejší z dostupných detektorov, ale menej presný na neznámych generátoroch.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 vyškolený pre širokú forenznú analýzu obrazu medzi generátormi.</string>
     <string name="model_ai_detector_smogy">Detektor Swin trénovaný na obrazoch vytvorených ľuďmi a AI.</string>
+    <string name="model_ai_detector_mirage">Detektor SigLIP2 Base bol trénovaný na súbore údajov Mirage News, aby rozlíšil skutočné obrázky a obrázky vygenerované AI.</string>
+    <string name="model_ai_detector_mirage_fp32">Plne presný detektor SigLIP2 Base trénovaný na súbore údajov Mirage News na rozlíšenie skutočných obrázkov a obrázkov vytvorených AI.</string>
 </resources>

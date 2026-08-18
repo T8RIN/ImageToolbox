@@ -4997,4 +4997,6 @@
     <string name="model_ai_detector_distilled">Compacte ViT-detector. De snelste van de beschikbare detectoren, maar minder nauwkeurig op onbekende generatoren.</string>
     <string name="model_ai_detector_community_forensics">ViT-S/384 getraind voor breed cross-generator beeldforensisch onderzoek.</string>
     <string name="model_ai_detector_smogy">Zwanendetector getraind op menselijke en AI-gegenereerde beelden.</string>
+    <string name="model_ai_detector_mirage">SigLIP2-basisdetector getraind op de Mirage-nieuwsdataset om echte en door AI gegenereerde beelden te onderscheiden.</string>
+    <string name="model_ai_detector_mirage_fp32">Volledig nauwkeurige SigLIP2 Base-detector getraind op de Mirage-nieuwsdataset om echte en door AI gegenereerde beelden te onderscheiden.</string>
 </resources>
