@@ -91,7 +91,7 @@ kotlinxSerializationJson = "1.11.0"
 firebaseBom = "34.17.0"
 firebaseCrashlyticsGradle = "3.0.7"
 junit = "4.13.2"
-coilResvg = "1.1.0"
+coilResvg = "1.1.1"
 runner = "1.7.0"
 
 [libraries]
