@@ -91,6 +91,23 @@ data class NeuralModel(
         val entries: List<NeuralModel> by lazy {
             listOf(
                 NeuralModel(
+                    downloadLink = res("detectors/ai_detector_mirage_siglip2_base_fp16.onnx"),
+                    title = "Mirage SigLIP2 Base",
+                    description = R.string.model_ai_detector_mirage,
+                    type = Type.AI_DETECTION,
+                    downloadSize = 172_999_176,
+                    speed = Speed.VeryFast(0.059f),
+                    checksum = "ed37099bc56b5fdece9012986b147caf72c63bf63cf0d469a9dd0fdd96bdc0b0",
+                    aiDetectionContract = AiDetectionContract(
+                        inputSize = 224,
+                        mean = RgbValues(0.5f, 0.5f, 0.5f),
+                        std = RgbValues(0.5f, 0.5f, 0.5f),
+                        output = AiDetectionContract.Output.Softmax(
+                            aiClassIndices = listOf(1)
+                        )
+                    )
+                ),
+                NeuralModel(
                     downloadLink = res("detectors/ai_detector_lpx_swinv2_large_fp32.onnx"),
                     title = "LPX AI Detector SwinV2 Large",
                     description = R.string.model_ai_detector_lpx_swinv2,
