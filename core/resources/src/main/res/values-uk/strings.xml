@@ -5001,4 +5001,5 @@
     <string name="model_ai_detector_smogy">Детектор свиней, навчений на зображеннях, створених людиною та ШІ.</string>
     <string name="model_ai_detector_mirage">Базовий детектор SigLIP2, навчений на базі даних Mirage, щоб розрізняти реальні зображення та зображення, створені ШІ.</string>
     <string name="model_ai_detector_mirage_fp32">Повноточний детектор SigLIP2 Base, навчений на базі даних Mirage, щоб розрізняти реальні зображення та зображення, створені ШІ.</string>
+    <string name="import_palette">Імпорт палітри</string>
 </resources>

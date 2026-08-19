@@ -4998,4 +4998,5 @@
     <string name="model_ai_detector_smogy">Máy dò Swin được đào tạo về hình ảnh do con người và AI tạo ra.</string>
     <string name="model_ai_detector_mirage">Trình phát hiện cơ sở SigLIP2 được đào tạo trên tập dữ liệu tin tức Mirage để phân biệt hình ảnh thật và hình ảnh do AI tạo ra.</string>
     <string name="model_ai_detector_mirage_fp32">Trình phát hiện cơ sở SigLIP2 có độ chính xác hoàn toàn được đào tạo trên tập dữ liệu tin tức Mirage để phân biệt hình ảnh thật và hình ảnh do AI tạo ra.</string>
+    <string name="import_palette">Nhập bảng màu</string>
 </resources>

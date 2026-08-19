@@ -4999,4 +4999,5 @@
     <string name="model_ai_detector_smogy">Détecteur Swin formé sur des images humaines et générées par l\'IA.</string>
     <string name="model_ai_detector_mirage">Détecteur de base SigLIP2 formé sur l\'ensemble de données d\'actualités Mirage pour distinguer les images réelles et générées par l\'IA.</string>
     <string name="model_ai_detector_mirage_fp32">Détecteur de base SigLIP2 de pleine précision formé sur l\'ensemble de données d\'actualités Mirage pour distinguer les images réelles et générées par l\'IA.</string>
+    <string name="import_palette">Palette d\'importation</string>
 </resources>

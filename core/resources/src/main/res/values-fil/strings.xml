@@ -4999,4 +4999,5 @@
     <string name="model_ai_detector_smogy">Swin detector na sinanay sa tao at AI-generated na mga imahe.</string>
     <string name="model_ai_detector_mirage">Ang SigLIP2 Base detector ay sinanay sa Mirage news dataset para makilala ang tunay at AI-generated na mga imahe.</string>
     <string name="model_ai_detector_mirage_fp32">Full-precision SigLIP2 Base detector na sinanay sa Mirage news dataset para makilala ang tunay at AI-generated na mga imahe.</string>
+    <string name="import_palette">Mag-import ng palette</string>
 </resources>

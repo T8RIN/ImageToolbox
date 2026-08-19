@@ -4998,4 +4998,5 @@
     <string name="model_ai_detector_smogy">เครื่องตรวจจับ Swin ได้รับการฝึกฝนเกี่ยวกับภาพของมนุษย์และภาพที่ AI สร้างขึ้น</string>
     <string name="model_ai_detector_mirage">เครื่องตรวจจับฐาน SigLIP2 ได้รับการฝึกอบรมเกี่ยวกับชุดข้อมูลข่าว Mirage เพื่อแยกความแตกต่างระหว่างรูปภาพจริงและรูปภาพที่สร้างโดย AI</string>
     <string name="model_ai_detector_mirage_fp32">เครื่องตรวจจับฐาน SigLIP2 ที่แม่นยำเต็มรูปแบบได้รับการฝึกฝนในชุดข้อมูลข่าว Mirage เพื่อแยกความแตกต่างระหว่างรูปภาพจริงและรูปภาพที่สร้างโดย AI</string>
+    <string name="import_palette">นำเข้าจานสี</string>
 </resources>

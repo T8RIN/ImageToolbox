@@ -4999,4 +4999,5 @@
     <string name="model_ai_detector_smogy">Emberi és mesterséges intelligencia által generált képekre kiképzett sertésdetektor.</string>
     <string name="model_ai_detector_mirage">A SigLIP2 Base detektor a Mirage news adatkészletre lett kiképezve, hogy megkülönböztesse a valódi és a mesterséges intelligencia által generált képeket.</string>
     <string name="model_ai_detector_mirage_fp32">Teljes pontosságú SigLIP2 Base detektor, amely a Mirage news adatkészletre van kiképezve, hogy megkülönböztesse a valódi és a mesterséges intelligencia által generált képeket.</string>
+    <string name="import_palette">Import paletta</string>
 </resources>

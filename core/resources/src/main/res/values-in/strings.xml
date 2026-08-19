@@ -4998,4 +4998,5 @@
     <string name="model_ai_detector_smogy">Detektor babi dilatih pada gambar manusia dan gambar yang dihasilkan AI.</string>
     <string name="model_ai_detector_mirage">Detektor Basis SigLIP2 dilatih pada kumpulan data berita Mirage untuk membedakan gambar asli dan gambar yang dihasilkan AI.</string>
     <string name="model_ai_detector_mirage_fp32">Detektor Basis SigLIP2 presisi penuh dilatih pada kumpulan data berita Mirage untuk membedakan gambar nyata dan gambar yang dihasilkan AI.</string>
+    <string name="import_palette">Impor palet</string>
 </resources>

@@ -4999,4 +4999,5 @@
     <string name="model_ai_detector_smogy">स्वाइन डिटेक्टर को मानव और एआई-जनित छवियों पर प्रशिक्षित किया गया।</string>
     <string name="model_ai_detector_mirage">SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
     <string name="model_ai_detector_mirage_fp32">पूर्ण-परिशुद्धता SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
+    <string name="import_palette">पैलेट आयात करें</string>
 </resources>

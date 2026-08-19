@@ -5001,4 +5001,5 @@
     <string name="model_ai_detector_smogy">גלאי חזירים מאומן על תמונות של בני אדם ו-AI.</string>
     <string name="model_ai_detector_mirage">גלאי בסיס SigLIP2 מאומן על מערך החדשות של Mirage כדי להבחין בין תמונות אמיתיות ותמונות שנוצרו בינה מלאכותית.</string>
     <string name="model_ai_detector_mirage_fp32">גלאי SigLIP2 Base דיוק מלא מאומן על מערך החדשות של Mirage כדי להבחין בין תמונות אמיתיות ותמונות שנוצרו בינה מלאכותית.</string>
+    <string name="import_palette">פלטת ייבוא</string>
 </resources>

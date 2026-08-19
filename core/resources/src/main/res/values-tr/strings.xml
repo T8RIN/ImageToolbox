@@ -4999,4 +4999,5 @@
     <string name="model_ai_detector_smogy">Swin dedektörü, insan ve yapay zeka tarafından oluşturulan görüntüler üzerinde eğitilmiştir.</string>
     <string name="model_ai_detector_mirage">Gerçek ve yapay zeka tarafından oluşturulan görüntüleri ayırt etmek için Mirage haber veri seti üzerinde eğitilmiş SigLIP2 Base dedektörü.</string>
     <string name="model_ai_detector_mirage_fp32">Gerçek ve yapay zeka tarafından oluşturulan görüntüleri ayırt etmek için Mirage haber veri seti üzerinde eğitilmiş tam hassasiyetli SigLIP2 Base dedektörü.</string>
+    <string name="import_palette">Paleti içe aktar</string>
 </resources>
