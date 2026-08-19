@@ -54,16 +54,23 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.appContext
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientMaker
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.UiGradientState
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.UiMeshGradientState
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.GradientMakerType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.isMesh
+import com.t8rin.palette.PaletteCoderException
+import com.t8rin.palette.PaletteFormat
+import com.t8rin.palette.decode
+import com.t8rin.palette.getCoder
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 class GradientMakerComponent @AssistedInject internal constructor(
@@ -402,6 +409,51 @@ class GradientMakerComponent @AssistedInject internal constructor(
         gradientState.colorStops.add(pair)
         if (!isInitial) {
             registerChanges()
+        }
+    }
+
+    fun importPalette(uri: Uri) {
+        componentScope.launch {
+            _isImageLoading.value = true
+
+            try {
+                val colors = withContext(defaultDispatcher) {
+                    val formats = buildList {
+                        PaletteFormat.fromFilename(uri.filename() ?: uri.toString())?.let(::add)
+                        addAll(PaletteFormat.entries.filterNot(::contains))
+                    }
+
+                    formats.firstNotNullOfOrNull { format ->
+                        runCatching {
+                            format.getCoder().decode(
+                                uri = uri,
+                                context = appContext
+                            ).allColors().map { it.toComposeColor() }
+                        }.getOrNull()?.takeIf { it.isNotEmpty() }
+                    }
+                }
+
+                if (colors == null) {
+                    AppToastHost.showFailureToast(PaletteCoderException.InvalidFormat())
+                } else {
+                    gradientState.colorStops.apply {
+                        clear()
+                        addAll(
+                            colors.mapIndexed { index, color ->
+                                val position = if (colors.size == 1) {
+                                    0f
+                                } else {
+                                    index / (colors.size - 1f)
+                                }
+                                position to color
+                            }
+                        )
+                    }
+                    registerChanges()
+                }
+            } finally {
+                _isImageLoading.value = false
+            }
         }
     }
 

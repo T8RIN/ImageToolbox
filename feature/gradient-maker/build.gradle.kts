@@ -27,4 +27,5 @@ android.namespace = "com.t8rin.imagetoolbox.feature.gradient_maker"
 dependencies {
     implementation(projects.feature.compare)
     implementation(projects.feature.pickColor)
+    implementation(projects.lib.palette)
 }

@@ -39,16 +39,21 @@ import androidx.compose.ui.util.lerp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.DensitySmall
+import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.GridOn
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.canPickImage
@@ -59,6 +64,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun GradientMakerControls(component: GradientMakerComponent) {
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
+    val palettePicker = rememberFilePicker(onSuccess = component::importPalette)
 
     val screenType = component.screenType
 
@@ -164,6 +170,15 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 onValueChange = component::updateColorStop,
                 onAddColorStop = component::addColorStop,
                 colorPickerBitmap = component.colorPickerBitmap
+            )
+            Spacer(Modifier.height(8.dp))
+            PreferenceItem(
+                title = stringResource(R.string.import_palette),
+                startIcon = Icons.Outlined.FileOpen,
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.large,
+                endIcon = Icons.Outlined.AddCircle,
+                onClick = palettePicker::pickFile
             )
             Spacer(Modifier.height(8.dp))
             TileModeSelector(
