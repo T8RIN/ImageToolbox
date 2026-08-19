@@ -17,50 +17,73 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.StrokeCap.Companion.Butt
-import androidx.compose.ui.graphics.StrokeJoin.Companion.Miter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
-val Icons.Rounded.Ton: ImageVector by lazy {
-    Builder(
-        name = "Ton", defaultWidth = 24.0.dp, defaultHeight = 24.0.dp, viewportWidth
-        = 24.0f, viewportHeight = 24.0f
+val Icons.Rounded.Ton: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.Ton",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
     ).apply {
-        path(
-            fill = SolidColor(Color.Black), stroke = null, strokeLineWidth = 0.0f,
-            strokeLineCap = Butt, strokeLineJoin = Miter, strokeLineMiter = 4.0f,
-            pathFillType = NonZero
-        ) {
-            moveTo(18.0777f, 3.0f)
-            horizontalLineTo(5.9216f)
-            curveTo(3.6865f, 3.0f, 2.2699f, 5.4109f, 3.3943f, 7.3599f)
-            lineToRelative(7.5023f, 13.0033f)
-            curveToRelative(0.4896f, 0.8491f, 1.7165f, 0.8491f, 2.206f, 0.0f)
-            lineToRelative(7.5038f, -13.0033f)
-            curveTo(21.7294f, 5.414f, 20.3128f, 3.0f, 18.0792f, 3.0f)
-            horizontalLineTo(18.0777f)
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(12f, 0f)
+            curveTo(5.373f, 0f, 0f, 5.373f, 0f, 12f)
+            reflectiveCurveToRelative(5.373f, 12f, 12f, 12f)
+            reflectiveCurveToRelative(12f, -5.373f, 12f, -12f)
+            reflectiveCurveTo(18.627f, 0f, 12f, 0f)
             close()
-            moveTo(10.8905f, 16.4637f)
-            lineToRelative(-1.6339f, -3.1621f)
-            lineTo(5.3143f, 6.2508f)
-            curveToRelative(-0.2601f, -0.4513f, 0.0612f, -1.0296f, 0.6058f, -1.0296f)
-            horizontalLineToRelative(4.9689f)
-            verticalLineToRelative(11.244f)
-            lineTo(10.8905f, 16.4637f)
+            moveTo(7.902f, 6.697f)
+            horizontalLineToRelative(8.196f)
+            curveToRelative(1.505f, 0f, 2.462f, 1.628f, 1.705f, 2.94f)
+            lineToRelative(-5.059f, 8.765f)
+            arcToRelative(
+                0.86f,
+                0.86f,
+                0f,
+                isMoreThanHalf = false,
+                isPositiveArc = true,
+                -1.488f,
+                0f
+            )
+            lineTo(6.199f, 9.637f)
+            curveToRelative(-0.758f, -1.314f, 0.197f, -2.94f, 1.703f, -2.94f)
             close()
-            moveTo(18.682f, 6.2493f)
-            lineToRelative(-3.9409f, 7.0539f)
-            lineToRelative(-1.6339f, 3.1605f)
-            verticalLineTo(5.2197f)
-            horizontalLineToRelative(4.9689f)
-            curveTo(18.6208f, 5.2197f, 18.942f, 5.798f, 18.682f, 6.2493f)
+            moveTo(12.746f, 8.193f)
+            verticalLineToRelative(7.58f)
+            lineToRelative(1.102f, -2.128f)
+            lineToRelative(2.656f, -4.756f)
+            arcToRelative(
+                0.465f,
+                0.465f,
+                0f,
+                isMoreThanHalf = false,
+                isPositiveArc = false,
+                -0.408f,
+                -0.696f
+            )
+            horizontalLineToRelative(-3.35f)
+            close()
+            moveTo(7.9f, 8.195f)
+            arcToRelative(
+                0.464f,
+                0.464f,
+                0f,
+                isMoreThanHalf = false,
+                isPositiveArc = false,
+                -0.408f,
+                0.694f
+            )
+            lineToRelative(2.658f, 4.754f)
+            lineToRelative(1.102f, 2.13f)
+            lineTo(11.252f, 8.195f)
+            lineTo(7.9f, 8.195f)
             close()
         }
     }.build()

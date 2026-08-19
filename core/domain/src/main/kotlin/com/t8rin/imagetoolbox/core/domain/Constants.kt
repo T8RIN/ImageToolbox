@@ -54,12 +54,7 @@ const val USER_AGENT =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
 
 
-const val BTC_WALLET = "18QFWMREkjzQa4yetfYsN5Ua51UubKmJut"
-const val USDT_WALLET = "TVdw6fP8dYsYA6HgQiSYNijBqPJ3k5BbYo"
 const val TON_SPACE_WALLET = "UQDMePBU-FaxwaIME8p7h2spRITeRxvtCPegtKefeV5v-sN1"
-const val TON_WALLET = "UQB8YI7eEJsFkr05juS-Ix1pRxhgRvCDF9S0g_aXayVJoGtg"
 const val BOOSTY_LINK = "https://boosty.to/t8rin"
 
 const val LEGACY_CAMERA_ACTION_REVIEW = "com.android.camera.action.REVIEW"
-
-const val GMIC_VERSION = "4.0.2"

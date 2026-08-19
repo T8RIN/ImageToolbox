@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,23 +34,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.BOOSTY_LINK
-import com.t8rin.imagetoolbox.core.domain.BTC_WALLET
 import com.t8rin.imagetoolbox.core.domain.TON_SPACE_WALLET
-import com.t8rin.imagetoolbox.core.domain.TON_WALLET
-import com.t8rin.imagetoolbox.core.domain.USDT_WALLET
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Bitcoin
 import com.t8rin.imagetoolbox.core.resources.icons.Boosty
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Ton
-import com.t8rin.imagetoolbox.core.resources.icons.USDT
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.BitcoinColor
 import com.t8rin.imagetoolbox.core.ui.theme.BoostyColor
-import com.t8rin.imagetoolbox.core.ui.theme.TONColor
 import com.t8rin.imagetoolbox.core.ui.theme.TONSpaceColor
-import com.t8rin.imagetoolbox.core.ui.theme.USDTColor
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -144,54 +136,6 @@ private data class DonationOption(
                             startIcon = Icons.Rounded.Boosty,
                             title = { stringResource(R.string.boosty) },
                             subtitle = BOOSTY_LINK
-                        ),
-                        DonationOption(
-                            containerColor = { BitcoinColor },
-                            contentColor = {
-                                BitcoinColor.inverse(
-                                    fraction = { 1f },
-                                    darkMode = darkMode
-                                )
-                            },
-                            onClick = {
-                                Clipboard.copy(BTC_WALLET)
-                            },
-                            endIcon = Icons.Rounded.ContentCopy,
-                            title = { stringResource(R.string.bitcoin) },
-                            startIcon = Icons.Filled.Bitcoin,
-                            subtitle = BTC_WALLET
-                        ),
-                        DonationOption(
-                            containerColor = { USDTColor },
-                            contentColor = {
-                                USDTColor.inverse(
-                                    fraction = { 1f },
-                                    darkMode = darkMode
-                                )
-                            },
-                            onClick = {
-                                Clipboard.copy(BTC_WALLET)
-                            },
-                            endIcon = Icons.Rounded.ContentCopy,
-                            title = { stringResource(R.string.usdt) },
-                            startIcon = Icons.Filled.USDT,
-                            subtitle = USDT_WALLET
-                        ),
-                        DonationOption(
-                            containerColor = { TONColor },
-                            contentColor = {
-                                TONColor.inverse(
-                                    fraction = { 1f },
-                                    darkMode = darkMode
-                                )
-                            },
-                            onClick = {
-                                Clipboard.copy(TON_WALLET)
-                            },
-                            endIcon = Icons.Rounded.ContentCopy,
-                            startIcon = Icons.Rounded.Ton,
-                            title = { stringResource(R.string.ton) },
-                            subtitle = TON_WALLET
                         ),
                         DonationOption(
                             containerColor = { TONSpaceColor },
