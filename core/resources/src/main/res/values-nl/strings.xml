@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">SigLIP2-basisdetector getraind op de Mirage-nieuwsdataset om echte en door AI gegenereerde beelden te onderscheiden.</string>
     <string name="model_ai_detector_mirage_fp32">Volledig nauwkeurige SigLIP2 Base-detector getraind op de Mirage-nieuwsdataset om echte en door AI gegenereerde beelden te onderscheiden.</string>
     <string name="import_palette">Palet importeren</string>
+    <string name="gif_type_to_apng">GIF naar APNG</string>
+    <string name="gif_type_to_apng_sub">Converteer GIF-afbeeldingen naar APNG-geanimeerde afbeeldingen</string>
 </resources>

@@ -5002,4 +5002,6 @@
     <string name="model_ai_detector_mirage">Detektor SigLIP2 Base przeszkolony w oparciu o zbiór danych informacyjnych Mirage w celu rozróżnienia obrazów rzeczywistych od obrazów wygenerowanych przez sztuczną inteligencję.</string>
     <string name="model_ai_detector_mirage_fp32">W pełni precyzyjny detektor SigLIP2 Base przeszkolony w oparciu o zbiór danych informacyjnych Mirage w celu rozróżnienia obrazów rzeczywistych od obrazów wygenerowanych przez sztuczną inteligencję.</string>
     <string name="import_palette">Importuj paletę</string>
+    <string name="gif_type_to_apng">GIF do APNG</string>
+    <string name="gif_type_to_apng_sub">Konwertuj obrazy GIF na animowane obrazy APNG</string>
 </resources>

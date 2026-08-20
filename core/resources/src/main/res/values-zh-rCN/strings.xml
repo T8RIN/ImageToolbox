@@ -4999,4 +4999,6 @@
     <string name="model_ai_detector_mirage">SigLIP2 Base 检测器在 Mirage 新闻数据集上进行训练，以区分真实图像和 AI 生成的图像。</string>
     <string name="model_ai_detector_mirage_fp32">全精度 SigLIP2 Base 检测器在 Mirage 新闻数据集上进行训练，以区分真实图像和人工智能生成的图像。</string>
     <string name="import_palette">导入调色板</string>
+    <string name="gif_type_to_apng">GIF 转 APNG</string>
+    <string name="gif_type_to_apng_sub">将 GIF 图像转换为 APNG 动画图片</string>
 </resources>

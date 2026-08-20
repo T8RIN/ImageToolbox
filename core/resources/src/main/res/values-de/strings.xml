@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">SigLIP2-Basisdetektor, der auf dem Mirage-Nachrichtendatensatz trainiert wurde, um echte und KI-generierte Bilder zu unterscheiden.</string>
     <string name="model_ai_detector_mirage_fp32">Hochpräziser SigLIP2-Basisdetektor, der auf dem Mirage-Nachrichtendatensatz trainiert wurde, um echte und KI-generierte Bilder zu unterscheiden.</string>
     <string name="import_palette">Palette importieren</string>
+    <string name="gif_type_to_apng">GIF zu APNG</string>
+    <string name="gif_type_to_apng_sub">Konvertieren Sie GIF-Bilder in APNG-animierte Bilder</string>
 </resources>

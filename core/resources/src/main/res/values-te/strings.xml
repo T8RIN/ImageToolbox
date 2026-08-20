@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">SigLIP2 బేస్ డిటెక్టర్ నిజమైన మరియు AI-సృష్టించిన చిత్రాలను వేరు చేయడానికి మిరాజ్ వార్తల డేటాసెట్‌లో శిక్షణ పొందింది.</string>
     <string name="model_ai_detector_mirage_fp32">పూర్తి-ఖచ్చితమైన SigLIP2 బేస్ డిటెక్టర్ నిజమైన మరియు AI- రూపొందించిన చిత్రాలను వేరు చేయడానికి Mirage వార్తల డేటాసెట్‌పై శిక్షణ పొందింది.</string>
     <string name="import_palette">దిగుమతి పాలెట్</string>
+    <string name="gif_type_to_apng">GIF నుండి APNGకి</string>
+    <string name="gif_type_to_apng_sub">GIF చిత్రాలను APNG యానిమేటెడ్ చిత్రాలకు మార్చండి</string>
 </resources>

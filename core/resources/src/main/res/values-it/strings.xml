@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">Rilevatore SigLIP2 Base addestrato sul set di dati delle notizie Mirage per distinguere le immagini reali da quelle generate dall\'intelligenza artificiale.</string>
     <string name="model_ai_detector_mirage_fp32">Rilevatore Base SigLIP2 ad alta precisione addestrato sul set di dati delle notizie Mirage per distinguere le immagini reali da quelle generate dall\'intelligenza artificiale.</string>
     <string name="import_palette">Importa tavolozza</string>
+    <string name="gif_type_to_apng">GIF in APNG</string>
+    <string name="gif_type_to_apng_sub">Converti immagini GIF in immagini animate APNG</string>
 </resources>

@@ -4999,4 +4999,6 @@
     <string name="model_ai_detector_mirage">실제 이미지와 AI 생성 이미지를 구별하기 위해 Mirage 뉴스 데이터세트를 학습한 SigLIP2 기본 탐지기입니다.</string>
     <string name="model_ai_detector_mirage_fp32">실제 이미지와 AI 생성 이미지를 구별하기 위해 Mirage 뉴스 데이터세트에 대해 훈련된 완전 정밀도 SigLIP2 기본 감지기입니다.</string>
     <string name="import_palette">팔레트 가져오기</string>
+    <string name="gif_type_to_apng">GIF를 APNG로</string>
+    <string name="gif_type_to_apng_sub">GIF 이미지를 APNG 애니메이션 사진으로 변환</string>
 </resources>

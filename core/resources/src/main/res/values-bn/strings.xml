@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">SigLIP2 বেস ডিটেক্টর বাস্তব এবং এআই-উত্পন্ন চিত্রগুলিকে আলাদা করতে Mirage সংবাদ ডেটাসেটে প্রশিক্ষিত৷</string>
     <string name="model_ai_detector_mirage_fp32">সম্পূর্ণ-নির্ভুলতা SigLIP2 বেস ডিটেক্টর বাস্তব এবং AI-উত্পন্ন চিত্রগুলিকে আলাদা করার জন্য মিরাজের সংবাদ ডেটাসেটে প্রশিক্ষিত।</string>
     <string name="import_palette">প্যালেট আমদানি করুন</string>
+    <string name="gif_type_to_apng">APNG তে GIF</string>
+    <string name="gif_type_to_apng_sub">GIF ছবিগুলিকে APNG অ্যানিমেটেড ছবিতে রূপান্তর করুন৷</string>
 </resources>

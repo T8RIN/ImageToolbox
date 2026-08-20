@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
     <string name="model_ai_detector_mirage_fp32">पूर्ण-परिशुद्धता SigLIP2 बेस डिटेक्टर को वास्तविक और AI-जनरेटेड छवियों को अलग करने के लिए मिराज समाचार डेटासेट पर प्रशिक्षित किया गया है।</string>
     <string name="import_palette">पैलेट आयात करें</string>
+    <string name="gif_type_to_apng">जीआईएफ से एपीएनजी</string>
+    <string name="gif_type_to_apng_sub">GIF छवियों को APNG एनिमेटेड चित्रों में बदलें</string>
 </resources>

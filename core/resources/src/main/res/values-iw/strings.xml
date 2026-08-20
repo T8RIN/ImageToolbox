@@ -5002,4 +5002,6 @@
     <string name="model_ai_detector_mirage">גלאי בסיס SigLIP2 מאומן על מערך החדשות של Mirage כדי להבחין בין תמונות אמיתיות ותמונות שנוצרו בינה מלאכותית.</string>
     <string name="model_ai_detector_mirage_fp32">גלאי SigLIP2 Base דיוק מלא מאומן על מערך החדשות של Mirage כדי להבחין בין תמונות אמיתיות ותמונות שנוצרו בינה מלאכותית.</string>
     <string name="import_palette">פלטת ייבוא</string>
+    <string name="gif_type_to_apng">GIF ל-APNG</string>
+    <string name="gif_type_to_apng_sub">המר תמונות GIF לתמונות מונפשות מסוג APNG</string>
 </resources>

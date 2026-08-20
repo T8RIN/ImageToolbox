@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">Detector SigLIP2 Base entrenat en el conjunt de dades de notícies Mirage per distingir imatges reals i generades per IA.</string>
     <string name="model_ai_detector_mirage_fp32">Detector de base SigLIP2 de precisió completa entrenat en el conjunt de dades de notícies Mirage per distingir imatges reals i generades per IA.</string>
     <string name="import_palette">Importa paleta</string>
+    <string name="gif_type_to_apng">GIF a APNG</string>
+    <string name="gif_type_to_apng_sub">Converteix imatges GIF en imatges animades APNG</string>
 </resources>

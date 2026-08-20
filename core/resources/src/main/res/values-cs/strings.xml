@@ -5002,4 +5002,6 @@
     <string name="model_ai_detector_mirage">Detektor SigLIP2 Base trénoval na datovém souboru Mirage News, aby rozlišoval skutečné obrázky a obrázky generované AI.</string>
     <string name="model_ai_detector_mirage_fp32">Plně přesný detektor SigLIP2 Base trénovaný na datovém souboru Mirage News, aby rozlišoval skutečné obrázky a obrázky generované AI.</string>
     <string name="import_palette">Importovat paletu</string>
+    <string name="gif_type_to_apng">GIF do APNG</string>
+    <string name="gif_type_to_apng_sub">Převeďte obrázky GIF na animované obrázky APNG</string>
 </resources>

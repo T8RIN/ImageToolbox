@@ -5002,4 +5002,6 @@
     <string name="model_ai_detector_mirage">Базовий детектор SigLIP2, навчений на базі даних Mirage, щоб розрізняти реальні зображення та зображення, створені ШІ.</string>
     <string name="model_ai_detector_mirage_fp32">Повноточний детектор SigLIP2 Base, навчений на базі даних Mirage, щоб розрізняти реальні зображення та зображення, створені ШІ.</string>
     <string name="import_palette">Імпорт палітри</string>
+    <string name="gif_type_to_apng">GIF в APNG</string>
+    <string name="gif_type_to_apng_sub">Перетворіть зображення GIF на анімовані зображення APNG</string>
 </resources>

@@ -5004,4 +5004,6 @@
     <string name="model_ai_detector_mirage">تم تدريب كاشف SigLIP2 Base على مجموعة بيانات Mirage الإخبارية لتمييز الصور الحقيقية وتلك التي تم إنشاؤها بواسطة الذكاء الاصطناعي.</string>
     <string name="model_ai_detector_mirage_fp32">تم تدريب كاشف SigLIP2 Base عالي الدقة على مجموعة بيانات Mirage الإخبارية لتمييز الصور الحقيقية وتلك التي تم إنشاؤها بواسطة الذكاء الاصطناعي.</string>
     <string name="import_palette">استيراد لوحة</string>
+    <string name="gif_type_to_apng">GIF إلى APNG</string>
+    <string name="gif_type_to_apng_sub">تحويل صور GIF إلى صور APNG المتحركة</string>
 </resources>

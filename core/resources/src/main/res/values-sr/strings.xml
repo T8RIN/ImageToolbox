@@ -5001,4 +5001,6 @@
     <string name="model_ai_detector_mirage">СигЛИП2 Басе детектор обучен на скупу података Мираге вести да разликује стварне слике и слике генерисане вештачком интелигенцијом.</string>
     <string name="model_ai_detector_mirage_fp32">Потпуно прецизни СигЛИП2 Басе детектор обучен на скупу података Мираге вести да разликује стварне слике и слике генерисане вештачком интелигенцијом.</string>
     <string name="import_palette">Увоз палете</string>
+    <string name="gif_type_to_apng">ГИФ у АПНГ</string>
+    <string name="gif_type_to_apng_sub">Претворите ГИФ слике у АПНГ анимиране слике</string>
 </resources>

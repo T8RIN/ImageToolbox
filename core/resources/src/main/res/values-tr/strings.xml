@@ -5000,4 +5000,6 @@
     <string name="model_ai_detector_mirage">Gerçek ve yapay zeka tarafından oluşturulan görüntüleri ayırt etmek için Mirage haber veri seti üzerinde eğitilmiş SigLIP2 Base dedektörü.</string>
     <string name="model_ai_detector_mirage_fp32">Gerçek ve yapay zeka tarafından oluşturulan görüntüleri ayırt etmek için Mirage haber veri seti üzerinde eğitilmiş tam hassasiyetli SigLIP2 Base dedektörü.</string>
     <string name="import_palette">Paleti içe aktar</string>
+    <string name="gif_type_to_apng">GIF\'i APNG\'ye dönüştürme</string>
+    <string name="gif_type_to_apng_sub">GIF görüntülerini APNG animasyonlu resimlere dönüştürün</string>
 </resources>
