@@ -61,8 +61,11 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import oupson.apng.encoder.ApngEncoder
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
+private const val MIN_FRAME_DELAY_MILLIS = 10
 
 internal class AndroidGifConverter @Inject constructor(
     private val imageGetter: ImageGetter<Bitmap>,
@@ -327,6 +330,47 @@ internal class AndroidGifConverter @Inject constructor(
                 }
 
                 onProgress(uri, encoder.encode())
+            }
+        }
+    }
+
+    override suspend fun convertGifToApng(
+        gifUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        gifUris.forEach { uri ->
+            runSuspendCatching {
+                val decoder = GifDecoder().apply {
+                    read(requireNotNull(uri.bytes))
+                }
+                require(decoder.frameCount > 0)
+                decoder.advance()
+                val firstFrame = requireNotNull(decoder.nextFrame)
+                val output = ByteArrayOutputStream()
+                val encoder = ApngEncoder(
+                    outputStream = output,
+                    width = firstFrame.width,
+                    height = firstFrame.height,
+                    numberOfFrames = decoder.frameCount
+                ).apply {
+                    setEncodeAlpha(true)
+                    setOptimiseApng(false)
+                    setRepetitionCount(decoder.loopCount.coerceAtLeast(0))
+                }
+                encoder.writeFrame(
+                    btm = firstFrame,
+                    delay = decoder.nextDelay.coerceAtLeast(MIN_FRAME_DELAY_MILLIS).toFloat()
+                )
+                repeat(decoder.frameCount - 1) {
+                    currentCoroutineContext().ensureActive()
+                    decoder.advance()
+                    encoder.writeFrame(
+                        btm = requireNotNull(decoder.nextFrame),
+                        delay = decoder.nextDelay.coerceAtLeast(MIN_FRAME_DELAY_MILLIS).toFloat()
+                    )
+                }
+                encoder.writeEnd()
+                onProgress(uri, output.toByteArray())
             }
         }
     }

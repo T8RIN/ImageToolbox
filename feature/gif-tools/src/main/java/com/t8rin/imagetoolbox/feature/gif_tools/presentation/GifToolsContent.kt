@@ -112,6 +112,26 @@ fun GifToolsContent(
         }
     )
 
+    val pickMultipleGifToApngLauncher = rememberFilePicker(
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif()
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Rounded.Gif
+                    )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToApng(uris)
+                    )
+                }
+            }
+        }
+    )
+
     val pickMultipleGifToWebpLauncher = rememberFilePicker(
         mimeType = MimeType.Gif,
         onSuccess = { list: List<Uri> ->
@@ -147,6 +167,29 @@ fun GifToolsContent(
                     component.setType(
                         Screen.GifTools.Type.GifToJxl(
                             (component.type as? Screen.GifTools.Type.GifToJxl)?.gifUris?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
+            }
+        }
+    )
+
+    val addGifsToApngLauncher = rememberFilePicker(
+        mimeType = MimeType.Gif,
+        onSuccess = { list: List<Uri> ->
+            list.filter {
+                it.isGif()
+            }.let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_gif_image_to_start),
+                        icon = Icons.Rounded.Gif
+                    )
+                } else {
+                    component.setType(
+                        Screen.GifTools.Type.GifToApng(
+                            (component.type as? Screen.GifTools.Type.GifToApng)?.gifUris?.plus(uris)
                                 ?.distinct()
                         )
                     )
@@ -218,6 +261,7 @@ fun GifToolsContent(
         imagePreview = {
             GifToolsImagePreview(
                 component = component,
+                onAddGifsToApng = addGifsToApngLauncher::pickFile,
                 onAddGifsToJxl = addGifsToJxlLauncher::pickFile,
                 onAddGifsToWebp = addGifsToWebpLauncher::pickFile
             )
@@ -264,6 +308,7 @@ fun GifToolsContent(
                     when (component.type) {
                         is Screen.GifTools.Type.MergeGif -> pickMultipleGifToMergeLauncher.pickFile()
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
+                        is Screen.GifTools.Type.GifToApng -> pickMultipleGifToApngLauncher.pickFile()
                         is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.pickFile()
                         is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.pickFile()
                         else -> imagePicker.pickImage()
@@ -311,6 +356,7 @@ fun GifToolsContent(
                     when (type) {
                         is Screen.GifTools.Type.MergeGif -> pickMultipleGifToMergeLauncher.pickFile()
                         is Screen.GifTools.Type.GifToImage -> pickSingleGifLauncher.pickFile()
+                        is Screen.GifTools.Type.GifToApng -> pickMultipleGifToApngLauncher.pickFile()
                         is Screen.GifTools.Type.GifToJxl -> pickMultipleGifToJxlLauncher.pickFile()
                         is Screen.GifTools.Type.GifToWebp -> pickMultipleGifToWebpLauncher.pickFile()
                         is Screen.GifTools.Type.ImageToGif -> imagePicker.pickImage()
@@ -338,6 +384,7 @@ fun GifToolsContent(
 private val GifToolsComponent.canSave: Boolean
     get() = when (val type = type) {
         is Screen.GifTools.Type.MergeGif -> type.gifUris.orEmpty().size >= 2
+        is Screen.GifTools.Type.GifToApng -> type.gifUris.orEmpty().isNotEmpty()
         is Screen.GifTools.Type.GifToImage -> gifFrames == ImageFrames.All ||
                 (gifFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true
 

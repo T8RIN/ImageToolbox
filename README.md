@@ -1004,6 +1004,7 @@ or click one of the badges below.
 - GIF conversion
     - GIF to images
     - Images to GIF
+  - GIF to APNG
     - GIF to WEBP
     - Merge multiple GIFs into one animation
 - WEBP conversion

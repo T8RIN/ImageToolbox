@@ -104,6 +104,17 @@ internal fun GifToolsNoDataControls(
             }
         )
     }
+    val preference6 = @Composable {
+        PreferenceItem(
+            title = stringResource(types[5].title),
+            subtitle = stringResource(types[5].subtitle),
+            startIcon = types[5].icon,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                onClickType(types[5])
+            }
+        )
+    }
     if (isPortrait) {
         Column {
             preference1()
@@ -115,6 +126,8 @@ internal fun GifToolsNoDataControls(
             preference4()
             Spacer(modifier = Modifier.height(8.dp))
             preference5()
+            Spacer(modifier = Modifier.height(8.dp))
+            preference6()
         }
     } else {
         val cutout = WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal).asPaddingValues()
@@ -136,7 +149,8 @@ internal fun GifToolsNoDataControls(
             Spacer(modifier = Modifier.height(8.dp))
             Row {
                 preference5.withModifier(modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(8.dp))
+                preference6.withModifier(modifier = Modifier.weight(1f))
             }
         }
     }

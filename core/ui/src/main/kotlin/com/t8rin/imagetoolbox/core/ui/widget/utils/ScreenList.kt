@@ -77,6 +77,9 @@ internal fun List<Uri>.screenList(
                     )
                 ),
                 Screen.GifTools(
+                    Screen.GifTools.Type.GifToApng(uris)
+                ),
+                Screen.GifTools(
                     Screen.GifTools.Type.GifToJxl(uris)
                 ),
                 Screen.GifTools(

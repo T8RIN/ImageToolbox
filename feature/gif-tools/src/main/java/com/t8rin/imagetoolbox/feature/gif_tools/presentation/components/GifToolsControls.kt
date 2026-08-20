@@ -73,6 +73,8 @@ internal fun GifToolsControls(component: GifToolsComponent) {
             )
         }
 
+        is Screen.GifTools.Type.GifToApng -> Unit
+
         is Screen.GifTools.Type.GifToJxl -> {
             QualitySelector(
                 imageFormat = ImageFormat.Jxl.Lossy,

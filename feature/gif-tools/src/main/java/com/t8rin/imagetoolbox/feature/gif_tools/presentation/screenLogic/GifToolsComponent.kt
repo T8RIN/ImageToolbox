@@ -140,6 +140,10 @@ class GifToolsComponent @AssistedInject internal constructor(
                 _type.update { type }
             }
 
+            is Screen.GifTools.Type.GifToApng -> {
+                _type.update { type }
+            }
+
             is Screen.GifTools.Type.GifToJxl -> {
                 _type.update { type }
             }
@@ -340,6 +344,33 @@ class GifToolsComponent @AssistedInject internal constructor(
 
                 is Screen.GifTools.Type.ImageToGif -> Unit
 
+                is Screen.GifTools.Type.GifToApng -> {
+                    val results = mutableListOf<SaveResult>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToApng(
+                        gifUris = gifUris
+                    ) { uri, apngBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = ApngSaveTarget(uri, apngBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 is Screen.GifTools.Type.GifToJxl -> {
                     val results = mutableListOf<SaveResult>()
                     val gifUris = type.gifUris?.map {
@@ -402,6 +433,16 @@ class GifToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    private fun ApngSaveTarget(
+        uri: String,
+        apngBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = apngFilename(uri),
+        data = apngBytes,
+        imageFormat = ImageFormat.Png.Lossless
+    )
+
     private fun JxlSaveTarget(
         uri: String,
         jxlBytes: ByteArray
@@ -428,6 +469,22 @@ class GifToolsComponent @AssistedInject internal constructor(
         ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Webp.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun apngFilename(
+        uri: String
+    ): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Png.Lossless,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -564,6 +621,11 @@ class GifToolsComponent @AssistedInject internal constructor(
             extension = "jxl"
         ).takeIf { type.gifUris?.size == 1 }
 
+        is Screen.GifTools.Type.GifToApng -> FilenameSelectionData(
+            mimeType = MimeType.Apng,
+            extension = "png"
+        ).takeIf { type.gifUris?.size == 1 }
+
         is Screen.GifTools.Type.GifToWebp -> FilenameSelectionData(
             mimeType = MimeType.Webp,
             extension = "webp"
@@ -640,6 +702,32 @@ class GifToolsComponent @AssistedInject internal constructor(
                             )
                         }
                     }
+                }
+
+                is Screen.GifTools.Type.GifToApng -> {
+                    val results = mutableListOf<String?>()
+                    val gifUris = type.gifUris?.map {
+                        it.toString()
+                    } ?: emptyList()
+
+                    _left.value = gifUris.size
+                    gifConverter.convertGifToApng(
+                        gifUris = gifUris
+                    ) { uri, apngBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = apngBytes,
+                                filename = apngFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(
+                            done = done,
+                            total = left
+                        )
+                    }
+
+                    shareProvider.shareUris(results.filterNotNull())
                 }
 
                 is Screen.GifTools.Type.GifToJxl -> {

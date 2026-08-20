@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifTool
 @Composable
 internal fun GifToolsImagePreview(
     component: GifToolsComponent,
+    onAddGifsToApng: () -> Unit,
     onAddGifsToJxl: () -> Unit,
     onAddGifsToWebp: () -> Unit,
 ) {
@@ -63,6 +64,20 @@ internal fun GifToolsImagePreview(
                             onFrameSelectionChange = component::updateGifFrames,
                             isPortrait = isPortrait,
                             isLoadingImages = component.isLoadingGifImages
+                        )
+                    }
+
+                    is Screen.GifTools.Type.GifToApng -> {
+                        UrisPreview(
+                            modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                            uris = type.gifUris ?: emptyList(),
+                            isPortrait = true,
+                            onRemoveUri = {
+                                component.setType(
+                                    Screen.GifTools.Type.GifToApng(type.gifUris?.minus(it))
+                                )
+                            },
+                            onAddUris = onAddGifsToApng
                         )
                     }
 

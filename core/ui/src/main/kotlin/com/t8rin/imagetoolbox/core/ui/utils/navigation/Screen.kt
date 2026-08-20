@@ -705,6 +705,7 @@ sealed class Screen(
                 get() = when (this) {
                     is MergeGif -> Icons.Rounded.CompareArrows
                     is GifToImage -> Icons.Outlined.ArtTrack
+                    is GifToApng -> Icons.Rounded.Apng
                     is GifToJxl -> Icons.Filled.Jxl
                     is ImageToGif -> Icons.Rounded.Gif
                     is GifToWebp -> Icons.Rounded.Webp
@@ -743,6 +744,14 @@ sealed class Screen(
             )
 
             @Serializable
+            data class GifToApng(
+                val gifUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.gif_type_to_apng,
+                subtitle = R.string.gif_type_to_apng_sub
+            )
+
+            @Serializable
             data class GifToWebp(
                 val gifUris: List<Uri>? = null
             ) : Type(
@@ -755,6 +764,7 @@ sealed class Screen(
                     listOf(
                         ImageToGif(),
                         GifToImage(),
+                        GifToApng(),
                         GifToJxl(),
                         GifToWebp(),
                         MergeGif(),

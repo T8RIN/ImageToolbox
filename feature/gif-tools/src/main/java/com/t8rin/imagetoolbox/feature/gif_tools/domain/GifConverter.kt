@@ -52,6 +52,11 @@ interface GifConverter {
         onProgress: suspend (String, ByteArray) -> Unit
     )
 
+    suspend fun convertGifToApng(
+        gifUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
     suspend fun convertGifToWebp(
         gifUris: List<String>,
         quality: Quality.Base,
