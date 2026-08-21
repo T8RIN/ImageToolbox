@@ -5008,4 +5008,8 @@
     <string name="apng_type_to_gif_sub">המרת אנימציות APNG לתמונות GIF</string>
     <string name="webp_type_to_gif">WEBP ל-GIF</string>
     <string name="webp_type_to_gif_sub">המרת אנימציות WEBP לתמונות GIF</string>
+    <string name="apng_type_to_webp">APNG ל-WEBP</string>
+    <string name="apng_type_to_webp_sub">המרת אנימציות APNG לתמונות WEBP</string>
+    <string name="webp_type_to_apng">WEBP ל-APNG</string>
+    <string name="webp_type_to_apng_sub">המרת אנימציות WEBP לתמונות APNG</string>
 </resources>

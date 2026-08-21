@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">एपीएनजी एनिमेशन को जीआईएफ छवियों में बदलें</string>
     <string name="webp_type_to_gif">WEBP से GIF</string>
     <string name="webp_type_to_gif_sub">WEBP एनिमेशन को GIF छवियों में बदलें</string>
+    <string name="apng_type_to_webp">APNG से WEBP</string>
+    <string name="apng_type_to_webp_sub">APNG एनिमेशन को WEBP छवियों में बदलें</string>
+    <string name="webp_type_to_apng">वेबपी से एपीएनजी</string>
+    <string name="webp_type_to_apng_sub">WEBP एनिमेशन को APNG छवियों में बदलें</string>
 </resources>

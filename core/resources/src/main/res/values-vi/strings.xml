@@ -5005,4 +5005,8 @@
     <string name="apng_type_to_gif_sub">Chuyển đổi hình ảnh động APNG thành hình ảnh GIF</string>
     <string name="webp_type_to_gif">WEBP sang GIF</string>
     <string name="webp_type_to_gif_sub">Chuyển đổi hình ảnh động WEBP thành hình ảnh GIF</string>
+    <string name="apng_type_to_webp">APNG sang WEBP</string>
+    <string name="apng_type_to_webp_sub">Chuyển đổi hình ảnh động APNG thành hình ảnh WEBP</string>
+    <string name="webp_type_to_apng">WEBP sang APNG</string>
+    <string name="webp_type_to_apng_sub">Chuyển đổi hình ảnh động WEBP thành hình ảnh APNG</string>
 </resources>

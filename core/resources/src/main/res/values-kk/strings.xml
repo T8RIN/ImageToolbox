@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">APNG анимацияларын GIF кескіндеріне түрлендіру</string>
     <string name="webp_type_to_gif">WEBP-ден GIF-ке дейін</string>
     <string name="webp_type_to_gif_sub">WEBP анимацияларын GIF кескіндеріне түрлендіру</string>
+    <string name="apng_type_to_webp">APNG-ден WEBP-ге</string>
+    <string name="apng_type_to_webp_sub">APNG анимацияларын WEBP кескіндеріне түрлендіру</string>
+    <string name="webp_type_to_apng">WEBP - APNG</string>
+    <string name="webp_type_to_apng_sub">WEBP анимацияларын APNG кескіндеріне түрлендіру</string>
 </resources>

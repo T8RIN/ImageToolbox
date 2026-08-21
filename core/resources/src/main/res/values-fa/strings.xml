@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">انیمیشن های APNG را به تصاویر GIF تبدیل کنید</string>
     <string name="webp_type_to_gif">WEBP به GIF</string>
     <string name="webp_type_to_gif_sub">انیمیشن های WEBP را به تصاویر GIF تبدیل کنید</string>
+    <string name="apng_type_to_webp">APNG به WEBP</string>
+    <string name="apng_type_to_webp_sub">انیمیشن های APNG را به تصاویر WEBP تبدیل کنید</string>
+    <string name="webp_type_to_apng">WEBP به APNG</string>
+    <string name="webp_type_to_apng_sub">انیمیشن های WEBP را به تصاویر APNG تبدیل کنید</string>
 </resources>

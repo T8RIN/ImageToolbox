@@ -5008,4 +5008,8 @@
     <string name="apng_type_to_gif_sub">Пераўтварыце анімацыю APNG у выявы GIF</string>
     <string name="webp_type_to_gif">WEBP ў GIF</string>
     <string name="webp_type_to_gif_sub">Пераўтварыце анімацыю WEBP у выявы GIF</string>
+    <string name="apng_type_to_webp">APNG ў WEBP</string>
+    <string name="apng_type_to_webp_sub">Пераўтварыце анімацыю APNG у выявы WEBP</string>
+    <string name="webp_type_to_apng">WEBP ў APNG</string>
+    <string name="webp_type_to_apng_sub">Пераўтварыце анімацыю WEBP у выявы APNG</string>
 </resources>

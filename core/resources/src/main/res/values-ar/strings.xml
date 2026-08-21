@@ -5010,4 +5010,8 @@
     <string name="apng_type_to_gif_sub">تحويل الرسوم المتحركة APNG إلى صور GIF</string>
     <string name="webp_type_to_gif">WEBP إلى GIF</string>
     <string name="webp_type_to_gif_sub">تحويل الرسوم المتحركة WEBP إلى صور GIF</string>
+    <string name="apng_type_to_webp">APNG إلى WEBP</string>
+    <string name="apng_type_to_webp_sub">تحويل الرسوم المتحركة APNG إلى صور WEBP</string>
+    <string name="webp_type_to_apng">WEBP إلى APNG</string>
+    <string name="webp_type_to_apng_sub">تحويل الرسوم المتحركة WEBP إلى صور APNG</string>
 </resources>

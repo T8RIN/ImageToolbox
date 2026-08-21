@@ -5005,4 +5005,8 @@
     <string name="apng_type_to_gif_sub">将 APNG 动画转换为 GIF 图像</string>
     <string name="webp_type_to_gif">WEBP 转 GIF</string>
     <string name="webp_type_to_gif_sub">将 WEBP 动画转换为 GIF 图像</string>
+    <string name="apng_type_to_webp">APNG 转 WEBP</string>
+    <string name="apng_type_to_webp_sub">将 APNG 动画转换为 WEBP 图像</string>
+    <string name="webp_type_to_apng">WEBP 转 APNG</string>
+    <string name="webp_type_to_apng_sub">将 WEBP 动画转换为 APNG 图像</string>
 </resources>

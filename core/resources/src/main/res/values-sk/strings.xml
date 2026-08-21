@@ -5008,4 +5008,8 @@
     <string name="apng_type_to_gif_sub">Preveďte animácie APNG na obrázky GIF</string>
     <string name="webp_type_to_gif">Z WEBP na GIF</string>
     <string name="webp_type_to_gif_sub">Prevod animácií WEBP na obrázky GIF</string>
+    <string name="apng_type_to_webp">APNG na WEBP</string>
+    <string name="apng_type_to_webp_sub">Preveďte animácie APNG na obrázky WEBP</string>
+    <string name="webp_type_to_apng">WEBP na APNG</string>
+    <string name="webp_type_to_apng_sub">Prevod animácií WEBP na obrázky APNG</string>
 </resources>

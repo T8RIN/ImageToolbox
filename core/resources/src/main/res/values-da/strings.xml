@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">Konverter APNG-animationer til GIF-billeder</string>
     <string name="webp_type_to_gif">WEBP til GIF</string>
     <string name="webp_type_to_gif_sub">Konverter WEBP-animationer til GIF-billeder</string>
+    <string name="apng_type_to_webp">APNG til WEBP</string>
+    <string name="apng_type_to_webp_sub">Konverter APNG-animationer til WEBP-billeder</string>
+    <string name="webp_type_to_apng">WEBP til APNG</string>
+    <string name="webp_type_to_apng_sub">Konverter WEBP-animationer til APNG-billeder</string>
 </resources>

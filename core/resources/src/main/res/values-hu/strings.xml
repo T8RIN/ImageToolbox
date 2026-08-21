@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">APNG-animációk konvertálása GIF-képekké</string>
     <string name="webp_type_to_gif">WEBP-ből GIF-be</string>
     <string name="webp_type_to_gif_sub">Konvertálja a WEBP-animációkat GIF-képekké</string>
+    <string name="apng_type_to_webp">APNG a WEBP-re</string>
+    <string name="apng_type_to_webp_sub">APNG-animációk konvertálása WEBP-képekké</string>
+    <string name="webp_type_to_apng">WEBP-ről APNG-re</string>
+    <string name="webp_type_to_apng_sub">Konvertálja a WEBP-animációkat APNG-képekké</string>
 </resources>

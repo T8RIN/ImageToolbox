@@ -5006,4 +5006,8 @@
     <string name="apng_type_to_gif_sub">APNG యానిమేషన్‌లను GIF చిత్రాలకు మార్చండి</string>
     <string name="webp_type_to_gif">WEBP నుండి GIF</string>
     <string name="webp_type_to_gif_sub">WEBP యానిమేషన్‌లను GIF చిత్రాలకు మార్చండి</string>
+    <string name="apng_type_to_webp">APNG నుండి WEBPకి</string>
+    <string name="apng_type_to_webp_sub">APNG యానిమేషన్‌లను WEBP చిత్రాలకు మార్చండి</string>
+    <string name="webp_type_to_apng">WEBP నుండి APNG</string>
+    <string name="webp_type_to_apng_sub">WEBP యానిమేషన్‌లను APNG చిత్రాలకు మార్చండి</string>
 </resources>

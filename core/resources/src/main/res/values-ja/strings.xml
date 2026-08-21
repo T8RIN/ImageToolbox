@@ -5005,4 +5005,8 @@
     <string name="apng_type_to_gif_sub" />
     <string name="webp_type_to_gif">WEBPからGIFへ</string>
     <string name="webp_type_to_gif_sub" />
+    <string name="apng_type_to_webp">APNGからWEBPへ</string>
+    <string name="apng_type_to_webp_sub">APNG アニメーションを WEBP 画像に変換する</string>
+    <string name="webp_type_to_apng">WEBPからAPNGへの変換</string>
+    <string name="webp_type_to_apng_sub">WEBP アニメーションを APNG 画像に変換する</string>
 </resources>

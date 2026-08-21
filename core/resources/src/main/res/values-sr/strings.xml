@@ -5007,4 +5007,8 @@
     <string name="apng_type_to_gif_sub">Претворите АПНГ анимације у ГИФ слике</string>
     <string name="webp_type_to_gif">ВЕБП у ГИФ</string>
     <string name="webp_type_to_gif_sub">Претворите ВЕБП анимације у ГИФ слике</string>
+    <string name="apng_type_to_webp">АПНГ у ВЕБП</string>
+    <string name="apng_type_to_webp_sub">Претворите АПНГ анимације у ВЕБП слике</string>
+    <string name="webp_type_to_apng">ВЕБП у АПНГ</string>
+    <string name="webp_type_to_apng_sub">Претворите ВЕБП анимације у АПНГ слике</string>
 </resources>

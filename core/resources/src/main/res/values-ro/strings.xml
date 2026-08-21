@@ -5007,4 +5007,8 @@
     <string name="apng_type_to_gif_sub">Convertiți animațiile APNG în imagini GIF</string>
     <string name="webp_type_to_gif">WEBP în GIF</string>
     <string name="webp_type_to_gif_sub">Convertiți animațiile WEBP în imagini GIF</string>
+    <string name="apng_type_to_webp">APNG la WEBP</string>
+    <string name="apng_type_to_webp_sub">Convertiți animațiile APNG în imagini WEBP</string>
+    <string name="webp_type_to_apng">WEBP la APNG</string>
+    <string name="webp_type_to_apng_sub">Convertiți animațiile WEBP în imagini APNG</string>
 </resources>

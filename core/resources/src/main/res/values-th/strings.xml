@@ -5005,4 +5005,8 @@
     <string name="apng_type_to_gif_sub">แปลงภาพเคลื่อนไหว APNG เป็นภาพ GIF</string>
     <string name="webp_type_to_gif">WEBP เป็น GIF</string>
     <string name="webp_type_to_gif_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ GIF</string>
+    <string name="apng_type_to_webp">APNG เป็น WEBP</string>
+    <string name="apng_type_to_webp_sub">แปลงภาพเคลื่อนไหว APNG เป็นภาพ WEBP</string>
+    <string name="webp_type_to_apng">WEBP เป็น APNG</string>
+    <string name="webp_type_to_apng_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ APNG</string>
 </resources>
