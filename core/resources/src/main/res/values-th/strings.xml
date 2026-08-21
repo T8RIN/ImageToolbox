@@ -5001,4 +5001,8 @@
     <string name="import_palette">นำเข้าจานสี</string>
     <string name="gif_type_to_apng">GIF เป็น APNG</string>
     <string name="gif_type_to_apng_sub">แปลงภาพ GIF เป็นภาพเคลื่อนไหว APNG</string>
+    <string name="apng_type_to_gif">APNG เป็น GIF</string>
+    <string name="apng_type_to_gif_sub">แปลงภาพเคลื่อนไหว APNG เป็นภาพ GIF</string>
+    <string name="webp_type_to_gif">WEBP เป็น GIF</string>
+    <string name="webp_type_to_gif_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ GIF</string>
 </resources>

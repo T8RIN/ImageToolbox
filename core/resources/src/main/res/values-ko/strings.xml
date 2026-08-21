@@ -5001,4 +5001,8 @@
     <string name="import_palette">팔레트 가져오기</string>
     <string name="gif_type_to_apng">GIF를 APNG로</string>
     <string name="gif_type_to_apng_sub">GIF 이미지를 APNG 애니메이션 사진으로 변환</string>
+    <string name="apng_type_to_gif">APNG 에서 GIF로</string>
+    <string name="apng_type_to_gif_sub">APNG 애니메이션을 GIF 이미지로 변환</string>
+    <string name="webp_type_to_gif">WEBP에서 GIF로</string>
+    <string name="webp_type_to_gif_sub">WEBP 애니메이션을 GIF 이미지로 변환</string>
 </resources>

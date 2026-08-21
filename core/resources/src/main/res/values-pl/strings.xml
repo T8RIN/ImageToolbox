@@ -5004,4 +5004,8 @@
     <string name="import_palette">Importuj paletę</string>
     <string name="gif_type_to_apng">GIF do APNG</string>
     <string name="gif_type_to_apng_sub">Konwertuj obrazy GIF na animowane obrazy APNG</string>
+    <string name="apng_type_to_gif">APNG do GIF</string>
+    <string name="apng_type_to_gif_sub">Konwertuj animacje APNG na obrazy GIF</string>
+    <string name="webp_type_to_gif">WEBP do GIF</string>
+    <string name="webp_type_to_gif_sub">Konwertuj animacje WEBP na obrazy GIF</string>
 </resources>

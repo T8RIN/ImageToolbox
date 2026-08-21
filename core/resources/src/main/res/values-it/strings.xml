@@ -5002,4 +5002,8 @@
     <string name="import_palette">Importa tavolozza</string>
     <string name="gif_type_to_apng">GIF in APNG</string>
     <string name="gif_type_to_apng_sub">Converti immagini GIF in immagini animate APNG</string>
+    <string name="apng_type_to_gif">Da APNG a GIF</string>
+    <string name="apng_type_to_gif_sub">Converti animazioni APNG in immagini GIF</string>
+    <string name="webp_type_to_gif">Da WEBP a GIF</string>
+    <string name="webp_type_to_gif_sub">Converti animazioni WEBP in immagini GIF</string>
 </resources>

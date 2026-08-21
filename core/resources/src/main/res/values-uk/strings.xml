@@ -5004,4 +5004,8 @@
     <string name="import_palette">Імпорт палітри</string>
     <string name="gif_type_to_apng">GIF в APNG</string>
     <string name="gif_type_to_apng_sub">Перетворіть зображення GIF на анімовані зображення APNG</string>
+    <string name="apng_type_to_gif">APNG в GIF</string>
+    <string name="apng_type_to_gif_sub">Перетворіть анімацію APNG на зображення GIF</string>
+    <string name="webp_type_to_gif">WEBP в GIF</string>
+    <string name="webp_type_to_gif_sub">Перетворіть анімацію WEBP на зображення GIF</string>
 </resources>

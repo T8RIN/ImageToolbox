@@ -5002,4 +5002,8 @@
     <string name="import_palette">Tuo paletti</string>
     <string name="gif_type_to_apng">GIF:stä APNG:hen</string>
     <string name="gif_type_to_apng_sub">Muunna GIF-kuvat APNG-animoiduiksi kuviksi</string>
+    <string name="apng_type_to_gif">APNG GIF:ksi</string>
+    <string name="apng_type_to_gif_sub">Muunna APNG-animaatiot GIF-kuviksi</string>
+    <string name="webp_type_to_gif">WEBP:stä GIF:iin</string>
+    <string name="webp_type_to_gif_sub">Muunna WEBP-animaatiot GIF-kuviksi</string>
 </resources>

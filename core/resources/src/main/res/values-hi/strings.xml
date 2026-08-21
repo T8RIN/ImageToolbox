@@ -5002,4 +5002,8 @@
     <string name="import_palette">पैलेट आयात करें</string>
     <string name="gif_type_to_apng">जीआईएफ से एपीएनजी</string>
     <string name="gif_type_to_apng_sub">GIF छवियों को APNG एनिमेटेड चित्रों में बदलें</string>
+    <string name="apng_type_to_gif">एपीएनजी से जीआईएफ</string>
+    <string name="apng_type_to_gif_sub">एपीएनजी एनिमेशन को जीआईएफ छवियों में बदलें</string>
+    <string name="webp_type_to_gif">WEBP से GIF</string>
+    <string name="webp_type_to_gif_sub">WEBP एनिमेशन को GIF छवियों में बदलें</string>
 </resources>

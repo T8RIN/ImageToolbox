@@ -5001,4 +5001,8 @@
     <string name="import_palette">导入调色板</string>
     <string name="gif_type_to_apng">GIF 转 APNG</string>
     <string name="gif_type_to_apng_sub">将 GIF 图像转换为 APNG 动画图片</string>
+    <string name="apng_type_to_gif">APNG 转 GIF</string>
+    <string name="apng_type_to_gif_sub">将 APNG 动画转换为 GIF 图像</string>
+    <string name="webp_type_to_gif">WEBP 转 GIF</string>
+    <string name="webp_type_to_gif_sub">将 WEBP 动画转换为 GIF 图像</string>
 </resources>

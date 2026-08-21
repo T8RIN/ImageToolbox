@@ -5001,4 +5001,8 @@
     <string name="import_palette">Impor palet</string>
     <string name="gif_type_to_apng">GIF ke APNG</string>
     <string name="gif_type_to_apng_sub">Konversi gambar GIF menjadi gambar animasi APNG</string>
+    <string name="apng_type_to_gif">APNG ke GIF</string>
+    <string name="apng_type_to_gif_sub">Ubah animasi APNG menjadi gambar GIF</string>
+    <string name="webp_type_to_gif">WEBP ke GIF</string>
+    <string name="webp_type_to_gif_sub">Ubah animasi WEBP menjadi gambar GIF</string>
 </resources>

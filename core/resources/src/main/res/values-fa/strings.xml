@@ -5002,4 +5002,8 @@
     <string name="import_palette">پالت وارداتی</string>
     <string name="gif_type_to_apng">GIF به APNG</string>
     <string name="gif_type_to_apng_sub">تبدیل تصاویر GIF به تصاویر متحرک APNG</string>
+    <string name="apng_type_to_gif">APNG به GIF</string>
+    <string name="apng_type_to_gif_sub">انیمیشن های APNG را به تصاویر GIF تبدیل کنید</string>
+    <string name="webp_type_to_gif">WEBP به GIF</string>
+    <string name="webp_type_to_gif_sub">انیمیشن های WEBP را به تصاویر GIF تبدیل کنید</string>
 </resources>

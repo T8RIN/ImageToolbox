@@ -5004,4 +5004,8 @@
     <string name="import_palette">פלטת ייבוא</string>
     <string name="gif_type_to_apng">GIF ל-APNG</string>
     <string name="gif_type_to_apng_sub">המר תמונות GIF לתמונות מונפשות מסוג APNG</string>
+    <string name="apng_type_to_gif">APNG ל-GIF</string>
+    <string name="apng_type_to_gif_sub">המרת אנימציות APNG לתמונות GIF</string>
+    <string name="webp_type_to_gif">WEBP ל-GIF</string>
+    <string name="webp_type_to_gif_sub">המרת אנימציות WEBP לתמונות GIF</string>
 </resources>

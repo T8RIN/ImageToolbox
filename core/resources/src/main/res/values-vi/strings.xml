@@ -5001,4 +5001,8 @@
     <string name="import_palette">Nhập bảng màu</string>
     <string name="gif_type_to_apng">GIF sang APNG</string>
     <string name="gif_type_to_apng_sub">Chuyển đổi ảnh GIF sang ảnh động APNG</string>
+    <string name="apng_type_to_gif">APNG sang GIF</string>
+    <string name="apng_type_to_gif_sub">Chuyển đổi hình ảnh động APNG thành hình ảnh GIF</string>
+    <string name="webp_type_to_gif">WEBP sang GIF</string>
+    <string name="webp_type_to_gif_sub">Chuyển đổi hình ảnh động WEBP thành hình ảnh GIF</string>
 </resources>

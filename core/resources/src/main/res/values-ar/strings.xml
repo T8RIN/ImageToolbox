@@ -5006,4 +5006,8 @@
     <string name="import_palette">استيراد لوحة</string>
     <string name="gif_type_to_apng">GIF إلى APNG</string>
     <string name="gif_type_to_apng_sub">تحويل صور GIF إلى صور APNG المتحركة</string>
+    <string name="apng_type_to_gif">APNG إلى GIF</string>
+    <string name="apng_type_to_gif_sub">تحويل الرسوم المتحركة APNG إلى صور GIF</string>
+    <string name="webp_type_to_gif">WEBP إلى GIF</string>
+    <string name="webp_type_to_gif_sub">تحويل الرسوم المتحركة WEBP إلى صور GIF</string>
 </resources>

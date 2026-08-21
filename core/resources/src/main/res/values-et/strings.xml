@@ -5002,4 +5002,8 @@
     <string name="import_palette">Impordi palett</string>
     <string name="gif_type_to_apng">GIF-ist APNG-le</string>
     <string name="gif_type_to_apng_sub">Teisendage GIF-pildid APNG-animeeritud piltideks</string>
+    <string name="apng_type_to_gif">APNG GIF-iks</string>
+    <string name="apng_type_to_gif_sub">Teisendage APNG-animatsioonid GIF-piltideks</string>
+    <string name="webp_type_to_gif">WEBP-st GIF-i</string>
+    <string name="webp_type_to_gif_sub">Teisendage WEBP-animatsioonid GIF-piltideks</string>
 </resources>

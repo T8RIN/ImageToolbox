@@ -5002,4 +5002,8 @@
     <string name="import_palette">Paleti içe aktar</string>
     <string name="gif_type_to_apng">GIF\'i APNG\'ye dönüştürme</string>
     <string name="gif_type_to_apng_sub">GIF görüntülerini APNG animasyonlu resimlere dönüştürün</string>
+    <string name="apng_type_to_gif">APNG\'den GIF\'ye dönüştürücü</string>
+    <string name="apng_type_to_gif_sub">APNG animasyonlarını GIF görsellerine dönüştürün</string>
+    <string name="webp_type_to_gif">WEBP\'den GIF\'ye dönüştürücü</string>
+    <string name="webp_type_to_gif_sub">WEBP animasyonlarını GIF resimlerine dönüştürün</string>
 </resources>

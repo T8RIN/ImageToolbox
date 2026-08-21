@@ -5002,4 +5002,8 @@
     <string name="import_palette">Palette importieren</string>
     <string name="gif_type_to_apng">GIF zu APNG</string>
     <string name="gif_type_to_apng_sub">Konvertieren Sie GIF-Bilder in APNG-animierte Bilder</string>
+    <string name="apng_type_to_gif">APNG zu GIF</string>
+    <string name="apng_type_to_gif_sub">Konvertieren Sie APNG-Animationen in GIF-Bilder</string>
+    <string name="webp_type_to_gif">WEBP zu GIF</string>
+    <string name="webp_type_to_gif_sub">Konvertieren Sie WEBP-Animationen in GIF-Bilder</string>
 </resources>

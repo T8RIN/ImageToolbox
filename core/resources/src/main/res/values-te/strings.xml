@@ -5002,4 +5002,8 @@
     <string name="import_palette">దిగుమతి పాలెట్</string>
     <string name="gif_type_to_apng">GIF నుండి APNGకి</string>
     <string name="gif_type_to_apng_sub">GIF చిత్రాలను APNG యానిమేటెడ్ చిత్రాలకు మార్చండి</string>
+    <string name="apng_type_to_gif">APNG నుండి GIFకి</string>
+    <string name="apng_type_to_gif_sub">APNG యానిమేషన్‌లను GIF చిత్రాలకు మార్చండి</string>
+    <string name="webp_type_to_gif">WEBP నుండి GIF</string>
+    <string name="webp_type_to_gif_sub">WEBP యానిమేషన్‌లను GIF చిత్రాలకు మార్చండి</string>
 </resources>

@@ -5001,4 +5001,8 @@
     <string name="import_palette">インポートパレット</string>
     <string name="gif_type_to_apng">GIFからAPNGへ</string>
     <string name="gif_type_to_apng_sub">GIF画像をAPNGアニメーション画像に変換</string>
+    <string name="apng_type_to_gif">APNGからGIFへ</string>
+    <string name="apng_type_to_gif_sub" />
+    <string name="webp_type_to_gif">WEBPからGIFへ</string>
+    <string name="webp_type_to_gif_sub" />
 </resources>

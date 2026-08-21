@@ -5002,4 +5002,8 @@
     <string name="import_palette">தட்டு இறக்குமதி</string>
     <string name="gif_type_to_apng">GIF முதல் APNG வரை</string>
     <string name="gif_type_to_apng_sub">GIF படங்களை APNG அனிமேஷன் படங்களாக மாற்றவும்</string>
+    <string name="apng_type_to_gif">APNG முதல் GIF வரை</string>
+    <string name="apng_type_to_gif_sub">APNG அனிமேஷன்களை GIF படங்களாக மாற்றவும்</string>
+    <string name="webp_type_to_gif">WEBP முதல் GIF வரை</string>
+    <string name="webp_type_to_gif_sub">WEBP அனிமேஷன்களை GIF படங்களாக மாற்றவும்</string>
 </resources>

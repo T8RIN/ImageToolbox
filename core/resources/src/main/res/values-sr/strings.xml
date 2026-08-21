@@ -5003,4 +5003,8 @@
     <string name="import_palette">Увоз палете</string>
     <string name="gif_type_to_apng">ГИФ у АПНГ</string>
     <string name="gif_type_to_apng_sub">Претворите ГИФ слике у АПНГ анимиране слике</string>
+    <string name="apng_type_to_gif">АПНГ у ГИФ</string>
+    <string name="apng_type_to_gif_sub">Претворите АПНГ анимације у ГИФ слике</string>
+    <string name="webp_type_to_gif">ВЕБП у ГИФ</string>
+    <string name="webp_type_to_gif_sub">Претворите ВЕБП анимације у ГИФ слике</string>
 </resources>

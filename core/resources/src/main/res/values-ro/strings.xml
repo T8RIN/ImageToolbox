@@ -5003,4 +5003,8 @@
     <string name="import_palette">Import paleta</string>
     <string name="gif_type_to_apng">GIF în APNG</string>
     <string name="gif_type_to_apng_sub">Convertiți imagini GIF în imagini animate APNG</string>
+    <string name="apng_type_to_gif">APNG în GIF</string>
+    <string name="apng_type_to_gif_sub">Convertiți animațiile APNG în imagini GIF</string>
+    <string name="webp_type_to_gif">WEBP în GIF</string>
+    <string name="webp_type_to_gif_sub">Convertiți animațiile WEBP în imagini GIF</string>
 </resources>

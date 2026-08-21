@@ -5002,4 +5002,8 @@
     <string name="import_palette">Import paletta</string>
     <string name="gif_type_to_apng">GIF-ből APNG-be</string>
     <string name="gif_type_to_apng_sub">GIF-képek konvertálása APNG-animált képekké</string>
+    <string name="apng_type_to_gif">APNG GIF-re</string>
+    <string name="apng_type_to_gif_sub">APNG-animációk konvertálása GIF-képekké</string>
+    <string name="webp_type_to_gif">WEBP-ből GIF-be</string>
+    <string name="webp_type_to_gif_sub">Konvertálja a WEBP-animációkat GIF-képekké</string>
 </resources>

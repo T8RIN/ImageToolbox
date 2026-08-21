@@ -5002,4 +5002,8 @@
     <string name="import_palette">Импорт палитрасы</string>
     <string name="gif_type_to_apng">GIF-тен APNG-ге</string>
     <string name="gif_type_to_apng_sub">GIF кескіндерін APNG анимациялық суреттеріне түрлендіру</string>
+    <string name="apng_type_to_gif">APNG-ден GIF-ке</string>
+    <string name="apng_type_to_gif_sub">APNG анимацияларын GIF кескіндеріне түрлендіру</string>
+    <string name="webp_type_to_gif">WEBP-ден GIF-ке дейін</string>
+    <string name="webp_type_to_gif_sub">WEBP анимацияларын GIF кескіндеріне түрлендіру</string>
 </resources>

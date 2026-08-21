@@ -5004,4 +5004,8 @@
     <string name="import_palette">Importo paletė</string>
     <string name="gif_type_to_apng">GIF į APNG</string>
     <string name="gif_type_to_apng_sub">Konvertuokite GIF vaizdus į APNG animuotas nuotraukas</string>
+    <string name="apng_type_to_gif">APNG į GIF</string>
+    <string name="apng_type_to_gif_sub">Konvertuokite APNG animacijas į GIF vaizdus</string>
+    <string name="webp_type_to_gif">WEBP į GIF</string>
+    <string name="webp_type_to_gif_sub">Konvertuokite WEBP animacijas į GIF vaizdus</string>
 </resources>

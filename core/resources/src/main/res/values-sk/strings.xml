@@ -5004,4 +5004,8 @@
     <string name="import_palette">Importovať paletu</string>
     <string name="gif_type_to_apng">GIF do APNG</string>
     <string name="gif_type_to_apng_sub">Prevod obrázkov GIF na animované obrázky APNG</string>
+    <string name="apng_type_to_gif">APNG na GIF</string>
+    <string name="apng_type_to_gif_sub">Preveďte animácie APNG na obrázky GIF</string>
+    <string name="webp_type_to_gif">Z WEBP na GIF</string>
+    <string name="webp_type_to_gif_sub">Prevod animácií WEBP na obrázky GIF</string>
 </resources>
