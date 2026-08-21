@@ -48,4 +48,10 @@ interface ApngConverter {
         onProgress: suspend (String, ByteArray) -> Unit
     )
 
+    suspend fun convertApngToWebp(
+        apngUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
 }

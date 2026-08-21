@@ -1011,10 +1011,12 @@ or click one of the badges below.
     - WEBP to images
     - Images to WEBP
   - WEBP to GIF
+  - WEBP to APNG
 - APNG conversion
     - APNG to images
     - Images to APNG
   - APNG to GIF
+  - APNG to WEBP
 - JXL transcoding
     - JXL to JPEG
     - JPEG to JXL

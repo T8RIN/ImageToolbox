@@ -115,6 +115,9 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private val _gifQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base(50))
     val gifQuality by _gifQuality
 
+    private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
+    val webpQuality by _webpQuality
+
     private var _outputApngUri: String? = null
 
     fun setType(type: Screen.ApngTools.Type) {
@@ -132,6 +135,10 @@ class ApngToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.ApngTools.Type.ApngToGif -> {
+                _type.update { type }
+            }
+
+            is Screen.ApngTools.Type.ApngToWebp -> {
                 _type.update { type }
             }
         }
@@ -337,6 +344,29 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.ApngTools.Type.ApngToWebp -> {
+                    val results = mutableListOf<SaveResult>()
+                    val apngUris = type.apngUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = apngUris.size
+                    apngConverter.convertApngToWebp(
+                        apngUris = apngUris,
+                        quality = webpQuality
+                    ) { uri, webpBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = WebpSaveTarget(uri, webpBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -363,6 +393,16 @@ class ApngToolsComponent @AssistedInject internal constructor(
         imageFormat = ImageFormat.Gif
     )
 
+    private fun WebpSaveTarget(
+        uri: String,
+        webpBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = webpFilename(uri),
+        data = webpBytes,
+        imageFormat = ImageFormat.Webp.Lossless
+    )
+
     private fun jxlFilename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
@@ -383,6 +423,20 @@ class ApngToolsComponent @AssistedInject internal constructor(
         ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Gif,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun webpFilename(uri: String): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Webp.Lossless,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -461,6 +515,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
             extension = "gif"
         ).takeIf { type.apngUris?.size == 1 }
 
+        is Screen.ApngTools.Type.ApngToWebp -> FilenameSelectionData(
+            mimeType = MimeType.Webp,
+            extension = "webp"
+        ).takeIf { type.apngUris?.size == 1 }
+
         else -> null
     }
 
@@ -492,6 +551,13 @@ class ApngToolsComponent @AssistedInject internal constructor(
     fun setGifQuality(quality: Quality) {
         _gifQuality.update {
             (quality as? Quality.Base) ?: Quality.Base(50)
+        }
+        registerChanges()
+    }
+
+    fun setWebpQuality(quality: Quality) {
+        _webpQuality.update {
+            (quality as? Quality.Base) ?: Quality.Base()
         }
         registerChanges()
     }
@@ -585,6 +651,28 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.ApngTools.Type.ApngToWebp -> {
+                    val results = mutableListOf<String?>()
+                    val apngUris = type.apngUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = apngUris.size
+                    apngConverter.convertApngToWebp(
+                        apngUris = apngUris,
+                        quality = webpQuality
+                    ) { uri, webpBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = webpBytes,
+                                filename = webpFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    onComplete(results.mapNotNull { it?.toUri() })
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -595,6 +683,7 @@ class ApngToolsComponent @AssistedInject internal constructor(
         get() = when (val type = type) {
             is Screen.ApngTools.Type.ApngToGif -> type.apngUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ApngToJxl -> type.apngUris.orEmpty().isNotEmpty()
+            is Screen.ApngTools.Type.ApngToWebp -> type.apngUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ImageToApng -> type.imageUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ApngToImage -> (imageFrames == ImageFrames.All)
                 .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

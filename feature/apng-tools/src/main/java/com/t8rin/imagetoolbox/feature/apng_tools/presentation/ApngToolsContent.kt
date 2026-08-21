@@ -203,6 +203,45 @@ fun ApngToolsContent(
         }
     )
 
+    val pickMultipleApngToWebpLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isApng).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_apng_image_to_start),
+                        icon = Icons.Rounded.Apng
+                    )
+                } else {
+                    component.setType(Screen.ApngTools.Type.ApngToWebp(uris.distinct()))
+                }
+            }
+        }
+    )
+
+    val addApngToWebpLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isApng).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_apng_image_to_start),
+                        icon = Icons.Rounded.Apng
+                    )
+                } else {
+                    component.setType(
+                        Screen.ApngTools.Type.ApngToWebp(
+                            (component.type as? Screen.ApngTools.Type.ApngToWebp)
+                                ?.apngUris
+                                ?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
+            }
+        }
+    )
+
     val saveApngLauncher = rememberFileCreator(
         mimeType = MimeType.Apng,
         onSuccess = component::saveApngTo
@@ -363,6 +402,22 @@ fun ApngToolsContent(
                                 )
                             }
 
+                            is Screen.ApngTools.Type.ApngToWebp -> {
+                                UrisPreview(
+                                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                                    uris = type.apngUris.orEmpty(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        component.setType(
+                                            Screen.ApngTools.Type.ApngToWebp(
+                                                type.apngUris?.minus(it)
+                                            )
+                                        )
+                                    },
+                                    onAddUris = addApngToWebpLauncher::pickFile
+                                )
+                            }
+
                             is Screen.ApngTools.Type.ImageToApng -> Unit
                         }
                     }
@@ -431,6 +486,14 @@ fun ApngToolsContent(
                     )
                 }
 
+                is Screen.ApngTools.Type.ApngToWebp -> {
+                    QualitySelector(
+                        imageFormat = ImageFormat.Webp.Lossy,
+                        quality = component.webpQuality,
+                        onQualityChange = component::setWebpQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -465,6 +528,7 @@ fun ApngToolsContent(
                     when (component.type) {
                         is Screen.ApngTools.Type.ApngToImage -> pickSingleApngLauncher.pickFile()
                         is Screen.ApngTools.Type.ApngToGif -> pickMultipleApngToGifLauncher.pickFile()
+                        is Screen.ApngTools.Type.ApngToWebp -> pickMultipleApngToWebpLauncher.pickFile()
                         is Screen.ApngTools.Type.ApngToJxl -> pickMultipleApngLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
@@ -539,6 +603,15 @@ fun ApngToolsContent(
                     subtitle = stringResource(types[3].subtitle),
                     startIcon = types[3].icon,
                     modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleApngToWebpLauncher::pickFile
+                )
+            }
+            val preference5 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[4].title),
+                    subtitle = stringResource(types[4].subtitle),
+                    startIcon = types[4].icon,
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = pickMultipleApngLauncher::pickFile
                 )
             }
@@ -552,6 +625,8 @@ fun ApngToolsContent(
                     preference3()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference4()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference5()
                 }
             } else {
                 Column(
@@ -571,6 +646,8 @@ fun ApngToolsContent(
                         Spacer(modifier = Modifier.width(8.dp))
                         preference4.withModifier(modifier = Modifier.weight(1f))
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference5.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                 }
             }
         },

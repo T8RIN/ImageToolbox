@@ -44,6 +44,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
+import oupson.apng.encoder.ApngEncoder
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -174,6 +175,48 @@ internal class AndroidWebpConverter @Inject constructor(
         }
     }
 
+    override suspend fun convertWebpToApng(
+        webpUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        webpUris.forEach { uri ->
+            runSuspendCatching {
+                val webpData = requireNotNull(uri.bytes)
+                val output = ByteArrayOutputStream()
+                var encoder: ApngEncoder? = null
+                var frameCount = 0
+
+                AnimatedWebpDecoder(
+                    context = context,
+                    sourceUri = uri.toUri(),
+                    coroutineScope = CoroutineScope(decodingDispatcher)
+                ).frames().collect { frame ->
+                    currentCoroutineContext().ensureActive()
+                    val apngEncoder = encoder ?: ApngEncoder(
+                        outputStream = output,
+                        width = frame.bitmap.width,
+                        height = frame.bitmap.height,
+                        numberOfFrames = webpData.webpFrameCount()
+                    ).apply {
+                        setEncodeAlpha(true)
+                        setOptimiseApng(false)
+                        setRepetitionCount(webpData.webpLoopCount())
+                    }.also { encoder = it }
+                    apngEncoder.writeFrame(
+                        btm = frame.bitmap,
+                        delay = frame.duration.coerceAtLeast(MIN_FRAME_DELAY_MILLIS).toFloat()
+                    )
+                    frame.bitmap.recycle()
+                    frameCount++
+                }
+
+                require(frameCount > 0)
+                requireNotNull(encoder).writeEnd()
+                onProgress(uri, output.toByteArray())
+            }
+        }
+    }
+
     private val String.inputStream: InputStream?
         get() = context
             .contentResolver
@@ -204,6 +247,20 @@ internal class AndroidWebpConverter @Inject constructor(
             offset = nextOffset.toInt()
         }
         return 0
+    }
+
+    private fun ByteArray.webpFrameCount(): Int {
+        var frameCount = 0
+        var offset = 12
+        while (offset + 8 <= size) {
+            val chunkSize = readUInt32LittleEndian(offset + 4)
+            val dataOffset = offset + 8
+            if (matchesAscii(offset, "ANMF")) frameCount++
+            val nextOffset = dataOffset.toLong() + chunkSize + (chunkSize and 1)
+            if (nextOffset !in (offset + 1)..size) break
+            offset = nextOffset.toInt()
+        }
+        return frameCount.coerceAtLeast(1)
     }
 
     private fun ByteArray.readUInt16LittleEndian(offset: Int): Int =

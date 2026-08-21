@@ -42,4 +42,9 @@ interface WebpConverter {
         onProgress: suspend (String, ByteArray) -> Unit
     )
 
+    suspend fun convertWebpToApng(
+        webpUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
 }

@@ -25,6 +25,7 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.webp_tools"
 
 dependencies {
+    implementation(libs.toolbox.apng)
     implementation(libs.toolbox.awebp)
     implementation(libs.toolbox.gifConverter)
 }

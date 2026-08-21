@@ -125,6 +125,10 @@ class WebpToolsComponent @AssistedInject internal constructor(
             is Screen.WebpTools.Type.WebpToGif -> {
                 _type.update { type }
             }
+
+            is Screen.WebpTools.Type.WebpToApng -> {
+                _type.update { type }
+            }
         }
     }
 
@@ -313,6 +317,28 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.WebpTools.Type.WebpToApng -> {
+                    val results = mutableListOf<SaveResult>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToApng(
+                        webpUris = webpUris
+                    ) { uri, apngBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = apngSaveTarget(uri, apngBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -329,10 +355,34 @@ class WebpToolsComponent @AssistedInject internal constructor(
         imageFormat = ImageFormat.Gif
     )
 
+    private fun apngSaveTarget(
+        uri: String,
+        apngBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = apngFilename(uri),
+        data = apngBytes,
+        imageFormat = ImageFormat.Png.Lossless
+    )
+
     private fun gifFilename(uri: String): String = filenameCreator.constructImageFilename(
         ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Gif,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun apngFilename(uri: String): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Png.Lossless,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -404,6 +454,11 @@ class WebpToolsComponent @AssistedInject internal constructor(
         is Screen.WebpTools.Type.WebpToGif -> FilenameSelectionData(
             mimeType = MimeType.Gif,
             extension = "gif"
+        ).takeIf { type.webpUris?.size == 1 }
+
+        is Screen.WebpTools.Type.WebpToApng -> FilenameSelectionData(
+            mimeType = MimeType.Apng,
+            extension = "png"
         ).takeIf { type.webpUris?.size == 1 }
 
         else -> null
@@ -501,6 +556,27 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.WebpTools.Type.WebpToApng -> {
+                    val results = mutableListOf<String?>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToApng(
+                        webpUris = webpUris
+                    ) { uri, apngBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = apngBytes,
+                                filename = apngFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    onComplete(results.mapNotNull { it?.toUri() })
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -510,6 +586,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
     val canSave: Boolean
         get() = when (val type = type) {
             is Screen.WebpTools.Type.WebpToGif -> type.webpUris.orEmpty().isNotEmpty()
+            is Screen.WebpTools.Type.WebpToApng -> type.webpUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.ImageToWebp -> type.imageUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToImage -> (imageFrames == ImageFrames.All)
                 .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)

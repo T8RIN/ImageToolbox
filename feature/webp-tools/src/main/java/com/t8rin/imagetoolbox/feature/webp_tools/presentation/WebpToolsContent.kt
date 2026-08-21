@@ -160,6 +160,45 @@ fun WebpToolsContent(
         }
     )
 
+    val pickMultipleWebpToApngLauncher = rememberFilePicker(
+        mimeType = MimeType.Webp,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isWebp).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_webp_image_to_start),
+                        icon = Icons.Rounded.Webp
+                    )
+                } else {
+                    component.setType(Screen.WebpTools.Type.WebpToApng(uris.distinct()))
+                }
+            }
+        }
+    )
+
+    val addWebpsToApngLauncher = rememberFilePicker(
+        mimeType = MimeType.Webp,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isWebp).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_webp_image_to_start),
+                        icon = Icons.Rounded.Webp
+                    )
+                } else {
+                    component.setType(
+                        Screen.WebpTools.Type.WebpToApng(
+                            (component.type as? Screen.WebpTools.Type.WebpToApng)
+                                ?.webpUris
+                                ?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
+            }
+        }
+    )
+
     val saveWebpLauncher = rememberFileCreator(
         mimeType = MimeType.Webp,
         onSuccess = component::saveWebpTo
@@ -306,6 +345,22 @@ fun WebpToolsContent(
                                 )
                             }
 
+                            is Screen.WebpTools.Type.WebpToApng -> {
+                                UrisPreview(
+                                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                                    uris = type.webpUris.orEmpty(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        component.setType(
+                                            Screen.WebpTools.Type.WebpToApng(
+                                                type.webpUris?.minus(it)
+                                            )
+                                        )
+                                    },
+                                    onAddUris = addWebpsToApngLauncher::pickFile
+                                )
+                            }
+
                             is Screen.WebpTools.Type.ImageToWebp -> Unit
                         }
                     }
@@ -361,6 +416,8 @@ fun WebpToolsContent(
                     )
                 }
 
+                is Screen.WebpTools.Type.WebpToApng -> Unit
+
                 null -> Unit
             }
         },
@@ -395,6 +452,7 @@ fun WebpToolsContent(
                     when (component.type) {
                         is Screen.WebpTools.Type.WebpToImage -> pickSingleWebpLauncher.pickFile()
                         is Screen.WebpTools.Type.WebpToGif -> pickMultipleWebpToGifLauncher.pickFile()
+                        is Screen.WebpTools.Type.WebpToApng -> pickMultipleWebpToApngLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -462,6 +520,15 @@ fun WebpToolsContent(
                     onClick = pickMultipleWebpToGifLauncher::pickFile
                 )
             }
+            val preference4 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[3].title),
+                    subtitle = stringResource(types[3].subtitle),
+                    startIcon = types[3].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleWebpToApngLauncher::pickFile
+                )
+            }
 
             if (isPortrait) {
                 Column {
@@ -470,6 +537,8 @@ fun WebpToolsContent(
                     preference2()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference3()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference4()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
@@ -491,7 +560,11 @@ fun WebpToolsContent(
                         preference2.withModifier(modifier = Modifier.weight(1f))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                    Row {
+                        preference3.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference4.withModifier(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         },

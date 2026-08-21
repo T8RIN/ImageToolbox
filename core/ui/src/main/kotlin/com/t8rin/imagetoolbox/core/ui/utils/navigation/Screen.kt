@@ -793,6 +793,7 @@ sealed class Screen(
                     is ApngToImage -> Icons.Outlined.ArtTrack
                     is ApngToGif -> Icons.Rounded.Gif
                     is ApngToJxl -> Icons.Filled.Jxl
+                    is ApngToWebp -> Icons.Rounded.Webp
                     is ImageToApng -> Icons.Rounded.Apng
                 }
 
@@ -828,12 +829,21 @@ sealed class Screen(
                 subtitle = R.string.apng_type_to_gif_sub
             )
 
+            @Serializable
+            data class ApngToWebp(
+                val apngUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_to_webp,
+                subtitle = R.string.apng_type_to_webp_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToApng(),
                         ApngToImage(),
                         ApngToGif(),
+                        ApngToWebp(),
                         ApngToJxl()
                     )
                 }
@@ -995,6 +1005,7 @@ sealed class Screen(
                 get() = when (this) {
                     is WebpToImage -> Icons.Outlined.ArtTrack
                     is WebpToGif -> Icons.Rounded.Gif
+                    is WebpToApng -> Icons.Rounded.Apng
                     is ImageToWebp -> Icons.Rounded.Webp
                 }
 
@@ -1022,12 +1033,21 @@ sealed class Screen(
                 subtitle = R.string.webp_type_to_gif_sub
             )
 
+            @Serializable
+            data class WebpToApng(
+                val webpUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.webp_type_to_apng,
+                subtitle = R.string.webp_type_to_apng_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToWebp(),
                         WebpToImage(),
-                        WebpToGif()
+                        WebpToGif(),
+                        WebpToApng()
                     )
                 }
             }

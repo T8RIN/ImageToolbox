@@ -25,8 +25,10 @@ import androidx.core.net.toUri
 import com.awxkee.jxlcoderlibjxl.JxlCoder
 import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.awxkee.jxlcoderlibjxl.JxlEffort
+import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifEncoder
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
+import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -209,6 +211,43 @@ internal class AndroidApngConverter @Inject constructor(
                     require(frameIndex > 0)
                     requireNotNull(encoder).finish()
                     onProgress(uri, output.toByteArray())
+                }
+            }
+        }
+    }
+
+    override suspend fun convertApngToWebp(
+        apngUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        apngUris.forEach { uri ->
+            uri.bytes?.let { apngData ->
+                runSuspendCatching {
+                    val animationInfo = apngData.animationInfo()
+                    val encoder = AnimatedWebpEncoder(
+                        quality = quality.qualityValue,
+                        loopCount = animationInfo.loopCount,
+                        backgroundColor = Color.Transparent.toArgb()
+                    )
+                    var frameIndex = 0
+
+                    ApngDecoder(
+                        context = context,
+                        uri = uri.toUri()
+                    ).decodeAsync(defaultDispatcher) { frame ->
+                        currentCoroutineContext().ensureActive()
+                        encoder.addFrame(
+                            bitmap = frame.copy(frame.safeConfig, false),
+                            duration = animationInfo.frameDelaysMillis.getOrElse(frameIndex) {
+                                DEFAULT_FRAME_DELAY_MILLIS
+                            }
+                        )
+                        frameIndex++
+                    }
+
+                    require(frameIndex > 0)
+                    onProgress(uri, encoder.encode())
                 }
             }
         }

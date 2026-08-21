@@ -1721,6 +1721,8 @@
     <string name="apng_type_to_apng">Images to APNG</string>
     <string name="apng_type_to_gif">APNG to GIF</string>
     <string name="apng_type_to_gif_sub">Convert APNG animations to GIF images</string>
+    <string name="apng_type_to_webp">APNG to WEBP</string>
+    <string name="apng_type_to_webp_sub">Convert APNG animations to WEBP images</string>
     <string name="select_apng_image_to_start">Pick APNG image to start</string>
     <string name="motion_blur">Motion Blur</string>
     <string name="zip">Zip</string>
@@ -2286,6 +2288,8 @@
     <string name="webp_type_to_webp">Images to WEBP</string>
     <string name="webp_type_to_gif">WEBP to GIF</string>
     <string name="webp_type_to_gif_sub">Convert WEBP animations to GIF images</string>
+    <string name="webp_type_to_apng">WEBP to APNG</string>
+    <string name="webp_type_to_apng_sub">Convert WEBP animations to APNG images</string>
     <string name="select_webp_image_to_start">Pick WEBP image to start</string>
     <string name="manage_storage_extra_types">No full access to files</string>
     <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that are not recognized as images on Android. Without the permission Image Toolbox is unable to show those images</string>

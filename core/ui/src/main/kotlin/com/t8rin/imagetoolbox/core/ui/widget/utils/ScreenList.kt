@@ -194,6 +194,9 @@ internal fun List<Uri>.screenList(
                         ),
                         Screen.ApngTools(
                             Screen.ApngTools.Type.ApngToGif(uris)
+                        ),
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ApngToWebp(uris)
                         )
                     )
                 } else if (uri.type("jpg", "jpeg")) {
@@ -213,6 +216,9 @@ internal fun List<Uri>.screenList(
                         ),
                         Screen.WebpTools(
                             Screen.WebpTools.Type.WebpToGif(uris)
+                        ),
+                        Screen.WebpTools(
+                            Screen.WebpTools.Type.WebpToApng(uris)
                         )
                     )
                 } else mergedList
@@ -320,11 +326,21 @@ internal fun List<Uri>.screenList(
                             Screen.ApngTools.Type.ApngToGif(uris)
                         )
                     )
+                    add(
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ApngToWebp(uris)
+                        )
+                    )
                 }
                 if (uris.all { it.type("webp") }) {
                     add(
                         Screen.WebpTools(
                             Screen.WebpTools.Type.WebpToGif(uris)
+                        )
+                    )
+                    add(
+                        Screen.WebpTools(
+                            Screen.WebpTools.Type.WebpToApng(uris)
                         )
                     )
                 }
