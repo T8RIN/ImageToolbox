@@ -1759,6 +1759,12 @@
     <string name="jxl_type_to_images_sub">Convert JXL animation to batch of pictures</string>
     <string name="jxl_type_to_jxl">Images to JXL</string>
     <string name="jxl_type_to_jxl_sub">Convert batch of pictures to JXL animation</string>
+    <string name="jxl_type_to_gif">JXL to GIF</string>
+    <string name="jxl_type_to_gif_sub">Convert JXL animations to GIF images</string>
+    <string name="jxl_type_to_apng">JXL to APNG</string>
+    <string name="jxl_type_to_apng_sub">Convert JXL animations to APNG images</string>
+    <string name="jxl_type_to_webp">JXL to WEBP</string>
+    <string name="jxl_type_to_webp_sub">Convert JXL animations to WEBP images</string>
     <string name="behavior">Behavior</string>
     <string name="skip_file_picking">Skip File Picking</string>
     <string name="skip_file_picking_sub">File picker will be shown immediately if this possible on chosen screen</string>
@@ -2290,6 +2296,8 @@
     <string name="webp_type_to_gif_sub">Convert WEBP animations to GIF images</string>
     <string name="webp_type_to_apng">WEBP to APNG</string>
     <string name="webp_type_to_apng_sub">Convert WEBP animations to APNG images</string>
+    <string name="webp_type_to_jxl">WEBP to JXL</string>
+    <string name="webp_type_to_jxl_sub">Convert WEBP animations to JXL images</string>
     <string name="select_webp_image_to_start">Pick WEBP image to start</string>
     <string name="manage_storage_extra_types">No full access to files</string>
     <string name="manage_storage_extra_types_sub">Allow all files access to see JXL, QOI and other images that are not recognized as images on Android. Without the permission Image Toolbox is unable to show those images</string>

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,5 +51,22 @@ interface JxlConverter {
         onFailure: (Throwable) -> Unit,
         onGetFramesCount: (frames: Int) -> Unit = {}
     ): Flow<String>
+
+    suspend fun convertJxlToGif(
+        jxlUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
+    suspend fun convertJxlToApng(
+        jxlUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
+    suspend fun convertJxlToWebp(
+        jxlUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
 
 }

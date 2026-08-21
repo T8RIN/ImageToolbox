@@ -880,6 +880,9 @@ sealed class Screen(
                     is JpegToJxl -> Icons.Filled.Jxl
                     is JxlToImage -> Icons.Outlined.ArtTrack
                     is JxlToJpeg -> Icons.Outlined.Jpg
+                    is JxlToGif -> Icons.Rounded.Gif
+                    is JxlToApng -> Icons.Rounded.Apng
+                    is JxlToWebp -> Icons.Rounded.Webp
                 }
 
             @Serializable
@@ -914,13 +917,40 @@ sealed class Screen(
                 subtitle = R.string.jxl_type_to_jxl_sub
             )
 
+            @Serializable
+            data class JxlToGif(
+                val jxlUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_to_gif,
+                subtitle = R.string.jxl_type_to_gif_sub
+            )
+
+            @Serializable
+            data class JxlToApng(
+                val jxlUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_to_apng,
+                subtitle = R.string.jxl_type_to_apng_sub
+            )
+
+            @Serializable
+            data class JxlToWebp(
+                val jxlUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_to_webp,
+                subtitle = R.string.jxl_type_to_webp_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         JpegToJxl(),
                         JxlToJpeg(),
                         JxlToImage(),
-                        ImageToJxl()
+                        ImageToJxl(),
+                        JxlToGif(),
+                        JxlToApng(),
+                        JxlToWebp()
                     )
                 }
             }
@@ -1006,6 +1036,7 @@ sealed class Screen(
                     is WebpToImage -> Icons.Outlined.ArtTrack
                     is WebpToGif -> Icons.Rounded.Gif
                     is WebpToApng -> Icons.Rounded.Apng
+                    is WebpToJxl -> Icons.Filled.Jxl
                     is ImageToWebp -> Icons.Rounded.Webp
                 }
 
@@ -1041,13 +1072,22 @@ sealed class Screen(
                 subtitle = R.string.webp_type_to_apng_sub
             )
 
+            @Serializable
+            data class WebpToJxl(
+                val webpUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.webp_type_to_jxl,
+                subtitle = R.string.webp_type_to_jxl_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToWebp(),
                         WebpToImage(),
                         WebpToGif(),
-                        WebpToApng()
+                        WebpToApng(),
+                        WebpToJxl()
                     )
                 }
             }

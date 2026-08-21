@@ -36,7 +36,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 
@@ -48,59 +47,25 @@ internal fun JxlToolsNoDataControls(
     val types = remember {
         Screen.JxlTools.Type.entries
     }
-    val preference1 = @Composable {
+    val preference: @Composable (Screen.JxlTools.Type, Modifier) -> Unit = { type, modifier ->
         PreferenceItem(
-            title = stringResource(types[0].title),
-            subtitle = stringResource(types[0].subtitle),
-            startIcon = types[0].icon,
-            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(type.title),
+            subtitle = stringResource(type.subtitle),
+            startIcon = type.icon,
+            modifier = modifier.fillMaxWidth(),
             onClick = {
-                onPickImage(types[0])
-            }
-        )
-    }
-    val preference2 = @Composable {
-        PreferenceItem(
-            title = stringResource(types[1].title),
-            subtitle = stringResource(types[1].subtitle),
-            startIcon = types[1].icon,
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onPickImage(types[1])
-            }
-        )
-    }
-    val preference3 = @Composable {
-        PreferenceItem(
-            title = stringResource(types[2].title),
-            subtitle = stringResource(types[2].subtitle),
-            startIcon = types[2].icon,
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onPickImage(types[2])
-            }
-        )
-    }
-    val preference4 = @Composable {
-        PreferenceItem(
-            title = stringResource(types[3].title),
-            subtitle = stringResource(types[3].subtitle),
-            startIcon = types[3].icon,
-            modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                onPickImage(types[3])
+                onPickImage(type)
             }
         )
     }
     if (isPortrait) {
         Column {
-            preference1()
-            Spacer(modifier = Modifier.height(8.dp))
-            preference2()
-            Spacer(modifier = Modifier.height(8.dp))
-            preference3()
-            Spacer(modifier = Modifier.height(8.dp))
-            preference4()
+            types.forEachIndexed { index, type ->
+                preference(type, Modifier)
+                if (index != types.lastIndex) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
         }
     } else {
         Column(
@@ -108,16 +73,17 @@ internal fun JxlToolsNoDataControls(
                 WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
             )
         ) {
-            Row {
-                preference1.withModifier(modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(8.dp))
-                preference2.withModifier(modifier = Modifier.weight(1f))
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row {
-                preference3.withModifier(modifier = Modifier.weight(1f))
-                Spacer(modifier = Modifier.width(8.dp))
-                preference4.withModifier(modifier = Modifier.weight(1f))
+            types.chunked(2).forEachIndexed { rowIndex, rowTypes ->
+                Row {
+                    rowTypes.forEachIndexed { index, type ->
+                        preference(type, Modifier.weight(1f))
+                        if (index == 0) Spacer(modifier = Modifier.width(8.dp))
+                    }
+                    if (rowTypes.size == 1) Spacer(modifier = Modifier.weight(1f))
+                }
+                if (rowIndex != types.chunked(2).lastIndex) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }

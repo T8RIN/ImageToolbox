@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
@@ -104,6 +105,12 @@ class JxlToolsComponent @AssistedInject internal constructor(
     private val _params: MutableState<AnimatedJxlParams> = mutableStateOf(AnimatedJxlParams.Default)
     val params by _params
 
+    private val _gifQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base(50))
+    val gifQuality by _gifQuality
+
+    private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
+    val webpQuality by _webpQuality
+
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
     val convertedImageUris by _convertedImageUris
 
@@ -123,6 +130,21 @@ class JxlToolsComponent @AssistedInject internal constructor(
 
             is Screen.JxlTools.Type.JxlToImage -> {
                 type.jxlUri?.let(::setJxlUri) ?: _type.update { null }
+            }
+
+            is Screen.JxlTools.Type.JxlToGif -> {
+                if (!type.jxlUris.isNullOrEmpty()) _type.update { type }
+                else _type.update { null }
+            }
+
+            is Screen.JxlTools.Type.JxlToApng -> {
+                if (!type.jxlUris.isNullOrEmpty()) _type.update { type }
+                else _type.update { null }
+            }
+
+            is Screen.JxlTools.Type.JxlToWebp -> {
+                if (!type.jxlUris.isNullOrEmpty()) _type.update { type }
+                else _type.update { null }
             }
 
             else -> _type.update { type }
@@ -340,6 +362,77 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
+                is Screen.JxlTools.Type.JxlToGif -> {
+                    val results = mutableListOf<SaveResult>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToGif(
+                        jxlUris = jxlUris,
+                        quality = gifQuality
+                    ) { uri, bytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = animationSaveTarget(uri, bytes, ImageFormat.Gif),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
+                is Screen.JxlTools.Type.JxlToApng -> {
+                    val results = mutableListOf<SaveResult>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToApng(jxlUris) { uri, bytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = animationSaveTarget(
+                                    uri,
+                                    bytes,
+                                    ImageFormat.Png.Lossless
+                                ),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
+                is Screen.JxlTools.Type.JxlToWebp -> {
+                    val results = mutableListOf<SaveResult>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToWebp(
+                        jxlUris = jxlUris,
+                        quality = webpQuality
+                    ) { uri, bytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = animationSaveTarget(
+                                    uri,
+                                    bytes,
+                                    ImageFormat.Webp.Lossy
+                                ),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -370,6 +463,17 @@ class JxlToolsComponent @AssistedInject internal constructor(
         ),
         data = jxlBytes,
         imageFormat = ImageFormat.Jxl.Lossless
+    )
+
+    private fun animationSaveTarget(
+        uri: String,
+        bytes: ByteArray,
+        format: ImageFormat
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = filename(uri, format),
+        data = bytes,
+        imageFormat = format
     )
 
     private fun filename(
@@ -496,6 +600,69 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
+                is Screen.JxlTools.Type.JxlToGif -> {
+                    val results = mutableListOf<String?>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToGif(
+                        jxlUris = jxlUris,
+                        quality = gifQuality
+                    ) { uri, bytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = bytes,
+                                filename = filename(uri, ImageFormat.Gif)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    shareProvider.shareUris(results.filterNotNull())
+                    AppToastHost.showConfetti()
+                }
+
+                is Screen.JxlTools.Type.JxlToApng -> {
+                    val results = mutableListOf<String?>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToApng(jxlUris) { uri, bytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = bytes,
+                                filename = filename(uri, ImageFormat.Png.Lossless)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    shareProvider.shareUris(results.filterNotNull())
+                    AppToastHost.showConfetti()
+                }
+
+                is Screen.JxlTools.Type.JxlToWebp -> {
+                    val results = mutableListOf<String?>()
+                    val jxlUris = type.jxlUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = jxlUris.size
+                    jxlConverter.convertJxlToWebp(
+                        jxlUris = jxlUris,
+                        quality = webpQuality
+                    ) { uri, bytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = bytes,
+                                filename = filename(uri, ImageFormat.Webp.Lossy)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+                    shareProvider.shareUris(results.filterNotNull())
+                    AppToastHost.showConfetti()
+                }
+
                 null -> Unit
             }
 
@@ -530,6 +697,17 @@ class JxlToolsComponent @AssistedInject internal constructor(
                 )
 
                 is Screen.JxlTools.Type.JxlToImage -> type
+                is Screen.JxlTools.Type.JxlToGif -> type.copy(
+                    jxlUris = type.jxlUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.JxlToApng -> type.copy(
+                    jxlUris = type.jxlUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.JxlToWebp -> type.copy(
+                    jxlUris = type.jxlUris?.minus(uri)
+                )
                 null -> null
             }
         )
@@ -556,6 +734,21 @@ class JxlToolsComponent @AssistedInject internal constructor(
             extension = "jpg"
         ).takeIf { type.jxlImageUris?.size == 1 }
 
+        is Screen.JxlTools.Type.JxlToGif -> FilenameSelectionData(
+            mimeType = MimeType.Gif,
+            extension = "gif"
+        ).takeIf { type.jxlUris?.size == 1 }
+
+        is Screen.JxlTools.Type.JxlToApng -> FilenameSelectionData(
+            mimeType = MimeType.Apng,
+            extension = "png"
+        ).takeIf { type.jxlUris?.size == 1 }
+
+        is Screen.JxlTools.Type.JxlToWebp -> FilenameSelectionData(
+            mimeType = MimeType.Webp,
+            extension = "webp"
+        ).takeIf { type.jxlUris?.size == 1 }
+
         else -> null
     }
 
@@ -569,14 +762,37 @@ class JxlToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun setGifQuality(quality: Quality) {
+        _gifQuality.update { (quality as? Quality.Base) ?: Quality.Base(50) }
+        registerChanges()
+    }
+
+    fun setWebpQuality(quality: Quality) {
+        _webpQuality.update { (quality as? Quality.Base) ?: Quality.Base() }
+        registerChanges()
+    }
+
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
 
     val canSave: Boolean
-        get() = (imageFrames == ImageFrames.All)
-            .or(type !is Screen.JxlTools.Type.JxlToImage)
-            .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+        get() = when (val type = type) {
+            is Screen.JxlTools.Type.JxlToImage -> (imageFrames == ImageFrames.All)
+                .or(
+                    (imageFrames as? ImageFrames.ManualSelection)
+                        ?.framePositions
+                        ?.isNotEmpty() == true
+                )
+
+            is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.ImageToJxl -> type.imageUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.JxlToGif -> type.jxlUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.JxlToApng -> type.jxlUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris.orEmpty().isNotEmpty()
+            null -> false
+        }
 
     @AssistedFactory
     fun interface Factory {

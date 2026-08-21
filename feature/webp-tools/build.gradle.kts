@@ -22,10 +22,20 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.webp_tools"
+android {
+    namespace = "com.t8rin.imagetoolbox.feature.webp_tools"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
 
 dependencies {
     implementation(libs.toolbox.apng)
     implementation(libs.toolbox.awebp)
     implementation(libs.toolbox.gifConverter)
+    implementation(libs.jxl.coder)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.runner)
 }

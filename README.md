@@ -1012,6 +1012,7 @@ or click one of the badges below.
     - Images to WEBP
   - WEBP to GIF
   - WEBP to APNG
+  - WEBP to JXL
 - APNG conversion
     - APNG to images
     - Images to APNG
@@ -1025,6 +1026,9 @@ or click one of the badges below.
     - JXL to Images
     - APNG to JXL
     - GIF to JXL
+  - JXL to GIF
+  - JXL to APNG
+  - JXL to WEBP
 - PDF tools
     - PDF to images
     - Images to PDF

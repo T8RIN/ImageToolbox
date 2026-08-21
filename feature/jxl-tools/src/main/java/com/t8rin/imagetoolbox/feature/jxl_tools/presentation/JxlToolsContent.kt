@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
@@ -53,6 +54,9 @@ import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.screenLogic.JxlTool
 fun JxlToolsContent(
     component: JxlToolsComponent
 ) {
+    var pendingJxlType by remember {
+        mutableStateOf<Screen.JxlTools.Type?>(null)
+    }
     val pickJpegsLauncher = rememberFilePicker(
         mimeType = MimeType.JpgAll,
         onSuccess = { list: List<Uri> ->
@@ -75,8 +79,14 @@ fun JxlToolsContent(
                 )
             } else {
                 component.setType(
-                    type = Screen.JxlTools.Type.JxlToJpeg(uris)
+                    type = when (pendingJxlType ?: component.type) {
+                        is Screen.JxlTools.Type.JxlToGif -> Screen.JxlTools.Type.JxlToGif(uris)
+                        is Screen.JxlTools.Type.JxlToApng -> Screen.JxlTools.Type.JxlToApng(uris)
+                        is Screen.JxlTools.Type.JxlToWebp -> Screen.JxlTools.Type.JxlToWebp(uris)
+                        else -> Screen.JxlTools.Type.JxlToJpeg(uris)
+                    }
                 )
+                pendingJxlType = null
             }
         }
     }
@@ -131,8 +141,24 @@ fun JxlToolsContent(
                 )
             } else {
                 component.setType(
-                    type = (component.type as? Screen.JxlTools.Type.JxlToJpeg)?.let {
-                        it.copy(jxlImageUris = it.jxlImageUris?.plus(uris)?.distinct())
+                    type = when (val type = component.type) {
+                        is Screen.JxlTools.Type.JxlToJpeg -> type.copy(
+                            jxlImageUris = type.jxlImageUris?.plus(uris)?.distinct()
+                        )
+
+                        is Screen.JxlTools.Type.JxlToGif -> type.copy(
+                            jxlUris = type.jxlUris?.plus(uris)?.distinct()
+                        )
+
+                        is Screen.JxlTools.Type.JxlToApng -> type.copy(
+                            jxlUris = type.jxlUris?.plus(uris)?.distinct()
+                        )
+
+                        is Screen.JxlTools.Type.JxlToWebp -> type.copy(
+                            jxlUris = type.jxlUris?.plus(uris)?.distinct()
+                        )
+
+                        else -> type
                     }
                 )
             }
@@ -144,7 +170,27 @@ fun JxlToolsContent(
             is Screen.JxlTools.Type.ImageToJxl -> imagePicker.pickImage()
             is Screen.JxlTools.Type.JpegToJxl -> pickJpegsLauncher.pickFile()
             is Screen.JxlTools.Type.JxlToImage -> pickSingleJxlLauncher.pickFile()
-            else -> pickJxlsLauncher.pickFile()
+            is Screen.JxlTools.Type.JxlToJpeg -> {
+                pendingJxlType = type
+                pickJxlsLauncher.pickFile()
+            }
+
+            is Screen.JxlTools.Type.JxlToGif -> {
+                pendingJxlType = type
+                pickJxlsLauncher.pickFile()
+            }
+
+            is Screen.JxlTools.Type.JxlToApng -> {
+                pendingJxlType = type
+                pickJxlsLauncher.pickFile()
+            }
+
+            is Screen.JxlTools.Type.JxlToWebp -> {
+                pendingJxlType = type
+                pickJxlsLauncher.pickFile()
+            }
+
+            null -> pickJxlsLauncher.pickFile()
         }
     }
 

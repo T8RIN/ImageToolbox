@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
@@ -62,12 +63,18 @@ internal fun JxlToolsControls(
         }
 
         is Screen.JxlTools.Type.JpegToJxl,
-        is Screen.JxlTools.Type.JxlToJpeg -> {
+        is Screen.JxlTools.Type.JxlToJpeg,
+        is Screen.JxlTools.Type.JxlToGif,
+        is Screen.JxlTools.Type.JxlToApng,
+        is Screen.JxlTools.Type.JxlToWebp -> {
             val uris = when (val type = component.type) {
                 is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris
                 is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris
                 is Screen.JxlTools.Type.ImageToJxl -> type.imageUris
                 is Screen.JxlTools.Type.JxlToImage -> listOfNotNull(type.jxlUri)
+                is Screen.JxlTools.Type.JxlToGif -> type.jxlUris
+                is Screen.JxlTools.Type.JxlToApng -> type.jxlUris
+                is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris
                 null -> null
             } ?: emptyList()
 
@@ -81,6 +88,21 @@ internal fun JxlToolsControls(
                 onRemoveUri = component::removeUri,
                 onAddUris = onAddImages
             )
+            when (component.type) {
+                is Screen.JxlTools.Type.JxlToGif -> QualitySelector(
+                    imageFormat = ImageFormat.Gif,
+                    quality = component.gifQuality,
+                    onQualityChange = component::setGifQuality
+                )
+
+                is Screen.JxlTools.Type.JxlToWebp -> QualitySelector(
+                    imageFormat = ImageFormat.Webp.Lossy,
+                    quality = component.webpQuality,
+                    onQualityChange = component::setWebpQuality
+                )
+
+                else -> Unit
+            }
         }
 
         is Screen.JxlTools.Type.ImageToJxl -> {

@@ -22,6 +22,10 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
+import com.awxkee.jxlcoderlibjxl.JxlAnimatedEncoder
+import com.awxkee.jxlcoderlibjxl.JxlChannelsConfiguration
+import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
+import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.t8rin.awebp.decoder.AnimatedWebpDecoder
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifEncoder
@@ -213,6 +217,55 @@ internal class AndroidWebpConverter @Inject constructor(
                 require(frameCount > 0)
                 requireNotNull(encoder).writeEnd()
                 onProgress(uri, output.toByteArray())
+            }
+        }
+    }
+
+    override suspend fun convertWebpToJxl(
+        webpUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        webpUris.forEach { uri ->
+            runSuspendCatching {
+                val webpData = requireNotNull(uri.bytes)
+                var encoder: JxlAnimatedEncoder? = null
+                var frameCount = 0
+
+                AnimatedWebpDecoder(
+                    context = context,
+                    sourceUri = uri.toUri(),
+                    coroutineScope = CoroutineScope(decodingDispatcher)
+                ).frames().collect { frame ->
+                    currentCoroutineContext().ensureActive()
+                    val jxlEncoder = encoder ?: JxlAnimatedEncoder(
+                        width = frame.bitmap.width,
+                        height = frame.bitmap.height,
+                        numLoops = webpData.webpLoopCount(),
+                        channelsConfiguration = when (quality.channels) {
+                            Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                            Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                            Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                        },
+                        compressionOption = if (quality.qualityValue == 100) {
+                            JxlCompressionOption.LOSSLESS
+                        } else JxlCompressionOption.LOSSY,
+                        effort = quality.effort.coerceAtLeast(1),
+                        quality = quality.qualityValue,
+                        decodingSpeed = JxlDecodingSpeed.entries.first {
+                            it.ordinal == quality.speed
+                        }
+                    ).also { encoder = it }
+                    jxlEncoder.addFrame(
+                        bitmap = frame.bitmap,
+                        duration = frame.duration.coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                    )
+                    frame.bitmap.recycle()
+                    frameCount++
+                }
+
+                require(frameCount > 0)
+                onProgress(uri, requireNotNull(encoder).encode())
             }
         }
     }

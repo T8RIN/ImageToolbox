@@ -28,6 +28,8 @@ import com.awxkee.jxlcoderlibjxl.JxlChannelsConfiguration
 import com.awxkee.jxlcoderlibjxl.JxlCoder
 import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
 import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
+import com.t8rin.awebp.encoder.AnimatedWebpEncoder
+import com.t8rin.gif_converter.GifEncoder
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -44,12 +46,20 @@ import com.t8rin.imagetoolbox.feature.jxl_tools.domain.JxlConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import oupson.apng.encoder.ApngEncoder
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.util.zip.CRC32
 import javax.inject.Inject
+
+private const val MIN_FRAME_DELAY_MILLIS = 10
 
 
 internal class AndroidJxlConverter @Inject constructor(
@@ -196,6 +206,119 @@ internal class AndroidJxlConverter @Inject constructor(
         onFailure(it)
     }
 
+    override suspend fun convertJxlToGif(
+        jxlUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        jxlUris.forEach { uri ->
+            runSuspendCatching {
+                val output = ByteArrayOutputStream()
+                JxlAnimatedImage(requireNotNull(uri.bytes)).use { decoder ->
+                    val encoder = GifEncoder()
+                        .setRepeat(decoder.loopsCount)
+                        .setQuality(quality.qualityValue)
+                        .setDispose(2)
+                        .setTransparent(Color.Transparent.toArgb())
+                    require(decoder.numberOfFrames > 0)
+                    repeat(decoder.numberOfFrames) { index ->
+                        currentCoroutineContext().ensureActive()
+                        val frame = decoder.getFrame(index)
+                        if (index == 0) {
+                            encoder.setSize(frame.width, frame.height)
+                            require(encoder.start(output))
+                        }
+                        encoder
+                            .setDelay(
+                                decoder.getFrameDuration(index)
+                                    .coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                            )
+                            .addFrame(frame)
+                        frame.recycle()
+                    }
+                    require(encoder.finish())
+                }
+                onProgress(uri, output.toByteArray())
+            }
+        }
+    }
+
+    override suspend fun convertJxlToApng(
+        jxlUris: List<String>,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        jxlUris.forEach { uri ->
+            runSuspendCatching {
+                val output = ByteArrayOutputStream()
+                var loopCount = 0
+                JxlAnimatedImage(requireNotNull(uri.bytes)).use { decoder ->
+                    require(decoder.numberOfFrames > 0)
+                    loopCount = decoder.loopsCount
+                    var encoder: ApngEncoder? = null
+                    repeat(decoder.numberOfFrames) { index ->
+                        currentCoroutineContext().ensureActive()
+                        val frame = decoder.getFrame(index)
+                        val apngEncoder = encoder ?: ApngEncoder(
+                            outputStream = output,
+                            width = frame.width,
+                            height = frame.height,
+                            numberOfFrames = decoder.numberOfFrames
+                        ).apply {
+                            setEncodeAlpha(true)
+                            setOptimiseApng(false)
+                            setRepetitionCount(decoder.loopsCount)
+                        }.also { encoder = it }
+                        apngEncoder.writeFrame(
+                            btm = frame,
+                            delay = decoder.getFrameDuration(index)
+                                .coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                                .toFloat()
+                        )
+                        frame.recycle()
+                    }
+                    requireNotNull(encoder).writeEnd()
+                }
+                onProgress(uri, output.toByteArray().withApngLoopCount(loopCount))
+            }
+        }
+    }
+
+    override suspend fun convertJxlToWebp(
+        jxlUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        jxlUris.forEach { uri ->
+            runSuspendCatching {
+                val encoded = JxlAnimatedImage(requireNotNull(uri.bytes)).use { decoder ->
+                    require(decoder.numberOfFrames > 0)
+                    val encoder = AnimatedWebpEncoder(
+                        quality = quality.qualityValue,
+                        loopCount = decoder.loopsCount,
+                        backgroundColor = Color.Transparent.toArgb()
+                    )
+                    val frames = mutableListOf<Bitmap>()
+                    try {
+                        repeat(decoder.numberOfFrames) { index ->
+                            currentCoroutineContext().ensureActive()
+                            val frame = decoder.getFrame(index)
+                            frames.add(frame)
+                            encoder.addFrame(
+                                bitmap = frame,
+                                duration = decoder.getFrameDuration(index)
+                                    .coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                            )
+                        }
+                        encoder.encode()
+                    } finally {
+                        frames.forEach(Bitmap::recycle)
+                    }
+                }
+                onProgress(uri, encoded)
+            }
+        }
+    }
+
     private val String.jxl: ByteArray?
         get() = bytes?.let { JxlCoder.Convenience.construct(it) }
 
@@ -209,4 +332,27 @@ internal class AndroidJxlConverter @Inject constructor(
                 it.readBytes()
             }
 
+}
+
+private fun ByteArray.withApngLoopCount(loopCount: Int): ByteArray = apply {
+    var offset = 8
+    while (offset + 12 <= size) {
+        val length = ByteBuffer.wrap(this, offset, 4).order(ByteOrder.BIG_ENDIAN).int
+        val typeOffset = offset + 4
+        val dataOffset = typeOffset + 4
+        if (dataOffset + length + 4 > size) return@apply
+        if (decodeToString(typeOffset, dataOffset) == "acTL" && length >= 8) {
+            ByteBuffer.wrap(this, dataOffset + 4, 4)
+                .order(ByteOrder.BIG_ENDIAN)
+                .putInt(loopCount)
+            val crc = CRC32().apply {
+                update(this@withApngLoopCount, typeOffset, 4 + length)
+            }
+            ByteBuffer.wrap(this, dataOffset + length, 4)
+                .order(ByteOrder.BIG_ENDIAN)
+                .putInt(crc.value.toInt())
+            return@apply
+        }
+        offset = dataOffset + length + 4
+    }
 }

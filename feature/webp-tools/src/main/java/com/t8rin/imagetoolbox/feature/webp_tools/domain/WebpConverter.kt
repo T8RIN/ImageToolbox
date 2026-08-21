@@ -47,4 +47,10 @@ interface WebpConverter {
         onProgress: suspend (String, ByteArray) -> Unit
     )
 
+    suspend fun convertWebpToJxl(
+        webpUris: List<String>,
+        quality: Quality.Jxl,
+        onProgress: suspend (String, ByteArray) -> Unit
+    )
+
 }

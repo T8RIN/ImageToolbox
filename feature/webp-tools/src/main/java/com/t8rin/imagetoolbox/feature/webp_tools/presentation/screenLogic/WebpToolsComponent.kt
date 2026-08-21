@@ -110,6 +110,9 @@ class WebpToolsComponent @AssistedInject internal constructor(
     private val _gifQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base(50))
     val gifQuality by _gifQuality
 
+    private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
+    val jxlQuality by _jxlQuality
+
     private var webpData: ByteArray? = null
 
     fun setType(type: Screen.WebpTools.Type) {
@@ -127,6 +130,10 @@ class WebpToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.WebpTools.Type.WebpToApng -> {
+                _type.update { type }
+            }
+
+            is Screen.WebpTools.Type.WebpToJxl -> {
                 _type.update { type }
             }
         }
@@ -339,6 +346,29 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.WebpTools.Type.WebpToJxl -> {
+                    val results = mutableListOf<SaveResult>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToJxl(
+                        webpUris = webpUris,
+                        quality = jxlQuality
+                    ) { uri, jxlBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = jxlSaveTarget(uri, jxlBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -365,6 +395,16 @@ class WebpToolsComponent @AssistedInject internal constructor(
         imageFormat = ImageFormat.Png.Lossless
     )
 
+    private fun jxlSaveTarget(
+        uri: String,
+        jxlBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = jxlFilename(uri),
+        data = jxlBytes,
+        imageFormat = ImageFormat.Jxl.Lossy
+    )
+
     private fun gifFilename(uri: String): String = filenameCreator.constructImageFilename(
         ImageSaveTarget(
             imageInfo = ImageInfo(
@@ -383,6 +423,20 @@ class WebpToolsComponent @AssistedInject internal constructor(
         ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Png.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun jxlFilename(uri: String): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Jxl.Lossy,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -461,6 +515,11 @@ class WebpToolsComponent @AssistedInject internal constructor(
             extension = "png"
         ).takeIf { type.webpUris?.size == 1 }
 
+        is Screen.WebpTools.Type.WebpToJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        ).takeIf { type.webpUris?.size == 1 }
+
         else -> null
     }
 
@@ -476,6 +535,13 @@ class WebpToolsComponent @AssistedInject internal constructor(
     fun setGifQuality(quality: Quality) {
         _gifQuality.update {
             (quality as? Quality.Base) ?: Quality.Base(50)
+        }
+        registerChanges()
+    }
+
+    fun setJxlQuality(quality: Quality) {
+        _jxlQuality.update {
+            (quality as? Quality.Jxl) ?: Quality.Jxl()
         }
         registerChanges()
     }
@@ -577,6 +643,28 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.WebpTools.Type.WebpToJxl -> {
+                    val results = mutableListOf<String?>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToJxl(
+                        webpUris = webpUris,
+                        quality = jxlQuality
+                    ) { uri, jxlBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = jxlBytes,
+                                filename = jxlFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    onComplete(results.mapNotNull { it?.toUri() })
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -587,6 +675,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
         get() = when (val type = type) {
             is Screen.WebpTools.Type.WebpToGif -> type.webpUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToApng -> type.webpUris.orEmpty().isNotEmpty()
+            is Screen.WebpTools.Type.WebpToJxl -> type.webpUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.ImageToWebp -> type.imageUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToImage -> (imageFrames == ImageFrames.All)
                 .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
