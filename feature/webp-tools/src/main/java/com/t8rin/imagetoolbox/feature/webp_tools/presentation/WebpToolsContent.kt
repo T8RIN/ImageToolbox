@@ -59,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -86,6 +87,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectio
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImagesPreviewWithSelection
+import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.ui.widget.image.urisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withModifier
@@ -114,6 +117,45 @@ fun WebpToolsContent(
                     message = getString(R.string.select_webp_image_to_start),
                     icon = Icons.Rounded.Webp
                 )
+            }
+        }
+    )
+
+    val pickMultipleWebpToGifLauncher = rememberFilePicker(
+        mimeType = MimeType.Webp,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isWebp).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_webp_image_to_start),
+                        icon = Icons.Rounded.Webp
+                    )
+                } else {
+                    component.setType(Screen.WebpTools.Type.WebpToGif(uris.distinct()))
+                }
+            }
+        }
+    )
+
+    val addWebpsToGifLauncher = rememberFilePicker(
+        mimeType = MimeType.Webp,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isWebp).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_webp_image_to_start),
+                        icon = Icons.Rounded.Webp
+                    )
+                } else {
+                    component.setType(
+                        Screen.WebpTools.Type.WebpToGif(
+                            (component.type as? Screen.WebpTools.Type.WebpToGif)
+                                ?.webpUris
+                                ?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
             }
         }
     )
@@ -207,7 +249,7 @@ fun WebpToolsContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = !component.isLoading && component.type != null,
+                enabled = !component.isLoading && component.canSave,
                 onShare = component::performSharing,
                 onEdit = {
                     component.cacheImages {
@@ -245,6 +287,22 @@ fun WebpToolsContent(
                                     onFrameSelectionChange = component::updateWebpFrames,
                                     isPortrait = isPortrait,
                                     isLoadingImages = component.isLoadingWebpImages
+                                )
+                            }
+
+                            is Screen.WebpTools.Type.WebpToGif -> {
+                                UrisPreview(
+                                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                                    uris = type.webpUris.orEmpty(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        component.setType(
+                                            Screen.WebpTools.Type.WebpToGif(
+                                                type.webpUris?.minus(it)
+                                            )
+                                        )
+                                    },
+                                    onAddUris = addWebpsToGifLauncher::pickFile
                                 )
                             }
 
@@ -295,6 +353,14 @@ fun WebpToolsContent(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 
+                is Screen.WebpTools.Type.WebpToGif -> {
+                    QualitySelector(
+                        imageFormat = ImageFormat.Gif,
+                        quality = component.gifQuality,
+                        onQualityChange = component::setGifQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -303,12 +369,13 @@ fun WebpToolsContent(
             else 20.dp
         ).value,
         buttons = { actions ->
-            val formatForFilenameSelection = remember(
+            val filenameSelectionData = remember(
+                component.type,
                 component.imageFormat,
                 component.imageFrames,
                 component.convertedImageUris
             ) {
-                component.getFormatForFilenameSelection()
+                component.getFilenameSelectionData()
             }
             val saveBitmaps: (oneTimeSaveLocationUri: String?) -> Unit = {
                 component.saveBitmaps(
@@ -327,6 +394,7 @@ fun WebpToolsContent(
                 onSecondaryButtonClick = {
                     when (component.type) {
                         is Screen.WebpTools.Type.WebpToImage -> pickSingleWebpLauncher.pickFile()
+                        is Screen.WebpTools.Type.WebpToGif -> pickMultipleWebpToGifLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -353,7 +421,7 @@ fun WebpToolsContent(
                 visible = showFolderSelectionDialog,
                 onDismiss = { showFolderSelectionDialog = false },
                 onSaveRequest = saveBitmaps,
-                formatForFilenameSelection = formatForFilenameSelection
+                filenameSelectionData = filenameSelectionData
             )
             OneTimeImagePickingDialog(
                 onDismiss = { showOneTimeImagePickingDialog = false },
@@ -385,12 +453,23 @@ fun WebpToolsContent(
                     onClick = pickSingleWebpLauncher::pickFile
                 )
             }
+            val preference3 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[2].title),
+                    subtitle = stringResource(types[2].subtitle),
+                    startIcon = types[2].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleWebpToGifLauncher::pickFile
+                )
+            }
 
             if (isPortrait) {
                 Column {
                     preference1()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference2()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
@@ -411,6 +490,8 @@ fun WebpToolsContent(
                         Spacer(modifier = Modifier.width(8.dp))
                         preference2.withModifier(modifier = Modifier.weight(1f))
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
                 }
             }
         },

@@ -164,6 +164,45 @@ fun ApngToolsContent(
         }
     )
 
+    val pickMultipleApngToGifLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isApng).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_apng_image_to_start),
+                        icon = Icons.Rounded.Apng
+                    )
+                } else {
+                    component.setType(Screen.ApngTools.Type.ApngToGif(uris.distinct()))
+                }
+            }
+        }
+    )
+
+    val addApngToGifLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isApng).let { uris ->
+                if (uris.isEmpty()) {
+                    AppToastHost.showToast(
+                        message = getString(R.string.select_apng_image_to_start),
+                        icon = Icons.Rounded.Apng
+                    )
+                } else {
+                    component.setType(
+                        Screen.ApngTools.Type.ApngToGif(
+                            (component.type as? Screen.ApngTools.Type.ApngToGif)
+                                ?.apngUris
+                                ?.plus(uris)
+                                ?.distinct()
+                        )
+                    )
+                }
+            }
+        }
+    )
+
     val saveApngLauncher = rememberFileCreator(
         mimeType = MimeType.Apng,
         onSuccess = component::saveApngTo
@@ -253,7 +292,7 @@ fun ApngToolsContent(
                 mutableStateOf(listOf<Uri>())
             }
             ShareButton(
-                enabled = !component.isLoading && component.type != null,
+                enabled = !component.isLoading && component.canSave,
                 onShare = component::performSharing,
                 onEdit = {
                     component.cacheImages {
@@ -305,6 +344,22 @@ fun ApngToolsContent(
                                         )
                                     },
                                     onAddUris = addApngLauncher::pickFile
+                                )
+                            }
+
+                            is Screen.ApngTools.Type.ApngToGif -> {
+                                UrisPreview(
+                                    modifier = Modifier.urisPreview(isPortrait = isPortrait),
+                                    uris = type.apngUris.orEmpty(),
+                                    isPortrait = true,
+                                    onRemoveUri = {
+                                        component.setType(
+                                            Screen.ApngTools.Type.ApngToGif(
+                                                type.apngUris?.minus(it)
+                                            )
+                                        )
+                                    },
+                                    onAddUris = addApngToGifLauncher::pickFile
                                 )
                             }
 
@@ -368,6 +423,14 @@ fun ApngToolsContent(
                     )
                 }
 
+                is Screen.ApngTools.Type.ApngToGif -> {
+                    QualitySelector(
+                        imageFormat = ImageFormat.Gif,
+                        quality = component.gifQuality,
+                        onQualityChange = component::setGifQuality
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -401,6 +464,7 @@ fun ApngToolsContent(
                 onSecondaryButtonClick = {
                     when (component.type) {
                         is Screen.ApngTools.Type.ApngToImage -> pickSingleApngLauncher.pickFile()
+                        is Screen.ApngTools.Type.ApngToGif -> pickMultipleApngToGifLauncher.pickFile()
                         is Screen.ApngTools.Type.ApngToJxl -> pickMultipleApngLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
@@ -466,6 +530,15 @@ fun ApngToolsContent(
                     subtitle = stringResource(types[2].subtitle),
                     startIcon = types[2].icon,
                     modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleApngToGifLauncher::pickFile
+                )
+            }
+            val preference4 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[3].title),
+                    subtitle = stringResource(types[3].subtitle),
+                    startIcon = types[3].icon,
+                    modifier = Modifier.fillMaxWidth(),
                     onClick = pickMultipleApngLauncher::pickFile
                 )
             }
@@ -477,6 +550,8 @@ fun ApngToolsContent(
                     preference2()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference3()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference4()
                 }
             } else {
                 Column(
@@ -491,7 +566,11 @@ fun ApngToolsContent(
                         preference2.withModifier(modifier = Modifier.weight(1f))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    preference3.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                    Row {
+                        preference3.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference4.withModifier(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         },

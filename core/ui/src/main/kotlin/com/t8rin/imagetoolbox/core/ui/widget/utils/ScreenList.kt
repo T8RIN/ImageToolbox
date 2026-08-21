@@ -188,8 +188,13 @@ internal fun List<Uri>.screenList(
                 val uri = uris.firstOrNull()
 
                 if (uri.type("png")) {
-                    mergedList + Screen.ApngTools(
-                        Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                    mergedList + listOf(
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                        ),
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ApngToGif(uris)
+                        )
                     )
                 } else if (uri.type("jpg", "jpeg")) {
                     mergedList + Screen.JxlTools(
@@ -202,8 +207,13 @@ internal fun List<Uri>.screenList(
                         Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
                     )
                 } else if (uri.type("webp")) {
-                    mergedList + Screen.WebpTools(
-                        Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
+                    mergedList + listOf(
+                        Screen.WebpTools(
+                            Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
+                        ),
+                        Screen.WebpTools(
+                            Screen.WebpTools.Type.WebpToGif(uris)
+                        )
                     )
                 } else mergedList
             }
@@ -304,6 +314,20 @@ internal fun List<Uri>.screenList(
                         Screen.WebpTools.Type.ImageToWebp(uris)
                     )
                 )
+                if (uris.all { it.type("png") }) {
+                    add(
+                        Screen.ApngTools(
+                            Screen.ApngTools.Type.ApngToGif(uris)
+                        )
+                    )
+                }
+                if (uris.all { it.type("webp") }) {
+                    add(
+                        Screen.WebpTools(
+                            Screen.WebpTools.Type.WebpToGif(uris)
+                        )
+                    )
+                }
                 add(Screen.DeleteExif(uris))
             }
         }

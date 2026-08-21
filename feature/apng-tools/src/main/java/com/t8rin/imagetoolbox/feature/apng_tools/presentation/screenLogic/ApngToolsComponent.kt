@@ -112,6 +112,9 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
     val jxlQuality by _jxlQuality
 
+    private val _gifQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base(50))
+    val gifQuality by _gifQuality
+
     private var _outputApngUri: String? = null
 
     fun setType(type: Screen.ApngTools.Type) {
@@ -125,6 +128,10 @@ class ApngToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.ApngTools.Type.ApngToJxl -> {
+                _type.update { type }
+            }
+
+            is Screen.ApngTools.Type.ApngToGif -> {
                 _type.update { type }
             }
         }
@@ -307,6 +314,29 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.ApngTools.Type.ApngToGif -> {
+                    val results = mutableListOf<SaveResult>()
+                    val apngUris = type.apngUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = apngUris.size
+                    apngConverter.convertApngToGif(
+                        apngUris = apngUris,
+                        quality = gifQuality
+                    ) { uri, gifBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = GifSaveTarget(uri, gifBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -323,12 +353,36 @@ class ApngToolsComponent @AssistedInject internal constructor(
         imageFormat = ImageFormat.Jxl.Lossless
     )
 
+    private fun GifSaveTarget(
+        uri: String,
+        gifBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = gifFilename(uri),
+        data = gifBytes,
+        imageFormat = ImageFormat.Gif
+    )
+
     private fun jxlFilename(
         uri: String
     ): String = filenameCreator.constructImageFilename(
         ImageSaveTarget(
             imageInfo = ImageInfo(
                 imageFormat = ImageFormat.Jxl.Lossless,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
+
+    private fun gifFilename(uri: String): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Gif,
                 originalUri = uri
             ),
             originalUri = uri,
@@ -402,6 +456,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
             extension = "jxl"
         ).takeIf { type.apngUris?.size == 1 }
 
+        is Screen.ApngTools.Type.ApngToGif -> FilenameSelectionData(
+            mimeType = MimeType.Gif,
+            extension = "gif"
+        ).takeIf { type.apngUris?.size == 1 }
+
         else -> null
     }
 
@@ -426,6 +485,13 @@ class ApngToolsComponent @AssistedInject internal constructor(
     fun setJxlQuality(quality: Quality) {
         _jxlQuality.update {
             (quality as? Quality.Jxl) ?: Quality.Jxl()
+        }
+        registerChanges()
+    }
+
+    fun setGifQuality(quality: Quality) {
+        _gifQuality.update {
+            (quality as? Quality.Base) ?: Quality.Base(50)
         }
         registerChanges()
     }
@@ -497,6 +563,28 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.ApngTools.Type.ApngToGif -> {
+                    val results = mutableListOf<String?>()
+                    val apngUris = type.apngUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = apngUris.size
+                    apngConverter.convertApngToGif(
+                        apngUris = apngUris,
+                        quality = gifQuality
+                    ) { uri, gifBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = gifBytes,
+                                filename = gifFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    onComplete(results.mapNotNull { it?.toUri() })
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -504,9 +592,15 @@ class ApngToolsComponent @AssistedInject internal constructor(
     }
 
     val canSave: Boolean
-        get() = (imageFrames == ImageFrames.All)
-            .or(type is Screen.ApngTools.Type.ImageToApng)
-            .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+        get() = when (val type = type) {
+            is Screen.ApngTools.Type.ApngToGif -> type.apngUris.orEmpty().isNotEmpty()
+            is Screen.ApngTools.Type.ApngToJxl -> type.apngUris.orEmpty().isNotEmpty()
+            is Screen.ApngTools.Type.ImageToApng -> type.imageUris.orEmpty().isNotEmpty()
+            is Screen.ApngTools.Type.ApngToImage -> (imageFrames == ImageFrames.All)
+                .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+
+            null -> false
+        }
 
     @AssistedFactory
     fun interface Factory {

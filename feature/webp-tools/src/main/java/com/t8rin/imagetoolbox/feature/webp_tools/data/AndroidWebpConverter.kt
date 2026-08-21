@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.t8rin.awebp.decoder.AnimatedWebpDecoder
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
+import com.t8rin.gif_converter.GifEncoder
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
@@ -33,17 +34,23 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.webp_tools.domain.WebpConverter
 import com.t8rin.imagetoolbox.feature.webp_tools.domain.WebpParams
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import javax.inject.Inject
+
+private const val MIN_FRAME_DELAY_MILLIS = 10
 
 
 internal class AndroidWebpConverter @Inject constructor(
@@ -126,10 +133,54 @@ internal class AndroidWebpConverter @Inject constructor(
         }.onFailure(onFailure).getOrNull()
     }
 
+    override suspend fun convertWebpToGif(
+        webpUris: List<String>,
+        quality: Quality.Base,
+        onProgress: suspend (String, ByteArray) -> Unit
+    ) = withContext(defaultDispatcher) {
+        webpUris.forEach { uri ->
+            runSuspendCatching {
+                val webpData = requireNotNull(uri.bytes)
+                val output = ByteArrayOutputStream()
+                val encoder = GifEncoder()
+                    .setRepeat(webpData.webpLoopCount())
+                    .setQuality(quality.qualityValue)
+                    .setDispose(2)
+                    .setTransparent(Color.Transparent.toArgb())
+                var frameCount = 0
+
+                AnimatedWebpDecoder(
+                    context = context,
+                    sourceUri = uri.toUri(),
+                    coroutineScope = CoroutineScope(decodingDispatcher)
+                ).frames().collect { frame ->
+                    currentCoroutineContext().ensureActive()
+                    if (frameCount == 0) {
+                        encoder
+                            .setSize(frame.bitmap.width, frame.bitmap.height)
+                            .start(output)
+                    }
+                    encoder
+                        .setDelay(frame.duration.coerceAtLeast(MIN_FRAME_DELAY_MILLIS))
+                        .addFrame(frame.bitmap)
+                    frame.bitmap.recycle()
+                    frameCount++
+                }
+
+                require(frameCount > 0)
+                encoder.finish()
+                onProgress(uri, output.toByteArray())
+            }
+        }
+    }
+
     private val String.inputStream: InputStream?
         get() = context
             .contentResolver
             .openInputStream(toUri())
+
+    private val String.bytes: ByteArray?
+        get() = inputStream?.use { it.readBytes() }
 
     private val String.file: File
         get() {
@@ -139,6 +190,34 @@ internal class AndroidWebpConverter @Inject constructor(
             }
             return gifFile
         }
+
+    private fun ByteArray.webpLoopCount(): Int {
+        var offset = 12
+        while (offset + 8 <= size) {
+            val chunkSize = readUInt32LittleEndian(offset + 4)
+            val dataOffset = offset + 8
+            if (matchesAscii(offset, "ANIM") && chunkSize >= 6 && dataOffset + 6 <= size) {
+                return readUInt16LittleEndian(dataOffset + 4)
+            }
+            val nextOffset = dataOffset.toLong() + chunkSize + (chunkSize and 1)
+            if (nextOffset !in (offset + 1)..size) break
+            offset = nextOffset.toInt()
+        }
+        return 0
+    }
+
+    private fun ByteArray.readUInt16LittleEndian(offset: Int): Int =
+        (this[offset].toInt() and 0xFF) or
+                ((this[offset + 1].toInt() and 0xFF) shl 8)
+
+    private fun ByteArray.readUInt32LittleEndian(offset: Int): Long =
+        (this[offset].toLong() and 0xFF) or
+                ((this[offset + 1].toLong() and 0xFF) shl 8) or
+                ((this[offset + 2].toLong() and 0xFF) shl 16) or
+                ((this[offset + 3].toLong() and 0xFF) shl 24)
+
+    private fun ByteArray.matchesAscii(offset: Int, value: String): Boolean =
+        value.indices.all { index -> this[offset + index] == value[index].code.toByte() }
 
 
 }

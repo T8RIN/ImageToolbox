@@ -791,6 +791,7 @@ sealed class Screen(
             val icon: ImageVector
                 get() = when (this) {
                     is ApngToImage -> Icons.Outlined.ArtTrack
+                    is ApngToGif -> Icons.Rounded.Gif
                     is ApngToJxl -> Icons.Filled.Jxl
                     is ImageToApng -> Icons.Rounded.Apng
                 }
@@ -819,11 +820,20 @@ sealed class Screen(
                 subtitle = R.string.apng_type_to_jxl_sub
             )
 
+            @Serializable
+            data class ApngToGif(
+                val apngUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_to_gif,
+                subtitle = R.string.apng_type_to_gif_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToApng(),
                         ApngToImage(),
+                        ApngToGif(),
                         ApngToJxl()
                     )
                 }
@@ -984,6 +994,7 @@ sealed class Screen(
             val icon: ImageVector
                 get() = when (this) {
                     is WebpToImage -> Icons.Outlined.ArtTrack
+                    is WebpToGif -> Icons.Rounded.Gif
                     is ImageToWebp -> Icons.Rounded.Webp
                 }
 
@@ -1003,11 +1014,20 @@ sealed class Screen(
                 subtitle = R.string.webp_type_to_webp_sub
             )
 
+            @Serializable
+            data class WebpToGif(
+                val webpUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.webp_type_to_gif,
+                subtitle = R.string.webp_type_to_gif_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
                         ImageToWebp(),
-                        WebpToImage()
+                        WebpToImage(),
+                        WebpToGif()
                     )
                 }
             }

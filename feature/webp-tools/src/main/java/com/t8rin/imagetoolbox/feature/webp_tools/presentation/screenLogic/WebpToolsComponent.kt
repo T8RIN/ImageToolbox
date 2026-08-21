@@ -33,9 +33,14 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
+import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
+import com.t8rin.imagetoolbox.core.domain.saving.model.FileSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.model.FilenameSelectionData
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -60,6 +65,7 @@ class WebpToolsComponent @AssistedInject internal constructor(
     private val imageCompressor: ImageCompressor<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
+    private val filenameCreator: FilenameCreator,
     private val webpConverter: WebpConverter,
     private val shareProvider: ShareProvider,
     defaultDispatchersHolder: DispatchersHolder
@@ -101,6 +107,9 @@ class WebpToolsComponent @AssistedInject internal constructor(
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
+    private val _gifQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base(50))
+    val gifQuality by _gifQuality
+
     private var webpData: ByteArray? = null
 
     fun setType(type: Screen.WebpTools.Type) {
@@ -110,6 +119,10 @@ class WebpToolsComponent @AssistedInject internal constructor(
             }
 
             is Screen.WebpTools.Type.ImageToWebp -> {
+                _type.update { type }
+            }
+
+            is Screen.WebpTools.Type.WebpToGif -> {
                 _type.update { type }
             }
         }
@@ -277,11 +290,58 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
+                is Screen.WebpTools.Type.WebpToGif -> {
+                    val results = mutableListOf<SaveResult>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToGif(
+                        webpUris = webpUris,
+                        quality = gifQuality
+                    ) { uri, gifBytes ->
+                        results.add(
+                            fileController.save(
+                                saveTarget = gifSaveTarget(uri, gifBytes),
+                                keepOriginalMetadata = true,
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
         }
     }
+
+    private fun gifSaveTarget(
+        uri: String,
+        gifBytes: ByteArray
+    ): SaveTarget = FileSaveTarget(
+        originalUri = uri,
+        filename = gifFilename(uri),
+        data = gifBytes,
+        imageFormat = ImageFormat.Gif
+    )
+
+    private fun gifFilename(uri: String): String = filenameCreator.constructImageFilename(
+        ImageSaveTarget(
+            imageInfo = ImageInfo(
+                imageFormat = ImageFormat.Gif,
+                originalUri = uri
+            ),
+            originalUri = uri,
+            sequenceNumber = done + 1,
+            metadata = null,
+            data = ByteArray(0)
+        ),
+        forceNotAddSizeInFilename = true
+    )
 
     fun cancelSaving() {
         savingJob?.cancel()
@@ -329,8 +389,24 @@ class WebpToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    fun getFormatForFilenameSelection(): ImageFormat? = imageFormat.takeIf {
-        imageFrames.getFramePositions(convertedImageUris.size).size == 1
+    fun getFilenameSelectionData(): FilenameSelectionData? = when (val type = type) {
+        is Screen.WebpTools.Type.WebpToImage -> imageFormat
+            .takeIf {
+                imageFrames.getFramePositions(convertedImageUris.size).size == 1
+            }
+            ?.let {
+                FilenameSelectionData(
+                    mimeType = it.mimeType,
+                    extension = it.extension
+                )
+            }
+
+        is Screen.WebpTools.Type.WebpToGif -> FilenameSelectionData(
+            mimeType = MimeType.Gif,
+            extension = "gif"
+        ).takeIf { type.webpUris?.size == 1 }
+
+        else -> null
     }
 
     fun setQuality(quality: Quality) {
@@ -339,6 +415,13 @@ class WebpToolsComponent @AssistedInject internal constructor(
 
     fun updateParams(params: WebpParams) {
         _params.update { params }
+        registerChanges()
+    }
+
+    fun setGifQuality(quality: Quality) {
+        _gifQuality.update {
+            (quality as? Quality.Base) ?: Quality.Base(50)
+        }
         registerChanges()
     }
 
@@ -396,6 +479,28 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     }
                 }
 
+                is Screen.WebpTools.Type.WebpToGif -> {
+                    val results = mutableListOf<String?>()
+                    val webpUris = type.webpUris?.map(Uri::toString).orEmpty()
+
+                    _left.value = webpUris.size
+                    webpConverter.convertWebpToGif(
+                        webpUris = webpUris,
+                        quality = gifQuality
+                    ) { uri, gifBytes ->
+                        results.add(
+                            shareProvider.cacheByteArray(
+                                byteArray = gifBytes,
+                                filename = gifFilename(uri)
+                            )
+                        )
+                        _done.update { it + 1 }
+                        updateProgress(done = done, total = left)
+                    }
+
+                    onComplete(results.mapNotNull { it?.toUri() })
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -403,9 +508,14 @@ class WebpToolsComponent @AssistedInject internal constructor(
     }
 
     val canSave: Boolean
-        get() = (imageFrames == ImageFrames.All)
-            .or(type is Screen.WebpTools.Type.ImageToWebp)
-            .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+        get() = when (val type = type) {
+            is Screen.WebpTools.Type.WebpToGif -> type.webpUris.orEmpty().isNotEmpty()
+            is Screen.WebpTools.Type.ImageToWebp -> type.imageUris.orEmpty().isNotEmpty()
+            is Screen.WebpTools.Type.WebpToImage -> (imageFrames == ImageFrames.All)
+                .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
+
+            null -> false
+        }
 
     @AssistedFactory
     fun interface Factory {
