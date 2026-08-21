@@ -4148,6 +4148,13 @@
     <string name="auto_cache_clearing_sub">Clear the app cache automatically according to the selected limit and interval</string>
     <string name="gif_type_merge">Merge GIF</string>
     <string name="gif_type_merge_sub">Combine multiple GIF clips into one animation</string>
+    <string name="apng_type_merge">Merge APNG</string>
+    <string name="apng_type_merge_sub">Combine multiple APNG clips into one animation</string>
+    <string name="webp_type_merge">Merge WEBP</string>
+    <string name="webp_type_merge_sub">Combine multiple animated WEBP clips into one animation</string>
+    <string name="jxl_type_merge">Merge JXL</string>
+    <string name="jxl_type_merge_sub">Combine multiple animated JXL clips into one animation</string>
+    <string name="animation_clips_order">Animation clips order</string>
     <string name="gif_clips_order">GIF clips order</string>
     <string name="reverse">Reverse</string>
     <string name="move_to_start">Move to start</string>

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,74 +36,92 @@ internal data class IcoBackend(
         image: Bitmap,
         quality: Quality
     ): ByteArray = coroutineScope {
-        val bitmap = if (image.width > 256 || image.height > 256) {
-            imageScaler.scaleImage(
+        val images = ICON_SIZES.map { size ->
+            val bitmap = imageScaler.scaleImage(
                 image = image,
-                width = 256,
-                height = 256,
-                resizeType = ResizeType.Flexible
+                width = size,
+                height = size,
+                resizeType = ResizeType.Fit(canvasColor = 0)
             )
-        } else image
-
-        val width = bitmap.width
-        val height = bitmap.height
-
-        val outputStream = ByteArrayOutputStream()
-        val header = ByteArray(6)
-        val entry = ByteArray(16)
-        val infoHeader = ByteArray(40)
-
-        // ICO Header
-        header[2] = 1 // Image type: Icon
-        header[4] = 1 // Number of images
-
-        outputStream.write(header)
-
-        // Image entry
-        entry[0] = if (width > 256) 0 else width.toByte()
-        entry[1] = if (height > 256) 0 else height.toByte()
-        entry[4] = 1 // Color planes
-        entry[6] = 32 // Bits per pixel
-
-        val andMaskSize = ((width + 31) / 32) * 4 * height
-        val xorMaskSize = width * height * 4
-        val imageDataSize = infoHeader.size + xorMaskSize + andMaskSize
-
-        ByteBuffer.wrap(entry, 8, 4).order(ByteOrder.LITTLE_ENDIAN).putInt(imageDataSize)
-        ByteBuffer.wrap(entry, 12, 4)
-            .order(ByteOrder.LITTLE_ENDIAN)
-            .putInt(header.size + entry.size)
-
-        outputStream.write(entry)
-
-        // BITMAP INFO HEADER
-        ByteBuffer.wrap(infoHeader).order(ByteOrder.LITTLE_ENDIAN).apply {
-            putInt(40) // Header size
-            putInt(width) // Width
-            putInt(height * 2) // Height (XOR + AND masks)
-            putShort(1) // Color planes
-            putShort(32) // Bits per pixel
-            putInt(0) // Compression (BI_RGB)
-            putInt(xorMaskSize + andMaskSize) // Image size
-        }
-
-        outputStream.write(infoHeader)
-
-        // XOR mask (pixel data)
-        for (y in height - 1 downTo 0) {
-            for (x in 0 until width) {
-                val pixel = bitmap[x, y]
-                outputStream.write(pixel and 0xFF) // B
-                outputStream.write((pixel shr 8) and 0xFF) // G
-                outputStream.write((pixel shr 16) and 0xFF) // R
-                outputStream.write((pixel shr 24) and 0xFF) // A
+            try {
+                IconImage(
+                    size = size,
+                    data = bitmap.toIconBitmapData()
+                )
+            } finally {
+                if (bitmap !== image) bitmap.recycle()
             }
         }
 
-        // AND mask (all 0 for no transparency mask)
-        outputStream.write(ByteArray(andMaskSize))
+        ByteArrayOutputStream().apply {
+            write(ByteArray(ICO_HEADER_SIZE).apply {
+                this[2] = 1
+                ByteBuffer.wrap(this, 4, 2)
+                    .order(ByteOrder.LITTLE_ENDIAN)
+                    .putShort(images.size.toShort())
+            })
 
-        outputStream.toByteArray()
+            var dataOffset = ICO_HEADER_SIZE + images.size * DIRECTORY_ENTRY_SIZE
+            images.forEach { icon ->
+                write(ByteArray(DIRECTORY_ENTRY_SIZE).apply {
+                    this[0] = icon.size.toIcoDimension()
+                    this[1] = icon.size.toIcoDimension()
+                    this[4] = 1
+                    this[6] = 32
+                    ByteBuffer.wrap(this, 8, 4)
+                        .order(ByteOrder.LITTLE_ENDIAN)
+                        .putInt(icon.data.size)
+                    ByteBuffer.wrap(this, 12, 4)
+                        .order(ByteOrder.LITTLE_ENDIAN)
+                        .putInt(dataOffset)
+                })
+                dataOffset += icon.data.size
+            }
+            images.forEach { write(it.data) }
+        }.toByteArray()
     }
 
+    private fun Bitmap.toIconBitmapData(): ByteArray {
+        val andMaskSize = ((width + 31) / 32) * 4 * height
+        val xorMaskSize = width * height * 4
+        val infoHeader = ByteArray(BITMAP_INFO_HEADER_SIZE)
+
+        ByteBuffer.wrap(infoHeader).order(ByteOrder.LITTLE_ENDIAN).apply {
+            putInt(BITMAP_INFO_HEADER_SIZE)
+            putInt(width)
+            putInt(height * 2)
+            putShort(1)
+            putShort(32)
+            putInt(0)
+            putInt(xorMaskSize + andMaskSize)
+        }
+
+        return ByteArrayOutputStream().apply {
+            write(infoHeader)
+            for (y in height - 1 downTo 0) {
+                for (x in 0 until width) {
+                    val pixel = this@toIconBitmapData[x, y]
+                    write(pixel and 0xFF)
+                    write((pixel shr 8) and 0xFF)
+                    write((pixel shr 16) and 0xFF)
+                    write((pixel shr 24) and 0xFF)
+                }
+            }
+            write(ByteArray(andMaskSize))
+        }.toByteArray()
+    }
+
+    private class IconImage(
+        val size: Int,
+        val data: ByteArray
+    )
+
+    private fun Int.toIcoDimension(): Byte = takeUnless { it == 256 }?.toByte() ?: 0
+
+    private companion object {
+        val ICON_SIZES = listOf(16, 32, 48, 64, 128, 256)
+        const val ICO_HEADER_SIZE = 6
+        const val DIRECTORY_ENTRY_SIZE = 16
+        const val BITMAP_INFO_HEADER_SIZE = 40
+    }
 }

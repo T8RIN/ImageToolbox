@@ -30,6 +30,8 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -111,6 +113,13 @@ class JxlToolsComponent @AssistedInject internal constructor(
     private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
     val webpQuality by _webpQuality
 
+    private val _mergeParams = mutableStateOf(
+        AnimationMergeParams(quality = Quality.Jxl())
+    )
+    val mergeParams by _mergeParams
+
+    private val _mergeItems = mutableStateOf<Map<String, AnimationMergeItem>>(emptyMap())
+
     private val _convertedImageUris: MutableState<List<String>> = mutableStateOf(emptyList())
     val convertedImageUris by _convertedImageUris
 
@@ -145,6 +154,18 @@ class JxlToolsComponent @AssistedInject internal constructor(
             is Screen.JxlTools.Type.JxlToWebp -> {
                 if (!type.jxlUris.isNullOrEmpty()) _type.update { type }
                 else _type.update { null }
+            }
+
+            is Screen.JxlTools.Type.MergeJxl -> {
+                if (!type.jxlUris.isNullOrEmpty()) {
+                    _type.update { type }
+                    _mergeItems.update { current ->
+                        type.jxlUris.orEmpty().associate { uri ->
+                            uri.toString() to (current[uri.toString()]
+                                ?: AnimationMergeItem(uri.toString()))
+                        }
+                    }
+                } else _type.update { null }
             }
 
             else -> _type.update { type }
@@ -433,6 +454,32 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.JxlTools.Type.MergeJxl -> {
+                    _left.value = type.jxlUris.orEmpty().size
+                    val results = mutableListOf<SaveResult>()
+                    jxlConverter.mergeJxls(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = { results += SaveResult.Error.Exception(it) },
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        results += fileController.save(
+                            saveTarget = FileSaveTarget(
+                                originalUri = type.jxlUris.orEmpty().first().toString(),
+                                filename = mergedJxlFilename(),
+                                data = bytes,
+                                imageFormat = ImageFormat.Jxl.Lossy
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -663,6 +710,25 @@ class JxlToolsComponent @AssistedInject internal constructor(
                     AppToastHost.showConfetti()
                 }
 
+                is Screen.JxlTools.Type.MergeJxl -> {
+                    _left.value = type.jxlUris.orEmpty().size
+                    jxlConverter.mergeJxls(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = AppToastHost::showFailureToast,
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        shareProvider.shareByteArray(
+                            byteArray = bytes,
+                            filename = mergedJxlFilename(),
+                            onComplete = AppToastHost::showConfetti
+                        )
+                    }
+                }
+
                 null -> Unit
             }
 
@@ -678,6 +744,8 @@ class JxlToolsComponent @AssistedInject internal constructor(
         savingJob?.cancel()
         savingJob = null
         updateParams(AnimatedJxlParams.Default)
+        _mergeParams.value = AnimationMergeParams(quality = Quality.Jxl())
+        _mergeItems.value = emptyMap()
         registerChangesCleared()
     }
 
@@ -706,6 +774,10 @@ class JxlToolsComponent @AssistedInject internal constructor(
                 )
 
                 is Screen.JxlTools.Type.JxlToWebp -> type.copy(
+                    jxlUris = type.jxlUris?.minus(uri)
+                )
+
+                is Screen.JxlTools.Type.MergeJxl -> type.copy(
                     jxlUris = type.jxlUris?.minus(uri)
                 )
                 null -> null
@@ -749,6 +821,11 @@ class JxlToolsComponent @AssistedInject internal constructor(
             extension = "webp"
         ).takeIf { type.jxlUris?.size == 1 }
 
+        is Screen.JxlTools.Type.MergeJxl -> FilenameSelectionData(
+            mimeType = MimeType.Jxl,
+            extension = "jxl"
+        )
+
         else -> null
     }
 
@@ -772,6 +849,40 @@ class JxlToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun reorderMergeUris(uris: List<Uri>) {
+        _type.update { Screen.JxlTools.Type.MergeJxl(uris) }
+        registerChanges()
+    }
+
+    fun addMergeUris(uris: List<Uri>) {
+        val current = (type as? Screen.JxlTools.Type.MergeJxl)?.jxlUris.orEmpty()
+        setType(Screen.JxlTools.Type.MergeJxl((current + uris).distinct()))
+    }
+
+    fun removeMergeUriAt(index: Int) {
+        val current = (type as? Screen.JxlTools.Type.MergeJxl)?.jxlUris.orEmpty()
+        setType(Screen.JxlTools.Type.MergeJxl(current.toMutableList().apply { removeAt(index) }))
+    }
+
+    fun mergeItem(uri: Uri): AnimationMergeItem =
+        _mergeItems.value[uri.toString()] ?: AnimationMergeItem(uri.toString())
+
+    fun updateMergeItem(uri: Uri, reverse: Boolean?, boomerang: Boolean?) {
+        _mergeItems.update { items ->
+            val item = items[uri.toString()] ?: AnimationMergeItem(uri.toString())
+            items + (uri.toString() to item.copy(
+                reverse = reverse ?: item.reverse,
+                boomerang = boomerang ?: item.boomerang
+            ))
+        }
+        registerChanges()
+    }
+
+    fun updateMergeParams(params: AnimationMergeParams) {
+        _mergeParams.value = params
+        registerChanges()
+    }
+
     fun clearConvertedImagesSelection() = updateJxlFrames(ImageFrames.ManualSelection(emptyList()))
 
     fun selectAllConvertedImages() = updateJxlFrames(ImageFrames.All)
@@ -791,8 +902,14 @@ class JxlToolsComponent @AssistedInject internal constructor(
             is Screen.JxlTools.Type.JxlToGif -> type.jxlUris.orEmpty().isNotEmpty()
             is Screen.JxlTools.Type.JxlToApng -> type.jxlUris.orEmpty().isNotEmpty()
             is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris.orEmpty().isNotEmpty()
+            is Screen.JxlTools.Type.MergeJxl -> type.jxlUris.orEmpty().size >= 2
             null -> false
         }
+
+    private fun Screen.JxlTools.Type.MergeJxl.mergeItems(): List<AnimationMergeItem> =
+        jxlUris.orEmpty().map(::mergeItem)
+
+    private fun mergedJxlFilename(): String = "Merged_JXL_${timestamp()}.jxl"
 
     @AssistedFactory
     fun interface Factory {

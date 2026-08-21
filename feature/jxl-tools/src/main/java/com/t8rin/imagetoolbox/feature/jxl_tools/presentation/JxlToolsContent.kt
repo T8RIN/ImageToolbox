@@ -83,6 +83,7 @@ fun JxlToolsContent(
                         is Screen.JxlTools.Type.JxlToGif -> Screen.JxlTools.Type.JxlToGif(uris)
                         is Screen.JxlTools.Type.JxlToApng -> Screen.JxlTools.Type.JxlToApng(uris)
                         is Screen.JxlTools.Type.JxlToWebp -> Screen.JxlTools.Type.JxlToWebp(uris)
+                        is Screen.JxlTools.Type.MergeJxl -> Screen.JxlTools.Type.MergeJxl(uris)
                         else -> Screen.JxlTools.Type.JxlToJpeg(uris)
                     }
                 )
@@ -158,6 +159,10 @@ fun JxlToolsContent(
                             jxlUris = type.jxlUris?.plus(uris)?.distinct()
                         )
 
+                        is Screen.JxlTools.Type.MergeJxl -> type.copy(
+                            jxlUris = type.jxlUris?.plus(uris)?.distinct()
+                        )
+
                         else -> type
                     }
                 )
@@ -186,6 +191,11 @@ fun JxlToolsContent(
             }
 
             is Screen.JxlTools.Type.JxlToWebp -> {
+                pendingJxlType = type
+                pickJxlsLauncher.pickFile()
+            }
+
+            is Screen.JxlTools.Type.MergeJxl -> {
                 pendingJxlType = type
                 pickJxlsLauncher.pickFile()
             }

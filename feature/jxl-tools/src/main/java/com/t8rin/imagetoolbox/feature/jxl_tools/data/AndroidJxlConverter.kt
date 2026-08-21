@@ -30,10 +30,16 @@ import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
 import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifEncoder
+import com.t8rin.imagetoolbox.core.data.image.utils.AnimationFrame
+import com.t8rin.imagetoolbox.core.data.image.utils.placeOnAnimationCanvas
+import com.t8rin.imagetoolbox.core.data.image.utils.transformForMerge
+import com.t8rin.imagetoolbox.core.data.image.utils.withApngLoopCount
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -54,9 +60,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import oupson.apng.encoder.ApngEncoder
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
-import java.util.zip.CRC32
 import javax.inject.Inject
 
 private const val MIN_FRAME_DELAY_MILLIS = 10
@@ -69,6 +72,83 @@ internal class AndroidJxlConverter @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, JxlConverter {
+
+    override suspend fun mergeJxls(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray? = withContext(defaultDispatcher) {
+        runSuspendCatching {
+            require(items.size >= 2)
+            val quality = requireNotNull(params.quality as? Quality.Jxl)
+            val sizes = items.map { item ->
+                JxlAnimatedImage(requireNotNull(item.uri.bytes)).use { decoder ->
+                    require(decoder.numberOfFrames > 0)
+                    decoder.getFrame(0).let { frame ->
+                        (frame.width to frame.height).also { frame.recycle() }
+                    }
+                }
+            }
+            val outputWidth = sizes.maxOf { it.first }
+            val outputHeight = sizes.maxOf { it.second }
+            val encoder = JxlAnimatedEncoder(
+                width = outputWidth,
+                height = outputHeight,
+                numLoops = params.repeatCount,
+                channelsConfiguration = when (quality.channels) {
+                    Quality.Channels.RGBA -> JxlChannelsConfiguration.RGBA
+                    Quality.Channels.RGB -> JxlChannelsConfiguration.RGB
+                    Quality.Channels.Monochrome -> JxlChannelsConfiguration.MONOCHROME
+                },
+                compressionOption = if (quality.qualityValue == 100) {
+                    JxlCompressionOption.LOSSLESS
+                } else JxlCompressionOption.LOSSY,
+                effort = quality.effort.coerceAtLeast(1),
+                quality = quality.qualityValue,
+                decodingSpeed = JxlDecodingSpeed.entries.first { it.ordinal == quality.speed }
+            )
+
+            items.forEachIndexed { clipIndex, item ->
+                currentCoroutineContext().ensureActive()
+                JxlAnimatedImage(requireNotNull(item.uri.bytes)).use { decoder ->
+                    val frames = buildList {
+                        repeat(decoder.numberOfFrames) { index ->
+                            add(
+                                AnimationFrame(
+                                    bitmap = decoder.getFrame(index),
+                                    durationMillis = decoder.getFrameDuration(index)
+                                        .coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                                )
+                            )
+                        }
+                    }.transformForMerge(item)
+                    val placedFrames = mutableListOf<Bitmap>()
+                    try {
+                        frames.forEachIndexed { frameIndex, frame ->
+                            val placed = frame.bitmap.placeOnAnimationCanvas(
+                                width = outputWidth,
+                                height = outputHeight,
+                                scaleToFit = params.normalizeFrameSizes
+                            )
+                            placedFrames += placed
+                            encoder.addFrame(
+                                bitmap = placed,
+                                duration = frame.durationMillis + if (
+                                    frameIndex == frames.lastIndex && clipIndex < items.lastIndex
+                                ) params.transitionDelayMillis.coerceAtLeast(0) else 0
+                            )
+                        }
+                    } finally {
+                        (frames.map { it.bitmap } + placedFrames).distinct()
+                            .forEach(Bitmap::recycle)
+                    }
+                }
+                onProgress()
+            }
+            encoder.encode()
+        }.onFailure(onFailure).getOrNull()
+    }
 
     override suspend fun jpegToJxl(
         jpegUris: List<String>,
@@ -332,27 +412,4 @@ internal class AndroidJxlConverter @Inject constructor(
                 it.readBytes()
             }
 
-}
-
-private fun ByteArray.withApngLoopCount(loopCount: Int): ByteArray = apply {
-    var offset = 8
-    while (offset + 12 <= size) {
-        val length = ByteBuffer.wrap(this, offset, 4).order(ByteOrder.BIG_ENDIAN).int
-        val typeOffset = offset + 4
-        val dataOffset = typeOffset + 4
-        if (dataOffset + length + 4 > size) return@apply
-        if (decodeToString(typeOffset, dataOffset) == "acTL" && length >= 8) {
-            ByteBuffer.wrap(this, dataOffset + 4, 4)
-                .order(ByteOrder.BIG_ENDIAN)
-                .putInt(loopCount)
-            val crc = CRC32().apply {
-                update(this@withApngLoopCount, typeOffset, 4 + length)
-            }
-            ByteBuffer.wrap(this, dataOffset + length, 4)
-                .order(ByteOrder.BIG_ENDIAN)
-                .putInt(crc.value.toInt())
-            return@apply
-        }
-        offset = dataOffset + length + 4
-    }
 }

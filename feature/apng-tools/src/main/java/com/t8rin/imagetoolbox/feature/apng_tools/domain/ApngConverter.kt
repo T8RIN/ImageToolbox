@@ -18,10 +18,19 @@
 package com.t8rin.imagetoolbox.feature.apng_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import kotlinx.coroutines.flow.Flow
 
 interface ApngConverter {
+
+    suspend fun mergeApngs(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray?
 
     fun extractFramesFromApng(
         apngUri: String,

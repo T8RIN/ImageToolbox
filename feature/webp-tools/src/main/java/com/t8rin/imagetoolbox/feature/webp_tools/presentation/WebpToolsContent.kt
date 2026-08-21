@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.AnimationMergeControls
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -233,6 +234,17 @@ fun WebpToolsContent(
                                 ?.distinct()
                         )
                     )
+                }
+            }
+        }
+    )
+
+    val pickMultipleWebpToMergeLauncher = rememberFilePicker(
+        mimeType = MimeType.Webp,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isWebp).let { uris ->
+                if (uris.isNotEmpty()) {
+                    component.setType(Screen.WebpTools.Type.MergeWebp(uris.distinct()))
                 }
             }
         }
@@ -417,12 +429,14 @@ fun WebpToolsContent(
                             }
 
                             is Screen.WebpTools.Type.ImageToWebp -> Unit
+                            is Screen.WebpTools.Type.MergeWebp -> Unit
                         }
                     }
                 }
             }
         },
-        placeImagePreview = component.type !is Screen.WebpTools.Type.ImageToWebp,
+        placeImagePreview = component.type !is Screen.WebpTools.Type.ImageToWebp &&
+                component.type !is Screen.WebpTools.Type.MergeWebp,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -481,6 +495,24 @@ fun WebpToolsContent(
                     )
                 }
 
+                is Screen.WebpTools.Type.MergeWebp -> {
+                    AnimationMergeControls(
+                        uris = type.webpUris.orEmpty(),
+                        mimeType = MimeType.Webp,
+                        clipsOrderTitle = stringResource(R.string.animation_clips_order),
+                        outputFormat = ImageFormat.Webp.Lossy,
+                        params = component.mergeParams,
+                        itemFor = component::mergeItem,
+                        isValidUri = Uri::isWebp,
+                        onAddUris = component::addMergeUris,
+                        onReorder = component::reorderMergeUris,
+                        onRemoveAt = component::removeMergeUriAt,
+                        onUpdateItem = component::updateMergeItem,
+                        onUpdateParams = component::updateMergeParams,
+                        onNavigate = component.onNavigate
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -517,6 +549,7 @@ fun WebpToolsContent(
                         is Screen.WebpTools.Type.WebpToGif -> pickMultipleWebpToGifLauncher.pickFile()
                         is Screen.WebpTools.Type.WebpToApng -> pickMultipleWebpToApngLauncher.pickFile()
                         is Screen.WebpTools.Type.WebpToJxl -> pickMultipleWebpToJxlLauncher.pickFile()
+                        is Screen.WebpTools.Type.MergeWebp -> pickMultipleWebpToMergeLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -602,6 +635,15 @@ fun WebpToolsContent(
                     onClick = pickMultipleWebpToJxlLauncher::pickFile
                 )
             }
+            val preference6 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[5].title),
+                    subtitle = stringResource(types[5].subtitle),
+                    startIcon = types[5].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleWebpToMergeLauncher::pickFile
+                )
+            }
 
             if (isPortrait) {
                 Column {
@@ -614,6 +656,8 @@ fun WebpToolsContent(
                     preference4()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference5()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference6()
                 }
             } else {
                 val direction = LocalLayoutDirection.current
@@ -644,7 +688,7 @@ fun WebpToolsContent(
                     Row {
                         preference5.withModifier(modifier = Modifier.weight(1f))
                         Spacer(modifier = Modifier.width(8.dp))
-                        Spacer(modifier = Modifier.weight(1f))
+                        preference6.withModifier(modifier = Modifier.weight(1f))
                     }
                 }
             }

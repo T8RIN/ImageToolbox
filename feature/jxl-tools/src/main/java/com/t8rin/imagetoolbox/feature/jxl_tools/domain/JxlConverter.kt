@@ -18,11 +18,20 @@
 package com.t8rin.imagetoolbox.feature.jxl_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import kotlinx.coroutines.flow.Flow
 
 interface JxlConverter {
+
+    suspend fun mergeJxls(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray?
 
     suspend fun jpegToJxl(
         jpegUris: List<String>,

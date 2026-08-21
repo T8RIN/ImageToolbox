@@ -18,10 +18,19 @@
 package com.t8rin.imagetoolbox.feature.webp_tools.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import kotlinx.coroutines.flow.Flow
 
 interface WebpConverter {
+
+    suspend fun mergeWebps(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray?
 
     fun extractFramesFromWebp(
         webpUri: String,

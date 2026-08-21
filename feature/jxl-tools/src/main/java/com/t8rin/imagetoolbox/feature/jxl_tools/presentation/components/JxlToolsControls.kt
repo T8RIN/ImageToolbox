@@ -17,19 +17,25 @@
 
 package com.t8rin.imagetoolbox.feature.jxl_tools.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.controls.AnimationMergeControls
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
+import com.t8rin.imagetoolbox.core.utils.isJxl
 import com.t8rin.imagetoolbox.feature.jxl_tools.presentation.screenLogic.JxlToolsComponent
 
 @Composable
@@ -75,6 +81,7 @@ internal fun JxlToolsControls(
                 is Screen.JxlTools.Type.JxlToGif -> type.jxlUris
                 is Screen.JxlTools.Type.JxlToApng -> type.jxlUris
                 is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris
+                is Screen.JxlTools.Type.MergeJxl -> type.jxlUris
                 null -> null
             } ?: emptyList()
 
@@ -109,6 +116,25 @@ internal fun JxlToolsControls(
             AnimatedJxlParamsSelector(
                 value = component.params,
                 onValueChange = component::updateParams
+            )
+        }
+
+        is Screen.JxlTools.Type.MergeJxl -> {
+            val type = component.type as Screen.JxlTools.Type.MergeJxl
+            AnimationMergeControls(
+                uris = type.jxlUris.orEmpty(),
+                mimeType = MimeType.Jxl,
+                clipsOrderTitle = stringResource(R.string.animation_clips_order),
+                outputFormat = ImageFormat.Jxl.Lossy,
+                params = component.mergeParams,
+                itemFor = component::mergeItem,
+                isValidUri = Uri::isJxl,
+                onAddUris = component::addMergeUris,
+                onReorder = component::reorderMergeUris,
+                onRemoveAt = component::removeMergeUriAt,
+                onUpdateItem = component::updateMergeItem,
+                onUpdateParams = component::updateMergeParams,
+                onNavigate = component.onNavigate
             )
         }
 

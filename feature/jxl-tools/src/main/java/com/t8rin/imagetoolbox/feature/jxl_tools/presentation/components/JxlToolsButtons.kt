@@ -53,6 +53,7 @@ internal fun JxlToolsButtons(
         is Screen.JxlTools.Type.JxlToGif -> type.jxlUris
         is Screen.JxlTools.Type.JxlToApng -> type.jxlUris
         is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris
+        is Screen.JxlTools.Type.MergeJxl -> type.jxlUris
         null -> null
     } ?: emptyList()
     val filenameSelectionData = remember(component.type) {

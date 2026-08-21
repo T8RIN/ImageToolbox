@@ -29,6 +29,8 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -113,6 +115,13 @@ class WebpToolsComponent @AssistedInject internal constructor(
     private val _jxlQuality: MutableState<Quality.Jxl> = mutableStateOf(Quality.Jxl())
     val jxlQuality by _jxlQuality
 
+    private val _mergeParams = mutableStateOf(
+        AnimationMergeParams(quality = Quality.Base())
+    )
+    val mergeParams by _mergeParams
+
+    private val _mergeItems = mutableStateOf<Map<String, AnimationMergeItem>>(emptyMap())
+
     private var webpData: ByteArray? = null
 
     fun setType(type: Screen.WebpTools.Type) {
@@ -135,6 +144,16 @@ class WebpToolsComponent @AssistedInject internal constructor(
 
             is Screen.WebpTools.Type.WebpToJxl -> {
                 _type.update { type }
+            }
+
+            is Screen.WebpTools.Type.MergeWebp -> {
+                _type.update { type }
+                _mergeItems.update { current ->
+                    type.webpUris.orEmpty().associate { uri ->
+                        uri.toString() to (current[uri.toString()]
+                            ?: AnimationMergeItem(uri.toString()))
+                    }
+                }
             }
         }
     }
@@ -182,6 +201,8 @@ class WebpToolsComponent @AssistedInject internal constructor(
         webpData = null
         savingJob = null
         updateParams(WebpParams.Default)
+        _mergeParams.value = AnimationMergeParams(quality = Quality.Base())
+        _mergeItems.value = emptyMap()
         registerChangesCleared()
     }
 
@@ -369,6 +390,32 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.WebpTools.Type.MergeWebp -> {
+                    _left.value = type.webpUris.orEmpty().size
+                    val results = mutableListOf<SaveResult>()
+                    webpConverter.mergeWebps(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = { results += SaveResult.Error.Exception(it) },
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        results += fileController.save(
+                            saveTarget = FileSaveTarget(
+                                originalUri = type.webpUris.orEmpty().first().toString(),
+                                filename = mergedWebpFilename(),
+                                data = bytes,
+                                imageFormat = ImageFormat.Webp.Lossy
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -488,6 +535,42 @@ class WebpToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun reorderMergeUris(uris: List<Uri>) {
+        _type.update { Screen.WebpTools.Type.MergeWebp(uris) }
+        registerChanges()
+    }
+
+    fun addMergeUris(uris: List<Uri>) {
+        val current = (type as? Screen.WebpTools.Type.MergeWebp)?.webpUris.orEmpty()
+        setType(Screen.WebpTools.Type.MergeWebp((current + uris).distinct()))
+        registerChanges()
+    }
+
+    fun removeMergeUriAt(index: Int) {
+        val current = (type as? Screen.WebpTools.Type.MergeWebp)?.webpUris.orEmpty()
+        setType(Screen.WebpTools.Type.MergeWebp(current.toMutableList().apply { removeAt(index) }))
+        registerChanges()
+    }
+
+    fun mergeItem(uri: Uri): AnimationMergeItem =
+        _mergeItems.value[uri.toString()] ?: AnimationMergeItem(uri.toString())
+
+    fun updateMergeItem(uri: Uri, reverse: Boolean?, boomerang: Boolean?) {
+        _mergeItems.update { items ->
+            val item = items[uri.toString()] ?: AnimationMergeItem(uri.toString())
+            items + (uri.toString() to item.copy(
+                reverse = reverse ?: item.reverse,
+                boomerang = boomerang ?: item.boomerang
+            ))
+        }
+        registerChanges()
+    }
+
+    fun updateMergeParams(params: AnimationMergeParams) {
+        _mergeParams.value = params
+        registerChanges()
+    }
+
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
         registerChanges()
@@ -519,6 +602,11 @@ class WebpToolsComponent @AssistedInject internal constructor(
             mimeType = MimeType.Jxl,
             extension = "jxl"
         ).takeIf { type.webpUris?.size == 1 }
+
+        is Screen.WebpTools.Type.MergeWebp -> FilenameSelectionData(
+            mimeType = MimeType.Webp,
+            extension = "webp"
+        )
 
         else -> null
     }
@@ -665,6 +753,24 @@ class WebpToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.WebpTools.Type.MergeWebp -> {
+                    _left.value = type.webpUris.orEmpty().size
+                    webpConverter.mergeWebps(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = AppToastHost::showFailureToast,
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        shareProvider.cacheByteArray(
+                            byteArray = bytes,
+                            filename = mergedWebpFilename()
+                        )?.toUri()?.let { onComplete(listOf(it)) }
+                    }
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -676,12 +782,18 @@ class WebpToolsComponent @AssistedInject internal constructor(
             is Screen.WebpTools.Type.WebpToGif -> type.webpUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToApng -> type.webpUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToJxl -> type.webpUris.orEmpty().isNotEmpty()
+            is Screen.WebpTools.Type.MergeWebp -> type.webpUris.orEmpty().size >= 2
             is Screen.WebpTools.Type.ImageToWebp -> type.imageUris.orEmpty().isNotEmpty()
             is Screen.WebpTools.Type.WebpToImage -> (imageFrames == ImageFrames.All)
                 .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
 
             null -> false
         }
+
+    private fun Screen.WebpTools.Type.MergeWebp.mergeItems(): List<AnimationMergeItem> =
+        webpUris.orEmpty().map(::mergeItem)
+
+    private fun mergedWebpFilename(): String = "Merged_WEBP_${timestamp()}.webp"
 
     @AssistedFactory
     fun interface Factory {

@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.AnimationMergeControls
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -214,6 +215,17 @@ fun ApngToolsContent(
                     )
                 } else {
                     component.setType(Screen.ApngTools.Type.ApngToWebp(uris.distinct()))
+                }
+            }
+        }
+    )
+
+    val pickMultipleApngToMergeLauncher = rememberFilePicker(
+        mimeType = MimeType.Png,
+        onSuccess = { list: List<Uri> ->
+            list.filter(Uri::isApng).let { uris ->
+                if (uris.isNotEmpty()) {
+                    component.setType(Screen.ApngTools.Type.MergeApng(uris.distinct()))
                 }
             }
         }
@@ -419,12 +431,14 @@ fun ApngToolsContent(
                             }
 
                             is Screen.ApngTools.Type.ImageToApng -> Unit
+                            is Screen.ApngTools.Type.MergeApng -> Unit
                         }
                     }
                 }
             }
         },
-        placeImagePreview = component.type !is Screen.ApngTools.Type.ImageToApng,
+        placeImagePreview = component.type !is Screen.ApngTools.Type.ImageToApng &&
+                component.type !is Screen.ApngTools.Type.MergeApng,
         showImagePreviewAsStickyHeader = false,
         autoClearFocus = false,
         controls = {
@@ -494,6 +508,24 @@ fun ApngToolsContent(
                     )
                 }
 
+                is Screen.ApngTools.Type.MergeApng -> {
+                    AnimationMergeControls(
+                        uris = type.apngUris.orEmpty(),
+                        mimeType = MimeType.Png,
+                        clipsOrderTitle = stringResource(R.string.animation_clips_order),
+                        outputFormat = null,
+                        params = component.mergeParams,
+                        itemFor = component::mergeItem,
+                        isValidUri = Uri::isApng,
+                        onAddUris = component::addMergeUris,
+                        onReorder = component::reorderMergeUris,
+                        onRemoveAt = component::removeMergeUriAt,
+                        onUpdateItem = component::updateMergeItem,
+                        onUpdateParams = component::updateMergeParams,
+                        onNavigate = component.onNavigate
+                    )
+                }
+
                 null -> Unit
             }
         },
@@ -530,6 +562,7 @@ fun ApngToolsContent(
                         is Screen.ApngTools.Type.ApngToGif -> pickMultipleApngToGifLauncher.pickFile()
                         is Screen.ApngTools.Type.ApngToWebp -> pickMultipleApngToWebpLauncher.pickFile()
                         is Screen.ApngTools.Type.ApngToJxl -> pickMultipleApngLauncher.pickFile()
+                        is Screen.ApngTools.Type.MergeApng -> pickMultipleApngToMergeLauncher.pickFile()
                         else -> imagePicker.pickImage()
                     }
                 },
@@ -615,6 +648,15 @@ fun ApngToolsContent(
                     onClick = pickMultipleApngLauncher::pickFile
                 )
             }
+            val preference6 = @Composable {
+                PreferenceItem(
+                    title = stringResource(types[5].title),
+                    subtitle = stringResource(types[5].subtitle),
+                    startIcon = types[5].icon,
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = pickMultipleApngToMergeLauncher::pickFile
+                )
+            }
 
             if (isPortrait) {
                 Column {
@@ -627,6 +669,8 @@ fun ApngToolsContent(
                     preference4()
                     Spacer(modifier = Modifier.height(8.dp))
                     preference5()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    preference6()
                 }
             } else {
                 Column(
@@ -647,7 +691,11 @@ fun ApngToolsContent(
                         preference4.withModifier(modifier = Modifier.weight(1f))
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    preference5.withModifier(modifier = Modifier.fillMaxWidth(0.5f))
+                    Row {
+                        preference5.withModifier(modifier = Modifier.weight(1f))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        preference6.withModifier(modifier = Modifier.weight(1f))
+                    }
                 }
             }
         },

@@ -23,11 +23,14 @@ import androidx.core.net.toUri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.awxkee.jxlcoderlibjxl.JxlAnimatedEncoder
+import com.awxkee.jxlcoderlibjxl.JxlAnimatedImage
 import com.awxkee.jxlcoderlibjxl.JxlChannelsConfiguration
 import com.awxkee.jxlcoderlibjxl.JxlCompressionOption
 import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.t8rin.gif_converter.GifDecoder
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -109,6 +112,34 @@ class AnimatedJxlConversionInstrumentedTest {
         assertEquals(3, webpInfo.frameCount)
         assertEquals(2, webpInfo.loopCount)
         assertArrayEquals(durations, webpInfo.durations)
+
+        val merged = requireNotNull(
+            converter.mergeJxls(
+                items = listOf(
+                    AnimationMergeItem(source.toUri().toString()),
+                    AnimationMergeItem(
+                        uri = source.toUri().toString(),
+                        reverse = true,
+                        boomerang = true
+                    )
+                ),
+                params = AnimationMergeParams(
+                    transitionDelayMillis = 50,
+                    repeatCount = 4,
+                    quality = Quality.Jxl(qualityValue = 100)
+                ),
+                onFailure = { throw it },
+                onProgress = {}
+            )
+        )
+        JxlAnimatedImage(merged).use { decoder ->
+            assertEquals(8, decoder.numberOfFrames)
+            assertEquals(4, decoder.loopsCount)
+            assertArrayEquals(
+                intArrayOf(120, 230, 390, 340, 230, 120, 230, 340),
+                IntArray(decoder.numberOfFrames, decoder::getFrameDuration)
+            )
+        }
     }
 
     private fun parseApng(data: ByteArray): AnimationInfo {

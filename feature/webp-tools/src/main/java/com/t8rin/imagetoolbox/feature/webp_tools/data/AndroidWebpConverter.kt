@@ -29,10 +29,15 @@ import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.t8rin.awebp.decoder.AnimatedWebpDecoder
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifEncoder
+import com.t8rin.imagetoolbox.core.data.image.utils.AnimationFrame
+import com.t8rin.imagetoolbox.core.data.image.utils.placeOnAnimationCanvas
+import com.t8rin.imagetoolbox.core.data.image.utils.transformForMerge
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -65,6 +70,66 @@ internal class AndroidWebpConverter @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, WebpConverter {
+
+    override suspend fun mergeWebps(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray? = withContext(defaultDispatcher) {
+        runSuspendCatching {
+            require(items.size >= 2)
+            val quality = requireNotNull(params.quality as? Quality.Base)
+            val sizes = items.map { item ->
+                requireNotNull(item.uri.bytes).webpCanvasSize()
+            }
+            val outputWidth = sizes.maxOf { it.first }
+            val outputHeight = sizes.maxOf { it.second }
+            val encoder = AnimatedWebpEncoder(
+                quality = quality.qualityValue,
+                loopCount = params.repeatCount,
+                backgroundColor = Color.Transparent.toArgb()
+            )
+            val retainedBitmaps = mutableListOf<Bitmap>()
+            try {
+                items.forEachIndexed { clipIndex, item ->
+                    currentCoroutineContext().ensureActive()
+                    val frames = mutableListOf<AnimationFrame>()
+                    AnimatedWebpDecoder(
+                        context = context,
+                        sourceUri = item.uri.toUri(),
+                        coroutineScope = CoroutineScope(decodingDispatcher)
+                    ).frames().collect { frame ->
+                        frames += AnimationFrame(
+                            bitmap = frame.bitmap,
+                            durationMillis = frame.duration.coerceAtLeast(MIN_FRAME_DELAY_MILLIS)
+                        )
+                    }
+                    val transformedFrames = frames.transformForMerge(item)
+                    transformedFrames.forEachIndexed { frameIndex, frame ->
+                        val placed = frame.bitmap.placeOnAnimationCanvas(
+                            width = outputWidth,
+                            height = outputHeight,
+                            scaleToFit = params.normalizeFrameSizes
+                        )
+                        retainedBitmaps += frame.bitmap
+                        retainedBitmaps += placed
+                        encoder.addFrame(
+                            bitmap = placed,
+                            duration = frame.durationMillis + if (
+                                frameIndex == transformedFrames.lastIndex &&
+                                clipIndex < items.lastIndex
+                            ) params.transitionDelayMillis.coerceAtLeast(0) else 0
+                        )
+                    }
+                    onProgress()
+                }
+                encoder.encode()
+            } finally {
+                retainedBitmaps.distinct().forEach(Bitmap::recycle)
+            }
+        }.onFailure(onFailure).getOrNull()
+    }
 
     override fun extractFramesFromWebp(
         webpUri: String,
@@ -290,7 +355,7 @@ internal class AndroidWebpConverter @Inject constructor(
     private fun ByteArray.webpLoopCount(): Int {
         var offset = 12
         while (offset + 8 <= size) {
-            val chunkSize = readUInt32LittleEndian(offset + 4)
+            val chunkSize = readUInt32LittleEndian(offset + 4).toInt()
             val dataOffset = offset + 8
             if (matchesAscii(offset, "ANIM") && chunkSize >= 6 && dataOffset + 6 <= size) {
                 return readUInt16LittleEndian(dataOffset + 4)
@@ -300,6 +365,22 @@ internal class AndroidWebpConverter @Inject constructor(
             offset = nextOffset.toInt()
         }
         return 0
+    }
+
+    private fun ByteArray.webpCanvasSize(): Pair<Int, Int> {
+        var offset = 12
+        while (offset + 8 <= size) {
+            val chunkSize = readUInt32LittleEndian(offset + 4).toInt()
+            val dataOffset = offset + 8
+            if (dataOffset + chunkSize > size) break
+            if (matchesAscii(offset, "VP8X") && chunkSize >= 10) {
+                val width = readUInt24LittleEndian(dataOffset + 4) + 1
+                val height = readUInt24LittleEndian(dataOffset + 7) + 1
+                return width to height
+            }
+            offset = dataOffset + chunkSize + (chunkSize and 1)
+        }
+        error("WEBP canvas size is missing")
     }
 
     private fun ByteArray.webpFrameCount(): Int {
@@ -319,6 +400,11 @@ internal class AndroidWebpConverter @Inject constructor(
     private fun ByteArray.readUInt16LittleEndian(offset: Int): Int =
         (this[offset].toInt() and 0xFF) or
                 ((this[offset + 1].toInt() and 0xFF) shl 8)
+
+    private fun ByteArray.readUInt24LittleEndian(offset: Int): Int =
+        (this[offset].toInt() and 0xFF) or
+                ((this[offset + 1].toInt() and 0xFF) shl 8) or
+                ((this[offset + 2].toInt() and 0xFF) shl 16)
 
     private fun ByteArray.readUInt32LittleEndian(offset: Int): Long =
         (this[offset].toLong() and 0xFF) or

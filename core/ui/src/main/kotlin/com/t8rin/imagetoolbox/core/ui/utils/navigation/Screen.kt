@@ -795,6 +795,7 @@ sealed class Screen(
                     is ApngToJxl -> Icons.Filled.Jxl
                     is ApngToWebp -> Icons.Rounded.Webp
                     is ImageToApng -> Icons.Rounded.Apng
+                    is MergeApng -> Icons.Rounded.CompareArrows
                 }
 
             @Serializable
@@ -837,6 +838,14 @@ sealed class Screen(
                 subtitle = R.string.apng_type_to_webp_sub
             )
 
+            @Serializable
+            data class MergeApng(
+                val apngUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.apng_type_merge,
+                subtitle = R.string.apng_type_merge_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
@@ -844,7 +853,8 @@ sealed class Screen(
                         ApngToImage(),
                         ApngToGif(),
                         ApngToWebp(),
-                        ApngToJxl()
+                        ApngToJxl(),
+                        MergeApng()
                     )
                 }
             }
@@ -883,6 +893,7 @@ sealed class Screen(
                     is JxlToGif -> Icons.Rounded.Gif
                     is JxlToApng -> Icons.Rounded.Apng
                     is JxlToWebp -> Icons.Rounded.Webp
+                    is MergeJxl -> Icons.Rounded.CompareArrows
                 }
 
             @Serializable
@@ -941,6 +952,14 @@ sealed class Screen(
                 subtitle = R.string.jxl_type_to_webp_sub
             )
 
+            @Serializable
+            data class MergeJxl(
+                val jxlUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.jxl_type_merge,
+                subtitle = R.string.jxl_type_merge_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
@@ -950,7 +969,8 @@ sealed class Screen(
                         ImageToJxl(),
                         JxlToGif(),
                         JxlToApng(),
-                        JxlToWebp()
+                        JxlToWebp(),
+                        MergeJxl()
                     )
                 }
             }
@@ -1038,6 +1058,7 @@ sealed class Screen(
                     is WebpToApng -> Icons.Rounded.Apng
                     is WebpToJxl -> Icons.Filled.Jxl
                     is ImageToWebp -> Icons.Rounded.Webp
+                    is MergeWebp -> Icons.Rounded.CompareArrows
                 }
 
             @Serializable
@@ -1080,6 +1101,14 @@ sealed class Screen(
                 subtitle = R.string.webp_type_to_jxl_sub
             )
 
+            @Serializable
+            data class MergeWebp(
+                val webpUris: List<Uri>? = null
+            ) : Type(
+                title = R.string.webp_type_merge,
+                subtitle = R.string.webp_type_merge_sub
+            )
+
             companion object {
                 val entries by lazy {
                     listOf(
@@ -1087,7 +1116,8 @@ sealed class Screen(
                         WebpToImage(),
                         WebpToGif(),
                         WebpToApng(),
-                        WebpToJxl()
+                        WebpToJxl(),
+                        MergeWebp()
                     )
                 }
             }

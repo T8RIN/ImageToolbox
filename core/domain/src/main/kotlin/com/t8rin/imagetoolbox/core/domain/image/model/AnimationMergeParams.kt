@@ -15,27 +15,17 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.core.domain.image.model
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.apng_tools"
+data class AnimationMergeParams(
+    val transitionDelayMillis: Int = 0,
+    val repeatCount: Int = 0,
+    val quality: Quality = Quality.Base(50),
+    val normalizeFrameSizes: Boolean = true
+)
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
-
-dependencies {
-    implementation(libs.toolbox.apng)
-    implementation(libs.toolbox.awebp)
-    implementation(libs.toolbox.gifConverter)
-    implementation(libs.jxl.coder)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
-}
+data class AnimationMergeItem(
+    val uri: String,
+    val reverse: Boolean = false,
+    val boomerang: Boolean = false
+)

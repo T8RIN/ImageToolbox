@@ -31,6 +31,8 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFrames
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
@@ -118,6 +120,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
     private val _webpQuality: MutableState<Quality.Base> = mutableStateOf(Quality.Base())
     val webpQuality by _webpQuality
 
+    private val _mergeParams = mutableStateOf(AnimationMergeParams())
+    val mergeParams by _mergeParams
+
+    private val _mergeItems = mutableStateOf<Map<String, AnimationMergeItem>>(emptyMap())
+
     private var _outputApngUri: String? = null
 
     fun setType(type: Screen.ApngTools.Type) {
@@ -140,6 +147,16 @@ class ApngToolsComponent @AssistedInject internal constructor(
 
             is Screen.ApngTools.Type.ApngToWebp -> {
                 _type.update { type }
+            }
+
+            is Screen.ApngTools.Type.MergeApng -> {
+                _type.update { type }
+                _mergeItems.update { current ->
+                    type.apngUris.orEmpty().associate { uri ->
+                        uri.toString() to (current[uri.toString()]
+                            ?: AnimationMergeItem(uri.toString()))
+                    }
+                }
             }
         }
     }
@@ -187,6 +204,8 @@ class ApngToolsComponent @AssistedInject internal constructor(
         _outputApngUri = null
         savingJob = null
         updateParams(ApngParams.Default)
+        _mergeParams.value = AnimationMergeParams()
+        _mergeItems.value = emptyMap()
         registerChangesCleared()
     }
 
@@ -367,6 +386,33 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     parseSaveResults(results.onSuccess(::registerSave))
                 }
 
+                is Screen.ApngTools.Type.MergeApng -> {
+                    _left.value = type.apngUris.orEmpty().size
+                    val results = mutableListOf<SaveResult>()
+                    apngConverter.mergeApngs(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = { results += SaveResult.Error.Exception(it) },
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        results += fileController.save(
+                            saveTarget = FileSaveTarget(
+                                originalUri = type.apngUris.orEmpty().first().toString(),
+                                filename = mergedApngFilename(),
+                                data = bytes,
+                                mimeType = MimeType.Apng,
+                                extension = "png"
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    }
+                    parseSaveResults(results.onSuccess(::registerSave))
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -488,6 +534,42 @@ class ApngToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun reorderMergeUris(uris: List<Uri>) {
+        _type.update { Screen.ApngTools.Type.MergeApng(uris) }
+        registerChanges()
+    }
+
+    fun addMergeUris(uris: List<Uri>) {
+        val current = (type as? Screen.ApngTools.Type.MergeApng)?.apngUris.orEmpty()
+        setType(Screen.ApngTools.Type.MergeApng((current + uris).distinct()))
+        registerChanges()
+    }
+
+    fun removeMergeUriAt(index: Int) {
+        val current = (type as? Screen.ApngTools.Type.MergeApng)?.apngUris.orEmpty()
+        setType(Screen.ApngTools.Type.MergeApng(current.toMutableList().apply { removeAt(index) }))
+        registerChanges()
+    }
+
+    fun mergeItem(uri: Uri): AnimationMergeItem =
+        _mergeItems.value[uri.toString()] ?: AnimationMergeItem(uri.toString())
+
+    fun updateMergeItem(uri: Uri, reverse: Boolean?, boomerang: Boolean?) {
+        _mergeItems.update { items ->
+            val item = items[uri.toString()] ?: AnimationMergeItem(uri.toString())
+            items + (uri.toString() to item.copy(
+                reverse = reverse ?: item.reverse,
+                boomerang = boomerang ?: item.boomerang
+            ))
+        }
+        registerChanges()
+    }
+
+    fun updateMergeParams(params: AnimationMergeParams) {
+        _mergeParams.value = params
+        registerChanges()
+    }
+
     fun setImageFormat(imageFormat: ImageFormat) {
         _imageFormat.update { imageFormat }
         registerChanges()
@@ -519,6 +601,11 @@ class ApngToolsComponent @AssistedInject internal constructor(
             mimeType = MimeType.Webp,
             extension = "webp"
         ).takeIf { type.apngUris?.size == 1 }
+
+        is Screen.ApngTools.Type.MergeApng -> FilenameSelectionData(
+            mimeType = MimeType.Apng,
+            extension = "png"
+        )
 
         else -> null
     }
@@ -673,6 +760,24 @@ class ApngToolsComponent @AssistedInject internal constructor(
                     onComplete(results.mapNotNull { it?.toUri() })
                 }
 
+                is Screen.ApngTools.Type.MergeApng -> {
+                    _left.value = type.apngUris.orEmpty().size
+                    apngConverter.mergeApngs(
+                        items = type.mergeItems(),
+                        params = mergeParams,
+                        onFailure = AppToastHost::showFailureToast,
+                        onProgress = {
+                            _done.update { it + 1 }
+                            updateProgress(done = done, total = left)
+                        }
+                    )?.let { bytes ->
+                        shareProvider.cacheByteArray(
+                            byteArray = bytes,
+                            filename = mergedApngFilename()
+                        )?.toUri()?.let { onComplete(listOf(it)) }
+                    }
+                }
+
                 null -> Unit
             }
             _isSaving.value = false
@@ -684,12 +789,18 @@ class ApngToolsComponent @AssistedInject internal constructor(
             is Screen.ApngTools.Type.ApngToGif -> type.apngUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ApngToJxl -> type.apngUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ApngToWebp -> type.apngUris.orEmpty().isNotEmpty()
+            is Screen.ApngTools.Type.MergeApng -> type.apngUris.orEmpty().size >= 2
             is Screen.ApngTools.Type.ImageToApng -> type.imageUris.orEmpty().isNotEmpty()
             is Screen.ApngTools.Type.ApngToImage -> (imageFrames == ImageFrames.All)
                 .or((imageFrames as? ImageFrames.ManualSelection)?.framePositions?.isNotEmpty() == true)
 
             null -> false
         }
+
+    private fun Screen.ApngTools.Type.MergeApng.mergeItems(): List<AnimationMergeItem> =
+        apngUris.orEmpty().map(::mergeItem)
+
+    private fun mergedApngFilename(): String = "Merged_APNG_${timestamp()}.png"
 
     @AssistedFactory
     fun interface Factory {

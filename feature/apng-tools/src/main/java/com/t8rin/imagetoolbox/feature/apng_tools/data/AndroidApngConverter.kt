@@ -27,12 +27,18 @@ import com.awxkee.jxlcoderlibjxl.JxlDecodingSpeed
 import com.awxkee.jxlcoderlibjxl.JxlEffort
 import com.t8rin.awebp.encoder.AnimatedWebpEncoder
 import com.t8rin.gif_converter.GifEncoder
+import com.t8rin.imagetoolbox.core.data.image.utils.AnimationFrame
+import com.t8rin.imagetoolbox.core.data.image.utils.placeOnAnimationCanvas
+import com.t8rin.imagetoolbox.core.data.image.utils.transformForMerge
+import com.t8rin.imagetoolbox.core.data.image.utils.withApngLoopCount
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeItem
+import com.t8rin.imagetoolbox.core.domain.image.model.AnimationMergeParams
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
@@ -66,6 +72,79 @@ internal class AndroidApngConverter @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, ApngConverter {
+
+    override suspend fun mergeApngs(
+        items: List<AnimationMergeItem>,
+        params: AnimationMergeParams,
+        onFailure: (Throwable) -> Unit,
+        onProgress: () -> Unit
+    ): ByteArray? = withContext(defaultDispatcher) {
+        runSuspendCatching {
+            require(items.size >= 2)
+            val clipInfo = items.map { item ->
+                val info = requireNotNull(item.uri.bytes).animationInfo()
+                require(info.frameDelaysMillis.isNotEmpty())
+                ApngMergeClipInfo(
+                    width = info.width,
+                    height = info.height,
+                    frameCount = if (item.boomerang && info.frameDelaysMillis.size > 1) {
+                        info.frameDelaysMillis.size * 2 - 1
+                    } else info.frameDelaysMillis.size,
+                    frameDelaysMillis = info.frameDelaysMillis
+                )
+            }
+            val outputWidth = clipInfo.maxOf { it.width }
+            val outputHeight = clipInfo.maxOf { it.height }
+            val output = ByteArrayOutputStream()
+            val encoder = ApngEncoder(
+                outputStream = output,
+                width = outputWidth,
+                height = outputHeight,
+                numberOfFrames = clipInfo.sumOf { it.frameCount }
+            ).apply {
+                setEncodeAlpha(true)
+                setOptimiseApng(false)
+            }
+
+            items.forEachIndexed { clipIndex, item ->
+                currentCoroutineContext().ensureActive()
+                val frames = mutableListOf<AnimationFrame>()
+                var frameIndex = 0
+                ApngDecoder(context = context, uri = item.uri.toUri())
+                    .decodeAsync(defaultDispatcher) { frame ->
+                        frames += AnimationFrame(
+                            bitmap = frame,
+                            durationMillis = clipInfo[clipIndex].frameDelaysMillis
+                                .getOrElse(frameIndex) { DEFAULT_FRAME_DELAY_MILLIS }
+                        )
+                        frameIndex++
+                    }
+                val transformedFrames = frames.transformForMerge(item)
+                val placedFrames = mutableListOf<Bitmap>()
+                try {
+                    transformedFrames.forEachIndexed { index, frame ->
+                        val placed = frame.bitmap.placeOnAnimationCanvas(
+                            width = outputWidth,
+                            height = outputHeight,
+                            scaleToFit = params.normalizeFrameSizes
+                        )
+                        placedFrames += placed
+                        encoder.writeFrame(
+                            btm = placed,
+                            delay = (frame.durationMillis + if (
+                                index == transformedFrames.lastIndex && clipIndex < items.lastIndex
+                            ) params.transitionDelayMillis.coerceAtLeast(0) else 0).toFloat()
+                        )
+                    }
+                } finally {
+                    (frames.map { it.bitmap } + placedFrames).distinct().forEach(Bitmap::recycle)
+                }
+                onProgress()
+            }
+            encoder.writeEnd()
+            output.toByteArray().withApngLoopCount(params.repeatCount)
+        }.onFailure(onFailure).getOrNull()
+    }
 
     override fun extractFramesFromApng(
         apngUri: String,
@@ -261,12 +340,23 @@ internal class AndroidApngConverter @Inject constructor(
             }
 
     private data class ApngAnimationInfo(
+        val width: Int,
+        val height: Int,
         val loopCount: Int,
+        val frameDelaysMillis: List<Int>
+    )
+
+    private data class ApngMergeClipInfo(
+        val width: Int,
+        val height: Int,
+        val frameCount: Int,
         val frameDelaysMillis: List<Int>
     )
 
     private fun ByteArray.animationInfo(): ApngAnimationInfo {
         var loopCount = 0
+        var width = 0
+        var height = 0
         val frameDelays = mutableListOf<Int>()
         var offset = 8
 
@@ -277,6 +367,11 @@ internal class AndroidApngConverter @Inject constructor(
             if (dataOffset.toLong() + chunkSize + 4 > size) break
 
             when {
+                matchesAscii(typeOffset, "IHDR") && chunkSize >= 8 -> {
+                    width = readUInt32BigEndian(dataOffset).toInt()
+                    height = readUInt32BigEndian(dataOffset + 4).toInt()
+                }
+
                 matchesAscii(typeOffset, "acTL") && chunkSize >= 8 -> {
                     loopCount = readUInt32BigEndian(dataOffset + 4)
                         .coerceAtMost(MAX_GIF_LOOP_COUNT.toLong())
@@ -296,6 +391,8 @@ internal class AndroidApngConverter @Inject constructor(
         }
 
         return ApngAnimationInfo(
+            width = width,
+            height = height,
             loopCount = loopCount,
             frameDelaysMillis = frameDelays
         )

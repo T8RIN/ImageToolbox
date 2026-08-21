@@ -1013,11 +1013,13 @@ or click one of the badges below.
   - WEBP to GIF
   - WEBP to APNG
   - WEBP to JXL
+  - Merge multiple WEBPs into one animation
 - APNG conversion
     - APNG to images
     - Images to APNG
   - APNG to GIF
   - APNG to WEBP
+  - Merge multiple APNGs into one animation
 - JXL transcoding
     - JXL to JPEG
     - JPEG to JXL
@@ -1029,6 +1031,7 @@ or click one of the badges below.
   - JXL to GIF
   - JXL to APNG
   - JXL to WEBP
+  - Merge multiple JXLs into one animation
 - PDF tools
     - PDF to images
     - Images to PDF
@@ -1179,7 +1182,7 @@ or click one of the badges below.
     - TIFF
     - TIF
     - QOI
-    - ICO
+  - ICO with 16, 32, 48, 64, 128 and 256 px images in one file
     - SVG, RAW, PSD, GIF to static raster images
     - Telegram sticker PNG format
 - Files to Zip
