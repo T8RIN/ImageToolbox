@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">APNG animasyonlarını WEBP görsellerine dönüştürün</string>
     <string name="webp_type_to_apng">WEBP\'den APNG\'ye dönüştürücü</string>
     <string name="webp_type_to_apng_sub">WEBP animasyonlarını APNG görsellerine dönüştürün</string>
+    <string name="jxl_type_to_gif">JXL\'den GIF\'ye dönüştürücü</string>
+    <string name="jxl_type_to_gif_sub">JXL animasyonlarını GIF görsellerine dönüştürün</string>
+    <string name="jxl_type_to_apng">JXL\'den APNG\'ye dönüştürücü</string>
+    <string name="jxl_type_to_apng_sub">JXL animasyonlarını APNG görsellerine dönüştürün</string>
+    <string name="jxl_type_to_webp">JXL\'den WEBP\'ye dönüştürücü</string>
+    <string name="jxl_type_to_webp_sub">JXL animasyonlarını WEBP görsellerine dönüştürün</string>
+    <string name="webp_type_to_jxl">WEBP\'den JXL\'ye dönüştürücü</string>
+    <string name="webp_type_to_jxl_sub">WEBP animasyonlarını JXL görsellerine dönüştürün</string>
 </resources>

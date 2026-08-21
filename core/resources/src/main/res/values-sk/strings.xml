@@ -5012,4 +5012,12 @@
     <string name="apng_type_to_webp_sub">Preveďte animácie APNG na obrázky WEBP</string>
     <string name="webp_type_to_apng">WEBP na APNG</string>
     <string name="webp_type_to_apng_sub">Prevod animácií WEBP na obrázky APNG</string>
+    <string name="jxl_type_to_gif">JXL na GIF</string>
+    <string name="jxl_type_to_gif_sub">Prevod animácií JXL na obrázky GIF</string>
+    <string name="jxl_type_to_apng">JXL na APNG</string>
+    <string name="jxl_type_to_apng_sub">Preveďte animácie JXL na obrázky APNG</string>
+    <string name="jxl_type_to_webp">JXL na WEBP</string>
+    <string name="jxl_type_to_webp_sub">Prevod animácií JXL na obrázky WEBP</string>
+    <string name="webp_type_to_jxl">WEBP na JXL</string>
+    <string name="webp_type_to_jxl_sub">Prevod animácií WEBP na obrázky JXL</string>
 </resources>

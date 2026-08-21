@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">APNG অ্যানিমেশনগুলিকে WEBP ছবিতে রূপান্তর করুন৷</string>
     <string name="webp_type_to_apng">WEBP to APNG</string>
     <string name="webp_type_to_apng_sub">WEBP অ্যানিমেশনকে APNG ছবিতে রূপান্তর করুন</string>
+    <string name="jxl_type_to_gif">JXL থেকে GIF</string>
+    <string name="jxl_type_to_gif_sub">JXL অ্যানিমেশনকে GIF ছবিতে রূপান্তর করুন</string>
+    <string name="jxl_type_to_apng">JXL থেকে APNG</string>
+    <string name="jxl_type_to_apng_sub">JXL অ্যানিমেশনকে APNG ছবিতে রূপান্তর করুন</string>
+    <string name="jxl_type_to_webp">WEBP থেকে JXL</string>
+    <string name="jxl_type_to_webp_sub">JXL অ্যানিমেশনকে WEBP ছবিতে রূপান্তর করুন</string>
+    <string name="webp_type_to_jxl">WEBP থেকে JXL</string>
+    <string name="webp_type_to_jxl_sub">WEBP অ্যানিমেশনকে JXL ছবিতে রূপান্তর করুন</string>
 </resources>

@@ -5014,4 +5014,12 @@
     <string name="apng_type_to_webp_sub">تحويل الرسوم المتحركة APNG إلى صور WEBP</string>
     <string name="webp_type_to_apng">WEBP إلى APNG</string>
     <string name="webp_type_to_apng_sub">تحويل الرسوم المتحركة WEBP إلى صور APNG</string>
+    <string name="jxl_type_to_gif">من JXL إلى GIF</string>
+    <string name="jxl_type_to_gif_sub">تحويل الرسوم المتحركة JXL إلى صور GIF</string>
+    <string name="jxl_type_to_apng">من JXL إلى APNG</string>
+    <string name="jxl_type_to_apng_sub">تحويل الرسوم المتحركة JXL إلى صور APNG</string>
+    <string name="jxl_type_to_webp">من JXL إلى WEBP</string>
+    <string name="jxl_type_to_webp_sub">تحويل الرسوم المتحركة JXL إلى صور WEBP</string>
+    <string name="webp_type_to_jxl">ويبب إلى JXL</string>
+    <string name="webp_type_to_jxl_sub">تحويل الرسوم المتحركة WEBP إلى صور JXL</string>
 </resources>

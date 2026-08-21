@@ -5011,4 +5011,12 @@
     <string name="apng_type_to_webp_sub">Претворите АПНГ анимације у ВЕБП слике</string>
     <string name="webp_type_to_apng">ВЕБП у АПНГ</string>
     <string name="webp_type_to_apng_sub">Претворите ВЕБП анимације у АПНГ слике</string>
+    <string name="jxl_type_to_gif">ЈКСЛ у ГИФ</string>
+    <string name="jxl_type_to_gif_sub">Претворите ЈКСЛ анимације у ГИФ слике</string>
+    <string name="jxl_type_to_apng">ЈКСЛ у АПНГ</string>
+    <string name="jxl_type_to_apng_sub">Претворите ЈКСЛ анимације у АПНГ слике</string>
+    <string name="jxl_type_to_webp">ЈКСЛ на ВЕБП</string>
+    <string name="jxl_type_to_webp_sub">Претворите ЈКСЛ анимације у ВЕБП слике</string>
+    <string name="webp_type_to_jxl">ВЕБП у ЈКСЛ</string>
+    <string name="webp_type_to_jxl_sub">Претворите ВЕБП анимације у ЈКСЛ слике</string>
 </resources>

@@ -5012,4 +5012,12 @@
     <string name="apng_type_to_webp_sub">Konvertuokite APNG animacijas į WEBP vaizdus</string>
     <string name="webp_type_to_apng">WEBP į APNG</string>
     <string name="webp_type_to_apng_sub">Konvertuokite WEBP animacijas į APNG vaizdus</string>
+    <string name="jxl_type_to_gif">JXL į GIF</string>
+    <string name="jxl_type_to_gif_sub">Konvertuokite JXL animacijas į GIF vaizdus</string>
+    <string name="jxl_type_to_apng">JXL į APNG</string>
+    <string name="jxl_type_to_apng_sub">Konvertuokite JXL animacijas į APNG vaizdus</string>
+    <string name="jxl_type_to_webp">JXL į WEBP</string>
+    <string name="jxl_type_to_webp_sub">Konvertuokite JXL animacijas į WEBP vaizdus</string>
+    <string name="webp_type_to_jxl">WEBP į JXL</string>
+    <string name="webp_type_to_jxl_sub">Konvertuokite WEBP animacijas į JXL vaizdus</string>
 </resources>

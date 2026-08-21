@@ -5009,4 +5009,12 @@
     <string name="apng_type_to_webp_sub">将 APNG 动画转换为 WEBP 图像</string>
     <string name="webp_type_to_apng">WEBP 转 APNG</string>
     <string name="webp_type_to_apng_sub">将 WEBP 动画转换为 APNG 图像</string>
+    <string name="jxl_type_to_gif">JXL 转 GIF</string>
+    <string name="jxl_type_to_gif_sub">将 JXL 动画转换为 GIF 图像</string>
+    <string name="jxl_type_to_apng">JXL 为 APNG</string>
+    <string name="jxl_type_to_apng_sub">将 JXL 动画转换为 APNG 图像</string>
+    <string name="jxl_type_to_webp">JXL 至 WEBP</string>
+    <string name="jxl_type_to_webp_sub">将 JXL 动画转换为 WEBP 图像</string>
+    <string name="webp_type_to_jxl">WEBP 至 JXL</string>
+    <string name="webp_type_to_jxl_sub">将 WEBP 动画转换为 JXL 图像</string>
 </resources>

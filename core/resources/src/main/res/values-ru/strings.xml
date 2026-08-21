@@ -5012,4 +5012,12 @@
     <string name="apng_type_to_webp_sub">Преобразование анимации APNG в изображения WEBP</string>
     <string name="webp_type_to_apng">WEBP в APNG</string>
     <string name="webp_type_to_apng_sub">Преобразование анимации WEBP в изображения APNG</string>
+    <string name="jxl_type_to_gif">JXL в GIF</string>
+    <string name="jxl_type_to_gif_sub">Преобразование анимации JXL в изображения GIF</string>
+    <string name="jxl_type_to_apng">JXL в APNG</string>
+    <string name="jxl_type_to_apng_sub">Преобразование анимации JXL в изображения APNG</string>
+    <string name="jxl_type_to_webp">JXL в WEBP</string>
+    <string name="jxl_type_to_webp_sub">Преобразование анимации JXL в изображения WEBP</string>
+    <string name="webp_type_to_jxl">WEBP в JXL</string>
+    <string name="webp_type_to_jxl_sub">Преобразование анимации WEBP в изображения JXL</string>
 </resources>

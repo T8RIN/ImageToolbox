@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">APNG एनिमेशन को WEBP छवियों में बदलें</string>
     <string name="webp_type_to_apng">वेबपी से एपीएनजी</string>
     <string name="webp_type_to_apng_sub">WEBP एनिमेशन को APNG छवियों में बदलें</string>
+    <string name="jxl_type_to_gif">जेएक्सएल से जीआईएफ</string>
+    <string name="jxl_type_to_gif_sub">JXL एनिमेशन को GIF छवियों में बदलें</string>
+    <string name="jxl_type_to_apng">जेएक्सएल से एपीएनजी</string>
+    <string name="jxl_type_to_apng_sub">JXL एनिमेशन को APNG छवियों में बदलें</string>
+    <string name="jxl_type_to_webp">JXL से WEBP</string>
+    <string name="jxl_type_to_webp_sub">JXL एनिमेशन को WEBP छवियों में बदलें</string>
+    <string name="webp_type_to_jxl">वेबपी से जेएक्सएल</string>
+    <string name="webp_type_to_jxl_sub">WEBP एनिमेशन को JXL छवियों में बदलें</string>
 </resources>

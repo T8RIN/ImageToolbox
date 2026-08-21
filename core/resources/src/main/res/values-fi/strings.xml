@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">Muunna APNG-animaatiot WEBP-kuviksi</string>
     <string name="webp_type_to_apng">WEBP:stä APNG:hen</string>
     <string name="webp_type_to_apng_sub">Muunna WEBP-animaatiot APNG-kuviksi</string>
+    <string name="jxl_type_to_gif">JXL GIF:ksi</string>
+    <string name="jxl_type_to_gif_sub">Muunna JXL-animaatiot GIF-kuviksi</string>
+    <string name="jxl_type_to_apng">JXL:stä APNG:hen</string>
+    <string name="jxl_type_to_apng_sub">Muunna JXL-animaatiot APNG-kuviksi</string>
+    <string name="jxl_type_to_webp">JXL:stä WEBP:hen</string>
+    <string name="jxl_type_to_webp_sub">Muunna JXL-animaatiot WEBP-kuviksi</string>
+    <string name="webp_type_to_jxl">WEBP:stä JXL:ään</string>
+    <string name="webp_type_to_jxl_sub">Muunna WEBP-animaatiot JXL-kuviksi</string>
 </resources>

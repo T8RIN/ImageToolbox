@@ -5009,4 +5009,12 @@
     <string name="apng_type_to_webp_sub">APNG アニメーションを WEBP 画像に変換する</string>
     <string name="webp_type_to_apng">WEBPからAPNGへの変換</string>
     <string name="webp_type_to_apng_sub">WEBP アニメーションを APNG 画像に変換する</string>
+    <string name="jxl_type_to_gif">JXLからGIFへのファイル変換</string>
+    <string name="jxl_type_to_gif_sub">JXL アニメーションを GIF 画像に変換する</string>
+    <string name="jxl_type_to_apng">JXLからAPNGへの変換</string>
+    <string name="jxl_type_to_apng_sub">JXL アニメーションを APNG 画像に変換</string>
+    <string name="jxl_type_to_webp">JXLからWEBPへのファイル変換</string>
+    <string name="jxl_type_to_webp_sub">JXL アニメーションを WEBP 画像に変換する</string>
+    <string name="webp_type_to_jxl">WEBPからJXLへの変換</string>
+    <string name="webp_type_to_jxl_sub">WEBP アニメーションを JXL 画像に変換する</string>
 </resources>

@@ -5011,4 +5011,12 @@
     <string name="apng_type_to_webp_sub">Convertiți animațiile APNG în imagini WEBP</string>
     <string name="webp_type_to_apng">WEBP la APNG</string>
     <string name="webp_type_to_apng_sub">Convertiți animațiile WEBP în imagini APNG</string>
+    <string name="jxl_type_to_gif">JXL în GIF</string>
+    <string name="jxl_type_to_gif_sub">Convertiți animațiile JXL în imagini GIF</string>
+    <string name="jxl_type_to_apng">JXL la APNG</string>
+    <string name="jxl_type_to_apng_sub">Convertiți animațiile JXL în imagini APNG</string>
+    <string name="jxl_type_to_webp">JXL la WEBP</string>
+    <string name="jxl_type_to_webp_sub">Convertiți animațiile JXL în imagini WEBP</string>
+    <string name="webp_type_to_jxl">WEBP la JXL</string>
+    <string name="webp_type_to_jxl_sub">Convertiți animațiile WEBP în imagini JXL</string>
 </resources>

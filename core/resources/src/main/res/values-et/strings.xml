@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">Teisendage APNG-animatsioonid WEBP-piltideks</string>
     <string name="webp_type_to_apng">WEBP-st APNG-le</string>
     <string name="webp_type_to_apng_sub">Teisendage WEBP-animatsioonid APNG-piltideks</string>
+    <string name="jxl_type_to_gif">JXL-st GIF-iks</string>
+    <string name="jxl_type_to_gif_sub">Teisendage JXL-animatsioonid GIF-piltideks</string>
+    <string name="jxl_type_to_apng">JXL kuni APNG</string>
+    <string name="jxl_type_to_apng_sub">Teisendage JXL-animatsioonid APNG-piltideks</string>
+    <string name="jxl_type_to_webp">JXL-st WEBP-ks</string>
+    <string name="jxl_type_to_webp_sub">Teisendage JXL-animatsioonid WEBP-piltideks</string>
+    <string name="webp_type_to_jxl">WEBP kuni JXL</string>
+    <string name="webp_type_to_jxl_sub">Teisendage WEBP-animatsioonid JXL-piltideks</string>
 </resources>

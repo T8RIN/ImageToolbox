@@ -5009,4 +5009,12 @@
     <string name="apng_type_to_webp_sub">แปลงภาพเคลื่อนไหว APNG เป็นภาพ WEBP</string>
     <string name="webp_type_to_apng">WEBP เป็น APNG</string>
     <string name="webp_type_to_apng_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ APNG</string>
+    <string name="jxl_type_to_gif">JXL เป็น GIF</string>
+    <string name="jxl_type_to_gif_sub">แปลงภาพเคลื่อนไหว JXL เป็นภาพ GIF</string>
+    <string name="jxl_type_to_apng">JXL เป็น APNG</string>
+    <string name="jxl_type_to_apng_sub">แปลงภาพเคลื่อนไหว JXL เป็นภาพ APNG</string>
+    <string name="jxl_type_to_webp">JXL เป็น WEBP</string>
+    <string name="jxl_type_to_webp_sub">แปลงภาพเคลื่อนไหว JXL เป็นภาพ WEBP</string>
+    <string name="webp_type_to_jxl">WEBP เป็น JXL</string>
+    <string name="webp_type_to_jxl_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ JXL</string>
 </resources>

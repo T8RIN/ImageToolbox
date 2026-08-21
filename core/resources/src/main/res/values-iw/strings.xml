@@ -5012,4 +5012,12 @@
     <string name="apng_type_to_webp_sub">המרת אנימציות APNG לתמונות WEBP</string>
     <string name="webp_type_to_apng">WEBP ל-APNG</string>
     <string name="webp_type_to_apng_sub">המרת אנימציות WEBP לתמונות APNG</string>
+    <string name="jxl_type_to_gif">JXL ל-GIF</string>
+    <string name="jxl_type_to_gif_sub">המרת אנימציות JXL לתמונות GIF</string>
+    <string name="jxl_type_to_apng">JXL ל-APNG</string>
+    <string name="jxl_type_to_apng_sub">המרת אנימציות JXL לתמונות APNG</string>
+    <string name="jxl_type_to_webp">JXL ל-WEBP</string>
+    <string name="jxl_type_to_webp_sub">המר אנימציות JXL לתמונות WEBP</string>
+    <string name="webp_type_to_jxl">WEBP ל-JXL</string>
+    <string name="webp_type_to_jxl_sub">המר אנימציות WEBP לתמונות JXL</string>
 </resources>

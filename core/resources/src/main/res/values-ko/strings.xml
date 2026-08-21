@@ -5009,4 +5009,12 @@
     <string name="apng_type_to_webp_sub">APNG 애니메이션을 WEBP 이미지로 변환</string>
     <string name="webp_type_to_apng">WEBP에서 APNG로</string>
     <string name="webp_type_to_apng_sub">WEBP 애니메이션을 APNG 이미지로 변환</string>
+    <string name="jxl_type_to_gif">JXL 에서 GIF로</string>
+    <string name="jxl_type_to_gif_sub">JXL 애니메이션을 GIF 이미지로 변환</string>
+    <string name="jxl_type_to_apng">JXL에서 APNG로</string>
+    <string name="jxl_type_to_apng_sub">JXL 애니메이션을 APNG 이미지로 변환</string>
+    <string name="jxl_type_to_webp">JXL에서 WEBP로</string>
+    <string name="jxl_type_to_webp_sub">JXL 애니메이션을 WEBP 이미지로 변환</string>
+    <string name="webp_type_to_jxl">WEBP에서 JXL로</string>
+    <string name="webp_type_to_jxl_sub">WEBP 애니메이션을 JXL 이미지로 변환</string>
 </resources>

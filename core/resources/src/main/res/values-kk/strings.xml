@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">APNG анимацияларын WEBP кескіндеріне түрлендіру</string>
     <string name="webp_type_to_apng">WEBP - APNG</string>
     <string name="webp_type_to_apng_sub">WEBP анимацияларын APNG кескіндеріне түрлендіру</string>
+    <string name="jxl_type_to_gif">JXL-ден GIF-ке</string>
+    <string name="jxl_type_to_gif_sub">JXL анимацияларын GIF кескіндеріне түрлендіру</string>
+    <string name="jxl_type_to_apng">JXL - APNG</string>
+    <string name="jxl_type_to_apng_sub">JXL анимацияларын APNG кескіндеріне түрлендіру</string>
+    <string name="jxl_type_to_webp">JXL-ден WEBP-ге</string>
+    <string name="jxl_type_to_webp_sub">JXL анимацияларын WEBP кескіндеріне түрлендіру</string>
+    <string name="webp_type_to_jxl">JXL үшін WEBP</string>
+    <string name="webp_type_to_jxl_sub">WEBP анимацияларын JXL кескіндеріне түрлендіру</string>
 </resources>

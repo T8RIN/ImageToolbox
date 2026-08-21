@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">Konvertera APNG-animationer till WEBP-bilder</string>
     <string name="webp_type_to_apng">WEBP till APNG</string>
     <string name="webp_type_to_apng_sub">Konvertera WEBP-animationer till APNG-bilder</string>
+    <string name="jxl_type_to_gif">JXL till GIF</string>
+    <string name="jxl_type_to_gif_sub">Konvertera JXL-animationer till GIF-bilder</string>
+    <string name="jxl_type_to_apng">JXL till APNG</string>
+    <string name="jxl_type_to_apng_sub">Konvertera JXL-animationer till APNG-bilder</string>
+    <string name="jxl_type_to_webp">JXL till WEBP</string>
+    <string name="jxl_type_to_webp_sub">Konvertera JXL-animationer till WEBP-bilder</string>
+    <string name="webp_type_to_jxl">WEBP till JXL</string>
+    <string name="webp_type_to_jxl_sub">Konvertera WEBP-animationer till JXL-bilder</string>
 </resources>

@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">APNG-animációk konvertálása WEBP-képekké</string>
     <string name="webp_type_to_apng">WEBP-ről APNG-re</string>
     <string name="webp_type_to_apng_sub">Konvertálja a WEBP-animációkat APNG-képekké</string>
+    <string name="jxl_type_to_gif">JXL-ből GIF-be</string>
+    <string name="jxl_type_to_gif_sub">Konvertálja a JXL animációkat GIF képekké</string>
+    <string name="jxl_type_to_apng">JXL - APNG</string>
+    <string name="jxl_type_to_apng_sub">Konvertálja a JXL animációkat APNG képekké</string>
+    <string name="jxl_type_to_webp">JXL - WEBP</string>
+    <string name="jxl_type_to_webp_sub">Konvertálja a JXL animációkat WEBP képekké</string>
+    <string name="webp_type_to_jxl">WEBP a JXL-re</string>
+    <string name="webp_type_to_jxl_sub">A WEBP-animációk konvertálása JXL-képekké</string>
 </resources>

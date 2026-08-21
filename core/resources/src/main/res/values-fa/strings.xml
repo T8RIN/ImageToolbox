@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">انیمیشن های APNG را به تصاویر WEBP تبدیل کنید</string>
     <string name="webp_type_to_apng">WEBP به APNG</string>
     <string name="webp_type_to_apng_sub">انیمیشن های WEBP را به تصاویر APNG تبدیل کنید</string>
+    <string name="jxl_type_to_gif">JXL به GIF</string>
+    <string name="jxl_type_to_gif_sub">انیمیشن های JXL را به تصاویر GIF تبدیل کنید</string>
+    <string name="jxl_type_to_apng">JXL به APNG</string>
+    <string name="jxl_type_to_apng_sub">انیمیشن های JXL را به تصاویر APNG تبدیل کنید</string>
+    <string name="jxl_type_to_webp">JXL به WEBP</string>
+    <string name="jxl_type_to_webp_sub">انیمیشن های JXL را به تصاویر WEBP تبدیل کنید</string>
+    <string name="webp_type_to_jxl">WEBP به JXL</string>
+    <string name="webp_type_to_jxl_sub">انیمیشن های WEBP را به تصاویر JXL تبدیل کنید</string>
 </resources>

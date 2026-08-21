@@ -5010,4 +5010,12 @@
     <string name="apng_type_to_webp_sub">Converta animações APNG em imagens WEBP</string>
     <string name="webp_type_to_apng">WEBP para APNG</string>
     <string name="webp_type_to_apng_sub">Converta animações WEBP em imagens APNG</string>
+    <string name="jxl_type_to_gif">JXL para GIF</string>
+    <string name="jxl_type_to_gif_sub">Converta animações JXL em imagens GIF</string>
+    <string name="jxl_type_to_apng">JXL para APNG</string>
+    <string name="jxl_type_to_apng_sub">Converta animações JXL em imagens APNG</string>
+    <string name="jxl_type_to_webp">JXL para WEBP</string>
+    <string name="jxl_type_to_webp_sub">Converta animações JXL em imagens WEBP</string>
+    <string name="webp_type_to_jxl">WEBP para JXL</string>
+    <string name="webp_type_to_jxl_sub">Converta animações WEBP em imagens JXL</string>
 </resources>
