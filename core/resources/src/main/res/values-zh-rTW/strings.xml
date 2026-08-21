@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">將 JXL 動畫轉換為 WEBP 影像</string>
     <string name="webp_type_to_jxl">WEBP 至 JXL</string>
     <string name="webp_type_to_jxl_sub">將 WEBP 動畫轉換為 JXL 影像</string>
+    <string name="apng_type_merge">合併 APNG</string>
+    <string name="apng_type_merge_sub">將多個 APNG 剪輯組合成一個動畫</string>
+    <string name="webp_type_merge">合併WEBP</string>
+    <string name="webp_type_merge_sub">將多個 WEBP 動畫剪輯合併為一個動畫</string>
+    <string name="jxl_type_merge">合併JXL</string>
+    <string name="jxl_type_merge_sub">將多個動畫 JXL 剪輯合併為一個動畫</string>
+    <string name="animation_clips_order">動畫剪輯順序</string>
 </resources>

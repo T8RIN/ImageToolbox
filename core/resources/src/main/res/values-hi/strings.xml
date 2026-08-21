@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">JXL एनिमेशन को WEBP छवियों में बदलें</string>
     <string name="webp_type_to_jxl">वेबपी से जेएक्सएल</string>
     <string name="webp_type_to_jxl_sub">WEBP एनिमेशन को JXL छवियों में बदलें</string>
+    <string name="apng_type_merge">एपीएनजी को मर्ज करें</string>
+    <string name="apng_type_merge_sub">एकाधिक एपीएनजी क्लिप को एक एनीमेशन में संयोजित करें</string>
+    <string name="webp_type_merge">WEBP मर्ज करें</string>
+    <string name="webp_type_merge_sub">एकाधिक एनिमेटेड WEBP क्लिप को एक एनीमेशन में संयोजित करें</string>
+    <string name="jxl_type_merge">JXL को मर्ज करें</string>
+    <string name="jxl_type_merge_sub">एकाधिक एनिमेटेड JXL क्लिप को एक एनीमेशन में संयोजित करें</string>
+    <string name="animation_clips_order">एनिमेशन क्लिप ऑर्डर</string>
 </resources>

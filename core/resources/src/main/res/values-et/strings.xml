@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">Teisendage JXL-animatsioonid WEBP-piltideks</string>
     <string name="webp_type_to_jxl">WEBP kuni JXL</string>
     <string name="webp_type_to_jxl_sub">Teisendage WEBP-animatsioonid JXL-piltideks</string>
+    <string name="apng_type_merge">Ühendage APNG</string>
+    <string name="apng_type_merge_sub">Ühendage mitu APNG-klippi üheks animatsiooniks</string>
+    <string name="webp_type_merge">Ühendage WEBP</string>
+    <string name="webp_type_merge_sub">Ühendage mitu animeeritud WEBP-klippi üheks animatsiooniks</string>
+    <string name="jxl_type_merge">Ühendage JXL</string>
+    <string name="jxl_type_merge_sub">Kombineerige mitu animeeritud JXL-klippi üheks animatsiooniks</string>
+    <string name="animation_clips_order">Animatsiooniklippide tellimus</string>
 </resources>

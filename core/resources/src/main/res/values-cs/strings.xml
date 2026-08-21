@@ -5020,4 +5020,11 @@
     <string name="jxl_type_to_webp_sub">Převeďte animace JXL na obrázky WEBP</string>
     <string name="webp_type_to_jxl">WEBP na JXL</string>
     <string name="webp_type_to_jxl_sub">Převeďte animace WEBP na obrázky JXL</string>
+    <string name="apng_type_merge">Sloučit APNG</string>
+    <string name="apng_type_merge_sub">Spojte více klipů APNG do jedné animace</string>
+    <string name="webp_type_merge">Sloučit WEBP</string>
+    <string name="webp_type_merge_sub">Spojte více animovaných klipů WEBP do jedné animace</string>
+    <string name="jxl_type_merge">Sloučit JXL</string>
+    <string name="jxl_type_merge_sub">Spojte více animovaných klipů JXL do jedné animace</string>
+    <string name="animation_clips_order">Pořadí animovaných klipů</string>
 </resources>

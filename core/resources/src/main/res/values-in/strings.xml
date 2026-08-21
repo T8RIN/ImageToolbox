@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">Konversikan animasi JXL ke gambar WEBP</string>
     <string name="webp_type_to_jxl">WEBP ke JXL</string>
     <string name="webp_type_to_jxl_sub">Konversikan animasi WEBP ke gambar JXL</string>
+    <string name="apng_type_merge">Gabungkan APNG</string>
+    <string name="apng_type_merge_sub">Gabungkan beberapa klip APNG menjadi satu animasi</string>
+    <string name="webp_type_merge">Gabungkan WEBP</string>
+    <string name="webp_type_merge_sub">Gabungkan beberapa klip WEBP animasi menjadi satu animasi</string>
+    <string name="jxl_type_merge">Gabungkan JXL</string>
+    <string name="jxl_type_merge_sub">Gabungkan beberapa klip JXL animasi menjadi satu animasi</string>
+    <string name="animation_clips_order">Urutan klip animasi</string>
 </resources>

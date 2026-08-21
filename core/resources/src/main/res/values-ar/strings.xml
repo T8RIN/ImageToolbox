@@ -5022,4 +5022,11 @@
     <string name="jxl_type_to_webp_sub">تحويل الرسوم المتحركة JXL إلى صور WEBP</string>
     <string name="webp_type_to_jxl">ويبب إلى JXL</string>
     <string name="webp_type_to_jxl_sub">تحويل الرسوم المتحركة WEBP إلى صور JXL</string>
+    <string name="apng_type_merge">دمج أبنغ</string>
+    <string name="apng_type_merge_sub">قم بدمج مقاطع APNG المتعددة في رسم متحرك واحد</string>
+    <string name="webp_type_merge">دمج ويب</string>
+    <string name="webp_type_merge_sub">قم بدمج مقاطع WEBP المتحركة المتعددة في رسم متحرك واحد</string>
+    <string name="jxl_type_merge">دمج جي اكس ال</string>
+    <string name="jxl_type_merge_sub">قم بدمج عدة مقاطع JXL متحركة في رسم متحرك واحد</string>
+    <string name="animation_clips_order">ترتيب مقاطع الرسوم المتحركة</string>
 </resources>

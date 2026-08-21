@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">Muunna JXL-animaatiot WEBP-kuviksi</string>
     <string name="webp_type_to_jxl">WEBP:stä JXL:ään</string>
     <string name="webp_type_to_jxl_sub">Muunna WEBP-animaatiot JXL-kuviksi</string>
+    <string name="apng_type_merge">Yhdistä APNG</string>
+    <string name="apng_type_merge_sub">Yhdistä useita APNG-leikkeitä yhdeksi animaatioksi</string>
+    <string name="webp_type_merge">Yhdistä WEBP</string>
+    <string name="webp_type_merge_sub">Yhdistä useita animoituja WEBP-leikkeitä yhdeksi animaatioksi</string>
+    <string name="jxl_type_merge">Yhdistä JXL</string>
+    <string name="jxl_type_merge_sub">Yhdistä useita animoituja JXL-leikkeitä yhdeksi animaatioksi</string>
+    <string name="animation_clips_order">Animaatioleikkeiden tilaus</string>
 </resources>

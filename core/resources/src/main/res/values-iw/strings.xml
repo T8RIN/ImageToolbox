@@ -5020,4 +5020,11 @@
     <string name="jxl_type_to_webp_sub">המר אנימציות JXL לתמונות WEBP</string>
     <string name="webp_type_to_jxl">WEBP ל-JXL</string>
     <string name="webp_type_to_jxl_sub">המר אנימציות WEBP לתמונות JXL</string>
+    <string name="apng_type_merge">מיזוג APNG</string>
+    <string name="apng_type_merge_sub">שלב קטעי APNG מרובים לאנימציה אחת</string>
+    <string name="webp_type_merge">מיזוג WEBP</string>
+    <string name="webp_type_merge_sub">שלב קטעי WEBP מונפשים מרובים לאנימציה אחת</string>
+    <string name="jxl_type_merge">מיזוג JXL</string>
+    <string name="jxl_type_merge_sub">שלב מספר קטעי JXL מונפשים לאנימציה אחת</string>
+    <string name="animation_clips_order">סדר קטעי אנימציה</string>
 </resources>

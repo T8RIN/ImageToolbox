@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">JXL アニメーションを WEBP 画像に変換する</string>
     <string name="webp_type_to_jxl">WEBPからJXLへの変換</string>
     <string name="webp_type_to_jxl_sub">WEBP アニメーションを JXL 画像に変換する</string>
+    <string name="apng_type_merge">APNGを結合</string>
+    <string name="apng_type_merge_sub">複数の APNG クリップを 1 つのアニメーションに結合する</string>
+    <string name="webp_type_merge">WEBP をマージ</string>
+    <string name="webp_type_merge_sub">複数のアニメーション WEBP クリップを 1 つのアニメーションに結合する</string>
+    <string name="jxl_type_merge">JXLをマージ</string>
+    <string name="jxl_type_merge_sub">複数のアニメーション JXL クリップを 1 つのアニメーションに結合する</string>
+    <string name="animation_clips_order">アニメーションクリップの順序</string>
 </resources>

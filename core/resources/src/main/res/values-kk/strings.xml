@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">JXL анимацияларын WEBP кескіндеріне түрлендіру</string>
     <string name="webp_type_to_jxl">JXL үшін WEBP</string>
     <string name="webp_type_to_jxl_sub">WEBP анимацияларын JXL кескіндеріне түрлендіру</string>
+    <string name="apng_type_merge">APNG біріктіру</string>
+    <string name="apng_type_merge_sub">Бірнеше APNG клиптерін бір анимацияға біріктіріңіз</string>
+    <string name="webp_type_merge">WEBP біріктіру</string>
+    <string name="webp_type_merge_sub">Бірнеше анимацияланған WEBP клиптерін бір анимацияға біріктіріңіз</string>
+    <string name="jxl_type_merge">JXL біріктіру</string>
+    <string name="jxl_type_merge_sub">Бірнеше анимациялық JXL клиптерін бір анимацияға біріктіріңіз</string>
+    <string name="animation_clips_order">Анимациялық клиптерге тапсырыс беру</string>
 </resources>

@@ -5020,4 +5020,11 @@
     <string name="jxl_type_to_webp_sub">Пераўтварыце анімацыю JXL у выявы WEBP</string>
     <string name="webp_type_to_jxl">WEBP ў JXL</string>
     <string name="webp_type_to_jxl_sub">Пераўтварыце анімацыю WEBP у выявы JXL</string>
+    <string name="apng_type_merge">Аб\'яднаць APNG</string>
+    <string name="apng_type_merge_sub">Аб\'яднайце некалькі кліпаў APNG у адну анімацыю</string>
+    <string name="webp_type_merge">Аб\'яднаць WEBP</string>
+    <string name="webp_type_merge_sub">Аб\'яднайце некалькі анімаваных кліпаў WEBP у адну анімацыю</string>
+    <string name="jxl_type_merge">Аб\'яднаць JXL</string>
+    <string name="jxl_type_merge_sub">Аб\'яднайце некалькі анімаваных кліпаў JXL у адну анімацыю</string>
+    <string name="animation_clips_order">Заказ анімацыйных кліпаў</string>
 </resources>

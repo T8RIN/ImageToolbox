@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">แปลงภาพเคลื่อนไหว JXL เป็นภาพ WEBP</string>
     <string name="webp_type_to_jxl">WEBP เป็น JXL</string>
     <string name="webp_type_to_jxl_sub">แปลงภาพเคลื่อนไหว WEBP เป็นภาพ JXL</string>
+    <string name="apng_type_merge">รวม APNG</string>
+    <string name="apng_type_merge_sub">รวมคลิป APNG หลายคลิปเป็นภาพเคลื่อนไหวเดียว</string>
+    <string name="webp_type_merge">ผสาน WEBP</string>
+    <string name="webp_type_merge_sub">รวมคลิป WEBP แบบเคลื่อนไหวหลายคลิปให้เป็นภาพเคลื่อนไหวเดียว</string>
+    <string name="jxl_type_merge">รวม JXL</string>
+    <string name="jxl_type_merge_sub">รวมคลิป JXL แบบเคลื่อนไหวหลายคลิปให้เป็นภาพเคลื่อนไหวเดียว</string>
+    <string name="animation_clips_order">ลำดับคลิปแอนิเมชั่น</string>
 </resources>

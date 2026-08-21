@@ -5019,4 +5019,11 @@
     <string name="jxl_type_to_webp_sub">Convertiți animațiile JXL în imagini WEBP</string>
     <string name="webp_type_to_jxl">WEBP la JXL</string>
     <string name="webp_type_to_jxl_sub">Convertiți animațiile WEBP în imagini JXL</string>
+    <string name="apng_type_merge">Îmbinați APNG</string>
+    <string name="apng_type_merge_sub">Combinați mai multe clipuri APNG într-o singură animație</string>
+    <string name="webp_type_merge">Îmbinați WEBP</string>
+    <string name="webp_type_merge_sub">Combinați mai multe clipuri animate WEBP într-o singură animație</string>
+    <string name="jxl_type_merge">Îmbina JXL</string>
+    <string name="jxl_type_merge_sub">Combinați mai multe clipuri animate JXL într-o singură animație</string>
+    <string name="animation_clips_order">Comandă clipuri de animație</string>
 </resources>

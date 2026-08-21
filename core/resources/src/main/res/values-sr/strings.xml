@@ -5019,4 +5019,11 @@
     <string name="jxl_type_to_webp_sub">Претворите ЈКСЛ анимације у ВЕБП слике</string>
     <string name="webp_type_to_jxl">ВЕБП у ЈКСЛ</string>
     <string name="webp_type_to_jxl_sub">Претворите ВЕБП анимације у ЈКСЛ слике</string>
+    <string name="apng_type_merge">Споји АПНГ</string>
+    <string name="apng_type_merge_sub">Комбинујте више АПНГ клипова у једну анимацију</string>
+    <string name="webp_type_merge">Мерге ВЕБП</string>
+    <string name="webp_type_merge_sub">Комбинујте више анимираних ВЕБП клипова у једну анимацију</string>
+    <string name="jxl_type_merge">Мерге ЈКСЛ</string>
+    <string name="jxl_type_merge_sub">Комбинујте више анимираних ЈКСЛ клипова у једну анимацију</string>
+    <string name="animation_clips_order">Редослед анимираних клипова</string>
 </resources>

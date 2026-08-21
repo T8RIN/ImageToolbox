@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">JXL యానిమేషన్‌లను WEBP చిత్రాలకు మార్చండి</string>
     <string name="webp_type_to_jxl">WEBP నుండి JXL</string>
     <string name="webp_type_to_jxl_sub">WEBP యానిమేషన్‌లను JXL చిత్రాలకు మార్చండి</string>
+    <string name="apng_type_merge">APNGని విలీనం చేయండి</string>
+    <string name="apng_type_merge_sub">బహుళ APNG క్లిప్‌లను ఒక యానిమేషన్‌లో కలపండి</string>
+    <string name="webp_type_merge">WEBPని విలీనం చేయండి</string>
+    <string name="webp_type_merge_sub">బహుళ యానిమేటెడ్ WEBP క్లిప్‌లను ఒక యానిమేషన్‌లో కలపండి</string>
+    <string name="jxl_type_merge">JXLని విలీనం చేయండి</string>
+    <string name="jxl_type_merge_sub">బహుళ యానిమేటెడ్ JXL క్లిప్‌లను ఒక యానిమేషన్‌లో కలపండి</string>
+    <string name="animation_clips_order">యానిమేషన్ క్లిప్‌ల క్రమం</string>
 </resources>

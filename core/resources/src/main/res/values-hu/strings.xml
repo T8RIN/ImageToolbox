@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">Konvertálja a JXL animációkat WEBP képekké</string>
     <string name="webp_type_to_jxl">WEBP a JXL-re</string>
     <string name="webp_type_to_jxl_sub">A WEBP-animációk konvertálása JXL-képekké</string>
+    <string name="apng_type_merge">APNG egyesítése</string>
+    <string name="apng_type_merge_sub">Kombináljon több APNG klipet egyetlen animációba</string>
+    <string name="webp_type_merge">WEBP egyesítése</string>
+    <string name="webp_type_merge_sub">Kombináljon több animált WEBP klipet egyetlen animációba</string>
+    <string name="jxl_type_merge">JXL egyesítése</string>
+    <string name="jxl_type_merge_sub">Kombináljon több animált JXL klipet egyetlen animációba</string>
+    <string name="animation_clips_order">Animációs klipek rendelése</string>
 </resources>

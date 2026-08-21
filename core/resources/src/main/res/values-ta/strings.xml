@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">JXL அனிமேஷன்களை WEBP படங்களாக மாற்றவும்</string>
     <string name="webp_type_to_jxl">WEBP முதல் JXL வரை</string>
     <string name="webp_type_to_jxl_sub">WEBP அனிமேஷன்களை JXL படங்களாக மாற்றவும்</string>
+    <string name="apng_type_merge">APNG ஐ இணைக்கவும்</string>
+    <string name="apng_type_merge_sub">பல APNG கிளிப்களை ஒரு அனிமேஷனில் இணைக்கவும்</string>
+    <string name="webp_type_merge">WEBP ஐ இணைக்கவும்</string>
+    <string name="webp_type_merge_sub">பல அனிமேஷன் செய்யப்பட்ட WEBP கிளிப்களை ஒரு அனிமேஷனில் இணைக்கவும்</string>
+    <string name="jxl_type_merge">JXL ஐ இணைக்கவும்</string>
+    <string name="jxl_type_merge_sub">பல அனிமேஷன் செய்யப்பட்ட JXL கிளிப்களை ஒரு அனிமேஷனில் இணைக்கவும்</string>
+    <string name="animation_clips_order">அனிமேஷன் கிளிப்புகள் வரிசை</string>
 </resources>

@@ -5018,4 +5018,11 @@
     <string name="jxl_type_to_webp_sub">Convertir les animations JXL en images WEBP</string>
     <string name="webp_type_to_jxl">WEBP vers JXL</string>
     <string name="webp_type_to_jxl_sub">Convertir les animations WEBP en images JXL</string>
+    <string name="apng_type_merge">Fusionner APNG</string>
+    <string name="apng_type_merge_sub">Combinez plusieurs clips APNG en une seule animation</string>
+    <string name="webp_type_merge">Fusionner WEBP</string>
+    <string name="webp_type_merge_sub">Combinez plusieurs clips WEBP animés en une seule animation</string>
+    <string name="jxl_type_merge">Fusionner JXL</string>
+    <string name="jxl_type_merge_sub">Combinez plusieurs clips JXL animés en une seule animation</string>
+    <string name="animation_clips_order">Ordre des clips d\'animation</string>
 </resources>

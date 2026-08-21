@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">Chuyển đổi hình ảnh động JXL thành hình ảnh WEBP</string>
     <string name="webp_type_to_jxl">WEBP sang JXL</string>
     <string name="webp_type_to_jxl_sub">Chuyển đổi hình ảnh động WEBP thành hình ảnh JXL</string>
+    <string name="apng_type_merge">Hợp nhất APNG</string>
+    <string name="apng_type_merge_sub">Kết hợp nhiều clip APNG thành một hình ảnh động</string>
+    <string name="webp_type_merge">Hợp nhất WEBP</string>
+    <string name="webp_type_merge_sub">Kết hợp nhiều clip WEBP hoạt hình thành một hoạt ảnh</string>
+    <string name="jxl_type_merge">Hợp nhất JXL</string>
+    <string name="jxl_type_merge_sub">Kết hợp nhiều clip JXL hoạt hình thành một hoạt ảnh</string>
+    <string name="animation_clips_order">Thứ tự clip hoạt hình</string>
 </resources>

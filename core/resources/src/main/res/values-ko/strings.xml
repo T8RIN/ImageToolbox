@@ -5017,4 +5017,11 @@
     <string name="jxl_type_to_webp_sub">JXL 애니메이션을 WEBP 이미지로 변환</string>
     <string name="webp_type_to_jxl">WEBP에서 JXL로</string>
     <string name="webp_type_to_jxl_sub">WEBP 애니메이션을 JXL 이미지로 변환</string>
+    <string name="apng_type_merge">APNG 병합</string>
+    <string name="apng_type_merge_sub">여러 APNG 클립을 하나의 애니메이션으로 결합</string>
+    <string name="webp_type_merge">WEBP 병합</string>
+    <string name="webp_type_merge_sub">여러 애니메이션 WEBP 클립을 하나의 애니메이션으로 결합</string>
+    <string name="jxl_type_merge">JXL 병합</string>
+    <string name="jxl_type_merge_sub">여러 애니메이션 JXL 클립을 하나의 애니메이션으로 결합</string>
+    <string name="animation_clips_order">애니메이션 클립 순서</string>
 </resources>
