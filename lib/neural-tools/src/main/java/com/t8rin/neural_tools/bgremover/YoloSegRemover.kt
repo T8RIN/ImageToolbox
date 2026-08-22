@@ -25,6 +25,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
+import com.t8rin.neural_tools.runWithOptions
 import java.nio.FloatBuffer
 import kotlin.math.exp
 
@@ -35,7 +36,8 @@ internal object YoloSegRemover : GenericBackgroundRemover(
     override fun removeBackground(
         image: Bitmap,
         modelPath: String,
-        trainedSize: Int?
+        trainedSize: Int?,
+        runOptions: OrtSession.RunOptions?
     ): Bitmap {
         val session = session ?: env.createSession(
             modelFile.absolutePath,
@@ -62,15 +64,16 @@ internal object YoloSegRemover : GenericBackgroundRemover(
             )
         )
 
-        val outputs = session.run(
-            mapOf(session.inputNames.first() to tensor)
-        )
-
-        val det =
-            outputs[0].value as Array<Array<FloatArray>>
-
-        val proto =
-            outputs[1].value as Array<Array<Array<FloatArray>>>
+        val (det, proto) = tensor.use {
+            val inputs = mapOf(session.inputNames.first() to tensor)
+            session.runWithOptions(inputs, runOptions).use { outputs ->
+                @Suppress("UNCHECKED_CAST")
+                Pair(
+                    outputs[0].value as Array<Array<FloatArray>>,
+                    outputs[1].value as Array<Array<Array<FloatArray>>>
+                )
+            }
+        }
 
         val resultMask = processSegmentation(
             det = det[0],
@@ -78,9 +81,6 @@ internal object YoloSegRemover : GenericBackgroundRemover(
             width = image.width,
             height = image.height
         )
-
-        tensor.close()
-        outputs.close()
 
         return applyMask(image, resultMask)
     }

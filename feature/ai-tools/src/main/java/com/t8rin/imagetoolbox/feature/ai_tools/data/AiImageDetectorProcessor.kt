@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.createInputTensor
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.AiDetectionContract
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.AiDetectionResult
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
+import com.t8rin.neural_tools.runCancellable
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import javax.inject.Inject
@@ -54,7 +55,9 @@ internal class AiImageDetectorProcessor @Inject constructor() {
                 ),
                 fp16 = false
             ).use { input ->
-                session.run(mapOf(session.inputNames.first() to input)).use { output ->
+                session.runCancellable(
+                    mapOf(session.inputNames.first() to input)
+                ).use { output ->
                     val logits = flattenFloatOutput(output[0].value)
                     AiDetectionResult(
                         aiProbability = contract.output.toAiProbability(logits)

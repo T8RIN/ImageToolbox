@@ -19,6 +19,7 @@
 
 package com.t8rin.neural_tools.bgremover
 
+import ai.onnxruntime.OrtSession
 import android.graphics.Bitmap
 import com.t8rin.neural_tools.DownloadProgress
 import kotlinx.coroutines.flow.Flow
@@ -40,12 +41,18 @@ internal object U2NetPortableBackgroundRemover : GenericBackgroundRemover(
         close()
     }
 
-    override fun removeBackground(image: Bitmap, modelPath: String, trainedSize: Int?): Bitmap {
+    override fun removeBackground(
+        image: Bitmap,
+        modelPath: String,
+        trainedSize: Int?,
+        runOptions: OrtSession.RunOptions?
+    ): Bitmap {
         extract()
         return super.removeBackground(
             image = image,
             modelPath = modelPath,
-            trainedSize = trainedSize
+            trainedSize = trainedSize,
+            runOptions = runOptions
         )
     }
 

@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.neural_tools.runCancellable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -184,7 +185,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         }
     }
 
-    private fun extractTargets(
+    private suspend fun extractTargets(
         session: OrtSession,
         image: PreparedImage,
         outputs: List<TensorOutput>
@@ -200,7 +201,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
                 inputBuffer,
                 longArrayOf(1, RGB_CHANNELS.toLong(), image.height.toLong(), image.width.toLong())
             ).use { inputTensor ->
-                session.run(
+                session.runCancellable(
                     mapOf(IMAGE_INPUT_NAME to inputTensor),
                     outputs.mapIndexed { index, output -> output.name to outputTensors[index] }
                         .toMap()
@@ -280,7 +281,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
                             imageBuffer.rewind()
                             gradientBuffer.clear()
                             lossBuffer.clear()
-                            session.run(
+                            session.runCancellable(
                                 inputTensors,
                                 mapOf(
                                     GRADIENT_OUTPUT_NAME to gradientTensor,

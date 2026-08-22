@@ -25,6 +25,7 @@ import android.graphics.Color
 import android.util.Log
 import androidx.core.graphics.scale
 import com.t8rin.neural_tools.NeuralTool
+import com.t8rin.neural_tools.runWithOptions
 import java.nio.FloatBuffer
 import kotlin.math.floor
 
@@ -37,14 +38,16 @@ object UvDocUnwarper : NeuralTool() {
 
     fun unwarp(
         image: Bitmap,
-        session: OrtSession
+        session: OrtSession,
+        runOptions: OrtSession.RunOptions? = null
     ): Bitmap? = runCatching {
         val inputImage = image.scale(INPUT_WIDTH, INPUT_HEIGHT)
         val inputTensor = bitmapToTensor(inputImage)
 
         try {
-            session.run(mapOf(session.inputNames.first() to inputTensor)).use { result ->
-                val outputTensor = result[0] as? OnnxTensor
+            val inputs = mapOf(session.inputNames.first() to inputTensor)
+            session.runWithOptions(inputs, runOptions).use {
+                val outputTensor = it[0] as? OnnxTensor
                     ?: throw IllegalStateException("Model output is not OnnxTensor")
 
                 applyGrid(

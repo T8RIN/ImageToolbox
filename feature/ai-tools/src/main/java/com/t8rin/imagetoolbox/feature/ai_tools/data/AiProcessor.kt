@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.data.utils.smoothStep
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.neural_tools.runCancellable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.atomicfu.atomic
 import kotlinx.coroutines.coroutineScope
@@ -410,7 +411,7 @@ internal class AiProcessor @Inject constructor(
                 info = info
             )
 
-            session.run(tensors).use { result ->
+            session.runCancellable(tensors).use { result ->
                 val modelOutputSize = tensorSize.scaledBy(info.scaleFactor)
                 val (outputFloats, actualChannels) = withContext(defaultDispatcher) {
                     extractOutputArray(

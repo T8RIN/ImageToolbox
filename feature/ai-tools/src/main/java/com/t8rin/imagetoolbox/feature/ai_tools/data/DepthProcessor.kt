@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthEffect
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel.Type
+import com.t8rin.neural_tools.runCancellable
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -115,7 +116,7 @@ internal class DepthProcessor @Inject constructor(
                 FloatBuffer.wrap(values),
                 shape
             ).use { tensor ->
-                session.run(mapOf(inputName to tensor)).use { result ->
+                session.runCancellable(mapOf(inputName to tensor)).use { result ->
                     val outputIndex = session.outputNames
                         .indexOfFirst { it in DEPTH_OUTPUT_NAMES }
                         .takeIf { it >= 0 }

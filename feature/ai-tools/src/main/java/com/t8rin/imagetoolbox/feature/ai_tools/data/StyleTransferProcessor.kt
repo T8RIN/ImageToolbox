@@ -34,6 +34,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralConstants
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
+import com.t8rin.neural_tools.runCancellable
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -266,7 +267,7 @@ internal class StyleTransferProcessor @Inject constructor(
 
     private suspend fun getStyleData(
         styleUri: String,
-        create: (Bitmap) -> List<FloatArray>
+        create: suspend (Bitmap) -> List<FloatArray>
     ): List<FloatArray>? {
         cachedStyleData?.let { return it.map(FloatArray::copyOf) }
 
@@ -298,7 +299,7 @@ internal class StyleTransferProcessor @Inject constructor(
         sessionModel = model
     }
 
-    private fun predictStyle(session: OrtSession, image: Bitmap): FloatArray {
+    private suspend fun predictStyle(session: OrtSession, image: Bitmap): FloatArray {
         val inputBuffer = image.toRgbBuffer()
         val outputBuffer = directFloatBuffer(STYLE_EMBEDDING_SIZE)
         val inputName = session.inputNames.single()
@@ -314,7 +315,7 @@ internal class StyleTransferProcessor @Inject constructor(
                 outputBuffer,
                 longArrayOf(1, 1, 1, STYLE_EMBEDDING_SIZE.toLong())
             ).use { outputTensor ->
-                session.run(
+                session.runCancellable(
                     mapOf(inputName to inputTensor),
                     mapOf(outputName to outputTensor)
                 ).close()
@@ -325,7 +326,7 @@ internal class StyleTransferProcessor @Inject constructor(
         return FloatArray(STYLE_EMBEDDING_SIZE).also(outputBuffer::get)
     }
 
-    private fun predictNchwStyle(
+    private suspend fun predictNchwStyle(
         session: OrtSession,
         image: Bitmap,
         outputSizes: IntArray,
@@ -349,7 +350,7 @@ internal class StyleTransferProcessor @Inject constructor(
                 inputBuffer,
                 longArrayOf(1, RGB_CHANNELS.toLong(), image.height.toLong(), image.width.toLong())
             ).use { inputTensor ->
-                session.run(
+                session.runCancellable(
                     mapOf(session.inputNames.single() to inputTensor),
                     outputNames.zip(outputTensors).toMap()
                 ).close()
@@ -364,7 +365,7 @@ internal class StyleTransferProcessor @Inject constructor(
         }
     }
 
-    private fun transformNchw(
+    private suspend fun transformNchw(
         session: OrtSession,
         image: Bitmap,
         styleData: List<FloatArray>,
@@ -423,7 +424,7 @@ internal class StyleTransferProcessor @Inject constructor(
                 outputBuffer,
                 longArrayOf(1, RGB_CHANNELS.toLong(), paddedHeight.toLong(), paddedWidth.toLong())
             ).use { outputTensor ->
-                session.run(
+                session.runCancellable(
                     tensors,
                     mapOf(session.outputNames.single() to outputTensor)
                 ).close()
@@ -444,7 +445,7 @@ internal class StyleTransferProcessor @Inject constructor(
         )
     }
 
-    private fun transformImage(
+    private suspend fun transformImage(
         session: OrtSession,
         image: Bitmap,
         styleEmbedding: FloatArray
@@ -481,7 +482,7 @@ internal class StyleTransferProcessor @Inject constructor(
                         RGB_CHANNELS.toLong()
                     )
                 ).use { outputTensor ->
-                    session.run(
+                    session.runCancellable(
                         mapOf(contentName to contentTensor, styleName to styleTensor),
                         mapOf(outputName to outputTensor)
                     ).close()

@@ -58,6 +58,7 @@ import com.t8rin.neural_tools.bgremover.BgRemover
 import com.t8rin.neural_tools.bgremover.GenericBackgroundRemover
 import com.t8rin.neural_tools.inpaint.WatermarkRemoverProcessor
 import com.t8rin.neural_tools.scans.UvDocUnwarper
+import com.t8rin.neural_tools.withCancellableRunOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
@@ -303,7 +304,14 @@ internal class AndroidAiToolsRepository @Inject constructor(
             model.type == NeuralModel.Type.REMOVE_BG -> {
                 processImage {
                     withClosedSession(listener) {
-                        model.asBgRemover()?.removeBackground(image = image)!!.healAlpha(image)
+                        withCancellableRunOptions(
+                            onCancellation = Bitmap::recycle
+                        ) { runOptions ->
+                            model.asBgRemover()?.removeBackground(
+                                image = image,
+                                runOptions = runOptions
+                            )!!
+                        }.healAlpha(image)
                     }
                 }
             }
@@ -312,12 +320,17 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 processImage {
                     withClosedSession(listener) {
                         listener.onProgress(0, 2)
-                        WatermarkRemoverProcessor.removeWatermark(
-                            image = image,
-                            onMaskFound = {
-                                listener.onProgress(1, 2)
-                            }
-                        ) ?: run {
+                        withCancellableRunOptions(
+                            onCancellation = { it?.recycle() }
+                        ) { runOptions ->
+                            WatermarkRemoverProcessor.removeWatermark(
+                                image = image,
+                                onMaskFound = {
+                                    listener.onProgress(1, 2)
+                                },
+                                runOptions = runOptions
+                            )
+                        } ?: run {
                             listener.onError(getString(R.string.processing_failed))
                             null
                         }
@@ -339,10 +352,15 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         },
                         action = {
                             listener.onProgress(0, 1)
-                            UvDocUnwarper.unwarp(
-                                image = image,
-                                session = ortSession
-                            )?.also {
+                            withCancellableRunOptions(
+                                onCancellation = { it?.recycle() }
+                            ) { runOptions ->
+                                UvDocUnwarper.unwarp(
+                                    image = image,
+                                    session = ortSession,
+                                    runOptions = runOptions
+                                )
+                            }?.also {
                                 listener.onProgress(1, 1)
                             } ?: run {
                                 listener.onError(getString(R.string.processing_failed))

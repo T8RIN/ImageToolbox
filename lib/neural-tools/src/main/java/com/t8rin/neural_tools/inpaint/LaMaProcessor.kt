@@ -27,6 +27,7 @@ import com.awxkee.aire.ResizeFunction
 import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.NeuralTool
+import com.t8rin.neural_tools.runWithOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,7 +100,8 @@ object LaMaProcessor : NeuralTool() {
 
     fun inpaint(
         image: Bitmap,
-        mask: Bitmap
+        mask: Bitmap,
+        runOptions: OrtSession.RunOptions? = null
     ): Bitmap? = runCatching {
         if (!modelFile.exists()) {
             _isDownloaded.update { false }
@@ -135,26 +137,27 @@ object LaMaProcessor : NeuralTool() {
 
         val inputs = mapOf("image" to tensorImg, "mask" to tensorMask)
 
-        session.run(inputs).use { res ->
-            val outValue = res[0]
-            val outTensor = outValue as? OnnxTensor
-                ?: throw IllegalStateException("Model output is not OnnxTensor")
+        tensorImg.use {
+            tensorMask.use {
+                session.runWithOptions(inputs, runOptions).use { res ->
+                    val outValue = res[0]
+                    val outTensor = outValue as? OnnxTensor
+                        ?: throw IllegalStateException("Model output is not OnnxTensor")
 
-            val resultBitmap = outputTensorToBitmap(outTensor)
+                    val resultBitmap = outputTensorToBitmap(outTensor)
 
-            tensorImg.close()
-            tensorMask.close()
-
-            if (image.width != TRAINED_SIZE || image.height != TRAINED_SIZE) {
-                return Aire.scale(
-                    bitmap = resultBitmap,
-                    dstWidth = image.width,
-                    dstHeight = image.height,
-                    scaleMode = ResizeFunction.Lanczos3,
-                    colorSpace = ScaleColorSpace.LAB
-                )
+                    if (image.width != TRAINED_SIZE || image.height != TRAINED_SIZE) {
+                        return Aire.scale(
+                            bitmap = resultBitmap,
+                            dstWidth = image.width,
+                            dstHeight = image.height,
+                            scaleMode = ResizeFunction.Lanczos3,
+                            colorSpace = ScaleColorSpace.LAB
+                        )
+                    }
+                    return resultBitmap
+                }
             }
-            return resultBitmap
         }
     }.onFailure { Log.e("LaMaProcessor", "failure", it) }.getOrNull()
 

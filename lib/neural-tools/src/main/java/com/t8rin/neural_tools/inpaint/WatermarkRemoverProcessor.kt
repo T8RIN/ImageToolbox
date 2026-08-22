@@ -27,6 +27,7 @@ import com.awxkee.aire.ResizeFunction
 import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.NeuralTool
+import com.t8rin.neural_tools.runWithOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -137,21 +138,27 @@ object WatermarkRemoverProcessor : NeuralTool() {
 
     fun removeWatermark(
         image: Bitmap,
-        onMaskFound: () -> Unit = {}
+        onMaskFound: () -> Unit = {},
+        runOptions: OrtSession.RunOptions? = null
     ): Bitmap? {
-        val mask = findWatermarkMask(image = image)
+        val mask = findWatermarkMask(
+            image = image,
+            runOptions = runOptions
+        )
             ?: return null
 
         onMaskFound()
 
         return LaMaProcessor.inpaint(
             image = image,
-            mask = mask
+            mask = mask,
+            runOptions = runOptions
         )
     }
 
     fun findWatermarkMask(
-        image: Bitmap
+        image: Bitmap,
+        runOptions: OrtSession.RunOptions? = null
     ): Bitmap? = runCatching {
         if (!modelFile.exists()) {
             _isDownloaded.update { false }
@@ -172,28 +179,27 @@ object WatermarkRemoverProcessor : NeuralTool() {
 
         val tensorImg = bitmapToWatermarkTensor(bitmap = inputImage)
 
-        session.run(
-            mapOf("input" to tensorImg)
-        ).use { res ->
-            val outValue = res[0]
-            val outTensor = outValue as? OnnxTensor
-                ?: throw IllegalStateException("Model output is not OnnxTensor")
+        tensorImg.use {
+            val inputs = mapOf("input" to tensorImg)
+            session.runWithOptions(inputs, runOptions).use { res ->
+                val outValue = res[0]
+                val outTensor = outValue as? OnnxTensor
+                    ?: throw IllegalStateException("Model output is not OnnxTensor")
 
-            val mask512 = outputTensorToBinaryMaskBitmap(outTensor)
+                val mask512 = outputTensorToBinaryMaskBitmap(outTensor)
 
-            tensorImg.close()
+                if (image.width != TRAINED_SIZE || image.height != TRAINED_SIZE) {
+                    return Aire.scale(
+                        bitmap = mask512,
+                        dstWidth = image.width,
+                        dstHeight = image.height,
+                        scaleMode = ResizeFunction.Nearest,
+                        colorSpace = ScaleColorSpace.SRGB
+                    )
+                }
 
-            if (image.width != TRAINED_SIZE || image.height != TRAINED_SIZE) {
-                return Aire.scale(
-                    bitmap = mask512,
-                    dstWidth = image.width,
-                    dstHeight = image.height,
-                    scaleMode = ResizeFunction.Nearest,
-                    colorSpace = ScaleColorSpace.SRGB
-                )
+                return mask512
             }
-
-            return mask512
         }
     }.onFailure {
         Log.e(TAG, "findWatermarkMask failure", it)

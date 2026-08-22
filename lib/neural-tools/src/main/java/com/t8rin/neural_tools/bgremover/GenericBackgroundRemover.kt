@@ -31,6 +31,7 @@ import com.awxkee.aire.ResizeFunction
 import com.awxkee.aire.ScaleColorSpace
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.NeuralTool
+import com.t8rin.neural_tools.runWithOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,7 +85,8 @@ abstract class GenericBackgroundRemover(
     open fun removeBackground(
         image: Bitmap,
         modelPath: String = modelFile.path,
-        trainedSize: Int? = this.trainedSize
+        trainedSize: Int? = this.trainedSize,
+        runOptions: OrtSession.RunOptions? = null
     ): Bitmap {
         if (!modelFile.exists() || modelFile.length() <= 0) {
             _isDownloaded.update { false }
@@ -120,8 +122,12 @@ abstract class GenericBackgroundRemover(
             longArrayOf(1, 3, dstWidth.toLong(), dstHeight.toLong())
         )
 
-        val output = session.run(mapOf(inputName to inputTensor))
-        val outputArray = (output[0].value as Array<Array<Array<FloatArray>>>)[0][0]
+        val outputArray = inputTensor.use {
+            val inputs = mapOf(inputName to inputTensor)
+            session.runWithOptions(inputs, runOptions).use { output ->
+                (output[0].value as Array<Array<Array<FloatArray>>>)[0][0]
+            }
+        }
 
         val maskBmp = createBitmap(dstWidth, dstHeight)
         var i = 0
@@ -160,9 +166,6 @@ abstract class GenericBackgroundRemover(
         val result = createBitmap(image.width, image.height)
         result.setPixels(pixels, 0, image.width, 0, 0, image.width, image.height)
         result.setHasAlpha(true)
-
-        inputTensor.close()
-        output.close()
 
         return result
     }
