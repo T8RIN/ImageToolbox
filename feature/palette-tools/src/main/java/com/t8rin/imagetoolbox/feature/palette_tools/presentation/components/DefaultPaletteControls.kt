@@ -40,6 +40,7 @@ import com.t8rin.colors.rememberImageColorPaletteState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileExport
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
@@ -48,11 +49,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model.NamedColor
 
-
 @Composable
 internal fun DefaultPaletteControls(
     bitmap: Bitmap,
-    onOpenExport: (List<NamedColor>) -> Unit
+    onOpenExport: (List<NamedColor>) -> Unit,
+    onOpenPdfExport: () -> Unit
 ) {
     var count by rememberSaveable { mutableIntStateOf(32) }
     var colorCopyTarget by remember {
@@ -90,11 +91,22 @@ internal fun DefaultPaletteControls(
         contentColor = MaterialTheme.colorScheme.onMixedContainer
     )
     Spacer(modifier = Modifier.height(4.dp))
+    PreferenceItem(
+        title = stringResource(R.string.palette_pdf),
+        subtitle = stringResource(R.string.palette_pdf_sub),
+        onClick = onOpenPdfExport,
+        endIcon = Icons.Outlined.GridOn,
+        shape = ShapeDefaults.bottom,
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
+        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+    )
+    Spacer(modifier = Modifier.height(8.dp))
     ImageColorPalette(
         paletteDataList = state.paletteData,
         modifier = Modifier
             .fillMaxSize()
-            .container(ShapeDefaults.bottom)
+            .container(ShapeDefaults.large)
             .padding(4.dp),
         onColorClick = {
             colorCopyTarget = ColorWithName(

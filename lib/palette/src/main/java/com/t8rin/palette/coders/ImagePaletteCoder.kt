@@ -48,6 +48,7 @@ class ImagePaletteCoder : PaletteCoder {
         val width = bitmap.width
         val swatchWidth = 32 // Each color is 32 pixels wide
         val numColors = width / swatchWidth
+        if (numColors == 0) throw PaletteCoderException.InvalidFormat()
 
         // Read one pixel from the center of each swatch
         for (i in 0 until numColors) {

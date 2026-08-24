@@ -15,24 +15,19 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model
+package com.t8rin.imagetoolbox.feature.palette_tools.domain
 
-import com.t8rin.palette.PaletteFormat
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfParams
+import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfSourceType
 
-object PaletteFormatHelper {
-    val entries: List<PaletteFormat> =
-        PaletteFormat.entries.toSet().minus(
-            setOf(
-                PaletteFormat.CSV,
-                PaletteFormat.HEX_RGBA
-            )
-        ).plus(
-            setOf(
-                PaletteFormat.HEX_RGBA,
-                PaletteFormat.CSV
-            )
-        ).toList()
+interface PalettePdfExporter {
 
-    fun entriesFor(filename: String): List<PaletteFormat> =
-        (PaletteFormat.matchingFilename(filename) + entries).distinct()
+    suspend fun export(
+        sourceUri: String,
+        sourceType: PalettePdfSourceType,
+        sourcePaletteFormat: String?,
+        params: PalettePdfParams,
+        writeable: Writeable
+    )
 }

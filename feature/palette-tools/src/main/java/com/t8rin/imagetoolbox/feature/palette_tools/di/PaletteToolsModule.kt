@@ -15,24 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model
+package com.t8rin.imagetoolbox.feature.palette_tools.di
 
-import com.t8rin.palette.PaletteFormat
+import com.t8rin.imagetoolbox.feature.palette_tools.data.AndroidPalettePdfExporter
+import com.t8rin.imagetoolbox.feature.palette_tools.domain.PalettePdfExporter
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-object PaletteFormatHelper {
-    val entries: List<PaletteFormat> =
-        PaletteFormat.entries.toSet().minus(
-            setOf(
-                PaletteFormat.CSV,
-                PaletteFormat.HEX_RGBA
-            )
-        ).plus(
-            setOf(
-                PaletteFormat.HEX_RGBA,
-                PaletteFormat.CSV
-            )
-        ).toList()
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface PaletteToolsModule {
 
-    fun entriesFor(filename: String): List<PaletteFormat> =
-        (PaletteFormat.matchingFilename(filename) + entries).distinct()
+    @Binds
+    fun bindPalettePdfExporter(
+        impl: AndroidPalettePdfExporter
+    ): PalettePdfExporter
 }

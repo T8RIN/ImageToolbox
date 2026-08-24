@@ -73,6 +73,14 @@
     <string name="palette_sub">Создать образец цветовой палитры по данному изображению</string>
     <string name="generate_palette">Сгенерировать палитру</string>
     <string name="palette">Палитра</string>
+    <string name="palette_pdf">PDF-палитра</string>
+    <string name="palette_pdf_sub">Разместить цвета палитры и при наличии исходное изображение на контактном листе PDF</string>
+    <string name="palette_pdf_include_image">Добавить исходное изображение</string>
+    <string name="palette_pdf_include_image_sub">Разместить исходное изображение над сеткой цветов на первой странице</string>
+    <string name="palette_pdf_show_names">Показывать названия цветов</string>
+    <string name="palette_pdf_show_hex">Показывать HEX-коды</string>
+    <string name="palette_pdf_page_margin">Поля страницы</string>
+    <string name="palette_pdf_color_spacing">Расстояние между цветами</string>
     <string name="new_version">Обновление %1$s</string>
     <string name="update">Обновить</string>
     <string name="unsupported_type">Неподдерживаемый тип: %1$s</string>

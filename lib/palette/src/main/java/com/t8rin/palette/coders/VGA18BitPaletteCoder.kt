@@ -51,7 +51,7 @@ class VGA18BitPaletteCoder : PaletteCoder {
             data = allData
         }
 
-        if (data.size % 3 != 0) {
+        if (data.isEmpty() || data.size % 3 != 0) {
             throw PaletteCoderException.InvalidFormat()
         }
 
@@ -105,5 +105,4 @@ class VGA18BitPaletteCoder : PaletteCoder {
         return kotlin.math.round(this).toInt()
     }
 }
-
 

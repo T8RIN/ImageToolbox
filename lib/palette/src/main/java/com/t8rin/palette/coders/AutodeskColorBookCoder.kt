@@ -124,29 +124,23 @@ class AutodeskColorBookCoder : PaletteCoder {
     }
 
     override fun decode(input: InputStream): Palette {
-        return try {
-            val handler = AutodeskXMLHandler()
-            val factory = SAXParserFactory.newInstance()
-            factory.isNamespaceAware = true
-            val parser = factory.newSAXParser()
-            parser.parse(input, handler)
+        val handler = AutodeskXMLHandler()
+        val factory = SAXParserFactory.newInstance()
+        factory.isNamespaceAware = true
+        val parser = factory.newSAXParser()
+        parser.parse(input, handler)
 
-            // Если нет главного цвета, но есть группы, возьмём первую группу
-            if (handler.palette.colors.isEmpty() && handler.palette.groups.isNotEmpty()) {
-                val firstGroup = handler.palette.groups[0]
-                handler.palette.colors.addAll(firstGroup.colors)
-                handler.palette.groups.removeAt(0)
-            }
-
-            if (handler.palette.colors.isEmpty() && handler.palette.groups.isEmpty()) {
-                throw PaletteCoderException.InvalidFormat()
-            }
-
-            handler.palette.build()
-        } catch (_: Throwable) {
-            // Не удалось распарсить — не падаем, возвращаем пустой palette
-            Palette()
+        if (handler.palette.colors.isEmpty() && handler.palette.groups.isNotEmpty()) {
+            val firstGroup = handler.palette.groups[0]
+            handler.palette.colors.addAll(firstGroup.colors)
+            handler.palette.groups.removeAt(0)
         }
+
+        if (handler.palette.colors.isEmpty() && handler.palette.groups.isEmpty()) {
+            throw PaletteCoderException.InvalidFormat()
+        }
+
+        return handler.palette.build()
     }
 
     override fun encode(palette: Palette, output: OutputStream) {

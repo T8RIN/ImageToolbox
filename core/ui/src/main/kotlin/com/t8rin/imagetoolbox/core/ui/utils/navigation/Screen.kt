@@ -1301,6 +1301,17 @@ sealed class Screen(
         subtitle = R.string.compression_lab_sub
     )
 
+    @Serializable
+    data class PalettePdfTool(
+        val uri: Uri,
+        val isPaletteFile: Boolean,
+        val paletteFormat: String? = null
+    ) : Screen(
+        id = 79,
+        title = R.string.palette_pdf,
+        subtitle = R.string.palette_pdf_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

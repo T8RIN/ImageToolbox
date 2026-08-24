@@ -20,7 +20,10 @@ package com.t8rin.palette.coders
 import com.t8rin.palette.ColorGroup
 import com.t8rin.palette.Palette
 import com.t8rin.palette.PaletteColor
+import com.t8rin.palette.PaletteFormat
+import com.t8rin.palette.decode
 import com.t8rin.palette.encode
+import com.t8rin.palette.getCoder
 import org.junit.Test
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -30,8 +33,111 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class PaletteCoderCompatibilityTest {
+
+    @Test
+    fun `every readable format round trips a non-empty palette`() {
+        val source = Palette(
+            name = "Round Trip",
+            colors = listOf(
+                PaletteColor.rgb(1.0, 0.0, 0.0, name = "Red"),
+                PaletteColor.rgb(0.0, 1.0, 0.0, name = "Green"),
+                PaletteColor.rgb(0.0, 0.0, 1.0, name = "Blue"),
+                PaletteColor.rgb(0.25, 0.5, 0.75, name = "Accent")
+            )
+        )
+        val failures = PaletteFormat.entries
+            .filterNot { it in JVM_UNREADABLE_FORMATS }
+            .mapNotNull { format ->
+                runCatching {
+                    val encoded = format.getCoder().encode(source)
+                    assertTrue(encoded.isNotEmpty(), "$format encoded an empty file")
+
+                    val decoded = format.getCoder().decode(encoded)
+                    assertTrue(
+                        decoded.totalColorCount > 0,
+                        "$format decoded its own output to an empty palette"
+                    )
+                }.exceptionOrNull()?.let { format to it }
+            }
+
+        assertTrue(
+            failures.isEmpty(),
+            failures.joinToString(",\n") { (format, error) ->
+                "$format: ${error::class.simpleName}: ${error.message}"
+            }
+        )
+    }
+
+    @Test
+    fun `every readable decoder rejects empty input`() {
+        val acceptedFormats = PaletteFormat.entries
+            .filterNot { it in JVM_UNREADABLE_FORMATS }
+            .filter { format ->
+                runCatching { format.getCoder().decode(byteArrayOf()) }.isSuccess
+            }
+
+        assertTrue(
+            acceptedFormats.isEmpty(),
+            "Decoders accepted an empty file: ${acceptedFormats.joinToString()}"
+        )
+    }
+
+    @Test
+    fun `encoded palettes are detected by filename without false positives`() {
+        val source = Palette(
+            name = "Detection",
+            colors = List(20) { index ->
+                PaletteColor.rgb(
+                    r = (index % 5) / 4.0,
+                    g = (index % 4) / 3.0,
+                    b = (index % 3) / 2.0,
+                    name = "Color $index"
+                )
+            }
+        )
+        val failures = PaletteFormat.entries
+            .filterNot { it in JVM_UNREADABLE_FORMATS }
+            .mapNotNull { expectedFormat ->
+                runCatching {
+                    val encoded = expectedFormat.getCoder().encode(source)
+                    val extension = expectedFormat.fileExtension.first()
+                    val detectedFormat = PaletteFormat.decodeOrderForFilename(
+                        "PALETTE.${extension.uppercase()}"
+                    ).firstOrNull { candidate ->
+                        runCatching { candidate.getCoder().decode(encoded) }
+                            .getOrNull()
+                            ?.totalColorCount
+                            ?.let { it > 0 } == true
+                    }
+
+                    assertEquals(expectedFormat, detectedFormat)
+                }.exceptionOrNull()?.let { expectedFormat to it }
+            }
+
+        assertTrue(
+            failures.isEmpty(),
+            failures.joinToString(",\n") { (format, error) ->
+                "$format: ${error::class.simpleName}: ${error.message}"
+            }
+        )
+    }
+
+    @Test
+    fun `filename matching uses extension boundaries and returns all candidates`() {
+        assertEquals(
+            listOf(
+                PaletteFormat.ANDROID_XML,
+                PaletteFormat.BASIC_XML,
+                PaletteFormat.COREL_DRAW,
+                PaletteFormat.SCRIBUS_XML
+            ),
+            PaletteFormat.matchingFilename("Palette.XML")
+        )
+        assertTrue(PaletteFormat.matchingFilename("not-a-palette-pal").isEmpty())
+    }
 
     @Test
     fun `krita decoder reads documented colorset structure`() {
@@ -214,5 +320,13 @@ class PaletteCoderCompatibilityTest {
             }
         }
         return entries
+    }
+
+    private companion object {
+        val JVM_UNREADABLE_FORMATS = setOf(
+            PaletteFormat.SWIFT,
+            PaletteFormat.KOTLIN,
+            PaletteFormat.IMAGE
+        )
     }
 }

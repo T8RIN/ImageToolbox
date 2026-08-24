@@ -237,9 +237,30 @@ enum class PaletteFormat(
          * Searches through all enum entries to find matching file extension
          */
         fun fromFilename(filename: String): PaletteFormat? =
-            PaletteFormat.entries.firstOrNull { format ->
-                format.fileExtension.isNotEmpty() && format.fileExtension.any(filename::endsWith)
+            matchingFilename(filename).firstOrNull()
+
+        /**
+         * Get all formats matching the file extension. Several palette formats intentionally
+         * share extensions such as XML, PAL and TXT.
+         */
+        fun matchingFilename(filename: String): List<PaletteFormat> {
+            val normalized = filename
+                .substringBefore('?')
+                .substringBefore('#')
+                .lowercase()
+
+            return entries.filter { format ->
+                format.fileExtension.any { extension ->
+                    normalized.endsWith(".${extension.lowercase()}")
+                }
             }
+        }
+
+        /**
+         * Prefer every format matching the extension before probing unrelated formats.
+         */
+        fun decodeOrderForFilename(filename: String): List<PaletteFormat> =
+            (matchingFilename(filename) + entries).distinct()
     }
 }
 

@@ -20,6 +20,7 @@ package com.t8rin.palette.coders
 import com.t8rin.palette.ColorSpace
 import com.t8rin.palette.Palette
 import com.t8rin.palette.PaletteCoder
+import com.t8rin.palette.PaletteCoderException
 import com.t8rin.palette.PaletteColor
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
@@ -220,7 +221,7 @@ class SwatchbookerCoder : PaletteCoder {
             entry = zipInputStream.nextEntry
         }
         zipInputStream.close()
-        if (xmlData.isEmpty()) return Palette()
+        if (xmlData.isEmpty()) throw PaletteCoderException.InvalidFormat()
         val handler = SwatchbookerXMLHandler()
         val factory = SAXParserFactory.newInstance()
         factory.isNamespaceAware = true
@@ -236,7 +237,9 @@ class SwatchbookerCoder : PaletteCoder {
         }
         ordered.addAll(remaining)
         handler.palette.colors = ordered
-        return handler.palette.build()
+        return handler.palette.build().also {
+            if (it.totalColorCount == 0) throw PaletteCoderException.InvalidFormat()
+        }
     }
 
     override fun encode(palette: Palette, output: OutputStream) {
@@ -289,4 +292,3 @@ class SwatchbookerCoder : PaletteCoder {
         return comps.joinToString(" ")
     }
 }
-

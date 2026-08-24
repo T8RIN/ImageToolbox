@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,10 +46,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.replaceAt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.Swatch
 import com.t8rin.imagetoolbox.core.ui.theme.inverse
@@ -75,7 +76,9 @@ internal fun EditPaletteControls(
     paletteFormat: PaletteFormat?,
     onPaletteFormatChange: (PaletteFormat) -> Unit,
     palette: NamedPalette,
-    onPaletteChange: (NamedPalette) -> Unit
+    onPaletteChange: (NamedPalette) -> Unit,
+    canOpenPdfExport: Boolean,
+    onOpenPdfExport: () -> Unit
 ) {
     Spacer(modifier = Modifier.height(16.dp))
 
@@ -138,6 +141,17 @@ internal fun EditPaletteControls(
         }
     )
     Spacer(modifier = Modifier.height(12.dp))
+    if (canOpenPdfExport) {
+        PreferenceItem(
+            title = stringResource(R.string.palette_pdf),
+            subtitle = stringResource(R.string.palette_pdf_sub),
+            onClick = onOpenPdfExport,
+            endIcon = Icons.Outlined.GridOn,
+            shape = ShapeDefaults.default,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+    }
     Column(
         modifier = Modifier.container(resultPadding = 8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)

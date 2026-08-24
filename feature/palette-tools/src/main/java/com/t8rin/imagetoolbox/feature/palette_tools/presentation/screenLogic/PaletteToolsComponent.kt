@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -31,8 +32,10 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.filename
@@ -54,6 +57,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUri: Uri?,
     @Assisted val onGoBack: () -> Unit,
+    @Assisted val onNavigate: (Screen) -> Unit,
     private val imageScaler: ImageScaler<Bitmap>,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
@@ -80,6 +84,14 @@ class PaletteToolsComponent @AssistedInject internal constructor(
     val bitmap: Bitmap? by _bitmap
 
     private val _uri = mutableStateOf<Uri?>(null)
+    val canOpenPalettePdf: Boolean
+        get() = when (paletteType) {
+            PaletteType.Edit -> palette.colors.isNotEmpty() || palette.groups.any {
+                it.colors.isNotEmpty()
+            }
+
+            else -> _uri.value != null
+        }
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -198,6 +210,48 @@ class PaletteToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun openPalettePdfTool() {
+        if (paletteType != PaletteType.Edit) {
+            val uri = _uri.value ?: return
+            onNavigate(
+                Screen.PalettePdfTool(
+                    uri = uri,
+                    isPaletteFile = false
+                )
+            )
+            return
+        }
+
+        val format = paletteFormat ?: PaletteFormatHelper.entries.first()
+        savingJob = trackProgress {
+            _isSaving.value = true
+            val uri = shareProvider.cacheData(
+                writeData = {
+                    format.getCoder().encode(
+                        palette = palette.toPalette(),
+                        output = it.outputStream()
+                    )
+                },
+                filename = createPaletteFilename()
+            )
+            _isSaving.value = false
+
+            if (uri != null) {
+                onNavigate(
+                    Screen.PalettePdfTool(
+                        uri = uri.toUri(),
+                        isPaletteFile = true,
+                        paletteFormat = format.name
+                    )
+                )
+            } else {
+                AppToastHost.showFailureToast(
+                    appContext.getString(R.string.something_went_wrong)
+                )
+            }
+        }
+    }
+
     fun createPaletteFilename(): String {
         val name = palette.name.ifBlank { "Palette_Export" }
         val format = paletteFormat ?: PaletteFormatHelper.entries.first()
@@ -212,6 +266,7 @@ class PaletteToolsComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialUri: Uri?,
             onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit,
         ): PaletteToolsComponent
     }
 }

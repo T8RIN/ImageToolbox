@@ -103,7 +103,9 @@ class PaintNETPaletteCoder : PaletteCoder {
             currentName = ""
         }
 
-        return result.build()
+        return result.build().also {
+            if (it.totalColorCount == 0) throw PaletteCoderException.InvalidFormat()
+        }
     }
 
     override fun encode(palette: Palette, output: OutputStream) {
@@ -130,5 +132,4 @@ class PaintNETPaletteCoder : PaletteCoder {
         output.write(content.toByteArray(java.nio.charset.StandardCharsets.UTF_8))
     }
 }
-
 

@@ -142,6 +142,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MarkupLayers
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MultiFrameFusion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PalettePdfTool
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Photomosaic
@@ -190,6 +191,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is EasterEgg -> "Easter_Egg"
     is EraseBackground -> "Erase_Background"
     is Filter -> "Filter"
+    is PalettePdfTool -> "Palette_PDF"
     is PaletteTools -> "Palette_Tools"
     is Photomosaic -> "Photomosaic"
     is GifTools -> "GIF_Tools"
@@ -292,6 +294,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is DuplicateFinder -> Icons.Outlined.ImageSearch
     is EraseBackground -> Icons.Rounded.Eraser
     is Filter -> Icons.Outlined.AutoFixHigh
+    is PalettePdfTool -> Icons.Outlined.Pdf
     is PaletteTools -> Icons.Outlined.PaletteSwatch
     is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
@@ -385,6 +388,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is DuplicateFinder -> Icons.TwoTone.ImageSearch
     is EraseBackground -> Icons.TwoTone.Eraser
     is Filter -> Icons.TwoTone.AutoFixHigh
+    is PalettePdfTool -> Icons.TwoTone.Pdf
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox
@@ -573,5 +577,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 104 + PdfTools.options.size
+    override val FEATURES_COUNT = 105 + PdfTools.options.size
 }

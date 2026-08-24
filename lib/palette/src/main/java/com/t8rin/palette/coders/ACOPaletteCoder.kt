@@ -55,9 +55,11 @@ class ACOPaletteCoder : PaletteCoder {
                     throw PaletteCoderException.InvalidVersion()
                 }
             } catch (_: Throwable) {
-                // Version 1 file only
-                result.colors = v1Colors
-                return result.build()
+                if (type == 2 && v1Colors.isNotEmpty()) {
+                    result.colors = v1Colors
+                    return result.build()
+                }
+                throw PaletteCoderException.InvalidFormat()
             }
 
             val numberOfColors = reader.readUInt16(ByteOrder.BIG_ENDIAN)
@@ -131,7 +133,9 @@ class ACOPaletteCoder : PaletteCoder {
             result.colors = v1Colors
         }
 
-        return result.build()
+        return result.build().also {
+            if (it.totalColorCount == 0) throw PaletteCoderException.InvalidFormat()
+        }
     }
 
     override fun encode(palette: Palette, output: OutputStream) {
@@ -226,4 +230,3 @@ class ACOPaletteCoder : PaletteCoder {
         return Triple(r + m, g + m, bl + m)
     }
 }
-

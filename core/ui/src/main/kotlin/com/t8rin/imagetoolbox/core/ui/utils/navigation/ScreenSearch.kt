@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MarkupLayers
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MeshGradients
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.MultiFrameFusion
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.NoiseGeneration
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PalettePdfTool
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PaletteTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PdfTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Photomosaic
@@ -215,6 +216,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is PdfTools.SanitizePdf -> R.string.sanitize_pdf_sub
     is PdfTools.ExtractPages -> R.string.search_keywords_pdf_extract_pages
     is PdfTools.RemoveAnnotations -> R.string.search_keywords_pdf_remove_annotations
+    is PalettePdfTool,
     is EasterEgg,
     is Main,
     is Settings,

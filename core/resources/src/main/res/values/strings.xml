@@ -76,6 +76,14 @@
     <string name="palette_sub">Generate color palette swatch from given image</string>
     <string name="generate_palette">Generate Palette</string>
     <string name="palette">Palette</string>
+    <string name="palette_pdf">Palette PDF</string>
+    <string name="palette_pdf_sub">Arrange palette colors and an optional source image in a PDF contact sheet</string>
+    <string name="palette_pdf_include_image">Include source image</string>
+    <string name="palette_pdf_include_image_sub">Place the source image above the color grid on the first page</string>
+    <string name="palette_pdf_show_names">Show color names</string>
+    <string name="palette_pdf_show_hex">Show HEX values</string>
+    <string name="palette_pdf_page_margin">Page margins</string>
+    <string name="palette_pdf_color_spacing">Color spacing</string>
     <string name="update">Update</string>
     <string name="new_version">New version %1$s</string>
     <string name="unsupported_type">Unsupported type: %1$s</string>

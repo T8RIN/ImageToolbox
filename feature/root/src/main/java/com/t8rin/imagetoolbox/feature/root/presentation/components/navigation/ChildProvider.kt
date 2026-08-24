@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponen
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
@@ -146,6 +147,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.NoiseGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.OCRPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PageNumbersPdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PalettePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfContactSheetTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Photomosaic
@@ -216,6 +218,7 @@ internal class ChildProvider @Inject constructor(
     private val filtersComponentFactory: FiltersComponent.Factory,
     private val formatConversionComponentFactory: FormatConversionComponent.Factory,
     private val paletteToolsComponentFactory: PaletteToolsComponent.Factory,
+    private val palettePdfToolComponentFactory: PalettePdfToolComponent.Factory,
     private val gifToolsComponentFactory: GifToolsComponent.Factory,
     private val gradientMakerComponentFactory: GradientMakerComponent.Factory,
     private val imagePreviewComponentFactory: ImagePreviewComponent.Factory,
@@ -439,7 +442,19 @@ internal class ChildProvider @Inject constructor(
             paletteToolsComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
-                onGoBack = ::navigateBack
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.PalettePdfTool -> PalettePdfTool(
+            palettePdfToolComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
+                initialIsPaletteFile = config.isPaletteFile,
+                initialPaletteFormat = config.paletteFormat,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
             )
         )
 

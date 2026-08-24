@@ -17,6 +17,7 @@
 
 package com.t8rin.colors
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
@@ -59,35 +60,42 @@ private class ImageColorPaletteStateImpl(
     override val image: ImageBitmap,
     override val maximumColorCount: Int
 ) : ImageColorPaletteState {
-    override val paletteData: List<PaletteData> = run {
-        val paletteData = mutableListOf<PaletteData>()
-        val palette = Palette
-            .from(image.asAndroidBitmap())
-            .maximumColorCount(maximumColorCount)
-            .generate()
+    override val paletteData: List<PaletteData> = extractImageColorPalette(
+        image = image.asAndroidBitmap(),
+        maximumColorCount = maximumColorCount
+    )
+}
 
+fun extractImageColorPalette(
+    image: Bitmap,
+    maximumColorCount: Int = 32
+): List<PaletteData> {
+    val paletteData = mutableListOf<PaletteData>()
+    val palette = Palette
+        .from(image)
+        .maximumColorCount(maximumColorCount)
+        .generate()
 
-        val numberOfPixels: Float = palette.swatches.sumOf {
-            it.population
-        }.toFloat()
+    val numberOfPixels: Float = palette.swatches.sumOf {
+        it.population
+    }.toFloat()
 
-        palette.swatches.forEach { paletteSwatch ->
-            paletteSwatch?.let { swatch ->
-                val color = Color(swatch.rgb)
-                val name = ColorNameParser.parseColorName(color)
-                val colorData = ColorData(color, name)
-                val percent: Float = swatch.population / numberOfPixels
-                paletteData.add(PaletteData(colorData = colorData, percent))
-            }
+    palette.swatches.forEach { paletteSwatch ->
+        paletteSwatch?.let { swatch ->
+            val color = Color(swatch.rgb)
+            val name = ColorNameParser.parseColorName(color)
+            val colorData = ColorData(color, name)
+            val percent: Float = swatch.population / numberOfPixels
+            paletteData.add(PaletteData(colorData = colorData, percent))
         }
-
-        paletteData.distinctBy {
-            it.colorData.name
-        }.sortedWith(
-            compareBy(
-                { it.colorData.color.luminance() },
-                { ColorUtil.colorToHSV(it.colorData.color)[0] },
-            )
-        )
     }
+
+    return paletteData.distinctBy {
+        it.colorData.name
+    }.sortedWith(
+        compareBy(
+            { it.colorData.color.luminance() },
+            { ColorUtil.colorToHSV(it.colorData.color)[0] },
+        )
+    )
 }

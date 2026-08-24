@@ -15,24 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.model
+package com.t8rin.imagetoolbox.feature.palette_tools.domain.model
 
-import com.t8rin.palette.PaletteFormat
-
-object PaletteFormatHelper {
-    val entries: List<PaletteFormat> =
-        PaletteFormat.entries.toSet().minus(
-            setOf(
-                PaletteFormat.CSV,
-                PaletteFormat.HEX_RGBA
-            )
-        ).plus(
-            setOf(
-                PaletteFormat.HEX_RGBA,
-                PaletteFormat.CSV
-            )
-        ).toList()
-
-    fun entriesFor(filename: String): List<PaletteFormat> =
-        (PaletteFormat.matchingFilename(filename) + entries).distinct()
-}
+data class PalettePdfParams(
+    val maximumColorCount: Int = 32,
+    val columns: Int = 3,
+    val margin: Float = 24f,
+    val spacing: Float = 8f,
+    val includeSourceImage: Boolean = true,
+    val showColorNames: Boolean = true,
+    val showHexValues: Boolean = true
+)

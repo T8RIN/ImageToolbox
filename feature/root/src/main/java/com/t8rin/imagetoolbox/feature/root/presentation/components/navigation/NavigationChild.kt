@@ -95,6 +95,8 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.Me
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.MultiFrameFusionContent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.PalettePdfToolContent
+import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
@@ -287,6 +289,11 @@ internal sealed interface NavigationChild {
     class PaletteTools(private val component: PaletteToolsComponent) : NavigationChild {
         @Composable
         override fun Content() = PaletteToolsContent(component)
+    }
+
+    class PalettePdfTool(private val component: PalettePdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = PalettePdfToolContent(component)
     }
 
     class GifTools(private val component: GifToolsComponent) : NavigationChild {
