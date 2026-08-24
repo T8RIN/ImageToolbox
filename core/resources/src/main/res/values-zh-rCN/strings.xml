@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">合并JXL</string>
     <string name="jxl_type_merge_sub">将多个动画 JXL 剪辑合并为一个动画</string>
     <string name="animation_clips_order">动画剪辑顺序</string>
+    <string name="palette_pdf">调色板 PDF</string>
+    <string name="palette_pdf_sub">在 PDF 联系表中排列调色板颜色和可选源图像</string>
+    <string name="palette_pdf_include_image">包括源图像</string>
+    <string name="palette_pdf_include_image_sub">将源图像放置在第一页的颜色网格上方</string>
+    <string name="palette_pdf_show_names">显示颜色名称</string>
+    <string name="palette_pdf_show_hex">显示十六进制值</string>
+    <string name="palette_pdf_show_filename">显示源文件名</string>
+    <string name="palette_pdf_show_filename_sub">将源文件名放在每页的顶部</string>
+    <string name="palette_pdf_show_palette_name">显示调色板名称</string>
+    <string name="palette_pdf_show_palette_name_sub">将调色板中存储的名称放置在文件名下方</string>
+    <string name="palette_pdf_selected_file">选定的调色板文件</string>
+    <string name="palette_pdf_page_margin">页边距</string>
+    <string name="palette_pdf_color_spacing">色间距</string>
 </resources>

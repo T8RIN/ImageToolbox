@@ -5026,4 +5026,17 @@
     <string name="jxl_type_merge">Мерге ЈКСЛ</string>
     <string name="jxl_type_merge_sub">Комбинујте више анимираних ЈКСЛ клипова у једну анимацију</string>
     <string name="animation_clips_order">Редослед анимираних клипова</string>
+    <string name="palette_pdf">Палета ПДФ</string>
+    <string name="palette_pdf_sub">Распоредите боје палете и опциону изворну слику у ПДФ контакт листу</string>
+    <string name="palette_pdf_include_image">Укључите изворну слику</string>
+    <string name="palette_pdf_include_image_sub">Поставите изворну слику изнад мреже боја на првој страници</string>
+    <string name="palette_pdf_show_names">Прикажи називе боја</string>
+    <string name="palette_pdf_show_hex">Прикажи ХЕКС вредности</string>
+    <string name="palette_pdf_show_filename">Прикажи назив изворне датотеке</string>
+    <string name="palette_pdf_show_filename_sub">Поставите назив изворне датотеке на врх сваке странице</string>
+    <string name="palette_pdf_show_palette_name">Прикажи назив палете</string>
+    <string name="palette_pdf_show_palette_name_sub">Поставите име сачувано унутар палете испод имена датотеке</string>
+    <string name="palette_pdf_selected_file">Изабрана датотека палете</string>
+    <string name="palette_pdf_page_margin">маргине странице</string>
+    <string name="palette_pdf_color_spacing">Размак боја</string>
 </resources>

@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">Hợp nhất JXL</string>
     <string name="jxl_type_merge_sub">Kết hợp nhiều clip JXL hoạt hình thành một hoạt ảnh</string>
     <string name="animation_clips_order">Thứ tự clip hoạt hình</string>
+    <string name="palette_pdf">Bảng màu PDF</string>
+    <string name="palette_pdf_sub">Sắp xếp các bảng màu và hình ảnh nguồn tùy chọn trong trang liên hệ PDF</string>
+    <string name="palette_pdf_include_image">Bao gồm hình ảnh nguồn</string>
+    <string name="palette_pdf_include_image_sub">Đặt hình ảnh nguồn phía trên lưới màu trên trang đầu tiên</string>
+    <string name="palette_pdf_show_names" />
+    <string name="palette_pdf_show_hex">Hiển thị giá trị HEX</string>
+    <string name="palette_pdf_show_filename">Hiển thị tên tệp nguồn</string>
+    <string name="palette_pdf_show_filename_sub">Đặt tên tệp nguồn ở đầu mỗi trang</string>
+    <string name="palette_pdf_show_palette_name">Hiển thị tên bảng màu</string>
+    <string name="palette_pdf_show_palette_name_sub">Đặt tên được lưu bên trong bảng màu bên dưới tên tệp</string>
+    <string name="palette_pdf_selected_file">Tệp bảng màu đã chọn</string>
+    <string name="palette_pdf_page_margin">Lề trang</string>
+    <string name="palette_pdf_color_spacing">Khoảng cách màu</string>
 </resources>

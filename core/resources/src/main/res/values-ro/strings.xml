@@ -5026,4 +5026,17 @@
     <string name="jxl_type_merge">Îmbina JXL</string>
     <string name="jxl_type_merge_sub">Combinați mai multe clipuri animate JXL într-o singură animație</string>
     <string name="animation_clips_order">Comandă clipuri de animație</string>
+    <string name="palette_pdf">Paleta PDF</string>
+    <string name="palette_pdf_sub">Aranjați culorile paletei și o imagine sursă opțională într-o foaie de contact PDF</string>
+    <string name="palette_pdf_include_image">Includeți imaginea sursă</string>
+    <string name="palette_pdf_include_image_sub">Plasați imaginea sursă deasupra grilei de culoare de pe prima pagină</string>
+    <string name="palette_pdf_show_names">Afișați numele culorilor</string>
+    <string name="palette_pdf_show_hex">Afișați valorile HEX</string>
+    <string name="palette_pdf_show_filename">Afișează numele fișierului sursă</string>
+    <string name="palette_pdf_show_filename_sub">Plasați numele fișierului sursă în partea de sus a fiecărei pagini</string>
+    <string name="palette_pdf_show_palette_name">Afișează numele paletei</string>
+    <string name="palette_pdf_show_palette_name_sub">Plasați numele stocat în paletă sub numele fișierului</string>
+    <string name="palette_pdf_selected_file">Fișierul paletă selectat</string>
+    <string name="palette_pdf_page_margin">Marginile paginii</string>
+    <string name="palette_pdf_color_spacing">Spațierea culorilor</string>
 </resources>

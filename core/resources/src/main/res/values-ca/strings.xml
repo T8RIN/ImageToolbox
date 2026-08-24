@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Combina JXL</string>
     <string name="jxl_type_merge_sub">Combina diversos clips JXL animats en una sola animació</string>
     <string name="animation_clips_order">Ordre de clips d\'animació</string>
+    <string name="palette_pdf">Paleta PDF</string>
+    <string name="palette_pdf_sub">Organitzeu els colors de la paleta i una imatge d\'origen opcional en un full de contacte PDF</string>
+    <string name="palette_pdf_include_image">Inclou la imatge d\'origen</string>
+    <string name="palette_pdf_include_image_sub">Col·loqueu la imatge d\'origen a sobre de la graella de color de la primera pàgina</string>
+    <string name="palette_pdf_show_names">Mostra els noms dels colors</string>
+    <string name="palette_pdf_show_hex">Mostra els valors HEX</string>
+    <string name="palette_pdf_show_filename">Mostra el nom del fitxer font</string>
+    <string name="palette_pdf_show_filename_sub">Col·loqueu el nom del fitxer font a la part superior de cada pàgina</string>
+    <string name="palette_pdf_show_palette_name">Mostra el nom de la paleta</string>
+    <string name="palette_pdf_show_palette_name_sub">Col·loqueu el nom emmagatzemat dins de la paleta a sota del nom del fitxer</string>
+    <string name="palette_pdf_selected_file">Fitxer de paleta seleccionat</string>
+    <string name="palette_pdf_page_margin">Marges de pàgina</string>
+    <string name="palette_pdf_color_spacing">Espaiat de colors</string>
 </resources>

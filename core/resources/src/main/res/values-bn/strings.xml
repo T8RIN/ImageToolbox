@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL মার্জ করুন</string>
     <string name="jxl_type_merge_sub">একটি অ্যানিমেশনে একাধিক অ্যানিমেটেড JXL ক্লিপ একত্রিত করুন</string>
     <string name="animation_clips_order">অ্যানিমেশন ক্লিপ অর্ডার</string>
+    <string name="palette_pdf">প্যালেট পিডিএফ</string>
+    <string name="palette_pdf_sub">একটি পিডিএফ কন্টাক্ট শীটে প্যালেট রঙ এবং একটি ঐচ্ছিক সোর্স ইমেজ সাজান</string>
+    <string name="palette_pdf_include_image">উৎস ইমেজ অন্তর্ভুক্ত করুন</string>
+    <string name="palette_pdf_include_image_sub">প্রথম পৃষ্ঠায় রঙের গ্রিডের উপরে উত্স চিত্রটি রাখুন</string>
+    <string name="palette_pdf_show_names">রঙের নাম দেখান</string>
+    <string name="palette_pdf_show_hex">HEX মান দেখান</string>
+    <string name="palette_pdf_show_filename">উৎস ফাইলের নাম দেখান</string>
+    <string name="palette_pdf_show_filename_sub">প্রতিটি পৃষ্ঠার শীর্ষে উৎস ফাইলের নাম রাখুন</string>
+    <string name="palette_pdf_show_palette_name">প্যালেটের নাম দেখান</string>
+    <string name="palette_pdf_show_palette_name_sub">ফাইলের নামের নীচে প্যালেটের ভিতরে সংরক্ষিত নামটি রাখুন</string>
+    <string name="palette_pdf_selected_file">নির্বাচিত প্যালেট ফাইল</string>
+    <string name="palette_pdf_page_margin">পৃষ্ঠা মার্জিন</string>
+    <string name="palette_pdf_color_spacing">রঙের ব্যবধান</string>
 </resources>

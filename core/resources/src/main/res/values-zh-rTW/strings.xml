@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">合併JXL</string>
     <string name="jxl_type_merge_sub">將多個動畫 JXL 剪輯合併為一個動畫</string>
     <string name="animation_clips_order">動畫剪輯順序</string>
+    <string name="palette_pdf">調色盤 PDF</string>
+    <string name="palette_pdf_sub">在 PDF 聯絡表中排列調色板顏色和可選來源影像</string>
+    <string name="palette_pdf_include_image">包括來源影像</string>
+    <string name="palette_pdf_include_image_sub">將來源影像放置在第一頁的顏色網格上方</string>
+    <string name="palette_pdf_show_names">顯示顏色名稱</string>
+    <string name="palette_pdf_show_hex">顯示十六進位值</string>
+    <string name="palette_pdf_show_filename">顯示原始檔名</string>
+    <string name="palette_pdf_show_filename_sub">將來源檔案名稱放在每頁的頂部</string>
+    <string name="palette_pdf_show_palette_name">顯示調色板名稱</string>
+    <string name="palette_pdf_show_palette_name_sub">將調色板中儲存的名稱放置在檔案名稱下方</string>
+    <string name="palette_pdf_selected_file">選定的調色板文件</string>
+    <string name="palette_pdf_page_margin">頁邊距</string>
+    <string name="palette_pdf_color_spacing">色間距</string>
 </resources>

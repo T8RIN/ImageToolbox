@@ -5027,4 +5027,17 @@
     <string name="jxl_type_merge">Zlúčiť JXL</string>
     <string name="jxl_type_merge_sub">Skombinujte viacero animovaných klipov JXL do jednej animácie</string>
     <string name="animation_clips_order">Poradie animovaných klipov</string>
+    <string name="palette_pdf">Paleta PDF</string>
+    <string name="palette_pdf_sub">Usporiadajte farby palety a voliteľný zdrojový obrázok v hárku kontaktov PDF</string>
+    <string name="palette_pdf_include_image">Zahrnúť zdrojový obrázok</string>
+    <string name="palette_pdf_include_image_sub">Umiestnite zdrojový obrázok nad farebnú mriežku na prvej strane</string>
+    <string name="palette_pdf_show_names">Zobraziť názvy farieb</string>
+    <string name="palette_pdf_show_hex">Zobraziť HEX hodnoty</string>
+    <string name="palette_pdf_show_filename">Zobraziť zdrojový názov súboru</string>
+    <string name="palette_pdf_show_filename_sub">Umiestnite zdrojový názov súboru na začiatok každej stránky</string>
+    <string name="palette_pdf_show_palette_name">Zobraziť názov palety</string>
+    <string name="palette_pdf_show_palette_name_sub">Umiestnite názov uložený v palete pod názov súboru</string>
+    <string name="palette_pdf_selected_file">Vybraný súbor palety</string>
+    <string name="palette_pdf_page_margin">Okraje stránky</string>
+    <string name="palette_pdf_color_spacing">Farebné rozostupy</string>
 </resources>

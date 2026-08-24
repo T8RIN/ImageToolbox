@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL را ادغام کنید</string>
     <string name="jxl_type_merge_sub">چند کلیپ متحرک JXL را در یک انیمیشن ترکیب کنید</string>
     <string name="animation_clips_order">سفارش کلیپ های انیمیشن</string>
+    <string name="palette_pdf">پالت PDF</string>
+    <string name="palette_pdf_sub">رنگ های پالت و یک تصویر منبع اختیاری را در یک صفحه تماس PDF مرتب کنید</string>
+    <string name="palette_pdf_include_image">شامل تصویر منبع</string>
+    <string name="palette_pdf_include_image_sub">تصویر منبع را بالای شبکه رنگی در صفحه اول قرار دهید</string>
+    <string name="palette_pdf_show_names">نمایش نام رنگ ها</string>
+    <string name="palette_pdf_show_hex">نمایش مقادیر HEX</string>
+    <string name="palette_pdf_show_filename">نمایش نام فایل منبع</string>
+    <string name="palette_pdf_show_filename_sub">نام فایل منبع را در بالای هر صفحه قرار دهید</string>
+    <string name="palette_pdf_show_palette_name">نمایش نام پالت</string>
+    <string name="palette_pdf_show_palette_name_sub">نام ذخیره شده در پالت زیر نام فایل را قرار دهید</string>
+    <string name="palette_pdf_selected_file">فایل پالت انتخاب شده</string>
+    <string name="palette_pdf_page_margin">حاشیه های صفحه</string>
+    <string name="palette_pdf_color_spacing">فاصله رنگ</string>
 </resources>

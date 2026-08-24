@@ -5027,4 +5027,17 @@
     <string name="jxl_type_merge">Аб\'яднаць JXL</string>
     <string name="jxl_type_merge_sub">Аб\'яднайце некалькі анімаваных кліпаў JXL у адну анімацыю</string>
     <string name="animation_clips_order">Заказ анімацыйных кліпаў</string>
+    <string name="palette_pdf">Палітра pdf</string>
+    <string name="palette_pdf_sub">Упарадкуйце колеры палітры і дадатковы зыходны відарыс у кантактным аркушы PDF</string>
+    <string name="palette_pdf_include_image">Уключыць зыходны відарыс</string>
+    <string name="palette_pdf_include_image_sub">Змесціце зыходны малюнак над каляровай сеткай на першай старонцы</string>
+    <string name="palette_pdf_show_names">Паказаць назвы колераў</string>
+    <string name="palette_pdf_show_hex">Паказаць значэнні HEX</string>
+    <string name="palette_pdf_show_filename">Паказаць імя зыходнага файла</string>
+    <string name="palette_pdf_show_filename_sub">Змесціце імя зыходнага файла ўверсе кожнай старонкі</string>
+    <string name="palette_pdf_show_palette_name">Паказаць назву палітры</string>
+    <string name="palette_pdf_show_palette_name_sub">Змесціце імя, захаванае ўнутры палітры, пад імем файла</string>
+    <string name="palette_pdf_selected_file">Выбраны файл палітры</string>
+    <string name="palette_pdf_page_margin">Палі старонкі</string>
+    <string name="palette_pdf_color_spacing">Каляровы інтэрвал</string>
 </resources>

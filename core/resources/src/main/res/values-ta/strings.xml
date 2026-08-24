@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL ஐ இணைக்கவும்</string>
     <string name="jxl_type_merge_sub">பல அனிமேஷன் செய்யப்பட்ட JXL கிளிப்களை ஒரு அனிமேஷனில் இணைக்கவும்</string>
     <string name="animation_clips_order">அனிமேஷன் கிளிப்புகள் வரிசை</string>
+    <string name="palette_pdf">தட்டு PDF</string>
+    <string name="palette_pdf_sub">PDF தொடர்புத் தாளில் தட்டு வண்ணங்களையும் விருப்ப மூலப் படத்தையும் வரிசைப்படுத்தவும்</string>
+    <string name="palette_pdf_include_image">மூலப் படத்தைச் சேர்க்கவும்</string>
+    <string name="palette_pdf_include_image_sub">முதல் பக்கத்தில் வண்ண கட்டத்தின் மேல் மூலப் படத்தை வைக்கவும்</string>
+    <string name="palette_pdf_show_names">வண்ணப் பெயர்களைக் காட்டு</string>
+    <string name="palette_pdf_show_hex">HEX மதிப்புகளைக் காட்டு</string>
+    <string name="palette_pdf_show_filename">மூல கோப்பு பெயரைக் காட்டு</string>
+    <string name="palette_pdf_show_filename_sub">ஒவ்வொரு பக்கத்தின் மேலேயும் மூல கோப்பு பெயரை வைக்கவும்</string>
+    <string name="palette_pdf_show_palette_name">தட்டு பெயரைக் காட்டு</string>
+    <string name="palette_pdf_show_palette_name_sub">கோப்பு பெயருக்கு கீழே உள்ள தட்டுக்குள் சேமிக்கப்பட்ட பெயரை வைக்கவும்</string>
+    <string name="palette_pdf_selected_file">தேர்ந்தெடுக்கப்பட்ட தட்டு கோப்பு</string>
+    <string name="palette_pdf_page_margin">பக்க ஓரங்கள்</string>
+    <string name="palette_pdf_color_spacing">வண்ண இடைவெளி</string>
 </resources>

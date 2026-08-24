@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Yhdistä JXL</string>
     <string name="jxl_type_merge_sub">Yhdistä useita animoituja JXL-leikkeitä yhdeksi animaatioksi</string>
     <string name="animation_clips_order">Animaatioleikkeiden tilaus</string>
+    <string name="palette_pdf">Paletti PDF</string>
+    <string name="palette_pdf_sub">Järjestä paletin värit ja valinnainen lähdekuva PDF-yhteystietosivulle</string>
+    <string name="palette_pdf_include_image">Sisällytä lähdekuva</string>
+    <string name="palette_pdf_include_image_sub">Aseta lähdekuva ensimmäisen sivun väriruudukon yläpuolelle</string>
+    <string name="palette_pdf_show_names">Näytä värien nimet</string>
+    <string name="palette_pdf_show_hex">Näytä HEX-arvot</string>
+    <string name="palette_pdf_show_filename">Näytä lähdetiedoston nimi</string>
+    <string name="palette_pdf_show_filename_sub">Aseta lähdetiedoston nimi jokaisen sivun yläosaan</string>
+    <string name="palette_pdf_show_palette_name">Näytä paletin nimi</string>
+    <string name="palette_pdf_show_palette_name_sub">Aseta palettiin tallennettu nimi tiedostonimen alle</string>
+    <string name="palette_pdf_selected_file">Valittu palettitiedosto</string>
+    <string name="palette_pdf_page_margin">Sivun marginaalit</string>
+    <string name="palette_pdf_color_spacing">Värivälit</string>
 </resources>

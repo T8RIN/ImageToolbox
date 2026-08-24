@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXLని విలీనం చేయండి</string>
     <string name="jxl_type_merge_sub">బహుళ యానిమేటెడ్ JXL క్లిప్‌లను ఒక యానిమేషన్‌లో కలపండి</string>
     <string name="animation_clips_order">యానిమేషన్ క్లిప్‌ల క్రమం</string>
+    <string name="palette_pdf">పాలెట్ PDF</string>
+    <string name="palette_pdf_sub">PDF కాంటాక్ట్ షీట్‌లో ప్యాలెట్ రంగులు మరియు ఐచ్ఛిక మూల చిత్రాన్ని అమర్చండి</string>
+    <string name="palette_pdf_include_image">మూల చిత్రాన్ని చేర్చండి</string>
+    <string name="palette_pdf_include_image_sub">మొదటి పేజీలో రంగు గ్రిడ్ పైన మూల చిత్రాన్ని ఉంచండి</string>
+    <string name="palette_pdf_show_names">రంగు పేర్లను చూపించు</string>
+    <string name="palette_pdf_show_hex">HEX విలువలను చూపు</string>
+    <string name="palette_pdf_show_filename">సోర్స్ ఫైల్ పేరును చూపించు</string>
+    <string name="palette_pdf_show_filename_sub">ప్రతి పేజీ ఎగువన సోర్స్ ఫైల్ పేరును ఉంచండి</string>
+    <string name="palette_pdf_show_palette_name">పాలెట్ పేరు చూపించు</string>
+    <string name="palette_pdf_show_palette_name_sub">ఫైల్ పేరు క్రింద ప్యాలెట్ లోపల నిల్వ చేయబడిన పేరును ఉంచండి</string>
+    <string name="palette_pdf_selected_file">ఎంచుకోబడిన పాలెట్ ఫైల్</string>
+    <string name="palette_pdf_page_margin">పేజీ అంచులు</string>
+    <string name="palette_pdf_color_spacing">రంగు అంతరం</string>
 </resources>

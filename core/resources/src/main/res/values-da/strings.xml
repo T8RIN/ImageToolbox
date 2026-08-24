@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Flet JXL</string>
     <string name="jxl_type_merge_sub">Kombiner flere animerede JXL-klip til én animation</string>
     <string name="animation_clips_order">Bestilling af animationsklip</string>
+    <string name="palette_pdf">Palette PDF</string>
+    <string name="palette_pdf_sub">Arranger paletfarver og et valgfrit kildebillede i et PDF-kontaktark</string>
+    <string name="palette_pdf_include_image">Inkluder kildebillede</string>
+    <string name="palette_pdf_include_image_sub">Placer kildebilledet over farvegitteret på den første side</string>
+    <string name="palette_pdf_show_names">Vis farvenavne</string>
+    <string name="palette_pdf_show_hex">Vis HEX-værdier</string>
+    <string name="palette_pdf_show_filename">Vis kildefilnavn</string>
+    <string name="palette_pdf_show_filename_sub">Placer kildefilnavnet øverst på hver side</string>
+    <string name="palette_pdf_show_palette_name">Vis paletnavn</string>
+    <string name="palette_pdf_show_palette_name_sub">Placer navnet på paletten under filnavnet</string>
+    <string name="palette_pdf_selected_file">Valgt paletfil</string>
+    <string name="palette_pdf_page_margin">Sidemargener</string>
+    <string name="palette_pdf_color_spacing">Farveafstand</string>
 </resources>

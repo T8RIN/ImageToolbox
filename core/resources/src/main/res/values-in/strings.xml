@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">Gabungkan JXL</string>
     <string name="jxl_type_merge_sub">Gabungkan beberapa klip JXL animasi menjadi satu animasi</string>
     <string name="animation_clips_order">Urutan klip animasi</string>
+    <string name="palette_pdf">PDF palet</string>
+    <string name="palette_pdf_sub">Susun warna palet dan gambar sumber opsional dalam lembar kontak PDF</string>
+    <string name="palette_pdf_include_image">Sertakan gambar sumber</string>
+    <string name="palette_pdf_include_image_sub">Tempatkan gambar sumber di atas kisi warna pada halaman pertama</string>
+    <string name="palette_pdf_show_names">Tampilkan nama warna</string>
+    <string name="palette_pdf_show_hex">Tampilkan nilai HEX</string>
+    <string name="palette_pdf_show_filename">Tampilkan nama file sumber</string>
+    <string name="palette_pdf_show_filename_sub">Tempatkan nama file sumber di bagian atas setiap halaman</string>
+    <string name="palette_pdf_show_palette_name">Tampilkan nama palet</string>
+    <string name="palette_pdf_show_palette_name_sub">Tempatkan nama yang disimpan di dalam palet di bawah nama file</string>
+    <string name="palette_pdf_selected_file">File palet yang dipilih</string>
+    <string name="palette_pdf_page_margin">Margin halaman</string>
+    <string name="palette_pdf_color_spacing">Spasi warna</string>
 </resources>

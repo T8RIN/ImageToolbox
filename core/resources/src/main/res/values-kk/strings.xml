@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL біріктіру</string>
     <string name="jxl_type_merge_sub">Бірнеше анимациялық JXL клиптерін бір анимацияға біріктіріңіз</string>
     <string name="animation_clips_order">Анимациялық клиптерге тапсырыс беру</string>
+    <string name="palette_pdf">PDF палитрасы</string>
+    <string name="palette_pdf_sub">PDF контактілер парағында палитра түстерін және қосымша бастапқы кескінді реттеңіз</string>
+    <string name="palette_pdf_include_image">Бастапқы кескінді қосыңыз</string>
+    <string name="palette_pdf_include_image_sub">Бастапқы кескінді бірінші беттегі түсті тордың үстіне қойыңыз</string>
+    <string name="palette_pdf_show_names">Түс атауларын көрсетіңіз</string>
+    <string name="palette_pdf_show_hex">HEX мәндерін көрсетіңіз</string>
+    <string name="palette_pdf_show_filename">Бастапқы файл атауын көрсету</string>
+    <string name="palette_pdf_show_filename_sub">Бастапқы файл атауын әр беттің жоғарғы жағына қойыңыз</string>
+    <string name="palette_pdf_show_palette_name">Палитра атауын көрсету</string>
+    <string name="palette_pdf_show_palette_name_sub">Палитрада сақталған атауды файл атауының астына қойыңыз</string>
+    <string name="palette_pdf_selected_file">Таңдалған палитра файлы</string>
+    <string name="palette_pdf_page_margin">Бет жиектері</string>
+    <string name="palette_pdf_color_spacing">Түс аралығы</string>
 </resources>

@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL\'i birleştir</string>
     <string name="jxl_type_merge_sub">Birden fazla animasyonlu JXL klibini tek bir animasyonda birleştirin</string>
     <string name="animation_clips_order">Animasyon klipleri sırası</string>
+    <string name="palette_pdf">Palet PDF\'si</string>
+    <string name="palette_pdf_sub">Palet renklerini ve isteğe bağlı bir kaynak görüntüyü PDF iletişim sayfasında düzenleyin</string>
+    <string name="palette_pdf_include_image">Kaynak resmi ekle</string>
+    <string name="palette_pdf_include_image_sub">Kaynak görüntüyü ilk sayfadaki renk ızgarasının üzerine yerleştirin</string>
+    <string name="palette_pdf_show_names">Renk adlarını göster</string>
+    <string name="palette_pdf_show_hex">HEX değerlerini göster</string>
+    <string name="palette_pdf_show_filename">Kaynak dosya adını göster</string>
+    <string name="palette_pdf_show_filename_sub" />
+    <string name="palette_pdf_show_palette_name" />
+    <string name="palette_pdf_show_palette_name_sub">Paletin içinde saklanan adı dosya adının altına yerleştirin</string>
+    <string name="palette_pdf_selected_file">Seçilen palet dosyası</string>
+    <string name="palette_pdf_page_margin">Sayfa kenar boşlukları</string>
+    <string name="palette_pdf_color_spacing">Renk aralığı</string>
 </resources>

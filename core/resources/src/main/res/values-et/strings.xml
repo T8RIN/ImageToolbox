@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Ühendage JXL</string>
     <string name="jxl_type_merge_sub">Kombineerige mitu animeeritud JXL-klippi üheks animatsiooniks</string>
     <string name="animation_clips_order">Animatsiooniklippide tellimus</string>
+    <string name="palette_pdf">Palett PDF</string>
+    <string name="palette_pdf_sub" />
+    <string name="palette_pdf_include_image">Kaasake lähtepilt</string>
+    <string name="palette_pdf_include_image_sub" />
+    <string name="palette_pdf_show_names">Näita värvinimesid</string>
+    <string name="palette_pdf_show_hex">Näita HEX väärtusi</string>
+    <string name="palette_pdf_show_filename">Kuva lähtefaili nimi</string>
+    <string name="palette_pdf_show_filename_sub" />
+    <string name="palette_pdf_show_palette_name">Näita paleti nime</string>
+    <string name="palette_pdf_show_palette_name_sub" />
+    <string name="palette_pdf_selected_file">Valitud paletifail</string>
+    <string name="palette_pdf_page_margin">Lehekülje veerised</string>
+    <string name="palette_pdf_color_spacing">Värvivahe</string>
 </resources>

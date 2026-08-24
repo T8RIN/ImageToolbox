@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL samenvoegen</string>
     <string name="jxl_type_merge_sub">Combineer meerdere geanimeerde JXL-clips in één animatie</string>
     <string name="animation_clips_order">Animatieclips bestellen</string>
+    <string name="palette_pdf">Palet PDF</string>
+    <string name="palette_pdf_sub">Schik paletkleuren en een optionele bronafbeelding op een PDF-contactblad</string>
+    <string name="palette_pdf_include_image">Bronafbeelding opnemen</string>
+    <string name="palette_pdf_include_image_sub">Plaats de bronafbeelding boven het kleurenraster op de eerste pagina</string>
+    <string name="palette_pdf_show_names">Toon kleurnamen</string>
+    <string name="palette_pdf_show_hex">Toon HEX-waarden</string>
+    <string name="palette_pdf_show_filename">Toon bronbestandsnaam</string>
+    <string name="palette_pdf_show_filename_sub">Plaats de bronbestandsnaam bovenaan elke pagina</string>
+    <string name="palette_pdf_show_palette_name">Toon paletnaam</string>
+    <string name="palette_pdf_show_palette_name_sub">Plaats de naam die in het palet is opgeslagen onder de bestandsnaam</string>
+    <string name="palette_pdf_selected_file">Geselecteerd paletbestand</string>
+    <string name="palette_pdf_page_margin">Paginamarges</string>
+    <string name="palette_pdf_color_spacing">Kleurafstand</string>
 </resources>

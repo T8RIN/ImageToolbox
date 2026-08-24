@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">JXLをマージ</string>
     <string name="jxl_type_merge_sub">複数のアニメーション JXL クリップを 1 つのアニメーションに結合する</string>
     <string name="animation_clips_order">アニメーションクリップの順序</string>
+    <string name="palette_pdf">パレットPDF</string>
+    <string name="palette_pdf_sub">パレットの色とオプションのソース画像を PDF コンタクトシートに配置します</string>
+    <string name="palette_pdf_include_image">ソース画像を含める</string>
+    <string name="palette_pdf_include_image_sub">ソース画像を最初のページのカラーグリッドの上に配置します</string>
+    <string name="palette_pdf_show_names">色の名前を表示する</string>
+    <string name="palette_pdf_show_hex">16 進数の値を表示する</string>
+    <string name="palette_pdf_show_filename">ソースファイル名を表示</string>
+    <string name="palette_pdf_show_filename_sub">各ページの先頭にソースファイル名を配置します</string>
+    <string name="palette_pdf_show_palette_name">パレット名を表示</string>
+    <string name="palette_pdf_show_palette_name_sub">パレット内に保存されている名前をファイル名の下に配置します</string>
+    <string name="palette_pdf_selected_file">選択したパレットファイル</string>
+    <string name="palette_pdf_page_margin">ページ余白</string>
+    <string name="palette_pdf_color_spacing">色間隔</string>
 </resources>

@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">JXL egyesítése</string>
     <string name="jxl_type_merge_sub">Kombináljon több animált JXL klipet egyetlen animációba</string>
     <string name="animation_clips_order">Animációs klipek rendelése</string>
+    <string name="palette_pdf">Paletta PDF</string>
+    <string name="palette_pdf_sub">Rendezze el a paletta színeit és egy opcionális forrásképet egy PDF névjegylapon</string>
+    <string name="palette_pdf_include_image">Tartalmazza a forrásképet</string>
+    <string name="palette_pdf_include_image_sub">Helyezze a forrásképet a színrács fölé az első oldalon</string>
+    <string name="palette_pdf_show_names">Színnevek megjelenítése</string>
+    <string name="palette_pdf_show_hex">HEX értékek megjelenítése</string>
+    <string name="palette_pdf_show_filename">Forrásfájlnév megjelenítése</string>
+    <string name="palette_pdf_show_filename_sub">Helyezze el a forrásfájl nevét az egyes oldalak tetejére</string>
+    <string name="palette_pdf_show_palette_name">Paletta nevének megjelenítése</string>
+    <string name="palette_pdf_show_palette_name_sub">Helyezze a palettán tárolt nevet a fájlnév alá</string>
+    <string name="palette_pdf_selected_file">Kiválasztott palettafájl</string>
+    <string name="palette_pdf_page_margin">Oldalmargók</string>
+    <string name="palette_pdf_color_spacing">Színtávolság</string>
 </resources>

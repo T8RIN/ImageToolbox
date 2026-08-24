@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Mesclar JXL</string>
     <string name="jxl_type_merge_sub">Combine vários clipes JXL animados em uma animação</string>
     <string name="animation_clips_order">Ordem dos clipes de animação</string>
+    <string name="palette_pdf">Paleta PDF</string>
+    <string name="palette_pdf_sub">Organize as cores da paleta e uma imagem de origem opcional em uma folha de contato em PDF</string>
+    <string name="palette_pdf_include_image">Incluir imagem de origem</string>
+    <string name="palette_pdf_include_image_sub">Coloque a imagem de origem acima da grade de cores na primeira página</string>
+    <string name="palette_pdf_show_names">Mostrar nomes de cores</string>
+    <string name="palette_pdf_show_hex">Mostrar valores HEX</string>
+    <string name="palette_pdf_show_filename">Mostrar nome do arquivo de origem</string>
+    <string name="palette_pdf_show_filename_sub">Coloque o nome do arquivo de origem no topo de cada página</string>
+    <string name="palette_pdf_show_palette_name">Mostrar nome da paleta</string>
+    <string name="palette_pdf_show_palette_name_sub">Coloque o nome armazenado dentro da paleta abaixo do nome do arquivo</string>
+    <string name="palette_pdf_selected_file">Arquivo de paleta selecionado</string>
+    <string name="palette_pdf_page_margin">Margens da página</string>
+    <string name="palette_pdf_color_spacing">Espaçamento de cores</string>
 </resources>

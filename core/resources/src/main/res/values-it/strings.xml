@@ -5025,4 +5025,17 @@
     <string name="jxl_type_merge">Unisci JXL</string>
     <string name="jxl_type_merge_sub">Combina più clip JXL animate in un\'unica animazione</string>
     <string name="animation_clips_order">Ordine delle clip di animazione</string>
+    <string name="palette_pdf">PDF tavolozza</string>
+    <string name="palette_pdf_sub">Disporre i colori della tavolozza e un\'immagine sorgente opzionale in un provino a contatto PDF</string>
+    <string name="palette_pdf_include_image">Includi immagine sorgente</string>
+    <string name="palette_pdf_include_image_sub">Posiziona l\'immagine sorgente sopra la griglia dei colori sulla prima pagina</string>
+    <string name="palette_pdf_show_names">Mostra i nomi dei colori</string>
+    <string name="palette_pdf_show_hex">Mostra valori esadecimali</string>
+    <string name="palette_pdf_show_filename">Mostra il nome del file di origine</string>
+    <string name="palette_pdf_show_filename_sub">Inserisci il nome del file di origine nella parte superiore di ogni pagina</string>
+    <string name="palette_pdf_show_palette_name">Mostra il nome della tavolozza</string>
+    <string name="palette_pdf_show_palette_name_sub" />
+    <string name="palette_pdf_selected_file">File tavolozza selezionato</string>
+    <string name="palette_pdf_page_margin">Margini della pagina</string>
+    <string name="palette_pdf_color_spacing">Spaziatura dei colori</string>
 </resources>

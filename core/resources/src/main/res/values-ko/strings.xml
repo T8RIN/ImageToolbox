@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">JXL 병합</string>
     <string name="jxl_type_merge_sub">여러 애니메이션 JXL 클립을 하나의 애니메이션으로 결합</string>
     <string name="animation_clips_order">애니메이션 클립 순서</string>
+    <string name="palette_pdf">팔레트 PDF</string>
+    <string name="palette_pdf_sub">PDF 밀착 인화에서 팔레트 색상 및 선택적 소스 이미지 정렬</string>
+    <string name="palette_pdf_include_image">소스 이미지 포함</string>
+    <string name="palette_pdf_include_image_sub">첫 번째 페이지의 색상 그리드 위에 원본 이미지를 배치합니다.</string>
+    <string name="palette_pdf_show_names">색상 이름 표시</string>
+    <string name="palette_pdf_show_hex">HEX 값 표시</string>
+    <string name="palette_pdf_show_filename">소스 파일 이름 표시</string>
+    <string name="palette_pdf_show_filename_sub">각 페이지 상단에 소스 파일 이름을 입력하세요.</string>
+    <string name="palette_pdf_show_palette_name">팔레트 이름 표시</string>
+    <string name="palette_pdf_show_palette_name_sub">팔레트 안에 저장된 이름을 파일 이름 아래에 입력하세요.</string>
+    <string name="palette_pdf_selected_file">선택한 팔레트 파일</string>
+    <string name="palette_pdf_page_margin">페이지 여백</string>
+    <string name="palette_pdf_color_spacing">색상 간격</string>
 </resources>

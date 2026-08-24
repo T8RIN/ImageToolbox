@@ -5027,4 +5027,17 @@
     <string name="jxl_type_merge">מיזוג JXL</string>
     <string name="jxl_type_merge_sub">שלב מספר קטעי JXL מונפשים לאנימציה אחת</string>
     <string name="animation_clips_order">סדר קטעי אנימציה</string>
+    <string name="palette_pdf">לוח PDF</string>
+    <string name="palette_pdf_sub">ארגן את צבעי הצבעים ותמונת מקור אופציונלית בגיליון איש קשר ב-PDF</string>
+    <string name="palette_pdf_include_image">כלול תמונת מקור</string>
+    <string name="palette_pdf_include_image_sub">הצב את תמונת המקור מעל רשת הצבעים בעמוד הראשון</string>
+    <string name="palette_pdf_show_names">הצג שמות צבעים</string>
+    <string name="palette_pdf_show_hex">הצג ערכי HEX</string>
+    <string name="palette_pdf_show_filename">הצג את שם קובץ המקור</string>
+    <string name="palette_pdf_show_filename_sub">מקם את שם קובץ המקור בראש כל עמוד</string>
+    <string name="palette_pdf_show_palette_name">הצג את שם הפלטה</string>
+    <string name="palette_pdf_show_palette_name_sub">מקם את השם המאוחסן בתוך הפלטה מתחת לשם הקובץ</string>
+    <string name="palette_pdf_selected_file">קובץ פלטת הצבעים שנבחר</string>
+    <string name="palette_pdf_page_margin">שולי עמודים</string>
+    <string name="palette_pdf_color_spacing">מרווח צבעים</string>
 </resources>

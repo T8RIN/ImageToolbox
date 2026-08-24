@@ -5027,4 +5027,17 @@
     <string name="jxl_type_merge">Sujungti JXL</string>
     <string name="jxl_type_merge_sub">Sujunkite kelis animuotus JXL klipus į vieną animaciją</string>
     <string name="animation_clips_order">Animacijos klipų užsakymas</string>
+    <string name="palette_pdf">Paletė PDF</string>
+    <string name="palette_pdf_sub">Išdėstykite paletės spalvas ir pasirenkamą šaltinio vaizdą PDF kontaktų lape</string>
+    <string name="palette_pdf_include_image">Įtraukite šaltinio vaizdą</string>
+    <string name="palette_pdf_include_image_sub">Pirmajame puslapyje padėkite šaltinio vaizdą virš spalvų tinklelio</string>
+    <string name="palette_pdf_show_names">Rodyti spalvų pavadinimus</string>
+    <string name="palette_pdf_show_hex">Rodyti HEX reikšmes</string>
+    <string name="palette_pdf_show_filename">Rodyti šaltinio failo pavadinimą</string>
+    <string name="palette_pdf_show_filename_sub">Įdėkite šaltinio failo pavadinimą kiekvieno puslapio viršuje</string>
+    <string name="palette_pdf_show_palette_name">Rodyti paletės pavadinimą</string>
+    <string name="palette_pdf_show_palette_name_sub">Padėkite paletėje saugomą pavadinimą po failo pavadinimu</string>
+    <string name="palette_pdf_selected_file">Pasirinktas paletės failas</string>
+    <string name="palette_pdf_page_margin">Puslapio paraštės</string>
+    <string name="palette_pdf_color_spacing">Spalvų atstumas</string>
 </resources>

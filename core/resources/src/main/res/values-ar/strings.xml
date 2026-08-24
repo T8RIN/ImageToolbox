@@ -5029,4 +5029,17 @@
     <string name="jxl_type_merge">دمج جي اكس ال</string>
     <string name="jxl_type_merge_sub">قم بدمج عدة مقاطع JXL متحركة في رسم متحرك واحد</string>
     <string name="animation_clips_order">ترتيب مقاطع الرسوم المتحركة</string>
+    <string name="palette_pdf">لوحة PDF</string>
+    <string name="palette_pdf_sub">قم بترتيب ألوان اللوحة وصورة مصدر اختيارية في ورقة جهات الاتصال بتنسيق PDF</string>
+    <string name="palette_pdf_include_image">تضمين الصورة المصدر</string>
+    <string name="palette_pdf_include_image_sub">ضع الصورة المصدر أعلى شبكة الألوان في الصفحة الأولى</string>
+    <string name="palette_pdf_show_names">إظهار أسماء الألوان</string>
+    <string name="palette_pdf_show_hex">إظهار قيم HEX</string>
+    <string name="palette_pdf_show_filename">إظهار اسم الملف المصدر</string>
+    <string name="palette_pdf_show_filename_sub">ضع اسم الملف المصدر في أعلى كل صفحة</string>
+    <string name="palette_pdf_show_palette_name">إظهار اسم اللوحة</string>
+    <string name="palette_pdf_show_palette_name_sub">ضع الاسم المخزن داخل اللوحة أسفل اسم الملف</string>
+    <string name="palette_pdf_selected_file">ملف اللوحة المحدد</string>
+    <string name="palette_pdf_page_margin">هوامش الصفحة</string>
+    <string name="palette_pdf_color_spacing">تباعد الألوان</string>
 </resources>

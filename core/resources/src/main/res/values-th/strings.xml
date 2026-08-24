@@ -5024,4 +5024,17 @@
     <string name="jxl_type_merge">รวม JXL</string>
     <string name="jxl_type_merge_sub">รวมคลิป JXL แบบเคลื่อนไหวหลายคลิปให้เป็นภาพเคลื่อนไหวเดียว</string>
     <string name="animation_clips_order">ลำดับคลิปแอนิเมชั่น</string>
+    <string name="palette_pdf">จานสี PDF</string>
+    <string name="palette_pdf_sub">จัดเรียงสีจานสีและรูปภาพต้นฉบับเสริมในเอกสารติดต่อ PDF</string>
+    <string name="palette_pdf_include_image">รวมภาพต้นฉบับ</string>
+    <string name="palette_pdf_include_image_sub">วางรูปภาพต้นฉบับไว้เหนือตารางสีในหน้าแรก</string>
+    <string name="palette_pdf_show_names">แสดงชื่อสี</string>
+    <string name="palette_pdf_show_hex">แสดงค่า HEX</string>
+    <string name="palette_pdf_show_filename">แสดงชื่อไฟล์ต้นฉบับ</string>
+    <string name="palette_pdf_show_filename_sub">วางชื่อไฟล์ต้นฉบับที่ด้านบนของแต่ละหน้า</string>
+    <string name="palette_pdf_show_palette_name">แสดงชื่อจานสี</string>
+    <string name="palette_pdf_show_palette_name_sub">วางชื่อที่เก็บไว้ในจานสีใต้ชื่อไฟล์</string>
+    <string name="palette_pdf_selected_file">ไฟล์จานสีที่เลือก</string>
+    <string name="palette_pdf_page_margin">ขอบหน้า</string>
+    <string name="palette_pdf_color_spacing">ระยะห่างสี</string>
 </resources>
