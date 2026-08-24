@@ -44,7 +44,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Pdf
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
-import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -95,7 +94,6 @@ fun PalettePdfToolContent(
         visible = showZoomSheet,
         onDismiss = { showZoomSheet = false }
     )
-    val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = true,
