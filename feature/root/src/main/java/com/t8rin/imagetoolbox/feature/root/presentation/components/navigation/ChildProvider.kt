@@ -57,7 +57,7 @@ import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponen
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.screenLogic.PalettePdfToolComponent
+import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent

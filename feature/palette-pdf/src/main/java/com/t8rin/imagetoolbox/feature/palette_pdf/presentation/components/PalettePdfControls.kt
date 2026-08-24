@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.presentation.components
+package com.t8rin.imagetoolbox.feature.palette_pdf.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FormatLineSpacing
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Image
@@ -37,15 +38,17 @@ import com.t8rin.imagetoolbox.core.resources.icons.TextFields
 import com.t8rin.imagetoolbox.core.resources.icons.ViewColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfParams
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfParams
 import kotlin.math.roundToInt
 
 @Composable
 internal fun PalettePdfControls(
     params: PalettePdfParams,
     onParamsChange: (PalettePdfParams) -> Unit,
-    hasSourceImage: Boolean
+    hasSourceImage: Boolean,
+    sourceFilename: String
 ) {
     Column {
         if (hasSourceImage) {
@@ -61,6 +64,15 @@ internal fun PalettePdfControls(
                 icon = Icons.Rounded.Palette,
                 shape = ShapeDefaults.default,
                 valueSuffix = ""
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        } else {
+            PreferenceItem(
+                title = sourceFilename,
+                subtitle = stringResource(R.string.palette_pdf_selected_file),
+                startIcon = Icons.Rounded.FileOpen,
+                shape = ShapeDefaults.default,
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -152,13 +164,37 @@ private fun PalettePdfContentControls(
         }
         PreferenceRowSwitch(
             modifier = Modifier.fillMaxWidth(),
+            title = stringResource(R.string.palette_pdf_show_filename),
+            subtitle = stringResource(R.string.palette_pdf_show_filename_sub),
+            checked = params.showSourceFilename,
+            startIcon = Icons.Rounded.FileOpen,
+            onClick = {
+                onParamsChange(params.copy(showSourceFilename = it))
+            },
+            shape = if (hasSourceImage) ShapeDefaults.center else ShapeDefaults.top
+        )
+        if (!hasSourceImage) {
+            PreferenceRowSwitch(
+                modifier = Modifier.fillMaxWidth(),
+                title = stringResource(R.string.palette_pdf_show_palette_name),
+                subtitle = stringResource(R.string.palette_pdf_show_palette_name_sub),
+                checked = params.showPaletteName,
+                startIcon = Icons.Rounded.Palette,
+                onClick = {
+                    onParamsChange(params.copy(showPaletteName = it))
+                },
+                shape = ShapeDefaults.center
+            )
+        }
+        PreferenceRowSwitch(
+            modifier = Modifier.fillMaxWidth(),
             title = stringResource(R.string.palette_pdf_show_names),
             checked = params.showColorNames,
             startIcon = Icons.Rounded.TextFields,
             onClick = {
                 onParamsChange(params.copy(showColorNames = it))
             },
-            shape = if (hasSourceImage) ShapeDefaults.center else ShapeDefaults.top
+            shape = ShapeDefaults.center
         )
         PreferenceRowSwitch(
             modifier = Modifier.fillMaxWidth(),

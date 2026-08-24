@@ -94,9 +94,9 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsC
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.MultiFrameFusionContent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
+import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.PalettePdfToolContent
+import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.PalettePdfToolContent
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent

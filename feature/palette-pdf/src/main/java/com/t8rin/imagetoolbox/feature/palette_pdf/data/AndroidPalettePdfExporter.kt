@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.data
+package com.t8rin.imagetoolbox.feature.palette_pdf.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -36,10 +37,10 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.utils.filename
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.PalettePdfExporter
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfColor
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfParams
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfSourceType
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.PalettePdfExporter
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfColor
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfParams
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfSourceType
 import com.t8rin.palette.Palette
 import com.t8rin.palette.PaletteFormat
 import com.t8rin.palette.decode
@@ -57,6 +58,26 @@ internal class AndroidPalettePdfExporter @Inject constructor(
     private val imageScaler: ImageScaler<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : PalettePdfExporter, DispatchersHolder by dispatchersHolder {
+
+    override suspend fun detectSourceType(
+        sourceUri: String
+    ): PalettePdfSourceType? = withContext(defaultDispatcher) {
+        val uri = sourceUri.toUri()
+        val filename = uri.filename(context) ?: sourceUri
+        val hasPaletteExtension = PaletteFormat.matchingFilename(filename)
+            .any { it != PaletteFormat.IMAGE }
+
+        if (hasPaletteExtension && decodePalette(sourceUri, null) != null) {
+            return@withContext PalettePdfSourceType.PaletteFile
+        }
+
+        val image = loadSourceBitmap(sourceUri)
+        if (image != null) {
+            return@withContext PalettePdfSourceType.Image
+        }
+
+        decodePalette(sourceUri, null)?.let { PalettePdfSourceType.PaletteFile }
+    }
 
     override suspend fun export(
         sourceUri: String,
@@ -82,7 +103,8 @@ internal class AndroidPalettePdfExporter @Inject constructor(
                 params = params.copy(
                     includeSourceImage = params.includeSourceImage && source.image != null
                 ),
-                title = source.title
+                sourceFilename = source.filename,
+                paletteName = source.paletteName
             ).render()
             document.writeTo(writeable.outputStream())
         } finally {
@@ -112,10 +134,7 @@ internal class AndroidPalettePdfExporter @Inject constructor(
         maximumColorCount: Int
     ): PalettePdfSource {
         val image = imageScaler.scaleUntilCanShow(
-            imageGetter.getImage(
-                data = sourceUri,
-                originalSize = false
-            )
+            loadSourceBitmap(sourceUri)
         ) ?: error("Unable to load palette source image")
 
         val colors = extractImageColorPalette(
@@ -133,9 +152,20 @@ internal class AndroidPalettePdfExporter @Inject constructor(
         return PalettePdfSource(
             image = image,
             colors = colors,
-            title = ""
+            filename = sourceUri.toUri().filename(context)
+                ?: sourceUri.toUri().lastPathSegment.orEmpty(),
+            paletteName = null
         )
     }
+
+    private suspend fun loadSourceBitmap(sourceUri: String): Bitmap? = runCatching {
+        imageGetter.getImage(
+            data = sourceUri,
+            originalSize = false
+        ) ?: context.contentResolver.openInputStream(sourceUri.toUri())?.use {
+            BitmapFactory.decodeStream(it)
+        }
+    }.getOrNull()
 
     private fun preparePaletteSource(
         sourceUri: String,
@@ -161,7 +191,9 @@ internal class AndroidPalettePdfExporter @Inject constructor(
         return PalettePdfSource(
             image = null,
             colors = colors,
-            title = palette.name
+            filename = sourceUri.toUri().filename(context)
+                ?: sourceUri.toUri().lastPathSegment.orEmpty(),
+            paletteName = palette.name
         )
     }
 
@@ -214,7 +246,8 @@ internal class AndroidPalettePdfExporter @Inject constructor(
 private data class PalettePdfSource(
     val image: Bitmap?,
     val colors: List<PalettePdfColor>,
-    val title: String
+    val filename: String,
+    val paletteName: String?
 )
 
 private class PalettePdfRenderer(
@@ -222,12 +255,15 @@ private class PalettePdfRenderer(
     private val image: Bitmap?,
     private val colors: List<PalettePdfColor>,
     params: PalettePdfParams,
-    private val title: String
+    private val sourceFilename: String,
+    private val paletteName: String?
 ) {
     private val columns = params.columns.coerceIn(1, 6)
     private val margin = params.margin.coerceIn(0f, PAGE_WIDTH / 3f)
     private val spacing = params.spacing.coerceIn(0f, 36f)
     private val includeSourceImage = params.includeSourceImage
+    private val showSourceFilename = params.showSourceFilename
+    private val showPaletteName = params.showPaletteName
     private val showColorNames = params.showColorNames
     private val showHexValues = params.showHexValues
 
@@ -246,6 +282,11 @@ private class PalettePdfRenderer(
         color = Color.rgb(30, 30, 34)
         textSize = 22f
         typeface = Typeface.create("sans-serif", Typeface.BOLD)
+    }
+    private val subtitlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.rgb(95, 95, 102)
+        textSize = 12f
+        typeface = Typeface.create("sans-serif", Typeface.NORMAL)
     }
     private val namePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.rgb(35, 35, 39)
@@ -324,15 +365,34 @@ private class PalettePdfRenderer(
     }
 
     private fun drawHeader(canvas: Canvas): Float {
-        if (title.isBlank()) return margin
+        val lines = buildList {
+            if (showSourceFilename && sourceFilename.isNotBlank()) {
+                add(sourceFilename)
+            }
+            if (showPaletteName && !paletteName.isNullOrBlank()) {
+                add(paletteName)
+            }
+        }
+        if (lines.isEmpty()) return margin
 
         canvas.drawText(
-            title.ellipsize(titlePaint, PAGE_WIDTH - margin * 2f),
+            lines.first().ellipsize(titlePaint, PAGE_WIDTH - margin * 2f),
             margin,
             margin + titlePaint.textSize,
             titlePaint
         )
-        return margin + titlePaint.textSize + 18f
+
+        if (lines.size > 1) {
+            canvas.drawText(
+                lines.drop(1).joinToString(" · ")
+                    .ellipsize(subtitlePaint, PAGE_WIDTH - margin * 2f),
+                margin,
+                margin + titlePaint.textSize + subtitlePaint.textSize + 6f,
+                subtitlePaint
+            )
+        }
+
+        return margin + titlePaint.textSize + if (lines.size > 1) 30f else 18f
     }
 
     private fun drawSourceImage(

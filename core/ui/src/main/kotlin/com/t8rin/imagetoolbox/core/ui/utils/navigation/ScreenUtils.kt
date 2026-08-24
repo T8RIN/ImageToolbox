@@ -294,7 +294,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is DuplicateFinder -> Icons.Outlined.ImageSearch
     is EraseBackground -> Icons.Rounded.Eraser
     is Filter -> Icons.Outlined.AutoFixHigh
-    is PalettePdfTool -> Icons.Outlined.Pdf
+    is PalettePdfTool -> Icons.Outlined.PaletteSwatch
     is PaletteTools -> Icons.Outlined.PaletteSwatch
     is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
@@ -388,7 +388,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is DuplicateFinder -> Icons.TwoTone.ImageSearch
     is EraseBackground -> Icons.TwoTone.Eraser
     is Filter -> Icons.TwoTone.AutoFixHigh
-    is PalettePdfTool -> Icons.TwoTone.Pdf
+    is PalettePdfTool -> Icons.TwoTone.PaletteSwatch
     is PaletteTools -> Icons.TwoTone.PaletteSwatch
     is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox

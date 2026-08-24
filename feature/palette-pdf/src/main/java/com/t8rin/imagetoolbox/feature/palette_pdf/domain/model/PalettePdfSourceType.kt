@@ -15,21 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.di
+package com.t8rin.imagetoolbox.feature.palette_pdf.domain.model
 
-import com.t8rin.imagetoolbox.feature.palette_tools.data.AndroidPalettePdfExporter
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.PalettePdfExporter
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface PaletteToolsModule {
-
-    @Binds
-    fun bindPalettePdfExporter(
-        impl: AndroidPalettePdfExporter
-    ): PalettePdfExporter
+enum class PalettePdfSourceType {
+    Image,
+    PaletteFile
 }

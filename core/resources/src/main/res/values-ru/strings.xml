@@ -79,6 +79,11 @@
     <string name="palette_pdf_include_image_sub">Разместить исходное изображение над сеткой цветов на первой странице</string>
     <string name="palette_pdf_show_names">Показывать названия цветов</string>
     <string name="palette_pdf_show_hex">Показывать HEX-коды</string>
+    <string name="palette_pdf_show_filename">Показывать имя исходного файла</string>
+    <string name="palette_pdf_show_filename_sub">Разместить имя исходного файла сверху каждой страницы</string>
+    <string name="palette_pdf_show_palette_name">Показывать название палитры</string>
+    <string name="palette_pdf_show_palette_name_sub">Разместить название из файла палитры под именем файла</string>
+    <string name="palette_pdf_selected_file">Выбранный файл палитры</string>
     <string name="palette_pdf_page_margin">Поля страницы</string>
     <string name="palette_pdf_color_spacing">Расстояние между цветами</string>
     <string name="new_version">Обновление %1$s</string>

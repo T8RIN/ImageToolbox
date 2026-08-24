@@ -15,14 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.domain.model
+package com.t8rin.imagetoolbox.feature.palette_pdf.di
 
-data class PalettePdfParams(
-    val maximumColorCount: Int = 32,
-    val columns: Int = 3,
-    val margin: Float = 24f,
-    val spacing: Float = 8f,
-    val includeSourceImage: Boolean = true,
-    val showColorNames: Boolean = true,
-    val showHexValues: Boolean = true
-)
+import com.t8rin.imagetoolbox.feature.palette_pdf.data.AndroidPalettePdfExporter
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.PalettePdfExporter
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface PalettePdfModule {
+
+    @Binds
+    fun bindPalettePdfExporter(
+        impl: AndroidPalettePdfExporter
+    ): PalettePdfExporter
+}

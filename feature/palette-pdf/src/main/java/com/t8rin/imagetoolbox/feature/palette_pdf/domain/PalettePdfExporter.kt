@@ -15,10 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.domain.model
+package com.t8rin.imagetoolbox.feature.palette_pdf.domain
 
-data class PalettePdfColor(
-    val argb: Int,
-    val name: String,
-    val hex: String
-)
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfParams
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfSourceType
+
+interface PalettePdfExporter {
+
+    suspend fun detectSourceType(sourceUri: String): PalettePdfSourceType?
+
+    suspend fun export(
+        sourceUri: String,
+        sourceType: PalettePdfSourceType,
+        sourcePaletteFormat: String?,
+        params: PalettePdfParams,
+        writeable: Writeable
+    )
+}

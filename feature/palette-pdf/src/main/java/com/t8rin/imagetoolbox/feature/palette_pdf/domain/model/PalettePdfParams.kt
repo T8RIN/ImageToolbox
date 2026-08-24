@@ -15,19 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.domain
+package com.t8rin.imagetoolbox.feature.palette_pdf.domain.model
 
-import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfParams
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfSourceType
-
-interface PalettePdfExporter {
-
-    suspend fun export(
-        sourceUri: String,
-        sourceType: PalettePdfSourceType,
-        sourcePaletteFormat: String?,
-        params: PalettePdfParams,
-        writeable: Writeable
-    )
-}
+data class PalettePdfParams(
+    val maximumColorCount: Int = 32,
+    val columns: Int = 3,
+    val margin: Float = 24f,
+    val spacing: Float = 8f,
+    val includeSourceImage: Boolean = true,
+    val showSourceFilename: Boolean = false,
+    val showPaletteName: Boolean = true,
+    val showColorNames: Boolean = true,
+    val showHexValues: Boolean = true
+)

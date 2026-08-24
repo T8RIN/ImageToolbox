@@ -82,6 +82,11 @@
     <string name="palette_pdf_include_image_sub">Place the source image above the color grid on the first page</string>
     <string name="palette_pdf_show_names">Show color names</string>
     <string name="palette_pdf_show_hex">Show HEX values</string>
+    <string name="palette_pdf_show_filename">Show source filename</string>
+    <string name="palette_pdf_show_filename_sub">Place the source filename at the top of each page</string>
+    <string name="palette_pdf_show_palette_name">Show palette name</string>
+    <string name="palette_pdf_show_palette_name_sub">Place the name stored inside the palette below the filename</string>
+    <string name="palette_pdf_selected_file">Selected palette file</string>
     <string name="palette_pdf_page_margin">Page margins</string>
     <string name="palette_pdf_color_spacing">Color spacing</string>
     <string name="update">Update</string>

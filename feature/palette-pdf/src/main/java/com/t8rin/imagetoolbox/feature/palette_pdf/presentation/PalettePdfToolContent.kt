@@ -15,13 +15,11 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf
+package com.t8rin.imagetoolbox.feature.palette_pdf.presentation
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,28 +51,47 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
-import com.t8rin.imagetoolbox.feature.palette_tools.domain.model.PalettePdfSourceType
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.components.PalettePdfControls
-import com.t8rin.imagetoolbox.feature.palette_tools.presentation.pdf.screenLogic.PalettePdfToolComponent
+import com.t8rin.imagetoolbox.feature.palette_pdf.domain.model.PalettePdfSourceType
+import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.components.PalettePdfControls
+import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 
 @Composable
 fun PalettePdfToolContent(
     component: PalettePdfToolComponent
 ) {
     val pdfSaver = rememberFileCreator(onSuccess = component::saveTo)
-    val imagePicker = rememberImagePicker(onSuccess = component::updateSourceUri)
-    val paletteFilePicker = rememberFilePicker(onSuccess = component::updateSourceUri)
+    val imagePicker = rememberImagePicker(
+        onSuccess = { uri: Uri ->
+            component.updateSourceUri(
+                uri = uri,
+                type = PalettePdfSourceType.Image
+            )
+        }
+    )
+    val paletteFilePicker = rememberFilePicker(
+        onSuccess = { uri: Uri ->
+            component.updateSourceUri(
+                uri = uri,
+                type = PalettePdfSourceType.PaletteFile
+            )
+        }
+    )
+    val sourceFilePicker = rememberFilePicker(
+        onSuccess = { uri: Uri -> component.updateSourceUri(uri) }
+    )
 
     var showZoomSheet by rememberSaveable { mutableStateOf(false) }
     var editSheetData by remember { mutableStateOf(emptyList<Uri>()) }
 
     ZoomModalSheet(
-        data = component.sourceUri.takeIf { component.hasSourceImage },
+        data = component.sourceUri?.takeIf { component.hasSourceImage },
         visible = showZoomSheet,
         onDismiss = { showZoomSheet = false }
     )
@@ -93,7 +110,7 @@ fun PalettePdfToolContent(
         onGoBack = component.onGoBack,
         actions = {
             ShareButton(
-                enabled = true,
+                enabled = component.hasSource,
                 onShare = component::share,
                 onEdit = {
                     component.prepareForEditing {
@@ -112,10 +129,14 @@ fun PalettePdfToolContent(
             )
         },
         topAppBarPersistentActions = {
-            ZoomButton(
-                onClick = { showZoomSheet = true },
-                visible = component.hasSourceImage
-            )
+            if (component.hasSource) {
+                ZoomButton(
+                    onClick = { showZoomSheet = true },
+                    visible = component.hasSourceImage
+                )
+            } else {
+                TopAppBarEmoji()
+            }
         },
         imagePreview = {
             Box(
@@ -142,22 +163,21 @@ fun PalettePdfToolContent(
         placeImagePreview = component.hasSourceImage,
         showImagePreviewAsStickyHeader = component.hasSourceImage,
         controls = {
-            if (!component.hasSourceImage && isPortrait) {
-                Spacer(Modifier.height(20.dp))
-            }
             PalettePdfControls(
                 params = component.params,
                 onParamsChange = component::updateParams,
-                hasSourceImage = component.hasSourceImage
+                hasSourceImage = component.hasSourceImage,
+                sourceFilename = component.sourceFilename
             )
         },
         buttons = { actions ->
             BottomButtonsBlock(
-                isNoData = false,
+                isNoData = !component.hasSource,
                 onSecondaryButtonClick = {
                     when (component.sourceType) {
                         PalettePdfSourceType.Image -> imagePicker.pickImage()
                         PalettePdfSourceType.PaletteFile -> paletteFilePicker.pickFile()
+                        null -> sourceFilePicker.pickFile()
                     }
                 },
                 secondaryButtonIcon = if (component.hasSourceImage) {
@@ -171,16 +191,23 @@ fun PalettePdfToolContent(
                 onPrimaryButtonClick = {
                     pdfSaver.make(component.outputFilename)
                 },
-                isPrimaryButtonVisible = true,
-                isPrimaryButtonEnabled = !component.isSaving,
+                isPrimaryButtonVisible = component.hasSource,
+                isPrimaryButtonEnabled = component.hasSource && !component.isSaving,
                 actions = actions
             )
         },
-        canShowScreenData = true
+        noDataControls = {
+            FileNotPickedWidget(
+                text = stringResource(R.string.pick_file_to_start),
+                onPickFile = sourceFilePicker::pickFile
+            )
+        },
+        portraitTopPadding = 20.dp,
+        canShowScreenData = component.hasSource
     )
 
     LoadingDialog(
-        visible = component.isSaving,
+        visible = component.isImageLoading || component.isSaving,
         canCancel = false
     )
 }

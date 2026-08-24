@@ -343,6 +343,7 @@ sealed class Screen(
                 OCR(),
                 ZipConvert(),
                 PdfContactSheet(),
+                PalettePdfTool(),
                 ComparePdf(),
                 ResizePdfPages(),
                 SanitizePdf(),
@@ -1303,8 +1304,8 @@ sealed class Screen(
 
     @Serializable
     data class PalettePdfTool(
-        val uri: Uri,
-        val isPaletteFile: Boolean,
+        val uri: Uri? = null,
+        val isPaletteFile: Boolean? = null,
         val paletteFormat: String? = null
     ) : Screen(
         id = 79,
