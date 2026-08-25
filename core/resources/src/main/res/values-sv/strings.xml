@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Vald palettfil</string>
     <string name="palette_pdf_page_margin">Sidmarginaler</string>
     <string name="palette_pdf_color_spacing">Färgavstånd</string>
+    <string name="pdf_dark_mode">PDF mörkt läge</string>
+    <string name="pdf_dark_mode_sub">Skapa en bekväm mörk PDF utan rastrering av text och vektorgrafik</string>
+    <string name="pdf_dark_mode_info">Använder PDF-blandningslägen för att bevara valbar text, länkar, teckensnitt och vektorgrafik. Utseendet på anteckningar och formulär kan bero på PDF-läsaren.</string>
+    <string name="pdf_dark_mode_blend_color">Blanda färg</string>
+    <string name="classic">Klassisk</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Midnatt</string>
+    <string name="purple">Purpur</string>
+    <string name="burgundy">Bourgogne</string>
+    <string name="slate">Skiffer</string>
+    <string name="search_keywords_pdf_dark_mode">pdf mörkt läge nattläsare invertera negativa färger</string>
 </resources>

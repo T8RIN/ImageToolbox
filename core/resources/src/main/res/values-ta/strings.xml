@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">தேர்ந்தெடுக்கப்பட்ட தட்டு கோப்பு</string>
     <string name="palette_pdf_page_margin">பக்க ஓரங்கள்</string>
     <string name="palette_pdf_color_spacing">வண்ண இடைவெளி</string>
+    <string name="pdf_dark_mode">PDF டார்க் பயன்முறை</string>
+    <string name="pdf_dark_mode_sub">உரை மற்றும் வெக்டர் கிராபிக்ஸ் ஆகியவற்றை ராஸ்டரைஸ் செய்யாமல், வசதியான இருண்ட PDFஐ உருவாக்கவும்</string>
+    <string name="pdf_dark_mode_info">தேர்ந்தெடுக்கக்கூடிய உரை, இணைப்புகள், எழுத்துருக்கள் மற்றும் வெக்டர் கிராபிக்ஸ் ஆகியவற்றைப் பாதுகாக்க PDF கலவை முறைகளைப் பயன்படுத்துகிறது. சிறுகுறிப்புகள் மற்றும் படிவங்களின் தோற்றம் PDF பார்வையாளரைப் பொறுத்தது.</string>
+    <string name="pdf_dark_mode_blend_color">கலர் கலர்</string>
+    <string name="classic">கிளாசிக்</string>
+    <string name="graphite">கிராஃபைட்</string>
+    <string name="midnight">நள்ளிரவு</string>
+    <string name="purple">ஊதா</string>
+    <string name="burgundy">பர்கண்டி</string>
+    <string name="slate">ஸ்லேட்</string>
+    <string name="search_keywords_pdf_dark_mode">pdf டார்க் மோட் நைட் ரீடர் நிறங்களை எதிர்மறையாக மாற்றுகிறது</string>
 </resources>

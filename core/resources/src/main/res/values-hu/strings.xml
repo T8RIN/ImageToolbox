@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Kiválasztott palettafájl</string>
     <string name="palette_pdf_page_margin">Oldalmargók</string>
     <string name="palette_pdf_color_spacing">Színtávolság</string>
+    <string name="pdf_dark_mode">PDF sötét mód</string>
+    <string name="pdf_dark_mode_sub">Hozzon létre kényelmes, sötét PDF-fájlt szöveg és vektorgrafika raszterezése nélkül</string>
+    <string name="pdf_dark_mode_info">PDF-keverési módokat használ a választható szövegek, hivatkozások, betűtípusok és vektorgrafikák megőrzéséhez. A megjegyzések és űrlapok megjelenése a PDF-megjelenítőtől függhet.</string>
+    <string name="pdf_dark_mode_blend_color">Blend Color</string>
+    <string name="classic">Klasszikus</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Éjfél</string>
+    <string name="purple">Lila</string>
+    <string name="burgundy">Burgundia</string>
+    <string name="slate">Pala</string>
+    <string name="search_keywords_pdf_dark_mode">pdf sötét mód éjszakai olvasó invert színek negatív</string>
 </resources>

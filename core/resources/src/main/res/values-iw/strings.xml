@@ -5040,4 +5040,15 @@
     <string name="palette_pdf_selected_file">קובץ פלטת הצבעים שנבחר</string>
     <string name="palette_pdf_page_margin">שולי עמודים</string>
     <string name="palette_pdf_color_spacing">מרווח צבעים</string>
+    <string name="pdf_dark_mode">מצב PDF כהה</string>
+    <string name="pdf_dark_mode_sub">צור PDF כהה נוח ללא רסטר של טקסט וגרפיקה וקטורית</string>
+    <string name="pdf_dark_mode_info">משתמש במצבי מיזוג PDF כדי לשמר טקסט לבחירה, קישורים, גופנים וגרפיקה וקטורית. המראה של הערות וטפסים עשוי להיות תלוי במציג ה-PDF.</string>
+    <string name="pdf_dark_mode_blend_color">תערובת צבע</string>
+    <string name="classic">קלַאסִי</string>
+    <string name="graphite">גרָפִיט</string>
+    <string name="midnight">חֲצוֹת</string>
+    <string name="purple">סָגוֹל</string>
+    <string name="burgundy">בורדו</string>
+    <string name="slate">צִפחָה</string>
+    <string name="search_keywords_pdf_dark_mode">pdf מצב כהה קורא לילה הפוך צבעים שליליים</string>
 </resources>

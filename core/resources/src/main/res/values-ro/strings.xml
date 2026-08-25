@@ -5039,4 +5039,15 @@
     <string name="palette_pdf_selected_file">Fișierul paletă selectat</string>
     <string name="palette_pdf_page_margin">Marginile paginii</string>
     <string name="palette_pdf_color_spacing">Spațierea culorilor</string>
+    <string name="pdf_dark_mode">Modul întunecat PDF</string>
+    <string name="pdf_dark_mode_sub">Creați un PDF întunecat confortabil, fără a rasteriza textul și grafica vectorială</string>
+    <string name="pdf_dark_mode_info">Utilizează modurile de amestecare PDF pentru a păstra textul, linkurile, fonturile și grafica vectorială selectabile. Aspectul adnotărilor și formularelor poate depinde de vizualizatorul PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Amestecați culoarea</string>
+    <string name="classic">Clasic</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Miezul nopţii</string>
+    <string name="purple">Violet</string>
+    <string name="burgundy">Burgundia</string>
+    <string name="slate">Ardezie</string>
+    <string name="search_keywords_pdf_dark_mode">pdf cititor de noapte în modul întunecat inversează culorile negative</string>
 </resources>

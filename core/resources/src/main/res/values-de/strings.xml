@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Ausgewählte Palettendatei</string>
     <string name="palette_pdf_page_margin">Seitenränder</string>
     <string name="palette_pdf_color_spacing">Farbabstand</string>
+    <string name="pdf_dark_mode">PDF-Dunkelmodus</string>
+    <string name="pdf_dark_mode_sub">Erstellen Sie ein komfortables dunkles PDF, ohne Text und Vektorgrafiken zu rastern</string>
+    <string name="pdf_dark_mode_info">Verwendet PDF-Mischmodi, um auswählbaren Text, Links, Schriftarten und Vektorgrafiken beizubehalten. Das Erscheinungsbild von Anmerkungen und Formularen kann vom PDF-Viewer abhängen.</string>
+    <string name="pdf_dark_mode_blend_color">Mischfarbe</string>
+    <string name="classic">Klassiker</string>
+    <string name="graphite">Graphit</string>
+    <string name="midnight">Mitternacht</string>
+    <string name="purple">Lila</string>
+    <string name="burgundy">Burgund</string>
+    <string name="slate">Schiefer</string>
+    <string name="search_keywords_pdf_dark_mode">PDF Dark Mode Night Reader invertiert Farben negativ</string>
 </resources>

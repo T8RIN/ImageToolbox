@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">选定的调色板文件</string>
     <string name="palette_pdf_page_margin">页边距</string>
     <string name="palette_pdf_color_spacing">色间距</string>
+    <string name="pdf_dark_mode">PDF 深色模式</string>
+    <string name="pdf_dark_mode_sub">创建舒适的深色 PDF，无需光栅化文本和矢量图形</string>
+    <string name="pdf_dark_mode_info">使用 PDF 混合模式保留可选择的文本、链接、字体和矢量图形。注释和表格的外观可能取决于 PDF 查看器。</string>
+    <string name="pdf_dark_mode_blend_color">混合颜色</string>
+    <string name="classic">经典的</string>
+    <string name="graphite">石墨</string>
+    <string name="midnight">午夜</string>
+    <string name="purple">紫色的</string>
+    <string name="burgundy">勃艮第</string>
+    <string name="slate">石板</string>
+    <string name="search_keywords_pdf_dark_mode">pdf暗模式夜间阅读器反转颜色负片</string>
 </resources>

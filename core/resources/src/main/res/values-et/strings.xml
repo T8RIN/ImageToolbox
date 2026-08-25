@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Valitud paletifail</string>
     <string name="palette_pdf_page_margin">Lehekülje veerised</string>
     <string name="palette_pdf_color_spacing">Värvivahe</string>
+    <string name="pdf_dark_mode">PDF-i tume režiim</string>
+    <string name="pdf_dark_mode_sub">Looge mugav tume PDF ilma teksti ja vektorgraafika rasterdamata</string>
+    <string name="pdf_dark_mode_info">Kasutab PDF-i segamisrežiime, et säilitada valitav tekst, linkid, fondid ja vektorgraafika. Märkuste ja vormide välimus võib sõltuda PDF-vaaturist.</string>
+    <string name="pdf_dark_mode_blend_color">Segavärv</string>
+    <string name="classic">Klassikaline</string>
+    <string name="graphite">Grafiit</string>
+    <string name="midnight">Kesköö</string>
+    <string name="purple">Lilla</string>
+    <string name="burgundy">Burgundia</string>
+    <string name="slate">Kiltkivi</string>
+    <string name="search_keywords_pdf_dark_mode">pdf pimedas režiimis öölugeja värvide ümberpööramine negatiivne</string>
 </resources>

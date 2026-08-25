@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">File tavolozza selezionato</string>
     <string name="palette_pdf_page_margin">Margini della pagina</string>
     <string name="palette_pdf_color_spacing">Spaziatura dei colori</string>
+    <string name="pdf_dark_mode">PDF Modalità scura</string>
+    <string name="pdf_dark_mode_sub">Crea un comodo PDF scuro senza rasterizzare testo e grafica vettoriale</string>
+    <string name="pdf_dark_mode_info">Utilizza le modalità di fusione PDF per preservare testo, collegamenti, caratteri e grafica vettoriale selezionabili. L\'aspetto delle annotazioni e dei moduli può dipendere dal visualizzatore PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Miscela colore</string>
+    <string name="classic">Classico</string>
+    <string name="graphite">Grafite</string>
+    <string name="midnight">Mezzanotte</string>
+    <string name="purple">Viola</string>
+    <string name="burgundy">Borgogna</string>
+    <string name="slate">Ardesia</string>
+    <string name="search_keywords_pdf_dark_mode">Il lettore notturno in modalità oscura pdf inverte i colori in negativo</string>
 </resources>

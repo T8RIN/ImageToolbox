@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Napiling palette file</string>
     <string name="palette_pdf_page_margin">Mga margin ng pahina</string>
     <string name="palette_pdf_color_spacing">Puwang ng kulay</string>
+    <string name="pdf_dark_mode">PDF Dark Mode</string>
+    <string name="pdf_dark_mode_sub">Gumawa ng kumportableng madilim na PDF nang walang rasterizing text at vector graphics</string>
+    <string name="pdf_dark_mode_info">Gumagamit ng mga PDF blend mode para mapanatili ang mapipiling text, link, font, at vector graphics. Ang hitsura ng mga anotasyon at mga form ay maaaring depende sa PDF viewer.</string>
+    <string name="pdf_dark_mode_blend_color">Kulay ng timpla</string>
+    <string name="classic">Classic</string>
+    <string name="graphite">Graphite</string>
+    <string name="midnight">hatinggabi</string>
+    <string name="purple">Lila</string>
+    <string name="burgundy">Burgundy</string>
+    <string name="slate">slate</string>
+    <string name="search_keywords_pdf_dark_mode">pdf dark mode night reader invert colors negative</string>
 </resources>

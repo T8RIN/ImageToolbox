@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Arquivo de paleta selecionado</string>
     <string name="palette_pdf_page_margin">Margens da página</string>
     <string name="palette_pdf_color_spacing">Espaçamento de cores</string>
+    <string name="pdf_dark_mode">Modo escuro de PDF</string>
+    <string name="pdf_dark_mode_sub">Crie um PDF escuro confortável sem rasterizar texto e gráficos vetoriais</string>
+    <string name="pdf_dark_mode_info">Usa modos de mesclagem de PDF para preservar textos, links, fontes e gráficos vetoriais selecionáveis. A aparência das anotações e formulários pode depender do visualizador de PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Misturar cor</string>
+    <string name="classic">Clássico</string>
+    <string name="graphite">Grafite</string>
+    <string name="midnight">Meia-noite</string>
+    <string name="purple">Roxo</string>
+    <string name="burgundy">Borgonha</string>
+    <string name="slate">Ardósia</string>
+    <string name="search_keywords_pdf_dark_mode">pdf modo escuro leitor noturno inverter cores negativo</string>
 </resources>

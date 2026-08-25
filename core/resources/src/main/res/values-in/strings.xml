@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">File palet yang dipilih</string>
     <string name="palette_pdf_page_margin">Margin halaman</string>
     <string name="palette_pdf_color_spacing">Spasi warna</string>
+    <string name="pdf_dark_mode">Mode Gelap PDF</string>
+    <string name="pdf_dark_mode_sub">Buat PDF gelap yang nyaman tanpa melakukan rasterisasi teks dan grafik vektor</string>
+    <string name="pdf_dark_mode_info">Menggunakan mode campuran PDF untuk mempertahankan teks, tautan, font, dan grafik vektor yang dapat dipilih. Tampilan anotasi dan formulir mungkin bergantung pada penampil PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Campuran Warna</string>
+    <string name="classic">Klasik</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Tengah malam</string>
+    <string name="purple">Ungu</string>
+    <string name="burgundy">merah anggur</string>
+    <string name="slate">Batu tulis</string>
+    <string name="search_keywords_pdf_dark_mode">pdf mode gelap pembaca malam membalikkan warna negatif</string>
 </resources>

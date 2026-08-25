@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Geselecteerd paletbestand</string>
     <string name="palette_pdf_page_margin">Paginamarges</string>
     <string name="palette_pdf_color_spacing">Kleurafstand</string>
+    <string name="pdf_dark_mode">PDF-donkere modus</string>
+    <string name="pdf_dark_mode_sub">Maak een comfortabele donkere PDF zonder tekst en vectorafbeeldingen te rasteren</string>
+    <string name="pdf_dark_mode_info">Gebruikt PDF-overvloeimodi om selecteerbare tekst, koppelingen, lettertypen en vectorafbeeldingen te behouden. Het uiterlijk van annotaties en formulieren kan afhankelijk zijn van de PDF-viewer.</string>
+    <string name="pdf_dark_mode_blend_color">Meng kleur</string>
+    <string name="classic">Klassiek</string>
+    <string name="graphite">Grafiet</string>
+    <string name="midnight">Middernacht</string>
+    <string name="purple">Paars</string>
+    <string name="burgundy">Bourgondië</string>
+    <string name="slate">Leisteen</string>
+    <string name="search_keywords_pdf_dark_mode">pdf donkere modus nachtlezer kleuren negatief omkeren</string>
 </resources>

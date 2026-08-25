@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">নির্বাচিত প্যালেট ফাইল</string>
     <string name="palette_pdf_page_margin">পৃষ্ঠা মার্জিন</string>
     <string name="palette_pdf_color_spacing">রঙের ব্যবধান</string>
+    <string name="pdf_dark_mode">PDF ডার্ক মোড</string>
+    <string name="pdf_dark_mode_sub">পাঠ্য এবং ভেক্টর গ্রাফিক্স রাস্টারাইজ না করে একটি আরামদায়ক অন্ধকার PDF তৈরি করুন</string>
+    <string name="pdf_dark_mode_info">নির্বাচনযোগ্য পাঠ্য, লিঙ্ক, ফন্ট এবং ভেক্টর গ্রাফিক্স সংরক্ষণ করতে PDF ব্লেন্ড মোড ব্যবহার করে। টীকা এবং ফর্মের উপস্থিতি পিডিএফ ভিউয়ারের উপর নির্ভর করতে পারে।</string>
+    <string name="pdf_dark_mode_blend_color">ব্লেন্ড কালার</string>
+    <string name="classic">ক্লাসিক</string>
+    <string name="graphite">গ্রাফাইট</string>
+    <string name="midnight">মধ্যরাত</string>
+    <string name="purple">বেগুনি</string>
+    <string name="burgundy">বারগান্ডি</string>
+    <string name="slate">স্লেট</string>
+    <string name="search_keywords_pdf_dark_mode">পিডিএফ ডার্ক মোড নাইট রিডার ইনভার্ট রং নেতিবাচক</string>
 </resources>

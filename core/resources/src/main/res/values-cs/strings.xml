@@ -5040,4 +5040,15 @@
     <string name="palette_pdf_selected_file">Vybraný soubor palety</string>
     <string name="palette_pdf_page_margin">Okraje stránky</string>
     <string name="palette_pdf_color_spacing">Barevné rozestupy</string>
+    <string name="pdf_dark_mode">Tmavý režim PDF</string>
+    <string name="pdf_dark_mode_sub">Vytvořte pohodlné tmavé PDF bez rastrování textu a vektorové grafiky</string>
+    <string name="pdf_dark_mode_info">Používá režimy prolnutí PDF k zachování volitelných textů, odkazů, písem a vektorové grafiky. Vzhled anotací a formulářů může záviset na prohlížeči PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Míchat barvu</string>
+    <string name="classic">Klasický</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Půlnoc</string>
+    <string name="purple">Fialová</string>
+    <string name="burgundy">burgundské</string>
+    <string name="slate">Břidlice</string>
+    <string name="search_keywords_pdf_dark_mode">pdf tmavý režim noční čtečka invertovat barvy negativní</string>
 </resources>

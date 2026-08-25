@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Таңдалған палитра файлы</string>
     <string name="palette_pdf_page_margin">Бет жиектері</string>
     <string name="palette_pdf_color_spacing">Түс аралығы</string>
+    <string name="pdf_dark_mode">PDF қараңғы режимі</string>
+    <string name="pdf_dark_mode_sub">Мәтінді және векторлық графиканы растрлаусыз ыңғайлы қараңғы PDF жасаңыз</string>
+    <string name="pdf_dark_mode_info">Таңдалатын мәтінді, сілтемелерді, қаріптерді және векторлық графиканы сақтау үшін PDF араластыру режимдерін пайдаланады. Аннотациялар мен пішіндердің пайда болуы PDF қарау құралына байланысты болуы мүмкін.</string>
+    <string name="pdf_dark_mode_blend_color">Түсті араластыру</string>
+    <string name="classic">Классикалық</string>
+    <string name="graphite">Графит</string>
+    <string name="midnight">Түн ортасы</string>
+    <string name="purple">Күлгін</string>
+    <string name="burgundy">Бургундия</string>
+    <string name="slate">Шифер</string>
+    <string name="search_keywords_pdf_dark_mode">pdf қараңғы режим түнгі оқу құралы түстерді теріс айналдырады</string>
 </resources>

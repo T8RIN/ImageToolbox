@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">ఎంచుకోబడిన పాలెట్ ఫైల్</string>
     <string name="palette_pdf_page_margin">పేజీ అంచులు</string>
     <string name="palette_pdf_color_spacing">రంగు అంతరం</string>
+    <string name="pdf_dark_mode">PDF డార్క్ మోడ్</string>
+    <string name="pdf_dark_mode_sub">టెక్స్ట్ మరియు వెక్టార్ గ్రాఫిక్‌లను రాస్టరైజ్ చేయకుండా సౌకర్యవంతమైన డార్క్ PDFని సృష్టించండి</string>
+    <string name="pdf_dark_mode_info">ఎంచుకోదగిన టెక్స్ట్, లింక్‌లు, ఫాంట్‌లు మరియు వెక్టర్ గ్రాఫిక్‌లను భద్రపరచడానికి PDF బ్లెండ్ మోడ్‌లను ఉపయోగిస్తుంది. ఉల్లేఖనాలు మరియు ఫారమ్‌ల స్వరూపం PDF వ్యూయర్‌పై ఆధారపడి ఉండవచ్చు.</string>
+    <string name="pdf_dark_mode_blend_color">బ్లెండ్ కలర్</string>
+    <string name="classic">క్లాసిక్</string>
+    <string name="graphite">గ్రాఫైట్</string>
+    <string name="midnight">అర్ధరాత్రి</string>
+    <string name="purple">ఊదా రంగు</string>
+    <string name="burgundy">బుర్గుండి</string>
+    <string name="slate">స్లేట్</string>
+    <string name="search_keywords_pdf_dark_mode">pdf డార్క్ మోడ్ నైట్ రీడర్ రంగులను ప్రతికూలంగా మార్చుతుంది</string>
 </resources>

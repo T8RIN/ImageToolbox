@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Fitxer de paleta seleccionat</string>
     <string name="palette_pdf_page_margin">Marges de pàgina</string>
     <string name="palette_pdf_color_spacing">Espaiat de colors</string>
+    <string name="pdf_dark_mode">Mode fosc PDF</string>
+    <string name="pdf_dark_mode_sub">Creeu un PDF fosc còmode sense rasteritzar el text i els gràfics vectorials</string>
+    <string name="pdf_dark_mode_info">Utilitza els modes de combinació de PDF per conservar el text seleccionable, els enllaços, els tipus de lletra i els gràfics vectorials. L\'aspecte de les anotacions i els formularis pot dependre del visualitzador de PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Barreja de colors</string>
+    <string name="classic">Clàssic</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Mitjanit</string>
+    <string name="purple">Lila</string>
+    <string name="burgundy">Borgonya</string>
+    <string name="slate">Pissarra</string>
+    <string name="search_keywords_pdf_dark_mode">pdf lector nocturn en mode fosc inverteix colors negatius</string>
 </resources>

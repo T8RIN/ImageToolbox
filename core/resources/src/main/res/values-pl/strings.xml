@@ -5040,4 +5040,15 @@
     <string name="palette_pdf_selected_file">Wybrany plik palety</string>
     <string name="palette_pdf_page_margin">Marginesy strony</string>
     <string name="palette_pdf_color_spacing">Odstęp kolorów</string>
+    <string name="pdf_dark_mode">PDFTryb ciemny</string>
+    <string name="pdf_dark_mode_sub">Utwórz wygodny ciemny plik PDF bez rasteryzacji tekstu i grafiki wektorowej</string>
+    <string name="pdf_dark_mode_info">Wykorzystuje tryby mieszania plików PDF w celu zachowania wybieralnego tekstu, łączy, czcionek i grafiki wektorowej. Wygląd adnotacji i formularzy może zależeć od przeglądarki plików PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Mieszanka kolorów</string>
+    <string name="classic">Klasyczny</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Północ</string>
+    <string name="purple">Fioletowy</string>
+    <string name="burgundy">Burgundia</string>
+    <string name="slate">Łupek</string>
+    <string name="search_keywords_pdf_dark_mode">pdf czytnik nocny w trybie ciemnym odwraca kolory w negatywie</string>
 </resources>

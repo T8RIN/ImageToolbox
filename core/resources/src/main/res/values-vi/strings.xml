@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">Tệp bảng màu đã chọn</string>
     <string name="palette_pdf_page_margin">Lề trang</string>
     <string name="palette_pdf_color_spacing">Khoảng cách màu</string>
+    <string name="pdf_dark_mode">Chế độ tối của PDF</string>
+    <string name="pdf_dark_mode_sub">Tạo một bản PDF tối màu thoải mái mà không cần tạo điểm ảnh cho văn bản và đồ họa vector</string>
+    <string name="pdf_dark_mode_info">Sử dụng các chế độ hòa trộn PDF để giữ lại văn bản, liên kết, phông chữ và đồ họa vector có thể chọn. Sự xuất hiện của các chú thích và biểu mẫu có thể phụ thuộc vào trình xem PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Trộn màu</string>
+    <string name="classic">Cổ điển</string>
+    <string name="graphite">than chì</string>
+    <string name="midnight">Nửa đêm</string>
+    <string name="purple">Màu tím</string>
+    <string name="burgundy">màu đỏ tía</string>
+    <string name="slate">Đá phiến</string>
+    <string name="search_keywords_pdf_dark_mode">pdf chế độ tối trình đọc ban đêm đảo ngược màu sắc âm bản</string>
 </resources>

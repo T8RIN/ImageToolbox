@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">ไฟล์จานสีที่เลือก</string>
     <string name="palette_pdf_page_margin">ขอบหน้า</string>
     <string name="palette_pdf_color_spacing">ระยะห่างสี</string>
+    <string name="pdf_dark_mode">PDF โหมดมืด</string>
+    <string name="pdf_dark_mode_sub">สร้าง PDF สีเข้มที่สะดวกสบายโดยไม่ต้องแปลงข้อความและกราฟิกแบบเวกเตอร์</string>
+    <string name="pdf_dark_mode_info">ใช้โหมดผสมผสาน PDF เพื่อรักษาข้อความ ลิงก์ แบบอักษร และกราฟิกแบบเวกเตอร์ที่เลือกได้ ลักษณะของคำอธิบายประกอบและแบบฟอร์มอาจขึ้นอยู่กับโปรแกรมดู PDF</string>
+    <string name="pdf_dark_mode_blend_color">ผสมสี</string>
+    <string name="classic">คลาสสิค</string>
+    <string name="graphite">กราไฟท์</string>
+    <string name="midnight">เที่ยงคืน</string>
+    <string name="purple">สีม่วง</string>
+    <string name="burgundy">เบอร์กันดี</string>
+    <string name="slate">กระดานชนวน</string>
+    <string name="search_keywords_pdf_dark_mode">pdf โปรแกรมอ่านกลางคืนโหมดมืดกลับสีเป็นลบ</string>
 </resources>

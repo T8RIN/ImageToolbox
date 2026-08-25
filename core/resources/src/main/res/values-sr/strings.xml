@@ -5039,4 +5039,15 @@
     <string name="palette_pdf_selected_file">Изабрана датотека палете</string>
     <string name="palette_pdf_page_margin">маргине странице</string>
     <string name="palette_pdf_color_spacing">Размак боја</string>
+    <string name="pdf_dark_mode">ПДФ Дарк Моде</string>
+    <string name="pdf_dark_mode_sub">Направите удобан тамни ПДФ без растезирања текста и векторске графике</string>
+    <string name="pdf_dark_mode_info">Користи ПДФ режиме мешања за очување текста, линкова, фонтова и векторске графике који се може изабрати. Изглед напомена и образаца може зависити од ПДФ прегледача.</string>
+    <string name="pdf_dark_mode_blend_color">Бленд Цолор</string>
+    <string name="classic">Цлассиц</string>
+    <string name="graphite">Графит</string>
+    <string name="midnight">Поноћ</string>
+    <string name="purple">Љубичаста</string>
+    <string name="burgundy">Бургундија</string>
+    <string name="slate">Слате</string>
+    <string name="search_keywords_pdf_dark_mode">пдф тамни режим ноћни читач инвертне боје негатив</string>
 </resources>

@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">선택한 팔레트 파일</string>
     <string name="palette_pdf_page_margin">페이지 여백</string>
     <string name="palette_pdf_color_spacing">색상 간격</string>
+    <string name="pdf_dark_mode">PDF 다크 모드</string>
+    <string name="pdf_dark_mode_sub">텍스트와 벡터 그래픽을 래스터화하지 않고 편안하고 어두운 PDF를 만듭니다.</string>
+    <string name="pdf_dark_mode_info">PDF 혼합 모드를 사용하여 선택 가능한 텍스트, 링크, 글꼴 및 벡터 그래픽을 보존합니다. 주석과 양식의 모양은 PDF 뷰어에 따라 다를 수 있습니다.</string>
+    <string name="pdf_dark_mode_blend_color">색상 혼합</string>
+    <string name="classic">권위 있는</string>
+    <string name="graphite">석묵</string>
+    <string name="midnight">자정</string>
+    <string name="purple">보라</string>
+    <string name="burgundy">부르고뉴</string>
+    <string name="slate">슬레이트</string>
+    <string name="search_keywords_pdf_dark_mode">PDF 다크 모드 야간 리더 색상 반전 네거티브</string>
 </resources>

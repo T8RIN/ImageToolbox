@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Seçilen palet dosyası</string>
     <string name="palette_pdf_page_margin">Sayfa kenar boşlukları</string>
     <string name="palette_pdf_color_spacing">Renk aralığı</string>
+    <string name="pdf_dark_mode">PDF Karanlık Modu</string>
+    <string name="pdf_dark_mode_sub">Metin ve vektör grafiklerini rasterleştirmeden rahat, koyu renkli bir PDF oluşturun</string>
+    <string name="pdf_dark_mode_info">Seçilebilir metni, bağlantıları, yazı tiplerini ve vektör grafiklerini korumak için PDF karışım modlarını kullanır. Ek açıklamaların ve formların görünümü PDF görüntüleyiciye bağlı olabilir.</string>
+    <string name="pdf_dark_mode_blend_color">Karışım Rengi</string>
+    <string name="classic">Klasik</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Gece yarısı</string>
+    <string name="purple">Mor</string>
+    <string name="burgundy">Bordo</string>
+    <string name="slate">Arduvaz</string>
+    <string name="search_keywords_pdf_dark_mode">pdf karanlık mod gece okuyucu renkleri ters çevir negatif</string>
 </resources>

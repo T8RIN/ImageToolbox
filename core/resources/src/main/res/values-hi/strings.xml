@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">चयनित पैलेट फ़ाइल</string>
     <string name="palette_pdf_page_margin">पेज मार्जिन</string>
     <string name="palette_pdf_color_spacing">रंग अंतर</string>
+    <string name="pdf_dark_mode">पीडीएफ डार्क मोड</string>
+    <string name="pdf_dark_mode_sub">टेक्स्ट और वेक्टर ग्राफ़िक्स को व्यवस्थित किए बिना एक आरामदायक डार्क पीडीएफ बनाएं</string>
+    <string name="pdf_dark_mode_info">चयन योग्य पाठ, लिंक, फ़ॉन्ट और वेक्टर ग्राफिक्स को संरक्षित करने के लिए पीडीएफ मिश्रण मोड का उपयोग करता है। एनोटेशन और फॉर्म की उपस्थिति पीडीएफ व्यूअर पर निर्भर हो सकती है।</string>
+    <string name="pdf_dark_mode_blend_color">रंग मिश्रित करें</string>
+    <string name="classic">क्लासिक</string>
+    <string name="graphite">सीसा</string>
+    <string name="midnight">मध्यरात्रि</string>
+    <string name="purple">बैंगनी</string>
+    <string name="burgundy">बरगंडी</string>
+    <string name="slate">स्लेट</string>
+    <string name="search_keywords_pdf_dark_mode">पीडीएफ डार्क मोड नाइट रीडर इनवर्ट कलर्स नेगेटिव</string>
 </resources>

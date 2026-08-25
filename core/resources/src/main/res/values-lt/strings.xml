@@ -5040,4 +5040,15 @@
     <string name="palette_pdf_selected_file">Pasirinktas paletės failas</string>
     <string name="palette_pdf_page_margin">Puslapio paraštės</string>
     <string name="palette_pdf_color_spacing">Spalvų atstumas</string>
+    <string name="pdf_dark_mode">PDF tamsusis režimas</string>
+    <string name="pdf_dark_mode_sub">Sukurkite patogų tamsų PDF formatą nerastruodami teksto ir vektorinės grafikos</string>
+    <string name="pdf_dark_mode_info">Naudoja PDF maišymo režimus, kad išsaugotų pasirenkamą tekstą, nuorodas, šriftus ir vektorinę grafiką. Anotacijų ir formų išvaizda gali priklausyti nuo PDF peržiūros priemonės.</string>
+    <string name="pdf_dark_mode_blend_color">Maišyti spalva</string>
+    <string name="classic">Klasika</string>
+    <string name="graphite">Grafitas</string>
+    <string name="midnight">Vidurnaktis</string>
+    <string name="purple">Violetinė</string>
+    <string name="burgundy">Burgundija</string>
+    <string name="slate">Šiferis</string>
+    <string name="search_keywords_pdf_dark_mode">Pdf tamsaus režimo naktinis skaitytuvas invertuoti spalvas neigiamas</string>
 </resources>

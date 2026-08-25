@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Valgt paletfil</string>
     <string name="palette_pdf_page_margin">Sidemargener</string>
     <string name="palette_pdf_color_spacing">Farveafstand</string>
+    <string name="pdf_dark_mode">PDF mørk tilstand</string>
+    <string name="pdf_dark_mode_sub">Opret en behagelig mørk PDF uden rasterisering af tekst og vektorgrafik</string>
+    <string name="pdf_dark_mode_info">Bruger PDF-blandingstilstande til at bevare valgbar tekst, links, skrifttyper og vektorgrafik. Udseendet af annoteringer og formularer kan afhænge af PDF-fremviseren.</string>
+    <string name="pdf_dark_mode_blend_color">Blend farve</string>
+    <string name="classic">Klassisk</string>
+    <string name="graphite">Grafit</string>
+    <string name="midnight">Midnat</string>
+    <string name="purple">Lilla</string>
+    <string name="burgundy">Bourgogne</string>
+    <string name="slate">Skifer</string>
+    <string name="search_keywords_pdf_dark_mode">pdf mørk tilstand natlæser inverter farver negative</string>
 </resources>

@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">فایل پالت انتخاب شده</string>
     <string name="palette_pdf_page_margin">حاشیه های صفحه</string>
     <string name="palette_pdf_color_spacing">فاصله رنگ</string>
+    <string name="pdf_dark_mode">حالت تاریک PDF</string>
+    <string name="pdf_dark_mode_sub">یک PDF تیره راحت بدون شطرنجی کردن متن و گرافیک های برداری ایجاد کنید</string>
+    <string name="pdf_dark_mode_info">از حالت‌های ترکیبی PDF برای حفظ متن، پیوندها، فونت‌ها و گرافیک‌های برداری قابل انتخاب استفاده می‌کند. ظاهر حاشیه نویسی ها و فرم ها ممکن است به نمایشگر PDF بستگی داشته باشد.</string>
+    <string name="pdf_dark_mode_blend_color">ترکیب رنگ</string>
+    <string name="classic">کلاسیک</string>
+    <string name="graphite">گرافیت</string>
+    <string name="midnight">نیمه شب</string>
+    <string name="purple">بنفش</string>
+    <string name="burgundy">بورگوندی</string>
+    <string name="slate">تخته سنگ</string>
+    <string name="search_keywords_pdf_dark_mode">پی دی اف شب خوان حالت تاریک رنگ های معکوس منفی</string>
 </resources>

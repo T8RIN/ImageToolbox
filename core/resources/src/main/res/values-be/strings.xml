@@ -5040,4 +5040,15 @@
     <string name="palette_pdf_selected_file">Выбраны файл палітры</string>
     <string name="palette_pdf_page_margin">Палі старонкі</string>
     <string name="palette_pdf_color_spacing">Каляровы інтэрвал</string>
+    <string name="pdf_dark_mode">Цёмны рэжым PDF</string>
+    <string name="pdf_dark_mode_sub">Стварыце зручны цёмны PDF без растрырацыі тэксту і вектарнай графікі</string>
+    <string name="pdf_dark_mode_info">Выкарыстоўвае рэжымы змешвання PDF для захавання тэксту, спасылак, шрыфтоў і вектарнай графікі, якія можна выбраць. Знешні выгляд анатацый і форм можа залежаць ад праграмы прагляду PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Змешаны колер</string>
+    <string name="classic">Класіка</string>
+    <string name="graphite">Графіт</string>
+    <string name="midnight">Поўнач</string>
+    <string name="purple">Фіялетавы</string>
+    <string name="burgundy">Бардовы</string>
+    <string name="slate">Шыфер</string>
+    <string name="search_keywords_pdf_dark_mode">Начная праграма для чытання pdf у цёмным рэжыме, інвертаваць колеры, негатыў</string>
 </resources>

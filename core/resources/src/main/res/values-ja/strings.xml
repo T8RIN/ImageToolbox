@@ -5037,4 +5037,15 @@
     <string name="palette_pdf_selected_file">選択したパレットファイル</string>
     <string name="palette_pdf_page_margin">ページ余白</string>
     <string name="palette_pdf_color_spacing">色間隔</string>
+    <string name="pdf_dark_mode">PDF ダークモード</string>
+    <string name="pdf_dark_mode_sub">テキストやベクターグラフィックスをラスタライズせずに、快適なダーク PDF を作成します</string>
+    <string name="pdf_dark_mode_info">PDF ブレンド モードを使用して、選択可能なテキスト、リンク、フォント、ベクター グラフィックスを保持します。注釈とフォームの外観は PDF ビューアによって異なる場合があります。</string>
+    <string name="pdf_dark_mode_blend_color">ブレンドカラー</string>
+    <string name="classic">クラシック</string>
+    <string name="graphite">黒鉛</string>
+    <string name="midnight">夜中</string>
+    <string name="purple">紫</string>
+    <string name="burgundy">ブルゴーニュ</string>
+    <string name="slate">スレート</string>
+    <string name="search_keywords_pdf_dark_mode">PDF ダークモード ナイト リーダー 色を反転 ネガティブ</string>
 </resources>

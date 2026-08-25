@@ -5040,4 +5040,15 @@
     <string name="jxl_type_merge">Объединить JXL</string>
     <string name="jxl_type_merge_sub">Объединение нескольких анимированных клипов JXL в одну анимацию.</string>
     <string name="animation_clips_order">Заказ анимационных роликов</string>
+    <string name="pdf_dark_mode">PDF-файл в темном режиме</string>
+    <string name="pdf_dark_mode_sub">Создайте удобный темный PDF-файл без растеризации текста и векторной графики.</string>
+    <string name="pdf_dark_mode_info">Использует режимы наложения PDF для сохранения выбираемого текста, ссылок, шрифтов и векторной графики. Внешний вид аннотаций и форм может зависеть от программы просмотра PDF.</string>
+    <string name="pdf_dark_mode_blend_color">Смешать цвета</string>
+    <string name="classic">Классический</string>
+    <string name="graphite">Графит</string>
+    <string name="midnight">Полночь</string>
+    <string name="purple">Фиолетовый</string>
+    <string name="burgundy">Бургундия</string>
+    <string name="slate">Шифер</string>
+    <string name="search_keywords_pdf_dark_mode">PDF темный режим Night Reader инвертировать цвета негатив</string>
 </resources>

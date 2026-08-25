@@ -5042,4 +5042,15 @@
     <string name="palette_pdf_selected_file">ملف اللوحة المحدد</string>
     <string name="palette_pdf_page_margin">هوامش الصفحة</string>
     <string name="palette_pdf_color_spacing">تباعد الألوان</string>
+    <string name="pdf_dark_mode">الوضع الداكن لملف PDF</string>
+    <string name="pdf_dark_mode_sub">قم بإنشاء ملف PDF داكن مريح دون تنقيط النص والرسومات المتجهة</string>
+    <string name="pdf_dark_mode_info">يستخدم أوضاع مزج PDF للحفاظ على النص والروابط والخطوط والرسومات المتجهة القابلة للتحديد. قد يعتمد مظهر التعليقات التوضيحية والنماذج على عارض PDF.</string>
+    <string name="pdf_dark_mode_blend_color">مزيج اللون</string>
+    <string name="classic">كلاسيكي</string>
+    <string name="graphite">الجرافيت</string>
+    <string name="midnight">منتصف الليل</string>
+    <string name="purple">أرجواني</string>
+    <string name="burgundy">بورجوندي</string>
+    <string name="slate">لائحة</string>
+    <string name="search_keywords_pdf_dark_mode">pdf الوضع الليلي للقارئ عكس الألوان السلبية</string>
 </resources>

@@ -5038,4 +5038,15 @@
     <string name="palette_pdf_selected_file">Valittu palettitiedosto</string>
     <string name="palette_pdf_page_margin">Sivun marginaalit</string>
     <string name="palette_pdf_color_spacing">Värivälit</string>
+    <string name="pdf_dark_mode">PDF tumma tila</string>
+    <string name="pdf_dark_mode_sub">Luo mukava tumma PDF rasteroimatta tekstiä ja vektorigrafiikkaa</string>
+    <string name="pdf_dark_mode_info">Käyttää PDF-sekoitustiloja valittavan tekstin, linkkien, fonttien ja vektorigrafiikan säilyttämiseen. Huomautusten ja lomakkeiden ulkoasu voi riippua PDF-katseluohjelmasta.</string>
+    <string name="pdf_dark_mode_blend_color">Sekoita väriä</string>
+    <string name="classic">Klassinen</string>
+    <string name="graphite">Grafiitti</string>
+    <string name="midnight">Keskiyö</string>
+    <string name="purple">Violetti</string>
+    <string name="burgundy">Burgundia</string>
+    <string name="slate">Liuskekivi</string>
+    <string name="search_keywords_pdf_dark_mode">pdf pimeän tilan yölukija käänteisvärit negatiivinen</string>
 </resources>
