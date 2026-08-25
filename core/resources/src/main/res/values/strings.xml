@@ -1306,7 +1306,13 @@
     <string name="pdf_dark_mode">PDF Dark Mode</string>
     <string name="pdf_dark_mode_sub">Create a comfortable dark PDF without rasterizing text and vector graphics</string>
     <string name="pdf_dark_mode_info">Uses PDF blend modes to preserve selectable text, links, fonts, and vector graphics. Appearance of annotations and forms may depend on the PDF viewer.</string>
+    <string name="pdf_dark_mode_blend_color">Blend Color</string>
     <string name="classic">Classic</string>
+    <string name="graphite">Graphite</string>
+    <string name="midnight">Midnight</string>
+    <string name="purple">Purple</string>
+    <string name="burgundy">Burgundy</string>
+    <string name="slate">Slate</string>
     <string name="pdf_to_images">PDF to Images</string>
     <string name="images_to_pdf">Images to PDF</string>
     <string name="preview_pdf_sub">Simple PDF preview</string>

@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeTheme
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
@@ -763,7 +764,7 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun convertToDarkMode(
         uri: String,
-        theme: PdfDarkModeTheme
+        params: PdfDarkModeParams
     ): String = catchPdf {
         usePdf(uri) { document ->
             if (document.version < 1.4f) {
@@ -818,7 +819,7 @@ internal class AndroidPdfManager @Inject constructor(
                         stream.restoreGraphicsState()
                     }
 
-                    if (theme != PdfDarkModeTheme.Negative) {
+                    if (params.theme != PdfDarkModeTheme.Negative) {
                         fillPage(
                             blendMode = BlendMode.SATURATION,
                             color = Color.White
@@ -830,9 +831,9 @@ internal class AndroidPdfManager @Inject constructor(
                         color = Color.White
                     )
 
-                    theme.backgroundColor?.let { backgroundColor ->
+                    params.overlayColor?.let { backgroundColor ->
                         fillPage(
-                            blendMode = BlendMode.SCREEN,
+                            blendMode = params.overlayBlendMode.toPdfBlendMode(),
                             color = Color(backgroundColor)
                         )
                     }

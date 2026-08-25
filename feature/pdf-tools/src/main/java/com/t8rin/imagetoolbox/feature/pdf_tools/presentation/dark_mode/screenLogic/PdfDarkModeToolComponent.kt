@@ -22,14 +22,18 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeTheme
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
@@ -58,8 +62,8 @@ class PdfDarkModeToolComponent @AssistedInject internal constructor(
     private val _uri: MutableState<Uri?> = mutableStateOf(initialUri)
     val uri by _uri
 
-    private val _theme: MutableState<PdfDarkModeTheme> = mutableStateOf(PdfDarkModeTheme.Warm)
-    val theme by _theme
+    private val _params: MutableState<PdfDarkModeParams> = mutableStateOf(PdfDarkModeParams())
+    val params by _params
 
     init {
         checkPdf(
@@ -85,14 +89,24 @@ class PdfDarkModeToolComponent @AssistedInject internal constructor(
 
     fun updateTheme(theme: PdfDarkModeTheme) {
         registerChanges()
-        _theme.update { theme }
+        _params.update { it.copy(theme = theme) }
+    }
+
+    fun updateCustomColor(color: Color) {
+        registerChanges()
+        _params.update { it.copy(customColor = color.toArgb()) }
+    }
+
+    fun updateCustomBlendMode(blendMode: BlendingMode) {
+        registerChanges()
+        _params.update { it.copy(customBlendMode = blendMode) }
     }
 
     override fun saveTo(uri: Uri) {
         doSaving {
             val processed = pdfManager.convertToDarkMode(
                 uri = _uri.value.toString(),
-                theme = theme
+                params = params
             )
 
             fileController.transferBytes(
@@ -126,7 +140,7 @@ class PdfDarkModeToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.convertToDarkMode(
                             uri = _uri.value.toString(),
-                            theme = theme
+                            params = params
                         ).toUri()
                     )
                 )

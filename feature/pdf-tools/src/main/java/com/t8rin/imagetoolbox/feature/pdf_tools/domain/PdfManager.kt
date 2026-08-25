@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
-import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeTheme
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
@@ -122,7 +122,7 @@ interface PdfManager : PdfHelper {
 
     suspend fun convertToDarkMode(
         uri: String,
-        theme: PdfDarkModeTheme
+        params: PdfDarkModeParams
     ): String
 
     suspend fun repairPdf(

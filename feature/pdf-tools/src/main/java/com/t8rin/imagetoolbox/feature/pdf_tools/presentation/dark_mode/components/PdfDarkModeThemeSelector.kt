@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeTheme
 @Composable
 internal fun PdfDarkModeThemeSelector(
     value: PdfDarkModeTheme,
+    customColor: Int,
     onValueChange: (PdfDarkModeTheme) -> Unit
 ) {
     EnhancedButtonGroup(
@@ -60,7 +61,12 @@ internal fun PdfDarkModeThemeSelector(
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            color = Color(theme.backgroundColor ?: 0xFFFFFFFF.toInt()),
+                            color = Color(
+                                when (theme) {
+                                    PdfDarkModeTheme.Custom -> customColor
+                                    else -> theme.backgroundColor ?: 0xFFFFFFFF.toInt()
+                                }
+                            ),
                             shape = CircleShape
                         )
                         .border(
@@ -75,9 +81,16 @@ internal fun PdfDarkModeThemeSelector(
                         when (theme) {
                             PdfDarkModeTheme.Warm -> R.string.warm
                             PdfDarkModeTheme.Classic -> R.string.classic
+                            PdfDarkModeTheme.Graphite -> R.string.graphite
+                            PdfDarkModeTheme.Midnight -> R.string.midnight
                             PdfDarkModeTheme.Blue -> R.string.color_blue
                             PdfDarkModeTheme.Green -> R.string.color_green
+                            PdfDarkModeTheme.Sepia -> R.string.sepia
+                            PdfDarkModeTheme.Purple -> R.string.purple
+                            PdfDarkModeTheme.Burgundy -> R.string.burgundy
+                            PdfDarkModeTheme.Slate -> R.string.slate
                             PdfDarkModeTheme.Negative -> R.string.negative
+                            PdfDarkModeTheme.Custom -> R.string.custom
                         }
                     ),
                     modifier = Modifier.padding(vertical = 2.dp)

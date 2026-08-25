@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
@@ -67,6 +68,7 @@ import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.font.PDFont
+import com.tom_roush.pdfbox.pdmodel.graphics.blend.BlendMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -537,5 +539,23 @@ internal class AndroidPdfHelper @Inject constructor(
         }
     }
 
+    internal fun BlendingMode.toPdfBlendMode(): BlendMode = when (this) {
+        BlendingMode.Multiply -> BlendMode.MULTIPLY
+        BlendingMode.Screen -> BlendMode.SCREEN
+        BlendingMode.Overlay -> BlendMode.OVERLAY
+        BlendingMode.Darken -> BlendMode.DARKEN
+        BlendingMode.Lighten -> BlendMode.LIGHTEN
+        BlendingMode.ColorDodge -> BlendMode.COLOR_DODGE
+        BlendingMode.ColorBurn -> BlendMode.COLOR_BURN
+        BlendingMode.Hardlight -> BlendMode.HARD_LIGHT
+        BlendingMode.Softlight -> BlendMode.SOFT_LIGHT
+        BlendingMode.Difference -> BlendMode.DIFFERENCE
+        BlendingMode.Exclusion -> BlendMode.EXCLUSION
+        BlendingMode.Hue -> BlendMode.HUE
+        BlendingMode.Saturation -> BlendMode.SATURATION
+        BlendingMode.Color -> BlendMode.COLOR
+        BlendingMode.Luminosity -> BlendMode.LUMINOSITY
+        else -> BlendMode.SCREEN
+    }
 
 }

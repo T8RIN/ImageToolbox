@@ -22,7 +22,14 @@ enum class PdfDarkModeTheme(
 ) {
     Warm(0xFF2A2522.toInt()),
     Classic(0xFF000000.toInt()),
+    Graphite(0xFF202124.toInt()),
+    Midnight(0xFF101820.toInt()),
     Blue(0xFF191E2D.toInt()),
     Green(0xFF19231E.toInt()),
-    Negative(null)
+    Sepia(0xFF2C241B.toInt()),
+    Purple(0xFF241B2F.toInt()),
+    Burgundy(0xFF2D181E.toInt()),
+    Slate(0xFF1E2933.toInt()),
+    Negative(null),
+    Custom(null)
 }

@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.components.PdfDarkModeCustomControls
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.components.PdfDarkModePreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.components.PdfDarkModeThemeSelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.screenLogic.PdfDarkModeToolComponent
@@ -52,7 +53,7 @@ fun PdfDarkModeToolContent(
         imagePreview = {
             PdfDarkModePreview(
                 uri = component.uri,
-                theme = component.theme,
+                params = component.params,
                 pageCount = pageCount
             )
         },
@@ -60,8 +61,14 @@ fun PdfDarkModeToolContent(
         showImagePreviewAsStickyHeader = true,
         controls = {
             PdfDarkModeThemeSelector(
-                value = component.theme,
+                value = component.params.theme,
+                customColor = component.params.customColor,
                 onValueChange = component::updateTheme
+            )
+            PdfDarkModeCustomControls(
+                params = component.params,
+                onColorChange = component::updateCustomColor,
+                onBlendModeChange = component::updateCustomBlendMode
             )
             Spacer(Modifier.height(8.dp))
             InfoContainer(
