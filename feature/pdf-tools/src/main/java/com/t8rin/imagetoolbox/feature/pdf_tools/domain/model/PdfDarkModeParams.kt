@@ -39,7 +39,7 @@ data class PdfDarkModeParams(
         }
 
     companion object {
-        val SupportedBlendModes = listOf(
+        val supportedBlendModes = listOf(
             BlendingMode.Screen,
             BlendingMode.Multiply,
             BlendingMode.Overlay,

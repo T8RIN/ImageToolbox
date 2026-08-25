@@ -74,7 +74,7 @@ internal fun PdfDarkModeCustomControls(
             BlendingModeSelector(
                 value = params.customBlendMode,
                 onValueChange = onBlendModeChange,
-                entries = PdfDarkModeParams.SupportedBlendModes,
+                entries = PdfDarkModeParams.supportedBlendModes,
                 shape = ShapeDefaults.large,
                 color = Color.Unspecified
             )
