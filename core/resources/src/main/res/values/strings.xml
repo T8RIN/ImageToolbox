@@ -5028,6 +5028,8 @@
     <string name="model_depth_anything_v3_mono_large_fp32">Original FP32 weights specialized for maximum single-image depth quality</string>
     <string name="depth_result">Depth result</string>
     <string name="depth_map">Depth map</string>
+    <string name="custom_depth_map">Custom depth map</string>
+    <string name="custom_depth_map_sub">Optional. Reuse a grayscale or Image Toolbox depth map instead of estimating depth again</string>
     <string name="depth_blur">Depth blur</string>
     <string name="depth_blur_sub">Keep the selected depth plane sharp and gradually blur objects outside it</string>
     <string name="depth_background_blur">Background blur</string>

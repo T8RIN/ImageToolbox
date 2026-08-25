@@ -31,6 +31,7 @@ import android.graphics.Shader
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
@@ -40,6 +41,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthEffect
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel.Type
+import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralParams
 import com.t8rin.neural_tools.runCancellable
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
@@ -59,31 +61,120 @@ import kotlin.math.sqrt
 
 internal class DepthProcessor @Inject constructor(
     private val service: KeepAliveService,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder {
 
+    private var cachedDepthMap: CachedDepthMap? = null
+
     suspend fun process(
-        session: OrtSession,
+        session: OrtSession?,
         model: NeuralModel,
         source: Bitmap,
-        params: DepthParams,
+        params: NeuralParams,
         listener: AiProgressListener
     ): Bitmap? = withContext(defaultDispatcher) {
         service.track(
             onFailure = { listener.onError(it.extractMessage()) },
             action = {
                 reportProgress(listener, 0)
-                val depth = inferDepth(session, model, source)
+                val depth = params.customDepthMap?.let { loadDepthMap(it) }
+                    ?: inferDepth(
+                        session = requireNotNull(session),
+                        model = model,
+                        source = source
+                    )
                 reportProgress(listener, 1)
                 renderEffect(
                     source = source,
                     depth = depth,
-                    params = params
+                    params = params.depthParams
                 ).also {
                     reportProgress(listener, 2)
                 }
             }
         )
+    }
+
+    private suspend fun loadDepthMap(uri: String): DepthField {
+        cachedDepthMap
+            ?.takeIf { it.uri == uri }
+            ?.let { return it.field }
+
+        val bitmap = imageGetter.getImage(
+            data = uri,
+            size = CUSTOM_DEPTH_MAP_MAX_SIDE
+        )
+            ?: error("Failed to open the custom depth map")
+        val pixels = IntArray(bitmap.width * bitmap.height)
+        bitmap.getPixels(
+            pixels,
+            0,
+            bitmap.width,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height
+        )
+
+        val spectral = pixels.count { color ->
+            val minimum = min(Color.red(color), min(Color.green(color), Color.blue(color)))
+            val maximum = max(Color.red(color), max(Color.green(color), Color.blue(color)))
+            maximum - minimum > GRAYSCALE_CHANNEL_TOLERANCE
+        } > pixels.size * SPECTRAL_PIXEL_THRESHOLD
+
+        return DepthField(
+            values = FloatArray(pixels.size) { index ->
+                if (spectral) spectralDepth(pixels[index])
+                else grayscaleDepth(pixels[index])
+            },
+            width = bitmap.width,
+            height = bitmap.height
+        ).also { cachedDepthMap = CachedDepthMap(uri, it) }
+    }
+
+    private fun grayscaleDepth(color: Int): Float = (
+            Color.red(color) * LUMA_RED +
+                    Color.green(color) * LUMA_GREEN +
+                    Color.blue(color) * LUMA_BLUE
+            ) / 255f
+
+    private fun spectralDepth(color: Int): Float {
+        val red = Color.red(color).toFloat()
+        val green = Color.green(color).toFloat()
+        val blue = Color.blue(color).toFloat()
+        var bestPosition = 0f
+        var bestDistance = Float.POSITIVE_INFINITY
+
+        for (index in 0 until SPECTRAL_R.lastIndex) {
+            val from = SPECTRAL_R[index]
+            val to = SPECTRAL_R[index + 1]
+            val deltaRed = (Color.red(to) - Color.red(from)).toFloat()
+            val deltaGreen = (Color.green(to) - Color.green(from)).toFloat()
+            val deltaBlue = (Color.blue(to) - Color.blue(from)).toFloat()
+            val lengthSquared = deltaRed * deltaRed +
+                    deltaGreen * deltaGreen +
+                    deltaBlue * deltaBlue
+            val amount = (
+                    (red - Color.red(from)) * deltaRed +
+                            (green - Color.green(from)) * deltaGreen +
+                            (blue - Color.blue(from)) * deltaBlue
+                    ).div(lengthSquared)
+                .coerceIn(0f, 1f)
+            val projectedRed = Color.red(from) + deltaRed * amount
+            val projectedGreen = Color.green(from) + deltaGreen * amount
+            val projectedBlue = Color.blue(from) + deltaBlue * amount
+            val distance = (red - projectedRed).pow(2) +
+                    (green - projectedGreen).pow(2) +
+                    (blue - projectedBlue).pow(2)
+
+            if (distance < bestDistance) {
+                bestDistance = distance
+                bestPosition = (index + amount) / SPECTRAL_R.lastIndex
+            }
+        }
+
+        return bestPosition
     }
 
     private fun reportProgress(
@@ -1140,6 +1231,11 @@ internal class DepthProcessor @Inject constructor(
         }
     }
 
+    private data class CachedDepthMap(
+        val uri: String,
+        val field: DepthField
+    )
+
     private class FieldSampler(
         private val field: DepthField,
         targetWidth: Int,
@@ -1244,6 +1340,7 @@ internal class DepthProcessor @Inject constructor(
         const val MODEL_ALIGNMENT = 14
         const val DA2_INPUT_MAX_SIDE = 518
         const val DA3_INPUT_MAX_SIDE = 504
+        const val CUSTOM_DEPTH_MAP_MAX_SIDE = DA2_INPUT_MAX_SIDE
         const val DEPTH_PERCENTILE = 0.02f
         const val MIN_VALID_DEPTH = 1e-6f
         const val MONO_EDGE_INSET = 7
@@ -1254,6 +1351,11 @@ internal class DepthProcessor @Inject constructor(
         const val BLUR_MAX_SIDE = 1536f
         const val MAX_BLUR_RADIUS = 36f
         const val MAX_STEREO_SHIFT = 96f
+        const val GRAYSCALE_CHANNEL_TOLERANCE = 12
+        const val SPECTRAL_PIXEL_THRESHOLD = 0.05f
+        const val LUMA_RED = 0.2126f
+        const val LUMA_GREEN = 0.7152f
+        const val LUMA_BLUE = 0.0722f
         val IMAGE_MEAN = floatArrayOf(0.485f, 0.456f, 0.406f)
         val IMAGE_STD = floatArrayOf(0.229f, 0.224f, 0.225f)
         val FOG_COLOR = Color.rgb(222, 232, 242)

@@ -18,13 +18,20 @@
 package com.t8rin.imagetoolbox.feature.ai_tools.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Exercise
 import com.t8rin.imagetoolbox.core.resources.icons.Memory
 import com.t8rin.imagetoolbox.core.resources.icons.Stacks
@@ -46,7 +54,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelec
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.OnlyAllowedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.NeuralModel
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
@@ -103,13 +115,63 @@ internal fun AiToolsControls(component: AiToolsComponent) {
         visible = isDepthModel,
         modifier = Modifier.fillMaxWidth()
     ) {
-        DepthParamsSelector(
-            value = component.depthParams,
-            onValueChange = { updated ->
-                component.updateDepthParams { updated }
-            },
-            modifier = Modifier.padding(top = 8.dp)
-        )
+        Column(
+            modifier = Modifier.padding(top = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.height(intrinsicSize = IntrinsicSize.Max)
+            ) {
+                ImageSelector(
+                    value = component.customDepthMapUri,
+                    onValueChange = component::updateCustomDepthMapUri,
+                    title = stringResource(R.string.custom_depth_map),
+                    subtitle = stringResource(R.string.custom_depth_map_sub),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
+                    shape = ShapeDefaults.extraLarge
+                )
+                BoxAnimatedVisibility(visible = component.customDepthMapUri != null) {
+                    val interactionSource = remember { MutableInteractionSource() }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .padding(start = 8.dp)
+                            .container(
+                                color = MaterialTheme.colorScheme.errorContainer,
+                                resultPadding = 0.dp,
+                                shape = shapeByInteraction(
+                                    shape = ShapeDefaults.default,
+                                    pressedShape = ShapeDefaults.pressed,
+                                    interactionSource = interactionSource
+                                )
+                            )
+                            .hapticsClickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            ) {
+                                component.updateCustomDepthMapUri(null)
+                            }
+                            .padding(horizontal = 8.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                }
+            }
+            DepthParamsSelector(
+                value = component.depthParams,
+                onValueChange = { updated ->
+                    component.updateDepthParams { updated }
+                }
+            )
+        }
     }
 
     AnimatedVisibility(

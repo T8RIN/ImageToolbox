@@ -141,12 +141,16 @@ class AiToolsComponent @AssistedInject internal constructor(
     )
     val depthParams by _depthParams
     private val auxiliaryImage = mutableStateOf<String?>(null)
+    private val customDepthMap = mutableStateOf<String?>(null)
     val params: NeuralParams
         get() = savableParams.withAuxiliaryImage(auxiliaryImage.value).copy(
+            customDepthMap = customDepthMap.value,
             depthParams = depthParams
         )
     val styleUri: Uri?
         get() = auxiliaryImage.value?.toUri()
+    val customDepthMapUri: Uri?
+        get() = customDepthMap.value?.toUri()
 
     private val _imageFormat: MutableState<ImageFormat?> = mutableStateOf(null)
     val imageFormat by _imageFormat
@@ -311,6 +315,11 @@ class AiToolsComponent @AssistedInject internal constructor(
 
     fun updateStyleUri(uri: Uri) {
         auxiliaryImage.value = uri.toString()
+        registerChanges()
+    }
+
+    fun updateCustomDepthMapUri(uri: Uri?) {
+        customDepthMap.value = uri?.toString()
         registerChanges()
     }
 

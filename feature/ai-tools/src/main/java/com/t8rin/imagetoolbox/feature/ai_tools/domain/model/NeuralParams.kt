@@ -24,6 +24,7 @@ data class NeuralParams(
     val enableChunking: Boolean,
     val parallelWorkers: Int = 0,
     val auxiliaryImage: String? = null,
+    val customDepthMap: String? = null,
     val depthParams: DepthParams = DepthParams.Default
 )
 

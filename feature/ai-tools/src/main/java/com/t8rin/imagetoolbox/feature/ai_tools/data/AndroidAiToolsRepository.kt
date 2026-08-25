@@ -373,17 +373,19 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.type == NeuralModel.Type.DEPTH -> {
                 processImage {
-                    val ortSession = session.makeLog("Held session")
-                        ?: createSession(selectedModel.value).makeLog("New session")
-                        ?: return@withContext null.also {
-                            listener.onError(getString(R.string.failed_to_open_session))
-                        }
+                    val ortSession = if (params.customDepthMap == null) {
+                        session.makeLog("Held session")
+                            ?: createSession(selectedModel.value).makeLog("New session")
+                            ?: return@withContext null.also {
+                                listener.onError(getString(R.string.failed_to_open_session))
+                            }
+                    } else null
 
                     depthProcessor.process(
                         session = ortSession,
                         model = model,
                         source = image,
-                        params = params.depthParams,
+                        params = params,
                         listener = listener
                     )
                 }
