@@ -338,6 +338,7 @@ sealed class Screen(
                 Repair(),
                 Protect(),
                 Unlock(),
+                DarkMode(),
                 Metadata(),
                 ExtractImages(),
                 OCR(),
@@ -600,6 +601,15 @@ sealed class Screen(
             id = 76,
             title = R.string.sanitize_pdf,
             subtitle = R.string.sanitize_pdf_sub
+        )
+
+        @Serializable
+        data class DarkMode(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 80,
+            title = R.string.pdf_dark_mode,
+            subtitle = R.string.pdf_dark_mode_sub
         )
     }
 

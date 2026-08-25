@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCreationParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfDarkModeTheme
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfExtractPagesParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfMetadata
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfPageNumbersParams
@@ -90,6 +91,8 @@ import com.tom_roush.pdfbox.pdmodel.PDPage
 import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
+import com.tom_roush.pdfbox.pdmodel.graphics.blend.BlendMode
+import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationFileAttachment
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationLine
@@ -752,6 +755,93 @@ internal class AndroidPdfManager @Inject constructor(
             document.save(
                 filename = tempName(
                     key = "grayscale",
+                    uri = uri
+                )
+            )
+        }
+    }
+
+    override suspend fun convertToDarkMode(
+        uri: String,
+        theme: PdfDarkModeTheme
+    ): String = catchPdf {
+        usePdf(uri) { document ->
+            if (document.version < 1.4f) {
+                document.version = 1.4f
+            }
+
+            document.pages.forEach { page ->
+                val cropBox = page.cropBox
+
+                PDPageContentStream(
+                    document,
+                    page,
+                    PDPageContentStream.AppendMode.PREPEND,
+                    true,
+                    true
+                ).use { stream ->
+                    stream.setColor(Color.White)
+                    stream.addRect(
+                        cropBox.lowerLeftX,
+                        cropBox.lowerLeftY,
+                        cropBox.width,
+                        cropBox.height
+                    )
+                    stream.fill()
+                }
+
+                PDPageContentStream(
+                    document,
+                    page,
+                    PDPageContentStream.AppendMode.APPEND,
+                    true,
+                    true
+                ).use { stream ->
+                    fun fillPage(
+                        blendMode: BlendMode,
+                        color: Color
+                    ) {
+                        stream.saveGraphicsState()
+                        stream.setGraphicsStateParameters(
+                            PDExtendedGraphicsState().apply {
+                                this.blendMode = blendMode
+                            }
+                        )
+                        stream.setColor(color)
+                        stream.addRect(
+                            cropBox.lowerLeftX,
+                            cropBox.lowerLeftY,
+                            cropBox.width,
+                            cropBox.height
+                        )
+                        stream.fill()
+                        stream.restoreGraphicsState()
+                    }
+
+                    if (theme != PdfDarkModeTheme.Negative) {
+                        fillPage(
+                            blendMode = BlendMode.SATURATION,
+                            color = Color.White
+                        )
+                    }
+
+                    fillPage(
+                        blendMode = BlendMode.DIFFERENCE,
+                        color = Color.White
+                    )
+
+                    theme.backgroundColor?.let { backgroundColor ->
+                        fillPage(
+                            blendMode = BlendMode.SCREEN,
+                            color = Color(backgroundColor)
+                        )
+                    }
+                }
+            }
+
+            document.save(
+                filename = tempName(
+                    key = "dark_mode",
                     uri = uri
                 )
             )

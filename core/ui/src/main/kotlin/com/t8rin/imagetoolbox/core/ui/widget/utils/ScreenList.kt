@@ -97,6 +97,9 @@ internal fun List<Uri>.screenList(
                     Screen.PdfTools.Preview(
                         uris.firstOrNull()
                     ),
+                    Screen.PdfTools.DarkMode(
+                        uris.firstOrNull()
+                    ),
                     Screen.PdfTools.ExtractPages(
                         uris.firstOrNull()
                     ),

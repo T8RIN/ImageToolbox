@@ -209,6 +209,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is PdfTools.ZipConvert -> R.string.search_keywords_pdf_zip_convert
     is PdfTools.Print -> R.string.search_keywords_pdf_print
     is PdfTools.Preview -> R.string.search_keywords_pdf_preview
+    is PdfTools.DarkMode -> R.string.search_keywords_pdf_dark_mode
     is PdfTools.ImagesToPdf -> R.string.search_keywords_pdf_images_to_pdf
     is PdfTools.PdfContactSheet -> R.string.search_keywords_pdf_contact_sheet
     is PdfTools.ComparePdf -> R.string.compare_pdf_sub

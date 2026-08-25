@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
 import com.t8rin.imagetoolbox.core.resources.icons.Curve
+import com.t8rin.imagetoolbox.core.resources.icons.DarkMode
 import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
@@ -262,6 +263,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.ZipConvert -> "PdfTools_ZipConvert"
     is PdfTools.Print -> "PdfTools_Print"
     is PdfTools.Preview -> "PdfTools_Preview"
+    is PdfTools.DarkMode -> "PdfTools_DarkMode"
     is PdfTools.ImagesToPdf -> "PdfTools_ImagesToPdf"
     is PdfTools.PdfContactSheet -> "PdfTools_PdfContactSheet"
     is PdfTools.ComparePdf -> "PdfTools_Compare"
@@ -356,6 +358,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.ZipConvert -> Icons.Outlined.FolderZip
     is PdfTools.Print -> Icons.Outlined.Print
     is PdfTools.Preview -> Icons.Outlined.Preview
+    is PdfTools.DarkMode -> Icons.Outlined.DarkMode
     is PdfTools.ImagesToPdf -> Icons.Outlined.Scanner
     is PdfTools.PdfContactSheet -> Icons.Outlined.GridOn
     is PdfTools.ComparePdf -> Icons.Outlined.Compare
@@ -450,6 +453,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.ZipConvert -> Icons.TwoTone.FolderZip
     is PdfTools.Print -> Icons.TwoTone.Print
     is PdfTools.Preview -> Icons.TwoTone.Preview
+    is PdfTools.DarkMode -> Icons.TwoTone.DarkMode
     is PdfTools.ImagesToPdf -> Icons.TwoTone.Scanner
     is PdfTools.PdfContactSheet -> Icons.TwoTone.GridOn
     is PdfTools.ComparePdf -> Icons.TwoTone.Compare

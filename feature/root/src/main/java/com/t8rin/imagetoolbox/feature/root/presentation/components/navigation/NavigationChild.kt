@@ -106,6 +106,8 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.PdfCo
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.CropPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.PdfDarkModeToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.screenLogic.PdfDarkModeToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.ExtractImagesPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.ExtractPagesPdfToolContent
@@ -591,6 +593,11 @@ internal sealed interface NavigationChild {
     class GrayscalePdfTool(private val component: GrayscalePdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = GrayscalePdfToolContent(component)
+    }
+
+    class PdfDarkModeTool(private val component: PdfDarkModeToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = PdfDarkModeToolContent(component)
     }
 
     class RepairPdfTool(private val component: RepairPdfToolComponent) : NavigationChild {

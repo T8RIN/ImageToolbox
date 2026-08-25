@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.dark_mode.screenLogic.PdfDarkModeToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_images.screenLogic.ExtractImagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.extract_pages.screenLogic.ExtractPagesPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.flatten.screenLogic.FlattenPdfToolComponent
@@ -150,6 +151,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PalettePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PaletteTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfContactSheetTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PdfDarkModeTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Photomosaic
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PickColorFromImage
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.PreviewPdfTool
@@ -278,6 +280,7 @@ internal class ChildProvider @Inject constructor(
     private val unlockPdfToolComponentFactory: UnlockPdfToolComponent.Factory,
     private val compressPdfToolComponentFactory: CompressPdfToolComponent.Factory,
     private val grayscalePdfToolComponentFactory: GrayscalePdfToolComponent.Factory,
+    private val pdfDarkModeToolComponentFactory: PdfDarkModeToolComponent.Factory,
     private val repairPdfToolComponentFactory: RepairPdfToolComponent.Factory,
     private val metadataPdfToolComponentFactory: MetadataPdfToolComponent.Factory,
     private val removePagesPdfToolComponentFactory: RemovePagesPdfToolComponent.Factory,
@@ -933,6 +936,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.Grayscale -> GrayscalePdfTool(
             grayscalePdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.DarkMode -> PdfDarkModeTool(
+            pdfDarkModeToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

@@ -1303,6 +1303,10 @@
     <string name="pdf_tools">PDF Tools</string>
     <string name="pdf_tools_sub">Operate with PDF files: Preview, Convert to batch of images or create one from given pictures</string>
     <string name="preview_pdf">Preview PDF</string>
+    <string name="pdf_dark_mode">PDF Dark Mode</string>
+    <string name="pdf_dark_mode_sub">Create a comfortable dark PDF without rasterizing text and vector graphics</string>
+    <string name="pdf_dark_mode_info">Uses PDF blend modes to preserve selectable text, links, fonts, and vector graphics. Appearance of annotations and forms may depend on the PDF viewer.</string>
+    <string name="classic">Classic</string>
     <string name="pdf_to_images">PDF to Images</string>
     <string name="images_to_pdf">Images to PDF</string>
     <string name="preview_pdf_sub">Simple PDF preview</string>
@@ -3493,6 +3497,7 @@
     <string name="search_keywords_pdf_zip_convert">pdf zip archive compress</string>
     <string name="search_keywords_pdf_print">pdf print printer</string>
     <string name="search_keywords_pdf_preview">pdf preview viewer read</string>
+    <string name="search_keywords_pdf_dark_mode">pdf dark mode night reader invert colors negative</string>
     <string name="search_keywords_pdf_images_to_pdf">images to pdf convert jpg jpeg png document</string>
     <string name="search_keywords_pdf_contact_sheet">pdf contact sheet image grid thumbnails captions</string>
     <string name="search_keywords_pdf_extract_pages">pdf to images pages export jpg png</string>
