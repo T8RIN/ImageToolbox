@@ -5049,4 +5049,6 @@
     <string name="burgundy">Bourgogne</string>
     <string name="slate">Ardoise</string>
     <string name="search_keywords_pdf_dark_mode">lecteur de nuit en mode sombre pdf inverser les couleurs négatives</string>
+    <string name="custom_depth_map">Carte de profondeur personnalisée</string>
+    <string name="custom_depth_map_sub">Facultatif. Réutilisez une carte de profondeur en niveaux de gris ou Image Toolbox au lieu d\'estimer à nouveau la profondeur</string>
 </resources>

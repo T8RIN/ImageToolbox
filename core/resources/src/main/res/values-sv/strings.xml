@@ -5049,4 +5049,6 @@
     <string name="burgundy">Bourgogne</string>
     <string name="slate">Skiffer</string>
     <string name="search_keywords_pdf_dark_mode">pdf mörkt läge nattläsare invertera negativa färger</string>
+    <string name="custom_depth_map">Anpassad djupkarta</string>
+    <string name="custom_depth_map_sub">Frivillig. Återanvänd en djupkarta i gråskala eller Image Toolbox istället för att uppskatta djupet igen</string>
 </resources>

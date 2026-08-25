@@ -5048,4 +5048,6 @@
     <string name="burgundy">เบอร์กันดี</string>
     <string name="slate">กระดานชนวน</string>
     <string name="search_keywords_pdf_dark_mode">pdf โปรแกรมอ่านกลางคืนโหมดมืดกลับสีเป็นลบ</string>
+    <string name="custom_depth_map">แผนที่ความลึกที่กำหนดเอง</string>
+    <string name="custom_depth_map_sub">ไม่จำเป็น. ใช้แผนที่ความลึกระดับสีเทาหรือกล่องเครื่องมือรูปภาพซ้ำ แทนที่จะประมาณความลึกอีกครั้ง</string>
 </resources>

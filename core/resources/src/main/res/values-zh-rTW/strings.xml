@@ -5048,4 +5048,6 @@
     <string name="burgundy">勃根地</string>
     <string name="slate">石板</string>
     <string name="search_keywords_pdf_dark_mode">pdf暗模式夜間閱讀器反轉顏色負片</string>
+    <string name="custom_depth_map">自訂深度圖</string>
+    <string name="custom_depth_map_sub">選修的。重複使用灰階圖或 Image Toolbox 深度圖，而不是再次估計深度</string>
 </resources>

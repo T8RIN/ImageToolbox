@@ -5051,4 +5051,6 @@
     <string name="burgundy">Burgundija</string>
     <string name="slate">Šiferis</string>
     <string name="search_keywords_pdf_dark_mode">Pdf tamsaus režimo naktinis skaitytuvas invertuoti spalvas neigiamas</string>
+    <string name="custom_depth_map">Pasirinktinis gylio žemėlapis</string>
+    <string name="custom_depth_map_sub">Neprivaloma. Užuot dar kartą įvertinę gylį, naudokite pilkų tonų arba vaizdo įrankių rinkinio gylio žemėlapį</string>
 </resources>

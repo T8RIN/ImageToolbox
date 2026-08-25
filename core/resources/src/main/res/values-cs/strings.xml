@@ -5051,4 +5051,6 @@
     <string name="burgundy">burgundské</string>
     <string name="slate">Břidlice</string>
     <string name="search_keywords_pdf_dark_mode">pdf tmavý režim noční čtečka invertovat barvy negativní</string>
+    <string name="custom_depth_map">Vlastní hloubková mapa</string>
+    <string name="custom_depth_map_sub">Volitelný. Místo opětovného odhadování hloubky použijte znovu hloubkovou mapu ve stupních šedi nebo Image Toolbox</string>
 </resources>

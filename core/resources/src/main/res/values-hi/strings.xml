@@ -5049,4 +5049,6 @@
     <string name="burgundy">बरगंडी</string>
     <string name="slate">स्लेट</string>
     <string name="search_keywords_pdf_dark_mode">पीडीएफ डार्क मोड नाइट रीडर इनवर्ट कलर्स नेगेटिव</string>
+    <string name="custom_depth_map">कस्टम गहराई मानचित्र</string>
+    <string name="custom_depth_map_sub">वैकल्पिक। दोबारा गहराई का अनुमान लगाने के बजाय ग्रेस्केल या इमेज टूलबॉक्स गहराई मानचित्र का पुन: उपयोग करें</string>
 </resources>

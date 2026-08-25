@@ -5049,4 +5049,6 @@
     <string name="burgundy">Bordo</string>
     <string name="slate">Arduvaz</string>
     <string name="search_keywords_pdf_dark_mode">pdf karanlık mod gece okuyucu renkleri ters çevir negatif</string>
+    <string name="custom_depth_map">Özel derinlik haritası</string>
+    <string name="custom_depth_map_sub">İsteğe bağlı. Derinliği yeniden tahmin etmek yerine gri tonlamalı veya Image Toolbox derinlik haritasını yeniden kullanın</string>
 </resources>

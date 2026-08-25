@@ -5049,4 +5049,6 @@
     <string name="burgundy">பர்கண்டி</string>
     <string name="slate">ஸ்லேட்</string>
     <string name="search_keywords_pdf_dark_mode">pdf டார்க் மோட் நைட் ரீடர் நிறங்களை எதிர்மறையாக மாற்றுகிறது</string>
+    <string name="custom_depth_map">தனிப்பயன் ஆழ வரைபடம்</string>
+    <string name="custom_depth_map_sub">விருப்பமானது. மீண்டும் ஆழத்தை மதிப்பிடுவதற்குப் பதிலாக, கிரேஸ்கேல் அல்லது படக் கருவிப்பெட்டி ஆழ வரைபடத்தை மீண்டும் பயன்படுத்தவும்</string>
 </resources>

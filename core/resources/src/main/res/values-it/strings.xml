@@ -5049,4 +5049,6 @@
     <string name="burgundy">Borgogna</string>
     <string name="slate">Ardesia</string>
     <string name="search_keywords_pdf_dark_mode">Il lettore notturno in modalità oscura pdf inverte i colori in negativo</string>
+    <string name="custom_depth_map">Mappa di profondità personalizzata</string>
+    <string name="custom_depth_map_sub">Opzionale. Riutilizzare una mappa di profondità in scala di grigi o Image Toolbox invece di stimare nuovamente la profondità</string>
 </resources>

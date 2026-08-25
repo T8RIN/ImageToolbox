@@ -5049,4 +5049,6 @@
     <string name="burgundy">Borgonya</string>
     <string name="slate">Pissarra</string>
     <string name="search_keywords_pdf_dark_mode">pdf lector nocturn en mode fosc inverteix colors negatius</string>
+    <string name="custom_depth_map">Mapa de profunditat personalitzat</string>
+    <string name="custom_depth_map_sub">Opcional. Reutilitza un mapa de profunditat d\'escala de grisos o d\'Image Toolbox en lloc d\'estimar la profunditat de nou</string>
 </resources>

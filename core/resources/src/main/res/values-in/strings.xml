@@ -5048,4 +5048,6 @@
     <string name="burgundy">merah anggur</string>
     <string name="slate">Batu tulis</string>
     <string name="search_keywords_pdf_dark_mode">pdf mode gelap pembaca malam membalikkan warna negatif</string>
+    <string name="custom_depth_map">Peta kedalaman khusus</string>
+    <string name="custom_depth_map_sub">Opsional. Gunakan kembali peta kedalaman skala abu-abu atau Image Toolbox daripada memperkirakan kedalaman lagi</string>
 </resources>

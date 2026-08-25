@@ -5049,4 +5049,6 @@
     <string name="burgundy">Borgonha</string>
     <string name="slate">Ardósia</string>
     <string name="search_keywords_pdf_dark_mode">pdf modo escuro leitor noturno inverter cores negativo</string>
+    <string name="custom_depth_map">Mapa de profundidade personalizado</string>
+    <string name="custom_depth_map_sub">Opcional. Reutilize um mapa de profundidade em escala de cinza ou do Image Toolbox em vez de estimar a profundidade novamente</string>
 </resources>

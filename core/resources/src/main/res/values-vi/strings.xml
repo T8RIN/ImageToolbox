@@ -5048,4 +5048,6 @@
     <string name="burgundy">màu đỏ tía</string>
     <string name="slate">Đá phiến</string>
     <string name="search_keywords_pdf_dark_mode">pdf chế độ tối trình đọc ban đêm đảo ngược màu sắc âm bản</string>
+    <string name="custom_depth_map">Bản đồ độ sâu tùy chỉnh</string>
+    <string name="custom_depth_map_sub">Không bắt buộc. Sử dụng lại bản đồ độ sâu thang độ xám hoặc Hộp công cụ hình ảnh thay vì ước tính lại độ sâu</string>
 </resources>

@@ -5049,4 +5049,6 @@
     <string name="burgundy">Burgundy</string>
     <string name="slate">slate</string>
     <string name="search_keywords_pdf_dark_mode">pdf dark mode night reader invert colors negative</string>
+    <string name="custom_depth_map">Custom na depth na mapa</string>
+    <string name="custom_depth_map_sub">Opsyonal. Gumamit muli ng grayscale o Image Toolbox depth map sa halip na tantyahin muli ang lalim</string>
 </resources>

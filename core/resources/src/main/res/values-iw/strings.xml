@@ -5051,4 +5051,6 @@
     <string name="burgundy">בורדו</string>
     <string name="slate">צִפחָה</string>
     <string name="search_keywords_pdf_dark_mode">pdf מצב כהה קורא לילה הפוך צבעים שליליים</string>
+    <string name="custom_depth_map">מפת עומק מותאמת אישית</string>
+    <string name="custom_depth_map_sub">אופציונלי. השתמש מחדש במפת עומק בגווני אפור או ב-Image Toolbox במקום להעריך שוב את העומק</string>
 </resources>

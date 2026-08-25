@@ -5050,4 +5050,6 @@
     <string name="burgundy">Бургундија</string>
     <string name="slate">Слате</string>
     <string name="search_keywords_pdf_dark_mode">пдф тамни режим ноћни читач инвертне боје негатив</string>
+    <string name="custom_depth_map">Прилагођена мапа дубине</string>
+    <string name="custom_depth_map_sub">Опционо. Поново користите мапу дубине сивих тонова или Имаге Тоолбок уместо да поново процењујете дубину</string>
 </resources>

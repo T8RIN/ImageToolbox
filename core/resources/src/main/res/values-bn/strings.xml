@@ -5049,4 +5049,6 @@
     <string name="burgundy">বারগান্ডি</string>
     <string name="slate">স্লেট</string>
     <string name="search_keywords_pdf_dark_mode">পিডিএফ ডার্ক মোড নাইট রিডার ইনভার্ট রং নেতিবাচক</string>
+    <string name="custom_depth_map">কাস্টম গভীরতার মানচিত্র</string>
+    <string name="custom_depth_map_sub">ঐচ্ছিক। আবার গভীরতা অনুমান করার পরিবর্তে একটি গ্রেস্কেল বা চিত্র টুলবক্স গভীরতার মানচিত্র পুনরায় ব্যবহার করুন</string>
 </resources>

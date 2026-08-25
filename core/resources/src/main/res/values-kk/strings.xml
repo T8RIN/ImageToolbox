@@ -5049,4 +5049,6 @@
     <string name="burgundy">Бургундия</string>
     <string name="slate">Шифер</string>
     <string name="search_keywords_pdf_dark_mode">pdf қараңғы режим түнгі оқу құралы түстерді теріс айналдырады</string>
+    <string name="custom_depth_map">Арнайы тереңдік картасы</string>
+    <string name="custom_depth_map_sub">Қосымша. Тереңдікті қайта бағалаудың орнына сұр реңкті немесе Image Toolbox тереңдік картасын қайта пайдаланыңыз</string>
 </resources>

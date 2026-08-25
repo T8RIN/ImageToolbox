@@ -5051,4 +5051,6 @@
     <string name="burgundy">Бардовы</string>
     <string name="slate">Шыфер</string>
     <string name="search_keywords_pdf_dark_mode">Начная праграма для чытання pdf у цёмным рэжыме, інвертаваць колеры, негатыў</string>
+    <string name="custom_depth_map">Карыстальніцкая карта глыбіні</string>
+    <string name="custom_depth_map_sub">Дадаткова. Паўторна выкарыстоўвайце карту глыбіні адценняў шэрага або Image Toolbox замест паўторнай ацэнкі глыбіні</string>
 </resources>

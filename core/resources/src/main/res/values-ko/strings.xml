@@ -5048,4 +5048,6 @@
     <string name="burgundy">부르고뉴</string>
     <string name="slate">슬레이트</string>
     <string name="search_keywords_pdf_dark_mode">PDF 다크 모드 야간 리더 색상 반전 네거티브</string>
+    <string name="custom_depth_map">맞춤형 깊이 맵</string>
+    <string name="custom_depth_map_sub">선택 과목. 깊이를 다시 추정하는 대신 회색조 또는 이미지 도구 상자 깊이 맵을 재사용합니다.</string>
 </resources>

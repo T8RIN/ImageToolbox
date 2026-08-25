@@ -5049,4 +5049,6 @@
     <string name="burgundy">Bourgondië</string>
     <string name="slate">Leisteen</string>
     <string name="search_keywords_pdf_dark_mode">pdf donkere modus nachtlezer kleuren negatief omkeren</string>
+    <string name="custom_depth_map">Aangepaste dieptekaart</string>
+    <string name="custom_depth_map_sub">Optioneel. Gebruik een grijswaarden- of Image Toolbox-dieptekaart opnieuw in plaats van de diepte opnieuw te schatten</string>
 </resources>

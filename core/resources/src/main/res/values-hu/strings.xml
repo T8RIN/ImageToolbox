@@ -5049,4 +5049,6 @@
     <string name="burgundy">Burgundia</string>
     <string name="slate">Pala</string>
     <string name="search_keywords_pdf_dark_mode">pdf sötét mód éjszakai olvasó invert színek negatív</string>
+    <string name="custom_depth_map">Egyedi mélységtérkép</string>
+    <string name="custom_depth_map_sub">Választható. A mélység újbóli becslése helyett használja újra a szürkeárnyalatos vagy az Image Toolbox mélységtérképét</string>
 </resources>

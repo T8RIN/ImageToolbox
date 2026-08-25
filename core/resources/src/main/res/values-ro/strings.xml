@@ -5050,4 +5050,6 @@
     <string name="burgundy">Burgundia</string>
     <string name="slate">Ardezie</string>
     <string name="search_keywords_pdf_dark_mode">pdf cititor de noapte în modul întunecat inversează culorile negative</string>
+    <string name="custom_depth_map">Hartă personalizată de adâncime</string>
+    <string name="custom_depth_map_sub">Opțional. Reutilizați o hartă de adâncime în tonuri de gri sau Image Toolbox în loc să estimați din nou adâncimea</string>
 </resources>

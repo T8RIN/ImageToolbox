@@ -5049,4 +5049,6 @@
     <string name="burgundy">బుర్గుండి</string>
     <string name="slate">స్లేట్</string>
     <string name="search_keywords_pdf_dark_mode">pdf డార్క్ మోడ్ నైట్ రీడర్ రంగులను ప్రతికూలంగా మార్చుతుంది</string>
+    <string name="custom_depth_map">కస్టమ్ డెప్త్ మ్యాప్</string>
+    <string name="custom_depth_map_sub">ఐచ్ఛికం. లోతును మళ్లీ అంచనా వేయడానికి బదులుగా గ్రేస్కేల్ లేదా ఇమేజ్ టూల్‌బాక్స్ డెప్త్ మ్యాప్‌ని మళ్లీ ఉపయోగించండి</string>
 </resources>

@@ -5051,4 +5051,6 @@
     <string name="burgundy">Бордовий</string>
     <string name="slate">Шифер</string>
     <string name="search_keywords_pdf_dark_mode">pdf темний режим нічний читач інвертувати кольори негатив</string>
+    <string name="custom_depth_map">Власна карта глибини</string>
+    <string name="custom_depth_map_sub">Додатково. Повторно використовуйте карту глибини відтінків сірого або Image Toolbox замість повторного оцінювання глибини</string>
 </resources>

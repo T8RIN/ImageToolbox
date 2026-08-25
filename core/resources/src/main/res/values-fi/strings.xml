@@ -5049,4 +5049,6 @@
     <string name="burgundy">Burgundia</string>
     <string name="slate">Liuskekivi</string>
     <string name="search_keywords_pdf_dark_mode">pdf pimeän tilan yölukija käänteisvärit negatiivinen</string>
+    <string name="custom_depth_map">Mukautettu syvyyskartta</string>
+    <string name="custom_depth_map_sub">Valinnainen. Käytä uudelleen harmaasävy- tai Image Toolbox -syvyyskarttaa sen sijaan, että arvioisit syvyyttä uudelleen</string>
 </resources>

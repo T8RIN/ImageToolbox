@@ -5049,4 +5049,6 @@
     <string name="burgundy">borgoña</string>
     <string name="slate">Pizarra</string>
     <string name="search_keywords_pdf_dark_mode">pdf modo oscuro lector nocturno invertir colores negativo</string>
+    <string name="custom_depth_map">Mapa de profundidad personalizado</string>
+    <string name="custom_depth_map_sub">Opcional. Reutilice un mapa de profundidad en escala de grises o Image Toolbox en lugar de estimar la profundidad nuevamente</string>
 </resources>

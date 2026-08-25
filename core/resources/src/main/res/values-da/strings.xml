@@ -5049,4 +5049,6 @@
     <string name="burgundy">Bourgogne</string>
     <string name="slate">Skifer</string>
     <string name="search_keywords_pdf_dark_mode">pdf mørk tilstand natlæser inverter farver negative</string>
+    <string name="custom_depth_map">Brugerdefineret dybdekort</string>
+    <string name="custom_depth_map_sub">Valgfri. Genbrug et gråtone- eller Image Toolbox-dybdekort i stedet for at estimere dybden igen</string>
 </resources>

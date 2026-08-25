@@ -5053,4 +5053,6 @@
     <string name="burgundy">بورجوندي</string>
     <string name="slate">لائحة</string>
     <string name="search_keywords_pdf_dark_mode">pdf الوضع الليلي للقارئ عكس الألوان السلبية</string>
+    <string name="custom_depth_map">خريطة عمق مخصصة</string>
+    <string name="custom_depth_map_sub">خياري. أعد استخدام خريطة عمق التدرج الرمادي أو Image Toolbox بدلاً من تقدير العمق مرة أخرى</string>
 </resources>

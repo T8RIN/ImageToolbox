@@ -5049,4 +5049,6 @@
     <string name="burgundy">بورگوندی</string>
     <string name="slate">تخته سنگ</string>
     <string name="search_keywords_pdf_dark_mode">پی دی اف شب خوان حالت تاریک رنگ های معکوس منفی</string>
+    <string name="custom_depth_map">نقشه عمق سفارشی</string>
+    <string name="custom_depth_map_sub">اختیاری. به جای تخمین مجدد عمق، از نقشه عمق مقیاس خاکستری یا Image Toolbox استفاده مجدد کنید</string>
 </resources>

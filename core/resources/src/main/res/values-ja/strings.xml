@@ -5048,4 +5048,6 @@
     <string name="burgundy">ブルゴーニュ</string>
     <string name="slate">スレート</string>
     <string name="search_keywords_pdf_dark_mode">PDF ダークモード ナイト リーダー 色を反転 ネガティブ</string>
+    <string name="custom_depth_map">カスタム深度マップ</string>
+    <string name="custom_depth_map_sub">オプション。深度を再度推定する代わりに、グレースケールまたは Image Toolbox の深度マップを再利用します。</string>
 </resources>

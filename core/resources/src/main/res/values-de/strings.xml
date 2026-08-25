@@ -5049,4 +5049,6 @@
     <string name="burgundy">Burgund</string>
     <string name="slate">Schiefer</string>
     <string name="search_keywords_pdf_dark_mode">PDF Dark Mode Night Reader invertiert Farben negativ</string>
+    <string name="custom_depth_map">Benutzerdefinierte Tiefenkarte</string>
+    <string name="custom_depth_map_sub">Optional. Verwenden Sie eine Graustufen- oder Image Toolbox-Tiefenkarte erneut, anstatt die Tiefe erneut zu schätzen</string>
 </resources>

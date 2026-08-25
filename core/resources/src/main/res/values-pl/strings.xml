@@ -5051,4 +5051,6 @@
     <string name="burgundy">Burgundia</string>
     <string name="slate">Łupek</string>
     <string name="search_keywords_pdf_dark_mode">pdf czytnik nocny w trybie ciemnym odwraca kolory w negatywie</string>
+    <string name="custom_depth_map">Niestandardowa mapa głębi</string>
+    <string name="custom_depth_map_sub">Fakultatywny. Zamiast ponownie szacować głębokość, użyj ponownie mapy głębi w skali szarości lub z narzędzia Image Toolbox</string>
 </resources>

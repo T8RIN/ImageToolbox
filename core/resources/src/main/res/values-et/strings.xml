@@ -5049,4 +5049,6 @@
     <string name="burgundy">Burgundia</string>
     <string name="slate">Kiltkivi</string>
     <string name="search_keywords_pdf_dark_mode">pdf pimedas režiimis öölugeja värvide ümberpööramine negatiivne</string>
+    <string name="custom_depth_map">Kohandatud sügavuskaart</string>
+    <string name="custom_depth_map_sub">Valikuline. Kasutage uuesti sügavuse hindamise asemel halltoonides või pilditööriistade sügavuskaarti</string>
 </resources>

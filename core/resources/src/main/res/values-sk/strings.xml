@@ -5051,4 +5051,6 @@
     <string name="burgundy">Burgundsko</string>
     <string name="slate">Bridlica</string>
     <string name="search_keywords_pdf_dark_mode">pdf tmavý režim nočná čítačka invertovať farby negatív</string>
+    <string name="custom_depth_map">Vlastná hĺbková mapa</string>
+    <string name="custom_depth_map_sub">Voliteľné. Namiesto opätovného odhadovania hĺbky použite mapu hĺbky v odtieňoch sivej alebo v paneli s nástrojmi obrázkov</string>
 </resources>
