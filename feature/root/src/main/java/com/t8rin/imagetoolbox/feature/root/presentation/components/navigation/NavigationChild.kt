@@ -100,6 +100,8 @@ import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsCon
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.ComicToPdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.PdfContactSheetToolContent
@@ -634,6 +636,11 @@ internal sealed interface NavigationChild {
     class ZipConvertPdfTool(private val component: ZipConvertPdfToolComponent) : NavigationChild {
         @Composable
         override fun Content() = ZipConvertPdfToolContent(component)
+    }
+
+    class ComicToPdfTool(private val component: ComicToPdfToolComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ComicToPdfToolContent(component)
     }
 
     class PrintPdfTool(private val component: PrintPdfToolComponent) : NavigationChild {

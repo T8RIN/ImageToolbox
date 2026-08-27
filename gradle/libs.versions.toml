@@ -80,6 +80,7 @@ aboutlibraries = "15.1.1"
 flinger = "2.1.0"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
+libarchiveAndroid = "1.1.6"
 
 onnx = "1.29.0"
 opencv = "5.0.0.1"
@@ -106,6 +107,7 @@ androidx-palette-ktx = { module = "androidx.palette:palette", version.ref = "pal
 opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
+libarchive-android = { module = "me.zhanghai.android.libarchive:library", version.ref = "libarchiveAndroid" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }

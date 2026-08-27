@@ -52,7 +52,10 @@ internal fun List<Uri>.screenList(
                     Screen.Zip(uris)
                 )
             } else {
-                listOf(
+                listOfNotNull(
+                    Screen.PdfTools.ComicToPdf(uris.firstOrNull()).takeIf {
+                        uris.firstOrNull().type("cbr", "cbz", "cb7", "cbt")
+                    },
                     Screen.BatchRename(uris),
                     Screen.Cipher(uris.firstOrNull()),
                     Screen.ChecksumTools(uris.firstOrNull()),

@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,28 @@
 
 package com.t8rin.imagetoolbox.feature.zip.domain
 
+import com.t8rin.archive.ArchiveEncryptionStatus
+import com.t8rin.archive.ArchiveFormat
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveExtractionOptions
+
 interface ZipManager {
 
-    suspend fun zip(
+    suspend fun archive(
         files: List<String>,
+        destination: Writeable,
+        format: ArchiveFormat,
+        passphrase: String?,
         onProgress: () -> Unit
-    ): String
+    )
 
+    suspend fun getArchiveEncryptionStatus(archive: String): ArchiveEncryptionStatus
+
+    suspend fun extract(
+        archive: String,
+        destinationFolder: String,
+        passphrase: String?,
+        options: ArchiveExtractionOptions,
+        onProgress: () -> Unit
+    ): Int
 }

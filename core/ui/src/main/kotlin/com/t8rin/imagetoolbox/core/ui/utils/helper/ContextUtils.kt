@@ -49,7 +49,9 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.helper.image_vector.toImageBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionStatus
@@ -92,6 +94,7 @@ object ContextUtils {
                 askUserToRequestPermissionExplicitly()
                 AppToastHost.showToast(
                     message = R.string.grant_permission_manual,
+                    icon = Icons.Outlined.Settings,
                     duration = ToastDuration.Long
                 )
             }

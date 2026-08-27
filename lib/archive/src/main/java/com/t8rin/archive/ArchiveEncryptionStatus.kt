@@ -15,16 +15,10 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.archive
 
-android.namespace = "com.t8rin.imagetoolbox.feature.zip"
-
-dependencies {
-    implementation(projects.lib.archive)
-    implementation(libs.androidx.documentfile)
+enum class ArchiveEncryptionStatus {
+    None,
+    PasswordRequired,
+    Unsupported
 }

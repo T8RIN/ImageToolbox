@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
-}
+package com.t8rin.imagetoolbox.feature.zip.domain.model
 
-android.namespace = "com.t8rin.imagetoolbox.feature.zip"
+internal val SupportedArchiveExtensions = listOf(
+    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst",
+    ".tar.lz4", ".tar.lz", ".tar.lzma",
+    ".tgz", ".tbz2", ".txz", ".tzst",
+    ".zip", ".zipx", ".7z", ".rar", ".cbr", ".cbz", ".cb7", ".cbt",
+    ".tar", ".gz", ".bz2", ".xz", ".zst", ".lz4", ".lz", ".lzma", ".lzip",
+    ".cab", ".iso", ".lha", ".lzh", ".xar", ".ar", ".cpio"
+)
 
-dependencies {
-    implementation(projects.lib.archive)
-    implementation(libs.androidx.documentfile)
+internal fun String.hasSupportedArchiveExtension(): Boolean {
+    val filename = lowercase()
+    return SupportedArchiveExtensions.any(filename::endsWith)
 }

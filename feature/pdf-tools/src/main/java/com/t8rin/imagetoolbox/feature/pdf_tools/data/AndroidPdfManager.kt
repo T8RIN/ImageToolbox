@@ -22,6 +22,8 @@ import android.graphics.Bitmap
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.awxkee.aire.Aire
+import com.t8rin.archive.ArchiveEngine
+import com.t8rin.archive.ArchivePath
 import com.t8rin.imagetoolbox.core.data.saving.io.ByteArrayReadable
 import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
@@ -93,6 +95,7 @@ import com.tom_roush.pdfbox.pdmodel.PDPageContentStream
 import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.blend.BlendMode
+import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationFileAttachment
@@ -112,8 +115,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
@@ -167,6 +174,90 @@ internal class AndroidPdfManager @Inject constructor(
             scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
             addTextLayer = null
         )
+    }
+
+    override suspend fun convertComicBookToPdf(
+        uri: String,
+        passphrase: String?
+    ): String = catchPdf {
+        val temporaryDirectory = File(
+            context.cacheDir,
+            "comic_${timestamp()}_${System.nanoTime()}"
+        ).also { check(it.mkdirs()) { "Cannot create temporary directory" } }
+
+        try {
+            val operationContext = currentCoroutineContext()
+            context.contentResolver.openFileDescriptor(uri.toUri(), "r")?.use { input ->
+                ArchiveEngine.extract(
+                    inputFileDescriptor = input.fd,
+                    passphrase = passphrase,
+                    onChunk = operationContext::ensureActive,
+                    onEntry = { entry, writeData ->
+                        if (!entry.isDirectory && entry.path.isComicImage()) {
+                            val segments = ArchivePath.safeSegments(entry.path)
+                                ?: error("Unsafe archive entry path: ${entry.path}")
+                            val output = File(
+                                temporaryDirectory,
+                                segments.joinToString(File.separator)
+                            ).safeUniqueFile()
+                            val parent = checkNotNull(output.parentFile)
+                            check(parent.isDirectory || parent.mkdirs()) {
+                                "Cannot create temporary image directory"
+                            }
+                            FileOutputStream(output).use(writeData)
+                        }
+                    }
+                )
+            } ?: error("Cannot open comic book archive")
+
+            val images = temporaryDirectory
+                .walkTopDown()
+                .filter(File::isFile)
+                .sortedWith(compareBy(NaturalPathComparator) {
+                    it.relativeTo(temporaryDirectory).invariantSeparatorsPath
+                })
+                .toList()
+            check(images.isNotEmpty()) { "No supported images found in comic book archive" }
+
+            createPdf { document ->
+                images.forEach { file ->
+                    operationContext.ensureActive()
+                    val extension = file.extension.lowercase()
+                    val bitmap = if (extension == "jpg" || extension == "jpeg") {
+                        null
+                    } else {
+                        imageGetter.getImage(file, size = MaxComicBitmapSide)
+                            ?: return@forEach
+                    }
+                    try {
+                        val image = if (bitmap == null) {
+                            file.inputStream().buffered().use {
+                                JPEGFactory.createFromStream(document, it)
+                            }
+                        } else {
+                            bitmap.asXObject(document, quality = 1f)
+                        }
+
+                        val scale = (MaxPdfPageSize / max(image.width, image.height))
+                            .coerceAtMost(1f)
+                        val pageWidth = image.width * scale
+                        val pageHeight = image.height * scale
+                        document.createPage(PDPage(PDRectangle(pageWidth, pageHeight))) {
+                            drawImage(image, 0f, 0f, pageWidth, pageHeight)
+                        }
+                    } finally {
+                        bitmap?.recycle()
+                    }
+                }
+                check(document.numberOfPages > 0) { "No supported images found" }
+                shareProvider.cacheDataOrThrow(
+                    filename = tempName(key = "comic", uri = uri),
+                    writeData = document::save
+                )
+            }
+        } finally {
+            temporaryDirectory.deleteRecursively()
+        }
     }
 
     override suspend fun createContactSheet(
@@ -1396,3 +1487,81 @@ internal class AndroidPdfManager @Inject constructor(
     }
 
 }
+
+private fun String.isComicImage(): Boolean = substringAfterLast('.', "")
+    .lowercase() in ComicImageExtensions
+
+private fun File.safeUniqueFile(): File {
+    if (!exists()) return this
+
+    val baseName = nameWithoutExtension
+    val suffix = extension.takeIf(String::isNotEmpty)?.let { ".$it" }.orEmpty()
+    var index = 2
+    var candidate: File
+    do {
+        candidate = File(parentFile, "$baseName ($index)$suffix")
+        index++
+    } while (candidate.exists())
+    return candidate
+}
+
+private val NaturalPathComparator = Comparator<String> { first, second ->
+    first.naturalCompareTo(second)
+}
+
+private fun String.naturalCompareTo(other: String): Int {
+    var firstIndex = 0
+    var secondIndex = 0
+
+    while (firstIndex < length && secondIndex < other.length) {
+        val firstChar = this[firstIndex]
+        val secondChar = other[secondIndex]
+
+        if (firstChar.isDigit() && secondChar.isDigit()) {
+            val firstEnd = indexOfFirstNonDigit(firstIndex)
+            val secondEnd = other.indexOfFirstNonDigit(secondIndex)
+            val firstNumber = substring(firstIndex, firstEnd)
+            val secondNumber = other.substring(secondIndex, secondEnd)
+            val firstSignificant = firstNumber.trimStart('0').ifEmpty { "0" }
+            val secondSignificant = secondNumber.trimStart('0').ifEmpty { "0" }
+
+            firstSignificant.length.compareTo(secondSignificant.length)
+                .takeIf { it != 0 }
+                ?.let { return it }
+            firstSignificant.compareTo(secondSignificant)
+                .takeIf { it != 0 }
+                ?.let { return it }
+            firstNumber.length.compareTo(secondNumber.length)
+                .takeIf { it != 0 }
+                ?.let { return it }
+
+            firstIndex = firstEnd
+            secondIndex = secondEnd
+        } else {
+            firstChar.lowercaseChar().compareTo(secondChar.lowercaseChar())
+                .takeIf { it != 0 }
+                ?.let { return it }
+            firstChar.compareTo(secondChar)
+                .takeIf { it != 0 }
+                ?.let { return it }
+            firstIndex++
+            secondIndex++
+        }
+    }
+
+    return (length - firstIndex).compareTo(other.length - secondIndex)
+}
+
+private fun String.indexOfFirstNonDigit(startIndex: Int): Int {
+    var index = startIndex
+    while (index < length && this[index].isDigit()) index++
+    return index
+}
+
+private val ComicImageExtensions = setOf(
+    "jpg", "jpeg", "png", "webp", "bmp", "gif", "tif", "tiff", "heif", "heic", "avif",
+    "jxl", "jp2", "qoi"
+)
+
+private const val MaxPdfPageSize = 14_400f
+private const val MaxComicBitmapSide = 4096

@@ -17,8 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.zip.presentation
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import android.net.Uri
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,19 +29,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.archive.ArchiveEncryptionStatus
+import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
+import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
+import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
-import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
-import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.zip.presentation.components.ArchiveToolsNoDataControls
 import com.t8rin.imagetoolbox.feature.zip.presentation.components.ZipControls
 import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 
@@ -52,23 +60,33 @@ fun ZipContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val onBack = {
-        if (component.uris.isNotEmpty() && component.compressedArchiveUri != null) {
-            showExitDialog = true
-        } else component.onGoBack()
+        if (component.haveChanges) showExitDialog = true else component.onGoBack()
     }
 
-    val filePicker = rememberFilePicker(onSuccess = component::setUris)
-
-    AutoFilePicker(
-        onAutoPick = filePicker::pickFile,
-        isPickedAlready = !component.initialUris.isNullOrEmpty()
+    val archivePicker = rememberFilePicker { uris: List<Uri> ->
+        component.setMode(ArchiveMode.Archive)
+        component.setUris(uris)
+    }
+    val extractPicker = rememberFilePicker(
+        onSuccess = { uri: Uri ->
+            component.setMode(ArchiveMode.Extract)
+            component.setUris(listOf(uri))
+        }
+    )
+    val filePicker = if (component.mode == ArchiveMode.Archive) archivePicker else extractPicker
+    val folderPicker = rememberFolderPicker(onSuccess = component::startExtraction)
+    val archiveCreator = rememberFileCreator(
+        mimeType = MimeType.Single(component.format.mimeType),
+        onSuccess = component::startArchiving
     )
 
+    val isPortrait by isPortraitOrientationAsState()
+
     AdaptiveLayoutScreen(
-        shouldDisableBackHandler = !(component.uris.isNotEmpty() && component.compressedArchiveUri != null),
+        shouldDisableBackHandler = !component.haveChanges,
         title = {
             Text(
-                text = stringResource(R.string.zip),
+                text = stringResource(R.string.archive_tools),
                 modifier = Modifier.marquee()
             )
         },
@@ -76,38 +94,72 @@ fun ZipContent(
             TopAppBarEmoji()
         },
         onGoBack = onBack,
-        actions = {},
+        actions = {
+            if (component.mode == ArchiveMode.Archive && component.uris.isNotEmpty()) {
+                ShareButton(
+                    enabled = !component.protectWithPassword || component.passphrase.isNotEmpty(),
+                    onShare = component::shareArchive,
+                    dialogTitle = stringResource(R.string.archive),
+                    dialogIcon = Icons.Outlined.FolderZip
+                )
+            }
+        },
         imagePreview = {},
         showImagePreviewAsStickyHeader = false,
         placeImagePreview = false,
+        contentPadding = if (component.uris.isEmpty()) 0.dp else 20.dp,
         addHorizontalCutoutPaddingIfNoPreview = component.uris.isNotEmpty(),
         noDataControls = {
-            FileNotPickedWidget(onPickFile = filePicker::pickFile)
-        },
-        controls = {
-            ZipControls(
-                component = component,
-                lazyListState = it
+            ArchiveToolsNoDataControls(
+                onArchive = {
+                    component.setMode(ArchiveMode.Archive)
+                    archivePicker.pickFile()
+                },
+                onExtract = {
+                    component.setMode(ArchiveMode.Extract)
+                    extractPicker.pickFile()
+                }
             )
         },
-        buttons = {
+        controls = {
+            if (isPortrait) Spacer(Modifier.height(20.dp))
+
+            ZipControls(component = component)
+        },
+        buttons = { screenActions ->
             BottomButtonsBlock(
                 isNoData = component.uris.isEmpty(),
                 onSecondaryButtonClick = filePicker::pickFile,
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),
-                onPrimaryButtonClick = component::startCompression,
-                actions = {
-                    EnhancedChip(
-                        selected = true,
-                        onClick = null,
-                        selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                        modifier = Modifier.padding(8.dp)
-                    ) {
-                        Text(component.uris.size.toString())
+                isPrimaryButtonEnabled = when (component.mode) {
+                    ArchiveMode.Archive -> !component.protectWithPassword ||
+                            component.passphrase.isNotEmpty()
+
+                    ArchiveMode.Extract -> when (component.archiveEncryptionStatus) {
+                        ArchiveEncryptionStatus.Unsupported -> false
+                        ArchiveEncryptionStatus.PasswordRequired -> component.passphrase.isNotEmpty()
+                        ArchiveEncryptionStatus.None, null -> true
                     }
-                }
+                },
+                onPrimaryButtonClick = {
+                    if (component.mode == ArchiveMode.Archive) {
+                        archiveCreator.make(component.createTargetFilename())
+                    } else folderPicker.pickFolder()
+                },
+                primaryButtonIcon = if (component.mode == ArchiveMode.Archive) {
+                    Icons.Rounded.FolderZip
+                } else {
+                    Icons.Rounded.Unarchive
+                },
+                primaryButtonText = stringResource(
+                    if (component.mode == ArchiveMode.Archive) R.string.archive
+                    else R.string.extract
+                ),
+                showNullDataButtonAsContainer = true,
+                drawBothStrokes = true,
+                actions = screenActions
             )
         },
         canShowScreenData = component.uris.isNotEmpty()

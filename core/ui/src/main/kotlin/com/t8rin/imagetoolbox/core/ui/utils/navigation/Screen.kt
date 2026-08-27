@@ -348,6 +348,7 @@ sealed class Screen(
                 ComparePdf(),
                 ResizePdfPages(),
                 SanitizePdf(),
+                ComicToPdf(),
             )
         }
 
@@ -520,6 +521,15 @@ sealed class Screen(
             id = 62,
             title = R.string.zip_pdf,
             subtitle = R.string.zip_pdf_sub
+        )
+
+        @Serializable
+        data class ComicToPdf(
+            val uri: Uri? = null
+        ) : Screen(
+            id = 81,
+            title = R.string.comic_to_pdf,
+            subtitle = R.string.comic_to_pdf_sub
         )
 
         @Serializable
@@ -877,8 +887,8 @@ sealed class Screen(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 22,
-        title = R.string.zip,
-        subtitle = R.string.zip_sub
+        title = R.string.archive_tools,
+        subtitle = R.string.archive_tools_sub
     )
 
     @Serializable

@@ -17,215 +17,229 @@
 
 package com.t8rin.imagetoolbox.feature.zip.presentation.components
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.t8rin.imagetoolbox.core.domain.model.MimeType
-import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.archive.ArchiveEncryptionStatus
+import com.t8rin.archive.ArchiveFormat
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
-import com.t8rin.imagetoolbox.core.resources.icons.Download
+import com.t8rin.imagetoolbox.core.resources.icons.CreateNewFolder
+import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
+import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
+import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
+import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
-import com.t8rin.imagetoolbox.core.resources.icons.Share
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.theme.Green
-import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
-import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
+import com.t8rin.imagetoolbox.core.resources.icons.Password
+import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveMode
 import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 
 @Composable
 internal fun ColumnScope.ZipControls(
-    component: ZipComponent,
-    lazyListState: LazyListState
+    component: ZipComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
-    val settingsState = LocalSettingsState.current
-
-    val saveLauncher = rememberFileCreator(
-        mimeType = MimeType.Zip,
-        onSuccess = component::saveResultTo
+    val additionalArchivePicker = rememberFilePicker(onSuccess = component::addUris)
+    val replacementArchivePicker = rememberFilePicker(
+        onSuccess = { uri: Uri -> component.setUris(listOf(uri)) }
     )
 
-    val additionalFilePicker = rememberFilePicker(onSuccess = component::addUris)
-
-    AnimatedVisibility(visible = component.compressedArchiveUri != null) {
-        LaunchedEffect(lazyListState) {
-            lazyListState.animateScrollToItem(0)
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
-                .container(
-                    shape = MaterialTheme.shapes.extraLarge,
-                    color = MaterialTheme
-                        .colorScheme
-                        .surfaceContainerHighest,
-                    resultPadding = 0.dp
-                )
-                .padding(16.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Rounded.CheckCircle,
-                    contentDescription = null,
-                    tint = Green,
-                    modifier = Modifier
-                        .size(36.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = ShapeDefaults.circle
-                        )
-                        .border(
-                            width = settingsState.borderWidth,
-                            color = MaterialTheme.colorScheme.outlineVariant(),
-                            shape = ShapeDefaults.circle
-                        )
-                        .padding(4.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    stringResource(R.string.file_proceed),
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-            Text(
-                text = stringResource(R.string.store_file_desc),
-                fontSize = 13.sp,
-                color = LocalContentColor.current.copy(alpha = 0.7f),
-                lineHeight = 14.sp,
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-            var name by rememberSaveable(component.compressedArchiveUri, component.uris) {
-                val count = component.uris.size.let {
-                    if (it > 1) "($it)"
-                    else ""
+    if (component.mode == ArchiveMode.Archive) {
+        DataSelector(
+            value = component.format,
+            onValueChange = component::setFormat,
+            entries = ArchiveFormat.entries,
+            title = stringResource(R.string.archive_format),
+            titleIcon = Icons.Outlined.FolderZip,
+            itemContentText = { it.title },
+            spanCount = 1,
+            shape = ShapeDefaults.top,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(4.dp))
+        PreferenceRowSwitch(
+            title = stringResource(R.string.protect_archive_with_password),
+            subtitle = stringResource(
+                if (component.format.supportsEncryption) {
+                    R.string.protect_archive_with_password_sub
+                } else {
+                    R.string.archive_password_zip_only
                 }
-                mutableStateOf("ZIP${count}_${timestamp()}.zip")
-            }
-            RoundedTextField(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .container(
-                        shape = MaterialTheme.shapes.large,
-                        resultPadding = 8.dp
-                    ),
-                value = name,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                singleLine = false,
-                onValueChange = { name = it },
-                label = {
-                    Text(stringResource(R.string.filename))
-                }
-            )
-
-            Row(
-                modifier = Modifier
-                    .padding(top = 24.dp)
-                    .fillMaxWidth()
-            ) {
-                EnhancedButton(
-                    onClick = {
-                        saveLauncher.make(name)
-                    },
+            ),
+            checked = component.protectWithPassword,
+            enabled = component.format.supportsEncryption,
+            onClick = component::setProtectWithPassword,
+            startIcon = Icons.Outlined.KeyVariant,
+            shape = ShapeDefaults.bottom,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            modifier = Modifier.fillMaxWidth(),
+            additionalContent = {
+                AnimatedVisibility(
+                    visible = component.protectWithPassword,
                     modifier = Modifier
-                        .padding(end = 8.dp)
-                        .fillMaxWidth(0.5f)
-                        .height(50.dp),
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Download,
-                            contentDescription = null
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        AutoSizeText(
-                            text = stringResource(id = R.string.save),
-                            maxLines = 1
-                        )
-                    }
-                }
-                EnhancedButton(
-                    onClick = component::shareFile,
-                    modifier = Modifier
-                        .padding(start = 8.dp)
                         .fillMaxWidth()
-                        .height(50.dp),
-                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        .negativePadding(
+                            start = 8.dp,
+                            end = 8.dp
+                        )
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Share,
-                            contentDescription = stringResource(R.string.share)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        AutoSizeText(
-                            text = stringResource(id = R.string.share),
-                            maxLines = 1
-                        )
-                    }
+                    RoundedTextField(
+                        value = component.passphrase,
+                        onValueChange = component::setPassphrase,
+                        label = stringResource(R.string.password),
+                        startIcon = Icons.Rounded.Password,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .offset(y = 8.dp)
+                            .container(
+                                resultPadding = 8.dp,
+                                color = MaterialTheme.colorScheme.surface
+                            )
+                    )
                 }
             }
+        )
+        Spacer(Modifier.height(16.dp))
+        UrisPreview(
+            uris = component.uris,
+            isPortrait = isPortrait,
+            onRemoveUri = component::removeUri,
+            onAddUris = additionalArchivePicker::pickFile,
+            addUrisContent = { width ->
+                Icon(
+                    imageVector = Icons.Rounded.NoteAdd,
+                    contentDescription = stringResource(R.string.add),
+                    modifier = Modifier.size(width / 3f)
+                )
+            }
+        )
+    } else {
+        val archive = component.uris.firstOrNull() ?: return
+        val encryptionStatus = component.archiveEncryptionStatus
+        val hasEncryptionDetails = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired ||
+                encryptionStatus == ArchiveEncryptionStatus.Unsupported
+
+        PreferenceItem(
+            title = rememberFilename(archive) ?: archive.toString(),
+            subtitle = rememberHumanFileSize(archive),
+            startIcon = Icons.Rounded.FileOpen,
+            endIcon = Icons.Rounded.MiniEdit,
+            onClick = replacementArchivePicker::pickFile,
+            shape = ShapeDefaults.byIndex(
+                index = 0,
+                size = if (hasEncryptionDetails) 2 else 1
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+        AnimatedVisibility(
+            visible = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column {
+                Spacer(Modifier.height(4.dp))
+                PreferenceItem(
+                    title = stringResource(R.string.encrypted_file_detected),
+                    subtitle = stringResource(R.string.archive_password_required_sub),
+                    startIcon = Icons.Outlined.KeyVariant,
+                    shape = ShapeDefaults.bottom,
+                    bottomContent = {
+                        RoundedTextField(
+                            value = component.passphrase,
+                            onValueChange = component::setPassphrase,
+                            label = stringResource(R.string.password),
+                            startIcon = Icons.Rounded.Password,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            singleLine = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .container(
+                                    resultPadding = 8.dp,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
+        AnimatedVisibility(
+            visible = encryptionStatus == ArchiveEncryptionStatus.Unsupported,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column {
+                Spacer(Modifier.height(4.dp))
+                PreferenceItem(
+                    title = stringResource(R.string.unsupported_archive_encryption),
+                    subtitle = stringResource(R.string.unsupported_archive_encryption_sub),
+                    startIcon = Icons.Outlined.KeyVariant,
+                    shape = ShapeDefaults.bottom,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+        PreferenceRowSwitch(
+            title = stringResource(R.string.extract_to_subfolder),
+            subtitle = stringResource(R.string.extract_to_subfolder_sub),
+            checked = component.extractionOptions.createSubfolder,
+            onClick = component::setCreateSubfolder,
+            startIcon = Icons.Outlined.CreateNewFolder,
+            shape = ShapeDefaults.top,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(4.dp))
+        PreferenceRowSwitch(
+            title = stringResource(R.string.preserve_archive_folders),
+            subtitle = stringResource(R.string.preserve_archive_folders_sub),
+            checked = component.extractionOptions.preserveDirectoryStructure,
+            onClick = component::setPreserveDirectoryStructure,
+            startIcon = Icons.Outlined.FolderOpen,
+            shape = ShapeDefaults.center,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(4.dp))
+        PreferenceRowSwitch(
+            title = stringResource(R.string.skip_hidden_archive_files),
+            subtitle = stringResource(R.string.skip_hidden_archive_files_sub),
+            checked = component.extractionOptions.skipHiddenFiles,
+            onClick = component::setSkipHiddenFiles,
+            startIcon = Icons.Outlined.VisibilityOff,
+            shape = ShapeDefaults.bottom,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
-    Spacer(modifier = Modifier.height(24.dp))
-    UrisPreview(
-        uris = component.uris,
-        isPortrait = isPortrait,
-        onRemoveUri = component::removeUri,
-        onAddUris = additionalFilePicker::pickFile,
-        addUrisContent = { width ->
-            Icon(
-                imageVector = Icons.Rounded.NoteAdd,
-                contentDescription = stringResource(R.string.add),
-                modifier = Modifier.size(width / 3f)
-            )
-        },
-    )
 }

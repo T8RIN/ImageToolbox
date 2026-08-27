@@ -157,5 +157,6 @@ include(":lib:gesture")
 include(":lib:image")
 include(":lib:zoomable")
 include(":lib:fast-scroller")
+include(":lib:archive")
 
 include(":benchmark")

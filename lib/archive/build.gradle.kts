@@ -17,14 +17,15 @@
 
 plugins {
     alias(libs.plugins.image.toolbox.library)
-    alias(libs.plugins.image.toolbox.feature)
-    alias(libs.plugins.image.toolbox.hilt)
-    alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.zip"
+android.namespace = "com.t8rin.archive"
 
 dependencies {
-    implementation(projects.lib.archive)
-    implementation(libs.androidx.documentfile)
+    api(libs.libarchive.android)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.runner)
 }

@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.Unarchive: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -164,6 +164,67 @@ val Icons.TwoTone.Unarchive: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             horizontalLineToRelative(14f)
             verticalLineToRelative(11f)
             horizontalLineToRelative(-14f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Rounded.Unarchive: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.Unarchive",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 960f,
+        viewportHeight = 960f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(508.5f, 695.5f)
+            quadTo(520f, 684f, 520f, 667f)
+            verticalLineToRelative(-128f)
+            lineToRelative(36f, 36f)
+            quadToRelative(11f, 11f, 28f, 11f)
+            reflectiveQuadToRelative(28f, -11f)
+            quadToRelative(11f, -11f, 11f, -28f)
+            reflectiveQuadToRelative(-11f, -28f)
+            lineTo(508f, 416f)
+            quadToRelative(-12f, -12f, -28f, -12f)
+            reflectiveQuadToRelative(-28f, 12f)
+            lineTo(348f, 519f)
+            quadToRelative(-11f, 11f, -11f, 28f)
+            reflectiveQuadToRelative(11f, 28f)
+            quadToRelative(11f, 11f, 28f, 11f)
+            reflectiveQuadToRelative(28f, -11f)
+            lineToRelative(36f, -36f)
+            verticalLineToRelative(128f)
+            quadToRelative(0f, 17f, 11.5f, 28.5f)
+            reflectiveQuadTo(480f, 707f)
+            quadToRelative(17f, 0f, 28.5f, -11.5f)
+            close()
+            moveTo(200f, 840f)
+            quadToRelative(-33f, 0f, -56.5f, -23.5f)
+            reflectiveQuadTo(120f, 760f)
+            verticalLineToRelative(-499f)
+            quadToRelative(0f, -14f, 4.5f, -27f)
+            reflectiveQuadToRelative(13.5f, -24f)
+            lineToRelative(50f, -61f)
+            quadToRelative(11f, -14f, 27.5f, -21.5f)
+            reflectiveQuadTo(250f, 120f)
+            horizontalLineToRelative(460f)
+            quadToRelative(18f, 0f, 34.5f, 7.5f)
+            reflectiveQuadTo(772f, 149f)
+            lineToRelative(50f, 61f)
+            quadToRelative(9f, 11f, 13.5f, 24f)
+            reflectiveQuadToRelative(4.5f, 27f)
+            verticalLineToRelative(499f)
+            quadToRelative(0f, 33f, -23.5f, 56.5f)
+            reflectiveQuadTo(760f, 840f)
+            lineTo(200f, 840f)
+            close()
+            moveTo(216f, 240f)
+            horizontalLineToRelative(528f)
+            lineToRelative(-34f, -40f)
+            lineTo(250f, 200f)
+            lineToRelative(-34f, 40f)
             close()
         }
     }.build()

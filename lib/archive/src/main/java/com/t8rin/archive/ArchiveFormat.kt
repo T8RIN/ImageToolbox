@@ -1,0 +1,38 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.archive
+
+enum class ArchiveFormat(
+    val title: String,
+    val extension: String,
+    val mimeType: String,
+    val supportsEncryption: Boolean = false
+) {
+    Zip("ZIP", "zip", "application/zip", supportsEncryption = true),
+    SevenZip("7Z", "7z", "application/x-7z-compressed"),
+    Tar("TAR", "tar", "application/x-tar"),
+    TarGzip("TAR.GZ", "tar.gz", "application/gzip"),
+    TarBzip2("TAR.BZ2", "tar.bz2", "application/x-bzip2"),
+    TarXz("TAR.XZ", "tar.xz", "application/x-xz"),
+    TarZstd("TAR.ZST", "tar.zst", "application/zstd"),
+    TarLz4("TAR.LZ4", "tar.lz4", "application/x-lz4"),
+    TarLzip("TAR.LZIP", "tar.lz", "application/lzip"),
+    TarLzma("TAR.LZMA", "tar.lzma", "application/x-lzma"),
+    Cpio("CPIO", "cpio", "application/x-cpio"),
+    Iso("ISO", "iso", "application/x-iso9660-image")
+}

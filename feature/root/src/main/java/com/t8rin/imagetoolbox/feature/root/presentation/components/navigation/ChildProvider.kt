@@ -60,6 +60,7 @@ import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogi
 import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
@@ -107,6 +108,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Compare
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComparePdfTool
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComicToPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressionLab
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
@@ -288,6 +290,7 @@ internal class ChildProvider @Inject constructor(
     private val flattenPdfToolComponentFactory: FlattenPdfToolComponent.Factory,
     private val extractImagesPdfToolComponentFactory: ExtractImagesPdfToolComponent.Factory,
     private val zipConvertPdfToolComponentFactory: ZipConvertPdfToolComponent.Factory,
+    private val comicToPdfToolComponentFactory: ComicToPdfToolComponent.Factory,
     private val printPdfToolComponentFactory: PrintPdfToolComponent.Factory,
     private val previewPdfToolComponentFactory: PreviewPdfToolComponent.Factory,
     private val imagesToPdfToolComponentFactory: ImagesToPdfToolComponent.Factory,
@@ -1008,6 +1011,15 @@ internal class ChildProvider @Inject constructor(
 
         is Screen.PdfTools.ZipConvert -> ZipConvertPdfTool(
             zipConvertPdfToolComponentFactory(
+                initialUri = config.uri,
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::replaceTo
+            )
+        )
+
+        is Screen.PdfTools.ComicToPdf -> ComicToPdfTool(
+            comicToPdfToolComponentFactory(
                 initialUri = config.uri,
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,

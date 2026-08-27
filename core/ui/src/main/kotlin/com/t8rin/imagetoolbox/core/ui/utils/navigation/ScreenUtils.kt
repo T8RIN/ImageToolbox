@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
 import com.t8rin.imagetoolbox.core.resources.icons.Labs
 import com.t8rin.imagetoolbox.core.resources.icons.Landscape
+import com.t8rin.imagetoolbox.core.resources.icons.Manga
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEditLarge
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
@@ -261,6 +262,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is PdfTools.Flatten -> "PdfTools_Flatten"
     is PdfTools.ExtractImages -> "PdfTools_ExtractImages"
     is PdfTools.ZipConvert -> "PdfTools_ZipConvert"
+    is PdfTools.ComicToPdf -> "PdfTools_ComicToPdf"
     is PdfTools.Print -> "PdfTools_Print"
     is PdfTools.Preview -> "PdfTools_Preview"
     is PdfTools.DarkMode -> "PdfTools_DarkMode"
@@ -356,6 +358,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is PdfTools.Flatten -> Icons.Outlined.Panorama
     is PdfTools.ExtractImages -> Icons.Outlined.Unarchive
     is PdfTools.ZipConvert -> Icons.Outlined.FolderZip
+    is PdfTools.ComicToPdf -> Icons.Outlined.Manga
     is PdfTools.Print -> Icons.Outlined.Print
     is PdfTools.Preview -> Icons.Outlined.Preview
     is PdfTools.DarkMode -> Icons.Outlined.DarkMode
@@ -451,6 +454,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is PdfTools.Flatten -> Icons.TwoTone.Panorama
     is PdfTools.ExtractImages -> Icons.TwoTone.Unarchive
     is PdfTools.ZipConvert -> Icons.TwoTone.FolderZip
+    is PdfTools.ComicToPdf -> Icons.TwoTone.Manga
     is PdfTools.Print -> Icons.TwoTone.Print
     is PdfTools.Preview -> Icons.TwoTone.Preview
     is PdfTools.DarkMode -> Icons.TwoTone.DarkMode
@@ -581,5 +585,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 105 + PdfTools.options.size
+    override val FEATURES_COUNT = 106 + PdfTools.options.size
 }

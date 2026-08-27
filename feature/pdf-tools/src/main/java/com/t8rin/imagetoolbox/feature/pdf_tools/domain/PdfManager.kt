@@ -165,6 +165,11 @@ interface PdfManager : PdfHelper {
         interval: Int
     ): String
 
+    suspend fun convertComicBookToPdf(
+        uri: String,
+        passphrase: String? = null
+    ): String
+
     suspend fun printPdf(
         uri: String,
         params: PrintPdfParams
