@@ -378,7 +378,7 @@ fun EnhancedButtonGroup(
                                         else inactiveButtonColor
                                     )
                                 ),
-                                colors = ToggleButtonDefaults.toggleButtonColors(
+                                colors = ToggleButtonDefaults.colors(
                                     containerColor = inactiveButtonColor,
                                     contentColor = contentColorFor(inactiveButtonColor),
                                     checkedContainerColor = activeContainerColor,

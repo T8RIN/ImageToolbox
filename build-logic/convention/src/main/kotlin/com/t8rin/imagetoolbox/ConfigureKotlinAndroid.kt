@@ -126,7 +126,7 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     )
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
-    val warningsAsErrors: String? by project
+    @Suppress("DEPRECATION") val warningsAsErrors: String? by project
     when (this) {
         is KotlinAndroidProjectExtension -> compilerOptions
         is KotlinJvmProjectExtension -> compilerOptions
