@@ -18,12 +18,16 @@
 package com.t8rin.imagetoolbox.feature.archive_tools.domain.model
 
 internal val SupportedArchiveExtensions = listOf(
-    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst",
-    ".tar.lz4", ".tar.lz", ".tar.lzma",
-    ".tgz", ".tbz2", ".txz", ".tzst",
+    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst", ".tar.zstd", ".tar.z",
+    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".warc.gz",
+    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz",
     ".zip", ".zipx", ".7z", ".rar", ".cbr", ".cbz", ".cb7", ".cbt",
-    ".tar", ".gz", ".bz2", ".xz", ".zst", ".lz4", ".lz", ".lzma", ".lzip",
-    ".cab", ".iso", ".lha", ".lzh", ".xar", ".ar", ".cpio"
+    ".apk", ".apks", ".xapk", ".aab", ".jar", ".aar", ".ipa", ".epub",
+    ".whl", ".egg", ".nupkg", ".vsix",
+    ".tar", ".gz", ".bz2", ".xz", ".zst", ".zstd", ".z", ".lz4", ".lz",
+    ".lzip", ".lzma", ".uu", ".uue",
+    ".cab", ".iso", ".lha", ".lzh", ".xar", ".ar", ".a", ".deb", ".udeb",
+    ".cpio", ".rpm", ".warc", ".mtree"
 )
 
 internal fun String.hasSupportedArchiveExtension(): Boolean {

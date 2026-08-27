@@ -267,8 +267,15 @@ object ArchiveEngine {
             ArchiveFormat.Zip -> Archive.writeSetFormatZip(archive)
             ArchiveFormat.SevenZip -> Archive.writeSetFormat7zip(archive)
             ArchiveFormat.Tar -> Archive.writeSetFormatPaxRestricted(archive)
+            ArchiveFormat.GnuTar -> Archive.writeSetFormatGnutar(archive)
+            ArchiveFormat.Ustar -> Archive.writeSetFormatUstar(archive)
             ArchiveFormat.TarGzip -> {
                 Archive.writeAddFilterGzip(archive)
+                Archive.writeSetFormatPaxRestricted(archive)
+            }
+
+            ArchiveFormat.TarCompress -> {
+                Archive.writeAddFilterCompress(archive)
                 Archive.writeSetFormatPaxRestricted(archive)
             }
 
@@ -303,6 +310,8 @@ object ArchiveEngine {
             }
 
             ArchiveFormat.Cpio -> Archive.writeSetFormatCpioNewc(archive)
+            ArchiveFormat.ArBsd -> Archive.writeSetFormatArBsd(archive)
+            ArchiveFormat.ArGnu -> Archive.writeSetFormatArSvr4(archive)
             ArchiveFormat.Iso -> Archive.writeSetFormatIso9660(archive)
         }
     }

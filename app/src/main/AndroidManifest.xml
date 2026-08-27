@@ -125,6 +125,17 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
 
+            <intent-filter android:label="@string/archive_tools">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -160,6 +171,7 @@
                 <data android:pathSuffix=".itp" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
+                <data android:mimeType="*/*" />
             </intent-filter>
 
             <intent-filter>
@@ -178,6 +190,7 @@
                 <data android:pathSuffix=".itp" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
+                <data android:mimeType="*/*" />
             </intent-filter>
 
             <intent-filter>
@@ -196,6 +209,7 @@
                 <data android:pathSuffix=".itp" />
                 <data android:mimeType="application/pdf" />
                 <data android:mimeType="*/pdf" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
 

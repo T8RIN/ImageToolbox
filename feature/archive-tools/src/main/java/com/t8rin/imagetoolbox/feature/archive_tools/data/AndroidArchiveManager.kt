@@ -258,13 +258,14 @@ private fun DocumentFile.createUniqueFile(name: String): DocumentFile {
 }
 
 private val RawArchiveExtensions = listOf(
-    ".gz", ".bz2", ".xz", ".zst", ".lz4", ".lz", ".lzma", ".lzip"
+    ".gz", ".bz2", ".xz", ".zst", ".zstd", ".z", ".lz4", ".lz", ".lzip",
+    ".lzma"
 )
 
 private val CompressedTarExtensions = listOf(
-    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst",
-    ".tar.lz4", ".tar.lz", ".tar.lzma",
-    ".tgz", ".tbz2", ".txz", ".tzst"
+    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst", ".tar.zstd", ".tar.z",
+    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".warc.gz",
+    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz"
 )
 
 private fun String.shouldForceRawFormat(): Boolean {

@@ -60,7 +60,15 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     init {
         debounce {
-            initialUris?.let(::setUris)
+            initialUris?.let { uris ->
+                if (
+                    uris.size == 1 &&
+                    uris.first().filename()?.hasSupportedArchiveExtension() == true
+                ) {
+                    setMode(ArchiveMode.Extract)
+                }
+                setUris(uris)
+            }
         }
     }
 
@@ -81,9 +89,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     private val _archiveEncryptionStatus = mutableStateOf<ArchiveEncryptionStatus?>(null)
     val archiveEncryptionStatus by _archiveEncryptionStatus
-
-    private val _extractedEntries = mutableIntStateOf(0)
-    val extractedEntries by _extractedEntries
 
     private val _extractionOptions = mutableStateOf(ArchiveExtractionOptions())
     val extractionOptions by _extractionOptions
@@ -116,7 +121,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
             selectedUris
         }
         if (selectedUris.isEmpty()) registerChangesCleared() else registerChanges()
-        resetCalculatedData()
         if (mode == ArchiveMode.Extract) {
             _passphrase.update { "" }
             _archiveEncryptionStatus.value = null
@@ -133,7 +137,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         _passphrase.update { "" }
         _protectWithPassword.update { false }
         _extractionOptions.update { ArchiveExtractionOptions() }
-        resetCalculatedData()
         registerChangesCleared()
     }
 
@@ -144,7 +147,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
             _protectWithPassword.update { false }
             _passphrase.update { "" }
         }
-        resetCalculatedData()
         registerChanges()
     }
 
@@ -152,14 +154,12 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         if (protect == protectWithPassword) return
         _protectWithPassword.update { protect && format.supportsEncryption }
         if (!protect) _passphrase.update { "" }
-        resetCalculatedData()
         registerChanges()
     }
 
     fun setPassphrase(passphrase: String) {
         if (passphrase == this.passphrase) return
         _passphrase.update { passphrase }
-        _extractedEntries.update { 0 }
         registerChanges()
     }
 
@@ -282,7 +282,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
             runSuspendCatching {
                 _done.update { 0 }
                 _left.update { -1 }
-                _extractedEntries.intValue = archiveManager.extract(
+                archiveManager.extract(
                     archive = archive.toString(),
                     destinationFolder = destinationFolder.toString(),
                     passphrase = passphrase.takeIf(String::isNotEmpty),
@@ -296,10 +296,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
             }.onFailure(AppToastHost::showFailureToast)
             _isSaving.value = false
         }
-    }
-
-    private fun resetCalculatedData() {
-        _extractedEntries.update { 0 }
     }
 
     fun cancelSaving() {
