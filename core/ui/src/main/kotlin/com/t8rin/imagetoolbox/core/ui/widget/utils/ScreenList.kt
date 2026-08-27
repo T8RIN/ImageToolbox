@@ -49,7 +49,7 @@ internal fun List<Uri>.screenList(
             if (uris.size > 1) {
                 listOf(
                     Screen.BatchRename(uris),
-                    Screen.Zip(uris)
+                    Screen.ArchiveTools(uris)
                 )
             } else {
                 listOfNotNull(
@@ -59,7 +59,7 @@ internal fun List<Uri>.screenList(
                     Screen.BatchRename(uris),
                     Screen.Cipher(uris.firstOrNull()),
                     Screen.ChecksumTools(uris.firstOrNull()),
-                    Screen.Zip(uris)
+                    Screen.ArchiveTools(uris)
                 )
             }
         }

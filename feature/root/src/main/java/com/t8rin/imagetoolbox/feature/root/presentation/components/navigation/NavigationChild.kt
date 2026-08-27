@@ -28,6 +28,8 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.ArchiveToolsContent
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.AsciiArtContent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.AudioCoverExtractorContent
@@ -98,10 +100,10 @@ import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.PalettePdfToolCon
 import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.PaletteToolsContent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.ComicToPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.ComparePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.CompressPdfToolContent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.PdfContactSheetToolContent
@@ -188,8 +190,6 @@ import com.t8rin.imagetoolbox.feature.webp_tools.presentation.WebpToolsContent
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.WeightResizeContent
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
-import com.t8rin.imagetoolbox.feature.zip.presentation.ZipContent
-import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 import com.t8rin.imagetoolbox.image_cutting.presentation.ImageCutterContent
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 import com.t8rin.imagetoolbox.image_splitting.presentation.ImageSplitterContent
@@ -440,9 +440,9 @@ internal sealed interface NavigationChild {
         override fun Content() = WeightResizeContent(component)
     }
 
-    class Zip(private val component: ZipComponent) : NavigationChild {
+    class ArchiveTools(private val component: ArchiveToolsComponent) : NavigationChild {
         @Composable
-        override fun Content() = ZipContent(component)
+        override fun Content() = ArchiveToolsContent(component)
     }
 
     class LibrariesInfo(private val component: LibrariesInfoComponent) : NavigationChild {

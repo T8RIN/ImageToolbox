@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.presentation.components
+package com.t8rin.imagetoolbox.feature.archive_tools.presentation.components
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
@@ -61,12 +61,12 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.negativePadding
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveMode
-import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 
 @Composable
-internal fun ColumnScope.ZipControls(
-    component: ZipComponent
+internal fun ColumnScope.ArchiveToolsControls(
+    component: ArchiveToolsComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val additionalArchivePicker = rememberFilePicker(onSuccess = component::addUris)

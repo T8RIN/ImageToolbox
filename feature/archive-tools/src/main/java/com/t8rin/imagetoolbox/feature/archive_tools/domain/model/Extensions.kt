@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.di
+package com.t8rin.imagetoolbox.feature.archive_tools.domain.model
 
-import com.t8rin.imagetoolbox.feature.zip.data.AndroidZipManager
-import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+internal val SupportedArchiveExtensions = listOf(
+    ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst",
+    ".tar.lz4", ".tar.lz", ".tar.lzma",
+    ".tgz", ".tbz2", ".txz", ".tzst",
+    ".zip", ".zipx", ".7z", ".rar", ".cbr", ".cbz", ".cb7", ".cbt",
+    ".tar", ".gz", ".bz2", ".xz", ".zst", ".lz4", ".lz", ".lzma", ".lzip",
+    ".cab", ".iso", ".lha", ".lzh", ".xar", ".ar", ".cpio"
+)
 
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ZipModule {
-
-    @Singleton
-    @Binds
-    fun provideZipManager(
-        manager: AndroidZipManager
-    ): ZipManager
-
+internal fun String.hasSupportedArchiveExtension(): Boolean {
+    val filename = lowercase()
+    return SupportedArchiveExtensions.any(filename::endsWith)
 }

@@ -24,6 +24,7 @@ import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsCom
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
@@ -59,8 +60,8 @@ import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.Me
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
 import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
 import com.t8rin.imagetoolbox.feature.palette_tools.presentation.screenLogic.PaletteToolsComponent
-import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compare.screenLogic.ComparePdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.compress.screenLogic.CompressPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.contact_sheet.screenLogic.PdfContactSheetToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
@@ -97,6 +98,7 @@ import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.Re
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AiTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ApngTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AppLogs
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ArchiveTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AsciiArt
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.AudioCoverExtractor
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Base64Tools
@@ -106,9 +108,9 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CollageMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorLibrary
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorTools
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComicToPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Compare
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComparePdfTool
-import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComicToPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressionLab
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
@@ -184,7 +186,6 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Watermarking
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WebpTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.WeightResize
-import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Zip
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ZipConvertPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
@@ -197,7 +198,6 @@ import com.t8rin.imagetoolbox.feature.wallpapers_export.presentation.screenLogic
 import com.t8rin.imagetoolbox.feature.watermarking.presentation.screenLogic.WatermarkingComponent
 import com.t8rin.imagetoolbox.feature.webp_tools.presentation.screenLogic.WebpToolsComponent
 import com.t8rin.imagetoolbox.feature.weight_resize.presentation.screenLogic.WeightResizeComponent
-import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
 import com.t8rin.imagetoolbox.image_cutting.presentation.screenLogic.ImageCutterComponent
 import com.t8rin.imagetoolbox.image_splitting.presentation.screenLogic.ImageSplitterComponent
 import com.t8rin.imagetoolbox.library_details.presentation.screenLogic.LibraryDetailsComponent
@@ -248,7 +248,7 @@ internal class ChildProvider @Inject constructor(
     private val watermarkingComponentFactory: WatermarkingComponent.Factory,
     private val webpToolsComponentFactory: WebpToolsComponent.Factory,
     private val weightResizeComponentFactory: WeightResizeComponent.Factory,
-    private val zipComponentFactory: ZipComponent.Factory,
+    private val archiveToolsComponentFactory: ArchiveToolsComponent.Factory,
     private val easterEggComponentFactory: EasterEggComponent.Factory,
     private val colorToolsComponentFactory: ColorToolsComponent.Factory,
     private val librariesInfoComponentFactory: LibrariesInfoComponent.Factory,
@@ -704,8 +704,8 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
-        is Screen.Zip -> Zip(
-            zipComponentFactory(
+        is Screen.ArchiveTools -> ArchiveTools(
+            archiveToolsComponentFactory(
                 componentContext = componentContext,
                 initialUris = config.uris,
                 onGoBack = ::navigateBack

@@ -883,7 +883,7 @@ sealed class Screen(
     }
 
     @Serializable
-    data class Zip(
+    data class ArchiveTools(
         val uris: List<Uri>? = null
     ) : Screen(
         id = 22,

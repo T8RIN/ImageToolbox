@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringEnglish
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ArchiveTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
@@ -81,7 +82,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WeightResize
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Zip
 import com.t8rin.imagetoolbox.core.utils.appContext
 
 fun Screen.matchesSearchQuery(query: String): Boolean {
@@ -162,7 +162,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is Watermarking -> R.string.search_keywords_watermarking
     is GifTools -> R.string.search_keywords_gif_tools
     is ApngTools -> R.string.search_keywords_apng_tools
-    is Zip -> R.string.search_keywords_zip
+    is ArchiveTools -> R.string.search_keywords_zip
     is JxlTools -> R.string.search_keywords_jxl_tools
     is SvgMaker -> R.string.search_keywords_svg_maker
     is FormatConversion -> R.string.search_keywords_format_conversion

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic
+package com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic
 
 import android.net.Uri
 import androidx.compose.runtime.MutableState
@@ -39,20 +39,20 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
-import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveExtractionOptions
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveMode
-import com.t8rin.imagetoolbox.feature.zip.domain.model.hasSupportedArchiveExtension
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.ArchiveManager
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveExtractionOptions
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.hasSupportedArchiveExtension
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 
-class ZipComponent @AssistedInject internal constructor(
+class ArchiveToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
     @Assisted val onGoBack: () -> Unit,
-    private val zipManager: ZipManager,
+    private val archiveManager: ArchiveManager,
     private val shareProvider: ShareProvider,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
@@ -187,7 +187,7 @@ class ZipComponent @AssistedInject internal constructor(
     private fun detectArchiveEncryption(uri: Uri) {
         encryptionDetectionJob = componentScope.launch(defaultDispatcher) {
             val status = runCatching {
-                zipManager.getArchiveEncryptionStatus(uri.toString())
+                archiveManager.getArchiveEncryptionStatus(uri.toString())
             }.getOrNull()
             if (mode == ArchiveMode.Extract && uris.firstOrNull() == uri) {
                 _archiveEncryptionStatus.value = status
@@ -211,7 +211,7 @@ class ZipComponent @AssistedInject internal constructor(
                 _done.update { 0 }
                 _left.update { uris.size }
                 fileController.writeBytes(destination.toString()) { output ->
-                    zipManager.archive(
+                    archiveManager.archive(
                         files = uris.map { it.toString() },
                         destination = output,
                         format = format,
@@ -245,7 +245,7 @@ class ZipComponent @AssistedInject internal constructor(
                 val cachedArchive = shareProvider.cacheDataOrThrow(
                     filename = createTargetFilename()
                 ) { output ->
-                    zipManager.archive(
+                    archiveManager.archive(
                         files = uris.map(Uri::toString),
                         destination = output,
                         format = format,
@@ -282,7 +282,7 @@ class ZipComponent @AssistedInject internal constructor(
             runSuspendCatching {
                 _done.update { 0 }
                 _left.update { -1 }
-                _extractedEntries.intValue = zipManager.extract(
+                _extractedEntries.intValue = archiveManager.extract(
                     archive = archive.toString(),
                     destinationFolder = destinationFolder.toString(),
                     passphrase = passphrase.takeIf(String::isNotEmpty),
@@ -324,6 +324,6 @@ class ZipComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             initialUris: List<Uri>?,
             onGoBack: () -> Unit,
-        ): ZipComponent
+        ): ArchiveToolsComponent
     }
 }

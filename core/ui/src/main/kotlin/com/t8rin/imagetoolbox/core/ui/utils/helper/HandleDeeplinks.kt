@@ -190,7 +190,7 @@ fun Intent?.handleDeeplinks(
                                         onGetUris(it)
                                     }
 
-                                    else -> onNavigate(Screen.Zip(it))
+                                    else -> onNavigate(Screen.ArchiveTools(it))
                                 }
                             }
                         }
@@ -276,7 +276,7 @@ fun Intent?.handleDeeplinks(
                                     }
 
                                     else -> {
-                                        onNavigate(Screen.Zip(uris))
+                                        onNavigate(Screen.ArchiveTools(uris))
                                     }
                                 }
                             } else {

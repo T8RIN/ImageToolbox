@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.domain.model
+package com.t8rin.imagetoolbox.feature.archive_tools.domain.model
 
-data class ArchiveExtractionOptions(
-    val createSubfolder: Boolean = true,
-    val preserveDirectoryStructure: Boolean = true,
-    val skipHiddenFiles: Boolean = false
-)
+enum class ArchiveMode {
+    Archive,
+    Extract
+}

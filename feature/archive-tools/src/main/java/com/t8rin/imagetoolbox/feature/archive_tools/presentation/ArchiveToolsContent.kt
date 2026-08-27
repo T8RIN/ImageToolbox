@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.presentation
+package com.t8rin.imagetoolbox.feature.archive_tools.presentation
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Spacer
@@ -47,15 +47,15 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveMode
-import com.t8rin.imagetoolbox.feature.zip.presentation.components.ArchiveToolsNoDataControls
-import com.t8rin.imagetoolbox.feature.zip.presentation.components.ZipControls
-import com.t8rin.imagetoolbox.feature.zip.presentation.screenLogic.ZipComponent
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsControls
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsNoDataControls
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 
 
 @Composable
-fun ZipContent(
-    component: ZipComponent
+fun ArchiveToolsContent(
+    component: ArchiveToolsComponent
 ) {
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -124,7 +124,7 @@ fun ZipContent(
         controls = {
             if (isPortrait) Spacer(Modifier.height(20.dp))
 
-            ZipControls(component = component)
+            ArchiveToolsControls(component = component)
         },
         buttons = { screenActions ->
             BottomButtonsBlock(

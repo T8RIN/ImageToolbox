@@ -50,7 +50,7 @@ dependencies {
     implementation(projects.feature.watermarking)
     implementation(projects.feature.gifTools)
     implementation(projects.feature.apngTools)
-    implementation(projects.feature.zip)
+    implementation(projects.feature.archiveTools)
     implementation(projects.feature.jxlTools)
     implementation(projects.feature.settings)
     implementation(projects.feature.easterEgg)

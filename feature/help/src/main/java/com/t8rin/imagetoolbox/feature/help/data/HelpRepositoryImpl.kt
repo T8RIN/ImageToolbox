@@ -1497,7 +1497,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_cipher_zip_subtitle,
             icon = Icons.Outlined.FolderZip,
             category = textAndData,
-            deepLink = Screen.Zip(),
+            deepLink = Screen.ArchiveTools(),
             pageTitle = R.string.help_tip_cipher_zip_page_title,
             description = R.string.help_tip_cipher_zip_description,
             steps = listOf(

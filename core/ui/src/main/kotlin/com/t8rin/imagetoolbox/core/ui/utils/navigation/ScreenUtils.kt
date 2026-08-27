@@ -104,6 +104,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AiTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ApngTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AppLogs
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ArchiveTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AsciiArt
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.AudioCoverExtractor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
@@ -162,7 +163,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WallpapersExport
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Watermarking
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WebpTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.WeightResize
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Zip
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -212,7 +212,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Settings -> "Settings"
     is SingleEdit -> "Single_Edit"
     is Watermarking -> "Watermarking"
-    is Zip -> "Zip"
+    is ArchiveTools -> "ArchiveTools"
     is SvgMaker -> "Svg"
     is FormatConversion -> "Convert"
     is DocumentScanner -> "Document_Scanner"
@@ -314,7 +314,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ResizeAndConvert -> Icons.Outlined.MultipleImageEdit
     is WeightResize -> Icons.Outlined.ImageWeight
     is Watermarking -> Icons.Outlined.Watermark
-    is Zip -> Icons.Outlined.FolderZip
+    is ArchiveTools -> Icons.Outlined.FolderZip
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
     is DocumentScanner -> Icons.Outlined.DocumentScanner
@@ -410,7 +410,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ResizeAndConvert -> Icons.TwoTone.MultipleImageEdit
     is WeightResize -> Icons.TwoTone.ImageWeight
     is Watermarking -> Icons.TwoTone.Watermark
-    is Zip -> Icons.TwoTone.FolderZip
+    is ArchiveTools -> Icons.TwoTone.FolderZip
     is SvgMaker -> Icons.TwoTone.VectorPolyline
     is FormatConversion -> Icons.TwoTone.ImageConvert
     is DocumentScanner -> Icons.TwoTone.DocumentScanner
@@ -564,7 +564,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     GifTools(),
                     Cipher(),
                     ChecksumTools(),
-                    Zip(),
+                    ArchiveTools(),
                     AsciiArt(),
                     JxlTools(),
                     ApngTools(),

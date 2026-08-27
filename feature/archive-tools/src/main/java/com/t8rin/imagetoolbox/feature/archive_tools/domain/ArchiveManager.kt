@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.domain
+package com.t8rin.imagetoolbox.feature.archive_tools.domain
 
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveExtractionOptions
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveExtractionOptions
 
-interface ZipManager {
+interface ArchiveManager {
 
     suspend fun archive(
         files: List<String>,

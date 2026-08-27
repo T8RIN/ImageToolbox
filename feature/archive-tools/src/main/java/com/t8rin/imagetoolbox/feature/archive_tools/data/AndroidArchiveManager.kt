@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.zip.data
+package com.t8rin.imagetoolbox.feature.archive_tools.data
 
 import android.content.Context
 import android.webkit.MimeTypeMap
@@ -31,19 +31,19 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
-import com.t8rin.imagetoolbox.feature.zip.domain.model.ArchiveExtractionOptions
-import com.t8rin.imagetoolbox.feature.zip.domain.model.SupportedArchiveExtensions
-import com.t8rin.imagetoolbox.feature.zip.domain.ZipManager
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.ArchiveManager
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveExtractionOptions
+import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.SupportedArchiveExtensions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
-internal class AndroidZipManager @Inject constructor(
+internal class AndroidArchiveManager @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
-) : DispatchersHolder by dispatchersHolder, ZipManager {
+) : DispatchersHolder by dispatchersHolder, ArchiveManager {
 
     override suspend fun archive(
         files: List<String>,
