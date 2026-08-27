@@ -344,6 +344,42 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         }
     }
 
+    fun shareExtractedFiles() {
+        savingJob = trackProgress {
+            _isSaving.value = true
+            val archive = uris.firstOrNull()
+            if (archive == null) {
+                _isSaving.value = false
+                return@trackProgress
+            }
+            runSuspendCatching {
+                _done.update { 0 }
+                _left.update { -1 }
+                val extractedFiles = archiveManager.extractToCache(
+                    archive = archive.toString(),
+                    passphrase = passphrase.takeIf(String::isNotEmpty),
+                    options = extractionOptions,
+                    onProgress = {
+                        _done.update { it + 1 }
+                    }
+                )
+                check(extractedFiles.isNotEmpty()) {
+                    "Archive contains no shareable files"
+                }
+                if (extractedFiles.size == 1) {
+                    shareProvider.shareUri(
+                        uri = extractedFiles.single(),
+                        onComplete = AppToastHost::showConfetti
+                    )
+                } else {
+                    shareProvider.shareUris(extractedFiles)
+                    AppToastHost.showConfetti()
+                }
+            }.onFailure(AppToastHost::showFailureToast)
+            _isSaving.value = false
+        }
+    }
+
     fun cancelSaving() {
         savingJob?.cancel()
         savingJob = null
@@ -358,7 +394,6 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         if (mode == ArchiveMode.Archive) setUris(uris + list)
         else setUris(list.take(1))
     }
-
 
     @AssistedFactory
     fun interface Factory {

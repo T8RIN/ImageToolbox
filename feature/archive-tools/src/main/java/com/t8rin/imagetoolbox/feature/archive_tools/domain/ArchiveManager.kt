@@ -45,4 +45,11 @@ interface ArchiveManager {
         options: ArchiveExtractionOptions,
         onProgress: () -> Unit
     ): Int
+
+    suspend fun extractToCache(
+        archive: String,
+        passphrase: String?,
+        options: ArchiveExtractionOptions,
+        onProgress: () -> Unit
+    ): List<String>
 }

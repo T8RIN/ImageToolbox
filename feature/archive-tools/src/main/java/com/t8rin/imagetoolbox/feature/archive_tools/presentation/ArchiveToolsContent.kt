@@ -81,6 +81,16 @@ fun ArchiveToolsContent(
     )
 
     val isPortrait by isPortraitOrientationAsState()
+    val isActionEnabled = when (component.mode) {
+        ArchiveMode.Archive -> !component.protectWithPassword ||
+                component.passphrase.isNotEmpty()
+
+        ArchiveMode.Extract -> when (component.archiveEncryptionStatus) {
+            ArchiveEncryptionStatus.Unsupported -> false
+            ArchiveEncryptionStatus.PasswordRequired -> component.passphrase.isNotEmpty()
+            ArchiveEncryptionStatus.None, null -> true
+        }
+    }
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -95,12 +105,25 @@ fun ArchiveToolsContent(
         },
         onGoBack = onBack,
         actions = {
-            if (component.mode == ArchiveMode.Archive && component.uris.isNotEmpty()) {
+            if (component.uris.isNotEmpty()) {
                 ShareButton(
-                    enabled = !component.protectWithPassword || component.passphrase.isNotEmpty(),
-                    onShare = component::shareArchive,
-                    dialogTitle = stringResource(R.string.archive),
-                    dialogIcon = Icons.Outlined.FolderZip
+                    enabled = isActionEnabled,
+                    onShare = {
+                        if (component.mode == ArchiveMode.Archive) {
+                            component.shareArchive()
+                        } else {
+                            component.shareExtractedFiles()
+                        }
+                    },
+                    dialogTitle = stringResource(
+                        if (component.mode == ArchiveMode.Archive) R.string.archive
+                        else R.string.extract
+                    ),
+                    dialogIcon = if (component.mode == ArchiveMode.Archive) {
+                        Icons.Outlined.FolderZip
+                    } else {
+                        Icons.Outlined.Unarchive
+                    }
                 )
             }
         },
@@ -133,16 +156,7 @@ fun ArchiveToolsContent(
                 secondaryButtonIcon = Icons.Rounded.FileOpen,
                 secondaryButtonText = stringResource(R.string.pick_file),
                 isPrimaryButtonVisible = component.uris.isNotEmpty(),
-                isPrimaryButtonEnabled = when (component.mode) {
-                    ArchiveMode.Archive -> !component.protectWithPassword ||
-                            component.passphrase.isNotEmpty()
-
-                    ArchiveMode.Extract -> when (component.archiveEncryptionStatus) {
-                        ArchiveEncryptionStatus.Unsupported -> false
-                        ArchiveEncryptionStatus.PasswordRequired -> component.passphrase.isNotEmpty()
-                        ArchiveEncryptionStatus.None, null -> true
-                    }
-                },
+                isPrimaryButtonEnabled = isActionEnabled,
                 onPrimaryButtonClick = {
                     if (component.mode == ArchiveMode.Archive) {
                         archiveCreator.make(component.createTargetFilename())
@@ -177,5 +191,4 @@ fun ArchiveToolsContent(
         left = component.left,
         onCancelLoading = component::cancelSaving
     )
-
 }

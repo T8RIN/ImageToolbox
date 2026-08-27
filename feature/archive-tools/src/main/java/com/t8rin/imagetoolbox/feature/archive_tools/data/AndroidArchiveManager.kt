@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.archive_tools.data
 
 import android.content.Context
 import android.webkit.MimeTypeMap
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.archive.ArchiveEngine
@@ -32,6 +33,7 @@ import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.ArchiveManager
@@ -41,7 +43,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.OutputStream
 import javax.inject.Inject
+import kotlin.random.Random
 
 internal class AndroidArchiveManager @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -147,17 +151,8 @@ internal class AndroidArchiveManager @Inject constructor(
         val operationContext = coroutineContext
         val destination = DocumentFile.fromTreeUri(context, destinationFolder.toUri())
             ?: error("Cannot access destination folder")
-        val sourceName = archive.toUri().filename(context).orEmpty()
-        val preferSevenZip = sourceName.hasSevenZipExtension()
-        val preferRar = sourceName.hasRarExtension()
-        val forceRawFormat = sourceName.shouldForceRawFormat()
-        val forceBrotli = sourceName.hasBrotliExtension()
-        val archiveName = ArchivePath.safeSegments(
-            sourceName
-                .removeArchiveExtension()
-                .ifBlank { "Archive" }
-        )?.lastOrNull() ?: "Archive"
         val createdDocuments = mutableListOf<DocumentFile>()
+        val archiveName = archive.toUri().filename(context).orEmpty().archiveName()
         val outputFolder = if (options.createSubfolder) {
             destination.createUniqueDirectory(archiveName)
         } else {
@@ -165,53 +160,32 @@ internal class AndroidArchiveManager @Inject constructor(
         }
 
         try {
-            context.contentResolver.openFileDescriptor(archive.toUri(), "r")?.use { input ->
-                ArchiveEngine.extract(
-                    inputFileDescriptor = input.fd,
-                    passphrase = passphrase,
-                    preferSevenZip = preferSevenZip,
-                    preferRar = preferRar,
-                    forceRawFormat = forceRawFormat,
-                    forceBrotli = forceBrotli,
-                    onChunk = operationContext::ensureActive,
-                    onEntry = entry@{ entry, writeData ->
-                        val entryPath = if (forceRawFormat && !entry.isDirectory) {
-                            archiveName
-                        } else {
-                            entry.path
-                        }
-                        val segments = ArchivePath.safeSegments(entryPath)
-                            ?: error("Unsafe archive entry path: $entryPath")
-                        if (options.skipHiddenFiles && segments.any { it.startsWith('.') }) {
-                            return@entry
-                        }
-                        val outputSegments = if (options.preserveDirectoryStructure) {
-                            segments
-                        } else {
-                            listOf(segments.last())
-                        }
-                        if (entry.isDirectory) {
-                            if (options.preserveDirectoryStructure) {
-                                outputFolder.resolveDirectories(
-                                    segments = outputSegments,
-                                    createdDocuments = createdDocuments
-                                )
-                            }
-                        } else {
-                            val parent = outputFolder.resolveDirectories(
-                                segments = outputSegments.dropLast(1),
+            extractEntries(
+                archive = archive,
+                passphrase = passphrase,
+                options = options,
+                onEntry = { segments, isDirectory, writeData ->
+                    if (isDirectory) {
+                        if (options.preserveDirectoryStructure) {
+                            outputFolder.resolveDirectories(
+                                segments = segments,
                                 createdDocuments = createdDocuments
                             )
-                            val file = parent.createUniqueFile(outputSegments.last())
-                                .also(createdDocuments::add)
-                            context.contentResolver.openOutputStream(file.uri, "w")?.use { output ->
-                                writeData(output)
-                            } ?: error("Cannot create ${entry.path}")
                         }
-                    },
-                    onProgress = onProgress
-                )
-            } ?: error("Cannot open archive")
+                    } else {
+                        val parent = outputFolder.resolveDirectories(
+                            segments = segments.dropLast(1),
+                            createdDocuments = createdDocuments
+                        )
+                        val file = parent.createUniqueFile(segments.last())
+                            .also(createdDocuments::add)
+                        context.contentResolver.openOutputStream(file.uri, "w")?.use(writeData)
+                            ?: error("Cannot create ${segments.last()}")
+                    }
+                },
+                onChunk = operationContext::ensureActive,
+                onProgress = onProgress
+            )
         } catch (throwable: Throwable) {
             if (options.createSubfolder) {
                 outputFolder.delete()
@@ -220,6 +194,115 @@ internal class AndroidArchiveManager @Inject constructor(
             }
             throw throwable
         }
+    }
+
+    override suspend fun extractToCache(
+        archive: String,
+        passphrase: String?,
+        options: ArchiveExtractionOptions,
+        onProgress: () -> Unit
+    ): List<String> = withContext(defaultDispatcher) {
+        val operationContext = coroutineContext
+        val cacheFolder = File(
+            context.cacheDir,
+            "cache/${Random.nextInt()}"
+        ).apply { mkdirs() }
+        val archiveName = archive.toUri().filename(context).orEmpty().archiveName()
+        val outputFolder = if (options.createSubfolder) {
+            File(cacheFolder, archiveName).apply { mkdirs() }
+        } else {
+            cacheFolder
+        }
+        val extractedFiles = mutableListOf<File>()
+
+        try {
+            extractEntries(
+                archive = archive,
+                passphrase = passphrase,
+                options = options,
+                onEntry = { segments, isDirectory, writeData ->
+                    if (isDirectory) {
+                        if (options.preserveDirectoryStructure) {
+                            outputFolder.resolveDirectories(segments)
+                        }
+                    } else {
+                        val parent = outputFolder.resolveDirectories(segments.dropLast(1))
+                        val file = parent.createUniqueFile(segments.last())
+                            .also(extractedFiles::add)
+                        file.outputStream().use(writeData)
+                    }
+                },
+                onChunk = operationContext::ensureActive,
+                onProgress = onProgress
+            )
+
+            if (extractedFiles.isEmpty()) {
+                cacheFolder.deleteRecursively()
+                emptyList()
+            } else {
+                extractedFiles.map { file ->
+                    FileProvider.getUriForFile(
+                        context,
+                        context.getString(R.string.file_provider),
+                        file
+                    ).toString()
+                }
+            }
+        } catch (throwable: Throwable) {
+            cacheFolder.deleteRecursively()
+            throw throwable
+        }
+    }
+
+    private fun extractEntries(
+        archive: String,
+        passphrase: String?,
+        options: ArchiveExtractionOptions,
+        onEntry: (
+            segments: List<String>,
+            isDirectory: Boolean,
+            writeData: (OutputStream) -> Unit
+        ) -> Unit,
+        onChunk: () -> Unit,
+        onProgress: () -> Unit
+    ): Int {
+        val sourceName = archive.toUri().filename(context).orEmpty()
+        val preferSevenZip = sourceName.hasSevenZipExtension()
+        val preferRar = sourceName.hasRarExtension()
+        val forceRawFormat = sourceName.shouldForceRawFormat()
+        val forceBrotli = sourceName.hasBrotliExtension()
+        val archiveName = sourceName.archiveName()
+
+        return context.contentResolver.openFileDescriptor(archive.toUri(), "r")?.use { input ->
+            ArchiveEngine.extract(
+                inputFileDescriptor = input.fd,
+                passphrase = passphrase,
+                preferSevenZip = preferSevenZip,
+                preferRar = preferRar,
+                forceRawFormat = forceRawFormat,
+                forceBrotli = forceBrotli,
+                onChunk = onChunk,
+                onEntry = entry@{ entry, writeData ->
+                    val entryPath = if (forceRawFormat && !entry.isDirectory) {
+                        archiveName
+                    } else {
+                        entry.path
+                    }
+                    val segments = ArchivePath.safeSegments(entryPath)
+                        ?: error("Unsafe archive entry path: $entryPath")
+                    if (options.skipHiddenFiles && segments.any { it.startsWith('.') }) {
+                        return@entry
+                    }
+                    val outputSegments = if (options.preserveDirectoryStructure) {
+                        segments
+                    } else {
+                        listOf(segments.last())
+                    }
+                    onEntry(outputSegments, entry.isDirectory, writeData)
+                },
+                onProgress = onProgress
+            )
+        } ?: error("Cannot open archive")
     }
 
     private fun uniqueName(
@@ -237,6 +320,10 @@ internal class AndroidArchiveManager @Inject constructor(
         }
     }
 }
+
+private fun String.archiveName(): String = ArchivePath.safeSegments(
+    removeArchiveExtension().ifBlank { "Archive" }
+)?.lastOrNull() ?: "Archive"
 
 private fun String.removeArchiveExtension(): String {
     val lower = lowercase()
@@ -279,6 +366,27 @@ private fun DocumentFile.createUniqueFile(name: String): DocumentFile {
         .getMimeTypeFromExtension(extension.lowercase())
         ?: "application/octet-stream"
     return createFile(mimeType, candidate) ?: error("Cannot create file: $candidate")
+}
+
+private fun File.resolveDirectories(segments: List<String>): File =
+    segments.fold(this) { parent, segment ->
+        File(parent, segment).also { directory ->
+            check(directory.isDirectory || directory.mkdir()) {
+                "Cannot create directory: $segment"
+            }
+        }
+    }
+
+private fun File.createUniqueFile(name: String): File {
+    val base = name.substringBeforeLast('.', name)
+    val extension = name.substringAfterLast('.', "")
+    var candidate = name
+    var index = 2
+    while (File(this, candidate).exists()) {
+        candidate = "$base ($index)${if (extension.isEmpty()) "" else ".$extension"}"
+        index++
+    }
+    return File(this, candidate)
 }
 
 private val RawArchiveExtensions = listOf(

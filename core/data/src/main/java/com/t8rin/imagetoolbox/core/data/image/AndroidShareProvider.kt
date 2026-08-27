@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.data.image
 
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -170,13 +171,17 @@ internal class AndroidShareProvider @Inject constructor(
             )?.toMimeType() ?: MimeType.All
 
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_STREAM, uri.toUri())
+            val contentUri = uri.toUri()
+            putExtra(Intent.EXTRA_STREAM, contentUri)
+            clipData = ClipData.newUri(context.contentResolver, null, contentUri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             this.type = mimeType.entry
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        shareIntent.addFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         context.startActivity(shareIntent)
     }
 
@@ -191,17 +196,32 @@ internal class AndroidShareProvider @Inject constructor(
 
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
+            clipData = ClipData.newUri(context.contentResolver, null, uris.first()).apply {
+                uris.drop(1).forEach { uri ->
+                    addItem(ClipData.Item(uri))
+                }
+            }
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            val mimeType = MimeTypeMap.getSingleton()
-                .getMimeTypeFromExtension(
-                    imageGetter.getExtension(uris.first().toString())
-                ) ?: "*/*"
+            val mimeTypes = uris.map { uri ->
+                MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(imageGetter.getExtension(uri.toString()))
+                    ?: "*/*"
+            }.distinct()
+            val mimeType = mimeTypes.singleOrNull()
+                ?: mimeTypes
+                    .map { it.substringBefore('/') }
+                    .distinct()
+                    .singleOrNull()
+                    ?.let { "$it/*" }
+                ?: "*/*"
 
             type = mimeType.makeLog("shareImageUris")
         }
         val shareIntent = Intent.createChooser(sendIntent, getString(R.string.share))
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        shareIntent.addFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         context.startActivity(shareIntent)
     }
 
