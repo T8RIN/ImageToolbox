@@ -18,9 +18,8 @@
 package com.t8rin.imagetoolbox.feature.archive_tools.presentation.components
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -68,7 +67,7 @@ import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 
 @Composable
-internal fun ColumnScope.ArchiveToolsControls(
+internal fun ArchiveToolsControls(
     component: ArchiveToolsComponent
 ) {
     val isPortrait by isPortraitOrientationAsState()
@@ -96,38 +95,45 @@ internal fun ColumnScope.ArchiveToolsControls(
             shape = ShapeDefaults.top,
             modifier = Modifier.fillMaxWidth()
         )
-        when (component.format) {
-            ArchiveFormat.Zip -> {
-                Spacer(Modifier.height(4.dp))
-                DataSelector(
-                    value = component.zipCompressionMethod,
-                    onValueChange = component::setZipCompressionMethod,
-                    entries = ZipCompressionMethod.entries,
-                    title = stringResource(R.string.compression_type),
-                    titleIcon = Icons.Outlined.FolderZip,
-                    itemContentText = { it.title },
-                    spanCount = 1,
-                    shape = ShapeDefaults.center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+        AnimatedContent(
+            targetState = component.format,
+            modifier = Modifier.fillMaxWidth()
+        ) { format ->
+            when (format) {
+                ArchiveFormat.Zip -> {
+                    DataSelector(
+                        value = component.zipCompressionMethod,
+                        onValueChange = component::setZipCompressionMethod,
+                        entries = ZipCompressionMethod.entries,
+                        title = stringResource(R.string.compression_type),
+                        titleIcon = Icons.Outlined.FolderZip,
+                        itemContentText = { it.title },
+                        spanCount = 1,
+                        shape = ShapeDefaults.center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp)
+                    )
+                }
 
-            ArchiveFormat.SevenZip -> {
-                Spacer(Modifier.height(4.dp))
-                DataSelector(
-                    value = component.sevenZipCompressionMethod,
-                    onValueChange = component::setSevenZipCompressionMethod,
-                    entries = SevenZipCompressionMethod.entries,
-                    title = stringResource(R.string.compression_type),
-                    titleIcon = Icons.Outlined.FolderZip,
-                    itemContentText = { it.title },
-                    spanCount = 1,
-                    shape = ShapeDefaults.center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+                ArchiveFormat.SevenZip -> {
+                    DataSelector(
+                        value = component.sevenZipCompressionMethod,
+                        onValueChange = component::setSevenZipCompressionMethod,
+                        entries = SevenZipCompressionMethod.entries,
+                        title = stringResource(R.string.compression_type),
+                        titleIcon = Icons.Outlined.FolderZip,
+                        itemContentText = { it.title },
+                        spanCount = 1,
+                        shape = ShapeDefaults.center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp)
+                    )
+                }
 
-            else -> Unit
+                else -> Spacer(Modifier.fillMaxWidth())
+            }
         }
         Spacer(Modifier.height(4.dp))
         PreferenceRowSwitch(
@@ -147,7 +153,6 @@ internal fun ColumnScope.ArchiveToolsControls(
             onClick = component::setProtectWithPassword,
             startIcon = Icons.Outlined.KeyVariant,
             shape = ShapeDefaults.bottom,
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
             modifier = Modifier.fillMaxWidth(),
             additionalContent = {
                 AnimatedVisibility(
@@ -195,8 +200,9 @@ internal fun ColumnScope.ArchiveToolsControls(
     } else {
         val archive = component.uris.firstOrNull() ?: return
         val encryptionStatus = component.archiveEncryptionStatus
-        val hasEncryptionDetails = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired ||
-                encryptionStatus == ArchiveEncryptionStatus.Unsupported
+        val hasEncryptionDetails =
+            encryptionStatus == ArchiveEncryptionStatus.PasswordRequired ||
+                    encryptionStatus == ArchiveEncryptionStatus.Unsupported
 
         PreferenceItem(
             title = rememberFilename(archive) ?: archive.toString(),
@@ -214,48 +220,46 @@ internal fun ColumnScope.ArchiveToolsControls(
             visible = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column {
-                Spacer(Modifier.height(4.dp))
-                PreferenceItem(
-                    title = stringResource(R.string.encrypted_file_detected),
-                    subtitle = stringResource(R.string.archive_password_required_sub),
-                    startIcon = Icons.Outlined.KeyVariant,
-                    shape = ShapeDefaults.bottom,
-                    bottomContent = {
-                        RoundedTextField(
-                            value = component.passphrase,
-                            onValueChange = component::setPassphrase,
-                            label = stringResource(R.string.password),
-                            startIcon = Icons.Rounded.Password,
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                            singleLine = true,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(8.dp)
-                                .container(
-                                    resultPadding = 8.dp,
-                                    color = MaterialTheme.colorScheme.surface
-                                )
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            PreferenceItem(
+                title = stringResource(R.string.encrypted_file_detected),
+                subtitle = stringResource(R.string.archive_password_required_sub),
+                startIcon = Icons.Outlined.KeyVariant,
+                shape = ShapeDefaults.bottom,
+                bottomContent = {
+                    RoundedTextField(
+                        value = component.passphrase,
+                        onValueChange = component::setPassphrase,
+                        label = stringResource(R.string.password),
+                        startIcon = Icons.Rounded.Password,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                            .container(
+                                resultPadding = 8.dp,
+                                color = MaterialTheme.colorScheme.surface
+                            )
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+            )
         }
         AnimatedVisibility(
             visible = encryptionStatus == ArchiveEncryptionStatus.Unsupported,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column {
-                Spacer(Modifier.height(4.dp))
-                PreferenceItem(
-                    title = stringResource(R.string.unsupported_archive_encryption),
-                    subtitle = stringResource(R.string.unsupported_archive_encryption_sub),
-                    startIcon = Icons.Outlined.KeyVariant,
-                    shape = ShapeDefaults.bottom,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            PreferenceItem(
+                title = stringResource(R.string.unsupported_archive_encryption),
+                subtitle = stringResource(R.string.unsupported_archive_encryption_sub),
+                startIcon = Icons.Outlined.KeyVariant,
+                shape = ShapeDefaults.bottom,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp)
+            )
         }
         Spacer(Modifier.height(16.dp))
         PreferenceRowSwitch(
