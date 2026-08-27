@@ -112,11 +112,11 @@ import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -729,7 +729,10 @@ internal class AndroidPdfManager @Inject constructor(
                 val originX = crop.lowerLeftX
                 val originY = crop.lowerLeftY
 
-                val targetWidth = pageWidth * params.size
+                val targetWidth = min(
+                    pageWidth * params.size,
+                    pageHeight * imageAspect
+                )
                 val targetHeight = targetWidth / imageAspect
 
                 val centerX = pageWidth * params.x
@@ -738,8 +741,8 @@ internal class AndroidPdfManager @Inject constructor(
                 var x = centerX - targetWidth / 2f
                 var y = centerY - targetHeight / 2f
 
-                x = x.coerceIn(0f, pageWidth - targetWidth)
-                y = y.coerceIn(0f, pageHeight - targetHeight)
+                x = x.coerceIn(0f, (pageWidth - targetWidth).coerceAtLeast(0f))
+                y = y.coerceIn(0f, (pageHeight - targetHeight).coerceAtLeast(0f))
 
                 x += originX
                 y += originY

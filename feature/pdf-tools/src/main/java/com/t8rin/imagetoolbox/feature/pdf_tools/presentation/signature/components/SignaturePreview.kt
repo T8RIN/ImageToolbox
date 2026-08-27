@@ -99,7 +99,10 @@ internal fun SignaturePreview(
                         val boxWidthPx = maxWidth.toPx()
                         val boxHeightPx = maxHeight.toPx()
 
-                        val targetWidthPx = boxWidthPx * params.size
+                        val targetWidthPx = minOf(
+                            boxWidthPx * params.size,
+                            boxHeightPx * imageAspect
+                        )
                         val targetHeightPx = targetWidthPx / imageAspect
 
                         val centerXPx = boxWidthPx * params.x
@@ -108,8 +111,14 @@ internal fun SignaturePreview(
                         var offsetXPx = centerXPx - targetWidthPx / 2f
                         var offsetYPx = centerYPx - targetHeightPx / 2f
 
-                        offsetXPx = offsetXPx.coerceIn(0f, boxWidthPx - targetWidthPx)
-                        offsetYPx = offsetYPx.coerceIn(0f, boxHeightPx - targetHeightPx)
+                        offsetXPx = offsetXPx.coerceIn(
+                            0f,
+                            (boxWidthPx - targetWidthPx).coerceAtLeast(0f)
+                        )
+                        offsetYPx = offsetYPx.coerceIn(
+                            0f,
+                            (boxHeightPx - targetHeightPx).coerceAtLeast(0f)
+                        )
 
                         AsyncImage(
                             model = params.signatureImage,
