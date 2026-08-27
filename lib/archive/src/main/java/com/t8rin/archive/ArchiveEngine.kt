@@ -49,7 +49,7 @@ object ArchiveEngine {
         }
 
         val archive = Archive.writeNew()
-        val output = BufferedOutputStream(outputStream, BufferSize)
+        val output = BufferedOutputStream(outputStream, BUFFER_SIZE)
         try {
             configureWriter(
                 archive = archive,
@@ -90,14 +90,14 @@ object ArchiveEngine {
                 try {
                     ArchiveEntry.setPathnameUtf8(entry, safeName)
                     ArchiveEntry.setFiletype(entry, ArchiveEntry.AE_IFREG)
-                    ArchiveEntry.setPerm(entry, FilePermissions)
+                    ArchiveEntry.setPerm(entry, FILE_PERMISSIONS)
                     ArchiveEntry.setSize(entry, source.size)
                     Archive.writeHeader(archive, entry)
 
                     source.openStream().use { rawInput ->
-                        val input = BufferedInputStream(rawInput, BufferSize)
-                        val bytes = ByteArray(BufferSize)
-                        val buffer = ByteBuffer.allocateDirect(BufferSize)
+                        val input = BufferedInputStream(rawInput, BUFFER_SIZE)
+                        val bytes = ByteArray(BUFFER_SIZE)
+                        val buffer = ByteBuffer.allocateDirect(BUFFER_SIZE)
                         while (true) {
                             val count = input.read(bytes)
                             if (count < 0) break
@@ -152,7 +152,7 @@ object ArchiveEngine {
             passphrase
                 ?.takeIf(String::isNotEmpty)
                 ?.let { Archive.readAddPassphrase(archive, it.toByteArray()) }
-            Archive.readOpenFd(archive, inputFileDescriptor, BufferSize.toLong())
+            Archive.readOpenFd(archive, inputFileDescriptor, BUFFER_SIZE.toLong())
 
             var entry = Archive.readNextHeader(archive)
             while (entry != 0L) {
@@ -185,8 +185,8 @@ object ArchiveEngine {
                         )
                     ) { outputStream ->
                         check(isRegularFile && !consumed) { "Archive entry data already consumed" }
-                        val output = BufferedOutputStream(outputStream, BufferSize)
-                        val buffer = ByteBuffer.allocateDirect(BufferSize)
+                        val output = BufferedOutputStream(outputStream, BUFFER_SIZE)
+                        val buffer = ByteBuffer.allocateDirect(BUFFER_SIZE)
                         var actualEntrySize = 0L
                         while (true) {
                             buffer.clear()
@@ -237,7 +237,7 @@ object ArchiveEngine {
                 passphraseRequested = true
                 ByteArray(0)
             }
-            Archive.readOpenFd(archive, inputFileDescriptor, BufferSize.toLong())
+            Archive.readOpenFd(archive, inputFileDescriptor, BUFFER_SIZE.toLong())
 
             var entry = Archive.readNextHeader(archive)
             while (entry != 0L) {
@@ -409,7 +409,7 @@ object ArchiveEngine {
     }
 
     private fun OutputStream.writeRemaining(buffer: ByteBuffer) {
-        val bytes = ByteArray(minOf(BufferSize, buffer.remaining()))
+        val bytes = ByteArray(minOf(BUFFER_SIZE, buffer.remaining()))
         while (buffer.hasRemaining()) {
             val count = minOf(bytes.size, buffer.remaining())
             buffer.get(bytes, 0, count)
@@ -417,8 +417,8 @@ object ArchiveEngine {
         }
     }
 
-    private const val BufferSize = 64 * 1024
-    private const val FilePermissions = 420
+    private const val BUFFER_SIZE = 64 * 1024
+    private const val FILE_PERMISSIONS = 420
 }
 
 private fun Long.encryptionStatus(): ArchiveEncryptionStatus {
