@@ -62,7 +62,7 @@ object ArchiveEngine {
                 archive,
                 output,
                 null,
-                Archive.WriteCallback<BufferedOutputStream> { _, stream, buffer ->
+                { _, stream, buffer ->
                     stream.writeRemaining(buffer)
                 },
                 null
