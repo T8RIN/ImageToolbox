@@ -38,6 +38,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
+import com.t8rin.archive.SevenZipCompressionMethod
+import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CreateNewFolder
@@ -75,10 +77,13 @@ internal fun ColumnScope.ArchiveToolsControls(
     )
 
     if (component.mode == ArchiveMode.Archive) {
+        val formats = ArchiveFormat.entries.filter {
+            it.supportsMultipleFiles || component.uris.size <= 1
+        }
         DataSelector(
             value = component.format,
             onValueChange = component::setFormat,
-            entries = ArchiveFormat.entries,
+            entries = formats,
             title = stringResource(R.string.archive_format),
             titleIcon = Icons.Outlined.FolderZip,
             itemContentText = { it.title },
@@ -86,18 +91,54 @@ internal fun ColumnScope.ArchiveToolsControls(
             shape = ShapeDefaults.top,
             modifier = Modifier.fillMaxWidth()
         )
+        when (component.format) {
+            ArchiveFormat.Zip -> {
+                Spacer(Modifier.height(4.dp))
+                DataSelector(
+                    value = component.zipCompressionMethod,
+                    onValueChange = component::setZipCompressionMethod,
+                    entries = ZipCompressionMethod.entries,
+                    title = stringResource(R.string.compression_type),
+                    titleIcon = Icons.Outlined.FolderZip,
+                    itemContentText = { it.title },
+                    spanCount = 1,
+                    shape = ShapeDefaults.center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            ArchiveFormat.SevenZip -> {
+                Spacer(Modifier.height(4.dp))
+                DataSelector(
+                    value = component.sevenZipCompressionMethod,
+                    onValueChange = component::setSevenZipCompressionMethod,
+                    entries = SevenZipCompressionMethod.entries,
+                    title = stringResource(R.string.compression_type),
+                    titleIcon = Icons.Outlined.FolderZip,
+                    itemContentText = { it.title },
+                    spanCount = 1,
+                    shape = ShapeDefaults.center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            else -> Unit
+        }
         Spacer(Modifier.height(4.dp))
         PreferenceRowSwitch(
             title = stringResource(R.string.protect_archive_with_password),
             subtitle = stringResource(
-                if (component.format.supportsEncryption) {
-                    R.string.protect_archive_with_password_sub
-                } else {
-                    R.string.archive_password_zip_only
+                when {
+                    component.canProtectWithPassword -> R.string.protect_archive_with_password_sub
+                    component.format == ArchiveFormat.Zip -> {
+                        R.string.archive_password_zip_store_deflate_only
+                    }
+
+                    else -> R.string.archive_password_zip_only
                 }
             ),
             checked = component.protectWithPassword,
-            enabled = component.format.supportsEncryption,
+            enabled = component.canProtectWithPassword,
             onClick = component::setProtectWithPassword,
             startIcon = Icons.Outlined.KeyVariant,
             shape = ShapeDefaults.bottom,

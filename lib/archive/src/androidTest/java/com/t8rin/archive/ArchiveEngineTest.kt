@@ -36,57 +36,88 @@ class ArchiveEngineTest {
 
     @Test
     fun roundTripsEveryWritableFormat() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
         val expected = "ImageToolbox archive engine".toByteArray()
 
         ArchiveFormat.entries.forEach { format ->
-            val archive = File(context.cacheDir, "round_trip.${format.extension}")
+            assertRoundTrip(format = format, expected = expected)
+        }
+    }
+
+    @Test
+    fun roundTripsEveryZipCompressionMethod() {
+        val expected = "ZIP compression methods".toByteArray()
+
+        ZipCompressionMethod.entries.forEach { method ->
+            assertRoundTrip(
+                format = ArchiveFormat.Zip,
+                expected = expected,
+                zipCompressionMethod = method
+            )
+        }
+    }
+
+    @Test
+    fun roundTripsEverySevenZipCompressionMethod() {
+        val expected = "7Z compression methods".toByteArray()
+
+        SevenZipCompressionMethod.entries.forEach { method ->
+            assertRoundTrip(
+                format = ArchiveFormat.SevenZip,
+                expected = expected,
+                sevenZipCompressionMethod = method
+            )
+        }
+    }
+
+    @Test
+    fun roundTripsMultipleEntriesForEveryContainerFormat() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val expected = mapOf(
+            "first.txt" to "First entry".toByteArray(),
+            "second.txt" to "Second entry".toByteArray()
+        )
+
+        ArchiveFormat.entries.filter(ArchiveFormat::supportsMultipleFiles).forEach { format ->
+            val archive = File(context.cacheDir, "multiple.${format.extension}")
             try {
                 try {
                     archive.outputStream().use { output ->
                         ArchiveEngine.create(
                             format = format,
-                            sources = listOf(
+                            sources = expected.map { (name, bytes) ->
                                 ArchiveSource(
-                                    name = "folder/page10.txt",
-                                    size = expected.size.toLong(),
-                                    openStream = { ByteArrayInputStream(expected) }
+                                    name = name,
+                                    size = bytes.size.toLong(),
+                                    openStream = { ByteArrayInputStream(bytes) }
                                 )
-                            ),
+                            },
                             outputStream = output
                         )
                     }
-                    var extracted: ByteArray? = null
+                    val extracted = mutableMapOf<String, ByteArray>()
                     ParcelFileDescriptor.open(
                         archive,
                         ParcelFileDescriptor.MODE_READ_ONLY
                     ).use { input ->
-                        assertEquals(
-                            ArchiveEncryptionStatus.None,
-                            ArchiveEngine.encryptionStatus(input.fd)
-                        )
-                    }
-                    ParcelFileDescriptor.open(
-                        archive,
-                        ParcelFileDescriptor.MODE_READ_ONLY
-                    ).use { input ->
-                        val count = ArchiveEngine.extract(
+                        ArchiveEngine.extract(
                             inputFileDescriptor = input.fd,
                             onEntry = { entry, writeData ->
-                                if (!entry.isDirectory && entry.path.endsWith("page10.txt")) {
-                                    extracted = ByteArrayOutputStream().use { output ->
+                                if (!entry.isDirectory) {
+                                    extracted[entry.path] = ByteArrayOutputStream().use { output ->
                                         writeData(output)
                                         output.toByteArray()
                                     }
                                 }
                             }
                         )
-                        check(count > 0)
                     }
-                    assertArrayEquals(expected, extracted)
+                    assertEquals(expected.keys, extracted.keys)
+                    expected.forEach { (name, bytes) ->
+                        assertArrayEquals(bytes, extracted[name])
+                    }
                 } catch (throwable: Throwable) {
                     throw AssertionError(
-                        "Failed round-trip for ${format.title}",
+                        "Failed multiple-entry round-trip for ${format.title}",
                         throwable
                     )
                 }
@@ -97,12 +128,50 @@ class ArchiveEngineTest {
     }
 
     @Test
+    fun rawFormatsRejectMultipleEntries() {
+        ArchiveFormat.entries.filter(ArchiveFormat::isRaw).forEach { format ->
+            assertThrows(IllegalArgumentException::class.java) {
+                ArchiveEngine.create(
+                    format = format,
+                    sources = listOf(
+                        ArchiveSource("first", 1) { ByteArrayInputStream(byteArrayOf(1)) },
+                        ArchiveSource("second", 1) { ByteArrayInputStream(byteArrayOf(2)) }
+                    ),
+                    outputStream = ByteArrayOutputStream()
+                )
+            }
+        }
+    }
+
+    @Test
+    fun zipMethodsWithoutWorkingAesRejectPassphrases() {
+        ZipCompressionMethod.entries.filterNot(ZipCompressionMethod::supportsEncryption)
+            .forEach { method ->
+                assertThrows(IllegalArgumentException::class.java) {
+                    ArchiveEngine.create(
+                        format = ArchiveFormat.Zip,
+                        sources = listOf(
+                            ArchiveSource("secret", 1) {
+                                ByteArrayInputStream(byteArrayOf(1))
+                            }
+                        ),
+                        outputStream = ByteArrayOutputStream(),
+                        zipCompressionMethod = method,
+                        passphrase = "password"
+                    )
+                }
+            }
+    }
+
+    @Test
     fun detectsAndExtractsPasswordProtectedFormats() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val expected = "Password-protected archive".toByteArray()
         val passphrase = "correct horse battery staple"
 
-        ArchiveFormat.entries.filter(ArchiveFormat::supportsEncryption).forEach { format ->
+        ZipCompressionMethod.entries.filter(ZipCompressionMethod::supportsEncryption)
+            .forEach { method ->
+                val format = ArchiveFormat.Zip
             val archive = File(context.cacheDir, "encrypted.${format.extension}")
             try {
                 archive.outputStream().use { output ->
@@ -116,6 +185,7 @@ class ArchiveEngineTest {
                             )
                         ),
                         outputStream = output,
+                        zipCompressionMethod = method,
                         passphrase = passphrase
                     )
                 }
@@ -150,7 +220,7 @@ class ArchiveEngineTest {
                 assertArrayEquals(expected, extracted)
             } catch (throwable: Throwable) {
                 throw AssertionError(
-                    "Failed encrypted round-trip for ${format.title}",
+                    "Failed encrypted round-trip for ${format.title} ($method)",
                     throwable
                 )
             } finally {
@@ -206,6 +276,78 @@ class ArchiveEngineTest {
                         }
                     )
                 }
+            }
+        } finally {
+            archive.delete()
+        }
+    }
+
+    private fun assertRoundTrip(
+        format: ArchiveFormat,
+        expected: ByteArray,
+        zipCompressionMethod: ZipCompressionMethod = ZipCompressionMethod.Deflate,
+        sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2
+    ) {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val archive = File(context.cacheDir, "round_trip.${format.extension}")
+        try {
+            try {
+                archive.outputStream().use { output ->
+                    ArchiveEngine.create(
+                        format = format,
+                        sources = listOf(
+                            ArchiveSource(
+                                name = "folder/page10.txt",
+                                size = expected.size.toLong(),
+                                openStream = { ByteArrayInputStream(expected) }
+                            )
+                        ),
+                        outputStream = output,
+                        zipCompressionMethod = zipCompressionMethod,
+                        sevenZipCompressionMethod = sevenZipCompressionMethod
+                    )
+                }
+                var extracted: ByteArray? = null
+                ParcelFileDescriptor.open(
+                    archive,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                ).use { input ->
+                    assertEquals(
+                        ArchiveEncryptionStatus.None,
+                        ArchiveEngine.encryptionStatus(
+                            inputFileDescriptor = input.fd,
+                            forceRawFormat = format.isRaw
+                        )
+                    )
+                }
+                ParcelFileDescriptor.open(
+                    archive,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                ).use { input ->
+                    val count = ArchiveEngine.extract(
+                        inputFileDescriptor = input.fd,
+                        forceRawFormat = format.isRaw,
+                        onEntry = { entry, writeData ->
+                            if (
+                                !entry.isDirectory &&
+                                (format.isRaw || entry.path.endsWith("page10.txt"))
+                            ) {
+                                extracted = ByteArrayOutputStream().use { output ->
+                                    writeData(output)
+                                    output.toByteArray()
+                                }
+                            }
+                        }
+                    )
+                    check(count > 0)
+                }
+                assertArrayEquals(expected, extracted)
+            } catch (throwable: Throwable) {
+                throw AssertionError(
+                    "Failed round-trip for ${format.title}, " +
+                            "ZIP=$zipCompressionMethod, 7Z=$sevenZipCompressionMethod",
+                    throwable
+                )
             }
         } finally {
             archive.delete()

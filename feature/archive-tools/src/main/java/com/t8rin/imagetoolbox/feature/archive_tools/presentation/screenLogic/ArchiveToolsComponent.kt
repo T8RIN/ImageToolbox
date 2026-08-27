@@ -25,6 +25,8 @@ import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
+import com.t8rin.archive.SevenZipCompressionMethod
+import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
@@ -81,11 +83,20 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     private val _format = mutableStateOf(ArchiveFormat.Zip)
     val format by _format
 
+    private val _zipCompressionMethod = mutableStateOf(ZipCompressionMethod.Deflate)
+    val zipCompressionMethod by _zipCompressionMethod
+
+    private val _sevenZipCompressionMethod = mutableStateOf(SevenZipCompressionMethod.Lzma2)
+    val sevenZipCompressionMethod by _sevenZipCompressionMethod
+
     private val _passphrase = mutableStateOf("")
     val passphrase by _passphrase
 
     private val _protectWithPassword = mutableStateOf(false)
     val protectWithPassword by _protectWithPassword
+
+    val canProtectWithPassword: Boolean
+        get() = format.supportsEncryption && zipCompressionMethod.supportsEncryption
 
     private val _archiveEncryptionStatus = mutableStateOf<ArchiveEncryptionStatus?>(null)
     val archiveEncryptionStatus by _archiveEncryptionStatus
@@ -117,6 +128,9 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         } else {
             newUris.distinct()
         }
+        if (selectedUris.size > 1 && !format.supportsMultipleFiles) {
+            setFormat(ArchiveFormat.Zip)
+        }
         _uris.update {
             selectedUris
         }
@@ -142,17 +156,34 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     fun setFormat(format: ArchiveFormat) {
         if (format == this.format) return
+        if (!format.supportsMultipleFiles && uris.size > 1) return
         _format.update { format }
-        if (!format.supportsEncryption) {
+        if (!canProtectWithPassword) {
             _protectWithPassword.update { false }
             _passphrase.update { "" }
         }
         registerChanges()
     }
 
+    fun setZipCompressionMethod(method: ZipCompressionMethod) {
+        if (method == zipCompressionMethod) return
+        _zipCompressionMethod.update { method }
+        if (!canProtectWithPassword) {
+            _protectWithPassword.update { false }
+            _passphrase.update { "" }
+        }
+        registerChanges()
+    }
+
+    fun setSevenZipCompressionMethod(method: SevenZipCompressionMethod) {
+        if (method == sevenZipCompressionMethod) return
+        _sevenZipCompressionMethod.update { method }
+        registerChanges()
+    }
+
     fun setProtectWithPassword(protect: Boolean) {
         if (protect == protectWithPassword) return
-        _protectWithPassword.update { protect && format.supportsEncryption }
+        _protectWithPassword.update { protect && canProtectWithPassword }
         if (!protect) _passphrase.update { "" }
         registerChanges()
     }
@@ -196,6 +227,9 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     }
 
     fun createTargetFilename(): String {
+        if (format.isRaw) {
+            uris.singleOrNull()?.filename()?.let { return "$it.${format.extension}" }
+        }
         val count = uris.size.takeIf { it > 1 }?.let { "($it)" }.orEmpty()
         return "${format.title}${count}_${timestamp()}.${format.extension}"
     }
@@ -215,6 +249,8 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
                         files = uris.map { it.toString() },
                         destination = output,
                         format = format,
+                        zipCompressionMethod = zipCompressionMethod,
+                        sevenZipCompressionMethod = sevenZipCompressionMethod,
                         passphrase = passphrase.takeIf {
                             protectWithPassword && it.isNotEmpty()
                         },
@@ -249,6 +285,8 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
                         files = uris.map(Uri::toString),
                         destination = output,
                         format = format,
+                        zipCompressionMethod = zipCompressionMethod,
+                        sevenZipCompressionMethod = sevenZipCompressionMethod,
                         passphrase = passphrase.takeIf {
                             protectWithPassword && it.isNotEmpty()
                         },

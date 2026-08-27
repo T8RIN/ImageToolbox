@@ -25,6 +25,8 @@ import com.t8rin.archive.ArchiveEngine
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.ArchivePath
 import com.t8rin.archive.ArchiveSource
+import com.t8rin.archive.SevenZipCompressionMethod
+import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -49,6 +51,8 @@ internal class AndroidArchiveManager @Inject constructor(
         files: List<String>,
         destination: Writeable,
         format: ArchiveFormat,
+        zipCompressionMethod: ZipCompressionMethod,
+        sevenZipCompressionMethod: SevenZipCompressionMethod,
         passphrase: String?,
         onProgress: () -> Unit
     ) = withContext(defaultDispatcher) {
@@ -97,6 +101,8 @@ internal class AndroidArchiveManager @Inject constructor(
                 format = format,
                 sources = sources,
                 outputStream = destination.outputStream(),
+                zipCompressionMethod = zipCompressionMethod,
+                sevenZipCompressionMethod = sevenZipCompressionMethod,
                 passphrase = passphrase,
                 onChunk = operationContext::ensureActive,
                 onProgress = onProgress

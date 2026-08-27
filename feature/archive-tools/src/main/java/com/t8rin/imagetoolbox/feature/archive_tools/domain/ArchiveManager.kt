@@ -19,6 +19,8 @@ package com.t8rin.imagetoolbox.feature.archive_tools.domain
 
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
+import com.t8rin.archive.SevenZipCompressionMethod
+import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveExtractionOptions
 
@@ -28,6 +30,8 @@ interface ArchiveManager {
         files: List<String>,
         destination: Writeable,
         format: ArchiveFormat,
+        zipCompressionMethod: ZipCompressionMethod,
+        sevenZipCompressionMethod: SevenZipCompressionMethod,
         passphrase: String?,
         onProgress: () -> Unit
     )

@@ -31,19 +31,32 @@ object ArchiveEngine {
         format: ArchiveFormat,
         sources: List<ArchiveSource>,
         outputStream: OutputStream,
+        zipCompressionMethod: ZipCompressionMethod = ZipCompressionMethod.Deflate,
+        sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2,
         passphrase: String? = null,
         onChunk: () -> Unit = {},
         onProgress: () -> Unit = {}
     ) {
         require(sources.isNotEmpty()) { "No files selected" }
-        require(passphrase.isNullOrEmpty() || format.supportsEncryption) {
-            "${format.title} does not support encryption"
+        require(format.supportsMultipleFiles || sources.size == 1) {
+            "${format.title} supports exactly one file"
+        }
+        require(
+            passphrase.isNullOrEmpty() ||
+                    format.supportsEncryption && zipCompressionMethod.supportsEncryption
+        ) {
+            "${format.title} with ${zipCompressionMethod.title} does not support encryption"
         }
 
         val archive = Archive.writeNew()
         val output = BufferedOutputStream(outputStream, BufferSize)
         try {
-            configureWriter(archive, format)
+            configureWriter(
+                archive = archive,
+                format = format,
+                zipCompressionMethod = zipCompressionMethod,
+                sevenZipCompressionMethod = sevenZipCompressionMethod
+            )
             passphrase
                 ?.takeIf(String::isNotEmpty)
                 ?.let {
@@ -261,14 +274,38 @@ object ArchiveEngine {
 
     private fun configureWriter(
         archive: Long,
-        format: ArchiveFormat
+        format: ArchiveFormat,
+        zipCompressionMethod: ZipCompressionMethod,
+        sevenZipCompressionMethod: SevenZipCompressionMethod
     ) {
         when (format) {
-            ArchiveFormat.Zip -> Archive.writeSetFormatZip(archive)
-            ArchiveFormat.SevenZip -> Archive.writeSetFormat7zip(archive)
+            ArchiveFormat.Zip -> {
+                Archive.writeSetFormatZip(archive)
+                when (zipCompressionMethod) {
+                    ZipCompressionMethod.Store -> Archive.writeZipSetCompressionStore(archive)
+                    ZipCompressionMethod.Deflate -> Archive.writeZipSetCompressionDeflate(archive)
+                    ZipCompressionMethod.Bzip2 -> Archive.writeZipSetCompressionBzip2(archive)
+                    ZipCompressionMethod.Lzma -> Archive.writeZipSetCompressionLzma(archive)
+                    ZipCompressionMethod.Xz -> Archive.writeZipSetCompressionXz(archive)
+                    ZipCompressionMethod.Zstd -> Archive.writeZipSetCompressionZstd(archive)
+                }
+            }
+
+            ArchiveFormat.SevenZip -> {
+                Archive.writeSetFormat7zip(archive)
+                Archive.writeSetFormatOption(
+                    archive,
+                    "7zip".toByteArray(StandardCharsets.UTF_8),
+                    "compression".toByteArray(StandardCharsets.UTF_8),
+                    sevenZipCompressionMethod.option.toByteArray(StandardCharsets.UTF_8)
+                )
+            }
+
             ArchiveFormat.Tar -> Archive.writeSetFormatPaxRestricted(archive)
+            ArchiveFormat.PaxTar -> Archive.writeSetFormatPax(archive)
             ArchiveFormat.GnuTar -> Archive.writeSetFormatGnutar(archive)
             ArchiveFormat.Ustar -> Archive.writeSetFormatUstar(archive)
+            ArchiveFormat.V7Tar -> Archive.writeSetFormatV7tar(archive)
             ArchiveFormat.TarGzip -> {
                 Archive.writeAddFilterGzip(archive)
                 Archive.writeSetFormatPaxRestricted(archive)
@@ -310,9 +347,51 @@ object ArchiveEngine {
             }
 
             ArchiveFormat.Cpio -> Archive.writeSetFormatCpioNewc(archive)
+            ArchiveFormat.CpioOdc -> Archive.writeSetFormatCpioOdc(archive)
+            ArchiveFormat.CpioBinary -> Archive.writeSetFormatCpioBin(archive)
+            ArchiveFormat.CpioPwb -> Archive.writeSetFormatCpioPwb(archive)
             ArchiveFormat.ArBsd -> Archive.writeSetFormatArBsd(archive)
             ArchiveFormat.ArGnu -> Archive.writeSetFormatArSvr4(archive)
             ArchiveFormat.Iso -> Archive.writeSetFormatIso9660(archive)
+            ArchiveFormat.Gzip -> {
+                Archive.writeAddFilterGzip(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Bzip2 -> {
+                Archive.writeAddFilterBzip2(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Xz -> {
+                Archive.writeAddFilterXz(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Zstd -> {
+                Archive.writeAddFilterZstd(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Lz4 -> {
+                Archive.writeAddFilterLz4(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Lzip -> {
+                Archive.writeAddFilterLzip(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Lzma -> {
+                Archive.writeAddFilterLzma(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
+
+            ArchiveFormat.Compress -> {
+                Archive.writeAddFilterCompress(archive)
+                Archive.writeSetFormatRaw(archive)
+            }
         }
     }
 

@@ -1765,6 +1765,7 @@
     <string name="protect_archive_with_password">Protect with password</string>
     <string name="protect_archive_with_password_sub">Encrypt archive contents using a password</string>
     <string name="archive_password_zip_only">Password protection is available for ZIP</string>
+    <string name="archive_password_zip_store_deflate_only">Password protection is available with Store and Deflate ZIP compression</string>
     <string name="archive_password_required_sub">Enter the archive password to extract its contents</string>
     <string name="unsupported_archive_encryption">Unsupported archive encryption</string>
     <string name="unsupported_archive_encryption_sub">This archive can be opened, but its encryption method is not supported</string>
