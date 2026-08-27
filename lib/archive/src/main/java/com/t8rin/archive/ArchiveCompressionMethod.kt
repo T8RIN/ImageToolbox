@@ -31,12 +31,13 @@ enum class ZipCompressionMethod(
 
 enum class SevenZipCompressionMethod(
     val title: String,
-    internal val option: String
+    internal val option: String,
+    val supportsEncryption: Boolean = false
 ) {
-    Copy("Copy", "copy"),
-    Deflate("Deflate", "deflate"),
-    Bzip2("BZIP2", "bzip2"),
+    Copy("Copy", "copy", supportsEncryption = true),
+    Deflate("Deflate", "deflate", supportsEncryption = true),
+    Bzip2("BZIP2", "bzip2", supportsEncryption = true),
     Lzma1("LZMA1", "lzma1"),
-    Lzma2("LZMA2", "lzma2"),
+    Lzma2("LZMA2", "lzma2", supportsEncryption = true),
     Ppmd("PPMd", "ppmd")
 }

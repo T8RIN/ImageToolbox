@@ -19,13 +19,13 @@ package com.t8rin.imagetoolbox.feature.archive_tools.domain.model
 
 internal val SupportedArchiveExtensions = listOf(
     ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst", ".tar.zstd", ".tar.z",
-    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".warc.gz",
-    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz",
+    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".tar.br", ".warc.gz",
+    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz", ".tbr",
     ".zip", ".zipx", ".7z", ".rar", ".cbr", ".cbz", ".cb7", ".cbt",
     ".apk", ".apks", ".xapk", ".aab", ".jar", ".aar", ".ipa", ".epub",
     ".whl", ".egg", ".nupkg", ".vsix",
     ".tar", ".gz", ".bz2", ".xz", ".zst", ".zstd", ".z", ".lz4", ".lz",
-    ".lzip", ".lzma", ".uu", ".uue",
+    ".lzip", ".lzma", ".br", ".uu", ".uue",
     ".cab", ".iso", ".lha", ".lzh", ".xar", ".ar", ".a", ".deb", ".udeb",
     ".cpio", ".rpm", ".warc", ".mtree"
 )

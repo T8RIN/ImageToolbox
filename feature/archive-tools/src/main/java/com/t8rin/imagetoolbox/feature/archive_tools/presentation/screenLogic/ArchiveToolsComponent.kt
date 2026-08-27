@@ -96,7 +96,11 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     val protectWithPassword by _protectWithPassword
 
     val canProtectWithPassword: Boolean
-        get() = format.supportsEncryption && zipCompressionMethod.supportsEncryption
+        get() = when (format) {
+            ArchiveFormat.Zip -> zipCompressionMethod.supportsEncryption
+            ArchiveFormat.SevenZip -> sevenZipCompressionMethod.supportsEncryption
+            else -> false
+        }
 
     private val _archiveEncryptionStatus = mutableStateOf<ArchiveEncryptionStatus?>(null)
     val archiveEncryptionStatus by _archiveEncryptionStatus
@@ -178,6 +182,10 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     fun setSevenZipCompressionMethod(method: SevenZipCompressionMethod) {
         if (method == sevenZipCompressionMethod) return
         _sevenZipCompressionMethod.update { method }
+        if (!canProtectWithPassword) {
+            _protectWithPassword.update { false }
+            _passphrase.update { "" }
+        }
         registerChanges()
     }
 

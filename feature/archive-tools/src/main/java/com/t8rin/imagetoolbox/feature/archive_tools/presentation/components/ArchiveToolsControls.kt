@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -87,7 +88,11 @@ internal fun ColumnScope.ArchiveToolsControls(
             title = stringResource(R.string.archive_format),
             titleIcon = Icons.Outlined.FolderZip,
             itemContentText = { it.title },
-            spanCount = 1,
+            badgeContent = {
+                Text(formats.size.toString())
+            },
+            initialExpanded = true,
+            spanCount = 2,
             shape = ShapeDefaults.top,
             modifier = Modifier.fillMaxWidth()
         )
@@ -130,11 +135,11 @@ internal fun ColumnScope.ArchiveToolsControls(
             subtitle = stringResource(
                 when {
                     component.canProtectWithPassword -> R.string.protect_archive_with_password_sub
-                    component.format == ArchiveFormat.Zip -> {
-                        R.string.archive_password_zip_store_deflate_only
+                    component.format.supportsEncryption -> {
+                        R.string.archive_password_method_not_supported
                     }
 
-                    else -> R.string.archive_password_zip_only
+                    else -> R.string.archive_password_supported_formats
                 }
             ),
             checked = component.protectWithPassword,

@@ -885,8 +885,8 @@
     <string name="password_optional">Пароль (необязательно)</string>
     <string name="protect_archive_with_password">Защитить паролем</string>
     <string name="protect_archive_with_password_sub">Зашифровать содержимое архива с помощью пароля</string>
-    <string name="archive_password_zip_only">Защита паролем доступна для ZIP</string>
-    <string name="archive_password_zip_store_deflate_only">Защита паролем доступна для методов ZIP Store и Deflate</string>
+    <string name="archive_password_supported_formats">Защита паролем доступна для ZIP и 7Z</string>
+    <string name="archive_password_method_not_supported">Выбранный метод сжатия не поддерживает защиту паролем</string>
     <string name="archive_password_required_sub">Введите пароль от архива, чтобы распаковать его содержимое</string>
     <string name="unsupported_archive_encryption">Шифрование архива не поддерживается</string>
     <string name="unsupported_archive_encryption_sub">Архив можно прочитать, но этот метод шифрования пока нельзя распаковать</string>

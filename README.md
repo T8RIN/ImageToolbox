@@ -1274,6 +1274,21 @@ or click one of the badges below.
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters
     - Importing, exporting, sharing and managing shader presets
+- Archive Tools
+  - Stream archives directly from source files to the selected destination without loading the
+    whole archive into memory
+  - Create archives in 32 format and container combinations
+    - ZIP: Store, Deflate, BZIP2, LZMA, XZ and ZSTD
+    - 7Z: Copy, Deflate, BZIP2, LZMA1, LZMA2 and PPMd
+    - Single-file compression: GZIP, BZIP2, XZ, ZSTD, LZ4, LZIP, LZMA, Brotli and Compress `.Z`
+    - TAR: restricted PAX, PAX, GNU, USTAR and V7, plus GZIP, BZIP2, XZ, ZSTD, LZ4, LZIP,
+      LZMA, Brotli and Compress `.Z` filters
+    - CPIO: NEWC, ODC, Binary and PWB; AR: BSD and GNU; ISO 9660
+  - Password protection for ZIP (Store and Deflate) and 7Z (Copy, Deflate, BZIP2 and LZMA2)
+  - Password-aware extraction for ZIP, 7Z and RAR/CBR, including encrypted RAR headers
+  - Safe extraction with path validation, entry and unpacked-size limits, optional subfolders,
+    preserved directory structure and hidden-file filtering
+  - Comic archive support for CBR, CBZ, CB7 and CBT, including direct conversion to PDF
 - Additional Features
     - Base64 Decode/Encode
     - Rotating

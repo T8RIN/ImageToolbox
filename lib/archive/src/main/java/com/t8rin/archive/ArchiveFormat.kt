@@ -25,7 +25,7 @@ enum class ArchiveFormat(
     val isRaw: Boolean = false
 ) {
     Zip("ZIP", "zip", "application/zip", supportsEncryption = true),
-    SevenZip("7Z", "7z", "application/x-7z-compressed"),
+    SevenZip("7Z", "7z", "application/x-7z-compressed", supportsEncryption = true),
     Tar("TAR", "tar", "application/x-tar"),
     PaxTar("TAR (PAX)", "tar", "application/x-tar"),
     GnuTar("TAR (GNU)", "tar", "application/x-tar"),
@@ -39,6 +39,7 @@ enum class ArchiveFormat(
     TarLz4("TAR.LZ4", "tar.lz4", "application/x-lz4"),
     TarLzip("TAR.LZIP", "tar.lz", "application/lzip"),
     TarLzma("TAR.LZMA", "tar.lzma", "application/x-lzma"),
+    TarBrotli("TAR.BR", "tar.br", "application/x-brotli"),
     Cpio("CPIO (NEWC)", "cpio", "application/x-cpio"),
     CpioOdc("CPIO (ODC)", "cpio", "application/x-cpio"),
     CpioBinary("CPIO (Binary)", "cpio", "application/x-cpio"),
@@ -53,6 +54,7 @@ enum class ArchiveFormat(
     Lz4("LZ4", "lz4", "application/x-lz4", isRaw = true),
     Lzip("LZIP", "lz", "application/lzip", isRaw = true),
     Lzma("LZMA", "lzma", "application/x-lzma", isRaw = true),
+    Brotli("Brotli", "br", "application/x-brotli", isRaw = true),
     Compress("Compress", "Z", "application/x-compress", isRaw = true);
 
     val supportsMultipleFiles: Boolean

@@ -18,10 +18,15 @@
 package com.t8rin.imagetoolbox.core.data.saving.io
 
 import java.io.File
+import java.io.FileOutputStream
 
-class FileWriteable(
-    private val file: File
-) : StreamWriteable by StreamWriteable(file.outputStream())
+class FileWriteable private constructor(
+    outputStream: FileOutputStream
+) : StreamWriteable by StreamWriteable(outputStream),
+    SeekableWriteable by SeekableWriteable(outputStream.channel) {
+
+    constructor(file: File) : this(file.outputStream())
+}
 
 class FileReadable(
     private val file: File

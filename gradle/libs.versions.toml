@@ -9,7 +9,7 @@ versionCode = "267"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "7.9.3"
+imageToolboxLibs = "7.9.4"
 trickle = "1.9.3"
 evaluator = "1.0.0"
 quickie = "1.19.0"
@@ -23,8 +23,8 @@ jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
 tesseract = "4.9.0"
-material3 = "1.5.0-alpha26"
-composeVersion = "1.13.0-alpha01"
+material3 = "1.5.0-alpha27"
+composeVersion = "1.13.0-alpha02"
 dataStore = "1.3.0-alpha10"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
@@ -38,7 +38,7 @@ detektCompose = "0.6.4"
 decompose = "3.5.0"
 
 kotlin = "2.4.10"
-agp = "9.3.1"
+agp = "9.3.2"
 hilt = "2.60.1"
 gms = "4.5.0"
 
@@ -62,7 +62,7 @@ ksp = "2.3.11"
 androidx-test-ext-junit = "1.3.0"
 documentfile = "1.1.0"
 uiautomator = "2.4.0"
-androidxMacroBenchmark = "1.5.0-rc01"
+androidxMacroBenchmark = "1.5.0-rc02"
 
 material = "1.14.0"
 jsoup = "1.23.1"
@@ -74,13 +74,16 @@ mlkitDocumentScanner = "16.0.0"
 moshi = "1.15.2"
 bouncycastle = "1.85"
 bouncycastleProvider = "1.85.2"
-pdfviewer = "1.0.0-alpha19"
+pdfviewer = "1.0.0-beta01"
 fragmentCompose = "1.9.0"
 aboutlibraries = "15.1.1"
 flinger = "2.1.0"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 libarchiveAndroid = "1.1.6"
+commonsCompress = "1.28.0"
+junrar = "8.1.0"
+xz = "1.12"
 
 onnx = "1.29.0"
 opencv = "5.0.0.1"
@@ -108,6 +111,9 @@ opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 libarchive-android = { module = "me.zhanghai.android.libarchive:library", version.ref = "libarchiveAndroid" }
+commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }
+junrar = { module = "com.github.junrar:junrar", version.ref = "junrar" }
+xz = { module = "org.tukaani:xz", version.ref = "xz" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "zxingCore" }
 flinger = { module = "com.github.iamjosephmj:flinger", version.ref = "flinger" }
 squircle-shape = { group = "com.stoyanvuchev", name = "squircle-shape-android", version.ref = "squircle-shape" }
@@ -143,6 +149,7 @@ toolbox-jhlabs = { module = "com.github.T8RIN.ImageToolboxLibs:jhlabs", version.
 toolbox-rawCoder = { module = "com.github.T8RIN.ImageToolboxLibs:raw-coder", version.ref = "imageToolboxLibs" }
 toolbox-tiffCoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiff-coder", version.ref = "imageToolboxLibs" }
 toolbox-gmic = { module = "com.github.T8RIN.ImageToolboxLibs:gmic", version.ref = "imageToolboxLibs" }
+toolbox-archiveBrotli = { module = "com.github.T8RIN.ImageToolboxLibs:archive-brotli", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

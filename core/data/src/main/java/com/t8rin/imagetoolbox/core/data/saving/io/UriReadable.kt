@@ -19,10 +19,9 @@ package com.t8rin.imagetoolbox.core.data.saving.io
 
 import android.content.Context
 import android.net.Uri
-import com.t8rin.imagetoolbox.core.data.utils.openWriteableStream
-import com.t8rin.imagetoolbox.core.utils.makeLog
+import android.os.ParcelFileDescriptor
 import io.ktor.utils.io.charsets.Charset
-import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
 
 
 class UriReadable(
@@ -32,19 +31,18 @@ class UriReadable(
     inputStream = context.contentResolver.openInputStream(uri) ?: ByteArray(0).inputStream()
 )
 
-class UriWriteable(
-    private val uri: Uri,
-    private val context: Context
-) : StreamWriteable by StreamWriteable(
-    outputStream = context.openWriteableStream(
-        uri = uri,
-        onFailure = {
-            uri.makeLog("UriWriteable write")
-            it.makeLog("UriWriteable write")
-            throw it
-        }
-    ) ?: ByteArrayOutputStream(0)
-)
+class UriWriteable private constructor(
+    outputStream: FileOutputStream
+) : StreamWriteable by StreamWriteable(outputStream),
+    SeekableWriteable by SeekableWriteable(outputStream.channel) {
+
+    constructor(uri: Uri, context: Context) : this(
+        outputStream = ParcelFileDescriptor.AutoCloseOutputStream(
+            context.contentResolver.openFileDescriptor(uri, "rwt")
+                ?: error("Cannot open output Uri")
+        )
+    )
+}
 
 class ByteArrayReadable(
     private val byteArray: ByteArray

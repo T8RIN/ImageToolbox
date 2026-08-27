@@ -15,21 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.imagetoolbox.core.data.saving.io
 
-android.namespace = "com.t8rin.archive"
+import java.nio.channels.SeekableByteChannel
 
-dependencies {
-    api(libs.libarchive.android)
-    implementation(libs.toolbox.archiveBrotli)
-    implementation(libs.commons.compress)
-    implementation(libs.junrar)
-    implementation(libs.xz)
+interface SeekableWriteable {
+    val channel: SeekableByteChannel
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
+    companion object {
+        operator fun invoke(
+            channel: SeekableByteChannel
+        ): SeekableWriteable = object : SeekableWriteable {
+            override val channel = channel
+        }
+    }
 }

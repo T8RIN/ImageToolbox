@@ -27,6 +27,7 @@ import com.t8rin.archive.ArchivePath
 import com.t8rin.archive.ArchiveSource
 import com.t8rin.archive.SevenZipCompressionMethod
 import com.t8rin.archive.ZipCompressionMethod
+import com.t8rin.imagetoolbox.core.data.saving.io.SeekableWriteable
 import com.t8rin.imagetoolbox.core.data.saving.io.UriReadable
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -100,7 +101,12 @@ internal class AndroidArchiveManager @Inject constructor(
             ArchiveEngine.create(
                 format = format,
                 sources = sources,
-                outputStream = destination.outputStream(),
+                outputStream = if (format == ArchiveFormat.SevenZip && !passphrase.isNullOrEmpty()) {
+                    null
+                } else {
+                    destination.outputStream()
+                },
+                outputChannel = (destination as? SeekableWriteable)?.channel,
                 zipCompressionMethod = zipCompressionMethod,
                 sevenZipCompressionMethod = sevenZipCompressionMethod,
                 passphrase = passphrase,
@@ -116,11 +122,17 @@ internal class AndroidArchiveManager @Inject constructor(
         withContext(defaultDispatcher) {
             val uri = archive.toUri()
             val sourceName = uri.filename(context).orEmpty()
+            val preferSevenZip = sourceName.hasSevenZipExtension()
+            val preferRar = sourceName.hasRarExtension()
             val forceRawFormat = sourceName.shouldForceRawFormat()
+            val forceBrotli = sourceName.hasBrotliExtension()
             context.contentResolver.openFileDescriptor(uri, "r")?.use { input ->
                 ArchiveEngine.encryptionStatus(
                     inputFileDescriptor = input.fd,
-                    forceRawFormat = forceRawFormat
+                    preferSevenZip = preferSevenZip,
+                    preferRar = preferRar,
+                    forceRawFormat = forceRawFormat,
+                    forceBrotli = forceBrotli
                 )
             } ?: error("Cannot open archive")
         }
@@ -136,7 +148,10 @@ internal class AndroidArchiveManager @Inject constructor(
         val destination = DocumentFile.fromTreeUri(context, destinationFolder.toUri())
             ?: error("Cannot access destination folder")
         val sourceName = archive.toUri().filename(context).orEmpty()
+        val preferSevenZip = sourceName.hasSevenZipExtension()
+        val preferRar = sourceName.hasRarExtension()
         val forceRawFormat = sourceName.shouldForceRawFormat()
+        val forceBrotli = sourceName.hasBrotliExtension()
         val archiveName = ArchivePath.safeSegments(
             sourceName
                 .removeArchiveExtension()
@@ -154,7 +169,10 @@ internal class AndroidArchiveManager @Inject constructor(
                 ArchiveEngine.extract(
                     inputFileDescriptor = input.fd,
                     passphrase = passphrase,
+                    preferSevenZip = preferSevenZip,
+                    preferRar = preferRar,
                     forceRawFormat = forceRawFormat,
+                    forceBrotli = forceBrotli,
                     onChunk = operationContext::ensureActive,
                     onEntry = entry@{ entry, writeData ->
                         val entryPath = if (forceRawFormat && !entry.isDirectory) {
@@ -265,19 +283,34 @@ private fun DocumentFile.createUniqueFile(name: String): DocumentFile {
 
 private val RawArchiveExtensions = listOf(
     ".gz", ".bz2", ".xz", ".zst", ".zstd", ".z", ".lz4", ".lz", ".lzip",
-    ".lzma"
+    ".lzma", ".br"
 )
 
 private val CompressedTarExtensions = listOf(
     ".tar.gz", ".tar.bz2", ".tar.xz", ".tar.zst", ".tar.zstd", ".tar.z",
-    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".warc.gz",
-    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz"
+    ".tar.lz4", ".tar.lz", ".tar.lzip", ".tar.lzma", ".tar.br", ".warc.gz",
+    ".tgz", ".tbz", ".tbz2", ".txz", ".tzst", ".taz", ".tlz", ".tbr"
 )
 
 private fun String.shouldForceRawFormat(): Boolean {
     val lower = lowercase()
     return CompressedTarExtensions.none(lower::endsWith) &&
             RawArchiveExtensions.any(lower::endsWith)
+}
+
+private fun String.hasSevenZipExtension(): Boolean {
+    val lower = lowercase()
+    return lower.endsWith(".7z") || lower.endsWith(".cb7")
+}
+
+private fun String.hasRarExtension(): Boolean {
+    val lower = lowercase()
+    return lower.endsWith(".rar") || lower.endsWith(".cbr")
+}
+
+private fun String.hasBrotliExtension(): Boolean {
+    val lower = lowercase()
+    return lower.endsWith(".br") || lower.endsWith(".tbr")
 }
 
 private const val CopyBufferSize = 64 * 1024

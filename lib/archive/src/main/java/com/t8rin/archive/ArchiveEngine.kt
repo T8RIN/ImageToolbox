@@ -17,12 +17,15 @@
 
 package com.t8rin.archive
 
+import android.os.ParcelFileDescriptor
 import me.zhanghai.android.libarchive.Archive
 import me.zhanghai.android.libarchive.ArchiveEntry
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
+import java.io.InputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
+import java.nio.channels.SeekableByteChannel
 import java.nio.charset.StandardCharsets
 
 object ArchiveEngine {
@@ -30,7 +33,8 @@ object ArchiveEngine {
     fun create(
         format: ArchiveFormat,
         sources: List<ArchiveSource>,
-        outputStream: OutputStream,
+        outputStream: OutputStream? = null,
+        outputChannel: SeekableByteChannel? = null,
         zipCompressionMethod: ZipCompressionMethod = ZipCompressionMethod.Deflate,
         sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2,
         passphrase: String? = null,
@@ -41,15 +45,32 @@ object ArchiveEngine {
         require(format.supportsMultipleFiles || sources.size == 1) {
             "${format.title} supports exactly one file"
         }
-        require(
-            passphrase.isNullOrEmpty() ||
-                    format.supportsEncryption && zipCompressionMethod.supportsEncryption
-        ) {
-            "${format.title} with ${zipCompressionMethod.title} does not support encryption"
+        val supportsEncryption = when (format) {
+            ArchiveFormat.Zip -> zipCompressionMethod.supportsEncryption
+            ArchiveFormat.SevenZip -> sevenZipCompressionMethod.supportsEncryption
+            else -> false
+        }
+        require(passphrase.isNullOrEmpty() || supportsEncryption) {
+            "${format.title} does not support encryption with the selected method"
+        }
+        if (format == ArchiveFormat.SevenZip && !passphrase.isNullOrEmpty()) {
+            SevenZipEngine.createEncrypted(
+                sources = sources,
+                outputChannel = requireNotNull(outputChannel) {
+                    "Encrypted 7Z output must be seekable"
+                },
+                compressionMethod = sevenZipCompressionMethod,
+                passphrase = passphrase,
+                onChunk = onChunk,
+                onProgress = onProgress
+            )
+            return
         }
 
         val archive = Archive.writeNew()
-        val output = BufferedOutputStream(outputStream, BUFFER_SIZE)
+        val destination = requireNotNull(outputStream) { "Output stream is required" }
+        val brotliOutput = if (format.isBrotli()) BrotliOutputStream(destination) else null
+        val output = BufferedOutputStream(brotliOutput ?: destination, BUFFER_SIZE)
         try {
             configureWriter(
                 archive = archive,
@@ -131,12 +152,35 @@ object ArchiveEngine {
     fun extract(
         inputFileDescriptor: Int,
         passphrase: String? = null,
+        preferSevenZip: Boolean = false,
+        preferRar: Boolean = false,
         forceRawFormat: Boolean = false,
+        forceBrotli: Boolean = false,
         limits: ExtractionLimits = ExtractionLimits(),
         onEntry: (ArchiveEntryInfo, writeData: (OutputStream) -> Unit) -> Unit,
         onChunk: () -> Unit = {},
         onProgress: () -> Unit = {}
     ): Int {
+        if (preferRar) {
+            return RarEngine.extract(
+                inputFileDescriptor = inputFileDescriptor,
+                passphrase = passphrase,
+                limits = limits,
+                onEntry = onEntry,
+                onChunk = onChunk,
+                onProgress = onProgress
+            )
+        }
+        if (preferSevenZip && !passphrase.isNullOrEmpty()) {
+            return SevenZipEngine.extract(
+                inputFileDescriptor = inputFileDescriptor,
+                passphrase = passphrase,
+                limits = limits,
+                onEntry = onEntry,
+                onChunk = onChunk,
+                onProgress = onProgress
+            )
+        }
         val archive = Archive.readNew()
         var extractedEntries = 0
         var declaredSize = 0L
@@ -152,7 +196,11 @@ object ArchiveEngine {
             passphrase
                 ?.takeIf(String::isNotEmpty)
                 ?.let { Archive.readAddPassphrase(archive, it.toByteArray()) }
-            Archive.readOpenFd(archive, inputFileDescriptor, BUFFER_SIZE.toLong())
+            openReader(
+                archive = archive,
+                inputFileDescriptor = inputFileDescriptor,
+                forceBrotli = forceBrotli
+            )
 
             var entry = Archive.readNextHeader(archive)
             while (entry != 0L) {
@@ -227,8 +275,17 @@ object ArchiveEngine {
 
     fun encryptionStatus(
         inputFileDescriptor: Int,
-        forceRawFormat: Boolean = false
+        preferSevenZip: Boolean = false,
+        preferRar: Boolean = false,
+        forceRawFormat: Boolean = false,
+        forceBrotli: Boolean = false
     ): ArchiveEncryptionStatus {
+        if (preferRar) {
+            return RarEngine.encryptionStatus(inputFileDescriptor)
+        }
+        if (preferSevenZip) {
+            return SevenZipEngine.encryptionStatus(inputFileDescriptor)
+        }
         val archive = Archive.readNew()
         var passphraseRequested = false
         try {
@@ -237,7 +294,11 @@ object ArchiveEngine {
                 passphraseRequested = true
                 ByteArray(0)
             }
-            Archive.readOpenFd(archive, inputFileDescriptor, BUFFER_SIZE.toLong())
+            openReader(
+                archive = archive,
+                inputFileDescriptor = inputFileDescriptor,
+                forceBrotli = forceBrotli
+            )
 
             var entry = Archive.readNextHeader(archive)
             while (entry != 0L) {
@@ -346,6 +407,8 @@ object ArchiveEngine {
                 Archive.writeSetFormatPaxRestricted(archive)
             }
 
+            ArchiveFormat.TarBrotli -> Archive.writeSetFormatPaxRestricted(archive)
+
             ArchiveFormat.Cpio -> Archive.writeSetFormatCpioNewc(archive)
             ArchiveFormat.CpioOdc -> Archive.writeSetFormatCpioOdc(archive)
             ArchiveFormat.CpioBinary -> Archive.writeSetFormatCpioBin(archive)
@@ -388,6 +451,8 @@ object ArchiveEngine {
                 Archive.writeSetFormatRaw(archive)
             }
 
+            ArchiveFormat.Brotli -> Archive.writeSetFormatRaw(archive)
+
             ArchiveFormat.Compress -> {
                 Archive.writeAddFilterCompress(archive)
                 Archive.writeSetFormatRaw(archive)
@@ -408,6 +473,28 @@ object ArchiveEngine {
         }
     }
 
+    private fun openReader(
+        archive: Long,
+        inputFileDescriptor: Int,
+        forceBrotli: Boolean
+    ) {
+        if (!forceBrotli) {
+            Archive.readOpenFd(archive, inputFileDescriptor, BUFFER_SIZE.toLong())
+            return
+        }
+        val descriptor = ParcelFileDescriptor.fromFd(inputFileDescriptor)
+        val input = ArchiveCallbackInput(
+            BrotliInputStream(ParcelFileDescriptor.AutoCloseInputStream(descriptor))
+        )
+        Archive.readOpen(
+            archive,
+            input,
+            null,
+            { _, source -> source.read() },
+            { _, source -> source.close() }
+        )
+    }
+
     private fun OutputStream.writeRemaining(buffer: ByteBuffer) {
         val bytes = ByteArray(minOf(BUFFER_SIZE, buffer.remaining()))
         while (buffer.hasRemaining()) {
@@ -419,6 +506,29 @@ object ArchiveEngine {
 
     private const val BUFFER_SIZE = 64 * 1024
     private const val FILE_PERMISSIONS = 420
+}
+
+private fun ArchiveFormat.isBrotli(): Boolean =
+    this == ArchiveFormat.Brotli || this == ArchiveFormat.TarBrotli
+
+private class ArchiveCallbackInput(
+    source: InputStream
+) {
+    private val input = BufferedInputStream(source, BufferSize)
+    private val bytes = ByteArray(BufferSize)
+    private val buffer = ByteBuffer.allocateDirect(BufferSize)
+
+    fun read(): ByteBuffer {
+        val count = input.read(bytes)
+        buffer.clear()
+        if (count > 0) {
+            buffer.put(bytes, 0, count)
+        }
+        buffer.flip()
+        return buffer
+    }
+
+    fun close() = input.close()
 }
 
 private fun Long.encryptionStatus(): ArchiveEncryptionStatus {
@@ -452,3 +562,5 @@ data class ExtractionLimits(
     val maxEntrySizeBytes: Long = 64L * 1024 * 1024 * 1024,
     val maxTotalSizeBytes: Long = 128L * 1024 * 1024 * 1024
 )
+
+private const val BufferSize = 64 * 1024
