@@ -18,7 +18,7 @@
 package com.t8rin.imagetoolbox.feature.code_preview.presentation
 
 import android.net.Uri
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,11 +40,11 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.CodePreviewCard
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.CodePreviewControls
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 
@@ -108,11 +108,10 @@ fun CodePreviewContent(component: CodePreviewComponent) {
             )
         },
         imagePreview = {
-            CodePreviewCard(
-                previewBitmap = component.previewBitmap,
-                showCanvasBackground = params.showCanvasBackground,
-                canvasCornerRadius = params.canvasCornerRadius,
-                modifier = Modifier.padding(vertical = 8.dp)
+            SimplePicture(
+                bitmap = component.previewBitmap,
+                enableContainer = false,
+                shape = RoundedCornerShape(params.canvasCornerRadius.dp)
             )
         },
         controls = {

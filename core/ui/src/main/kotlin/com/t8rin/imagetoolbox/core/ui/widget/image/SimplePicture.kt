@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,8 @@ fun SimplePicture(
     boxModifier: Modifier = Modifier,
     enableContainer: Boolean = true,
     loading: Boolean = false,
-    visible: Boolean = true
+    visible: Boolean = true,
+    shape: Shape = MaterialTheme.shapes.medium
 ) {
     bitmap?.asImageBitmap()
         ?.takeIf { visible }
@@ -66,7 +68,7 @@ fun SimplePicture(
                         .aspectRatio(
                             it.safeAspectRatio
                         )
-                        .clip(MaterialTheme.shapes.medium)
+                        .clip(shape)
                         .transparencyChecker()
                         .shimmer(loading)
                 )
