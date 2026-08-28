@@ -18,18 +18,24 @@
 package com.t8rin.imagetoolbox.feature.code_preview.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -51,6 +57,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
@@ -169,7 +176,34 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                                 entries = entries,
                                 title = stringResource(R.string.gradient),
                                 titleIcon = Icons.Outlined.Gradient,
-                                itemContentText = { stringResource(it.title) },
+                                itemContentText = { preset ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Spacer(
+                                            modifier = Modifier
+                                                .size(20.dp)
+                                                .background(
+                                                    brush = Brush.linearGradient(
+                                                        colors = listOf(
+                                                            preset.startColor,
+                                                            preset.endColor
+                                                        )
+                                                    ),
+                                                    shape = ShapeDefaults.extraSmall
+                                                )
+                                                .border(
+                                                    width = 0.5.dp,
+                                                    color = MaterialTheme.colorScheme.outlineVariant,
+                                                    shape = AutoCornersShape(3.5.dp)
+                                                )
+                                        )
+                                        Spacer(Modifier.width(6.dp))
+                                        Text(stringResource(preset.title))
+                                    }
+
+                                    null
+                                },
                                 spanCount = 3,
                                 badgeContent = { Text(entries.size.toString()) },
                                 key = CodeBackgroundPreset::name,
