@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.Highlight
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.Regex
@@ -156,9 +157,23 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     AnimatedVisibility(visible = params.showCanvasBackground) {
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            BackgroundPresetSelector(
+                            val entries = remember {
+                                CodeBackgroundPreset.entries.filterNot {
+                                    it == CodeBackgroundPreset.Custom
+                                }
+                            }
+
+                            DataSelector(
                                 value = params.backgroundPreset,
-                                onValueChange = component::updateBackgroundPreset
+                                onValueChange = component::updateBackgroundPreset,
+                                entries = entries,
+                                title = stringResource(R.string.gradient),
+                                titleIcon = Icons.Outlined.Gradient,
+                                itemContentText = { stringResource(it.title) },
+                                spanCount = 3,
+                                badgeContent = { Text(entries.size.toString()) },
+                                key = CodeBackgroundPreset::name,
+                                shape = ShapeDefaults.center
                             )
                             ColorRowSelector(
                                 value = params.backgroundStartColor,
@@ -345,27 +360,4 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
 
         Spacer(Modifier.size(4.dp))
     }
-}
-
-@Composable
-private fun BackgroundPresetSelector(
-    value: CodeBackgroundPreset,
-    onValueChange: (CodeBackgroundPreset) -> Unit
-) {
-    val entries = CodeBackgroundPreset.entries.filterNot {
-        it == CodeBackgroundPreset.Custom
-    }
-
-    DataSelector(
-        value = value,
-        onValueChange = onValueChange,
-        entries = entries,
-        title = stringResource(R.string.gradient),
-        titleIcon = null,
-        itemContentText = { stringResource(it.title) },
-        spanCount = 3,
-        badgeContent = { Text(entries.size.toString()) },
-        key = CodeBackgroundPreset::name,
-        shape = ShapeDefaults.center
-    )
 }
