@@ -123,8 +123,8 @@ internal class LogsWriter(
     }
 
     fun shareLogs() {
-        val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-            putParcelableArrayListExtra(Intent.EXTRA_STREAM, arrayListOf(logsFile!!.getUri()))
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_STREAM, logsFile!!.getUri())
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             type = "text/plain"

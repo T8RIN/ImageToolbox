@@ -193,6 +193,13 @@ internal class AndroidShareProvider @Inject constructor(
         uris: List<Uri>
     ) = withContext(defaultDispatcher) {
         if (uris.isEmpty()) return@withContext
+        if (uris.size == 1) {
+            shareUriImpl(
+                uri = uris.first().toString(),
+                type = null
+            )
+            return@withContext
+        }
 
         val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))

@@ -404,8 +404,15 @@ object ContextUtils {
     fun Context.shareUris(uris: List<Uri>) {
         if (uris.isEmpty()) return
 
-        val sendIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
-            putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
+        val sendIntent = Intent(
+            if (uris.size == 1) Intent.ACTION_SEND
+            else Intent.ACTION_SEND_MULTIPLE
+        ).apply {
+            if (uris.size == 1) {
+                putExtra(Intent.EXTRA_STREAM, uris.first())
+            } else {
+                putParcelableArrayListExtra(Intent.EXTRA_STREAM, ArrayList(uris))
+            }
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             type = MimeTypeMap.getSingleton()
