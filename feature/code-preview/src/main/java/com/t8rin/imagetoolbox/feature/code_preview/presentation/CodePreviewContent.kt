@@ -35,11 +35,13 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
+import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.CodePreviewCard
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.CodePreviewControls
@@ -52,6 +54,16 @@ fun CodePreviewContent(component: CodePreviewComponent) {
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
     var showFolderSelectionDialog by rememberSaveable { mutableStateOf(false) }
     var editSheetData by remember { mutableStateOf(emptyList<Uri>()) }
+
+    var showZoomSheet by rememberSaveable { mutableStateOf(false) }
+
+    ZoomModalSheet(
+        data = component.previewBitmap,
+        visible = showZoomSheet,
+        onDismiss = {
+            showZoomSheet = false
+        }
+    )
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -83,7 +95,14 @@ fun CodePreviewContent(component: CodePreviewComponent) {
             )
         },
         topAppBarPersistentActions = {
-            TopAppBarEmoji()
+            if (component.previewBitmap == null) {
+                TopAppBarEmoji()
+            }
+
+            ZoomButton(
+                onClick = { showZoomSheet = true },
+                visible = component.previewBitmap != null
+            )
         },
         imagePreview = {
             CodePreviewCard(
@@ -96,7 +115,7 @@ fun CodePreviewContent(component: CodePreviewComponent) {
         controls = {
             CodePreviewControls(component = component)
         },
-        buttons = { actions ->
+        buttons = {
             BottomButtonsBlock(
                 isNoData = false,
                 onSecondaryButtonClick = {},
@@ -108,7 +127,7 @@ fun CodePreviewContent(component: CodePreviewComponent) {
                     showFolderSelectionDialog = true
                 },
                 isPrimaryButtonEnabled = params.code.isNotBlank() && !component.isSaving,
-                actions = actions
+                actions = {}
             )
         },
         canShowScreenData = true

@@ -106,6 +106,76 @@ enum class CodeBackgroundPreset(
         startColor = Color(0xFFF4C4F3),
         endColor = Color(0xFFFC67FA)
     ),
+    NeonSky(
+        title = R.string.code_background_neon_sky,
+        startColor = Color(0xFF00C6FF),
+        endColor = Color(0xFF0072FF)
+    ),
+    PurpleBliss(
+        title = R.string.code_background_purple_bliss,
+        startColor = Color(0xFF360033),
+        endColor = Color(0xFF0B8793)
+    ),
+    DeepSpace(
+        title = R.string.code_background_deep_space,
+        startColor = Color(0xFF000428),
+        endColor = Color(0xFF004E92)
+    ),
+    Firewatch(
+        title = R.string.code_background_firewatch,
+        startColor = Color(0xFFCB2D3E),
+        endColor = Color(0xFFEF473A)
+    ),
+    Mojito(
+        title = R.string.code_background_mojito,
+        startColor = Color(0xFF1D976C),
+        endColor = Color(0xFF93F9B9)
+    ),
+    CottonCandy(
+        title = R.string.code_background_cotton_candy,
+        startColor = Color(0xFFD9A7C7),
+        endColor = Color(0xFFFFFCDC)
+    ),
+    RoyalNight(
+        title = R.string.code_background_royal_night,
+        startColor = Color(0xFF141E30),
+        endColor = Color(0xFF243B55)
+    ),
+    BlackRose(
+        title = R.string.code_background_black_rose,
+        startColor = Color(0xFF2B0A3D),
+        endColor = Color(0xFF8B1E3F)
+    ),
+    DesertSun(
+        title = R.string.code_background_desert_sun,
+        startColor = Color(0xFFC79081),
+        endColor = Color(0xFFDFA579)
+    ),
+    Mint(
+        title = R.string.code_background_mint,
+        startColor = Color(0xFF00B09B),
+        endColor = Color(0xFF96C93D)
+    ),
+    Ice(
+        title = R.string.code_background_ice,
+        startColor = Color(0xFF83A4D4),
+        endColor = Color(0xFFB6FBFF)
+    ),
+    Lavender(
+        title = R.string.code_background_lavender,
+        startColor = Color(0xFFDA22FF),
+        endColor = Color(0xFF9733EE)
+    ),
+    SolarFlare(
+        title = R.string.code_background_solar_flare,
+        startColor = Color(0xFFF12711),
+        endColor = Color(0xFFF5AF19)
+    ),
+    NorthernLights(
+        title = R.string.code_background_northern_lights,
+        startColor = Color(0xFF43C6AC),
+        endColor = Color(0xFF191654)
+    ),
     Custom(
         title = R.string.code_background_custom,
         startColor = Color(0xFF6D5DFB),

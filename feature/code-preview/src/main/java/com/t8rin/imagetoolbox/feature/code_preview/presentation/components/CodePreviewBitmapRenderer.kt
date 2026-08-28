@@ -79,6 +79,7 @@ private fun availableBitmapPixels(): Float {
     return availableMemory * BitmapMemoryFraction / BytesPerPixel
 }
 
+@Suppress("SameParameterValue")
 private fun createGeometry(
     params: CodePreviewParams,
     highlightedCode: AnnotatedString,

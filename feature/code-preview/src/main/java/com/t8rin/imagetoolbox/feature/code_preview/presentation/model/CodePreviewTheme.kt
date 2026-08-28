@@ -42,6 +42,18 @@ enum class CodePreviewTheme(val title: String) {
     EverforestDark("Everforest Dark"),
     GitHubDimmed("GitHub Dimmed"),
     VitesseDark("Vitesse Dark"),
+    KanagawaWave("Kanagawa Wave"),
+    Moonlight("Moonlight"),
+    Horizon("Horizon"),
+    Palenight("Palenight"),
+    Synthwave84("SynthWave '84"),
+    ShadesOfPurple("Shades of Purple"),
+    CatppuccinMacchiato("Catppuccin Macchiato"),
+    CatppuccinFrappe("Catppuccin Frappé"),
+    Poimandres("Poimandres"),
+    Andromeda("Andromeda"),
+    AuraDark("Aura Dark"),
+    Cyberpunk("Cyberpunk"),
     Alucard("Alucard"),
     DraculaLight("Dracula Light"),
     OneLight("One Light"),
@@ -52,7 +64,11 @@ enum class CodePreviewTheme(val title: String) {
     AyuLight("Ayu Light"),
     GruvboxLight("Gruvbox Light"),
     RosePineDawn("Rosé Pine Dawn"),
-    EverforestLight("Everforest Light");
+    EverforestLight("Everforest Light"),
+    KanagawaLotus("Kanagawa Lotus"),
+    TokyoNightDay("Tokyo Night Day"),
+    VitesseLight("Vitesse Light"),
+    NordLight("Nord Light");
 
     private val resolvedTheme: HighlightTheme by lazy {
         when (this) {
@@ -285,6 +301,198 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
+            KanagawaWave -> customTheme(
+                name = "kanagawa-wave",
+                palette = HighlightPalette(
+                    background = Color(0xFF1F1F28),
+                    foreground = Color(0xFFDCD7BA),
+                    keyword = Color(0xFF957FB8),
+                    builtIn = Color(0xFF7E9CD8),
+                    string = Color(0xFF98BB6C),
+                    number = Color(0xFFD27E99),
+                    comment = Color(0xFF727169),
+                    title = Color(0xFF7FB4CA),
+                    attribute = Color(0xFFE6C384),
+                    meta = Color(0xFFFF5D62)
+                )
+            )
+
+            Moonlight -> customTheme(
+                name = "moonlight",
+                palette = HighlightPalette(
+                    background = Color(0xFF222436),
+                    foreground = Color(0xFFC8D3F5),
+                    keyword = Color(0xFFC099FF),
+                    builtIn = Color(0xFF82AAFF),
+                    string = Color(0xFFC3E88D),
+                    number = Color(0xFFFFA7C4),
+                    comment = Color(0xFF636DA6),
+                    title = Color(0xFF65BCFF),
+                    attribute = Color(0xFFFFC777),
+                    meta = Color(0xFFFF757F)
+                )
+            )
+
+            Horizon -> customTheme(
+                name = "horizon",
+                palette = HighlightPalette(
+                    background = Color(0xFF1C1E26),
+                    foreground = Color(0xFFD5D8DA),
+                    keyword = Color(0xFFB877DB),
+                    builtIn = Color(0xFF25B0BC),
+                    string = Color(0xFFE95678),
+                    number = Color(0xFFFAB795),
+                    comment = Color(0xFF6C6F93),
+                    title = Color(0xFF59E1E3),
+                    attribute = Color(0xFFFAC29A),
+                    meta = Color(0xFFF43E5C)
+                )
+            )
+
+            Palenight -> customTheme(
+                name = "palenight",
+                palette = HighlightPalette(
+                    background = Color(0xFF292D3E),
+                    foreground = Color(0xFFA6ACCD),
+                    keyword = Color(0xFFC792EA),
+                    builtIn = Color(0xFF82AAFF),
+                    string = Color(0xFFC3E88D),
+                    number = Color(0xFFF78C6C),
+                    comment = Color(0xFF676E95),
+                    title = Color(0xFF89DDFF),
+                    attribute = Color(0xFFFFCB6B),
+                    meta = Color(0xFFF07178)
+                )
+            )
+
+            Synthwave84 -> customTheme(
+                name = "synthwave-84",
+                palette = HighlightPalette(
+                    background = Color(0xFF262335),
+                    foreground = Color(0xFFFFFFFF),
+                    keyword = Color(0xFFF92AAD),
+                    builtIn = Color(0xFF36F9F6),
+                    string = Color(0xFFFFE261),
+                    number = Color(0xFFFF8B39),
+                    comment = Color(0xFF848BBD),
+                    title = Color(0xFF72F1B8),
+                    attribute = Color(0xFFFFDE5D),
+                    meta = Color(0xFFFE4450)
+                )
+            )
+
+            ShadesOfPurple -> customTheme(
+                name = "shades-of-purple",
+                palette = HighlightPalette(
+                    background = Color(0xFF2D2B55),
+                    foreground = Color(0xFFFFFFFF),
+                    keyword = Color(0xFFFAD000),
+                    builtIn = Color(0xFF80FFEA),
+                    string = Color(0xFFA5FF90),
+                    number = Color(0xFFFF628C),
+                    comment = Color(0xFFB362FF),
+                    title = Color(0xFF9EFFFF),
+                    attribute = Color(0xFFFFEE80),
+                    meta = Color(0xFFFF9D00)
+                )
+            )
+
+            CatppuccinMacchiato -> customTheme(
+                name = "catppuccin-macchiato",
+                palette = HighlightPalette(
+                    background = Color(0xFF24273A),
+                    foreground = Color(0xFFCAD3F5),
+                    keyword = Color(0xFFC6A0F6),
+                    builtIn = Color(0xFF91D7E3),
+                    string = Color(0xFFA6DA95),
+                    number = Color(0xFFF5A97F),
+                    comment = Color(0xFF6E738D),
+                    title = Color(0xFF8AADF4),
+                    attribute = Color(0xFFEED49F),
+                    meta = Color(0xFFED8796)
+                )
+            )
+
+            CatppuccinFrappe -> customTheme(
+                name = "catppuccin-frappe",
+                palette = HighlightPalette(
+                    background = Color(0xFF303446),
+                    foreground = Color(0xFFC6D0F5),
+                    keyword = Color(0xFFCA9EE6),
+                    builtIn = Color(0xFF85C1DC),
+                    string = Color(0xFFA6D189),
+                    number = Color(0xFFEF9F76),
+                    comment = Color(0xFF737994),
+                    title = Color(0xFF8CAAEE),
+                    attribute = Color(0xFFE5C890),
+                    meta = Color(0xFFE78284)
+                )
+            )
+
+            Poimandres -> customTheme(
+                name = "poimandres",
+                palette = HighlightPalette(
+                    background = Color(0xFF1B1E28),
+                    foreground = Color(0xFFA6ACCD),
+                    keyword = Color(0xFF5DE4C7),
+                    builtIn = Color(0xFF89DDFF),
+                    string = Color(0xFF5DE4C7),
+                    number = Color(0xFFADD7FF),
+                    comment = Color(0xFF767C9D),
+                    title = Color(0xFF91B4D5),
+                    attribute = Color(0xFFFFC777),
+                    meta = Color(0xFFD0679D)
+                )
+            )
+
+            Andromeda -> customTheme(
+                name = "andromeda",
+                palette = HighlightPalette(
+                    background = Color(0xFF23262E),
+                    foreground = Color(0xFFD5CED9),
+                    keyword = Color(0xFFC74DED),
+                    builtIn = Color(0xFF00E8C6),
+                    string = Color(0xFF96E072),
+                    number = Color(0xFFF39C12),
+                    comment = Color(0xFF6D7A90),
+                    title = Color(0xFFFFC76D),
+                    attribute = Color(0xFFF92672),
+                    meta = Color(0xFFEE5D43)
+                )
+            )
+
+            AuraDark -> customTheme(
+                name = "aura-dark",
+                palette = HighlightPalette(
+                    background = Color(0xFF15141B),
+                    foreground = Color(0xFFEDECEE),
+                    keyword = Color(0xFFA277FF),
+                    builtIn = Color(0xFF61FFCA),
+                    string = Color(0xFF61FFCA),
+                    number = Color(0xFFFFCA85),
+                    comment = Color(0xFF6D6D6D),
+                    title = Color(0xFF82E2FF),
+                    attribute = Color(0xFFF694FF),
+                    meta = Color(0xFFFF6767)
+                )
+            )
+
+            Cyberpunk -> customTheme(
+                name = "cyberpunk",
+                palette = HighlightPalette(
+                    background = Color(0xFF000B1E),
+                    foreground = Color(0xFFD7F9FF),
+                    keyword = Color(0xFFFF2A6D),
+                    builtIn = Color(0xFF05D9E8),
+                    string = Color(0xFF00FF9C),
+                    number = Color(0xFFFFF951),
+                    comment = Color(0xFF4B6382),
+                    title = Color(0xFF01CDFF),
+                    attribute = Color(0xFFD300C5),
+                    meta = Color(0xFFFF5C8A)
+                )
+            )
+
             Alucard -> HighlightTheme.alucardLight()
             DraculaLight -> HighlightTheme.draculaLight()
             OneLight -> HighlightTheme.atomOneLight()
@@ -383,6 +591,70 @@ enum class CodePreviewTheme(val title: String) {
                     title = Color(0xFF3A94C5),
                     attribute = Color(0xFFDFA000),
                     meta = Color(0xFFF57D26)
+                )
+            )
+
+            KanagawaLotus -> customTheme(
+                name = "kanagawa-lotus",
+                palette = HighlightPalette(
+                    background = Color(0xFFF2ECBC),
+                    foreground = Color(0xFF545464),
+                    keyword = Color(0xFF624C83),
+                    builtIn = Color(0xFF4D699B),
+                    string = Color(0xFF6F894E),
+                    number = Color(0xFFA292A3),
+                    comment = Color(0xFF8A8980),
+                    title = Color(0xFF597B75),
+                    attribute = Color(0xFF9F5F80),
+                    meta = Color(0xFFC84053)
+                )
+            )
+
+            TokyoNightDay -> customTheme(
+                name = "tokyo-night-day",
+                palette = HighlightPalette(
+                    background = Color(0xFFD5D6DB),
+                    foreground = Color(0xFF3760BF),
+                    keyword = Color(0xFF9854F1),
+                    builtIn = Color(0xFF007197),
+                    string = Color(0xFF587539),
+                    number = Color(0xFFB15C00),
+                    comment = Color(0xFF8990B3),
+                    title = Color(0xFF166775),
+                    attribute = Color(0xFF8C6C3E),
+                    meta = Color(0xFFF52A65)
+                )
+            )
+
+            VitesseLight -> customTheme(
+                name = "vitesse-light",
+                palette = HighlightPalette(
+                    background = Color(0xFFFFFFFF),
+                    foreground = Color(0xFF393A34),
+                    keyword = Color(0xFF1E754F),
+                    builtIn = Color(0xFF2E8F82),
+                    string = Color(0xFFB56959),
+                    number = Color(0xFF998418),
+                    comment = Color(0xFFA0ADA0),
+                    title = Color(0xFF59873A),
+                    attribute = Color(0xFFD9739F),
+                    meta = Color(0xFFAB5959)
+                )
+            )
+
+            NordLight -> customTheme(
+                name = "nord-light",
+                palette = HighlightPalette(
+                    background = Color(0xFFECEFF4),
+                    foreground = Color(0xFF2E3440),
+                    keyword = Color(0xFF5E81AC),
+                    builtIn = Color(0xFF8FBCBB),
+                    string = Color(0xFFA3BE8C),
+                    number = Color(0xFFB48EAD),
+                    comment = Color(0xFF7B88A1),
+                    title = Color(0xFF5E81AC),
+                    attribute = Color(0xFFD08770),
+                    meta = Color(0xFFBF616A)
                 )
             )
         }

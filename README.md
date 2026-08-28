@@ -1274,6 +1274,13 @@ or click one of the badges below.
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters
     - Importing, exporting, sharing and managing shader presets
+- Code Preview Generator
+    - Turn source code into polished, shareable images with syntax highlighting for 190+ languages
+    - Choose from 46 syntax themes and 30 gradient backgrounds, or use custom colors and
+      transparency
+    - Customize canvas spacing, rounded corners, rotation, window controls, line numbers and card
+      shadow
+    - Export in multiple image formats or share and edit the generated image directly
 - Archive Tools
   - Stream archives directly from source files to the selected destination without loading the
     whole archive into memory

@@ -5159,6 +5159,20 @@
     <string name="code_background_forest">Forest</string>
     <string name="code_background_arctic">Arctic</string>
     <string name="code_background_rose">Rose</string>
+    <string name="code_background_neon_sky">Neon Sky</string>
+    <string name="code_background_purple_bliss">Purple Bliss</string>
+    <string name="code_background_deep_space">Deep Space</string>
+    <string name="code_background_firewatch">Firewatch</string>
+    <string name="code_background_mojito">Mojito</string>
+    <string name="code_background_cotton_candy">Cotton Candy</string>
+    <string name="code_background_royal_night">Royal Night</string>
+    <string name="code_background_black_rose">Black Rose</string>
+    <string name="code_background_desert_sun">Desert Sun</string>
+    <string name="code_background_mint">Mint</string>
+    <string name="code_background_ice">Ice</string>
+    <string name="code_background_lavender">Lavender</string>
+    <string name="code_background_solar_flare">Solar Flare</string>
+    <string name="code_background_northern_lights">Northern Lights</string>
     <string name="code_background_custom">Custom</string>
     <string name="search_keywords_code_preview">code snippet source syntax highlight carbon ray screenshot developer programming</string>
 </resources>

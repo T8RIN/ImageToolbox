@@ -18,26 +18,18 @@
 package com.t8rin.imagetoolbox.feature.code_preview.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -57,7 +49,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -98,7 +89,6 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
             RoundedTextField(
                 value = params.code,
                 onValueChange = component::updateCode,
-                label = stringResource(R.string.code_preview_code),
                 hint = stringResource(R.string.code_preview_code_hint),
                 singleLine = false,
                 textStyle = TextStyle(
@@ -361,48 +351,20 @@ private fun BackgroundPresetSelector(
     value: CodeBackgroundPreset,
     onValueChange: (CodeBackgroundPreset) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .container(shape = ShapeDefaults.center)
-            .padding(vertical = 10.dp)
-    ) {
-        TitleItem(
-            text = stringResource(R.string.gradient),
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp)
-        )
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(
-                items = CodeBackgroundPreset.entries.filterNot {
-                    it == CodeBackgroundPreset.Custom
-                },
-                key = CodeBackgroundPreset::name
-            ) { preset ->
-                EnhancedChip(
-                    selected = value == preset,
-                    onClick = { onValueChange(preset) },
-                    selectedColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 7.dp)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            modifier = Modifier
-                                .size(18.dp)
-                                .background(
-                                    brush = Brush.linearGradient(
-                                        listOf(preset.startColor, preset.endColor)
-                                    ),
-                                    shape = MaterialTheme.shapes.small
-                                )
-                        )
-                        Spacer(Modifier.size(7.dp))
-                        Text(stringResource(preset.title))
-                    }
-                }
-            }
-        }
+    val entries = CodeBackgroundPreset.entries.filterNot {
+        it == CodeBackgroundPreset.Custom
     }
+
+    DataSelector(
+        value = value,
+        onValueChange = onValueChange,
+        entries = entries,
+        title = stringResource(R.string.gradient),
+        titleIcon = null,
+        itemContentText = { stringResource(it.title) },
+        spanCount = 3,
+        badgeContent = { Text(entries.size.toString()) },
+        key = CodeBackgroundPreset::name,
+        shape = ShapeDefaults.center
+    )
 }

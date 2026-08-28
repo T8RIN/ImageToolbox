@@ -106,7 +106,7 @@ class CodePreviewBitmapRendererTest {
 
     @Test
     fun allCodeThemesCanBeResolved() {
-        assertEquals(30, CodePreviewTheme.entries.size)
+        assertEquals(46, CodePreviewTheme.entries.size)
         CodePreviewTheme.entries.forEach(CodePreviewTheme::highlightTheme)
     }
 

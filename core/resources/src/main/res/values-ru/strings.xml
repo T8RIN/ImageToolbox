@@ -5135,6 +5135,20 @@
     <string name="code_background_forest">Лес</string>
     <string name="code_background_arctic">Арктика</string>
     <string name="code_background_rose">Роза</string>
+    <string name="code_background_neon_sky">Неоновое небо</string>
+    <string name="code_background_purple_bliss">Фиолетовый бриз</string>
+    <string name="code_background_deep_space">Глубокий космос</string>
+    <string name="code_background_firewatch">Огненный закат</string>
+    <string name="code_background_mojito">Мохито</string>
+    <string name="code_background_cotton_candy">Сахарная вата</string>
+    <string name="code_background_royal_night">Королевская ночь</string>
+    <string name="code_background_black_rose">Чёрная роза</string>
+    <string name="code_background_desert_sun">Солнце пустыни</string>
+    <string name="code_background_mint">Мята</string>
+    <string name="code_background_ice">Лёд</string>
+    <string name="code_background_lavender">Лаванда</string>
+    <string name="code_background_solar_flare">Солнечная вспышка</string>
+    <string name="code_background_northern_lights">Северное сияние</string>
     <string name="code_background_custom">Произвольный</string>
     <string name="search_keywords_code_preview">код сниппет исходник подсветка синтаксис скриншот программирование</string>
 </resources>
