@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">దాచిన ఫైల్‌లను దాటవేయండి</string>
     <string name="skip_hidden_archive_files_sub">డాట్‌తో ప్రారంభమయ్యే పేర్లతో ఫైల్‌లు మరియు ఫోల్డర్‌లను సంగ్రహించవద్దు</string>
     <string name="search_keywords_pdf_comic_to_pdf">కామిక్ బుక్ cbr cbz cb7 రార్ జిప్ 7z ఆర్కైవ్ మాంగా PDF కన్వర్ట్</string>
+    <string name="reverse_page_order">రివర్స్ పేజీ క్రమం</string>
+    <string name="reverse_page_order_sub">చివరి ఆర్కైవ్ చిత్రాన్ని ముందుగా PDFలో ఉంచండి</string>
+    <string name="split_wide_comic_pages">విస్తృత పేజీలను విభజించండి</string>
+    <string name="split_wide_comic_pages_sub">ల్యాండ్‌స్కేప్ స్ప్రెడ్‌లను రెండు వేర్వేరు PDF పేజీలుగా మార్చండి</string>
+    <string name="reading_direction">పఠన దిశ</string>
+    <string name="skip_comic_cover">కవర్ దాటవేయి</string>
+    <string name="skip_comic_cover_sub">PDFలో మొదటి ఆర్కైవ్ చిత్రాన్ని చేర్చవద్దు</string>
+    <string name="compression_level">కుదింపు స్థాయి</string>
 </resources>

@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Жасырын файлдарды өткізіп жіберу</string>
     <string name="skip_hidden_archive_files_sub">Аты нүктеден басталатын файлдар мен қалталарды шығармаңыз</string>
     <string name="search_keywords_pdf_comic_to_pdf">комикс cbr cbz cb7 rar zip 7z мұрағаты манга PDF түрлендіру</string>
+    <string name="reverse_page_order">Кері бет реті</string>
+    <string name="reverse_page_order_sub">Соңғы мұрағат кескінін PDF файлына бірінші орналастырыңыз</string>
+    <string name="split_wide_comic_pages">Кең беттерді бөлу</string>
+    <string name="split_wide_comic_pages_sub">Пейзажды екі бөлек PDF бетіне айналдырыңыз</string>
+    <string name="reading_direction">Оқу бағыты</string>
+    <string name="skip_comic_cover">Қақпақты өткізіп жіберу</string>
+    <string name="skip_comic_cover_sub">PDF файлына бірінші мұрағаттық кескінді қоспаңыз</string>
+    <string name="compression_level">Қысу деңгейі</string>
 </resources>

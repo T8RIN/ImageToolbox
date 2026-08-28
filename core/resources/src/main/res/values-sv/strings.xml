@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Hoppa över dolda filer</string>
     <string name="skip_hidden_archive_files_sub">Extrahera inte filer och mappar vars namn börjar med en punkt</string>
     <string name="search_keywords_pdf_comic_to_pdf">serietidning cbr cbz cb7 rar zip 7z arkiv manga PDF konvertera</string>
+    <string name="reverse_page_order">Omvänd sidordning</string>
+    <string name="reverse_page_order_sub">Placera den sista arkivbilden först i PDF:en</string>
+    <string name="split_wide_comic_pages">Dela breda sidor</string>
+    <string name="split_wide_comic_pages_sub">Förvandla liggande uppslag till två separata PDF-sidor</string>
+    <string name="reading_direction">Läsriktning</string>
+    <string name="skip_comic_cover">Skippa omslaget</string>
+    <string name="skip_comic_cover_sub">Ta inte med den första arkivbilden i PDF:en</string>
+    <string name="compression_level">Kompressionsnivå</string>
 </resources>

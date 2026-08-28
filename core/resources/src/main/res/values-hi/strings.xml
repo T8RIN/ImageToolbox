@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">छुपी हुई फ़ाइलें छोड़ें</string>
     <string name="skip_hidden_archive_files_sub">उन फ़ाइलों और फ़ोल्डरों को न निकालें जिनके नाम बिंदु से शुरू होते हैं</string>
     <string name="search_keywords_pdf_comic_to_pdf">कॉमिक बुक सीबीआर सीबीजेड सीबी7 आरएआर जिप 7जेड आर्काइव मंगा पीडीएफ कन्वर्ट</string>
+    <string name="reverse_page_order">पृष्ठ क्रम उलटें</string>
+    <string name="reverse_page_order_sub">अंतिम संग्रह छवि को पीडीएफ में पहले रखें</string>
+    <string name="split_wide_comic_pages">चौड़े पन्ने बाँटे</string>
+    <string name="split_wide_comic_pages_sub">लैंडस्केप स्प्रेड को दो अलग-अलग पीडीएफ पेजों में बदलें</string>
+    <string name="reading_direction">पढ़ने की दिशा</string>
+    <string name="skip_comic_cover">कवर छोड़ें</string>
+    <string name="skip_comic_cover_sub">पीडीएफ में पहली संग्रह छवि शामिल न करें</string>
+    <string name="compression_level">संपीड़न स्तर</string>
 </resources>

@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">숨겨진 파일 건너뛰기</string>
     <string name="skip_hidden_archive_files_sub">이름이 점으로 시작하는 파일 및 폴더를 추출하지 마십시오.</string>
     <string name="search_keywords_pdf_comic_to_pdf">만화책 cbr cbz cb7 rar zip 7z 아카이브 만화 PDF 변환</string>
+    <string name="reverse_page_order">페이지 순서 역순</string>
+    <string name="reverse_page_order_sub">마지막 아카이브 이미지를 PDF의 첫 번째 위치에 배치</string>
+    <string name="split_wide_comic_pages">넓은 페이지 분할</string>
+    <string name="split_wide_comic_pages_sub">가로 스프레드를 두 개의 별도 PDF 페이지로 전환</string>
+    <string name="reading_direction">읽는 방향</string>
+    <string name="skip_comic_cover">표지 건너뛰기</string>
+    <string name="skip_comic_cover_sub">PDF에 첫 번째 아카이브 이미지를 포함하지 마세요.</string>
+    <string name="compression_level">압축 수준</string>
 </resources>

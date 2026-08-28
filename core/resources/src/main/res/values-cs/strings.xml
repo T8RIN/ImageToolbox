@@ -5079,4 +5079,12 @@
     <string name="skip_hidden_archive_files">Přeskočit skryté soubory</string>
     <string name="skip_hidden_archive_files_sub">Nerozbalujte soubory a složky, jejichž názvy začínají tečkou</string>
     <string name="search_keywords_pdf_comic_to_pdf">komiks cbr cbz cb7 rar zip 7z archiv manga PDF convert</string>
+    <string name="reverse_page_order">Obrácené pořadí stránek</string>
+    <string name="reverse_page_order_sub">Jako první umístěte do PDF poslední archivní obrázek</string>
+    <string name="split_wide_comic_pages">Rozdělit široké stránky</string>
+    <string name="split_wide_comic_pages_sub">Proměňte dvojstránky na šířku na dvě samostatné stránky PDF</string>
+    <string name="reading_direction">Směr čtení</string>
+    <string name="skip_comic_cover">Přeskočit kryt</string>
+    <string name="skip_comic_cover_sub">Nezahrnujte první archivní obrázek do PDF</string>
+    <string name="compression_level">Úroveň komprese</string>
 </resources>

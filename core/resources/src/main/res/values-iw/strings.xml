@@ -5079,4 +5079,12 @@
     <string name="skip_hidden_archive_files">דלג על קבצים מוסתרים</string>
     <string name="skip_hidden_archive_files_sub">אין לחלץ קבצים ותיקיות ששמותיהם מתחילים בנקודה</string>
     <string name="search_keywords_pdf_comic_to_pdf">קומיקס cbr cbz cb7 rar zip 7z archive manga PDF convert</string>
+    <string name="reverse_page_order">סדר דפים הפוך</string>
+    <string name="reverse_page_order_sub">מקם את תמונת הארכיון האחרונה תחילה ב-PDF</string>
+    <string name="split_wide_comic_pages">פיצול דפים רחבים</string>
+    <string name="split_wide_comic_pages_sub">הפוך כפולות לרוחב לשני דפי PDF נפרדים</string>
+    <string name="reading_direction">כיוון קריאה</string>
+    <string name="skip_comic_cover">דלג על כריכה</string>
+    <string name="skip_comic_cover_sub">אל תכלול את תמונת הארכיון הראשונה ב-PDF</string>
+    <string name="compression_level">רמת דחיסה</string>
 </resources>

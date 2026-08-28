@@ -5079,4 +5079,12 @@
     <string name="skip_hidden_archive_files">Praleisti paslėptus failus</string>
     <string name="skip_hidden_archive_files_sub">Neišskleiskite failų ir aplankų, kurių pavadinimai prasideda tašku</string>
     <string name="search_keywords_pdf_comic_to_pdf">komiksų knyga cbr cbz cb7 rar zip 7z archyvas manga PDF konvertuoti</string>
+    <string name="reverse_page_order">Atvirkštinė puslapių tvarka</string>
+    <string name="reverse_page_order_sub">Pirmiausia įdėkite paskutinį archyvo vaizdą į PDF</string>
+    <string name="split_wide_comic_pages">Išskaidyti plačius puslapius</string>
+    <string name="split_wide_comic_pages_sub">Paverskite kraštovaizdžius į du atskirus PDF puslapius</string>
+    <string name="reading_direction">Skaitymo kryptis</string>
+    <string name="skip_comic_cover">Praleisti viršelį</string>
+    <string name="skip_comic_cover_sub">Į PDF neįtraukite pirmojo archyvo vaizdo</string>
+    <string name="compression_level">Suspaudimo lygis</string>
 </resources>

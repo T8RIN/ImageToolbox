@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">ข้ามไฟล์ที่ซ่อนอยู่</string>
     <string name="skip_hidden_archive_files_sub">อย่าแยกไฟล์และโฟลเดอร์ที่ชื่อขึ้นต้นด้วยจุด</string>
     <string name="search_keywords_pdf_comic_to_pdf">หนังสือการ์ตูน cbr cbz cb7 rar zip 7z เก็บมังงะ PDF แปลง</string>
+    <string name="reverse_page_order">ลำดับหน้าย้อนกลับ</string>
+    <string name="reverse_page_order_sub">วางรูปภาพที่เก็บถาวรสุดท้ายไว้เป็นอันดับแรกใน PDF</string>
+    <string name="split_wide_comic_pages">แบ่งหน้ากว้างๆ</string>
+    <string name="split_wide_comic_pages_sub">เปลี่ยนสเปรดแนวนอนเป็นหน้า PDF แยกกันสองหน้า</string>
+    <string name="reading_direction">ทิศทางการอ่าน</string>
+    <string name="skip_comic_cover">ข้ามปก</string>
+    <string name="skip_comic_cover_sub">อย่ารวมรูปภาพที่เก็บถาวรรูปแรกใน PDF</string>
+    <string name="compression_level">ระดับการบีบอัด</string>
 </resources>

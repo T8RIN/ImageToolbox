@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">跳过隐藏文件</string>
     <string name="skip_hidden_archive_files_sub">不要提取名称以点开头的文件和文件夹</string>
     <string name="search_keywords_pdf_comic_to_pdf">漫画书 cbr cbz cb7 rar zip 7z 存档漫画 PDF 转换</string>
+    <string name="reverse_page_order">反转页面顺序</string>
+    <string name="reverse_page_order_sub">将最后一个存档图像放在 PDF 中的最前面</string>
+    <string name="split_wide_comic_pages">分割宽页面</string>
+    <string name="split_wide_comic_pages_sub">将横向跨页转换为两个单独的 PDF 页面</string>
+    <string name="reading_direction">阅读方向</string>
+    <string name="skip_comic_cover">跳过封面</string>
+    <string name="skip_comic_cover_sub">不要在 PDF 中包含第一个存档图像</string>
+    <string name="compression_level">压缩级别</string>
 </resources>

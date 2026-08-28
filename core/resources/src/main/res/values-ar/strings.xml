@@ -5081,4 +5081,12 @@
     <string name="skip_hidden_archive_files">تخطي الملفات المخفية</string>
     <string name="skip_hidden_archive_files_sub">لا تقم باستخراج الملفات والمجلدات التي تبدأ أسماؤها بنقطة</string>
     <string name="search_keywords_pdf_comic_to_pdf">الكتاب الهزلي cbr cbz cb7 rar zip 7z أرشيف المانجا PDF تحويل</string>
+    <string name="reverse_page_order">عكس ترتيب الصفحات</string>
+    <string name="reverse_page_order_sub">ضع آخر صورة أرشيفية أولاً في ملف PDF</string>
+    <string name="split_wide_comic_pages">تقسيم صفحات واسعة</string>
+    <string name="split_wide_comic_pages_sub">تحويل الحيزات الأفقية إلى صفحتين منفصلتين بتنسيق PDF</string>
+    <string name="reading_direction">اتجاه القراءة</string>
+    <string name="skip_comic_cover">تخطي الغطاء</string>
+    <string name="skip_comic_cover_sub">لا تقم بتضمين صورة الأرشيف الأولى في ملف PDF</string>
+    <string name="compression_level">مستوى الضغط</string>
 </resources>

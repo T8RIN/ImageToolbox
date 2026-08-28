@@ -5078,4 +5078,12 @@
     <string name="skip_hidden_archive_files">Прескочи скривене датотеке</string>
     <string name="skip_hidden_archive_files_sub">Немојте извлачити датотеке и фасцикле чија имена почињу тачком</string>
     <string name="search_keywords_pdf_comic_to_pdf">стрип цбр цбз цб7 рар зип 7з архива манга ПДФ претворити</string>
+    <string name="reverse_page_order">Обрнути редослед страница</string>
+    <string name="reverse_page_order_sub">Поставите последњу архивску слику прво у ПДФ</string>
+    <string name="split_wide_comic_pages">Подели широке странице</string>
+    <string name="split_wide_comic_pages_sub">Претворите пејзажне ширине у две одвојене ПДФ странице</string>
+    <string name="reading_direction">Смер читања</string>
+    <string name="skip_comic_cover">Скип цовер</string>
+    <string name="skip_comic_cover_sub">Не укључујте прву архивску слику у ПДФ</string>
+    <string name="compression_level">Ниво компресије</string>
 </resources>

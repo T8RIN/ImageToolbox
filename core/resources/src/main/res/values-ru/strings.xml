@@ -5079,4 +5079,12 @@
     <string name="search_keywords_pdf_dark_mode">PDF темный режим Night Reader инвертировать цвета негатив</string>
     <string name="custom_depth_map">Пользовательская карта глубины</string>
     <string name="custom_depth_map_sub">Необязательный. Повторное использование карты глубины в оттенках серого или карты глубины Image Toolbox вместо повторной оценки глубины.</string>
+    <string name="reverse_page_order">Обратный порядок страниц</string>
+    <string name="reverse_page_order_sub">Сначала поместите последнее архивное изображение в PDF-файл.</string>
+    <string name="split_wide_comic_pages">Разделить широкие страницы</string>
+    <string name="split_wide_comic_pages_sub">Превратите альбомный разворот в две отдельные страницы PDF</string>
+    <string name="reading_direction">Направление чтения</string>
+    <string name="skip_comic_cover">Пропустить обложку</string>
+    <string name="skip_comic_cover_sub">Не включайте первое архивное изображение в PDF-файл.</string>
+    <string name="compression_level">Уровень сжатия</string>
 </resources>

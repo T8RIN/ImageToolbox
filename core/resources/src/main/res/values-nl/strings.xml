@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Sla verborgen bestanden over</string>
     <string name="skip_hidden_archive_files_sub">Pak geen bestanden en mappen uit waarvan de naam met een punt begint</string>
     <string name="search_keywords_pdf_comic_to_pdf">stripboek cbr cbz cb7 rar zip 7z archief manga PDF converteren</string>
+    <string name="reverse_page_order">Omgekeerde paginavolgorde</string>
+    <string name="reverse_page_order_sub">Plaats de laatste archiefafbeelding eerst in de PDF</string>
+    <string name="split_wide_comic_pages">Brede pagina\'s splitsen</string>
+    <string name="split_wide_comic_pages_sub">Verander liggende spreads in twee afzonderlijke PDF-pagina\'s</string>
+    <string name="reading_direction">Lezing Richting</string>
+    <string name="skip_comic_cover">Sla dekking over</string>
+    <string name="skip_comic_cover_sub">Neem niet de eerste archiefafbeelding op in de PDF</string>
+    <string name="compression_level">Compressieniveau</string>
 </resources>

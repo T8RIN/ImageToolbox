@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Rejtett fájlok kihagyása</string>
     <string name="skip_hidden_archive_files_sub">Ne bontsa ki azokat a fájlokat és mappákat, amelyek neve ponttal kezdődik</string>
     <string name="search_keywords_pdf_comic_to_pdf">képregény cbr cbz cb7 rar zip 7z archív manga PDF konvertálás</string>
+    <string name="reverse_page_order">Fordított oldalsorrend</string>
+    <string name="reverse_page_order_sub">Helyezze el először az utolsó archív képet a PDF-ben</string>
+    <string name="split_wide_comic_pages">Széles oldalak felosztása</string>
+    <string name="split_wide_comic_pages_sub">A fekvő terítékeket alakítsa át két különálló PDF-oldalra</string>
+    <string name="reading_direction">Olvasási irány</string>
+    <string name="skip_comic_cover">Ugrás a borítóra</string>
+    <string name="skip_comic_cover_sub">Ne adja meg az első archív képet a PDF-ben</string>
+    <string name="compression_level">Tömörítési szint</string>
 </resources>

@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Omet els fitxers ocults</string>
     <string name="skip_hidden_archive_files_sub">No extreu fitxers i carpetes els noms dels quals comencin amb un punt</string>
     <string name="search_keywords_pdf_comic_to_pdf">còmic cbr cbz cb7 rar zip 7z archive manga PDF convert</string>
+    <string name="reverse_page_order">Invertir l\'ordre de la pàgina</string>
+    <string name="reverse_page_order_sub">Col·loqueu primer l\'última imatge d\'arxiu al PDF</string>
+    <string name="split_wide_comic_pages">Dividiu pàgines amples</string>
+    <string name="split_wide_comic_pages_sub">Converteix les extensions horitzontals en dues pàgines PDF separades</string>
+    <string name="reading_direction">Direcció de lectura</string>
+    <string name="skip_comic_cover">Saltar coberta</string>
+    <string name="skip_comic_cover_sub">No inclogueu la primera imatge d\'arxiu al PDF</string>
+    <string name="compression_level">Nivell de compressió</string>
 </resources>

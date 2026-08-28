@@ -5079,4 +5079,12 @@
     <string name="skip_hidden_archive_files">Пропустити приховані файли</string>
     <string name="skip_hidden_archive_files_sub">Не витягуйте файли та папки, імена яких починаються з крапки</string>
     <string name="search_keywords_pdf_comic_to_pdf">комікс cbr cbz cb7 rar zip 7z архів манга PDF конвертація</string>
+    <string name="reverse_page_order">Зворотний порядок сторінок</string>
+    <string name="reverse_page_order_sub">Розмістіть останнє архівне зображення першим у PDF-файлі</string>
+    <string name="split_wide_comic_pages">Розділіть широкі сторінки</string>
+    <string name="split_wide_comic_pages_sub">Перетворіть альбомні розвороти на дві окремі сторінки PDF</string>
+    <string name="reading_direction">Напрям читання</string>
+    <string name="skip_comic_cover">Скіпова кришка</string>
+    <string name="skip_comic_cover_sub">Не включайте перше архівне зображення в PDF</string>
+    <string name="compression_level">Рівень стиснення</string>
 </resources>

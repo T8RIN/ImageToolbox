@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Spring skjulte filer over</string>
     <string name="skip_hidden_archive_files_sub">Udpak ikke filer og mapper, hvis navne starter med en prik</string>
     <string name="search_keywords_pdf_comic_to_pdf">tegneserie cbr cbz cb7 rar zip 7z arkiv manga PDF konverter</string>
+    <string name="reverse_page_order">Omvendt siderækkefølge</string>
+    <string name="reverse_page_order_sub">Placer det sidste arkivbillede først i PDF\'en</string>
+    <string name="split_wide_comic_pages">Del brede sider</string>
+    <string name="split_wide_comic_pages_sub">Gør liggende opslag til to separate PDF-sider</string>
+    <string name="reading_direction">Læseretning</string>
+    <string name="skip_comic_cover">Spring omslag</string>
+    <string name="skip_comic_cover_sub">Medtag ikke det første arkivbillede i PDF\'en</string>
+    <string name="compression_level">Kompressionsniveau</string>
 </resources>

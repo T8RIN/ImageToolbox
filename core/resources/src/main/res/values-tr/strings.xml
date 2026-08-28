@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Gizli dosyaları atla</string>
     <string name="skip_hidden_archive_files_sub">Adları noktayla başlayan dosya ve klasörleri çıkarmayın</string>
     <string name="search_keywords_pdf_comic_to_pdf">çizgi roman cbr cbz cb7 rar zip 7z arşivi manga PDF dönüştürme</string>
+    <string name="reverse_page_order">Sayfa sırasını ters çevir</string>
+    <string name="reverse_page_order_sub">Son arşiv görüntüsünü PDF\'ye ilk olarak yerleştirin</string>
+    <string name="split_wide_comic_pages">Geniş sayfaları böl</string>
+    <string name="split_wide_comic_pages_sub">Yatay formaları iki ayrı PDF sayfasına dönüştürün</string>
+    <string name="reading_direction">Okuma Yönü</string>
+    <string name="skip_comic_cover">Kapağı atla</string>
+    <string name="skip_comic_cover_sub">İlk arşiv görüntüsünü PDF\'ye dahil etmeyin</string>
+    <string name="compression_level">Sıkıştırma Seviyesi</string>
 </resources>

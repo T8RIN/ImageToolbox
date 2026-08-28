@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">লুকানো ফাইলগুলি এড়িয়ে যান</string>
     <string name="skip_hidden_archive_files_sub">ফাইল এবং ফোল্ডারগুলি বের করবেন না যার নাম একটি ডট দিয়ে শুরু হয়</string>
     <string name="search_keywords_pdf_comic_to_pdf">কমিক বই cbr cbz cb7 rar zip 7z আর্কাইভ মাঙ্গা PDF রূপান্তর</string>
+    <string name="reverse_page_order">পৃষ্ঠার ক্রম বিপরীত</string>
+    <string name="reverse_page_order_sub">শেষ আর্কাইভ ছবিটি প্রথমে পিডিএফ-এ রাখুন</string>
+    <string name="split_wide_comic_pages">বিস্তৃত পাতা বিভক্ত</string>
+    <string name="split_wide_comic_pages_sub">ল্যান্ডস্কেপ স্প্রেড দুটি পৃথক PDF পৃষ্ঠায় পরিণত করুন</string>
+    <string name="reading_direction">পড়ার দিকনির্দেশ</string>
+    <string name="skip_comic_cover">কভার এড়িয়ে যান</string>
+    <string name="skip_comic_cover_sub">পিডিএফ-এ প্রথম আর্কাইভ ছবি অন্তর্ভুক্ত করবেন না</string>
+    <string name="compression_level">কম্প্রেশন লেভেল</string>
 </resources>

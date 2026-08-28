@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Ohita piilotetut tiedostot</string>
     <string name="skip_hidden_archive_files_sub">Älä pura tiedostoja ja kansioita, joiden nimet alkavat pisteellä</string>
     <string name="search_keywords_pdf_comic_to_pdf">sarjakuva cbr cbz cb7 rar zip 7z arkisto manga PDF muuntaa</string>
+    <string name="reverse_page_order">Käänteinen sivujärjestys</string>
+    <string name="reverse_page_order_sub">Aseta viimeinen arkistokuva ensin PDF-tiedostoon</string>
+    <string name="split_wide_comic_pages">Jaa leveät sivut</string>
+    <string name="split_wide_comic_pages_sub">Muuta maisemalevyt kahdeksi erilliseksi PDF-sivuksi</string>
+    <string name="reading_direction">Lukusuunta</string>
+    <string name="skip_comic_cover">Ohita kansi</string>
+    <string name="skip_comic_cover_sub">Älä sisällytä ensimmäistä arkistokuvaa PDF-tiedostoon</string>
+    <string name="compression_level">Pakkaustaso</string>
 </resources>

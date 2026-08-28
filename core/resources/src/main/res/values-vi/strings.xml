@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">Bỏ qua các tập tin ẩn</string>
     <string name="skip_hidden_archive_files_sub">Không giải nén file, thư mục có tên bắt đầu bằng dấu chấm</string>
     <string name="search_keywords_pdf_comic_to_pdf">truyện tranh cbr cbz cb7 rar zip 7z lưu trữ manga PDF chuyển đổi</string>
+    <string name="reverse_page_order">Đảo ngược thứ tự trang</string>
+    <string name="reverse_page_order_sub">Đặt hình ảnh lưu trữ cuối cùng lên đầu tiên trong tệp PDF</string>
+    <string name="split_wide_comic_pages">Chia trang rộng</string>
+    <string name="split_wide_comic_pages_sub">Biến các trang trải ngang thành hai trang PDF riêng biệt</string>
+    <string name="reading_direction">Hướng đọc</string>
+    <string name="skip_comic_cover">Bỏ qua bìa</string>
+    <string name="skip_comic_cover_sub">Không bao gồm hình ảnh lưu trữ đầu tiên trong PDF</string>
+    <string name="compression_level">Mức nén</string>
 </resources>

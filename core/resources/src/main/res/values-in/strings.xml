@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">Lewati file tersembunyi</string>
     <string name="skip_hidden_archive_files_sub">Jangan mengekstrak file dan folder yang namanya dimulai dengan titik</string>
     <string name="search_keywords_pdf_comic_to_pdf">buku komik cbr cbz cb7 rar zip 7z arsip manga PDF convert</string>
+    <string name="reverse_page_order">Urutan halaman terbalik</string>
+    <string name="reverse_page_order_sub">Tempatkan gambar arsip terakhir terlebih dahulu di PDF</string>
+    <string name="split_wide_comic_pages">Pisahkan halaman lebar</string>
+    <string name="split_wide_comic_pages_sub">Ubah bentangan lanskap menjadi dua halaman PDF terpisah</string>
+    <string name="reading_direction">Arah Membaca</string>
+    <string name="skip_comic_cover">Lewati perlindungan</string>
+    <string name="skip_comic_cover_sub">Jangan sertakan gambar arsip pertama dalam PDF</string>
+    <string name="compression_level">Tingkat Kompresi</string>
 </resources>

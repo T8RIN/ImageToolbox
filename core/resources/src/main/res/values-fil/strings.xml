@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Laktawan ang mga nakatagong file</string>
     <string name="skip_hidden_archive_files_sub">Huwag i-extract ang mga file at folder na ang mga pangalan ay nagsisimula sa isang tuldok</string>
     <string name="search_keywords_pdf_comic_to_pdf">comic book cbr cbz cb7 rar zip 7z archive manga PDF convert</string>
+    <string name="reverse_page_order">Baliktarin ang pagkakasunud-sunod ng pahina</string>
+    <string name="reverse_page_order_sub">Ilagay muna ang huling imahe ng archive sa PDF</string>
+    <string name="split_wide_comic_pages">Hatiin ang malalawak na pahina</string>
+    <string name="split_wide_comic_pages_sub">Gawing dalawang magkahiwalay na PDF page ang mga landscape spread</string>
+    <string name="reading_direction">Direksyon sa Pagbasa</string>
+    <string name="skip_comic_cover">Laktawan ang takip</string>
+    <string name="skip_comic_cover_sub">Huwag isama ang unang archive na imahe sa PDF</string>
+    <string name="compression_level">Antas ng Compression</string>
 </resources>

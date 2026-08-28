@@ -5076,4 +5076,12 @@
     <string name="skip_hidden_archive_files">隠しファイルをスキップする</string>
     <string name="skip_hidden_archive_files_sub">名前がドットで始まるファイルやフォルダーは抽出しないでください</string>
     <string name="search_keywords_pdf_comic_to_pdf">コミックブック cbr cbz cb7 rar zip 7z アーカイブ マンガ PDF 変換</string>
+    <string name="reverse_page_order">ページの順序を逆にする</string>
+    <string name="reverse_page_order_sub">最後のアーカイブ画像を PDF の最初に配置します</string>
+    <string name="split_wide_comic_pages">ワイドページを分割する</string>
+    <string name="split_wide_comic_pages_sub">横向きのスプレッドを 2 つの別々の PDF ページに変換する</string>
+    <string name="reading_direction">読み取り方向</string>
+    <string name="skip_comic_cover">スキップカバー</string>
+    <string name="skip_comic_cover_sub">PDF に最初のアーカイブ画像を含めないでください</string>
+    <string name="compression_level">圧縮レベル</string>
 </resources>

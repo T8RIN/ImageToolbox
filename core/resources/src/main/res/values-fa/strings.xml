@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">رد شدن از فایل های مخفی</string>
     <string name="skip_hidden_archive_files_sub">فایل ها و پوشه هایی که نام آنها با نقطه شروع می شود را استخراج نکنید</string>
     <string name="search_keywords_pdf_comic_to_pdf">کتاب کمیک cbr cbz cb7 rar zip 7z آرشیو مانگا PDF تبدیل</string>
+    <string name="reverse_page_order">ترتیب صفحات معکوس</string>
+    <string name="reverse_page_order_sub">آخرین تصویر آرشیو را ابتدا در PDF قرار دهید</string>
+    <string name="split_wide_comic_pages">صفحات گسترده را تقسیم کنید</string>
+    <string name="split_wide_comic_pages_sub">گسترش چشم انداز را به دو صفحه PDF مجزا تبدیل کنید</string>
+    <string name="reading_direction">جهت خواندن</string>
+    <string name="skip_comic_cover">از پوشش رد شوید</string>
+    <string name="skip_comic_cover_sub">اولین تصویر آرشیو را در PDF وارد نکنید</string>
+    <string name="compression_level">سطح فشرده سازی</string>
 </resources>

@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Jäta peidetud failid vahele</string>
     <string name="skip_hidden_archive_files_sub">Ärge ekstraktige faile ja kaustu, mille nimed algavad punktiga</string>
     <string name="search_keywords_pdf_comic_to_pdf">koomiksiraamat cbr cbz cb7 rar zip 7z arhiiv manga PDF teisendada</string>
+    <string name="reverse_page_order">Lehekülgede vastupidine järjekord</string>
+    <string name="reverse_page_order_sub">Asetage viimane arhiivipilt PDF-i esimeseks</string>
+    <string name="split_wide_comic_pages">Poolita laiad lehed</string>
+    <string name="split_wide_comic_pages_sub">Muutke maastikulehed kaheks eraldi PDF-leheks</string>
+    <string name="reading_direction">Lugemise suund</string>
+    <string name="skip_comic_cover">Jäta kate vahele</string>
+    <string name="skip_comic_cover_sub">Ärge lisage PDF-i esimest arhiivipilti</string>
+    <string name="compression_level">Kompressioonitase</string>
 </resources>

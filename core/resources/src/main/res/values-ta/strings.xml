@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">மறைக்கப்பட்ட கோப்புகளைத் தவிர்க்கவும்</string>
     <string name="skip_hidden_archive_files_sub">ஒரு புள்ளியுடன் தொடங்கும் கோப்புகள் மற்றும் கோப்புறைகளைப் பிரித்தெடுக்க வேண்டாம்</string>
     <string name="search_keywords_pdf_comic_to_pdf">காமிக் புத்தகம் cbr cbz cb7 rar zip 7z ஆர்கைவ் மாங்கா PDF கன்வெர்ட்</string>
+    <string name="reverse_page_order">தலைகீழ் பக்க வரிசை</string>
+    <string name="reverse_page_order_sub">கடைசி காப்பகப் படத்தை முதலில் PDF இல் வைக்கவும்</string>
+    <string name="split_wide_comic_pages">பரந்த பக்கங்களைப் பிரிக்கவும்</string>
+    <string name="split_wide_comic_pages_sub">நிலப்பரப்பை இரண்டு தனித்தனி PDF பக்கங்களாக மாற்றவும்</string>
+    <string name="reading_direction">படிக்கும் திசை</string>
+    <string name="skip_comic_cover">அட்டையைத் தவிர்க்கவும்</string>
+    <string name="skip_comic_cover_sub">PDF இல் முதல் காப்பகப் படத்தைச் சேர்க்க வேண்டாம்</string>
+    <string name="compression_level">சுருக்க நிலை</string>
 </resources>

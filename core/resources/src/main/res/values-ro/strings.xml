@@ -5078,4 +5078,12 @@
     <string name="skip_hidden_archive_files">Omite fișierele ascunse</string>
     <string name="skip_hidden_archive_files_sub">Nu extrageți fișiere și foldere ale căror nume încep cu un punct</string>
     <string name="search_keywords_pdf_comic_to_pdf">benzi desenate cbr cbz cb7 rar zip 7z arhiva manga PDF convert</string>
+    <string name="reverse_page_order">Ordinea inversă a paginilor</string>
+    <string name="reverse_page_order_sub">Plasați prima imagine de arhivă în PDF</string>
+    <string name="split_wide_comic_pages">Împărțiți pagini late</string>
+    <string name="split_wide_comic_pages_sub">Transformați paginile peisaj în două pagini PDF separate</string>
+    <string name="reading_direction">Direcția de lectură</string>
+    <string name="skip_comic_cover">Sari peste acoperire</string>
+    <string name="skip_comic_cover_sub">Nu includeți prima imagine de arhivă în PDF</string>
+    <string name="compression_level">Nivel de compresie</string>
 </resources>

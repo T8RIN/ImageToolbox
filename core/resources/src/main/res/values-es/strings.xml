@@ -5077,4 +5077,12 @@
     <string name="skip_hidden_archive_files">Saltar archivos ocultos</string>
     <string name="skip_hidden_archive_files_sub">No extraiga archivos y carpetas cuyos nombres comiencen con un punto</string>
     <string name="search_keywords_pdf_comic_to_pdf">cómic cbr cbz cb7 rar zip 7z archivo manga PDF convertir</string>
+    <string name="reverse_page_order">Orden inverso de páginas</string>
+    <string name="reverse_page_order_sub">Coloque la última imagen de archivo primero en el PDF</string>
+    <string name="split_wide_comic_pages">Dividir páginas anchas</string>
+    <string name="split_wide_comic_pages_sub">Convierta los pliegos horizontales en dos páginas PDF separadas</string>
+    <string name="reading_direction">Dirección de lectura</string>
+    <string name="skip_comic_cover">Saltar cubierta</string>
+    <string name="skip_comic_cover_sub">No incluya la primera imagen de archivo en el PDF</string>
+    <string name="compression_level">Nivel de compresión</string>
 </resources>
