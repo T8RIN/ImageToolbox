@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Spring omslag</string>
     <string name="skip_comic_cover_sub">Medtag ikke det første arkivbillede i PDF\'en</string>
     <string name="compression_level">Kompressionsniveau</string>
+    <string name="archive_contents">Arkivets indhold</string>
+    <string name="archive_contents_sub">Se og vælg filer, der skal udpakkes</string>
+    <string name="archive_files_selected">%1$d af %2$d filer er valgt</string>
+    <string name="archive_contains_no_files">Arkivet indeholder ingen filer</string>
+    <string name="archive_contents_load_failed">Kunne ikke læse arkivindholdet</string>
+    <string name="select_all">Vælg alle</string>
+    <string name="deselect_all">Fravælg alle</string>
 </resources>

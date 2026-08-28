@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Қақпақты өткізіп жіберу</string>
     <string name="skip_comic_cover_sub">PDF файлына бірінші мұрағаттық кескінді қоспаңыз</string>
     <string name="compression_level">Қысу деңгейі</string>
+    <string name="archive_contents">Мұрағат мазмұны</string>
+    <string name="archive_contents_sub">Шығарылатын файлдарды қараңыз және таңдаңыз</string>
+    <string name="archive_files_selected">%1$d/%2$d файл таңдалды</string>
+    <string name="archive_contains_no_files">Мұрағатта файлдар жоқ</string>
+    <string name="archive_contents_load_failed">Мұрағат мазмұнын оқу мүмкін емес</string>
+    <string name="select_all">Барлығын таңдаңыз</string>
+    <string name="deselect_all">Барлығын таңдаудан бас тарту</string>
 </resources>

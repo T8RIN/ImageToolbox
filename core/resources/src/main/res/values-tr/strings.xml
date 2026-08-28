@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Kapağı atla</string>
     <string name="skip_comic_cover_sub">İlk arşiv görüntüsünü PDF\'ye dahil etmeyin</string>
     <string name="compression_level">Sıkıştırma Seviyesi</string>
+    <string name="archive_contents">İçerikleri arşivle</string>
+    <string name="archive_contents_sub">Çıkarılacak dosyaları görüntüleyin ve seçin</string>
+    <string name="archive_files_selected">%1$d / %2$d dosya seçildi</string>
+    <string name="archive_contains_no_files">Arşivde dosya yok</string>
+    <string name="archive_contents_load_failed">Arşiv içeriği okunamadı</string>
+    <string name="select_all">Tümünü seç</string>
+    <string name="deselect_all">Tümünün seçimini kaldır</string>
 </resources>

@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">Прапусціць вокладку</string>
     <string name="skip_comic_cover_sub">Не ўключайце першую архіўную выяву ў PDF</string>
     <string name="compression_level">Узровень сціску</string>
+    <string name="archive_contents">Змест архіва</string>
+    <string name="archive_contents_sub">Прагляд і выбар файлаў для распакавання</string>
+    <string name="archive_files_selected">Выбрана %1$d з %2$d файлаў</string>
+    <string name="archive_contains_no_files">У архіве няма файлаў</string>
+    <string name="archive_contents_load_failed">Не ўдалося прачытаць змест архіва</string>
+    <string name="select_all">Выбраць усё</string>
+    <string name="deselect_all">Зняць выбар з усіх</string>
 </resources>

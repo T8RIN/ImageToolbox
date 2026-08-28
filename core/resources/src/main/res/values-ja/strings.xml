@@ -5084,4 +5084,11 @@
     <string name="skip_comic_cover">スキップカバー</string>
     <string name="skip_comic_cover_sub">PDF に最初のアーカイブ画像を含めないでください</string>
     <string name="compression_level">圧縮レベル</string>
+    <string name="archive_contents">アーカイブコンテンツ</string>
+    <string name="archive_contents_sub">抽出するファイルを表示して選択する</string>
+    <string name="archive_files_selected">%2$d ファイル中 %1$d 個が選択されました</string>
+    <string name="archive_contains_no_files">アーカイブにはファイルが含まれていません</string>
+    <string name="archive_contents_load_failed">アーカイブの内容を読み取れませんでした</string>
+    <string name="select_all">すべて選択</string>
+    <string name="deselect_all">すべての選択を解除します</string>
 </resources>

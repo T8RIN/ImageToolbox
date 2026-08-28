@@ -5086,4 +5086,11 @@
     <string name="skip_comic_cover">Sari peste acoperire</string>
     <string name="skip_comic_cover_sub">Nu includeți prima imagine de arhivă în PDF</string>
     <string name="compression_level">Nivel de compresie</string>
+    <string name="archive_contents">Arhivarea conținutului</string>
+    <string name="archive_contents_sub">Vizualizați și alegeți fișierele de extras</string>
+    <string name="archive_files_selected">%1$d din %2$d fișiere selectate</string>
+    <string name="archive_contains_no_files">Arhiva nu conține fișiere</string>
+    <string name="archive_contents_load_failed">Nu s-a putut citi conținutul arhivei</string>
+    <string name="select_all">Selectați toate</string>
+    <string name="deselect_all">Deselectați toate</string>
 </resources>

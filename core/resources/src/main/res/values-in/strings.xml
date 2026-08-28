@@ -5084,4 +5084,11 @@
     <string name="skip_comic_cover">Lewati perlindungan</string>
     <string name="skip_comic_cover_sub">Jangan sertakan gambar arsip pertama dalam PDF</string>
     <string name="compression_level">Tingkat Kompresi</string>
+    <string name="archive_contents">Isi arsip</string>
+    <string name="archive_contents_sub">Lihat dan pilih file yang akan diekstrak</string>
+    <string name="archive_files_selected">%1$d dari %2$d file dipilih</string>
+    <string name="archive_contains_no_files">Arsip tidak berisi file</string>
+    <string name="archive_contents_load_failed">Tidak dapat membaca isi arsip</string>
+    <string name="select_all">Pilih semua</string>
+    <string name="deselect_all">Batalkan pilihan semua</string>
 </resources>

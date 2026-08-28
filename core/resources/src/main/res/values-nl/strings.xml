@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Sla dekking over</string>
     <string name="skip_comic_cover_sub">Neem niet de eerste archiefafbeelding op in de PDF</string>
     <string name="compression_level">Compressieniveau</string>
+    <string name="archive_contents">Inhoud archiveren</string>
+    <string name="archive_contents_sub">Bekijk en kies bestanden om uit te pakken</string>
+    <string name="archive_files_selected">%1$d van %2$d bestanden geselecteerd</string>
+    <string name="archive_contains_no_files">Het archief bevat geen bestanden</string>
+    <string name="archive_contents_load_failed">Kon de archiefinhoud niet lezen</string>
+    <string name="select_all">Selecteer alles</string>
+    <string name="deselect_all">Deselecteer alles</string>
 </resources>

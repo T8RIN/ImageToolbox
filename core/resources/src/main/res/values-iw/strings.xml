@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">דלג על כריכה</string>
     <string name="skip_comic_cover_sub">אל תכלול את תמונת הארכיון הראשונה ב-PDF</string>
     <string name="compression_level">רמת דחיסה</string>
+    <string name="archive_contents">תוכן ארכיון</string>
+    <string name="archive_contents_sub">הצג ובחר קבצים לחילוץ</string>
+    <string name="archive_files_selected">נבחרו %1$d מתוך %2$d קבצים</string>
+    <string name="archive_contains_no_files">הארכיון אינו מכיל קבצים</string>
+    <string name="archive_contents_load_failed">לא ניתן היה לקרוא את תוכן הארכיון</string>
+    <string name="select_all">בחר הכל</string>
+    <string name="deselect_all">בטל את הבחירה בכולם</string>
 </resources>

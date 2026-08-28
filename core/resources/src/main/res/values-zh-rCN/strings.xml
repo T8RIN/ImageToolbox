@@ -5084,4 +5084,11 @@
     <string name="skip_comic_cover">跳过封面</string>
     <string name="skip_comic_cover_sub">不要在 PDF 中包含第一个存档图像</string>
     <string name="compression_level">压缩级别</string>
+    <string name="archive_contents">存档内容</string>
+    <string name="archive_contents_sub">查看并选择要提取的文件</string>
+    <string name="archive_files_selected">已选择 %1$d 个文件（共 %2$d 个）</string>
+    <string name="archive_contains_no_files">存档不包含任何文件</string>
+    <string name="archive_contents_load_failed">无法读取存档内容</string>
+    <string name="select_all">选择全部</string>
+    <string name="deselect_all">取消全选</string>
 </resources>

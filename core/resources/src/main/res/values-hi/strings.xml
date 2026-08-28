@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">कवर छोड़ें</string>
     <string name="skip_comic_cover_sub">पीडीएफ में पहली संग्रह छवि शामिल न करें</string>
     <string name="compression_level">संपीड़न स्तर</string>
+    <string name="archive_contents">सामग्री संग्रहित करें</string>
+    <string name="archive_contents_sub">निकालने के लिए फ़ाइलें देखें और चुनें</string>
+    <string name="archive_files_selected">%2$d में से %1$d फ़ाइलें चयनित</string>
+    <string name="archive_contains_no_files">संग्रह में कोई फ़ाइल नहीं है</string>
+    <string name="archive_contents_load_failed">पुरालेख सामग्री नहीं पढ़ सका</string>
+    <string name="select_all">सबका चयन करें</string>
+    <string name="deselect_all">सबको अचयनित करो</string>
 </resources>

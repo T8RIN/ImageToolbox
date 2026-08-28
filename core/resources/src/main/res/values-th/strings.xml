@@ -5084,4 +5084,11 @@
     <string name="skip_comic_cover">ข้ามปก</string>
     <string name="skip_comic_cover_sub">อย่ารวมรูปภาพที่เก็บถาวรรูปแรกใน PDF</string>
     <string name="compression_level">ระดับการบีบอัด</string>
+    <string name="archive_contents">เก็บถาวรเนื้อหา</string>
+    <string name="archive_contents_sub">ดูและเลือกไฟล์ที่จะแยก</string>
+    <string name="archive_files_selected">เลือก %1$d จาก %2$d ไฟล์แล้ว</string>
+    <string name="archive_contains_no_files">ไฟล์เก็บถาวรไม่มีไฟล์</string>
+    <string name="archive_contents_load_failed">ไม่สามารถอ่านเนื้อหาที่เก็บถาวรได้</string>
+    <string name="select_all">เลือกทั้งหมด</string>
+    <string name="deselect_all">ยกเลิกการเลือกทั้งหมด</string>
 </resources>

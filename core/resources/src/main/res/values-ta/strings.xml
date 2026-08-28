@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">அட்டையைத் தவிர்க்கவும்</string>
     <string name="skip_comic_cover_sub">PDF இல் முதல் காப்பகப் படத்தைச் சேர்க்க வேண்டாம்</string>
     <string name="compression_level">சுருக்க நிலை</string>
+    <string name="archive_contents">உள்ளடக்கங்களை காப்பகப்படுத்தவும்</string>
+    <string name="archive_contents_sub">பிரித்தெடுக்க கோப்புகளைப் பார்த்து தேர்வு செய்யவும்</string>
+    <string name="archive_files_selected">%1$d / %2$d கோப்புகள் தேர்ந்தெடுக்கப்பட்டன</string>
+    <string name="archive_contains_no_files">காப்பகத்தில் கோப்புகள் இல்லை</string>
+    <string name="archive_contents_load_failed">காப்பகத்தின் உள்ளடக்கங்களைப் படிக்க முடியவில்லை</string>
+    <string name="select_all">அனைத்தையும் தேர்ந்தெடுக்கவும்</string>
+    <string name="deselect_all">அனைத்தையும் தேர்வுநீக்கவும்</string>
 </resources>

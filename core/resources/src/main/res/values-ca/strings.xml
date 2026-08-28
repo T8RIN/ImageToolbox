@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Saltar coberta</string>
     <string name="skip_comic_cover_sub">No inclogueu la primera imatge d\'arxiu al PDF</string>
     <string name="compression_level">Nivell de compressió</string>
+    <string name="archive_contents">Continguts de l\'arxiu</string>
+    <string name="archive_contents_sub">Visualitza i tria els fitxers que vols extreure</string>
+    <string name="archive_files_selected">%1$d dels %2$d fitxers seleccionats</string>
+    <string name="archive_contains_no_files">L\'arxiu no conté cap fitxer</string>
+    <string name="archive_contents_load_failed">No s\'ha pogut llegir el contingut de l\'arxiu</string>
+    <string name="select_all">Seleccioneu-ho tot</string>
+    <string name="deselect_all">Desseleccioneu-ho tot</string>
 </resources>

@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">కవర్ దాటవేయి</string>
     <string name="skip_comic_cover_sub">PDFలో మొదటి ఆర్కైవ్ చిత్రాన్ని చేర్చవద్దు</string>
     <string name="compression_level">కుదింపు స్థాయి</string>
+    <string name="archive_contents">విషయాలను ఆర్కైవ్ చేయండి</string>
+    <string name="archive_contents_sub">సంగ్రహించడానికి ఫైల్‌లను వీక్షించండి మరియు ఎంచుకోండి</string>
+    <string name="archive_files_selected">%2$dలో %1$d ఫైల్‌లు ఎంచుకోబడ్డాయి</string>
+    <string name="archive_contains_no_files">ఆర్కైవ్‌లో ఫైల్‌లు లేవు</string>
+    <string name="archive_contents_load_failed">ఆర్కైవ్ కంటెంట్‌లను చదవడం సాధ్యపడలేదు</string>
+    <string name="select_all">అన్నింటినీ ఎంచుకోండి</string>
+    <string name="deselect_all">అన్నీ ఎంపికను తీసివేయండి</string>
 </resources>

@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Pular capa</string>
     <string name="skip_comic_cover_sub">Não inclua a primeira imagem de arquivo no PDF</string>
     <string name="compression_level">Nível de compressão</string>
+    <string name="archive_contents">Arquivar conteúdo</string>
+    <string name="archive_contents_sub">Visualize e escolha arquivos para extrair</string>
+    <string name="archive_files_selected">%1$d de %2$d arquivos selecionados</string>
+    <string name="archive_contains_no_files">O arquivo não contém arquivos</string>
+    <string name="archive_contents_load_failed">Não foi possível ler o conteúdo do arquivo</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="deselect_all">Desmarcar tudo</string>
 </resources>

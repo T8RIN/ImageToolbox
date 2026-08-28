@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">Скіпова кришка</string>
     <string name="skip_comic_cover_sub">Не включайте перше архівне зображення в PDF</string>
     <string name="compression_level">Рівень стиснення</string>
+    <string name="archive_contents">Вміст архіву</string>
+    <string name="archive_contents_sub">Перегляньте та виберіть файли для вилучення</string>
+    <string name="archive_files_selected">Вибрано %1$d з %2$d файлів</string>
+    <string name="archive_contains_no_files">Архів не містить файлів</string>
+    <string name="archive_contents_load_failed">Не вдалося прочитати вміст архіву</string>
+    <string name="select_all">Вибрати все</string>
+    <string name="deselect_all">Зняти вибір із усіх</string>
 </resources>

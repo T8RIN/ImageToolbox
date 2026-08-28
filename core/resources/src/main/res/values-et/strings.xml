@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Jäta kate vahele</string>
     <string name="skip_comic_cover_sub">Ärge lisage PDF-i esimest arhiivipilti</string>
     <string name="compression_level">Kompressioonitase</string>
+    <string name="archive_contents" />
+    <string name="archive_contents_sub">Vaadake ja valige ekstraktitavad failid</string>
+    <string name="archive_files_selected">Valitud on %1$d %2$d-st failist</string>
+    <string name="archive_contains_no_files">Arhiiv ei sisalda faile</string>
+    <string name="archive_contents_load_failed">Arhiivi sisu ei õnnestunud lugeda</string>
+    <string name="select_all">Valige kõik</string>
+    <string name="deselect_all" />
 </resources>

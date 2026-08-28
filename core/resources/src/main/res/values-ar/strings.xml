@@ -5089,4 +5089,11 @@
     <string name="skip_comic_cover">تخطي الغطاء</string>
     <string name="skip_comic_cover_sub">لا تقم بتضمين صورة الأرشيف الأولى في ملف PDF</string>
     <string name="compression_level">مستوى الضغط</string>
+    <string name="archive_contents">محتويات الأرشيف</string>
+    <string name="archive_contents_sub">عرض واختيار الملفات لاستخراجها</string>
+    <string name="archive_files_selected">تم تحديد %1$d من %2$d من الملفات</string>
+    <string name="archive_contains_no_files">الأرشيف لا يحتوي على ملفات</string>
+    <string name="archive_contents_load_failed">لا يمكن قراءة محتويات الأرشيف</string>
+    <string name="select_all">حدد الكل</string>
+    <string name="deselect_all">قم بإلغاء تحديد الكل</string>
 </resources>

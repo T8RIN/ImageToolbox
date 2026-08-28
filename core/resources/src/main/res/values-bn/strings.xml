@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">কভার এড়িয়ে যান</string>
     <string name="skip_comic_cover_sub">পিডিএফ-এ প্রথম আর্কাইভ ছবি অন্তর্ভুক্ত করবেন না</string>
     <string name="compression_level">কম্প্রেশন লেভেল</string>
+    <string name="archive_contents">সংরক্ষণাগার বিষয়বস্তু</string>
+    <string name="archive_contents_sub">এক্সট্রাক্ট করার জন্য ফাইলগুলি দেখুন এবং বেছে নিন</string>
+    <string name="archive_files_selected">%2$d ফাইলের মধ্যে %1$d নির্বাচন করা হয়েছে</string>
+    <string name="archive_contains_no_files">সংরক্ষণাগারে কোনো ফাইল নেই</string>
+    <string name="archive_contents_load_failed">সংরক্ষণাগার বিষয়বস্তু পড়া যায়নি</string>
+    <string name="select_all">সব নির্বাচন করুন</string>
+    <string name="deselect_all">সব বাদ দিন</string>
 </resources>

@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">Pomiń okładkę</string>
     <string name="skip_comic_cover_sub">Nie dołączaj pierwszego obrazu archiwalnego do pliku PDF</string>
     <string name="compression_level">Poziom kompresji</string>
+    <string name="archive_contents">Zawartość archiwum</string>
+    <string name="archive_contents_sub">Wyświetl i wybierz pliki do wyodrębnienia</string>
+    <string name="archive_files_selected">Wybrano %1$d z %2$d plików</string>
+    <string name="archive_contains_no_files">Archiwum nie zawiera plików</string>
+    <string name="archive_contents_load_failed">Nie można odczytać zawartości archiwum</string>
+    <string name="select_all">Zaznacz wszystko</string>
+    <string name="deselect_all">Odznacz wszystko</string>
 </resources>

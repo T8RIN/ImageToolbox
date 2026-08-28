@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Skippa omslaget</string>
     <string name="skip_comic_cover_sub">Ta inte med den första arkivbilden i PDF:en</string>
     <string name="compression_level">Kompressionsnivå</string>
+    <string name="archive_contents">Arkivinnehåll</string>
+    <string name="archive_contents_sub">Visa och välj filer att extrahera</string>
+    <string name="archive_files_selected">%1$d av %2$d filer har valts</string>
+    <string name="archive_contains_no_files">Arkivet innehåller inga filer</string>
+    <string name="archive_contents_load_failed">Kunde inte läsa arkivinnehållet</string>
+    <string name="select_all">Välj alla</string>
+    <string name="deselect_all">Avmarkera alla</string>
 </resources>

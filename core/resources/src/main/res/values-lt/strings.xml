@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">Praleisti viršelį</string>
     <string name="skip_comic_cover_sub">Į PDF neįtraukite pirmojo archyvo vaizdo</string>
     <string name="compression_level">Suspaudimo lygis</string>
+    <string name="archive_contents">Archyvo turinys</string>
+    <string name="archive_contents_sub">Peržiūrėkite ir pasirinkite failus, kuriuos norite išskleisti</string>
+    <string name="archive_files_selected">Pasirinkta %1$d iš %2$d failų</string>
+    <string name="archive_contains_no_files">Archyve nėra failų</string>
+    <string name="archive_contents_load_failed">Nepavyko perskaityti archyvo turinio</string>
+    <string name="select_all">Pasirinkite viską</string>
+    <string name="deselect_all">Panaikinkite visų pasirinkimą</string>
 </resources>

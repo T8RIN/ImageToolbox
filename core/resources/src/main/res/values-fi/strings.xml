@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Ohita kansi</string>
     <string name="skip_comic_cover_sub">Älä sisällytä ensimmäistä arkistokuvaa PDF-tiedostoon</string>
     <string name="compression_level">Pakkaustaso</string>
+    <string name="archive_contents">Arkiston sisältö</string>
+    <string name="archive_contents_sub">Tarkastele ja valitse purettavia tiedostoja</string>
+    <string name="archive_files_selected">%1$d / %2$d tiedostoa valittu</string>
+    <string name="archive_contains_no_files">Arkisto ei sisällä tiedostoja</string>
+    <string name="archive_contents_load_failed">Arkiston sisältöä ei voitu lukea</string>
+    <string name="select_all">Valitse kaikki</string>
+    <string name="deselect_all">Poista kaikki valinnat</string>
 </resources>

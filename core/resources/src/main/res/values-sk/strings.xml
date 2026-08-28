@@ -5087,4 +5087,11 @@
     <string name="skip_comic_cover">Preskočiť kryt</string>
     <string name="skip_comic_cover_sub">Do súboru PDF nevkladajte prvý archívny obrázok</string>
     <string name="compression_level">Úroveň kompresie</string>
+    <string name="archive_contents">Obsah archívu</string>
+    <string name="archive_contents_sub">Zobrazte a vyberte súbory na extrahovanie</string>
+    <string name="archive_files_selected">%1$d z %2$d vybratých súborov</string>
+    <string name="archive_contains_no_files">Archív neobsahuje žiadne súbory</string>
+    <string name="archive_contents_load_failed">Obsah archívu sa nepodarilo prečítať</string>
+    <string name="select_all">Vybrať všetko</string>
+    <string name="deselect_all">Zrušte výber všetkých</string>
 </resources>

@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Salta la copertura</string>
     <string name="skip_comic_cover_sub">Non includere la prima immagine di archivio nel PDF</string>
     <string name="compression_level">Livello di compressione</string>
+    <string name="archive_contents">Contenuti dell\'archivio</string>
+    <string name="archive_contents_sub">Visualizza e scegli i file da estrarre</string>
+    <string name="archive_files_selected">%1$d di %2$d file selezionati</string>
+    <string name="archive_contains_no_files">L\'archivio non contiene file</string>
+    <string name="archive_contents_load_failed">Impossibile leggere il contenuto dell\'archivio</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="deselect_all">Deseleziona tutto</string>
 </resources>

@@ -5086,4 +5086,11 @@
     <string name="skip_comic_cover">Скип цовер</string>
     <string name="skip_comic_cover_sub">Не укључујте прву архивску слику у ПДФ</string>
     <string name="compression_level">Ниво компресије</string>
+    <string name="archive_contents">Садржај архиве</string>
+    <string name="archive_contents_sub">Прегледајте и изаберите датотеке за распакивање</string>
+    <string name="archive_files_selected">Изабрано је __ПХ_0__ од __ПХ_1__ датотека</string>
+    <string name="archive_contains_no_files">Архива не садржи датотеке</string>
+    <string name="archive_contents_load_failed">Није могуће прочитати садржај архиве</string>
+    <string name="select_all">Изаберите све</string>
+    <string name="deselect_all">Опозови све</string>
 </resources>

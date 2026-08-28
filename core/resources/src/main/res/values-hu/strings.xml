@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">Ugrás a borítóra</string>
     <string name="skip_comic_cover_sub">Ne adja meg az első archív képet a PDF-ben</string>
     <string name="compression_level">Tömörítési szint</string>
+    <string name="archive_contents">Archívum tartalma</string>
+    <string name="archive_contents_sub">Tekintse meg és válassza ki a kibontandó fájlokat</string>
+    <string name="archive_files_selected">%1$d / %2$d fájl kiválasztva</string>
+    <string name="archive_contains_no_files">Az archívum nem tartalmaz fájlokat</string>
+    <string name="archive_contents_load_failed">Nem sikerült elolvasni az archívum tartalmát</string>
+    <string name="select_all">Válassza ki az összeset</string>
+    <string name="deselect_all">Törölje az összes kijelölését</string>
 </resources>

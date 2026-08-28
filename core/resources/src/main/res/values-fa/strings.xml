@@ -5085,4 +5085,11 @@
     <string name="skip_comic_cover">از پوشش رد شوید</string>
     <string name="skip_comic_cover_sub">اولین تصویر آرشیو را در PDF وارد نکنید</string>
     <string name="compression_level">سطح فشرده سازی</string>
+    <string name="archive_contents">آرشیو مطالب</string>
+    <string name="archive_contents_sub">مشاهده و انتخاب فایل ها برای استخراج</string>
+    <string name="archive_files_selected">%1$d از %2$d فایل انتخاب شد</string>
+    <string name="archive_contains_no_files">آرشیو هیچ فایلی ندارد</string>
+    <string name="archive_contents_load_failed">نمی توان محتوای آرشیو را خواند</string>
+    <string name="select_all">همه را انتخاب کنید</string>
+    <string name="deselect_all">همه را لغو انتخاب کنید</string>
 </resources>
