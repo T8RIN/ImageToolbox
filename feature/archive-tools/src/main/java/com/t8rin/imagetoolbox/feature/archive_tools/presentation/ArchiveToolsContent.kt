@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveFilesPreview
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchivePasswordDialog
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsControls
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsNoDataControls
@@ -83,6 +84,8 @@ fun ArchiveToolsContent(
     )
 
     val isPortrait by isPortraitOrientationAsState()
+    val showArchiveFilesPreview = component.mode == ArchiveMode.Extract &&
+            component.uris.size > 1
     val isActionEnabled = when (component.mode) {
         ArchiveMode.Archive -> !component.protectWithPassword ||
                 component.passphrase.isNotEmpty()
@@ -125,9 +128,16 @@ fun ArchiveToolsContent(
                 )
             }
         },
-        imagePreview = {},
+        imagePreview = {
+            if (showArchiveFilesPreview) {
+                ArchiveFilesPreview(
+                    component = component,
+                    isPortrait = isPortrait
+                )
+            }
+        },
         showImagePreviewAsStickyHeader = false,
-        placeImagePreview = false,
+        placeImagePreview = showArchiveFilesPreview,
         contentPadding = if (component.uris.isEmpty()) 0.dp else 20.dp,
         addHorizontalCutoutPaddingIfNoPreview = component.uris.isNotEmpty(),
         noDataControls = {
@@ -146,7 +156,9 @@ fun ArchiveToolsContent(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (isPortrait) Spacer(Modifier.height(20.dp))
+                if (isPortrait && !showArchiveFilesPreview) {
+                    Spacer(Modifier.height(20.dp))
+                }
 
                 ArchiveToolsControls(component = component)
             }

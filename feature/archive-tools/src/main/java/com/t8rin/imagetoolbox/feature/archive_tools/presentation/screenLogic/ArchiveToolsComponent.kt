@@ -350,7 +350,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
                 val status = runCatching {
                     archiveManager.getArchiveEncryptionStatus(uri.toString())
                 }.getOrNull()
-                if (mode == ArchiveMode.Extract && this@ArchiveToolsComponent.uris == uris) {
+                if (mode == ArchiveMode.Extract && uri in this@ArchiveToolsComponent.uris) {
                     _archiveEncryptionStatuses.update { it + (uri to status) }
                     _archivePassphraseStatuses.update { current ->
                         if (status == ArchiveEncryptionStatus.PasswordRequired) {
@@ -530,7 +530,18 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     }
 
     fun removeUri(uri: Uri) {
-        setUris(uris - uri)
+        if (uri !in uris) return
+
+        val remainingUris = uris - uri
+        _archiveEncryptionStatuses.update { it - uri }
+        _archivePassphrases.update { it - uri }
+        _archivePassphraseStatuses.update { it - uri }
+        if (archivePasswordRequestUri == uri) {
+            _archivePasswordRequestUri.value = null
+        }
+        _uris.value = remainingUris
+
+        if (remainingUris.isEmpty()) registerChangesCleared() else registerChanges()
     }
 
     fun addUris(list: List<Uri>) {

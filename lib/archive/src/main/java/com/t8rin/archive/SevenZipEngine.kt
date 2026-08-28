@@ -166,8 +166,12 @@ internal object SevenZipEngine {
                 ArchiveEncryptionStatus.None
             }
         }
-    } catch (_: PasswordRequiredException) {
-        ArchiveEncryptionStatus.PasswordRequired
+    } catch (exception: Exception) {
+        if (exception.hasPasswordRequiredCause()) {
+            ArchiveEncryptionStatus.PasswordRequired
+        } else {
+            throw exception
+        }
     }
 
     private fun open(inputFileDescriptor: Int, passphrase: String?): SevenZFile {
@@ -215,6 +219,10 @@ internal object SevenZipEngine {
         return totalSize
     }
 }
+
+private fun Throwable.hasPasswordRequiredCause(): Boolean =
+    generateSequence(this) { it.cause }
+        .any { it is PasswordRequiredException }
 
 private fun SevenZipCompressionMethod.toSevenZConfiguration(
     compressionLevel: ArchiveCompressionLevel

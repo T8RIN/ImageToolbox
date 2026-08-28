@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -101,6 +103,7 @@ fun UrisPreview(
     showTransparencyChecker: Boolean = true,
     showScrimForNonSuccess: Boolean = true,
     filenameSource: (index: Int) -> Uri = { uris[it] },
+    allowHorizontal: Boolean = false,
     onNavigate: ((Screen) -> Unit)? = null
 ) {
     var previewUri by rememberSaveable {
@@ -118,11 +121,7 @@ fun UrisPreview(
 
         val width = this.maxWidth / count - 4.dp * (count - 1)
 
-        FlowRow(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-        ) {
+        val content = @Composable {
             repeat(uris.size + 1) { index ->
                 val uri = uris.getOrNull(index)
 
@@ -255,6 +254,23 @@ fun UrisPreview(
                 }
             }
         }
+
+        if (allowHorizontal) {
+            FlowColumn(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                maxItemsInEachColumn = count.toInt(),
+                content = { content() }
+            )
+        } else {
+            FlowRow(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                content = { content() }
+            )
+        }
     }
 
     if (onClickUri == null && onNavigate != null) {
@@ -274,20 +290,41 @@ fun UrisPreview(
 @Composable
 fun Modifier.urisPreview(
     isPortrait: Boolean,
-    scrollState: ScrollState? = null
-): Modifier = this then if (!isPortrait) {
-    Modifier
-        .layout { measurable, constraints ->
-            val placeable = measurable.measure(
-                constraints = constraints.copy(
-                    maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+    scrollState: ScrollState? = null,
+    allowHorizontal: Boolean = false,
+): Modifier = this then when {
+    allowHorizontal && isPortrait -> {
+        Modifier
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(
+                    constraints = constraints.copy(
+                        maxWidth = constraints.maxWidth + 48.dp.roundToPx()
+                    )
                 )
-            )
-            layout(placeable.width, placeable.height) {
-                placeable.place(0, 0)
+                layout(placeable.width, placeable.height) {
+                    placeable.place(0, 0)
+                }
             }
-        }
-        .enhancedVerticalScroll(scrollState ?: rememberScrollState())
-} else {
-    Modifier
-}.padding(vertical = 24.dp)
+            .enhancedHorizontalScroll(scrollState ?: rememberScrollState())
+    }
+
+    !isPortrait -> {
+        Modifier
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(
+                    constraints = constraints.copy(
+                        maxHeight = constraints.maxHeight + 48.dp.roundToPx()
+                    )
+                )
+                layout(placeable.width, placeable.height) {
+                    placeable.place(0, 0)
+                }
+            }
+            .enhancedVerticalScroll(scrollState ?: rememberScrollState())
+    }
+
+    else -> Modifier
+}.padding(
+    horizontal = if (allowHorizontal && isPortrait) 24.dp else 0.dp,
+    vertical = 24.dp
+)

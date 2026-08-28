@@ -20,11 +20,7 @@ package com.t8rin.imagetoolbox.feature.archive_tools.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -36,7 +32,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -48,21 +43,16 @@ import com.t8rin.archive.SevenZipCompressionMethod
 import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.CreateNewFolder
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
-import com.t8rin.imagetoolbox.core.resources.icons.Lock
-import com.t8rin.imagetoolbox.core.resources.icons.LockOpen
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.resources.icons.Password
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
-import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
-import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
@@ -76,7 +66,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
-import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchivePassphraseStatus
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 
 @Composable
@@ -302,119 +291,6 @@ internal fun ArchiveToolsControls(
                         .padding(top = 4.dp)
                 )
             }
-        } else {
-            UrisPreview(
-                uris = component.uris,
-                isPortrait = isPortrait,
-                onRemoveUri = component::removeUri,
-                onAddUris = additionalArchivePicker::pickFile,
-                onClickUri = { uri ->
-                    when (component.archiveEncryptionStatus(uri)) {
-                        ArchiveEncryptionStatus.PasswordRequired -> {
-                            if (
-                                component.archivePassphraseStatus(uri) !=
-                                ArchivePassphraseStatus.Checking
-                            ) {
-                                component.requestArchivePassphrase(uri)
-                            }
-                        }
-
-                        ArchiveEncryptionStatus.Unsupported -> {
-                            AppToastHost.showFailureToast(R.string.unsupported_archive_encryption)
-                        }
-
-                        ArchiveEncryptionStatus.None, null -> Unit
-                    }
-                },
-                addUrisContent = { width ->
-                    Icon(
-                        imageVector = Icons.Rounded.NoteAdd,
-                        contentDescription = stringResource(R.string.add),
-                        modifier = Modifier.size(width / 3f)
-                    )
-                },
-                errorContent = { index, width ->
-                    val uri = component.uris[index]
-                    val status = component.archiveEncryptionStatus(uri)
-                    val passphraseStatus = component.archivePassphraseStatus(uri)
-                    val tileColor = when {
-                        status == ArchiveEncryptionStatus.Unsupported -> {
-                            MaterialTheme.colorScheme.errorContainer
-                        }
-
-                        passphraseStatus == ArchivePassphraseStatus.Verified -> {
-                            MaterialTheme.colorScheme.primaryContainer
-                        }
-
-                        passphraseStatus == ArchivePassphraseStatus.Checking -> {
-                            MaterialTheme.colorScheme.tertiaryContainer
-                        }
-
-                        status == ArchiveEncryptionStatus.PasswordRequired -> {
-                            MaterialTheme.colorScheme.errorContainer
-                        }
-
-                        else -> MaterialTheme.colorScheme.surfaceContainerHighest
-                    }
-                    val tileContentColor = when {
-                        status == ArchiveEncryptionStatus.Unsupported -> {
-                            MaterialTheme.colorScheme.onErrorContainer
-                        }
-
-                        passphraseStatus == ArchivePassphraseStatus.Verified -> {
-                            MaterialTheme.colorScheme.onPrimaryContainer
-                        }
-
-                        passphraseStatus == ArchivePassphraseStatus.Checking -> {
-                            MaterialTheme.colorScheme.onTertiaryContainer
-                        }
-
-                        status == ArchiveEncryptionStatus.PasswordRequired -> {
-                            MaterialTheme.colorScheme.onErrorContainer
-                        }
-
-                        else -> MaterialTheme.colorScheme.onSurface
-                    }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .align(Alignment.Center)
-                            .background(tileColor),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(
-                            space = 4.dp,
-                            alignment = Alignment.CenterVertically
-                        )
-                    ) {
-                        Icon(
-                            imageVector = when {
-                                status == ArchiveEncryptionStatus.Unsupported -> {
-                                    Icons.Outlined.WarningAmber
-                                }
-
-                                passphraseStatus == ArchivePassphraseStatus.Verified -> {
-                                    Icons.Rounded.LockOpen
-                                }
-
-                                passphraseStatus == ArchivePassphraseStatus.Invalid -> {
-                                    Icons.Outlined.WarningAmber
-                                }
-
-                                status == ArchiveEncryptionStatus.PasswordRequired -> {
-                                    Icons.Rounded.Lock
-                                }
-
-                                else -> Icons.Outlined.Archive
-                            },
-                            contentDescription = null,
-                            modifier = Modifier.size(width / 3f),
-                            tint = tileContentColor
-                        )
-                    }
-                },
-                showTransparencyChecker = false,
-                modifier = Modifier.fillMaxWidth()
-            )
         }
         Spacer(Modifier.height(16.dp))
         PreferenceRowSwitch(

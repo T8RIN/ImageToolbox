@@ -18,6 +18,8 @@
 package com.t8rin.archive
 
 import android.os.ParcelFileDescriptor
+import android.system.Os
+import android.system.OsConstants
 import me.zhanghai.android.libarchive.Archive
 import me.zhanghai.android.libarchive.ArchiveEntry
 import java.io.BufferedInputStream
@@ -298,7 +300,18 @@ object ArchiveEngine {
             return RarEngine.encryptionStatus(inputFileDescriptor)
         }
         if (preferSevenZip) {
-            return SevenZipEngine.encryptionStatus(inputFileDescriptor)
+            try {
+                return SevenZipEngine.encryptionStatus(inputFileDescriptor)
+            } catch (exception: Exception) {
+                if (exception.indicatesEncryption()) {
+                    return ArchiveEncryptionStatus.PasswordRequired
+                }
+                runCatching {
+                    ParcelFileDescriptor.fromFd(inputFileDescriptor).use { descriptor ->
+                        Os.lseek(descriptor.fileDescriptor, 0L, OsConstants.SEEK_SET)
+                    }
+                }
+            }
         }
         val archive = Archive.readNew()
         var passphraseRequested = false
@@ -322,7 +335,11 @@ object ArchiveEngine {
                     ArchiveEntry.isMetadataEncrypted(entry) ||
                     Archive.readHasEncryptedEntries(archive) > 0
                 ) {
-                    return archive.encryptionStatus()
+                    return if (preferSevenZip) {
+                        ArchiveEncryptionStatus.PasswordRequired
+                    } else {
+                        archive.encryptionStatus()
+                    }
                 }
                 Archive.readDataSkip(archive)
                 entry = Archive.readNextHeader(archive)
@@ -335,6 +352,12 @@ object ArchiveEngine {
                 ArchiveEncryptionStatus.None
             }
         } catch (throwable: Throwable) {
+            if (
+                preferSevenZip &&
+                (passphraseRequested || throwable.indicatesEncryption())
+            ) {
+                return ArchiveEncryptionStatus.PasswordRequired
+            }
             if (throwable.indicatesUnsupportedEncryption()) {
                 return ArchiveEncryptionStatus.Unsupported
             }

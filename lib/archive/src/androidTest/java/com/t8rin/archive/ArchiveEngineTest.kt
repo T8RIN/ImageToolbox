@@ -420,6 +420,31 @@ class ArchiveEngineTest {
     }
 
     @Test
+    fun detectsEncryptedSevenZipBeyondMemoryLimit() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val archive = File(context.cacheDir, "encrypted_large_dictionary.7z")
+        try {
+            archive.writeBytes(
+                Base64.decode(EncryptedSevenZipWithLargeDictionary, Base64.DEFAULT)
+            )
+            ParcelFileDescriptor.open(
+                archive,
+                ParcelFileDescriptor.MODE_READ_ONLY
+            ).use { input ->
+                assertEquals(
+                    ArchiveEncryptionStatus.PasswordRequired,
+                    ArchiveEngine.encryptionStatus(
+                        inputFileDescriptor = input.fd,
+                        preferSevenZip = true
+                    )
+                )
+            }
+        } finally {
+            archive.delete()
+        }
+    }
+
+    @Test
     fun detectsAndExtractsEncryptedRar() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val archive = File(context.cacheDir, "encrypted.rar")
@@ -610,6 +635,11 @@ private const val EncryptedSevenZip =
             "2XX3Ibk77rlzhECVr91WUr1WHDvKcPzz65m2k0uszXGLxWQL0BkyIYtqtKP6rgVaNzjgP45y4Xy" +
             "h5R3eNPLcMH0yIA6QfMwDM8BdOhblThp7/nxtncAUkVdB7Gzg99IxucWyWlgAc/L8tXvsr9YXBi" +
             "ABCYCgAAcLAQABJAbxBwESUw8ccJmnjLAuEYpfSI3tlhQDDICSCgESkd0NAAA="
+
+private const val EncryptedSevenZipWithLargeDictionary =
+    "N3q8ryccAAK7I2hyEAAAAAAAAABdAAAAAAAAAMQglulGzlC8kTajzT4kcqHo8TzaAQQGAAEJEAoB" +
+            "bpObzAAHCwEAAiQG8QcBElMP9gFVw4B2BXl6rzlNdmsfcCEhAR4BAAwFAQoBG98FpQAIAAAFAREZ" +
+            "AGMAbwBuAHQAZQBuAHQALgB0AHgAdAAAAAAA"
 
 private const val EncryptedRar =
     "UmFyIRoHAQAYOJrPIQQAAAEPprqRs1Vs70VeAnJr65GiUWzJnBs88EB6pEDZCDMNebpM1FRWRid" +
