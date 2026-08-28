@@ -49,7 +49,9 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
+import com.t8rin.imagetoolbox.core.resources.icons.Highlight
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.resources.icons.Regex
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
@@ -119,7 +121,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                 onValueChange = component::updateLanguage,
                 entries = CodeLanguage.entries,
                 title = stringResource(R.string.language),
-                titleIcon = null,
+                titleIcon = Icons.Outlined.Regex,
                 itemContentText = { it.title },
                 spanCount = 3,
                 key = CodeLanguage::highlightKey,
@@ -148,9 +150,9 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         onValueChange = component::updateTheme,
                         entries = CodePreviewTheme.entries,
                         title = stringResource(R.string.code_preview_syntax_theme),
-                        titleIcon = null,
+                        titleIcon = Icons.Outlined.Highlight,
                         itemContentText = { it.title },
-                        spanCount = 2,
+                        spanCount = 3,
                         shape = ShapeDefaults.top
                     )
                     PreferenceRowSwitch(

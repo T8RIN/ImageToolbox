@@ -22,7 +22,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -44,9 +43,7 @@ internal fun CodePreviewCard(
     val canvasShape = RoundedCornerShape(canvasCornerRadius.dp)
 
     Box(
-        modifier = modifier
-            .widthIn(max = 720.dp)
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         if (!showCanvasBackground) {
