@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveEntriesSheet
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveFilesPreview
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchivePasswordDialog
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsControls
@@ -222,5 +223,16 @@ fun ArchiveToolsContent(
                 component.verifyArchivePassphrase(uri, password)
             }
         }
+    )
+
+    ArchiveEntriesSheet(
+        visible = component.showArchiveEntries,
+        entries = component.archiveEntries,
+        selectedEntries = component.extractionOptions.selectedEntries.orEmpty(),
+        isLoading = component.isLoadingArchiveEntries,
+        onEntrySelected = component::setArchiveEntrySelected,
+        onAllEntriesSelected = component::setAllArchiveEntriesSelected,
+        onRetry = component::retryLoadingArchiveEntries,
+        onDismiss = component::dismissArchiveEntries
     )
 }

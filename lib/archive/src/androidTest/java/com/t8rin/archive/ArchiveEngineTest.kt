@@ -129,6 +129,19 @@ class ArchiveEngineTest {
                             outputStream = output
                         )
                     }
+                    ParcelFileDescriptor.open(
+                        archive,
+                        ParcelFileDescriptor.MODE_READ_ONLY
+                    ).use { input ->
+                        assertEquals(
+                            expected.keys,
+                            ArchiveEngine.listEntries(
+                                inputFileDescriptor = input.fd,
+                                preferSevenZip = format == ArchiveFormat.SevenZip
+                            ).filterNot(ArchiveEntryInfo::isDirectory)
+                                .mapTo(linkedSetOf(), ArchiveEntryInfo::path)
+                        )
+                    }
                     val extracted = mutableMapOf<String, ByteArray>()
                     ParcelFileDescriptor.open(
                         archive,

@@ -289,6 +289,71 @@ object ArchiveEngine {
         return extractedEntries
     }
 
+    fun listEntries(
+        inputFileDescriptor: Int,
+        passphrase: String? = null,
+        preferSevenZip: Boolean = false,
+        preferRar: Boolean = false,
+        forceRawFormat: Boolean = false,
+        forceBrotli: Boolean = false,
+        limits: ExtractionLimits = ExtractionLimits()
+    ): List<ArchiveEntryInfo> {
+        if (preferRar) {
+            return RarEngine.listEntries(
+                inputFileDescriptor = inputFileDescriptor,
+                passphrase = passphrase,
+                limits = limits
+            )
+        }
+        if (preferSevenZip) {
+            return SevenZipEngine.listEntries(
+                inputFileDescriptor = inputFileDescriptor,
+                passphrase = passphrase,
+                limits = limits
+            )
+        }
+
+        val archive = Archive.readNew()
+        val entries = mutableListOf<ArchiveEntryInfo>()
+        var entryCount = 0
+        try {
+            configureReader(archive, forceRawFormat)
+            passphrase
+                ?.takeIf(String::isNotEmpty)
+                ?.let { Archive.readAddPassphrase(archive, it.toByteArray()) }
+            openReader(
+                archive = archive,
+                inputFileDescriptor = inputFileDescriptor,
+                forceBrotli = forceBrotli
+            )
+
+            var entry = Archive.readNextHeader(archive)
+            while (entry != 0L) {
+                check(entryCount < limits.maxEntries) {
+                    "Archive contains too many entries"
+                }
+                entryCount++
+                val type = ArchiveEntry.filetype(entry)
+                val isDirectory = type == ArchiveEntry.AE_IFDIR
+                val isRegularFile = type == ArchiveEntry.AE_IFREG || type == 0
+                val path = ArchiveEntry.pathnameUtf8(entry)
+                    ?: ArchiveEntry.pathname(entry)?.toString(StandardCharsets.UTF_8)
+                if (path != null && (isDirectory || isRegularFile)) {
+                    entries += ArchiveEntryInfo(
+                        path = path,
+                        size = ArchiveEntry.size(entry).coerceAtLeast(0L),
+                        isDirectory = isDirectory
+                    )
+                }
+                Archive.readDataSkip(archive)
+                entry = Archive.readNextHeader(archive)
+            }
+        } finally {
+            Archive.readFree(archive)
+        }
+        return entries
+    }
+
     fun encryptionStatus(
         inputFileDescriptor: Int,
         preferSevenZip: Boolean = false,

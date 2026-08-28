@@ -142,6 +142,23 @@ internal object SevenZipEngine {
         return extractedEntries
     }
 
+    fun listEntries(
+        inputFileDescriptor: Int,
+        passphrase: String?,
+        limits: ExtractionLimits
+    ): List<ArchiveEntryInfo> = open(inputFileDescriptor, passphrase).use { archive ->
+        archive.entries.mapIndexed { index, entry ->
+            check(index < limits.maxEntries) {
+                "Archive contains too many entries"
+            }
+            ArchiveEntryInfo(
+                path = entry.name,
+                size = entry.size.coerceAtLeast(0L),
+                isDirectory = entry.isDirectory
+            )
+        }
+    }
+
     fun encryptionStatus(inputFileDescriptor: Int): ArchiveEncryptionStatus = try {
         open(inputFileDescriptor, passphrase = null).use { archive ->
             val probe = ByteArray(1)

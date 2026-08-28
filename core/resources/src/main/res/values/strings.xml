@@ -1774,6 +1774,13 @@
     <string name="archive_password_supported_formats">Password protection is available for ZIP and 7Z</string>
     <string name="archive_password_method_not_supported">The selected compression method does not support password protection</string>
     <string name="archive_password_required_sub">Enter the archive password to extract its contents</string>
+    <string name="archive_contents">Archive contents</string>
+    <string name="archive_contents_sub">View and choose files to extract</string>
+    <string name="archive_files_selected">%1$d of %2$d files selected</string>
+    <string name="archive_contains_no_files">The archive contains no files</string>
+    <string name="archive_contents_load_failed">Could not read the archive contents</string>
+    <string name="select_all">Select all</string>
+    <string name="deselect_all">Deselect all</string>
     <string name="unsupported_archive_encryption">Unsupported archive encryption</string>
     <string name="unsupported_archive_encryption_sub">This archive can be opened, but its encryption method is not supported</string>
     <string name="extract_to_subfolder">Create a separate folder</string>

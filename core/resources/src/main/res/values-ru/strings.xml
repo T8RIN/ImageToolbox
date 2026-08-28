@@ -888,6 +888,13 @@
     <string name="archive_password_supported_formats">Защита паролем доступна для ZIP и 7Z</string>
     <string name="archive_password_method_not_supported">Выбранный метод сжатия не поддерживает защиту паролем</string>
     <string name="archive_password_required_sub">Введите пароль от архива, чтобы распаковать его содержимое</string>
+    <string name="archive_contents">Содержимое архива</string>
+    <string name="archive_contents_sub">Просмотр и выбор файлов для распаковки</string>
+    <string name="archive_files_selected">Выбрано файлов: %1$d из %2$d</string>
+    <string name="archive_contains_no_files">В архиве нет файлов</string>
+    <string name="archive_contents_load_failed">Не удалось прочитать содержимое архива</string>
+    <string name="select_all">Выбрать всё</string>
+    <string name="deselect_all">Снять выбор</string>
     <string name="unsupported_archive_encryption">Шифрование архива не поддерживается</string>
     <string name="unsupported_archive_encryption_sub">Архив можно прочитать, но этот метод шифрования пока нельзя распаковать</string>
     <string name="extract_to_subfolder">Создать отдельную папку</string>

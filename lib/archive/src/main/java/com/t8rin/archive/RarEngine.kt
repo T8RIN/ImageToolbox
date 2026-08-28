@@ -100,6 +100,27 @@ internal object RarEngine {
         return extractedEntries
     }
 
+    fun listEntries(
+        inputFileDescriptor: Int,
+        passphrase: String?,
+        limits: ExtractionLimits
+    ): List<ArchiveEntryInfo> = open(inputFileDescriptor, passphrase).use { archive ->
+        archive.fileHeaders.mapIndexed { index, entry ->
+            check(index < limits.maxEntries) {
+                "Archive contains too many entries"
+            }
+            ArchiveEntryInfo(
+                path = entry.fileName,
+                size = if (entry.isUnpSizeUnknown) {
+                    0L
+                } else {
+                    entry.fullUnpackSize.coerceAtLeast(0L)
+                },
+                isDirectory = entry.isDirectory
+            )
+        }
+    }
+
     fun encryptionStatus(inputFileDescriptor: Int): ArchiveEncryptionStatus = try {
         open(inputFileDescriptor, passphrase = null).use { archive ->
             if (archive.isPasswordProtected) {

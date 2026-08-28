@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEncryptionStatus
+import com.t8rin.archive.ArchiveEntryInfo
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.SevenZipCompressionMethod
 import com.t8rin.archive.ZipCompressionMethod
@@ -131,7 +132,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     val archivePasswordRequestUri by _archivePasswordRequestUri
 
     val canExtract: Boolean
-        get() = uris.all { uri ->
+        get() = extractionOptions.selectedEntries?.isNotEmpty() != false && uris.all { uri ->
             when (archiveEncryptionStatus(uri)) {
                 ArchiveEncryptionStatus.Unsupported -> false
                 ArchiveEncryptionStatus.PasswordRequired -> {
@@ -149,6 +150,15 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     private val _extractionOptions = mutableStateOf(ArchiveExtractionOptions())
     val extractionOptions by _extractionOptions
+
+    private val _archiveEntries = mutableStateOf<List<ArchiveEntryInfo>?>(null)
+    val archiveEntries by _archiveEntries
+
+    private val _isLoadingArchiveEntries = mutableStateOf(false)
+    val isLoadingArchiveEntries by _isLoadingArchiveEntries
+
+    private val _showArchiveEntries = mutableStateOf(false)
+    val showArchiveEntries by _showArchiveEntries
 
     private val _isSaving: MutableState<Boolean> = mutableStateOf(false)
     val isSaving by _isSaving
@@ -172,6 +182,9 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         }
         if (selectedUris.size > 1 && !format.supportsMultipleFiles) {
             setFormat(ArchiveFormat.Zip)
+        }
+        if (selectedUris != uris) {
+            clearArchiveEntries()
         }
         _uris.update {
             selectedUris
@@ -203,6 +216,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         _archivePassphrases.value = emptyMap()
         _archivePassphraseStatuses.value = emptyMap()
         _archivePasswordRequestUri.value = null
+        clearArchiveEntries()
         _passphrase.update { "" }
         _protectWithPassword.update { false }
         _extractionOptions.update { ArchiveExtractionOptions() }
@@ -279,6 +293,9 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     fun setArchivePassphrase(uri: Uri, passphrase: String) {
         if (uri !in uris || archivePassphrase(uri) == passphrase) return
+        if (uris.singleOrNull() == uri) {
+            clearArchiveEntries()
+        }
         _archivePassphrases.update { it + (uri to passphrase) }
         if (archiveEncryptionStatus(uri) == ArchiveEncryptionStatus.PasswordRequired) {
             _archivePassphraseStatuses.update {
@@ -338,11 +355,100 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun openArchiveEntries() {
+        val archive = uris.singleOrNull() ?: return
+        if (
+            archiveEncryptionStatus(archive) == ArchiveEncryptionStatus.PasswordRequired &&
+            archivePassphrase(archive).isEmpty()
+        ) {
+            AppToastHost.showFailureToast(R.string.archive_password_required_sub)
+            return
+        }
+        _showArchiveEntries.value = true
+        if (archiveEntries == null) {
+            loadArchiveEntries(archive)
+        }
+    }
+
+    fun dismissArchiveEntries() {
+        _showArchiveEntries.value = false
+    }
+
+    fun retryLoadingArchiveEntries() {
+        uris.singleOrNull()?.let(::loadArchiveEntries)
+    }
+
+    fun setArchiveEntrySelected(path: String, selected: Boolean) {
+        if (archiveEntries?.any { it.path == path } != true) return
+        _extractionOptions.update { options ->
+            val current = options.selectedEntries ?: return@update options
+            options.copy(
+                selectedEntries = if (selected) current + path else current - path
+            )
+        }
+        registerChanges()
+    }
+
+    fun setAllArchiveEntriesSelected(selected: Boolean) {
+        val entries = archiveEntries ?: return
+        _extractionOptions.update {
+            it.copy(
+                selectedEntries = if (selected) {
+                    entries.mapTo(mutableSetOf(), ArchiveEntryInfo::path)
+                } else {
+                    emptySet()
+                }
+            )
+        }
+        registerChanges()
+    }
+
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
 
     private var encryptionDetectionJob: Job? by smartJob()
+
+    private var archiveEntriesJob: Job? by smartJob {
+        _isLoadingArchiveEntries.value = false
+    }
+
+    private fun loadArchiveEntries(archive: Uri) {
+        val passphrase = archivePassphrase(archive).takeIf(String::isNotEmpty)
+        archiveEntriesJob = componentScope.launch(defaultDispatcher) {
+            _isLoadingArchiveEntries.value = true
+            runCatching {
+                archiveManager.listEntries(
+                    archive = archive.toString(),
+                    passphrase = passphrase
+                ).filterNot(ArchiveEntryInfo::isDirectory)
+            }.onSuccess { entries ->
+                if (
+                    uris.singleOrNull() == archive &&
+                    archivePassphrase(archive).takeIf(String::isNotEmpty) == passphrase
+                ) {
+                    _archiveEntries.value = entries
+                    _extractionOptions.update {
+                        it.copy(
+                            selectedEntries = entries.mapTo(
+                                mutableSetOf(),
+                                ArchiveEntryInfo::path
+                            )
+                        )
+                    }
+                }
+            }.onFailure(AppToastHost::showFailureToast)
+            _isLoadingArchiveEntries.value = false
+        }
+    }
+
+    private fun clearArchiveEntries() {
+        archiveEntriesJob = null
+        _archiveEntries.value = null
+        _isLoadingArchiveEntries.value = false
+        _showArchiveEntries.value = false
+        _extractionOptions.update { it.copy(selectedEntries = null) }
+    }
 
     private fun detectArchiveEncryption(uris: List<Uri>) {
         encryptionDetectionJob = componentScope.launch(defaultDispatcher) {
@@ -533,6 +639,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         if (uri !in uris) return
 
         val remainingUris = uris - uri
+        clearArchiveEntries()
         _archiveEncryptionStatuses.update { it - uri }
         _archivePassphrases.update { it - uri }
         _archivePassphraseStatuses.update { it - uri }

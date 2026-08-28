@@ -20,5 +20,6 @@ package com.t8rin.imagetoolbox.feature.archive_tools.domain.model
 data class ArchiveExtractionOptions(
     val createSubfolder: Boolean = true,
     val preserveDirectoryStructure: Boolean = true,
-    val skipHiddenFiles: Boolean = false
+    val skipHiddenFiles: Boolean = false,
+    val selectedEntries: Set<String>? = null
 )

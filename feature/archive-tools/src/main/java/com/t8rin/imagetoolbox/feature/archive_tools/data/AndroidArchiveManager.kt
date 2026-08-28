@@ -24,6 +24,7 @@ import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEngine
+import com.t8rin.archive.ArchiveEntryInfo
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.ArchivePath
 import com.t8rin.archive.ArchiveSource
@@ -160,6 +161,35 @@ internal class AndroidArchiveManager @Inject constructor(
                 forceBrotli = sourceName.hasBrotliExtension()
             )
         } ?: false
+    }
+
+    override suspend fun listEntries(
+        archive: String,
+        passphrase: String?
+    ): List<ArchiveEntryInfo> = withContext(defaultDispatcher) {
+        val uri = archive.toUri()
+        val sourceName = uri.filename(context).orEmpty()
+        val forceRawFormat = sourceName.shouldForceRawFormat()
+        val archiveName = sourceName.archiveName()
+        context.contentResolver.openFileDescriptor(uri, "r")?.use { input ->
+            ArchiveEngine.listEntries(
+                inputFileDescriptor = input.fd,
+                passphrase = passphrase,
+                preferSevenZip = sourceName.hasSevenZipExtension(),
+                preferRar = sourceName.hasRarExtension(),
+                forceRawFormat = forceRawFormat,
+                forceBrotli = sourceName.hasBrotliExtension()
+            ).mapNotNull { entry ->
+                val entryPath = if (forceRawFormat && !entry.isDirectory) {
+                    archiveName
+                } else {
+                    entry.path
+                }
+                ArchivePath.safeSegments(entryPath)?.let { segments ->
+                    entry.copy(path = segments.joinToString("/"))
+                }
+            }.distinctBy(ArchiveEntryInfo::path)
+        } ?: error("Cannot open archive")
     }
 
     override suspend fun extract(
@@ -313,6 +343,15 @@ internal class AndroidArchiveManager @Inject constructor(
                         ?: error("Unsafe archive entry path: $entryPath")
                     if (options.skipHiddenFiles && segments.any { it.startsWith('.') }) {
                         return@entry
+                    }
+                    val normalizedPath = segments.joinToString("/")
+                    options.selectedEntries?.let { selectedEntries ->
+                        val selected = if (entry.isDirectory) {
+                            selectedEntries.any { it.startsWith("$normalizedPath/") }
+                        } else {
+                            normalizedPath in selectedEntries
+                        }
+                        if (!selected) return@entry
                     }
                     val outputSegments = if (options.preserveDirectoryStructure) {
                         segments

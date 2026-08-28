@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.archive_tools.domain
 
 import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEncryptionStatus
+import com.t8rin.archive.ArchiveEntryInfo
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.SevenZipCompressionMethod
 import com.t8rin.archive.ZipCompressionMethod
@@ -44,6 +45,11 @@ interface ArchiveManager {
         archive: String,
         passphrase: String
     ): Boolean
+
+    suspend fun listEntries(
+        archive: String,
+        passphrase: String?
+    ): List<ArchiveEntryInfo>
 
     suspend fun extract(
         archive: String,

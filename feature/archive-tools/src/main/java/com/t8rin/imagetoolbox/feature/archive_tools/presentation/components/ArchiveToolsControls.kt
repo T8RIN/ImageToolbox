@@ -291,6 +291,30 @@ internal fun ArchiveToolsControls(
                         .padding(top = 4.dp)
                 )
             }
+            val archiveEntries = component.archiveEntries
+            PreferenceItem(
+                title = stringResource(R.string.archive_contents),
+                subtitle = when {
+                    component.isLoadingArchiveEntries -> stringResource(R.string.loading)
+                    archiveEntries != null -> stringResource(
+                        R.string.archive_files_selected,
+                        archiveEntries.count {
+                            it.path in component.extractionOptions.selectedEntries.orEmpty()
+                        },
+                        archiveEntries.size
+                    )
+
+                    else -> stringResource(R.string.archive_contents_sub)
+                },
+                startIcon = Icons.Outlined.FolderZip,
+                endIcon = Icons.Rounded.MiniEdit,
+                enabled = encryptionStatus != null &&
+                        encryptionStatus != ArchiveEncryptionStatus.Unsupported,
+                onClick = component::openArchiveEntries,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            )
         }
         Spacer(Modifier.height(16.dp))
         PreferenceRowSwitch(
