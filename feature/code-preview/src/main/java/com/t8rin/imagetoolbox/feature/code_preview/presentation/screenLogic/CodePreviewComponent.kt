@@ -129,7 +129,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
     fun updateFontSize(value: Int) = updateParams { copy(fontSize = value.coerceIn(10, 30)) }
 
     fun updateOuterPadding(value: Int) = updateParams {
-        copy(outerPadding = value.coerceIn(8, 80))
+        copy(outerPadding = value.coerceIn(0, 80))
     }
 
     fun updateInnerPadding(value: Int) = updateParams {
@@ -146,6 +146,26 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     fun updateRotation(value: Float) = updateParams {
         copy(rotation = value.coerceIn(-15f, 15f))
+    }
+
+    fun toggleCardShadow(value: Boolean) = updateParams {
+        copy(showCardShadow = value)
+    }
+
+    fun updateCardShadowColor(value: androidx.compose.ui.graphics.Color) = updateParams {
+        copy(cardShadowColor = value)
+    }
+
+    fun updateCardShadowBlurRadius(value: Int) = updateParams {
+        copy(cardShadowBlurRadius = value.coerceIn(0, 40))
+    }
+
+    fun updateCardShadowOffsetX(value: Int) = updateParams {
+        copy(cardShadowOffsetX = value.coerceIn(-30, 30))
+    }
+
+    fun updateCardShadowOffsetY(value: Int) = updateParams {
+        copy(cardShadowOffsetY = value.coerceIn(-30, 30))
     }
 
     fun toggleCanvasBackground(value: Boolean) = updateParams {

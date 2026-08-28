@@ -196,7 +196,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     EnhancedSliderItem(
                         value = params.outerPadding,
                         title = stringResource(R.string.code_preview_outer_padding),
-                        valueRange = 8f..80f,
+                        valueRange = 0f..80f,
                         valueSuffix = " dp",
                         internalStateTransformation = Float::roundToInt,
                         onValueChange = { component.updateOuterPadding(it.roundToInt()) },
@@ -240,6 +240,58 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         onValueChange = { component.updateCornerRadius(it.roundToInt()) },
                         shape = ShapeDefaults.center
                     )
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.code_preview_card_shadow),
+                        subtitle = stringResource(R.string.code_preview_card_shadow_sub),
+                        checked = params.showCardShadow,
+                        startIcon = null,
+                        shape = ShapeDefaults.center,
+                        onClick = component::toggleCardShadow
+                    )
+                    AnimatedVisibility(visible = params.showCardShadow) {
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            ColorRowSelector(
+                                value = params.cardShadowColor,
+                                onValueChange = component::updateCardShadowColor,
+                                title = stringResource(R.string.shadow_color),
+                                allowAlpha = true,
+                                modifier = Modifier.container(shape = ShapeDefaults.center)
+                            )
+                            EnhancedSliderItem(
+                                value = params.cardShadowBlurRadius,
+                                title = stringResource(R.string.blur_radius),
+                                valueRange = 0f..40f,
+                                valueSuffix = " dp",
+                                internalStateTransformation = Float::roundToInt,
+                                onValueChange = {
+                                    component.updateCardShadowBlurRadius(it.roundToInt())
+                                },
+                                shape = ShapeDefaults.center
+                            )
+                            EnhancedSliderItem(
+                                value = params.cardShadowOffsetX,
+                                title = stringResource(R.string.offset_x),
+                                valueRange = -30f..30f,
+                                valueSuffix = " dp",
+                                internalStateTransformation = Float::roundToInt,
+                                onValueChange = {
+                                    component.updateCardShadowOffsetX(it.roundToInt())
+                                },
+                                shape = ShapeDefaults.center
+                            )
+                            EnhancedSliderItem(
+                                value = params.cardShadowOffsetY,
+                                title = stringResource(R.string.offset_y),
+                                valueRange = -30f..30f,
+                                valueSuffix = " dp",
+                                internalStateTransformation = Float::roundToInt,
+                                onValueChange = {
+                                    component.updateCardShadowOffsetY(it.roundToInt())
+                                },
+                                shape = ShapeDefaults.center
+                            )
+                        }
+                    }
                     RoundedTextField(
                         value = params.title,
                         onValueChange = component::updateTitle,

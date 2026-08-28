@@ -138,7 +138,14 @@ private fun createGeometry(
     val cardHeight = ceil(
         headerHeight + dividerHeight + innerPadding * 2f + contentHeight
     ).toInt()
-    val shadowPadding = ceil(18f * scale).toInt()
+    val shadowPadding = if (params.showCardShadow && params.cardShadowBlurRadius > 0) {
+        ceil(
+            (params.cardShadowBlurRadius + maxOf(
+                abs(params.cardShadowOffsetX),
+                abs(params.cardShadowOffsetY)
+            )) * scale
+        ).toInt()
+    } else 0
     val layerWidth = cardWidth + shadowPadding * 2
     val layerHeight = cardHeight + shadowPadding * 2
     val rotationRadians = Math.toRadians(abs(params.rotation).toDouble())
@@ -278,12 +285,14 @@ private data class RenderGeometry(
                     cornerRadius,
                     Paint(Paint.ANTI_ALIAS_FLAG).apply {
                         color = theme.backgroundColor.toArgb()
-                        setShadowLayer(
-                            14f * scale,
-                            0f,
-                            5f * scale,
-                            0x66000000
-                        )
+                        if (params.showCardShadow && params.cardShadowBlurRadius > 0) {
+                            setShadowLayer(
+                                params.cardShadowBlurRadius * scale,
+                                params.cardShadowOffsetX * scale,
+                                params.cardShadowOffsetY * scale,
+                                params.cardShadowColor.toArgb()
+                            )
+                        }
                     }
                 )
                 withSave {

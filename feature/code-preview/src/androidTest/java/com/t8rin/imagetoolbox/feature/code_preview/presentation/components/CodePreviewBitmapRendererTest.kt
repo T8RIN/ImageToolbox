@@ -106,7 +106,60 @@ class CodePreviewBitmapRendererTest {
 
     @Test
     fun allCodeThemesCanBeResolved() {
-        assertEquals(18, CodePreviewTheme.entries.size)
+        assertEquals(30, CodePreviewTheme.entries.size)
         CodePreviewTheme.entries.forEach(CodePreviewTheme::highlightTheme)
+    }
+
+    @Test
+    fun canvasPaddingCanBeCompletelyRemoved() {
+        val code = CodePreviewParams.DefaultCode
+        val highlightedCode = AnnotatedString(code)
+        val withoutPadding = renderCodePreviewBitmap(
+            params = CodePreviewParams.Default.copy(
+                outerPadding = 0,
+                showCardShadow = false
+            ),
+            highlightedCode = highlightedCode
+        )
+        val withPadding = renderCodePreviewBitmap(
+            params = CodePreviewParams.Default.copy(
+                outerPadding = 8,
+                showCardShadow = false
+            ),
+            highlightedCode = highlightedCode
+        )
+
+        assertEquals(48, withPadding.width - withoutPadding.width)
+        assertEquals(48, withPadding.height - withoutPadding.height)
+        withoutPadding.recycle()
+        withPadding.recycle()
+    }
+
+    @Test
+    fun customShadowGetsEnoughRenderingSpace() {
+        val code = CodePreviewParams.DefaultCode
+        val highlightedCode = AnnotatedString(code)
+        val withoutShadow = renderCodePreviewBitmap(
+            params = CodePreviewParams.Default.copy(
+                outerPadding = 0,
+                showCardShadow = false
+            ),
+            highlightedCode = highlightedCode
+        )
+        val withShadow = renderCodePreviewBitmap(
+            params = CodePreviewParams.Default.copy(
+                outerPadding = 0,
+                showCardShadow = true,
+                cardShadowBlurRadius = 20,
+                cardShadowOffsetX = 30,
+                cardShadowOffsetY = -30
+            ),
+            highlightedCode = highlightedCode
+        )
+
+        assertEquals(300, withShadow.width - withoutShadow.width)
+        assertEquals(300, withShadow.height - withoutShadow.height)
+        withoutShadow.recycle()
+        withShadow.recycle()
     }
 }

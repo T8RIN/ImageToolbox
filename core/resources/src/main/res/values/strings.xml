@@ -5141,6 +5141,8 @@
     <string name="code_preview_wrap_lines_sub">Wrap code to the window width instead of expanding the image</string>
     <string name="code_preview_canvas_corners">Canvas corners</string>
     <string name="code_preview_code_corners">Code window corners</string>
+    <string name="code_preview_card_shadow">Code window shadow</string>
+    <string name="code_preview_card_shadow_sub">Draw a customizable shadow behind the code window</string>
     <string name="code_background_aurora">Aurora</string>
     <string name="code_background_sunset">Sunset</string>
     <string name="code_background_candy">Candy</string>

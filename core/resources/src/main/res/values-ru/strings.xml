@@ -5117,6 +5117,8 @@
     <string name="code_preview_wrap_lines_sub">Переносит код по ширине окна вместо расширения изображения</string>
     <string name="code_preview_canvas_corners">Углы холста</string>
     <string name="code_preview_code_corners">Углы окна с кодом</string>
+    <string name="code_preview_card_shadow">Тень окна с кодом</string>
+    <string name="code_preview_card_shadow_sub">Добавляет настраиваемую тень за окном с кодом</string>
     <string name="code_background_aurora">Аврора</string>
     <string name="code_background_sunset">Закат</string>
     <string name="code_background_candy">Карамель</string>
