@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.Ch
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.screenLogic.CompressionLabComponent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
 import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
@@ -113,6 +114,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComparePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressionLab
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CodePreview
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CropPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Curves
@@ -212,6 +214,7 @@ internal class ChildProvider @Inject constructor(
     private val collageMakerComponentFactory: CollageMakerComponent.Factory,
     private val compareComponentFactory: CompareComponent.Factory,
     private val compressionLabComponentFactory: CompressionLabComponent.Factory,
+    private val codePreviewComponentFactory: CodePreviewComponent.Factory,
     private val cropComponentFactory: CropComponent.Factory,
     private val curvesComponentFactory: CurvesComponent.Factory,
     private val deleteExifComponentFactory: DeleteExifComponent.Factory,
@@ -531,6 +534,14 @@ internal class ChildProvider @Inject constructor(
             compressionLabComponentFactory(
                 componentContext = componentContext,
                 initialUri = config.uri,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        Screen.CodePreview -> CodePreview(
+            codePreviewComponentFactory(
+                componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

@@ -87,4 +87,5 @@ dependencies {
     implementation(projects.feature.photomosaic)
     implementation(projects.feature.multiFrameFusion)
     implementation(projects.feature.compressionLab)
+    implementation(projects.feature.codePreview)
 }

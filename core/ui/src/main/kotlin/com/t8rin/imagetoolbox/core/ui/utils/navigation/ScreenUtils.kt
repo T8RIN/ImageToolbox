@@ -92,6 +92,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Stylus
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
+import com.t8rin.imagetoolbox.core.resources.icons.Terminal
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
@@ -111,6 +112,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.BatchRename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Cipher
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CodePreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
@@ -185,6 +187,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Cipher -> "Cipher"
     is Compare -> "Compare"
     is CompressionLab -> "Compression_Lab"
+    is CodePreview -> "Code_Preview"
     is Crop -> "Crop"
     is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
@@ -291,6 +294,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Cipher -> Icons.Outlined.Encrypted
     is Compare -> Icons.Outlined.Compare
     is CompressionLab -> Icons.Rounded.Labs
+    is CodePreview -> Icons.Outlined.Terminal
     is Crop -> Icons.Rounded.CropSmall
     is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
@@ -387,6 +391,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Cipher -> Icons.TwoTone.Encrypted
     is Compare -> Icons.TwoTone.Compare
     is CompressionLab -> Icons.TwoTone.Labs
+    is CodePreview -> Icons.TwoTone.Terminal
     is Crop -> Icons.TwoTone.CropSmall
     is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
@@ -529,6 +534,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     GradientMaker(),
                     MultiFrameFusion(),
                     ShaderStudio,
+                    CodePreview,
                     NoiseGeneration,
                     TextureGeneration,
                 ),
@@ -585,5 +591,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 106 + PdfTools.options.size
+    override val FEATURES_COUNT = 107 + PdfTools.options.size
 }

@@ -1333,6 +1333,13 @@ sealed class Screen(
         subtitle = R.string.palette_pdf_sub
     )
 
+    @Serializable
+    data object CodePreview : Screen(
+        id = 80,
+        title = R.string.code_preview_generator,
+        subtitle = R.string.code_preview_generator_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

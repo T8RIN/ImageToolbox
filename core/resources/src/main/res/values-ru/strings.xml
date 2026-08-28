@@ -5094,4 +5094,23 @@
     <string name="skip_comic_cover">Пропустить обложку</string>
     <string name="skip_comic_cover_sub">Не включайте первое архивное изображение в PDF-файл.</string>
     <string name="compression_level">Уровень сжатия</string>
+    <string name="code_preview_generator">Превью кода</string>
+    <string name="code_preview_generator_sub">Превращает исходный код в стильное изображение для публикации</string>
+    <string name="code_preview_code">Исходный код</string>
+    <string name="code_preview_code_hint">Введите или вставьте код</string>
+    <string name="code_preview_style">Оформление</string>
+    <string name="code_preview_syntax_theme">Тема подсветки</string>
+    <string name="code_preview_background">Фон холста</string>
+    <string name="code_preview_gradient_start">Начало градиента</string>
+    <string name="code_preview_gradient_end">Конец градиента</string>
+    <string name="code_preview_outer_padding">Отступы холста</string>
+    <string name="code_preview_inner_padding">Отступы кода</string>
+    <string name="code_preview_filename">Имя файла</string>
+    <string name="code_preview_window_controls">Кнопки окна</string>
+    <string name="code_preview_show_filename">Показывать имя файла</string>
+    <string name="code_preview_line_numbers">Номера строк</string>
+    <string name="code_preview_wrap_lines">Переносить длинные строки</string>
+    <string name="code_preview_canvas_corners">Углы холста</string>
+    <string name="code_preview_code_corners">Углы окна с кодом</string>
+    <string name="search_keywords_code_preview">код сниппет исходник подсветка синтаксис скриншот программирование</string>
 </resources>

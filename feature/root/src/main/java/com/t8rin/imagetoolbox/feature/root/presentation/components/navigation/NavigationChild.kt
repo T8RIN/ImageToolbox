@@ -46,6 +46,8 @@ import com.t8rin.imagetoolbox.feature.compare.presentation.CompareContent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.CompressionLabContent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.screenLogic.CompressionLabComponent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.CodePreviewContent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.CropContent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
 import com.t8rin.imagetoolbox.feature.curves.presentation.CurvesContent
@@ -338,6 +340,11 @@ internal sealed interface NavigationChild {
     class CompressionLab(private val component: CompressionLabComponent) : NavigationChild {
         @Composable
         override fun Content() = CompressionLabContent(component)
+    }
+
+    class CodePreview(private val component: CodePreviewComponent) : NavigationChild {
+        @Composable
+        override fun Content() = CodePreviewContent(component)
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {

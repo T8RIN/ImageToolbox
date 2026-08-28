@@ -5118,4 +5118,23 @@
     <string name="compression_lab_failed_formats">Could not test: %1$s</string>
     <string name="search_keywords_compression_lab">compression benchmark codec encoder batch file size quality SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
     <string name="markup_layer_text_defaults_sub">Default text layer appearance</string>
+    <string name="code_preview_generator">Code Preview</string>
+    <string name="code_preview_generator_sub">Turn source code into a polished, shareable image</string>
+    <string name="code_preview_code">Source code</string>
+    <string name="code_preview_code_hint">Type or paste code here</string>
+    <string name="code_preview_style">Appearance</string>
+    <string name="code_preview_syntax_theme">Syntax theme</string>
+    <string name="code_preview_background">Canvas background</string>
+    <string name="code_preview_gradient_start">Gradient start</string>
+    <string name="code_preview_gradient_end">Gradient end</string>
+    <string name="code_preview_outer_padding">Canvas padding</string>
+    <string name="code_preview_inner_padding">Code padding</string>
+    <string name="code_preview_filename">File name</string>
+    <string name="code_preview_window_controls">Window controls</string>
+    <string name="code_preview_show_filename">Show file name</string>
+    <string name="code_preview_line_numbers">Line numbers</string>
+    <string name="code_preview_wrap_lines">Wrap long lines</string>
+    <string name="code_preview_canvas_corners">Canvas corners</string>
+    <string name="code_preview_code_corners">Code window corners</string>
+    <string name="search_keywords_code_preview">code snippet source syntax highlight carbon ray screenshot developer programming</string>
 </resources>
