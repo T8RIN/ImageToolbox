@@ -106,8 +106,43 @@ class CodePreviewBitmapRendererTest {
 
     @Test
     fun allCodeThemesCanBeResolved() {
-        assertEquals(46, CodePreviewTheme.entries.size)
+        assertEquals(57, CodePreviewTheme.entries.size)
         CodePreviewTheme.entries.forEach(CodePreviewTheme::highlightTheme)
+    }
+
+    @Test
+    fun materialThemeUiThemesAreAvailable() {
+        val expectedThemes = setOf(
+            "Material Oceanic",
+            "Material Darker",
+            "Material Palenight",
+            "Material Deep Ocean",
+            "Material Forest",
+            "Material Volcano",
+            "Material Space",
+            "Monokai Pro (Material)",
+            "Arc Dark (Material)",
+            "GitHub Dark (Material)",
+            "Atom One Dark (Material)",
+            "Dracula (Material)",
+            "Solarized Dark (Material)",
+            "Night Owl (Material)",
+            "Moonlight (Material)",
+            "SynthWave '84 (Material)",
+            "Material Lighter",
+            "Material Sky Blue",
+            "Material Sandy Beach",
+            "GitHub (Material)",
+            "Atom One Light (Material)",
+            "Solarized Light (Material)",
+            "Light Owl (Material)"
+        )
+        val actualThemes = CodePreviewTheme.entries.mapTo(mutableSetOf()) { it.title }
+
+        assertTrue(
+            "Missing Material Theme UI themes: ${expectedThemes - actualThemes}",
+            actualThemes.containsAll(expectedThemes)
+        )
     }
 
     @Test

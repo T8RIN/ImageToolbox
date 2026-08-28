@@ -141,6 +141,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         entries = CodePreviewTheme.entries,
                         title = stringResource(R.string.code_preview_syntax_theme),
                         titleIcon = Icons.Outlined.Highlight,
+                        badgeContent = { Text(CodePreviewTheme.entries.size.toString()) },
                         itemContentText = { it.title },
                         spanCount = 3,
                         shape = ShapeDefaults.top

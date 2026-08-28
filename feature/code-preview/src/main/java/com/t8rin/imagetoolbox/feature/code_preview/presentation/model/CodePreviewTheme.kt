@@ -24,7 +24,7 @@ import dev.hossain.highlight.engine.HljsSelectors
 
 enum class CodePreviewTheme(val title: String) {
     Dracula("Dracula"),
-    OneDark("One Dark"),
+    OneDark("Atom One Dark"),
     GitHubDark("GitHub Dark"),
     TomorrowNight("Tomorrow Night"),
     AlucardDark("Alucard Dark"),
@@ -32,9 +32,16 @@ enum class CodePreviewTheme(val title: String) {
     TokyoNight("Tokyo Night"),
     Nord("Nord"),
     Monokai("Monokai"),
+    MonokaiPro("Monokai Pro"),
+    ArcDark("Arc Dark"),
     GruvboxDark("Gruvbox Dark"),
     SolarizedDark("Solarized Dark"),
-    MaterialOcean("Material Ocean"),
+    MaterialOceanic("Oceanic"),
+    MaterialDarker("Darker"),
+    MaterialDeepOcean("Deep Ocean"),
+    MaterialForest("Forest"),
+    MaterialVolcano("Volcano"),
+    MaterialSpace("Space"),
     NightOwl("Night Owl"),
     AyuMirage("Ayu Mirage"),
     Cobalt("Cobalt"),
@@ -56,11 +63,15 @@ enum class CodePreviewTheme(val title: String) {
     Cyberpunk("Cyberpunk"),
     Alucard("Alucard"),
     DraculaLight("Dracula Light"),
-    OneLight("One Light"),
-    GitHubLight("GitHub Light"),
+    OneLight("Atom One Light"),
+    GitHubLight("GitHub"),
     Tomorrow("Tomorrow"),
     CatppuccinLatte("Catppuccin Latte"),
     SolarizedLight("Solarized Light"),
+    MaterialLighter("Lighter"),
+    MaterialSkyBlue("Sky Blue"),
+    MaterialSandyBeach("Sandy Beach"),
+    LightOwl("Light Owl"),
     AyuLight("Ayu Light"),
     GruvboxLight("Gruvbox Light"),
     RosePineDawn("Rosé Pine Dawn"),
@@ -72,9 +83,44 @@ enum class CodePreviewTheme(val title: String) {
 
     private val resolvedTheme: HighlightTheme by lazy {
         when (this) {
-            Dracula -> HighlightTheme.draculaDark()
-            OneDark -> HighlightTheme.atomOneDark()
-            GitHubDark -> HighlightTheme.githubDark()
+            Dracula -> materialTheme(
+                name = "dracula-material",
+                background = Color(0xFF282A36),
+                foreground = Color(0xFFF8F8F2),
+                keyword = Color(0xFFF780BF),
+                function = Color(0xFF8AFF80),
+                string = Color(0xFFFEFF80),
+                number = Color(0xFF9580FF),
+                comment = Color(0xFF6272A4),
+                attribute = Color(0xFF8AFF80),
+                tag = Color(0xFFF780BF)
+            )
+
+            OneDark -> materialTheme(
+                name = "atom-one-dark-material",
+                background = Color(0xFF282C34),
+                foreground = Color(0xFFD19A66),
+                keyword = Color(0xFFC679DD),
+                function = Color(0xFF61AEEF),
+                string = Color(0xFF98C379),
+                number = Color(0xFFD19A66),
+                comment = Color(0xFF59626F),
+                attribute = Color(0xFFE5C17C),
+                tag = Color(0xFFE06C75)
+            )
+
+            GitHubDark -> materialTheme(
+                name = "github-dark-material",
+                background = Color(0xFF24292E),
+                foreground = Color(0xFFD1D5DA),
+                keyword = Color(0xFFF97583),
+                function = Color(0xFFB392F0),
+                string = Color(0xFF79B8FF),
+                number = Color(0xFF79B8FF),
+                comment = Color(0xFF959DA5),
+                attribute = Color(0xFFB392F0),
+                tag = Color(0xFF85E89D)
+            )
             TomorrowNight -> HighlightTheme.tomorrowNight()
             AlucardDark -> HighlightTheme.alucardDark()
             CatppuccinMocha -> customTheme(
@@ -141,6 +187,32 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
+            MonokaiPro -> materialTheme(
+                name = "monokai-pro-material",
+                background = Color(0xFF2D2A2E),
+                foreground = Color(0xFFFCFCFA),
+                keyword = Color(0xFFFF6188),
+                function = Color(0xFFA9DC76),
+                string = Color(0xFFFFD866),
+                number = Color(0xFFAB9DF2),
+                comment = Color(0xFF727072),
+                attribute = Color(0xFF78DCE8),
+                tag = Color(0xFFFF6188)
+            )
+
+            ArcDark -> materialTheme(
+                name = "arc-dark-material",
+                background = Color(0xFF2F343F),
+                foreground = Color(0xFFCF6A4C),
+                keyword = Color(0xFF9B859D),
+                function = Color(0xFF7587A6),
+                string = Color(0xFF8F9D6A),
+                number = Color(0xFFCDA869),
+                comment = Color(0xFF747C84),
+                attribute = Color(0xFFF9EE98),
+                tag = Color(0xFFCF6A4C)
+            )
+
             GruvboxDark -> customTheme(
                 name = "gruvbox-dark",
                 palette = HighlightPalette(
@@ -157,52 +229,108 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
-            SolarizedDark -> customTheme(
-                name = "solarized-dark",
-                palette = HighlightPalette(
-                    background = Color(0xFF002B36),
-                    foreground = Color(0xFF839496),
-                    keyword = Color(0xFF859900),
-                    builtIn = Color(0xFFB58900),
-                    string = Color(0xFF2AA198),
-                    number = Color(0xFFD33682),
-                    comment = Color(0xFF586E75),
-                    title = Color(0xFF268BD2),
-                    attribute = Color(0xFFCB4B16),
-                    meta = Color(0xFF6C71C4)
-                )
+            SolarizedDark -> materialTheme(
+                name = "solarized-dark-material",
+                background = Color(0xFF002B36),
+                foreground = Color(0xFF268BD2),
+                keyword = Color(0xFF859900),
+                function = Color(0xFFB58900),
+                string = Color(0xFF2AA198),
+                number = Color(0xFFD33682),
+                comment = Color(0xFF657B83),
+                attribute = Color(0xFFB58900),
+                tag = Color(0xFF268BD2)
             )
 
-            MaterialOcean -> customTheme(
-                name = "material-ocean",
-                palette = HighlightPalette(
-                    background = Color(0xFF0F111A),
-                    foreground = Color(0xFF8F93A2),
-                    keyword = Color(0xFFC792EA),
-                    builtIn = Color(0xFF89DDFF),
-                    string = Color(0xFFC3E88D),
-                    number = Color(0xFFF78C6C),
-                    comment = Color(0xFF546E7A),
-                    title = Color(0xFF82AAFF),
-                    attribute = Color(0xFFFFCB6B),
-                    meta = Color(0xFFFF5370)
-                )
+            MaterialOceanic -> materialTheme(
+                name = "material-oceanic",
+                background = Color(0xFF263238),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF546E7A),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
             )
 
-            NightOwl -> customTheme(
-                name = "night-owl",
-                palette = HighlightPalette(
-                    background = Color(0xFF011627),
-                    foreground = Color(0xFFD6DEEB),
-                    keyword = Color(0xFFC792EA),
-                    builtIn = Color(0xFF82AAFF),
-                    string = Color(0xFFECC48D),
-                    number = Color(0xFFF78C6C),
-                    comment = Color(0xFF637777),
-                    title = Color(0xFF82AAFF),
-                    attribute = Color(0xFFADDB67),
-                    meta = Color(0xFFEF5350)
-                )
+            MaterialDarker -> materialTheme(
+                name = "material-darker",
+                background = Color(0xFF212121),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF616161),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
+            )
+
+            MaterialDeepOcean -> materialTheme(
+                name = "material-deep-ocean",
+                background = Color(0xFF0F111A),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF717CB4),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
+            )
+
+            MaterialForest -> materialTheme(
+                name = "material-forest",
+                background = Color(0xFF002626),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF005454),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
+            )
+
+            MaterialVolcano -> materialTheme(
+                name = "material-volcano",
+                background = Color(0xFF390000),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF7F6451),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
+            )
+
+            MaterialSpace -> materialTheme(
+                name = "material-space",
+                background = Color(0xFF1B2240),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF959DAA),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
+            )
+
+            NightOwl -> materialTheme(
+                name = "night-owl-material",
+                background = Color(0xFF011627),
+                foreground = Color(0xFFADDB67),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFECC48D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF637777),
+                attribute = Color(0xFFADDB67),
+                tag = Color(0xFF7FDBCA)
             )
 
             AyuMirage -> customTheme(
@@ -317,20 +445,17 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
-            Moonlight -> customTheme(
-                name = "moonlight",
-                palette = HighlightPalette(
-                    background = Color(0xFF222436),
-                    foreground = Color(0xFFC8D3F5),
-                    keyword = Color(0xFFC099FF),
-                    builtIn = Color(0xFF82AAFF),
-                    string = Color(0xFFC3E88D),
-                    number = Color(0xFFFFA7C4),
-                    comment = Color(0xFF636DA6),
-                    title = Color(0xFF65BCFF),
-                    attribute = Color(0xFFFFC777),
-                    meta = Color(0xFFFF757F)
-                )
+            Moonlight -> materialTheme(
+                name = "moonlight-material",
+                background = Color(0xFF222436),
+                foreground = Color(0xFFC8D3F5),
+                keyword = Color(0xFFBAACFF),
+                function = Color(0xFF70B0FF),
+                string = Color(0xFF7AF8CA),
+                number = Color(0xFFFF9668),
+                comment = Color(0xFF7E8EDA),
+                attribute = Color(0xFFFFBD76),
+                tag = Color(0xFFFF757F)
             )
 
             Horizon -> customTheme(
@@ -349,36 +474,30 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
-            Palenight -> customTheme(
-                name = "palenight",
-                palette = HighlightPalette(
-                    background = Color(0xFF292D3E),
-                    foreground = Color(0xFFA6ACCD),
-                    keyword = Color(0xFFC792EA),
-                    builtIn = Color(0xFF82AAFF),
-                    string = Color(0xFFC3E88D),
-                    number = Color(0xFFF78C6C),
-                    comment = Color(0xFF676E95),
-                    title = Color(0xFF89DDFF),
-                    attribute = Color(0xFFFFCB6B),
-                    meta = Color(0xFFF07178)
-                )
+            Palenight -> materialTheme(
+                name = "material-palenight",
+                background = Color(0xFF292D3E),
+                foreground = Color(0xFFEEFFFF),
+                keyword = Color(0xFFC792EA),
+                function = Color(0xFF82AAFF),
+                string = Color(0xFFC3E88D),
+                number = Color(0xFFF78C6C),
+                comment = Color(0xFF676E95),
+                attribute = Color(0xFFFFCB6B),
+                tag = Color(0xFFF07178)
             )
 
-            Synthwave84 -> customTheme(
-                name = "synthwave-84",
-                palette = HighlightPalette(
-                    background = Color(0xFF262335),
-                    foreground = Color(0xFFFFFFFF),
-                    keyword = Color(0xFFF92AAD),
-                    builtIn = Color(0xFF36F9F6),
-                    string = Color(0xFFFFE261),
-                    number = Color(0xFFFF8B39),
-                    comment = Color(0xFF848BBD),
-                    title = Color(0xFF72F1B8),
-                    attribute = Color(0xFFFFDE5D),
-                    meta = Color(0xFFFE4450)
-                )
+            Synthwave84 -> materialTheme(
+                name = "synthwave-84-material",
+                background = Color(0xFF2A2139),
+                foreground = Color(0xFFB6B1B1),
+                keyword = Color(0xFFFEDE5D),
+                function = Color(0xFF36F9F6),
+                string = Color(0xFFFF8B39),
+                number = Color(0xFFF97E72),
+                comment = Color(0xFF848BBD),
+                attribute = Color(0xFFFEDE5D),
+                tag = Color(0xFF72F1B8)
             )
 
             ShadesOfPurple -> customTheme(
@@ -495,8 +614,32 @@ enum class CodePreviewTheme(val title: String) {
 
             Alucard -> HighlightTheme.alucardLight()
             DraculaLight -> HighlightTheme.draculaLight()
-            OneLight -> HighlightTheme.atomOneLight()
-            GitHubLight -> HighlightTheme.githubLight()
+            OneLight -> materialTheme(
+                name = "atom-one-light-material",
+                background = Color(0xFFF4F4F4),
+                foreground = Color(0xFF986801),
+                keyword = Color(0xFFA626A4),
+                function = Color(0xFF4078F2),
+                string = Color(0xFF50A14E),
+                number = Color(0xFF986801),
+                comment = Color(0xFFA0A1A7),
+                attribute = Color(0xFFC18401),
+                tag = Color(0xFFE4564A)
+            )
+
+            GitHubLight -> materialTheme(
+                name = "github-light-material",
+                background = Color(0xFFF7F8FA),
+                foreground = Color(0xFF24292E),
+                keyword = Color(0xFFD73A49),
+                function = Color(0xFF6F42C1),
+                string = Color(0xFF032F62),
+                number = Color(0xFF005CC5),
+                comment = Color(0xFF6A737D),
+                attribute = Color(0xFF6F42C1),
+                tag = Color(0xFF22863A)
+            )
+
             Tomorrow -> HighlightTheme.tomorrow()
             CatppuccinLatte -> customTheme(
                 name = "catppuccin-latte",
@@ -514,20 +657,69 @@ enum class CodePreviewTheme(val title: String) {
                 )
             )
 
-            SolarizedLight -> customTheme(
-                name = "solarized-light",
-                palette = HighlightPalette(
-                    background = Color(0xFFFDF6E3),
-                    foreground = Color(0xFF657B83),
-                    keyword = Color(0xFF859900),
-                    builtIn = Color(0xFFB58900),
-                    string = Color(0xFF2AA198),
-                    number = Color(0xFFD33682),
-                    comment = Color(0xFF93A1A1),
-                    title = Color(0xFF268BD2),
-                    attribute = Color(0xFFCB4B16),
-                    meta = Color(0xFF6C71C4)
-                )
+            SolarizedLight -> materialTheme(
+                name = "solarized-light-material",
+                background = Color(0xFFFDF6E3),
+                foreground = Color(0xFF268BD2),
+                keyword = Color(0xFF859900),
+                function = Color(0xFFB58900),
+                string = Color(0xFF2AA198),
+                number = Color(0xFFD33682),
+                comment = Color(0xFF93A1A1),
+                attribute = Color(0xFF657B83),
+                tag = Color(0xFF268BD2)
+            )
+
+            MaterialLighter -> materialTheme(
+                name = "material-lighter",
+                background = Color(0xFFFAFAFA),
+                foreground = Color(0xFF272727),
+                keyword = Color(0xFF7C4DFF),
+                function = Color(0xFF6182B8),
+                string = Color(0xFF91B859),
+                number = Color(0xFFF76D47),
+                comment = Color(0xFFAABFC9),
+                attribute = Color(0xFFF6A434),
+                tag = Color(0xFFE53935)
+            )
+
+            MaterialSkyBlue -> materialTheme(
+                name = "material-sky-blue",
+                background = Color(0xFFF5F5F5),
+                foreground = Color(0xFF272727),
+                keyword = Color(0xFF7C4DFF),
+                function = Color(0xFF6182B8),
+                string = Color(0xFF91B859),
+                number = Color(0xFFF76D47),
+                comment = Color(0xFF01579B),
+                attribute = Color(0xFFF6A434),
+                tag = Color(0xFFE53935)
+            )
+
+            MaterialSandyBeach -> materialTheme(
+                name = "material-sandy-beach",
+                background = Color(0xFFFFF8ED),
+                foreground = Color(0xFF272727),
+                keyword = Color(0xFF7C4DFF),
+                function = Color(0xFF6182B8),
+                string = Color(0xFF91B859),
+                number = Color(0xFFF76D47),
+                comment = Color(0xFF888477),
+                attribute = Color(0xFFF6A434),
+                tag = Color(0xFFE53935)
+            )
+
+            LightOwl -> materialTheme(
+                name = "light-owl-material",
+                background = Color(0xFFF0F0F0),
+                foreground = Color(0xFF4876D6),
+                keyword = Color(0xFF994CC3),
+                function = Color(0xFF4876D6),
+                string = Color(0xFFC96765),
+                number = Color(0xFFAA0982),
+                comment = Color(0xFF989FB1),
+                attribute = Color(0xFF0C969B),
+                tag = Color(0xFF994CC3)
             )
 
             AyuLight -> customTheme(
@@ -674,6 +866,33 @@ private data class HighlightPalette(
     val title: Color,
     val attribute: Color,
     val meta: Color
+)
+
+private fun materialTheme(
+    name: String,
+    background: Color,
+    foreground: Color,
+    keyword: Color,
+    function: Color,
+    string: Color,
+    number: Color,
+    comment: Color,
+    attribute: Color,
+    tag: Color
+): HighlightTheme = customTheme(
+    name = name,
+    palette = HighlightPalette(
+        background = background,
+        foreground = foreground,
+        keyword = keyword,
+        builtIn = function,
+        string = string,
+        number = number,
+        comment = comment,
+        title = function,
+        attribute = attribute,
+        meta = tag
+    )
 )
 
 private fun customTheme(

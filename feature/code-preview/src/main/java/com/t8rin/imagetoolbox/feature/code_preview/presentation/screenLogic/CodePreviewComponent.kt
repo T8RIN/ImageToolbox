@@ -51,6 +51,8 @@ import dev.hossain.highlight.engine.HighlightEngine
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class CodePreviewComponent @AssistedInject internal constructor(
@@ -66,7 +68,8 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private val _params = mutableStateOf(CodePreviewParams.Default)
     val params: CodePreviewParams by _params
 
-    private val highlightEngine = HighlightEngine(appContext)
+    private var highlightEngine: HighlightEngine? = null
+    private val highlightMutex = Mutex()
     private val _previewBitmap = mutableStateOf<Bitmap?>(null)
     val previewBitmap: Bitmap? by _previewBitmap
 
@@ -80,12 +83,11 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private var highlightedSnapshot: HighlightedSnapshot? = null
 
     init {
-        updatePreview()
+        updatePreview(debounce = false)
 
         doOnDestroy {
             previewJob = null
-            highlightEngine.destroy()
-            previewBitmap?.recycle()
+            highlightEngine?.destroy()
         }
     }
 
@@ -266,68 +268,58 @@ class CodePreviewComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
-    private fun updatePreview() {
+    private fun updatePreview(debounce: Boolean = true) {
         val renderParams = params
         previewJob = componentScope.launch {
-            delay(100)
-            val highlightedCode = getHighlightedCode(renderParams)
-            var bitmap: Bitmap? = null
-            try {
-                bitmap = withContext(defaultDispatcher) {
-                    renderCodePreviewBitmap(
-                        params = renderParams,
-                        highlightedCode = highlightedCode,
-                        maxBitmapPixels = 2_000_000f
-                    )
-                }
-                ensureActive()
-                if (params == renderParams) {
-                    _previewBitmap.value = bitmap
-                    bitmap = null
-                }
-            } finally {
-                bitmap?.recycle()
+            if (debounce) delay(100)
+            val bitmap = withContext(defaultDispatcher) {
+                val highlightedCode = getHighlightedCode(renderParams)
+                renderCodePreviewBitmap(
+                    params = renderParams,
+                    highlightedCode = highlightedCode,
+                    maxBitmapPixels = 2_000_000f
+                )
+            }
+            ensureActive()
+            if (params == renderParams) {
+                _previewBitmap.value = bitmap
             }
         }
     }
 
-    private suspend fun renderBitmap(renderParams: CodePreviewParams): Bitmap {
-        val highlightedCode = getHighlightedCode(renderParams)
-        return withContext(defaultDispatcher) {
+    private suspend fun renderBitmap(renderParams: CodePreviewParams): Bitmap =
+        withContext(defaultDispatcher) {
             renderCodePreviewBitmap(
                 params = renderParams,
-                highlightedCode = highlightedCode
+                highlightedCode = getHighlightedCode(renderParams)
             )
         }
-    }
 
     private suspend fun <T> withRenderedBitmap(
         renderParams: CodePreviewParams,
         action: suspend (Bitmap) -> T
-    ): T {
-        val bitmap = renderBitmap(renderParams)
-        return try {
-            action(bitmap)
-        } finally {
-            bitmap.recycle()
-        }
-    }
+    ): T = action(renderBitmap(renderParams))
 
-    private suspend fun getHighlightedCode(renderParams: CodePreviewParams): AnnotatedString {
+    private suspend fun getHighlightedCode(
+        renderParams: CodePreviewParams
+    ): AnnotatedString = highlightMutex.withLock {
         val key = renderParams.highlightKey
-        highlightedSnapshot?.takeIf { it.key == key }?.let { return it.code }
+        highlightedSnapshot?.takeIf { it.key == key }?.let { return@withLock it.code }
 
-        val highlightedCode = highlightEngine.highlight(
+        val engine = highlightEngine ?: HighlightEngine(appContext).also {
+            highlightEngine = it
+        }
+        val highlightedCode = engine.highlight(
             code = renderParams.code,
             language = renderParams.language.highlightKey,
             theme = renderParams.theme.highlightTheme()
-        ).getOrNull()?.annotated ?: return AnnotatedString(renderParams.code)
+        ).getOrNull()?.annotated ?: AnnotatedString(renderParams.code)
 
         highlightedSnapshot = HighlightedSnapshot(
             key = key,
             code = highlightedCode
         )
-        return highlightedCode
+        highlightedCode
     }
 
     private fun Bitmap.imageInfo(imageFormat: ImageFormat) = ImageInfo(

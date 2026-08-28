@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -64,6 +65,8 @@ fun CodePreviewContent(component: CodePreviewComponent) {
             showZoomSheet = false
         }
     )
+
+    val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = !component.haveChanges,
@@ -127,7 +130,9 @@ fun CodePreviewContent(component: CodePreviewComponent) {
                     showFolderSelectionDialog = true
                 },
                 isPrimaryButtonEnabled = params.code.isNotBlank() && !component.isSaving,
-                actions = {}
+                actions = {
+                    if (isPortrait) it()
+                }
             )
         },
         canShowScreenData = true
