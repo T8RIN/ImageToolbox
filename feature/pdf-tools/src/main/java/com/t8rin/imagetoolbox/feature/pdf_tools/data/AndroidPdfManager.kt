@@ -66,7 +66,10 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.transformImages
 import com.t8rin.imagetoolbox.feature.pdf_tools.data.utils.writePage
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfHelper
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ComicReadingDirection
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ComicToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageSize
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfAnnotationType
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
@@ -96,6 +99,7 @@ import com.tom_roush.pdfbox.pdmodel.common.PDRectangle
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import com.tom_roush.pdfbox.pdmodel.graphics.blend.BlendMode
 import com.tom_roush.pdfbox.pdmodel.graphics.image.JPEGFactory
+import com.tom_roush.pdfbox.pdmodel.graphics.image.PDImageXObject
 import com.tom_roush.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import com.tom_roush.pdfbox.pdmodel.graphics.state.RenderingMode
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationFileAttachment
@@ -109,6 +113,7 @@ import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationText
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationTextMarkup
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationUnknown
 import com.tom_roush.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget
+import com.tom_roush.pdfbox.pdmodel.interactive.viewerpreferences.PDViewerPreferences
 import com.tom_roush.pdfbox.text.PDFTextStripper
 import com.tom_roush.pdfbox.util.Matrix
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -178,7 +183,8 @@ internal class AndroidPdfManager @Inject constructor(
 
     override suspend fun convertComicBookToPdf(
         uri: String,
-        passphrase: String?
+        passphrase: String?,
+        params: ComicToPdfParams
     ): String = catchPdf {
         val temporaryDirectory = File(
             context.cacheDir,
@@ -210,43 +216,62 @@ internal class AndroidPdfManager @Inject constructor(
                 )
             } ?: error("Cannot open comic book archive")
 
-            val images = temporaryDirectory
+            var images = temporaryDirectory
                 .walkTopDown()
                 .filter(File::isFile)
                 .sortedWith(compareBy(NaturalPathComparator) {
                     it.relativeTo(temporaryDirectory).invariantSeparatorsPath
                 })
                 .toList()
+            if (params.skipCover) images = images.drop(1)
+            if (params.reversePageOrder) images = images.asReversed()
             check(images.isNotEmpty()) { "No supported images found in comic book archive" }
 
             createPdf { document ->
+                document.documentCatalog.viewerPreferences = PDViewerPreferences(COSDictionary())
+                    .apply {
+                        setReadingDirection(
+                            when (params.readingDirection) {
+                                ComicReadingDirection.LeftToRight -> {
+                                    PDViewerPreferences.READING_DIRECTION.L2R
+                                }
+
+                                ComicReadingDirection.RightToLeft -> {
+                                    PDViewerPreferences.READING_DIRECTION.R2L
+                                }
+                            }
+                        )
+                    }
                 images.forEach { file ->
                     operationContext.ensureActive()
                     val extension = file.extension.lowercase()
-                    val bitmap = if (extension == "jpg" || extension == "jpeg") {
-                        null
+                    val canEmbedOriginalJpeg =
+                        extension in JpegExtensions &&
+                                params.quality >= 100 &&
+                                !params.splitWidePages
+                    if (canEmbedOriginalJpeg) {
+                        val image = file.inputStream().buffered().use {
+                            JPEGFactory.createFromStream(document, it)
+                        }
+                        document.addComicPage(image, params)
                     } else {
-                        imageGetter.getImage(file, size = MaxComicBitmapSide)
-                            ?: return@forEach
-                    }
-                    try {
-                        val image = if (bitmap == null) {
-                            file.inputStream().buffered().use {
-                                JPEGFactory.createFromStream(document, it)
+                        val bitmap = imageGetter.getImage(
+                            data = file,
+                            originalSize = true
+                        ) ?: return@forEach
+                        val pages = bitmap.toComicPages(params)
+                        try {
+                            pages.forEach { pageBitmap ->
+                                val image = pageBitmap.asXObject(
+                                    document = document,
+                                    quality = params.quality.coerceIn(0, 100) / 100f
+                                )
+                                document.addComicPage(image, params)
                             }
-                        } else {
-                            bitmap.asXObject(document, quality = 1f)
+                        } finally {
+                            pages.filter { it !== bitmap }.forEach(Bitmap::recycle)
+                            bitmap.recycle()
                         }
-
-                        val scale = (MaxPdfPageSize / max(image.width, image.height))
-                            .coerceAtMost(1f)
-                        val pageWidth = image.width * scale
-                        val pageHeight = image.height * scale
-                        document.createPage(PDPage(PDRectangle(pageWidth, pageHeight))) {
-                            drawImage(image, 0f, 0f, pageWidth, pageHeight)
-                        }
-                    } finally {
-                        bitmap?.recycle()
                     }
                 }
                 check(document.numberOfPages > 0) { "No supported images found" }
@@ -1494,6 +1519,43 @@ internal class AndroidPdfManager @Inject constructor(
 private fun String.isComicImage(): Boolean = substringAfterLast('.', "")
     .lowercase() in ComicImageExtensions
 
+private fun Bitmap.toComicPages(params: ComicToPdfParams): List<Bitmap> {
+    if (!params.splitWidePages || width <= height * ComicSpreadRatio) return listOf(this)
+
+    val leftWidth = width / 2
+    val rightWidth = width - leftWidth
+    val left = Bitmap.createBitmap(this, 0, 0, leftWidth, height)
+    val right = Bitmap.createBitmap(this, leftWidth, 0, rightWidth, height)
+    return when (params.readingDirection) {
+        ComicReadingDirection.LeftToRight -> listOf(left, right)
+        ComicReadingDirection.RightToLeft -> listOf(right, left)
+    }
+}
+
+private fun PDDocument.addComicPage(
+    image: PDImageXObject,
+    params: ComicToPdfParams
+) {
+    val fixedPageSize = params.pageSize.takeUnless { it == PageSize.Auto }
+    val pageRectangle = if (fixedPageSize == null) {
+        val scale = (MaxPdfPageSize / max(image.width, image.height)).coerceAtMost(1f)
+        PDRectangle(image.width * scale, image.height * scale)
+    } else {
+        PDRectangle(fixedPageSize.width.toFloat(), fixedPageSize.height.toFloat())
+    }
+    val scale = min(
+        pageRectangle.width / image.width,
+        pageRectangle.height / image.height
+    )
+    val drawWidth = image.width * scale
+    val drawHeight = image.height * scale
+    val drawX = (pageRectangle.width - drawWidth) / 2f
+    val drawY = (pageRectangle.height - drawHeight) / 2f
+    createPage(PDPage(pageRectangle)) {
+        drawImage(image, drawX, drawY, drawWidth, drawHeight)
+    }
+}
+
 private fun File.safeUniqueFile(): File {
     if (!exists()) return this
 
@@ -1566,5 +1628,7 @@ private val ComicImageExtensions = setOf(
     "jxl", "jp2", "qoi"
 )
 
+private val JpegExtensions = setOf("jpg", "jpeg")
+
 private const val MaxPdfPageSize = 14_400f
-private const val MaxComicBitmapSide = 4096
+private const val ComicSpreadRatio = 1.2f

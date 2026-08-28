@@ -1321,6 +1321,13 @@
     <string name="comic_to_pdf">Comic book to PDF</string>
     <string name="comic_to_pdf_sub">Convert CBR, CBZ, CB7 and other image archives to PDF</string>
     <string name="select_comic_archive_to_start">Select a CBR, CBZ, CB7, or CBT comic book archive</string>
+    <string name="reverse_page_order">Reverse page order</string>
+    <string name="reverse_page_order_sub">Place the last archive image first in the PDF</string>
+    <string name="split_wide_comic_pages">Split wide pages</string>
+    <string name="split_wide_comic_pages_sub">Turn landscape spreads into two separate PDF pages</string>
+    <string name="reading_direction">Reading Direction</string>
+    <string name="skip_comic_cover">Skip cover</string>
+    <string name="skip_comic_cover_sub">Do not include the first archive image in the PDF</string>
     <string name="pdf_contact_sheet">PDF Contact Sheet</string>
     <string name="pdf_contact_sheet_sub">Arrange multiple images in a grid across PDF pages</string>
     <string name="compare_pdf">Compare PDF</string>
@@ -1821,6 +1828,7 @@
     <string name="lossy_compression">Lossy Compression</string>
     <string name="lossy_compression_sub">Uses lossy compression to reduce file size instead of lossless</string>
     <string name="compression_type">Compression Type</string>
+    <string name="compression_level">Compression Level</string>
     <string name="speed_sub">Controls resulting image decoding speed, this should help open resulting image faster, value of %1$s means slowest decoding, whereas %2$s - fastest, this setting may increase output image size</string>
     <string name="sorting">Sorting</string>
     <string name="sort_by_date">Date</string>

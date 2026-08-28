@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ComicToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -72,6 +73,9 @@ class ComicToPdfToolComponent @AssistedInject internal constructor(
     private val _passphrase: MutableState<String> = mutableStateOf("")
     val passphrase by _passphrase
 
+    private val _params: MutableState<ComicToPdfParams> = mutableStateOf(ComicToPdfParams())
+    val params by _params
+
     fun setUri(uri: Uri?) {
         if (uri != null && !uri.isSupportedComicArchive()) {
             AppToastHost.showToast(
@@ -89,6 +93,11 @@ class ComicToPdfToolComponent @AssistedInject internal constructor(
         _passphrase.update { passphrase }
     }
 
+    fun updateParams(params: ComicToPdfParams) {
+        registerChanges()
+        _params.update { params }
+    }
+
     override fun createTargetFilename(): String =
         "${uri?.filename()?.substringBeforeLast('.') ?: timestamp()}.pdf"
 
@@ -96,7 +105,8 @@ class ComicToPdfToolComponent @AssistedInject internal constructor(
         doSaving {
             val processed = pdfManager.convertComicBookToPdf(
                 uri = _uri.value.toString(),
-                passphrase = passphrase.takeIf(String::isNotBlank)
+                passphrase = passphrase.takeIf(String::isNotBlank),
+                params = params
             )
 
             fileController.transferBytes(
@@ -132,7 +142,8 @@ class ComicToPdfToolComponent @AssistedInject internal constructor(
                     listOf(
                         pdfManager.convertComicBookToPdf(
                             uri = _uri.value.toString(),
-                            passphrase = passphrase.takeIf(String::isNotBlank)
+                            passphrase = passphrase.takeIf(String::isNotBlank),
+                            params = params
                         ).toUri()
                     )
                 )

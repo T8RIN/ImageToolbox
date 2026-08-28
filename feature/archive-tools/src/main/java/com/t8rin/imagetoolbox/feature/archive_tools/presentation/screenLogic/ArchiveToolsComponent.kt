@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.SevenZipCompressionMethod
@@ -50,6 +51,13 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 
+internal enum class ArchivePassphraseStatus {
+    Required,
+    Checking,
+    Verified,
+    Invalid
+}
+
 class ArchiveToolsComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val initialUris: List<Uri>?,
@@ -64,8 +72,8 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         debounce {
             initialUris?.let { uris ->
                 if (
-                    uris.size == 1 &&
-                    uris.first().filename()?.hasSupportedArchiveExtension() == true
+                    uris.isNotEmpty() &&
+                    uris.all { it.filename()?.hasSupportedArchiveExtension() == true }
                 ) {
                     setMode(ArchiveMode.Extract)
                 }
@@ -89,6 +97,15 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     private val _sevenZipCompressionMethod = mutableStateOf(SevenZipCompressionMethod.Lzma2)
     val sevenZipCompressionMethod by _sevenZipCompressionMethod
 
+    private val _compressionLevel = mutableStateOf(ArchiveCompressionLevel.Normal)
+    val compressionLevel by _compressionLevel
+
+    val canSetCompressionLevel: Boolean
+        get() = format.supportsCompressionLevel(
+            zipCompressionMethod = zipCompressionMethod,
+            sevenZipCompressionMethod = sevenZipCompressionMethod
+        )
+
     private val _passphrase = mutableStateOf("")
     val passphrase by _passphrase
 
@@ -102,8 +119,33 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
             else -> false
         }
 
-    private val _archiveEncryptionStatus = mutableStateOf<ArchiveEncryptionStatus?>(null)
-    val archiveEncryptionStatus by _archiveEncryptionStatus
+    private val _archiveEncryptionStatuses =
+        mutableStateOf<Map<Uri, ArchiveEncryptionStatus?>>(emptyMap())
+
+    private val _archivePassphrases = mutableStateOf<Map<Uri, String>>(emptyMap())
+
+    private val _archivePassphraseStatuses =
+        mutableStateOf<Map<Uri, ArchivePassphraseStatus>>(emptyMap())
+
+    private val _archivePasswordRequestUri = mutableStateOf<Uri?>(null)
+    val archivePasswordRequestUri by _archivePasswordRequestUri
+
+    val canExtract: Boolean
+        get() = uris.all { uri ->
+            when (archiveEncryptionStatus(uri)) {
+                ArchiveEncryptionStatus.Unsupported -> false
+                ArchiveEncryptionStatus.PasswordRequired -> {
+                    if (uris.size == 1) {
+                        archivePassphrase(uri).isNotEmpty()
+                    } else {
+                        archivePassphraseStatus(uri) == ArchivePassphraseStatus.Verified
+                    }
+                }
+
+                ArchiveEncryptionStatus.None -> true
+                null -> uris.size == 1
+            }
+        }
 
     private val _extractionOptions = mutableStateOf(ArchiveExtractionOptions())
     val extractionOptions by _extractionOptions
@@ -118,19 +160,15 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     val left by _left
 
     fun setUris(newUris: List<Uri>) {
-        val selectedArchive = newUris.firstOrNull()
-        if (
-            mode == ArchiveMode.Extract &&
-            selectedArchive != null &&
-            selectedArchive.filename()?.hasSupportedArchiveExtension() != true
-        ) {
+        val selectedUris = newUris
+            .distinct()
+            .filter {
+                mode != ArchiveMode.Extract ||
+                        it.filename()?.hasSupportedArchiveExtension() == true
+            }
+        if (mode == ArchiveMode.Extract && newUris.isNotEmpty() && selectedUris.isEmpty()) {
             AppToastHost.showFailureToast(R.string.select_archive_to_start)
             return
-        }
-        val selectedUris = if (mode == ArchiveMode.Extract) {
-            newUris.take(1)
-        } else {
-            newUris.distinct()
         }
         if (selectedUris.size > 1 && !format.supportsMultipleFiles) {
             setFormat(ArchiveFormat.Zip)
@@ -140,9 +178,19 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         }
         if (selectedUris.isEmpty()) registerChangesCleared() else registerChanges()
         if (mode == ArchiveMode.Extract) {
-            _passphrase.update { "" }
-            _archiveEncryptionStatus.value = null
-            selectedUris.firstOrNull()?.let(::detectArchiveEncryption)
+            _archivePassphrases.update { current ->
+                selectedUris.associateWith { current[it].orEmpty() }
+            }
+            _archivePassphraseStatuses.update { current ->
+                selectedUris.mapNotNull { uri ->
+                    current[uri]?.let { uri to it }
+                }.toMap()
+            }
+            _archiveEncryptionStatuses.value = selectedUris.associateWith { null }
+            if (archivePasswordRequestUri !in selectedUris) {
+                _archivePasswordRequestUri.value = null
+            }
+            detectArchiveEncryption(selectedUris)
         }
     }
 
@@ -151,7 +199,10 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         _mode.update { mode }
         _uris.update { emptyList() }
         encryptionDetectionJob = null
-        _archiveEncryptionStatus.value = null
+        _archiveEncryptionStatuses.value = emptyMap()
+        _archivePassphrases.value = emptyMap()
+        _archivePassphraseStatuses.value = emptyMap()
+        _archivePasswordRequestUri.value = null
         _passphrase.update { "" }
         _protectWithPassword.update { false }
         _extractionOptions.update { ArchiveExtractionOptions() }
@@ -189,6 +240,12 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    fun setCompressionLevel(level: ArchiveCompressionLevel) {
+        if (level == compressionLevel) return
+        _compressionLevel.update { level }
+        registerChanges()
+    }
+
     fun setProtectWithPassword(protect: Boolean) {
         if (protect == protectWithPassword) return
         _protectWithPassword.update { protect && canProtectWithPassword }
@@ -200,6 +257,70 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
         if (passphrase == this.passphrase) return
         _passphrase.update { passphrase }
         registerChanges()
+    }
+
+    fun archiveEncryptionStatus(uri: Uri): ArchiveEncryptionStatus? =
+        _archiveEncryptionStatuses.value[uri]
+
+    fun archivePassphrase(uri: Uri): String = _archivePassphrases.value[uri].orEmpty()
+
+    internal fun archivePassphraseStatus(uri: Uri): ArchivePassphraseStatus? =
+        _archivePassphraseStatuses.value[uri]
+
+    fun requestArchivePassphrase(uri: Uri) {
+        if (archiveEncryptionStatus(uri) == ArchiveEncryptionStatus.PasswordRequired) {
+            _archivePasswordRequestUri.value = uri
+        }
+    }
+
+    fun dismissArchivePassphraseRequest() {
+        _archivePasswordRequestUri.value = null
+    }
+
+    fun setArchivePassphrase(uri: Uri, passphrase: String) {
+        if (uri !in uris || archivePassphrase(uri) == passphrase) return
+        _archivePassphrases.update { it + (uri to passphrase) }
+        if (archiveEncryptionStatus(uri) == ArchiveEncryptionStatus.PasswordRequired) {
+            _archivePassphraseStatuses.update {
+                it + (uri to ArchivePassphraseStatus.Required)
+            }
+        }
+        registerChanges()
+    }
+
+    fun verifyArchivePassphrase(uri: Uri, passphrase: String) {
+        if (
+            uri !in uris ||
+            passphrase.isEmpty() ||
+            archiveEncryptionStatus(uri) != ArchiveEncryptionStatus.PasswordRequired
+        ) return
+
+        _archivePassphrases.update { it + (uri to passphrase) }
+        _archivePassphraseStatuses.update {
+            it + (uri to ArchivePassphraseStatus.Checking)
+        }
+        registerChanges()
+
+        componentScope.launch(defaultDispatcher) {
+            val verified = runCatching {
+                archiveManager.verifyArchivePassphrase(
+                    archive = uri.toString(),
+                    passphrase = passphrase
+                )
+            }.getOrDefault(false)
+            if (uri in uris && archivePassphrase(uri) == passphrase) {
+                _archivePassphraseStatuses.update {
+                    it + (uri to if (verified) {
+                        ArchivePassphraseStatus.Verified
+                    } else {
+                        ArchivePassphraseStatus.Invalid
+                    })
+                }
+                if (verified && archivePasswordRequestUri == uri) {
+                    _archivePasswordRequestUri.value = null
+                }
+            }
+        }
     }
 
     fun setCreateSubfolder(createSubfolder: Boolean) {
@@ -223,13 +344,25 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
 
     private var encryptionDetectionJob: Job? by smartJob()
 
-    private fun detectArchiveEncryption(uri: Uri) {
+    private fun detectArchiveEncryption(uris: List<Uri>) {
         encryptionDetectionJob = componentScope.launch(defaultDispatcher) {
-            val status = runCatching {
-                archiveManager.getArchiveEncryptionStatus(uri.toString())
-            }.getOrNull()
-            if (mode == ArchiveMode.Extract && uris.firstOrNull() == uri) {
-                _archiveEncryptionStatus.value = status
+            uris.forEach { uri ->
+                val status = runCatching {
+                    archiveManager.getArchiveEncryptionStatus(uri.toString())
+                }.getOrNull()
+                if (mode == ArchiveMode.Extract && this@ArchiveToolsComponent.uris == uris) {
+                    _archiveEncryptionStatuses.update { it + (uri to status) }
+                    _archivePassphraseStatuses.update { current ->
+                        if (status == ArchiveEncryptionStatus.PasswordRequired) {
+                            current + (uri to current.getOrDefault(
+                                uri,
+                                ArchivePassphraseStatus.Required
+                            ))
+                        } else {
+                            current - uri
+                        }
+                    }
+                }
             }
         }
     }
@@ -259,6 +392,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
                         format = format,
                         zipCompressionMethod = zipCompressionMethod,
                         sevenZipCompressionMethod = sevenZipCompressionMethod,
+                        compressionLevel = compressionLevel,
                         passphrase = passphrase.takeIf {
                             protectWithPassword && it.isNotEmpty()
                         },
@@ -295,6 +429,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
                         format = format,
                         zipCompressionMethod = zipCompressionMethod,
                         sevenZipCompressionMethod = sevenZipCompressionMethod,
+                        compressionLevel = compressionLevel,
                         passphrase = passphrase.takeIf {
                             protectWithPassword && it.isNotEmpty()
                         },
@@ -320,23 +455,25 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     fun startExtraction(destinationFolder: Uri) {
         savingJob = trackProgress {
             _isSaving.value = true
-            val archive = uris.firstOrNull()
-            if (archive == null) {
+            val archives = uris
+            if (archives.isEmpty()) {
                 _isSaving.value = false
                 return@trackProgress
             }
             runSuspendCatching {
                 _done.update { 0 }
-                _left.update { -1 }
-                archiveManager.extract(
-                    archive = archive.toString(),
-                    destinationFolder = destinationFolder.toString(),
-                    passphrase = passphrase.takeIf(String::isNotEmpty),
-                    options = extractionOptions,
-                    onProgress = {
-                        _done.update { it + 1 }
-                    }
-                )
+                _left.update { archives.size }
+                archives.forEachIndexed { index, archive ->
+                    archiveManager.extract(
+                        archive = archive.toString(),
+                        destinationFolder = destinationFolder.toString(),
+                        passphrase = archivePassphrase(archive).takeIf(String::isNotEmpty),
+                        options = extractionOptions,
+                        onProgress = {}
+                    )
+                    _done.update { index + 1 }
+                    updateProgress(done = done, total = left)
+                }
                 registerSave()
                 parseFileSaveResult(SaveResult.Success(savingPath = ""))
             }.onFailure(AppToastHost::showFailureToast)
@@ -347,22 +484,28 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     fun shareExtractedFiles() {
         savingJob = trackProgress {
             _isSaving.value = true
-            val archive = uris.firstOrNull()
-            if (archive == null) {
+            val archives = uris
+            if (archives.isEmpty()) {
                 _isSaving.value = false
                 return@trackProgress
             }
             runSuspendCatching {
                 _done.update { 0 }
-                _left.update { -1 }
-                val extractedFiles = archiveManager.extractToCache(
-                    archive = archive.toString(),
-                    passphrase = passphrase.takeIf(String::isNotEmpty),
-                    options = extractionOptions,
-                    onProgress = {
-                        _done.update { it + 1 }
+                _left.update { archives.size }
+                val extractedFiles = buildList {
+                    archives.forEachIndexed { index, archive ->
+                        addAll(
+                            archiveManager.extractToCache(
+                                archive = archive.toString(),
+                                passphrase = archivePassphrase(archive).takeIf(String::isNotEmpty),
+                                options = extractionOptions,
+                                onProgress = {}
+                            )
+                        )
+                        _done.update { index + 1 }
+                        updateProgress(done = done, total = left)
                     }
-                )
+                }
                 check(extractedFiles.isNotEmpty()) {
                     "Archive contains no shareable files"
                 }
@@ -391,8 +534,7 @@ class ArchiveToolsComponent @AssistedInject internal constructor(
     }
 
     fun addUris(list: List<Uri>) {
-        if (mode == ArchiveMode.Archive) setUris(uris + list)
-        else setUris(list.take(1))
+        setUris(uris + list)
     }
 
     @AssistedFactory

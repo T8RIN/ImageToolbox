@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.archive_tools.domain
 
+import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.SevenZipCompressionMethod
@@ -32,11 +33,17 @@ interface ArchiveManager {
         format: ArchiveFormat,
         zipCompressionMethod: ZipCompressionMethod,
         sevenZipCompressionMethod: SevenZipCompressionMethod,
+        compressionLevel: ArchiveCompressionLevel,
         passphrase: String?,
         onProgress: () -> Unit
     )
 
     suspend fun getArchiveEncryptionStatus(archive: String): ArchiveEncryptionStatus
+
+    suspend fun verifyArchivePassphrase(
+        archive: String,
+        passphrase: String
+    ): Boolean
 
     suspend fun extract(
         archive: String,

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.archive_tools.presentation
 
 import android.net.Uri
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
@@ -26,10 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -48,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchivePasswordDialog
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsControls
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.components.ArchiveToolsNoDataControls
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
@@ -68,9 +70,9 @@ fun ArchiveToolsContent(
         component.setUris(uris)
     }
     val extractPicker = rememberFilePicker(
-        onSuccess = { uri: Uri ->
+        onSuccess = { uris: List<Uri> ->
             component.setMode(ArchiveMode.Extract)
-            component.setUris(listOf(uri))
+            component.setUris(uris)
         }
     )
     val filePicker = if (component.mode == ArchiveMode.Archive) archivePicker else extractPicker
@@ -85,11 +87,7 @@ fun ArchiveToolsContent(
         ArchiveMode.Archive -> !component.protectWithPassword ||
                 component.passphrase.isNotEmpty()
 
-        ArchiveMode.Extract -> when (component.archiveEncryptionStatus) {
-            ArchiveEncryptionStatus.Unsupported -> false
-            ArchiveEncryptionStatus.PasswordRequired -> component.passphrase.isNotEmpty()
-            ArchiveEncryptionStatus.None, null -> true
-        }
+        ArchiveMode.Extract -> component.canExtract
     }
 
     AdaptiveLayoutScreen(
@@ -145,9 +143,13 @@ fun ArchiveToolsContent(
             )
         },
         controls = {
-            if (isPortrait) Spacer(Modifier.height(20.dp))
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (isPortrait) Spacer(Modifier.height(20.dp))
 
-            ArchiveToolsControls(component = component)
+                ArchiveToolsControls(component = component)
+            }
         },
         buttons = { screenActions ->
             BottomButtonsBlock(
@@ -190,5 +192,23 @@ fun ArchiveToolsContent(
         done = component.done,
         left = component.left,
         onCancelLoading = component::cancelSaving
+    )
+
+    val passwordRequestUri = component.archivePasswordRequestUri
+    ArchivePasswordDialog(
+        uri = passwordRequestUri,
+        currentPassword = passwordRequestUri?.let(component::archivePassphrase).orEmpty(),
+        status = passwordRequestUri?.let(component::archivePassphraseStatus),
+        onPasswordChange = { password ->
+            passwordRequestUri?.let { uri ->
+                component.setArchivePassphrase(uri, password)
+            }
+        },
+        onDismiss = component::dismissArchivePassphraseRequest,
+        onConfirm = { password ->
+            passwordRequestUri?.let { uri ->
+                component.verifyArchivePassphrase(uri, password)
+            }
+        }
     )
 }

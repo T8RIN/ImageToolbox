@@ -37,6 +37,7 @@ object ArchiveEngine {
         outputChannel: SeekableByteChannel? = null,
         zipCompressionMethod: ZipCompressionMethod = ZipCompressionMethod.Deflate,
         sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2,
+        compressionLevel: ArchiveCompressionLevel = ArchiveCompressionLevel.Normal,
         passphrase: String? = null,
         onChunk: () -> Unit = {},
         onProgress: () -> Unit = {}
@@ -60,6 +61,7 @@ object ArchiveEngine {
                     "Encrypted 7Z output must be seekable"
                 },
                 compressionMethod = sevenZipCompressionMethod,
+                compressionLevel = compressionLevel,
                 passphrase = passphrase,
                 onChunk = onChunk,
                 onProgress = onProgress
@@ -78,6 +80,18 @@ object ArchiveEngine {
                 zipCompressionMethod = zipCompressionMethod,
                 sevenZipCompressionMethod = sevenZipCompressionMethod
             )
+            if (
+                format.supportsCompressionLevel(
+                    zipCompressionMethod = zipCompressionMethod,
+                    sevenZipCompressionMethod = sevenZipCompressionMethod
+                )
+            ) {
+                configureCompressionLevel(
+                    archive = archive,
+                    format = format,
+                    compressionLevel = compressionLevel
+                )
+            }
             passphrase
                 ?.takeIf(String::isNotEmpty)
                 ?.let {
@@ -333,6 +347,43 @@ object ArchiveEngine {
         }
     }
 
+    fun verifyPassphrase(
+        inputFileDescriptor: Int,
+        passphrase: String,
+        preferSevenZip: Boolean = false,
+        preferRar: Boolean = false,
+        forceRawFormat: Boolean = false,
+        forceBrotli: Boolean = false
+    ): Boolean {
+        if (passphrase.isEmpty()) return false
+
+        var decryptedDataRead = false
+        return try {
+            extract(
+                inputFileDescriptor = inputFileDescriptor,
+                passphrase = passphrase,
+                preferSevenZip = preferSevenZip,
+                preferRar = preferRar,
+                forceRawFormat = forceRawFormat,
+                forceBrotli = forceBrotli,
+                onEntry = { entry, writeData ->
+                    if (!entry.isDirectory && !decryptedDataRead) {
+                        writeData(
+                            PasswordProbeOutputStream {
+                                decryptedDataRead = true
+                            }
+                        )
+                    }
+                }
+            )
+            true
+        } catch (_: PasswordProbeCompletedException) {
+            true
+        } catch (throwable: Throwable) {
+            decryptedDataRead || throwable.hasPasswordProbeCompletionCause()
+        }
+    }
+
     private fun configureWriter(
         archive: Long,
         format: ArchiveFormat,
@@ -460,6 +511,76 @@ object ArchiveEngine {
         }
     }
 
+    private fun configureCompressionLevel(
+        archive: Long,
+        format: ArchiveFormat,
+        compressionLevel: ArchiveCompressionLevel
+    ) {
+        val level = when (format) {
+            ArchiveFormat.TarZstd, ArchiveFormat.Zstd -> when (compressionLevel) {
+                ArchiveCompressionLevel.Fast -> 1
+                ArchiveCompressionLevel.Normal -> 6
+                ArchiveCompressionLevel.Maximum -> 19
+            }
+
+            else -> compressionLevel.value
+        }.toString().toByteArray(StandardCharsets.UTF_8)
+        val option = "compression-level".toByteArray(StandardCharsets.UTF_8)
+
+        when (format) {
+            ArchiveFormat.Zip -> Archive.writeSetFormatOption(
+                archive,
+                "zip".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.SevenZip -> Archive.writeSetFormatOption(
+                archive,
+                "7zip".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.TarGzip, ArchiveFormat.Gzip -> Archive.writeSetFilterOption(
+                archive,
+                "gzip".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.TarBzip2, ArchiveFormat.Bzip2 -> Archive.writeSetFilterOption(
+                archive,
+                "bzip2".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.TarXz, ArchiveFormat.Xz -> Archive.writeSetFilterOption(
+                archive,
+                "xz".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.TarZstd, ArchiveFormat.Zstd -> Archive.writeSetFilterOption(
+                archive,
+                "zstd".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            ArchiveFormat.TarLz4, ArchiveFormat.Lz4 -> Archive.writeSetFilterOption(
+                archive,
+                "lz4".toByteArray(StandardCharsets.UTF_8),
+                option,
+                level
+            )
+
+            else -> Unit
+        }
+    }
+
     private fun configureReader(
         archive: Long,
         forceRawFormat: Boolean
@@ -507,6 +628,27 @@ object ArchiveEngine {
     private const val BUFFER_SIZE = 64 * 1024
     private const val FILE_PERMISSIONS = 420
 }
+
+private class PasswordProbeOutputStream(
+    private val onDataRead: () -> Unit
+) : OutputStream() {
+    override fun write(value: Int) {
+        onDataRead()
+        throw PasswordProbeCompletedException()
+    }
+
+    override fun write(buffer: ByteArray, offset: Int, length: Int) {
+        if (length == 0) return
+        onDataRead()
+        throw PasswordProbeCompletedException()
+    }
+}
+
+private class PasswordProbeCompletedException : RuntimeException()
+
+private fun Throwable.hasPasswordProbeCompletionCause(): Boolean =
+    generateSequence(this) { it.cause }
+        .any { it is PasswordProbeCompletedException }
 
 private fun ArchiveFormat.isBrotli(): Boolean =
     this == ArchiveFormat.Brotli || this == ArchiveFormat.TarBrotli

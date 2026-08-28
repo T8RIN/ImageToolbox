@@ -23,7 +23,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
@@ -77,6 +79,28 @@ class ArchiveEngineTest {
                 expected = expected,
                 sevenZipCompressionMethod = method
             )
+        }
+    }
+
+    @Test
+    fun roundTripsEverySupportedCompressionLevel() {
+        val expected = "Archive compression levels".toByteArray()
+
+        ArchiveFormat.entries.forEach { format ->
+            if (
+                format.supportsCompressionLevel(
+                    zipCompressionMethod = ZipCompressionMethod.Deflate,
+                    sevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2
+                )
+            ) {
+                ArchiveCompressionLevel.entries.forEach { compressionLevel ->
+                    assertRoundTrip(
+                        format = format,
+                        expected = expected,
+                        compressionLevel = compressionLevel
+                    )
+                }
+            }
         }
     }
 
@@ -230,6 +254,28 @@ class ArchiveEngineTest {
                         ArchiveEngine.encryptionStatus(input.fd)
                     )
                 }
+                ParcelFileDescriptor.open(
+                    archive,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                ).use { input ->
+                    assertTrue(
+                        ArchiveEngine.verifyPassphrase(
+                            inputFileDescriptor = input.fd,
+                            passphrase = passphrase
+                        )
+                    )
+                }
+                ParcelFileDescriptor.open(
+                    archive,
+                    ParcelFileDescriptor.MODE_READ_ONLY
+                ).use { input ->
+                    assertFalse(
+                        ArchiveEngine.verifyPassphrase(
+                            inputFileDescriptor = input.fd,
+                            passphrase = "wrong password"
+                        )
+                    )
+                }
 
                 var extracted: ByteArray? = null
                 ParcelFileDescriptor.open(
@@ -293,6 +339,30 @@ class ArchiveEngineTest {
                             ArchiveEncryptionStatus.PasswordRequired,
                             ArchiveEngine.encryptionStatus(
                                 inputFileDescriptor = input.fd,
+                                preferSevenZip = true
+                            )
+                        )
+                    }
+                    ParcelFileDescriptor.open(
+                        archive,
+                        ParcelFileDescriptor.MODE_READ_ONLY
+                    ).use { input ->
+                        assertTrue(
+                            ArchiveEngine.verifyPassphrase(
+                                inputFileDescriptor = input.fd,
+                                passphrase = passphrase,
+                                preferSevenZip = true
+                            )
+                        )
+                    }
+                    ParcelFileDescriptor.open(
+                        archive,
+                        ParcelFileDescriptor.MODE_READ_ONLY
+                    ).use { input ->
+                        assertFalse(
+                            ArchiveEngine.verifyPassphrase(
+                                inputFileDescriptor = input.fd,
+                                passphrase = "wrong password",
                                 preferSevenZip = true
                             )
                         )
@@ -367,6 +437,30 @@ class ArchiveEngineTest {
                     )
                 )
             }
+            ParcelFileDescriptor.open(
+                archive,
+                ParcelFileDescriptor.MODE_READ_ONLY
+            ).use { input ->
+                assertTrue(
+                    ArchiveEngine.verifyPassphrase(
+                        inputFileDescriptor = input.fd,
+                        passphrase = "junrar",
+                        preferRar = true
+                    )
+                )
+            }
+            ParcelFileDescriptor.open(
+                archive,
+                ParcelFileDescriptor.MODE_READ_ONLY
+            ).use { input ->
+                assertFalse(
+                    ArchiveEngine.verifyPassphrase(
+                        inputFileDescriptor = input.fd,
+                        passphrase = "wrong password",
+                        preferRar = true
+                    )
+                )
+            }
 
             var extractedName: String? = null
             var extractedSize = 0
@@ -433,7 +527,8 @@ class ArchiveEngineTest {
         format: ArchiveFormat,
         expected: ByteArray,
         zipCompressionMethod: ZipCompressionMethod = ZipCompressionMethod.Deflate,
-        sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2
+        sevenZipCompressionMethod: SevenZipCompressionMethod = SevenZipCompressionMethod.Lzma2,
+        compressionLevel: ArchiveCompressionLevel = ArchiveCompressionLevel.Normal
     ) {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val archive = File(context.cacheDir, "round_trip.${format.extension}")
@@ -451,7 +546,8 @@ class ArchiveEngineTest {
                         ),
                         outputStream = output,
                         zipCompressionMethod = zipCompressionMethod,
-                        sevenZipCompressionMethod = sevenZipCompressionMethod
+                        sevenZipCompressionMethod = sevenZipCompressionMethod,
+                        compressionLevel = compressionLevel
                     )
                 }
                 var extracted: ByteArray? = null
@@ -494,7 +590,8 @@ class ArchiveEngineTest {
             } catch (throwable: Throwable) {
                 throw AssertionError(
                     "Failed round-trip for ${format.title}, " +
-                            "ZIP=$zipCompressionMethod, 7Z=$sevenZipCompressionMethod",
+                            "ZIP=$zipCompressionMethod, 7Z=$sevenZipCompressionMethod, " +
+                            "level=$compressionLevel",
                     throwable
                 )
             }

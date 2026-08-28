@@ -59,4 +59,16 @@ enum class ArchiveFormat(
 
     val supportsMultipleFiles: Boolean
         get() = !isRaw
+
+    fun supportsCompressionLevel(
+        zipCompressionMethod: ZipCompressionMethod,
+        sevenZipCompressionMethod: SevenZipCompressionMethod
+    ): Boolean = when (this) {
+        Zip -> zipCompressionMethod != ZipCompressionMethod.Store
+        SevenZip -> sevenZipCompressionMethod != SevenZipCompressionMethod.Copy
+        TarGzip, TarBzip2, TarXz, TarZstd, TarLz4,
+        Gzip, Bzip2, Xz, Zstd, Lz4 -> true
+
+        else -> false
+    }
 }

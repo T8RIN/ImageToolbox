@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.pdf_tools.domain
 
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ComicToPdfParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.ExtractPagesAction
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCompareParams
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfContactSheetParams
@@ -167,7 +168,8 @@ interface PdfManager : PdfHelper {
 
     suspend fun convertComicBookToPdf(
         uri: String,
-        passphrase: String? = null
+        passphrase: String? = null,
+        params: ComicToPdfParams = ComicToPdfParams()
     ): String
 
     suspend fun printPdf(

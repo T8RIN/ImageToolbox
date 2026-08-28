@@ -20,7 +20,11 @@ package com.t8rin.imagetoolbox.feature.archive_tools.presentation.components
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -32,30 +36,38 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEncryptionStatus
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.SevenZipCompressionMethod
 import com.t8rin.archive.ZipCompressionMethod
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.CreateNewFolder
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
+import com.t8rin.imagetoolbox.core.resources.icons.Lock
+import com.t8rin.imagetoolbox.core.resources.icons.LockOpen
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.NoteAdd
 import com.t8rin.imagetoolbox.core.resources.icons.Password
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
+import com.t8rin.imagetoolbox.core.resources.icons.WarningAmber
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.image.UrisPreview
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -64,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.archive_tools.domain.model.ArchiveMode
+import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchivePassphraseStatus
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 
 @Composable
@@ -106,7 +119,7 @@ internal fun ArchiveToolsControls(
                         onValueChange = component::setZipCompressionMethod,
                         entries = ZipCompressionMethod.entries,
                         title = stringResource(R.string.compression_type),
-                        titleIcon = Icons.Outlined.FolderZip,
+                        titleIcon = Icons.TwoTone.FolderZip,
                         itemContentText = { it.title },
                         spanCount = 1,
                         shape = ShapeDefaults.center,
@@ -122,7 +135,7 @@ internal fun ArchiveToolsControls(
                         onValueChange = component::setSevenZipCompressionMethod,
                         entries = SevenZipCompressionMethod.entries,
                         title = stringResource(R.string.compression_type),
-                        titleIcon = Icons.Outlined.FolderZip,
+                        titleIcon = Icons.TwoTone.FolderZip,
                         itemContentText = { it.title },
                         spanCount = 1,
                         shape = ShapeDefaults.center,
@@ -136,6 +149,33 @@ internal fun ArchiveToolsControls(
             }
         }
         Spacer(Modifier.height(4.dp))
+        AnimatedVisibility(
+            visible = component.canSetCompressionLevel,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            EnhancedButtonGroup(
+                value = component.compressionLevel,
+                onValueChange = component::setCompressionLevel,
+                entries = ArchiveCompressionLevel.entries,
+                title = stringResource(R.string.compression_level),
+                itemContent = {
+                    Text(
+                        stringResource(
+                            when (it) {
+                                ArchiveCompressionLevel.Fast -> R.string.fast
+                                ArchiveCompressionLevel.Normal -> R.string.normal
+                                ArchiveCompressionLevel.Maximum -> R.string.best
+                            }
+                        )
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp)
+                    .container(ShapeDefaults.center),
+                isScrollable = false
+            )
+        }
         PreferenceRowSwitch(
             title = stringResource(R.string.protect_archive_with_password),
             subtitle = stringResource(
@@ -198,67 +238,182 @@ internal fun ArchiveToolsControls(
             }
         )
     } else {
-        val archive = component.uris.firstOrNull() ?: return
-        val encryptionStatus = component.archiveEncryptionStatus
-        val hasEncryptionDetails =
-            encryptionStatus == ArchiveEncryptionStatus.PasswordRequired ||
-                    encryptionStatus == ArchiveEncryptionStatus.Unsupported
+        if (component.uris.size == 1) {
+            val archive = component.uris.single()
+            val encryptionStatus = component.archiveEncryptionStatus(archive)
+            val hasEncryptionDetails =
+                encryptionStatus == ArchiveEncryptionStatus.PasswordRequired ||
+                        encryptionStatus == ArchiveEncryptionStatus.Unsupported
 
-        PreferenceItem(
-            title = rememberFilename(archive) ?: archive.toString(),
-            subtitle = rememberHumanFileSize(archive),
-            startIcon = Icons.Rounded.FileOpen,
-            endIcon = Icons.Rounded.MiniEdit,
-            onClick = replacementArchivePicker::pickFile,
-            shape = ShapeDefaults.byIndex(
-                index = 0,
-                size = if (hasEncryptionDetails) 2 else 1
-            ),
-            modifier = Modifier.fillMaxWidth()
-        )
-        AnimatedVisibility(
-            visible = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired,
-            modifier = Modifier.fillMaxWidth()
-        ) {
             PreferenceItem(
-                title = stringResource(R.string.encrypted_file_detected),
-                subtitle = stringResource(R.string.archive_password_required_sub),
-                startIcon = Icons.Outlined.KeyVariant,
-                shape = ShapeDefaults.bottom,
-                bottomContent = {
-                    RoundedTextField(
-                        value = component.passphrase,
-                        onValueChange = component::setPassphrase,
-                        label = stringResource(R.string.password),
-                        startIcon = Icons.Rounded.Password,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        singleLine = true,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .container(
-                                resultPadding = 8.dp,
-                                color = MaterialTheme.colorScheme.surface
-                            )
+                title = rememberFilename(archive) ?: archive.toString(),
+                subtitle = rememberHumanFileSize(archive),
+                startIcon = Icons.Rounded.FileOpen,
+                endIcon = Icons.Rounded.MiniEdit,
+                onClick = replacementArchivePicker::pickFile,
+                shape = ShapeDefaults.byIndex(
+                    index = 0,
+                    size = if (hasEncryptionDetails) 2 else 1
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+            AnimatedVisibility(
+                visible = encryptionStatus == ArchiveEncryptionStatus.PasswordRequired,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                PreferenceItem(
+                    title = stringResource(R.string.encrypted_file_detected),
+                    subtitle = stringResource(R.string.archive_password_required_sub),
+                    startIcon = Icons.Outlined.KeyVariant,
+                    shape = ShapeDefaults.bottom,
+                    bottomContent = {
+                        RoundedTextField(
+                            value = component.archivePassphrase(archive),
+                            onValueChange = { component.setArchivePassphrase(archive, it) },
+                            label = stringResource(R.string.password),
+                            startIcon = Icons.Rounded.Password,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            singleLine = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                                .container(
+                                    resultPadding = 8.dp,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp)
+                )
+            }
+            AnimatedVisibility(
+                visible = encryptionStatus == ArchiveEncryptionStatus.Unsupported,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                PreferenceItem(
+                    title = stringResource(R.string.unsupported_archive_encryption),
+                    subtitle = stringResource(R.string.unsupported_archive_encryption_sub),
+                    startIcon = Icons.Outlined.KeyVariant,
+                    shape = ShapeDefaults.bottom,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp)
+                )
+            }
+        } else {
+            UrisPreview(
+                uris = component.uris,
+                isPortrait = isPortrait,
+                onRemoveUri = component::removeUri,
+                onAddUris = additionalArchivePicker::pickFile,
+                onClickUri = { uri ->
+                    when (component.archiveEncryptionStatus(uri)) {
+                        ArchiveEncryptionStatus.PasswordRequired -> {
+                            if (
+                                component.archivePassphraseStatus(uri) !=
+                                ArchivePassphraseStatus.Checking
+                            ) {
+                                component.requestArchivePassphrase(uri)
+                            }
+                        }
+
+                        ArchiveEncryptionStatus.Unsupported -> {
+                            AppToastHost.showFailureToast(R.string.unsupported_archive_encryption)
+                        }
+
+                        ArchiveEncryptionStatus.None, null -> Unit
+                    }
+                },
+                addUrisContent = { width ->
+                    Icon(
+                        imageVector = Icons.Rounded.NoteAdd,
+                        contentDescription = stringResource(R.string.add),
+                        modifier = Modifier.size(width / 3f)
                     )
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-            )
-        }
-        AnimatedVisibility(
-            visible = encryptionStatus == ArchiveEncryptionStatus.Unsupported,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            PreferenceItem(
-                title = stringResource(R.string.unsupported_archive_encryption),
-                subtitle = stringResource(R.string.unsupported_archive_encryption_sub),
-                startIcon = Icons.Outlined.KeyVariant,
-                shape = ShapeDefaults.bottom,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
+                errorContent = { index, width ->
+                    val uri = component.uris[index]
+                    val status = component.archiveEncryptionStatus(uri)
+                    val passphraseStatus = component.archivePassphraseStatus(uri)
+                    val tileColor = when {
+                        status == ArchiveEncryptionStatus.Unsupported -> {
+                            MaterialTheme.colorScheme.errorContainer
+                        }
+
+                        passphraseStatus == ArchivePassphraseStatus.Verified -> {
+                            MaterialTheme.colorScheme.primaryContainer
+                        }
+
+                        passphraseStatus == ArchivePassphraseStatus.Checking -> {
+                            MaterialTheme.colorScheme.tertiaryContainer
+                        }
+
+                        status == ArchiveEncryptionStatus.PasswordRequired -> {
+                            MaterialTheme.colorScheme.errorContainer
+                        }
+
+                        else -> MaterialTheme.colorScheme.surfaceContainerHighest
+                    }
+                    val tileContentColor = when {
+                        status == ArchiveEncryptionStatus.Unsupported -> {
+                            MaterialTheme.colorScheme.onErrorContainer
+                        }
+
+                        passphraseStatus == ArchivePassphraseStatus.Verified -> {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        }
+
+                        passphraseStatus == ArchivePassphraseStatus.Checking -> {
+                            MaterialTheme.colorScheme.onTertiaryContainer
+                        }
+
+                        status == ArchiveEncryptionStatus.PasswordRequired -> {
+                            MaterialTheme.colorScheme.onErrorContainer
+                        }
+
+                        else -> MaterialTheme.colorScheme.onSurface
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.Center)
+                            .background(tileColor),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = 4.dp,
+                            alignment = Alignment.CenterVertically
+                        )
+                    ) {
+                        Icon(
+                            imageVector = when {
+                                status == ArchiveEncryptionStatus.Unsupported -> {
+                                    Icons.Outlined.WarningAmber
+                                }
+
+                                passphraseStatus == ArchivePassphraseStatus.Verified -> {
+                                    Icons.Rounded.LockOpen
+                                }
+
+                                passphraseStatus == ArchivePassphraseStatus.Invalid -> {
+                                    Icons.Outlined.WarningAmber
+                                }
+
+                                status == ArchiveEncryptionStatus.PasswordRequired -> {
+                                    Icons.Rounded.Lock
+                                }
+
+                                else -> Icons.Outlined.Archive
+                            },
+                            contentDescription = null,
+                            modifier = Modifier.size(width / 3f),
+                            tint = tileContentColor
+                        )
+                    }
+                },
+                showTransparencyChecker = false,
+                modifier = Modifier.fillMaxWidth()
             )
         }
         Spacer(Modifier.height(16.dp))

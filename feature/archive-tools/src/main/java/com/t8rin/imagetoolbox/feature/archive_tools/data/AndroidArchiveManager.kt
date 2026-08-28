@@ -22,6 +22,7 @@ import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
+import com.t8rin.archive.ArchiveCompressionLevel
 import com.t8rin.archive.ArchiveEngine
 import com.t8rin.archive.ArchiveFormat
 import com.t8rin.archive.ArchivePath
@@ -58,6 +59,7 @@ internal class AndroidArchiveManager @Inject constructor(
         format: ArchiveFormat,
         zipCompressionMethod: ZipCompressionMethod,
         sevenZipCompressionMethod: SevenZipCompressionMethod,
+        compressionLevel: ArchiveCompressionLevel,
         passphrase: String?,
         onProgress: () -> Unit
     ) = withContext(defaultDispatcher) {
@@ -113,6 +115,7 @@ internal class AndroidArchiveManager @Inject constructor(
                 outputChannel = (destination as? SeekableWriteable)?.channel,
                 zipCompressionMethod = zipCompressionMethod,
                 sevenZipCompressionMethod = sevenZipCompressionMethod,
+                compressionLevel = compressionLevel,
                 passphrase = passphrase,
                 onChunk = operationContext::ensureActive,
                 onProgress = onProgress
@@ -140,6 +143,24 @@ internal class AndroidArchiveManager @Inject constructor(
                 )
             } ?: error("Cannot open archive")
         }
+
+    override suspend fun verifyArchivePassphrase(
+        archive: String,
+        passphrase: String
+    ): Boolean = withContext(defaultDispatcher) {
+        val uri = archive.toUri()
+        val sourceName = uri.filename(context).orEmpty()
+        context.contentResolver.openFileDescriptor(uri, "r")?.use { input ->
+            ArchiveEngine.verifyPassphrase(
+                inputFileDescriptor = input.fd,
+                passphrase = passphrase,
+                preferSevenZip = sourceName.hasSevenZipExtension(),
+                preferRar = sourceName.hasRarExtension(),
+                forceRawFormat = sourceName.shouldForceRawFormat(),
+                forceBrotli = sourceName.hasBrotliExtension()
+            )
+        } ?: false
+    }
 
     override suspend fun extract(
         archive: String,

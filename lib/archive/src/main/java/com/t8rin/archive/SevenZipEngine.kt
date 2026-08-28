@@ -36,6 +36,7 @@ internal object SevenZipEngine {
         sources: List<ArchiveSource>,
         outputChannel: SeekableByteChannel,
         compressionMethod: SevenZipCompressionMethod,
+        compressionLevel: ArchiveCompressionLevel,
         passphrase: String,
         onChunk: () -> Unit,
         onProgress: () -> Unit
@@ -47,7 +48,9 @@ internal object SevenZipEngine {
             CloseShieldSeekableByteChannel(outputChannel),
             passphrase.toCharArray()
         ).use { archive ->
-            archive.setContentMethods(listOf(compressionMethod.toSevenZConfiguration()))
+            archive.setContentMethods(
+                listOf(compressionMethod.toSevenZConfiguration(compressionLevel))
+            )
             sources.forEach { source ->
                 require(source.size >= 0L) { "Unknown file size: ${source.name}" }
                 val safeName = ArchivePath.safeSegments(source.name)
@@ -213,17 +216,43 @@ internal object SevenZipEngine {
     }
 }
 
-private fun SevenZipCompressionMethod.toSevenZConfiguration(): SevenZMethodConfiguration =
+private fun SevenZipCompressionMethod.toSevenZConfiguration(
+    compressionLevel: ArchiveCompressionLevel
+): SevenZMethodConfiguration =
     when (this) {
         SevenZipCompressionMethod.Copy -> SevenZMethodConfiguration(SevenZMethod.COPY)
-        SevenZipCompressionMethod.Deflate -> SevenZMethodConfiguration(SevenZMethod.DEFLATE)
-        SevenZipCompressionMethod.Bzip2 -> SevenZMethodConfiguration(SevenZMethod.BZIP2)
+        SevenZipCompressionMethod.Deflate -> SevenZMethodConfiguration(
+            SevenZMethod.DEFLATE,
+            compressionLevel.value
+        )
+
+        SevenZipCompressionMethod.Bzip2 -> SevenZMethodConfiguration(
+            SevenZMethod.BZIP2,
+            compressionLevel.value
+        )
+
         SevenZipCompressionMethod.Lzma2 -> SevenZMethodConfiguration(
             SevenZMethod.LZMA2,
             LZMA2Options().apply {
-                dictSize = Lzma2DictionarySize
-                mode = LZMA2Options.MODE_FAST
-                matchFinder = LZMA2Options.MF_HC4
+                when (compressionLevel) {
+                    ArchiveCompressionLevel.Fast -> {
+                        dictSize = 512 * 1024
+                        mode = LZMA2Options.MODE_FAST
+                        matchFinder = LZMA2Options.MF_HC4
+                    }
+
+                    ArchiveCompressionLevel.Normal -> {
+                        dictSize = 1024 * 1024
+                        mode = LZMA2Options.MODE_FAST
+                        matchFinder = LZMA2Options.MF_HC4
+                    }
+
+                    ArchiveCompressionLevel.Maximum -> {
+                        dictSize = 8 * 1024 * 1024
+                        mode = LZMA2Options.MODE_NORMAL
+                        matchFinder = LZMA2Options.MF_BT4
+                    }
+                }
             }
         )
 
@@ -244,4 +273,3 @@ private object NullOutputStream : OutputStream() {
 
 private const val BufferSize = 64 * 1024
 private const val MaxSevenZipMemoryKiB = 64 * 1024
-private const val Lzma2DictionarySize = 1024 * 1024
