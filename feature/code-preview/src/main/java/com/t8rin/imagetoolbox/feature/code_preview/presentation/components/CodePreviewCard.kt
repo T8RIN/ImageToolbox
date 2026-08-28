@@ -25,67 +25,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewParams
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
 
 @Composable
 internal fun CodePreviewCard(
-    params: CodePreviewParams,
-    highlightedCode: AnnotatedString,
+    previewBitmap: Bitmap?,
+    showCanvasBackground: Boolean,
+    canvasCornerRadius: Int,
     modifier: Modifier = Modifier
 ) {
-    val canvasShape = RoundedCornerShape(params.canvasCornerRadius.dp)
-    val bitmapHolder = remember { PreviewBitmapHolder() }
-    var previewBitmap by remember { mutableStateOf<Bitmap?>(null) }
-
-    LaunchedEffect(params, highlightedCode) {
-        delay(100)
-        var renderedBitmap: Bitmap? = null
-        try {
-            renderedBitmap = withContext(Dispatchers.Default) {
-                renderCodePreviewBitmap(
-                    params = params,
-                    highlightedCode = highlightedCode,
-                    maxBitmapPixels = 2_000_000f
-                )
-            }
-            ensureActive()
-            val previousBitmap = bitmapHolder.bitmap
-            bitmapHolder.bitmap = renderedBitmap
-            previewBitmap = renderedBitmap
-            renderedBitmap = null
-            withFrameNanos { }
-            previousBitmap?.recycle()
-        } finally {
-            renderedBitmap?.recycle()
-        }
-    }
-
-    DisposableEffect(bitmapHolder) {
-        onDispose {
-            bitmapHolder.bitmap?.recycle()
-            bitmapHolder.bitmap = null
-        }
-    }
+    val canvasShape = RoundedCornerShape(canvasCornerRadius.dp)
 
     Box(
         modifier = modifier
@@ -93,7 +49,7 @@ internal fun CodePreviewCard(
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        if (!params.showCanvasBackground) {
+        if (!showCanvasBackground) {
             Box(
                 modifier = Modifier
                     .matchParentSize()
@@ -115,8 +71,4 @@ internal fun CodePreviewCard(
                 .height(160.dp)
         )
     }
-}
-
-private class PreviewBitmapHolder {
-    var bitmap: Bitmap? = null
 }

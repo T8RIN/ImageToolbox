@@ -50,7 +50,7 @@ import dagger.assisted.AssistedInject
 import dev.hossain.highlight.engine.HighlightEngine
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 
 class CodePreviewComponent @AssistedInject internal constructor(
@@ -67,8 +67,8 @@ class CodePreviewComponent @AssistedInject internal constructor(
     val params: CodePreviewParams by _params
 
     private val highlightEngine = HighlightEngine(appContext)
-    private val _highlightedCode = mutableStateOf(AnnotatedString(params.code))
-    val highlightedCode: AnnotatedString by _highlightedCode
+    private val _previewBitmap = mutableStateOf<Bitmap?>(null)
+    val previewBitmap: Bitmap? by _previewBitmap
 
     private val _isSaving = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
@@ -76,14 +76,16 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private var savingJob: Job? by smartJob {
         _isSaving.update { false }
     }
-    private var highlightJob: Job? by smartJob()
+    private var previewJob: Job? by smartJob()
     private var highlightedSnapshot: HighlightedSnapshot? = null
 
     init {
-        updateHighlightedCode()
+        updatePreview()
 
         doOnDestroy {
+            previewJob = null
             highlightEngine.destroy()
+            previewBitmap?.recycle()
         }
     }
 
@@ -92,7 +94,9 @@ class CodePreviewComponent @AssistedInject internal constructor(
     fun updateLanguage(value: CodeLanguage) = updateParams {
         copy(
             language = value,
-            title = title.substringBeforeLast('.', title) + ".${value.fileExtension}"
+            title = title.takeIf(String::isNotBlank)?.let {
+                it.substringBeforeLast('.', it) + ".${value.fileExtension}"
+            }.orEmpty()
         )
     }
 
@@ -236,19 +240,33 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private fun updateParams(transform: CodePreviewParams.() -> CodePreviewParams) {
         val previousParams = params
         _params.update(transform)
-        if (previousParams.highlightKey != params.highlightKey) {
-            updateHighlightedCode()
+        if (previousParams.outputFormat == params.outputFormat) {
+            updatePreview()
         }
         registerChanges()
     }
 
-    private fun updateHighlightedCode() {
+    private fun updatePreview() {
         val renderParams = params
-        highlightJob = componentScope.launch {
+        previewJob = componentScope.launch {
             delay(100)
             val highlightedCode = getHighlightedCode(renderParams)
-            if (params.highlightKey == renderParams.highlightKey) {
-                _highlightedCode.value = highlightedCode
+            var bitmap: Bitmap? = null
+            try {
+                bitmap = withContext(defaultDispatcher) {
+                    renderCodePreviewBitmap(
+                        params = renderParams,
+                        highlightedCode = highlightedCode,
+                        maxBitmapPixels = 2_000_000f
+                    )
+                }
+                ensureActive()
+                if (params == renderParams) {
+                    _previewBitmap.value = bitmap
+                    bitmap = null
+                }
+            } finally {
+                bitmap?.recycle()
             }
         }
     }

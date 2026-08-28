@@ -87,8 +87,9 @@ fun CodePreviewContent(component: CodePreviewComponent) {
         },
         imagePreview = {
             CodePreviewCard(
-                params = params,
-                highlightedCode = component.highlightedCode,
+                previewBitmap = component.previewBitmap,
+                showCanvasBackground = params.showCanvasBackground,
+                canvasCornerRadius = params.canvasCornerRadius,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         },

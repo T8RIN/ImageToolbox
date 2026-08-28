@@ -18,16 +18,18 @@
 package com.t8rin.imagetoolbox.feature.code_preview.presentation.components
 
 import android.graphics.Color
-import androidx.compose.ui.graphics.Color as ComposeColor
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewParams
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.math.abs
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 @RunWith(AndroidJUnit4::class)
 class CodePreviewBitmapRendererTest {
@@ -83,5 +85,28 @@ class CodePreviewBitmapRendererTest {
         )
         assertEquals(0, Color.alpha(bitmap.getPixel(0, 0)))
         bitmap.recycle()
+    }
+
+    @Test
+    fun emptyTitleIsNotReplacedWithAPlaceholder() {
+        val code = CodePreviewParams.DefaultCode
+        val highlightedCode = AnnotatedString(code)
+        val params = CodePreviewParams.Default.copy(title = "")
+
+        val emptyTitle = renderCodePreviewBitmap(params, highlightedCode)
+        val placeholderTitle = renderCodePreviewBitmap(
+            params = params.copy(title = "Untitled.kt"),
+            highlightedCode = highlightedCode
+        )
+
+        assertFalse(emptyTitle.sameAs(placeholderTitle))
+        emptyTitle.recycle()
+        placeholderTitle.recycle()
+    }
+
+    @Test
+    fun allCodeThemesCanBeResolved() {
+        assertEquals(18, CodePreviewTheme.entries.size)
+        CodePreviewTheme.entries.forEach(CodePreviewTheme::highlightTheme)
     }
 }

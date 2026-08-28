@@ -344,9 +344,7 @@ private data class RenderGeometry(
                 textSize = 12f * scale
                 typeface = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
             }
-            val title = params.title.ifBlank {
-                "Untitled.${params.language.fileExtension}"
-            }
+            val title = params.title
             val availableTitleWidth = (
                     languageX - titleStart - 8f * scale
                     ).coerceAtLeast(0f)

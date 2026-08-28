@@ -155,6 +155,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_background),
+                        subtitle = stringResource(R.string.code_preview_background_sub),
                         checked = params.showCanvasBackground,
                         startIcon = null,
                         shape = ShapeDefaults.center,
@@ -253,6 +254,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_window_controls),
+                        subtitle = stringResource(R.string.code_preview_window_controls_sub),
                         checked = params.showWindowControls,
                         startIcon = null,
                         shape = ShapeDefaults.center,
@@ -260,6 +262,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_show_filename),
+                        subtitle = stringResource(R.string.code_preview_show_filename_sub),
                         checked = params.showTitle,
                         startIcon = null,
                         shape = ShapeDefaults.center,
@@ -267,6 +270,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_line_numbers),
+                        subtitle = stringResource(R.string.code_preview_line_numbers_sub),
                         checked = params.showLineNumbers,
                         startIcon = null,
                         shape = ShapeDefaults.center,
@@ -274,6 +278,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_wrap_lines),
+                        subtitle = stringResource(R.string.code_preview_wrap_lines_sub),
                         checked = params.wrapLongLines,
                         startIcon = null,
                         shape = ShapeDefaults.bottom,
@@ -340,7 +345,7 @@ private fun BackgroundPresetSelector(
                                 )
                         )
                         Spacer(Modifier.size(7.dp))
-                        Text(preset.title)
+                        Text(stringResource(preset.title))
                     }
                 }
             }
