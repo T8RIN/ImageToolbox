@@ -4357,6 +4357,7 @@
     <string name="gmic_filter_frosted_glass">Frosted Glass</string>
     <string name="gmic_filter_fuzzy_frame">Fuzzy Frame</string>
     <string name="gmic_filter_ghost">Ghost</string>
+    <string name="gmic_filter_grid">Grid</string>
     <string name="gmic_filter_gold_meinel_sharpen">Gold Meinel Sharpen</string>
     <string name="gmic_filter_graphic_novel">Graphic Novel</string>
     <string name="gmic_filter_hope_poster">Hope Poster</string>
