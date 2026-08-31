@@ -97,6 +97,7 @@ fun BottomButtonsBlock(
     middleFab: (@Composable ColumnScope.() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit,
     isPrimaryButtonEnabled: Boolean = true,
+    onDisabledPrimaryButtonClick: (() -> Unit)? = null,
     showMiddleFabInRow: Boolean = false,
     isScreenHaveNoDataContent: Boolean = false,
     primaryButtonContainerColor: Color = MaterialTheme.colorScheme.primaryContainer,
@@ -250,9 +251,15 @@ fun BottomButtonsBlock(
 
                         AnimatedVisibility(visible = isPrimaryButtonVisible) {
                             EnhancedFloatingActionButton(
-                                onClick = onPrimaryButtonClick.takeIf { isPrimaryButtonEnabled },
+                                onClick = if (isPrimaryButtonEnabled) {
+                                    onPrimaryButtonClick
+                                } else {
+                                    onDisabledPrimaryButtonClick
+                                },
                                 onLongClick = onPrimaryButtonLongClick.takeIf { isPrimaryButtonEnabled },
-                                interactionSource = remember { MutableInteractionSource() }.takeIf { isPrimaryButtonEnabled },
+                                interactionSource = remember { MutableInteractionSource() }.takeIf {
+                                    isPrimaryButtonEnabled || onDisabledPrimaryButtonClick != null
+                                },
                                 containerColor = takeColorFromScheme {
                                     if (isPrimaryButtonEnabled) primaryButtonContainerColor
                                     else surfaceContainerHighest
@@ -349,9 +356,15 @@ fun BottomButtonsBlock(
 
                 AnimatedVisibility(visible = isPrimaryButtonVisible) {
                     EnhancedFloatingActionButton(
-                        onClick = onPrimaryButtonClick.takeIf { isPrimaryButtonEnabled },
+                        onClick = if (isPrimaryButtonEnabled) {
+                            onPrimaryButtonClick
+                        } else {
+                            onDisabledPrimaryButtonClick
+                        },
                         onLongClick = onPrimaryButtonLongClick.takeIf { isPrimaryButtonEnabled },
-                        interactionSource = remember { MutableInteractionSource() }.takeIf { isPrimaryButtonEnabled },
+                        interactionSource = remember { MutableInteractionSource() }.takeIf {
+                            isPrimaryButtonEnabled || onDisabledPrimaryButtonClick != null
+                        },
                         containerColor = takeColorFromScheme {
                             if (isPrimaryButtonEnabled) primaryButtonContainerColor
                             else surfaceContainerHighest

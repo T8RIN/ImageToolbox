@@ -917,6 +917,19 @@ sealed class Screen(
                     is MergeJxl -> Icons.Rounded.CompareArrows
                 }
 
+            val isOverwriteBlocked: Boolean
+                get() = when (this) {
+                    is JpegToJxl,
+                    is JxlToJpeg,
+                    is JxlToGif,
+                    is JxlToApng,
+                    is JxlToWebp -> true
+
+                    is JxlToImage,
+                    is ImageToJxl,
+                    is MergeJxl -> false
+                }
+
             @Serializable
             data class JxlToJpeg(
                 val jxlImageUris: List<Uri>? = null

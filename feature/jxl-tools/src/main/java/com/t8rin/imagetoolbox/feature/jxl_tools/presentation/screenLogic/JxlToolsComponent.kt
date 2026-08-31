@@ -48,6 +48,11 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
+import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -71,6 +76,7 @@ class JxlToolsComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider,
     private val imageGetter: ImageGetter<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
+    private val settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
 
@@ -79,6 +85,8 @@ class JxlToolsComponent @AssistedInject internal constructor(
             initialType?.let(::setType)
         }
     }
+
+    private val filenameBehavior get() = settingsProvider.settingsState.value.filenameBehavior
 
     private val _type: MutableState<Screen.JxlTools.Type?> = mutableStateOf(null)
     val type by _type
@@ -216,6 +224,14 @@ class JxlToolsComponent @AssistedInject internal constructor(
     fun save(
         oneTimeSaveLocationUri: String?
     ) {
+        if (filenameBehavior is FilenameBehavior.Overwrite && _type.value?.isOverwriteBlocked == true) {
+            AppToastHost.showToast(
+                message = R.string.cannot_change_image_format,
+                icon = Icons.Outlined.FileReplace
+            )
+            return
+        }
+
         savingJob = trackProgress {
             _isSaving.value = true
             _left.value = 1
@@ -337,7 +353,8 @@ class JxlToolsComponent @AssistedInject internal constructor(
                                             )
                                         ),
                                         keepOriginalMetadata = false,
-                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                                        oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+                                        allowOverwrite = false
                                     )
                                 )
                             } ?: results.add(
@@ -376,7 +393,8 @@ class JxlToolsComponent @AssistedInject internal constructor(
                             val result = fileController.save(
                                 saveTarget = JxlSaveTarget("", jxlBytes),
                                 keepOriginalMetadata = false,
-                                oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                                oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+                                allowOverwrite = false
                             ).onSuccess(::registerSave)
                             parseSaveResults(listOf(result))
                         }

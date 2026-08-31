@@ -31,6 +31,7 @@ interface FileController : ObjectSaver, MetadataProvider {
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String? = null,
+        allowOverwrite: Boolean = true,
     ): SaveResult
 
     suspend fun move(

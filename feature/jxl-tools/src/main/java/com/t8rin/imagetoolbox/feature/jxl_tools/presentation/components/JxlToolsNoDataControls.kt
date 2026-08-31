@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -44,6 +45,7 @@ internal fun JxlToolsNoDataControls(
     onPickImage: (Screen.JxlTools.Type) -> Unit
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val settingsState = LocalSettingsState.current
     val types = remember {
         Screen.JxlTools.Type.entries
     }
@@ -53,6 +55,8 @@ internal fun JxlToolsNoDataControls(
             subtitle = stringResource(type.subtitle),
             startIcon = type.icon,
             modifier = modifier.fillMaxWidth(),
+            enabled = type.isAvailableWith(settingsState.filenameBehavior),
+            onDisabledClick = ::showOverwriteFormatWarning,
             onClick = {
                 onPickImage(type)
             }

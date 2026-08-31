@@ -29,6 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -45,6 +46,7 @@ internal fun JxlToolsButtons(
     onPickImage: () -> Unit,
     imagePicker: ImagePicker
 ) {
+    val settingsState = LocalSettingsState.current
     val uris = when (val type = component.type) {
         is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris
         is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris
@@ -71,6 +73,9 @@ internal fun JxlToolsButtons(
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val isOverwriteBlocked =
+        component.type?.isAvailableWith(settingsState.filenameBehavior) == false
+
     BottomButtonsBlock(
         isNoData = component.type == null,
         onSecondaryButtonClick = onPickImage,
@@ -81,6 +86,8 @@ internal fun JxlToolsButtons(
         onPrimaryButtonLongClick = {
             showFolderSelectionDialog = true
         },
+        isPrimaryButtonEnabled = !isOverwriteBlocked,
+        onDisabledPrimaryButtonClick = ::showOverwriteFormatWarning,
         actions = {
             if (component.type is Screen.JxlTools.Type.JxlToImage) {
                 actions()

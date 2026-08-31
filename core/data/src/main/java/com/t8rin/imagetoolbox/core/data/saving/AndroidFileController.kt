@@ -119,11 +119,13 @@ internal class AndroidFileController @Inject constructor(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String?,
+        allowOverwrite: Boolean,
     ): SaveResult {
         val result = saveImpl(
             saveTarget = saveTarget,
             keepOriginalMetadata = keepOriginalMetadata,
-            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+            oneTimeSaveLocationUri = oneTimeSaveLocationUri,
+            allowOverwrite = allowOverwrite
         )
 
         Triple(
@@ -151,6 +153,7 @@ internal class AndroidFileController @Inject constructor(
         saveTarget: SaveTarget,
         keepOriginalMetadata: Boolean,
         oneTimeSaveLocationUri: String?,
+        allowOverwrite: Boolean,
     ): SaveResult = withContext(ioDispatcher) {
         if (!context.isExternalStorageWritable()) {
             return@withContext SaveResult.Error.MissingPermissions
@@ -202,7 +205,7 @@ internal class AndroidFileController @Inject constructor(
                 }
             }
 
-            if (settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
+            if (allowOverwrite && settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
                 val providedMetadata = (saveTarget as? ImageSaveTarget)
                     ?.metadata
                     ?.takeUnless { settingsState.isAlwaysClearExif }
