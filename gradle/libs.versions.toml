@@ -88,7 +88,7 @@ xz = "1.12"
 onnx = "1.29.0"
 opencv = "5.0.0.1"
 
-materialKolor = "5.0.0"
+materialKolor = "5.0.1"
 palette = "1.1.0-alpha01"
 kotlinxSerializationJson = "1.11.0"
 
