@@ -176,6 +176,11 @@ enum class PaletteFormat(
         withPaletteName = true
     ), // Procreate swatches
 
+    INFINITE_PAINTER(
+        fileExtension = listOf("clrs"),
+        withPaletteName = true
+    ), // Infinite Painter swatch palette
+
     AUTODESK_COLOR_BOOK(
         fileExtension = listOf("acb"),
         withPaletteName = true

@@ -53,6 +53,7 @@ class PaletteFormatCoder(
     PaletteFormat.COREL_DRAW_V3 -> CorelDraw3PaletteCoder()
     PaletteFormat.CLF -> CLFPaletteCoder()
     PaletteFormat.SWATCHES -> ProcreateSwatchesCoder()
+    PaletteFormat.INFINITE_PAINTER -> InfinitePainterPaletteCoder()
     PaletteFormat.AUTODESK_COLOR_BOOK -> AutodeskColorBookCoder()
     PaletteFormat.SIMPLE_PALETTE -> SimplePaletteCoder()
     PaletteFormat.SWATCHBOOKER -> SwatchbookerCoder()

@@ -140,6 +140,40 @@ class PaletteCoderCompatibilityTest {
     }
 
     @Test
+    fun `infinite painter coder uses signed ARGB colors`() {
+        val source = """
+            {
+              "colors": [-16777216, -1, -65536, -16711936, -16776961],
+              "name": "Basic Hex"
+            }
+        """.trimIndent()
+
+        val palette = InfinitePainterPaletteCoder().decode(source.byteInputStream())
+
+        assertEquals("Basic Hex", palette.name)
+        assertEquals(5, palette.colors.size)
+        assertEquals(
+            listOf(-16777216, -1, -65536, -16711936, -16776961),
+            palette.colors.map(PaletteColor::toArgb)
+        )
+
+        val encoded = InfinitePainterPaletteCoder()
+            .encode(palette)
+            .toString(Charsets.UTF_8)
+        assertContains(encoded, "\"name\": \"Basic Hex\"")
+        assertContains(encoded, "-16777216")
+        assertContains(encoded, "-16776961")
+
+        val transparentRed = Palette(
+            colors = listOf(PaletteColor.rgb(1.0, 0.0, 0.0, a = 0.0))
+        )
+        assertContains(
+            InfinitePainterPaletteCoder().encode(transparentRed).toString(Charsets.UTF_8),
+            "-65536"
+        )
+    }
+
+    @Test
     fun `krita decoder reads documented colorset structure`() {
         val colorsetXml = """
             <?xml version="1.0" encoding="UTF-8"?>
