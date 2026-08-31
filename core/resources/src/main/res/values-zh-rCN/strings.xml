@@ -5149,4 +5149,6 @@
     <string name="code_background_custom">风俗</string>
     <string name="search_keywords_code_preview">代码片段 源语法 高亮 碳射线截图 开发人员编程</string>
     <string name="gmic_filter_grid">网格</string>
+    <string name="custom_gallery_sub">浏览和预览系统图库不支持的现代格式的图像</string>
+    <string name="search_keywords_gallery">画廊照片图像媒体浏览器查看器现代格式</string>
 </resources>

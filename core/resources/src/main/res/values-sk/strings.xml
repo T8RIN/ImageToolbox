@@ -5152,4 +5152,6 @@
     <string name="code_background_custom">Vlastné</string>
     <string name="search_keywords_code_preview">úryvok kódu zdrojová syntax zvýraznenie snímky obrazovky s uhlíkovým lúčom programovanie vývojára</string>
     <string name="gmic_filter_grid">Mriežka</string>
+    <string name="custom_gallery_sub">Prehliadajte a prezerajte si obrázky v moderných formátoch, ktoré systémové galérie nepodporujú</string>
+    <string name="search_keywords_gallery">galéria fotografie obrázky prehliadač médií prehliadač moderných formátov</string>
 </resources>

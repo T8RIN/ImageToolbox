@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">سفارشی</string>
     <string name="search_keywords_code_preview">برنامه‌نویسی توسعه‌دهنده اسکرین‌شات پرتو کربن، نحو منبع قطعه کد</string>
     <string name="gmic_filter_grid">شبکه</string>
+    <string name="custom_gallery_sub">تصاویر را در قالب‌های مدرن که توسط گالری‌های سیستم پشتیبانی نمی‌شوند، مرور و پیش‌نمایش کنید</string>
+    <string name="search_keywords_gallery">گالری عکس تصاویر مرورگر رسانه فرمت های مدرن نمایشگر</string>
 </resources>

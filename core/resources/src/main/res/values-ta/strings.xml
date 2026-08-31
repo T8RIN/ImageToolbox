@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">தனிப்பயன்</string>
     <string name="search_keywords_code_preview">குறியீடு துணுக்கு மூல தொடரியல் ஹைலைட் கார்பன் ரே ஸ்கிரீன்ஷாட் டெவலப்பர் புரோகிராமிங்</string>
     <string name="gmic_filter_grid">கட்டம்</string>
+    <string name="custom_gallery_sub">கணினி கேலரிகளால் ஆதரிக்கப்படாத நவீன வடிவங்களில் படங்களை உலாவவும் மற்றும் முன்னோட்டமிடவும்</string>
+    <string name="search_keywords_gallery">கேலரி புகைப்படங்கள் படங்கள் ஊடக உலாவி பார்வையாளர் நவீன வடிவங்கள்</string>
 </resources>

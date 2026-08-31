@@ -5152,4 +5152,6 @@
     <string name="code_background_custom">Custom</string>
     <string name="search_keywords_code_preview">вихідний синтаксис фрагмента коду виділення вуглецевих променів знімок екрана розробник програмування</string>
     <string name="gmic_filter_grid">Сітка</string>
+    <string name="custom_gallery_sub">Огляд і попередній перегляд зображень у сучасних форматах, які не підтримуються системними галереями</string>
+    <string name="search_keywords_gallery">галерея фотографії зображення медіа браузер переглядач сучасні формати</string>
 </resources>

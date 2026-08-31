@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Costumbre</string>
     <string name="search_keywords_code_preview">fragmento de código fuente sintaxis resaltado carbon ray captura de pantalla desarrollador programación</string>
     <string name="gmic_filter_grid">Red</string>
+    <string name="custom_gallery_sub">Explore y obtenga una vista previa de imágenes en formatos modernos no compatibles con las galerías del sistema.</string>
+    <string name="search_keywords_gallery">galería fotos imágenes medios navegador visor formatos modernos</string>
 </resources>

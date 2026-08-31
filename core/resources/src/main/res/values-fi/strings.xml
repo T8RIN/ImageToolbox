@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Mukautettu</string>
     <string name="search_keywords_code_preview">koodinpätkän lähdesyntaksin korostus hiilisäteen kuvakaappaus kehittäjäohjelmointi</string>
     <string name="gmic_filter_grid">Ruudukko</string>
+    <string name="custom_gallery_sub">Selaa ja esikatsele kuvia nykyaikaisissa muodoissa, joita järjestelmägalleriat eivät tue</string>
+    <string name="search_keywords_gallery">galleria valokuvat kuvat mediaselain katseluohjelma modernit muodot</string>
 </resources>

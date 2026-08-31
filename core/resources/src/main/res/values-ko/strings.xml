@@ -5149,4 +5149,6 @@
     <string name="code_background_custom">관습</string>
     <string name="search_keywords_code_preview">코드 조각 소스 구문 하이라이트 탄소선 스크린샷 개발자 프로그래밍</string>
     <string name="gmic_filter_grid">그리드</string>
+    <string name="custom_gallery_sub">시스템 갤러리에서 지원하지 않는 최신 형식의 이미지 찾아보기 및 미리보기</string>
+    <string name="search_keywords_gallery">갤러리 사진 이미지 미디어 브라우저 뷰어 현대 형식</string>
 </resources>

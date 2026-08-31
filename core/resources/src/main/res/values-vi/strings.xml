@@ -5149,4 +5149,6 @@
     <string name="code_background_custom">Phong tục</string>
     <string name="search_keywords_code_preview">đoạn mã nguồn cú pháp đánh dấu tia carbon Ảnh chụp màn hình lập trình dành cho nhà phát triển</string>
     <string name="gmic_filter_grid">Lưới</string>
+    <string name="custom_gallery_sub">Duyệt và xem trước hình ảnh ở các định dạng hiện đại không được thư viện hệ thống hỗ trợ</string>
+    <string name="search_keywords_gallery">thư viện ảnh hình ảnh trình duyệt phương tiện xem định dạng hiện đại</string>
 </resources>

@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">కస్టమ్</string>
     <string name="search_keywords_code_preview">కోడ్ స్నిప్పెట్ సోర్స్ సింటాక్స్ హైలైట్ కార్బన్ రే స్క్రీన్‌షాట్ డెవలపర్ ప్రోగ్రామింగ్</string>
     <string name="gmic_filter_grid">గ్రిడ్</string>
+    <string name="custom_gallery_sub">సిస్టమ్ గ్యాలరీల ద్వారా మద్దతు లేని ఆధునిక ఫార్మాట్‌లలో చిత్రాలను బ్రౌజ్ చేయండి మరియు ప్రివ్యూ చేయండి</string>
+    <string name="search_keywords_gallery">గ్యాలరీ ఫోటోలు చిత్రాలు మీడియా బ్రౌజర్ వ్యూయర్ ఆధునిక ఫార్మాట్‌లు</string>
 </resources>

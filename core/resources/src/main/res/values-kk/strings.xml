@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Арнаулы</string>
     <string name="search_keywords_code_preview">код үзіндісі көзі синтаксисі бөлектеу көміртегі сәулесінің скриншот әзірлеушісінің бағдарламалауы</string>
     <string name="gmic_filter_grid">Тор</string>
+    <string name="custom_gallery_sub">Жүйе галереялары қолдамайтын заманауи пішімдерде кескіндерді шолыңыз және алдын ала қараңыз</string>
+    <string name="search_keywords_gallery">галерея фотосуреттер бейнелер медиа браузерді қарау құралы заманауи форматтар</string>
 </resources>

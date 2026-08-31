@@ -5149,4 +5149,6 @@
     <string name="code_background_custom">風俗</string>
     <string name="search_keywords_code_preview">程式碼片段 原始碼語法 高亮 碳射線截圖 開發人員編程</string>
     <string name="gmic_filter_grid">網格</string>
+    <string name="custom_gallery_sub">瀏覽和預覽系統圖庫不支援的現代格式的圖像</string>
+    <string name="search_keywords_gallery">圖庫照片圖像媒體瀏覽器檢視器現代格式</string>
 </resources>

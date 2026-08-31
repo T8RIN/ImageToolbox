@@ -5151,4 +5151,6 @@
     <string name="code_background_custom">Personalizat</string>
     <string name="search_keywords_code_preview">sintaxa sursă a fragmentului de cod evidenția captură de ecran cu raze de carbon programarea dezvoltatorului</string>
     <string name="gmic_filter_grid">Grilă</string>
+    <string name="custom_gallery_sub">Răsfoiți și previzualizați imaginile în formate moderne neacceptate de galeriile de sistem</string>
+    <string name="search_keywords_gallery">galerie fotografii imagini media browser vizualizator formate moderne</string>
 </resources>

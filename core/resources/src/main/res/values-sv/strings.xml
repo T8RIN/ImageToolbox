@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Beställnings</string>
     <string name="search_keywords_code_preview">kodavsnitt källsyntax highlight carbon ray skärmdump utvecklarprogrammering</string>
     <string name="gmic_filter_grid">Rutnät</string>
+    <string name="custom_gallery_sub">Bläddra och förhandsgranska bilder i moderna format som inte stöds av systemgallerier</string>
+    <string name="search_keywords_gallery">galleri foton bilder media webbläsare viewer moderna format</string>
 </resources>

@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">কাস্টম</string>
     <string name="search_keywords_code_preview">কোড স্নিপেট সোর্স সিনট্যাক্স হাইলাইট কার্বন রে স্ক্রিনশট ডেভেলপার প্রোগ্রামিং</string>
     <string name="gmic_filter_grid">গ্রিড</string>
+    <string name="custom_gallery_sub">সিস্টেম গ্যালারী দ্বারা অসমর্থিত আধুনিক বিন্যাসে চিত্রগুলি ব্রাউজ করুন এবং পূর্বরূপ দেখুন৷</string>
+    <string name="search_keywords_gallery">গ্যালারি ফটো ইমেজ মিডিয়া ব্রাউজার ভিউয়ার আধুনিক বিন্যাস</string>
 </resources>

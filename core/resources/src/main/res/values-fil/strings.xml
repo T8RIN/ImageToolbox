@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Custom</string>
     <string name="search_keywords_code_preview">code snippet source syntax highlight carbon ray screenshot developer programming</string>
     <string name="gmic_filter_grid">Grid</string>
+    <string name="custom_gallery_sub">Mag-browse at mag-preview ng mga larawan sa mga modernong format na hindi sinusuportahan ng mga gallery ng system</string>
+    <string name="search_keywords_gallery">mga larawan sa gallery mga larawan media browser viewer modernong mga format</string>
 </resources>

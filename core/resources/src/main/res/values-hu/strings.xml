@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Szokás</string>
     <string name="search_keywords_code_preview">kódrészlet forrás szintaxis kiemelés carbon ray screenshot fejlesztői programozás</string>
     <string name="gmic_filter_grid">Rács</string>
+    <string name="custom_gallery_sub">Böngésszen és tekintsen meg képeket a rendszergalériák által nem támogatott modern formátumokban</string>
+    <string name="search_keywords_gallery">galéria fotók képek médiaböngésző néző modern formátumok</string>
 </resources>

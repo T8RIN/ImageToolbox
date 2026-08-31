@@ -5154,4 +5154,6 @@
     <string name="code_background_custom">مخصص</string>
     <string name="search_keywords_code_preview">مقتطف التعليمات البرمجية المصدر، تسليط الضوء على برمجة المطورين للقطة شاشة لشعاع الكربون</string>
     <string name="gmic_filter_grid">شبكة</string>
+    <string name="custom_gallery_sub">تصفح الصور ومعاينتها بتنسيقات حديثة غير مدعومة من معارض النظام</string>
+    <string name="search_keywords_gallery">معرض الصور الصور متصفح الوسائط عارض التنسيقات الحديثة</string>
 </resources>

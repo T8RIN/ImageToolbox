@@ -5151,4 +5151,6 @@
     <string name="code_background_custom">Цустом</string>
     <string name="search_keywords_code_preview">синтакса изворног кода истицање угљеничног зрака програмирање екрана за програмере</string>
     <string name="gmic_filter_grid">Грид</string>
+    <string name="custom_gallery_sub">Прегледајте и прегледајте слике у модерним форматима које системске галерије не подржавају</string>
+    <string name="search_keywords_gallery">галерија фотографије слике медија претраживач прегледач модерних формата</string>
 </resources>

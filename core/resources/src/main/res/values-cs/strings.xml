@@ -5152,4 +5152,6 @@
     <string name="code_background_custom">Zvyk</string>
     <string name="search_keywords_code_preview">úryvek kódu zdrojová syntaxe highlight carbon ray screenshot vývojářské programování</string>
     <string name="gmic_filter_grid">Mřížka</string>
+    <string name="custom_gallery_sub">Procházejte a prohlížejte obrázky v moderních formátech, které systémové galerie nepodporují</string>
+    <string name="search_keywords_gallery">galerie fotografie obrázky prohlížeč médií prohlížeč moderních formátů</string>
 </resources>

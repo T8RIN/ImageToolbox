@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Kohandatud</string>
     <string name="search_keywords_code_preview">koodilõigu allika süntaks esiletõst süsinikukiirguse ekraanipilt arendaja programmeerimine</string>
     <string name="gmic_filter_grid">Võre</string>
+    <string name="custom_gallery_sub">Sirvige ja vaadake pilte moodsates vormingutes, mida süsteemigaleriid ei toeta</string>
+    <string name="search_keywords_gallery">galerii fotod pildid meediabrauseri vaataja kaasaegsed vormingud</string>
 </resources>

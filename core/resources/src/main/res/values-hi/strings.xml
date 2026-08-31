@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">रिवाज़</string>
     <string name="search_keywords_code_preview">कोड स्निपेट स्रोत सिंटैक्स हाइलाइट कार्बन रे स्क्रीनशॉट डेवलपर प्रोग्रामिंग</string>
     <string name="gmic_filter_grid">ग्रिड</string>
+    <string name="custom_gallery_sub">सिस्टम गैलरी द्वारा समर्थित आधुनिक प्रारूपों में छवियों को ब्राउज़ करें और पूर्वावलोकन करें</string>
+    <string name="search_keywords_gallery">गैलरी फ़ोटो छवियाँ मीडिया ब्राउज़र दर्शक आधुनिक प्रारूप</string>
 </resources>

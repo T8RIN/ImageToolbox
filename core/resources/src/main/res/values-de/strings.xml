@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Brauch</string>
     <string name="search_keywords_code_preview">Code-Snippet-Quellsyntax-Highlight-Carbon-Ray-Screenshot-Entwicklerprogrammierung</string>
     <string name="gmic_filter_grid">Netz</string>
+    <string name="custom_gallery_sub">Durchsuchen und Vorschau von Bildern in modernen Formaten, die von Systemgalerien nicht unterstützt werden</string>
+    <string name="search_keywords_gallery">Galerie Fotos Bilder Medien Browser Viewer moderne Formate</string>
 </resources>

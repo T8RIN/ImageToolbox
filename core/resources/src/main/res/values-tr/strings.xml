@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Gelenek</string>
     <string name="search_keywords_code_preview">kod pasajı kaynak sözdizimi vurgulama karbon ışını Ekran görüntüsü geliştirici programlama</string>
     <string name="gmic_filter_grid">Izgara</string>
+    <string name="custom_gallery_sub">Sistem galerileri tarafından desteklenmeyen modern formatlardaki görüntülere göz atın ve önizleyin</string>
+    <string name="search_keywords_gallery">galeri fotoğraflar görüntüler medya tarayıcı görüntüleyici modern formatlar</string>
 </resources>

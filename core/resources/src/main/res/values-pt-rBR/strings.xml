@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Personalizado</string>
     <string name="search_keywords_code_preview">trecho de código sintaxe de origem destaque carbono ray captura de tela programação do desenvolvedor</string>
     <string name="gmic_filter_grid">Grade</string>
+    <string name="custom_gallery_sub">Navegue e visualize imagens em formatos modernos não suportados pelas galerias do sistema</string>
+    <string name="search_keywords_gallery">galeria fotos imagens navegador de mídia visualizador formatos modernos</string>
 </resources>

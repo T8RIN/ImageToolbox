@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Costume</string>
     <string name="search_keywords_code_preview">snippet di codice sintassi sorgente evidenziazione screenshot di carbon ray programmazione per sviluppatori</string>
     <string name="gmic_filter_grid">Griglia</string>
+    <string name="custom_gallery_sub">Sfoglia e visualizza in anteprima le immagini in formati moderni non supportati dalle gallerie di sistema</string>
+    <string name="search_keywords_gallery">galleria foto immagini visualizzatore browser multimediale formati moderni</string>
 </resources>

@@ -5150,4 +5150,6 @@
     <string name="code_background_custom">Personalitzat</string>
     <string name="search_keywords_code_preview">la sintaxi font del fragment de codi ressalta la programació del desenvolupador de captura de pantalla de raigs de carboni</string>
     <string name="gmic_filter_grid">Quadrícula</string>
+    <string name="custom_gallery_sub">Exploreu i previsualitzeu imatges en formats moderns no compatibles amb les galeries del sistema</string>
+    <string name="search_keywords_gallery">galeria de fotos imatges visualitzador de mitjans de comunicació formats moderns</string>
 </resources>

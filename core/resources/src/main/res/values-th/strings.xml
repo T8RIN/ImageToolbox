@@ -5149,4 +5149,6 @@
     <string name="code_background_custom">กำหนดเอง</string>
     <string name="search_keywords_code_preview">ข้อมูลโค้ด ไวยากรณ์แหล่งที่มา เน้น เรย์คาร์บอน ภาพหน้าจอ การเขียนโปรแกรมของนักพัฒนา</string>
     <string name="gmic_filter_grid">กริด</string>
+    <string name="custom_gallery_sub">เรียกดูและดูตัวอย่างรูปภาพในรูปแบบสมัยใหม่ที่ไม่รองรับโดยแกลเลอรีของระบบ</string>
+    <string name="search_keywords_gallery">แกลเลอรี่ รูปภาพ รูปภาพ สื่อ เบราว์เซอร์ โปรแกรมดู รูปแบบที่ทันสมัย</string>
 </resources>
