@@ -5150,4 +5150,5 @@
     <string name="code_background_northern_lights">Нортхерн Лигхтс</string>
     <string name="code_background_custom">Цустом</string>
     <string name="search_keywords_code_preview">синтакса изворног кода истицање угљеничног зрака програмирање екрана за програмере</string>
+    <string name="gmic_filter_grid">Грид</string>
 </resources>

@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Polárna žiara</string>
     <string name="code_background_custom">Vlastné</string>
     <string name="search_keywords_code_preview">úryvok kódu zdrojová syntax zvýraznenie snímky obrazovky s uhlíkovým lúčom programovanie vývojára</string>
+    <string name="gmic_filter_grid">Mriežka</string>
 </resources>

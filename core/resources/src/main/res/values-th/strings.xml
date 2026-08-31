@@ -5148,4 +5148,5 @@
     <string name="code_background_northern_lights">แสงเหนือ</string>
     <string name="code_background_custom">กำหนดเอง</string>
     <string name="search_keywords_code_preview">ข้อมูลโค้ด ไวยากรณ์แหล่งที่มา เน้น เรย์คาร์บอน ภาพหน้าจอ การเขียนโปรแกรมของนักพัฒนา</string>
+    <string name="gmic_filter_grid">กริด</string>
 </resources>

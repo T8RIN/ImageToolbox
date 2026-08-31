@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Virmalised</string>
     <string name="code_background_custom">Kohandatud</string>
     <string name="search_keywords_code_preview">koodilõigu allika süntaks esiletõst süsinikukiirguse ekraanipilt arendaja programmeerimine</string>
+    <string name="gmic_filter_grid">Võre</string>
 </resources>

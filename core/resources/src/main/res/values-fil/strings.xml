@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Northern Lights</string>
     <string name="code_background_custom">Custom</string>
     <string name="search_keywords_code_preview">code snippet source syntax highlight carbon ray screenshot developer programming</string>
+    <string name="gmic_filter_grid">Grid</string>
 </resources>

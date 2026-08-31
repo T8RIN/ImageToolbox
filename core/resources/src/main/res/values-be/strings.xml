@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Паўночнае ззянне</string>
     <string name="code_background_custom">Прыстасаваныя</string>
     <string name="search_keywords_code_preview">зыходны сінтаксіс фрагмента кода вылучыце вугляродны прамень скрыншот праграмаванне распрацоўшчыка</string>
+    <string name="gmic_filter_grid">Сетка</string>
 </resources>

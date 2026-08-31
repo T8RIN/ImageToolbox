@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">aurora boreal</string>
     <string name="code_background_custom">Costumbre</string>
     <string name="search_keywords_code_preview">fragmento de código fuente sintaxis resaltado carbon ray captura de pantalla desarrollador programación</string>
+    <string name="gmic_filter_grid">Red</string>
 </resources>

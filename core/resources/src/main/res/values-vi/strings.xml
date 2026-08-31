@@ -5148,4 +5148,5 @@
     <string name="code_background_northern_lights">Đèn phía Bắc</string>
     <string name="code_background_custom">Phong tục</string>
     <string name="search_keywords_code_preview">đoạn mã nguồn cú pháp đánh dấu tia carbon Ảnh chụp màn hình lập trình dành cho nhà phát triển</string>
+    <string name="gmic_filter_grid">Lưới</string>
 </resources>

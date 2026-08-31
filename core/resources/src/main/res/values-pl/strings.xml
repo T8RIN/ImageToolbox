@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Zorza Polarna</string>
     <string name="code_background_custom">Zwyczaj</string>
     <string name="search_keywords_code_preview">składnia fragmentu kodu źródłowego podświetlanie zrzutów ekranu z programu Carbon Ray programowanie dla programistów</string>
+    <string name="gmic_filter_grid">Siatka</string>
 </resources>

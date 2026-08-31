@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">उत्तरी लाइट्स</string>
     <string name="code_background_custom">रिवाज़</string>
     <string name="search_keywords_code_preview">कोड स्निपेट स्रोत सिंटैक्स हाइलाइट कार्बन रे स्क्रीनशॉट डेवलपर प्रोग्रामिंग</string>
+    <string name="gmic_filter_grid">ग्रिड</string>
 </resources>

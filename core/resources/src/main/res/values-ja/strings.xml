@@ -5148,4 +5148,5 @@
     <string name="code_background_northern_lights">オーロラ</string>
     <string name="code_background_custom">カスタム</string>
     <string name="search_keywords_code_preview">コード スニペット ソース構文 ハイライト 炭素線 スクリーンショット 開発者 プログラミング</string>
+    <string name="gmic_filter_grid">グリッド</string>
 </resources>

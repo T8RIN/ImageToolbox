@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Északi fény</string>
     <string name="code_background_custom">Szokás</string>
     <string name="search_keywords_code_preview">kódrészlet forrás szintaxis kiemelés carbon ray screenshot fejlesztői programozás</string>
+    <string name="gmic_filter_grid">Rács</string>
 </resources>

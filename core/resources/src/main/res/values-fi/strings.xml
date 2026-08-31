@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Revontulet</string>
     <string name="code_background_custom">Mukautettu</string>
     <string name="search_keywords_code_preview">koodinpätkän lähdesyntaksin korostus hiilisäteen kuvakaappaus kehittäjäohjelmointi</string>
+    <string name="gmic_filter_grid">Ruudukko</string>
 </resources>

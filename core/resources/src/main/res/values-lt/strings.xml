@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Šiaurės pašvaistė</string>
     <string name="code_background_custom">Pasirinktinis</string>
     <string name="search_keywords_code_preview">kodo fragmento šaltinio sintaksės paryškinimas anglies spindulių ekrano kopijos kūrėjo programavimas</string>
+    <string name="gmic_filter_grid">Tinklelis</string>
 </resources>

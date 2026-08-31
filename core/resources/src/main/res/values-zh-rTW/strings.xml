@@ -5148,4 +5148,5 @@
     <string name="code_background_northern_lights">北極光</string>
     <string name="code_background_custom">風俗</string>
     <string name="search_keywords_code_preview">程式碼片段 原始碼語法 高亮 碳射線截圖 開發人員編程</string>
+    <string name="gmic_filter_grid">網格</string>
 </resources>

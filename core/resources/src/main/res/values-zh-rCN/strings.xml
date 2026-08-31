@@ -5148,4 +5148,5 @@
     <string name="code_background_northern_lights">北极光</string>
     <string name="code_background_custom">风俗</string>
     <string name="search_keywords_code_preview">代码片段 源语法 高亮 碳射线截图 开发人员编程</string>
+    <string name="gmic_filter_grid">网格</string>
 </resources>

@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Severní polární záře</string>
     <string name="code_background_custom">Zvyk</string>
     <string name="search_keywords_code_preview">úryvek kódu zdrojová syntaxe highlight carbon ray screenshot vývojářské programování</string>
+    <string name="gmic_filter_grid">Mřížka</string>
 </resources>

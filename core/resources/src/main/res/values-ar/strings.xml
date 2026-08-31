@@ -5153,4 +5153,5 @@
     <string name="code_background_northern_lights">الأضواء الشمالية</string>
     <string name="code_background_custom">مخصص</string>
     <string name="search_keywords_code_preview">مقتطف التعليمات البرمجية المصدر، تسليط الضوء على برمجة المطورين للقطة شاشة لشعاع الكربون</string>
+    <string name="gmic_filter_grid">شبكة</string>
 </resources>

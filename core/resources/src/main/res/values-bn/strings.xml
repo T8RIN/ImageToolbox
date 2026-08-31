@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">নর্দান লাইটস</string>
     <string name="code_background_custom">কাস্টম</string>
     <string name="search_keywords_code_preview">কোড স্নিপেট সোর্স সিনট্যাক্স হাইলাইট কার্বন রে স্ক্রিনশট ডেভেলপার প্রোগ্রামিং</string>
+    <string name="gmic_filter_grid">গ্রিড</string>
 </resources>

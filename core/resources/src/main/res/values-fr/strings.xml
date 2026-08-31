@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Aurores boréales</string>
     <string name="code_background_custom">Coutume</string>
     <string name="search_keywords_code_preview">extrait de code syntaxe source surbrillance capture d\'écran carbone ray programmation du développeur</string>
+    <string name="gmic_filter_grid">Grille</string>
 </resources>

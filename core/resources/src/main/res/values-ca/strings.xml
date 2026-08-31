@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Aurores boreals</string>
     <string name="code_background_custom">Personalitzat</string>
     <string name="search_keywords_code_preview">la sintaxi font del fragment de codi ressalta la programació del desenvolupador de captura de pantalla de raigs de carboni</string>
+    <string name="gmic_filter_grid">Quadrícula</string>
 </resources>

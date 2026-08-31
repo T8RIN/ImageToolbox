@@ -5151,4 +5151,5 @@
     <string name="code_background_northern_lights">Північне сяйво</string>
     <string name="code_background_custom">Custom</string>
     <string name="search_keywords_code_preview">вихідний синтаксис фрагмента коду виділення вуглецевих променів знімок екрана розробник програмування</string>
+    <string name="gmic_filter_grid">Сітка</string>
 </resources>

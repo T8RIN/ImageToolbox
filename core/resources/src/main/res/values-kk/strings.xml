@@ -5149,4 +5149,5 @@
     <string name="code_background_northern_lights">Солтүстік жарықтар</string>
     <string name="code_background_custom">Арнаулы</string>
     <string name="search_keywords_code_preview">код үзіндісі көзі синтаксисі бөлектеу көміртегі сәулесінің скриншот әзірлеушісінің бағдарламалауы</string>
+    <string name="gmic_filter_grid">Тор</string>
 </resources>
