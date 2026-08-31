@@ -94,6 +94,7 @@ internal fun MediaPickerHavePermissions(
     component: MediaPickerComponent,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
+    isGalleryMode: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
     onPicked: (List<Uri>) -> Unit,
@@ -288,6 +289,7 @@ internal fun MediaPickerHavePermissions(
         MediaPickerGridWithOverlays(
             component = component,
             isSearching = isSearching,
+            isGalleryMode = isGalleryMode,
             allowedMedia = allowedMedia,
             allowMultiple = allowMultiple,
             onRequestManagePermission = onRequestManagePermission,

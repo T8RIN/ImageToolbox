@@ -63,6 +63,7 @@ internal fun MediaPickerGrid(
     isSelectionOfAll: Boolean,
     selectedMedia: SnapshotStateList<Media>,
     allowMultiple: Boolean,
+    isGalleryMode: Boolean,
     isButtonVisible: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean
@@ -126,7 +127,8 @@ internal fun MediaPickerGrid(
                 end = cutout.calculateEndPadding(layoutDirection)
             )
             .dragHandler(
-                enabled = isSelectionOfAll && allowMultiple,
+                enabled = isSelectionOfAll && allowMultiple &&
+                        (!isGalleryMode || selectedMedia.isNotEmpty()),
                 key = state.mappedMedia,
                 lazyGridState = gridState,
                 isVertical = true,
@@ -203,7 +205,9 @@ internal fun MediaPickerGrid(
                     MediaStickyHeader(
                         date = item.text,
                         isChecked = isChecked.value,
-                        onChecked = if (allowMultiple) {
+                        onChecked = if (
+                            allowMultiple && (!isGalleryMode || selectedMedia.isNotEmpty())
+                        ) {
                             {
                                 hapticFeedback.longPress()
                                 scope.launch {
@@ -226,13 +230,26 @@ internal fun MediaPickerGrid(
 
                     MediaImage(
                         media = item.media,
-                        canClick = !isSelectionOfAll || !allowMultiple,
+                        isInSelection = !isGalleryMode || selectionIndex >= 0,
+                        canClick = if (isGalleryMode) {
+                            selectedMedia.isEmpty() || !isSelectionOfAll || !allowMultiple
+                        } else {
+                            !isSelectionOfAll || !allowMultiple
+                        },
                         onItemClick = {
-                            hapticFeedback.longPress()
-                            onMediaClick(it)
+                            if (isGalleryMode && selectedMedia.isEmpty()) {
+                                imagePreviewUri = it.uri
+                            } else {
+                                hapticFeedback.longPress()
+                                onMediaClick(it)
+                            }
                         },
                         onItemLongClick = {
-                            imagePreviewUri = it.uri
+                            if (isGalleryMode) {
+                                onMediaClick(it)
+                            } else {
+                                imagePreviewUri = it.uri
+                            }
                         },
                         selectionIndex = if (selectedMedia.size > 1) selectionIndex else -1,
                         isSelected = selectionIndex >= 0

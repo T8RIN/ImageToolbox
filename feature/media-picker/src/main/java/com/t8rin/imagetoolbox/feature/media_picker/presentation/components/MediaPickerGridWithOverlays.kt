@@ -101,6 +101,7 @@ internal fun MediaPickerGridWithOverlays(
     mediaState: MediaState,
     albumsState: AlbumState,
     isSearching: Boolean,
+    isGalleryMode: Boolean,
     allowedMedia: AllowedMedia,
     allowMultiple: Boolean,
     onRequestManagePermission: () -> Unit,
@@ -139,6 +140,7 @@ internal fun MediaPickerGridWithOverlays(
                 isSelectionOfAll = selectedAlbumIndex == -1L,
                 selectedMedia = selectedMedia,
                 allowMultiple = allowMultiple,
+                isGalleryMode = isGalleryMode,
                 isButtonVisible = isButtonVisible,
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission

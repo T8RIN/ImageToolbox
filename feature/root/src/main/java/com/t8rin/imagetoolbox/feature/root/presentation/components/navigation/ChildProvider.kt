@@ -31,9 +31,9 @@ import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base
 import com.t8rin.imagetoolbox.feature.batchrename.presentation.screenLogic.BatchRenameComponent
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.screenLogic.CompressionLabComponent
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
 import com.t8rin.imagetoolbox.feature.curves.presentation.screenLogic.CurvesComponent
 import com.t8rin.imagetoolbox.feature.delete_exif.presentation.screenLogic.DeleteExifComponent
@@ -57,6 +57,7 @@ import com.t8rin.imagetoolbox.feature.limits_resize.presentation.screenLogic.Lim
 import com.t8rin.imagetoolbox.feature.load_net_image.presentation.screenLogic.LoadNetImageComponent
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.screenLogic.MultiFrameFusionComponent
 import com.t8rin.imagetoolbox.feature.palette_pdf.presentation.screenLogic.PalettePdfToolComponent
@@ -106,6 +107,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.BatchRename
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ChecksumTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Cipher
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CodePreview
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CollageMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorLibrary
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ColorTools
@@ -114,7 +116,6 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ComparePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CompressionLab
-import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CodePreview
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Crop
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.CropPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Curves
@@ -130,6 +131,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Filter
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FlattenPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FormatConversion
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Gallery
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GifTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GradientMaker
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GrayscalePdfTool
@@ -258,6 +260,7 @@ internal class ChildProvider @Inject constructor(
     private val appLogsComponentFactory: AppLogsComponent.Factory,
     private val usageStatisticsComponentFactory: UsageStatisticsComponent.Factory,
     private val mainComponentFactory: MainComponent.Factory,
+    private val mediaPickerComponentFactory: MediaPickerComponent.Factory,
     private val markupLayersComponentFactory: MarkupLayersComponent.Factory,
     private val base64ToolsComponentFactory: Base64ToolsComponent.Factory,
     private val checksumToolsComponentFactory: ChecksumToolsComponent.Factory,
@@ -545,6 +548,12 @@ internal class ChildProvider @Inject constructor(
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )
+        )
+
+        Screen.Gallery -> Gallery(
+            component = mediaPickerComponentFactory(componentContext),
+            onGoBack = ::navigateBack,
+            onPicked = ::updateUris
         )
 
         is Screen.ImageStitching -> ImageStitching(

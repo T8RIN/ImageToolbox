@@ -30,12 +30,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Base64Tools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.BatchRename
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ChecksumTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Cipher
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CodePreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CollageMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorLibrary
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ColorTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Compare
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CompressionLab
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.CodePreview
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Crop
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Curves
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.DeleteExif
@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Gallery
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Help
@@ -147,6 +148,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is Cipher -> R.string.search_keywords_cipher
     is EraseBackground -> R.string.search_keywords_erase_background
     is ImagePreview -> R.string.search_keywords_image_preview
+    is Gallery -> R.string.search_keywords_gallery
     is ImageStitching -> R.string.search_keywords_image_stitching
     is LoadNetImage -> R.string.search_keywords_load_net_image
     is PickColorFromImage -> R.string.search_keywords_pick_color_from_image

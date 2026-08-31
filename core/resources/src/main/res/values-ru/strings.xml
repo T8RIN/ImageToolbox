@@ -167,6 +167,7 @@
     <string name="image_source">Источник изображений</string>
     <string name="photo_picker">Фото пикер</string>
     <string name="gallery_picker">Галерея</string>
+    <string name="custom_gallery_sub">Просмотр изображений в современных форматах, которые не поддерживают системные галереи</string>
     <string name="file_explorer_picker">Проводник</string>
     <string name="photo_picker_sub">Современный пикер фотографий Android, который появляется в нижней части экрана, может работать только на Android 12+. Имеет проблемы с получением метаданных EXIF</string>
     <string name="gallery_picker_sub">Простой пикер изображений из галереи, будет работать только если такое приложение установлено</string>

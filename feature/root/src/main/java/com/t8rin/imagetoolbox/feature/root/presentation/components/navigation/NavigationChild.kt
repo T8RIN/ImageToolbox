@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.root.presentation.components.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import com.t8rin.imagetoolbox.collage_maker.presentation.CollageMakerContent
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
@@ -42,12 +43,12 @@ import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.ChecksumToolsC
 import com.t8rin.imagetoolbox.feature.checksum_tools.presentation.screenLogic.ChecksumToolsComponent
 import com.t8rin.imagetoolbox.feature.cipher.presentation.CipherContent
 import com.t8rin.imagetoolbox.feature.cipher.presentation.screenLogic.CipherComponent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.CodePreviewContent
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.compare.presentation.CompareContent
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.CompressionLabContent
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.screenLogic.CompressionLabComponent
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.CodePreviewContent
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import com.t8rin.imagetoolbox.feature.crop.presentation.CropContent
 import com.t8rin.imagetoolbox.feature.crop.presentation.screenLogic.CropComponent
 import com.t8rin.imagetoolbox.feature.curves.presentation.CurvesContent
@@ -94,6 +95,8 @@ import com.t8rin.imagetoolbox.feature.main.presentation.MainContent
 import com.t8rin.imagetoolbox.feature.main.presentation.screenLogic.MainComponent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.MarkupLayersContent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
+import com.t8rin.imagetoolbox.feature.media_picker.presentation.components.MediaPickerRootContentEmbeddable
+import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.MeshGradientsContent
 import com.t8rin.imagetoolbox.feature.mesh_gradients.presentation.screenLogic.MeshGradientsComponent
 import com.t8rin.imagetoolbox.feature.multi_frame_fusion.presentation.MultiFrameFusionContent
@@ -345,6 +348,20 @@ internal sealed interface NavigationChild {
     class CodePreview(private val component: CodePreviewComponent) : NavigationChild {
         @Composable
         override fun Content() = CodePreviewContent(component)
+    }
+
+    class Gallery(
+        private val component: MediaPickerComponent,
+        private val onGoBack: () -> Unit,
+        private val onPicked: (List<Uri>) -> Unit
+    ) : NavigationChild {
+        @Composable
+        override fun Content() = MediaPickerRootContentEmbeddable(
+            component = component,
+            onPicked = onPicked,
+            isGalleryMode = true,
+            onBack = onGoBack
+        )
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {

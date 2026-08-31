@@ -83,7 +83,8 @@ fun MediaPickerRootContentEmbeddable(
     modifier: Modifier = Modifier,
     allowedMedia: AllowedMedia = AllowedMedia.Photos(null),
     allowMultiple: Boolean = true,
-    onBack: (() -> Unit)? = null
+    onBack: (() -> Unit)? = null,
+    isGalleryMode: Boolean = false
 ) {
     val context = LocalComponentActivity.current
 
@@ -156,6 +157,7 @@ fun MediaPickerRootContentEmbeddable(
                         allowedMedia = allowedMedia,
                         allowMultiple = allowMultiple,
                         component = component,
+                        isGalleryMode = isGalleryMode,
                         isManagePermissionAllowed = isManagePermissionAllowed,
                         onRequestManagePermission = requestManagePermission,
                         onPicked = onPicked,
@@ -215,10 +217,10 @@ fun MediaPickerRootContentEmbeddable(
                     EnhancedTopAppBar(
                         title = {
                             Text(
-                                text = if (allowMultiple) {
-                                    stringResource(R.string.pick_multiple_media)
-                                } else {
-                                    stringResource(R.string.pick_single_media)
+                                text = when {
+                                    isGalleryMode -> stringResource(R.string.gallery_picker)
+                                    allowMultiple -> stringResource(R.string.pick_multiple_media)
+                                    else -> stringResource(R.string.pick_single_media)
                                 },
                                 modifier = Modifier.marquee()
                             )

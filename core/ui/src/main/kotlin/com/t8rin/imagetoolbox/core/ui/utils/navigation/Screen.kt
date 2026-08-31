@@ -1353,6 +1353,13 @@ sealed class Screen(
         subtitle = R.string.code_preview_generator_sub
     )
 
+    @Serializable
+    data object Gallery : Screen(
+        id = 81,
+        title = R.string.gallery_picker,
+        subtitle = R.string.custom_gallery_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

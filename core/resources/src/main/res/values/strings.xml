@@ -996,6 +996,7 @@
     <string name="image_source">Image source</string>
     <string name="photo_picker">Photo picker</string>
     <string name="gallery_picker">Gallery</string>
+    <string name="custom_gallery_sub">Browse and preview images in modern formats unsupported by system galleries</string>
     <string name="file_explorer_picker">File explorer</string>
     <string name="photo_picker_sub">Android modern photo picker which appears at the bottom of the screen, may work only on android 12+. Has issues receiving EXIF metadata</string>
     <string name="gallery_picker_sub">Simple gallery image picker. It will work only if you have an app that provides media picking</string>
@@ -3485,6 +3486,7 @@
     <string name="search_keywords_cipher">cipher encrypt decrypt password secret</string>
     <string name="search_keywords_erase_background">background remover erase remove cutout transparent alpha</string>
     <string name="search_keywords_image_preview">preview viewer gallery inspect open</string>
+    <string name="search_keywords_gallery">gallery photos images media browser viewer modern formats</string>
     <string name="search_keywords_image_stitching">stitch merge combine panorama long screenshot</string>
     <string name="search_keywords_load_net_image">url web download internet link image</string>
     <string name="search_keywords_pick_color_from_image">picker eyedropper sample hex rgb color</string>

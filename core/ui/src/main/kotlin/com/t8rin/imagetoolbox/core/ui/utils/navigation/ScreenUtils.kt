@@ -97,6 +97,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
 import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
+import com.t8rin.imagetoolbox.core.resources.icons.WallArt
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.WandShine
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
@@ -129,6 +130,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Gallery
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Help
@@ -201,6 +203,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Photomosaic -> "Photomosaic"
     is GifTools -> "GIF_Tools"
     is GradientMaker -> "Gradient_Maker"
+    is Gallery -> "Gallery"
     is ImagePreview -> "Image_Preview"
     is ImageStitching -> "Image_Stitching"
     is JxlTools -> "JXL_Tools"
@@ -307,6 +310,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
+    is Gallery -> Icons.Outlined.WallArt
     is ImagePreview -> Icons.Outlined.Landscape
     is ImageStitching -> Icons.Rounded.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -404,6 +408,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
+    is Gallery -> Icons.TwoTone.WallArt
     is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -549,6 +554,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     Compare(),
                     CompressionLab(),
                     DuplicateFinder(),
+                    Gallery,
                     ImagePreview(),
                     WallpapersExport,
                     Base64Tools(),
@@ -591,5 +597,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 107 + PdfTools.options.size
+    override val FEATURES_COUNT = 108 + PdfTools.options.size
 }
