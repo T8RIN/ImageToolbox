@@ -358,6 +358,12 @@ internal class AndroidImageScaler @Inject constructor(
         } ?: settingsState.defaultImageScaleMode
 
         when (mode) {
+            is ImageScaleMode.Nearest -> softwareImage.scale(
+                width = width,
+                height = height,
+                filter = false
+            )
+
             ImageScaleMode.MagicKernel -> Trickle.magicResize(
                 input = softwareImage,
                 width = width,
