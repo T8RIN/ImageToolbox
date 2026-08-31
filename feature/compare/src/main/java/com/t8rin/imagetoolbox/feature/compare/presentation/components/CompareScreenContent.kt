@@ -78,6 +78,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Highlight
+import com.t8rin.imagetoolbox.core.resources.icons.Percent
 import com.t8rin.imagetoolbox.core.resources.icons.Pix
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -96,6 +97,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -219,6 +221,17 @@ internal fun CompareScreenContent(
                                 ),
                                 title = stringResource(R.string.highlight_color),
                                 icon = Icons.Rounded.Highlight
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            EnhancedSliderItem(
+                                value = progressState.floatValue,
+                                title = stringResource(R.string.threshold),
+                                icon = Icons.Rounded.Percent,
+                                valueRange = 0f..100f,
+                                onValueChange = { progressState.floatValue = it },
+                                onValueChangeFinished = onCompareProgressChange,
+                                shape = ShapeDefaults.center,
+                                isAnimated = false
                             )
                             Spacer(Modifier.height(4.dp))
                             DataSelector(
