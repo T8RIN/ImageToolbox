@@ -94,6 +94,7 @@ fun Picture(
     showTransparencyChecker: Boolean = true,
     isLoadingFromDifferentPlace: Boolean = false,
     enableUltraHDRSupport: Boolean = false,
+    enableUltraHDRSupportTransformation: Boolean = enableUltraHDRSupport,
     size: Int? = null,
     contentPadding: PaddingValues = PaddingValues()
 ) {
@@ -163,6 +164,7 @@ fun Picture(
                     showTransparencyChecker = showTransparencyChecker,
                     isLoadingFromDifferentPlace = isLoadingFromDifferentPlace,
                     enableUltraHDRSupport = enableUltraHDRSupport,
+                    enableUltraHDRSupportTransformation = enableUltraHDRSupportTransformation,
                     size = size,
                     contentPadding = contentPadding
                 )
@@ -196,6 +198,7 @@ private fun CoilPicture(
     showTransparencyChecker: Boolean,
     isLoadingFromDifferentPlace: Boolean,
     enableUltraHDRSupport: Boolean,
+    enableUltraHDRSupportTransformation: Boolean,
     size: Int?,
     contentPadding: PaddingValues = PaddingValues()
 ) {
@@ -210,7 +213,7 @@ private fun CoilPicture(
     var isSuccess by remember { mutableStateOf(false) }
 
     val hdrTransformation = remember(context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE && enableUltraHDRSupport && enableUltraHDRSupportTransformation) {
             listOf(
                 GenericTransformation<Bitmap> { bitmap ->
                     withContext(Dispatchers.Main.immediate) {

@@ -266,6 +266,7 @@ fun ImagePager(
                                     }
                                 ),
                             enableUltraHDRSupport = true,
+                            enableUltraHDRSupportTransformation = false,
                             contentScale = ContentScale.Fit,
                             shape = RectangleShape,
                             onSuccess = {
