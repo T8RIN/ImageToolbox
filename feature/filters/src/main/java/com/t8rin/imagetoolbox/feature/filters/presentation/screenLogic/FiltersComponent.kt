@@ -36,6 +36,12 @@ import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.value.Value
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -91,6 +97,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
 import android.graphics.Color as NativeColor
 import android.graphics.Paint as NativePaint
 
@@ -196,15 +203,24 @@ class FiltersComponent @AssistedInject internal constructor(
         _isSelectionFilterPickerVisible.update { false }
     }
 
-    private val _isTemplateManagerVisible = mutableStateOf(false)
-    val isTemplateManagerVisible by _isTemplateManagerVisible
+    private val templateNavigation = StackNavigation<FiltersDestination>()
+
+    internal val childStack: Value<ChildStack<FiltersDestination, FiltersDestination>> by lazy {
+        childStack(
+            source = templateNavigation,
+            initialConfiguration = FiltersDestination.Main,
+            serializer = FiltersDestination.serializer(),
+            handleBackButton = true,
+            childFactory = { configuration, _ -> configuration }
+        )
+    }
 
     fun showTemplateManager() {
-        _isTemplateManagerVisible.update { true }
+        templateNavigation.pushNew(FiltersDestination.TemplateManager)
     }
 
     fun hideTemplateManager() {
-        _isTemplateManagerVisible.update { false }
+        templateNavigation.pop()
     }
 
     private val _canSave = mutableStateOf(false)
@@ -1222,4 +1238,14 @@ class FiltersComponent @AssistedInject internal constructor(
             onNavigate: (Screen) -> Unit,
         ): FiltersComponent
     }
+}
+
+@Serializable
+internal sealed interface FiltersDestination {
+
+    @Serializable
+    data object Main : FiltersDestination
+
+    @Serializable
+    data object TemplateManager : FiltersDestination
 }

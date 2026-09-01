@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.scale
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.essenty.backhandler.BackHandler
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
 fun fancySlideTransition(
     isForward: Boolean,
@@ -71,10 +70,10 @@ fun fancySlideTransition(
     )
 }
 
-fun <NavigationChild : Any> toolboxPredictiveBackAnimation(
+fun <Configuration : Any, NavigationChild : Any> toolboxPredictiveBackAnimation(
     backHandler: BackHandler,
     onBack: () -> Unit
-): StackAnimation<Screen, NavigationChild>? = predictiveBackAnimation(
+): StackAnimation<Configuration, NavigationChild> = predictiveBackAnimation(
     backHandler = backHandler,
     onBack = onBack,
     fallbackAnimation = stackAnimation(

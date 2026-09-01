@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -101,7 +100,6 @@ fun FilterTemplateManager(
     creationComponent: FilterTemplateCreationSheetComponent,
     onGoBack: () -> Unit
 ) {
-    BackHandler(onBack = onGoBack)
     component.AttachLifecycle()
 
     val templates by component.templatesFlow.collectAsStateWithLifecycle()

@@ -42,18 +42,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.FilterTemplateManager
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
-import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
+import com.t8rin.imagetoolbox.core.ui.utils.animation.toolboxPredictiveBackAnimation
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvideFilterPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
-import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -80,34 +81,34 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.components.FiltersCon
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.FiltersContentSheets
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.FiltersContentTopAppBarActions
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
+import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersDestination
 
 @Composable
 fun FiltersContent(
     component: FiltersComponent
 ) {
-    val screenWidthPx = LocalScreenSize.current.widthPx
+    val childStack by component.childStack.subscribeAsState()
 
-    AnimatedContent(
-        targetState = component.isTemplateManagerVisible,
-        transitionSpec = {
-            fancySlideTransition(
-                isForward = targetState,
-                screenWidthPx = screenWidthPx,
-                duration = 400
+    Children(
+        stack = childStack,
+        modifier = Modifier.fillMaxSize(),
+        animation = remember(component) {
+            toolboxPredictiveBackAnimation(
+                backHandler = component.backHandler,
+                onBack = component::hideTemplateManager
             )
         },
-        modifier = Modifier.fillMaxSize()
-    ) { isTemplateManagerVisible ->
-        if (isTemplateManagerVisible) {
-            FilterTemplateManager(
-                component = component.addFiltersSheetComponent,
-                creationComponent = component.filterTemplateCreationSheetComponent,
-                onGoBack = component::hideTemplateManager
-            )
-        } else {
-            FiltersMainContent(component)
+        content = { child ->
+            when (child.instance) {
+                FiltersDestination.Main -> FiltersMainContent(component)
+                FiltersDestination.TemplateManager -> FilterTemplateManager(
+                    component = component.addFiltersSheetComponent,
+                    creationComponent = component.filterTemplateCreationSheetComponent,
+                    onGoBack = component::hideTemplateManager
+                )
+            }
         }
-    }
+    )
 }
 
 @Composable
