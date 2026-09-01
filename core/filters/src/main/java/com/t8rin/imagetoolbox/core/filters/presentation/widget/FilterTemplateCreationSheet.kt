@@ -140,7 +140,7 @@ fun FilterTemplateCreationSheet(
         },
         confirmButton = {
             EnhancedButton(
-                enabled = canSave && component.templateName.isNotEmpty(),
+                enabled = canSave && component.templateName.isNotBlank(),
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
                     component.saveTemplate(initialTemplateFilter) { templateFilter ->
@@ -406,7 +406,9 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
     }
 
     fun updateTemplateName(newName: String) {
-        _templateName.update { newName.filter { it.isLetter() || it.isWhitespace() }.trim() }
+        _templateName.update {
+            newName.filterNot(Char::isISOControl)
+        }
     }
 
     private fun updatePreview() {
@@ -464,7 +466,7 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
         onComplete: (TemplateFilter) -> Unit
     ) {
         val templateFilter = TemplateFilter(
-            name = templateName,
+            name = templateName.trim(),
             filters = filterList
         )
         componentScope.launch {

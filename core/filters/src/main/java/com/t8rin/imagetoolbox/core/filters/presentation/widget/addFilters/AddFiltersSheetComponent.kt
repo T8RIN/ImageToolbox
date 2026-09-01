@@ -274,7 +274,12 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     }
 
     fun createTemplateFilename(templateFilter: TemplateFilter?): String {
-        return "template(${templateFilter?.name ?: "filter"})${timestamp()}.${TEMPLATE_EXT}"
+        val templateName = templateFilter?.name
+            ?.trim()
+            ?.replace(Regex("""[\\/:*?"<>|]"""), "_")
+            ?.ifBlank { "filter" }
+            ?: "filter"
+        return "template($templateName)${timestamp()}.${TEMPLATE_EXT}"
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
