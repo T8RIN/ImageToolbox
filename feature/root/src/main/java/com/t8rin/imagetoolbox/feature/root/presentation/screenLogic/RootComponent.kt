@@ -40,7 +40,6 @@ import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
-import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
@@ -88,7 +87,6 @@ class RootComponent @AssistedInject internal constructor(
     private val analyticsManager: AnalyticsManager,
     private val client: HttpClient,
     private val filterParamsInteractor: FilterParamsInteractor,
-    private val fileController: FileController,
     internal val appHistoryRepository: AppHistoryRepository,
     autoCacheCleanupUseCase: AutoCacheCleanupUseCase,
     dispatchersHolder: DispatchersHolder,
