@@ -1195,6 +1195,14 @@
     <string name="color_to_ignore">Цвет для игнорирования</string>
     <string name="template">Шаблон</string>
     <string name="no_template_filters">Нет добавленных шаблонных фильтров</string>
+    <string name="manage_filter_templates">Управление шаблонами</string>
+    <string name="manage_filter_templates_sub">Импорт, экспорт, отправка, дублирование и удаление шаблонов фильтров</string>
+    <string name="import_templates">Импортировать шаблоны</string>
+    <string name="imported_filter_templates">Импортировано шаблонов фильтров: %1$d</string>
+    <string name="template_filters_count">Фильтров: %1$d</string>
+    <string name="template_copy_name">%1$s копия</string>
+    <string name="delete_templates">Удалить шаблоны</string>
+    <string name="delete_templates_warning">Удалить выбранные шаблоны (%1$d)? Это действие нельзя отменить.</string>
     <string name="create_new">Создать новый</string>
     <string name="scanned_qr_code_isnt_filter_template">Сканированный QR-код не является допустимым шаблоном фильтра</string>
     <string name="scan_qr_code">Сканировать QR-код</string>

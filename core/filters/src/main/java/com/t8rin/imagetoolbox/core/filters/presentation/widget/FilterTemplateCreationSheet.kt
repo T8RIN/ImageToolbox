@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheet
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFiltersSheetComponent
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
@@ -110,7 +110,8 @@ fun FilterTemplateCreationSheet(
     component: FilterTemplateCreationSheetComponent,
     visible: Boolean,
     onDismiss: () -> Unit,
-    initialTemplateFilter: TemplateFilter? = null
+    initialTemplateFilter: TemplateFilter? = null,
+    onSave: (TemplateFilter) -> Unit = {}
 ) {
     val previewModel = LocalFilterPreviewModelProvider.current.preview
 
@@ -142,8 +143,10 @@ fun FilterTemplateCreationSheet(
                 enabled = canSave && component.templateName.isNotEmpty(),
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 onClick = {
-                    component.saveTemplate(initialTemplateFilter)
-                    onDismiss()
+                    component.saveTemplate(initialTemplateFilter) { templateFilter ->
+                        onSave(templateFilter)
+                        onDismiss()
+                    }
                 }
             ) {
                 Text(stringResource(id = R.string.save))
@@ -456,17 +459,20 @@ class FilterTemplateCreationSheetComponent @AssistedInject internal constructor(
         updatePreview()
     }
 
-    fun saveTemplate(initialTemplateFilter: TemplateFilter?) {
+    fun saveTemplate(
+        initialTemplateFilter: TemplateFilter?,
+        onComplete: (TemplateFilter) -> Unit
+    ) {
+        val templateFilter = TemplateFilter(
+            name = templateName,
+            filters = filterList
+        )
         componentScope.launch {
-            if (initialTemplateFilter != null) {
-                filterParamsInteractor.removeTemplateFilter(initialTemplateFilter)
-            }
             filterParamsInteractor.addTemplateFilter(
-                TemplateFilter(
-                    name = templateName,
-                    filters = filterList
-                )
+                templateFilter = templateFilter,
+                replacing = initialTemplateFilter
             )
+            onComplete(templateFilter)
         }
     }
 

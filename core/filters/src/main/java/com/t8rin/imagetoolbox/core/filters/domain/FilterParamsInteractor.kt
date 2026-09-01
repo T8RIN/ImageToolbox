@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.filters.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import kotlinx.coroutines.flow.Flow
@@ -32,7 +33,10 @@ interface FilterParamsInteractor {
 
     suspend fun toggleFavorite(filter: Filter<*>)
 
-    suspend fun addTemplateFilter(templateFilter: TemplateFilter)
+    suspend fun addTemplateFilter(
+        templateFilter: TemplateFilter,
+        replacing: TemplateFilter? = null
+    )
 
     fun getTemplateFilters(): Flow<List<TemplateFilter>>
 
@@ -50,6 +54,13 @@ interface FilterParamsInteractor {
         uri: String,
         onSuccess: suspend (filterName: String, filtersCount: Int) -> Unit,
         onFailure: suspend () -> Unit
+    )
+
+    suspend fun addTemplateFiltersFromUris(uris: List<String>): List<TemplateFilter>
+
+    suspend fun exportTemplateFilters(
+        templateFilters: List<TemplateFilter>,
+        destination: Writeable
     )
 
     fun isValidTemplateFilter(string: String): Boolean

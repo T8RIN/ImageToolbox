@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePicker
@@ -77,11 +77,19 @@ internal fun FiltersContentNoData(
             modifier = Modifier.fillMaxWidth()
         )
     }
+    val preference3 = @Composable {
+        TemplateManagerPreference(
+            onClick = component::showTemplateManager,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
     if (isPortrait) {
         Column {
             preference1()
             Spacer(modifier = Modifier.height(8.dp))
             preference2()
+            Spacer(modifier = Modifier.height(8.dp))
+            preference3()
         }
     } else {
         val direction = LocalLayoutDirection.current
@@ -99,6 +107,8 @@ internal fun FiltersContentNoData(
             preference1.withModifier(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.width(8.dp))
             preference2.withModifier(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.width(8.dp))
+            preference3.withModifier(modifier = Modifier.weight(1f))
         }
     }
 

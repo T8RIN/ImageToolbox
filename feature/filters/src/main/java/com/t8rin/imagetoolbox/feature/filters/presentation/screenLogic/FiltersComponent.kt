@@ -196,6 +196,17 @@ class FiltersComponent @AssistedInject internal constructor(
         _isSelectionFilterPickerVisible.update { false }
     }
 
+    private val _isTemplateManagerVisible = mutableStateOf(false)
+    val isTemplateManagerVisible by _isTemplateManagerVisible
+
+    fun showTemplateManager() {
+        _isTemplateManagerVisible.update { true }
+    }
+
+    fun hideTemplateManager() {
+        _isTemplateManagerVisible.update { false }
+    }
+
     private val _canSave = mutableStateOf(false)
     val canSave by _canSave
 

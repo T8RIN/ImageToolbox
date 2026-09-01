@@ -65,7 +65,9 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 
 class AddFiltersSheetComponent @AssistedInject internal constructor(
@@ -271,8 +273,8 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }
 
-    fun createTemplateFilename(templateFilter: TemplateFilter): String {
-        return "template(${templateFilter.name})${timestamp()}.${TEMPLATE_EXT}"
+    fun createTemplateFilename(templateFilter: TemplateFilter?): String {
+        return "template(${templateFilter?.name ?: "filter"})${timestamp()}.${TEMPLATE_EXT}"
     }
 
     fun reorderFavoriteFilters(value: List<UiFilter<*>>) {
@@ -322,9 +324,14 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
         }
     }.getOrNull()
 
+    private val _isTemplatesLoading: MutableState<Boolean> = mutableStateOf(true)
+    val isTemplatesLoading by _isTemplatesLoading
+
     val templatesFlow: StateFlow<List<TemplateFilter>> = favoriteInteractor.getTemplateFilters()
         .map { list ->
             list.sortedBy { it.name }
+        }.onEach {
+            _isTemplatesLoading.update { false }
         }.stateIn(
             scope = componentScope,
             started = SharingStarted.Lazily,
@@ -346,6 +353,29 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
     fun removeTemplateFilter(templateFilter: TemplateFilter) {
         componentScope.launch {
             favoriteInteractor.removeTemplateFilter(templateFilter)
+        }
+    }
+
+    fun removeTemplateFilters(templateFilters: List<TemplateFilter>) {
+        componentScope.launch {
+            templateFilters.forEach {
+                favoriteInteractor.removeTemplateFilter(it)
+            }
+        }
+    }
+
+    fun duplicateTemplateFilter(templateFilter: TemplateFilter) {
+        componentScope.launch {
+            val templates = favoriteInteractor.getTemplateFilters().first()
+            var name = resourceManager.getString(
+                R.string.template_copy_name,
+                templateFilter.name
+            )
+            while (templates.any { it.name == name }) {
+                name = resourceManager.getString(R.string.template_copy_name, name)
+            }
+            favoriteInteractor.addTemplateFilter(templateFilter.copy(name = name))
+            AppToastHost.showConfetti()
         }
     }
 
@@ -397,6 +427,61 @@ class AddFiltersSheetComponent @AssistedInject internal constructor(
                         icon = Icons.Outlined.AutoFixHigh
                     )
                 }
+            )
+        }
+    }
+
+    fun importTemplateFilters(uris: List<Uri>) {
+        componentScope.launch {
+            val importedCount = favoriteInteractor.addTemplateFiltersFromUris(
+                uris = uris.map(Uri::toString)
+            ).size
+
+            if (importedCount > 0) {
+                AppToastHost.showToast(
+                    message = resourceManager.getString(
+                        R.string.imported_filter_templates,
+                        importedCount
+                    ),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            } else {
+                AppToastHost.showToast(
+                    message = resourceManager.getString(R.string.opened_file_have_no_filter_template),
+                    icon = Icons.Outlined.AutoFixHigh
+                )
+            }
+        }
+    }
+
+    fun exportTemplateFilters(
+        templateFilters: List<TemplateFilter>,
+        uri: Uri,
+        onSuccess: () -> Unit = {}
+    ) {
+        componentScope.launch {
+            fileController.writeBytes(uri.toString()) { writeable ->
+                favoriteInteractor.exportTemplateFilters(
+                    templateFilters = templateFilters,
+                    destination = writeable
+                )
+            }.also(::parseFileSaveResult)
+                .onSuccess(::registerSave)
+                .onSuccess { onSuccess() }
+        }
+    }
+
+    fun shareTemplateFilters(templateFilters: List<TemplateFilter>) {
+        componentScope.launch {
+            shareProvider.shareData(
+                writeData = { writeable ->
+                    favoriteInteractor.exportTemplateFilters(
+                        templateFilters = templateFilters,
+                        destination = writeable
+                    )
+                },
+                filename = "filter_templates_${timestamp()}.zip",
+                onComplete = AppToastHost::showConfetti
             )
         }
     }

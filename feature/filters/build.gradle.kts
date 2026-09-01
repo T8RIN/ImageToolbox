@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.feature.draw)
     implementation(projects.feature.pickColor)
     implementation(projects.feature.compare)
+    implementation(projects.feature.archiveTools)
     implementation(libs.kotlin.reflect)
     implementation(libs.aire)
     implementation(libs.trickle)
@@ -41,4 +42,5 @@ dependencies {
     implementation(libs.toolbox.jhlabs)
     implementation(libs.toolbox.gmic)
     implementation(projects.lib.ascii)
+    implementation(projects.lib.archive)
 }

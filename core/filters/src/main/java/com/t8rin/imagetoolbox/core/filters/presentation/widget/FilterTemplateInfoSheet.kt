@@ -37,9 +37,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.FilePresent
-import com.t8rin.imagetoolbox.core.resources.icons.QrCode2
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -67,12 +64,15 @@ import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.toUiFilter
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.resources.icons.FilePresent
 import com.t8rin.imagetoolbox.core.resources.icons.QrCode
+import com.t8rin.imagetoolbox.core.resources.icons.QrCode2
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.capturable
 import com.t8rin.imagetoolbox.core.ui.utils.capturable.rememberCaptureController
@@ -108,7 +108,8 @@ internal fun FilterTemplateInfoSheet(
     onRemoveTemplateFilter: (TemplateFilter) -> Unit,
     onShareFile: (content: String) -> Unit,
     onRequestTemplateFilename: () -> String,
-    onRequestFilterMapping: (UiFilter<*>) -> Transformation
+    onRequestFilterMapping: (UiFilter<*>) -> Transformation,
+    onTemplateUpdated: (TemplateFilter) -> Unit = {}
 ) {
     EnhancedModalBottomSheet(
         visible = visible,
@@ -130,13 +131,11 @@ internal fun FilterTemplateInfoSheet(
             )
         }
     ) {
-        var filterContent by rememberSaveable {
+        var filterContent by rememberSaveable(templateFilter) {
             mutableStateOf("")
         }
-        LaunchedEffect(filterContent) {
-            if (filterContent.isEmpty()) {
-                filterContent = onConvertTemplateFilterToString(templateFilter)
-            }
+        LaunchedEffect(templateFilter) {
+            filterContent = onConvertTemplateFilterToString(templateFilter)
         }
 
         var showShareDialog by rememberSaveable {
@@ -379,6 +378,7 @@ internal fun FilterTemplateInfoSheet(
             visible = showEditTemplateSheet,
             onDismiss = { showEditTemplateSheet = false },
             initialTemplateFilter = templateFilter,
+            onSave = onTemplateUpdated,
             component = component
         )
     }

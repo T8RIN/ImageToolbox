@@ -2110,6 +2110,14 @@
     <string name="color_to_ignore">Color To Ignore</string>
     <string name="template">Template</string>
     <string name="no_template_filters">No template filters added</string>
+    <string name="manage_filter_templates">Manage Templates</string>
+    <string name="manage_filter_templates_sub">Import, export, share, duplicate, or delete filter templates</string>
+    <string name="import_templates">Import Templates</string>
+    <string name="imported_filter_templates">Imported filter templates: %1$d</string>
+    <string name="template_filters_count">Filters: %1$d</string>
+    <string name="template_copy_name">%1$s Copy</string>
+    <string name="delete_templates">Delete Templates</string>
+    <string name="delete_templates_warning">Delete %1$d selected template(s)? This cannot be undone.</string>
     <string name="create_new">Create New</string>
     <string name="scanned_qr_code_isnt_filter_template">The scanned QR code is not a valid filter template</string>
     <string name="scan_qr_code">Scan QR code</string>

@@ -328,26 +328,18 @@ class RootComponent @AssistedInject internal constructor(
 
         if (type is ExtraDataType.Template) {
             componentScope.launch {
-                val content = fileController.readBytes(type.uri).toString(Charsets.UTF_8)
-
-                if (filterParamsInteractor.isValidTemplateFilter(content)) {
-                    filterParamsInteractor.addTemplateFilterFromString(
-                        string = content,
-                        onSuccess = { filterName, filtersCount ->
-                            AppToastHost.showToast(
-                                message = getString(
-                                    R.string.added_filter_template,
-                                    filterName,
-                                    filtersCount
-                                ),
-                                icon = Icons.Outlined.AutoFixHigh
-                            )
-                        },
-                        onFailure = {
-                            AppToastHost.showFailureToast(getString(R.string.scanned_qr_code_isnt_filter_template))
-                        }
-                    )
-                }
+                filterParamsInteractor.addTemplateFiltersFromUris(listOf(type.uri))
+                    .firstOrNull()
+                    ?.let { templateFilter ->
+                        AppToastHost.showToast(
+                            message = getString(
+                                R.string.added_filter_template,
+                                templateFilter.name,
+                                templateFilter.filters.size
+                            ),
+                            icon = Icons.Outlined.AutoFixHigh
+                        )
+                    }
             }
             return
         }
