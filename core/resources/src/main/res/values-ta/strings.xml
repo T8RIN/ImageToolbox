@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">கட்டம்</string>
     <string name="custom_gallery_sub">கணினி கேலரிகளால் ஆதரிக்கப்படாத நவீன வடிவங்களில் படங்களை உலாவவும் மற்றும் முன்னோட்டமிடவும்</string>
     <string name="search_keywords_gallery">கேலரி புகைப்படங்கள் படங்கள் ஊடக உலாவி பார்வையாளர் நவீன வடிவங்கள்</string>
+    <string name="manage_filter_templates">டெம்ப்ளேட்களை நிர்வகிக்கவும்</string>
+    <string name="manage_filter_templates_sub">வடிகட்டி டெம்ப்ளேட்களை இறக்குமதி, ஏற்றுமதி, பகிர், நகல் அல்லது நீக்க</string>
+    <string name="import_templates">வார்ப்புருக்களை இறக்குமதி செய்யவும்</string>
+    <string name="imported_filter_templates">இறக்குமதி செய்யப்பட்ட வடிகட்டி டெம்ப்ளேட்கள்: %1$d</string>
+    <string name="template_filters_count">வடிப்பான்கள்: %1$d</string>
+    <string name="template_copy_name">%1$s நகல்</string>
+    <string name="delete_templates">டெம்ப்ளேட்களை நீக்கு</string>
+    <string name="delete_templates_warning">%1$d தேர்ந்தெடுக்கப்பட்ட டெம்ப்ளேட்டை(களை) நீக்கவா? இதை செயல்தவிர்க்க முடியாது.</string>
 </resources>

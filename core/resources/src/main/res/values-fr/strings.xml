@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Grille</string>
     <string name="custom_gallery_sub">Parcourez et prévisualisez les images dans des formats modernes non pris en charge par les galeries système</string>
     <string name="search_keywords_gallery">galerie photos images visionneuse de navigateur multimédia formats modernes</string>
+    <string name="manage_filter_templates">Gérer les modèles</string>
+    <string name="manage_filter_templates_sub">Importer, exporter, partager, dupliquer ou supprimer des modèles de filtre</string>
+    <string name="import_templates">Importer des modèles</string>
+    <string name="imported_filter_templates">Modèles de filtres importés : %1$d</string>
+    <string name="template_filters_count">Filtres : %1$d</string>
+    <string name="template_copy_name">%1$s Copie</string>
+    <string name="delete_templates">Supprimer des modèles</string>
+    <string name="delete_templates_warning">Supprimer %1$d modèle(s) sélectionné(s) ? Cela ne peut pas être annulé.</string>
 </resources>

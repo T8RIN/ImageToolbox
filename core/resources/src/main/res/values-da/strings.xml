@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Gitter</string>
     <string name="custom_gallery_sub">Gennemse og få vist billeder i moderne formater, der ikke understøttes af systemgallerier</string>
     <string name="search_keywords_gallery">galleri fotos billeder media browser viewer moderne formater</string>
+    <string name="manage_filter_templates">Administrer skabeloner</string>
+    <string name="manage_filter_templates_sub">Importer, eksporter, del, dupliker eller slet filterskabeloner</string>
+    <string name="import_templates">Importer skabeloner</string>
+    <string name="imported_filter_templates">Importerede filterskabeloner: %1$d</string>
+    <string name="template_filters_count">Filtre: %1$d</string>
+    <string name="template_copy_name">%1$s Kopi</string>
+    <string name="delete_templates">Slet skabeloner</string>
+    <string name="delete_templates_warning">Vil du slette %1$d valgte skabelon(er)? Dette kan ikke fortrydes.</string>
 </resources>

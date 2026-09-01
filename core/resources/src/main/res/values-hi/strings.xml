@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">ग्रिड</string>
     <string name="custom_gallery_sub">सिस्टम गैलरी द्वारा समर्थित आधुनिक प्रारूपों में छवियों को ब्राउज़ करें और पूर्वावलोकन करें</string>
     <string name="search_keywords_gallery">गैलरी फ़ोटो छवियाँ मीडिया ब्राउज़र दर्शक आधुनिक प्रारूप</string>
+    <string name="manage_filter_templates">टेम्प्लेट प्रबंधित करें</string>
+    <string name="manage_filter_templates_sub">फ़िल्टर टेम्प्लेट आयात करें, निर्यात करें, साझा करें, डुप्लिकेट करें या हटाएं</string>
+    <string name="import_templates">टेम्पलेट्स आयात करें</string>
+    <string name="imported_filter_templates">आयातित फ़िल्टर टेम्पलेट: %1$d</string>
+    <string name="template_filters_count">फ़िल्टर: %1$d</string>
+    <string name="template_copy_name">%1$s प्रतिलिपि</string>
+    <string name="delete_templates">टेम्प्लेट हटाएँ</string>
+    <string name="delete_templates_warning">%1$d चयनित टेम्प्लेट हटाएं? इसे असंपादित नहीं किया जा सकता है।</string>
 </resources>

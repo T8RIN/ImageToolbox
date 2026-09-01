@@ -5151,4 +5151,12 @@
     <string name="gmic_filter_grid">jaringan</string>
     <string name="custom_gallery_sub">Telusuri dan pratinjau gambar dalam format modern yang tidak didukung oleh galeri sistem</string>
     <string name="search_keywords_gallery">galeri foto gambar media browser viewer format modern</string>
+    <string name="manage_filter_templates">Kelola Templat</string>
+    <string name="manage_filter_templates_sub">Impor, ekspor, bagikan, duplikat, atau hapus templat filter</string>
+    <string name="import_templates">Impor Templat</string>
+    <string name="imported_filter_templates">Templat filter yang diimpor: %1$d</string>
+    <string name="template_filters_count">Filter: %1$d</string>
+    <string name="template_copy_name">%1$s Salin</string>
+    <string name="delete_templates">Hapus Templat</string>
+    <string name="delete_templates_warning">Hapus %1$d template yang dipilih? Hal ini tidak dapat dibatalkan.</string>
 </resources>

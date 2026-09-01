@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Rutnät</string>
     <string name="custom_gallery_sub">Bläddra och förhandsgranska bilder i moderna format som inte stöds av systemgallerier</string>
     <string name="search_keywords_gallery">galleri foton bilder media webbläsare viewer moderna format</string>
+    <string name="manage_filter_templates">Hantera mallar</string>
+    <string name="manage_filter_templates_sub">Importera, exportera, dela, duplicera eller ta bort filtermallar</string>
+    <string name="import_templates">Importera mallar</string>
+    <string name="imported_filter_templates">Importerade filtermallar: %1$d</string>
+    <string name="template_filters_count">Filter: %1$d</string>
+    <string name="template_copy_name">%1$s Kopiera</string>
+    <string name="delete_templates">Ta bort mallar</string>
+    <string name="delete_templates_warning">Ta bort %1$d valda mall(ar)? Detta kan inte ångras.</string>
 </resources>

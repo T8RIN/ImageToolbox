@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Rács</string>
     <string name="custom_gallery_sub">Böngésszen és tekintsen meg képeket a rendszergalériák által nem támogatott modern formátumokban</string>
     <string name="search_keywords_gallery">galéria fotók képek médiaböngésző néző modern formátumok</string>
+    <string name="manage_filter_templates">Sablonok kezelése</string>
+    <string name="manage_filter_templates_sub">Szűrősablonok importálása, exportálása, megosztása, másolása vagy törlése</string>
+    <string name="import_templates">Sablonok importálása</string>
+    <string name="imported_filter_templates">Importált szűrősablonok: %1$d</string>
+    <string name="template_filters_count">Szűrők: %1$d</string>
+    <string name="template_copy_name">%1$s Másolás</string>
+    <string name="delete_templates">Sablonok törlése</string>
+    <string name="delete_templates_warning">Töröl %1$d kiválasztott sablont? Ezt nem lehet visszavonni.</string>
 </resources>

@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Izgara</string>
     <string name="custom_gallery_sub">Sistem galerileri tarafından desteklenmeyen modern formatlardaki görüntülere göz atın ve önizleyin</string>
     <string name="search_keywords_gallery">galeri fotoğraflar görüntüler medya tarayıcı görüntüleyici modern formatlar</string>
+    <string name="manage_filter_templates">Şablonları Yönet</string>
+    <string name="manage_filter_templates_sub">Filtre şablonlarını içe aktarın, dışa aktarın, paylaşın, çoğaltın veya silin</string>
+    <string name="import_templates">Şablonları İçe Aktar</string>
+    <string name="imported_filter_templates">İçe aktarılan filtre şablonları: %1$d</string>
+    <string name="template_filters_count">Filtreler: %1$d</string>
+    <string name="template_copy_name">%1$s Kopyala</string>
+    <string name="delete_templates">Şablonları Sil</string>
+    <string name="delete_templates_warning">Seçilen %1$d şablon silinsin mi? Bu geri alınamaz.</string>
 </resources>

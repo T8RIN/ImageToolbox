@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">شبکه</string>
     <string name="custom_gallery_sub">تصاویر را در قالب‌های مدرن که توسط گالری‌های سیستم پشتیبانی نمی‌شوند، مرور و پیش‌نمایش کنید</string>
     <string name="search_keywords_gallery">گالری عکس تصاویر مرورگر رسانه فرمت های مدرن نمایشگر</string>
+    <string name="manage_filter_templates">مدیریت قالب ها</string>
+    <string name="manage_filter_templates_sub">قالب های فیلتر را وارد کنید، صادر کنید، به اشتراک بگذارید، کپی کنید یا حذف کنید</string>
+    <string name="import_templates">وارد کردن قالب ها</string>
+    <string name="imported_filter_templates">الگوهای فیلتر وارد شده: %1$d</string>
+    <string name="template_filters_count">فیلترها: %1$d</string>
+    <string name="template_copy_name">%1$s کپی کنید</string>
+    <string name="delete_templates">حذف قالب ها</string>
+    <string name="delete_templates_warning">%1$d الگو(های) انتخابی حذف شود؟ این قابل واگرد نیست.</string>
 </resources>

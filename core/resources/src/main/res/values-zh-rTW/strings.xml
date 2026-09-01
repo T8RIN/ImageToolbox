@@ -5151,4 +5151,12 @@
     <string name="gmic_filter_grid">網格</string>
     <string name="custom_gallery_sub">瀏覽和預覽系統圖庫不支援的現代格式的圖像</string>
     <string name="search_keywords_gallery">圖庫照片圖像媒體瀏覽器檢視器現代格式</string>
+    <string name="manage_filter_templates">管理模板</string>
+    <string name="manage_filter_templates_sub">匯入、匯出、分享、複製或刪除篩選器模板</string>
+    <string name="import_templates">導入模板</string>
+    <string name="imported_filter_templates">匯入的過濾器模板：%1$d</string>
+    <string name="template_filters_count">過濾器：%1$d</string>
+    <string name="template_copy_name">%1$s 複製</string>
+    <string name="delete_templates">刪除模板</string>
+    <string name="delete_templates_warning">刪除 %1$d 選取的模板嗎？此操作無法撤銷。</string>
 </resources>

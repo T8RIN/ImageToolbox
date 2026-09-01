@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">గ్రిడ్</string>
     <string name="custom_gallery_sub">సిస్టమ్ గ్యాలరీల ద్వారా మద్దతు లేని ఆధునిక ఫార్మాట్‌లలో చిత్రాలను బ్రౌజ్ చేయండి మరియు ప్రివ్యూ చేయండి</string>
     <string name="search_keywords_gallery">గ్యాలరీ ఫోటోలు చిత్రాలు మీడియా బ్రౌజర్ వ్యూయర్ ఆధునిక ఫార్మాట్‌లు</string>
+    <string name="manage_filter_templates">టెంప్లేట్‌లను నిర్వహించండి</string>
+    <string name="manage_filter_templates_sub">ఫిల్టర్ టెంప్లేట్‌లను దిగుమతి చేయండి, ఎగుమతి చేయండి, భాగస్వామ్యం చేయండి, నకిలీ చేయండి లేదా తొలగించండి</string>
+    <string name="import_templates">టెంప్లేట్‌లను దిగుమతి చేయండి</string>
+    <string name="imported_filter_templates">దిగుమతి చేయబడిన ఫిల్టర్ టెంప్లేట్‌లు: %1$d</string>
+    <string name="template_filters_count">ఫిల్టర్‌లు: %1$d</string>
+    <string name="template_copy_name">%1$s కాపీ</string>
+    <string name="delete_templates">టెంప్లేట్‌లను తొలగించండి</string>
+    <string name="delete_templates_warning">%1$d ఎంచుకున్న టెంప్లేట్(ల)ని తొలగించాలా? ఇది రద్దు చేయబడదు.</string>
 </resources>

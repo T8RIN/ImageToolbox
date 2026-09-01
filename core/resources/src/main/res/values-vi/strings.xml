@@ -5151,4 +5151,12 @@
     <string name="gmic_filter_grid">Lưới</string>
     <string name="custom_gallery_sub">Duyệt và xem trước hình ảnh ở các định dạng hiện đại không được thư viện hệ thống hỗ trợ</string>
     <string name="search_keywords_gallery">thư viện ảnh hình ảnh trình duyệt phương tiện xem định dạng hiện đại</string>
+    <string name="manage_filter_templates">Quản lý mẫu</string>
+    <string name="manage_filter_templates_sub">Nhập, xuất, chia sẻ, sao chép hoặc xóa mẫu bộ lọc</string>
+    <string name="import_templates">Nhập mẫu</string>
+    <string name="imported_filter_templates">Mẫu bộ lọc đã nhập: %1$d</string>
+    <string name="template_filters_count">Bộ lọc: %1$d</string>
+    <string name="template_copy_name">%1$s Sao chép</string>
+    <string name="delete_templates">Xóa mẫu</string>
+    <string name="delete_templates_warning">Xóa %1$d mẫu đã chọn? Điều này không thể hoàn tác được.</string>
 </resources>

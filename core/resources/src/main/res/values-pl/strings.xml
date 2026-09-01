@@ -5154,4 +5154,12 @@
     <string name="gmic_filter_grid">Siatka</string>
     <string name="custom_gallery_sub">Przeglądaj i przeglądaj obrazy w nowoczesnych formatach nieobsługiwanych przez galerie systemowe</string>
     <string name="search_keywords_gallery">galeria zdjęć obrazy przeglądarka multimediów nowoczesne formaty</string>
+    <string name="manage_filter_templates">Zarządzaj szablonami</string>
+    <string name="manage_filter_templates_sub">Importuj, eksportuj, udostępniaj, duplikuj lub usuwaj szablony filtrów</string>
+    <string name="import_templates">Importuj szablony</string>
+    <string name="imported_filter_templates">Zaimportowane szablony filtrów: %1$d</string>
+    <string name="template_filters_count">Filtry: %1$d</string>
+    <string name="template_copy_name">%1$s Kopia</string>
+    <string name="delete_templates">Usuń szablony</string>
+    <string name="delete_templates_warning">Usunąć %1$d wybrane szablony? Tego nie można cofnąć.</string>
 </resources>

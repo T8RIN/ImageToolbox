@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Red</string>
     <string name="custom_gallery_sub">Explore y obtenga una vista previa de imágenes en formatos modernos no compatibles con las galerías del sistema.</string>
     <string name="search_keywords_gallery">galería fotos imágenes medios navegador visor formatos modernos</string>
+    <string name="manage_filter_templates">Administrar plantillas</string>
+    <string name="manage_filter_templates_sub">Importar, exportar, compartir, duplicar o eliminar plantillas de filtro</string>
+    <string name="import_templates">Importar plantillas</string>
+    <string name="imported_filter_templates">Plantillas de filtro importadas: %1$d</string>
+    <string name="template_filters_count">Filtros: %1$d</string>
+    <string name="template_copy_name">%1$s Copiar</string>
+    <string name="delete_templates">Eliminar plantillas</string>
+    <string name="delete_templates_warning">¿Eliminar %1$d plantillas seleccionadas? Esto no se puede deshacer.</string>
 </resources>

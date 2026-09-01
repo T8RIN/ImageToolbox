@@ -5151,4 +5151,12 @@
     <string name="gmic_filter_grid">그리드</string>
     <string name="custom_gallery_sub">시스템 갤러리에서 지원하지 않는 최신 형식의 이미지 찾아보기 및 미리보기</string>
     <string name="search_keywords_gallery">갤러리 사진 이미지 미디어 브라우저 뷰어 현대 형식</string>
+    <string name="manage_filter_templates">템플릿 관리</string>
+    <string name="manage_filter_templates_sub">필터 템플릿 가져오기, 내보내기, 공유, 복제 또는 삭제</string>
+    <string name="import_templates">템플릿 가져오기</string>
+    <string name="imported_filter_templates">가져온 필터 템플릿: %1$d</string>
+    <string name="template_filters_count">필터: %1$d</string>
+    <string name="template_copy_name">%1$s 복사</string>
+    <string name="delete_templates">템플릿 삭제</string>
+    <string name="delete_templates_warning">%1$d 선택한 템플릿을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.</string>
 </resources>

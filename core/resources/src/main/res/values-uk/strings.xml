@@ -5154,4 +5154,12 @@
     <string name="gmic_filter_grid">Сітка</string>
     <string name="custom_gallery_sub">Огляд і попередній перегляд зображень у сучасних форматах, які не підтримуються системними галереями</string>
     <string name="search_keywords_gallery">галерея фотографії зображення медіа браузер переглядач сучасні формати</string>
+    <string name="manage_filter_templates">Керування шаблонами</string>
+    <string name="manage_filter_templates_sub">Імпортуйте, експортуйте, діліться, дублюйте або видаляйте шаблони фільтрів</string>
+    <string name="import_templates">Імпортувати шаблони</string>
+    <string name="imported_filter_templates">Імпортовані шаблони фільтрів: %1$d</string>
+    <string name="template_filters_count">Фільтри: %1$d</string>
+    <string name="template_copy_name">%1$s Копія</string>
+    <string name="delete_templates">Видалити шаблони</string>
+    <string name="delete_templates_warning">Видалити %1$d вибраних шаблонів? Це неможливо скасувати.</string>
 </resources>

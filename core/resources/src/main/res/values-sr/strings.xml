@@ -5153,4 +5153,12 @@
     <string name="gmic_filter_grid">Грид</string>
     <string name="custom_gallery_sub">Прегледајте и прегледајте слике у модерним форматима које системске галерије не подржавају</string>
     <string name="search_keywords_gallery">галерија фотографије слике медија претраживач прегледач модерних формата</string>
+    <string name="manage_filter_templates">Управљајте шаблонима</string>
+    <string name="manage_filter_templates_sub">Увезите, извезите, делите, дуплирајте или избришите шаблоне филтера</string>
+    <string name="import_templates">Импорт Темплатес</string>
+    <string name="imported_filter_templates">Увезени шаблони филтера: __ПХ_0__</string>
+    <string name="template_filters_count">Филтери: __ПХ_0__</string>
+    <string name="template_copy_name">__ПХ_0__ Копирај</string>
+    <string name="delete_templates">Делете Темплатес</string>
+    <string name="delete_templates_warning">Желите ли да избришете __ПХ_0__ изабране шаблоне? Ово се не може поништити.</string>
 </resources>

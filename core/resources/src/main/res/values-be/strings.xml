@@ -5154,4 +5154,12 @@
     <string name="gmic_filter_grid">Сетка</string>
     <string name="custom_gallery_sub">Прагляд і папярэдні прагляд малюнкаў у сучасных фарматах, якія не падтрымліваюцца сістэмнымі галерэямі</string>
     <string name="search_keywords_gallery">галерэя фотаздымкі выявы медыяпраглядальнік сучасныя фарматы</string>
+    <string name="manage_filter_templates">Кіраванне шаблонамі</string>
+    <string name="manage_filter_templates_sub">Імпартаваць, экспартаваць, дзяліцца, дубліраваць або выдаляць шаблоны фільтраў</string>
+    <string name="import_templates">Імпартаваць шаблоны</string>
+    <string name="imported_filter_templates">Імпартаваныя шаблоны фільтраў: %1$d</string>
+    <string name="template_filters_count">Фільтры: %1$d</string>
+    <string name="template_copy_name">%1$s Копія</string>
+    <string name="delete_templates">Выдаліць шаблоны</string>
+    <string name="delete_templates_warning">Выдаліць %1$d выбраных шаблонаў? Гэта нельга адмяніць.</string>
 </resources>

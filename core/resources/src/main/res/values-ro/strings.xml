@@ -5153,4 +5153,12 @@
     <string name="gmic_filter_grid">Grilă</string>
     <string name="custom_gallery_sub">Răsfoiți și previzualizați imaginile în formate moderne neacceptate de galeriile de sistem</string>
     <string name="search_keywords_gallery">galerie fotografii imagini media browser vizualizator formate moderne</string>
+    <string name="manage_filter_templates">Gestionați șabloanele</string>
+    <string name="manage_filter_templates_sub">Importați, exportați, partajați, duplicați sau ștergeți șabloanele de filtre</string>
+    <string name="import_templates">Importați șabloane</string>
+    <string name="imported_filter_templates">Șabloane de filtre importate: %1$d</string>
+    <string name="template_filters_count">Filtre: %1$d</string>
+    <string name="template_copy_name">%1$s Copiați</string>
+    <string name="delete_templates">Ștergeți șabloanele</string>
+    <string name="delete_templates_warning">Ștergeți %1$d șabloane selectate? Acest lucru nu poate fi anulat.</string>
 </resources>

@@ -5152,4 +5152,12 @@
     <string name="gmic_filter_grid">Ruudukko</string>
     <string name="custom_gallery_sub">Selaa ja esikatsele kuvia nykyaikaisissa muodoissa, joita järjestelmägalleriat eivät tue</string>
     <string name="search_keywords_gallery">galleria valokuvat kuvat mediaselain katseluohjelma modernit muodot</string>
+    <string name="manage_filter_templates">Hallinnoi malleja</string>
+    <string name="manage_filter_templates_sub">Tuo, vie, jaa, monista tai poista suodatinmalleja</string>
+    <string name="import_templates">Tuo mallit</string>
+    <string name="imported_filter_templates">Tuodut suodatinmallit: %1$d</string>
+    <string name="template_filters_count">Suodattimet: %1$d</string>
+    <string name="template_copy_name">%1$s Kopioi</string>
+    <string name="delete_templates">Poista mallit</string>
+    <string name="delete_templates_warning">Poistetaanko %1$d valittua mallia? Tätä ei voi kumota.</string>
 </resources>
