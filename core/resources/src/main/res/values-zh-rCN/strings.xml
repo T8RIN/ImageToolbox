@@ -3678,7 +3678,7 @@
     <string name="batch_rename_failed">某些文件无法重命名</string>
     <string name="permission_not_granted">未获得许可</string>
     <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。还支持使用 \\o{start:end} 进行切片、使用 \\o{t} 进行音译以及使用 \\o{s/old/new/} 进行替换。</string>
-    <string name="sequence_number_pattern_description">自动递增计数器。支持自定义格式：\\c{padding}（例如 \\c{3} -&amp;gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
+    <string name="sequence_number_pattern_description">自动递增计数器。支持自定义格式：\\c{padding}（例如 \\c{3} -&gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
     <string name="parent_folder_pattern_description">原始文件所在的父文件夹的名称。</string>
     <string name="file_size_pattern_description">原始文件的大小。支持单位：\\z{b}、\\z{kb}、\\z{mb} 或仅 \\z 以供人类可读格式。</string>
     <string name="uuid_pattern_description">生成随机的通用唯一标识符 (UUID) 以确保文件名的唯一性。</string>
@@ -5157,4 +5157,29 @@
     <string name="template_copy_name">%1$s 复制</string>
     <string name="delete_templates">删除模板</string>
     <string name="delete_templates_warning">删除 %1$d 选定的模板吗？此操作无法撤消。</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
