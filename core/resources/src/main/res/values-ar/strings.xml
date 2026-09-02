@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -3280,7 +3278,7 @@
     <string name="export_profiles">تصدير الملفات الشخصية</string>
     <string name="save_export_profile">حفظ الملف الشخصي الحالي</string>
     <string name="delete_export_profile">حذف ملف تعريف التصدير</string>
-    <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \\"%1$s\\"؟</string>
+    <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \\\"%1$s\\\"؟</string>
     <string name="draw_bitmap_border">رسم الحدود</string>
     <string name="draw_bitmap_border_sub">إظهار حد رفيع حول لوحة الرسم ومسح القماش</string>
     <string name="wavy">مائج</string>
@@ -3685,7 +3683,7 @@
     <string name="batch_rename_failed">لا يمكن إعادة تسمية بعض الملفات</string>
     <string name="permission_not_granted">لم يتم منح الإذن</string>
     <string name="original_filename_pattern_description">يستخدم اسم الملف الأصلي بدون امتداد، مما يساعدك على الحفاظ على تعريف المصدر سليمًا. ويدعم أيضًا التقطيع باستخدام \\o{start:end} والترجمة الصوتية باستخدام \\o{t} والاستبدال بـ \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">عداد الزيادة التلقائية. يدعم التنسيق المخصص: \\c{padding} (على سبيل المثال \\c{3} -&amp;gt; 001)، \\c{start:step} أو \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">عداد الزيادة التلقائية. يدعم التنسيق المخصص: \\c{padding} (على سبيل المثال \\c{3} -&gt; 001)، \\c{start:step} أو \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">اسم المجلد الأصلي حيث يوجد الملف الأصلي.</string>
     <string name="file_size_pattern_description">حجم الملف الأصلي. يدعم الوحدات: \\z{b}، \\z{kb}، \\z{mb} أو \\z فقط للتنسيق الذي يمكن قراءته بواسطة الإنسان.</string>
     <string name="uuid_pattern_description">ينشئ معرفًا فريدًا عالميًا عشوائيًا (UUID) لضمان تفرد اسم الملف.</string>
@@ -5164,4 +5162,29 @@
     <string name="template_copy_name">%1$s نسخ</string>
     <string name="delete_templates">حذف القوالب</string>
     <string name="delete_templates_warning">هل تريد حذف %1$d من النماذج المحددة؟ لا يمكن التراجع عن هذا.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
