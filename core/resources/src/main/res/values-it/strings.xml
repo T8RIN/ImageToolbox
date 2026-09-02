@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
     <string name="loading">Caricamento…</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Profili di esportazione</string>
     <string name="save_export_profile">Salva il profilo corrente</string>
     <string name="delete_export_profile">Elimina il profilo di esportazione</string>
-    <string name="delete_export_profile_sub">Vuoi eliminare il profilo di esportazione \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Vuoi eliminare il profilo di esportazione \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border_sub">Mostra un bordo sottile attorno al disegno e cancella la tela</string>
     <string name="draw_bitmap_border">Bordo del disegno</string>
     <string name="wavy">Ondulato</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Impossibile rinominare alcuni file</string>
     <string name="permission_not_granted">Il permesso non è stato concesso</string>
     <string name="original_filename_pattern_description">Utilizza il nome del file originale senza estensione, aiutandoti a mantenere intatta l\'identificazione della fonte. Supporta anche l\'affettatura con \\o{start:end}, la traslitterazione con \\o{t} e la sostituzione con \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Contatore ad incremento automatico. Supporta la formattazione personalizzata: \\c{padding} (ad esempio \\c{3} -&amp;gt; 001), \\c{start:step} o \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Contatore ad incremento automatico. Supporta la formattazione personalizzata: \\c{padding} (ad esempio \\c{3} -&gt; 001), \\c{start:step} o \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Il nome della cartella principale in cui si trovava il file originale.</string>
     <string name="file_size_pattern_description">La dimensione del file originale. Supporta le unità: \\z{b}, \\z{kb}, \\z{mb} o semplicemente \\z per il formato leggibile dall\'uomo.</string>
     <string name="uuid_pattern_description">Genera un identificatore univoco universale (UUID) casuale per garantire l\'unicità del nome file.</string>
@@ -5034,7 +5032,7 @@
     <string name="palette_pdf_show_filename">Mostra il nome del file di origine</string>
     <string name="palette_pdf_show_filename_sub">Inserisci il nome del file di origine nella parte superiore di ogni pagina</string>
     <string name="palette_pdf_show_palette_name">Mostra il nome della tavolozza</string>
-    <string name="palette_pdf_show_palette_name_sub" />
+    <string name="palette_pdf_show_palette_name_sub"/>
     <string name="palette_pdf_selected_file">File tavolozza selezionato</string>
     <string name="palette_pdf_page_margin">Margini della pagina</string>
     <string name="palette_pdf_color_spacing">Spaziatura dei colori</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s Copia</string>
     <string name="delete_templates">Elimina modelli</string>
     <string name="delete_templates_warning">Eliminare i %1$d modelli selezionati? Questa operazione non può essere annullata.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
