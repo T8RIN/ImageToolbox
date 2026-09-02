@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="restart_app">Restart app</string>
     <string name="about_app">About app</string>
     <string name="no_updates">No poboljšati pronađen</string>
@@ -3277,7 +3275,7 @@
     <string name="export_profiles">Извези профиле</string>
     <string name="save_export_profile">Сачувајте тренутни профил</string>
     <string name="delete_export_profile">Избришите профил за извоз</string>
-    <string name="delete_export_profile_sub">Да ли желите да избришете профил за извоз \\"__ПХ_0__\\"?</string>
+    <string name="delete_export_profile_sub">Да ли желите да избришете профил за извоз \\\"__ПХ_0__\\\"?</string>
     <string name="draw_bitmap_border">Цртање границе</string>
     <string name="draw_bitmap_border_sub">Покажите танку ивицу око платна за цртање и брисање</string>
     <string name="wavy">Таласаста</string>
@@ -3682,7 +3680,7 @@
     <string name="batch_rename_failed">Неке датотеке се не могу преименовати</string>
     <string name="permission_not_granted">Дозвола није дата</string>
     <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом. Такође подржава сечење са \\о{старт:енд}, транслитерацију са \\о{т} и замену са \\о{с/олд/нев/}.</string>
-    <string name="sequence_number_pattern_description">Бројач са аутоматским повећањем. Подржава прилагођено форматирање: \\ц{паддинг} (нпр. \\ц{3} -&amp;gt; 001), \\ц{старт:степ} или \\ц{старт:степ:паддинг}.</string>
+    <string name="sequence_number_pattern_description">Бројач са аутоматским повећањем. Подржава прилагођено форматирање: \\ц{паддинг} (нпр. \\ц{3} -&gt; 001), \\ц{старт:степ} или \\ц{старт:степ:паддинг}.</string>
     <string name="parent_folder_pattern_description">Име надређене фасцикле у којој се налазила оригинална датотека.</string>
     <string name="file_size_pattern_description">Величина оригиналне датотеке. Подржава јединице: \\з{б}, \\з{кб}, \\з{мб} или само \\з за људски читљив формат.</string>
     <string name="uuid_pattern_description">Генерише насумични универзално јединствени идентификатор (УУИД) да би се обезбедила јединственост имена датотеке.</string>
@@ -4649,7 +4647,7 @@
     <string name="gmic_filter_equalize_shadow">Екуализе Схадов</string>
     <string name="gmic_filter_fill_holes">Попуните рупе</string>
     <string name="gmic_filter_fish_eye">Рибље око</string>
-    <string name="gmic_filter_freaky_black_and_white">Фреаки Б&amp;amp;В</string>
+    <string name="gmic_filter_freaky_black_and_white">Фреаки Б&amp;В</string>
     <string name="gmic_filter_hedcut">Хедцут</string>
     <string name="gmic_filter_hessian_sharpen">Хессиан Схарпен</string>
     <string name="gmic_param_recompute">Рецомпуте</string>
@@ -5161,4 +5159,29 @@
     <string name="template_copy_name">__ПХ_0__ Копирај</string>
     <string name="delete_templates">Делете Темплатес</string>
     <string name="delete_templates_warning">Желите ли да избришете __ПХ_0__ изабране шаблоне? Ово се не може поништити.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
