@@ -106,41 +106,31 @@ class CodePreviewBitmapRendererTest {
 
     @Test
     fun allCodeThemesCanBeResolved() {
-        assertEquals(57, CodePreviewTheme.entries.size)
-        CodePreviewTheme.entries.forEach(CodePreviewTheme::highlightTheme)
+        assertEquals(256, CodePreviewTheme.entries.size)
+        CodePreviewTheme.entries.forEach { theme ->
+            assertFalse(theme.highlightTheme().backgroundColor == ComposeColor.Unspecified)
+            assertFalse(theme.highlightTheme().defaultTextColor == ComposeColor.Unspecified)
+        }
     }
 
     @Test
-    fun materialThemeUiThemesAreAvailable() {
+    fun highlightJsThemeFamiliesAreAvailable() {
+        assertEquals("Dracula", CodePreviewTheme.Dracula.title)
+        assertEquals("Tomorrow Night", CodePreviewTheme.TomorrowNight.title)
+
         val expectedThemes = setOf(
-            "Material Oceanic",
-            "Material Darker",
-            "Material Palenight",
-            "Material Deep Ocean",
-            "Material Forest",
-            "Material Volcano",
-            "Material Space",
-            "Monokai Pro (Material)",
-            "Arc Dark (Material)",
-            "GitHub Dark (Material)",
-            "Atom One Dark (Material)",
-            "Dracula (Material)",
-            "Solarized Dark (Material)",
-            "Night Owl (Material)",
-            "Moonlight (Material)",
-            "SynthWave '84 (Material)",
-            "Material Lighter",
-            "Material Sky Blue",
-            "Material Sandy Beach",
-            "GitHub (Material)",
-            "Atom One Light (Material)",
-            "Solarized Light (Material)",
-            "Light Owl (Material)"
+            "atom-one-dark",
+            "github-dark",
+            "night-owl",
+            "base16/dracula",
+            "base16/material-palenight",
+            "base16/solarized-light",
+            "base16/windows-95"
         )
-        val actualThemes = CodePreviewTheme.entries.mapTo(mutableSetOf()) { it.title }
+        val actualThemes = CodePreviewTheme.entries.mapTo(mutableSetOf()) { it.assetName }
 
         assertTrue(
-            "Missing Material Theme UI themes: ${expectedThemes - actualThemes}",
+            "Missing highlight.js themes: ${expectedThemes - actualThemes}",
             actualThemes.containsAll(expectedThemes)
         )
     }

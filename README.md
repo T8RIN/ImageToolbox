@@ -1276,7 +1276,7 @@ or click one of the badges below.
     - Importing, exporting, sharing and managing shader presets
 - Code Preview Generator
     - Turn source code into polished, shareable images with syntax highlighting for 190+ languages
-  - Choose from 57 syntax themes and 30 gradient backgrounds, or use custom colors and
+    - Choose from 256 syntax themes and 30 gradient backgrounds, or use custom colors and
       transparency
     - Customize canvas spacing, rounded corners, rotation, window controls, line numbers and card
       shadow
