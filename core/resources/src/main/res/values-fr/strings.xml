@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Exporter des profils</string>
     <string name="save_export_profile">Enregistrer le profil actuel</string>
     <string name="delete_export_profile">Supprimer le profil d\'exportation</string>
-    <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \\"%1$s\\" ?</string>
+    <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \\\"%1$s\\\" ?</string>
     <string name="draw_bitmap_border">Bordure de dessin</string>
     <string name="draw_bitmap_border_sub">Afficher une fine bordure autour de la toile de dessin et d\'effacement</string>
     <string name="wavy">Ondulé</string>
@@ -3647,9 +3645,9 @@
     <string name="texture_ring_color">Couleur de la bague</string>
     <string name="delete_originals_after_save">Supprimer les fichiers originaux après l\'enregistrement</string>
     <string name="delete_originals_after_save_sub">Seuls les fichiers sources traités avec succès seront supprimés</string>
-    <string name="original_files_deleted">Fichiers originaux supprimés : %1$d</string>
-    <string name="original_files_delete_failed">Échec de la suppression des fichiers d\'origine : %1$d</string>
-    <string name="original_files_delete_result">Fichiers d\'origine supprimés : %1$d, échec : %2$d</string>
+    <string name="original_files_deleted">Fichiers originaux supprimés : %1$d</string>
+    <string name="original_files_delete_failed">Échec de la suppression des fichiers d\'origine : %1$d</string>
+    <string name="original_files_delete_result">Fichiers d\'origine supprimés : %1$d, échec : %2$d</string>
     <string name="sheet_gestures">Gestes de feuille</string>
     <string name="sheet_gestures_sub">Autoriser le glissement des feuilles d\'options développées</string>
     <string name="chroma_subsampling">Sous-échantillonnage de chrominance</string>
@@ -3681,9 +3679,9 @@
     <string name="batch_rename_failed">Certains fichiers n\'ont pas pu être renommés</string>
     <string name="permission_not_granted">L\'autorisation n\'a pas été accordée</string>
     <string name="original_filename_pattern_description">Utilise le nom de fichier d\'origine sans extension, vous aidant ainsi à conserver l\'identification de la source intacte. Prend également en charge le découpage avec \\o{start:end}, la translittération avec \\o{t} et le remplacement par \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Compteur à incrémentation automatique. Prend en charge le formatage personnalisé : \\c{padding} (par exemple \\c{3} -&amp;gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Compteur à incrémentation automatique. Prend en charge le formatage personnalisé : \\c{padding} (par exemple \\c{3} -&gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Le nom du dossier parent où se trouvait le fichier d\'origine.</string>
-    <string name="file_size_pattern_description">La taille du fichier d\'origine. Prend en charge les unités : \\z{b}, \\z{kb}, \\z{mb} ou simplement \\z pour un format lisible par l\'homme.</string>
+    <string name="file_size_pattern_description">La taille du fichier d\'origine. Prend en charge les unités : \\z{b}, \\z{kb}, \\z{mb} ou simplement \\z pour un format lisible par l\'homme.</string>
     <string name="uuid_pattern_description">Génère un identifiant unique universel (UUID) aléatoire pour garantir l\'unicité du nom de fichier.</string>
     <string name="rename_cannot_undone">Le renommage des fichiers ne peut pas être annulé. Assurez-vous que les nouveaux noms sont corrects avant de continuer.</string>
     <string name="confirm_rename_title">Confirmer le changement de nom</string>
@@ -3713,7 +3711,7 @@
     <string name="boomerang">Boomerang</string>
     <string name="boomerang_sub">Jouer en avant puis en arrière</string>
     <string name="normalize_gif_frames">Normaliser la taille du cadre</string>
-    <string name="normalize_gif_frames_sub">Redimensionnez les images pour qu\'elles s\'adaptent au plus grand clip ; éteindre pour conserver leur échelle d\'origine</string>
+    <string name="normalize_gif_frames_sub">Redimensionnez les images pour qu\'elles s\'adaptent au plus grand clip ; éteindre pour conserver leur échelle d\'origine</string>
     <string name="delay_between_clips">Délai entre les clips (ms)</string>
     <string name="folder_picker">Dossier</string>
     <string name="folder_picker_sub">Sélectionnez toutes les images d\'un dossier et de ses sous-dossiers</string>
@@ -3962,12 +3960,12 @@
     <string name="duplicate_scan_exact_and_similar">Exact et similaire</string>
     <string name="no_exact_duplicates_found_sub">Essayez d\'ajouter plus d\'images ou d\'inclure des images visuellement similaires</string>
     <string name="unable_to_decode_image">Impossible de décoder %1$s</string>
-    <string name="implementation_sub_v2">AES-256-GCM avec un nom occasionnel aléatoire de 12 octets est utilisé par défaut. Chaque fichier crypté possède un en-tête versionné, un sel aléatoire unique et une clé dérivée du mot de passe utilisant PBKDF2-HMAC-SHA256 avec 210 000 itérations. Vous pouvez également sélectionner un autre algorithme disponible.</string>
+    <string name="implementation_sub_v2">AES-256-GCM avec un nom occasionnel aléatoire de 12 octets est utilisé par défaut. Chaque fichier crypté possède un en-tête versionné, un sel aléatoire unique et une clé dérivée du mot de passe utilisant PBKDF2-HMAC-SHA256 avec 210 000 itérations. Vous pouvez également sélectionner un autre algorithme disponible.</string>
     <string name="encrypted_file_detected">Fichier crypté détecté</string>
     <string name="encrypted_file_detected_sub">L\'algorithme de cryptage et les paramètres seront automatiquement lus à partir du fichier</string>
     <string name="file_already_encrypted">Ce fichier est déjà crypté</string>
     <string name="file_already_encrypted_sub">Le chiffrer à nouveau créera une couche de chiffrement supplémentaire</string>
-    <string name="decrypt_failed">Échec du décryptage du fichier : mot de passe invalide ou données cryptées corrompues</string>
+    <string name="decrypt_failed">Échec du décryptage du fichier : mot de passe invalide ou données cryptées corrompues</string>
     <string name="panorama">Panorama</string>
     <string name="crop_stitched_image_sub">Recadrez le résultat sur la plus grande zone sans régions vides</string>
     <string name="seam_blending">Mélange de coutures</string>
@@ -4466,11 +4464,11 @@
     <string name="help_tip_gmic_filters_subtitle">Transformez une vaste bibliothèque d\'effets en modifications délibérées, du nettoyage subtil à la stylisation audacieuse</string>
     <string name="help_tip_gmic_filters_page_title">Commencez par le travail de l’image</string>
     <string name="help_tip_gmic_filters_description">Les filtres G’MIC sont une boîte à outils créative et technique plutôt qu’un simple look. Certains récupèrent le contraste ou les détails locaux, tandis que d\'autres construisent des mosaïques, des dégâts cinématographiques, des dessins au trait, des projections et des transformations picturales. Le choix intentionnel rend la bibliothèque beaucoup plus facile à explorer et permet d\'éviter qu\'un effet ne masque la partie de l\'image qui compte.</string>
-    <string name="help_tip_gmic_filters_step_1">Utilisez des effets de détail, de contraste ou de nettoyage lorsque la photographie a besoin d\'être affinée ; choisissez des effets artistiques, de déformation ou de pépin lorsque vous souhaitez une transformation visible.</string>
+    <string name="help_tip_gmic_filters_step_1">Utilisez des effets de détail, de contraste ou de nettoyage lorsque la photographie a besoin d\'être affinée ; choisissez des effets artistiques, de déformation ou de pépin lorsque vous souhaitez une transformation visible.</string>
     <string name="help_tip_gmic_filters_step_2">Commencez par une copie présentant un sujet clair et une résolution suffisante, car les motifs fins et les petits textes sont les premiers détails que les effets lourds peuvent submerger.</string>
-    <string name="help_tip_gmic_filters_step_3">Prévisualisez plusieurs filtres associés avant de procéder à des réglages approfondis ; un bon effet de départ vous rapproche généralement de l\'objectif avec moins de réglages extrêmes.</string>
+    <string name="help_tip_gmic_filters_step_3">Prévisualisez plusieurs filtres associés avant de procéder à des réglages approfondis ; un bon effet de départ vous rapproche généralement de l\'objectif avec moins de réglages extrêmes.</string>
     <string name="help_tip_gmic_filters_page_2_title">Réglez une commande à la fois</string>
-    <string name="help_tip_gmic_filters_page_2_description">De nombreux effets G’MIC exposent plusieurs paramètres, tels que l’échelle, la douceur, la résistance, les itérations, la graine, l’angle ou le traitement des bords. Ces contrôles interagissent : un paramètre qui semble subtil à une échelle peut devenir dominant à une autre. De petits changements isolés indiquent clairement quel paramètre façonne le résultat et facilitent la recréation d’une apparence utile.</string>
+    <string name="help_tip_gmic_filters_page_2_description">De nombreux effets G’MIC exposent plusieurs paramètres, tels que l’échelle, la douceur, la résistance, les itérations, la graine, l’angle ou le traitement des bords. Ces contrôles interagissent : un paramètre qui semble subtil à une échelle peut devenir dominant à une autre. De petits changements isolés indiquent clairement quel paramètre façonne le résultat et facilitent la recréation d’une apparence utile.</string>
     <string name="help_tip_gmic_filters_page_2_step_1">Définissez d’abord l’échelle ou la taille globale, puis ajustez la force, le contraste, l’opacité et les détails fins.</string>
     <string name="help_tip_gmic_filters_page_2_step_2">Modifiez un curseur, inspectez l’aperçu et gardez la valeur précédente à l’esprit avant de passer au contrôle suivant.</string>
     <string name="help_tip_gmic_filters_page_2_step_3">Pour des effets aléatoires, conservez ou notez la graine lorsque vous trouvez une composition que vous souhaitez reproduire.</string>
@@ -4496,7 +4494,7 @@
     <string name="help_tip_duplicate_finder_title">Rechercher les images en double avant le nettoyage</string>
     <string name="help_tip_duplicate_finder_subtitle">Comparez soigneusement une sélection afin que les exportations répétées et les fichiers presque identiques ne gaspillent pas de stockage ou ne provoquent pas de suppressions accidentelles.</string>
     <string name="help_tip_duplicate_finder_page_title">Vérifier avant de supprimer</string>
-    <string name="help_tip_duplicate_finder_description">Duplicate Finder permet de restreindre une large sélection aux images qui méritent un examen plus approfondi. Des noms de fichiers, des vignettes ou des dimensions similaires sont des indices utiles, mais ils ne prouvent pas toujours que deux fichiers sont interchangeables : une copie peut avoir des métadonnées, une qualité, un recadrage ou des modifications différents.</string>
+    <string name="help_tip_duplicate_finder_description">Duplicate Finder permet de restreindre une large sélection aux images qui méritent un examen plus approfondi. Des noms de fichiers, des vignettes ou des dimensions similaires sont des indices utiles, mais ils ne prouvent pas toujours que deux fichiers sont interchangeables : une copie peut avoir des métadonnées, une qualité, un recadrage ou des modifications différents.</string>
     <string name="help_tip_duplicate_finder_step_1">Exécutez-le d\'abord sur un dossier ciblé ou un ensemble d\'exportations, plutôt que de mélanger des albums non liés dans un seul gros travail de nettoyage.</string>
     <string name="help_tip_duplicate_finder_step_2">Ouvrez ou comparez les candidats avec un zoom utile avant de supprimer quoi que ce soit, surtout si le texte, les modifications, la transparence ou les métadonnées sont importants.</string>
     <string name="help_tip_duplicate_finder_step_3">Conservez la copie avec la meilleure qualité, le nom de fichier le plus utile ou l\'emplacement préféré, puis supprimez les autres copies seulement une fois ce choix clair.</string>
@@ -4505,12 +4503,12 @@
     <string name="help_tip_raw_development_page_title">Choisissez un point de départ fiable</string>
     <string name="help_tip_raw_development_description">Les fichiers RAW contiennent des données de capteur plutôt qu\'une photographie finie, le premier rendu dépend donc des paramètres de développement. La balance des blancs, l’orientation, la luminosité et l’aperçu intégré de l’appareil photo peuvent donner au même fichier un aspect très différent. Commencez par des paramètres qui révèlent fidèlement l\'image, puis apportez des corrections créatives dans l\'éditeur après la conversion.</string>
     <string name="help_tip_raw_development_step_1">Gardez la balance des blancs et l’orientation automatique de la caméra activées lorsque vous souhaitez obtenir le point de départ le plus proche du rendu prévu de la caméra.</string>
-    <string name="help_tip_raw_development_step_2">Utilisez l\'aperçu intégré lorsque la navigation rapide importe plus que l\'inspection du résultat entièrement développé ; désactivez-le lors de l’évaluation de la conversion RAW réelle.</string>
+    <string name="help_tip_raw_development_step_2">Utilisez l\'aperçu intégré lorsque la navigation rapide importe plus que l\'inspection du résultat entièrement développé ; désactivez-le lors de l’évaluation de la conversion RAW réelle.</string>
     <string name="help_tip_raw_development_step_3">Laissez la luminosité automatique activée pour un premier passage neutre, puis utilisez la compensation d\'exposition lorsque l\'image entière nécessite un décalage délibéré.</string>
     <string name="help_tip_raw_development_page_2_title">Protégez les détails et les couleurs vives</string>
     <string name="help_tip_raw_development_page_2_description">Un fichier RAW contient souvent des informations de surbrillance qui permettent de rendre les clips trop tôt. La récupération des hautes lumières peut préserver la luminosité du ciel, des fenêtres, du métal et des tissus, tandis que l\'espace colorimétrique de sortie détermine dans quelle mesure ces couleurs sont représentées dans l\'image convertie. Une récupération forte peut changer les couleurs ou créer des artefacts, alors inspectez les faits saillants importants avec un zoom utile.</string>
     <string name="help_tip_raw_development_page_2_step_1">Commencez avec le mode de surbrillance par défaut, puis essayez la récupération uniquement lorsque les zones lumineuses perdent leur texture dans l\'aperçu.</string>
-    <string name="help_tip_raw_development_page_2_step_2">Utilisez sRGB pour la compatibilité de partage la plus large ; choisissez un espace colorimétrique plus large uniquement lorsque la prochaine application et le format final sont prêts à le préserver.</string>
+    <string name="help_tip_raw_development_page_2_step_2">Utilisez sRGB pour la compatibilité de partage la plus large ; choisissez un espace colorimétrique plus large uniquement lorsque la prochaine application et le format final sont prêts à le préserver.</string>
     <string name="help_tip_raw_development_page_2_step_3">Comparez les versions récupérées et non récupérées autour des bords clairs, car un paramètre qui restaure les détails peut également introduire des transitions de couleurs non naturelles.</string>
     <string name="help_tip_raw_development_page_3_title">Équilibrer les détails, la vitesse et la taille de sortie</string>
     <string name="help_tip_raw_development_page_3_description">Le dématriçage transforme le motif de couleur de l’appareil photo en une image complète. Les méthodes de qualité supérieure peuvent produire des détails plus nets, mais prennent plus de temps, tandis que la sortie demi-taille réduit le traitement et l\'utilisation de la mémoire lorsque la destination finale n\'a pas besoin de la pleine résolution de l\'appareil photo. Il est préférable de choisir ces paramètres pour le travail, et non de les laisser au maximum pour chaque fichier.</string>
@@ -4620,7 +4618,7 @@
     <string name="caption_exposure_settings">Paramètres d\'exposition</string>
     <string name="caption_parent_folder">Dossier parent</string>
     <string name="caption_custom_text">Texte personnalisé</string>
-    <string name="caption_custom_text_hint">Texte affiché sur chaque image ; les sauts de ligne sont conservés</string>
+    <string name="caption_custom_text_hint">Texte affiché sur chaque image ; les sauts de ligne sont conservés</string>
     <string name="search_keywords_pdf_contact_sheet">pdf planche contact grille d\'images vignettes légendes</string>
     <string name="compare_pdf">Comparer le PDF</string>
     <string name="compare_pdf_sub">Mettre en évidence les différences visuelles entre deux fichiers PDF</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">Égaliser l\'ombre</string>
     <string name="gmic_filter_fill_holes">Remplissez les trous</string>
     <string name="gmic_filter_fish_eye">Oeil de poisson</string>
-    <string name="gmic_filter_freaky_black_and_white">B&amp;amp;W bizarre</string>
+    <string name="gmic_filter_freaky_black_and_white">B&amp;W bizarre</string>
     <string name="gmic_filter_hedcut">Hedcut</string>
     <string name="gmic_filter_hessian_sharpen">Affûtage en toile de jute</string>
     <string name="gmic_param_recompute">Recalculer</string>
@@ -4871,9 +4869,9 @@
     <string name="gmic_commands_title">Commandes</string>
     <string name="gmic_commands_count">%1$s · %2$d commandes</string>
     <string name="gmic_parameters">Paramètres</string>
-    <string name="gmic_default_value">Par défaut : %1$s</string>
-    <string name="gmic_value_range">Plage : %1$s…%2$s</string>
-    <string name="gmic_choices">Options : %1$s</string>
+    <string name="gmic_default_value">Par défaut : %1$s</string>
+    <string name="gmic_value_range">Plage : %1$s…%2$s</string>
+    <string name="gmic_choices">Options : %1$s</string>
     <string name="gmic_param_elevation">Élévation</string>
     <string name="gmic_param_fov">Champ de vision</string>
     <string name="gmic_param_specular_shininess">Brillance spéculaire</string>
@@ -4901,7 +4899,7 @@
     <string name="focus_radius">Rayon de détection de mise au point</string>
     <string name="focus_strength">Séparation de mise au point</string>
     <string name="source_frames">Images sources</string>
-    <string name="fusion_image_limit">Jusqu\'à %1$d trames peuvent être fusionnées à la fois</string>
+    <string name="fusion_image_limit">Jusqu\'à %1$d trames peuvent être fusionnées à la fois</string>
     <string name="search_keywords_multi_frame_fusion">exposition à la fusion multi-trames mise au point hdr empilement bruit médian support de retrait des personnes</string>
     <string name="long_exposure">Exposition longue</string>
     <string name="long_exposure_sub">Mouvement fluide en faisant la moyenne de la séquence en lumière linéaire tout en conservant les détails statiques</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s Copie</string>
     <string name="delete_templates">Supprimer des modèles</string>
     <string name="delete_templates_warning">Supprimer %1$d modèle(s) sélectionné(s) ? Cela ne peut pas être annulé.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
