@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
     <string name="size">Méret%1$s</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Profilok exportálása</string>
     <string name="save_export_profile">Az aktuális profil mentése</string>
     <string name="delete_export_profile">Exportálási profil törlése</string>
-    <string name="delete_export_profile_sub">Törli a \\"%1$s\\" exportprofilt?</string>
+    <string name="delete_export_profile_sub">Törli a \\\"%1$s\\\" exportprofilt?</string>
     <string name="draw_bitmap_border">Rajz szegély</string>
     <string name="draw_bitmap_border_sub">Mutasson vékony szegélyt a rajz- és törlésvászon körül</string>
     <string name="wavy">Hullámos</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Egyes fájlokat nem lehetett átnevezni</string>
     <string name="permission_not_granted">Az engedélyt nem adták meg</string>
     <string name="original_filename_pattern_description">Az eredeti fájlnevet használja kiterjesztés nélkül, így segít megőrizni a forrás azonosítását. Támogatja a \\o{start:end} karakterrel történő szeletelést, \\o{t} átírást és \\o{s/old/new/} cserét.</string>
-    <string name="sequence_number_pattern_description">Automatikusan növekvő számláló. Támogatja az egyéni formázást: \\c{padding} (pl. \\c{3} -&amp;gt; 001), \\c{start:step} vagy \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Automatikusan növekvő számláló. Támogatja az egyéni formázást: \\c{padding} (pl. \\c{3} -&gt; 001), \\c{start:step} vagy \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">A szülőmappa neve, ahol az eredeti fájl található.</string>
     <string name="file_size_pattern_description">Az eredeti fájl mérete. Támogatja a következő egységeket: \\z{b}, \\z{kb}, \\z{mb} vagy csak \\z az ember által olvasható formátumhoz.</string>
     <string name="uuid_pattern_description">Véletlenszerű, univerzálisan egyedi azonosítót (UUID) generál a fájlnév egyediségének biztosítása érdekében.</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s Másolás</string>
     <string name="delete_templates">Sablonok törlése</string>
     <string name="delete_templates_warning">Töröl %1$d kiválasztott sablont? Ezt nem lehet visszavonni.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
