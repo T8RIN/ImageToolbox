@@ -5026,7 +5026,6 @@
     <string name="palette_pdf_sub">Sắp xếp các bảng màu và hình ảnh nguồn tùy chọn trong trang liên hệ PDF</string>
     <string name="palette_pdf_include_image">Bao gồm hình ảnh nguồn</string>
     <string name="palette_pdf_include_image_sub">Đặt hình ảnh nguồn phía trên lưới màu trên trang đầu tiên</string>
-    <string name="palette_pdf_show_names"/>
     <string name="palette_pdf_show_hex">Hiển thị giá trị HEX</string>
     <string name="palette_pdf_show_filename">Hiển thị tên tệp nguồn</string>
     <string name="palette_pdf_show_filename_sub">Đặt tên tệp nguồn ở đầu mỗi trang</string>
@@ -5157,29 +5156,4 @@
     <string name="template_copy_name">%1$s Sao chép</string>
     <string name="delete_templates">Xóa mẫu</string>
     <string name="delete_templates_warning">Xóa %1$d mẫu đã chọn? Điều này không thể hoàn tác được.</string>
-    <string name="usdt" translatable="false"></string>
-    <string name="paddle_ocr_v5" translatable="false"></string>
-    <string name="boosty" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="tesseract" translatable="false"></string>
-    <string name="gmic_filter" translatable="false"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="paddle_ocr_v6" translatable="false"></string>
-    <string name="one_ui" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="paddle_ocr" translatable="false"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>

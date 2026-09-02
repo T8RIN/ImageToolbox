@@ -4971,9 +4971,6 @@
     <string name="compression_lab_target_not_reached">使用此格式無法達到請求的目標。</string>
     <string name="compression_lab_failed_formats">無法測試：%1$s</string>
     <string name="search_keywords_compression_lab">壓縮基準 編解碼器 編碼器 批次 檔案大小 品質 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
-    <string name="gmic_auxiliary_images"/>
-    <string name="gmic_auxiliary_images_empty_sub"/>
-    <string name="gmic_auxiliary_images_usage_sub"/>
     <string name="markup_layer_text_defaults_sub">預設文字圖層外觀</string>
     <string name="collapsible_settings_groups">可折疊設定組</string>
     <string name="collapsible_settings_groups_sub">允許在全螢幕模式下展開和折疊設定組</string>
@@ -5157,29 +5154,4 @@
     <string name="template_copy_name">%1$s 複製</string>
     <string name="delete_templates">刪除模板</string>
     <string name="delete_templates_warning">刪除 %1$d 選取的模板嗎？此操作無法撤銷。</string>
-    <string name="usdt" translatable="false"></string>
-    <string name="paddle_ocr_v5" translatable="false"></string>
-    <string name="boosty" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="tesseract" translatable="false"></string>
-    <string name="gmic_filter" translatable="false"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="paddle_ocr_v6" translatable="false"></string>
-    <string name="one_ui" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="paddle_ocr" translatable="false"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>

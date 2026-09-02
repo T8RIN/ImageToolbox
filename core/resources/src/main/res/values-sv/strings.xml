@@ -5030,7 +5030,6 @@
     <string name="palette_pdf_show_names">Visa färgnamn</string>
     <string name="palette_pdf_show_hex">Visa HEX-värden</string>
     <string name="palette_pdf_show_filename">Visa källfilnamn</string>
-    <string name="palette_pdf_show_filename_sub"/>
     <string name="palette_pdf_show_palette_name">Visa palettnamn</string>
     <string name="palette_pdf_show_palette_name_sub">Placera namnet som är lagrat i paletten under filnamnet</string>
     <string name="palette_pdf_selected_file">Vald palettfil</string>
@@ -5158,29 +5157,4 @@
     <string name="template_copy_name">%1$s Kopiera</string>
     <string name="delete_templates">Ta bort mallar</string>
     <string name="delete_templates_warning">Ta bort %1$d valda mall(ar)? Detta kan inte ångras.</string>
-    <string name="usdt" translatable="false"></string>
-    <string name="paddle_ocr_v5" translatable="false"></string>
-    <string name="boosty" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="tesseract" translatable="false"></string>
-    <string name="gmic_filter" translatable="false"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="paddle_ocr_v6" translatable="false"></string>
-    <string name="one_ui" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="paddle_ocr" translatable="false"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>

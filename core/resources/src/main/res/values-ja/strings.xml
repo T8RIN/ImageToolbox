@@ -5000,9 +5000,7 @@
     <string name="gif_type_to_apng">GIFからAPNGへ</string>
     <string name="gif_type_to_apng_sub">GIF画像をAPNGアニメーション画像に変換</string>
     <string name="apng_type_to_gif">APNGからGIFへ</string>
-    <string name="apng_type_to_gif_sub"/>
     <string name="webp_type_to_gif">WEBPからGIFへ</string>
-    <string name="webp_type_to_gif_sub"/>
     <string name="apng_type_to_webp">APNGからWEBPへ</string>
     <string name="apng_type_to_webp_sub">APNG アニメーションを WEBP 画像に変換する</string>
     <string name="webp_type_to_apng">WEBPからAPNGへの変換</string>
@@ -5157,29 +5155,4 @@
     <string name="template_copy_name">%1$s コピー</string>
     <string name="delete_templates">テンプレートの削除</string>
     <string name="delete_templates_warning">選択した %1$d 個のテンプレートを削除しますか?これを元に戻すことはできません。</string>
-    <string name="usdt" translatable="false"></string>
-    <string name="paddle_ocr_v5" translatable="false"></string>
-    <string name="boosty" translatable="false"></string>
-    <string name="bitcoin" translatable="false"></string>
-    <string name="tesseract" translatable="false"></string>
-    <string name="gmic_filter" translatable="false"></string>
-    <string name="app_developer" translatable="false"></string>
-    <string name="github" translatable="false"></string>
-    <string name="app_developer_nick" translatable="false"></string>
-    <string name="ton_space" translatable="false"></string>
-    <string name="material_you" translatable="false"></string>
-    <string name="telegram" translatable="false"></string>
-    <string name="default_folder" translatable="false"></string>
-    <string name="default_prefix" translatable="false"></string>
-    <string name="app_launcher_name" translatable="false"></string>
-    <string name="paddle_ocr_v6" translatable="false"></string>
-    <string name="one_ui" translatable="false"></string>
-    <string name="firebase" translatable="false"></string>
-    <string name="paddle_ocr" translatable="false"></string>
-    <string name="float_array_of" translatable="false"></string>
-    <string name="crashlytics" translatable="false"></string>
-    <string name="app_name" translatable="false"></string>
-    <string name="ton" translatable="false"></string>
-    <string name="file_provider" translatable="false"></string>
-    <string name="exif" translatable="false"></string>
 </resources>
