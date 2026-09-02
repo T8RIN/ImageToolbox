@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Exportar perfis</string>
     <string name="save_export_profile">Salvar perfil atual</string>
     <string name="delete_export_profile">Excluir perfil de exportação</string>
-    <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Desenho de borda</string>
     <string name="draw_bitmap_border_sub">Mostrar uma borda fina ao redor da tela de desenho e apagamento</string>
     <string name="wavy">Ondulado</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Alguns arquivos não puderam ser renomeados</string>
     <string name="permission_not_granted">A permissão não foi concedida</string>
     <string name="original_filename_pattern_description">Usa o nome do arquivo original sem extensão, ajudando a manter intacta a identificação da fonte. Também suporta fatiamento com \\o{start:end}, transliteração com \\o{t} e substituição por \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Contador de incremento automático. Suporta formatação personalizada: \\c{padding} (por exemplo, \\c{3} -&amp;gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Contador de incremento automático. Suporta formatação personalizada: \\c{padding} (por exemplo, \\c{3} -&gt; 001), \\c{start:step} ou \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">O nome da pasta pai onde o arquivo original estava localizado.</string>
     <string name="file_size_pattern_description">O tamanho do arquivo original. Suporta unidades: \\z{b}, \\z{kb}, \\z{mb} ou apenas \\z para formato legível por humanos.</string>
     <string name="uuid_pattern_description">Gera um identificador universalmente exclusivo (UUID) aleatório para garantir a exclusividade do nome do arquivo.</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">Equalizar sombra</string>
     <string name="gmic_filter_fill_holes">Preencher buracos</string>
     <string name="gmic_filter_fish_eye">Olho de peixe</string>
-    <string name="gmic_filter_freaky_black_and_white">B&amp;amp;W estranho</string>
+    <string name="gmic_filter_freaky_black_and_white">B&amp;W estranho</string>
     <string name="gmic_filter_hedcut">Hedcut</string>
     <string name="gmic_filter_hessian_sharpen">Afiar Hessiano</string>
     <string name="gmic_param_recompute">Recalcular</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s Copiar</string>
     <string name="delete_templates">Excluir modelos</string>
     <string name="delete_templates_warning">Excluir %1$d modelo(s) selecionado(s)? Isto não pode ser desfeito.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
