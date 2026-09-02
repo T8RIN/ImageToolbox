@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
     <string name="pick_image">শুরু করার জন্য ছবি বেছে নিন</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">প্রোফাইল রপ্তানি করুন</string>
     <string name="save_export_profile">বর্তমান প্রোফাইল সংরক্ষণ করুন</string>
     <string name="delete_export_profile">এক্সপোর্ট প্রোফাইল মুছুন</string>
-    <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \\"%1$s\\" মুছতে চান?</string>
+    <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \\\"%1$s\\\" মুছতে চান?</string>
     <string name="draw_bitmap_border">সীমানা অঙ্কন</string>
     <string name="draw_bitmap_border_sub">অঙ্কন এবং ক্যানভাস মুছে ফেলার চারপাশে একটি পাতলা সীমানা দেখান</string>
     <string name="wavy">তরঙ্গায়িত</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">কিছু ফাইলের নাম পরিবর্তন করা যায়নি</string>
     <string name="permission_not_granted">অনুমতি দেওয়া হয়নি</string>
     <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে। এছাড়াও \\o{start:end} দিয়ে স্লাইসিং, \\o{t} দিয়ে প্রতিস্থাপন এবং \\o{s/old/new/} দিয়ে প্রতিস্থাপন সমর্থন করে।</string>
-    <string name="sequence_number_pattern_description">স্বয়ংক্রিয় বৃদ্ধি পাল্টা. কাস্টম ফর্ম্যাটিং সমর্থন করে: \\c{প্যাডিং} (যেমন \\c{3} -&amp;gt; 001), \\c{start:step} বা \\c{start:step:padding}।</string>
+    <string name="sequence_number_pattern_description">স্বয়ংক্রিয় বৃদ্ধি পাল্টা. কাস্টম ফর্ম্যাটিং সমর্থন করে: \\c{প্যাডিং} (যেমন \\c{3} -&gt; 001), \\c{start:step} বা \\c{start:step:padding}।</string>
     <string name="parent_folder_pattern_description">মূল ফাইলের নাম যেখানে মূল ফাইলটি ছিল।</string>
     <string name="file_size_pattern_description">আসল ফাইলের আকার। একক সমর্থন করে: \\z{b}, \\z{kb}, \\z{mb} অথবা মানুষের পঠনযোগ্য বিন্যাসের জন্য শুধুমাত্র \\z।</string>
     <string name="uuid_pattern_description">ফাইলের নামের স্বতন্ত্রতা নিশ্চিত করতে একটি র্যান্ডম ইউনিভার্সলি ইউনিক আইডেন্টিফায়ার (UUID) তৈরি করে।</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">ছায়া সমান করুন</string>
     <string name="gmic_filter_fill_holes">গর্ত পূরণ করুন</string>
     <string name="gmic_filter_fish_eye">ফিশ-আই</string>
-    <string name="gmic_filter_freaky_black_and_white">অদ্ভুত B&amp;amp;W</string>
+    <string name="gmic_filter_freaky_black_and_white">অদ্ভুত B&amp;W</string>
     <string name="gmic_filter_hedcut">হেডকাট</string>
     <string name="gmic_filter_hessian_sharpen">হেসিয়ান শার্পেন</string>
     <string name="gmic_param_recompute">পুনরায় গণনা করুন</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s কপি</string>
     <string name="delete_templates">টেমপ্লেট মুছুন</string>
     <string name="delete_templates_warning">%1$d নির্বাচিত টেমপ্লেট মুছবেন? এটি পূর্বাবস্থায় ফেরানো যাবে না।</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
