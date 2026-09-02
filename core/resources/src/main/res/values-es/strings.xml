@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo salió mal: %1$s</string>
     <string name="size">Tamaño %1$s</string>
     <string name="loading">Cargando…</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Exportar perfiles</string>
     <string name="save_export_profile">Guardar perfil actual</string>
     <string name="delete_export_profile">Eliminar perfil de exportación</string>
-    <string name="delete_export_profile_sub">¿Quiere eliminar el perfil de exportación \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">¿Quiere eliminar el perfil de exportación \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Borde de dibujo</string>
     <string name="draw_bitmap_border_sub">Mostrar un borde fino alrededor del lienzo de dibujo y borrado.</string>
     <string name="wavy">Ondulado</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">No se pudo cambiar el nombre de algunos archivos</string>
     <string name="permission_not_granted">No se concedió el permiso</string>
     <string name="original_filename_pattern_description">Utiliza el nombre del archivo original sin extensión, lo que le ayuda a mantener intacta la identificación de la fuente. También admite el corte con \\o{start:end}, la transliteración con \\o{t} y el reemplazo con \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Contador autoincremental. Admite formato personalizado: \\c{padding} (por ejemplo, \\c{3} -&amp;gt; 001), \\c{start:step} o \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Contador autoincremental. Admite formato personalizado: \\c{padding} (por ejemplo, \\c{3} -&gt; 001), \\c{start:step} o \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">El nombre de la carpeta principal donde se encontraba el archivo original.</string>
     <string name="file_size_pattern_description">El tamaño del archivo original. Admite unidades: \\z{b}, \\z{kb}, \\z{mb} o simplemente \\z para formato legible por humanos.</string>
     <string name="uuid_pattern_description">Genera un identificador único universal (UUID) aleatorio para garantizar la unicidad del nombre de archivo.</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s Copiar</string>
     <string name="delete_templates">Eliminar plantillas</string>
     <string name="delete_templates_warning">¿Eliminar %1$d plantillas seleccionadas? Esto no se puede deshacer.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
