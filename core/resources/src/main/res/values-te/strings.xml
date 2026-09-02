@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
     <string name="pick_image_alt">చిత్రాన్ని ఎంచుకోండి</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">ప్రొఫైల్‌లను ఎగుమతి చేయండి</string>
     <string name="save_export_profile">ప్రస్తుత ప్రొఫైల్‌ను సేవ్ చేయండి</string>
     <string name="delete_export_profile">ఎగుమతి ప్రొఫైల్‌ను తొలగించండి</string>
-    <string name="delete_export_profile_sub">మీరు \\"%1$s\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
+    <string name="delete_export_profile_sub">మీరు \\\"%1$s\\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
     <string name="draw_bitmap_border">డ్రాయింగ్ సరిహద్దు</string>
     <string name="draw_bitmap_border_sub">డ్రాయింగ్ మరియు ఎరేసింగ్ కాన్వాస్ చుట్టూ సన్నని అంచుని చూపండి</string>
     <string name="wavy">ఉంగరాల</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">కొన్ని ఫైల్‌ల పేరు మార్చడం సాధ్యపడలేదు</string>
     <string name="permission_not_granted">అనుమతి లభించలేదు</string>
     <string name="original_filename_pattern_description">పొడిగింపు లేకుండా అసలు ఫైల్ పేరును ఉపయోగిస్తుంది, సోర్స్ గుర్తింపును అలాగే ఉంచడంలో మీకు సహాయపడుతుంది. \\o{start:end}తో స్లైసింగ్, \\o{t}తో లిప్యంతరీకరణ మరియు \\o{s/old/new/}తో భర్తీ చేయడానికి కూడా మద్దతు ఇస్తుంది.</string>
-    <string name="sequence_number_pattern_description">ఆటో-పెరుగుదల కౌంటర్. అనుకూల ఫార్మాటింగ్‌కు మద్దతు ఇస్తుంది: \\c{padding} (ఉదా. \\c{3} -&amp;gt; 001), \\c{start:step} లేదా \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">ఆటో-పెరుగుదల కౌంటర్. అనుకూల ఫార్మాటింగ్‌కు మద్దతు ఇస్తుంది: \\c{padding} (ఉదా. \\c{3} -&gt; 001), \\c{start:step} లేదా \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">అసలు ఫైల్ ఉన్న పేరెంట్ ఫోల్డర్ పేరు.</string>
     <string name="file_size_pattern_description">అసలు ఫైల్ పరిమాణం. యూనిట్‌లకు మద్దతు ఇస్తుంది: \\z{b}, \\z{kb}, \\z{mb} లేదా కేవలం \\z మానవ రీడబుల్ ఫార్మాట్ కోసం.</string>
     <string name="uuid_pattern_description">ఫైల్ పేరు ప్రత్యేకతను నిర్ధారించడానికి యాదృచ్ఛికంగా యూనివర్సల్లీ యూనిక్ ఐడెంటిఫైయర్ (UUID)ని రూపొందిస్తుంది.</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">నీడను సమం చేయండి</string>
     <string name="gmic_filter_fill_holes">రంధ్రాలను పూరించండి</string>
     <string name="gmic_filter_fish_eye">చేప-కన్ను</string>
-    <string name="gmic_filter_freaky_black_and_white">ఫ్రీకీ B&amp;amp;W</string>
+    <string name="gmic_filter_freaky_black_and_white">ఫ్రీకీ B&amp;W</string>
     <string name="gmic_filter_hedcut">హెడ్‌కట్</string>
     <string name="gmic_filter_hessian_sharpen">హెస్సియన్ షార్పెన్</string>
     <string name="gmic_param_recompute">రీకంప్యూట్ చేయండి</string>
@@ -5160,4 +5158,29 @@
     <string name="template_copy_name">%1$s కాపీ</string>
     <string name="delete_templates">టెంప్లేట్‌లను తొలగించండి</string>
     <string name="delete_templates_warning">%1$d ఎంచుకున్న టెంప్లేట్(ల)ని తొలగించాలా? ఇది రద్దు చేయబడదు.</string>
+    <string name="usdt" translatable="false"></string>
+    <string name="paddle_ocr_v5" translatable="false"></string>
+    <string name="boosty" translatable="false"></string>
+    <string name="bitcoin" translatable="false"></string>
+    <string name="tesseract" translatable="false"></string>
+    <string name="gmic_filter" translatable="false"></string>
+    <string name="app_developer" translatable="false"></string>
+    <string name="github" translatable="false"></string>
+    <string name="app_developer_nick" translatable="false"></string>
+    <string name="ton_space" translatable="false"></string>
+    <string name="material_you" translatable="false"></string>
+    <string name="telegram" translatable="false"></string>
+    <string name="default_folder" translatable="false"></string>
+    <string name="default_prefix" translatable="false"></string>
+    <string name="app_launcher_name" translatable="false"></string>
+    <string name="paddle_ocr_v6" translatable="false"></string>
+    <string name="one_ui" translatable="false"></string>
+    <string name="firebase" translatable="false"></string>
+    <string name="paddle_ocr" translatable="false"></string>
+    <string name="float_array_of" translatable="false"></string>
+    <string name="crashlytics" translatable="false"></string>
+    <string name="app_name" translatable="false"></string>
+    <string name="ton" translatable="false"></string>
+    <string name="file_provider" translatable="false"></string>
+    <string name="exif" translatable="false"></string>
 </resources>
