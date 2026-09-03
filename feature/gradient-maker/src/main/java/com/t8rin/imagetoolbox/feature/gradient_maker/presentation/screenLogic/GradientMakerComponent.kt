@@ -642,7 +642,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
                     imageData.image.safeAspectRatio
                 }
                 _isImageLoading.value = false
-                setImageFormat(imageData.imageInfo.imageFormat)
+                setDetectedImageFormat(imageData.imageInfo.imageFormat)
             }
         }
     }
@@ -657,7 +657,16 @@ class GradientMakerComponent @AssistedInject internal constructor(
 
     fun setInitialGradientAlpha(value: Float) {
         _gradientAlpha.update { value }
-        resetHistory()
+        transformHistorySnapshots { snapshot ->
+            snapshot.copy(gradientAlpha = value)
+        }
+    }
+
+    private fun setDetectedImageFormat(value: ImageFormat) {
+        _imageFormat.update { value }
+        transformHistorySnapshots { snapshot ->
+            snapshot.copy(imageFormat = value)
+        }
     }
 
     override fun resetState() {

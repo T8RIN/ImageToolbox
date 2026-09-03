@@ -136,6 +136,16 @@ abstract class BaseHistoryComponent<Snapshot>(
         _redoHistory.value = emptyList()
     }
 
+    protected fun transformHistorySnapshots(
+        transform: (Snapshot) -> Snapshot
+    ) {
+        pendingHistorySnapshot = pendingHistorySnapshot?.let(transform)
+        _history.value = history
+            .map(transform)
+            .ifEmpty { listOf(currentHistorySnapshot()) }
+        _redoHistory.value = redoHistory.map(transform)
+    }
+
     protected fun beginPendingHistoryTransaction(
         mode: PendingHistoryMode? = null,
         commitDelayMillis: Long = historyTransactionDebounce
