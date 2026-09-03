@@ -56,7 +56,9 @@ import kotlin.math.sqrt
 internal fun MeshGradientEditor(
     state: UiMeshGradientState,
     modifier: Modifier = Modifier,
-    colorPickerBitmap: Bitmap? = null
+    colorPickerBitmap: Bitmap? = null,
+    onPointPositionChange: (Offset, Offset) -> Unit,
+    onPointColorChange: (Offset, Color) -> Unit
 ) {
     val selectedPoint = rememberSaveable(
         stateSaver = PairOffsetColorSaver
@@ -129,7 +131,7 @@ internal fun MeshGradientEditor(
                                                 1f
                                             )
                                         )
-                                        state.updatePointPosition(oldOffset, newOffset)
+                                        onPointPositionChange(oldOffset, newOffset)
                                         selectedPoint.value = newOffset to color
                                     }
                                 },
@@ -194,7 +196,7 @@ internal fun MeshGradientEditor(
             color = selectedPoint.value?.second,
             onColorSelected = { newColor ->
                 selectedPoint.value?.let { (offset) ->
-                    state.updatePointColor(offset, newColor)
+                    onPointColorChange(offset, newColor)
                     selectedPoint.value = offset to newColor
                 }
             },
@@ -206,43 +208,6 @@ internal fun MeshGradientEditor(
                 )
             }
         )
-    }
-}
-
-private fun UiMeshGradientState.updatePointPosition(
-    oldOffset: Offset,
-    newOffset: Offset
-) {
-    var found = false
-    points.replaceAll { row ->
-        row.map {
-            if (it.first == oldOffset && !found) {
-                found = true
-
-                newOffset to it.second
-            } else {
-                it
-            }
-        }
-    }
-}
-
-private fun UiMeshGradientState.updatePointColor(
-    offset: Offset,
-    newColor: Color
-) {
-    var found = false
-
-    points.replaceAll { row ->
-        row.map {
-            if (it.first == offset && !found) {
-                found = true
-
-                it.first to newColor
-            } else {
-                it
-            }
-        }
     }
 }
 

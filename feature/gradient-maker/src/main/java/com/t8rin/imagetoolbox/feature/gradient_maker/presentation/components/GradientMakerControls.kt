@@ -35,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -123,7 +122,9 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .padding(16.dp),
-                    colorPickerBitmap = component.colorPickerBitmap
+                    colorPickerBitmap = component.colorPickerBitmap,
+                    onPointPositionChange = component::updateMeshPointPosition,
+                    onPointColorChange = component::updateMeshPointColor
                 )
             }
             Spacer(Modifier.height(8.dp))
@@ -134,16 +135,7 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 valueRange = 2f..6f,
                 steps = 3,
                 internalStateTransformation = { it.roundToInt() },
-                onValueChange = { value ->
-                    if (value.roundToInt() != component.meshGradientState.gridSize) {
-                        val size = value.roundToInt()
-                        component.meshGradientState.points.apply {
-                            clear()
-                            addAll(generateMesh(size))
-                        }
-                        component.setResolution(lerp(1f, 16f, 2f / size))
-                    }
-                }
+                onValueChange = { component.setMeshGridSize(it.roundToInt()) }
             )
             Spacer(Modifier.height(8.dp))
             EnhancedSliderItem(
