@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.feature.edit_exif.presentation.screenLogic.EditExi
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.screenLogic.EraseBackgroundComponent
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
+import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogic.FractalGenerationComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
@@ -131,6 +132,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Filter
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FlattenPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FormatConversion
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.FractalGeneration
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Gallery
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GifTools
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.GradientMaker
@@ -239,6 +241,7 @@ internal class ChildProvider @Inject constructor(
     private val jxlToolsComponentFactory: JxlToolsComponent.Factory,
     private val limitResizeComponentFactory: LimitsResizeComponent.Factory,
     private val loadNetImageComponentFactory: LoadNetImageComponent.Factory,
+    private val fractalGenerationComponentFactory: FractalGenerationComponent.Factory,
     private val noiseGenerationComponentFactory: NoiseGenerationComponent.Factory,
     private val textureGenerationComponentFactory: TextureGenerationComponent.Factory,
     private val rootPdfToolsComponentFactory: RootPdfToolsComponent.Factory,
@@ -592,6 +595,13 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
+        Screen.FractalGeneration -> FractalGeneration(
+            fractalGenerationComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo,
+            )
+        )
 
         Screen.NoiseGeneration -> NoiseGeneration(
             noiseGenerationComponentFactory(

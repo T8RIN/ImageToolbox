@@ -1360,6 +1360,13 @@ sealed class Screen(
         subtitle = R.string.custom_gallery_sub
     )
 
+    @Serializable
+    data object FractalGeneration : Screen(
+        id = 82,
+        title = R.string.fractal_generation,
+        subtitle = R.string.fractal_generation_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

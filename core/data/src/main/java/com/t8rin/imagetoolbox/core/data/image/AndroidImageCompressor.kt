@@ -23,6 +23,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.data.image.utils.ImageCompressorBackend
+import com.t8rin.imagetoolbox.core.data.utils.isHardware
 import com.t8rin.imagetoolbox.core.data.utils.toSoftware
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -63,7 +64,12 @@ internal class AndroidImageCompressor @Inject constructor(
         quality: Quality
     ): ByteArray = withContext(encodingDispatcher) {
         val coercedQuality = quality.coerceIn(imageFormat)
-        val transformedImage = image.toSoftware().let { software ->
+        val softwareImage = if (image.config == null || image.config?.isHardware == true) {
+            image.toSoftware()
+        } else {
+            image
+        }
+        val transformedImage = softwareImage.let { software ->
             val enableForAlpha = settingsState.enableBackgroundColorForAlphaFormats
             val isNonAlpha = imageFormat !in ImageFormat.alphaContainedEntries
 

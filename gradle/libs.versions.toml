@@ -9,12 +9,12 @@ versionCode = "267"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "7.9.4"
+imageToolboxLibs = "8.0.2"
 trickle = "1.9.3"
 evaluator = "1.0.0"
 quickie = "1.19.0"
 fadingEdges = "1.0.4"
-composeHighlight = "0.34.0"
+composeHighlight = "0.35.0"
 
 avifCoder = "3.0.0-alpha15"
 aire = "0.18.1"
@@ -34,7 +34,7 @@ shadowsPlus = "1.0.4"
 google-segmentationSelfie = "16.0.0-beta6"
 google-subjectSegmentation = "16.0.0-beta1"
 detekt = "1.23.8"
-detektCompose = "0.6.4"
+detektCompose = "0.6.6"
 decompose = "3.5.0"
 
 kotlin = "2.4.10"
@@ -43,7 +43,7 @@ hilt = "2.60.1"
 gms = "4.5.0"
 
 ktor = "3.5.2"
-coil = "3.6.0"
+coil = "3.6.1"
 dotlottieAndroid = "0.16.0"
 appCompat = "1.8.0"
 androidxCore = "1.19.0"
@@ -150,6 +150,7 @@ toolbox-rawCoder = { module = "com.github.T8RIN.ImageToolboxLibs:raw-coder", ver
 toolbox-tiffCoder = { module = "com.github.T8RIN.ImageToolboxLibs:tiff-coder", version.ref = "imageToolboxLibs" }
 toolbox-gmic = { module = "com.github.T8RIN.ImageToolboxLibs:gmic", version.ref = "imageToolboxLibs" }
 toolbox-archiveBrotli = { module = "com.github.T8RIN.ImageToolboxLibs:archive-brotli", version.ref = "imageToolboxLibs" }
+toolbox-fractalEngine = { module = "com.github.T8RIN.ImageToolboxLibs:fractal-engine", version.ref = "imageToolboxLibs" }
 
 aire = { module = "com.github.awxkee:aire", version.ref = "aire" }
 jpegli-coder = { module = "com.github.awxkee:jpegli-coder", version.ref = "jpegliCoder" }

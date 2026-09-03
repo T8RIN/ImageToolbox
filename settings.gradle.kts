@@ -128,6 +128,7 @@ include(":feature:photomosaic")
 include(":feature:multi-frame-fusion")
 include(":feature:compression-lab")
 include(":feature:code-preview")
+include(":feature:fractal-generation")
 
 include(":feature:root")
 

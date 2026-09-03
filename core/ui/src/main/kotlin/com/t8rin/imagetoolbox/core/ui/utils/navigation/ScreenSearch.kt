@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EditExif
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.EraseBackground
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Filter
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FormatConversion
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.FractalGeneration
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Gallery
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GifTools
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.GradientMaker
@@ -170,6 +171,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is JxlTools -> R.string.search_keywords_jxl_tools
     is SvgMaker -> R.string.search_keywords_svg_maker
     is FormatConversion -> R.string.search_keywords_format_conversion
+    is FractalGeneration -> R.string.search_keywords_fractal_generation
     is DocumentScanner -> R.string.search_keywords_document_scanner
     is ScanQrCode -> R.string.search_keywords_scan_qr_code
     is ImageStacking -> R.string.search_keywords_image_stacking

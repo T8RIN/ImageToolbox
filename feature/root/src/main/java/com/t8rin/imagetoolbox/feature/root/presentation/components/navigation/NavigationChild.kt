@@ -71,6 +71,8 @@ import com.t8rin.imagetoolbox.feature.filters.presentation.FiltersContent
 import com.t8rin.imagetoolbox.feature.filters.presentation.screenLogic.FiltersComponent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.FormatConversionContent
 import com.t8rin.imagetoolbox.feature.format_conversion.presentation.screenLogic.FormatConversionComponent
+import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.FractalGenerationContent
+import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogic.FractalGenerationComponent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.GifToolsContent
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.GradientMakerContent
@@ -387,6 +389,11 @@ internal sealed interface NavigationChild {
     class Main(private val component: MainComponent) : NavigationChild {
         @Composable
         override fun Content() = MainContent(component)
+    }
+
+    class FractalGeneration(private val component: FractalGenerationComponent) : NavigationChild {
+        @Composable
+        override fun Content() = FractalGenerationContent(component)
     }
 
     class NoiseGeneration(private val component: NoiseGenerationComponent) : NavigationChild {
