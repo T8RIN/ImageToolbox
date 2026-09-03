@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -3278,7 +3276,7 @@
     <string name="export_profiles">Exportovať profily</string>
     <string name="save_export_profile">Uložiť aktuálny profil</string>
     <string name="delete_export_profile">Odstrániť exportný profil</string>
-    <string name="delete_export_profile_sub">Chcete odstrániť exportný profil \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Chcete odstrániť exportný profil \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Hranica kreslenia</string>
     <string name="draw_bitmap_border_sub">Zobrazte tenký okraj okolo kresliaceho a mazacieho plátna</string>
     <string name="wavy">Vlnitý</string>
@@ -3683,7 +3681,7 @@
     <string name="batch_rename_failed">Niektoré súbory sa nepodarilo premenovať</string>
     <string name="permission_not_granted">Povolenie nebolo udelené</string>
     <string name="original_filename_pattern_description">Používa pôvodný názov súboru bez prípony, čo vám pomôže zachovať identifikáciu zdroja neporušenú. Podporuje tiež rezanie pomocou \\o{start:end}, prepis pomocou \\o{t} a nahradenie pomocou \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Automatické inkrementačné počítadlo. Podporuje vlastné formátovanie: \\c{padding} (napr. \\c{3} -&amp;gt; 001), \\c{start:step} alebo \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Automatické inkrementačné počítadlo. Podporuje vlastné formátovanie: \\c{padding} (napr. \\c{3} -&gt; 001), \\c{start:step} alebo \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Názov nadradeného priečinka, v ktorom sa nachádzal pôvodný súbor.</string>
     <string name="file_size_pattern_description">Veľkosť pôvodného súboru. Podporuje jednotky: \\z{b}, \\z{kb}, \\z{mb} alebo len \\z pre ľudsky čitateľný formát.</string>
     <string name="uuid_pattern_description">Generuje náhodný univerzálny jedinečný identifikátor (UUID), aby sa zabezpečila jedinečnosť súboru.</string>
@@ -4650,7 +4648,7 @@
     <string name="gmic_filter_equalize_shadow">Vyrovnať tieň</string>
     <string name="gmic_filter_fill_holes">Vyplňte otvory</string>
     <string name="gmic_filter_fish_eye">Rybie oko</string>
-    <string name="gmic_filter_freaky_black_and_white">Šialené B&amp;amp;W</string>
+    <string name="gmic_filter_freaky_black_and_white">Šialené B&amp;W</string>
     <string name="gmic_filter_hedcut">Hedcut</string>
     <string name="gmic_filter_hessian_sharpen">Hessian Sharpen</string>
     <string name="gmic_param_recompute">Prepočítať</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
     <string name="stay">இருங்கள்</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">சுயவிவரங்களை ஏற்றுமதி செய்யுங்கள்</string>
     <string name="save_export_profile">தற்போதைய சுயவிவரத்தை சேமிக்கவும்</string>
     <string name="delete_export_profile">ஏற்றுமதி சுயவிவரத்தை நீக்கவும்</string>
-    <string name="delete_export_profile_sub">\\"%1$s\\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
+    <string name="delete_export_profile_sub">\\\"%1$s\\\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
     <string name="draw_bitmap_border">வரைதல் எல்லை</string>
     <string name="draw_bitmap_border_sub">வரைதல் மற்றும் அழிக்கும் கேன்வாஸைச் சுற்றி ஒரு மெல்லிய பார்டரைக் காட்டு</string>
     <string name="wavy">அலை அலையானது</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">சில கோப்புகளை மறுபெயரிட முடியவில்லை</string>
     <string name="permission_not_granted">அனுமதி வழங்கப்படவில்லை</string>
     <string name="original_filename_pattern_description">அசல் கோப்பு பெயரை நீட்டிப்பு இல்லாமல் பயன்படுத்துகிறது, இது மூல அடையாளத்தை அப்படியே வைத்திருக்க உதவுகிறது. \\o{start:end} உடன் ஸ்லைசிங், \\o{t} உடன் ஒலிபெயர்ப்பு மற்றும் \\o{s/old/new/} உடன் மாற்றுவதையும் ஆதரிக்கிறது.</string>
-    <string name="sequence_number_pattern_description">தானாக அதிகரிக்கும் கவுண்டர். தனிப்பயன் வடிவமைப்பை ஆதரிக்கிறது: \\c{padding} (எ.கா. \\c{3} -&amp;gt; 001), \\c{start:step} அல்லது \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">தானாக அதிகரிக்கும் கவுண்டர். தனிப்பயன் வடிவமைப்பை ஆதரிக்கிறது: \\c{padding} (எ.கா. \\c{3} -&gt; 001), \\c{start:step} அல்லது \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">அசல் கோப்பு அமைந்துள்ள மூலக் கோப்புறையின் பெயர்.</string>
     <string name="file_size_pattern_description">அசல் கோப்பின் அளவு. யூனிட்களை ஆதரிக்கிறது: \\z{b}, \\z{kb}, \\z{mb} அல்லது மனிதர்கள் படிக்கக்கூடிய வடிவமைப்பிற்கு \\z.</string>
     <string name="uuid_pattern_description">கோப்புப் பெயரின் தனித்துவத்தை உறுதிப்படுத்த, ஒரு சீரற்ற உலகளாவிய தனித்துவ அடையாளங்காட்டியை (UUID) உருவாக்குகிறது.</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">நிழலை சமப்படுத்தவும்</string>
     <string name="gmic_filter_fill_holes">துளைகளை நிரப்பவும்</string>
     <string name="gmic_filter_fish_eye">மீன்-கண்</string>
-    <string name="gmic_filter_freaky_black_and_white">ஃப்ரீக்கி பி&amp;amp;டபிள்யூ</string>
+    <string name="gmic_filter_freaky_black_and_white">ஃப்ரீக்கி பி&amp;டபிள்யூ</string>
     <string name="gmic_filter_hedcut">ஹெட்கட்</string>
     <string name="gmic_filter_hessian_sharpen">ஹெசியன் ஷார்பன்</string>
     <string name="gmic_param_recompute">மறு கணக்கீடு</string>

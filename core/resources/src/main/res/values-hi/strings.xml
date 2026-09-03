@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
     <string name="reset_image">छवि रीसेट करें</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">प्रोफ़ाइल निर्यात करें</string>
     <string name="save_export_profile">वर्तमान प्रोफ़ाइल सहेजें</string>
     <string name="delete_export_profile">निर्यात प्रोफ़ाइल हटाएँ</string>
-    <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\"%1$s\\" को हटाना चाहते हैं?</string>
+    <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\\"%1$s\\\" को हटाना चाहते हैं?</string>
     <string name="draw_bitmap_border">सीमा रेखा खींचना</string>
     <string name="draw_bitmap_border_sub">ड्राइंग और मिटाए गए कैनवास के चारों ओर एक पतली सीमा दिखाएं</string>
     <string name="wavy">लहरदार</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">कुछ फ़ाइलों का नाम नहीं बदला जा सका</string>
     <string name="permission_not_granted">अनुमति नहीं दी गई</string>
     <string name="original_filename_pattern_description">बिना एक्सटेंशन के मूल फ़ाइल नाम का उपयोग करता है, जिससे आपको स्रोत पहचान बरकरार रखने में मदद मिलती है। \\o{start:end} के साथ स्लाइसिंग, \\o{t} के साथ लिप्यंतरण और \\o{s/old/new/} के साथ बदलने का भी समर्थन करता है।</string>
-    <string name="sequence_number_pattern_description">स्वत: वृद्धिशील काउंटर. कस्टम फ़ॉर्मेटिंग का समर्थन करता है: \\c{padding} (उदा. \\c{3} -&amp;gt; 001), \\c{start:step} या \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">स्वत: वृद्धिशील काउंटर. कस्टम फ़ॉर्मेटिंग का समर्थन करता है: \\c{padding} (उदा. \\c{3} -&gt; 001), \\c{start:step} या \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">मूल फ़ोल्डर का नाम जहां मूल फ़ाइल स्थित थी.</string>
     <string name="file_size_pattern_description">मूल फ़ाइल का आकार. इकाइयों का समर्थन करता है: \\z{b}, \\z{kb}, \\z{mb} या मानव पठनीय प्रारूप के लिए बस \\z।</string>
     <string name="uuid_pattern_description">फ़ाइल नाम की विशिष्टता सुनिश्चित करने के लिए एक यादृच्छिक सार्वभौमिक विशिष्ट पहचानकर्ता (यूयूआईडी) उत्पन्न करता है।</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">छाया को बराबर करें</string>
     <string name="gmic_filter_fill_holes">छेद भरें</string>
     <string name="gmic_filter_fish_eye">मछली की आँख</string>
-    <string name="gmic_filter_freaky_black_and_white">अजीब B&amp;amp;W</string>
+    <string name="gmic_filter_freaky_black_and_white">अजीब B&amp;W</string>
     <string name="gmic_filter_hedcut">हेडकट</string>
     <string name="gmic_filter_hessian_sharpen">हेस्सियन पैनापन</string>
     <string name="gmic_param_recompute">पुन: परिकलन करें</string>

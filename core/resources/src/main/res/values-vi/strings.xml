@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
     <string name="loading">Đang tải…</string>
@@ -3275,7 +3273,7 @@
     <string name="export_profiles">Xuất hồ sơ</string>
     <string name="save_export_profile">Lưu hồ sơ hiện tại</string>
     <string name="delete_export_profile">Xóa hồ sơ xuất</string>
-    <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \\"%1$s\\" không?</string>
+    <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \\\"%1$s\\\" không?</string>
     <string name="draw_bitmap_border">Vẽ đường viền</string>
     <string name="draw_bitmap_border_sub">Hiển thị đường viền mỏng xung quanh bản vẽ và xóa canvas</string>
     <string name="wavy">Lượn sóng</string>
@@ -3680,7 +3678,7 @@
     <string name="batch_rename_failed">Không thể đổi tên một số tệp</string>
     <string name="permission_not_granted">Quyền không được cấp</string>
     <string name="original_filename_pattern_description">Sử dụng tên tệp gốc không có phần mở rộng, giúp bạn giữ nguyên nhận dạng nguồn. Đồng thời hỗ trợ cắt bằng \\o{start:end}, chuyển ngữ bằng \\o{t} và thay thế bằng \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Bộ đếm tăng tự động. Hỗ trợ định dạng tùy chỉnh: \\c{padding} (ví dụ \\c{3} -&amp;gt; 001), \\c{start:step} hoặc \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Bộ đếm tăng tự động. Hỗ trợ định dạng tùy chỉnh: \\c{padding} (ví dụ \\c{3} -&gt; 001), \\c{start:step} hoặc \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Tên của thư mục mẹ nơi chứa tệp gốc.</string>
     <string name="file_size_pattern_description">Kích thước của tập tin gốc. Hỗ trợ các đơn vị: \\z{b}, \\z{kb}, \\z{mb} hoặc chỉ \\z cho định dạng con người có thể đọc được.</string>
     <string name="uuid_pattern_description">Tạo Mã định danh duy nhất toàn cầu (UUID) ngẫu nhiên để đảm bảo tính duy nhất của tên tệp.</string>
@@ -5028,7 +5026,6 @@
     <string name="palette_pdf_sub">Sắp xếp các bảng màu và hình ảnh nguồn tùy chọn trong trang liên hệ PDF</string>
     <string name="palette_pdf_include_image">Bao gồm hình ảnh nguồn</string>
     <string name="palette_pdf_include_image_sub">Đặt hình ảnh nguồn phía trên lưới màu trên trang đầu tiên</string>
-    <string name="palette_pdf_show_names" />
     <string name="palette_pdf_show_hex">Hiển thị giá trị HEX</string>
     <string name="palette_pdf_show_filename">Hiển thị tên tệp nguồn</string>
     <string name="palette_pdf_show_filename_sub">Đặt tên tệp nguồn ở đầu mỗi trang</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Mărime %1$s</string>
     <string name="height">Înălțime %1$s</string>
     <string name="quality">Calitatea</string>
@@ -3277,7 +3275,7 @@
     <string name="export_profiles">Exportați profiluri</string>
     <string name="save_export_profile">Salvați profilul curent</string>
     <string name="delete_export_profile">Ștergeți profilul de export</string>
-    <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Chenar de desen</string>
     <string name="draw_bitmap_border_sub">Afișați un chenar subțire în jurul desenului și ștergeți pânza</string>
     <string name="wavy">Ondulat</string>
@@ -3682,7 +3680,7 @@
     <string name="batch_rename_failed">Unele fișiere nu au putut fi redenumite</string>
     <string name="permission_not_granted">Permisiunea nu a fost acordată</string>
     <string name="original_filename_pattern_description">Folosește numele fișierului original fără extensie, ajutându-vă să păstrați intactă identificarea sursei. De asemenea, acceptă tăierea cu \\o{start:end}, transliterarea cu \\o{t} și înlocuirea cu \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Contor cu incrementare automată. Acceptă formatarea personalizată: \\c{padding} (de exemplu, \\c{3} -&amp;gt; 001), \\c{start:step} sau \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Contor cu incrementare automată. Acceptă formatarea personalizată: \\c{padding} (de exemplu, \\c{3} -&gt; 001), \\c{start:step} sau \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Numele folderului părinte în care a fost localizat fișierul original.</string>
     <string name="file_size_pattern_description">Dimensiunea fișierului original. Acceptă unități: \\z{b}, \\z{kb}, \\z{mb} sau doar \\z pentru un format care poate fi citit de om.</string>
     <string name="uuid_pattern_description">Generează un identificator unic universal (UUID) aleatoriu pentru a asigura unicitatea numelui de fișier.</string>

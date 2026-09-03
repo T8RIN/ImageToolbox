@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Profilleri dışa aktar</string>
     <string name="save_export_profile">Mevcut profili kaydet</string>
     <string name="delete_export_profile">Dışa aktarma profilini sil</string>
-    <string name="delete_export_profile_sub">\\"%1$s\\" dışa aktarma profilini silmek istiyor musunuz?</string>
+    <string name="delete_export_profile_sub">\\\"%1$s\\\" dışa aktarma profilini silmek istiyor musunuz?</string>
     <string name="draw_bitmap_border">Kenarlık çizme</string>
     <string name="draw_bitmap_border_sub">Çizim ve silme tuvalinin çevresinde ince bir kenarlık gösterme</string>
     <string name="wavy">Dalgalı</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Bazı dosyalar yeniden adlandırılamadı</string>
     <string name="permission_not_granted">İzin verilmedi</string>
     <string name="original_filename_pattern_description">Orijinal dosya adını uzantısız olarak kullanarak kaynak kimliğini olduğu gibi korumanıza yardımcı olur. Ayrıca \\o{start:end} ile dilimlemeyi, \\o{t} ile harf çevirisini ve \\o{s/eski/yeni/ile değiştirmeyi de destekler.</string>
-    <string name="sequence_number_pattern_description">Otomatik artan sayaç. Özel biçimlendirmeyi destekler: \\c{padding} (ör. \\c{3} -&amp;gt; 001), \\c{start:step} veya \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Otomatik artan sayaç. Özel biçimlendirmeyi destekler: \\c{padding} (ör. \\c{3} -&gt; 001), \\c{start:step} veya \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Orijinal dosyanın bulunduğu ana klasörün adı.</string>
     <string name="file_size_pattern_description">Orijinal dosyanın boyutu. Birimleri destekler: \\z{b}, \\z{kb}, \\z{mb} veya insan tarafından okunabilir format için yalnızca \\z.</string>
     <string name="uuid_pattern_description">Dosya adının benzersizliğini sağlamak için rastgele bir Evrensel Benzersiz Tanımlayıcı (UUID) oluşturur.</string>
@@ -5032,8 +5030,6 @@
     <string name="palette_pdf_show_names">Renk adlarını göster</string>
     <string name="palette_pdf_show_hex">HEX değerlerini göster</string>
     <string name="palette_pdf_show_filename">Kaynak dosya adını göster</string>
-    <string name="palette_pdf_show_filename_sub" />
-    <string name="palette_pdf_show_palette_name" />
     <string name="palette_pdf_show_palette_name_sub">Paletin içinde saklanan adı dosya adının altına yerleştirin</string>
     <string name="palette_pdf_selected_file">Seçilen palet dosyası</string>
     <string name="palette_pdf_page_margin">Sayfa kenar boşlukları</string>

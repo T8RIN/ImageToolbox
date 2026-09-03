@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
     <string name="pick_image">Kies afbeelding om te starten</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Profielen exporteren</string>
     <string name="save_export_profile">Huidig ​​profiel opslaan</string>
     <string name="delete_export_profile">Exportprofiel verwijderen</string>
-    <string name="delete_export_profile_sub">Wilt u het exportprofiel \\"%1$s\\" verwijderen?</string>
+    <string name="delete_export_profile_sub">Wilt u het exportprofiel \\\"%1$s\\\" verwijderen?</string>
     <string name="draw_bitmap_border">Rand tekenen</string>
     <string name="draw_bitmap_border_sub">Toon een dunne rand rond het teken- en wisdoek</string>
     <string name="wavy">Golvend</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Sommige bestanden konden niet worden hernoemd</string>
     <string name="permission_not_granted">Er werd geen toestemming verleend</string>
     <string name="original_filename_pattern_description">Gebruikt de originele bestandsnaam zonder extensie, zodat u de bronidentificatie intact kunt houden. Ondersteunt ook segmenteren met \\o{start:end}, transliteratie met \\o{t} en vervangen door \\o{s/oud/nieuw/}.</string>
-    <string name="sequence_number_pattern_description">Automatisch oplopende teller. Ondersteunt aangepaste opmaak: \\c{padding} (bijvoorbeeld \\c{3} -&amp;gt; 001), \\c{start:step} of \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Automatisch oplopende teller. Ondersteunt aangepaste opmaak: \\c{padding} (bijvoorbeeld \\c{3} -&gt; 001), \\c{start:step} of \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">De naam van de bovenliggende map waarin het oorspronkelijke bestand zich bevond.</string>
     <string name="file_size_pattern_description">De grootte van het originele bestand. Ondersteunt eenheden: \\z{b}, \\z{kb}, \\z{mb} of gewoon \\z voor een voor mensen leesbaar formaat.</string>
     <string name="uuid_pattern_description">Genereert een willekeurige Universally Unique Identifier (UUID) om de uniciteit van de bestandsnaam te garanderen.</string>
