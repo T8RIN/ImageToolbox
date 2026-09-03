@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -3680,7 +3678,7 @@
     <string name="batch_rename_failed">一部のファイルの名前を変更できませんでした</string>
     <string name="permission_not_granted">許可が与えられませんでした</string>
     <string name="original_filename_pattern_description">拡張子なしの元のファイル名を使用するため、ソースの識別をそのまま維持できます。 \\o{start:end} によるスライス、\\o{t} による音訳、\\o{s/old/new/} による置換もサポートしています。</string>
-    <string name="sequence_number_pattern_description">自動増加カウンター。カスタム書式設定をサポートします: \\c{padding} (例: \\c{3} -&amp;gt; 001)、\\c{start:step} または \\c{start:step:padding}。</string>
+    <string name="sequence_number_pattern_description">自動増加カウンター。カスタム書式設定をサポートします: \\c{padding} (例: \\c{3} -&gt; 001)、\\c{start:step} または \\c{start:step:padding}。</string>
     <string name="parent_folder_pattern_description">元のファイルが存在する親フォルダーの名前。</string>
     <string name="file_size_pattern_description">元のファイルのサイズ。サポートされる単位: \\z{b}、\\z{kb}、\\z{mb}、または人間が判読できる形式の \\z のみ。</string>
     <string name="uuid_pattern_description">ファイル名の一意性を確保するために、ランダムな Universally Unique Identifier (UUID) を生成します。</string>
@@ -5002,9 +5000,7 @@
     <string name="gif_type_to_apng">GIFからAPNGへ</string>
     <string name="gif_type_to_apng_sub">GIF画像をAPNGアニメーション画像に変換</string>
     <string name="apng_type_to_gif">APNGからGIFへ</string>
-    <string name="apng_type_to_gif_sub" />
     <string name="webp_type_to_gif">WEBPからGIFへ</string>
-    <string name="webp_type_to_gif_sub" />
     <string name="apng_type_to_webp">APNGからWEBPへ</string>
     <string name="apng_type_to_webp_sub">APNG アニメーションを WEBP 画像に変換する</string>
     <string name="webp_type_to_apng">WEBPからAPNGへの変換</string>

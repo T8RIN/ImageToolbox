@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3680,7 +3678,7 @@
     <string name="batch_rename_failed">某些檔案無法重新命名</string>
     <string name="permission_not_granted">未獲得許可</string>
     <string name="original_filename_pattern_description">使用不含副檔名的原始檔名，幫助您保持來源標識完整。也支援使用 \\o{start:end} 進行切片、使用 \\o{t} 進行音譯以及使用 \\o{s/old/new/} 進行替換。</string>
-    <string name="sequence_number_pattern_description">自動遞增計數器。支援自訂格式：\\c{padding}（例如 \\c{3} -&amp;gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
+    <string name="sequence_number_pattern_description">自動遞增計數器。支援自訂格式：\\c{padding}（例如 \\c{3} -&gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
     <string name="parent_folder_pattern_description">原始檔案所在的父資料夾的名稱。</string>
     <string name="file_size_pattern_description">原始文件的大小。支援單位：\\z{b}、\\z{kb}、\\z{mb} 或僅 \\z 以供人類可讀格式。</string>
     <string name="uuid_pattern_description">產生隨機的通用唯一識別碼 (UUID) 以確保檔案名稱的唯一性。</string>
@@ -4973,9 +4971,6 @@
     <string name="compression_lab_target_not_reached">使用此格式無法達到請求的目標。</string>
     <string name="compression_lab_failed_formats">無法測試：%1$s</string>
     <string name="search_keywords_compression_lab">壓縮基準 編解碼器 編碼器 批次 檔案大小 品質 SSIM PSNR AVIF WebP JPEG JXL HEIC PNG TIFF QOI</string>
-    <string name="gmic_auxiliary_images" />
-    <string name="gmic_auxiliary_images_empty_sub" />
-    <string name="gmic_auxiliary_images_usage_sub" />
     <string name="markup_layer_text_defaults_sub">預設文字圖層外觀</string>
     <string name="collapsible_settings_groups">可折疊設定組</string>
     <string name="collapsible_settings_groups_sub">允許在全螢幕模式下展開和折疊設定組</string>

@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">صادرات پروفایل ها</string>
     <string name="save_export_profile">ذخیره نمایه فعلی</string>
     <string name="delete_export_profile">حذف نمایه صادرات</string>
-    <string name="delete_export_profile_sub">آیا می‌خواهید نمایه صادراتی \\"%1$s\\" را حذف کنید؟</string>
+    <string name="delete_export_profile_sub">آیا می‌خواهید نمایه صادراتی \\\"%1$s\\\" را حذف کنید؟</string>
     <string name="draw_bitmap_border">ترسیم حاشیه</string>
     <string name="draw_bitmap_border_sub">یک حاشیه نازک در اطراف نقاشی نشان دهید و بوم پاک کنید</string>
     <string name="wavy">موج دار</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">برخی از فایل ها را نمی توان تغییر نام داد</string>
     <string name="permission_not_granted">اجازه داده نشد</string>
     <string name="original_filename_pattern_description">از نام فایل اصلی بدون پسوند استفاده می کند و به شما کمک می کند تا شناسایی منبع را دست نخورده نگه دارید. همچنین از برش با \\o{start:end}، نویسه‌گردانی با \\o{t} و جایگزینی با \\o{s/old/new/} پشتیبانی می‌کند.</string>
-    <string name="sequence_number_pattern_description">شمارنده افزایش خودکار از قالب بندی سفارشی پشتیبانی می کند: \\c{padding} (به عنوان مثال \\c{3} -&amp;gt; 001)، \\c{start:step} یا \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">شمارنده افزایش خودکار از قالب بندی سفارشی پشتیبانی می کند: \\c{padding} (به عنوان مثال \\c{3} -&gt; 001)، \\c{start:step} یا \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">نام پوشه والد که فایل اصلی در آن قرار داشت.</string>
     <string name="file_size_pattern_description">اندازه فایل اصلی پشتیبانی از واحدهای: \\z{b}، \\z{kb}، \\z{mb} یا فقط \\z برای قالب قابل خواندن توسط انسان.</string>
     <string name="uuid_pattern_description">برای اطمینان از منحصر به فرد بودن نام فایل، یک شناسه منحصر به فرد جهانی (UUID) تصادفی ایجاد می کند.</string>
@@ -4648,7 +4646,7 @@
     <string name="gmic_filter_equalize_shadow">سایه را برابر کنید</string>
     <string name="gmic_filter_fill_holes">سوراخ ها را پر کنید</string>
     <string name="gmic_filter_fish_eye">چشم ماهی</string>
-    <string name="gmic_filter_freaky_black_and_white">Freaky B&amp;amp;W</string>
+    <string name="gmic_filter_freaky_black_and_white">Freaky B&amp;W</string>
     <string name="gmic_filter_hedcut">هدکات</string>
     <string name="gmic_filter_hessian_sharpen">هسین شارپن</string>
     <string name="gmic_param_recompute">محاسبه مجدد</string>

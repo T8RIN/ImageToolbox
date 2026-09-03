@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -3683,7 +3681,7 @@
     <string name="batch_rename_failed">Nie udało się zmienić nazwy niektórych plików</string>
     <string name="permission_not_granted">Pozwolenie nie zostało wydane</string>
     <string name="original_filename_pattern_description">Używa oryginalnej nazwy pliku bez rozszerzenia, pomagając zachować nienaruszoną identyfikację źródła. Obsługuje także cięcie za pomocą \\o{start:end}, transliterację za pomocą \\o{t} i zastępowanie przez \\o{s/stare/nowe}.</string>
-    <string name="sequence_number_pattern_description">Licznik automatycznie zwiększający się. Obsługuje niestandardowe formatowanie: \\c{padding} (np. \\c{3} -&amp;gt; 001), \\c{start:step} lub \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Licznik automatycznie zwiększający się. Obsługuje niestandardowe formatowanie: \\c{padding} (np. \\c{3} -&gt; 001), \\c{start:step} lub \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Nazwa folderu nadrzędnego, w którym znajdował się oryginalny plik.</string>
     <string name="file_size_pattern_description">Rozmiar oryginalnego pliku. Obsługuje jednostki: \\z{b}, \\z{kb}, \\z{mb} lub po prostu \\z w formacie czytelnym dla człowieka.</string>
     <string name="uuid_pattern_description">Generuje losowy uniwersalny unikalny identyfikator (UUID), aby zapewnić niepowtarzalność nazwy pliku.</string>

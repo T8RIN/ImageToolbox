@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3680,7 +3678,7 @@
     <string name="batch_rename_failed">某些文件无法重命名</string>
     <string name="permission_not_granted">未获得许可</string>
     <string name="original_filename_pattern_description">使用不带扩展名的原始文件名，帮助您保持源标识完整。还支持使用 \\o{start:end} 进行切片、使用 \\o{t} 进行音译以及使用 \\o{s/old/new/} 进行替换。</string>
-    <string name="sequence_number_pattern_description">自动递增计数器。支持自定义格式：\\c{padding}（例如 \\c{3} -&amp;gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
+    <string name="sequence_number_pattern_description">自动递增计数器。支持自定义格式：\\c{padding}（例如 \\c{3} -&gt; 001）、\\c{start:step} 或 \\c{start:step:padding}。</string>
     <string name="parent_folder_pattern_description">原始文件所在的父文件夹的名称。</string>
     <string name="file_size_pattern_description">原始文件的大小。支持单位：\\z{b}、\\z{kb}、\\z{mb} 或仅 \\z 以供人类可读格式。</string>
     <string name="uuid_pattern_description">生成随机的通用唯一标识符 (UUID) 以确保文件名的唯一性。</string>
@@ -4798,18 +4796,18 @@
     <string name="gmic_param_detail_mask_smoothness">细节蒙版平滑度</string>
     <string name="gmic_param_equalization">均衡</string>
     <string name="gmic_param_exponent">指数</string>
-    <string name="gmic_param_film_type">薄膜类型</string>
-    <string name="gmic_param_grain_highlights">谷物亮点</string>
+    <string name="gmic_param_film_type">胶片类型</string>
+    <string name="gmic_param_grain_highlights">颗粒高光</string>
     <string name="gmic_param_grain_midtones">颗粒中间调</string>
-    <string name="gmic_param_grain_scale">粒级</string>
+    <string name="gmic_param_grain_scale">颗粒大小</string>
     <string name="gmic_param_grain_shadows">颗粒阴影</string>
     <string name="gmic_param_grain_tone_fading">颗粒色调褪色</string>
     <string name="gmic_param_grain_type">颗粒类型</string>
     <string name="gmic_param_green_level">绿色等级</string>
     <string name="gmic_param_green_smoothness">绿色平滑度</string>
-    <string name="gmic_param_high_value">高价值</string>
-    <string name="gmic_param_highlights_detail">亮点细节</string>
-    <string name="gmic_param_highlights_gamma">亮点伽玛</string>
+    <string name="gmic_param_high_value">高值</string>
+    <string name="gmic_param_highlights_detail">高亮细节</string>
+    <string name="gmic_param_highlights_gamma">高光伽玛</string>
     <string name="gmic_param_hue_0">色相 0</string>
     <string name="gmic_param_hue_135">色调 135</string>
     <string name="gmic_param_hue_180">色调 180</string>
@@ -4833,7 +4831,7 @@
     <string name="gmic_param_midpoint_gamma">中点伽玛</string>
     <string name="gmic_param_near_black">近黑色</string>
     <string name="gmic_param_negation">否定</string>
-    <string name="gmic_param_opposing">反对</string>
+    <string name="gmic_param_opposing">对立</string>
     <string name="gmic_param_output_contrast">输出对比度</string>
     <string name="gmic_param_overshoot">超调</string>
     <string name="gmic_param_process_top_layer_only">仅处理顶层</string>
@@ -4901,7 +4899,7 @@
     <string name="focus_strength">焦点分离</string>
     <string name="source_frames">源帧</string>
     <string name="fusion_image_limit">一次最多可以融合 %1$d 帧</string>
-    <string name="search_keywords_multi_frame_fusion">多帧融合曝光 hdr 焦点堆叠中值噪声人物去除支架</string>
+    <string name="search_keywords_multi_frame_fusion">多帧融合 曝光 HDR 焦点堆叠 中值降噪 人物移除 包围曝光 长曝光 光迹 星轨</string>
     <string name="long_exposure">长期接触</string>
     <string name="long_exposure_sub">通过平均线性光中的序列来平滑运动，同时保持静态细节</string>
     <string name="light_trails">光迹</string>
@@ -4909,7 +4907,7 @@
     <string name="motion_trails">运动轨迹</string>
     <string name="motion_trails_sub">按淡入淡出历史的顺序混合帧。将最新的帧放在最后</string>
     <string name="light_threshold">光阈值</string>
-    <string name="trail_persistence">踪迹坚持</string>
+    <string name="trail_persistence">轨迹持久度</string>
     <string name="type_depth">深度</string>
     <string name="model_depth_anything_v2_small">紧凑型 Q4 版本 24.8M 参数模型，可快速处理</string>
     <string name="model_depth_anything_v2_small_fp32">快速24.8M参数模型的原始FP32权重，无需量化</string>

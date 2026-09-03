@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -3276,7 +3274,7 @@
     <string name="export_profiles">Vie profiilit</string>
     <string name="save_export_profile">Tallenna nykyinen profiili</string>
     <string name="delete_export_profile">Poista vientiprofiili</string>
-    <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Piirrä reunus</string>
     <string name="draw_bitmap_border_sub">Näytä ohut reunus piirustus- ja pyyhkimiskankaan ympärillä</string>
     <string name="wavy">Aaltoileva</string>
@@ -3681,7 +3679,7 @@
     <string name="batch_rename_failed">Joitakin tiedostoja ei voitu nimetä uudelleen</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
     <string name="original_filename_pattern_description">Käyttää alkuperäistä tiedostonimeä ilman päätettä, mikä auttaa sinua pitämään lähteen tunnisteen ennallaan. Tukee myös viipalointia \\o{start:end}, translitterointia \\o{t} ja korvaa \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri. Tukee mukautettua muotoilua: \\c{padding} (esim. \\c{3} -&amp;gt; 001), \\c{aloitus:vaihe} tai \\c{aloitus:vaihe:padding}.</string>
+    <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri. Tukee mukautettua muotoilua: \\c{padding} (esim. \\c{3} -&gt; 001), \\c{aloitus:vaihe} tai \\c{aloitus:vaihe:padding}.</string>
     <string name="parent_folder_pattern_description">Pääkansion nimi, jossa alkuperäinen tiedosto sijaitsi.</string>
     <string name="file_size_pattern_description">Alkuperäisen tiedoston koko. Tukee yksiköitä: \\z{b}, \\z{kb}, \\z{mb} tai vain \\z ihmisen luettavassa muodossa.</string>
     <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) ​​varmistaakseen tiedostonimen ainutlaatuisuuden.</string>

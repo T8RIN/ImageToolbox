@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -3278,7 +3276,7 @@
     <string name="export_profiles">Экспарт профіляў</string>
     <string name="save_export_profile">Захаваць бягучы профіль</string>
     <string name="delete_export_profile">Выдаліць профіль экспарту</string>
-    <string name="delete_export_profile_sub">Вы хочаце выдаліць профіль экспарту \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Вы хочаце выдаліць профіль экспарту \\\"%1$s\\\"?</string>
     <string name="draw_bitmap_border">Малюнак мяжы</string>
     <string name="draw_bitmap_border_sub">Пакажыце тонкую рамку вакол малюнка і палатна для сцірання</string>
     <string name="wavy">Хвалісты</string>
@@ -3683,7 +3681,7 @@
     <string name="batch_rename_failed">Не ўдалося перайменаваць некаторыя файлы</string>
     <string name="permission_not_granted">Дазволу не далі</string>
     <string name="original_filename_pattern_description">Выкарыстоўвае зыходнае імя файла без пашырэння, што дапамагае захаваць ідэнтыфікацыю крыніцы. Таксама падтрымлівае нарэзку з \\o{start:end}, транслітарацыю з \\o{t} і замену на \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Лічыльнік з аўтаматычным павелічэннем. Падтрымлівае індывідуальнае фарматаванне: \\c{padding} (напрыклад, \\c{3} -&amp;gt; 001), \\c{start:step} або \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Лічыльнік з аўтаматычным павелічэннем. Падтрымлівае індывідуальнае фарматаванне: \\c{padding} (напрыклад, \\c{3} -&gt; 001), \\c{start:step} або \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Назва бацькоўскай папкі, у якой знаходзіўся зыходны файл.</string>
     <string name="file_size_pattern_description">Памер зыходнага файла. Падтрымлівае адзінкі: \\z{b}, \\z{kb}, \\z{mb} або проста \\z для фармату, які чытаецца чалавекам.</string>
     <string name="uuid_pattern_description">Стварае выпадковы універсальны ўнікальны ідэнтыфікатар (UUID), каб забяспечыць унікальнасць імя файла.</string>
