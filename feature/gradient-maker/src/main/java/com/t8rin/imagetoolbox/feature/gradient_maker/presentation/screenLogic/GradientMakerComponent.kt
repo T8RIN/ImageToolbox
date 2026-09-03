@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.util.lerp
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
@@ -51,7 +52,7 @@ import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.leftFrom
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.rightFrom
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
@@ -63,8 +64,10 @@ import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientMaker
 import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.UiGradientState
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.UiMeshGradientState
+import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.generateMesh
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.GradientMakerType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.isMesh
+import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent.HistorySnapshot
 import com.t8rin.palette.PaletteCoderException
 import com.t8rin.palette.PaletteFormat
 import com.t8rin.palette.decode
@@ -87,7 +90,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
     private val imageGetter: ImageGetter<Bitmap>,
     private val gradientMaker: GradientMaker<Bitmap, ShaderBrush, Size, Color, TileMode, Offset>,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<HistorySnapshot>(dispatchersHolder, componentContext) {
 
     init {
         debounce {
@@ -357,22 +360,31 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateHeight(value: Int) {
-        _gradientSize.update {
-            it.copy(height = value)
+        if (gradientSize.height != value) {
+            updateWithHistory {
+                _gradientSize.update {
+                    it.copy(height = value)
+                }
+            }
         }
-        registerChanges()
     }
 
     fun updateWidth(value: Int) {
-        _gradientSize.update {
-            it.copy(width = value)
+        if (gradientSize.width != value) {
+            updateWithHistory {
+                _gradientSize.update {
+                    it.copy(width = value)
+                }
+            }
         }
-        registerChanges()
     }
 
-    fun setGradientType(gradientType: GradientType) {
-        gradientState.gradientType = gradientType
-        registerChanges()
+    fun setGradientType(value: GradientType) {
+        if (gradientType != value) {
+            updateWithHistory {
+                gradientState.gradientType = value
+            }
+        }
     }
 
     fun setPreviewSize(size: Size) {
@@ -380,36 +392,77 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun setImageFormat(imageFormat: ImageFormat) {
-        _imageFormat.update { imageFormat }
-        registerChanges()
+        if (_imageFormat.value != imageFormat) {
+            if (pendingHistoryMode != PendingHistoryMode.FormatChange) {
+                finalizePendingHistoryTransaction()
+            }
+            updateWithHistory(
+                mode = PendingHistoryMode.FormatChange,
+                commitDelayMillis = formatHistoryTransactionDebounce
+            ) {
+                _imageFormat.update { imageFormat }
+            }
+        }
     }
 
     fun updateLinearAngle(angle: Float) {
-        gradientState.linearGradientAngle = angle
-        registerChanges()
+        if (gradientState.linearGradientAngle != angle) {
+            updateWithHistory {
+                gradientState.linearGradientAngle = angle
+            }
+        }
     }
 
     fun setRadialProperties(
         center: Offset,
         radius: Float
     ) {
-        gradientState.centerFriction = center
-        gradientState.radiusFriction = radius
-        registerChanges()
+        if (centerFriction != center || radiusFriction != radius) {
+            updateWithHistory {
+                gradientState.centerFriction = center
+                gradientState.radiusFriction = radius
+            }
+        }
     }
 
     fun setTileMode(tileMode: TileMode) {
-        gradientState.tileMode = tileMode
-        registerChanges()
+        if (gradientState.tileMode != tileMode) {
+            updateWithHistory {
+                gradientState.tileMode = tileMode
+            }
+        }
     }
 
     fun setResolution(resolution: Float) {
         val coercedResolution = resolution
             .roundToInt()
             .coerceIn(1, meshResolutionMax)
-        meshGradientState.resolutionX = coercedResolution
-        meshGradientState.resolutionY = coercedResolution
-        registerChanges()
+        if (
+            meshResolutionX != coercedResolution ||
+            meshResolutionY != coercedResolution
+        ) {
+            updateWithHistory {
+                meshGradientState.resolutionX = coercedResolution
+                meshGradientState.resolutionY = coercedResolution
+            }
+        }
+    }
+
+    fun setMeshGridSize(size: Int) {
+        val coercedSize = size.coerceIn(2, 6)
+        if (meshGradientState.gridSize != coercedSize) {
+            updateWithHistory {
+                meshGradientState.points.apply {
+                    clear()
+                    addAll(generateMesh(coercedSize))
+                }
+                val resolution = lerp(1f, 16f, 2f / coercedSize)
+                    .roundToInt()
+                    .coerceIn(1, meshResolutionMax)
+                meshGradientState.resolutionX = resolution
+                meshGradientState.resolutionY = resolution
+            }
+        }
     }
 
     fun setScreenType(
@@ -422,36 +475,46 @@ class GradientMakerComponent @AssistedInject internal constructor(
         pair: Pair<Float, Color>,
         isInitial: Boolean = false
     ) {
-        gradientState.colorStops.add(pair)
-        if (!isInitial) {
-            registerChanges()
+        if (isInitial) {
+            gradientState.colorStops.add(pair)
+            resetHistory()
+        } else {
+            updateWithHistory {
+                gradientState.colorStops.add(pair)
+            }
         }
     }
 
     fun setGradientPalette(palette: GradientPalette) {
-        gradientState.colorStops.apply {
-            clear()
-            addAll(
-                palette.colors.mapIndexed { index, color ->
-                    index / palette.colors.lastIndex.toFloat() to color.toColor()
+        if (selectedGradientPalette != palette) {
+            updateWithHistory {
+                gradientState.colorStops.apply {
+                    clear()
+                    addAll(
+                        palette.colors.mapIndexed { index, color ->
+                            index / palette.colors.lastIndex.toFloat() to color.toColor()
+                        }
+                    )
                 }
-            )
+            }
         }
-        registerChanges()
     }
 
     fun setMeshGradientPalette(palette: GradientPalette) {
-        val colors = palette
-            .sampleColors(meshPoints.sumOf { it.size })
-            .map { it.toColor() }
-            .iterator()
+        if (selectedMeshGradientPalette != palette) {
+            updateWithHistory {
+                val colors = palette
+                    .sampleColors(meshPoints.sumOf { it.size })
+                    .map { it.toColor() }
+                    .iterator()
 
-        meshGradientState.points.replaceAll { row ->
-            row.map { (offset, _) ->
-                offset to colors.next()
+                meshGradientState.points.replaceAll { row ->
+                    row.map { (offset, _) ->
+                        offset to colors.next()
+                    }
+                }
             }
         }
-        registerChanges()
     }
 
     fun importPalette(uri: Uri) {
@@ -478,20 +541,21 @@ class GradientMakerComponent @AssistedInject internal constructor(
                 if (colors == null) {
                     AppToastHost.showFailureToast(PaletteCoderException.InvalidFormat())
                 } else {
-                    gradientState.colorStops.apply {
-                        clear()
-                        addAll(
-                            colors.mapIndexed { index, color ->
-                                val position = if (colors.size == 1) {
-                                    0f
-                                } else {
-                                    index / (colors.size - 1f)
+                    updateWithHistory {
+                        gradientState.colorStops.apply {
+                            clear()
+                            addAll(
+                                colors.mapIndexed { index, color ->
+                                    val position = if (colors.size == 1) {
+                                        0f
+                                    } else {
+                                        index / (colors.size - 1f)
+                                    }
+                                    position to color
                                 }
-                                position to color
-                            }
-                        )
+                            )
+                        }
                     }
-                    registerChanges()
                 }
             } finally {
                 _isImageLoading.value = false
@@ -503,14 +567,60 @@ class GradientMakerComponent @AssistedInject internal constructor(
         index: Int,
         pair: Pair<Float, Color>
     ) {
-        gradientState.colorStops[index] = pair.copy()
-        registerChanges()
+        if (gradientState.colorStops.getOrNull(index) != pair) {
+            updateWithHistory {
+                gradientState.colorStops[index] = pair.copy()
+            }
+        }
     }
 
     fun removeColorStop(index: Int) {
         if (gradientState.colorStops.size > 2) {
-            gradientState.colorStops.removeAt(index)
-            registerChanges()
+            updateWithHistory {
+                gradientState.colorStops.removeAt(index)
+            }
+        }
+    }
+
+    fun updateMeshPointPosition(
+        oldOffset: Offset,
+        newOffset: Offset
+    ) {
+        if (oldOffset != newOffset) {
+            updateWithHistory {
+                var found = false
+                meshGradientState.points.replaceAll { row ->
+                    row.map { point ->
+                        if (point.first == oldOffset && !found) {
+                            found = true
+                            newOffset to point.second
+                        } else {
+                            point
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateMeshPointColor(
+        offset: Offset,
+        color: Color
+    ) {
+        if (meshPoints.flatten().firstOrNull { it.first == offset }?.second == color) return
+
+        updateWithHistory {
+            var found = false
+            meshGradientState.points.replaceAll { row ->
+                row.map { point ->
+                    if (point.first == offset && !found) {
+                        found = true
+                        point.first to color
+                    } else {
+                        point
+                    }
+                }
+            }
         }
     }
 
@@ -538,8 +648,16 @@ class GradientMakerComponent @AssistedInject internal constructor(
     }
 
     fun updateGradientAlpha(value: Float) {
+        if (gradientAlpha != value) {
+            updateWithHistory {
+                _gradientAlpha.update { value }
+            }
+        }
+    }
+
+    fun setInitialGradientAlpha(value: Float) {
         _gradientAlpha.update { value }
-        registerChanges()
+        resetHistory()
     }
 
     override fun resetState() {
@@ -550,6 +668,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         _gradientState = UiGradientState()
         _meshGradientState = UiMeshGradientState()
         setScreenType(null)
+        resetHistory()
         registerChangesCleared()
     }
 
@@ -593,8 +712,11 @@ class GradientMakerComponent @AssistedInject internal constructor(
         }.toCoil()
 
     fun toggleKeepExif(value: Boolean) {
-        _keepExif.update { value }
-        registerChanges()
+        if (keepExif != value) {
+            updateWithHistory {
+                _keepExif.update { value }
+            }
+        }
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
@@ -706,6 +828,78 @@ class GradientMakerComponent @AssistedInject internal constructor(
     fun setShowOriginal(value: Boolean) {
         _showOriginal.update { value }
     }
+
+    private fun updateWithHistory(
+        mode: PendingHistoryMode? = null,
+        commitDelayMillis: Long = historyTransactionDebounce,
+        action: () -> Unit
+    ) {
+        beginPendingHistoryTransaction(
+            mode = mode,
+            commitDelayMillis = commitDelayMillis
+        )
+        action()
+        registerChanges()
+        schedulePendingHistoryCommit()
+    }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        gradientSize = gradientSize,
+        imageFormat = imageFormat,
+        gradientAlpha = gradientAlpha,
+        keepExif = keepExif,
+        gradientType = gradientType,
+        colorStops = colorStops.toList(),
+        tileMode = tileMode,
+        linearGradientAngle = angle,
+        centerFriction = centerFriction,
+        radiusFriction = radiusFriction,
+        meshPoints = meshPoints.map { it.toList() },
+        meshResolutionX = meshResolutionX,
+        meshResolutionY = meshResolutionY
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _gradientSize.update { snapshot.gradientSize }
+        _imageFormat.update { snapshot.imageFormat }
+        _gradientAlpha.update { snapshot.gradientAlpha }
+        _keepExif.update { snapshot.keepExif }
+        gradientState.apply {
+            gradientType = snapshot.gradientType
+            colorStops.apply {
+                clear()
+                addAll(snapshot.colorStops)
+            }
+            tileMode = snapshot.tileMode
+            linearGradientAngle = snapshot.linearGradientAngle
+            centerFriction = snapshot.centerFriction
+            radiusFriction = snapshot.radiusFriction
+        }
+        meshGradientState.apply {
+            points.apply {
+                clear()
+                addAll(snapshot.meshPoints.map { it.toList() })
+            }
+            resolutionX = snapshot.meshResolutionX
+            resolutionY = snapshot.meshResolutionY
+        }
+    }
+
+    data class HistorySnapshot(
+        val gradientSize: IntegerSize,
+        val imageFormat: ImageFormat,
+        val gradientAlpha: Float,
+        val keepExif: Boolean,
+        val gradientType: GradientType,
+        val colorStops: List<Pair<Float, Color>>,
+        val tileMode: TileMode,
+        val linearGradientAngle: Float,
+        val centerFriction: Offset,
+        val radiusFriction: Float,
+        val meshPoints: List<List<Pair<Offset, Color>>>,
+        val meshResolutionX: Int,
+        val meshResolutionY: Int
+    )
 
     @AssistedFactory
     fun interface Factory {
