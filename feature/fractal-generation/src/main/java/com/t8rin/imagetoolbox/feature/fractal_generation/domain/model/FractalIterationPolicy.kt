@@ -20,13 +20,10 @@ package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
 import kotlin.math.ln
 import kotlin.math.roundToInt
 
-enum class FractalIterationPolicy(
-    val stableKey: String,
-    val displayName: String
-) {
-    Fixed(stableKey = "fixed", displayName = "Fixed"),
-    ScaleWithZoom(stableKey = "scale_with_zoom", displayName = "Scale with zoom"),
-    Adaptive(stableKey = "adaptive", displayName = "Adaptive");
+enum class FractalIterationPolicy {
+    Fixed,
+    ScaleWithZoom,
+    Adaptive;
 
     fun resolve(
         baseIterations: Int,

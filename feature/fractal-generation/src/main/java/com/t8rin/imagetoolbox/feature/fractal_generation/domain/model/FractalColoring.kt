@@ -17,12 +17,9 @@
 
 package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
 
-enum class FractalColoring(
-    val stableKey: String,
-    val displayName: String
-) {
-    Smooth(stableKey = "smooth", displayName = "Smooth"),
-    Banded(stableKey = "banded", displayName = "Banded"),
-    OrbitTrap(stableKey = "orbit_trap", displayName = "Orbit trap"),
-    Angle(stableKey = "angle", displayName = "Angle")
+enum class FractalColoring {
+    Smooth,
+    Banded,
+    OrbitTrap,
+    Angle
 }

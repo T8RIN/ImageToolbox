@@ -61,7 +61,7 @@ internal class NativeFractalRendererBackend internal constructor(
             "Native fractal engine is unavailable"
         }
         require(request.params.formula in supportedFormulas) {
-            "Native fractal engine does not support ${request.params.formula.stableKey}"
+            "Native fractal engine does not support ${request.params.formula.name}"
         }
 
         return try {
@@ -132,7 +132,10 @@ internal fun FractalRenderRequest.toNativeRequest(): NativeFractalRenderRequest 
             z = quaternion.z,
             w = quaternion.w
         ),
-        fieldOfViewDegrees = DEFAULT_FIELD_OF_VIEW_DEGREES
+        fieldOfViewDegrees = DEFAULT_FIELD_OF_VIEW_DEGREES,
+        showFloor = params.showFloor && params.formula.supportsFloor,
+        floorPrimaryColor = params.floorPrimaryColor.colorInt,
+        floorSecondaryColor = params.floorSecondaryColor.colorInt
     )
 }
 
@@ -188,6 +191,6 @@ private val NATIVE_TYPE_BY_FORMULA: Map<FractalFormula, NativeFractalType> = map
     FractalFormula.Rossler to NativeFractalType.Rossler
 )
 
-private const val SUPPORTED_NATIVE_API_VERSION = 3
+private const val SUPPORTED_NATIVE_API_VERSION = 6
 private const val DEFAULT_LYAPUNOV_SEQUENCE = "AB"
 private const val DEFAULT_FIELD_OF_VIEW_DEGREES = 45.0

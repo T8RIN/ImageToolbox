@@ -329,15 +329,16 @@ private fun FractalFormula.minimumRayMarchDistanceIterations(): Long = when (thi
 
     FractalFormula.SierpinskiGasket -> 5L
     FractalFormula.SierpinskiTetrahedron,
-    FractalFormula.Kleinian,
     FractalFormula.HybridMandelbulbJulia,
     FractalFormula.QuaternionCubic -> 6L
+
+    FractalFormula.Kleinian -> 10L
 
     FractalFormula.Mandelbulb,
     FractalFormula.Mandelbox,
     FractalFormula.QuaternionJulia -> 8L
 
-    else -> error("$stableKey is not ray-marched")
+    else -> error("$name is not ray-marched")
 }
 
 private fun FractalFormula.rayMarchDistanceIterations(iterations: Int): Long = when (this) {
@@ -347,7 +348,7 @@ private fun FractalFormula.rayMarchDistanceIterations(iterations: Int): Long = w
     FractalFormula.IcosahedralIFS,
     FractalFormula.ApollonianGasket -> (iterations / 16).coerceIn(4, 18).toLong()
 
-    FractalFormula.Kleinian -> (iterations / 16).coerceIn(6, 16).toLong()
+    FractalFormula.Kleinian -> (iterations / 16).coerceIn(10, 16).toLong()
     FractalFormula.HybridMandelbulbJulia,
     FractalFormula.QuaternionCubic -> (iterations / 16).coerceIn(6, 24).toLong()
 
@@ -356,5 +357,5 @@ private fun FractalFormula.rayMarchDistanceIterations(iterations: Int): Long = w
     FractalFormula.Mandelbox,
     FractalFormula.QuaternionJulia -> (iterations / 16).coerceIn(8, 28).toLong()
 
-    else -> error("$stableKey is not ray-marched")
+    else -> error("$name is not ray-marched")
 }

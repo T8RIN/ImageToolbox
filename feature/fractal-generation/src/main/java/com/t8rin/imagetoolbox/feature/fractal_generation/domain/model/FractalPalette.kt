@@ -22,13 +22,9 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 
 enum class FractalPalette(
-    val stableKey: String,
-    val displayName: String,
     private vararg val stops: Int
 ) {
     Classic(
-        "classic",
-        "Classic",
         0xFF05051A.toInt(),
         0xFF123EAB.toInt(),
         0xFF26BCE1.toInt(),
@@ -37,8 +33,6 @@ enum class FractalPalette(
         0xFF3A0812.toInt()
     ),
     Fire(
-        "fire",
-        "Fire",
         0xFF090004.toInt(),
         0xFF5A0900.toInt(),
         0xFFD33A00.toInt(),
@@ -46,8 +40,6 @@ enum class FractalPalette(
         0xFFFFFFB0.toInt()
     ),
     Ocean(
-        "ocean",
-        "Ocean",
         0xFF020B22.toInt(),
         0xFF063B73.toInt(),
         0xFF087E8B.toInt(),
@@ -55,8 +47,6 @@ enum class FractalPalette(
         0xFFD8FFF2.toInt()
     ),
     Viridis(
-        "viridis",
-        "Viridis",
         0xFF440154.toInt(),
         0xFF3B528B.toInt(),
         0xFF21918C.toInt(),
@@ -64,8 +54,6 @@ enum class FractalPalette(
         0xFFFDE725.toInt()
     ),
     Magma(
-        "magma",
-        "Magma",
         0xFF000004.toInt(),
         0xFF3B0F70.toInt(),
         0xFF8C2981.toInt(),
@@ -74,8 +62,6 @@ enum class FractalPalette(
         0xFFFCFDBF.toInt()
     ),
     Inferno(
-        "inferno",
-        "Inferno",
         0xFF000004.toInt(),
         0xFF420A68.toInt(),
         0xFF932667.toInt(),
@@ -84,8 +70,6 @@ enum class FractalPalette(
         0xFFFCFFA4.toInt()
     ),
     Plasma(
-        "plasma",
-        "Plasma",
         0xFF0D0887.toInt(),
         0xFF6A00A8.toInt(),
         0xFFB12A90.toInt(),
@@ -94,8 +78,6 @@ enum class FractalPalette(
         0xFFF0F921.toInt()
     ),
     Turbo(
-        "turbo",
-        "Turbo",
         0xFF30123B.toInt(),
         0xFF4145AB.toInt(),
         0xFF2A9DF4.toInt(),
@@ -106,8 +88,6 @@ enum class FractalPalette(
         0xFF7A0403.toInt()
     ),
     Twilight(
-        "twilight",
-        "Twilight",
         0xFF20134E.toInt(),
         0xFF6D3580.toInt(),
         0xFFC75D75.toInt(),
@@ -117,8 +97,6 @@ enum class FractalPalette(
         0xFF20134E.toInt()
     ),
     Ice(
-        "ice",
-        "Ice",
         0xFF02040F.toInt(),
         0xFF102A56.toInt(),
         0xFF2D78B7.toInt(),
@@ -126,8 +104,6 @@ enum class FractalPalette(
         0xFFF5FFFF.toInt()
     ),
     Forest(
-        "forest",
-        "Forest",
         0xFF07150A.toInt(),
         0xFF174B2B.toInt(),
         0xFF3B7D3A.toInt(),
@@ -135,8 +111,6 @@ enum class FractalPalette(
         0xFFF1E7A1.toInt()
     ),
     Neon(
-        "neon",
-        "Neon",
         0xFF050011.toInt(),
         0xFF7400B8.toInt(),
         0xFFFF007A.toInt(),
@@ -145,8 +119,6 @@ enum class FractalPalette(
         0xFF0077FF.toInt()
     ),
     Cividis(
-        "cividis",
-        "Cividis",
         0xFF00204C.toInt(),
         0xFF2E4A7D.toInt(),
         0xFF666870.toInt(),
@@ -155,8 +127,6 @@ enum class FractalPalette(
         0xFFFFE945.toInt()
     ),
     Cubehelix(
-        "cubehelix",
-        "Cubehelix",
         0xFF000000.toInt(),
         0xFF1D2B53.toInt(),
         0xFF5E3C99.toInt(),
@@ -165,8 +135,6 @@ enum class FractalPalette(
         0xFFFFFFFF.toInt()
     ),
     Spectral(
-        "spectral",
-        "Spectral",
         0xFF9E0142.toInt(),
         0xFFD53E4F.toInt(),
         0xFFF46D43.toInt(),
@@ -177,8 +145,6 @@ enum class FractalPalette(
         0xFF5E4FA2.toInt()
     ),
     Aurora(
-        "aurora",
-        "Aurora",
         0xFF07152B.toInt(),
         0xFF44318D.toInt(),
         0xFF0B8F9C.toInt(),
@@ -186,8 +152,6 @@ enum class FractalPalette(
         0xFFD9F36A.toInt()
     ),
     Sunset(
-        "sunset",
-        "Sunset",
         0xFF10143D.toInt(),
         0xFF4A236B.toInt(),
         0xFFA33B69.toInt(),
@@ -196,8 +160,6 @@ enum class FractalPalette(
         0xFFFFF0B3.toInt()
     ),
     Copper(
-        "copper",
-        "Copper",
         0xFF080403.toInt(),
         0xFF3A1C12.toInt(),
         0xFF814425.toInt(),
@@ -206,8 +168,6 @@ enum class FractalPalette(
         0xFFFFE0B8.toInt()
     ),
     Rocket(
-        "rocket",
-        "Rocket",
         0xFF03051A.toInt(),
         0xFF3F1B43.toInt(),
         0xFF841E5A.toInt(),
@@ -217,8 +177,6 @@ enum class FractalPalette(
         0xFFFAEBDD.toInt()
     ),
     Mako(
-        "mako",
-        "Mako",
         0xFF0B0405.toInt(),
         0xFF342032.toInt(),
         0xFF3B496C.toInt(),
@@ -228,8 +186,6 @@ enum class FractalPalette(
         0xFFDEF5E5.toInt()
     ),
     Amethyst(
-        "amethyst",
-        "Amethyst",
         0xFF10002B.toInt(),
         0xFF240046.toInt(),
         0xFF5A189A.toInt(),
@@ -238,8 +194,6 @@ enum class FractalPalette(
         0xFFFFF0FF.toInt()
     ),
     Vaporwave(
-        "vaporwave",
-        "Vaporwave",
         0xFF17002E.toInt(),
         0xFF5800A3.toInt(),
         0xFFB5179E.toInt(),
@@ -248,8 +202,6 @@ enum class FractalPalette(
         0xFF00F5D4.toInt()
     ),
     Earth(
-        "earth",
-        "Earth",
         0xFF071A12.toInt(),
         0xFF1D4D32.toInt(),
         0xFF607D3B.toInt(),
@@ -257,9 +209,357 @@ enum class FractalPalette(
         0xFFD9C9A2.toInt(),
         0xFFF2EFE6.toInt()
     ),
+    Rainbow(
+        rgb(1.0, 0.0, 0.0),
+        rgb(1.0, 0.5, 0.0),
+        rgb(1.0, 1.0, 0.0),
+        rgb(0.0, 1.0, 0.0),
+        rgb(0.0, 1.0, 1.0),
+        rgb(0.0, 0.0, 1.0),
+        rgb(0.5, 0.0, 1.0),
+        rgb(1.0, 0.0, 0.5)
+    ),
+    Cool(
+        rgb(0.0, 1.0, 1.0),
+        rgb(0.125, 0.875, 1.0),
+        rgb(0.25, 0.75, 1.0),
+        rgb(0.375, 0.625, 1.0),
+        rgb(0.5, 0.5, 1.0),
+        rgb(0.625, 0.375, 1.0),
+        rgb(0.75, 0.25, 1.0),
+        rgb(1.0, 0.0, 1.0)
+    ),
+    Hot(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.25, 0.0, 0.0),
+        rgb(0.5, 0.0, 0.0),
+        rgb(0.75, 0.25, 0.0),
+        rgb(1.0, 0.5, 0.0),
+        rgb(1.0, 0.75, 0.25),
+        rgb(1.0, 1.0, 0.5),
+        rgb(1.0, 1.0, 1.0)
+    ),
+    PurpleDream(
+        rgb(0.05, 0.0, 0.1),
+        rgb(0.1, 0.0, 0.2),
+        rgb(0.25, 0.0, 0.4),
+        rgb(0.4, 0.0, 0.6),
+        rgb(0.55, 0.15, 0.75),
+        rgb(0.7, 0.3, 0.9),
+        rgb(0.85, 0.6, 1.0),
+        rgb(1.0, 0.9, 1.0)
+    ),
+    Lava(
+        rgb(0.05, 0.0, 0.0),
+        rgb(0.1, 0.0, 0.0),
+        rgb(0.3, 0.0, 0.0),
+        rgb(0.5, 0.0, 0.0),
+        rgb(0.7, 0.1, 0.0),
+        rgb(0.85, 0.3, 0.0),
+        rgb(1.0, 0.5, 0.0),
+        rgb(1.0, 0.8, 0.2)
+    ),
+    Galaxy(
+        rgb(0.025, 0.0, 0.075),
+        rgb(0.05, 0.0, 0.15),
+        rgb(0.15, 0.0, 0.35),
+        rgb(0.3, 0.0, 0.5),
+        rgb(0.5, 0.1, 0.7),
+        rgb(0.7, 0.25, 0.8),
+        rgb(0.85, 0.45, 0.85),
+        rgb(1.0, 0.7, 0.9)
+    ),
+    Mint(
+        rgb(0.0, 0.15, 0.15),
+        rgb(0.0, 0.3, 0.3),
+        rgb(0.1, 0.4, 0.4),
+        rgb(0.2, 0.5, 0.5),
+        rgb(0.3, 0.6, 0.55),
+        rgb(0.5, 0.8, 0.7),
+        rgb(0.7, 0.92, 0.85),
+        rgb(0.85, 1.0, 0.95)
+    ),
+    Cherry(
+        rgb(0.15, 0.0, 0.05),
+        rgb(0.3, 0.0, 0.1),
+        rgb(0.45, 0.0, 0.15),
+        rgb(0.6, 0.0, 0.2),
+        rgb(0.75, 0.1, 0.3),
+        rgb(0.9, 0.3, 0.45),
+        rgb(1.0, 0.55, 0.65),
+        rgb(1.0, 0.8, 0.85)
+    ),
+    XfAlternatingGrey(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.863, 0.847, 0.847),
+        rgb(0.706, 0.706, 0.706),
+        rgb(0.565, 0.565, 0.565),
+        rgb(0.408, 0.424, 0.424),
+        rgb(0.267, 0.282, 0.282),
+        rgb(0.141, 0.125, 0.157),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfBlues(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.0, 0.094, 0.8),
+        rgb(0.235, 0.831, 0.988),
+        rgb(0.722, 0.988, 0.988),
+        rgb(0.0, 0.973, 0.988),
+        rgb(0.0, 0.22, 0.988),
+        rgb(0.0, 0.0, 0.58),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfChromatic(
+        rgb(0.188, 0.188, 0.188),
+        rgb(0.188, 0.376, 0.878),
+        rgb(0.596, 0.878, 0.596),
+        rgb(0.878, 0.251, 0.188),
+        rgb(0.816, 0.188, 0.878),
+        rgb(0.188, 0.878, 0.596),
+        rgb(0.878, 0.878, 0.376),
+        rgb(0.157, 0.188, 0.188)
+    ),
+    XfDefault(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.988, 0.0, 0.988),
+        rgb(0.486, 0.988, 0.486),
+        rgb(0.439, 0.0, 0.329),
+        rgb(0.22, 0.439, 0.267),
+        rgb(0.251, 0.0, 0.125),
+        rgb(0.125, 0.251, 0.188),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfDefaultWhite(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.988, 0.612, 0.235),
+        rgb(0.235, 0.486, 0.361),
+        rgb(0.486, 0.235, 0.486),
+        rgb(0.612, 0.863, 0.486),
+        rgb(0.863, 0.612, 0.612),
+        rgb(0.988, 0.361, 0.737),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfFireStorm(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.918, 0.055, 0.529),
+        rgb(0.976, 0.392, 0.129),
+        rgb(0.671, 0.82, 0.008),
+        rgb(0.243, 1.0, 0.255),
+        rgb(0.004, 0.8, 0.694),
+        rgb(0.137, 0.38, 0.98),
+        rgb(0.553, 0.043, 0.902)
+    ),
+    XfFroth3(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.596, 0.0, 0.0),
+        rgb(0.408, 0.0, 0.0),
+        rgb(0.0, 0.659, 0.0),
+        rgb(0.0, 0.471, 0.0),
+        rgb(0.0, 0.0, 0.816),
+        rgb(0.0, 0.0, 0.533),
+        rgb(0.0, 0.0, 0.345)
+    ),
+    XfFroth316(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.831, 0.0, 0.0),
+        rgb(0.486, 0.0, 0.0),
+        rgb(0.0, 0.988, 0.0),
+        rgb(0.0, 0.659, 0.0),
+        rgb(0.0, 0.314, 0.0),
+        rgb(0.0, 0.0, 0.831),
+        rgb(0.0, 0.0, 0.314)
+    ),
+    XfFroth6(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.439, 0.0, 0.439),
+        rgb(0.533, 0.0, 0.0),
+        rgb(0.612, 0.612, 0.0),
+        rgb(0.0, 0.706, 0.0),
+        rgb(0.0, 0.0, 0.784),
+        rgb(0.0, 0.878, 0.878),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfFroth616(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.627, 0.0, 0.627),
+        rgb(0.627, 0.0, 0.0),
+        rgb(0.627, 0.627, 0.0),
+        rgb(0.0, 0.627, 0.0),
+        rgb(0.0, 0.0, 0.627),
+        rgb(0.0, 0.627, 0.627),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfGamma1(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.361, 0.376, 0.376),
+        rgb(0.518, 0.533, 0.502),
+        rgb(0.659, 0.643, 0.627),
+        rgb(0.753, 0.737, 0.769),
+        rgb(0.831, 0.831, 0.863),
+        rgb(0.91, 0.91, 0.941),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfGamma2(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.141, 0.141, 0.125),
+        rgb(0.282, 0.282, 0.251),
+        rgb(0.424, 0.424, 0.408),
+        rgb(0.549, 0.565, 0.58),
+        rgb(0.706, 0.706, 0.706),
+        rgb(0.863, 0.831, 0.863),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfGlasses1(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.282, 0.0, 0.0),
+        rgb(0.565, 0.0, 0.0),
+        rgb(0.847, 0.0, 0.0),
+        rgb(0.0, 0.0, 0.125),
+        rgb(0.0, 0.0, 0.424),
+        rgb(0.0, 0.0, 0.706),
+        rgb(0.0, 0.0, 0.988)
+    ),
+    XfGlasses2(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.251, 0.0, 0.125),
+        rgb(0.502, 0.0, 0.251),
+        rgb(0.816, 0.0, 0.376),
+        rgb(0.063, 0.0, 0.565),
+        rgb(0.376, 0.0, 0.69),
+        rgb(0.627, 0.0, 0.816),
+        rgb(0.941, 0.0, 0.941)
+    ),
+    XfGoodEga(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.988, 0.329, 0.0),
+        rgb(0.988, 0.494, 0.0),
+        rgb(0.988, 0.659, 0.0),
+        rgb(0.988, 0.824, 0.0),
+        rgb(0.988, 0.988, 0.0),
+        rgb(0.988, 0.988, 0.494),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfGreen(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.0, 0.847, 0.0),
+        rgb(0.0, 0.706, 0.0),
+        rgb(0.0, 0.565, 0.0),
+        rgb(0.0, 0.424, 0.0),
+        rgb(0.0, 0.282, 0.0),
+        rgb(0.0, 0.125, 0.0),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfGrey(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.863, 0.863, 0.863),
+        rgb(0.718, 0.718, 0.718),
+        rgb(0.576, 0.576, 0.576),
+        rgb(0.431, 0.431, 0.431),
+        rgb(0.29, 0.29, 0.29),
+        rgb(0.145, 0.145, 0.145),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfGrid(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.143, 0.0, 1.0),
+        rgb(0.286, 0.0, 1.0),
+        rgb(0.429, 0.0, 1.0),
+        rgb(0.571, 0.0, 1.0),
+        rgb(0.714, 0.0, 1.0),
+        rgb(0.857, 0.0, 1.0),
+        rgb(1.0, 0.0, 1.0)
+    ),
+    XfHeadache2(
+        rgb(0.941, 0.0, 0.0),
+        rgb(0.941, 0.125, 0.0),
+        rgb(0.941, 0.267, 0.0),
+        rgb(0.957, 0.408, 0.0),
+        rgb(0.0, 0.424, 0.565),
+        rgb(0.0, 0.282, 0.706),
+        rgb(0.0, 0.141, 0.847),
+        rgb(0.0, 0.502, 0.502)
+    ),
+    XfHeadache(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.0, 0.863, 0.125),
+        rgb(0.0, 0.722, 0.267),
+        rgb(0.957, 0.408, 0.0),
+        rgb(0.957, 0.549, 0.0),
+        rgb(0.0, 0.282, 0.706),
+        rgb(0.0, 0.141, 0.847),
+        rgb(0.0, 0.502, 0.502)
+    ),
+    XfLandscape(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.0, 0.0, 0.659),
+        rgb(0.0, 0.0, 0.659),
+        rgb(0.251, 0.325, 0.0),
+        rgb(0.251, 0.18, 0.0),
+        rgb(0.251, 0.055, 0.0),
+        rgb(0.824, 0.824, 1.0),
+        rgb(1.0, 1.0, 1.0)
+    ),
+    XfLyapunov(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.863, 0.627, 0.0),
+        rgb(0.722, 0.486, 0.0),
+        rgb(0.565, 0.329, 0.0),
+        rgb(0.424, 0.188, 0.0),
+        rgb(0.282, 0.047, 0.0),
+        rgb(0.141, 0.0, 0.0),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfNeon(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.878, 0.282, 0.424),
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.0, 0.894, 0.0),
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.675, 0.675, 0.0),
+        rgb(0.188, 0.188, 0.0),
+        rgb(0.0, 0.0, 0.0)
+    ),
+    XfPaintJet(
+        rgb(0.094, 0.078, 0.047),
+        rgb(0.769, 0.267, 0.282),
+        rgb(0.941, 0.91, 0.282),
+        rgb(0.737, 0.188, 0.424),
+        rgb(0.094, 0.078, 0.047),
+        rgb(0.769, 0.267, 0.282),
+        rgb(0.941, 0.91, 0.282),
+        rgb(0.157, 0.455, 0.769)
+    ),
+    XfRoyal(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.361, 0.0, 0.486),
+        rgb(0.549, 0.141, 0.675),
+        rgb(0.847, 0.722, 0.878),
+        rgb(0.988, 0.988, 0.706),
+        rgb(0.988, 0.988, 0.125),
+        rgb(0.659, 0.549, 0.141),
+        rgb(0.235, 0.0, 0.314)
+    ),
+    XfTopo(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.267, 0.518, 0.91),
+        rgb(0.235, 0.549, 0.063),
+        rgb(0.392, 0.706, 0.22),
+        rgb(0.58, 0.894, 0.424),
+        rgb(0.91, 0.894, 0.408),
+        rgb(0.91, 0.675, 0.141),
+        rgb(0.988, 0.988, 0.988)
+    ),
+    XfVolcano(
+        rgb(0.0, 0.0, 0.0),
+        rgb(0.988, 0.11, 0.0),
+        rgb(0.988, 0.988, 0.235),
+        rgb(0.988, 0.894, 0.8),
+        rgb(0.988, 0.596, 0.235),
+        rgb(0.988, 0.157, 0.0),
+        rgb(0.706, 0.0, 0.0),
+        rgb(0.235, 0.235, 0.235)
+    ),
     Grayscale(
-        "grayscale",
-        "Grayscale",
         0xFF000000.toInt(),
         0xFF404040.toInt(),
         0xFF909090.toInt(),
@@ -308,3 +608,12 @@ enum class FractalPalette(
 }
 
 private const val SUGGESTED_COLOR_COUNT = 12
+
+private fun rgb(
+    red: Double,
+    green: Double,
+    blue: Double
+): Int = 0xFF000000.toInt() or
+        ((red * 255).roundToInt().coerceIn(0, 255) shl 16) or
+        ((green * 255).roundToInt().coerceIn(0, 255) shl 8) or
+        (blue * 255).roundToInt().coerceIn(0, 255)

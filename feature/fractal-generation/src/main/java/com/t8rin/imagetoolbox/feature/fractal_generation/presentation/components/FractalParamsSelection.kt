@@ -32,7 +32,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,9 +50,7 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.Build
-import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
@@ -64,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCoefficientLabel
@@ -117,9 +116,11 @@ fun FractalParamsSelection(
                     titleIcon = null,
                     itemContentText = { it.label() },
                     spanCount = 2,
-                    containerColor = Color.Unspecified,
                     shape = ShapeDefaults.top,
-                    key = FractalFormula::stableKey
+                    key = FractalFormula::name,
+                    badgeContent = {
+                        Text(supportedFormulas.size.toString())
+                    }
                 )
 
                 AnimatedVisibility(
@@ -178,9 +179,8 @@ fun FractalParamsSelection(
                             titleIcon = null,
                             itemContentText = { it.label() },
                             spanCount = 1,
-                            containerColor = Color.Unspecified,
                             shape = ShapeDefaults.center,
-                            key = FractalIterationPolicy::stableKey
+                            key = FractalIterationPolicy::name
                         )
                     }
                 }
@@ -220,10 +220,9 @@ fun FractalParamsSelection(
                         title = stringResource(R.string.fractal_coloring),
                         titleIcon = null,
                         itemContentText = { it.label() },
-                        spanCount = 2,
-                        containerColor = Color.Unspecified,
+                        spanCount = 1,
                         shape = ShapeDefaults.center,
-                        key = FractalColoring::stableKey
+                        key = FractalColoring::name
                     )
                 }
 
@@ -270,11 +269,7 @@ fun FractalParamsSelection(
                             if (isBackgroundColor) R.string.background_color
                             else R.string.fractal_inside_color
                         ),
-                        icon = if (isBackgroundColor) {
-                            Icons.Outlined.BackgroundColor
-                        } else {
-                            Icons.Outlined.Palette
-                        },
+                        icon = null,
                         allowAlpha = false,
                         defaultColors = remember(value.palette) {
                             value.palette.suggestedColors
@@ -362,6 +357,76 @@ private fun CameraParams(
                 },
                 shape = ShapeDefaults.center
             )
+            AnimatedVisibility(
+                visible = value.formula.supportsFloor,
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically(),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.fractal_show_floor),
+                        subtitle = stringResource(R.string.fractal_show_floor_subtitle),
+                        checked = value.showFloor,
+                        shape = ShapeDefaults.center,
+                        applyHorizontalPadding = false,
+                        resultModifier = Modifier.padding(16.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            onValueChange(value.copy(showFloor = it))
+                        }
+                    )
+                    AnimatedVisibility(
+                        visible = value.showFloor,
+                        enter = fadeIn() + expandVertically(),
+                        exit = fadeOut() + shrinkVertically(),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            ColorRowSelector(
+                                value = value.floorPrimaryColor.toColor(),
+                                onValueChange = {
+                                    onValueChange(value.copy(floorPrimaryColor = it.toModel()))
+                                },
+                                title = stringResource(R.string.fractal_floor_primary_color),
+                                icon = null,
+                                allowAlpha = false,
+                                defaultColors = remember(value.palette) {
+                                    (listOf(Color.White, Color.Black) +
+                                            value.palette.suggestedColors.map { it.toColor() })
+                                        .distinctBy { it.toArgb() }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .container(shape = ShapeDefaults.center)
+                            )
+                            ColorRowSelector(
+                                value = value.floorSecondaryColor.toColor(),
+                                onValueChange = {
+                                    onValueChange(value.copy(floorSecondaryColor = it.toModel()))
+                                },
+                                title = stringResource(R.string.fractal_floor_secondary_color),
+                                icon = null,
+                                allowAlpha = false,
+                                defaultColors = remember(value.palette) {
+                                    (listOf(Color.Black, Color.White) +
+                                            value.palette.suggestedColors.map { it.toColor() })
+                                        .distinctBy { it.toArgb() }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .container(shape = ShapeDefaults.center)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -618,14 +683,16 @@ private fun FractalPaletteSelector(
     Column(
         modifier = Modifier.container(
             shape = ShapeDefaults.center,
-            color = Color.Unspecified,
             resultPadding = 8.dp
         )
     ) {
         TitleItem(
             text = stringResource(R.string.palette),
-            icon = Icons.Rounded.Palette,
-            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp)
+            modifier = Modifier.padding(
+                top = 8.dp,
+                start = 8.dp,
+                end = 8.dp
+            ),
         )
         val state = rememberLazyListState()
         LazyRow(
@@ -633,19 +700,24 @@ private fun FractalPaletteSelector(
             modifier = Modifier
                 .fillMaxWidth()
                 .fadingEdges(state),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            contentPadding = PaddingValues(8.dp),
             flingBehavior = enhancedFlingBehavior()
         ) {
-            items(
-                items = FractalPalette.entries,
-                key = FractalPalette::stableKey
-            ) { palette ->
+            itemsIndexed(
+                items = FractalPalette.entries
+            ) { index, palette ->
                 EnhancedChip(
                     selected = palette == value,
                     onClick = { onValueChange(palette) },
                     selectedColor = MaterialTheme.colorScheme.tertiaryContainer,
                     selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    shape = ShapeDefaults.byIndex(
+                        index = index,
+                        size = FractalPalette.entries.size,
+                        vertical = false,
+                        roundedCorner = 12.dp
+                    ),
                     contentPadding = PaddingValues(8.dp)
                 ) {
                     Column(
@@ -659,7 +731,7 @@ private fun FractalPaletteSelector(
                             modifier = Modifier
                                 .width(64.dp)
                                 .height(18.dp)
-                                .clip(MaterialTheme.shapes.extraSmall)
+                                .clip(ShapeDefaults.extraSmall)
                                 .background(Brush.horizontalGradient(colors))
                         )
                         Text(

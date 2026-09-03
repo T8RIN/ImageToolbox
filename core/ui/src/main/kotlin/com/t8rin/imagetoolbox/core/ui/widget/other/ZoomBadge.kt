@@ -63,7 +63,7 @@ fun ZoomBadge(
             zoomLevel.roundToTwoDigits().toString().trimTrailingZero()
         }
         Text(
-            text = stringResource(R.string.zoom) + " ${level}x",
+            text = stringResource(R.string.zoom) + " ${level}×",
             modifier = Modifier
                 .background(
                     color = containerColor,

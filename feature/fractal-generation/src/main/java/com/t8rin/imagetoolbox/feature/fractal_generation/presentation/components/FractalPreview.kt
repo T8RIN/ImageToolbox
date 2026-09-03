@@ -75,6 +75,7 @@ fun FractalPreview(
     renderAspectRatio: Float,
     isLoading: Boolean,
     isThreeDimensional: Boolean,
+    showCameraGestureGuide: Boolean,
     backgroundColor: Color,
     onGestureStart: () -> Unit,
     onGesture: (
@@ -97,6 +98,9 @@ fun FractalPreview(
     var temporaryScale by remember { mutableFloatStateOf(1f) }
     var temporaryOffset by remember { mutableStateOf(Offset.Zero) }
     var appliedTargetRevision by remember { mutableIntStateOf(NO_TARGET_REVISION) }
+    var gestureGuideStart by remember { mutableStateOf(Offset.Zero) }
+    var gestureGuideCurrent by remember { mutableStateOf(Offset.Zero) }
+    var isGestureGuideActive by remember { mutableStateOf(false) }
     val haptics = LocalHapticFeedback.current
 
     val currentOnGestureStart by rememberUpdatedState(onGestureStart)
@@ -105,6 +109,7 @@ fun FractalPreview(
     val currentOnCopyCoordinate by rememberUpdatedState(onCopyCoordinate)
     val currentRenderAspectRatio by rememberUpdatedState(renderAspectRatio)
     val currentIsThreeDimensional by rememberUpdatedState(isThreeDimensional)
+    val currentShowCameraGestureGuide by rememberUpdatedState(showCameraGestureGuide)
 
     val targetRevision = frame?.targetRevision ?: NO_TARGET_REVISION
     val shouldResetTransform = frame != null && targetRevision != appliedTargetRevision
@@ -184,17 +189,27 @@ fun FractalPreview(
                 }
                 .pointerInput(Unit) {
                     awaitEachGesture {
-                        awaitFirstDown(requireUnconsumed = false)
+                        val firstDown = awaitFirstDown(requireUnconsumed = false)
 
                         var totalPan = Offset.Zero
                         var totalZoom = 1f
                         var pastTouchSlop = false
+                        var canShowGestureGuide = currentIsThreeDimensional &&
+                                currentShowCameraGestureGuide
+                        if (canShowGestureGuide) {
+                            gestureGuideStart = firstDown.position
+                            gestureGuideCurrent = firstDown.position
+                        }
 
                         try {
                             do {
                                 val event = awaitPointerEvent()
                                 val pressedChanges = event.changes.filter { it.pressed }
                                 if (pressedChanges.isEmpty()) break
+                                if (pressedChanges.size != 1) {
+                                    canShowGestureGuide = false
+                                    isGestureGuideActive = false
+                                }
 
                                 val panChange = event.calculatePan()
                                 val zoomChange = event.calculateZoom()
@@ -222,6 +237,10 @@ fun FractalPreview(
                                 }
 
                                 if (pastTouchSlop && centroid != Offset.Unspecified) {
+                                    if (canShowGestureGuide) {
+                                        gestureGuideCurrent = pressedChanges.single().position
+                                        isGestureGuideActive = true
+                                    }
                                     val safeZoom = appliedZoom
                                         .takeIf { it.isFinite() && it > 0f }
                                         ?: 1f
@@ -253,6 +272,7 @@ fun FractalPreview(
                                 }
                             } while (true)
                         } finally {
+                            isGestureGuideActive = false
                             if (pastTouchSlop) currentOnGestureEnd()
                         }
                     }
@@ -304,6 +324,20 @@ fun FractalPreview(
             )
         }
         AnimatedVisibility(
+            visible = isGestureGuideActive &&
+                    showCameraGestureGuide &&
+                    isThreeDimensional,
+            enter = fadeIn(tween(GESTURE_GUIDE_ANIMATION_MILLIS)),
+            exit = fadeOut(tween(GESTURE_GUIDE_ANIMATION_MILLIS)),
+            modifier = Modifier.matchParentSize()
+        ) {
+            FractalCameraGestureGuide(
+                startPosition = gestureGuideStart,
+                currentPosition = gestureGuideCurrent,
+                modifier = Modifier.matchParentSize()
+            )
+        }
+        AnimatedVisibility(
             visible = isLoading,
             enter = fadeIn(tween(LOADING_ANIMATION_MILLIS)) + scaleIn(
                 animationSpec = tween(LOADING_ANIMATION_MILLIS),
@@ -323,5 +357,6 @@ private const val DOUBLE_TAP_ZOOM = 2f
 private const val MIN_TEMPORARY_SCALE = 0.01f
 private const val MAX_TEMPORARY_SCALE = 100f
 private const val LOADING_ANIMATION_MILLIS = 160
+private const val GESTURE_GUIDE_ANIMATION_MILLIS = 120
 private const val LOADING_SCRIM_ALPHA = 0.35f
 private const val NO_TARGET_REVISION = -1

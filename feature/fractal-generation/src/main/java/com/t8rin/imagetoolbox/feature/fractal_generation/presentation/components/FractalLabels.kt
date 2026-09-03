@@ -108,6 +108,41 @@ internal fun FractalPalette.label(): String = stringResource(
         FractalPalette.Amethyst -> R.string.fractal_palette_amethyst
         FractalPalette.Vaporwave -> R.string.fractal_palette_vaporwave
         FractalPalette.Earth -> R.string.fractal_palette_earth
+        FractalPalette.Rainbow -> R.string.fractal_palette_rainbow
+        FractalPalette.Cool -> R.string.fractal_palette_cool
+        FractalPalette.Hot -> R.string.fractal_palette_hot
+        FractalPalette.PurpleDream -> R.string.fractal_palette_purple_dream
+        FractalPalette.Lava -> R.string.fractal_palette_lava
+        FractalPalette.Galaxy -> R.string.fractal_palette_galaxy
+        FractalPalette.Mint -> R.string.fractal_palette_mint
+        FractalPalette.Cherry -> R.string.fractal_palette_cherry
+        FractalPalette.XfAlternatingGrey -> R.string.fractal_palette_xf_alternating_grey
+        FractalPalette.XfBlues -> R.string.fractal_palette_xf_blues
+        FractalPalette.XfChromatic -> R.string.fractal_palette_xf_chromatic
+        FractalPalette.XfDefault -> R.string.fractal_palette_xf_default
+        FractalPalette.XfDefaultWhite -> R.string.fractal_palette_xf_default_white
+        FractalPalette.XfFireStorm -> R.string.fractal_palette_xf_fire_storm
+        FractalPalette.XfFroth3 -> R.string.fractal_palette_xf_froth_3
+        FractalPalette.XfFroth316 -> R.string.fractal_palette_xf_froth_3_16
+        FractalPalette.XfFroth6 -> R.string.fractal_palette_xf_froth_6
+        FractalPalette.XfFroth616 -> R.string.fractal_palette_xf_froth_6_16
+        FractalPalette.XfGamma1 -> R.string.fractal_palette_xf_gamma_1
+        FractalPalette.XfGamma2 -> R.string.fractal_palette_xf_gamma_2
+        FractalPalette.XfGlasses1 -> R.string.fractal_palette_xf_3d_glasses_1
+        FractalPalette.XfGlasses2 -> R.string.fractal_palette_xf_3d_glasses_2
+        FractalPalette.XfGoodEga -> R.string.fractal_palette_xf_good_ega
+        FractalPalette.XfGreen -> R.string.fractal_palette_xf_green
+        FractalPalette.XfGrey -> R.string.fractal_palette_xf_grey
+        FractalPalette.XfGrid -> R.string.fractal_palette_xf_grid
+        FractalPalette.XfHeadache2 -> R.string.fractal_palette_xf_headache_2
+        FractalPalette.XfHeadache -> R.string.fractal_palette_xf_headache
+        FractalPalette.XfLandscape -> R.string.fractal_palette_xf_landscape
+        FractalPalette.XfLyapunov -> R.string.fractal_palette_xf_lyapunov
+        FractalPalette.XfNeon -> R.string.fractal_palette_xf_neon
+        FractalPalette.XfPaintJet -> R.string.fractal_palette_xf_paintjet
+        FractalPalette.XfRoyal -> R.string.fractal_palette_xf_royal
+        FractalPalette.XfTopo -> R.string.fractal_palette_xf_topo
+        FractalPalette.XfVolcano -> R.string.fractal_palette_xf_volcano
         FractalPalette.Grayscale -> R.string.fractal_palette_grayscale
     }
 )

@@ -18,21 +18,24 @@
 package com.t8rin.imagetoolbox.feature.fractal_generation.presentation
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CenterFocusStrong
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
+import com.t8rin.imagetoolbox.core.resources.icons.RotateRight
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.ui.utils.animation.animate
@@ -70,11 +74,14 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeSaveLocationSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
+import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.formattedZoom
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.components.FractalParamsSelection
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.components.FractalPreview
 import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogic.FractalGenerationComponent
@@ -87,6 +94,7 @@ fun FractalGenerationContent(
     val isPortrait by isPortraitOrientationAsState()
     val scope = rememberCoroutineScope()
     var previewAreaSize by remember { mutableStateOf(IntSize.Zero) }
+    var showCameraGestureGuide by rememberSaveable { mutableStateOf(true) }
 
     DisposableEffect(component) {
         component.onPreviewAttached()
@@ -222,6 +230,7 @@ fun FractalGenerationContent(
                     renderAspectRatio = component.outputSize.aspectRatio,
                     isLoading = component.isImageLoading,
                     isThreeDimensional = component.params.formula.isThreeDimensional,
+                    showCameraGestureGuide = showCameraGestureGuide,
                     backgroundColor = component.params.insideColor.toColor(),
                     onGestureStart = component::onViewportGestureStart,
                     onGesture = component::onViewportGesture,
@@ -239,11 +248,27 @@ fun FractalGenerationContent(
                             .fillMaxSize()
                     }
                 )
+                EnhancedBadge(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(8.dp),
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    shape = ShapeDefaults.extraSmall
+                ) {
+                    Text(
+                        text = "${stringResource(R.string.zoom)} " + "${component.params.formattedZoom()}×",
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(vertical = 2.dp, horizontal = 4.dp)
+                    )
+                }
             }
         },
         controls = {
             Column(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .navigationBarsPadding(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -270,7 +295,22 @@ fun FractalGenerationContent(
                     onValueChange = component::updateParams,
                     onFormulaChange = component::setFormula
                 )
-                Spacer(Modifier.height(4.dp))
+                AnimatedVisibility(
+                    visible = component.params.formula.isThreeDimensional,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.fractal_camera_gesture_guide),
+                        subtitle = stringResource(
+                            R.string.fractal_camera_gesture_guide_subtitle
+                        ),
+                        checked = showCameraGestureGuide,
+                        onClick = { showCameraGestureGuide = it },
+                        startIcon = Icons.Rounded.RotateRight,
+                        shape = ShapeDefaults.large,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
                 ImageFormatSelector(
                     value = component.imageFormat,
                     onValueChange = component::setImageFormat,

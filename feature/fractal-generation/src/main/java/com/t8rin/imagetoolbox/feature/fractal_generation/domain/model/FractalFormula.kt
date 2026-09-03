@@ -18,8 +18,6 @@
 package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
 
 enum class FractalFormula(
-    val stableKey: String,
-    val displayName: String,
     val defaultViewport: FractalViewport,
     val defaultPower: Double = 2.0,
     val defaultIterations: Int = FractalParams.DEFAULT_ITERATIONS,
@@ -31,8 +29,6 @@ enum class FractalFormula(
     val capabilities: Set<FractalFormulaCapability> = emptySet()
 ) {
     Mandelbrot(
-        stableKey = "mandelbrot",
-        displayName = "Mandelbrot",
         defaultViewport = FractalViewport.of("-0.5", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -42,8 +38,6 @@ enum class FractalFormula(
         )
     ),
     Julia(
-        stableKey = "julia",
-        displayName = "Julia",
         defaultViewport = FractalViewport.of("0", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -54,8 +48,6 @@ enum class FractalFormula(
         )
     ),
     BurningShip(
-        stableKey = "burning_ship",
-        displayName = "Burning ship",
         defaultViewport = FractalViewport.of("-0.45", "-0.5", "2.4"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -64,8 +56,6 @@ enum class FractalFormula(
         )
     ),
     Tricorn(
-        stableKey = "tricorn",
-        displayName = "Tricorn",
         defaultViewport = FractalViewport.of("0", "0", "3.2"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -74,8 +64,6 @@ enum class FractalFormula(
         )
     ),
     Multibrot(
-        stableKey = "multibrot",
-        displayName = "Multibrot",
         defaultViewport = FractalViewport.of("0", "0", "3"),
         defaultPower = 3.0,
         capabilities = setOf(
@@ -85,8 +73,6 @@ enum class FractalFormula(
         )
     ),
     Multicorn(
-        stableKey = "multicorn",
-        displayName = "Multicorn",
         defaultViewport = FractalViewport.of("0", "0", "3.2"),
         defaultPower = 3.0,
         capabilities = setOf(
@@ -96,8 +82,6 @@ enum class FractalFormula(
         )
     ),
     Celtic(
-        stableKey = "celtic",
-        displayName = "Celtic",
         defaultViewport = FractalViewport.of("-0.4", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -106,8 +90,6 @@ enum class FractalFormula(
         )
     ),
     Buffalo(
-        stableKey = "buffalo",
-        displayName = "Buffalo",
         defaultViewport = FractalViewport.of("-0.5", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -116,8 +98,6 @@ enum class FractalFormula(
         )
     ),
     PerpendicularBurningShip(
-        stableKey = "perpendicular_burning_ship",
-        displayName = "Perpendicular burning ship",
         defaultViewport = FractalViewport.of("-0.5", "-0.25", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -126,8 +106,6 @@ enum class FractalFormula(
         )
     ),
     Phoenix(
-        stableKey = "phoenix",
-        displayName = "Phoenix",
         defaultViewport = FractalViewport.of("0", "0", "3.2"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -137,8 +115,6 @@ enum class FractalFormula(
         )
     ),
     Nova(
-        stableKey = "nova",
-        displayName = "Nova",
         defaultViewport = FractalViewport.of("0", "0", "4"),
         defaultPower = 3.0,
         capabilities = setOf(
@@ -149,8 +125,6 @@ enum class FractalFormula(
         )
     ),
     Newton(
-        stableKey = "newton",
-        displayName = "Newton",
         defaultViewport = FractalViewport.of("0", "0", "4"),
         defaultPower = 3.0,
         capabilities = setOf(
@@ -160,8 +134,6 @@ enum class FractalFormula(
         )
     ),
     MagnetI(
-        stableKey = "magnet_i",
-        displayName = "Magnet I",
         defaultViewport = FractalViewport.of("1.5", "0", "4"),
         capabilities = setOf(
             FractalFormulaCapability.IterationControls,
@@ -169,8 +141,6 @@ enum class FractalFormula(
         )
     ),
     MagnetII(
-        stableKey = "magnet_ii",
-        displayName = "Magnet II",
         defaultViewport = FractalViewport.of("1.0", "0", "4"),
         capabilities = setOf(
             FractalFormulaCapability.IterationControls,
@@ -178,26 +148,18 @@ enum class FractalFormula(
         )
     ),
     Lyapunov(
-        stableKey = "lyapunov",
-        displayName = "Lyapunov",
         defaultViewport = FractalViewport.of("3.0", "3.0", "2"),
         capabilities = setOf(FractalFormulaCapability.IterationControls)
     ),
     SierpinskiCarpet(
-        stableKey = "sierpinski_carpet",
-        displayName = "Sierpinski carpet",
         defaultViewport = FractalViewport.of("0", "0", "2.2"),
         capabilities = setOf(FractalFormulaCapability.Geometric)
     ),
     SierpinskiTriangle(
-        stableKey = "sierpinski_triangle",
-        displayName = "Sierpinski triangle",
         defaultViewport = FractalViewport.of("0", "0", "2.2"),
         capabilities = setOf(FractalFormulaCapability.Geometric)
     ),
     BurningShipJulia(
-        stableKey = "burning_ship_julia",
-        displayName = "Burning Ship Julia",
         defaultViewport = FractalViewport.of("0", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -207,8 +169,6 @@ enum class FractalFormula(
         )
     ),
     CelticJulia(
-        stableKey = "celtic_julia",
-        displayName = "Celtic Julia",
         defaultViewport = FractalViewport.of("0", "0", "3"),
         capabilities = setOf(
             FractalFormulaCapability.Power,
@@ -218,8 +178,6 @@ enum class FractalFormula(
         )
     ),
     Collatz(
-        stableKey = "collatz",
-        displayName = "Collatz",
         defaultViewport = FractalViewport.of("0", "0", "4"),
         defaultIterations = 160,
         defaultBailout = 100.0,
@@ -229,8 +187,6 @@ enum class FractalFormula(
         )
     ),
     Buddhabrot(
-        stableKey = "buddhabrot",
-        displayName = "Buddhabrot",
         defaultViewport = FractalViewport.of("0.4", "0", "4.444444444444444"),
         defaultIterations = 800,
         defaultBailout = 2.0,
@@ -240,8 +196,6 @@ enum class FractalFormula(
         )
     ),
     Hopalong(
-        stableKey = "hopalong",
-        displayName = "Hopalong",
         defaultViewport = FractalViewport.of("-0.1", "0.5", "4.2"),
         defaultIterations = 1_000,
         coefficientSpecs = FractalCoefficientSpecs(
@@ -255,8 +209,6 @@ enum class FractalFormula(
         )
     ),
     Martin(
-        stableKey = "martin",
-        displayName = "Martin",
         defaultViewport = FractalViewport.of(
             "1.5707963267948966",
             "1.5707963267948966",
@@ -272,8 +224,6 @@ enum class FractalFormula(
         )
     ),
     Gingerbreadman(
-        stableKey = "gingerbreadman",
-        displayName = "Gingerbreadman",
         defaultViewport = FractalViewport.of("2.5", "2.5", "12"),
         defaultIterations = 1_000,
         capabilities = setOf(
@@ -282,8 +232,6 @@ enum class FractalFormula(
         )
     ),
     Chip(
-        stableKey = "chip",
-        displayName = "Chip",
         defaultViewport = FractalViewport.of("-7.2", "-7.9", "720"),
         defaultIterations = 1_000,
         coefficientSpecs = martinVariantCoefficients(
@@ -297,8 +245,6 @@ enum class FractalFormula(
         )
     ),
     Quadruptwo(
-        stableKey = "quadruptwo",
-        displayName = "Quadruptwo",
         defaultViewport = FractalViewport.of("16.5", "17.5", "200"),
         defaultIterations = 1_000,
         coefficientSpecs = martinVariantCoefficients(
@@ -312,8 +258,6 @@ enum class FractalFormula(
         )
     ),
     Threeply(
-        stableKey = "threeply",
-        displayName = "Threeply",
         defaultViewport = FractalViewport.of("-34", "-21", "5500"),
         defaultIterations = 1_000,
         coefficientSpecs = martinVariantCoefficients(
@@ -327,8 +271,6 @@ enum class FractalFormula(
         )
     ),
     Mandelbulb(
-        stableKey = "mandelbulb",
-        displayName = "Mandelbulb",
         defaultViewport = FractalViewport.Default,
         defaultPower = 8.0,
         dimension = FractalDimension.ThreeDimensional,
@@ -339,16 +281,12 @@ enum class FractalFormula(
         )
     ),
     Mandelbox(
-        stableKey = "mandelbox",
-        displayName = "Mandelbox",
         defaultViewport = FractalViewport.Default,
         dimension = FractalDimension.ThreeDimensional,
         defaultCamera = FractalCamera(distance = 5.0),
         capabilities = setOf(FractalFormulaCapability.Camera3D)
     ),
     MengerSponge(
-        stableKey = "menger_sponge",
-        displayName = "Menger sponge",
         defaultViewport = FractalViewport.Default,
         dimension = FractalDimension.ThreeDimensional,
         defaultCamera = FractalCamera(pitch = 25.0, distance = 4.0),
@@ -358,8 +296,6 @@ enum class FractalFormula(
         )
     ),
     SierpinskiTetrahedron(
-        stableKey = "sierpinski_tetrahedron",
-        displayName = "Sierpinski pyramid",
         defaultViewport = FractalViewport.Default,
         dimension = FractalDimension.ThreeDimensional,
         defaultCamera = FractalCamera(pitch = 25.0, distance = 4.0),
@@ -369,8 +305,6 @@ enum class FractalFormula(
         )
     ),
     QuaternionJulia(
-        stableKey = "quaternion_julia",
-        displayName = "Julia set 3D",
         defaultViewport = FractalViewport.Default,
         dimension = FractalDimension.ThreeDimensional,
         defaultCamera = FractalCamera(distance = 3.2),
@@ -381,8 +315,6 @@ enum class FractalFormula(
         )
     ),
     SierpinskiGasket(
-        stableKey = "sierpinski_gasket",
-        displayName = "Sierpinski gasket",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 128,
         dimension = FractalDimension.ThreeDimensional,
@@ -398,8 +330,6 @@ enum class FractalFormula(
         )
     ),
     OctahedralIFS(
-        stableKey = "octahedral_ifs",
-        displayName = "Octahedral IFS",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 160,
         dimension = FractalDimension.ThreeDimensional,
@@ -414,8 +344,6 @@ enum class FractalFormula(
         )
     ),
     IcosahedralIFS(
-        stableKey = "icosahedral_ifs",
-        displayName = "Icosahedral IFS",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 160,
         dimension = FractalDimension.ThreeDimensional,
@@ -430,8 +358,6 @@ enum class FractalFormula(
         )
     ),
     ApollonianGasket(
-        stableKey = "apollonian_gasket",
-        displayName = "Apollonian gasket",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 160,
         dimension = FractalDimension.ThreeDimensional,
@@ -444,8 +370,6 @@ enum class FractalFormula(
         capabilities = setOf(FractalFormulaCapability.Camera3D)
     ),
     Kleinian(
-        stableKey = "kleinian",
-        displayName = "Kleinian",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 192,
         dimension = FractalDimension.ThreeDimensional,
@@ -458,8 +382,6 @@ enum class FractalFormula(
         capabilities = setOf(FractalFormulaCapability.Camera3D)
     ),
     HybridMandelbulbJulia(
-        stableKey = "hybrid_mandelbulb_julia",
-        displayName = "Hybrid Mandelbulb-Julia",
         defaultViewport = FractalViewport.Default,
         defaultPower = 8.0,
         defaultIterations = 192,
@@ -472,8 +394,6 @@ enum class FractalFormula(
         )
     ),
     QuaternionCubic(
-        stableKey = "quaternion_cubic",
-        displayName = "Quaternion cubic",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 256,
         dimension = FractalDimension.ThreeDimensional,
@@ -485,8 +405,6 @@ enum class FractalFormula(
         )
     ),
     Pickover(
-        stableKey = "pickover",
-        displayName = "Pickover",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 1_000,
         dimension = FractalDimension.ThreeDimensional,
@@ -504,8 +422,6 @@ enum class FractalFormula(
         )
     ),
     Lorenz(
-        stableKey = "lorenz",
-        displayName = "Lorenz",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 1_000,
         dimension = FractalDimension.ThreeDimensional,
@@ -522,8 +438,6 @@ enum class FractalFormula(
         )
     ),
     Rossler(
-        stableKey = "rossler",
-        displayName = "Rössler",
         defaultViewport = FractalViewport.Default,
         defaultIterations = 1_000,
         dimension = FractalDimension.ThreeDimensional,
@@ -575,6 +489,9 @@ enum class FractalFormula(
 
     val isDensityVisualization: Boolean
         get() = FractalFormulaCapability.DensityVisualization in capabilities
+
+    val supportsFloor: Boolean
+        get() = isThreeDimensional && !isDensityVisualization
 
     val usesCoefficients: Boolean
         get() = !coefficientSpecs.isEmpty

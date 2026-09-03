@@ -39,6 +39,9 @@ data class FractalParams(
     val camera: FractalCamera = formula.defaultCamera,
     val quaternionConstant: FractalQuaternion = formula.defaultQuaternionConstant,
     val coefficients: FractalCoefficients = formula.coefficientSpecs.defaults,
+    val showFloor: Boolean = formula.supportsFloor,
+    val floorPrimaryColor: ColorModel = ColorModel(DEFAULT_FLOOR_PRIMARY_COLOR),
+    val floorSecondaryColor: ColorModel = ColorModel(DEFAULT_FLOOR_SECONDARY_COLOR),
     val supersampling: Int = 1
 ) {
 
@@ -95,6 +98,7 @@ data class FractalParams(
                 formula.defaultQuaternionConstant
             ),
             coefficients = coefficients.normalized(formula.coefficientSpecs),
+            showFloor = showFloor && formula.supportsFloor,
             supersampling = supersampling.coerceIn(MIN_SUPERSAMPLING, MAX_SUPERSAMPLING)
         )
     }
@@ -133,7 +137,8 @@ data class FractalParams(
         novaRelaxation = formula.defaultNovaRelaxation,
         camera = formula.defaultCamera,
         quaternionConstant = formula.defaultQuaternionConstant,
-        coefficients = formula.coefficientSpecs.defaults
+        coefficients = formula.coefficientSpecs.defaults,
+        showFloor = formula.supportsFloor
     )
 
     fun resetView(): FractalParams = copy(
@@ -159,6 +164,8 @@ data class FractalParams(
         const val DEFAULT_BAILOUT = 4.0
         const val DEFAULT_PALETTE_CYCLES = 1.0
         const val DEFAULT_INSIDE_COLOR = -0x1000000
+        const val DEFAULT_FLOOR_PRIMARY_COLOR = -0x1
+        const val DEFAULT_FLOOR_SECONDARY_COLOR = -0x1000000
         const val MIN_POWER = 2.0
         const val MAX_POWER = 12.0
         const val MIN_BAILOUT = 2.0

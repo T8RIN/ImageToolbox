@@ -63,6 +63,7 @@ data class FractalCamera(
         const val MAX_PITCH = 89.0
         const val MIN_DISTANCE = 0.5
         const val MAX_DISTANCE = 20.0
+        const val ORBIT_DEGREES_PER_VIEWPORT = 180.0
     }
 }
 

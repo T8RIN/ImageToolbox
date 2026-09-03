@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.FractalRenderer
+import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalFormula
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalParams
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalRenderRequest
@@ -244,8 +245,8 @@ class FractalGenerationComponent @AssistedInject internal constructor(
             if (it.formula.isThreeDimensional) {
                 val camera = it.camera
                     .orbit(
-                        yawDelta = panX * CAMERA_ORBIT_DEGREES,
-                        pitchDelta = -panY * CAMERA_ORBIT_DEGREES
+                        yawDelta = panX * FractalCamera.ORBIT_DEGREES_PER_VIEWPORT,
+                        pitchDelta = panY * FractalCamera.ORBIT_DEGREES_PER_VIEWPORT
                     )
                     .zoomBy(zoomFactor.toDouble())
                 it.copy(camera = camera).normalized()
@@ -608,7 +609,6 @@ class FractalGenerationComponent @AssistedInject internal constructor(
         const val PREVIEW_SIZE = 2048
         const val DEEP_ZOOM_PREVIEW_SIZE = 640
         const val PREVIEW_DEBOUNCE = 350L
-        const val CAMERA_ORBIT_DEGREES = 180.0
     }
 }
 

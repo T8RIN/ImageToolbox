@@ -71,6 +71,9 @@ class NativeFractalRendererBackendTest {
             novaRelaxation = 1.25,
             camera = FractalCamera(yaw = 90.0, pitch = -30.0, distance = 4.25),
             quaternionConstant = FractalQuaternion(x = -0.2, y = 0.8, z = 0.1, w = -0.1),
+            showFloor = true,
+            floorPrimaryColor = ColorModel(0xFF336699.toInt()),
+            floorSecondaryColor = ColorModel(0xFF663399.toInt()),
             supersampling = 3
         )
         val native = params
@@ -113,6 +116,9 @@ class NativeFractalRendererBackendTest {
         assertEquals(-0.1, native.quaternionConstant.w, 0.0)
         assertEquals("AB", native.lyapunovSequence)
         assertEquals(45.0, native.fieldOfViewDegrees, 0.0)
+        assertTrue(native.showFloor)
+        assertEquals(0xFF336699.toInt(), native.floorPrimaryColor)
+        assertEquals(0xFF663399.toInt(), native.floorSecondaryColor)
     }
 
     @Test

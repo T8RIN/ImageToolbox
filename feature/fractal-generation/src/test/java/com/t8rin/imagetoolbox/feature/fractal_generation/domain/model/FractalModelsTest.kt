@@ -28,14 +28,14 @@ class FractalModelsTest {
     @Test
     fun catalogHasUsefulUniqueOptions() {
         assertEquals(42, FractalFormula.entries.size)
-        assertEquals(24, FractalPalette.entries.size)
+        assertEquals(59, FractalPalette.entries.size)
         assertEquals(
             FractalFormula.entries.size,
-            FractalFormula.entries.map(FractalFormula::stableKey).distinct().size
+            FractalFormula.entries.map(FractalFormula::name).distinct().size
         )
         assertEquals(
             FractalPalette.entries.size,
-            FractalPalette.entries.map(FractalPalette::stableKey).distinct().size
+            FractalPalette.entries.map(FractalPalette::name).distinct().size
         )
         assertEquals(4, FractalColoring.entries.size)
     }
@@ -108,6 +108,11 @@ class FractalModelsTest {
         assertTrue(FractalFormula.QuaternionJulia.usesQuaternionConstant)
         assertTrue(FractalFormula.QuaternionCubic.usesQuaternionConstant)
         assertTrue(FractalFormula.HybridMandelbulbJulia.usesJuliaConstant)
+        assertEquals(
+            12,
+            threeDimensional.count(FractalFormula::supportsFloor)
+        )
+        assertFalse(FractalFormula.Pickover.supportsFloor)
         listOf(
             FractalFormula.BurningShipJulia,
             FractalFormula.CelticJulia
@@ -202,9 +207,9 @@ class FractalModelsTest {
                 formula.coefficientSpecs.c,
                 formula.coefficientSpecs.d
             ).filterNotNull().forEach { spec ->
-                assertTrue("${formula.stableKey}: ${spec.label}", spec.defaultValue.isFinite())
+                assertTrue("${formula.name}: ${spec.label}", spec.defaultValue.isFinite())
                 assertTrue(
-                    "${formula.stableKey}: ${spec.label} default is outside its range",
+                    "${formula.name}: ${spec.label} default is outside its range",
                     spec.defaultValue in spec.valueRange
                 )
             }
@@ -331,6 +336,16 @@ class FractalModelsTest {
             FractalFormula.QuaternionJulia.defaultQuaternionConstant,
             changed.quaternionConstant
         )
+        assertTrue(changed.showFloor)
+        assertEquals(
+            FractalParams.DEFAULT_FLOOR_PRIMARY_COLOR,
+            changed.floorPrimaryColor.colorInt
+        )
+        assertEquals(
+            FractalParams.DEFAULT_FLOOR_SECONDARY_COLOR,
+            changed.floorSecondaryColor.colorInt
+        )
+        assertFalse(changed.withFormula(FractalFormula.Lorenz).showFloor)
     }
 
     @Test
@@ -346,6 +361,24 @@ class FractalModelsTest {
         assertEquals(FractalCamera.MAX_PITCH, moved.camera.pitch, 0.0)
         assertEquals(1.6, moved.camera.distance, 0.0)
         assertEquals(FractalFormula.Mandelbulb.defaultCamera, moved.resetView().camera)
+    }
+
+    @Test
+    fun currentZoomUsesEachFormulaDefaultView() {
+        assertEquals("1", FractalParams.Default.formattedZoom())
+        assertEquals(
+            "1e100",
+            FractalParams.Default.copy(
+                viewport = FractalViewport.of("-0.5", "0", "3E-100")
+            ).formattedZoom()
+        )
+        assertEquals(
+            "2",
+            FractalParams.Default
+                .withFormula(FractalFormula.Mandelbulb)
+                .copy(camera = FractalCamera(distance = 1.6))
+                .formattedZoom()
+        )
     }
 
     @Test
@@ -374,11 +407,11 @@ class FractalModelsTest {
             val suggestedColors = palette.suggestedColors
 
             assertTrue(
-                "${palette.stableKey} should offer at least ten fill colors",
+                "${palette.name} should offer at least ten fill colors",
                 suggestedColors.size >= 10
             )
             assertEquals(
-                "${palette.stableKey} contains duplicate fill colors",
+                "${palette.name} contains duplicate fill colors",
                 suggestedColors.size,
                 suggestedColors.map { it.colorInt }.distinct().size
             )
@@ -502,6 +535,10 @@ class FractalModelsTest {
         assertEquals(
             2_083_333L,
             FractalRenderRequest.maxOutputPixelsFor(FractalFormula.Mandelbulb)
+        )
+        assertEquals(
+            1_666_666L,
+            FractalRenderRequest.maxOutputPixelsFor(FractalFormula.Kleinian)
         )
         val params = FractalParams.Default
             .withFormula(FractalFormula.Mandelbulb)
