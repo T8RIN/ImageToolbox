@@ -57,6 +57,7 @@ internal fun FiltersContentSheets(
             previewBitmap = component.previewBitmap,
             onFilterPicked = component::addFilterNewInstance,
             onFilterPickedWithParams = component::addFilter,
+            onFiltersPickedWithParams = component::addFilters,
             component = component.addFiltersSheetComponent,
             filterTemplateCreationSheetComponent = component.filterTemplateCreationSheetComponent
         )

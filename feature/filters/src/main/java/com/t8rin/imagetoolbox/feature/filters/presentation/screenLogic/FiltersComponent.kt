@@ -622,10 +622,15 @@ class FiltersComponent @AssistedInject internal constructor(
     }
 
     fun addFilter(filter: UiFilter<*>) {
+        addFilters(listOf(filter))
+    }
+
+    fun addFilters(filters: List<UiFilter<*>>) {
+        if (filters.isEmpty()) return
         finalizePendingHistoryTransaction()
         val beforeSnapshot = currentHistorySnapshot()
         _basicFilterState.update {
-            it.copy(filters = it.filters + filter)
+            it.copy(filters = it.filters + filters)
         }
         updateCanSave()
         filterJob = null

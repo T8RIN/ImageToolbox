@@ -112,6 +112,9 @@ fun AddFiltersSheet(
     previewBitmap: Bitmap?,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    onFiltersPickedWithParams: (List<UiFilter<*>>) -> Unit = { filters ->
+        filters.forEach(onFilterPickedWithParams)
+    },
     canAddTemplates: Boolean = true
 ) {
     val favoriteFilters by component.favoritesFlow.collectAsStateWithLifecycle()
@@ -148,6 +151,10 @@ fun AddFiltersSheet(
     val pickFilterWithParams: (UiFilter<*>) -> Unit = { filter ->
         component.addRecentFilter(filter)
         onFilterPickedWithParams(filter)
+    }
+    val pickFiltersWithParams: (List<UiFilter<*>>) -> Unit = { filters ->
+        filters.forEach(component::addRecentFilter)
+        onFiltersPickedWithParams(filters)
     }
 
     var isSearching by rememberSaveable {
@@ -361,7 +368,7 @@ fun AddFiltersSheet(
                                     component = component,
                                     filterTemplateCreationSheetComponent = filterTemplateCreationSheetComponent,
                                     onVisibleChange = onVisibleChange,
-                                    onFilterPickedWithParams = pickFilterWithParams,
+                                    onFiltersPickedWithParams = pickFiltersWithParams,
                                     showPreviewImages = showPreviewImages
                                 )
                             }
@@ -525,6 +532,9 @@ fun AddFiltersSheet(
     previewBitmap: Bitmap?,
     onFilterPicked: (UiFilter<*>) -> Unit,
     onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    onFiltersPickedWithParams: (List<UiFilter<*>>) -> Unit = { filters ->
+        filters.forEach(onFilterPickedWithParams)
+    },
     canAddTemplates: Boolean = true
 ) {
     AddFiltersSheet(
@@ -535,6 +545,7 @@ fun AddFiltersSheet(
         previewBitmap = previewBitmap,
         onFilterPicked = onFilterPicked,
         onFilterPickedWithParams = onFilterPickedWithParams,
+        onFiltersPickedWithParams = onFiltersPickedWithParams,
         canAddTemplates = canAddTemplates
     )
 }

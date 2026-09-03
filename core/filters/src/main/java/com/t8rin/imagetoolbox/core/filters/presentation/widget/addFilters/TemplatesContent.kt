@@ -62,7 +62,7 @@ internal fun TemplatesContent(
     component: AddFiltersSheetComponent,
     filterTemplateCreationSheetComponent: FilterTemplateCreationSheetComponent,
     onVisibleChange: (Boolean) -> Unit,
-    onFilterPickedWithParams: (UiFilter<*>) -> Unit,
+    onFiltersPickedWithParams: (List<UiFilter<*>>) -> Unit,
     showPreviewImages: Boolean
 ) {
     val templateFilters by component.templatesFlow.collectAsStateWithLifecycle()
@@ -119,9 +119,9 @@ internal fun TemplatesContent(
                         templateFilter = templateFilter,
                         onClick = {
                             onVisibleChange(false)
-                            templateFilter.filters.forEach {
-                                onFilterPickedWithParams(it.toUiFilter())
-                            }
+                            onFiltersPickedWithParams(
+                                templateFilter.filters.map { it.toUiFilter() }
+                            )
                         },
                         onLongClick = {
                             component.setPreviewData(templateFilter.filters)
