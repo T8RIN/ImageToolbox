@@ -63,7 +63,7 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-private const val MAX_UI_OUTPUT_DIMENSION = 4_096
+private const val MAX_UI_OUTPUT_DIMENSION = 8_192
 
 class FractalGenerationComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
