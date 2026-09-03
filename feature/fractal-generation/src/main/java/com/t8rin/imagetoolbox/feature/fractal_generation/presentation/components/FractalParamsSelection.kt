@@ -84,15 +84,21 @@ fun FractalParamsSelection(
     onFormulaChange: (FractalFormula) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val powerRange = FractalParams.MIN_POWER.toFloat().rangeTo(
-        FractalParams.MAX_POWER.toFloat()
-    )
-    val iterationRange = FractalIterationPolicy.MIN_ITERATIONS.toFloat().rangeTo(
-        FractalIterationPolicy.MAX_ITERATIONS.toFloat()
-    )
-    val supersamplingRange = FractalParams.MIN_SUPERSAMPLING.toFloat().rangeTo(
-        FractalParams.MAX_SUPERSAMPLING.toFloat()
-    )
+    val powerRange = remember {
+        FractalParams.MIN_POWER.toFloat().rangeTo(
+            FractalParams.MAX_POWER.toFloat()
+        )
+    }
+    val iterationRange = remember {
+        FractalIterationPolicy.MIN_ITERATIONS.toFloat().rangeTo(
+            FractalIterationPolicy.MAX_ITERATIONS.toFloat()
+        )
+    }
+    val supersamplingRange = remember {
+        FractalParams.MIN_SUPERSAMPLING.toFloat().rangeTo(
+            FractalParams.MAX_SUPERSAMPLING.toFloat()
+        )
+    }
 
     Column(
         modifier = modifier.container(

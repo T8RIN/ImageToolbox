@@ -92,6 +92,9 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     private val _outputSize = mutableStateOf(IntegerSize(DEFAULT_OUTPUT_SIZE, DEFAULT_OUTPUT_SIZE))
     val outputSize: IntegerSize by _outputSize
 
+    private val _specifiedOutputSize = mutableStateOf(IntegerSize.Zero)
+    val specifiedOutputSize: IntegerSize by _specifiedOutputSize
+
     private val _imageFormat = mutableStateOf<ImageFormat>(ImageFormat.Png.Lossless)
     val imageFormat: ImageFormat by _imageFormat
 
@@ -108,6 +111,7 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     private var previewRequestId = 0
     private var exportRequestId = 0
     private var outputSizeInitialized = false
+    private var availableOutputSize = IntegerSize(DEFAULT_OUTPUT_SIZE, DEFAULT_OUTPUT_SIZE)
     private var viewportGestureActive = false
     private var paramsBeforeGesture: FractalParams? = null
     private var hasShownDeepZoomWarning = false
@@ -133,14 +137,28 @@ class FractalGenerationComponent @AssistedInject internal constructor(
 
     fun updateParams(value: FractalParams) {
         val normalized = value.normalized()
-        val constrainedOutputSize = outputSize.fitWithinOutputLimits(
-            maxPixels = FractalRenderRequest.maxOutputPixelsFor(normalized.formula)
-        )
-        if (_params.value == normalized && outputSize == constrainedOutputSize) return
+        val constrainedSpecifiedOutputSize = specifiedOutputSize
+            .takeUnless(IntegerSize::isZero)
+            ?.fitWithinOutputLimits(
+                maxPixels = FractalRenderRequest.maxOutputPixelsFor(normalized.formula)
+            )
+            ?: specifiedOutputSize
+        val constrainedOutputSize = constrainedSpecifiedOutputSize
+            .takeUnless(IntegerSize::isZero)
+            .let { it ?: availableOutputSize }
+            .fitWithinOutputLimits(
+                maxPixels = FractalRenderRequest.maxOutputPixelsFor(normalized.formula)
+            )
+        if (
+            _params.value == normalized &&
+            outputSize == constrainedOutputSize &&
+            specifiedOutputSize == constrainedSpecifiedOutputSize
+        ) return
 
         beginPendingHistoryTransaction()
         _params.update { normalized }
         _outputSize.update { constrainedOutputSize }
+        _specifiedOutputSize.update { constrainedSpecifiedOutputSize }
         updatePreview()
         registerChanges()
         schedulePendingHistoryCommit()
@@ -153,33 +171,37 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     }
 
     fun setOutputWidth(width: Int) {
-        outputSizeInitialized = true
-        val maxWidth = (maxOutputPixels / outputSize.height)
-            .toInt()
-            .coerceAtMost(MAX_OUTPUT_DIMENSION)
-        val coerced = width.coerceIn(1, maxWidth)
-        if (outputSize.width != coerced) {
-            beginPendingHistoryTransaction()
-            _outputSize.update { it.copy(width = coerced) }
-            updatePreview()
-            registerChanges()
-            schedulePendingHistoryCommit()
-        }
+        setSpecifiedOutputSize(
+            specifiedOutputSize.copy(width = width.coerceIn(0, MAX_OUTPUT_DIMENSION))
+        )
     }
 
     fun setOutputHeight(height: Int) {
-        outputSizeInitialized = true
-        val maxHeight = (maxOutputPixels / outputSize.width)
-            .toInt()
-            .coerceAtMost(MAX_OUTPUT_DIMENSION)
-        val coerced = height.coerceIn(1, maxHeight)
-        if (outputSize.height != coerced) {
-            beginPendingHistoryTransaction()
-            _outputSize.update { it.copy(height = coerced) }
-            updatePreview()
-            registerChanges()
-            schedulePendingHistoryCommit()
-        }
+        setSpecifiedOutputSize(
+            specifiedOutputSize.copy(height = height.coerceIn(0, MAX_OUTPUT_DIMENSION))
+        )
+    }
+
+    private fun setSpecifiedOutputSize(value: IntegerSize) {
+        val constrainedValue = value
+            .takeUnless(IntegerSize::isZero)
+            ?.fitWithinOutputLimits(maxOutputPixels)
+            ?: value
+        val resolvedOutputSize = constrainedValue
+            .takeUnless(IntegerSize::isZero)
+            ?: availableOutputSize.fitWithinOutputLimits(maxOutputPixels)
+        if (
+            specifiedOutputSize == constrainedValue &&
+            outputSize == resolvedOutputSize
+        ) return
+
+        val outputSizeChanged = outputSize != resolvedOutputSize
+        beginPendingHistoryTransaction()
+        _specifiedOutputSize.update { constrainedValue }
+        _outputSize.update { resolvedOutputSize }
+        if (outputSizeChanged) updatePreview()
+        registerChanges()
+        schedulePendingHistoryCommit()
     }
 
     fun setImageFormat(value: ImageFormat) {
@@ -217,18 +239,31 @@ class FractalGenerationComponent @AssistedInject internal constructor(
         viewportGestureActive = true
     }
 
-    fun initializeOutputSize(
+    fun updateAvailableOutputSize(
         width: Int,
         height: Int
     ) {
-        if (outputSizeInitialized || width <= 0 || height <= 0) return
+        if (width <= 0 || height <= 0) return
 
+        val newAvailableOutputSize = IntegerSize(width, height)
+        if (outputSizeInitialized && availableOutputSize == newAvailableOutputSize) return
+
+        val wasInitialized = outputSizeInitialized
+        availableOutputSize = newAvailableOutputSize
+        val resolvedOutputSize = specifiedOutputSize
+            .takeUnless(IntegerSize::isZero)
+            ?: availableOutputSize.fitWithinOutputLimits(maxOutputPixels)
+        val outputSizeChanged = outputSize != resolvedOutputSize
         outputSizeInitialized = true
         _outputSize.update {
-            IntegerSize(width, height).fitWithinOutputLimits(maxOutputPixels)
+            resolvedOutputSize
         }
-        resetHistory()
-        updatePreview(delay = 0L)
+        if (wasInitialized) {
+            if (outputSizeChanged) updatePreview(delay = 0L)
+        } else {
+            resetHistory()
+            updatePreview(delay = 0L)
+        }
     }
 
     fun onViewportGesture(
@@ -557,6 +592,7 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
         params = params,
         outputSize = outputSize,
+        specifiedOutputSize = specifiedOutputSize,
         imageFormat = imageFormat,
         quality = quality,
         backgroundColorForNoAlphaFormats = settingsManager
@@ -570,6 +606,7 @@ class FractalGenerationComponent @AssistedInject internal constructor(
         paramsBeforeGesture = null
         _params.update { snapshot.params }
         _outputSize.update { snapshot.outputSize }
+        _specifiedOutputSize.update { snapshot.specifiedOutputSize }
         _imageFormat.update { snapshot.imageFormat }
         _quality.update { snapshot.quality }
         restoreBackgroundColorForNoAlphaFormats(
@@ -582,6 +619,7 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     data class HistorySnapshot(
         val params: FractalParams = FractalParams.Default,
         val outputSize: IntegerSize = IntegerSize(DEFAULT_OUTPUT_SIZE, DEFAULT_OUTPUT_SIZE),
+        val specifiedOutputSize: IntegerSize = IntegerSize.Zero,
         val imageFormat: ImageFormat = ImageFormat.Png.Lossless,
         val quality: Quality = Quality.Base(100),
         val backgroundColorForNoAlphaFormats: ColorModel = ColorModel(-0x1000000)

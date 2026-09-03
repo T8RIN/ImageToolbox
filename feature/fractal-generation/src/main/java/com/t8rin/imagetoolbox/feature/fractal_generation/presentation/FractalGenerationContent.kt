@@ -102,7 +102,7 @@ fun FractalGenerationContent(
     }
 
     LaunchedEffect(previewAreaSize) {
-        component.initializeOutputSize(
+        component.updateAvailableOutputSize(
             width = previewAreaSize.width,
             height = previewAreaSize.height
         )
@@ -237,7 +237,10 @@ fun FractalGenerationContent(
                     onGestureEnd = component::onViewportGestureEnd,
                     onCopyCoordinate = component::copyCoordinateAt,
                     onFrameDisplayed = component::onPreviewFrameDisplayed,
-                    modifier = if (component.previewBitmap == null) {
+                    modifier = if (
+                        component.previewBitmap == null ||
+                        component.specifiedOutputSize.isZero()
+                    ) {
                         Modifier.fillMaxSize()
                     } else {
                         Modifier
@@ -282,8 +285,11 @@ fun FractalGenerationContent(
                     }
                 }
                 ResizeImageField(
-                    imageInfo = derivedValueOf(component.outputSize) {
-                        ImageInfo(component.outputSize.width, component.outputSize.height)
+                    imageInfo = derivedValueOf(component.specifiedOutputSize) {
+                        ImageInfo(
+                            component.specifiedOutputSize.width,
+                            component.specifiedOutputSize.height
+                        )
                     },
                     originalSize = null,
                     onWidthChange = component::setOutputWidth,
