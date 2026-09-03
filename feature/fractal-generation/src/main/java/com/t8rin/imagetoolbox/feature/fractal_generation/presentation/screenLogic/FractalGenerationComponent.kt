@@ -63,6 +63,8 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
+private const val MAX_UI_OUTPUT_DIMENSION = 4_096
+
 class FractalGenerationComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: () -> Unit,
@@ -172,13 +174,13 @@ class FractalGenerationComponent @AssistedInject internal constructor(
 
     fun setOutputWidth(width: Int) {
         setSpecifiedOutputSize(
-            specifiedOutputSize.copy(width = width.coerceIn(0, MAX_OUTPUT_DIMENSION))
+            specifiedOutputSize.copy(width = width.coerceIn(0, MAX_UI_OUTPUT_DIMENSION))
         )
     }
 
     fun setOutputHeight(height: Int) {
         setSpecifiedOutputSize(
-            specifiedOutputSize.copy(height = height.coerceIn(0, MAX_OUTPUT_DIMENSION))
+            specifiedOutputSize.copy(height = height.coerceIn(0, MAX_UI_OUTPUT_DIMENSION))
         )
     }
 
@@ -520,11 +522,10 @@ class FractalGenerationComponent @AssistedInject internal constructor(
             PREVIEW_SIZE
         }
         val targetSize = sizeSnapshot.fitWithin(previewSize, previewSize)
-        val outputPlan = paramsSnapshot.toRenderRequest(
+        val previewParams = paramsSnapshot.toRenderRequest(
             width = sizeSnapshot.width,
             height = sizeSnapshot.height
-        ).resolvePlan()
-        val previewParams = outputPlan.params
+        ).resolvePlan().params
 
         debouncedImageCalculation(delay = delay) {
             val bitmap = fractalRenderer.render(
@@ -643,7 +644,6 @@ class FractalGenerationComponent @AssistedInject internal constructor(
 
     private companion object {
         const val DEFAULT_OUTPUT_SIZE = 1080
-        const val MAX_OUTPUT_DIMENSION = FractalRenderRequest.MAX_OUTPUT_DIMENSION
         const val PREVIEW_SIZE = 2048
         const val DEEP_ZOOM_PREVIEW_SIZE = 640
         const val PREVIEW_DEBOUNCE = 350L
@@ -669,8 +669,8 @@ private fun IntegerSize.fitWithinOutputLimits(maxPixels: Long): IntegerSize {
     val pixelCount = width.toLong() * height
     val scale = minOf(
         1.0,
-        FractalRenderRequest.MAX_OUTPUT_DIMENSION.toDouble() / width,
-        FractalRenderRequest.MAX_OUTPUT_DIMENSION.toDouble() / height,
+        MAX_UI_OUTPUT_DIMENSION.toDouble() / width,
+        MAX_UI_OUTPUT_DIMENSION.toDouble() / height,
         sqrt(maxPixels.toDouble() / pixelCount)
     )
     val scaledHeight = (height * scale).roundToInt().coerceAtLeast(1)
@@ -680,7 +680,7 @@ private fun IntegerSize.fitWithinOutputLimits(maxPixels: Long): IntegerSize {
             1,
             (maxPixels / scaledHeight)
                 .toInt()
-                .coerceAtMost(FractalRenderRequest.MAX_OUTPUT_DIMENSION)
+                .coerceAtMost(MAX_UI_OUTPUT_DIMENSION)
         )
     return IntegerSize(scaledWidth, scaledHeight)
 }

@@ -35,9 +35,6 @@ data class FractalRenderRequest(
         require(height in 1..MAX_OUTPUT_DIMENSION) {
             "Height must be in 1..$MAX_OUTPUT_DIMENSION, was $height"
         }
-        require(width.toLong() * height <= MAX_OUTPUT_PIXELS) {
-            "Output must not exceed $MAX_OUTPUT_PIXELS pixels"
-        }
         require(
             viewportAspectRatio.isFinite() &&
                     viewportAspectRatio in MIN_VIEWPORT_ASPECT_RATIO..MAX_VIEWPORT_ASPECT_RATIO
@@ -96,13 +93,21 @@ data class FractalRenderRequest(
 
         while (
             supersampling > FractalParams.MIN_SUPERSAMPLING &&
-            maxIterationsFor(pixelCount, supersampling) < preferredIterations
+            maxIterationsFor(
+                pixelCount = pixelCount,
+                supersampling = supersampling,
+                workLimit = MAX_ESCAPE_TIME_WORK_UNITS
+            ) < preferredIterations
         ) {
             supersampling--
         }
 
         val iterations = requestedIterations.coerceAtMost(
-            maxIterationsFor(pixelCount, supersampling)
+            maxIterationsFor(
+                pixelCount = pixelCount,
+                supersampling = supersampling,
+                workLimit = MAX_ESCAPE_TIME_WORK_UNITS
+            )
         )
         val workUnits = pixelCount * supersampling * supersampling * iterations
 
@@ -268,15 +273,16 @@ data class FractalRenderRequest(
 
     private fun maxIterationsFor(
         pixelCount: Long,
-        supersampling: Int
+        supersampling: Int,
+        workLimit: Long
     ): Int = (
-            MAX_RENDER_WORK_UNITS / pixelCount / supersampling / supersampling
+            workLimit / pixelCount / supersampling / supersampling
             ).toInt().coerceAtLeast(MIN_BUDGETED_ITERATIONS)
 
     companion object {
         const val MAX_OUTPUT_DIMENSION = 8_192
-        const val MAX_OUTPUT_PIXELS = 16_777_216L
         const val MAX_RENDER_WORK_UNITS = 500_000_000L
+        const val MAX_ESCAPE_TIME_WORK_UNITS = 10_000_000_000L
         const val MIN_VIEWPORT_ASPECT_RATIO = 1.0 / 8_192.0
         const val MAX_VIEWPORT_ASPECT_RATIO = 8_192.0
 
@@ -286,9 +292,11 @@ data class FractalRenderRequest(
             val minimumWorkPerPixel =
                 (MIN_RAY_MARCH_STEPS + RAY_MARCH_NORMAL_STEPS) *
                         formula.minimumRayMarchDistanceIterations()
-            (MAX_RENDER_WORK_UNITS / minimumWorkPerPixel).coerceAtMost(MAX_OUTPUT_PIXELS)
+            (MAX_RENDER_WORK_UNITS / minimumWorkPerPixel).coerceAtMost(
+                MAX_OUTPUT_DIMENSION.toLong() * MAX_OUTPUT_DIMENSION
+            )
         } else {
-            MAX_OUTPUT_PIXELS
+            MAX_OUTPUT_DIMENSION.toLong() * MAX_OUTPUT_DIMENSION
         }
 
         private const val MIN_PREFERRED_BUDGETED_ITERATIONS = 64

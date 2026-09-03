@@ -418,17 +418,24 @@ class FractalModelsTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException::class)
-    fun renderRequestRejectsUnsafePixelCount() {
-        FractalRenderRequest(
+    @Test
+    fun renderRequestAcceptsMaximumOutputSize() {
+        val request = FractalRenderRequest(
             width = FractalRenderRequest.MAX_OUTPUT_DIMENSION,
             height = FractalRenderRequest.MAX_OUTPUT_DIMENSION,
             params = FractalParams.Default
         )
+
+        assertEquals(8192, request.width)
+        assertEquals(8192, request.height)
+        assertTrue(
+            request.resolvePlan().estimatedWorkUnits <=
+                    FractalRenderRequest.MAX_ESCAPE_TIME_WORK_UNITS
+        )
     }
 
     @Test
-    fun renderPlanCapsTotalWorkAndReducesSupersamplingFirst() {
+    fun escapeTimeRenderPlanCapsTotalWorkAndReducesSupersamplingFirst() {
         val request = FractalParams.Default.copy(
             iterations = FractalIterationPolicy.MAX_ITERATIONS,
             iterationPolicy = FractalIterationPolicy.Fixed,
@@ -437,7 +444,9 @@ class FractalModelsTest {
 
         val plan = request.resolvePlan()
 
-        assertTrue(plan.estimatedWorkUnits <= FractalRenderRequest.MAX_RENDER_WORK_UNITS)
+        assertTrue(
+            plan.estimatedWorkUnits <= FractalRenderRequest.MAX_ESCAPE_TIME_WORK_UNITS
+        )
         assertTrue(plan.supersampling < FractalParams.MAX_SUPERSAMPLING)
         assertTrue(plan.iterations < FractalIterationPolicy.MAX_ITERATIONS)
         assertEquals(
@@ -551,13 +560,30 @@ class FractalModelsTest {
     }
 
     @Test
-    fun explicit2048ExportReportsItsBudgetedIterationCount() {
+    fun explicit2048ExportPreservesItsAdaptiveIterationCount() {
         val request = FractalParams.Default.toRenderRequest(width = 2048, height = 2048)
         val unbudgetedIterations = request.params.effectiveIterations(2048, 2048)
 
-        assertEquals(119, request.effectiveIterations)
-        assertTrue(request.effectiveIterations < unbudgetedIterations)
+        assertEquals(unbudgetedIterations, request.effectiveIterations)
         assertEquals(request.effectiveIterations, request.resolvePlan().iterations)
+    }
+
+    @Test
+    fun fourKPreviewAndExportUseIdenticalEscapeTimeQuality() {
+        val output = FractalParams.Default
+            .toRenderRequest(width = 4096, height = 4096)
+            .resolvePlan()
+        val preview = output.params
+            .toRenderRequest(width = 2048, height = 2048)
+            .resolvePlan()
+
+        assertEquals(
+            FractalParams.Default.effectiveIterations(4096, 4096),
+            output.iterations
+        )
+        assertEquals(output.iterations, preview.iterations)
+        assertEquals(output.supersampling, preview.supersampling)
+        assertEquals(output.params, preview.params)
     }
 
     @Test
