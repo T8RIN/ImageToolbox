@@ -22,27 +22,16 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
@@ -56,12 +45,10 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
@@ -71,7 +58,6 @@ import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCol
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalComplex
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalFormula
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalIterationPolicy
-import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalPalette
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalParams
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalQuaternion
 import kotlin.math.roundToInt
@@ -232,11 +218,12 @@ fun FractalParamsSelection(
                     )
                 }
 
-                FractalPaletteSelector(
+                GradientPaletteSelector(
                     value = value.palette,
                     onValueChange = {
                         onValueChange(value.copy(palette = it))
-                    }
+                    },
+                    shape = ShapeDefaults.center
                 )
 
                 EnhancedSliderItem(
@@ -678,75 +665,5 @@ private fun ComplexParams(
             },
             shape = ShapeDefaults.center
         )
-    }
-}
-
-@Composable
-private fun FractalPaletteSelector(
-    value: FractalPalette,
-    onValueChange: (FractalPalette) -> Unit
-) {
-    Column(
-        modifier = Modifier.container(
-            shape = ShapeDefaults.center,
-            resultPadding = 8.dp
-        )
-    ) {
-        TitleItem(
-            text = stringResource(R.string.palette),
-            modifier = Modifier.padding(
-                top = 8.dp,
-                start = 8.dp,
-                end = 8.dp
-            ),
-        )
-        val state = rememberLazyListState()
-        LazyRow(
-            state = state,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fadingEdges(state),
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-            contentPadding = PaddingValues(8.dp),
-            flingBehavior = enhancedFlingBehavior()
-        ) {
-            itemsIndexed(
-                items = FractalPalette.entries
-            ) { index, palette ->
-                EnhancedChip(
-                    selected = palette == value,
-                    onClick = { onValueChange(palette) },
-                    selectedColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                    shape = ShapeDefaults.byIndex(
-                        index = index,
-                        size = FractalPalette.entries.size,
-                        vertical = false,
-                        roundedCorner = 12.dp
-                    ),
-                    contentPadding = PaddingValues(8.dp)
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        val colors = remember(palette) {
-                            palette.colors.map { it.toColor() }
-                        }
-                        Box(
-                            modifier = Modifier
-                                .width(64.dp)
-                                .height(18.dp)
-                                .clip(ShapeDefaults.extraSmall)
-                                .background(Brush.horizontalGradient(colors))
-                        )
-                        Text(
-                            text = palette.label(),
-                            style = MaterialTheme.typography.labelSmall
-                        )
-                    }
-                }
-            }
-        }
     }
 }

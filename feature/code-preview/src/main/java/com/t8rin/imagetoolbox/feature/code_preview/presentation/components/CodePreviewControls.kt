@@ -36,6 +36,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -44,6 +45,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
@@ -60,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -210,20 +213,35 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                                 key = CodeBackgroundPreset::name,
                                 shape = ShapeDefaults.center
                             )
-                            ColorRowSelector(
-                                value = params.backgroundStartColor,
-                                onValueChange = component::updateBackgroundStartColor,
-                                title = stringResource(R.string.code_preview_gradient_start),
-                                allowAlpha = false,
-                                modifier = Modifier.container(shape = ShapeDefaults.center)
+                            val palette = remember(params.backgroundColors) {
+                                GradientPalette.entries.firstOrNull { palette ->
+                                    palette.colors.map { it.colorInt } ==
+                                            params.backgroundColors.map { it.toArgb() }
+                                }
+                            }
+                            GradientPaletteSelector(
+                                value = palette,
+                                onValueChange = component::updateGradientPalette,
+                                shape = ShapeDefaults.center
                             )
-                            ColorRowSelector(
-                                value = params.backgroundEndColor,
-                                onValueChange = component::updateBackgroundEndColor,
-                                title = stringResource(R.string.code_preview_gradient_end),
-                                allowAlpha = false,
-                                modifier = Modifier.container(shape = ShapeDefaults.center)
-                            )
+                            AnimatedVisibility(visible = palette == null) {
+                                ColorRowSelector(
+                                    value = params.backgroundColors.first(),
+                                    onValueChange = component::updateBackgroundStartColor,
+                                    title = stringResource(R.string.code_preview_gradient_start),
+                                    allowAlpha = false,
+                                    modifier = Modifier.container(shape = ShapeDefaults.center)
+                                )
+                            }
+                            AnimatedVisibility(visible = palette == null) {
+                                ColorRowSelector(
+                                    value = params.backgroundColors.last(),
+                                    onValueChange = component::updateBackgroundEndColor,
+                                    title = stringResource(R.string.code_preview_gradient_end),
+                                    allowAlpha = false,
+                                    modifier = Modifier.container(shape = ShapeDefaults.center)
+                                )
+                            }
                         }
                     }
                     EnhancedSliderItem(

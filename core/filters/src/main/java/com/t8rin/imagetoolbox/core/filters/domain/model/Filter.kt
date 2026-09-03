@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.filters.domain.model
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.ErrorOwner
 import com.t8rin.imagetoolbox.core.domain.model.FileModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.VisibilityOwner
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
@@ -359,6 +360,7 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface CropOrPerspective : Filter<CropOrPerspectiveParams>
     interface Turbo : SimpleFilter
     interface DeepGreen : SimpleFilter
+    interface GradientMap : Filter<GradientPalette>
     interface LensCorrection : FileFilter
     interface SeamCarving : Filter<SeamCarvingParams>
     interface ErrorLevelAnalysis : FloatFilter

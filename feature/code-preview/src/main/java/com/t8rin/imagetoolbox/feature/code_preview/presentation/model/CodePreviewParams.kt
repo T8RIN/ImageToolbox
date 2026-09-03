@@ -27,8 +27,10 @@ data class CodePreviewParams(
     val language: CodeLanguage = CodeLanguage.Kotlin,
     val theme: CodePreviewTheme = CodePreviewTheme.Dracula,
     val backgroundPreset: CodeBackgroundPreset = CodeBackgroundPreset.Aurora,
-    val backgroundStartColor: Color = CodeBackgroundPreset.Aurora.startColor,
-    val backgroundEndColor: Color = CodeBackgroundPreset.Aurora.endColor,
+    val backgroundColors: List<Color> = listOf(
+        CodeBackgroundPreset.Aurora.startColor,
+        CodeBackgroundPreset.Aurora.endColor
+    ),
     val title: String = "Main.kt",
     val fontSize: Int = 15,
     val outerPadding: Int = 28,

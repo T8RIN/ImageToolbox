@@ -2771,6 +2771,7 @@
     <string name="adaptive_blur">Adaptive Blur</string>
     <string name="ascii">ASCII</string>
     <string name="gradient">Gradient</string>
+    <string name="gradient_map">Gradient map</string>
     <string name="moire">Moire</string>
     <string name="autumn">Autumn</string>
     <string name="bone">Bone</string>

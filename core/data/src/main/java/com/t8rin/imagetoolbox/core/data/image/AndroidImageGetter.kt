@@ -103,6 +103,7 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = getImageImpl(
         data = data,
         size = null,
+        onFailure = { it.makeLog("getImage") },
         addSizeToRequest = originalSize
     )
 

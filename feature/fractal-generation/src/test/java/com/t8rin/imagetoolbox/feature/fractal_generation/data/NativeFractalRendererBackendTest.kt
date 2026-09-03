@@ -18,13 +18,13 @@
 package com.t8rin.imagetoolbox.feature.fractal_generation.data
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCoefficients
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalColoring
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalComplex
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalFormula
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalIterationPolicy
-import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalPalette
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalParams
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalQuaternion
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalViewport
@@ -61,7 +61,7 @@ class NativeFractalRendererBackendTest {
             iterations = 777,
             bailout = 128.0,
             iterationPolicy = FractalIterationPolicy.Fixed,
-            palette = FractalPalette.Turbo,
+            palette = GradientPalette.Turbo,
             coloring = FractalColoring.Angle,
             paletteCycles = 2.5,
             paletteOffset = 0.25,
@@ -96,7 +96,7 @@ class NativeFractalRendererBackendTest {
         assertEquals(3, native.supersampling)
         assertEquals(NativeFractalColoring.Angle, native.coloring)
         assertArrayEquals(
-            FractalPalette.Turbo.colors.map { it.colorInt }.toIntArray(),
+            GradientPalette.Turbo.colors.map { it.colorInt }.toIntArray(),
             native.palette
         )
         assertEquals(2.5, native.paletteCycles, 0.0)

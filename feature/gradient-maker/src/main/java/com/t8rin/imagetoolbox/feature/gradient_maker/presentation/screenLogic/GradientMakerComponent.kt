@@ -29,6 +29,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
 import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
@@ -39,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -52,6 +54,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -119,6 +122,19 @@ class GradientMakerComponent @AssistedInject internal constructor(
     val brush: ShaderBrush? get() = gradientState.brush
     val gradientType: GradientType get() = gradientState.gradientType
     val colorStops: List<Pair<Float, Color>> get() = gradientState.colorStops
+    val selectedGradientPalette: GradientPalette?
+        get() = GradientPalette.entries.firstOrNull { palette ->
+            palette.colors.map { it.colorInt } == colorStops.map { it.second.toArgb() }
+        }
+    val selectedMeshGradientPalette: GradientPalette?
+        get() {
+            val colors = meshPoints.flatten().map { it.second.toArgb() }
+            if (colors.isEmpty()) return null
+
+            return GradientPalette.entries.firstOrNull { palette ->
+                palette.sampleColors(colors.size).map { it.colorInt } == colors
+            }
+        }
     val tileMode: TileMode get() = gradientState.tileMode
     val angle: Float get() = gradientState.linearGradientAngle
     val centerFriction: Offset get() = gradientState.centerFriction
@@ -410,6 +426,32 @@ class GradientMakerComponent @AssistedInject internal constructor(
         if (!isInitial) {
             registerChanges()
         }
+    }
+
+    fun setGradientPalette(palette: GradientPalette) {
+        gradientState.colorStops.apply {
+            clear()
+            addAll(
+                palette.colors.mapIndexed { index, color ->
+                    index / palette.colors.lastIndex.toFloat() to color.toColor()
+                }
+            )
+        }
+        registerChanges()
+    }
+
+    fun setMeshGradientPalette(palette: GradientPalette) {
+        val colors = palette
+            .sampleColors(meshPoints.sumOf { it.size })
+            .map { it.toColor() }
+            .iterator()
+
+        meshGradientState.points.replaceAll { row ->
+            row.map { (offset, _) ->
+                offset to colors.next()
+            }
+        }
+        registerChanges()
     }
 
     fun importPalette(uri: Uri) {

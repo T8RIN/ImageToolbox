@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import kotlin.math.abs
 import kotlin.math.floor
 
@@ -28,7 +29,7 @@ data class FractalParams(
     val iterations: Int = formula.defaultIterations,
     val bailout: Double = formula.defaultBailout,
     val iterationPolicy: FractalIterationPolicy = FractalIterationPolicy.Adaptive,
-    val palette: FractalPalette = FractalPalette.Classic,
+    val palette: GradientPalette = GradientPalette.Classic,
     val coloring: FractalColoring = FractalColoring.Smooth,
     val paletteCycles: Double = DEFAULT_PALETTE_CYCLES,
     val paletteOffset: Double = 0.0,

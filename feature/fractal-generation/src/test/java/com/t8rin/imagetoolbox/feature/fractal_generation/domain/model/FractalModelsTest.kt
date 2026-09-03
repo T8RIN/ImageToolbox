@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
 
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -28,14 +29,14 @@ class FractalModelsTest {
     @Test
     fun catalogHasUsefulUniqueOptions() {
         assertEquals(42, FractalFormula.entries.size)
-        assertEquals(59, FractalPalette.entries.size)
+        assertEquals(59, GradientPalette.entries.size)
         assertEquals(
             FractalFormula.entries.size,
             FractalFormula.entries.map(FractalFormula::name).distinct().size
         )
         assertEquals(
-            FractalPalette.entries.size,
-            FractalPalette.entries.map(FractalPalette::name).distinct().size
+            GradientPalette.entries.size,
+            GradientPalette.entries.map(GradientPalette::name).distinct().size
         )
         assertEquals(4, FractalColoring.entries.size)
     }
@@ -383,7 +384,7 @@ class FractalModelsTest {
 
     @Test
     fun palettesInterpolateAndWrapWithoutLosingAlpha() {
-        FractalPalette.entries.forEach { palette ->
+        GradientPalette.entries.forEach { palette ->
             val start = palette.colorIntAt(0.0)
             val middle = palette.colorIntAt(0.37)
 
@@ -392,18 +393,18 @@ class FractalModelsTest {
             assertEquals(start, palette.colorIntAt(1.0))
         }
         assertNotEquals(
-            FractalPalette.Fire.colorIntAt(0.25),
-            FractalPalette.Ocean.colorIntAt(0.25)
+            GradientPalette.Fire.colorIntAt(0.25),
+            GradientPalette.Ocean.colorIntAt(0.25)
         )
         assertEquals(
-            FractalPalette.Twilight.colors.first(),
-            FractalPalette.Twilight.colors.last()
+            GradientPalette.Twilight.colors.first(),
+            GradientPalette.Twilight.colors.last()
         )
     }
 
     @Test
     fun everyPaletteOffersUniqueGeneratedFillColors() {
-        FractalPalette.entries.forEach { palette ->
+        GradientPalette.entries.forEach { palette ->
             val suggestedColors = palette.suggestedColors
 
             assertTrue(

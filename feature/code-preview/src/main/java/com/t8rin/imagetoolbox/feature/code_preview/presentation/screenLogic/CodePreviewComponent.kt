@@ -31,11 +31,13 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -107,22 +109,32 @@ class CodePreviewComponent @AssistedInject internal constructor(
     fun updateBackgroundPreset(value: CodeBackgroundPreset) = updateParams {
         copy(
             backgroundPreset = value,
-            backgroundStartColor = value.startColor,
-            backgroundEndColor = value.endColor
+            backgroundColors = listOf(value.startColor, value.endColor)
+        )
+    }
+
+    fun updateGradientPalette(value: GradientPalette) = updateParams {
+        copy(
+            backgroundPreset = CodeBackgroundPreset.Custom,
+            backgroundColors = value.colors.map { it.toColor() }
         )
     }
 
     fun updateBackgroundStartColor(value: androidx.compose.ui.graphics.Color) = updateParams {
         copy(
             backgroundPreset = CodeBackgroundPreset.Custom,
-            backgroundStartColor = value
+            backgroundColors = backgroundColors.toMutableList().apply {
+                this[0] = value
+            }
         )
     }
 
     fun updateBackgroundEndColor(value: androidx.compose.ui.graphics.Color) = updateParams {
         copy(
             backgroundPreset = CodeBackgroundPreset.Custom,
-            backgroundEndColor = value
+            backgroundColors = backgroundColors.toMutableList().apply {
+                this[lastIndex] = value
+            }
         )
     }
 

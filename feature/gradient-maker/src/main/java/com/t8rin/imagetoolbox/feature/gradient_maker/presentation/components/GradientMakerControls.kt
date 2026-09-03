@@ -53,6 +53,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageCounter
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -98,6 +99,11 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
         Spacer(Modifier.height(8.dp))
 
         if (screenType.isMesh()) {
+            GradientPaletteSelector(
+                value = component.selectedMeshGradientPalette,
+                onValueChange = component::setMeshGradientPalette
+            )
+            Spacer(Modifier.height(8.dp))
             Column(
                 modifier = Modifier.container(
                     resultPadding = 0.dp
@@ -163,6 +169,11 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                     onRadialDimensionsChange = component::setRadialProperties
                 )
             }
+            Spacer(Modifier.height(8.dp))
+            GradientPaletteSelector(
+                value = component.selectedGradientPalette,
+                onValueChange = component::setGradientPalette
+            )
             Spacer(Modifier.height(8.dp))
             ColorStopSelection(
                 colorStops = component.colorStops,

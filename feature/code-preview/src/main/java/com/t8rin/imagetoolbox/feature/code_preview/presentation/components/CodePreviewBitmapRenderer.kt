@@ -260,8 +260,8 @@ private data class RenderGeometry(
                             0f,
                             result.width.toFloat(),
                             result.height.toFloat(),
-                            params.backgroundStartColor.toArgb(),
-                            params.backgroundEndColor.toArgb(),
+                            params.backgroundColors.map { it.toArgb() }.toIntArray(),
+                            null,
                             Shader.TileMode.CLAMP
                         )
                     }

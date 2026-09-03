@@ -19,11 +19,14 @@ package com.t8rin.imagetoolbox.texture_generation.presentation.components
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -92,6 +95,22 @@ internal fun FastNoiseParams(
                 onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed)))
             },
             shape = ShapeDefaults.bottom
+        )
+        GradientPaletteSelector(
+            value = remember(params.colors) {
+                GradientPalette.entries.firstOrNull {
+                    it.sampleColors(params.colors.size) == params.colors
+                }
+            },
+            onValueChange = { palette ->
+                onValueChange(
+                    value.copy(
+                        fastNoiseParams = params.copy(
+                            colors = palette.sampleColors(params.colors.size)
+                        )
+                    )
+                )
+            }
         )
     }
 }

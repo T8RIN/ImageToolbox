@@ -15,13 +15,12 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.fractal_generation.domain.model
+package com.t8rin.imagetoolbox.core.domain.model
 
-import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-enum class FractalPalette(
+enum class GradientPalette(
     private vararg val stops: Int
 ) {
     Classic(
@@ -570,6 +569,27 @@ enum class FractalPalette(
     val suggestedColors: List<ColorModel> = List(SUGGESTED_COLOR_COUNT) { index ->
         colorAt(index.toDouble() / SUGGESTED_COLOR_COUNT)
     }.distinctBy(ColorModel::colorInt)
+
+    fun sampleColors(count: Int): List<ColorModel> {
+        require(count > 0) { "Count must be greater than zero" }
+
+        if (count == 1) return listOf(colors.first())
+
+        return List(count) { index ->
+            val position = index.toDouble() / (count - 1)
+            val scaled = position * (stops.size - 1)
+            val firstIndex = floor(scaled).toInt().coerceIn(0, stops.lastIndex)
+            val secondIndex = (firstIndex + 1).coerceAtMost(stops.lastIndex)
+
+            ColorModel(
+                interpolate(
+                    first = stops[firstIndex],
+                    second = stops[secondIndex],
+                    fraction = scaled - firstIndex
+                )
+            )
+        }
+    }
 
     fun colorAt(position: Double): ColorModel = ColorModel(colorIntAt(position))
 

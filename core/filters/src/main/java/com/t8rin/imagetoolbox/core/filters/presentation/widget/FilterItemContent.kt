@@ -19,9 +19,12 @@ package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.Quad
 import com.t8rin.imagetoolbox.core.domain.utils.cast
@@ -105,6 +108,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Vorono
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterDropParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.WaterParamsItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 
 @Composable
 internal fun <T : Any> FilterItemContent(
@@ -200,6 +204,18 @@ internal fun <T : Any> FilterItemContent(
                     onIndexChange = {
                         onFilterChange(PolarCoordinatesType.entries[it])
                     }
+                )
+            }
+
+            is GradientPalette -> {
+                GradientPaletteSelector(
+                    value = value,
+                    onValueChange = onFilterChange,
+                    modifier = Modifier.padding(
+                        start = 8.dp,
+                        end = 8.dp,
+                        bottom = 8.dp
+                    )
                 )
             }
 

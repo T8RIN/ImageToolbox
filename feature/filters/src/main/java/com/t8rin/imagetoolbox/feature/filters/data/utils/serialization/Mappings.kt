@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.toColorModel
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.component6
@@ -74,6 +75,7 @@ internal fun Any.toPair(): Pair<String, String>? {
         is String -> String::class.simpleName() to Base64.encode(toByteArray(Charsets.UTF_8))
         is Unit -> Unit::class.simpleName() to "Unit"
         is PolarCoordinatesType -> PolarCoordinatesType::class.simpleName() to name
+        is GradientPalette -> GradientPalette::class.simpleName() to name
         is FloatArray -> FloatArray::class.simpleName() to joinToString(separator = PROPERTIES_SEPARATOR) { it.toString() }
         is FilterValueWrapper<*> -> {
             when (wrapped) {
@@ -499,6 +501,7 @@ internal fun Pair<String, String>.fromPair(): Any? {
         name == Boolean::class.simpleName -> value.toBoolean()
         name == Unit::class.simpleName -> Unit
         name == PolarCoordinatesType::class.simpleName -> PolarCoordinatesType.valueOf(value)
+        name == GradientPalette::class.simpleName -> GradientPalette.valueOf(value)
         name == FloatArray::class.simpleName -> value.split(PROPERTIES_SEPARATOR)
             .map { it.toFloat() }
             .toFloatArray()
