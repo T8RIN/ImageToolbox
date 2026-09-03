@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>

@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -5297,4 +5299,6 @@
     <string name="fractal_iteration_policy_fixed">Sabit</string>
     <string name="fractal_iteration_policy_scale_with_zoom">Yakınlaştırmayla ölçeklendirme</string>
     <string name="fractal_iteration_policy_adaptive">Uyarlanabilir</string>
+    <string name="palette_pdf_show_filename_sub">Kaynak dosya adını her sayfanın en üstüne yerleştirin</string>
+    <string name="palette_pdf_show_palette_name">Palet adını göster</string>
 </resources>

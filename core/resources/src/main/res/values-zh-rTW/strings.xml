@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -5295,4 +5297,7 @@
     <string name="fractal_iteration_policy_fixed">固定的</string>
     <string name="fractal_iteration_policy_scale_with_zoom">縮放比例</string>
     <string name="fractal_iteration_policy_adaptive">自適應</string>
+    <string name="gmic_auxiliary_images">輔助圖片</string>
+    <string name="gmic_auxiliary_images_empty_sub">附加一張或多張圖像以供命令使用</string>
+    <string name="gmic_auxiliary_images_usage_sub">處理後的影像為[0]。附件影像依顯示順序為 [1]、[2]、...</string>
 </resources>
