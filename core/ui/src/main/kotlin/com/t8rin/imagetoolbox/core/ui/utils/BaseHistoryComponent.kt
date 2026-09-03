@@ -52,7 +52,13 @@ abstract class BaseHistoryComponent<Snapshot>(
         private set
 
     val canUndo: Boolean
-        get() = history.size > 1 || (_hasPendingHistoryTransaction.value && history.isNotEmpty())
+        get() = history.size > 1 || (
+                _hasPendingHistoryTransaction.value &&
+                        history.isNotEmpty() &&
+                        pendingHistorySnapshot?.let {
+                            !hasSameUndoState(it, currentHistorySnapshot())
+                        } == true
+                )
 
     val canRedo: Boolean
         get() = redoHistory.isNotEmpty()
@@ -169,6 +175,15 @@ abstract class BaseHistoryComponent<Snapshot>(
     }
 
     protected fun schedulePendingHistoryCommit() {
+        if (
+            pendingHistorySnapshot?.let {
+                hasSameUndoState(it, currentHistorySnapshot())
+            } == true
+        ) {
+            cancelPendingHistoryTransaction()
+            return
+        }
+
         pendingHistoryJob?.cancel()
         pendingHistoryJob = componentScope.launch {
             delay(pendingHistoryDelayMillis)
