@@ -144,6 +144,14 @@ abstract class BaseHistoryComponent<Snapshot>(
             .map(transform)
             .ifEmpty { listOf(currentHistorySnapshot()) }
         _redoHistory.value = redoHistory.map(transform)
+
+        if (
+            pendingHistorySnapshot?.let {
+                hasSameUndoState(it, currentHistorySnapshot())
+            } == true
+        ) {
+            cancelPendingHistoryTransaction()
+        }
     }
 
     protected fun beginPendingHistoryTransaction(
