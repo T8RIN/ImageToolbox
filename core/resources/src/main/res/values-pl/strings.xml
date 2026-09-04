@@ -5303,7 +5303,7 @@
     <string name="fractal_iteration_policy_fixed">Naprawił</string>
     <string name="fractal_iteration_policy_scale_with_zoom">Skaluj z zoomem</string>
     <string name="fractal_iteration_policy_adaptive">Adaptacyjny</string>
-    <string name="gradient_map">Mapa gradientowa</string>
+    <string name="gradient_map">Mapa gradientów</string>
     <string name="fractal_formula_clifford">Atraktor Clifforda</string>
     <string name="fractal_formula_de_jong">Atraktor De Jonga</string>
     <string name="fractal_formula_ikeda">Atraktor Ikedy</string>
