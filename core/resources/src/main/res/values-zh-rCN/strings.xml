@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -5161,7 +5159,7 @@
     <string name="delete_templates_warning">删除 %1$d 选定的模板吗？此操作无法撤消。</string>
     <string name="fractal_generation">分形</string>
     <string name="fractal_generation_sub">创建并保存分形图像</string>
-    <string name="search_keywords_fractal_generation">分形 Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Mandelbulb Mandelbox Menger 四元数 3D 无限深变焦生成器</string>
+    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha sine cosine sinh Spider Man-o-War Lambda Thorn Feather Cactus Zubieta Tetration fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK infinite deep zoom generator</string>
     <string name="fractal_power">力量</string>
     <string name="fractal_iteration_policy">迭代策略</string>
     <string name="fractal_bailout">逃逸半径</string>
@@ -5318,23 +5316,23 @@
     <string name="fractal_formula_barnsley_julia">巴恩斯利朱莉娅</string>
     <string name="fractal_formula_alpha_mandelbrot">阿尔法·曼德尔布罗特</string>
     <string name="fractal_formula_alpha_mandelbrot_julia">阿尔法·曼德尔布罗特·朱莉娅</string>
-    <string name="fractal_formula_mandelbrot_sine">曼德尔布罗特正弦</string>
-    <string name="fractal_formula_julia_sine">朱莉娅的</string>
+    <string name="fractal_formula_mandelbrot_sine">Mandelbrot正弦</string>
+    <string name="fractal_formula_julia_sine">Julia sine</string>
     <string name="fractal_formula_spider">蜘蛛</string>
     <string name="fractal_formula_man_o_war">战舰战争</string>
     <string name="fractal_formula_lambda">拉姆达</string>
     <string name="fractal_formula_thorn">刺</string>
     <string name="fractal_formula_barnsley_ii">巴恩斯利二世</string>
     <string name="fractal_formula_barnsley_iii">巴恩斯利三世</string>
-    <string name="fractal_formula_mandelbrot_cosine">曼德尔布余弦</string>
-    <string name="fractal_formula_julia_cosine">朱莉娅余弦</string>
-    <string name="fractal_formula_mandelbrot_sinh">曼德尔布罗特出生</string>
-    <string name="fractal_formula_julia_sinh">朱莉娅出生</string>
+    <string name="fractal_formula_mandelbrot_cosine">Mandelbrot余弦</string>
+    <string name="fractal_formula_julia_cosine">Julia余弦</string>
+    <string name="fractal_formula_mandelbrot_sinh">Mandelbrot sinh</string>
+    <string name="fractal_formula_julia_sinh">Julia sinh</string>
     <string name="fractal_formula_feather">羽毛</string>
     <string name="fractal_formula_cactus">仙人掌</string>
-    <string name="fractal_formula_zubieta">桥</string>
+    <string name="fractal_formula_zubieta">Zubieta</string>
     <string name="fractal_formula_tetration">四联</string>
-    <string name="fractal_palette_hsv_wheel">HSV 车轮</string>
+    <string name="fractal_palette_hsv_wheel">HSV色环</string>
     <string name="fractal_palette_red_channel">红色通道</string>
     <string name="fractal_palette_green_channel">绿色通道</string>
     <string name="fractal_palette_blue_channel">蓝色通道</string>
