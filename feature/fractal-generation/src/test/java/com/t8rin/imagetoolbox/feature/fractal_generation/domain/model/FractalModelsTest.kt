@@ -28,7 +28,7 @@ class FractalModelsTest {
 
     @Test
     fun catalogHasUsefulUniqueOptions() {
-        assertEquals(42, FractalFormula.entries.size)
+        assertEquals(57, FractalFormula.entries.size)
         assertEquals(59, GradientPalette.entries.size)
         assertEquals(
             FractalFormula.entries.size,
@@ -63,7 +63,22 @@ class FractalModelsTest {
             FractalFormula.Gingerbreadman,
             FractalFormula.Chip,
             FractalFormula.Quadruptwo,
-            FractalFormula.Threeply
+            FractalFormula.Threeply,
+            FractalFormula.Clifford,
+            FractalFormula.DeJong,
+            FractalFormula.Ikeda,
+            FractalFormula.Tinkerbell,
+            FractalFormula.GumowskiMira,
+            FractalFormula.BarnsleyFern,
+            FractalFormula.IFSDragon,
+            FractalFormula.IFSTwig,
+            FractalFormula.ChristmasTree,
+            FractalFormula.VicsekCross,
+            FractalFormula.PythagorasTree,
+            FractalFormula.HTree,
+            FractalFormula.HeighwayDragon,
+            FractalFormula.KochSnowflake,
+            FractalFormula.HilbertCurve
         )
         val requestedThreeDimensional = setOf(
             FractalFormula.Mandelbulb,
@@ -83,7 +98,7 @@ class FractalModelsTest {
             FractalFormula.Rossler
         )
 
-        assertEquals(20, requestedTwoDimensional.size)
+        assertEquals(35, requestedTwoDimensional.size)
         assertEquals(15, requestedThreeDimensional.size)
         assertTrue(requestedTwoDimensional.all { !it.isThreeDimensional })
         assertTrue(requestedThreeDimensional.all(FractalFormula::isThreeDimensional))
@@ -141,6 +156,21 @@ class FractalModelsTest {
             FractalFormula.Chip,
             FractalFormula.Quadruptwo,
             FractalFormula.Threeply,
+            FractalFormula.Clifford,
+            FractalFormula.DeJong,
+            FractalFormula.Ikeda,
+            FractalFormula.Tinkerbell,
+            FractalFormula.GumowskiMira,
+            FractalFormula.BarnsleyFern,
+            FractalFormula.IFSDragon,
+            FractalFormula.IFSTwig,
+            FractalFormula.ChristmasTree,
+            FractalFormula.VicsekCross,
+            FractalFormula.PythagorasTree,
+            FractalFormula.HTree,
+            FractalFormula.HeighwayDragon,
+            FractalFormula.KochSnowflake,
+            FractalFormula.HilbertCurve,
             FractalFormula.Pickover,
             FractalFormula.Lorenz,
             FractalFormula.Rossler

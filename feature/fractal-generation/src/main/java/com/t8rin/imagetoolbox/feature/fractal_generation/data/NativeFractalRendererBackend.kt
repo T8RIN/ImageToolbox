@@ -33,33 +33,21 @@ import com.t8rin.fractal_engine.FractalViewport as NativeFractalViewport
 import com.t8rin.fractal_engine.QuaternionConstant as NativeQuaternionConstant
 
 internal class NativeFractalRendererBackend internal constructor(
-    private val isEngineAvailable: () -> Boolean,
     supportedNativeTypes: Set<NativeFractalType>,
     private val nativeRender: suspend (NativeFractalRenderRequest) -> Bitmap
 ) : FractalRenderer<Bitmap> {
 
     @Inject
     constructor() : this(
-        isEngineAvailable = {
-            FractalEngine.isAvailable &&
-                    FractalEngine.apiVersion == SUPPORTED_NATIVE_API_VERSION
-        },
         supportedNativeTypes = FractalEngine.supportedTypes,
         nativeRender = { request -> FractalEngine.render(request) }
     )
 
-    override val supportedFormulas: Set<FractalFormula> = if (isEngineAvailable()) {
-        NATIVE_TYPE_BY_FORMULA
-            .filterValues { type -> type in supportedNativeTypes }
-            .keys
-    } else {
-        emptySet()
-    }
+    override val supportedFormulas: Set<FractalFormula> = NATIVE_TYPE_BY_FORMULA
+        .filterValues { type -> type in supportedNativeTypes }
+        .keys
 
     override suspend fun render(request: FractalRenderRequest): Bitmap {
-        check(isEngineAvailable()) {
-            "Native fractal engine is unavailable"
-        }
         require(request.params.formula in supportedFormulas) {
             "Native fractal engine does not support ${request.params.formula.name}"
         }
@@ -174,6 +162,21 @@ private val NATIVE_TYPE_BY_FORMULA: Map<FractalFormula, NativeFractalType> = map
     FractalFormula.Chip to NativeFractalType.Chip,
     FractalFormula.Quadruptwo to NativeFractalType.Quadruptwo,
     FractalFormula.Threeply to NativeFractalType.Threeply,
+    FractalFormula.Clifford to NativeFractalType.Clifford,
+    FractalFormula.DeJong to NativeFractalType.DeJong,
+    FractalFormula.Ikeda to NativeFractalType.Ikeda,
+    FractalFormula.Tinkerbell to NativeFractalType.Tinkerbell,
+    FractalFormula.GumowskiMira to NativeFractalType.GumowskiMira,
+    FractalFormula.BarnsleyFern to NativeFractalType.BarnsleyFern,
+    FractalFormula.IFSDragon to NativeFractalType.IFSDragon,
+    FractalFormula.IFSTwig to NativeFractalType.IFSTwig,
+    FractalFormula.ChristmasTree to NativeFractalType.ChristmasTree,
+    FractalFormula.VicsekCross to NativeFractalType.VicsekCross,
+    FractalFormula.PythagorasTree to NativeFractalType.PythagorasTree,
+    FractalFormula.HTree to NativeFractalType.HTree,
+    FractalFormula.HeighwayDragon to NativeFractalType.HeighwayDragon,
+    FractalFormula.KochSnowflake to NativeFractalType.KochSnowflake,
+    FractalFormula.HilbertCurve to NativeFractalType.HilbertCurve,
     FractalFormula.Mandelbulb to NativeFractalType.Mandelbulb,
     FractalFormula.Mandelbox to NativeFractalType.Mandelbox,
     FractalFormula.MengerSponge to NativeFractalType.MengerSponge,
@@ -191,6 +194,5 @@ private val NATIVE_TYPE_BY_FORMULA: Map<FractalFormula, NativeFractalType> = map
     FractalFormula.Rossler to NativeFractalType.Rossler
 )
 
-private const val SUPPORTED_NATIVE_API_VERSION = 6
 private const val DEFAULT_LYAPUNOV_SEQUENCE = "AB"
 private const val DEFAULT_FIELD_OF_VIEW_DEGREES = 45.0

@@ -57,6 +57,21 @@ internal fun FractalFormula.label(): String = stringResource(
         FractalFormula.Chip -> R.string.fractal_formula_chip
         FractalFormula.Quadruptwo -> R.string.fractal_formula_quadruptwo
         FractalFormula.Threeply -> R.string.fractal_formula_threeply
+        FractalFormula.Clifford -> R.string.fractal_formula_clifford
+        FractalFormula.DeJong -> R.string.fractal_formula_de_jong
+        FractalFormula.Ikeda -> R.string.fractal_formula_ikeda
+        FractalFormula.Tinkerbell -> R.string.fractal_formula_tinkerbell
+        FractalFormula.GumowskiMira -> R.string.fractal_formula_gumowski_mira
+        FractalFormula.BarnsleyFern -> R.string.fractal_formula_barnsley_fern
+        FractalFormula.IFSDragon -> R.string.fractal_formula_ifs_dragon
+        FractalFormula.IFSTwig -> R.string.fractal_formula_ifs_twig
+        FractalFormula.ChristmasTree -> R.string.fractal_formula_christmas_tree
+        FractalFormula.VicsekCross -> R.string.fractal_formula_vicsek_cross
+        FractalFormula.PythagorasTree -> R.string.fractal_formula_pythagoras_tree
+        FractalFormula.HTree -> R.string.fractal_formula_h_tree
+        FractalFormula.HeighwayDragon -> R.string.fractal_formula_heighway_dragon
+        FractalFormula.KochSnowflake -> R.string.fractal_formula_koch_snowflake
+        FractalFormula.HilbertCurve -> R.string.fractal_formula_hilbert_curve
         FractalFormula.Mandelbulb -> R.string.fractal_formula_mandelbulb
         FractalFormula.Mandelbox -> R.string.fractal_formula_mandelbox
         FractalFormula.MengerSponge -> R.string.fractal_formula_menger_sponge
