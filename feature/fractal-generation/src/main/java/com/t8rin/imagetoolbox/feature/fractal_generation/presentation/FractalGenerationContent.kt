@@ -185,7 +185,7 @@ fun FractalGenerationContent(
                 component.onGoBack()
             }
         },
-        shouldDisableBackHandler = false,
+        shouldDisableBackHandler = !component.haveChanges,
         actions = {
             secondaryControls()
         },
@@ -299,7 +299,8 @@ fun FractalGenerationContent(
                     value = component.params,
                     supportedFormulas = component.supportedFormulas,
                     onValueChange = component::updateParams,
-                    onFormulaChange = component::setFormula
+                    onFormulaChange = component::setFormula,
+                    previewProvider = component::getFractalPreviewTransformation
                 )
                 AnimatedVisibility(
                     visible = component.params.formula.isThreeDimensional,

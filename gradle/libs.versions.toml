@@ -9,7 +9,7 @@ versionCode = "267"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "8.0.5"
+imageToolboxLibs = "8.0.7"
 trickle = "1.9.3"
 evaluator = "1.0.0"
 quickie = "1.19.0"
@@ -82,7 +82,7 @@ zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 libarchiveAndroid = "1.1.6"
 commonsCompress = "1.28.0"
-junrar = "8.1.0"
+junrar = "8.1.1"
 xz = "1.12"
 
 onnx = "1.29.0"

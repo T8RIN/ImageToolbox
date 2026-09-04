@@ -35,10 +35,7 @@ internal fun FractalFormula.label(): String = stringResource(
         FractalFormula.Multicorn -> R.string.fractal_formula_multicorn
         FractalFormula.Celtic -> R.string.fractal_formula_celtic
         FractalFormula.Buffalo -> R.string.fractal_formula_buffalo
-        FractalFormula.PerpendicularBurningShip -> {
-            R.string.fractal_formula_perpendicular_burning_ship
-        }
-
+        FractalFormula.PerpendicularBurningShip -> R.string.fractal_formula_perpendicular_burning_ship
         FractalFormula.Phoenix -> R.string.fractal_formula_phoenix
         FractalFormula.Nova -> R.string.fractal_formula_nova
         FractalFormula.Newton -> R.string.fractal_formula_newton
@@ -57,23 +54,50 @@ internal fun FractalFormula.label(): String = stringResource(
         FractalFormula.Chip -> R.string.fractal_formula_chip
         FractalFormula.Quadruptwo -> R.string.fractal_formula_quadruptwo
         FractalFormula.Threeply -> R.string.fractal_formula_threeply
+        FractalFormula.Clifford -> R.string.fractal_formula_clifford
+        FractalFormula.DeJong -> R.string.fractal_formula_de_jong
+        FractalFormula.Ikeda -> R.string.fractal_formula_ikeda
+        FractalFormula.Tinkerbell -> R.string.fractal_formula_tinkerbell
+        FractalFormula.GumowskiMira -> R.string.fractal_formula_gumowski_mira
+        FractalFormula.BarnsleyFern -> R.string.fractal_formula_barnsley_fern
+        FractalFormula.IFSDragon -> R.string.fractal_formula_ifs_dragon
+        FractalFormula.IFSTwig -> R.string.fractal_formula_ifs_twig
+        FractalFormula.ChristmasTree -> R.string.fractal_formula_christmas_tree
+        FractalFormula.VicsekCross -> R.string.fractal_formula_vicsek_cross
+        FractalFormula.PythagorasTree -> R.string.fractal_formula_pythagoras_tree
+        FractalFormula.HeighwayDragon -> R.string.fractal_formula_heighway_dragon
+        FractalFormula.KochSnowflake -> R.string.fractal_formula_koch_snowflake
+        FractalFormula.BarnsleyMandelbrot -> R.string.fractal_formula_barnsley_mandelbrot
+        FractalFormula.BarnsleyJulia -> R.string.fractal_formula_barnsley_julia
+        FractalFormula.AlphaMandelbrot -> R.string.fractal_formula_alpha_mandelbrot
+        FractalFormula.AlphaMandelbrotJulia -> R.string.fractal_formula_alpha_mandelbrot_julia
+        FractalFormula.MandelbrotSine -> R.string.fractal_formula_mandelbrot_sine
+        FractalFormula.JuliaSine -> R.string.fractal_formula_julia_sine
+        FractalFormula.Spider -> R.string.fractal_formula_spider
+        FractalFormula.ManOWar -> R.string.fractal_formula_man_o_war
+        FractalFormula.Lambda -> R.string.fractal_formula_lambda
+        FractalFormula.Thorn -> R.string.fractal_formula_thorn
+        FractalFormula.BarnsleyII -> R.string.fractal_formula_barnsley_ii
+        FractalFormula.BarnsleyIII -> R.string.fractal_formula_barnsley_iii
+        FractalFormula.MandelbrotCosine -> R.string.fractal_formula_mandelbrot_cosine
+        FractalFormula.JuliaCosine -> R.string.fractal_formula_julia_cosine
+        FractalFormula.MandelbrotSinh -> R.string.fractal_formula_mandelbrot_sinh
+        FractalFormula.JuliaSinh -> R.string.fractal_formula_julia_sinh
+        FractalFormula.Feather -> R.string.fractal_formula_feather
+        FractalFormula.Cactus -> R.string.fractal_formula_cactus
+        FractalFormula.Zubieta -> R.string.fractal_formula_zubieta
+        FractalFormula.Tetration -> R.string.fractal_formula_tetration
         FractalFormula.Mandelbulb -> R.string.fractal_formula_mandelbulb
         FractalFormula.Mandelbox -> R.string.fractal_formula_mandelbox
         FractalFormula.MengerSponge -> R.string.fractal_formula_menger_sponge
-        FractalFormula.SierpinskiTetrahedron -> {
-            R.string.fractal_formula_sierpinski_tetrahedron
-        }
-
+        FractalFormula.SierpinskiTetrahedron -> R.string.fractal_formula_sierpinski_tetrahedron
         FractalFormula.QuaternionJulia -> R.string.fractal_formula_quaternion_julia
         FractalFormula.SierpinskiGasket -> R.string.fractal_formula_sierpinski_gasket
         FractalFormula.OctahedralIFS -> R.string.fractal_formula_octahedral_ifs
         FractalFormula.IcosahedralIFS -> R.string.fractal_formula_icosahedral_ifs
         FractalFormula.ApollonianGasket -> R.string.fractal_formula_apollonian_gasket
         FractalFormula.Kleinian -> R.string.fractal_formula_kleinian
-        FractalFormula.HybridMandelbulbJulia -> {
-            R.string.fractal_formula_hybrid_mandelbulb_julia
-        }
-
+        FractalFormula.HybridMandelbulbJulia -> R.string.fractal_formula_hybrid_mandelbulb_julia
         FractalFormula.QuaternionCubic -> R.string.fractal_formula_quaternion_cubic
         FractalFormula.Pickover -> R.string.fractal_formula_pickover
         FractalFormula.Lorenz -> R.string.fractal_formula_lorenz
@@ -95,10 +119,7 @@ internal fun FractalColoring.label(): String = stringResource(
 internal fun FractalIterationPolicy.label(): String = stringResource(
     when (this) {
         FractalIterationPolicy.Fixed -> R.string.fractal_iteration_policy_fixed
-        FractalIterationPolicy.ScaleWithZoom -> {
-            R.string.fractal_iteration_policy_scale_with_zoom
-        }
-
+        FractalIterationPolicy.ScaleWithZoom -> R.string.fractal_iteration_policy_scale_with_zoom
         FractalIterationPolicy.Adaptive -> R.string.fractal_iteration_policy_adaptive
     }
 )

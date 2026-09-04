@@ -270,6 +270,199 @@ enum class FractalFormula(
             FractalFormulaCapability.DensityVisualization
         )
     ),
+    Clifford(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultPower = 1.0,
+        defaultIterations = 1_000,
+        coefficientSpecs = fourCoefficientAttractor(
+            a = -1.4,
+            b = 1.6,
+            c = 1.0,
+            d = 0.7,
+            range = -3.0..3.0
+        ),
+        capabilities = densityCapabilities()
+    ),
+    DeJong(
+        defaultViewport = FractalViewport.of("0", "0", "4.5"),
+        defaultPower = -0.65,
+        defaultIterations = 1_000,
+        coefficientSpecs = fourCoefficientAttractor(
+            a = -2.24,
+            b = 0.43,
+            c = -0.65,
+            d = -2.43,
+            range = -3.0..3.0
+        ),
+        capabilities = densityCapabilities()
+    ),
+    Ikeda(
+        defaultViewport = FractalViewport.of("1", "0", "3"),
+        defaultPower = 0.4,
+        defaultIterations = 1_000,
+        coefficientSpecs = FractalCoefficientSpecs(
+            a = coefficient(FractalCoefficientLabel.A, 0.85, 0.0..2.0),
+            b = coefficient(FractalCoefficientLabel.B, 0.9, 0.0..1.0),
+            c = coefficient(FractalCoefficientLabel.C, 0.4, -10.0..10.0),
+            d = coefficient(FractalCoefficientLabel.D, 7.7, 0.0..20.0)
+        ),
+        capabilities = densityCapabilities()
+    ),
+    Tinkerbell(
+        defaultViewport = FractalViewport.of("-0.5", "-0.25", "3.5"),
+        defaultIterations = 1_000,
+        coefficientSpecs = fourCoefficientAttractor(
+            a = 0.9,
+            b = -0.6013,
+            c = 2.0,
+            d = 0.5,
+            range = -5.0..5.0
+        ),
+        capabilities = densityCapabilities()
+    ),
+    GumowskiMira(
+        defaultViewport = FractalViewport.of("0", "0", "28"),
+        defaultIterations = 1_000,
+        coefficientSpecs = FractalCoefficientSpecs(
+            a = coefficient(FractalCoefficientLabel.A, 0.008, -1.0..1.0),
+            b = coefficient(FractalCoefficientLabel.B, 0.05, -1.0..1.0)
+        ),
+        capabilities = densityCapabilities()
+    ),
+    BarnsleyFern(
+        defaultViewport = FractalViewport.of("0", "5", "11"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    IFSDragon(
+        defaultViewport = FractalViewport.of("0", "4", "12"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    IFSTwig(
+        defaultViewport = FractalViewport.of("0.5", "0.5", "1.2"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    ChristmasTree(
+        defaultViewport = FractalViewport.of("0.5", "0.5", "1.2"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    VicsekCross(
+        defaultViewport = FractalViewport.of("0", "0", "2.2"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    PythagorasTree(
+        defaultViewport = FractalViewport.of("0", "1.25", "5"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    HeighwayDragon(
+        defaultViewport = FractalViewport.of("0", "0", "2.2"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    KochSnowflake(
+        defaultViewport = FractalViewport.of("0", "0", "2.2"),
+        defaultIterations = 1_000,
+        capabilities = densityCapabilities(geometric = true)
+    ),
+    BarnsleyMandelbrot(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    BarnsleyJulia(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    AlphaMandelbrot(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    AlphaMandelbrotJulia(
+        defaultViewport = FractalViewport.of("0", "0", "3"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotSine(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaSine(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    Spider(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    ManOWar(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    Lambda(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    Thorn(
+        defaultViewport = FractalViewport.of("0", "0", "3.5"),
+        defaultIterations = 500,
+        defaultBailout = 10_000.0,
+        coefficientSpecs = FractalCoefficientSpecs(
+            a = coefficient(FractalCoefficientLabel.A, 0.1, -2.0..2.0),
+            b = coefficient(FractalCoefficientLabel.B, -0.1, -2.0..2.0)
+        ),
+        capabilities = escapeTimeCapabilities()
+    ),
+    BarnsleyII(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    BarnsleyIII(
+        defaultViewport = FractalViewport.of("0", "0", "2.4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotCosine(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaCosine(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotSinh(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaSinh(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    Feather(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Cactus(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Zubieta(
+        defaultViewport = FractalViewport.of("0", "0", "1.8"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Tetration(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
     Mandelbulb(
         defaultViewport = FractalViewport.Default,
         defaultPower = 8.0,
@@ -490,6 +683,26 @@ enum class FractalFormula(
     val isDensityVisualization: Boolean
         get() = FractalFormulaCapability.DensityVisualization in capabilities
 
+    val isAttractor: Boolean
+        get() = when (this) {
+            Hopalong,
+            Martin,
+            Gingerbreadman,
+            Chip,
+            Quadruptwo,
+            Threeply,
+            Clifford,
+            DeJong,
+            Ikeda,
+            Tinkerbell,
+            GumowskiMira,
+            Pickover,
+            Lorenz,
+            Rossler -> true
+
+            else -> false
+        }
+
     val supportsFloor: Boolean
         get() = isThreeDimensional && !isDensityVisualization
 
@@ -501,6 +714,20 @@ enum class FractalFormula(
             Julia,
             BurningShipJulia,
             CelticJulia -> FractalComplex(real = -0.8, imaginary = 0.156)
+
+            BarnsleyJulia -> FractalComplex(real = 1.1, imaginary = 0.6)
+
+            AlphaMandelbrotJulia -> FractalComplex(real = 0.36228, imaginary = -0.0777)
+
+            JuliaSine -> FractalComplex(real = 1.0, imaginary = 0.1)
+
+            BarnsleyII -> FractalComplex(real = 1.1, imaginary = 0.6)
+
+            BarnsleyIII -> FractalComplex(real = -0.75, imaginary = -0.2)
+
+            JuliaCosine -> FractalComplex(real = -0.2, imaginary = 0.7)
+
+            JuliaSinh -> FractalComplex(real = 0.065, imaginary = 0.122)
 
             HybridMandelbulbJulia -> FractalComplex(real = -0.2, imaginary = 0.8)
 
@@ -555,3 +782,30 @@ private fun martinVariantCoefficients(
     b = coefficient(FractalCoefficientLabel.B, b, -100.0..100.0),
     c = coefficient(FractalCoefficientLabel.C, c, -100.0..100.0)
 )
+
+private fun fourCoefficientAttractor(
+    a: Double,
+    b: Double,
+    c: Double,
+    d: Double,
+    range: ClosedFloatingPointRange<Double>
+) = FractalCoefficientSpecs(
+    a = coefficient(FractalCoefficientLabel.A, a, range),
+    b = coefficient(FractalCoefficientLabel.B, b, range),
+    c = coefficient(FractalCoefficientLabel.C, c, range),
+    d = coefficient(FractalCoefficientLabel.D, d, range)
+)
+
+private fun densityCapabilities(geometric: Boolean = false): Set<FractalFormulaCapability> =
+    buildSet {
+        add(FractalFormulaCapability.IterationControls)
+        add(FractalFormulaCapability.DensityVisualization)
+        if (geometric) add(FractalFormulaCapability.Geometric)
+    }
+
+private fun escapeTimeCapabilities(julia: Boolean = false): Set<FractalFormulaCapability> =
+    buildSet {
+        add(FractalFormulaCapability.IterationControls)
+        add(FractalFormulaCapability.Bailout)
+        if (julia) add(FractalFormulaCapability.JuliaConstant)
+    }
