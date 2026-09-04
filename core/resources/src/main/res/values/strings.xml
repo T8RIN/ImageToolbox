@@ -5262,6 +5262,7 @@
     <string name="fractal_quaternion_y">Quaternion Y</string>
     <string name="fractal_quaternion_z">Quaternion Z</string>
     <string name="fractal_quaternion_w">Quaternion W</string>
+    <string name="fractal_palette_rgb">RGB</string>
     <string name="fractal_palette_classic">Classic</string>
     <string name="fractal_palette_fire">Fire</string>
     <string name="fractal_palette_ocean">Ocean</string>

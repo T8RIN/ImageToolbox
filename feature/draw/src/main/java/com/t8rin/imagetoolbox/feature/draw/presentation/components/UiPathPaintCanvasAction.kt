@@ -64,12 +64,14 @@ import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.transformationsForMode
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
 import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
@@ -101,7 +103,7 @@ internal fun Canvas.UiPathPaintCanvasAction(
     onCancel: (UiPathPaint) -> Unit,
     scope: CoroutineScope
 ) = with(nativeCanvas) {
-    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle) = uiPathPaint
+    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette) = uiPathPaint
 
     val path by remember(nonScaledPath, canvasSize, size) {
         derivedStateOf {
@@ -351,15 +353,21 @@ internal fun Canvas.UiPathPaintCanvasAction(
             drawLineStyle = drawLineStyle
         )
         if (drawMode is DrawMode.Text && !isEraserOn) {
+            val textPaint = if (gradientPalette != null) {
+                pathPaint.withPathGradient(
+                    path = path,
+                    palette = gradientPalette
+                )
+            } else pathPaint
             if (drawMode.isRepeated) {
                 drawRepeatedTextOnPath(
                     text = drawMode.text,
                     path = path,
-                    paint = pathPaint,
+                    paint = textPaint,
                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                 )
             } else if (drawMode.text.isNotEmpty() && !path.isEmpty) {
-                drawTextOnPath(drawMode.text, path, 0f, 0f, pathPaint)
+                drawTextOnPath(drawMode.text, path, 0f, 0f, textPaint)
             }
         } else if (drawMode is DrawMode.Image && !isEraserOn) {
             drawRepeatedImageOnPath(
@@ -387,9 +395,23 @@ internal fun Canvas.UiPathPaintCanvasAction(
 
                 drawPath(path, filledPaint)
             }
-            drawPath(path, pathPaint)
+            drawPathWithGradient(
+                path = path,
+                paint = pathPaint,
+                palette = gradientPalette,
+                isFilled = false,
+                canvasSize = canvasSize,
+                softnessRadius = brushSoftness.toPx(canvasSize)
+            )
         } else {
-            drawPath(path, pathPaint)
+            drawPathWithGradient(
+                path = path,
+                paint = pathPaint,
+                palette = gradientPalette,
+                isFilled = drawPathMode.isFilled,
+                canvasSize = canvasSize,
+                softnessRadius = brushSoftness.toPx(canvasSize)
+            )
         }
     }
 }

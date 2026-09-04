@@ -127,6 +127,7 @@ fun GradientPaletteSelector(
 @Composable
 fun GradientPalette.label(): String = stringResource(
     when (this) {
+        GradientPalette.RGB -> R.string.fractal_palette_rgb
         GradientPalette.Classic -> R.string.fractal_palette_classic
         GradientPalette.Fire -> R.string.fractal_palette_fire
         GradientPalette.Ocean -> R.string.fractal_palette_ocean

@@ -60,6 +60,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.domain.utils.notNullAnd
@@ -151,6 +152,8 @@ fun DrawEditOption(
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
+        var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.RGB) }
+        var isGradientEnabled by rememberSaveable { mutableStateOf(false) }
 
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -158,6 +161,14 @@ fun DrawEditOption(
         var showLineAngle by rememberSaveable { mutableStateOf(false) }
         var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
             mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
+        }
+        val isGradientAvailable = drawLineStyle == DrawLineStyle.None && (
+                drawMode is DrawMode.Pen ||
+                        drawMode is DrawMode.Highlighter ||
+                        drawMode is DrawMode.Text
+                )
+        val activeGradientPalette = gradientPalette.takeIf {
+            isGradientEnabled && isGradientAvailable && !isEraserOn
         }
 
         LaunchedEffect(drawMode, strokeWidth) {
@@ -258,6 +269,11 @@ fun DrawEditOption(
                         DrawColorSelector(
                             value = drawColor,
                             onValueChange = { drawColor = it },
+                            allowGradient = isGradientAvailable,
+                            gradientPalette = gradientPalette,
+                            onGradientPaletteChange = { gradientPalette = it },
+                            isGradientEnabled = isGradientEnabled && isGradientAvailable,
+                            onGradientEnabledChange = { isGradientEnabled = it },
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
                     }
@@ -465,6 +481,7 @@ fun DrawEditOption(
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
                         drawColor = drawColor.copy(alpha),
+                        gradientPalette = activeGradientPalette,
                         onAddPath = addPath,
                         isEraserOn = isEraserOn,
                         drawMode = drawMode,

@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -76,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentControls
@@ -139,6 +141,14 @@ fun DrawContent(
         stateSaver = ColorSaver
     ) { mutableStateOf(settingsState.defaultDrawColor) }
 
+    var gradientPalette by rememberSaveable(component.drawBehavior) {
+        mutableStateOf(GradientPalette.RGB)
+    }
+
+    var isGradientEnabled by rememberSaveable(component.drawBehavior) {
+        mutableStateOf(false)
+    }
+
     var isEraserOn by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     var showLineAngle by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
@@ -156,6 +166,15 @@ fun DrawContent(
     val drawPathMode = component.drawPathMode
 
     val drawLineStyle = component.drawLineStyle
+
+    val isGradientAvailable = drawLineStyle == DrawLineStyle.None && (
+            drawMode is DrawMode.Pen ||
+                    drawMode is DrawMode.Highlighter ||
+                    drawMode is DrawMode.Text
+            )
+    val activeGradientPalette = gradientPalette.takeIf {
+        isGradientEnabled && isGradientAvailable && !isEraserOn
+    }
 
     LaunchedEffect(drawMode, strokeWidth) {
         strokeWidth = if (drawMode is DrawMode.Image) {
@@ -271,6 +290,7 @@ fun DrawContent(
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
+                    gradientPalette = activeGradientPalette,
                     onAddPath = component::addPath,
                     isEraserOn = isEraserOn,
                     drawMode = drawMode,
@@ -303,6 +323,11 @@ fun DrawContent(
                 secondaryControls = secondaryControls,
                 drawColor = drawColor,
                 onDrawColorChange = { drawColor = it },
+                gradientPalette = gradientPalette,
+                onGradientPaletteChange = { gradientPalette = it },
+                isGradientAvailable = isGradientAvailable,
+                isGradientEnabled = isGradientEnabled && isGradientAvailable,
+                onGradientEnabledChange = { isGradientEnabled = it },
                 strokeWidth = strokeWidth,
                 onStrokeWidthChange = { strokeWidth = it },
                 brushSoftness = brushSoftness,

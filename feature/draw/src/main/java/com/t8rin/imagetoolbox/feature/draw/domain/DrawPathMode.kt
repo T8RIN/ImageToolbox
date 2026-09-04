@@ -193,6 +193,7 @@ sealed class DrawPathMode(
 
 private val filled = listOf(
     Lasso,
+    FloodFill(),
     Rect(),
     Oval,
     Triangle,

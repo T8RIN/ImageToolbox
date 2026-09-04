@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
@@ -72,6 +73,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapD
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.floodFill
@@ -80,6 +82,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pointerDrawObserver
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPathHelper
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
 import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
@@ -115,6 +118,7 @@ fun BitmapDrawer(
     backgroundColor: Color,
     panEnabled: Boolean,
     drawColor: Color,
+    gradientPalette: GradientPalette? = null,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
     showLineAngle: Boolean = false,
@@ -254,7 +258,8 @@ fun BitmapDrawer(
                 isEraserOn,
                 drawColor,
                 brushSoftness,
-                drawPathMode
+                drawPathMode,
+                gradientPalette
             ) { mutableStateOf(Path()) }
 
             var pathWithoutTransformations by remember(
@@ -263,7 +268,8 @@ fun BitmapDrawer(
                 isEraserOn,
                 drawColor,
                 brushSoftness,
-                drawPathMode
+                drawPathMode,
+                gradientPalette
             ) { mutableStateOf(Path()) }
 
             var warpRuntimeStrokes by remember(drawMode) {
@@ -345,11 +351,17 @@ fun BitmapDrawer(
                             }
                         }
                         if (drawMode is DrawMode.Text && !isEraserOn) {
+                            val textPaint = if (gradientPalette != null) {
+                                drawPaint.withPathGradient(
+                                    path = androidPath,
+                                    palette = gradientPalette
+                                )
+                            } else drawPaint
                             if (drawMode.isRepeated) {
                                 drawRepeatedTextOnPath(
                                     text = drawMode.text,
                                     path = androidPath,
-                                    paint = drawPaint,
+                                    paint = textPaint,
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             } else if (drawMode.text.isNotEmpty() && !androidPath.isEmpty && (drawDownPosition - currentDrawPosition).getDistance() > 10f) {
@@ -361,7 +373,7 @@ fun BitmapDrawer(
                                     readyToDraw = true
                                 }
                                 if (readyToDraw) {
-                                    drawTextOnPath(drawMode.text, androidPath, 0f, 0f, drawPaint)
+                                    drawTextOnPath(drawMode.text, androidPath, 0f, 0f, textPaint)
                                 }
                             }
                         } else if (drawMode is DrawMode.Image && !isEraserOn) {
@@ -401,9 +413,23 @@ fun BitmapDrawer(
 
                                 drawPath(androidPath, filledPaint)
                             }
-                            drawPath(androidPath, drawPaint)
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = drawPaint,
+                                palette = gradientPalette,
+                                isFilled = false,
+                                canvasSize = canvasSize,
+                                softnessRadius = brushSoftness.toPx(canvasSize)
+                            )
                         } else {
-                            drawPath(androidPath, drawPaint)
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = drawPaint,
+                                palette = gradientPalette,
+                                isFilled = drawPathMode.isFilled,
+                                canvasSize = canvasSize,
+                                softnessRadius = brushSoftness.toPx(canvasSize)
+                            )
                         }
                     }
                 }
@@ -603,7 +629,8 @@ fun BitmapDrawer(
                                             drawMode = drawMode,
                                             canvasSize = canvasSize,
                                             drawPathMode = drawPathMode,
-                                            drawLineStyle = drawLineStyle
+                                            drawLineStyle = drawLineStyle,
+                                            gradientPalette = gradientPalette
                                         )
                                     )
                                 }
