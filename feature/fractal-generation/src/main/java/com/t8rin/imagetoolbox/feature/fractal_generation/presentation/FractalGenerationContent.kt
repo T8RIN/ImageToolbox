@@ -185,7 +185,7 @@ fun FractalGenerationContent(
                 component.onGoBack()
             }
         },
-        shouldDisableBackHandler = false,
+        shouldDisableBackHandler = !component.haveChanges,
         actions = {
             secondaryControls()
         },

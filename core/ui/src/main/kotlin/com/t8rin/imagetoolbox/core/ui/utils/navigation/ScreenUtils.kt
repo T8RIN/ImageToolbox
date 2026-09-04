@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.AccountTree
 import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
 import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
@@ -58,6 +57,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.HouseholdSupplies
+import com.t8rin.imagetoolbox.core.resources.icons.Hub
 import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
@@ -328,7 +328,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is ArchiveTools -> Icons.Outlined.FolderZip
     is SvgMaker -> Icons.Outlined.VectorPolyline
     is FormatConversion -> Icons.Outlined.ImageConvert
-    is FractalGeneration -> Icons.Outlined.AccountTree
+    is FractalGeneration -> Icons.Outlined.Hub
     is DocumentScanner -> Icons.Outlined.DocumentScanner
     is ScanQrCode -> Icons.Outlined.QrCode
     is ImageStacking -> Icons.Outlined.ImageOverlay
@@ -427,7 +427,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is ArchiveTools -> Icons.TwoTone.FolderZip
     is SvgMaker -> Icons.TwoTone.VectorPolyline
     is FormatConversion -> Icons.TwoTone.ImageConvert
-    is FractalGeneration -> Icons.TwoTone.AccountTree
+    is FractalGeneration -> Icons.TwoTone.Hub
     is DocumentScanner -> Icons.TwoTone.DocumentScanner
     is ScanQrCode -> Icons.TwoTone.QrCode
     is ImageStacking -> Icons.TwoTone.ImageOverlay
