@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -5164,7 +5162,7 @@
     <string name="delete_templates_warning">Usunąć %1$d wybrane szablony? Tego nie można cofnąć.</string>
     <string name="fractal_generation">Fraktale</string>
     <string name="fractal_generation_sub">Twórz i zapisuj obrazy fraktalne</string>
-    <string name="search_keywords_fractal_generation">fraktal Mandelbrot Julia Płonący statek Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnes Lyapunov Sierpinski Mandelbulb Mandelbox Menger Quaternion 3D nieskończony generator głębokiego powiększenia</string>
+    <string name="search_keywords_fractal_generation">fraktal Mandelbrota Julii Płonący statek Tricorn Multibrot Multicorn celtycki Bizon Feniks Nova Newton Magnes Liapunowa Sierpińskiego Clifforda De Jonga Ikedy Dzwoneczka Gumowskiego Mira Barnsley Alpha sinus cosinus sinh Pająk morski Lambda Cierń Pióro Kaktus Zubieta Tetracja paproć smok gałązka choinka Vicseka Pitagorasa H -Drzewo Kocha Hilberta Mandelbulb Mandelbox Mengera kwaternion 3D RGB CMYK generator nieskończonego głębokiego powiększenia</string>
     <string name="fractal_power">Moc</string>
     <string name="fractal_iteration_policy">Polityka iteracyjna</string>
     <string name="fractal_bailout">Promień ucieczki</string>
