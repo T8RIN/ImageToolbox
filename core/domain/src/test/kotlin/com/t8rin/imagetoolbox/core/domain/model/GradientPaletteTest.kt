@@ -25,7 +25,7 @@ class GradientPaletteTest {
 
     @Test
     fun containsAllSharedPalettes() {
-        assertEquals(59, GradientPalette.entries.size)
+        assertEquals(75, GradientPalette.entries.size)
         assertEquals(
             GradientPalette.entries.size,
             GradientPalette.entries.map { it.name }.distinct().size
@@ -41,6 +41,39 @@ class GradientPaletteTest {
             assertEquals(palette.colors.last(), colors.last())
             assertEquals(10, colors.size)
             assertTrue(colors.all { it.colorInt ushr 24 == 0xFF })
+        }
+    }
+
+    @Test
+    fun containsNewRgbAndAtmosphericPalettes() {
+        val added = setOf(
+            GradientPalette.Rgb,
+            GradientPalette.Ryb,
+            GradientPalette.Cmyk,
+            GradientPalette.HsvWheel,
+            GradientPalette.RedChannel,
+            GradientPalette.GreenChannel,
+            GradientPalette.BlueChannel,
+            GradientPalette.Heatmap,
+            GradientPalette.ColdFire,
+            GradientPalette.Ultraviolet,
+            GradientPalette.ToxicWaste,
+            GradientPalette.BloodMoon,
+            GradientPalette.Abyss,
+            GradientPalette.ElectricCandy,
+            GradientPalette.BlackGold,
+            GradientPalette.Ghost
+        )
+
+        assertEquals(16, added.size)
+        assertTrue(GradientPalette.entries.containsAll(added))
+        listOf(
+            GradientPalette.Rgb,
+            GradientPalette.Cmyk,
+            GradientPalette.HsvWheel,
+            GradientPalette.ElectricCandy
+        ).forEach { palette ->
+            assertEquals(palette.colors.first(), palette.colors.last())
         }
     }
 

@@ -24,18 +24,28 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -46,11 +56,13 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCoefficientLabel
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCoefficientSpec
@@ -68,8 +80,10 @@ fun FractalParamsSelection(
     supportedFormulas: List<FractalFormula>,
     onValueChange: (FractalParams) -> Unit,
     onFormulaChange: (FractalFormula) -> Unit,
+    previewProvider: (FractalFormula) -> Transformation,
     modifier: Modifier = Modifier
 ) {
+    val empty = remember { createBitmap(1, 1) }
     val powerRange = remember {
         FractalParams.MIN_POWER.toFloat().rangeTo(
             FractalParams.MAX_POWER.toFloat()
@@ -106,8 +120,32 @@ fun FractalParamsSelection(
                     entries = supportedFormulas,
                     title = stringResource(R.string.fractal_type),
                     titleIcon = null,
-                    itemContentText = { it.label() },
-                    spanCount = 2,
+                    itemContentText = { formula ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Picture(
+                                model = remember(empty, formula) {
+                                    ImageRequest.Builder(appContext)
+                                        .data(empty)
+                                        .memoryCacheKey(formula.name)
+                                        .diskCacheKey(formula.name)
+                                        .size(160, 160)
+                                        .transformations(listOf(previewProvider(formula)))
+                                        .build()
+                                },
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .offset(x = (-2).dp),
+                                shape = ShapeDefaults.extraSmall
+                            )
+                            Spacer(Modifier.width(4.dp))
+                            Text(formula.label())
+                        }
+
+                        null
+                    },
+                    chipHeight = 46.dp,
+                    minSpanCount = 2,
+                    spanCount = 3,
                     shape = ShapeDefaults.top,
                     key = FractalFormula::name,
                     badgeContent = {

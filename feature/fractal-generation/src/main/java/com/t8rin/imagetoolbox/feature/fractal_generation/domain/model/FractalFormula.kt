@@ -359,11 +359,6 @@ enum class FractalFormula(
         defaultIterations = 1_000,
         capabilities = densityCapabilities(geometric = true)
     ),
-    HTree(
-        defaultViewport = FractalViewport.of("0", "0", "2.2"),
-        defaultIterations = 1_000,
-        capabilities = densityCapabilities(geometric = true)
-    ),
     HeighwayDragon(
         defaultViewport = FractalViewport.of("0", "0", "2.2"),
         defaultIterations = 1_000,
@@ -374,10 +369,99 @@ enum class FractalFormula(
         defaultIterations = 1_000,
         capabilities = densityCapabilities(geometric = true)
     ),
-    HilbertCurve(
-        defaultViewport = FractalViewport.of("0", "0", "2.2"),
-        defaultIterations = 1_000,
-        capabilities = densityCapabilities(geometric = true)
+    BarnsleyMandelbrot(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    BarnsleyJulia(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    AlphaMandelbrot(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    AlphaMandelbrotJulia(
+        defaultViewport = FractalViewport.of("0", "0", "3"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotSine(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaSine(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    Spider(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    ManOWar(
+        defaultViewport = FractalViewport.of("-0.5", "0", "3"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    Lambda(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities()
+    ),
+    Thorn(
+        defaultViewport = FractalViewport.of("0", "0", "3.5"),
+        defaultIterations = 500,
+        defaultBailout = 10_000.0,
+        coefficientSpecs = FractalCoefficientSpecs(
+            a = coefficient(FractalCoefficientLabel.A, 0.1, -2.0..2.0),
+            b = coefficient(FractalCoefficientLabel.B, -0.1, -2.0..2.0)
+        ),
+        capabilities = escapeTimeCapabilities()
+    ),
+    BarnsleyII(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    BarnsleyIII(
+        defaultViewport = FractalViewport.of("0", "0", "2.4"),
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotCosine(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaCosine(
+        defaultViewport = FractalViewport.of("0", "0", "6"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    MandelbrotSinh(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    JuliaSinh(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 50.0,
+        capabilities = escapeTimeCapabilities(julia = true)
+    ),
+    Feather(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Cactus(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Zubieta(
+        defaultViewport = FractalViewport.of("0", "0", "1.8"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
+    ),
+    Tetration(
+        defaultViewport = FractalViewport.of("0", "0", "4"),
+        defaultBailout = 100.0,
+        capabilities = escapeTimeCapabilities()
     ),
     Mandelbulb(
         defaultViewport = FractalViewport.Default,
@@ -599,6 +683,26 @@ enum class FractalFormula(
     val isDensityVisualization: Boolean
         get() = FractalFormulaCapability.DensityVisualization in capabilities
 
+    val isAttractor: Boolean
+        get() = when (this) {
+            Hopalong,
+            Martin,
+            Gingerbreadman,
+            Chip,
+            Quadruptwo,
+            Threeply,
+            Clifford,
+            DeJong,
+            Ikeda,
+            Tinkerbell,
+            GumowskiMira,
+            Pickover,
+            Lorenz,
+            Rossler -> true
+
+            else -> false
+        }
+
     val supportsFloor: Boolean
         get() = isThreeDimensional && !isDensityVisualization
 
@@ -610,6 +714,20 @@ enum class FractalFormula(
             Julia,
             BurningShipJulia,
             CelticJulia -> FractalComplex(real = -0.8, imaginary = 0.156)
+
+            BarnsleyJulia -> FractalComplex(real = 1.1, imaginary = 0.6)
+
+            AlphaMandelbrotJulia -> FractalComplex(real = 0.36228, imaginary = -0.0777)
+
+            JuliaSine -> FractalComplex(real = 1.0, imaginary = 0.1)
+
+            BarnsleyII -> FractalComplex(real = 1.1, imaginary = 0.6)
+
+            BarnsleyIII -> FractalComplex(real = -0.75, imaginary = -0.2)
+
+            JuliaCosine -> FractalComplex(real = -0.2, imaginary = 0.7)
+
+            JuliaSinh -> FractalComplex(real = 0.065, imaginary = 0.122)
 
             HybridMandelbulbJulia -> FractalComplex(real = -0.2, imaginary = 0.8)
 
@@ -683,4 +801,11 @@ private fun densityCapabilities(geometric: Boolean = false): Set<FractalFormulaC
         add(FractalFormulaCapability.IterationControls)
         add(FractalFormulaCapability.DensityVisualization)
         if (geometric) add(FractalFormulaCapability.Geometric)
+    }
+
+private fun escapeTimeCapabilities(julia: Boolean = false): Set<FractalFormulaCapability> =
+    buildSet {
+        add(FractalFormulaCapability.IterationControls)
+        add(FractalFormulaCapability.Bailout)
+        if (julia) add(FractalFormulaCapability.JuliaConstant)
     }

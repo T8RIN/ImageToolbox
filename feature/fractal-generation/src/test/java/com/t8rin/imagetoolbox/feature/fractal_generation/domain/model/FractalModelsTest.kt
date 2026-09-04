@@ -28,8 +28,8 @@ class FractalModelsTest {
 
     @Test
     fun catalogHasUsefulUniqueOptions() {
-        assertEquals(57, FractalFormula.entries.size)
-        assertEquals(59, GradientPalette.entries.size)
+        assertEquals(77, FractalFormula.entries.size)
+        assertEquals(75, GradientPalette.entries.size)
         assertEquals(
             FractalFormula.entries.size,
             FractalFormula.entries.map(FractalFormula::name).distinct().size
@@ -78,7 +78,27 @@ class FractalModelsTest {
             FractalFormula.HTree,
             FractalFormula.HeighwayDragon,
             FractalFormula.KochSnowflake,
-            FractalFormula.HilbertCurve
+            FractalFormula.HilbertCurve,
+            FractalFormula.BarnsleyMandelbrot,
+            FractalFormula.BarnsleyJulia,
+            FractalFormula.AlphaMandelbrot,
+            FractalFormula.AlphaMandelbrotJulia,
+            FractalFormula.MandelbrotSine,
+            FractalFormula.JuliaSine,
+            FractalFormula.Spider,
+            FractalFormula.ManOWar,
+            FractalFormula.Lambda,
+            FractalFormula.Thorn,
+            FractalFormula.BarnsleyII,
+            FractalFormula.BarnsleyIII,
+            FractalFormula.MandelbrotCosine,
+            FractalFormula.JuliaCosine,
+            FractalFormula.MandelbrotSinh,
+            FractalFormula.JuliaSinh,
+            FractalFormula.Feather,
+            FractalFormula.Cactus,
+            FractalFormula.Zubieta,
+            FractalFormula.Tetration
         )
         val requestedThreeDimensional = setOf(
             FractalFormula.Mandelbulb,
@@ -98,7 +118,7 @@ class FractalModelsTest {
             FractalFormula.Rossler
         )
 
-        assertEquals(35, requestedTwoDimensional.size)
+        assertEquals(55, requestedTwoDimensional.size)
         assertEquals(15, requestedThreeDimensional.size)
         assertTrue(requestedTwoDimensional.all { !it.isThreeDimensional })
         assertTrue(requestedThreeDimensional.all(FractalFormula::isThreeDimensional))
@@ -211,6 +231,27 @@ class FractalModelsTest {
         assertTrue(FractalFormula.ApollonianGasket.usesCoefficients)
         assertEquals(-0.65, FractalFormula.Pickover.coefficientSpecs.defaults.c, 0.0)
         assertEquals(-2.43, FractalFormula.Pickover.coefficientSpecs.defaults.d, 0.0)
+        assertEquals(0.1, FractalFormula.Thorn.coefficientSpecs.defaults.a, 0.0)
+        assertEquals(-0.1, FractalFormula.Thorn.coefficientSpecs.defaults.b, 0.0)
+        assertEquals(
+            setOf(
+                FractalFormula.Hopalong,
+                FractalFormula.Martin,
+                FractalFormula.Gingerbreadman,
+                FractalFormula.Chip,
+                FractalFormula.Quadruptwo,
+                FractalFormula.Threeply,
+                FractalFormula.Clifford,
+                FractalFormula.DeJong,
+                FractalFormula.Ikeda,
+                FractalFormula.Tinkerbell,
+                FractalFormula.GumowskiMira,
+                FractalFormula.Pickover,
+                FractalFormula.Lorenz,
+                FractalFormula.Rossler
+            ),
+            FractalFormula.entries.filter(FractalFormula::isAttractor).toSet()
+        )
     }
 
     @Test

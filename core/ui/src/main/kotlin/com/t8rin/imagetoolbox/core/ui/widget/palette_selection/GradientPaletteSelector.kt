@@ -185,6 +185,22 @@ fun GradientPalette.label(): String = stringResource(
         GradientPalette.XfRoyal -> R.string.fractal_palette_xf_royal
         GradientPalette.XfTopo -> R.string.fractal_palette_xf_topo
         GradientPalette.XfVolcano -> R.string.fractal_palette_xf_volcano
+        GradientPalette.Rgb -> R.string.fractal_palette_rgb
+        GradientPalette.Ryb -> R.string.fractal_palette_ryb
+        GradientPalette.Cmyk -> R.string.fractal_palette_cmyk
+        GradientPalette.HsvWheel -> R.string.fractal_palette_hsv_wheel
+        GradientPalette.RedChannel -> R.string.fractal_palette_red_channel
+        GradientPalette.GreenChannel -> R.string.fractal_palette_green_channel
+        GradientPalette.BlueChannel -> R.string.fractal_palette_blue_channel
+        GradientPalette.Heatmap -> R.string.fractal_palette_heatmap
+        GradientPalette.ColdFire -> R.string.fractal_palette_cold_fire
+        GradientPalette.Ultraviolet -> R.string.fractal_palette_ultraviolet
+        GradientPalette.ToxicWaste -> R.string.fractal_palette_toxic_waste
+        GradientPalette.BloodMoon -> R.string.fractal_palette_blood_moon
+        GradientPalette.Abyss -> R.string.fractal_palette_abyss
+        GradientPalette.ElectricCandy -> R.string.fractal_palette_electric_candy
+        GradientPalette.BlackGold -> R.string.fractal_palette_black_gold
+        GradientPalette.Ghost -> R.string.fractal_palette_ghost
         GradientPalette.Grayscale -> R.string.fractal_palette_grayscale
     }
 )

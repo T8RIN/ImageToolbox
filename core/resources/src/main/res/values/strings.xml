@@ -5189,7 +5189,7 @@
     <string name="search_keywords_code_preview">code snippet source syntax highlight carbon ray screenshot developer programming</string>
     <string name="fractal_generation">Fractals</string>
     <string name="fractal_generation_sub">Create and save fractal images</string>
-    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D infinite deep zoom generator</string>
+    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha sine cosine sinh Spider Man-o-War Lambda Thorn Feather Cactus Zubieta Tetration fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK infinite deep zoom generator</string>
     <string name="fractal_power">Power</string>
     <string name="fractal_iteration_policy">Iteration policy</string>
     <string name="fractal_bailout">Escape radius</string>
@@ -5243,10 +5243,28 @@
     <string name="fractal_formula_christmas_tree">Christmas tree</string>
     <string name="fractal_formula_vicsek_cross">Vicsek cross</string>
     <string name="fractal_formula_pythagoras_tree">Pythagoras tree</string>
-    <string name="fractal_formula_h_tree">H-tree</string>
     <string name="fractal_formula_heighway_dragon">Heighway dragon</string>
     <string name="fractal_formula_koch_snowflake">Koch snowflake</string>
-    <string name="fractal_formula_hilbert_curve">Hilbert curve</string>
+    <string name="fractal_formula_barnsley_mandelbrot">Barnsley Mandelbrot</string>
+    <string name="fractal_formula_barnsley_julia">Barnsley Julia</string>
+    <string name="fractal_formula_alpha_mandelbrot">Alpha Mandelbrot</string>
+    <string name="fractal_formula_alpha_mandelbrot_julia">Alpha Mandelbrot Julia</string>
+    <string name="fractal_formula_mandelbrot_sine">Mandelbrot sine</string>
+    <string name="fractal_formula_julia_sine">Julia sine</string>
+    <string name="fractal_formula_spider">Spider</string>
+    <string name="fractal_formula_man_o_war">Man-o’-War</string>
+    <string name="fractal_formula_lambda">Lambda</string>
+    <string name="fractal_formula_thorn">Thorn</string>
+    <string name="fractal_formula_barnsley_ii">Barnsley II</string>
+    <string name="fractal_formula_barnsley_iii">Barnsley III</string>
+    <string name="fractal_formula_mandelbrot_cosine">Mandelbrot cosine</string>
+    <string name="fractal_formula_julia_cosine">Julia cosine</string>
+    <string name="fractal_formula_mandelbrot_sinh">Mandelbrot sinh</string>
+    <string name="fractal_formula_julia_sinh">Julia sinh</string>
+    <string name="fractal_formula_feather">Feather</string>
+    <string name="fractal_formula_cactus">Cactus</string>
+    <string name="fractal_formula_zubieta">Zubieta</string>
+    <string name="fractal_formula_tetration">Tetration</string>
     <string name="fractal_formula_mandelbulb">Mandelbulb</string>
     <string name="fractal_formula_mandelbox">Mandelbox</string>
     <string name="fractal_formula_menger_sponge">Menger sponge</string>
@@ -5335,6 +5353,22 @@
     <string name="fractal_palette_xf_royal">Royal</string>
     <string name="fractal_palette_xf_topo">Topo</string>
     <string name="fractal_palette_xf_volcano">Volcano</string>
+    <string name="fractal_palette_rgb" translatable="false">RGB</string>
+    <string name="fractal_palette_ryb" translatable="false">RYB</string>
+    <string name="fractal_palette_cmyk" translatable="false">CMYK</string>
+    <string name="fractal_palette_hsv_wheel">HSV Wheel</string>
+    <string name="fractal_palette_red_channel">Red Channel</string>
+    <string name="fractal_palette_green_channel">Green Channel</string>
+    <string name="fractal_palette_blue_channel">Blue Channel</string>
+    <string name="fractal_palette_heatmap">Heatmap</string>
+    <string name="fractal_palette_cold_fire">Cold Fire</string>
+    <string name="fractal_palette_ultraviolet">Ultraviolet</string>
+    <string name="fractal_palette_toxic_waste">Toxic Waste</string>
+    <string name="fractal_palette_blood_moon">Blood Moon</string>
+    <string name="fractal_palette_abyss">Abyss</string>
+    <string name="fractal_palette_electric_candy">Electric Candy</string>
+    <string name="fractal_palette_black_gold">Black Gold</string>
+    <string name="fractal_palette_ghost">Ghost</string>
     <string name="fractal_palette_grayscale">Grayscale</string>
     <string name="fractal_coloring_smooth">Smooth</string>
     <string name="fractal_coloring_banded">Banded</string>

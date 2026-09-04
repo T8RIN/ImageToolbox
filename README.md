@@ -698,7 +698,7 @@ or click one of the badges below.
     - You can create filter from any filter chain
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
-- Native fractal generation with 57 2D and 3D fractal types
+- Native fractal generation with 75 2D and 3D fractal types
 - Texture generation with more than 130 presets
 
   <details>

@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
+import coil3.transform.Transformation
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -36,16 +37,19 @@ import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
+import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.FractalRenderer
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalCamera
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalFormula
+import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalIterationPolicy
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalParams
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalRenderRequest
 import com.t8rin.imagetoolbox.feature.fractal_generation.domain.model.FractalViewport
@@ -106,9 +110,11 @@ class FractalGenerationComponent @AssistedInject internal constructor(
     private val _isSaving = mutableStateOf(false)
     val isSaving: Boolean by _isSaving
 
-    val supportedFormulas: List<FractalFormula> = FractalFormula.entries.filter {
-        it in fractalRenderer.supportedFormulas
-    }
+    val supportedFormulas: List<FractalFormula> = FractalFormula.entries
+        .filter { it in fractalRenderer.supportedFormulas }
+        .sortedBy { formula ->
+            if (formula.isAttractor || formula == FractalFormula.BarnsleyFern) 1 else 0
+        }
 
     private var previewRequestId = 0
     private var exportRequestId = 0
@@ -171,6 +177,28 @@ class FractalGenerationComponent @AssistedInject internal constructor(
             updateParams(params.withFormula(formula))
         }
     }
+
+    fun getFractalPreviewTransformation(formula: FractalFormula): Transformation =
+        GenericTransformation<Bitmap>(key = formula.name) { _, size ->
+            val previewIterations = when {
+                formula.isThreeDimensional -> 64
+                formula.isDensityVisualization -> 160
+                else -> 128
+            }
+            val previewParams = FractalParams.Default
+                .withFormula(formula)
+                .copy(
+                    iterations = previewIterations,
+                    iterationPolicy = FractalIterationPolicy.Fixed,
+                    supersampling = 1
+                )
+            fractalRenderer.render(
+                previewParams.toRenderRequest(
+                    width = size.width.coerceIn(1, 160),
+                    height = size.height.coerceIn(1, 160)
+                )
+            )
+        }.toCoil()
 
     fun setOutputWidth(width: Int) {
         setSpecifiedOutputSize(
