@@ -2770,6 +2770,8 @@
     <string name="y_wavelength">Y wavelength</string>
     <string name="adaptive_blur">Adaptive Blur</string>
     <string name="ascii">ASCII</string>
+    <string name="gradient_palette_soft_rainbow">Soft rainbow</string>
+    <string name="gradient_length">Gradient length</string>
     <string name="gradient">Gradient</string>
     <string name="gradient_map">Gradient map</string>
     <string name="moire">Moire</string>

@@ -1792,6 +1792,8 @@
     <string name="sparkle">Блеск</string>
     <string name="rays">Лучи</string>
     <string name="ascii">ASCII</string>
+    <string name="gradient_palette_soft_rainbow">Мягкая радуга</string>
+    <string name="gradient_length">Длина градиента</string>
     <string name="gradient">Градиент</string>
     <string name="moire">Муар</string>
     <string name="autumn">Осень</string>

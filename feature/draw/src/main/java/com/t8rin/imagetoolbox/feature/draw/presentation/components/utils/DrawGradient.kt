@@ -54,12 +54,13 @@ internal fun Canvas.drawPathWithGradient(
     isFilled: Boolean,
     canvasSize: IntegerSize,
     softnessRadius: Float = 0f,
-    cache: GradientStrokeCache? = null
+    cache: GradientStrokeCache? = null,
+    gradientLength: Float = 1f
 ) {
     if (palette == null) {
         drawPath(path, paint)
     } else if (isFilled) {
-        drawPath(path, paint.withPathGradient(path, palette))
+        drawPath(path, paint.withPathGradient(path, palette, gradientLength))
     } else {
         drawGradientStroke(
             path = path,
@@ -67,42 +68,50 @@ internal fun Canvas.drawPathWithGradient(
             palette = palette,
             canvasSize = canvasSize,
             softnessRadius = softnessRadius,
-            cache = cache
+            cache = cache,
+            gradientLength = gradientLength
         )
     }
 }
 
 internal fun Paint.withPathGradient(
     path: Path,
-    palette: GradientPalette
+    palette: GradientPalette,
+    gradientLength: Float = 1f
 ): Paint = Paint(this).apply {
-    shader = path.createGradient(palette)
+    shader = path.createGradient(palette, gradientLength)
 }
 
-/**
- * Colour and coverage are independent: overlapping colour segments must never accumulate
- * opacity or blur. One native stroke outline supplies the antialiased caps and joins.
- */
 private fun Canvas.drawGradientStroke(
     path: Path,
     paint: Paint,
     palette: GradientPalette,
     canvasSize: IntegerSize,
     softnessRadius: Float,
-    cache: GradientStrokeCache?
+    cache: GradientStrokeCache?,
+    gradientLength: Float
 ) {
     if (path.isEmpty || paint.alpha == 0) return
 
     if (softnessRadius > 0f) {
-        drawSoftGradientStroke(path, paint, palette, canvasSize, softnessRadius, cache)
+        drawSoftGradientStroke(
+            path,
+            paint,
+            palette,
+            canvasSize,
+            softnessRadius,
+            cache,
+            gradientLength
+        )
         return
     }
 
-    val cycleLength = canvasSize.gradientCycleLength()
+    val cycleLength = canvasSize.gradientCycleLength() * gradientLength.normalizedGradientLength()
+    val measurementLength = canvasSize.gradientCycleLength()
     val outline = Path()
     val outlinePaint = Paint(paint).apply { maskFilter = null }
     if (!outlinePaint.getFillPath(path, outline)) {
-        drawPath(path, paint.withPathGradient(path, palette))
+        drawPath(path, paint.withPathGradient(path, palette, gradientLength))
         return
     }
     val bounds = if (cache != null) RectF(clipBounds) else {
@@ -115,20 +124,24 @@ private fun Canvas.drawGradientStroke(
         paint.strokeCap == Paint.Cap.SQUARE -> 1.5f
         else -> 1f
     }
-    // The colour strokes extend one pixel beyond the silhouette. Their antialiasing
-    // blends self-crossings, while the native outline applies the outer coverage once.
     val colourWidth = paint.strokeWidth * joinReach + 2f
-    // A chord stays within half its arc length of the original curve. Shrinking
-    // its coverage by that distance plus an AA pixel keeps it inside the stroke.
     val interiorWidth = if (
         paint.pathEffect == null && paint.strokeCap == Paint.Cap.ROUND && paint.strokeJoin == Paint.Join.ROUND
     ) {
-        (paint.strokeWidth - COLOUR_SAMPLE_STEP * cycleLength / MEASURE_CYCLE_LENGTH - 2f)
+        (paint.strokeWidth - COLOUR_SAMPLE_STEP * measurementLength / MEASURE_CYCLE_LENGTH - 2f)
             .coerceAtLeast(0f)
     } else 0f
     val renderer = cache ?: GradientStrokeCache()
     try {
-        val bitmap = renderer.render(path, palette, cycleLength, colourWidth, interiorWidth, pixels)
+        val bitmap = renderer.render(
+            path,
+            palette,
+            cycleLength,
+            measurementLength,
+            colourWidth,
+            interiorWidth,
+            pixels
+        )
         val colourShader =
             BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(Matrix().apply {
@@ -152,9 +165,6 @@ private fun Canvas.drawGradientStroke(
                 clearShadowLayer()
             })
         } else {
-            // Android's stroker can leave winding cancellations inside very dense
-            // curves. Union a smaller, continuous dab mask with its exact outline.
-            // Composite once, so repairing pinholes cannot accumulate stroke alpha.
             val coverage = interior.copy(Bitmap.Config.ALPHA_8, true)
             try {
                 Canvas(coverage).apply {
@@ -182,14 +192,14 @@ private fun Canvas.drawGradientStroke(
     }
 }
 
-/** Blur the premultiplied stroke once, so colour crossings feather with the silhouette. */
 private fun Canvas.drawSoftGradientStroke(
     path: Path,
     paint: Paint,
     palette: GradientPalette,
     canvasSize: IntegerSize,
     radius: Float,
-    cache: GradientStrokeCache?
+    cache: GradientStrokeCache?,
+    gradientLength: Float
 ) {
     val sigma = radius * 0.57735f + 0.5f
     val feather = ceil(sigma * 3f) + 2f
@@ -203,8 +213,6 @@ private fun Canvas.drawSoftGradientStroke(
     val clip = RectF(clipBounds).apply { inset(-feather, -feather) }
     if (!bounds.intersect(clip)) return
 
-    // Feathering hides subpixel detail. Keep at least two pixels per sigma and anchor
-    // the sampling grid to the canvas, so growing the path never shifts the texture.
     val scale = (256f / maxOf(canvasSize.width, canvasSize.height))
         .coerceIn(min(1f, 2f / sigma), 1f)
     val left = floor(bounds.left * scale) / scale
@@ -222,7 +230,7 @@ private fun Canvas.drawSoftGradientStroke(
                 alpha = 255
                 colorFilter = null
                 xfermode = null
-            }, palette, canvasSize, 0f, cache
+            }, palette, canvasSize, 0f, cache, gradientLength
         )
         val scaledSigma = sigma * scale
         val kernelSize = ceil(scaledSigma * 3f).toInt() * 2 + 1
@@ -251,11 +259,6 @@ private fun Canvas.drawSoftGradientStroke(
     }
 }
 
-/**
- * One colour surface for the current stroke. Only complete, fixed-distance segments
- * are retained. Restore the unfinished tip before extending it, so it cannot leave
- * ghosts, change earlier colours, or accumulate antialiasing between input events.
- */
 internal class GradientStrokeCache {
     private var bitmap: Bitmap? = null
     private var tip: Bitmap? = null
@@ -272,12 +275,14 @@ internal class GradientStrokeCache {
         path: Path,
         palette: GradientPalette,
         cycleLength: Float,
+        measurementLength: Float,
         width: Float,
         interiorWidth: Float,
         bounds: Rect
     ): Bitmap {
-        val nextKey = ColourKey(palette, cycleLength, width, interiorWidth, Rect(bounds))
-        val nextSegments = path.colourSegments(cycleLength, width)
+        val nextKey =
+            ColourKey(palette, cycleLength, measurementLength, width, interiorWidth, Rect(bounds))
+        val nextSegments = path.colourSegments(cycleLength, measurementLength, width)
         val completeCount = (nextSegments.size - 1).coerceAtLeast(0)
         val canAppend = key == nextKey && segments.size <= completeCount &&
                 segments.indices.all { segments[it] == nextSegments[it] }
@@ -304,8 +309,6 @@ internal class GradientStrokeCache {
         }
         interiorTip?.let {
             interiorCanvas?.apply {
-                // ALPHA_8 bitmaps act as coverage even in SRC mode; clear the saved
-                // rectangle first so transparent pixels also replace the old tip.
                 drawRect(
                     tipLeft.toFloat(), tipTop.toFloat(),
                     (tipLeft + it.width).toFloat(), (tipTop + it.height).toFloat(), clearPaint
@@ -364,7 +367,6 @@ internal class GradientStrokeCache {
             if (tipBounds.intersect(bounds)) {
                 tipLeft = tipBounds.left - bounds.left
                 tipTop = tipBounds.top - bounds.top
-                // createBitmap may return its input for a full-size subset; always copy.
                 tip = createBitmap(tipBounds.width(), tipBounds.height())
                 Canvas(tip!!).drawBitmap(target, -tipLeft.toFloat(), -tipTop.toFloat(), null)
                 interiorCoverage?.let {
@@ -400,6 +402,7 @@ internal class GradientStrokeCache {
 private data class ColourKey(
     val palette: GradientPalette,
     val cycleLength: Float,
+    val measurementLength: Float,
     val width: Float,
     val interiorWidth: Float,
     val bounds: Rect
@@ -416,10 +419,12 @@ private data class ColourSegment(
     val tangentY: Float
 )
 
-private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSegment> {
-    // PathMeasure's tolerance is in pixels. Normalize before measuring so the same
-    // curve has the same arc lengths and colours in the preview and the saved image.
-    val scale = cycleLength / MEASURE_CYCLE_LENGTH
+private fun Path.colourSegments(
+    cycleLength: Float,
+    measurementLength: Float,
+    width: Float
+): List<ColourSegment> {
+    val scale = measurementLength / MEASURE_CYCLE_LENGTH
     val measuredPath = Path(this).apply {
         transform(Matrix().apply { setScale(1f / scale, 1f / scale) })
     }
@@ -431,8 +436,8 @@ private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSe
             val length = measure.length
             if (length <= 0f || !measure.getPosTan(0f, position, null)) continue
             val distanceScale = if (measure.isClosed) {
-                (length / MEASURE_CYCLE_LENGTH).roundToInt().coerceAtLeast(1) *
-                        MEASURE_CYCLE_LENGTH / length
+                (length * scale / cycleLength).roundToInt().coerceAtLeast(1) *
+                        cycleLength / (length * scale)
             } else 1f
             var previousX = position[0] * scale
             var previousY = position[1] * scale
@@ -450,10 +455,6 @@ private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSe
                     val previousHeading = heading ?: direction
                     val turn =
                         atan2(sin(direction - previousHeading), cos(direction - previousHeading))
-                    // A tiny pointer movement must not rotate the gradient across an
-                    // entire wide dab. Filter the angle by travelled distance, not event
-                    // count, and retain the raw positions for geometry and intersections.
-                    // Constructed closed shapes keep their tangent at the closing seam.
                     heading = if (measure.isClosed) direction else {
                         previousHeading + turn * (1f - exp(-(end - distance) / headingSpan))
                     }
@@ -472,7 +473,7 @@ private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSe
     }
 }
 
-private fun Path.createGradient(palette: GradientPalette): LinearGradient {
+private fun Path.createGradient(palette: GradientPalette, gradientLength: Float): LinearGradient {
     val bounds = RectF().also { computeBounds(it, true) }
     var endX = bounds.right
     val endY = bounds.bottom
@@ -480,20 +481,24 @@ private fun Path.createGradient(palette: GradientPalette): LinearGradient {
         endX += 1f
     }
 
+    val length = gradientLength.normalizedGradientLength()
     return LinearGradient(
         bounds.left,
         bounds.top,
-        endX,
-        endY,
+        bounds.left + (endX - bounds.left) * length,
+        bounds.top + (endY - bounds.top) * length,
         palette.colors.map { it.colorInt }.toIntArray(),
         null,
-        Shader.TileMode.CLAMP
+        if (length < 1f) Shader.TileMode.REPEAT else Shader.TileMode.CLAMP
     )
 }
 
 private fun IntegerSize.gradientCycleLength(): Float = (
         min(width, height).coerceAtLeast(1) * GRADIENT_CYCLE_SIZE_FRACTION
         ).coerceAtLeast(MIN_CYCLE_LENGTH)
+
+private fun Float.normalizedGradientLength(): Float =
+    if (isFinite()) coerceIn(0.1f, 4f) else 1f
 
 private const val GRADIENT_CYCLE_SIZE_FRACTION = 1f
 private const val MIN_CYCLE_LENGTH = 1f

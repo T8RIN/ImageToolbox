@@ -37,7 +37,7 @@ internal class DrawHistoryCache<T>(
 
     suspend fun render(
         paths: List<T>,
-        draw: suspend (Canvas, Bitmap, T) -> Unit
+        draw: suspend (Canvas, Bitmap, T, Int) -> Unit
     ): Bitmap = mutex.withLock {
         val prefix = entries.filter { entry ->
             entry.paths.size <= paths.size && paths.subList(0, entry.paths.size) == entry.paths
@@ -51,7 +51,7 @@ internal class DrawHistoryCache<T>(
             val canvas = Canvas(bitmap)
             for (index in (prefix?.paths?.size ?: 0) until paths.size) {
                 currentCoroutineContext().ensureActive()
-                draw(canvas, bitmap, paths[index])
+                draw(canvas, bitmap, paths[index], index)
             }
             currentCoroutineContext().ensureActive()
             entries += Entry(paths.toList(), bitmap)

@@ -57,7 +57,7 @@ internal suspend fun Canvas.drawCommittedPath(
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     preparedEffect: Bitmap? = null
 ) {
-    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette) = uiPathPaint
+    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength) = uiPathPaint
     val path = nonScaledPath.scaleToFitCanvas(canvasSize, size).asAndroidPath()
     if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
         val paint = pathEffectPaint(strokeWidth, drawPathMode, canvasSize)
@@ -109,7 +109,8 @@ internal suspend fun Canvas.drawCommittedPath(
             val textPaint = if (gradientPalette != null) {
                 pathPaint.withPathGradient(
                     path = path,
-                    palette = gradientPalette
+                    palette = gradientPalette,
+                    gradientLength = gradientLength
                 )
             } else pathPaint
             if (drawMode.isRepeated) {
@@ -153,6 +154,7 @@ internal suspend fun Canvas.drawCommittedPath(
                 path = path,
                 paint = pathPaint,
                 palette = gradientPalette.takeUnless { isEraserOn },
+                gradientLength = gradientLength,
                 isFilled = false,
                 canvasSize = canvasSize,
                 softnessRadius = brushSoftness.toPx(canvasSize)
@@ -162,6 +164,7 @@ internal suspend fun Canvas.drawCommittedPath(
                 path = path,
                 paint = pathPaint,
                 palette = gradientPalette.takeUnless { isEraserOn },
+                gradientLength = gradientLength,
                 isFilled = !isEraserOn && drawPathMode.isFilled,
                 canvasSize = canvasSize,
                 softnessRadius = brushSoftness.toPx(canvasSize)

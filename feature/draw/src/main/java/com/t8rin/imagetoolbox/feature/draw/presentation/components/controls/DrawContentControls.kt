@@ -80,6 +80,8 @@ internal fun DrawContentControls(
     onDrawColorChange: (Color) -> Unit,
     gradientPalette: GradientPalette,
     onGradientPaletteChange: (GradientPalette) -> Unit,
+    gradientLength: Float,
+    onGradientLengthChange: (Float) -> Unit,
     isGradientAvailable: Boolean,
     isGradientEnabled: Boolean,
     onGradientEnabledChange: (Boolean) -> Unit,
@@ -141,6 +143,8 @@ internal fun DrawContentControls(
                 allowGradient = isGradientAvailable,
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = onGradientPaletteChange,
+                gradientLength = gradientLength,
+                onGradientLengthChange = onGradientLengthChange,
                 isGradientEnabled = isGradientEnabled,
                 onGradientEnabledChange = onGradientEnabledChange
             )

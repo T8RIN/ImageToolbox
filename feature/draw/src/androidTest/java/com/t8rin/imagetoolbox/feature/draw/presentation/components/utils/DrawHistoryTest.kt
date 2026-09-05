@@ -92,7 +92,7 @@ class DrawHistoryTest {
 
     private suspend fun DrawHistoryCache<UiPathPaint>.render(paths: List<UiPathPaint>): Bitmap {
         val source = base.asImageBitmap()
-        return render(paths) { canvas, layer, entry ->
+        return render(paths) { canvas, layer, entry, _ ->
             canvas.drawCommittedPath(
                 entry, size, context,
                 { source.overlay(layer.asImageBitmap()).asAndroidBitmap() }, filter
@@ -111,8 +111,8 @@ class DrawHistoryTest {
             }
         }
         val brushes = modes.map(::stroke) + listOf(
-            stroke().copy(gradientPalette = GradientPalette.RGB),
-            stroke().copy(isErasing = true, gradientPalette = GradientPalette.RGB)
+            stroke().copy(gradientPalette = GradientPalette.SoftRainbow),
+            stroke().copy(isErasing = true, gradientPalette = GradientPalette.SoftRainbow)
         )
         for ((i, first) in brushes.withIndex()) for ((j, brush) in brushes.withIndex()) {
             val second = brush.copy(path = path(true))
@@ -151,7 +151,7 @@ class DrawHistoryTest {
                 shape = android.graphics.Path()
                     .apply { addCircle(8f, 8f, 8f, android.graphics.Path.Direction.CW) })
         )
-        val under = stroke().copy(gradientPalette = GradientPalette.RGB)
+        val under = stroke().copy(gradientPalette = GradientPalette.SoftRainbow)
         for (mode in DrawPathMode.entries) for (style in styles) {
             val shape = stroke(second = true).copy(
                 path = Path().apply { addOval(Rect(40f, 45f, 155f, 150f)) },
@@ -193,7 +193,7 @@ class DrawHistoryTest {
             drawColor = Color.Blue,
             path = Path().apply { addRect(Rect(0f, 0f, 25f, 25f)) })
         var calls = 0
-        val result = history().render(listOf(first, effect, later)) { canvas, layer, entry ->
+        val result = history().render(listOf(first, effect, later)) { canvas, layer, entry, _ ->
             canvas.drawCommittedPath(
                 entry,
                 size,
@@ -237,11 +237,12 @@ class DrawHistoryTest {
     @Test
     fun cancellationCannotPublishAnUndoneFilterOrMutateItsPrefix() = runBlocking {
         val cache = DrawHistoryCache<Int>(32, 32, NativeColor.WHITE)
-        val before = cache.render(listOf(1)) { canvas, _, _ -> canvas.drawColor(NativeColor.RED) }
+        val before =
+            cache.render(listOf(1)) { canvas, _, _, _ -> canvas.drawColor(NativeColor.RED) }
         val entered = CompletableDeferred<Unit>()
         val release = CompletableDeferred<Unit>()
         val job = async {
-            cache.render(listOf(1, 2)) { canvas, _, _ ->
+            cache.render(listOf(1, 2)) { canvas, _, _, _ ->
                 canvas.drawColor(NativeColor.BLUE)
                 entered.complete(Unit)
                 release.await()
@@ -250,7 +251,7 @@ class DrawHistoryTest {
         entered.await()
         job.cancelAndJoin()
         val undone =
-            cache.render(listOf(1)) { _, _, _ -> fail("Undo rerendered its cached prefix") }
+            cache.render(listOf(1)) { _, _, _, _ -> fail("Undo rerendered its cached prefix") }
         assertSame(before, undone)
         assertEquals(NativeColor.RED, undone.getPixel(10, 10))
     }
@@ -259,11 +260,12 @@ class DrawHistoryTest {
     fun appendingAfterAFilterDoesNotRerenderOldGradientsOrRefilter() = runBlocking {
         val cache = history()
         val paths = listOf(
-            stroke().copy(gradientPalette = GradientPalette.RGB),
+            stroke().copy(gradientPalette = GradientPalette.SoftRainbow),
             stroke(DrawMode.PathEffect.PrivacyBlur(), true)
         )
         var draws = 0
-        suspend fun render(list: List<UiPathPaint>) = cache.render(list) { canvas, layer, entry ->
+        suspend fun render(list: List<UiPathPaint>) =
+            cache.render(list) { canvas, layer, entry, _ ->
             draws++
             canvas.drawCommittedPath(
                 entry,
@@ -284,7 +286,7 @@ class DrawHistoryTest {
     fun undoingFourQuickStrokesKeepsTheFilteredPrefix() = runBlocking {
         val cache = DrawHistoryCache<Int>(720, 1600, NativeColor.WHITE)
         var filterCalls = 0
-        suspend fun render(paths: List<Int>) = cache.render(paths) { canvas, _, entry ->
+        suspend fun render(paths: List<Int>) = cache.render(paths) { canvas, _, entry, _ ->
             if (entry == 0) filterCalls++
             canvas.drawColor(NativeColor.rgb(entry * 30, 0, 0))
         }
@@ -301,7 +303,7 @@ class DrawHistoryTest {
         val cache = DrawRenderCache()
         val original = base
         val session = cache.sessionFor(original, NativeColor.TRANSPARENT)
-        val gradient = stroke().copy(gradientPalette = GradientPalette.RGB)
+        val gradient = stroke().copy(gradientPalette = GradientPalette.SoftRainbow)
         val heal = stroke(DrawMode.SpotHeal(), true)
         val paths = listOf(gradient, heal)
         var calls = 0
@@ -397,6 +399,22 @@ class DrawHistoryTest {
         oldRender.await()
         assertSame(current, render())
         assertEquals("Old work contaminated the new session", 1, calls)
+    }
+
+
+    @Test
+    fun repeatedHealEntriesUseTheirActualPositionInHistory() = runBlocking {
+        val source = base
+        val paths = listOf(stroke(DrawMode.SpotHeal())).let { it + it }
+        var calls = 0
+        DrawRenderCache().sessionFor(source, NativeColor.TRANSPARENT).render(
+            paths, size, source, context,
+            onRequestFiltering = { input, _ ->
+                calls++
+                input.copy(Bitmap.Config.ARGB_8888, false)
+            }
+        )
+        assertEquals("The second heal reused a result from a different prefix", 2, calls)
     }
 
 }

@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,24 +46,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
+import com.t8rin.imagetoolbox.core.resources.icons.Check
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
-import com.t8rin.imagetoolbox.core.ui.theme.inverse
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
+import kotlin.math.roundToInt
 
 @Composable
 fun DrawColorSelector(
@@ -71,8 +76,10 @@ fun DrawColorSelector(
     value: Color,
     onValueChange: (Color) -> Unit,
     allowGradient: Boolean = false,
-    gradientPalette: GradientPalette = GradientPalette.RGB,
+    gradientPalette: GradientPalette = GradientPalette.SoftRainbow,
     onGradientPaletteChange: (GradientPalette) -> Unit = {},
+    gradientLength: Float = 1f,
+    onGradientLengthChange: (Float) -> Unit = {},
     isGradientEnabled: Boolean = false,
     onGradientEnabledChange: (Boolean) -> Unit = {},
     color: Color = Color.Unspecified,
@@ -80,7 +87,11 @@ fun DrawColorSelector(
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .container(
+                shape = ShapeDefaults.extraLarge,
+                color = color
+            ),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ColorRowSelector(
@@ -89,12 +100,7 @@ fun DrawColorSelector(
                 onGradientEnabledChange(false)
                 onValueChange(it)
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .container(
-                    shape = ShapeDefaults.extraLarge,
-                    color = color
-                ),
+            modifier = Modifier.fillMaxWidth(),
             title = titleText,
             allowAlpha = false,
             icon = Icons.Outlined.BrushColor,
@@ -116,12 +122,31 @@ fun DrawColorSelector(
             enter = fadeIn() + expandVertically(),
             exit = fadeOut() + shrinkVertically()
         ) {
-            GradientPaletteSelector(
-                value = gradientPalette,
-                onValueChange = onGradientPaletteChange,
-                modifier = Modifier.fillMaxWidth(),
-                shape = ShapeDefaults.extraLarge,
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(
+                    start = 4.dp, end = 4.dp, bottom = 4.dp
+                )
+            ) {
+                GradientPaletteSelector(
+                    value = gradientPalette,
+                    onValueChange = onGradientPaletteChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = ShapeDefaults.top
+                )
+                EnhancedSliderItem(
+                    value = gradientLength * 100f,
+                    onValueChange = { onGradientLengthChange(it.roundToInt() / 100f) },
+                    title = stringResource(R.string.gradient_length),
+                    valueRange = 10f..400f,
+                    valueSuffix = "%",
+                    shape = ShapeDefaults.bottom,
+                    internalStateTransformation = { it.roundToInt() },
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
@@ -134,13 +159,17 @@ private fun GradientColorItem(
 ) {
     val itemSize = 42.dp
     val colors = remember(palette) { palette.colors.map { it.toColor() } }
-    val contentColor = colors[colors.size / 2].inverse()
     val interactionSource = remember { MutableInteractionSource() }
     val shape = shapeByInteraction(
         shape = if (selected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
         pressedShape = ShapeDefaults.pressed,
         interactionSource = interactionSource
     )
+    val accent = colors[colors.size / 2].blend(MaterialTheme.colorScheme.primary, 0.25f)
+    val light = accent.blend(Color.White, 0.85f)
+    val dark = accent.blend(Color.Black, 0.75f)
+    val contentColor = if (accent.luminance() < 0.3f) light else dark
+    val fillColor = if (accent.luminance() < 0.3f) dark else light
 
     Box(
         modifier = Modifier
@@ -174,15 +203,19 @@ private fun GradientColorItem(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
+                if (isSelected) {
+                    Icon(
+                        imageVector = Icons.Rounded.Check,
+                        contentDescription = null,
+                        tint = fillColor,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
                 Icon(
-                    imageVector = if (isSelected) {
-                        Icons.Rounded.Done
-                    } else {
-                        Icons.Outlined.Gradient
-                    },
+                    imageVector = if (isSelected) Icons.Rounded.Done else Icons.Outlined.Gradient,
                     contentDescription = null,
                     tint = contentColor,
-                    modifier = Modifier.size(if (isSelected) 20.dp else 24.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }

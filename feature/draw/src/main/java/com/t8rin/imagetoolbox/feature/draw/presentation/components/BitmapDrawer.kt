@@ -77,13 +77,14 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionE
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawBitmapThroughPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedBitmapOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.floodFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.handle
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pointerDrawObserver
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberDrawImage
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberDrawPathEffect
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPathHelper
@@ -126,6 +127,7 @@ fun BitmapDrawer(
     panEnabled: Boolean,
     drawColor: Color,
     gradientPalette: GradientPalette? = null,
+    gradientLength: Float = 1f,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
     showLineAngle: Boolean = false,
@@ -259,7 +261,8 @@ fun BitmapDrawer(
                 drawColor,
                 brushSoftness,
                 drawPathMode,
-                gradientPalette
+                gradientPalette,
+                gradientLength
             ) { mutableStateOf(Path()) }
 
             var pathWithoutTransformations by remember(
@@ -269,7 +272,8 @@ fun BitmapDrawer(
                 drawColor,
                 brushSoftness,
                 drawPathMode,
-                gradientPalette
+                gradientPalette,
+                gradientLength
             ) { mutableStateOf(Path()) }
 
             var warpRuntimeStrokes by remember(drawMode) {
@@ -608,7 +612,8 @@ fun BitmapDrawer(
                                         canvasSize = canvasSize,
                                         drawPathMode = drawPathMode,
                                         drawLineStyle = drawLineStyle,
-                                        gradientPalette = gradientPalette
+                                        gradientPalette = gradientPalette,
+                                        gradientLength = gradientLength
                                     )
                                     if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
                                         pendingCommit = committed
@@ -646,7 +651,8 @@ fun BitmapDrawer(
                             val textPaint = if (gradientPalette != null) {
                                 drawPaint.withPathGradient(
                                     path = androidPath,
-                                    palette = gradientPalette
+                                    palette = gradientPalette,
+                                    gradientLength = gradientLength
                                 )
                             } else drawPaint
                             if (drawMode.isRepeated) {
@@ -669,15 +675,20 @@ fun BitmapDrawer(
                                 }
                             }
                         } else if (drawMode is DrawMode.Image && !isEraserOn) {
-                            drawRepeatedImageOnPath(
+                            val image by rememberDrawImage(
                                 drawMode = drawMode,
                                 strokeWidth = strokeWidth,
                                 canvasSize = canvasSize,
-                                path = androidPath,
-                                paint = drawPaint,
-                                invalidations = invalidations,
                                 onInvalidate = { invalidations++ }
                             )
+                            image?.let {
+                                drawRepeatedBitmapOnPath(
+                                    bitmap = it,
+                                    path = androidPath,
+                                    paint = drawPaint,
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
+                                )
+                            }
                         } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
                             drawPathCanvas?.nativeCanvas?.let {
                                 with(it) {
@@ -710,6 +721,7 @@ fun BitmapDrawer(
                                 path = androidPath,
                                 paint = drawPaint,
                                 palette = gradientPalette.takeUnless { isEraserOn },
+                                gradientLength = gradientLength,
                                 isFilled = false,
                                 canvasSize = canvasSize,
                                 softnessRadius = brushSoftness.toPx(canvasSize),
@@ -720,6 +732,7 @@ fun BitmapDrawer(
                                 path = androidPath,
                                 paint = drawPaint,
                                 palette = gradientPalette.takeUnless { isEraserOn },
+                                gradientLength = gradientLength,
                                 isFilled = !isEraserOn && drawPathMode.isFilled,
                                 canvasSize = canvasSize,
                                 softnessRadius = brushSoftness.toPx(canvasSize),

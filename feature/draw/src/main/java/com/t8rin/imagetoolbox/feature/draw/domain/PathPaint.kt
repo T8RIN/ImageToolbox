@@ -32,6 +32,7 @@ interface PathPaint<Path, Color> {
     operator fun component8() = drawPathMode
     operator fun component9() = drawLineStyle
     operator fun component10() = gradientPalette
+    operator fun component11() = gradientLength
 
     val path: Path
     val strokeWidth: Pt
@@ -43,4 +44,5 @@ interface PathPaint<Path, Color> {
     val drawPathMode: DrawPathMode
     val drawLineStyle: DrawLineStyle
     val gradientPalette: GradientPalette?
+    val gradientLength: Float get() = 1f
 }

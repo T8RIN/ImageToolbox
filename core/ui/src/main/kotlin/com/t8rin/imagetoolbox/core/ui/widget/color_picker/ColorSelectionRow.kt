@@ -97,7 +97,7 @@ fun ColorSelectionRow(
         }
     }
 
-    LaunchedEffect(value, isAdditionalItemSelected) {
+    LaunchedEffect(isAdditionalItemSelected) {
         delay(250)
         val nullItemCount = if (onNullClick != null) 1 else 0
         val customItemCount = if (allowCustom) 1 else 0

@@ -120,7 +120,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
-                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette) ->
+                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength) ->
                     val stroke = drawPathMode.convertStrokeWidth(
                         strokeWidth = nonScaledStroke,
                         canvasSize = canvasSize
@@ -299,7 +299,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             val textPaint = if (gradientPalette != null) {
                                 paint.withPathGradient(
                                     path = androidPath,
-                                    palette = gradientPalette
+                                    palette = gradientPalette,
+                                    gradientLength = gradientLength
                                 )
                             } else paint
                             if (drawMode.isRepeated) {
@@ -343,6 +344,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 path = androidPath,
                                 paint = paint,
                                 palette = gradientPalette.takeUnless { isErasing },
+                                gradientLength = gradientLength,
                                 isFilled = false,
                                 canvasSize = canvasSize,
                                 softnessRadius = radius.toPx(canvasSize)
@@ -352,6 +354,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 path = androidPath,
                                 paint = paint,
                                 palette = gradientPalette.takeUnless { isErasing },
+                                gradientLength = gradientLength,
                                 isFilled = !isErasing && drawPathMode.isFilled,
                                 canvasSize = canvasSize,
                                 softnessRadius = radius.toPx(canvasSize)

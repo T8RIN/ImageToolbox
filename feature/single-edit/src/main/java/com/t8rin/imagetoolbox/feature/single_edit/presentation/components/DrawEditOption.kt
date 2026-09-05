@@ -152,7 +152,8 @@ fun DrawEditOption(
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
-        var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.RGB) }
+        var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.SoftRainbow) }
+        var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
         var isGradientEnabled by rememberSaveable { mutableStateOf(false) }
 
         var alpha by rememberSaveable(drawMode) {
@@ -273,6 +274,8 @@ fun DrawEditOption(
                             allowGradient = isGradientAvailable,
                             gradientPalette = gradientPalette,
                             onGradientPaletteChange = { gradientPalette = it },
+                            gradientLength = gradientLength,
+                            onGradientLengthChange = { gradientLength = it },
                             isGradientEnabled = isGradientEnabled && isGradientAvailable,
                             onGradientEnabledChange = { isGradientEnabled = it },
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -482,6 +485,7 @@ fun DrawEditOption(
                         brushSoftness = brushSoftness,
                         drawColor = drawColor.copy(alpha),
                         gradientPalette = activeGradientPalette,
+                        gradientLength = gradientLength,
                         onAddPath = addPath,
                         isEraserOn = isEraserOn,
                         drawMode = drawMode,

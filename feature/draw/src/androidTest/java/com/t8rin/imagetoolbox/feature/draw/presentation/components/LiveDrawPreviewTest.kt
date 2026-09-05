@@ -64,6 +64,7 @@ import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 
 private class LiveDrawTestState(context: ComponentContext) : ComponentContext by context {
@@ -81,6 +82,7 @@ class LiveDrawTestActivity : ComponentActivity() {
     val filterCalls get() = state.filterCalls.get()
     var mode: DrawMode by mutableStateOf(DrawMode.Pen)
     var gradient: GradientPalette? by mutableStateOf(null)
+    var gradientLength by mutableStateOf(1f)
     var background by mutableStateOf(Color.Transparent)
     var softness by mutableStateOf(0.pt)
     var alpha by mutableStateOf(1f)
@@ -141,6 +143,7 @@ class LiveDrawTestActivity : ComponentActivity() {
                             brushSoftness = softness,
                             drawColor = Color.Red.copy(alpha = alpha),
                             gradientPalette = gradient,
+                            gradientLength = gradientLength,
                             isEraserOn = false,
                             drawMode = mode,
                             drawPathMode = DrawPathMode.Free,
@@ -209,30 +212,39 @@ class LiveDrawPreviewTest {
         val modes = listOf(
             DrawMode.PathEffect.PrivacyBlur(),
             DrawMode.PathEffect.Pixelation(),
-            DrawMode.PathEffect.Custom()
+            DrawMode.PathEffect.Custom(),
+            DrawMode.Image(
+                imageData = Bitmap.createBitmap(48, 48, Bitmap.Config.ARGB_8888)
+                    .apply { eraseColor(android.graphics.Color.CYAN) }
+            )
         )
         for (mode in modes) {
             instrumentation.runOnMainSync { activity.paths = emptyList(); activity.mode = mode }
             SystemClock.sleep(500)
+            val sampleOffset = if (mode is DrawMode.Image) .02f else 0f
             val down = SystemClock.uptimeMillis()
             event(activity, MotionEvent.ACTION_DOWN, .15f, .5f, down)
             try {
                 for (step in 1..8) {
                     event(activity, MotionEvent.ACTION_MOVE, .15f + step * .08f, .5f, down)
-                    val expectedX = .15f + (step - 1) * .08f
+                    val expectedX = .15f + (step - 1) * .08f + sampleOffset
                     await("$mode is missing while the finger is down at step $step") {
                         val frame = activity.frame!!
-                        frame.getPixel(
-                            (frame.width * expectedX).toInt(),
-                            frame.height / 2
-                        ) == android.graphics.Color.CYAN
+                        val x = (frame.width * expectedX).toInt()
+                        val y = (frame.height * (.5f + sampleOffset)).toInt()
+                        val offsets = if (mode is DrawMode.Image) -2..2 else 0..0
+                        offsets.any { dx ->
+                            offsets.any { dy ->
+                                frame.getPixel(x + dx, y + dy) == android.graphics.Color.CYAN
+                            }
+                        }
                     }
                 }
                 SystemClock.sleep(150)
                 val held = activity.frame!!
                 assertEquals(
                     "Held filter disappeared", android.graphics.Color.CYAN,
-                    held.getPixel(held.width / 2, held.height / 2)
+                    held.getPixel(held.width / 2, (held.height * (.5f + sampleOffset)).toInt())
                 )
             } finally {
                 event(activity, MotionEvent.ACTION_UP, .79f, .5f, down)
@@ -246,7 +258,7 @@ class LiveDrawPreviewTest {
         withDrawer { activity ->
             instrumentation.runOnMainSync {
                 activity.mode = DrawMode.Pen
-                activity.gradient = GradientPalette.RGB
+                activity.gradient = GradientPalette.SoftRainbow
                 activity.alpha = .4f
                 activity.softness = 8.pt
             }
@@ -284,7 +296,7 @@ class LiveDrawPreviewTest {
     fun switchingBrushAndWidthNeverRepaintsACompletedGradient() = withDrawer { activity ->
         instrumentation.runOnMainSync {
             activity.mode = DrawMode.Pen
-            activity.gradient = GradientPalette.RGB
+            activity.gradient = GradientPalette.SoftRainbow
             activity.alpha = .4f
             activity.softness = 8.pt
         }
@@ -333,7 +345,7 @@ class LiveDrawPreviewTest {
     fun changingBrushSettingsCannotKeepTheDiscardedLiveStrokeOnScreen() = withDrawer { activity ->
         instrumentation.runOnMainSync {
             activity.mode = DrawMode.Pen
-            activity.gradient = GradientPalette.RGB
+            activity.gradient = GradientPalette.SoftRainbow
         }
         SystemClock.sleep(300)
         val down = SystemClock.uptimeMillis()
@@ -366,7 +378,7 @@ class LiveDrawPreviewTest {
         fun stroke(mode: DrawMode, y: Float) {
             instrumentation.runOnMainSync {
                 activity.mode = mode
-                activity.gradient = GradientPalette.RGB.takeIf { mode is DrawMode.Pen }
+                activity.gradient = GradientPalette.SoftRainbow.takeIf { mode is DrawMode.Pen }
             }
             SystemClock.sleep(250)
             val count = activity.paths.size
@@ -414,7 +426,18 @@ class LiveDrawPreviewTest {
             instrumentation.runOnMainSync { activity.ready = false; activity.paths = paths }
             await("Redo after rotation did not finish") { activity.ready && activity.readyPaths == paths }
             assertEquals("Undo/redo recalculated SpotHeal", calls, activity.filterCalls)
-            assertTrue("Redo changed the rotated drawing", rotated.sameAs(activity.frame))
+            if (!rotated.sameAs(activity.frame)) {
+                for ((name, frame) in listOf("rotated" to rotated, "redo" to activity.frame!!)) {
+                    File(activity.getExternalFilesDir(null), "rotation-$name.png").outputStream()
+                        .use {
+                            frame.compress(Bitmap.CompressFormat.PNG, 100, it)
+                        }
+                }
+            }
+            assertTrue(
+                "Redo changed the rotated drawing: ${rotated.width} vs ${activity.frame?.width}",
+                rotated.sameAs(activity.frame)
+            )
             rotated.recycle()
         }
         assertTrue("Returning to portrait changed the drawing", original.sameAs(activity.frame))
@@ -442,5 +465,54 @@ class LiveDrawPreviewTest {
         )
         original.recycle()
     }
+
+
+    @Test
+    fun changingTheGradientLengthKeepsCommittedStrokesAndUndoRedoUnchanged() =
+        withDrawer { activity ->
+            fun stroke(y: Float) {
+                val count = activity.paths.size
+                val down = SystemClock.uptimeMillis()
+                event(activity, MotionEvent.ACTION_DOWN, .15f, y, down)
+                for (step in 1..10) event(
+                    activity,
+                    MotionEvent.ACTION_MOVE,
+                    .15f + step * .065f,
+                    y,
+                    down
+                )
+                event(activity, MotionEvent.ACTION_UP, .8f, y, down)
+                await("Gradient did not commit") { activity.ready && activity.readyPaths?.size == count + 1 }
+            }
+            instrumentation.runOnMainSync {
+                activity.gradient = GradientPalette.SoftRainbow
+                activity.gradientLength = .25f
+            }
+            SystemClock.sleep(200)
+            stroke(.25f)
+            val first = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            instrumentation.runOnMainSync { activity.gradientLength = 4f }
+            SystemClock.sleep(200)
+            assertTrue("Changing length repainted existing ink", first.sameAs(activity.frame))
+            stroke(.7f)
+            val paths = activity.paths
+            assertEquals(listOf(.25f, 4f), paths.map { it.gradientLength })
+            assertEquals(
+                paths.map { it.gradientLength },
+                paths.map { it.toUiPathPaint().gradientLength })
+            val after = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            instrumentation.runOnMainSync { activity.paths = paths.take(1) }
+            await("Undo did not restore the first length") {
+                activity.ready && activity.readyPaths == paths.take(
+                    1
+                )
+            }
+            assertTrue(first.sameAs(activity.frame))
+            instrumentation.runOnMainSync { activity.paths = paths }
+            await("Redo did not restore both lengths") { activity.ready && activity.readyPaths == paths }
+            assertTrue(after.sameAs(activity.frame))
+            first.recycle()
+            after.recycle()
+        }
 
 }

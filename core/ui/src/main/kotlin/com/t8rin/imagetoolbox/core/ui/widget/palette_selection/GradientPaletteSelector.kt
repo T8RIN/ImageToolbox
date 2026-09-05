@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -56,11 +57,13 @@ fun GradientPaletteSelector(
     onValueChange: (GradientPalette) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.palette),
-    shape: Shape = ShapeDefaults.default
+    shape: Shape = ShapeDefaults.default,
+    color: Color = Color.Unspecified
 ) {
     Column(
         modifier = modifier.container(
             shape = shape,
+            color = color,
             resultPadding = 8.dp
         )
     ) {
@@ -72,7 +75,9 @@ fun GradientPaletteSelector(
                 end = 8.dp
             )
         )
-        val state = rememberLazyListState()
+        val state = rememberLazyListState(
+            initialFirstVisibleItemIndex = value?.ordinal ?: 0
+        )
         LazyRow(
             state = state,
             modifier = Modifier
@@ -127,7 +132,7 @@ fun GradientPaletteSelector(
 @Composable
 fun GradientPalette.label(): String = stringResource(
     when (this) {
-        GradientPalette.RGB -> R.string.fractal_palette_rgb
+        GradientPalette.SoftRainbow -> R.string.gradient_palette_soft_rainbow
         GradientPalette.Classic -> R.string.fractal_palette_classic
         GradientPalette.Fire -> R.string.fractal_palette_fire
         GradientPalette.Ocean -> R.string.fractal_palette_ocean

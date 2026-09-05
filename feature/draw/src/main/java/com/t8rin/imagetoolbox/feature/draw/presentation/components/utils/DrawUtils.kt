@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BlurMaskFilter
@@ -27,10 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
@@ -477,40 +474,26 @@ internal fun DrawLineStyle.asPathEffect(
     DrawLineStyle.None -> null
 }
 
-@Suppress("unused")
-@SuppressLint("ComposableNaming")
 @Composable
-internal fun NativeCanvas.drawRepeatedImageOnPath(
+internal fun rememberDrawImage(
     drawMode: DrawMode.Image,
     strokeWidth: Pt,
     canvasSize: IntegerSize,
-    path: NativePath,
-    paint: NativePaint,
-    invalidations: Int,
-    onInvalidate: () -> Unit = {}
-) {
-    var pathImage by remember(strokeWidth, canvasSize, drawMode.imageData) {
+    onInvalidate: () -> Unit
+): State<Bitmap?> {
+    val pathImage = remember(strokeWidth, canvasSize, drawMode.imageData) {
         mutableStateOf<Bitmap?>(null)
     }
     LaunchedEffect(drawMode.imageData, strokeWidth, canvasSize) {
-        if (pathImage == null) {
-            pathImage = appContext.imageLoader.execute(
-                ImageRequest.Builder(appContext)
-                    .data(drawMode.imageData)
-                    .size(strokeWidth.toPx(canvasSize).roundToInt())
-                    .build()
-            ).image?.toBitmap()
-            onInvalidate()
-        }
+        pathImage.value = appContext.imageLoader.execute(
+            ImageRequest.Builder(appContext)
+                .data(drawMode.imageData)
+                .size(strokeWidth.toPx(canvasSize).roundToInt().coerceAtLeast(1))
+                .build()
+        ).image?.toBitmap()
+        onInvalidate()
     }
-    pathImage?.let { bitmap ->
-        drawRepeatedBitmapOnPath(
-            bitmap = bitmap,
-            path = path,
-            paint = paint,
-            interval = drawMode.repeatingInterval.toPx(canvasSize)
-        )
-    }
+    return pathImage
 }
 
 internal fun transformationsForMode(

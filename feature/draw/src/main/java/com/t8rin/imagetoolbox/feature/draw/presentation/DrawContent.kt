@@ -143,9 +143,10 @@ fun DrawContent(
     ) { mutableStateOf(settingsState.defaultDrawColor) }
 
     var gradientPalette by rememberSaveable(component.drawBehavior) {
-        mutableStateOf(GradientPalette.RGB)
+        mutableStateOf(GradientPalette.SoftRainbow)
     }
 
+    var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
     var isGradientEnabled by rememberSaveable(component.drawBehavior) {
         mutableStateOf(false)
     }
@@ -294,6 +295,7 @@ fun DrawContent(
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
                     gradientPalette = activeGradientPalette,
+                    gradientLength = gradientLength,
                     onAddPath = component::addPath,
                     isEraserOn = isEraserOn,
                     drawMode = drawMode,
@@ -326,6 +328,8 @@ fun DrawContent(
                 onDrawColorChange = { drawColor = it },
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = { gradientPalette = it },
+                gradientLength = gradientLength,
+                onGradientLengthChange = { gradientLength = it },
                 isGradientAvailable = isGradientAvailable,
                 isGradientEnabled = isGradientEnabled && isGradientAvailable,
                 onGradientEnabledChange = { isGradientEnabled = it },

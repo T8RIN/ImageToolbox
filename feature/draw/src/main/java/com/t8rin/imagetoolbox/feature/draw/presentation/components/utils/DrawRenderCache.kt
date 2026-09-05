@@ -73,9 +73,9 @@ class DrawRenderCache {
                 size = canvasSize
                 history = DrawHistoryCache(canvasSize.width, canvasSize.height, background)
             }
-            checkNotNull(history).render(paths) { target, bitmap, entry ->
+            checkNotNull(history).render(paths) { target, bitmap, entry, index ->
                 val healKey = if (entry.drawMode is DrawMode.SpotHeal && !entry.isErasing) {
-                    paths.take(paths.indexOf(entry) + 1)
+                    paths.take(index + 1)
                 } else null
                 val cachedEffect = healKey?.let(healedPaths::get)
                 val prepared = cachedEffect ?: preparedEffect?.takeIf {

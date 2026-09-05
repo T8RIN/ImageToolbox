@@ -67,8 +67,6 @@ class DrawGradientTest {
                     worstPixel = "$x,$y: expected $expectedAlpha, actual $actualAlpha"
                 }
             }
-            // BlurMaskFilter approximates a Gaussian; the brush convolves RGBA exactly.
-            // Allow their edge profiles to differ, while checking opacity and total coverage.
             val tolerance = if (softness == 0f) 2 else 10
             assertTrue(
                 "Coverage differs by $maxDifference at softness $softness ($worstPixel)",
@@ -99,7 +97,7 @@ class DrawGradientTest {
     @Test
     fun softDabPreservesItsColourThroughTheTransparentEdge() {
         val dot = render(Path().apply { moveTo(128f, 128f); lineTo(128f, 128f) }, softness = 12f)
-        val colour = GradientPalette.RGB.colors.first().colorInt
+        val colour = GradientPalette.SoftRainbow.colors.first().colorInt
         for (y in 80..176) for (x in 80..176) {
             val pixel = dot.getPixel(x, y)
             if (Color.alpha(pixel) >= 32) {
@@ -120,7 +118,7 @@ class DrawGradientTest {
         val image = bitmap()
         Canvas(image).drawPathWithGradient(
             path, paint().apply { strokeCap = Paint.Cap.SQUARE },
-            GradientPalette.RGB, false, IntegerSize(SIZE, SIZE)
+            GradientPalette.SoftRainbow, false, IntegerSize(SIZE, SIZE)
         )
         assertEquals(255, Color.alpha(image.getPixel(61, 109)))
         image.recycle()
@@ -136,7 +134,7 @@ class DrawGradientTest {
         val actual = bitmap()
         val expected = bitmap()
         Canvas(actual).drawPathWithGradient(
-            path, brush, GradientPalette.RGB, false, IntegerSize(SIZE, SIZE)
+            path, brush, GradientPalette.SoftRainbow, false, IntegerSize(SIZE, SIZE)
         )
         Canvas(expected).drawPath(path, brush)
         for (y in 0 until SIZE) for (x in 0 until SIZE) {
@@ -205,7 +203,7 @@ class DrawGradientTest {
         val large = bitmap(SIZE * 3)
         val scaled = Path(path).apply { transform(Matrix().apply { setScale(3f, 3f) }) }
         Canvas(large).drawPathWithGradient(
-            scaled, paint().apply { strokeWidth *= 3f }, GradientPalette.RGB,
+            scaled, paint().apply { strokeWidth *= 3f }, GradientPalette.SoftRainbow,
             false, IntegerSize(SIZE * 3, SIZE * 3)
         )
         var totalError = 0L
@@ -270,7 +268,7 @@ class DrawGradientTest {
             target.eraseColor(Color.TRANSPARENT)
             val started = System.nanoTime()
             Canvas(target).drawPathWithGradient(
-                largePath, paint().apply { strokeWidth = 80f }, GradientPalette.RGB,
+                largePath, paint().apply { strokeWidth = 80f }, GradientPalette.SoftRainbow,
                 false, IntegerSize(1024, 1024), softness
             )
             timings += (System.nanoTime() - started) / 1_000_000
@@ -330,7 +328,12 @@ class DrawGradientTest {
                 target.eraseColor(Color.TRANSPARENT)
                 val started = System.nanoTime()
                 Canvas(target).drawPathWithGradient(
-                    path, brush, GradientPalette.RGB, false, IntegerSize(1200, 1200), cache = cache
+                    path,
+                    brush,
+                    GradientPalette.SoftRainbow,
+                    false,
+                    IntegerSize(1200, 1200),
+                    cache = cache
                 )
                 if (index > 20) durations += (System.nanoTime() - started) / 1_000_000
                 if (index in listOf(20, 79, 160)) {
@@ -339,7 +342,7 @@ class DrawGradientTest {
                         Canvas(expected).drawPathWithGradient(
                             path,
                             brush,
-                            GradientPalette.RGB,
+                            GradientPalette.SoftRainbow,
                             false,
                             IntegerSize(1200, 1200),
                             cache = fresh
@@ -369,7 +372,7 @@ class DrawGradientTest {
                 Canvas(target).drawPathWithGradient(
                     path,
                     brush,
-                    GradientPalette.RGB,
+                    GradientPalette.SoftRainbow,
                     false,
                     IntegerSize(1200, 1200),
                     softness,
@@ -380,7 +383,7 @@ class DrawGradientTest {
                     Canvas(expected).drawPathWithGradient(
                         path,
                         brush,
-                        GradientPalette.RGB,
+                        GradientPalette.SoftRainbow,
                         false,
                         IntegerSize(1200, 1200),
                         softness,
@@ -501,7 +504,6 @@ class DrawGradientTest {
         var previousY = 0f
         for (index in 0..2800) {
             val t = index * 0.002f
-            // Subpixel advance with sideways input jitter, as with a slow finger or mouse.
             val x = 500f + 260f * cos(t) + 1.2f * sin(index * 1.73f)
             val y = 500f + 330f * sin(t) + 0.9f * cos(index * 2.13f)
             if (index == 0) path.moveTo(x, y) else {
@@ -512,7 +514,7 @@ class DrawGradientTest {
         }
         val target = bitmap(size)
         Canvas(target).drawPathWithGradient(
-            path, paint().apply { strokeWidth = 150f }, GradientPalette.RGB,
+            path, paint().apply { strokeWidth = 150f }, GradientPalette.SoftRainbow,
             false, IntegerSize(size, size)
         )
         val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -536,8 +538,6 @@ class DrawGradientTest {
         }
         assertEquals("Dense input left holes inside the brush", 0, gradientHoles)
         interior.recycle()
-        // Check the centre and both shoulders, where rotating full-width dabs used
-        // to expose their circular rims even though the stroke's alpha was correct.
         var maxJump = 0
         var jumps = 0
         for (index in 80..2660) {
@@ -571,9 +571,96 @@ class DrawGradientTest {
         target.recycle()
     }
 
+    @Test
+    fun gradientLengthControlsTheRepeatDistance() {
+        val path = Path().apply { moveTo(16f, 128f); lineTo(240f, 128f) }
+        for (length in listOf(0.1f, 0.25f, 0.5f, 1f, 2f, 4f)) {
+            val image = bitmap()
+            Canvas(image).drawPathWithGradient(
+                path, paint(), GradientPalette.SoftRainbow, false, IntegerSize(SIZE, SIZE),
+                gradientLength = length
+            )
+            for (x in 36..220 step 7) {
+                val expected =
+                    GradientPalette.SoftRainbow.colorIntAt((x + 0.5 - 16) / (SIZE * length))
+                val actual = image.getPixel(x, 128)
+                assertEquals(255, Color.alpha(actual))
+                for (shift in listOf(0, 8, 16)) {
+                    val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
+                    assertTrue("Wrong repeat distance at $length / $x: $error", error <= 3)
+                }
+            }
+            image.recycle()
+        }
+    }
+
+    @Test
+    fun changingGradientLengthInvalidatesOnlyTheLiveColourCache() {
+        val cache = GradientStrokeCache()
+        try {
+            for (length in listOf(0.25f, 4f, 1f, 0.1f)) {
+                val cached = bitmap()
+                val fresh = bitmap()
+                val freshCache = GradientStrokeCache()
+                for ((image, renderer) in listOf(cached to cache, fresh to freshCache)) {
+                    Canvas(image).drawPathWithGradient(
+                        curl(),
+                        paint(),
+                        GradientPalette.SoftRainbow,
+                        false,
+                        IntegerSize(SIZE, SIZE),
+                        cache = renderer,
+                        gradientLength = length
+                    )
+                }
+                freshCache.clear()
+                assertTrue("Live cache retained the previous length $length", cached.sameAs(fresh))
+                cached.recycle()
+                fresh.recycle()
+            }
+        } finally {
+            cache.clear()
+        }
+    }
+
+    @Test
+    fun gradientLengthDoesNotChangeStrokeCoverage() {
+        for (softness in listOf(0f, 12f)) {
+            val original = render(curl(), softness = softness)
+            for (length in listOf(0.1f, 0.25f, 4f)) {
+                val image = bitmap()
+                Canvas(image).drawPathWithGradient(
+                    curl(), paint(), GradientPalette.SoftRainbow, false, IntegerSize(SIZE, SIZE),
+                    softnessRadius = softness, gradientLength = length
+                )
+                for (y in 0 until SIZE) for (x in 0 until SIZE) {
+                    val difference = abs(
+                        Color.alpha(original.getPixel(x, y)) - Color.alpha(
+                            image.getPixel(
+                                x,
+                                y
+                            )
+                        )
+                    )
+                    assertTrue(
+                        "Changing the period damaged coverage at $x/$y: $length / $softness",
+                        difference <= 2
+                    )
+                }
+                image.recycle()
+            }
+            original.recycle()
+        }
+    }
+
     private fun render(path: Path, softness: Float = 0f, alpha: Int = 255): Bitmap = bitmap().also {
         Canvas(it).drawPathWithGradient(
-            path, paint(alpha), GradientPalette.RGB, false, IntegerSize(SIZE, SIZE), softness
+            path,
+            paint(alpha),
+            GradientPalette.SoftRainbow,
+            false,
+            IntegerSize(SIZE, SIZE),
+            softness
         )
     }
 
