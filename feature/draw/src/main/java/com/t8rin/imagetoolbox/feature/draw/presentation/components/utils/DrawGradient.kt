@@ -20,11 +20,15 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 import android.graphics.Bitmap
 import android.graphics.BitmapShader
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.ComposeShader
 import android.graphics.LinearGradient
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
@@ -33,11 +37,14 @@ import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.GaussianPreciseLevel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import kotlin.math.atan2
 import kotlin.math.ceil
+import kotlin.math.cos
+import kotlin.math.exp
 import kotlin.math.floor
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import kotlin.math.sin
 
 internal fun Canvas.drawPathWithGradient(
     path: Path,
@@ -110,25 +117,60 @@ private fun Canvas.drawGradientStroke(
     // The colour strokes extend one pixel beyond the silhouette. Their antialiasing
     // blends self-crossings, while the native outline applies the outer coverage once.
     val colourWidth = paint.strokeWidth * joinReach + 2f
+    // A chord stays within half its arc length of the original curve. Shrinking
+    // its coverage by that distance plus an AA pixel keeps it inside the stroke.
+    val interiorWidth = if (
+        paint.pathEffect == null && paint.strokeCap == Paint.Cap.ROUND && paint.strokeJoin == Paint.Join.ROUND
+    ) {
+        (paint.strokeWidth - COLOUR_SAMPLE_STEP * cycleLength / MEASURE_CYCLE_LENGTH - 2f)
+            .coerceAtLeast(0f)
+    } else 0f
     val renderer = cache ?: GradientStrokeCache()
     try {
-        val bitmap = renderer.render(path, palette, cycleLength, colourWidth, pixels)
+        val bitmap = renderer.render(path, palette, cycleLength, colourWidth, interiorWidth, pixels)
         val colourShader =
             BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(Matrix().apply {
                     setTranslate(pixels.left.toFloat(), pixels.top.toFloat())
                 })
             }
-        // Filling the stroked outline applies coverage once, including overlapping joins.
-        // The colour texture is opaque; only this full-resolution outline controls alpha.
-        drawPath(outline, Paint(paint).apply {
+        val strokePaint = Paint(paint).apply {
             style = Paint.Style.FILL
             pathEffect = null
             shader = colourShader
             isFilterBitmap = true
             maskFilter = null
             clearShadowLayer()
-        })
+        }
+        val interior = renderer.interiorCoverage
+        if (interior == null) {
+            drawPath(outline, strokePaint)
+        } else {
+            // Android's stroker can leave winding cancellations inside very dense
+            // curves. Union a smaller, continuous dab mask with its exact outline.
+            // Composite once, so repairing pinholes cannot accumulate stroke alpha.
+            val coverage = interior.copy(Bitmap.Config.ALPHA_8, true)
+            try {
+                Canvas(coverage).apply {
+                    translate(-pixels.left.toFloat(), -pixels.top.toFloat())
+                    drawPath(outline, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.WHITE })
+                }
+                val coverageShader =
+                    BitmapShader(coverage, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
+                        setLocalMatrix(Matrix().apply {
+                            setTranslate(
+                                pixels.left.toFloat(),
+                                pixels.top.toFloat()
+                            )
+                        })
+                    }
+                strokePaint.shader =
+                    ComposeShader(colourShader, coverageShader, PorterDuff.Mode.DST_IN)
+                drawRect(RectF(pixels), strokePaint)
+            } finally {
+                coverage.recycle()
+            }
+        }
     } finally {
         if (cache == null) renderer.clear()
     }
@@ -212,6 +254,10 @@ private fun Canvas.drawSoftGradientStroke(
 internal class GradientStrokeCache {
     private var bitmap: Bitmap? = null
     private var tip: Bitmap? = null
+    internal var interiorCoverage: Bitmap? = null
+        private set
+    private var interiorTip: Bitmap? = null
+    private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
     private var tipLeft = 0
     private var tipTop = 0
     private var key: ColourKey? = null
@@ -222,10 +268,11 @@ internal class GradientStrokeCache {
         palette: GradientPalette,
         cycleLength: Float,
         width: Float,
+        interiorWidth: Float,
         bounds: Rect
     ): Bitmap {
-        val nextKey = ColourKey(palette, cycleLength, width, Rect(bounds))
-        val nextSegments = path.colourSegments(cycleLength)
+        val nextKey = ColourKey(palette, cycleLength, width, interiorWidth, Rect(bounds))
+        val nextSegments = path.colourSegments(cycleLength, width)
         val completeCount = (nextSegments.size - 1).coerceAtLeast(0)
         val canAppend = key == nextKey && segments.size <= completeCount &&
                 segments.indices.all { segments[it] == nextSegments[it] }
@@ -236,16 +283,40 @@ internal class GradientStrokeCache {
             clear()
             bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888)
             bitmap!!.eraseColor(colours.first())
+            if (interiorWidth > 0f) {
+                interiorCoverage =
+                    Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ALPHA_8)
+            }
             key = nextKey
         }
         val target = bitmap!!
         val canvas = Canvas(target)
+        val interiorCanvas = interiorCoverage?.let(::Canvas)
         tip?.let {
             canvas.drawBitmap(it, tipLeft.toFloat(), tipTop.toFloat(), null)
             it.recycle()
             tip = null
         }
+        interiorTip?.let {
+            interiorCanvas?.apply {
+                // ALPHA_8 bitmaps act as coverage even in SRC mode; clear the saved
+                // rectangle first so transparent pixels also replace the old tip.
+                drawRect(
+                    tipLeft.toFloat(), tipTop.toFloat(),
+                    (tipLeft + it.width).toFloat(), (tipTop + it.height).toFloat(), clearPaint
+                )
+                drawBitmap(it, tipLeft.toFloat(), tipTop.toFloat(), null)
+            }
+            it.recycle()
+            interiorTip = null
+        }
         canvas.translate(-bounds.left.toFloat(), -bounds.top.toFloat())
+        interiorCanvas?.translate(-bounds.left.toFloat(), -bounds.top.toFloat())
+        val interiorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = Color.WHITE
+            strokeWidth = interiorWidth
+            strokeCap = Paint.Cap.ROUND
+        }
         val gradient =
             LinearGradient(0f, 0f, cycleLength, 0f, colours, null, Shader.TileMode.REPEAT)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -256,12 +327,8 @@ internal class GradientStrokeCache {
         val matrix = Matrix()
         val values = FloatArray(9).apply { this[8] = 1f }
         fun draw(segment: ColourSegment) {
-            val dx = segment.endX - segment.startX
-            val dy = segment.endY - segment.startY
-            val length = sqrt(dx * dx + dy * dy)
-            if (length == 0f) return
-            val tx = dx / length
-            val ty = dy / length
+            val tx = segment.tangentX
+            val ty = segment.tangentY
             values[0] = tx / segment.distanceScale
             values[1] = -ty
             values[2] = segment.startX - tx * segment.distance
@@ -271,6 +338,13 @@ internal class GradientStrokeCache {
             matrix.setValues(values)
             gradient.setLocalMatrix(matrix)
             canvas.drawLine(segment.startX, segment.startY, segment.endX, segment.endY, paint)
+            interiorCanvas?.drawLine(
+                segment.startX,
+                segment.startY,
+                segment.endX,
+                segment.endY,
+                interiorPaint
+            )
         }
         for (index in segments.size until completeCount) draw(nextSegments[index])
         segments = nextSegments.subList(0, completeCount)
@@ -292,6 +366,19 @@ internal class GradientStrokeCache {
                     Bitmap.Config.ARGB_8888
                 )
                 Canvas(tip!!).drawBitmap(target, -tipLeft.toFloat(), -tipTop.toFloat(), null)
+                interiorCoverage?.let {
+                    interiorTip = Bitmap.createBitmap(
+                        tipBounds.width(),
+                        tipBounds.height(),
+                        Bitmap.Config.ALPHA_8
+                    )
+                    Canvas(interiorTip!!).drawBitmap(
+                        it,
+                        -tipLeft.toFloat(),
+                        -tipTop.toFloat(),
+                        null
+                    )
+                }
             }
             draw(last)
         }
@@ -301,6 +388,10 @@ internal class GradientStrokeCache {
     fun clear() {
         bitmap?.recycle()
         tip?.recycle()
+        interiorCoverage?.recycle()
+        interiorTip?.recycle()
+        interiorCoverage = null
+        interiorTip = null
         bitmap = null
         tip = null
         key = null
@@ -312,6 +403,7 @@ private data class ColourKey(
     val palette: GradientPalette,
     val cycleLength: Float,
     val width: Float,
+    val interiorWidth: Float,
     val bounds: Rect
 )
 
@@ -321,10 +413,12 @@ private data class ColourSegment(
     val endX: Float,
     val endY: Float,
     val distance: Float,
-    val distanceScale: Float
+    val distanceScale: Float,
+    val tangentX: Float,
+    val tangentY: Float
 )
 
-private fun Path.colourSegments(cycleLength: Float): List<ColourSegment> {
+private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSegment> {
     // PathMeasure's tolerance is in pixels. Normalize before measuring so the same
     // curve has the same arc lengths and colours in the preview and the saved image.
     val scale = cycleLength / MEASURE_CYCLE_LENGTH
@@ -333,6 +427,7 @@ private fun Path.colourSegments(cycleLength: Float): List<ColourSegment> {
     }
     val measure = PathMeasure(measuredPath, false)
     val position = FloatArray(2)
+    val headingSpan = maxOf(COLOUR_SAMPLE_STEP, width / (2f * scale))
     return buildList {
         do {
             val length = measure.length
@@ -344,12 +439,33 @@ private fun Path.colourSegments(cycleLength: Float): List<ColourSegment> {
             var previousX = position[0] * scale
             var previousY = position[1] * scale
             var distance = 0f
+            var heading: Float? = null
             while (distance < length) {
                 val end = min(distance + COLOUR_SAMPLE_STEP, length)
                 measure.getPosTan(end, position, null)
                 val x = position[0] * scale
                 val y = position[1] * scale
-                add(ColourSegment(previousX, previousY, x, y, distance * scale, distanceScale))
+                val dx = x - previousX
+                val dy = y - previousY
+                if (dx != 0f || dy != 0f) {
+                    val direction = atan2(dy, dx)
+                    val previousHeading = heading ?: direction
+                    val turn =
+                        atan2(sin(direction - previousHeading), cos(direction - previousHeading))
+                    // A tiny pointer movement must not rotate the gradient across an
+                    // entire wide dab. Filter the angle by travelled distance, not event
+                    // count, and retain the raw positions for geometry and intersections.
+                    // Constructed closed shapes keep their tangent at the closing seam.
+                    heading = if (measure.isClosed) direction else {
+                        previousHeading + turn * (1f - exp(-(end - distance) / headingSpan))
+                    }
+                    add(
+                        ColourSegment(
+                            previousX, previousY, x, y, distance * scale, distanceScale,
+                            cos(heading), sin(heading)
+                        )
+                    )
+                }
                 previousX = x
                 previousY = y
                 distance = end

@@ -36,6 +36,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 import kotlin.math.abs
+import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -123,6 +124,29 @@ class DrawGradientTest {
         )
         assertEquals(255, Color.alpha(image.getPixel(61, 109)))
         image.recycle()
+    }
+
+    @Test
+    fun repairingCoveragePreservesDashedLineGaps() {
+        val path = Path().apply { moveTo(20f, 128f); lineTo(236f, 128f) }
+        val brush = paint().apply {
+            strokeWidth = 12f
+            pathEffect = android.graphics.DashPathEffect(floatArrayOf(20f, 40f), 0f)
+        }
+        val actual = bitmap()
+        val expected = bitmap()
+        Canvas(actual).drawPathWithGradient(
+            path, brush, GradientPalette.RGB, false, IntegerSize(SIZE, SIZE)
+        )
+        Canvas(expected).drawPath(path, brush)
+        for (y in 0 until SIZE) for (x in 0 until SIZE) {
+            assertTrue(
+                "Dash coverage changed at $x,$y",
+                abs(Color.alpha(actual.getPixel(x, y)) - Color.alpha(expected.getPixel(x, y))) <= 2
+            )
+        }
+        actual.recycle()
+        expected.recycle()
     }
 
     @Test
@@ -459,6 +483,84 @@ class DrawGradientTest {
         base.recycle()
         over.recycle()
         actual.recycle()
+    }
+
+    @Test
+    fun slowInputDoesNotLeaveCircularColourStamps() {
+        val size = 1000
+        val path = Path()
+        var previousX = 0f
+        var previousY = 0f
+        for (index in 0..2800) {
+            val t = index * 0.002f
+            // Subpixel advance with sideways input jitter, as with a slow finger or mouse.
+            val x = 500f + 260f * cos(t) + 1.2f * sin(index * 1.73f)
+            val y = 500f + 330f * sin(t) + 0.9f * cos(index * 2.13f)
+            if (index == 0) path.moveTo(x, y) else {
+                path.quadTo(previousX, previousY, (previousX + x) / 2f, (previousY + y) / 2f)
+            }
+            previousX = x
+            previousY = y
+        }
+        val target = bitmap(size)
+        Canvas(target).drawPathWithGradient(
+            path, paint().apply { strokeWidth = 150f }, GradientPalette.RGB,
+            false, IntegerSize(size, size)
+        )
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        File(context.getExternalFilesDir(null), "slow-stroke.png").outputStream().use {
+            target.compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+        val interior = bitmap(size)
+        val ideal = Path().apply {
+            moveTo(760f, 500f)
+            for (index in 1..2800) {
+                val t = index * 0.002f
+                lineTo(500f + 260f * cos(t), 500f + 330f * sin(t))
+            }
+        }
+        Canvas(interior).drawPath(ideal, paint().apply { strokeWidth = 138f })
+        var gradientHoles = 0
+        for (y in 0 until size) for (x in 0 until size) {
+            if (Color.alpha(interior.getPixel(x, y)) == 255) {
+                if (Color.alpha(target.getPixel(x, y)) != 255) gradientHoles++
+            }
+        }
+        assertEquals("Dense input left holes inside the brush", 0, gradientHoles)
+        interior.recycle()
+        // Check the centre and both shoulders, where rotating full-width dabs used
+        // to expose their circular rims even though the stroke's alpha was correct.
+        var maxJump = 0
+        var jumps = 0
+        for (index in 80..2660) {
+            val t = index * 0.002f
+            val dx = -260f * sin(t)
+            val dy = 330f * cos(t)
+            val length = sqrt(dx * dx + dy * dy)
+            for (offset in listOf(-45f, 0f, 45f)) {
+                val x = (500f + 260f * cos(t) - dy / length * offset).toInt()
+                val y = (500f + 330f * sin(t) + dx / length * offset).toInt()
+                val a = target.getPixel(x, y)
+                val neighbours = listOf(target.getPixel(x + 1, y), target.getPixel(x, y + 1))
+                for (pixel in neighbours) {
+                    if (Color.alpha(a) != 255 || Color.alpha(pixel) != 255) continue
+                    val jump = abs(Color.red(a) - Color.red(pixel)) +
+                            abs(Color.green(a) - Color.green(pixel)) +
+                            abs(Color.blue(a) - Color.blue(pixel))
+                    maxJump = maxOf(maxJump, jump)
+                    if (jump > 20) jumps++
+                }
+            }
+        }
+        File(
+            context.getExternalFilesDir(null),
+            "slow-stroke-jumps.txt"
+        ).writeText("max=$maxJump, jumps=$jumps")
+        assertTrue(
+            "Circular colour seams: maximum pixel jump $maxJump ($jumps jumps)",
+            maxJump <= 20
+        )
+        target.recycle()
     }
 
     private fun render(path: Path, softness: Float = 0f, alpha: Int = 255): Bitmap = bitmap().also {
