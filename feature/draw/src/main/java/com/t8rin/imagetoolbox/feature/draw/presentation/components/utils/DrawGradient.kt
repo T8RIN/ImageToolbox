@@ -32,6 +32,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
+import androidx.core.graphics.createBitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.GaussianPreciseLevel
@@ -144,7 +145,12 @@ private fun Canvas.drawGradientStroke(
         }
         val interior = renderer.interiorCoverage
         if (interior == null) {
-            drawPath(outline, strokePaint)
+            drawPath(path, Paint(paint).apply {
+                shader = colourShader
+                maskFilter = null
+                isFilterBitmap = true
+                clearShadowLayer()
+            })
         } else {
             // Android's stroker can leave winding cancellations inside very dense
             // curves. Union a smaller, continuous dab mask with its exact outline.
@@ -203,10 +209,9 @@ private fun Canvas.drawSoftGradientStroke(
         .coerceIn(min(1f, 2f / sigma), 1f)
     val left = floor(bounds.left * scale) / scale
     val top = floor(bounds.top * scale) / scale
-    val bitmap = Bitmap.createBitmap(
+    val bitmap = createBitmap(
         ceil((bounds.right - left) * scale).toInt().coerceAtLeast(1),
-        ceil((bounds.bottom - top) * scale).toInt().coerceAtLeast(1),
-        Bitmap.Config.ARGB_8888
+        ceil((bounds.bottom - top) * scale).toInt().coerceAtLeast(1)
     )
     try {
         val strokeCanvas = Canvas(bitmap)
@@ -281,11 +286,11 @@ internal class GradientStrokeCache {
         }.toIntArray()
         if (!canAppend) {
             clear()
-            bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888)
+            bitmap = createBitmap(bounds.width(), bounds.height())
             bitmap!!.eraseColor(colours.first())
             if (interiorWidth > 0f) {
                 interiorCoverage =
-                    Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ALPHA_8)
+                    createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ALPHA_8)
             }
             key = nextKey
         }
@@ -360,18 +365,11 @@ internal class GradientStrokeCache {
                 tipLeft = tipBounds.left - bounds.left
                 tipTop = tipBounds.top - bounds.top
                 // createBitmap may return its input for a full-size subset; always copy.
-                tip = Bitmap.createBitmap(
-                    tipBounds.width(),
-                    tipBounds.height(),
-                    Bitmap.Config.ARGB_8888
-                )
+                tip = createBitmap(tipBounds.width(), tipBounds.height())
                 Canvas(tip!!).drawBitmap(target, -tipLeft.toFloat(), -tipTop.toFloat(), null)
                 interiorCoverage?.let {
-                    interiorTip = Bitmap.createBitmap(
-                        tipBounds.width(),
-                        tipBounds.height(),
-                        Bitmap.Config.ALPHA_8
-                    )
+                    interiorTip =
+                        createBitmap(tipBounds.width(), tipBounds.height(), Bitmap.Config.ALPHA_8)
                     Canvas(interiorTip!!).drawBitmap(
                         it,
                         -tipLeft.toFloat(),
@@ -477,7 +475,7 @@ private fun Path.colourSegments(cycleLength: Float, width: Float): List<ColourSe
 private fun Path.createGradient(palette: GradientPalette): LinearGradient {
     val bounds = RectF().also { computeBounds(it, true) }
     var endX = bounds.right
-    var endY = bounds.bottom
+    val endY = bounds.bottom
     if (bounds.left == endX && bounds.top == endY) {
         endX += 1f
     }
@@ -497,7 +495,7 @@ private fun IntegerSize.gradientCycleLength(): Float = (
         min(width, height).coerceAtLeast(1) * GRADIENT_CYCLE_SIZE_FRACTION
         ).coerceAtLeast(MIN_CYCLE_LENGTH)
 
-private const val GRADIENT_CYCLE_SIZE_FRACTION = 0.5f
+private const val GRADIENT_CYCLE_SIZE_FRACTION = 1f
 private const val MIN_CYCLE_LENGTH = 1f
 private const val MEASURE_CYCLE_LENGTH = 512f
 private const val COLOUR_SAMPLE_STEP = 4f

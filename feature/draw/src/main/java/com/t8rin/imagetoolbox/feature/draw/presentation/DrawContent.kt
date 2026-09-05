@@ -43,6 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -286,6 +287,8 @@ fun DrawContent(
                 val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                 BitmapDrawer(
                     imageBitmap = imageBitmap,
+                    renderCache = component.renderCache,
+                    sourceKey = component.imageBitmap?.asAndroidBitmap() ?: component.drawBehavior,
                     paths = component.paths,
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
@@ -311,8 +314,6 @@ fun DrawContent(
                     drawLineStyle = drawLineStyle,
                     helperGridParams = component.helperGridParams,
                     showLineAngle = showLineAngle,
-                    spotHealCache = component.spotHealCache,
-                    onCacheSpotHealPathResult = component::cacheSpotHealPathResult,
                     onRemovePath = component::removePath
                 )
             }

@@ -34,7 +34,6 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -54,6 +53,7 @@ import androidx.compose.ui.graphics.asAndroidPath
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
@@ -70,17 +71,20 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.WarpStroke
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.LineAngleIndicator
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.GradientStrokeCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawBitmapThroughPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.floodFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.handle
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.overlay
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pathEffectPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.pointerDrawObserver
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberDrawPathEffect
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rememberPathHelper
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
@@ -102,6 +106,8 @@ import android.graphics.Paint as AndroidPaint
 @Composable
 fun BitmapDrawer(
     imageBitmap: ImageBitmap,
+    renderCache: DrawRenderCache,
+    sourceKey: Any = imageBitmap.asAndroidBitmap(),
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     paths: List<UiPathPaint>,
     brushSoftness: Pt,
@@ -115,6 +121,7 @@ fun BitmapDrawer(
     onDrawStart: (() -> Unit)? = null,
     onDraw: ((Bitmap) -> Unit)? = null,
     onDrawFinish: (() -> Unit)? = null,
+    onRenderReady: ((Boolean) -> Unit)? = null,
     backgroundColor: Color,
     panEnabled: Boolean,
     drawColor: Color,
@@ -122,11 +129,9 @@ fun BitmapDrawer(
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
     showLineAngle: Boolean = false,
-    spotHealCache: Map<Int, Bitmap> = emptyMap(),
-    onCacheSpotHealPathResult: (Int, Bitmap) -> Unit = { _, _ -> },
     onRemovePath: (UiPathPaint) -> Unit = {},
 ) {
-    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val settingsState = LocalSettingsState.current
     val magnifierEnabled by remember(zoomState.scale, settingsState.magnifierEnabled) {
@@ -165,10 +170,12 @@ fun BitmapDrawer(
             ) {
                 value = null
                 value = withContext(Dispatchers.Default) {
-                    imageBitmap.asAndroidBitmap().createScaledBitmap(
-                        width = imageWidth,
-                        height = imageHeight
-                    ).apply {
+                    val original = imageBitmap.asAndroidBitmap()
+                    val scaled = original.createScaledBitmap(imageWidth, imageHeight)
+                    (if (scaled === original) scaled.copy(
+                        Bitmap.Config.ARGB_8888,
+                        true
+                    ) else scaled).apply {
                         val canvas = AndroidCanvas(this)
                         val paint = android.graphics.Paint().apply {
                             color = backgroundColor.toArgb()
@@ -189,8 +196,7 @@ fun BitmapDrawer(
             }
 
             val needsDrawPathBitmap = !isEraserOn && (
-                    drawMode is DrawMode.PathEffect
-                            || drawMode is DrawMode.SpotHeal
+                    drawMode is DrawMode.SpotHeal
                             || drawMode is DrawMode.Warp
                     )
 
@@ -216,12 +222,6 @@ fun BitmapDrawer(
                 imageHeight
             ) {
                 invalidations++
-            }
-
-            val outputImage by remember(invalidations) {
-                derivedStateOf {
-                    drawImageBitmap?.overlay(drawBitmap) ?: imageBitmap
-                }
             }
 
             val canvas: Canvas = remember(drawBitmap, imageHeight, imageWidth) {
@@ -313,165 +313,101 @@ fun BitmapDrawer(
                 onDispose { gradientStroke.clear() }
             }
 
-            val gradientHistory = remember(canvasSize, backgroundColor) { GradientDrawHistory() }
-            DisposableEffect(gradientHistory) {
-                onDispose { gradientHistory.clear() }
-            }
-            val canCacheHistory = remember(paths) {
-                paths.any { it.gradientPalette != null } && paths.all {
-                    it.isErasing || it.drawMode is DrawMode.Pen || it.drawMode is DrawMode.Highlighter
-                }
-            }
-            val canAppendHistory = canCacheHistory && gradientHistory.bitmap != null &&
-                    paths.size >= gradientHistory.paths.size &&
-                    paths.subList(0, gradientHistory.paths.size) == gradientHistory.paths
-            val pathsToRender = if (canAppendHistory) {
-                paths.drop(gradientHistory.paths.size)
-            } else paths
+            val history = renderCache.sessionFor(sourceKey, backgroundColor.toArgb())
+            var historyBitmap by remember(history, canvasSize) { mutableStateOf<Bitmap?>(null) }
+            var renderedPaths by remember(
+                history,
+                canvasSize
+            ) { mutableStateOf(emptyList<UiPathPaint>()) }
+            var renderingPath by remember(
+                history,
+                canvasSize
+            ) { mutableStateOf<UiPathPaint?>(null) }
+            var pendingCommit by remember { mutableStateOf<UiPathPaint?>(null) }
+            var pendingPreview by remember(
+                history,
+                canvasSize
+            ) { mutableStateOf<DrawPreviewSnapshot?>(null) }
 
-            with(canvas) {
-                with(nativeCanvas) {
-                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                    if (canAppendHistory) {
-                        drawBitmap(gradientHistory.bitmap!!, 0f, 0f, null)
-                    } else {
-                        drawColor(backgroundColor.toArgb())
-                    }
+            val effectSource = remember(historyBitmap, drawImageBitmap) {
+                historyBitmap?.let { drawImageBitmap?.overlay(it.asImageBitmap()) }
+                    ?: drawImageBitmap ?: imageBitmap
+            }
+            val preparedEffect = if (drawMode is DrawMode.PathEffect && !isEraserOn) {
+                rememberDrawPathEffect(
+                    drawMode = drawMode,
+                    canvasSize = canvasSize,
+                    imageWidth = imageWidth,
+                    imageHeight = imageHeight,
+                    outputImage = effectSource,
+                    onRequestFiltering = onRequestFiltering,
+                    onInvalidate = { invalidations++ }
+                ).value
+            } else null
+            var pendingFilteredSource by remember { mutableStateOf<Bitmap?>(null) }
 
-                    pathsToRender.forEach { uiPathPaint ->
-                        UiPathPaintCanvasAction(
-                            uiPathPaint = uiPathPaint,
-                            invalidations = invalidations,
-                            onInvalidate = { invalidations++ },
-                            pathsCount = paths.size,
-                            backgroundColor = backgroundColor,
-                            drawImageBitmap = drawImageBitmap ?: imageBitmap,
-                            drawBitmap = drawBitmap,
-                            onClearDrawPath = {
-                                drawPath = Path()
-                                warpClearTrigger++
-                                warpRuntimeStrokes = emptyList()
-                            },
-                            onClearWarpDrawPath = { token ->
-                                if (token == pendingWarpCommitToken) {
-                                    drawPath = Path()
-                                    warpClearTrigger++
-                                    warpRuntimeStrokes = emptyList()
-                                    pendingWarpCommitToken = -1L
-                                }
-                            },
-                            onRequestFiltering = onRequestFiltering,
-                            spotHealCache = spotHealCache,
-                            onCacheSpotHealPathResult = onCacheSpotHealPathResult,
-                            onCancel = onRemovePath,
+            LaunchedEffect(history, canvasSize, drawImageBitmap, paths) {
+                val source = drawImageBitmap ?: return@LaunchedEffect
+                val preparedPath = pendingCommit
+                val preparedBitmap = pendingFilteredSource
+                try {
+                    val result = withContext(Dispatchers.Default) {
+                        history.render(
+                            paths = paths,
                             canvasSize = canvasSize,
-                            scope = scope,
-                            gradientStrokeCache = gradientStroke.takeIf { uiPathPaint === paths.lastOrNull() }
+                            source = source.asAndroidBitmap(),
+                            context = context,
+                            onRequestFiltering = onRequestFiltering,
+                            preparedPath = preparedPath,
+                            preparedEffect = preparedBitmap,
+                            onRenderingPath = { renderingPath = it }
                         )
                     }
+                    historyBitmap = result
+                    renderedPaths = paths.toList()
+                    invalidations++
+                } finally {
+                    renderingPath = null
+                }
+            }
 
-                    if (canCacheHistory) {
-                        if (!canAppendHistory || pathsToRender.isNotEmpty()) {
-                            gradientHistory.update(drawBitmap.asAndroidBitmap(), paths)
-                        }
-                    } else {
-                        gradientHistory.clear()
-                    }
-
-                    if (drawPath.isEmpty) gradientStroke.clear()
-
-                    if ((drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Warp) || isEraserOn) {
-                        val androidPath by remember(drawPath) {
-                            derivedStateOf {
-                                drawPath.asAndroidPath()
-                            }
-                        }
-                        if (drawMode is DrawMode.Text && !isEraserOn) {
-                            val textPaint = if (gradientPalette != null) {
-                                drawPaint.withPathGradient(
-                                    path = androidPath,
-                                    palette = gradientPalette
-                                )
-                            } else drawPaint
-                            if (drawMode.isRepeated) {
-                                drawRepeatedTextOnPath(
-                                    text = drawMode.text,
-                                    path = androidPath,
-                                    paint = textPaint,
-                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
-                                )
-                            } else if (drawMode.text.isNotEmpty() && !androidPath.isEmpty && (drawDownPosition - currentDrawPosition).getDistance() > 10f) {
-                                var readyToDraw by rememberSaveable {
-                                    mutableStateOf(false)
-                                }
-                                OneTimeEffect {
-                                    delay(100)
-                                    readyToDraw = true
-                                }
-                                if (readyToDraw) {
-                                    drawTextOnPath(drawMode.text, androidPath, 0f, 0f, textPaint)
-                                }
-                            }
-                        } else if (drawMode is DrawMode.Image && !isEraserOn) {
-                            drawRepeatedImageOnPath(
-                                drawMode = drawMode,
-                                strokeWidth = strokeWidth,
-                                canvasSize = canvasSize,
-                                path = androidPath,
-                                paint = drawPaint,
-                                invalidations = invalidations
-                            )
-                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
-                            drawPathCanvas?.nativeCanvas?.let {
-                                with(it) {
-                                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                                    drawPath(
-                                        androidPath,
-                                        drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
-                                    )
-                                }
-                            }
-                        } else if (drawPathMode is DrawPathMode.Outlined) {
-                            drawPathMode.fillColor?.let { fillColor ->
-                                val filledPaint = remember(fillColor, drawPaint) {
-                                    AndroidPaint().apply {
-                                        set(drawPaint)
-                                        style = AndroidPaint.Style.FILL
-                                        color = fillColor.colorInt
-                                        if (Color(fillColor.colorInt).alpha == 1f) {
-                                            alpha =
-                                                (drawColor.alpha * 255).roundToInt()
-                                                    .coerceIn(0, 255)
-                                        }
-                                        pathEffect = null
-                                    }
-                                }
-
-                                drawPath(androidPath, filledPaint)
-                            }
-                            drawPathWithGradient(
-                                path = androidPath,
-                                paint = drawPaint,
-                                palette = gradientPalette,
-                                isFilled = false,
-                                canvasSize = canvasSize,
-                                softnessRadius = brushSoftness.toPx(canvasSize),
-                                cache = gradientStroke
-                            )
-                        } else {
-                            drawPathWithGradient(
-                                path = androidPath,
-                                paint = drawPaint,
-                                palette = gradientPalette,
-                                isFilled = drawPathMode.isFilled,
-                                canvasSize = canvasSize,
-                                softnessRadius = brushSoftness.toPx(canvasSize),
-                                cache = gradientStroke
-                            )
-                        }
+            LaunchedEffect(renderedPaths, paths, pendingCommit) {
+                pendingCommit?.let { pending ->
+                    if (pending in renderedPaths || pending !in paths) {
+                        drawPath = Path()
+                        pendingCommit = null
+                        pendingFilteredSource = null
+                        warpClearTrigger++
+                        warpRuntimeStrokes = emptyList()
+                        pendingWarpCommitToken = -1L
+                        invalidations++
                     }
                 }
+            }
 
+            LaunchedEffect(renderedPaths, paths) {
+                pendingPreview?.let { preview ->
+                    if (!preview.isPrefixOf(paths) || preview.isPrefixOf(renderedPaths)) {
+                        pendingPreview = null
+                    }
+                }
+            }
+
+            LoadingDialog(
+                visible = renderingPath?.drawMode is DrawMode.SpotHeal,
+                onCancelLoading = {
+                    renderingPath?.let(onRemovePath)
+                },
+                canCancel = true
+            )
+
+            val outputImage by remember(invalidations, historyBitmap, drawImageBitmap, drawPath) {
+                derivedStateOf { drawImageBitmap?.overlay(drawBitmap) ?: imageBitmap }
+            }
+
+            var finishedStroke: UiPathPaint? = null
+            var pointerReleased = false
+            with(canvas) {
                 val drawHelper by rememberPathHelper(
                     drawDownPosition = drawDownPosition,
                     currentDrawPosition = currentDrawPosition,
@@ -589,22 +525,22 @@ fun BitmapDrawer(
                                     )
                                 }
 
-                                onAddPath(
-                                    UiPathPaint(
-                                        path = drawPath,
-                                        strokeWidth = strokeWidth,
-                                        brushSoftness = 0.pt,
-                                        drawColor = Color.Transparent,
-                                        isErasing = false,
-                                        drawMode = drawMode.copy(
-                                            strokes = warpRuntimeStrokes.toList(),
-                                            previewClearToken = warpPreviewToken
-                                        ),
-                                        canvasSize = canvasSize,
-                                        drawPathMode = DrawPathMode.Free,
-                                        drawLineStyle = DrawLineStyle.None
-                                    )
+                                val committed = UiPathPaint(
+                                    path = drawPath.copy(),
+                                    strokeWidth = strokeWidth,
+                                    brushSoftness = 0.pt,
+                                    drawColor = Color.Transparent,
+                                    isErasing = false,
+                                    drawMode = drawMode.copy(
+                                        strokes = warpRuntimeStrokes.toList(),
+                                        previewClearToken = warpPreviewToken
+                                    ),
+                                    canvasSize = canvasSize,
+                                    drawPathMode = DrawPathMode.Free,
+                                    drawLineStyle = DrawLineStyle.None
                                 )
+                                pendingCommit = committed
+                                finishedStroke = committed
                                 pendingWarpCommitToken = warpPreviewToken
                             } else {
                                 var addPath = true
@@ -662,52 +598,166 @@ fun BitmapDrawer(
                                 )
 
                                 if (addPath) {
-                                    onAddPath(
-                                        UiPathPaint(
-                                            path = drawPath,
-                                            strokeWidth = strokeWidth,
-                                            brushSoftness = brushSoftness,
-                                            drawColor = drawColor,
-                                            isErasing = isEraserOn,
-                                            drawMode = drawMode,
-                                            canvasSize = canvasSize,
-                                            drawPathMode = drawPathMode,
-                                            drawLineStyle = drawLineStyle,
-                                            gradientPalette = gradientPalette
-                                        )
+                                    val committed = UiPathPaint(
+                                        path = drawPath.copy(),
+                                        strokeWidth = strokeWidth,
+                                        brushSoftness = brushSoftness,
+                                        drawColor = drawColor,
+                                        isErasing = isEraserOn,
+                                        drawMode = drawMode,
+                                        canvasSize = canvasSize,
+                                        drawPathMode = drawPathMode,
+                                        drawLineStyle = drawLineStyle,
+                                        gradientPalette = gradientPalette
                                     )
+                                    if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
+                                        pendingCommit = committed
+                                        pendingFilteredSource = preparedEffect?.asAndroidBitmap()
+                                    }
+                                    finishedStroke = committed
                                 }
                             }
                         }
 
-                        currentDrawPosition = Offset.Unspecified
-                        previousDrawPosition = Offset.Unspecified
                         motionEvent.value = MotionEvent.Idle
-
-                        if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal || drawMode is DrawMode.Warp) && !isEraserOn) Unit
-                        else drawPath = Path()
-
-                        pathWithoutTransformations = Path()
-                        onDrawFinish?.invoke()
+                        pointerReleased = true
                     }
+                )
+
+                with(nativeCanvas) {
+                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                    val completed = pendingPreview?.takeIf {
+                        it.isPrefixOf(paths) && !it.isPrefixOf(renderedPaths)
+                    }?.bitmap ?: historyBitmap
+                    completed?.let { drawBitmap(it, 0f, 0f, null) }
+                        ?: drawColor(backgroundColor.toArgb())
+
+                    if (drawPath.isEmpty) gradientStroke.clear()
+
+                    if ((pendingCommit == null || pendingCommit !in renderedPaths) &&
+                        ((drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Warp) || isEraserOn)
+                    ) {
+                        val androidPath by remember(drawPath) {
+                            derivedStateOf {
+                                drawPath.asAndroidPath()
+                            }
+                        }
+                        if (drawMode is DrawMode.Text && !isEraserOn) {
+                            val textPaint = if (gradientPalette != null) {
+                                drawPaint.withPathGradient(
+                                    path = androidPath,
+                                    palette = gradientPalette
+                                )
+                            } else drawPaint
+                            if (drawMode.isRepeated) {
+                                drawRepeatedTextOnPath(
+                                    text = drawMode.text,
+                                    path = androidPath,
+                                    paint = textPaint,
+                                    interval = drawMode.repeatingInterval.toPx(canvasSize)
+                                )
+                            } else if (drawMode.text.isNotEmpty() && !androidPath.isEmpty && (drawDownPosition - currentDrawPosition).getDistance() > 10f) {
+                                var readyToDraw by rememberSaveable {
+                                    mutableStateOf(false)
+                                }
+                                OneTimeEffect {
+                                    delay(100)
+                                    readyToDraw = true
+                                }
+                                if (readyToDraw) {
+                                    drawTextOnPath(drawMode.text, androidPath, 0f, 0f, textPaint)
+                                }
+                            }
+                        } else if (drawMode is DrawMode.Image && !isEraserOn) {
+                            drawRepeatedImageOnPath(
+                                drawMode = drawMode,
+                                strokeWidth = strokeWidth,
+                                canvasSize = canvasSize,
+                                path = androidPath,
+                                paint = drawPaint,
+                                invalidations = invalidations,
+                                onInvalidate = { invalidations++ }
+                            )
+                        } else if (drawMode is DrawMode.SpotHeal && !isEraserOn) {
+                            drawPathCanvas?.nativeCanvas?.let {
+                                with(it) {
+                                    drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
+                                    drawPath(
+                                        androidPath,
+                                        drawPaint.apply { color = Color.Red.copy(0.5f).toArgb() }
+                                    )
+                                }
+                            }
+                        } else if (drawPathMode is DrawPathMode.Outlined && !isEraserOn) {
+                            drawPathMode.fillColor?.let { fillColor ->
+                                val filledPaint = remember(fillColor, drawPaint) {
+                                    AndroidPaint().apply {
+                                        set(drawPaint)
+                                        style = AndroidPaint.Style.FILL
+                                        color = fillColor.colorInt
+                                        if (Color(fillColor.colorInt).alpha == 1f) {
+                                            alpha =
+                                                (drawColor.alpha * 255).roundToInt()
+                                                    .coerceIn(0, 255)
+                                        }
+                                        pathEffect = null
+                                    }
+                                }
+
+                                drawPath(androidPath, filledPaint)
+                            }
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = drawPaint,
+                                palette = gradientPalette.takeUnless { isEraserOn },
+                                isFilled = false,
+                                canvasSize = canvasSize,
+                                softnessRadius = brushSoftness.toPx(canvasSize),
+                                cache = gradientStroke
+                            )
+                        } else {
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = drawPaint,
+                                palette = gradientPalette.takeUnless { isEraserOn },
+                                isFilled = !isEraserOn && drawPathMode.isFilled,
+                                canvasSize = canvasSize,
+                                softnessRadius = brushSoftness.toPx(canvasSize),
+                                cache = gradientStroke
+                            )
+                        }
+                    }
+                }
+            }
+
+            if (preparedEffect != null && (pendingCommit == null || pendingCommit !in renderedPaths)) {
+                canvas.nativeCanvas.drawBitmapThroughPath(
+                    bitmap = preparedEffect.asAndroidBitmap(),
+                    path = drawPath.asAndroidPath(),
+                    paint = pathEffectPaint(strokeWidth, drawPathMode, canvasSize)
                 )
             }
 
-            if (drawMode is DrawMode.PathEffect && !isEraserOn && drawPathCanvas != null) {
-                DrawPathEffectPreview(
-                    drawPathCanvas = drawPathCanvas,
-                    drawMode = drawMode,
-                    canvasSize = canvasSize,
-                    imageWidth = imageWidth,
-                    imageHeight = imageHeight,
-                    outputImage = outputImage,
-                    onRequestFiltering = onRequestFiltering,
-                    paths = paths,
-                    drawPath = drawPath,
-                    backgroundColor = backgroundColor,
-                    strokeWidth = strokeWidth,
-                    drawPathMode = drawPathMode
-                )
+            finishedStroke?.let { committed ->
+                if (committed.isErasing || committed.drawMode !is DrawMode.SpotHeal &&
+                    committed.drawMode !is DrawMode.Warp &&
+                    (committed.drawMode !is DrawMode.PathEffect || preparedEffect != null)
+                ) {
+                    pendingPreview = DrawPreviewSnapshot(
+                        paths = paths + committed,
+                        bitmap = drawBitmap.asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, false)
+                    )
+                    drawPath = Path()
+                    gradientStroke.clear()
+                }
+                onAddPath(committed)
+            }
+            if (pointerReleased) {
+                currentDrawPosition = Offset.Unspecified
+                previousDrawPosition = Offset.Unspecified
+                if (pendingCommit == null) drawPath = Path()
+                pathWithoutTransformations = Path()
+                onDrawFinish?.invoke()
             }
 
             var warpEngine by remember {
@@ -756,7 +806,7 @@ fun BitmapDrawer(
                     }
             }
 
-            val warpedImage by remember(invalidations, warpEngine) {
+            val warpedImage by remember(invalidations, warpEngine, historyBitmap, drawPath) {
                 derivedStateOf {
                     warpEngine?.takeIf { warpRuntimeStrokes.isNotEmpty() }?.let { engine ->
                         engine.render().asImageBitmap().also {
@@ -766,7 +816,7 @@ fun BitmapDrawer(
                 }
             }
 
-            val previewBitmap by remember(invalidations) {
+            val previewBitmap by remember(invalidations, historyBitmap, drawPath) {
                 derivedStateOf {
                     if (drawMode is DrawMode.Warp) {
                         warpedImage
@@ -776,10 +826,9 @@ fun BitmapDrawer(
                 }
             }
 
-            onDraw?.let {
-                LaunchedEffect(invalidations) {
-                    onDraw(previewBitmap.asAndroidBitmap())
-                }
+            LaunchedEffect(previewBitmap, paths, renderedPaths, pendingCommit, historyBitmap) {
+                onDraw?.invoke(previewBitmap.asAndroidBitmap())
+                onRenderReady?.invoke(drawImageBitmap != null && paths == renderedPaths && pendingCommit == null)
             }
 
             BitmapDrawerPreview(
@@ -789,7 +838,8 @@ fun BitmapDrawer(
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },
-                drawEnabled = !panEnabled && !isWarpInputLocked && drawImageBitmap != null,
+                drawEnabled = !panEnabled && !isWarpInputLocked && pendingCommit == null && drawImageBitmap != null &&
+                        (renderedPaths == paths || isEraserOn || (drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.SpotHeal && drawMode !is DrawMode.Warp)),
                 helperGridParams = helperGridParams,
                 drawBitmapBorder = settingsState.drawBitmapBorder
             )
@@ -807,22 +857,10 @@ fun BitmapDrawer(
     }
 }
 
-/** One flattened history image; adding a stroke only renders the new suffix. */
-private class GradientDrawHistory {
-    var bitmap: Bitmap? = null
-        private set
-    var paths: List<UiPathPaint> = emptyList()
-        private set
-
-    fun update(source: Bitmap, paths: List<UiPathPaint>) {
-        clear()
-        bitmap = source.copy(Bitmap.Config.ARGB_8888, false)
-        this.paths = paths.toList()
-    }
-
-    fun clear() {
-        bitmap?.recycle()
-        bitmap = null
-        paths = emptyList()
-    }
+private data class DrawPreviewSnapshot(
+    val paths: List<UiPathPaint>,
+    val bitmap: Bitmap
+) {
+    fun isPrefixOf(history: List<UiPathPaint>): Boolean =
+        history.size >= paths.size && history.subList(0, paths.size) == paths
 }

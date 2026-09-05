@@ -25,7 +25,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
 import com.t8rin.trickle.WarpBrush
@@ -324,7 +324,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             }
-                        } else if (drawPathMode is DrawPathMode.Outlined) {
+                        } else if (drawPathMode is DrawPathMode.Outlined && !isErasing) {
                             drawPathMode.fillColor?.let { fillColor ->
                                 val filledPaint = AndroidPaint().apply {
                                     set(paint)
@@ -342,7 +342,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             drawPathWithGradient(
                                 path = androidPath,
                                 paint = paint,
-                                palette = gradientPalette,
+                                palette = gradientPalette.takeUnless { isErasing },
                                 isFilled = false,
                                 canvasSize = canvasSize,
                                 softnessRadius = radius.toPx(canvasSize)
@@ -351,8 +351,8 @@ internal class AndroidImageDrawApplier @Inject constructor(
                             drawPathWithGradient(
                                 path = androidPath,
                                 paint = paint,
-                                palette = gradientPalette,
-                                isFilled = drawPathMode.isFilled,
+                                palette = gradientPalette.takeUnless { isErasing },
+                                isFilled = !isErasing && drawPathMode.isFilled,
                                 canvasSize = canvasSize,
                                 softnessRadius = radius.toPx(canvasSize)
                             )
@@ -545,22 +545,6 @@ internal class AndroidImageDrawApplier @Inject constructor(
         }
 
         DrawLineStyle.None -> null
-    }
-
-    private fun ImageBitmap.clipBitmap(
-        path: Path,
-        paint: Paint,
-    ): ImageBitmap {
-        val newPath = NativePath(path.asAndroidPath())
-
-        return asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
-            drawPath(
-                newPath.apply {
-                    fillType = NativePath.FillType.INVERSE_WINDING
-                },
-                paint.nativePaint
-            )
-        }.asImageBitmap()
     }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {

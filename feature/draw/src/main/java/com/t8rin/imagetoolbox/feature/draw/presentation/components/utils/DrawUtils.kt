@@ -208,16 +208,33 @@ fun Canvas.drawInfiniteLine(
 internal fun ImageBitmap.clipBitmap(
     path: Path,
     paint: Paint,
-): ImageBitmap = asAndroidBitmap()
-    .let { it.copy(it.safeConfig, true) }
-    .applyCanvas {
-        drawPath(
-            NativePath(path.asAndroidPath()).apply {
-                fillType = NativePath.FillType.INVERSE_WINDING
-            },
-            paint.nativePaint
-        )
-    }.asImageBitmap()
+): ImageBitmap = createBitmap(width, height).applyCanvas {
+    drawBitmapThroughPath(
+        this@clipBitmap.asAndroidBitmap(),
+        path.asAndroidPath(),
+        paint.nativePaint
+    )
+}.asImageBitmap()
+
+internal fun NativeCanvas.drawBitmapThroughPath(
+    bitmap: Bitmap,
+    path: NativePath,
+    paint: NativePaint
+) {
+    val shader = android.graphics.BitmapShader(
+        bitmap, android.graphics.Shader.TileMode.CLAMP, android.graphics.Shader.TileMode.CLAMP
+    )
+    shader.setLocalMatrix(Matrix().apply {
+        setScale(width.toFloat() / bitmap.width, height.toFloat() / bitmap.height)
+    })
+    drawPath(path, NativePaint(paint).apply {
+        color = android.graphics.Color.WHITE
+        alpha = 255
+        xfermode = null
+        this.shader = shader
+        isFilterBitmap = true
+    })
+}
 
 internal fun ImageBitmap.overlay(overlay: ImageBitmap): ImageBitmap {
     val image = this.asAndroidBitmap()
@@ -256,69 +273,93 @@ internal fun rememberPaint(
         drawLineStyle
     ) {
         derivedStateOf {
-            val isSharpEdge = drawPathMode.isSharpEdge
-            val isFilled = drawPathMode.isFilled
+            createDrawPaint(
+                strokeWidth = strokeWidth,
+                isEraserOn = isEraserOn,
+                drawColor = drawColor,
+                brushSoftness = brushSoftness,
+                drawMode = drawMode,
+                canvasSize = canvasSize,
+                drawPathMode = drawPathMode,
+                drawLineStyle = drawLineStyle,
+                context = context
+            )
+        }
+    }
+}
 
-            Paint().apply {
-                if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
-                    pathEffect = drawLineStyle.asPathEffect(
-                        canvasSize = canvasSize,
-                        strokeWidth = strokeWidth.toPx(canvasSize),
-                        context = context
-                    )
-                }
-                blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
-                if (isEraserOn) {
-                    style = PaintingStyle.Stroke
-                    this.strokeWidth = strokeWidth.toPx(canvasSize)
-                    strokeCap = StrokeCap.Round
-                    strokeJoin = StrokeJoin.Round
+internal fun createDrawPaint(
+    strokeWidth: Pt,
+    isEraserOn: Boolean,
+    drawColor: Color,
+    brushSoftness: Pt,
+    drawMode: DrawMode,
+    canvasSize: IntegerSize,
+    drawPathMode: DrawPathMode,
+    drawLineStyle: DrawLineStyle,
+    context: Context
+): NativePaint {
+    val isSharpEdge = drawPathMode.isSharpEdge
+    val isFilled = drawPathMode.isFilled
+
+    return Paint().apply {
+        if (drawMode !is DrawMode.Text && drawMode !is DrawMode.Image) {
+            pathEffect = drawLineStyle.asPathEffect(
+                canvasSize = canvasSize,
+                strokeWidth = strokeWidth.toPx(canvasSize),
+                context = context
+            )
+        }
+        blendMode = if (!isEraserOn) blendMode else BlendMode.Clear
+        if (isEraserOn) {
+            style = PaintingStyle.Stroke
+            this.strokeWidth = strokeWidth.toPx(canvasSize)
+            strokeCap = StrokeCap.Round
+            strokeJoin = StrokeJoin.Round
+        } else {
+            if (drawMode !is DrawMode.Text) {
+                if (isFilled) {
+                    style = PaintingStyle.Fill
                 } else {
-                    if (drawMode !is DrawMode.Text) {
-                        if (isFilled) {
-                            style = PaintingStyle.Fill
-                        } else {
-                            style = PaintingStyle.Stroke
-                            this.strokeWidth = drawPathMode.convertStrokeWidth(
-                                strokeWidth = strokeWidth,
-                                canvasSize = canvasSize
-                            )
-                            if (drawMode is DrawMode.Highlighter || isSharpEdge) {
-                                strokeCap = StrokeCap.Square
-                            } else {
-                                strokeCap = StrokeCap.Round
-                                strokeJoin = StrokeJoin.Round
-                            }
-                        }
+                    style = PaintingStyle.Stroke
+                    this.strokeWidth = drawPathMode.convertStrokeWidth(
+                        strokeWidth = strokeWidth,
+                        canvasSize = canvasSize
+                    )
+                    if (drawMode is DrawMode.Highlighter || isSharpEdge) {
+                        strokeCap = StrokeCap.Square
+                    } else {
+                        strokeCap = StrokeCap.Round
+                        strokeJoin = StrokeJoin.Round
                     }
                 }
-                color = if (drawMode is DrawMode.PathEffect) {
-                    Color.Transparent
-                } else drawColor
-                alpha = drawColor.alpha
-            }.nativePaint.apply {
-                if (drawMode is DrawMode.Neon && !isEraserOn) {
-                    this.color = Color.White.toArgb()
-                    setShadowLayer(
-                        brushSoftness.toPx(canvasSize),
-                        0f,
-                        0f,
-                        drawColor
-                            .copy(alpha = .8f)
-                            .toArgb()
-                    )
-                } else if (brushSoftness.value > 0f) {
-                    maskFilter = BlurMaskFilter(
-                        brushSoftness.toPx(canvasSize),
-                        BlurMaskFilter.Blur.NORMAL
-                    )
-                }
-                if (drawMode is DrawMode.Text && !isEraserOn) {
-                    isAntiAlias = true
-                    textSize = strokeWidth.toPx(canvasSize)
-                    typeface = drawMode.font.toTypeface()
-                }
             }
+        }
+        color = if (drawMode is DrawMode.PathEffect) {
+            Color.Transparent
+        } else drawColor
+        alpha = drawColor.alpha
+    }.nativePaint.apply {
+        if (drawMode is DrawMode.Neon && !isEraserOn) {
+            this.color = Color.White.toArgb()
+            setShadowLayer(
+                brushSoftness.toPx(canvasSize),
+                0f,
+                0f,
+                drawColor
+                    .copy(alpha = .8f)
+                    .toArgb()
+            )
+        } else if (brushSoftness.value > 0f) {
+            maskFilter = BlurMaskFilter(
+                brushSoftness.toPx(canvasSize),
+                BlurMaskFilter.Blur.NORMAL
+            )
+        }
+        if (drawMode is DrawMode.Text && !isEraserOn) {
+            isAntiAlias = true
+            textSize = strokeWidth.toPx(canvasSize)
+            typeface = drawMode.font.toTypeface()
         }
     }
 }
@@ -348,25 +389,6 @@ fun pathEffectPaint(
         color = Color.Transparent
         blendMode = BlendMode.Clear
     }.nativePaint
-}
-
-@Composable
-fun rememberPathEffectPaint(
-    strokeWidth: Pt,
-    drawPathMode: DrawPathMode,
-    canvasSize: IntegerSize,
-): State<NativePaint> = remember(
-    strokeWidth,
-    drawPathMode,
-    canvasSize
-) {
-    derivedStateOf {
-        pathEffectPaint(
-            strokeWidth = strokeWidth,
-            drawPathMode = drawPathMode,
-            canvasSize = canvasSize
-        )
-    }
 }
 
 internal fun DrawLineStyle.asPathEffect(
@@ -455,6 +477,7 @@ internal fun DrawLineStyle.asPathEffect(
     DrawLineStyle.None -> null
 }
 
+@Suppress("unused")
 @SuppressLint("ComposableNaming")
 @Composable
 internal fun NativeCanvas.drawRepeatedImageOnPath(
@@ -463,12 +486,13 @@ internal fun NativeCanvas.drawRepeatedImageOnPath(
     canvasSize: IntegerSize,
     path: NativePath,
     paint: NativePaint,
-    invalidations: Int
+    invalidations: Int,
+    onInvalidate: () -> Unit = {}
 ) {
     var pathImage by remember(strokeWidth, canvasSize, drawMode.imageData) {
         mutableStateOf<Bitmap?>(null)
     }
-    LaunchedEffect(pathImage, drawMode.imageData, strokeWidth, canvasSize, invalidations) {
+    LaunchedEffect(drawMode.imageData, strokeWidth, canvasSize) {
         if (pathImage == null) {
             pathImage = appContext.imageLoader.execute(
                 ImageRequest.Builder(appContext)
@@ -476,6 +500,7 @@ internal fun NativeCanvas.drawRepeatedImageOnPath(
                     .size(strokeWidth.toPx(canvasSize).roundToInt())
                     .build()
             ).image?.toBitmap()
+            onInvalidate()
         }
     }
     pathImage?.let { bitmap ->

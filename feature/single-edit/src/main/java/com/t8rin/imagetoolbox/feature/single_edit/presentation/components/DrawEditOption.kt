@@ -103,6 +103,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.OpenColorPickerCard
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.canShowLineAngle
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @Composable
@@ -122,11 +123,10 @@ fun DrawEditOption(
     undo: () -> Unit,
     redo: () -> Unit,
     paths: List<UiPathPaint>,
+    renderCache: DrawRenderCache,
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
-    spotHealCache: Map<Int, Bitmap>,
-    onCacheSpotHealPathResult: (Int, Bitmap) -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
     addFiltersSheetComponent: AddFiltersSheetComponent,
@@ -228,6 +228,7 @@ fun DrawEditOption(
         }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
+        var isRenderReady by remember(bitmap, visible) { mutableStateOf(false) }
         FullscreenEditOption(
             canGoBack = paths.isEmpty(),
             visible = visible,
@@ -445,6 +446,7 @@ fun DrawEditOption(
                         ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                enabled = isRenderReady,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()
@@ -468,14 +470,12 @@ fun DrawEditOption(
         ) {
             val direction = LocalLayoutDirection.current
             Box(contentAlignment = Alignment.Center) {
-                remember(bitmap) {
-                    derivedStateOf {
-                        bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                    }
-                }.value.let { imageBitmap ->
+                remember(bitmap) { bitmap.asImageBitmap() }.let { imageBitmap ->
                     val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                     BitmapDrawer(
                         imageBitmap = imageBitmap,
+                        renderCache = renderCache,
+                        sourceKey = bitmap,
                         paths = paths,
                         onRequestFiltering = onRequestFiltering,
                         strokeWidth = strokeWidth,
@@ -499,13 +499,12 @@ fun DrawEditOption(
                         onDraw = {
                             stateBitmap = it
                         },
+                        onRenderReady = { isRenderReady = it },
                         drawPathMode = drawPathMode,
                         backgroundColor = Color.Transparent,
                         drawLineStyle = drawLineStyle,
                         helperGridParams = helperGridParams,
                         showLineAngle = showLineAngle,
-                        spotHealCache = spotHealCache,
-                        onCacheSpotHealPathResult = onCacheSpotHealPathResult,
                         onRemovePath = onRemovePath
                     )
                 }

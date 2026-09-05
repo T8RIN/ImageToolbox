@@ -430,7 +430,15 @@ class DrawGradientTest {
         val tx = -1000f / length
         val ty = -800f / length
         val gradient =
-            LinearGradient(0f, 0f, 600f, 0f, colours, null, Shader.TileMode.REPEAT).apply {
+            LinearGradient(
+                0f,
+                0f,
+                size.toFloat(),
+                0f,
+                colours,
+                null,
+                Shader.TileMode.REPEAT
+            ).apply {
                 setLocalMatrix(Matrix().apply {
                     setValues(
                         floatArrayOf(
