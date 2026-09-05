@@ -147,6 +147,7 @@ fun DrawContent(
     }
 
     var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
+    var isGradientMirrored by rememberSaveable { mutableStateOf(false) }
     var isGradientEnabled by rememberSaveable(component.drawBehavior) {
         mutableStateOf(false)
     }
@@ -296,6 +297,7 @@ fun DrawContent(
                     drawColor = drawColor.copy(alpha),
                     gradientPalette = activeGradientPalette,
                     gradientLength = gradientLength,
+                    isGradientMirrored = isGradientMirrored,
                     onAddPath = component::addPath,
                     isEraserOn = isEraserOn,
                     drawMode = drawMode,
@@ -329,7 +331,9 @@ fun DrawContent(
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = { gradientPalette = it },
                 gradientLength = gradientLength,
+                isGradientMirrored = isGradientMirrored,
                 onGradientLengthChange = { gradientLength = it },
+                onGradientMirroredChange = { isGradientMirrored = it },
                 isGradientAvailable = isGradientAvailable,
                 isGradientEnabled = isGradientEnabled && isGradientAvailable,
                 onGradientEnabledChange = { isGradientEnabled = it },

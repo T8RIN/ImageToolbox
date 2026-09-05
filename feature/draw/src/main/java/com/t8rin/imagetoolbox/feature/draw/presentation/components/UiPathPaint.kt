@@ -38,7 +38,8 @@ data class UiPathPaint(
     override val drawPathMode: DrawPathMode = DrawPathMode.Free,
     override val drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     override val gradientPalette: GradientPalette? = null,
-    override val gradientLength: Float = 1f
+    override val gradientLength: Float = 1f,
+    override val isGradientMirrored: Boolean = false
 ) : PathPaint<Path, Color>
 
 
@@ -53,5 +54,6 @@ fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
     drawPathMode = drawPathMode,
     drawLineStyle = drawLineStyle,
     gradientPalette = gradientPalette,
-    gradientLength = gradientLength
+    gradientLength = gradientLength,
+    isGradientMirrored = isGradientMirrored
 )

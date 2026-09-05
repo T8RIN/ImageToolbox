@@ -33,6 +33,7 @@ interface PathPaint<Path, Color> {
     operator fun component9() = drawLineStyle
     operator fun component10() = gradientPalette
     operator fun component11() = gradientLength
+    operator fun component12() = isGradientMirrored
 
     val path: Path
     val strokeWidth: Pt
@@ -45,4 +46,5 @@ interface PathPaint<Path, Color> {
     val drawLineStyle: DrawLineStyle
     val gradientPalette: GradientPalette?
     val gradientLength: Float get() = 1f
+    val isGradientMirrored: Boolean get() = false
 }

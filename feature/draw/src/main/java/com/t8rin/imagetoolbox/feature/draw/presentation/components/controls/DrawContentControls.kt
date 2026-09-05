@@ -82,6 +82,8 @@ internal fun DrawContentControls(
     onGradientPaletteChange: (GradientPalette) -> Unit,
     gradientLength: Float,
     onGradientLengthChange: (Float) -> Unit,
+    isGradientMirrored: Boolean,
+    onGradientMirroredChange: (Boolean) -> Unit,
     isGradientAvailable: Boolean,
     isGradientEnabled: Boolean,
     onGradientEnabledChange: (Boolean) -> Unit,
@@ -144,7 +146,9 @@ internal fun DrawContentControls(
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = onGradientPaletteChange,
                 gradientLength = gradientLength,
+                isGradientMirrored = isGradientMirrored,
                 onGradientLengthChange = onGradientLengthChange,
+                onGradientMirroredChange = onGradientMirroredChange,
                 isGradientEnabled = isGradientEnabled,
                 onGradientEnabledChange = onGradientEnabledChange
             )

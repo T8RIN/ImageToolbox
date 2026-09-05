@@ -55,12 +55,13 @@ internal fun Canvas.drawPathWithGradient(
     canvasSize: IntegerSize,
     softnessRadius: Float = 0f,
     cache: GradientStrokeCache? = null,
-    gradientLength: Float = 1f
+    gradientLength: Float = 1f,
+    isGradientMirrored: Boolean = false
 ) {
     if (palette == null) {
         drawPath(path, paint)
     } else if (isFilled) {
-        drawPath(path, paint.withPathGradient(path, palette, gradientLength))
+        drawPath(path, paint.withPathGradient(path, palette, gradientLength, isGradientMirrored))
     } else {
         drawGradientStroke(
             path = path,
@@ -69,7 +70,8 @@ internal fun Canvas.drawPathWithGradient(
             canvasSize = canvasSize,
             softnessRadius = softnessRadius,
             cache = cache,
-            gradientLength = gradientLength
+            gradientLength = gradientLength,
+            isGradientMirrored = isGradientMirrored
         )
     }
 }
@@ -77,9 +79,10 @@ internal fun Canvas.drawPathWithGradient(
 internal fun Paint.withPathGradient(
     path: Path,
     palette: GradientPalette,
-    gradientLength: Float = 1f
+    gradientLength: Float = 1f,
+    isGradientMirrored: Boolean = false
 ): Paint = Paint(this).apply {
-    shader = path.createGradient(palette, gradientLength)
+    shader = path.createGradient(palette, gradientLength, isGradientMirrored)
 }
 
 private fun Canvas.drawGradientStroke(
@@ -89,7 +92,8 @@ private fun Canvas.drawGradientStroke(
     canvasSize: IntegerSize,
     softnessRadius: Float,
     cache: GradientStrokeCache?,
-    gradientLength: Float
+    gradientLength: Float,
+    isGradientMirrored: Boolean
 ) {
     if (path.isEmpty || paint.alpha == 0) return
 
@@ -101,7 +105,8 @@ private fun Canvas.drawGradientStroke(
             canvasSize,
             softnessRadius,
             cache,
-            gradientLength
+            gradientLength,
+            isGradientMirrored
         )
         return
     }
@@ -111,7 +116,7 @@ private fun Canvas.drawGradientStroke(
     val outline = Path()
     val outlinePaint = Paint(paint).apply { maskFilter = null }
     if (!outlinePaint.getFillPath(path, outline)) {
-        drawPath(path, paint.withPathGradient(path, palette, gradientLength))
+        drawPath(path, paint.withPathGradient(path, palette, gradientLength, isGradientMirrored))
         return
     }
     val bounds = if (cache != null) RectF(clipBounds) else {
@@ -140,7 +145,8 @@ private fun Canvas.drawGradientStroke(
             measurementLength,
             colourWidth,
             interiorWidth,
-            pixels
+            pixels,
+            isGradientMirrored
         )
         val colourShader =
             BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
@@ -199,7 +205,8 @@ private fun Canvas.drawSoftGradientStroke(
     canvasSize: IntegerSize,
     radius: Float,
     cache: GradientStrokeCache?,
-    gradientLength: Float
+    gradientLength: Float,
+    isGradientMirrored: Boolean
 ) {
     val sigma = radius * 0.57735f + 0.5f
     val feather = ceil(sigma * 3f) + 2f
@@ -230,7 +237,7 @@ private fun Canvas.drawSoftGradientStroke(
                 alpha = 255
                 colorFilter = null
                 xfermode = null
-            }, palette, canvasSize, 0f, cache, gradientLength
+            }, palette, canvasSize, 0f, cache, gradientLength, isGradientMirrored
         )
         val scaledSigma = sigma * scale
         val kernelSize = ceil(scaledSigma * 3f).toInt() * 2 + 1
@@ -278,16 +285,26 @@ internal class GradientStrokeCache {
         measurementLength: Float,
         width: Float,
         interiorWidth: Float,
-        bounds: Rect
+        bounds: Rect,
+        isGradientMirrored: Boolean
     ): Bitmap {
         val nextKey =
-            ColourKey(palette, cycleLength, measurementLength, width, interiorWidth, Rect(bounds))
-        val nextSegments = path.colourSegments(cycleLength, measurementLength, width)
+            ColourKey(
+                palette,
+                cycleLength,
+                measurementLength,
+                width,
+                interiorWidth,
+                Rect(bounds),
+                isGradientMirrored
+            )
+        val repeatLength = cycleLength * if (isGradientMirrored) 2f else 1f
+        val nextSegments = path.colourSegments(repeatLength, measurementLength, width)
         val completeCount = (nextSegments.size - 1).coerceAtLeast(0)
         val canAppend = key == nextKey && segments.size <= completeCount &&
                 segments.indices.all { segments[it] == nextSegments[it] }
         val colours = palette.colors.map { it.colorInt }.let {
-            if (it.first() == it.last()) it else it + it.first()
+            if (isGradientMirrored || it.first() == it.last()) it else it + it.first()
         }.toIntArray()
         if (!canAppend) {
             clear()
@@ -326,7 +343,10 @@ internal class GradientStrokeCache {
             strokeCap = Paint.Cap.ROUND
         }
         val gradient =
-            LinearGradient(0f, 0f, cycleLength, 0f, colours, null, Shader.TileMode.REPEAT)
+            LinearGradient(
+                0f, 0f, cycleLength, 0f, colours, null,
+                if (isGradientMirrored) Shader.TileMode.MIRROR else Shader.TileMode.REPEAT
+            )
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             strokeWidth = width
             strokeCap = Paint.Cap.ROUND
@@ -405,7 +425,8 @@ private data class ColourKey(
     val measurementLength: Float,
     val width: Float,
     val interiorWidth: Float,
-    val bounds: Rect
+    val bounds: Rect,
+    val isGradientMirrored: Boolean
 )
 
 private data class ColourSegment(
@@ -473,7 +494,11 @@ private fun Path.colourSegments(
     }
 }
 
-private fun Path.createGradient(palette: GradientPalette, gradientLength: Float): LinearGradient {
+private fun Path.createGradient(
+    palette: GradientPalette,
+    gradientLength: Float,
+    isGradientMirrored: Boolean
+): LinearGradient {
     val bounds = RectF().also { computeBounds(it, true) }
     var endX = bounds.right
     val endY = bounds.bottom
@@ -489,7 +514,11 @@ private fun Path.createGradient(palette: GradientPalette, gradientLength: Float)
         bounds.top + (endY - bounds.top) * length,
         palette.colors.map { it.colorInt }.toIntArray(),
         null,
-        if (length < 1f) Shader.TileMode.REPEAT else Shader.TileMode.CLAMP
+        when {
+            isGradientMirrored -> Shader.TileMode.MIRROR
+            length < 1f -> Shader.TileMode.REPEAT
+            else -> Shader.TileMode.CLAMP
+        }
     )
 }
 

@@ -154,6 +154,7 @@ fun DrawEditOption(
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
         var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.SoftRainbow) }
         var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
+        var isGradientMirrored by rememberSaveable { mutableStateOf(false) }
         var isGradientEnabled by rememberSaveable { mutableStateOf(false) }
 
         var alpha by rememberSaveable(drawMode) {
@@ -275,7 +276,9 @@ fun DrawEditOption(
                             gradientPalette = gradientPalette,
                             onGradientPaletteChange = { gradientPalette = it },
                             gradientLength = gradientLength,
+                            isGradientMirrored = isGradientMirrored,
                             onGradientLengthChange = { gradientLength = it },
+                            onGradientMirroredChange = { isGradientMirrored = it },
                             isGradientEnabled = isGradientEnabled && isGradientAvailable,
                             onGradientEnabledChange = { isGradientEnabled = it },
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -486,6 +489,7 @@ fun DrawEditOption(
                         drawColor = drawColor.copy(alpha),
                         gradientPalette = activeGradientPalette,
                         gradientLength = gradientLength,
+                        isGradientMirrored = isGradientMirrored,
                         onAddPath = addPath,
                         isEraserOn = isEraserOn,
                         drawMode = drawMode,

@@ -128,6 +128,7 @@ fun BitmapDrawer(
     drawColor: Color,
     gradientPalette: GradientPalette? = null,
     gradientLength: Float = 1f,
+    isGradientMirrored: Boolean = false,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
     showLineAngle: Boolean = false,
@@ -262,7 +263,8 @@ fun BitmapDrawer(
                 brushSoftness,
                 drawPathMode,
                 gradientPalette,
-                gradientLength
+                gradientLength,
+                isGradientMirrored
             ) { mutableStateOf(Path()) }
 
             var pathWithoutTransformations by remember(
@@ -273,7 +275,8 @@ fun BitmapDrawer(
                 brushSoftness,
                 drawPathMode,
                 gradientPalette,
-                gradientLength
+                gradientLength,
+                isGradientMirrored
             ) { mutableStateOf(Path()) }
 
             var warpRuntimeStrokes by remember(drawMode) {
@@ -613,7 +616,8 @@ fun BitmapDrawer(
                                         drawPathMode = drawPathMode,
                                         drawLineStyle = drawLineStyle,
                                         gradientPalette = gradientPalette,
-                                        gradientLength = gradientLength
+                                        gradientLength = gradientLength,
+                                        isGradientMirrored = isGradientMirrored
                                     )
                                     if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
                                         pendingCommit = committed
@@ -652,7 +656,8 @@ fun BitmapDrawer(
                                 drawPaint.withPathGradient(
                                     path = androidPath,
                                     palette = gradientPalette,
-                                    gradientLength = gradientLength
+                                    gradientLength = gradientLength,
+                                    isGradientMirrored = isGradientMirrored
                                 )
                             } else drawPaint
                             if (drawMode.isRepeated) {
@@ -722,6 +727,7 @@ fun BitmapDrawer(
                                 paint = drawPaint,
                                 palette = gradientPalette.takeUnless { isEraserOn },
                                 gradientLength = gradientLength,
+                                isGradientMirrored = isGradientMirrored,
                                 isFilled = false,
                                 canvasSize = canvasSize,
                                 softnessRadius = brushSoftness.toPx(canvasSize),
@@ -733,6 +739,7 @@ fun BitmapDrawer(
                                 paint = drawPaint,
                                 palette = gradientPalette.takeUnless { isEraserOn },
                                 gradientLength = gradientLength,
+                                isGradientMirrored = isGradientMirrored,
                                 isFilled = !isEraserOn && drawPathMode.isFilled,
                                 canvasSize = canvasSize,
                                 softnessRadius = brushSoftness.toPx(canvasSize),

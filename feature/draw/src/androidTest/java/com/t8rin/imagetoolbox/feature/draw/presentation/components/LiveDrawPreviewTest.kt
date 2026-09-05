@@ -83,6 +83,7 @@ class LiveDrawTestActivity : ComponentActivity() {
     var mode: DrawMode by mutableStateOf(DrawMode.Pen)
     var gradient: GradientPalette? by mutableStateOf(null)
     var gradientLength by mutableStateOf(1f)
+    var gradientMirrored by mutableStateOf(false)
     var background by mutableStateOf(Color.Transparent)
     var softness by mutableStateOf(0.pt)
     var alpha by mutableStateOf(1f)
@@ -144,6 +145,7 @@ class LiveDrawTestActivity : ComponentActivity() {
                             drawColor = Color.Red.copy(alpha = alpha),
                             gradientPalette = gradient,
                             gradientLength = gradientLength,
+                            isGradientMirrored = gradientMirrored,
                             isEraserOn = false,
                             drawMode = mode,
                             drawPathMode = DrawPathMode.Free,
@@ -468,7 +470,7 @@ class LiveDrawPreviewTest {
 
 
     @Test
-    fun changingTheGradientLengthKeepsCommittedStrokesAndUndoRedoUnchanged() =
+    fun changingGradientSettingsKeepsCommittedStrokesAndUndoRedoUnchanged() =
         withDrawer { activity ->
             fun stroke(y: Float) {
                 val count = activity.paths.size
@@ -491,12 +493,20 @@ class LiveDrawPreviewTest {
             SystemClock.sleep(200)
             stroke(.25f)
             val first = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
-            instrumentation.runOnMainSync { activity.gradientLength = 4f }
+            instrumentation.runOnMainSync {
+                activity.gradientLength = 4f
+                activity.gradientMirrored = true
+            }
             SystemClock.sleep(200)
             assertTrue("Changing length repainted existing ink", first.sameAs(activity.frame))
             stroke(.7f)
             val paths = activity.paths
             assertEquals(listOf(.25f, 4f), paths.map { it.gradientLength })
+            assertEquals(listOf(false, true), paths.map { it.isGradientMirrored })
+            assertEquals(
+                paths.map { it.isGradientMirrored },
+                paths.map { it.toUiPathPaint().isGradientMirrored }
+            )
             assertEquals(
                 paths.map { it.gradientLength },
                 paths.map { it.toUiPathPaint().gradientLength })

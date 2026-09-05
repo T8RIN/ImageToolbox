@@ -57,7 +57,7 @@ internal suspend fun Canvas.drawCommittedPath(
     onRequestFiltering: suspend (Bitmap, List<Filter<*>>) -> Bitmap?,
     preparedEffect: Bitmap? = null
 ) {
-    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength) = uiPathPaint
+    val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength, isGradientMirrored) = uiPathPaint
     val path = nonScaledPath.scaleToFitCanvas(canvasSize, size).asAndroidPath()
     if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
         val paint = pathEffectPaint(strokeWidth, drawPathMode, canvasSize)
@@ -110,7 +110,8 @@ internal suspend fun Canvas.drawCommittedPath(
                 pathPaint.withPathGradient(
                     path = path,
                     palette = gradientPalette,
-                    gradientLength = gradientLength
+                    gradientLength = gradientLength,
+                    isGradientMirrored = isGradientMirrored
                 )
             } else pathPaint
             if (drawMode.isRepeated) {
@@ -155,6 +156,7 @@ internal suspend fun Canvas.drawCommittedPath(
                 paint = pathPaint,
                 palette = gradientPalette.takeUnless { isEraserOn },
                 gradientLength = gradientLength,
+                isGradientMirrored = isGradientMirrored,
                 isFilled = false,
                 canvasSize = canvasSize,
                 softnessRadius = brushSoftness.toPx(canvasSize)
@@ -165,6 +167,7 @@ internal suspend fun Canvas.drawCommittedPath(
                 paint = pathPaint,
                 palette = gradientPalette.takeUnless { isEraserOn },
                 gradientLength = gradientLength,
+                isGradientMirrored = isGradientMirrored,
                 isFilled = !isEraserOn && drawPathMode.isFilled,
                 canvasSize = canvasSize,
                 softnessRadius = brushSoftness.toPx(canvasSize)

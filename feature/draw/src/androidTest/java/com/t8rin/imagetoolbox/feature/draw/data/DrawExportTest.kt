@@ -39,7 +39,7 @@ import java.lang.reflect.Proxy
 @RunWith(AndroidJUnit4::class)
 class DrawExportTest {
     @Test
-    fun exportKeepsEachStrokesGradientLengthAndPreviewColours() = runBlocking {
+    fun exportKeepsEachStrokesGradientSettingsAndPreviewColours() = runBlocking {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val applier = AndroidImageDrawApplier(
             context,
@@ -63,11 +63,13 @@ class DrawExportTest {
                         path = path, strokeWidth = 65.pt, brushSoftness = softness,
                         drawColor = Color.White.copy(alpha = .65f), isErasing = false,
                         drawMode = mode, canvasSize = size,
-                        gradientPalette = GradientPalette.SoftRainbow, gradientLength = length
+                        gradientPalette = GradientPalette.SoftRainbow, gradientLength = length,
+                        isGradientMirrored = true
                     )
                     val second = entry.copy(
                         path = Path().apply { moveTo(16f, 180f); lineTo(240f, 180f) },
-                        gradientLength = 2f
+                        gradientLength = 2f,
+                        isGradientMirrored = false
                     )
                     val paths = listOf(entry, second)
                     val actual = checkNotNull(

@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import kotlin.math.roundToInt
 
 @Composable
@@ -80,6 +81,8 @@ fun DrawColorSelector(
     onGradientPaletteChange: (GradientPalette) -> Unit = {},
     gradientLength: Float = 1f,
     onGradientLengthChange: (Float) -> Unit = {},
+    isGradientMirrored: Boolean = false,
+    onGradientMirroredChange: (Boolean) -> Unit = {},
     isGradientEnabled: Boolean = false,
     onGradientEnabledChange: (Boolean) -> Unit = {},
     color: Color = Color.Unspecified,
@@ -141,10 +144,21 @@ fun DrawColorSelector(
                     title = stringResource(R.string.gradient_length),
                     valueRange = 10f..400f,
                     valueSuffix = "%",
-                    shape = ShapeDefaults.bottom,
+                    shape = ShapeDefaults.center,
                     internalStateTransformation = { it.roundToInt() },
                     containerColor = MaterialTheme.colorScheme.surface,
                     modifier = Modifier.fillMaxWidth()
+                )
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.gradient_mirror),
+                    subtitle = stringResource(R.string.gradient_mirror_sub),
+                    checked = isGradientMirrored,
+                    onClick = onGradientMirroredChange,
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    shape = ShapeDefaults.bottom,
+                    modifier = Modifier.fillMaxWidth(),
+                    resultModifier = Modifier.padding(16.dp),
+                    applyHorizontalPadding = false
                 )
             }
         }

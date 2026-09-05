@@ -595,10 +595,87 @@ class DrawGradientTest {
     }
 
     @Test
-    fun changingGradientLengthInvalidatesOnlyTheLiveColourCache() {
+    fun mirrorRepeatReversesThePaletteAtEachEndpoint() {
+        val path = Path().apply { moveTo(16f, 128f); lineTo(240f, 128f) }
+        for (palette in listOf(GradientPalette.Classic, GradientPalette.SoftRainbow)) {
+            val image = bitmap()
+            Canvas(image).drawPathWithGradient(
+                path, paint(), palette, false, IntegerSize(SIZE, SIZE),
+                gradientLength = .25f, isGradientMirrored = true
+            )
+            for (x in 20..235) {
+                val phase = ((x + .5 - 16) / 64) % 2
+                val expected = palette.colorIntAt(if (phase <= 1) phase else 2 - phase)
+                val actual = image.getPixel(x, 128)
+                for (shift in listOf(0, 8, 16)) {
+                    val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
+                    assertTrue("Mirror colour differs at $palette / $x: $error", error <= 3)
+                }
+            }
+            for (turn in listOf(80, 144, 208)) {
+                assertEquals(image.getPixel(turn - 1, 128), image.getPixel(turn, 128))
+            }
+            image.recycle()
+        }
+    }
+
+    @Test
+    fun mirrorRepeatAlsoReversesFilledGradients() {
+        val path = Path().apply { addRect(0f, 0f, 256f, 256f, Path.Direction.CW) }
+        val image = bitmap()
+        val palette = GradientPalette.Classic
+        Canvas(image).drawPathWithGradient(
+            path, paint().apply { style = Paint.Style.FILL }, palette, true,
+            IntegerSize(SIZE, SIZE), gradientLength = .25f, isGradientMirrored = true
+        )
+        for (x in 2..250) {
+            val phase = ((x + .5 + 64.5) / 128) % 2
+            val position = if (phase <= 1) phase else 2 - phase
+            val expected = if (position == 1.0) palette.colors.last().colorInt
+            else palette.colorIntAt(position)
+            val actual = image.getPixel(x, 64)
+            for (shift in listOf(0, 8, 16)) {
+                val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
+                assertTrue("Filled mirror colour differs at $x: $error", error <= 3)
+            }
+        }
+        image.recycle()
+    }
+
+    @Test
+    fun mirroredClosedContoursCompleteBothDirectionsWithoutASeam() {
+        val path = Path().apply { addCircle(128f, 128f, 70f, Path.Direction.CW) }
+        for (length in listOf(.25f, .5f, 1f)) {
+            val image = bitmap()
+            Canvas(image).drawPathWithGradient(
+                path, paint(), GradientPalette.Grayscale, false, IntegerSize(SIZE, SIZE),
+                gradientLength = length, isGradientMirrored = true
+            )
+            val before = image.getPixel(198, 127)
+            val after = image.getPixel(198, 129)
+            val difference = abs(Color.red(before) - Color.red(after)) +
+                    abs(Color.green(before) - Color.green(after)) +
+                    abs(Color.blue(before) - Color.blue(after))
+            assertTrue(
+                "Mirrored closed contour has a seam at length $length: $difference",
+                difference < 25
+            )
+            image.recycle()
+        }
+    }
+
+    @Test
+    fun changingGradientSettingsInvalidatesOnlyTheLiveColourCache() {
         val cache = GradientStrokeCache()
         try {
-            for (length in listOf(0.25f, 4f, 1f, 0.1f)) {
+            for ((length, mirrored) in listOf(
+                .25f to false,
+                .25f to true,
+                .25f to false,
+                4f to true,
+                1f to false,
+                .1f to true
+            )) {
                 val cached = bitmap()
                 val fresh = bitmap()
                 val freshCache = GradientStrokeCache()
@@ -610,7 +687,8 @@ class DrawGradientTest {
                         false,
                         IntegerSize(SIZE, SIZE),
                         cache = renderer,
-                        gradientLength = length
+                        gradientLength = length,
+                        isGradientMirrored = mirrored
                     )
                 }
                 freshCache.clear()
@@ -627,11 +705,18 @@ class DrawGradientTest {
     fun gradientLengthDoesNotChangeStrokeCoverage() {
         for (softness in listOf(0f, 12f)) {
             val original = render(curl(), softness = softness)
-            for (length in listOf(0.1f, 0.25f, 4f)) {
+            for ((length, mirrored) in listOf(
+                .1f to false,
+                .1f to true,
+                .25f to true,
+                4f to true
+            )) {
                 val image = bitmap()
                 Canvas(image).drawPathWithGradient(
                     curl(), paint(), GradientPalette.SoftRainbow, false, IntegerSize(SIZE, SIZE),
-                    softnessRadius = softness, gradientLength = length
+                    softnessRadius = softness,
+                    gradientLength = length,
+                    isGradientMirrored = mirrored
                 )
                 for (y in 0 until SIZE) for (x in 0 until SIZE) {
                     val difference = abs(
