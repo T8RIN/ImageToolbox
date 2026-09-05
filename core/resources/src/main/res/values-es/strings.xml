@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Caramelo eléctrico</string>
     <string name="fractal_palette_black_gold">Oro negro</string>
     <string name="fractal_palette_ghost">Fantasma</string>
+    <string name="gradient_palette_soft_rainbow">arcoiris suave</string>
+    <string name="gradient_length">Longitud del gradiente</string>
+    <string name="gradient_mirror">repetición espejo</string>
+    <string name="gradient_mirror_sub">Alterne la dirección hacia adelante y hacia atrás del gradiente</string>
 </resources>

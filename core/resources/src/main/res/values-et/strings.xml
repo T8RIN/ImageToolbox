@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Elektrilised kommid</string>
     <string name="fractal_palette_black_gold">Must Kuld</string>
     <string name="fractal_palette_ghost">Kummitus</string>
+    <string name="gradient_palette_soft_rainbow">Pehme vikerkaar</string>
+    <string name="gradient_length">Gradiendi pikkus</string>
+    <string name="gradient_mirror">Peegelkordus</string>
+    <string name="gradient_mirror_sub">Vahetage gradiendi edasi- ja tagasisuunda</string>
 </resources>

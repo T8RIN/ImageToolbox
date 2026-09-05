@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Elektrikli Şeker</string>
     <string name="fractal_palette_black_gold">Siyah Altın</string>
     <string name="fractal_palette_ghost">Hayalet</string>
+    <string name="gradient_palette_soft_rainbow">Yumuşak gökkuşağı</string>
+    <string name="gradient_length">Gradyan uzunluğu</string>
+    <string name="gradient_mirror">Ayna tekrarı</string>
+    <string name="gradient_mirror_sub">Degradenin ileri ve geri yönünü değiştirin</string>
 </resources>

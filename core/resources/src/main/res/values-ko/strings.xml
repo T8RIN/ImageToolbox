@@ -5347,4 +5347,8 @@
     <string name="fractal_palette_electric_candy">일렉트릭 캔디</string>
     <string name="fractal_palette_black_gold">블랙 골드</string>
     <string name="fractal_palette_ghost">귀신</string>
+    <string name="gradient_palette_soft_rainbow">부드러운 무지개</string>
+    <string name="gradient_length">그라데이션 길이</string>
+    <string name="gradient_mirror">거울 반복</string>
+    <string name="gradient_mirror_sub">그라디언트의 정방향과 역방향을 번갈아 가며</string>
 </resources>

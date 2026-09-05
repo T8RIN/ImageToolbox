@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Bonbons électriques</string>
     <string name="fractal_palette_black_gold">Or noir</string>
     <string name="fractal_palette_ghost">Fantôme</string>
+    <string name="gradient_palette_soft_rainbow">Arc-en-ciel doux</string>
+    <string name="gradient_length">Longueur du dégradé</string>
+    <string name="gradient_mirror">Répétition miroir</string>
+    <string name="gradient_mirror_sub">Alternez le sens avant et arrière du dégradé</string>
 </resources>

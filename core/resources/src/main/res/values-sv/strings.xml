@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Elektriskt godis</string>
     <string name="fractal_palette_black_gold">Svart guld</string>
     <string name="fractal_palette_ghost">Spöke</string>
+    <string name="gradient_palette_soft_rainbow">Mjuk regnbåge</string>
+    <string name="gradient_length">Gradientlängd</string>
+    <string name="gradient_mirror">Spegelupprepning</string>
+    <string name="gradient_mirror_sub">Växla lutning framåt och bakåt</string>
 </resources>

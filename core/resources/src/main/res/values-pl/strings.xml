@@ -5350,4 +5350,8 @@
     <string name="fractal_palette_electric_candy">Elektryczne cukierki</string>
     <string name="fractal_palette_black_gold">Czarne złoto</string>
     <string name="fractal_palette_ghost">Duch</string>
+    <string name="gradient_palette_soft_rainbow">Miękka tęcza</string>
+    <string name="gradient_length">Długość gradientu</string>
+    <string name="gradient_mirror">Powtórzenie lustrzane</string>
+    <string name="gradient_mirror_sub">Zmieniaj kierunek gradientu do przodu i do tyłu</string>
 </resources>

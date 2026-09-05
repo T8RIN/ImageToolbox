@@ -5347,4 +5347,8 @@
     <string name="fractal_palette_electric_candy">Kẹo Điện</string>
     <string name="fractal_palette_black_gold">Vàng đen</string>
     <string name="fractal_palette_ghost">Bóng ma</string>
+    <string name="gradient_palette_soft_rainbow">Cầu vồng mềm mại</string>
+    <string name="gradient_length">Độ dài chuyển màu</string>
+    <string name="gradient_mirror">Gương lặp lại</string>
+    <string name="gradient_mirror_sub">Thay đổi hướng tiến và lùi của gradient</string>
 </resources>

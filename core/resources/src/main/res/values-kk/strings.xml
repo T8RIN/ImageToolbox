@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Электрлік кәмпиттер</string>
     <string name="fractal_palette_black_gold">Қара алтын</string>
     <string name="fractal_palette_ghost">Елес</string>
+    <string name="gradient_palette_soft_rainbow">Жұмсақ кемпірқосақ</string>
+    <string name="gradient_length">Градиент ұзындығы</string>
+    <string name="gradient_mirror">Айнаны қайталау</string>
+    <string name="gradient_mirror_sub">Градиенттің алға және кері бағытын ауыстырыңыз</string>
 </resources>

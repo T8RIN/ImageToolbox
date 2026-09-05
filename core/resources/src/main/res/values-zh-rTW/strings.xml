@@ -5347,4 +5347,8 @@
     <string name="fractal_palette_electric_candy">電動糖果</string>
     <string name="fractal_palette_black_gold">黑金</string>
     <string name="fractal_palette_ghost">鬼</string>
+    <string name="gradient_palette_soft_rainbow">柔和的彩虹</string>
+    <string name="gradient_length">漸變長度</string>
+    <string name="gradient_mirror">鏡像重複</string>
+    <string name="gradient_mirror_sub">交替漸變的正向和反向方向</string>
 </resources>

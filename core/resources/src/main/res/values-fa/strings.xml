@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">آب نبات برقی</string>
     <string name="fractal_palette_black_gold">طلای سیاه</string>
     <string name="fractal_palette_ghost">شبح</string>
+    <string name="gradient_palette_soft_rainbow">رنگین کمان نرم</string>
+    <string name="gradient_length">طول گرادیان</string>
+    <string name="gradient_mirror">تکرار آینه</string>
+    <string name="gradient_mirror_sub">جهت رو به جلو و معکوس گرادیان را جایگزین کنید</string>
 </resources>

@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">மின்சார மிட்டாய்</string>
     <string name="fractal_palette_black_gold">கருப்பு தங்கம்</string>
     <string name="fractal_palette_ghost">பேய்</string>
+    <string name="gradient_palette_soft_rainbow">மென்மையான வானவில்</string>
+    <string name="gradient_length">சாய்வு நீளம்</string>
+    <string name="gradient_mirror">கண்ணாடி மீண்டும்</string>
+    <string name="gradient_mirror_sub">சாய்வின் முன்னோக்கி மற்றும் தலைகீழ் திசையை மாற்றவும்</string>
 </resources>

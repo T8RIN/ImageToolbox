@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">इलेक्ट्रिक कैंडी</string>
     <string name="fractal_palette_black_gold">काला सोना</string>
     <string name="fractal_palette_ghost">भूत</string>
+    <string name="gradient_palette_soft_rainbow">शीतल इंद्रधनुष</string>
+    <string name="gradient_length">ढाल लंबाई</string>
+    <string name="gradient_mirror">मिरर रिपीट</string>
+    <string name="gradient_mirror_sub">ग्रेडिएंट की आगे और पीछे की दिशा को वैकल्पिक करें</string>
 </resources>

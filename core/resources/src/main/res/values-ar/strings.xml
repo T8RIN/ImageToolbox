@@ -5352,4 +5352,8 @@
     <string name="fractal_palette_electric_candy">الحلوى الكهربائية</string>
     <string name="fractal_palette_black_gold">الذهب الأسود</string>
     <string name="fractal_palette_ghost">شبح</string>
+    <string name="gradient_palette_soft_rainbow">قوس قزح ناعم</string>
+    <string name="gradient_length">طول التدرج</string>
+    <string name="gradient_mirror">تكرار المرآة</string>
+    <string name="gradient_mirror_sub">قم بتبديل اتجاه التدرج للأمام والعكس</string>
 </resources>

@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Elektrische Süßigkeiten</string>
     <string name="fractal_palette_black_gold">Schwarzes Gold</string>
     <string name="fractal_palette_ghost">Geist</string>
+    <string name="gradient_palette_soft_rainbow">Weicher Regenbogen</string>
+    <string name="gradient_length">Farbverlaufslänge</string>
+    <string name="gradient_mirror">Spiegelwiederholung</string>
+    <string name="gradient_mirror_sub">Wechseln Sie die Vorwärts- und Rückwärtsrichtung des Farbverlaufs</string>
 </resources>

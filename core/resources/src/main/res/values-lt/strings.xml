@@ -5350,4 +5350,8 @@
     <string name="fractal_palette_electric_candy">Elektriniai saldainiai</string>
     <string name="fractal_palette_black_gold">Juodasis Auksas</string>
     <string name="fractal_palette_ghost">Vaiduoklis</string>
+    <string name="gradient_palette_soft_rainbow">Minkšta vaivorykštė</string>
+    <string name="gradient_length">Gradiento ilgis</string>
+    <string name="gradient_mirror">Veidrodinis pakartojimas</string>
+    <string name="gradient_mirror_sub">Keiskite gradiento kryptį pirmyn ir atgal</string>
 </resources>

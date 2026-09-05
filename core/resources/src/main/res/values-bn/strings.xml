@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">বৈদ্যুতিক ক্যান্ডি</string>
     <string name="fractal_palette_black_gold">কালো সোনা</string>
     <string name="fractal_palette_ghost">ভূত</string>
+    <string name="gradient_palette_soft_rainbow">নরম রংধনু</string>
+    <string name="gradient_length">গ্রেডিয়েন্ট দৈর্ঘ্য</string>
+    <string name="gradient_mirror">মিরর পুনরাবৃত্তি</string>
+    <string name="gradient_mirror_sub">গ্রেডিয়েন্টের সামনের দিকে এবং বিপরীত দিকটি বিকল্প করুন</string>
 </resources>

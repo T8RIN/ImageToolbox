@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Caramel elèctric</string>
     <string name="fractal_palette_black_gold">Or Negre</string>
     <string name="fractal_palette_ghost">Fantasma</string>
+    <string name="gradient_palette_soft_rainbow">Arc de Sant Martí suau</string>
+    <string name="gradient_length">Longitud del gradient</string>
+    <string name="gradient_mirror">Repetició del mirall</string>
+    <string name="gradient_mirror_sub">Alterna la direcció cap endavant i cap enrere del gradient</string>
 </resources>

@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">Elektrisk slik</string>
     <string name="fractal_palette_black_gold">Sort guld</string>
     <string name="fractal_palette_ghost">Spøgelse</string>
+    <string name="gradient_palette_soft_rainbow">Blød regnbue</string>
+    <string name="gradient_length">Gradientlængde</string>
+    <string name="gradient_mirror">Spejl gentagelse</string>
+    <string name="gradient_mirror_sub">Skift gradientens frem- og tilbageretning</string>
 </resources>

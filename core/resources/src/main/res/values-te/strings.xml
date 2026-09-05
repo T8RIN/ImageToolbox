@@ -5348,4 +5348,8 @@
     <string name="fractal_palette_electric_candy">ఎలక్ట్రిక్ మిఠాయి</string>
     <string name="fractal_palette_black_gold">నల్ల బంగారం</string>
     <string name="fractal_palette_ghost">దెయ్యం</string>
+    <string name="gradient_palette_soft_rainbow">మృదువైన ఇంద్రధనస్సు</string>
+    <string name="gradient_length">గ్రేడియంట్ పొడవు</string>
+    <string name="gradient_mirror">అద్దం పునరావృతం</string>
+    <string name="gradient_mirror_sub">ప్రవణత యొక్క ముందుకు మరియు రివర్స్ దిశను ప్రత్యామ్నాయం చేయండి</string>
 </resources>
