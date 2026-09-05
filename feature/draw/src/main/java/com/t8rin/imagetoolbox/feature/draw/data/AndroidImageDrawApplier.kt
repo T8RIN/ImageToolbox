@@ -25,7 +25,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PaintingStyle
@@ -72,6 +71,9 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
 import com.t8rin.trickle.WarpBrush
 import com.t8rin.trickle.WarpEngine
 import com.t8rin.trickle.WarpMode
@@ -118,7 +120,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                 (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
 
-                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle) ->
+                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength) ->
                     val stroke = drawPathMode.convertStrokeWidth(
                         strokeWidth = nonScaledStroke,
                         canvasSize = canvasSize
@@ -294,15 +296,22 @@ internal class AndroidImageDrawApplier @Inject constructor(
                         }
                         val androidPath = path.asAndroidPath()
                         if (drawMode is DrawMode.Text && !isErasing) {
+                            val textPaint = if (gradientPalette != null) {
+                                paint.withPathGradient(
+                                    path = androidPath,
+                                    palette = gradientPalette,
+                                    gradientLength = gradientLength
+                                )
+                            } else paint
                             if (drawMode.isRepeated) {
                                 drawRepeatedTextOnPath(
                                     text = drawMode.text,
                                     path = androidPath,
-                                    paint = paint,
+                                    paint = textPaint,
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             } else {
-                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, paint)
+                                drawTextOnPath(drawMode.text, androidPath, 0f, 0f, textPaint)
                             }
                         } else if (drawMode is DrawMode.Image && !isErasing) {
                             imageGetter.getImage(
@@ -316,7 +325,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                     interval = drawMode.repeatingInterval.toPx(canvasSize)
                                 )
                             }
-                        } else if (drawPathMode is DrawPathMode.Outlined) {
+                        } else if (drawPathMode is DrawPathMode.Outlined && !isErasing) {
                             drawPathMode.fillColor?.let { fillColor ->
                                 val filledPaint = AndroidPaint().apply {
                                     set(paint)
@@ -331,9 +340,25 @@ internal class AndroidImageDrawApplier @Inject constructor(
 
                                 drawPath(androidPath, filledPaint)
                             }
-                            drawPath(androidPath, paint)
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = paint,
+                                palette = gradientPalette.takeUnless { isErasing },
+                                gradientLength = gradientLength,
+                                isFilled = false,
+                                canvasSize = canvasSize,
+                                softnessRadius = radius.toPx(canvasSize)
+                            )
                         } else {
-                            drawPath(androidPath, paint)
+                            drawPathWithGradient(
+                                path = androidPath,
+                                paint = paint,
+                                palette = gradientPalette.takeUnless { isErasing },
+                                gradientLength = gradientLength,
+                                isFilled = !isErasing && drawPathMode.isFilled,
+                                canvasSize = canvasSize,
+                                softnessRadius = radius.toPx(canvasSize)
+                            )
                         }
                     }
                 }
@@ -523,22 +548,6 @@ internal class AndroidImageDrawApplier @Inject constructor(
         }
 
         DrawLineStyle.None -> null
-    }
-
-    private fun ImageBitmap.clipBitmap(
-        path: Path,
-        paint: Paint,
-    ): ImageBitmap {
-        val newPath = NativePath(path.asAndroidPath())
-
-        return asAndroidBitmap().copy(Bitmap.Config.ARGB_8888, true).applyCanvas {
-            drawPath(
-                newPath.apply {
-                    fillType = NativePath.FillType.INVERSE_WINDING
-                },
-                paint.nativePaint
-            )
-        }.asImageBitmap()
     }
 
     private fun Bitmap.overlay(overlay: Bitmap): Bitmap {

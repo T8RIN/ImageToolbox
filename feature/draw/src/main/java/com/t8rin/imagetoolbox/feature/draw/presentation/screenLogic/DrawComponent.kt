@@ -22,7 +22,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -62,6 +61,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawOnBackgroundParams
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -145,8 +145,7 @@ class DrawComponent @AssistedInject internal constructor(
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
 
-    private val _spotHealCache = mutableStateMapOf<Int, Bitmap>()
-    val spotHealCache: Map<Int, Bitmap> = _spotHealCache
+    val renderCache = DrawRenderCache()
 
     val havePaths: Boolean
         get() = paths.isNotEmpty() || lastPaths.isNotEmpty() || undonePaths.isNotEmpty()
@@ -249,11 +248,11 @@ class DrawComponent @AssistedInject internal constructor(
     fun setUri(
         uri: Uri
     ) {
+        renderCache.clear()
         componentScope.launch {
             _paths.value = listOf()
             _lastPaths.value = listOf()
             _undonePaths.value = listOf()
-            _spotHealCache.clear()
             _imageBitmap.value = null
             _isImageLoading.value = true
 
@@ -294,10 +293,10 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun resetDrawBehavior() {
+        renderCache.clear()
         _paths.value = listOf()
         _lastPaths.value = listOf()
         _undonePaths.value = listOf()
-        _spotHealCache.clear()
         _imageBitmap.value = null
         _drawBehavior.update {
             DrawBehavior.None
@@ -313,6 +312,7 @@ class DrawComponent @AssistedInject internal constructor(
         reqHeight: Int,
         color: Color,
     ) {
+        renderCache.clear()
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
         val imageRatio = width / height.toFloat()
@@ -329,7 +329,6 @@ class DrawComponent @AssistedInject internal constructor(
             )
         }
         _backgroundColor.value = color
-        _spotHealCache.clear()
 
         componentScope.launch {
             val newValue = DrawOnBackgroundParams(
@@ -363,7 +362,6 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun updateBackgroundColor(color: Color) {
         _backgroundColor.value = color
-        _spotHealCache.clear()
         registerChanges()
     }
 
@@ -372,7 +370,6 @@ class DrawComponent @AssistedInject internal constructor(
             _lastPaths.value = paths
             _paths.value = listOf()
             _undonePaths.value = listOf()
-            _spotHealCache.clear()
             registerChanges()
         }
     }
@@ -409,15 +406,7 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun removePath(pathPaint: UiPathPaint) {
         _paths.update { it - pathPaint }
-        _spotHealCache.remove(pathPaint.hashCode())
         registerChanges()
-    }
-
-    fun cacheSpotHealPathResult(
-        key: Int,
-        bitmap: Bitmap
-    ) {
-        _spotHealCache[key] = bitmap
     }
 
     fun cancelSaving() {

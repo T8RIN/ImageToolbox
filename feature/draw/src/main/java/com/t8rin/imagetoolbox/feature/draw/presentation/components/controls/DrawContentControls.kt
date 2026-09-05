@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -77,6 +78,13 @@ internal fun DrawContentControls(
     secondaryControls: @Composable () -> Unit,
     drawColor: Color,
     onDrawColorChange: (Color) -> Unit,
+    gradientPalette: GradientPalette,
+    onGradientPaletteChange: (GradientPalette) -> Unit,
+    gradientLength: Float,
+    onGradientLengthChange: (Float) -> Unit,
+    isGradientAvailable: Boolean,
+    isGradientEnabled: Boolean,
+    onGradientEnabledChange: (Boolean) -> Unit,
     strokeWidth: Pt,
     onStrokeWidthChange: (Pt) -> Unit,
     brushSoftness: Pt,
@@ -131,7 +139,14 @@ internal fun DrawContentControls(
             DrawColorSelector(
                 modifier = Modifier.fillMaxWidth(),
                 value = drawColor,
-                onValueChange = onDrawColorChange
+                onValueChange = onDrawColorChange,
+                allowGradient = isGradientAvailable,
+                gradientPalette = gradientPalette,
+                onGradientPaletteChange = onGradientPaletteChange,
+                gradientLength = gradientLength,
+                onGradientLengthChange = onGradientLengthChange,
+                isGradientEnabled = isGradientEnabled,
+                onGradientEnabledChange = onGradientEnabledChange
             )
         }
         AnimatedVisibility(

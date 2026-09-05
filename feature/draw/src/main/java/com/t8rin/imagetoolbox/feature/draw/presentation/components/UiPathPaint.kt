@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
@@ -35,7 +36,9 @@ data class UiPathPaint(
     override val drawMode: DrawMode = DrawMode.Pen,
     override val canvasSize: IntegerSize,
     override val drawPathMode: DrawPathMode = DrawPathMode.Free,
-    override val drawLineStyle: DrawLineStyle = DrawLineStyle.None
+    override val drawLineStyle: DrawLineStyle = DrawLineStyle.None,
+    override val gradientPalette: GradientPalette? = null,
+    override val gradientLength: Float = 1f
 ) : PathPaint<Path, Color>
 
 
@@ -48,5 +51,7 @@ fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
     drawMode = drawMode,
     canvasSize = canvasSize,
     drawPathMode = drawPathMode,
-    drawLineStyle = drawLineStyle
+    drawLineStyle = drawLineStyle,
+    gradientPalette = gradientPalette,
+    gradientLength = gradientLength
 )

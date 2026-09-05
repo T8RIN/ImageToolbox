@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 
@@ -30,7 +31,8 @@ interface PathPaint<Path, Color> {
     operator fun component7() = canvasSize
     operator fun component8() = drawPathMode
     operator fun component9() = drawLineStyle
-
+    operator fun component10() = gradientPalette
+    operator fun component11() = gradientLength
 
     val path: Path
     val strokeWidth: Pt
@@ -41,4 +43,6 @@ interface PathPaint<Path, Color> {
     val canvasSize: IntegerSize
     val drawPathMode: DrawPathMode
     val drawLineStyle: DrawLineStyle
+    val gradientPalette: GradientPalette?
+    val gradientLength: Float get() = 1f
 }

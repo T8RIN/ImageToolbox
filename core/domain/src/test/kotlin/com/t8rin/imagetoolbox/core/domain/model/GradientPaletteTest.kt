@@ -25,10 +25,13 @@ class GradientPaletteTest {
 
     @Test
     fun containsAllSharedPalettes() {
-        assertEquals(75, GradientPalette.entries.size)
+        assertEquals(76, GradientPalette.entries.size)
+        assertEquals(0, GradientPalette.Classic.ordinal)
+        assertEquals(74, GradientPalette.Grayscale.ordinal)
+        assertEquals(75, GradientPalette.SoftRainbow.ordinal)
         assertEquals(
             GradientPalette.entries.size,
-            GradientPalette.entries.map { it.name }.distinct().size
+            GradientPalette.entries.map { it.name.lowercase() }.distinct().size
         )
     }
 

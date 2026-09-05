@@ -92,6 +92,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.BrushSoftness
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import net.engawapg.lib.zoomable.rememberZoomState
 
 @Composable
@@ -303,6 +304,7 @@ private fun SeamCarvingMaskBitmapPreview(
             BitmapDrawer(
                 zoomState = zoomState,
                 imageBitmap = image.asImageBitmap(),
+                renderCache = remember { DrawRenderCache() },
                 paths = paths,
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,

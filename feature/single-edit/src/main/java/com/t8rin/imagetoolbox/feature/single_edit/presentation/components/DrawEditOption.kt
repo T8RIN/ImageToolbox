@@ -60,6 +60,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.domain.utils.notNullAnd
@@ -102,6 +103,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.OpenColorPickerCard
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.canShowLineAngle
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
 
 @Composable
@@ -121,11 +123,10 @@ fun DrawEditOption(
     undo: () -> Unit,
     redo: () -> Unit,
     paths: List<UiPathPaint>,
+    renderCache: DrawRenderCache,
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
-    spotHealCache: Map<Int, Bitmap>,
-    onCacheSpotHealPathResult: (Int, Bitmap) -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
     addFiltersSheetComponent: AddFiltersSheetComponent,
@@ -151,6 +152,9 @@ fun DrawEditOption(
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
+        var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.SoftRainbow) }
+        var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
+        var isGradientEnabled by rememberSaveable { mutableStateOf(false) }
 
         var alpha by rememberSaveable(drawMode) {
             mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -158,6 +162,14 @@ fun DrawEditOption(
         var showLineAngle by rememberSaveable { mutableStateOf(false) }
         var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
             mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
+        }
+        val isGradientAvailable = drawLineStyle == DrawLineStyle.None && (
+                drawMode is DrawMode.Pen ||
+                        drawMode is DrawMode.Highlighter ||
+                        drawMode is DrawMode.Text
+                )
+        val activeGradientPalette = gradientPalette.takeIf {
+            isGradientEnabled && isGradientAvailable && !isEraserOn
         }
 
         LaunchedEffect(drawMode, strokeWidth) {
@@ -217,6 +229,7 @@ fun DrawEditOption(
         }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
+        var isRenderReady by remember(bitmap, visible) { mutableStateOf(false) }
         FullscreenEditOption(
             canGoBack = paths.isEmpty(),
             visible = visible,
@@ -258,6 +271,13 @@ fun DrawEditOption(
                         DrawColorSelector(
                             value = drawColor,
                             onValueChange = { drawColor = it },
+                            allowGradient = isGradientAvailable,
+                            gradientPalette = gradientPalette,
+                            onGradientPaletteChange = { gradientPalette = it },
+                            gradientLength = gradientLength,
+                            onGradientLengthChange = { gradientLength = it },
+                            isGradientEnabled = isGradientEnabled && isGradientAvailable,
+                            onGradientEnabledChange = { isGradientEnabled = it },
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
                     }
@@ -429,6 +449,7 @@ fun DrawEditOption(
                         ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                enabled = isRenderReady,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()
@@ -452,19 +473,19 @@ fun DrawEditOption(
         ) {
             val direction = LocalLayoutDirection.current
             Box(contentAlignment = Alignment.Center) {
-                remember(bitmap) {
-                    derivedStateOf {
-                        bitmap.copy(Bitmap.Config.ARGB_8888, true).asImageBitmap()
-                    }
-                }.value.let { imageBitmap ->
+                remember(bitmap) { bitmap.asImageBitmap() }.let { imageBitmap ->
                     val aspectRatio = imageBitmap.width / imageBitmap.height.toFloat()
                     BitmapDrawer(
                         imageBitmap = imageBitmap,
+                        renderCache = renderCache,
+                        sourceKey = bitmap,
                         paths = paths,
                         onRequestFiltering = onRequestFiltering,
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
                         drawColor = drawColor.copy(alpha),
+                        gradientPalette = activeGradientPalette,
+                        gradientLength = gradientLength,
                         onAddPath = addPath,
                         isEraserOn = isEraserOn,
                         drawMode = drawMode,
@@ -482,13 +503,12 @@ fun DrawEditOption(
                         onDraw = {
                             stateBitmap = it
                         },
+                        onRenderReady = { isRenderReady = it },
                         drawPathMode = drawPathMode,
                         backgroundColor = Color.Transparent,
                         drawLineStyle = drawLineStyle,
                         helperGridParams = helperGridParams,
                         showLineAngle = showLineAngle,
-                        spotHealCache = spotHealCache,
-                        onCacheSpotHealPathResult = onCacheSpotHealPathResult,
                         onRemovePath = onRemovePath
                     )
                 }

@@ -81,7 +81,10 @@ fun ColorSelectionRow(
     onValueChange: (Color) -> Unit,
     contentPadding: PaddingValues = PaddingValues(),
     onNullClick: (() -> Unit)? = null,
-    allowCustom: Boolean = true
+    allowCustom: Boolean = true,
+    isColorSelectionVisible: Boolean = true,
+    additionalItem: (@Composable () -> Unit)? = null,
+    isAdditionalItemSelected: Boolean = false
 ) {
     val context = LocalContext.current
     var customColor by remember { mutableStateOf<Color?>(null) }
@@ -94,13 +97,23 @@ fun ColorSelectionRow(
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(isAdditionalItemSelected) {
         delay(250)
-        if (value == customColor) {
-            listState.animateScrollToItem(0)
-        } else if (value in defaultColors) {
-            listState.animateScrollToItem(defaultColors.indexOf(value))
+        val nullItemCount = if (onNullClick != null) 1 else 0
+        val customItemCount = if (allowCustom) 1 else 0
+        val additionalItemCount = if (additionalItem != null) 1 else 0
+        val targetIndex = when {
+            isAdditionalItemSelected -> nullItemCount + customItemCount
+            value == null && onNullClick != null -> 0
+            value !in defaultColors && allowCustom -> nullItemCount
+            value in defaultColors -> {
+                nullItemCount + customItemCount + additionalItemCount +
+                        defaultColors.indexOf(value)
+            }
+
+            else -> null
         }
+        targetIndex?.let { listState.animateScrollToItem(it) }
     }
 
     val itemSize = 42.dp
@@ -123,7 +136,7 @@ fun ColorSelectionRow(
             if (onNullClick != null) {
                 item {
                     val background = MaterialTheme.colorScheme.surfaceVariant
-                    val isSelected = value == null
+                    val isSelected = isColorSelectionVisible && value == null
                     val interactionSource = remember { MutableInteractionSource() }
                     val shape = shapeByInteraction(
                         shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
@@ -167,7 +180,7 @@ fun ColorSelectionRow(
             if (allowCustom) {
                 item {
                     val background = customColor ?: MaterialTheme.colorScheme.primary
-                    val isSelected = customColor != null
+                    val isSelected = isColorSelectionVisible && customColor != null
                     val interactionSource = remember { MutableInteractionSource() }
                     val shape = shapeByInteraction(
                         shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
@@ -238,11 +251,16 @@ fun ColorSelectionRow(
                     }
                 }
             }
+            if (additionalItem != null) {
+                item(key = "additional_item") {
+                    additionalItem()
+                }
+            }
             items(
                 items = defaultColors,
                 key = { it.toArgb() }
             ) { color ->
-                val isSelected = value == color && customColor == null
+                val isSelected = isColorSelectionVisible && value == color && customColor == null
                 val interactionSource = remember { MutableInteractionSource() }
                 val shape = shapeByInteraction(
                     shape = if (isSelected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),

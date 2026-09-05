@@ -700,6 +700,21 @@ enum class GradientPalette(
         0xFF404040.toInt(),
         0xFF909090.toInt(),
         0xFFFFFFFF.toInt()
+    ),
+    SoftRainbow(
+        0xFF3FCEBC.toInt(),
+        0xFF3CBCEB.toInt(),
+        0xFF5F96E7.toInt(),
+        0xFF816FE3.toInt(),
+        0xFF9F5EE2.toInt(),
+        0xFFBD4CE0.toInt(),
+        0xFFDE589F.toInt(),
+        0xFFFF645E.toInt(),
+        0xFFFDA859.toInt(),
+        0xFFFAEC54.toInt(),
+        0xFF9EE671.toInt(),
+        0xFF67E282.toInt(),
+        0xFF3FCEBC.toInt()
     );
 
     val colors: List<ColorModel> = stops.map(::ColorModel)

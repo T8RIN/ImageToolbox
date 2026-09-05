@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,57 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
+import com.t8rin.imagetoolbox.core.resources.icons.Check
+import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.ui.theme.blend
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
+import kotlin.math.roundToInt
 
 @Composable
 fun DrawColorSelector(
@@ -37,21 +75,149 @@ fun DrawColorSelector(
         .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
     value: Color,
     onValueChange: (Color) -> Unit,
+    allowGradient: Boolean = false,
+    gradientPalette: GradientPalette = GradientPalette.SoftRainbow,
+    onGradientPaletteChange: (GradientPalette) -> Unit = {},
+    gradientLength: Float = 1f,
+    onGradientLengthChange: (Float) -> Unit = {},
+    isGradientEnabled: Boolean = false,
+    onGradientEnabledChange: (Boolean) -> Unit = {},
     color: Color = Color.Unspecified,
     titleText: String = stringResource(R.string.paint_color),
     defaultColors: List<Color> = ColorSelectionRowDefaults.colorList,
 ) {
-    ColorRowSelector(
-        value = value,
-        onValueChange = onValueChange,
+    Column(
         modifier = modifier
             .container(
                 shape = ShapeDefaults.extraLarge,
                 color = color
             ),
-        title = titleText,
-        allowAlpha = false,
-        icon = Icons.Outlined.BrushColor,
-        defaultColors = defaultColors
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        ColorRowSelector(
+            value = value,
+            onValueChange = {
+                onGradientEnabledChange(false)
+                onValueChange(it)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            title = titleText,
+            allowAlpha = false,
+            icon = Icons.Outlined.BrushColor,
+            defaultColors = defaultColors,
+            isColorSelectionVisible = !allowGradient || !isGradientEnabled,
+            isAdditionalItemSelected = allowGradient && isGradientEnabled,
+            additionalItem = if (allowGradient) {
+                {
+                    GradientColorItem(
+                        palette = gradientPalette,
+                        selected = isGradientEnabled,
+                        onClick = { onGradientEnabledChange(true) }
+                    )
+                }
+            } else null
+        )
+        AnimatedVisibility(
+            visible = allowGradient && isGradientEnabled,
+            enter = fadeIn() + expandVertically(),
+            exit = fadeOut() + shrinkVertically()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(
+                    start = 4.dp, end = 4.dp, bottom = 4.dp
+                )
+            ) {
+                GradientPaletteSelector(
+                    value = gradientPalette,
+                    onValueChange = onGradientPaletteChange,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = ShapeDefaults.top
+                )
+                EnhancedSliderItem(
+                    value = gradientLength * 100f,
+                    onValueChange = { onGradientLengthChange(it.roundToInt() / 100f) },
+                    title = stringResource(R.string.gradient_length),
+                    valueRange = 10f..400f,
+                    valueSuffix = "%",
+                    shape = ShapeDefaults.bottom,
+                    internalStateTransformation = { it.roundToInt() },
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun GradientColorItem(
+    palette: GradientPalette,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    val itemSize = 42.dp
+    val colors = remember(palette) { palette.colors.map { it.toColor() } }
+    val interactionSource = remember { MutableInteractionSource() }
+    val shape = shapeByInteraction(
+        shape = if (selected) ShapeDefaults.small else AutoCornersShape(itemSize / 2),
+        pressedShape = ShapeDefaults.pressed,
+        interactionSource = interactionSource
     )
+    val accent = colors[colors.size / 2].blend(MaterialTheme.colorScheme.primary, 0.25f)
+    val light = accent.blend(Color.White, 0.85f)
+    val dark = accent.blend(Color.Black, 0.75f)
+    val contentColor = if (accent.luminance() < 0.3f) light else dark
+    val fillColor = if (accent.luminance() < 0.3f) dark else light
+
+    Box(
+        modifier = Modifier
+            .height(itemSize)
+            .aspectRatio(
+                ratio = animateFloatAsState(
+                    targetValue = if (selected) 1.5f else 1f,
+                    animationSpec = tween(400)
+                ).value,
+                matchHeightConstraintsFirst = true
+            )
+            .container(
+                shape = shape,
+                color = colors.first(),
+                resultPadding = 0.dp
+            )
+            .clip(shape)
+            .background(Brush.horizontalGradient(colors))
+            .hapticsClickable(
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        AnimatedContent(
+            targetState = selected,
+            modifier = Modifier.fillMaxSize()
+        ) { isSelected ->
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isSelected) {
+                    Icon(
+                        imageVector = Icons.Rounded.Check,
+                        contentDescription = null,
+                        tint = fillColor,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+                Icon(
+                    imageVector = if (isSelected) Icons.Rounded.Done else Icons.Outlined.Gradient,
+                    contentDescription = null,
+                    tint = contentColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    }
 }
