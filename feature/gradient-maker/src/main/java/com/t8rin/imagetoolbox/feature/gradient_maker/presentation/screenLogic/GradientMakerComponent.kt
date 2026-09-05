@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.appContext
@@ -126,17 +127,17 @@ class GradientMakerComponent @AssistedInject internal constructor(
     val gradientType: GradientType get() = gradientState.gradientType
     val colorStops: List<Pair<Float, Color>> get() = gradientState.colorStops
     val selectedGradientPalette: GradientPalette?
-        get() = GradientPalette.entries.firstOrNull { palette ->
-            palette.colors.map { it.colorInt } == colorStops.map { it.second.toArgb() }
+        get() = colorStops.takeIf { it.size >= 2 }?.let { stops ->
+            GradientPalette.fromColors(stops.map { it.second.toModel() })
         }
     val selectedMeshGradientPalette: GradientPalette?
         get() {
             val colors = meshPoints.flatten().map { it.second.toArgb() }
-            if (colors.isEmpty()) return null
+            if (colors.size < 2) return null
 
             return GradientPalette.entries.firstOrNull { palette ->
                 palette.sampleColors(colors.size).map { it.colorInt } == colors
-            }
+            } ?: GradientPalette.fromColors(meshPoints.flatten().map { it.second.toModel() })
         }
     val tileMode: TileMode get() = gradientState.tileMode
     val angle: Float get() = gradientState.linearGradientAngle

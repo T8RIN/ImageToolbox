@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.pt
@@ -52,53 +53,58 @@ class DrawExportTest {
             moveTo(16f, 80f)
             cubicTo(70f, 25f, 210f, 145f, 240f, 75f)
         }
-        for (length in listOf(.1f, .25f, 1f, 4f)) {
-            for (softness in listOf(0.pt, 12.pt)) {
-                for (mode in listOf(
-                    DrawMode.Pen,
-                    DrawMode.Highlighter,
-                    DrawMode.Text(text = "Gradient")
-                )) {
-                    val entry = UiPathPaint(
-                        path = path, strokeWidth = 65.pt, brushSoftness = softness,
-                        drawColor = Color.White.copy(alpha = .65f), isErasing = false,
-                        drawMode = mode, canvasSize = size,
-                        gradientPalette = GradientPalette.SoftRainbow, gradientLength = length,
-                        isGradientMirrored = true
-                    )
-                    val second = entry.copy(
-                        path = Path().apply { moveTo(16f, 180f); lineTo(240f, 180f) },
-                        gradientLength = 2f,
-                        isGradientMirrored = false
-                    )
-                    val paths = listOf(entry, second)
-                    val actual = checkNotNull(
-                        applier.applyDrawToImage(
-                            DrawBehavior.Background(
-                                0,
-                                size.width,
-                                size.height,
-                                android.graphics.Color.WHITE
-                            ),
-                            paths, ""
+        val customPalette = GradientPalette.Custom(
+            listOf(0x00ABCDEF, 0xCD123456.toInt(), 0xFF4499EE.toInt()).map(::ColorModel)
+        )
+        for (palette in listOf(GradientPalette.SoftRainbow, customPalette)) {
+            for (length in listOf(.1f, .25f, 1f, 4f)) {
+                for (softness in listOf(0.pt, 12.pt)) {
+                    for (mode in listOf(
+                        DrawMode.Pen,
+                        DrawMode.Highlighter,
+                        DrawMode.Text(text = "Gradient")
+                    )) {
+                        val entry = UiPathPaint(
+                            path = path, strokeWidth = 65.pt, brushSoftness = softness,
+                            drawColor = Color.White.copy(alpha = .65f), isErasing = false,
+                            drawMode = mode, canvasSize = size,
+                            gradientPalette = palette, gradientLength = length,
+                            isGradientMirrored = true
                         )
-                    )
-                    val expected =
-                        Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
-                            .apply { eraseColor(android.graphics.Color.WHITE) }
-                    paths.forEach {
-                        Canvas(expected).drawCommittedPath(
-                            it, size, context,
-                            source = { error("A gradient requested filtering") },
-                            onRequestFiltering = { _, _ -> error("A gradient requested filtering") }
+                        val second = entry.copy(
+                            path = Path().apply { moveTo(16f, 180f); lineTo(240f, 180f) },
+                            gradientLength = 2f,
+                            isGradientMirrored = false
                         )
+                        val paths = listOf(entry, second)
+                        val actual = checkNotNull(
+                            applier.applyDrawToImage(
+                                DrawBehavior.Background(
+                                    0,
+                                    size.width,
+                                    size.height,
+                                    android.graphics.Color.WHITE
+                                ),
+                                paths, ""
+                            )
+                        )
+                        val expected =
+                            Bitmap.createBitmap(size.width, size.height, Bitmap.Config.ARGB_8888)
+                                .apply { eraseColor(android.graphics.Color.WHITE) }
+                        paths.forEach {
+                            Canvas(expected).drawCommittedPath(
+                                it, size, context,
+                                source = { error("A gradient requested filtering") },
+                                onRequestFiltering = { _, _ -> error("A gradient requested filtering") }
+                            )
+                        }
+                        assertTrue(
+                            "Export changed $length / $softness / $mode",
+                            expected.sameAs(actual)
+                        )
+                        expected.recycle()
+                        actual.recycle()
                     }
-                    assertTrue(
-                        "Export changed $length / $softness / $mode",
-                        expected.sameAs(actual)
-                    )
-                    expected.recycle()
-                    actual.recycle()
                 }
             }
         }

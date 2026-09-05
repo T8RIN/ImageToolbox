@@ -47,6 +47,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.retainedComponent
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -494,6 +495,9 @@ class LiveDrawPreviewTest {
             stroke(.25f)
             val first = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
             instrumentation.runOnMainSync {
+                activity.gradient = GradientPalette.Custom(
+                    listOf(0x40FF4500, 0xCF39DDFF.toInt(), 0x805522FF.toInt()).map(::ColorModel)
+                )
                 activity.gradientLength = .1f
                 activity.gradientMirrored = true
             }
@@ -513,14 +517,13 @@ class LiveDrawPreviewTest {
             val after = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
             instrumentation.runOnMainSync { activity.paths = paths.take(1) }
             await("Undo did not restore the first length") {
-                activity.ready && activity.readyPaths == paths.take(
-                    1
-                )
+                activity.ready && activity.readyPaths == paths.take(1) &&
+                        first.sameAs(activity.frame)
             }
-            assertTrue(first.sameAs(activity.frame))
             instrumentation.runOnMainSync { activity.paths = paths }
-            await("Redo did not restore both lengths") { activity.ready && activity.readyPaths == paths }
-            assertTrue(after.sameAs(activity.frame))
+            await("Redo did not restore both lengths") {
+                activity.ready && activity.readyPaths == paths && after.sameAs(activity.frame)
+            }
             first.recycle()
             after.recycle()
         }

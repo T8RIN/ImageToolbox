@@ -725,7 +725,7 @@ fun BitmapDrawer(
                             drawPathWithGradient(
                                 path = androidPath,
                                 paint = drawPaint,
-                                palette = gradientPalette.takeUnless { isEraserOn },
+                                palette = gradientPalette,
                                 gradientLength = gradientLength,
                                 isGradientMirrored = isGradientMirrored,
                                 isFilled = false,

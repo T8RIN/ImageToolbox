@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 
@@ -118,6 +119,8 @@ data class SettingsState(
     val addTimestampToFilename: Boolean,
     val useFormattedFilenameTimestamp: Boolean,
     val favoriteColors: List<ColorModel>,
+    val favoriteGradients: List<GradientPalette>,
+    val recentGradients: List<GradientPalette>,
     val defaultResizeType: ResizeType,
     val systemBarsVisibility: SystemBarsVisibility,
     val isSystemBarsVisibleBySwipe: Boolean,
@@ -252,6 +255,8 @@ data class SettingsState(
                 addTimestampToFilename = true,
                 useFormattedFilenameTimestamp = true,
                 favoriteColors = emptyList(),
+                favoriteGradients = emptyList(),
+                recentGradients = emptyList(),
                 defaultResizeType = ResizeType.Explicit,
                 systemBarsVisibility = SystemBarsVisibility.Auto,
                 isSystemBarsVisibleBySwipe = true,

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.settings.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
@@ -51,6 +52,14 @@ interface SimpleSettingsInteractor {
         key: Int,
         value: Boolean
     )
+
+    suspend fun addRecentGradient(palette: GradientPalette)
+
+    suspend fun toggleFavoriteGradient(palette: GradientPalette)
+
+    suspend fun clearRecentGradients()
+
+    suspend fun updateFavoriteGradients(palettes: List<GradientPalette>)
 
     suspend fun clearRecentColors()
 

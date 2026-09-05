@@ -73,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
@@ -142,8 +143,11 @@ fun DrawContent(
         stateSaver = ColorSaver
     ) { mutableStateOf(settingsState.defaultDrawColor) }
 
-    var gradientPalette by rememberSaveable(component.drawBehavior) {
-        mutableStateOf(GradientPalette.SoftRainbow)
+    var gradientPalette by rememberSaveable(
+        component.drawBehavior,
+        stateSaver = GradientPaletteSaver
+    ) {
+        mutableStateOf<GradientPalette>(GradientPalette.SoftRainbow)
     }
 
     var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }

@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
@@ -152,7 +153,9 @@ fun DrawEditOption(
         val settingsState = LocalSettingsState.current
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
-        var gradientPalette by rememberSaveable { mutableStateOf(GradientPalette.SoftRainbow) }
+        var gradientPalette by rememberSaveable(stateSaver = GradientPaletteSaver) {
+            mutableStateOf<GradientPalette>(GradientPalette.SoftRainbow)
+        }
         var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
         var isGradientMirrored by rememberSaveable { mutableStateOf(false) }
         var isGradientEnabled by rememberSaveable { mutableStateOf(false) }

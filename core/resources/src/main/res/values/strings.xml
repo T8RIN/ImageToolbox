@@ -2771,6 +2771,7 @@
     <string name="adaptive_blur">Adaptive Blur</string>
     <string name="ascii">ASCII</string>
     <string name="gradient_palette_soft_rainbow">Soft rainbow</string>
+    <string name="gradient_colors_hint">Tap a color to edit it. Hold and drag to change the order.</string>
     <string name="gradient_length">Gradient length</string>
     <string name="gradient_mirror">Mirror repeat</string>
     <string name="gradient_mirror_sub">Alternate the gradient\'s forward and reverse direction</string>

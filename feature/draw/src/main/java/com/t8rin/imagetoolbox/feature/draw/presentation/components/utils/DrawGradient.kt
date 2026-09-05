@@ -32,6 +32,7 @@ import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
+import android.util.LruCache
 import androidx.core.graphics.createBitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.EdgeMode
@@ -272,6 +273,7 @@ internal class GradientStrokeCache {
     internal var interiorCoverage: Bitmap? = null
         private set
     private var interiorTip: Bitmap? = null
+    private val replacePaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC) }
     private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
     private var tipLeft = 0
     private var tipTop = 0
@@ -324,7 +326,7 @@ internal class GradientStrokeCache {
         val canvas = Canvas(target)
         val interiorCanvas = interiorCoverage?.let(::Canvas)
         tip?.let {
-            canvas.drawBitmap(it, tipLeft.toFloat(), tipTop.toFloat(), null)
+            canvas.drawBitmap(it, tipLeft.toFloat(), tipTop.toFloat(), replacePaint)
             it.recycle()
             tip = null
         }
@@ -355,6 +357,7 @@ internal class GradientStrokeCache {
             strokeWidth = width
             strokeCap = Paint.Cap.ROUND
             shader = gradient
+            xfermode = replacePaint.xfermode
         }
         val matrix = Matrix()
         val values = FloatArray(9).apply { this[8] = 1f }
@@ -469,30 +472,48 @@ private fun Path.colourSegments(
             var previousY = position[1] * scale
             var distance = 0f
             var heading: Float? = null
-            while (distance < length) {
-                val end = min(distance + sampleStep, length)
-                measure.getPosTan(end, position, null)
-                val x = position[0] * scale
-                val y = position[1] * scale
+            fun addSegment(start: Float, end: Float, x: Float, y: Float) {
                 val dx = x - previousX
                 val dy = y - previousY
+                val middle = (start + end) / 2f
+                if (middle > start && middle < end) {
+                    measure.getPosTan(middle, position, null)
+                    val midX = position[0] * scale
+                    val midY = position[1] * scale
+                    val squaredLength = dx * dx + dy * dy
+                    val projection = if (squaredLength > 0f) {
+                        ((midX - previousX) * dx + (midY - previousY) * dy) / squaredLength
+                    } else 0f
+                    val errorX = midX - previousX - dx * projection.coerceIn(0f, 1f)
+                    val errorY = midY - previousY - dy * projection.coerceIn(0f, 1f)
+                    if (errorX * errorX + errorY * errorY > 0.25f) {
+                        addSegment(start, middle, midX, midY)
+                        addSegment(middle, end, x, y)
+                        return
+                    }
+                }
                 if (dx != 0f || dy != 0f) {
                     val direction = atan2(dy, dx)
                     val previousHeading = heading ?: direction
                     val turn =
                         atan2(sin(direction - previousHeading), cos(direction - previousHeading))
                     heading = if (measure.isClosed) direction else {
-                        previousHeading + turn * (1f - exp(-(end - distance) / headingSpan))
+                        previousHeading + turn * (1f - exp(-(end - start) / headingSpan))
                     }
                     add(
                         ColourSegment(
-                            previousX, previousY, x, y, distance * scale, distanceScale,
+                            previousX, previousY, x, y, start * scale, distanceScale,
                             cos(heading), sin(heading)
                         )
                     )
                 }
                 previousX = x
                 previousY = y
+            }
+            while (distance < length) {
+                val end = min(distance + sampleStep, length)
+                measure.getPosTan(end, position, null)
+                addSegment(distance, end, position[0] * scale, position[1] * scale)
                 distance = end
             }
         } while (measure.nextContour())
@@ -528,13 +549,13 @@ private fun Path.createGradient(
     )
 }
 
-private fun GradientPalette.mirroredColours(): IntArray = MIRRORED_COLOURS[ordinal].value
+private fun GradientPalette.mirroredColours(): IntArray = MIRRORED_COLOURS[this]
 
-private val MIRRORED_COLOURS = GradientPalette.entries.map { palette ->
-    lazy {
+private val MIRRORED_COLOURS = object : LruCache<GradientPalette, IntArray>(32) {
+    override fun create(palette: GradientPalette): IntArray {
         val stops = palette.colors.map { it.colorInt }
         val samplesPerStop = 8
-        IntArray(stops.lastIndex * samplesPerStop + 1) { index ->
+        return IntArray(stops.lastIndex * samplesPerStop + 1) { index ->
             val left = (index / samplesPerStop).coerceAtMost(stops.lastIndex - 1)
             val right = left + 1
             val t = (index - left * samplesPerStop).toFloat() / samplesPerStop

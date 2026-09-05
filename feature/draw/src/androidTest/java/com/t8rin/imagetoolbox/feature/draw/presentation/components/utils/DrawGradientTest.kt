@@ -28,6 +28,7 @@ import android.graphics.Path
 import android.graphics.Shader
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import org.junit.Assert.assertEquals
@@ -78,6 +79,46 @@ class DrawGradientTest {
             )
             actual.recycle()
             expected.recycle()
+        }
+    }
+
+    @Test
+    fun sharpReversalsKeepThePaletteColourAtTheOuterEdge() {
+        val size = 1024
+        val palette = GradientPalette.Custom(
+            (listOf(Color.RED) + List(8) { Color.CYAN }).map(::ColorModel)
+        )
+        val path = Path().apply {
+            moveTo(200f, 644f)
+            lineTo(280f, 330f)
+            lineTo(300f, 640f)
+        }
+        for (width in listOf(12f, 40f)) {
+            val brush = paint().apply { strokeWidth = width }
+            val coverage = bitmap(size).also { Canvas(it).drawPath(path, brush) }
+            for (length in listOf(.5f, 1f)) for (mirror in listOf(false, true)) {
+                val image = bitmap(size)
+                Canvas(image).drawPathWithGradient(
+                    path, brush, palette, false, IntegerSize(size, size),
+                    gradientLength = length, isGradientMirrored = mirror
+                )
+                for (y in 305..350) for (x in 255..305) {
+                    val alpha = Color.alpha(coverage.getPixel(x, y)) / 255f
+                    if (alpha < .1f) continue
+                    val actual = image.getPixel(x, y)
+                    for (shift in listOf(0, 8, 16)) {
+                        val error = abs(
+                            (actual ushr shift and 255) - (Color.CYAN ushr shift and 255)
+                        ) * alpha
+                        assertTrue(
+                            "Turn edge exposes another colour at $x,$y ($width/$length/$mirror): $error",
+                            error <= 2f
+                        )
+                    }
+                }
+                image.recycle()
+            }
+            coverage.recycle()
         }
     }
 
@@ -772,6 +813,71 @@ class DrawGradientTest {
                 assertTrue("Live cache retained the previous length $length", cached.sameAs(fresh))
                 cached.recycle()
                 fresh.recycle()
+            }
+        } finally {
+            cache.clear()
+        }
+    }
+
+    @Test
+    fun customPaletteAlphaDoesNotBuildUpInsideTheStroke() {
+        val palette =
+            GradientPalette.Custom(listOf(0x80336699.toInt(), 0x80996633.toInt()).map(::ColorModel))
+        for (mirror in listOf(false, true)) {
+            val image = bitmap()
+            Canvas(image).drawPathWithGradient(
+                curl(), paint(), palette, false, IntegerSize(SIZE, SIZE),
+                gradientLength = .1f, isGradientMirrored = mirror
+            )
+            val native = bitmap()
+            Canvas(native).drawPath(curl(), paint())
+            for (y in 0 until SIZE) for (x in 0 until SIZE) {
+                val actual = Color.alpha(image.getPixel(x, y))
+                assertTrue("Custom alpha accumulated at $x / $y: $actual", actual <= 128)
+                if (Color.alpha(native.getPixel(x, y)) == 255) {
+                    assertTrue("Custom alpha left a seam at $x / $y: $actual", actual >= 127)
+                }
+            }
+            image.recycle()
+            native.recycle()
+        }
+    }
+
+    @Test
+    fun transparentCustomPalettesKeepCachedAndFreshRendersIdentical() {
+        val cache = GradientStrokeCache()
+        val palettes = listOf(
+            GradientPalette.Custom(
+                listOf(
+                    0x00442211,
+                    0xDDAABBCC.toInt(),
+                    0x40223355
+                ).map(::ColorModel)
+            ),
+            GradientPalette.Custom(listOf(0x70123456, 0x00123456).map(::ColorModel))
+        )
+        try {
+            for (palette in palettes) for (mirror in listOf(false, true)) {
+                val path = Path().apply { moveTo(30f, 120f) }
+                for (index in 1..60) {
+                    path.lineTo(30f + index * 3f, 120f + 50f * sin(index * .08f))
+                    val actual = bitmap()
+                    val expected = bitmap()
+                    val fresh = GradientStrokeCache()
+                    for ((image, renderer) in listOf(actual to cache, expected to fresh)) {
+                        Canvas(image).drawPathWithGradient(
+                            path, paint(), palette, false, IntegerSize(SIZE, SIZE),
+                            cache = renderer, gradientLength = .1f, isGradientMirrored = mirror
+                        )
+                    }
+                    assertTrue(
+                        "Transparent tip changed at $index / $mirror",
+                        expected.sameAs(actual)
+                    )
+                    actual.recycle()
+                    expected.recycle()
+                    fresh.clear()
+                }
             }
         } finally {
             cache.clear()
