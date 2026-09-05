@@ -71,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.WarpStroke
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.LineAngleIndicator
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapDrawerPreview
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawPathEffectPreview
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.GradientStrokeCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
@@ -89,7 +90,6 @@ import com.t8rin.trickle.WarpMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
@@ -308,12 +308,37 @@ fun BitmapDrawer(
                 }
             }
 
+            val gradientStroke = remember(canvasSize) { GradientStrokeCache() }
+            DisposableEffect(gradientStroke) {
+                onDispose { gradientStroke.clear() }
+            }
+
+            val gradientHistory = remember(canvasSize, backgroundColor) { GradientDrawHistory() }
+            DisposableEffect(gradientHistory) {
+                onDispose { gradientHistory.clear() }
+            }
+            val canCacheHistory = remember(paths) {
+                paths.any { it.gradientPalette != null } && paths.all {
+                    it.isErasing || it.drawMode is DrawMode.Pen || it.drawMode is DrawMode.Highlighter
+                }
+            }
+            val canAppendHistory = canCacheHistory && gradientHistory.bitmap != null &&
+                    paths.size >= gradientHistory.paths.size &&
+                    paths.subList(0, gradientHistory.paths.size) == gradientHistory.paths
+            val pathsToRender = if (canAppendHistory) {
+                paths.drop(gradientHistory.paths.size)
+            } else paths
+
             with(canvas) {
                 with(nativeCanvas) {
                     drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                    drawColor(backgroundColor.toArgb())
+                    if (canAppendHistory) {
+                        drawBitmap(gradientHistory.bitmap!!, 0f, 0f, null)
+                    } else {
+                        drawColor(backgroundColor.toArgb())
+                    }
 
-                    paths.forEach { uiPathPaint ->
+                    pathsToRender.forEach { uiPathPaint ->
                         UiPathPaintCanvasAction(
                             uiPathPaint = uiPathPaint,
                             invalidations = invalidations,
@@ -340,9 +365,20 @@ fun BitmapDrawer(
                             onCacheSpotHealPathResult = onCacheSpotHealPathResult,
                             onCancel = onRemovePath,
                             canvasSize = canvasSize,
-                            scope = scope
+                            scope = scope,
+                            gradientStrokeCache = gradientStroke.takeIf { uiPathPaint === paths.lastOrNull() }
                         )
                     }
+
+                    if (canCacheHistory) {
+                        if (!canAppendHistory || pathsToRender.isNotEmpty()) {
+                            gradientHistory.update(drawBitmap.asAndroidBitmap(), paths)
+                        }
+                    } else {
+                        gradientHistory.clear()
+                    }
+
+                    if (drawPath.isEmpty) gradientStroke.clear()
 
                     if ((drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Warp) || isEraserOn) {
                         val androidPath by remember(drawPath) {
@@ -419,7 +455,8 @@ fun BitmapDrawer(
                                 palette = gradientPalette,
                                 isFilled = false,
                                 canvasSize = canvasSize,
-                                softnessRadius = brushSoftness.toPx(canvasSize)
+                                softnessRadius = brushSoftness.toPx(canvasSize),
+                                cache = gradientStroke
                             )
                         } else {
                             drawPathWithGradient(
@@ -428,7 +465,8 @@ fun BitmapDrawer(
                                 palette = gradientPalette,
                                 isFilled = drawPathMode.isFilled,
                                 canvasSize = canvasSize,
-                                softnessRadius = brushSoftness.toPx(canvasSize)
+                                softnessRadius = brushSoftness.toPx(canvasSize),
+                                cache = gradientStroke
                             )
                         }
                     }
@@ -460,6 +498,9 @@ fun BitmapDrawer(
                         if (currentDrawPosition.isSpecified) {
                             onDrawStart?.invoke()
                             drawPath.moveTo(currentDrawPosition.x, currentDrawPosition.y)
+                            if (gradientPalette != null && drawPathMode == DrawPathMode.Free) {
+                                drawPath.lineTo(currentDrawPosition.x, currentDrawPosition.y)
+                            }
                             previousDrawPosition = currentDrawPosition
                             pathWithoutTransformations = drawPath.copy()
                         } else {
@@ -601,7 +642,9 @@ fun BitmapDrawer(
 
                                             it.getPosition(it.length)
                                         }.takeOrElse { currentDrawPosition }.let { lastPoint ->
-                                            drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                            if (drawPath.isEmpty) {
+                                                drawPath.moveTo(lastPoint.x, lastPoint.y)
+                                            }
                                             drawPath.lineTo(
                                                 currentDrawPosition.x,
                                                 currentDrawPosition.y
@@ -641,12 +684,10 @@ fun BitmapDrawer(
                         previousDrawPosition = Offset.Unspecified
                         motionEvent.value = MotionEvent.Idle
 
-                        scope.launch {
-                            if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal || drawMode is DrawMode.Warp) && !isEraserOn) Unit
-                            else drawPath = Path()
+                        if ((drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal || drawMode is DrawMode.Warp) && !isEraserOn) Unit
+                        else drawPath = Path()
 
-                            pathWithoutTransformations = Path()
-                        }
+                        pathWithoutTransformations = Path()
                         onDrawFinish?.invoke()
                     }
                 )
@@ -763,5 +804,25 @@ fun BitmapDrawer(
                 )
             }
         }
+    }
+}
+
+/** One flattened history image; adding a stroke only renders the new suffix. */
+private class GradientDrawHistory {
+    var bitmap: Bitmap? = null
+        private set
+    var paths: List<UiPathPaint> = emptyList()
+        private set
+
+    fun update(source: Bitmap, paths: List<UiPathPaint>) {
+        clear()
+        bitmap = source.copy(Bitmap.Config.ARGB_8888, false)
+        this.paths = paths.toList()
+    }
+
+    fun clear() {
+        bitmap?.recycle()
+        bitmap = null
+        paths = emptyList()
     }
 }

@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.GradientStrokeCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedImageOnPath
@@ -101,7 +102,8 @@ internal fun Canvas.UiPathPaintCanvasAction(
     spotHealCache: Map<Int, Bitmap>,
     onCacheSpotHealPathResult: (Int, Bitmap) -> Unit,
     onCancel: (UiPathPaint) -> Unit,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    gradientStrokeCache: GradientStrokeCache? = null
 ) = with(nativeCanvas) {
     val (nonScaledPath, strokeWidth, brushSoftness, drawColor, isEraserOn, drawMode, size, drawPathMode, drawLineStyle, gradientPalette) = uiPathPaint
 
@@ -401,7 +403,8 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 palette = gradientPalette,
                 isFilled = false,
                 canvasSize = canvasSize,
-                softnessRadius = brushSoftness.toPx(canvasSize)
+                softnessRadius = brushSoftness.toPx(canvasSize),
+                cache = gradientStrokeCache
             )
         } else {
             drawPathWithGradient(
@@ -410,7 +413,8 @@ internal fun Canvas.UiPathPaintCanvasAction(
                 palette = gradientPalette,
                 isFilled = drawPathMode.isFilled,
                 canvasSize = canvasSize,
-                softnessRadius = brushSoftness.toPx(canvasSize)
+                softnessRadius = brushSoftness.toPx(canvasSize),
+                cache = gradientStrokeCache
             )
         }
     }

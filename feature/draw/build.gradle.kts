@@ -22,11 +22,18 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.draw"
+android {
+    namespace = "com.t8rin.imagetoolbox.feature.draw"
+    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+}
 
 dependencies {
     implementation(libs.trickle)
+    implementation(libs.aire)
 
     implementation(projects.core.filters)
     implementation(projects.feature.pickColor)
+
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.runner)
 }

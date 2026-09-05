@@ -117,6 +117,7 @@ fun Modifier.pointerDrawHandler(
             onUp = { pointerInputChange ->
                 if (drawStartedWithOnePointer) {
                     onReceiveMotionEvent(MotionEvent.Up)
+                    onUpdateCurrentDrawPosition(pointerInputChange.position)
                     pointerInputChange.consume()
                     onInvalidate()
                 }

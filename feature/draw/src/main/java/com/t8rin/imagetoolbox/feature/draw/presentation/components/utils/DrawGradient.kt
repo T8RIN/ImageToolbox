@@ -17,21 +17,26 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
+import android.graphics.Bitmap
+import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.LinearGradient
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
+import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.toArgb
+import com.awxkee.aire.Aire
+import com.awxkee.aire.EdgeMode
+import com.awxkee.aire.GaussianPreciseLevel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import kotlin.math.ceil
 import kotlin.math.floor
 import kotlin.math.min
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 internal fun Canvas.drawPathWithGradient(
@@ -40,7 +45,8 @@ internal fun Canvas.drawPathWithGradient(
     palette: GradientPalette?,
     isFilled: Boolean,
     canvasSize: IntegerSize,
-    softnessRadius: Float = 0f
+    softnessRadius: Float = 0f,
+    cache: GradientStrokeCache? = null
 ) {
     if (palette == null) {
         drawPath(path, paint)
@@ -52,7 +58,8 @@ internal fun Canvas.drawPathWithGradient(
             paint = paint,
             palette = palette,
             canvasSize = canvasSize,
-            softnessRadius = softnessRadius
+            softnessRadius = softnessRadius,
+            cache = cache
         )
     }
 }
@@ -64,269 +71,291 @@ internal fun Paint.withPathGradient(
     shader = path.createGradient(palette)
 }
 
+/**
+ * Colour and coverage are independent: overlapping colour segments must never accumulate
+ * opacity or blur. One native stroke outline supplies the antialiased caps and joins.
+ */
 private fun Canvas.drawGradientStroke(
     path: Path,
     paint: Paint,
     palette: GradientPalette,
     canvasSize: IntegerSize,
-    softnessRadius: Float
+    softnessRadius: Float,
+    cache: GradientStrokeCache?
 ) {
-    val cycleLength = canvasSize.gradientCycleLength()
-    val saveCount = save()
-    if (softnessRadius > 0f) {
-        drawSoftGradientStroke(
-            path = path,
-            paint = paint,
-            palette = palette,
-            cycleLength = cycleLength
-        )
-    } else {
-        val strokeOutline = Path()
-        if (!paint.getFillPath(path, strokeOutline)) {
-            restoreToCount(saveCount)
-            drawPath(path, paint)
-            return
-        }
+    if (path.isEmpty || paint.alpha == 0) return
 
-        val gradientPaint = Paint(paint).apply {
-            pathEffect = null
-            shader = null
-            style = Paint.Style.FILL
-            color = Color.White.toArgb()
-            maskFilter = null
-        }
-        clipPath(strokeOutline)
-        drawGradientMesh(
-            path = path,
-            paint = gradientPaint,
-            palette = palette,
-            cycleLength = cycleLength,
-            halfWidth = paint.strokeWidth / 2f + MESH_OVERDRAW
-        )
+    if (softnessRadius > 0f) {
+        drawSoftGradientStroke(path, paint, palette, canvasSize, softnessRadius, cache)
+        return
     }
 
-    restoreToCount(saveCount)
+    val cycleLength = canvasSize.gradientCycleLength()
+    val outline = Path()
+    val outlinePaint = Paint(paint).apply { maskFilter = null }
+    if (!outlinePaint.getFillPath(path, outline)) {
+        drawPath(path, paint.withPathGradient(path, palette))
+        return
+    }
+    val bounds = if (cache != null) RectF(clipBounds) else {
+        RectF().also { outline.computeBounds(it, true) }.apply { inset(-2f, -2f) }
+    }
+    if (!bounds.intersect(RectF(clipBounds))) return
+    val pixels = Rect().also { bounds.roundOut(it) }
+    val joinReach = when {
+        paint.strokeJoin == Paint.Join.MITER -> paint.strokeMiter.coerceAtLeast(1.5f)
+        paint.strokeCap == Paint.Cap.SQUARE -> 1.5f
+        else -> 1f
+    }
+    // The colour strokes extend one pixel beyond the silhouette. Their antialiasing
+    // blends self-crossings, while the native outline applies the outer coverage once.
+    val colourWidth = paint.strokeWidth * joinReach + 2f
+    val renderer = cache ?: GradientStrokeCache()
+    try {
+        val bitmap = renderer.render(path, palette, cycleLength, colourWidth, pixels)
+        val colourShader =
+            BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
+                setLocalMatrix(Matrix().apply {
+                    setTranslate(pixels.left.toFloat(), pixels.top.toFloat())
+                })
+            }
+        // Filling the stroked outline applies coverage once, including overlapping joins.
+        // The colour texture is opaque; only this full-resolution outline controls alpha.
+        drawPath(outline, Paint(paint).apply {
+            style = Paint.Style.FILL
+            pathEffect = null
+            shader = colourShader
+            isFilterBitmap = true
+            maskFilter = null
+            clearShadowLayer()
+        })
+    } finally {
+        if (cache == null) renderer.clear()
+    }
 }
 
+/** Blur the premultiplied stroke once, so colour crossings feather with the silhouette. */
 private fun Canvas.drawSoftGradientStroke(
     path: Path,
     paint: Paint,
     palette: GradientPalette,
-    cycleLength: Float
+    canvasSize: IntegerSize,
+    radius: Float,
+    cache: GradientStrokeCache?
 ) {
-    val segmentPaint = Paint(paint).apply {
-        pathEffect = null
-        strokeCap = Paint.Cap.BUTT
-        strokeJoin = Paint.Join.ROUND
+    val sigma = radius * 0.57735f + 0.5f
+    val feather = ceil(sigma * 3f) + 2f
+    val outline = Path()
+    val outlinePaint = Paint(paint).apply { maskFilter = null }
+    outlinePaint.getFillPath(path, outline)
+    val bounds = if (cache != null) RectF(clipBounds) else {
+        RectF().also { outline.computeBounds(it, true) }
     }
-    val capPaint = Paint(paint).apply {
-        pathEffect = null
-        shader = null
-        style = Paint.Style.FILL
+    bounds.inset(-feather, -feather)
+    val clip = RectF(clipBounds).apply { inset(-feather, -feather) }
+    if (!bounds.intersect(clip)) return
+
+    // Feathering hides subpixel detail. Keep at least two pixels per sigma and anchor
+    // the sampling grid to the canvas, so growing the path never shifts the texture.
+    val scale = (256f / maxOf(canvasSize.width, canvasSize.height))
+        .coerceIn(min(1f, 2f / sigma), 1f)
+    val left = floor(bounds.left * scale) / scale
+    val top = floor(bounds.top * scale) / scale
+    val bitmap = Bitmap.createBitmap(
+        ceil((bounds.right - left) * scale).toInt().coerceAtLeast(1),
+        ceil((bounds.bottom - top) * scale).toInt().coerceAtLeast(1),
+        Bitmap.Config.ARGB_8888
+    )
+    try {
+        val strokeCanvas = Canvas(bitmap)
+        strokeCanvas.scale(scale, scale)
+        strokeCanvas.translate(-left, -top)
+        strokeCanvas.drawGradientStroke(
+            path, Paint(paint).apply {
+                alpha = 255
+                colorFilter = null
+                xfermode = null
+            }, palette, canvasSize, 0f, cache
+        )
+        val scaledSigma = sigma * scale
+        val kernelSize = ceil(scaledSigma * 3f).toInt() * 2 + 1
+        val blurred = Aire.gaussianBlur(
+            bitmap = bitmap,
+            horizontalKernelSize = kernelSize,
+            verticalKernelSize = kernelSize,
+            horizontalSigma = scaledSigma,
+            verticalSigma = scaledSigma,
+            gaussianPreciseLevel = GaussianPreciseLevel.EXACT,
+            edgeMode = EdgeMode.CLAMP
+        )
+        try {
+            val destination =
+                RectF(left, top, left + bitmap.width / scale, top + bitmap.height / scale)
+            drawBitmap(blurred, null, destination, Paint(Paint.FILTER_BITMAP_FLAG).apply {
+                alpha = paint.alpha
+                colorFilter = paint.colorFilter
+                xfermode = paint.xfermode
+            })
+        } finally {
+            if (blurred !== bitmap) blurred.recycle()
+        }
+    } finally {
+        bitmap.recycle()
     }
-    val measure = PathMeasure(path, false)
-    val segmentPath = Path()
-    val startPosition = FloatArray(2)
-    val endPosition = FloatArray(2)
-    var passedDistance = 0f
-
-    do {
-        val contourLength = measure.length
-        var startDistance = 0f
-        while (startDistance < contourLength) {
-            val endDistance = min(startDistance + SOFT_SEGMENT_LENGTH, contourLength)
-            val drawStart = (startDistance - SOFT_SEGMENT_OVERLAP).coerceAtLeast(0f)
-            val drawEnd = (endDistance + SOFT_SEGMENT_OVERLAP).coerceAtMost(contourLength)
-
-            segmentPath.rewind()
-            if (
-                measure.getSegment(drawStart, drawEnd, segmentPath, true) &&
-                measure.getPosTan(drawStart, startPosition, null) &&
-                measure.getPosTan(drawEnd, endPosition, null)
-            ) {
-                segmentPaint.shader = LinearGradient(
-                    startPosition[0],
-                    startPosition[1],
-                    endPosition[0],
-                    endPosition[1],
-                    palette.colorAtDistance(passedDistance + drawStart, cycleLength),
-                    palette.colorAtDistance(passedDistance + drawEnd, cycleLength),
-                    Shader.TileMode.CLAMP
-                )
-                drawPath(segmentPath, segmentPaint)
-            }
-            startDistance = endDistance
-        }
-
-        if (!measure.isClosed && paint.strokeCap != Paint.Cap.SQUARE && contourLength > 0f) {
-            if (measure.getPosTan(0f, startPosition, null)) {
-                capPaint.color = palette.colorAtDistance(passedDistance, cycleLength)
-                drawCircle(
-                    startPosition[0],
-                    startPosition[1],
-                    paint.strokeWidth / 2f,
-                    capPaint
-                )
-            }
-            if (measure.getPosTan(contourLength, endPosition, null)) {
-                capPaint.color = palette.colorAtDistance(
-                    passedDistance + contourLength,
-                    cycleLength
-                )
-                drawCircle(
-                    endPosition[0],
-                    endPosition[1],
-                    paint.strokeWidth / 2f,
-                    capPaint
-                )
-            }
-        }
-
-        passedDistance += contourLength
-    } while (measure.nextContour())
 }
 
-private fun Canvas.drawGradientMesh(
-    path: Path,
-    paint: Paint,
-    palette: GradientPalette,
-    cycleLength: Float,
-    halfWidth: Float
-) {
-    val measure = PathMeasure(path, false)
-    val position = FloatArray(2)
-    val tangent = FloatArray(2)
-    var passedDistance = 0f
+/**
+ * One colour surface for the current stroke. Only complete, fixed-distance segments
+ * are retained. Restore the unfinished tip before extending it, so it cannot leave
+ * ghosts, change earlier colours, or accumulate antialiasing between input events.
+ */
+internal class GradientStrokeCache {
+    private var bitmap: Bitmap? = null
+    private var tip: Bitmap? = null
+    private var tipLeft = 0
+    private var tipTop = 0
+    private var key: ColourKey? = null
+    private var segments: List<ColourSegment> = emptyList()
 
-    do {
-        val contourLength = measure.length
-        if (contourLength > 0f) {
-            val bodySampleCount = ceil(contourLength / MESH_SAMPLE_STEP)
-                .toInt()
-                .coerceAtLeast(1) + 1
-            val hasRoundCaps = !measure.isClosed && paint.strokeCap != Paint.Cap.SQUARE
-            val capSectionCount = if (hasRoundCaps) ROUND_CAP_SEGMENTS else 0
-            val crossSectionCount = bodySampleCount + capSectionCount * 2
-            val vertices = FloatArray(crossSectionCount * VALUES_PER_CROSS_SECTION)
-            val colors = IntArray(crossSectionCount * VERTICES_PER_CROSS_SECTION)
-            val capExtension = if (paint.strokeCap == Paint.Cap.SQUARE) {
-                halfWidth
-            } else {
-                0f
-            }
-
-            fun setCrossSection(
-                index: Int,
-                centerX: Float,
-                centerY: Float,
-                tangentX: Float,
-                tangentY: Float,
-                sectionHalfWidth: Float,
-                color: Int
-            ) {
-                val normalX = -tangentY * sectionHalfWidth
-                val normalY = tangentX * sectionHalfWidth
-                val vertexOffset = index * VALUES_PER_CROSS_SECTION
-                vertices[vertexOffset] = centerX + normalX
-                vertices[vertexOffset + 1] = centerY + normalY
-                vertices[vertexOffset + 2] = centerX - normalX
-                vertices[vertexOffset + 3] = centerY - normalY
-
-                val colorOffset = index * VERTICES_PER_CROSS_SECTION
-                colors[colorOffset] = color
-                colors[colorOffset + 1] = color
-            }
-
-            if (hasRoundCaps && measure.getPosTan(0f, position, tangent)) {
-                val color = palette.colorAtDistance(passedDistance, cycleLength)
-                repeat(ROUND_CAP_SEGMENTS) { capIndex ->
-                    val progress = capIndex.toFloat() / ROUND_CAP_SEGMENTS
-                    val extension = -halfWidth * (1f - progress)
-                    val capHalfWidth = sqrt(
-                        (halfWidth * halfWidth - extension * extension).coerceAtLeast(0f)
-                    )
-                    setCrossSection(
-                        index = capIndex,
-                        centerX = position[0] + tangent[0] * extension,
-                        centerY = position[1] + tangent[1] * extension,
-                        tangentX = tangent[0],
-                        tangentY = tangent[1],
-                        sectionHalfWidth = capHalfWidth,
-                        color = color
-                    )
-                }
-            }
-
-            repeat(bodySampleCount) { index ->
-                val distance = min(
-                    index * MESH_SAMPLE_STEP,
-                    contourLength
-                )
-                if (!measure.getPosTan(distance, position, tangent)) return@repeat
-
-                val extension = when (index) {
-                    0 -> -capExtension
-                    bodySampleCount - 1 -> capExtension
-                    else -> 0f
-                }
-                val centerX = position[0] + tangent[0] * extension
-                val centerY = position[1] + tangent[1] * extension
-                val color = palette.colorAtDistance(
-                    distance = passedDistance + distance,
-                    cycleLength = cycleLength
-                )
-                setCrossSection(
-                    index = capSectionCount + index,
-                    centerX = centerX,
-                    centerY = centerY,
-                    tangentX = tangent[0],
-                    tangentY = tangent[1],
-                    sectionHalfWidth = halfWidth,
-                    color = color
-                )
-            }
-
-            if (hasRoundCaps && measure.getPosTan(contourLength, position, tangent)) {
-                val color = palette.colorAtDistance(
-                    passedDistance + contourLength,
-                    cycleLength
-                )
-                repeat(ROUND_CAP_SEGMENTS) { capIndex ->
-                    val progress = (capIndex + 1f) / ROUND_CAP_SEGMENTS
-                    val extension = halfWidth * progress
-                    val capHalfWidth = sqrt(
-                        (halfWidth * halfWidth - extension * extension).coerceAtLeast(0f)
-                    )
-                    setCrossSection(
-                        index = capSectionCount + bodySampleCount + capIndex,
-                        centerX = position[0] + tangent[0] * extension,
-                        centerY = position[1] + tangent[1] * extension,
-                        tangentX = tangent[0],
-                        tangentY = tangent[1],
-                        sectionHalfWidth = capHalfWidth,
-                        color = color
-                    )
-                }
-            }
-
-            drawVertices(
-                Canvas.VertexMode.TRIANGLE_STRIP,
-                vertices.size,
-                vertices,
-                0,
-                null,
-                0,
-                colors,
-                0,
-                null,
-                0,
-                0,
-                paint
-            )
+    internal fun render(
+        path: Path,
+        palette: GradientPalette,
+        cycleLength: Float,
+        width: Float,
+        bounds: Rect
+    ): Bitmap {
+        val nextKey = ColourKey(palette, cycleLength, width, Rect(bounds))
+        val nextSegments = path.colourSegments(cycleLength)
+        val completeCount = (nextSegments.size - 1).coerceAtLeast(0)
+        val canAppend = key == nextKey && segments.size <= completeCount &&
+                segments.indices.all { segments[it] == nextSegments[it] }
+        val colours = palette.colors.map { it.colorInt }.let {
+            if (it.first() == it.last()) it else it + it.first()
+        }.toIntArray()
+        if (!canAppend) {
+            clear()
+            bitmap = Bitmap.createBitmap(bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888)
+            bitmap!!.eraseColor(colours.first())
+            key = nextKey
         }
+        val target = bitmap!!
+        val canvas = Canvas(target)
+        tip?.let {
+            canvas.drawBitmap(it, tipLeft.toFloat(), tipTop.toFloat(), null)
+            it.recycle()
+            tip = null
+        }
+        canvas.translate(-bounds.left.toFloat(), -bounds.top.toFloat())
+        val gradient =
+            LinearGradient(0f, 0f, cycleLength, 0f, colours, null, Shader.TileMode.REPEAT)
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            strokeWidth = width
+            strokeCap = Paint.Cap.ROUND
+            shader = gradient
+        }
+        val matrix = Matrix()
+        val values = FloatArray(9).apply { this[8] = 1f }
+        fun draw(segment: ColourSegment) {
+            val dx = segment.endX - segment.startX
+            val dy = segment.endY - segment.startY
+            val length = sqrt(dx * dx + dy * dy)
+            if (length == 0f) return
+            val tx = dx / length
+            val ty = dy / length
+            values[0] = tx / segment.distanceScale
+            values[1] = -ty
+            values[2] = segment.startX - tx * segment.distance
+            values[3] = ty / segment.distanceScale
+            values[4] = tx
+            values[5] = segment.startY - ty * segment.distance
+            matrix.setValues(values)
+            gradient.setLocalMatrix(matrix)
+            canvas.drawLine(segment.startX, segment.startY, segment.endX, segment.endY, paint)
+        }
+        for (index in segments.size until completeCount) draw(nextSegments[index])
+        segments = nextSegments.subList(0, completeCount)
+        nextSegments.lastOrNull()?.let { last ->
+            val radius = width / 2f + 1f
+            val tipBounds = Rect(
+                floor(min(last.startX, last.endX) - radius).toInt(),
+                floor(min(last.startY, last.endY) - radius).toInt(),
+                ceil(maxOf(last.startX, last.endX) + radius).toInt(),
+                ceil(maxOf(last.startY, last.endY) + radius).toInt()
+            )
+            if (tipBounds.intersect(bounds)) {
+                tipLeft = tipBounds.left - bounds.left
+                tipTop = tipBounds.top - bounds.top
+                // createBitmap may return its input for a full-size subset; always copy.
+                tip = Bitmap.createBitmap(
+                    tipBounds.width(),
+                    tipBounds.height(),
+                    Bitmap.Config.ARGB_8888
+                )
+                Canvas(tip!!).drawBitmap(target, -tipLeft.toFloat(), -tipTop.toFloat(), null)
+            }
+            draw(last)
+        }
+        return target
+    }
 
-        passedDistance += contourLength
-    } while (measure.nextContour())
+    fun clear() {
+        bitmap?.recycle()
+        tip?.recycle()
+        bitmap = null
+        tip = null
+        key = null
+        segments = emptyList()
+    }
+}
+
+private data class ColourKey(
+    val palette: GradientPalette,
+    val cycleLength: Float,
+    val width: Float,
+    val bounds: Rect
+)
+
+private data class ColourSegment(
+    val startX: Float,
+    val startY: Float,
+    val endX: Float,
+    val endY: Float,
+    val distance: Float,
+    val distanceScale: Float
+)
+
+private fun Path.colourSegments(cycleLength: Float): List<ColourSegment> {
+    // PathMeasure's tolerance is in pixels. Normalize before measuring so the same
+    // curve has the same arc lengths and colours in the preview and the saved image.
+    val scale = cycleLength / MEASURE_CYCLE_LENGTH
+    val measuredPath = Path(this).apply {
+        transform(Matrix().apply { setScale(1f / scale, 1f / scale) })
+    }
+    val measure = PathMeasure(measuredPath, false)
+    val position = FloatArray(2)
+    return buildList {
+        do {
+            val length = measure.length
+            if (length <= 0f || !measure.getPosTan(0f, position, null)) continue
+            val distanceScale = if (measure.isClosed) {
+                (length / MEASURE_CYCLE_LENGTH).roundToInt().coerceAtLeast(1) *
+                        MEASURE_CYCLE_LENGTH / length
+            } else 1f
+            var previousX = position[0] * scale
+            var previousY = position[1] * scale
+            var distance = 0f
+            while (distance < length) {
+                val end = min(distance + COLOUR_SAMPLE_STEP, length)
+                measure.getPosTan(end, position, null)
+                val x = position[0] * scale
+                val y = position[1] * scale
+                add(ColourSegment(previousX, previousY, x, y, distance * scale, distanceScale))
+                previousX = x
+                previousY = y
+                distance = end
+            }
+        } while (measure.nextContour())
+    }
 }
 
 private fun Path.createGradient(palette: GradientPalette): LinearGradient {
@@ -348,40 +377,11 @@ private fun Path.createGradient(palette: GradientPalette): LinearGradient {
     )
 }
 
-private fun GradientPalette.colorAtDistance(
-    distance: Float,
-    cycleLength: Float
-): Int {
-    val transitions = transitionCount()
-    val wrappedDistance = ((distance % cycleLength) + cycleLength) % cycleLength
-    val scaled = wrappedDistance / cycleLength * transitions
-    val startIndex = floor(scaled).toInt().coerceAtMost(transitions - 1)
-    val endIndex = if (startIndex + 1 < colors.size) startIndex + 1 else 0
-    return lerp(
-        start = Color(colors[startIndex].colorInt),
-        stop = Color(colors[endIndex].colorInt),
-        fraction = scaled - floor(scaled)
-    ).toArgb()
-}
-
-private fun GradientPalette.transitionCount(): Int = if (
-    colors.size > 1 && colors.first().colorInt == colors.last().colorInt
-) {
-    colors.lastIndex
-} else {
-    colors.size
-}
-
 private fun IntegerSize.gradientCycleLength(): Float = (
         min(width, height).coerceAtLeast(1) * GRADIENT_CYCLE_SIZE_FRACTION
         ).coerceAtLeast(MIN_CYCLE_LENGTH)
 
 private const val GRADIENT_CYCLE_SIZE_FRACTION = 0.5f
 private const val MIN_CYCLE_LENGTH = 1f
-private const val MESH_SAMPLE_STEP = 4f
-private const val MESH_OVERDRAW = 2f
-private const val ROUND_CAP_SEGMENTS = 12
-private const val SOFT_SEGMENT_LENGTH = 32f
-private const val SOFT_SEGMENT_OVERLAP = 1f
-private const val VERTICES_PER_CROSS_SECTION = 2
-private const val VALUES_PER_CROSS_SECTION = VERTICES_PER_CROSS_SECTION * 2
+private const val MEASURE_CYCLE_LENGTH = 512f
+private const val COLOUR_SAMPLE_STEP = 4f
