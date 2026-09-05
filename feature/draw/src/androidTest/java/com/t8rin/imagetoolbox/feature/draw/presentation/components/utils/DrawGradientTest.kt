@@ -333,7 +333,9 @@ class DrawGradientTest {
                     GradientPalette.SoftRainbow,
                     false,
                     IntegerSize(1200, 1200),
-                    cache = cache
+                    cache = cache,
+                    gradientLength = .1f,
+                    isGradientMirrored = true
                 )
                 if (index > 20) durations += (System.nanoTime() - started) / 1_000_000
                 if (index in listOf(20, 79, 160)) {
@@ -345,7 +347,9 @@ class DrawGradientTest {
                             GradientPalette.SoftRainbow,
                             false,
                             IntegerSize(1200, 1200),
-                            cache = fresh
+                            cache = fresh,
+                            gradientLength = .1f,
+                            isGradientMirrored = true
                         )
                         fresh.clear()
                     }
@@ -595,32 +599,63 @@ class DrawGradientTest {
     }
 
     @Test
-    fun mirrorRepeatReversesThePaletteAtEachEndpoint() {
-        val path = Path().apply { moveTo(16f, 128f); lineTo(240f, 128f) }
-        for (palette in listOf(GradientPalette.Classic, GradientPalette.SoftRainbow)) {
+    fun mirrorRepeatPreservesStopsAndSmoothlyReversesAtEachEndpoint() {
+        val path = Path().apply { moveTo(16.5f, 128f); lineTo(240.5f, 128f) }
+        for (palette in listOf(
+            GradientPalette.Classic,
+            GradientPalette.SoftRainbow,
+            GradientPalette.Grayscale
+        )) {
             val image = bitmap()
             Canvas(image).drawPathWithGradient(
-                path, paint(), palette, false, IntegerSize(SIZE, SIZE),
+                path, paint(), palette, false, IntegerSize(240, SIZE),
                 gradientLength = .25f, isGradientMirrored = true
             )
-            for (x in 20..235) {
-                val phase = ((x + .5 - 16) / 64) % 2
-                val expected = palette.colorIntAt(if (phase <= 1) phase else 2 - phase)
-                val actual = image.getPixel(x, 128)
-                for (shift in listOf(0, 8, 16)) {
-                    val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
-                    assertTrue("Mirror colour differs at $palette / $x: $error", error <= 3)
+            for ((index, stop) in palette.colors.withIndex()) {
+                val distance = index * 60 / palette.colors.lastIndex
+                for (x in listOf(16 + distance, 136 - distance, 136 + distance)) {
+                    val actual = image.getPixel(x, 128)
+                    for (shift in listOf(0, 8, 16)) {
+                        val error = abs(
+                            (stop.colorInt ushr shift and 255) -
+                                    (actual ushr shift and 255)
+                        )
+                        assertTrue("Mirror shifted $palette stop $index at $x: $error", error <= 2)
+                    }
                 }
             }
-            for (turn in listOf(80, 144, 208)) {
-                assertEquals(image.getPixel(turn - 1, 128), image.getPixel(turn, 128))
+            for (turn in listOf(76, 136, 196)) {
+                for (offset in 1..25) {
+                    assertEquals(
+                        "Mirror is asymmetric at $turn / $offset",
+                        image.getPixel(turn - offset, 128), image.getPixel(turn + offset, 128)
+                    )
+                }
+                val endpoint = image.getPixel(turn, 128)
+                val neighbour = image.getPixel(turn + 1, 128)
+                for (shift in listOf(0, 8, 16)) {
+                    val difference = abs(
+                        (endpoint ushr shift and 255) -
+                                (neighbour ushr shift and 255)
+                    )
+                    val adjacentStop = if (turn == 136) palette.colors[1]
+                    else palette.colors[palette.colors.lastIndex - 1]
+                    val linearStep = abs(
+                        (endpoint ushr shift and 255) -
+                                (adjacentStop.colorInt ushr shift and 255)
+                    ) * palette.colors.lastIndex / 60f
+                    assertTrue(
+                        "Mirror reversed sharply at $palette / $turn: $difference",
+                        difference <= linearStep * .55f + 1f
+                    )
+                }
             }
             image.recycle()
         }
     }
 
     @Test
-    fun mirrorRepeatAlsoReversesFilledGradients() {
+    fun mirrorRepeatAlsoSmoothlyReversesFilledGradients() {
         val path = Path().apply { addRect(0f, 0f, 256f, 256f, Path.Direction.CW) }
         val image = bitmap()
         val palette = GradientPalette.Classic
@@ -628,18 +663,60 @@ class DrawGradientTest {
             path, paint().apply { style = Paint.Style.FILL }, palette, true,
             IntegerSize(SIZE, SIZE), gradientLength = .25f, isGradientMirrored = true
         )
-        for (x in 2..250) {
-            val phase = ((x + .5 + 64.5) / 128) % 2
-            val position = if (phase <= 1) phase else 2 - phase
-            val expected = if (position == 1.0) palette.colors.last().colorInt
-            else palette.colorIntAt(position)
-            val actual = image.getPixel(x, 64)
-            for (shift in listOf(0, 8, 16)) {
-                val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
-                assertTrue("Filled mirror colour differs at $x: $error", error <= 3)
+        for ((turn, expected) in listOf(
+            63 to palette.colors.last().colorInt,
+            191 to palette.colors.first().colorInt
+        )) {
+            for (offset in -1..1) {
+                val actual = image.getPixel(turn + offset, 64)
+                for (shift in listOf(0, 8, 16)) {
+                    val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
+                    assertTrue("Filled mirror reversed sharply at $turn / $offset", error <= 2)
+                }
+            }
+            for (offset in 1..60) {
+                val before = image.getPixel(turn - offset, 64)
+                val after = image.getPixel(turn + offset, 64)
+                for (shift in listOf(0, 8, 16)) {
+                    val error = abs((before ushr shift and 255) - (after ushr shift and 255))
+                    assertTrue("Filled mirror is asymmetric at $turn / $offset", error <= 1)
+                }
             }
         }
         image.recycle()
+    }
+
+    @Test
+    fun shortMirroredGradientsDoNotLeaveColourRidgesInsideCurves() {
+        val size = 480
+        val path = Path().apply { addArc(90f, 90f, 390f, 390f, 180f, 210f) }
+        val image = bitmap(size)
+        val interior = bitmap(size)
+        Canvas(image).drawPathWithGradient(
+            path, paint().apply { strokeWidth = 76f }, GradientPalette.Classic,
+            false, IntegerSize(size, size), gradientLength = .1f, isGradientMirrored = true
+        )
+        Canvas(interior).drawPath(path, paint().apply { strokeWidth = 60f })
+        var maxCurvature = 0
+        for (y in 1 until size - 1) for (x in 1 until size - 1) {
+            if (Color.alpha(interior.getPixel(x, y)) != 255) continue
+            val center = image.getPixel(x, y)
+            val left = image.getPixel(x - 1, y)
+            val right = image.getPixel(x + 1, y)
+            val above = image.getPixel(x, y - 1)
+            val below = image.getPixel(x, y + 1)
+            for (shift in listOf(0, 8, 16)) {
+                val curvature = abs(
+                    4 * (center ushr shift and 255) -
+                            (left ushr shift and 255) - (right ushr shift and 255) -
+                            (above ushr shift and 255) - (below ushr shift and 255)
+                )
+                maxCurvature = maxOf(maxCurvature, curvature)
+            }
+        }
+        assertTrue("Short gradient left colour ridges: $maxCurvature", maxCurvature <= 32)
+        image.recycle()
+        interior.recycle()
     }
 
     @Test

@@ -128,7 +128,7 @@ fun DrawColorSelector(
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(
-                    start = 4.dp, end = 4.dp, bottom = 4.dp
+                    start = 8.dp, end = 8.dp, bottom = 8.dp
                 )
             ) {
                 GradientPaletteSelector(

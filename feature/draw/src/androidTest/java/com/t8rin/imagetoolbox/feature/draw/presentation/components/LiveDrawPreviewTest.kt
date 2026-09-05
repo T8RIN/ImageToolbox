@@ -494,14 +494,14 @@ class LiveDrawPreviewTest {
             stroke(.25f)
             val first = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
             instrumentation.runOnMainSync {
-                activity.gradientLength = 4f
+                activity.gradientLength = .1f
                 activity.gradientMirrored = true
             }
             SystemClock.sleep(200)
             assertTrue("Changing length repainted existing ink", first.sameAs(activity.frame))
             stroke(.7f)
             val paths = activity.paths
-            assertEquals(listOf(.25f, 4f), paths.map { it.gradientLength })
+            assertEquals(listOf(.25f, .1f), paths.map { it.gradientLength })
             assertEquals(listOf(false, true), paths.map { it.isGradientMirrored })
             assertEquals(
                 paths.map { it.isGradientMirrored },

@@ -299,13 +299,17 @@ internal class GradientStrokeCache {
                 isGradientMirrored
             )
         val repeatLength = cycleLength * if (isGradientMirrored) 2f else 1f
-        val nextSegments = path.colourSegments(repeatLength, measurementLength, width)
+        val sampleStep = (COLOUR_SAMPLE_STEP * cycleLength / measurementLength)
+            .coerceIn(1f, COLOUR_SAMPLE_STEP)
+        val nextSegments = path.colourSegments(repeatLength, measurementLength, width, sampleStep)
         val completeCount = (nextSegments.size - 1).coerceAtLeast(0)
         val canAppend = key == nextKey && segments.size <= completeCount &&
                 segments.indices.all { segments[it] == nextSegments[it] }
-        val colours = palette.colors.map { it.colorInt }.let {
-            if (isGradientMirrored || it.first() == it.last()) it else it + it.first()
-        }.toIntArray()
+        val colours = if (isGradientMirrored) palette.mirroredColours() else {
+            palette.colors.map { it.colorInt }.let {
+                if (it.first() == it.last()) it else it + it.first()
+            }.toIntArray()
+        }
         if (!canAppend) {
             clear()
             bitmap = createBitmap(bounds.width(), bounds.height())
@@ -443,7 +447,8 @@ private data class ColourSegment(
 private fun Path.colourSegments(
     cycleLength: Float,
     measurementLength: Float,
-    width: Float
+    width: Float,
+    sampleStep: Float
 ): List<ColourSegment> {
     val scale = measurementLength / MEASURE_CYCLE_LENGTH
     val measuredPath = Path(this).apply {
@@ -465,7 +470,7 @@ private fun Path.colourSegments(
             var distance = 0f
             var heading: Float? = null
             while (distance < length) {
-                val end = min(distance + COLOUR_SAMPLE_STEP, length)
+                val end = min(distance + sampleStep, length)
                 measure.getPosTan(end, position, null)
                 val x = position[0] * scale
                 val y = position[1] * scale
@@ -512,7 +517,8 @@ private fun Path.createGradient(
         bounds.top,
         bounds.left + (endX - bounds.left) * length,
         bounds.top + (endY - bounds.top) * length,
-        palette.colors.map { it.colorInt }.toIntArray(),
+        if (isGradientMirrored) palette.mirroredColours()
+        else palette.colors.map { it.colorInt }.toIntArray(),
         null,
         when {
             isGradientMirrored -> Shader.TileMode.MIRROR
@@ -520,6 +526,36 @@ private fun Path.createGradient(
             else -> Shader.TileMode.CLAMP
         }
     )
+}
+
+private fun GradientPalette.mirroredColours(): IntArray = MIRRORED_COLOURS[ordinal].value
+
+private val MIRRORED_COLOURS = GradientPalette.entries.map { palette ->
+    lazy {
+        val stops = palette.colors.map { it.colorInt }
+        val samplesPerStop = 8
+        IntArray(stops.lastIndex * samplesPerStop + 1) { index ->
+            val left = (index / samplesPerStop).coerceAtMost(stops.lastIndex - 1)
+            val right = left + 1
+            val t = (index - left * samplesPerStop).toFloat() / samplesPerStop
+            fun channel(shift: Int): Int {
+                fun value(stop: Int): Float = (stops[stop] ushr shift and 255).toFloat()
+                fun slope(before: Float, after: Float): Float =
+                    if (before * after > 0f) 2f * before * after / (before + after) else 0f
+
+                val start = value(left)
+                val end = value(right)
+                val delta = end - start
+                val startSlope = if (left == 0) 0f else slope(start - value(left - 1), delta)
+                val endSlope = if (right == stops.lastIndex) 0f
+                else slope(delta, value(right + 1) - end)
+                return (start + t * (startSlope + t * (3f * delta - 2f * startSlope - endSlope +
+                        t * (-2f * delta + startSlope + endSlope))))
+                    .roundToInt().coerceIn(0, 255)
+            }
+            (channel(24) shl 24) or (channel(16) shl 16) or (channel(8) shl 8) or channel(0)
+        }
+    }
 }
 
 private fun IntegerSize.gradientCycleLength(): Float = (
