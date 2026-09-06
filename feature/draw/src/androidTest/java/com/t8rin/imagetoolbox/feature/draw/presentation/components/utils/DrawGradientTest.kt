@@ -31,6 +31,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -43,6 +47,119 @@ import kotlin.math.sqrt
 
 @RunWith(AndroidJUnit4::class)
 class DrawGradientTest {
+
+    @Test
+    fun highlighterCrossingsDoNotRecolourUntouchedPartsOfTheStroke() {
+        val size = 1000
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val brush = createDrawPaint(
+            strokeWidth = 65.pt,
+            isEraserOn = false,
+            drawColor = androidx.compose.ui.graphics.Color.White.copy(alpha = .4f),
+            brushSoftness = 0.pt,
+            drawMode = DrawMode.Highlighter,
+            canvasSize = IntegerSize(size, size),
+            drawPathMode = DrawPathMode.Free,
+            drawLineStyle = DrawLineStyle.None,
+            context = context
+        )
+        val path = Path().apply {
+            moveTo(100f, 450f)
+            lineTo(900f, 450f)
+        }
+        val continuation = Path().apply {
+            moveTo(900f, 450f)
+            lineTo(900f, 800f)
+            lineTo(100f, 100f)
+        }
+        val base = bitmap(size)
+        val actual = bitmap(size)
+        val mask = bitmap(size)
+        Canvas(base).drawPathWithGradient(
+            path, brush, GradientPalette.Turbo, false, IntegerSize(size, size)
+        )
+        path.lineTo(900f, 800f)
+        path.lineTo(100f, 100f)
+        Canvas(actual).drawPathWithGradient(
+            path, brush, GradientPalette.Turbo, false, IntegerSize(size, size)
+        )
+        Canvas(mask).drawPath(continuation, Paint(brush).apply {
+            color = Color.WHITE
+            alpha = 255
+            strokeWidth += 4f
+        })
+        File(context.getExternalFilesDir(null), "highlighter-crossing.png").outputStream().use {
+            actual.compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+        var recoloured = 0
+        var worst = 0
+        var alphaBuildUp = 0
+        for (y in 0 until size) for (x in 0 until size) {
+            val before = base.getPixel(x, y)
+            val after = actual.getPixel(x, y)
+            if (Color.alpha(after) > brush.alpha) alphaBuildUp++
+            if (Color.alpha(before) == brush.alpha && mask.getPixel(x, y) == 0) {
+                val difference = listOf(0, 8, 16).maxOf { shift ->
+                    abs((before ushr shift and 255) - (after ushr shift and 255))
+                }
+                if (difference > 3) recoloured++
+                worst = maxOf(worst, difference)
+            }
+        }
+        base.recycle()
+        actual.recycle()
+        mask.recycle()
+        assertEquals("Highlighter alpha accumulated at self intersections", 0, alphaBuildUp)
+        assertEquals("Crossing recoloured $recoloured untouched pixels (max $worst)", 0, recoloured)
+    }
+
+    @Test
+    fun highlighterCacheRestoresSquareTipsAndInvalidatesJoinSettings() {
+        val size = 512
+        val palette = GradientPalette.Custom(
+            listOf(0x80336699.toInt(), 0x80996633.toInt()).map(::ColorModel)
+        )
+        val points = listOf(
+            50f to 220f, 230f to 220f, 460f to 220f,
+            460f to 410f, 290f to 280f, 50f to 70f
+        )
+        val cache = GradientStrokeCache()
+        try {
+            for (join in listOf(
+                Paint.Join.MITER,
+                Paint.Join.ROUND,
+                Paint.Join.BEVEL,
+                Paint.Join.MITER
+            )) {
+                val brush = paint(102).apply {
+                    strokeWidth = 64f
+                    strokeCap = Paint.Cap.SQUARE
+                    strokeJoin = join
+                }
+                for (count in listOf(2, 3, 4, 5, 6, 4, 6)) {
+                    val path = Path().apply {
+                        moveTo(points[0].first, points[0].second)
+                        for ((x, y) in points.take(count).drop(1)) lineTo(x, y)
+                    }
+                    val actual = bitmap(size)
+                    val expected = bitmap(size)
+                    val fresh = GradientStrokeCache()
+                    for ((target, renderer) in listOf(actual to cache, expected to fresh)) {
+                        Canvas(target).drawPathWithGradient(
+                            path, brush, palette, false, IntegerSize(size, size),
+                            cache = renderer, gradientLength = .25f, isGradientMirrored = true
+                        )
+                    }
+                    fresh.clear()
+                    assertTrue("Stale highlighter tip at $join / $count", expected.sameAs(actual))
+                    actual.recycle()
+                    expected.recycle()
+                }
+            }
+        } finally {
+            cache.clear()
+        }
+    }
 
     @Test
     fun tightTurnsAndSelfIntersectionsKeepNativeStrokeCoverage() {

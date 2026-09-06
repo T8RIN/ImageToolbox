@@ -215,6 +215,69 @@ class LiveDrawPreviewTest {
     }
 
     @Test
+    fun highlighterSelfCrossingKeepsUntouchedInkDuringAndAfterTheGesture() =
+        withDrawer { activity ->
+            instrumentation.runOnMainSync {
+                activity.mode = DrawMode.Highlighter
+                activity.gradient = GradientPalette.Turbo
+                activity.alpha = .4f
+            }
+            instrumentation.waitForIdleSync()
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .1f, .45f, down)
+            for (step in 1..16) {
+                event(activity, MotionEvent.ACTION_MOVE, .1f + step * .05f, .45f, down)
+            }
+            SystemClock.sleep(200)
+            val first = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            val x = first.width / 4
+            val y = (first.height * .45f).toInt()
+            val before = first.getPixel(x, y)
+            assertTrue(
+                "The first highlighter segment is missing",
+                before != android.graphics.Color.WHITE
+            )
+            for (step in 1..7) {
+                event(activity, MotionEvent.ACTION_MOVE, .9f, .45f + step * .05f, down)
+            }
+            for (step in 1..16) {
+                event(
+                    activity,
+                    MotionEvent.ACTION_MOVE,
+                    .9f - step * .05f,
+                    .8f - step * .04375f,
+                    down
+                )
+            }
+            SystemClock.sleep(200)
+            assertEquals(
+                "Live crossing recoloured untouched ink",
+                before,
+                activity.frame!!.getPixel(x, y)
+            )
+            event(activity, MotionEvent.ACTION_UP, .1f, .1f, down)
+            await("Highlighter did not commit") { activity.ready && activity.readyPaths?.size == 1 }
+            assertEquals(
+                "Committed crossing recoloured untouched ink",
+                before,
+                activity.frame!!.getPixel(x, y)
+            )
+            val paths = activity.paths
+            val finished = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            instrumentation.runOnMainSync { activity.paths = emptyList() }
+            await("Undo left the highlighter on screen") {
+                activity.ready && activity.readyPaths?.isEmpty() == true &&
+                        activity.frame!!.getPixel(x, y) == android.graphics.Color.WHITE
+            }
+            instrumentation.runOnMainSync { activity.paths = paths }
+            await("Redo changed the crossing") {
+                activity.ready && activity.readyPaths == paths && finished.sameAs(activity.frame)
+            }
+            first.recycle()
+            finished.recycle()
+        }
+
+    @Test
     fun translucentBackgroundSurvivesErasingUndoAndColorChanges() = withDrawer { activity ->
         val palette = GradientPalette.Custom(
             listOf(0x80FF0000.toInt(), 0x800000FF.toInt()).map(::ColorModel)

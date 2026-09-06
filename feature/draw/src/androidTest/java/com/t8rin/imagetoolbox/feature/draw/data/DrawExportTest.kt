@@ -72,7 +72,12 @@ class DrawExportTest {
                             isGradientMirrored = true
                         )
                         val second = entry.copy(
-                            path = Path().apply { moveTo(16f, 180f); lineTo(240f, 180f) },
+                            path = Path().apply {
+                                moveTo(16f, 180f)
+                                lineTo(240f, 180f)
+                                lineTo(240f, 220f)
+                                lineTo(16f, 30f)
+                            },
                             gradientLength = 2f,
                             isGradientMirrored = false
                         )

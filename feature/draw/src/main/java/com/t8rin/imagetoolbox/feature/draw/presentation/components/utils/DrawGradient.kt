@@ -44,6 +44,7 @@ import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.exp
 import kotlin.math.floor
+import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -125,12 +126,7 @@ private fun Canvas.drawGradientStroke(
     }
     if (!bounds.intersect(RectF(clipBounds))) return
     val pixels = Rect().also { bounds.roundOut(it) }
-    val joinReach = when {
-        paint.strokeJoin == Paint.Join.MITER -> paint.strokeMiter.coerceAtLeast(1.5f)
-        paint.strokeCap == Paint.Cap.SQUARE -> 1.5f
-        else -> 1f
-    }
-    val colourWidth = paint.strokeWidth * joinReach + 2f
+    val colourWidth = paint.strokeWidth + 2f
     val interiorWidth = if (
         paint.pathEffect == null && paint.strokeCap == Paint.Cap.ROUND && paint.strokeJoin == Paint.Join.ROUND
     ) {
@@ -147,7 +143,10 @@ private fun Canvas.drawGradientStroke(
             colourWidth,
             interiorWidth,
             pixels,
-            isGradientMirrored
+            isGradientMirrored,
+            paint.strokeCap,
+            paint.strokeJoin,
+            paint.strokeMiter
         )
         val colourShader =
             BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
@@ -288,7 +287,10 @@ internal class GradientStrokeCache {
         width: Float,
         interiorWidth: Float,
         bounds: Rect,
-        isGradientMirrored: Boolean
+        isGradientMirrored: Boolean,
+        strokeCap: Paint.Cap,
+        strokeJoin: Paint.Join,
+        strokeMiter: Float
     ): Bitmap {
         val nextKey =
             ColourKey(
@@ -298,7 +300,10 @@ internal class GradientStrokeCache {
                 width,
                 interiorWidth,
                 Rect(bounds),
-                isGradientMirrored
+                isGradientMirrored,
+                strokeCap,
+                strokeJoin,
+                strokeMiter
             )
         val repeatLength = cycleLength * if (isGradientMirrored) 2f else 1f
         val sampleStep = (COLOUR_SAMPLE_STEP * cycleLength / measurementLength)
@@ -346,22 +351,55 @@ internal class GradientStrokeCache {
         val interiorPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
             strokeWidth = interiorWidth
-            strokeCap = Paint.Cap.ROUND
+            this.strokeCap = Paint.Cap.ROUND
         }
         val gradient =
             LinearGradient(
                 0f, 0f, cycleLength, 0f, colours, null,
                 if (isGradientMirrored) Shader.TileMode.MIRROR else Shader.TileMode.REPEAT
             )
+        val useStrokeShape = strokeCap != Paint.Cap.ROUND || strokeJoin != Paint.Join.ROUND
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.STROKE
             strokeWidth = width
-            strokeCap = Paint.Cap.ROUND
+            this.strokeCap = if (strokeCap == Paint.Cap.SQUARE) Paint.Cap.BUTT else strokeCap
+            this.strokeJoin = strokeJoin
+            this.strokeMiter = strokeMiter
             shader = gradient
             xfermode = replacePaint.xfermode
         }
+        val segmentPath = Path()
+        fun strokeShape(index: Int): Path = segmentPath.apply {
+            rewind()
+            val segment = nextSegments[index]
+            val previous = nextSegments.getOrNull(index - 1)?.takeIf {
+                it.endX == segment.startX && it.endY == segment.startY
+            }
+            val next = nextSegments.getOrNull(index + 1)?.takeIf {
+                it.startX == segment.endX && it.startY == segment.endY
+            }
+            val dx = segment.endX - segment.startX
+            val dy = segment.endY - segment.startY
+            val capScale = if (strokeCap == Paint.Cap.SQUARE) {
+                width / (2f * hypot(dx, dy))
+            } else 0f
+            // Extend only contour endpoints; internal square caps would repaint nearby ink.
+            if (previous != null) {
+                moveTo(previous.startX, previous.startY)
+                lineTo(segment.startX, segment.startY)
+            } else {
+                moveTo(segment.startX - dx * capScale, segment.startY - dy * capScale)
+                lineTo(segment.startX, segment.startY)
+            }
+            lineTo(segment.endX, segment.endY)
+            if (next == null) {
+                lineTo(segment.endX + dx * capScale, segment.endY + dy * capScale)
+            }
+        }
         val matrix = Matrix()
         val values = FloatArray(9).apply { this[8] = 1f }
-        fun draw(segment: ColourSegment) {
+        fun draw(index: Int) {
+            val segment = nextSegments[index]
             val tx = segment.tangentX
             val ty = segment.tangentY
             values[0] = tx / segment.distanceScale
@@ -372,7 +410,8 @@ internal class GradientStrokeCache {
             values[5] = segment.startY - ty * segment.distance
             matrix.setValues(values)
             gradient.setLocalMatrix(matrix)
-            canvas.drawLine(segment.startX, segment.startY, segment.endX, segment.endY, paint)
+            if (useStrokeShape) canvas.drawPath(strokeShape(index), paint)
+            else canvas.drawLine(segment.startX, segment.startY, segment.endX, segment.endY, paint)
             interiorCanvas?.drawLine(
                 segment.startX,
                 segment.startY,
@@ -381,11 +420,17 @@ internal class GradientStrokeCache {
                 interiorPaint
             )
         }
-        for (index in segments.size until completeCount) draw(nextSegments[index])
+        for (index in segments.size until completeCount) draw(index)
         segments = nextSegments.subList(0, completeCount)
         nextSegments.lastOrNull()?.let { last ->
             val radius = width / 2f + 1f
-            val tipBounds = Rect(
+            val tipBounds = if (useStrokeShape) {
+                val outline = Path()
+                paint.getFillPath(strokeShape(nextSegments.lastIndex), outline)
+                val extent = RectF().also { outline.computeBounds(it, true) }
+                extent.inset(-1f, -1f)
+                Rect().also(extent::roundOut)
+            } else Rect(
                 floor(min(last.startX, last.endX) - radius).toInt(),
                 floor(min(last.startY, last.endY) - radius).toInt(),
                 ceil(maxOf(last.startX, last.endX) + radius).toInt(),
@@ -407,7 +452,7 @@ internal class GradientStrokeCache {
                     )
                 }
             }
-            draw(last)
+            draw(nextSegments.lastIndex)
         }
         return target
     }
@@ -433,7 +478,10 @@ private data class ColourKey(
     val width: Float,
     val interiorWidth: Float,
     val bounds: Rect,
-    val isGradientMirrored: Boolean
+    val isGradientMirrored: Boolean,
+    val strokeCap: Paint.Cap,
+    val strokeJoin: Paint.Join,
+    val strokeMiter: Float
 )
 
 private data class ColourSegment(
