@@ -24,8 +24,11 @@ import android.graphics.Paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.asAndroidPath
@@ -178,11 +181,17 @@ internal fun DrawScope.drawShapeLayer(
         type = type,
         data = data
     )
+    val brush = type.gradientPalette?.let { palette ->
+        Brush.horizontalGradient(
+            colors = palette.colors.map { Color(it.colorInt) },
+            endX = data.contentWidth
+        )
+    } ?: SolidColor(type.color.toColor())
 
     if (type.shapeMode.isFilledShapeMode()) {
         drawPath(
             path = path,
-            color = type.color.toColor(),
+            brush = brush,
             style = Fill
         )
         return
@@ -200,7 +209,7 @@ internal fun DrawScope.drawShapeLayer(
 
     drawPath(
         path = path,
-        color = type.color.toColor(),
+        brush = brush,
         style = Stroke(
             width = type.strokeWidth.coerceAtLeast(1f),
             cap = StrokeCap.Round,
@@ -217,12 +226,21 @@ internal fun Canvas.drawShapeLayer(
         type = type,
         data = data
     ).asAndroidPath()
+    val gradient = type.gradientPalette?.let { palette ->
+        LinearGradientShader(
+            from = Offset.Zero,
+            to = Offset(data.contentWidth, 0f),
+            colors = palette.colors.map { Color(it.colorInt) }
+        )
+    }
 
     if (type.shapeMode.isFilledShapeMode()) {
         drawPath(
             path,
             Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                color = type.color
+                color = if (gradient == null) type.color else android.graphics.Color.WHITE
+                shader = gradient
+                isDither = gradient != null
                 style = Paint.Style.FILL
             }
         )
@@ -244,7 +262,9 @@ internal fun Canvas.drawShapeLayer(
     drawPath(
         path,
         Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = type.color
+            color = if (gradient == null) type.color else android.graphics.Color.WHITE
+            shader = gradient
+            isDither = gradient != null
             style = Paint.Style.STROKE
             strokeWidth = type.strokeWidth.coerceAtLeast(1f)
             strokeJoin = Paint.Join.ROUND

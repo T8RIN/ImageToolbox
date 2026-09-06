@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
@@ -393,7 +394,13 @@ private fun TextLayerContent(
                 LayerType.Text.Alignment.Center -> TextAlign.Center
                 LayerType.Text.Alignment.End -> TextAlign.End
             }
-        )
+        ).let { textStyle ->
+            type.gradientPalette?.let { palette ->
+                textStyle.copy(
+                    brush = Brush.horizontalGradient(palette.colors.map { Color(it.colorInt) })
+                )
+            } ?: textStyle
+        }
     }
     val outlineParams = remember(type) {
         type.outline?.let {

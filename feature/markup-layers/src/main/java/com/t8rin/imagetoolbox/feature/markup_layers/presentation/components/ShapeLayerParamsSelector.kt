@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -35,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
@@ -196,16 +196,21 @@ private fun ShapeAppearanceSection(
     val showStrokeWidth = mode.usesStrokeWidth()
     val singleItemShape = ShapeDefaults.large
 
-    ColorRowSelector(
+    LayerColorSelector(
+        layerId = layer.id,
         value = type.color.toColor(),
+        gradientPalette = type.gradientPalette,
         onValueChange = {
             onUpdateLayer(
                 layer.copy(
-                    type = type.copy(color = it.toArgb())
+                    type = type.copy(color = it.toArgb(), gradientPalette = null)
                 )
             )
         },
         title = stringResource(R.string.color),
+        onGradientPaletteChange = {
+            onUpdateLayer(layer.copy(type = type.copy(gradientPalette = it)))
+        },
         modifier = Modifier.container(
             shape = when {
                 showFillColor || showStrokeWidth -> ShapeDefaults.top

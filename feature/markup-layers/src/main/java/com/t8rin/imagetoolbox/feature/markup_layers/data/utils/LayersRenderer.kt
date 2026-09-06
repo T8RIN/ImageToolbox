@@ -24,6 +24,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.RectF
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.text.TextLayoutResult
@@ -867,7 +868,13 @@ private fun LayerType.Text.composeTextStyle(
         LayerType.Text.Alignment.Center -> TextAlign.Center
         LayerType.Text.Alignment.End -> TextAlign.End
     }
-)
+).let { textStyle ->
+    gradientPalette?.let { palette ->
+        textStyle.copy(
+            brush = Brush.horizontalGradient(palette.colors.map { ComposeColor(it.colorInt) })
+        )
+    } ?: textStyle
+}
 
 private data class TextLayerRenderData(
     val width: Float,

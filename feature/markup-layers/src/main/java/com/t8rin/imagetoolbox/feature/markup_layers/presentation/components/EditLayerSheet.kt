@@ -301,18 +301,26 @@ internal fun EditLayerSheet(
                             )
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        ColorRowSelector(
+                        LayerColorSelector(
+                            layerId = layer.id,
                             value = type.color.toColor(),
+                            gradientPalette = type.gradientPalette,
                             onValueChange = {
                                 updateLayerWithHistory(
                                     layer.copy(
                                         type = type.copy(
-                                            color = it.toArgb()
+                                            color = it.toArgb(),
+                                            gradientPalette = null
                                         )
                                     )
                                 )
                             },
                             title = stringResource(R.string.text_color),
+                            onGradientPaletteChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(type = type.copy(gradientPalette = it))
+                                )
+                            },
                             modifier = Modifier.container(
                                 shape = ShapeDefaults.center,
                                 color = MaterialTheme.colorScheme.surface

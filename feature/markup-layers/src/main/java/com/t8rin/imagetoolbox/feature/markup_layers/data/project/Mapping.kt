@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.resources.R
@@ -235,7 +236,8 @@ internal class MarkupMapper @Inject constructor(
         outline = outline?.toSnapshot(),
         alignment = alignment.name,
         geometricTransform = geometricTransform?.toSnapshot(),
-        shadow = shadow?.toSnapshot()
+        shadow = shadow?.toSnapshot(),
+        gradientPalette = gradientPalette?.toSerializedString()
     )
 
     private fun LayerType.toPictureSnapshot(
@@ -281,7 +283,8 @@ internal class MarkupMapper @Inject constructor(
         innerRadiusRatio = shapeMode.innerRadiusRatio(),
         sizeScale = shapeMode.arrowSizeScale(),
         angle = shapeMode.arrowAngle(),
-        shadow = shadow?.toSnapshot()
+        shadow = shadow?.toSnapshot(),
+        gradientPalette = gradientPalette?.toSerializedString()
     )
 
     private fun Outline.toSnapshot(): OutlineSnapshot = OutlineSnapshot(
@@ -387,7 +390,8 @@ internal class MarkupMapper @Inject constructor(
         outline = outline?.toDomain(),
         alignment = alignment.toDomainAlignment(),
         geometricTransform = geometricTransform?.toDomain(),
-        shadow = shadow?.toDomain()
+        shadow = shadow?.toDomain(),
+        gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString)
     )
 
     private fun ShapeSnapshot.toDomain(): LayerType.Shape {
@@ -424,7 +428,8 @@ internal class MarkupMapper @Inject constructor(
             strokeWidth = strokeWidth,
             widthRatio = widthRatio,
             heightRatio = heightRatio,
-            shadow = shadow?.toDomain()
+            shadow = shadow?.toDomain(),
+            gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString)
         )
     }
 
