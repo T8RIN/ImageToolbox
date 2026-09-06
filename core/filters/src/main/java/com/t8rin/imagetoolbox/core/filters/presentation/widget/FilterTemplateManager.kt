@@ -31,17 +31,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -50,7 +55,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,7 +68,6 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
-import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
@@ -77,6 +80,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.UploadFile
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -84,8 +89,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCheckbox
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -104,6 +107,7 @@ fun FilterTemplateManager(
 
     val templates by component.templatesFlow.collectAsStateWithLifecycle()
     val isLoading = component.isTemplatesLoading
+    val isPortrait by isPortraitOrientationAsState()
     var selectedTemplates by remember { mutableStateOf(setOf<TemplateFilter>()) }
     var infoTemplate by remember { mutableStateOf<TemplateFilter?>(null) }
     var showCreationSheet by remember { mutableStateOf(false) }
@@ -130,102 +134,143 @@ fun FilterTemplateManager(
             )
         }
     )
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            EnhancedTopAppBar(
-                type = EnhancedTopAppBarType.Large,
-                scrollBehavior = scrollBehavior,
-                title = {
-                    Text(
-                        text = stringResource(R.string.manage_filter_templates),
-                        modifier = Modifier.marquee()
-                    )
-                },
-                navigationIcon = {
-                    EnhancedIconButton(onClick = onGoBack) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            contentDescription = stringResource(R.string.exit)
-                        )
-                    }
-                },
-                actions = {
-                    AnimatedVisibility(
-                        visible = !isLoading && templates.isNotEmpty(),
-                        enter = fadeIn() + scaleIn() + expandHorizontally(),
-                        exit = fadeOut() + scaleOut() + shrinkHorizontally()
-                    ) {
-                        EnhancedIconButton(
-                            onClick = {
-                                selectedTemplates = if (selected.size == templates.size) {
-                                    emptySet()
-                                } else {
-                                    templates.toSet()
-                                }
-                            }
-                        ) {
-                            val allSelected = selected.size == templates.size
-                            Icon(
-                                imageVector = if (allSelected) {
-                                    Icons.Outlined.Deselect
-                                } else {
-                                    Icons.Outlined.SelectAll
-                                },
-                                contentDescription = stringResource(
-                                    if (allSelected) {
-                                        R.string.deselect_all
-                                    } else {
-                                        R.string.select_all
-                                    }
-                                )
-                            )
-                        }
-                    }
-                    AnimatedVisibility(
-                        visible = selected.isNotEmpty(),
-                        enter = fadeIn() + scaleIn() + expandHorizontally(),
-                        exit = fadeOut() + scaleOut() + shrinkHorizontally(),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .container(
-                                shape = ShapeDefaults.circle,
-                                color = MaterialTheme.colorScheme.surfaceContainerHighest,
-                                resultPadding = 0.dp
-                            )
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                text = selected.size.toString(),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                            EnhancedIconButton(
-                                onClick = { selectedTemplates = emptySet() }
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Close,
-                                    contentDescription = stringResource(R.string.clear_selection)
-                                )
-                            }
-                        }
-                    }
-                    if (!isLoading && templates.isEmpty()) {
-                        TopAppBarEmoji()
-                    }
-                }
+    AdaptiveLayoutScreen(
+        onGoBack = onGoBack,
+        shouldDisableBackHandler = true,
+        title = {
+            Text(
+                text = stringResource(R.string.manage_filter_templates),
+                modifier = Modifier.marquee()
             )
         },
-        bottomBar = {
+        topAppBarPersistentActions = {
             AnimatedVisibility(
-                visible = !isLoading,
+                visible = !isLoading && templates.isNotEmpty(),
+                enter = fadeIn() + scaleIn() + expandHorizontally(),
+                exit = fadeOut() + scaleOut() + shrinkHorizontally()
+            ) {
+                EnhancedIconButton(
+                    onClick = {
+                        selectedTemplates = if (selected.size == templates.size) {
+                            emptySet()
+                        } else {
+                            templates.toSet()
+                        }
+                    }
+                ) {
+                    val allSelected = selected.size == templates.size
+                    Icon(
+                        imageVector = if (allSelected) {
+                            Icons.Outlined.Deselect
+                        } else {
+                            Icons.Outlined.SelectAll
+                        },
+                        contentDescription = stringResource(
+                            if (allSelected) {
+                                R.string.deselect_all
+                            } else {
+                                R.string.select_all
+                            }
+                        )
+                    )
+                }
+            }
+            AnimatedVisibility(
+                visible = selected.isNotEmpty(),
+                enter = fadeIn() + scaleIn() + expandHorizontally(),
+                exit = fadeOut() + scaleOut() + shrinkHorizontally(),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .container(
+                        shape = ShapeDefaults.circle,
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                        resultPadding = 0.dp
+                    )
+            ) {
+                Row(
+                    modifier = Modifier.padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Spacer(Modifier.width(8.dp))
+                    Text(
+                        text = selected.size.toString(),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    EnhancedIconButton(
+                        onClick = { selectedTemplates = emptySet() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = stringResource(R.string.clear_selection)
+                        )
+                    }
+                }
+            }
+            if (!isLoading && templates.isEmpty()) {
+                TopAppBarEmoji()
+            }
+        },
+        actions = {
+            AnimatedVisibility(
+                visible = selected.isNotEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Row {
+                    EnhancedIconButton(
+                        enabled = selected.size == 1,
+                        onClick = {
+                            selected.singleOrNull()
+                                ?.let(component::duplicateTemplateFilter)
+                            selectedTemplates = emptySet()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ContentCopy,
+                            contentDescription = stringResource(R.string.duplicate)
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = {
+                            exportPicker.make("filter_templates_${timestamp()}.zip")
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.DownloadFile,
+                            contentDescription = stringResource(R.string.export)
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = { component.shareTemplateFilters(selected) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Share,
+                            contentDescription = stringResource(R.string.share)
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = { showDeleteDialog = true },
+                        containerColor = MaterialTheme.colorScheme.errorContainer
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = stringResource(R.string.delete)
+                        )
+                    }
+                }
+            }
+        },
+        imagePreview = {},
+        placeImagePreview = false,
+        showImagePreviewAsStickyHeader = false,
+        placeControlsSeparately = true,
+        canShowScreenData = true,
+        buttons = { actions ->
+            AnimatedVisibility(
+                visible = !isLoading && (isPortrait || selected.isEmpty()),
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
@@ -255,160 +300,127 @@ fun FilterTemplateManager(
                     showNullDataButtonAsContainer = true,
                     isScreenHaveNoDataContent = true,
                     showMiddleFabInRow = noTemplates,
-                    middleFab = {
-                        EnhancedFloatingActionButton(onClick = importPicker::pickFile) {
-                            Icon(
-                                imageVector = Icons.Outlined.UploadFile,
-                                contentDescription = stringResource(R.string.import_templates)
-                            )
-                        }
-                    },
-                    actions = {
-                        AnimatedVisibility(
-                            visible = selected.isNotEmpty(),
-                            enter = fadeIn(),
-                            exit = fadeOut()
-                        ) {
-                            Row {
-                                EnhancedIconButton(
-                                    enabled = selected.size == 1,
-                                    onClick = {
-                                        selected.singleOrNull()
-                                            ?.let(component::duplicateTemplateFilter)
-                                        selectedTemplates = emptySet()
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.ContentCopy,
-                                        contentDescription = stringResource(R.string.duplicate)
-                                    )
-                                }
-                                EnhancedIconButton(
-                                    onClick = {
-                                        exportPicker.make("filter_templates_${timestamp()}.zip")
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.DownloadFile,
-                                        contentDescription = stringResource(R.string.export)
-                                    )
-                                }
-                                EnhancedIconButton(
-                                    onClick = { component.shareTemplateFilters(selected) }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Share,
-                                        contentDescription = stringResource(R.string.share)
-                                    )
-                                }
-                                EnhancedIconButton(
-                                    onClick = { showDeleteDialog = true },
-                                    containerColor = MaterialTheme.colorScheme.errorContainer
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Delete,
-                                        contentDescription = stringResource(R.string.delete)
-                                    )
-                                }
+                    middleFab = if (noTemplates) {
+                        {
+                            EnhancedFloatingActionButton(onClick = importPicker::pickFile) {
+                                Icon(
+                                    imageVector = Icons.Outlined.UploadFile,
+                                    contentDescription = stringResource(R.string.import_templates)
+                                )
                             }
                         }
+                    } else null,
+                    actions = {
+                        if (isPortrait) actions()
                     }
                 )
             }
-        }
-    ) { contentPadding ->
-        AnimatedContent(
-            targetState = when {
-                isLoading -> TemplateManagerState.Loading
-                templates.isEmpty() -> TemplateManagerState.Empty
-                else -> TemplateManagerState.Content
-            },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(contentPadding)
-        ) { state ->
-            when (state) {
-                TemplateManagerState.Loading -> Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    EnhancedLoadingIndicator()
-                }
+        },
+        controls = {
+            AnimatedContent(
+                targetState = when {
+                    isLoading -> TemplateManagerState.Loading
+                    templates.isEmpty() -> TemplateManagerState.Empty
+                    else -> TemplateManagerState.Content
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(
+                        WindowInsets.navigationBars
+                            .union(WindowInsets.displayCutout)
+                            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom)
+                    )
+            ) { state ->
+                when (state) {
+                    TemplateManagerState.Loading -> Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        EnhancedLoadingIndicator()
+                    }
 
-                TemplateManagerState.Empty -> EmptyTemplatesContent()
+                    TemplateManagerState.Empty -> EmptyTemplatesContent(
+                        modifier = Modifier.padding(bottom = if (isPortrait) 100.dp else 0.dp)
+                    )
 
-                TemplateManagerState.Content -> LazyColumn(
-                    state = rememberRetainedLazyListState("filterTemplateManager"),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    flingBehavior = enhancedFlingBehavior()
-                ) {
-                    itemsIndexed(
-                        items = templates,
-                        key = { index, template -> "$index-${template.hashCode()}" }
-                    ) { index, template ->
-                        val checked = template in selectedTemplates
-                        PreferenceItemOverload(
-                            title = template.name,
-                            subtitle = stringResource(
-                                R.string.template_filters_count,
-                                template.filters.size
-                            ),
-                            shape = ShapeDefaults.byIndex(index, templates.size),
-                            modifier = Modifier.animateItem(),
-                            containerColor = if (checked) {
-                                MaterialTheme.colorScheme.primaryContainer
-                            } else {
-                                MaterialTheme.colorScheme.surfaceContainer
-                            },
-                            contentColor = if (checked) {
-                                MaterialTheme.colorScheme.onPrimaryContainer
-                            } else {
-                                MaterialTheme.colorScheme.onSurface
-                            },
-                            onClick = {
-                                selectedTemplates = if (checked) {
-                                    selectedTemplates - template
+                    TemplateManagerState.Content -> LazyColumn(
+                        state = rememberRetainedLazyListState("filterTemplateManager"),
+                        contentPadding = PaddingValues(
+                            start = 16.dp,
+                            top = 16.dp,
+                            end = 16.dp,
+                            bottom = if (isPortrait) 100.dp else 16.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        flingBehavior = enhancedFlingBehavior()
+                    ) {
+                        itemsIndexed(
+                            items = templates,
+                            key = { index, template -> "$index-${template.hashCode()}" }
+                        ) { index, template ->
+                            val checked = template in selectedTemplates
+                            PreferenceItemOverload(
+                                title = template.name,
+                                subtitle = stringResource(
+                                    R.string.template_filters_count,
+                                    template.filters.size
+                                ),
+                                shape = ShapeDefaults.byIndex(index, templates.size),
+                                modifier = Modifier.animateItem(),
+                                containerColor = if (checked) {
+                                    MaterialTheme.colorScheme.primaryContainer
                                 } else {
-                                    selectedTemplates + template
-                                }
-                            },
-                            startIcon = {
-                                TemplateFilterPreviewItem(
-                                    modifier = Modifier.size(64.dp),
-                                    templateFilter = template,
-                                    onRequestFilterMapping = component::filterToTransformation
-                                )
-                            },
-                            drawStartIconContainer = false,
-                            endIcon = {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    EnhancedIconButton(onClick = { infoTemplate = template }) {
-                                        Icon(
-                                            imageVector = Icons.Outlined.Info,
-                                            contentDescription = stringResource(
-                                                R.string.template_filter
+                                    MaterialTheme.colorScheme.surfaceContainer
+                                },
+                                contentColor = if (checked) {
+                                    MaterialTheme.colorScheme.onPrimaryContainer
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                },
+                                onClick = {
+                                    selectedTemplates = if (checked) {
+                                        selectedTemplates - template
+                                    } else {
+                                        selectedTemplates + template
+                                    }
+                                },
+                                startIcon = {
+                                    TemplateFilterPreviewItem(
+                                        modifier = Modifier.size(64.dp),
+                                        templateFilter = template,
+                                        onRequestFilterMapping = component::filterToTransformation
+                                    )
+                                },
+                                drawStartIconContainer = false,
+                                endIcon = {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        EnhancedIconButton(onClick = { infoTemplate = template }) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Info,
+                                                contentDescription = stringResource(
+                                                    R.string.template_filter
+                                                )
                                             )
+                                        }
+                                        EnhancedCheckbox(
+                                            checked = checked,
+                                            onCheckedChange = {
+                                                selectedTemplates = if (it) {
+                                                    selectedTemplates + template
+                                                } else {
+                                                    selectedTemplates - template
+                                                }
+                                            }
                                         )
                                     }
-                                    EnhancedCheckbox(
-                                        checked = checked,
-                                        onCheckedChange = {
-                                            selectedTemplates = if (it) {
-                                                selectedTemplates + template
-                                            } else {
-                                                selectedTemplates - template
-                                            }
-                                        }
-                                    )
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }
         }
-    }
+    )
 
     FilterTemplateInfoSheet(
         component = creationComponent,
@@ -490,9 +502,9 @@ private enum class TemplateManagerState {
 }
 
 @Composable
-private fun EmptyTemplatesContent() {
+private fun EmptyTemplatesContent(modifier: Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
