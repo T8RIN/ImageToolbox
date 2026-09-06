@@ -24,7 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.hideFromAccessibility
 import androidx.compose.ui.semantics.semantics
@@ -43,7 +45,8 @@ import androidx.compose.ui.unit.TextUnit
 @Immutable
 data class OutlineParams(
     val stroke: Stroke,
-    val color: Color
+    val color: Color,
+    val brush: Brush? = null
 )
 
 @Composable
@@ -72,7 +75,7 @@ fun OutlinedText(
             Text(
                 text = text,
                 modifier = Modifier.semantics { hideFromAccessibility() },
-                color = params.color,
+                color = Color.Unspecified,
                 fontSize = fontSize,
                 fontStyle = fontStyle,
                 fontWeight = fontWeight,
@@ -86,6 +89,7 @@ fun OutlinedText(
                 maxLines = maxLines,
                 minLines = minLines,
                 style = style.copy(
+                    brush = params.brush ?: SolidColor(params.color),
                     shadow = null,
                     drawStyle = params.stroke,
                 ),

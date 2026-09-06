@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
@@ -32,19 +33,29 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 class DrawRenderCache {
-    private data class Source(val key: Any, val generation: Int?, val background: Int)
+    private data class Source(
+        val key: Any,
+        val generation: Int?,
+        val background: Int,
+        val gradient: GradientFill?
+    )
 
     private var source: Source? = null
     private var session: Session? = null
 
     @Synchronized
-    internal fun sessionFor(sourceKey: Any, background: Int): Session {
-        val nextSource = Source(sourceKey, (sourceKey as? Bitmap)?.generationId, background)
+    internal fun sessionFor(
+        sourceKey: Any,
+        background: Int,
+        gradient: GradientFill? = null
+    ): Session {
+        val nextSource =
+            Source(sourceKey, (sourceKey as? Bitmap)?.generationId, background, gradient)
         if (source != nextSource) {
             source = nextSource
             session = null
         }
-        return session ?: Session(background).also { session = it }
+        return session ?: Session(background, gradient).also { session = it }
     }
 
     @Synchronized
@@ -53,7 +64,10 @@ class DrawRenderCache {
         session = null
     }
 
-    internal class Session(private val background: Int) {
+    internal class Session(
+        private val background: Int,
+        private val gradient: GradientFill?
+    ) {
         private val mutex = Mutex()
         private var size: IntegerSize? = null
         private var history: DrawHistoryCache<UiPathPaint>? = null
@@ -71,7 +85,11 @@ class DrawRenderCache {
         ): Bitmap = mutex.withLock {
             if (size != canvasSize) {
                 size = canvasSize
-                history = DrawHistoryCache(canvasSize.width, canvasSize.height, background)
+                history = DrawHistoryCache(
+                    canvasSize.width,
+                    canvasSize.height,
+                    if (gradient == null) background else 0
+                )
             }
             checkNotNull(history).render(paths) { target, bitmap, entry, index ->
                 val healKey = if (entry.drawMode is DrawMode.SpotHeal && !entry.isErasing) {

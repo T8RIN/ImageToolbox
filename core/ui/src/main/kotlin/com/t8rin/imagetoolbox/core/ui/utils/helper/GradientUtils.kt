@@ -15,19 +15,23 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
+package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradientShader
+import androidx.compose.ui.graphics.Shader
+import androidx.compose.ui.graphics.ShaderBrush
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 
-sealed class BackgroundBehavior {
-    data object None : BackgroundBehavior()
-
-    data object Image : BackgroundBehavior()
-
-    data class Color(
-        val width: Int,
-        val height: Int,
-        val color: Int,
-        val gradient: GradientFill? = null
-    ) : BackgroundBehavior()
+fun GradientFill.toBrush(): ShaderBrush = object : ShaderBrush() {
+    override fun createShader(size: Size): Shader {
+        val line = lineFor(size.width, size.height)
+        return LinearGradientShader(
+            from = Offset(line.startX, line.startY),
+            to = Offset(line.endX, line.endY),
+            colors = palette.colors.map { Color(it.colorInt) }
+        )
+    }
 }

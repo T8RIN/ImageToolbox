@@ -51,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
@@ -78,11 +79,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFileCreator
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toBrush
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
@@ -319,7 +321,13 @@ fun MarkupLayersContent(
                                     modifier = Modifier
                                         .matchParentSize()
                                         .clipToBounds()
-                                        .background(colorBackground.color.toColor())
+                                        .drawWithCache {
+                                            val brush = colorBackground.gradient?.toBrush()
+                                            onDrawBehind {
+                                                if (brush != null) drawRect(brush)
+                                                else drawRect(colorBackground.color.toColor())
+                                            }
+                                        }
                                 )
                             } else if (imageBitmap != null) {
                                 Picture(
@@ -375,8 +383,10 @@ fun MarkupLayersContent(
                 }
                 val behavior = component.backgroundBehavior
                 if (behavior is BackgroundBehavior.Color) {
-                    ColorRowSelector(
+                    BackgroundColorSelector(
                         value = behavior.color.toColor(),
+                        gradient = behavior.gradient,
+                        onGradientChange = component::updateBackgroundGradient,
                         onValueChange = component::updateBackgroundColor,
                         icon = Icons.Outlined.BackgroundColor,
                         modifier = Modifier

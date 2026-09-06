@@ -27,13 +27,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
@@ -69,6 +69,10 @@ internal fun StarParamsSelector(
             ) {
                 OutlinedFillColorSelector(
                     value = value.outlinedFillColor?.toColor(),
+                    gradientPalette = value.outlinedFillGradientPalette,
+                    onGradientPaletteChange = {
+                        onValueChange(value.updateOutlined(fillGradientPalette = it))
+                    },
                     onValueChange = {
                         onValueChange(value.updateOutlined(it))
                     },

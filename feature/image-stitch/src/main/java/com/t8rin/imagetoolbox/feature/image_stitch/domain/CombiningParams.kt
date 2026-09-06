@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 
 data class CombiningParams(
     val stitchMode: StitchMode = StitchMode.Horizontal,
@@ -29,7 +30,8 @@ data class CombiningParams(
     val alignment: StitchAlignment = StitchAlignment.Start,
     val outputScale: Float = 0.5f,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
-    val fadeStrength: Float = 1f
+    val fadeStrength: Float = 1f,
+    val backgroundGradient: GradientFill? = null
 ) {
     fun spacingFor(
         isHorizontal: Boolean

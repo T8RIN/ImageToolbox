@@ -319,6 +319,7 @@ fun DrawContent(
                     onRequestFiltering = component::filter,
                     drawPathMode = drawPathMode,
                     backgroundColor = component.backgroundColor,
+                    backgroundGradient = component.backgroundGradient,
                     drawLineStyle = drawLineStyle,
                     helperGridParams = component.helperGridParams,
                     showLineAngle = showLineAngle,

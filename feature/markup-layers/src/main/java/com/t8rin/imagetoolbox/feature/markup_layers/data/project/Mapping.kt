@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.markup_layers.data.project
 import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
@@ -147,7 +148,9 @@ internal class MarkupMapper @Inject constructor(
             type = BackgroundType.Color,
             width = width,
             height = height,
-            color = color
+            color = color,
+            gradientPalette = gradient?.palette?.toSerializedString(),
+            gradientAngle = gradient?.angle ?: 0f
         )
 
         is ProjectBackground.Image -> {
@@ -237,7 +240,9 @@ internal class MarkupMapper @Inject constructor(
         alignment = alignment.name,
         geometricTransform = geometricTransform?.toSnapshot(),
         shadow = shadow?.toSnapshot(),
-        gradientPalette = gradientPalette?.toSerializedString()
+        gradientPalette = gradientPalette?.toSerializedString(),
+        backgroundGradientPalette = backgroundGradientPalette?.toSerializedString(),
+        outlineGradientPalette = outlineGradientPalette?.toSerializedString()
     )
 
     private fun LayerType.toPictureSnapshot(
@@ -284,7 +289,8 @@ internal class MarkupMapper @Inject constructor(
         sizeScale = shapeMode.arrowSizeScale(),
         angle = shapeMode.arrowAngle(),
         shadow = shadow?.toSnapshot(),
-        gradientPalette = gradientPalette?.toSerializedString()
+        gradientPalette = gradientPalette?.toSerializedString(),
+        fillGradientPalette = fillGradientPalette?.toSerializedString()
     )
 
     private fun Outline.toSnapshot(): OutlineSnapshot = OutlineSnapshot(
@@ -328,7 +334,10 @@ internal class MarkupMapper @Inject constructor(
         BackgroundType.Color -> ProjectBackground.Color(
             width = width ?: 1,
             height = height ?: 1,
-            color = color ?: 0
+            color = color ?: 0,
+            gradient = gradientPalette?.let(GradientPalette::fromSerializedString)?.let {
+                GradientFill(it, gradientAngle)
+            }
         )
 
         BackgroundType.None -> ProjectBackground.None
@@ -391,7 +400,9 @@ internal class MarkupMapper @Inject constructor(
         alignment = alignment.toDomainAlignment(),
         geometricTransform = geometricTransform?.toDomain(),
         shadow = shadow?.toDomain(),
-        gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString)
+        gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString),
+        backgroundGradientPalette = backgroundGradientPalette?.let(GradientPalette::fromSerializedString),
+        outlineGradientPalette = outlineGradientPalette?.let(GradientPalette::fromSerializedString)
     )
 
     private fun ShapeSnapshot.toDomain(): LayerType.Shape {
@@ -429,7 +440,8 @@ internal class MarkupMapper @Inject constructor(
             widthRatio = widthRatio,
             heightRatio = heightRatio,
             shadow = shadow?.toDomain(),
-            gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString)
+            gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString),
+            fillGradientPalette = fillGradientPalette?.let(GradientPalette::fromSerializedString)
         )
     }
 

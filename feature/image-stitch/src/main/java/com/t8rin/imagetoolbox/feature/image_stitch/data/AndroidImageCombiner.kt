@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
@@ -87,7 +88,8 @@ internal class AndroidImageCombiner @Inject constructor(
 
         suspend fun getImageData(
             imagesUris: List<String>,
-            isHorizontal: Boolean
+            isHorizontal: Boolean,
+            includeBackground: Boolean = true
         ): Pair<Bitmap, ImageInfo> {
             val imageSpacing = combiningParams.spacingFor(isHorizontal)
             val (size, images) = calculateCombinedImageDimensionsAndBitmaps(
@@ -115,7 +117,12 @@ internal class AndroidImageCombiner @Inject constructor(
                 config = getSuitableConfig()
             ).applyCanvas {
                 drawColor(Color.Transparent.toArgb(), PorterDuff.Mode.CLEAR)
-                drawColor(combiningParams.backgroundColor)
+                if (includeBackground) {
+                    drawBackground(
+                        combiningParams.backgroundColor,
+                        combiningParams.backgroundGradient
+                    )
+                }
 
                 var pos = 0
 
@@ -258,7 +265,8 @@ internal class AndroidImageCombiner @Inject constructor(
                 ).mapNotNull { images ->
                     val data = getImageData(
                         imagesUris = images,
-                        isHorizontal = combiningParams.stitchMode.isHorizontal()
+                        isHorizontal = combiningParams.stitchMode.isHorizontal(),
+                        includeBackground = combiningParams.backgroundGradient == null
                     )
                     shareProvider.cacheImage(
                         image = data.first,

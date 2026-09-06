@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidPath
 import androidx.core.graphics.createBitmap
 import coil3.imageLoader
@@ -37,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.createDrawPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawBitmapThroughPath
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawOutlinedFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedBitmapOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -138,19 +138,7 @@ internal suspend fun Canvas.drawCommittedPath(
                 )
             }
         } else if (drawPathMode is DrawPathMode.Outlined && !isEraserOn) {
-            drawPathMode.fillColor?.let { fillColor ->
-                val filledPaint = AndroidPaint().apply {
-                    set(pathPaint)
-                    style = AndroidPaint.Style.FILL
-                    color = fillColor.colorInt
-                    if (Color(fillColor.colorInt).alpha == 1f) {
-                        alpha = (drawColor.alpha * 255).roundToInt().coerceIn(0, 255)
-                    }
-                    pathEffect = null
-                }
-
-                drawPath(path, filledPaint)
-            }
+            drawOutlinedFill(path, pathPaint, drawPathMode, drawColor.alpha)
             drawPathWithGradient(
                 path = path,
                 paint = pathPaint,

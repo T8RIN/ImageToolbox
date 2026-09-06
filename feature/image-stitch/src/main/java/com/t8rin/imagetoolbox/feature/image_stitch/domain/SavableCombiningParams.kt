@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 
 data class SavableCombiningParams(
@@ -30,7 +31,8 @@ data class SavableCombiningParams(
     val alignment: StitchAlignment,
     val outputScale: Float,
     val blendingMode: Int,
-    val fadeStrength: Float
+    val fadeStrength: Float,
+    val backgroundGradient: GradientFill? = null
 )
 
 fun CombiningParams.toSavable() = SavableCombiningParams(
@@ -45,7 +47,8 @@ fun CombiningParams.toSavable() = SavableCombiningParams(
     alignment = alignment,
     outputScale = outputScale,
     blendingMode = blendingMode.value,
-    fadeStrength = fadeStrength
+    fadeStrength = fadeStrength,
+    backgroundGradient = backgroundGradient
 )
 
 fun SavableCombiningParams.toParams() = CombiningParams(
@@ -77,5 +80,6 @@ fun SavableCombiningParams.toParams() = CombiningParams(
     alignment = alignment,
     outputScale = outputScale,
     blendingMode = BlendingMode.entries.find { it.value == blendingMode } ?: BlendingMode.SrcOver,
-    fadeStrength = fadeStrength
+    fadeStrength = fadeStrength,
+    backgroundGradient = backgroundGradient
 )

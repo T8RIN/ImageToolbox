@@ -18,15 +18,16 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.element
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorAndGradientSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
@@ -34,12 +35,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 fun OutlinedFillColorSelector(
     value: Color?,
     onValueChange: (Color?) -> Unit,
+    gradientPalette: GradientPalette?,
+    onGradientPaletteChange: (GradientPalette) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = ShapeDefaults.default,
     containerColor: Color = Color.Unspecified
 ) {
-    ColorRowSelector(
+    ColorAndGradientSelector(
         value = value,
+        gradientPalette = gradientPalette,
+        onGradientPaletteChange = onGradientPaletteChange,
         onValueChange = onValueChange,
         onNullClick = { onValueChange(null) },
         title = stringResource(R.string.fill_color),

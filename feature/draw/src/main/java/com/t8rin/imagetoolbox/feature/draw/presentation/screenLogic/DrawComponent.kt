@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -117,6 +118,9 @@ class DrawComponent @AssistedInject internal constructor(
 
     private val _backgroundColor: MutableState<Color> = mutableStateOf(Color.Transparent)
     val backgroundColor by _backgroundColor
+
+    private val _backgroundGradient: MutableState<GradientFill?> = mutableStateOf(null)
+    val backgroundGradient by _backgroundGradient
 
     private val _colorPickerBitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val colorPickerBitmap by _colorPickerBitmap
@@ -278,8 +282,9 @@ class DrawComponent @AssistedInject internal constructor(
     private suspend fun getDrawingBitmap(): Bitmap? = withContext(defaultDispatcher) {
         imageDrawApplier.applyDrawToImage(
             drawBehavior = drawBehavior.let {
-                if (it is DrawBehavior.Background) it.copy(color = backgroundColor.toArgb())
-                else it
+                if (it is DrawBehavior.Background) {
+                    it.copy(color = backgroundColor.toArgb(), gradient = backgroundGradient)
+                } else it
             },
             pathPaints = paths,
             imageUri = _uri.value.toString()
@@ -304,6 +309,7 @@ class DrawComponent @AssistedInject internal constructor(
         _drawPathMode.update { DrawPathMode.Free }
         _uri.value = Uri.EMPTY
         _backgroundColor.value = Color.Transparent
+        _backgroundGradient.value = null
         registerChangesCleared()
     }
 
@@ -311,6 +317,7 @@ class DrawComponent @AssistedInject internal constructor(
         reqWidth: Int,
         reqHeight: Int,
         color: Color,
+        gradient: GradientFill? = null,
     ) {
         renderCache.clear()
         val width = reqWidth.takeIf { it > 0 } ?: 1
@@ -325,16 +332,19 @@ class DrawComponent @AssistedInject internal constructor(
                 },
                 width = width,
                 height = height,
-                color = color.toArgb()
+                color = color.toArgb(),
+                gradient = gradient
             )
         }
         _backgroundColor.value = color
+        _backgroundGradient.value = gradient
 
         componentScope.launch {
             val newValue = DrawOnBackgroundParams(
                 width = width,
                 height = height,
-                color = color.toArgb()
+                color = color.toArgb(),
+                gradient = gradient
             )
 
             _drawOnBackgroundParams.update { newValue }
@@ -362,6 +372,12 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun updateBackgroundColor(color: Color) {
         _backgroundColor.value = color
+        _backgroundGradient.value = null
+        registerChanges()
+    }
+
+    fun updateBackgroundGradient(gradient: GradientFill) {
+        _backgroundGradient.value = gradient
         registerChanges()
     }
 

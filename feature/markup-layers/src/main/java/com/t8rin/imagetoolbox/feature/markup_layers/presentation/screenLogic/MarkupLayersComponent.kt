@@ -27,10 +27,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.applyCanvas
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
@@ -38,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -666,7 +668,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             markupLayersApplier.applyToImage(
                 image = imageGetter.getImage(data = _uri.value)
                     ?: (backgroundBehavior as? BackgroundBehavior.Color)?.run {
-                        color.toDrawable().toBitmap(width, height)
+                        createBitmap(width, height).applyCanvas { drawBackground(color, gradient) }
                     } ?: run {
                         val w =
                             layers.firstOrNull()?.state?.canvasSize?.width?.takeIf { it > 0 } ?: 1
@@ -699,6 +701,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         reqWidth: Int,
         reqHeight: Int,
         color: Color,
+        gradient: GradientFill? = null,
     ) {
         val width = reqWidth.takeIf { it > 0 } ?: 1
         val height = reqHeight.takeIf { it > 0 } ?: 1
@@ -707,7 +710,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             BackgroundBehavior.Color(
                 width = width,
                 height = height,
-                color = color.toArgb()
+                color = color.toArgb(),
+                gradient = gradient
             )
         }
         _uri.value = Uri.EMPTY
@@ -772,8 +776,16 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         runEditorChange {
             _backgroundBehavior.update {
                 if (it is BackgroundBehavior.Color) {
-                    it.copy(color = color.toArgb())
+                    it.copy(color = color.toArgb(), gradient = null)
                 } else it
+            }
+        }
+    }
+
+    fun updateBackgroundGradient(gradient: GradientFill) {
+        runEditorChange {
+            _backgroundBehavior.update {
+                if (it is BackgroundBehavior.Color) it.copy(gradient = gradient) else it
             }
         }
     }
@@ -804,7 +816,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
             is BackgroundBehavior.Color -> ProjectBackground.Color(
                 width = behavior.width,
                 height = behavior.height,
-                color = behavior.color
+                color = behavior.color,
+                gradient = behavior.gradient
             )
 
             is BackgroundBehavior.Image -> ProjectBackground.Image(
@@ -843,7 +856,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 _backgroundBehavior.value = BackgroundBehavior.Color(
                     width = background.width,
                     height = background.height,
-                    color = background.color
+                    color = background.color,
+                    gradient = background.gradient
                 )
                 updateBitmapSync(null)
             }
@@ -979,7 +993,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         is BackgroundBehavior.Color -> ProjectBackground.Color(
             width = width,
             height = height,
-            color = color
+            color = color,
+            gradient = gradient
         )
 
         BackgroundBehavior.Image -> ProjectBackground.Image(
@@ -993,7 +1008,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
         is ProjectBackground.Color -> BackgroundBehavior.Color(
             width = width,
             height = height,
-            color = color
+            color = color,
+            gradient = gradient
         )
 
         is ProjectBackground.Image -> BackgroundBehavior.Image

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.draw.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
@@ -38,6 +39,7 @@ sealed class DrawPathMode(
 ) {
     sealed class Outlined(ordinal: Int) : DrawPathMode(ordinal) {
         abstract val fillColor: ColorModel?
+        abstract val fillGradientPalette: GradientPalette?
     }
 
     data object Free : DrawPathMode(0)
@@ -68,11 +70,13 @@ sealed class DrawPathMode(
     data class OutlinedRect(
         val rotationDegrees: Int = 0,
         val cornerRadius: Float = 0f,
-        override val fillColor: ColorModel? = null
+        override val fillColor: ColorModel? = null,
+        override val fillGradientPalette: GradientPalette? = null
     ) : Outlined(7)
 
     data class OutlinedOval(
-        override val fillColor: ColorModel? = null
+        override val fillColor: ColorModel? = null,
+        override val fillGradientPalette: GradientPalette? = null
     ) : Outlined(8)
 
     data class Rect(
@@ -83,7 +87,8 @@ sealed class DrawPathMode(
     data object Oval : DrawPathMode(10)
     data object Triangle : DrawPathMode(11)
     data class OutlinedTriangle(
-        override val fillColor: ColorModel? = null
+        override val fillColor: ColorModel? = null,
+        override val fillGradientPalette: GradientPalette? = null
     ) : Outlined(12)
 
     data class Polygon(
@@ -96,7 +101,8 @@ sealed class DrawPathMode(
         val vertices: Int = 5,
         val rotationDegrees: Int = 0,
         val isRegular: Boolean = false,
-        override val fillColor: ColorModel? = null
+        override val fillColor: ColorModel? = null,
+        override val fillGradientPalette: GradientPalette? = null
     ) : Outlined(14)
 
     data class Star(
@@ -111,7 +117,8 @@ sealed class DrawPathMode(
         val rotationDegrees: Int = 0,
         val innerRadiusRatio: Float = 0.5f,
         val isRegular: Boolean = false,
-        override val fillColor: ColorModel? = null
+        override val fillColor: ColorModel? = null,
+        override val fillGradientPalette: GradientPalette? = null
     ) : Outlined(16)
 
     data class FloodFill(
@@ -136,6 +143,9 @@ sealed class DrawPathMode(
 
     val outlinedFillColor: ColorModel?
         get() = this.safeCast<Outlined>()?.fillColor
+
+    val outlinedFillGradientPalette: GradientPalette?
+        get() = this.safeCast<Outlined>()?.fillGradientPalette
 
     val isSharpEdge: Boolean
         get() = sharp.any { this::class.isInstance(it) }

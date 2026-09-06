@@ -86,7 +86,9 @@ sealed interface LayerType {
         val alignment: Alignment,
         val geometricTransform: TextGeometricTransform? = null,
         val shadow: DropShadow? = null,
-        val gradientPalette: GradientPalette? = null
+        val gradientPalette: GradientPalette? = null,
+        val backgroundGradientPalette: GradientPalette? = null,
+        val outlineGradientPalette: GradientPalette? = null
     ) : LayerType {
 
         enum class Decoration {
@@ -143,7 +145,8 @@ sealed interface LayerType {
         val widthRatio: Float = 0.35f,
         val heightRatio: Float = 0.35f,
         val shadow: DropShadow? = null,
-        val gradientPalette: GradientPalette? = null
+        val gradientPalette: GradientPalette? = null,
+        val fillGradientPalette: GradientPalette? = null
     ) : LayerType {
 
         companion object {

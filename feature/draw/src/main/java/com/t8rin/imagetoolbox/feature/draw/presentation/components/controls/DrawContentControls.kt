@@ -49,7 +49,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
@@ -184,8 +184,10 @@ internal fun DrawContentControls(
             )
         }
         if (component.drawBehavior is DrawBehavior.Background) {
-            ColorRowSelector(
+            BackgroundColorSelector(
                 value = component.backgroundColor,
+                gradient = component.backgroundGradient,
+                onGradientChange = component::updateBackgroundGradient,
                 onValueChange = component::updateBackgroundColor,
                 icon = Icons.Outlined.BackgroundColor,
                 modifier = Modifier

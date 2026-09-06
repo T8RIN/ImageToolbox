@@ -55,6 +55,8 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
@@ -76,6 +78,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.Gradien
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawBitmapThroughPath
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawOutlinedFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedBitmapOnPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawRepeatedTextOnPath
@@ -98,9 +101,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.withContext
 import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
-import kotlin.math.roundToInt
 import android.graphics.Canvas as AndroidCanvas
-import android.graphics.Paint as AndroidPaint
 
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -124,6 +125,7 @@ fun BitmapDrawer(
     onDrawFinish: (() -> Unit)? = null,
     onRenderReady: ((Boolean) -> Unit)? = null,
     backgroundColor: Color,
+    backgroundGradient: GradientFill? = null,
     panEnabled: Boolean,
     drawColor: Color,
     gradientPalette: GradientPalette? = null,
@@ -169,7 +171,8 @@ fun BitmapDrawer(
                 imageBitmap,
                 imageWidth,
                 imageHeight,
-                backgroundColor
+                backgroundColor,
+                backgroundGradient
             ) {
                 value = null
                 value = withContext(Dispatchers.Default) {
@@ -180,10 +183,7 @@ fun BitmapDrawer(
                         true
                     ) else scaled).apply {
                         val canvas = AndroidCanvas(this)
-                        val paint = android.graphics.Paint().apply {
-                            color = backgroundColor.toArgb()
-                        }
-                        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), paint)
+                        canvas.drawBackground(backgroundColor.toArgb(), backgroundGradient)
                     }.asImageBitmap()
                 }
             }
@@ -220,6 +220,7 @@ fun BitmapDrawer(
                 paths,
                 drawMode,
                 backgroundColor,
+                backgroundGradient,
                 drawPathMode,
                 imageWidth,
                 imageHeight
@@ -320,7 +321,8 @@ fun BitmapDrawer(
                 onDispose { gradientStroke.clear() }
             }
 
-            val history = renderCache.sessionFor(sourceKey, backgroundColor.toArgb())
+            val history =
+                renderCache.sessionFor(sourceKey, backgroundColor.toArgb(), backgroundGradient)
             var historyBitmap by remember(history, canvasSize) { mutableStateOf<Bitmap?>(null) }
             var renderedPaths by remember(
                 history,
@@ -638,8 +640,11 @@ fun BitmapDrawer(
                     val completed = pendingPreview?.takeIf {
                         it.isPrefixOf(paths) && !it.isPrefixOf(renderedPaths)
                     }?.bitmap ?: historyBitmap
-                    completed?.let { drawBitmap(it, 0f, 0f, null) }
-                        ?: drawColor(backgroundColor.toArgb())
+                    if (completed != null) {
+                        drawBitmap(completed, 0f, 0f, null)
+                    } else if (backgroundGradient == null) {
+                        drawColor(backgroundColor.toArgb())
+                    }
 
                     if (drawPath.isEmpty) gradientStroke.clear()
 
@@ -705,23 +710,7 @@ fun BitmapDrawer(
                                 }
                             }
                         } else if (drawPathMode is DrawPathMode.Outlined && !isEraserOn) {
-                            drawPathMode.fillColor?.let { fillColor ->
-                                val filledPaint = remember(fillColor, drawPaint) {
-                                    AndroidPaint().apply {
-                                        set(drawPaint)
-                                        style = AndroidPaint.Style.FILL
-                                        color = fillColor.colorInt
-                                        if (Color(fillColor.colorInt).alpha == 1f) {
-                                            alpha =
-                                                (drawColor.alpha * 255).roundToInt()
-                                                    .coerceIn(0, 255)
-                                        }
-                                        pathEffect = null
-                                    }
-                                }
-
-                                drawPath(androidPath, filledPaint)
-                            }
+                            drawOutlinedFill(androidPath, drawPaint, drawPathMode, drawColor.alpha)
                             drawPathWithGradient(
                                 path = androidPath,
                                 paint = drawPaint,

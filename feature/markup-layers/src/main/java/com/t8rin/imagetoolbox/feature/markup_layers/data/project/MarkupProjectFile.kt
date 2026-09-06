@@ -40,6 +40,8 @@ data class BackgroundSnapshot(
     val width: Int? = null,
     val height: Int? = null,
     val color: Int? = null,
+    val gradientPalette: String? = null,
+    val gradientAngle: Float = 0f,
 )
 
 data class LayerSnapshot(
@@ -83,6 +85,8 @@ data class TextSnapshot(
     val geometricTransform: TextGeometricTransformSnapshot? = null,
     val shadow: DropShadowSnapshot? = null,
     val gradientPalette: String? = null,
+    val backgroundGradientPalette: String? = null,
+    val outlineGradientPalette: String? = null,
 )
 
 data class PictureSnapshot(
@@ -108,6 +112,7 @@ data class ShapeSnapshot(
     val angle: Float? = null,
     val shadow: DropShadowSnapshot? = null,
     val gradientPalette: String? = null,
+    val fillGradientPalette: String? = null,
 )
 
 data class FontSnapshot(

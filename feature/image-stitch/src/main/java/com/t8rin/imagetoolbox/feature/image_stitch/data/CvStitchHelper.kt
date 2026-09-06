@@ -18,7 +18,9 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.data
 
 import android.graphics.Bitmap
+import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
@@ -28,7 +30,6 @@ import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
 import com.t8rin.opencv_tools.utils.OpenCV
 import com.t8rin.opencv_tools.utils.toBitmap
 import com.t8rin.opencv_tools.utils.toMat
-import com.t8rin.trickle.Trickle
 import org.opencv.core.Core
 import org.opencv.core.CvType
 import org.opencv.core.Mat
@@ -310,10 +311,10 @@ internal class CvStitchHelper @Inject constructor(
             stitchMode = combiningParams.stitchMode
         ) ?: createBitmap(1, 1)
 
-        return Trickle.drawColorBehind(
-            input = result,
-            color = combiningParams.backgroundColor
-        ) to ImageInfo(
+        return createBitmap(result.width, result.height).applyCanvas {
+            drawBackground(combiningParams.backgroundColor, combiningParams.backgroundGradient)
+            drawBitmap(result, 0f, 0f, null)
+        } to ImageInfo(
             width = result.width,
             height = result.height,
             imageFormat = ImageFormat.Png.Lossless

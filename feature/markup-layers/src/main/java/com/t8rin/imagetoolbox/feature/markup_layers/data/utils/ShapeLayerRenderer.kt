@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.core.graphics.createBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -198,12 +199,14 @@ internal fun DrawScope.drawShapeLayer(
     }
 
     if (type.shapeMode.isOutlinedShapeMode()) {
-        type.shapeMode.outlinedFillColorInt()?.let {
-            drawPath(
-                path = path,
-                color = Color(it),
-                style = Fill
+        val fillBrush = type.fillGradientPalette?.let { palette ->
+            Brush.horizontalGradient(
+                palette.colors.map { Color(it.colorInt) },
+                endX = data.contentWidth
             )
+        } ?: type.shapeMode.outlinedFillColorInt()?.let { SolidColor(Color(it)) }
+        fillBrush?.let {
+            drawPath(path = path, brush = it, style = Fill)
         }
     }
 
@@ -248,11 +251,18 @@ internal fun Canvas.drawShapeLayer(
     }
 
     if (type.shapeMode.isOutlinedShapeMode()) {
-        type.shapeMode.outlinedFillColorInt()?.let {
+        if (type.fillGradientPalette != null || type.shapeMode.outlinedFillColorInt() != null) {
             drawPath(
                 path,
                 Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = it
+                    color = if (type.fillGradientPalette == null) {
+                        type.shapeMode.outlinedFillColorInt() ?: android.graphics.Color.TRANSPARENT
+                    } else android.graphics.Color.WHITE
+                    shader = type.fillGradientPalette?.createShader(
+                        data.contentWidth,
+                        data.contentHeight
+                    )
+                    isDither = type.fillGradientPalette != null
                     style = Paint.Style.FILL
                 }
             )

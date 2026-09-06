@@ -32,6 +32,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
@@ -52,6 +53,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistoryS
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.isOutlinedShapeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -178,20 +180,31 @@ class GradientLayerTest {
             SettingsManager::class.java.classLoader,
             arrayOf(SettingsManager::class.java)
         ) { _, method, _ -> error("Unexpected settings access: ${method.name}") } as SettingsManager)
-        val text = MarkupLayer(LayerType.Text.Default.copy(gradientPalette = palette), position)
+        val text = MarkupLayer(
+            LayerType.Text.Default.copy(
+                gradientPalette = palette,
+                backgroundGradientPalette = GradientPalette.Ocean,
+                outlineGradientPalette = palette,
+                outline = Outline(Color.GREEN, 3f)
+            ), position
+        )
         val shape = MarkupLayer(
-            LayerType.Shape.Default.copy(gradientPalette = GradientPalette.Fire), position
+            LayerType.Shape.Default.copy(
+                gradientPalette = GradientPalette.Fire,
+                fillGradientPalette = palette
+            ), position
         )
         val layers = listOf(text, shape, shape.copy(groupedLayers = listOf(text, shape)))
+        val background = ProjectBackground.Color(512, 256, Color.GREEN, GradientFill(palette, 125f))
         val project = MarkupProject(
-            background = ProjectBackground.None,
+            background = background,
             layers = layers,
             lastLayers = listOf(text),
             undoneLayers = listOf(shape),
-            history = listOf(MarkupProjectHistorySnapshot(ProjectBackground.None, layers)),
+            history = listOf(MarkupProjectHistorySnapshot(background, layers)),
             redoHistory = listOf(
                 MarkupProjectHistorySnapshot(
-                    ProjectBackground.None,
+                    background,
                     layers.reversed()
                 )
             )
@@ -203,13 +216,88 @@ class GradientLayerTest {
             mapper.map(adapter.fromJson(json)!!, context.cacheDir) as MarkupProjectResult.Success
         assertEquals(project, restored.project)
 
-        val legacyJson = json.replace(Regex(",\"gradientPalette\":\"[^\"]*\""), "")
+        val legacyJson = json.replace(
+            Regex(",\"(?:gradientPalette|backgroundGradientPalette|outlineGradientPalette|fillGradientPalette)\":\"[^\"]*\""),
+            ""
+        )
         val legacy = mapper.map(
             adapter.fromJson(legacyJson)!!,
             context.cacheDir
         ) as MarkupProjectResult.Success
         assertNull((legacy.project.layers[0].type as LayerType.Text).gradientPalette)
         assertNull((legacy.project.layers[1].type as LayerType.Shape).gradientPalette)
+        assertNull((legacy.project.layers[0].type as LayerType.Text).backgroundGradientPalette)
+        assertNull((legacy.project.layers[0].type as LayerType.Text).outlineGradientPalette)
+        assertNull((legacy.project.layers[1].type as LayerType.Shape).fillGradientPalette)
+        assertNull((legacy.project.background as ProjectBackground.Color).gradient)
+    }
+
+    @Test
+    fun outlinedShapesKeepIndependentGradientFillInPreviewAndExport() {
+        for (mode in ShapeMode.entries.filter { it.isOutlinedShapeMode() }) {
+            val type = LayerType.Shape.Default.copy(
+                shapeMode = mode,
+                color = Color.GREEN,
+                fillGradientPalette = palette
+            )
+            val data = resolveShapeLayerRenderData(type, 512f)
+            val width = ceil(data.contentWidth).toInt()
+            val height = ceil(data.contentHeight).toInt()
+            val exported = createBitmap(width, height)
+            Canvas(exported).drawShapeLayer(type, data)
+            val preview = createBitmap(width, height)
+            CanvasDrawScope().draw(
+                Density(1f),
+                LayoutDirection.Ltr,
+                ComposeCanvas(Canvas(preview)),
+                Size(width.toFloat(), height.toFloat())
+            ) {
+                drawShapeLayer(type, data)
+            }
+            assertTrue("Fill differs for ${mode.kind}", exported.sameAs(preview))
+            val pixels = exported.pixels()
+            assertTrue(pixels.any { it == Color.GREEN })
+            assertTrue(pixels.any { Color.red(it) > Color.blue(it) + 80 && Color.alpha(it) > 200 })
+            assertTrue(pixels.any { Color.blue(it) > Color.red(it) + 80 && Color.alpha(it) > 200 })
+            exported.recycle()
+            preview.recycle()
+        }
+    }
+
+    @Test
+    fun whiteTextKeepsIndependentGradientOutlineAndBackground() = runBlocking {
+        val dispatchers = object : DispatchersHolder {
+            override val uiDispatcher = Dispatchers.Main
+            override val ioDispatcher = Dispatchers.IO
+            override val encodingDispatcher = Dispatchers.Default
+            override val decodingDispatcher = Dispatchers.Default
+            override val defaultDispatcher = Dispatchers.Default
+        }
+        val imageLoader = ImageLoader.Builder(context).build()
+        val renderer = LayersRenderer(context, imageLoader, dispatchers)
+        val background = createBitmap(512, 512)
+        try {
+            for (useOutline in listOf(false, true)) {
+                val text = LayerType.Text.Default.copy(
+                    text = "MMMMMMMM",
+                    size = 1f,
+                    color = Color.WHITE,
+                    outline = if (useOutline) Outline(Color.GREEN, 8f) else null,
+                    outlineGradientPalette = if (useOutline) palette else null,
+                    backgroundGradientPalette = if (useOutline) null else palette
+                )
+                val result =
+                    renderer.render(background, listOf(MarkupLayer(text, position)), fontScale = 1f)
+                val pixels = result.pixels().filter { Color.alpha(it) > 200 }
+                assertTrue(pixels.any { it == Color.WHITE })
+                assertTrue(pixels.any { Color.red(it) > Color.blue(it) + 80 })
+                assertTrue(pixels.any { Color.blue(it) > Color.red(it) + 80 })
+                result.recycle()
+            }
+        } finally {
+            background.recycle()
+            imageLoader.shutdown()
+        }
     }
 
     private fun Bitmap.pixels(): List<Int> = IntArray(width * height).also {

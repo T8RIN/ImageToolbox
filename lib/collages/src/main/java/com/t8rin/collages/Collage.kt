@@ -18,6 +18,7 @@
 package com.t8rin.collages
 
 import android.graphics.Bitmap
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
@@ -65,7 +66,8 @@ fun Collage(
     onImageTap: ((index: Int) -> Unit)? = null,
     handleDrawable: Drawable? = null,
     disableRotation: Boolean = false,
-    enableSnapToBorders: Boolean = false
+    enableSnapToBorders: Boolean = false,
+    backgroundShader: ((Float, Float) -> Shader)? = null
 ) {
     var previousSize by rememberSaveable {
         mutableIntStateOf(100)
@@ -115,6 +117,7 @@ fun Collage(
             }
             SideEffect {
                 viewInstance?.setBackgroundColor(backgroundColor)
+                viewInstance?.setBackgroundShader(backgroundShader)
                 viewInstance?.setSpace(spacing, cornerRadius)
                 viewInstance?.setDisableRotation(disableRotation)
                 viewInstance?.setEnableSnapToBorders(enableSnapToBorders)
@@ -141,6 +144,7 @@ fun Collage(
                             previousSize = size
                             previousAspect = aspectRatio
                             setBackgroundColor(backgroundColor)
+                            setBackgroundShader(backgroundShader)
                             setOnItemTapListener(onImageTap)
                             setHandleDrawable(handleDrawable)
                             setDisableRotation(disableRotation)

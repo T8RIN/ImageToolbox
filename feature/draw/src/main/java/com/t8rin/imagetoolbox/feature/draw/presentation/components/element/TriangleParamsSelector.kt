@@ -50,6 +50,10 @@ internal fun TriangleParamsSelector(
         Column {
             OutlinedFillColorSelector(
                 value = value.outlinedFillColor?.toColor(),
+                gradientPalette = value.outlinedFillGradientPalette,
+                onGradientPaletteChange = {
+                    onValueChange(value.updateOutlined(fillGradientPalette = it))
+                },
                 onValueChange = {
                     onValueChange(value.updateOutlined(it))
                 },

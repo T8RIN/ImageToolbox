@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
@@ -35,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -77,6 +79,8 @@ class CollageMakerComponent @AssistedInject internal constructor(
 
     private val _backgroundColor = mutableStateOf(Color.White)
     val backgroundColor: Color by _backgroundColor
+    var backgroundGradient by mutableStateOf<GradientFill?>(null)
+        private set
 
     private val _collageCreationTrigger = mutableStateOf(false)
     val collageCreationTrigger by _collageCreationTrigger
@@ -281,8 +285,14 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _isSaving.update { false }
     }
 
+    fun updateBackgroundGradient(gradient: GradientFill) {
+        backgroundGradient = gradient
+        registerChanges()
+    }
+
     fun setBackgroundColor(color: Color) {
         _backgroundColor.update { color }
+        backgroundGradient = null
         registerChanges()
     }
 

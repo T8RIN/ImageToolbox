@@ -17,11 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.utils
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CheckBoxOutlineBlank
 import com.t8rin.imagetoolbox.core.resources.icons.Circle
@@ -193,7 +194,8 @@ internal fun DrawPathMode.saveState(
 }.run {
     if (value is DrawPathMode.Outlined && this is DrawPathMode.Outlined) {
         updateOutlined(
-            fillColor = value.fillColor?.toColor()
+            fillColor = value.fillColor?.toColor(),
+            fillGradientPalette = value.fillGradientPalette
         )
     } else this
 }
@@ -273,28 +275,34 @@ internal fun DrawPathMode.innerRadiusRatio(): Float = when (this) {
 }
 
 internal fun DrawPathMode.updateOutlined(
-    fillColor: Color?
+    fillColor: Color? = outlinedFillColor?.toColor(),
+    fillGradientPalette: GradientPalette? = null
 ) = when (this) {
     is DrawPathMode.Outlined -> {
         when (this) {
             is DrawPathMode.OutlinedOval -> copy(
-                fillColor = fillColor?.toModel()
+                fillColor = fillColor?.toModel(),
+                fillGradientPalette = fillGradientPalette
             )
 
             is DrawPathMode.OutlinedPolygon -> copy(
-                fillColor = fillColor?.toModel()
+                fillColor = fillColor?.toModel(),
+                fillGradientPalette = fillGradientPalette
             )
 
             is DrawPathMode.OutlinedRect -> copy(
-                fillColor = fillColor?.toModel()
+                fillColor = fillColor?.toModel(),
+                fillGradientPalette = fillGradientPalette
             )
 
             is DrawPathMode.OutlinedStar -> copy(
-                fillColor = fillColor?.toModel()
+                fillColor = fillColor?.toModel(),
+                fillGradientPalette = fillGradientPalette
             )
 
             is DrawPathMode.OutlinedTriangle -> copy(
-                fillColor = fillColor?.toModel()
+                fillColor = fillColor?.toModel(),
+                fillGradientPalette = fillGradientPalette
             )
         }
     }

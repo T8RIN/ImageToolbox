@@ -17,6 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+
 sealed class ProjectBackground {
     data object None : ProjectBackground()
 
@@ -27,6 +29,7 @@ sealed class ProjectBackground {
     data class Color(
         val width: Int,
         val height: Int,
-        val color: Int
+        val color: Int,
+        val gradient: GradientFill? = null
     ) : ProjectBackground()
 }

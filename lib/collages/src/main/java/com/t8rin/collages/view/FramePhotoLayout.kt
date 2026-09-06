@@ -25,9 +25,11 @@ import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
@@ -102,6 +104,7 @@ internal class FramePhotoLayout(
     private var mViewWidth: Int = 0
     private var mViewHeight: Int = 0
     private var backgroundColor: ComposeColor = ComposeColor.White
+    private var backgroundShader: ((Float, Float) -> Shader)? = null
     private var onItemTapListener: ((index: Int) -> Unit)? = null
 
     // Handle overlay state
@@ -198,7 +201,7 @@ internal class FramePhotoLayout(
             return
         }
 
-        setBackgroundColor(backgroundColor.toArgb())
+        setBackgroundColor(if (backgroundShader == null) backgroundColor.toArgb() else Color.TRANSPARENT)
 
         //add children views
         mViewWidth = viewWidth
@@ -239,8 +242,26 @@ internal class FramePhotoLayout(
 
     fun setBackgroundColor(color: ComposeColor) {
         backgroundColor = color
-        setBackgroundColor(backgroundColor.toArgb())
+        setBackgroundColor(if (backgroundShader == null) backgroundColor.toArgb() else Color.TRANSPARENT)
         invalidate()
+    }
+
+    fun setBackgroundShader(shader: ((Float, Float) -> Shader)?) {
+        backgroundShader = shader
+        setBackgroundColor(backgroundColor)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        drawBackgroundGradient(canvas, width.toFloat(), height.toFloat())
+    }
+
+    private fun drawBackgroundGradient(canvas: Canvas, width: Float, height: Float) {
+        backgroundShader?.let { factory ->
+            canvas.drawRect(0f, 0f, width, height, Paint(Paint.DITHER_FLAG).apply {
+                shader = factory(width, height)
+            })
+        }
     }
 
     fun setOnItemTapListener(listener: ((index: Int) -> Unit)?) {
@@ -277,7 +298,7 @@ internal class FramePhotoLayout(
         val diameterPx = 72 // equals previous 36px radius circle
         return GradientDrawable().apply {
             shape = GradientDrawable.OVAL
-            setColor(android.graphics.Color.rgb(255, 165, 0))
+            setColor(Color.rgb(255, 165, 0))
             setSize(diameterPx, diameterPx)
         }
     }
@@ -317,7 +338,8 @@ internal class FramePhotoLayout(
                 (outputScaleRatio * mViewHeight).toInt()
             )
             val canvas = Canvas(template)
-            canvas.drawColor(backgroundColor.toArgb())
+            if (backgroundShader == null) canvas.drawColor(backgroundColor.toArgb())
+            else drawBackgroundGradient(canvas, template.width.toFloat(), template.height.toFloat())
             for (view in mItemImageViews)
                 if (view.image != null && !view.image!!.isRecycled) {
                     val left = (view.left * outputScaleRatio).toInt()

@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
@@ -329,9 +330,14 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         calculatePreview()
     }
 
+    fun updateBackgroundGradient(gradient: GradientFill) {
+        updateCombiningParams(combiningParams.copy(backgroundGradient = gradient))
+        calculatePreview()
+    }
+
     fun updateBackgroundSelector(color: Int) {
         updateCombiningParams(
-            combiningParams.copy(backgroundColor = color)
+            combiningParams.copy(backgroundColor = color, backgroundGradient = null)
         )
         calculatePreview()
     }

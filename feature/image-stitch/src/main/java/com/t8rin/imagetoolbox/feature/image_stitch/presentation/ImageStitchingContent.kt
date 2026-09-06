@@ -50,8 +50,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -304,8 +304,10 @@ fun ImageStitchingContent(
                         onValueChange = component::setStitchAlignment
                     )
                 }
-                ColorRowSelector(
+                BackgroundColorSelector(
                     value = Color(combiningParams.backgroundColor),
+                    gradient = combiningParams.backgroundGradient,
+                    onGradientChange = component::updateBackgroundGradient,
                     onValueChange = {
                         component.updateBackgroundSelector(it.toArgb())
                     },

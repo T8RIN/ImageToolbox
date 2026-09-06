@@ -25,6 +25,7 @@ import android.graphics.Path
 import android.graphics.RectF
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.text.TextLayoutResult
@@ -49,6 +50,7 @@ import coil3.ImageLoader
 import coil3.request.ImageRequest
 import coil3.request.allowHardware
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.data.image.utils.toPaint
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -357,7 +359,9 @@ internal class LayersRenderer @Inject constructor(
             textMeasurer.measure(
                 text = layoutText,
                 style = fillStyle.copy(
-                    color = ComposeColor(outline.color),
+                    brush = type.outlineGradientPalette?.let { palette ->
+                        Brush.horizontalGradient(palette.colors.map { ComposeColor(it.colorInt) })
+                    } ?: SolidColor(ComposeColor(outline.color)),
                     textDecoration = null,
                     drawStyle = ComposeStroke(
                         width = outline.width,
@@ -396,9 +400,17 @@ internal class LayersRenderer @Inject constructor(
         return TextLayerRenderData(
             width = bitmapWidth.toFloat(),
             height = bitmapHeight.toFloat(),
-            backgroundPaint = type.backgroundColor.takeIf { it != 0 }?.let { backgroundColor ->
+            backgroundPaint = type.backgroundColor.takeIf {
+                it != 0 || type.backgroundGradientPalette != null
+            }?.let { backgroundColor ->
                 Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = backgroundColor
+                    color = if (type.backgroundGradientPalette == null) {
+                        backgroundColor
+                    } else android.graphics.Color.WHITE
+                    isDither = type.backgroundGradientPalette != null
+                    shader = type.backgroundGradientPalette?.createShader(
+                        bitmapWidth.toFloat(), bitmapHeight.toFloat()
+                    )
                 }
             },
             textLeft = textMetrics.padding.leftPx,

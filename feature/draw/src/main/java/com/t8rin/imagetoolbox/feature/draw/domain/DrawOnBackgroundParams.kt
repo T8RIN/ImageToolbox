@@ -17,10 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+
 data class DrawOnBackgroundParams(
     val width: Int,
     val height: Int,
     val color: Int?,
+    val gradient: GradientFill? = null,
 ) {
     companion object {
         val Default by lazy {

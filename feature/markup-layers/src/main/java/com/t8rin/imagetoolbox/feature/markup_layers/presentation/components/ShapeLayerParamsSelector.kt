@@ -39,7 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorAndGradientSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -196,8 +196,8 @@ private fun ShapeAppearanceSection(
     val showStrokeWidth = mode.usesStrokeWidth()
     val singleItemShape = ShapeDefaults.large
 
-    LayerColorSelector(
-        layerId = layer.id,
+    ColorAndGradientSelector(
+        selectionKey = layer.id,
         value = type.color.toColor(),
         gradientPalette = type.gradientPalette,
         onValueChange = {
@@ -226,13 +226,19 @@ private fun ShapeAppearanceSection(
     ) {
         Column {
             Spacer(modifier = Modifier.height(4.dp))
-            ColorRowSelector(
+            ColorAndGradientSelector(
+                selectionKey = layer.id,
+                gradientPalette = type.fillGradientPalette,
+                onGradientPaletteChange = {
+                    onUpdateLayer(layer.copy(type = type.copy(fillGradientPalette = it)))
+                },
                 value = mode.outlinedFillColorInt()?.toColor(),
                 onValueChange = {
                     onUpdateLayer(
                         layer.copy(
                             type = type.copy(
-                                shapeMode = mode.withOutlinedFillColor(it.toArgb())
+                                shapeMode = mode.withOutlinedFillColor(it.toArgb()),
+                                fillGradientPalette = null
                             )
                         )
                     )
@@ -241,7 +247,8 @@ private fun ShapeAppearanceSection(
                     onUpdateLayer(
                         layer.copy(
                             type = type.copy(
-                                shapeMode = mode.withOutlinedFillColor(null)
+                                shapeMode = mode.withOutlinedFillColor(null),
+                                fillGradientPalette = null
                             )
                         )
                     )

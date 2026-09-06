@@ -71,6 +71,7 @@ import com.t8rin.collages.CollageTypeSelection
 import com.t8rin.collages.public.CollageConstants
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
+import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -97,7 +98,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -384,6 +385,17 @@ fun CollageMakerContent(
                                         isLoading = false
                                     },
                                     backgroundColor = component.backgroundColor,
+                                    backgroundShader = remember(component.backgroundGradient) {
+                                        component.backgroundGradient?.let { gradient ->
+                                            { width: Float, height: Float ->
+                                                gradient.palette.createShader(
+                                                    width,
+                                                    height,
+                                                    gradient.angle
+                                                )
+                                            }
+                                        }
+                                    },
                                     spacing = component.params.spacing,
                                     cornerRadius = component.params.cornerRadius,
                                     aspectRatio = component.aspectRatio.value,
@@ -527,7 +539,7 @@ fun CollageMakerContent(
                         }
                     )
                 }
-                ColorRowSelector(
+                BackgroundColorSelector(
                     modifier = Modifier
                         .fillMaxWidth()
                         .container(
@@ -535,6 +547,8 @@ fun CollageMakerContent(
                         ),
                     icon = Icons.Outlined.BackgroundColor,
                     value = component.backgroundColor,
+                    gradient = component.backgroundGradient,
+                    onGradientChange = component::updateBackgroundGradient,
                     onValueChange = component::setBackgroundColor
                 )
                 AspectRatioSelector(
@@ -628,7 +642,8 @@ fun CollageMakerContent(
                     value = component.imageFormat,
                     quality = component.quality,
                     onValueChange = component::setImageFormat,
-                    entries = if (component.backgroundColor.alpha != 1f) {
+                    entries = if (component.backgroundGradient?.palette?.colors?.any { (it.colorInt ushr 24) != 255 }
+                            ?: (component.backgroundColor.alpha != 1f)) {
                         ImageFormatGroup.alphaContainedEntries
                     } else ImageFormatGroup.entries,
                     forceEnabled = true

@@ -34,11 +34,11 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,6 +51,9 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
@@ -59,7 +62,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Stacks
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.restrict
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -150,6 +153,15 @@ internal fun MarkupLayersNoDataControls(
     ) {
         mutableIntStateOf(screenHeight)
     }
+    var sheetGradientPalette by rememberSaveable(showBackgroundDrawingSetup) {
+        mutableStateOf<String?>(null)
+    }
+    var sheetGradientAngle by rememberSaveable(showBackgroundDrawingSetup) {
+        mutableFloatStateOf(0f)
+    }
+    val sheetGradient = sheetGradientPalette?.let(GradientPalette::fromSerializedString)?.let {
+        GradientFill(it, sheetGradientAngle)
+    }
     var sheetBackgroundColor by rememberSaveable(
         showBackgroundDrawingSetup,
         stateSaver = ColorSaver
@@ -171,7 +183,8 @@ internal fun MarkupLayersNoDataControls(
                     component.startDrawOnBackground(
                         reqWidth = width,
                         reqHeight = height,
-                        color = sheetBackgroundColor
+                        color = sheetBackgroundColor,
+                        gradient = sheetGradient
                     )
                 }
             ) {
@@ -228,9 +241,17 @@ internal fun MarkupLayersNoDataControls(
                             ),
                     )
                 }
-                ColorRowSelector(
+                BackgroundColorSelector(
                     value = sheetBackgroundColor,
-                    onValueChange = { sheetBackgroundColor = it },
+                    onValueChange = {
+                        sheetBackgroundColor = it
+                        sheetGradientPalette = null
+                    },
+                    gradient = sheetGradient,
+                    onGradientChange = {
+                        sheetGradientPalette = it.palette.toSerializedString()
+                        sheetGradientAngle = it.angle
+                    },
                     icon = Icons.Outlined.BackgroundColor,
                     modifier = Modifier
                         .padding(

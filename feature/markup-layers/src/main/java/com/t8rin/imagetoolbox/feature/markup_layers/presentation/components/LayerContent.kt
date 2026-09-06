@@ -406,6 +406,9 @@ private fun TextLayerContent(
         type.outline?.let {
             OutlineParams(
                 color = Color(it.color),
+                brush = type.outlineGradientPalette?.let { palette ->
+                    Brush.horizontalGradient(palette.colors.map { Color(it.colorInt) })
+                },
                 stroke = Stroke(
                     width = it.width,
                     cap = StrokeCap.Round,
@@ -452,8 +455,12 @@ private fun TextLayerContent(
                         )
                     }
 
+                    val backgroundBrush = type.backgroundGradientPalette?.let { palette ->
+                        Brush.horizontalGradient(palette.colors.map { Color(it.colorInt) })
+                    }
                     onDrawWithContent {
-                        drawRect(type.backgroundColor.toColor())
+                        if (backgroundBrush != null) drawRect(backgroundBrush)
+                        else drawRect(type.backgroundColor.toColor())
                         shadow?.let { shadowData ->
                             drawContext.canvas.nativeCanvas.apply {
                                 withSave {

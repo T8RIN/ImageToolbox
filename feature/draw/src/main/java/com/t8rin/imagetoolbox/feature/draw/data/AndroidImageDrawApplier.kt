@@ -44,8 +44,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.graphics.applyCanvas
 import androidx.core.graphics.createBitmap
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
+import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.density
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
@@ -72,6 +71,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.domain.PathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.clipBitmap
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawOutlinedFill
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawPathWithGradient
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.withPathGradient
 import com.t8rin.trickle.WarpBrush
@@ -80,7 +80,6 @@ import com.t8rin.trickle.WarpMode
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
-import android.graphics.Paint as AndroidPaint
 import android.graphics.Path as NativePath
 
 internal class AndroidImageDrawApplier @Inject constructor(
@@ -101,10 +100,12 @@ internal class AndroidImageDrawApplier @Inject constructor(
             }
 
             is DrawBehavior.Background -> {
-                drawBehavior.color.toDrawable().toBitmap(
+                createBitmap(
                     width = drawBehavior.width.coerceAtLeast(1),
                     height = drawBehavior.height.coerceAtLeast(1)
-                )
+                ).applyCanvas {
+                    drawBackground(drawBehavior.color, drawBehavior.gradient)
+                }
             }
 
             else -> null
@@ -118,7 +119,9 @@ internal class AndroidImageDrawApplier @Inject constructor(
             bitmap.applyCanvas {
                 val canvasSize = IntegerSize(width, height)
 
-                (drawBehavior as? DrawBehavior.Background)?.apply { drawColor(color) }
+                (drawBehavior as? DrawBehavior.Background)?.apply {
+                    if (gradient == null) drawColor(color)
+                }
 
                 pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength, isGradientMirrored) ->
                     val stroke = drawPathMode.convertStrokeWidth(
@@ -327,20 +330,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 )
                             }
                         } else if (drawPathMode is DrawPathMode.Outlined && !isErasing) {
-                            drawPathMode.fillColor?.let { fillColor ->
-                                val filledPaint = AndroidPaint().apply {
-                                    set(paint)
-                                    style = AndroidPaint.Style.FILL
-                                    color = fillColor.colorInt
-                                    if (Color(fillColor.colorInt).alpha == 1f) {
-                                        alpha =
-                                            (drawColor.alpha * 255).roundToInt().coerceIn(0, 255)
-                                    }
-                                    pathEffect = null
-                                }
-
-                                drawPath(androidPath, filledPaint)
-                            }
+                            drawOutlinedFill(androidPath, paint, drawPathMode, drawColor.alpha)
                             drawPathWithGradient(
                                 path = androidPath,
                                 paint = paint,

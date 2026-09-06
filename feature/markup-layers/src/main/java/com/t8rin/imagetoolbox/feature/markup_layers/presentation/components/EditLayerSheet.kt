@@ -74,7 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
-import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorAndGradientSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.FontSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -282,13 +282,21 @@ internal fun EditLayerSheet(
                             containerColor = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        ColorRowSelector(
+                        ColorAndGradientSelector(
+                            selectionKey = layer.id,
+                            gradientPalette = type.backgroundGradientPalette,
+                            onGradientPaletteChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(type = type.copy(backgroundGradientPalette = it))
+                                )
+                            },
                             value = type.backgroundColor.toColor(),
                             onValueChange = {
                                 updateLayerWithHistory(
                                     layer.copy(
                                         type = type.copy(
-                                            backgroundColor = it.toArgb()
+                                            backgroundColor = it.toArgb(),
+                                            backgroundGradientPalette = null
                                         )
                                     )
                                 )
@@ -301,8 +309,8 @@ internal fun EditLayerSheet(
                             )
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        LayerColorSelector(
-                            layerId = layer.id,
+                        ColorAndGradientSelector(
+                            selectionKey = layer.id,
                             value = type.color.toColor(),
                             gradientPalette = type.gradientPalette,
                             onValueChange = {
@@ -481,7 +489,18 @@ internal fun EditLayerSheet(
                                         verticalArrangement = Arrangement.spacedBy(4.dp),
                                         modifier = Modifier.padding(top = 16.dp)
                                     ) {
-                                        ColorRowSelector(
+                                        ColorAndGradientSelector(
+                                            selectionKey = layer.id,
+                                            gradientPalette = type.outlineGradientPalette,
+                                            onGradientPaletteChange = {
+                                                updateLayerWithHistory(
+                                                    layer.copy(
+                                                        type = type.copy(
+                                                            outlineGradientPalette = it
+                                                        )
+                                                    )
+                                                )
+                                            },
                                             value = type.outline?.color?.toColor()
                                                 ?: Color.Transparent,
                                             onValueChange = {
@@ -490,7 +509,8 @@ internal fun EditLayerSheet(
                                                         type = type.copy(
                                                             outline = type.outline?.copy(
                                                                 color = it.toArgb()
-                                                            )
+                                                            ),
+                                                            outlineGradientPalette = null
                                                         )
                                                     )
                                                 )
