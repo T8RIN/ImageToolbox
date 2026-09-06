@@ -18,6 +18,11 @@
 package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -34,13 +39,18 @@ fun BackgroundColorSelector(
     modifier: Modifier = Modifier,
     icon: ImageVector? = Icons.Outlined.BackgroundColor
 ) {
+    var lastAngle by rememberSaveable { mutableFloatStateOf(gradient?.angle ?: 0f) }
+    LaunchedEffect(gradient) {
+        gradient?.let { lastAngle = it.angle }
+    }
+
     ColorAndGradientSelector(
         value = value,
         gradientPalette = gradient?.palette,
         onValueChange = onValueChange,
         onGradientPaletteChange = {
             onGradientChange(
-                (gradient ?: GradientFill()).copy(palette = it)
+                (gradient ?: GradientFill(angle = lastAngle)).copy(palette = it)
             )
         },
         gradientAngle = gradient?.angle ?: 0f,

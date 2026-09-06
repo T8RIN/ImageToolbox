@@ -48,6 +48,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.retainedComponent
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
@@ -86,6 +87,8 @@ class LiveDrawTestActivity : ComponentActivity() {
     var gradientLength by mutableStateOf(1f)
     var gradientMirrored by mutableStateOf(false)
     var background by mutableStateOf(Color.Transparent)
+    var backgroundGradient: GradientFill? by mutableStateOf(null)
+    var erasing by mutableStateOf(false)
     var softness by mutableStateOf(0.pt)
     var alpha by mutableStateOf(1f)
     var width by mutableStateOf(65.pt)
@@ -147,7 +150,7 @@ class LiveDrawTestActivity : ComponentActivity() {
                             gradientPalette = gradient,
                             gradientLength = gradientLength,
                             isGradientMirrored = gradientMirrored,
-                            isEraserOn = false,
+                            isEraserOn = erasing,
                             drawMode = mode,
                             drawPathMode = DrawPathMode.Free,
                             drawLineStyle = DrawLineStyle.None,
@@ -155,6 +158,7 @@ class LiveDrawTestActivity : ComponentActivity() {
                                 .size(viewport)
                                 .onGloballyPositioned { bounds = it.boundsInWindow() },
                             backgroundColor = background,
+                            backgroundGradient = backgroundGradient,
                             panEnabled = false,
                             helperGridParams = HelperGridParams(),
                             onDraw = { frame = it; observeFrame?.invoke(it) },
@@ -208,6 +212,83 @@ class LiveDrawPreviewTest {
         instrumentation.sendPointerSync(event)
         event.recycle()
         SystemClock.sleep(40)
+    }
+
+    @Test
+    fun translucentBackgroundSurvivesErasingUndoAndColorChanges() = withDrawer { activity ->
+        val palette = GradientPalette.Custom(
+            listOf(0x80FF0000.toInt(), 0x800000FF.toInt()).map(::ColorModel)
+        )
+        instrumentation.runOnMainSync {
+            activity.image.eraseColor(android.graphics.Color.TRANSPARENT)
+            activity.background = Color.Green
+            activity.backgroundGradient = GradientFill(palette)
+        }
+        await("Translucent background did not render") {
+            activity.ready && activity.frame?.getPixel(0, 0)?.let {
+                android.graphics.Color.alpha(it) == 128
+            } == true
+        }
+        val background = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        fun stroke() {
+            val count = activity.paths.size
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .15f, .5f, down)
+            for (step in 1..10) {
+                event(activity, MotionEvent.ACTION_MOVE, .15f + step * .065f, .5f, down)
+            }
+            event(activity, MotionEvent.ACTION_UP, .8f, .5f, down)
+            await("Stroke did not commit") {
+                activity.ready && activity.readyPaths?.size == count + 1
+            }
+        }
+        stroke()
+        val painted = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        val x = painted.width / 2
+        val y = painted.height / 2
+        assertEquals(android.graphics.Color.RED, painted.getPixel(x, y))
+        assertEquals(background.getPixel(0, 0), painted.getPixel(0, 0))
+        instrumentation.runOnMainSync { activity.erasing = true }
+        instrumentation.waitForIdleSync()
+        stroke()
+        assertEquals(
+            "Eraser changed the background",
+            background.getPixel(x, y),
+            activity.frame!!.getPixel(x, y)
+        )
+        val paths = activity.paths
+        val erased = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        instrumentation.runOnMainSync { activity.paths = paths.take(1) }
+        await("Undo did not restore the stroke") {
+            activity.ready && activity.readyPaths == paths.take(1) && painted.sameAs(activity.frame)
+        }
+        instrumentation.runOnMainSync { activity.paths = paths }
+        await("Redo changed the transparent background") {
+            activity.ready && activity.readyPaths == paths && erased.sameAs(activity.frame)
+        }
+        instrumentation.runOnMainSync {
+            activity.backgroundGradient = GradientFill(palette, 180f)
+        }
+        await("Changing direction did not invalidate the background") {
+            activity.ready && activity.frame!!.getPixel(0, 0).let {
+                android.graphics.Color.blue(it) > 240 && android.graphics.Color.alpha(it) == 128
+            }
+        }
+        instrumentation.runOnMainSync {
+            activity.backgroundGradient = null
+            activity.background = Color.Blue
+        }
+        await("Switching to a solid color left the gradient in the cache") {
+            activity.ready && activity.frame!!.let {
+                it.getPixel(0, 0) == android.graphics.Color.BLUE && it.getPixel(
+                    x,
+                    y
+                ) == android.graphics.Color.BLUE
+            }
+        }
+        background.recycle()
+        painted.recycle()
+        erased.recycle()
     }
 
     @Test

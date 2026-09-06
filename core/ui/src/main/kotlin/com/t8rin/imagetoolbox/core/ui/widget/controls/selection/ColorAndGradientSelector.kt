@@ -97,7 +97,7 @@ fun ColorAndGradientSelector(
                     onValueChange = onGradientPaletteChange,
                     modifier = Modifier.fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surface,
-                    shape = ShapeDefaults.top
+                    shape = if (onGradientAngleChange == null) ShapeDefaults.large else ShapeDefaults.top
                 )
                 if (onGradientAngleChange != null) {
                     EnhancedSliderItem(

@@ -708,11 +708,16 @@ class DrawGradientTest {
             63 to palette.colors.last().colorInt,
             191 to palette.colors.first().colorInt
         )) {
+            assertEquals("Mirror missed its endpoint at $turn", expected, image.getPixel(turn, 64))
+            // Adjacent pixel centers interpolate the lookup table before 8-bit rounding.
             for (offset in -1..1) {
                 val actual = image.getPixel(turn + offset, 64)
                 for (shift in listOf(0, 8, 16)) {
                     val error = abs((expected ushr shift and 255) - (actual ushr shift and 255))
-                    assertTrue("Filled mirror reversed sharply at $turn / $offset", error <= 2)
+                    assertTrue(
+                        "Filled mirror reversed sharply at $turn / $offset: channel error $error",
+                        error <= 3
+                    )
                 }
             }
             for (offset in 1..60) {

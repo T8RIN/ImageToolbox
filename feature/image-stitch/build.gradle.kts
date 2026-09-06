@@ -22,9 +22,15 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android.namespace = "com.t8rin.imagetoolbox.feature.image_stitch"
+android {
+    namespace = "com.t8rin.imagetoolbox.feature.image_stitch"
+    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+}
 
 dependencies {
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.runner)
+
     implementation(projects.core.filters)
     implementation(projects.lib.opencvTools)
     implementation(libs.trickle)

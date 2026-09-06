@@ -146,10 +146,16 @@ internal fun DrawContentNoDataControls(
     ) {
         mutableIntStateOf(drawOnBackgroundParams.height.takeIf { it > 0 } ?: screenHeight)
     }
-    var sheetGradientPalette by rememberSaveable(showBackgroundDrawingSetup) {
+    var sheetGradientPalette by rememberSaveable(
+        showBackgroundDrawingSetup,
+        drawOnBackgroundParams
+    ) {
         mutableStateOf<String?>(drawOnBackgroundParams.gradient?.palette?.toSerializedString())
     }
-    var sheetGradientAngle by rememberSaveable(showBackgroundDrawingSetup) {
+    var sheetGradientAngle by rememberSaveable(
+        showBackgroundDrawingSetup,
+        drawOnBackgroundParams
+    ) {
         mutableFloatStateOf(drawOnBackgroundParams.gradient?.angle ?: 0f)
     }
     val sheetGradient = sheetGradientPalette?.let(GradientPalette::fromSerializedString)?.let {
