@@ -173,6 +173,7 @@ or click one of the badges below.
 |       QR Scanner        |       Zxing        |       MlKit        |
 | Auto Background Remover |        ONNX        |       MlKit        |
 |    Document Scanner     |       OpenCV       |       MlKit        |
+|     RAR Decryption      |        :x:         |       Junrar       |
 |        Analytics        |        :x:         | :white_check_mark: |
 |       Crashlytics       |        :x:         | :white_check_mark: |
 |    Other Google deps    |        :x:         | :white_check_mark: |

@@ -19,13 +19,17 @@ plugins {
     alias(libs.plugins.image.toolbox.library)
 }
 
-android.namespace = "com.t8rin.archive"
+android {
+    namespace = "com.t8rin.archive"
+
+    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+}
 
 dependencies {
     api(libs.libarchive.android)
     implementation(libs.toolbox.archiveBrotli)
     implementation(libs.commons.compress)
-    implementation(libs.junrar)
+    "marketImplementation"(libs.junrar)
     implementation(libs.xz)
 
     testImplementation(libs.junit)

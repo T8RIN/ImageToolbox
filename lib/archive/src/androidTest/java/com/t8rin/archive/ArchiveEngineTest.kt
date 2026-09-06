@@ -137,7 +137,8 @@ class ArchiveEngineTest {
                             expected.keys,
                             ArchiveEngine.listEntries(
                                 inputFileDescriptor = input.fd,
-                                preferSevenZip = format == ArchiveFormat.SevenZip
+                                preferSevenZip = format == ArchiveFormat.SevenZip,
+                                forceBrotli = format.isBrotli
                             ).filterNot(ArchiveEntryInfo::isDirectory)
                                 .mapTo(linkedSetOf(), ArchiveEntryInfo::path)
                         )
@@ -458,77 +459,6 @@ class ArchiveEngineTest {
     }
 
     @Test
-    fun detectsAndExtractsEncryptedRar() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val archive = File(context.cacheDir, "encrypted.rar")
-        try {
-            archive.writeBytes(Base64.decode(EncryptedRar, Base64.DEFAULT))
-            ParcelFileDescriptor.open(
-                archive,
-                ParcelFileDescriptor.MODE_READ_ONLY
-            ).use { input ->
-                assertEquals(
-                    ArchiveEncryptionStatus.PasswordRequired,
-                    ArchiveEngine.encryptionStatus(
-                        inputFileDescriptor = input.fd,
-                        preferRar = true
-                    )
-                )
-            }
-            ParcelFileDescriptor.open(
-                archive,
-                ParcelFileDescriptor.MODE_READ_ONLY
-            ).use { input ->
-                assertTrue(
-                    ArchiveEngine.verifyPassphrase(
-                        inputFileDescriptor = input.fd,
-                        passphrase = "junrar",
-                        preferRar = true
-                    )
-                )
-            }
-            ParcelFileDescriptor.open(
-                archive,
-                ParcelFileDescriptor.MODE_READ_ONLY
-            ).use { input ->
-                assertFalse(
-                    ArchiveEngine.verifyPassphrase(
-                        inputFileDescriptor = input.fd,
-                        passphrase = "wrong password",
-                        preferRar = true
-                    )
-                )
-            }
-
-            var extractedName: String? = null
-            var extractedSize = 0
-            ParcelFileDescriptor.open(
-                archive,
-                ParcelFileDescriptor.MODE_READ_ONLY
-            ).use { input ->
-                ArchiveEngine.extract(
-                    inputFileDescriptor = input.fd,
-                    passphrase = "junrar",
-                    preferRar = true,
-                    onEntry = { entry, writeData ->
-                        if (!entry.isDirectory) {
-                            extractedName = entry.path
-                            extractedSize = ByteArrayOutputStream().use { output ->
-                                writeData(output)
-                                output.size()
-                            }
-                        }
-                    }
-                )
-            }
-            assertEquals("file1.txt", extractedName)
-            assertEquals(6, extractedSize)
-        } finally {
-            archive.delete()
-        }
-    }
-
-    @Test
     fun limitsActualSizeForStreamsWithoutDeclaredSize() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val archive = File(context.cacheDir, "size_limit.gz")
@@ -587,6 +517,7 @@ class ArchiveEngineTest {
                         sevenZipCompressionMethod = sevenZipCompressionMethod,
                         compressionLevel = compressionLevel
                     )
+                    assertTrue("Destination closed for ${format.title}", output.channel.isOpen)
                 }
                 var extracted: ByteArray? = null
                 ParcelFileDescriptor.open(
@@ -653,10 +584,3 @@ private const val EncryptedSevenZipWithLargeDictionary =
     "N3q8ryccAAK7I2hyEAAAAAAAAABdAAAAAAAAAMQglulGzlC8kTajzT4kcqHo8TzaAQQGAAEJEAoB" +
             "bpObzAAHCwEAAiQG8QcBElMP9gFVw4B2BXl6rzlNdmsfcCEhAR4BAAwFAQoBG98FpQAIAAAFAREZ" +
             "AGMAbwBuAHQAZQBuAHQALgB0AHgAdAAAAAAA"
-
-private const val EncryptedRar =
-    "UmFyIRoHAQAYOJrPIQQAAAEPprqRs1Vs70VeAnJr65GiUWzJnBs88EB6pEDZCDMNebpM1FRWRid" +
-            "OoP8NEKunwvQXSE6qyWZSmFdTmJz5B4PRrGmc/9wgf07nAr0VnT/SUD7KGRm04mC2+uJap3b" +
-            "ok3fPNwjtWnVbqxga+30ke8uVJYZkiuuGhz7dmPmsjcbbifv8JRtif4lMcFsoiFclxaKGgHW" +
-            "EAQ5iUr3A418NqLr87fq2lB4LpFyCVjVgrfNS3Ou5IdI1MBz0SPemsbqYy9mjOR0uTISWgDq" +
-            "gl9qBApSZxzov0pm4HbMDGpR2jEAzLnvZFtWMyUYPoVpguDM="

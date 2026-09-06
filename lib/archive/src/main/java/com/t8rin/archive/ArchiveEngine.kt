@@ -73,7 +73,9 @@ object ArchiveEngine {
 
         val archive = Archive.writeNew()
         val destination = requireNotNull(outputStream) { "Output stream is required" }
-        val brotliOutput = if (format.isBrotli()) BrotliOutputStream(destination) else null
+        val brotliOutput = if (format.isBrotli()) {
+            BrotliOutputStream(CloseShieldOutputStream(destination))
+        } else null
         val output = BufferedOutputStream(brotliOutput ?: destination, BUFFER_SIZE)
         try {
             configureWriter(
@@ -160,7 +162,7 @@ object ArchiveEngine {
             try {
                 Archive.writeFree(archive)
             } finally {
-                output.flush()
+                if (brotliOutput != null) output.close() else output.flush()
             }
         }
     }
@@ -717,6 +719,19 @@ object ArchiveEngine {
     private const val FILE_PERMISSIONS = 420
 }
 
+private class CloseShieldOutputStream(
+    private val delegate: OutputStream
+) : OutputStream() {
+    override fun write(value: Int) = delegate.write(value)
+
+    override fun write(buffer: ByteArray, offset: Int, length: Int) =
+        delegate.write(buffer, offset, length)
+
+    override fun flush() = delegate.flush()
+
+    override fun close() = Unit
+}
+
 private class PasswordProbeOutputStream(
     private val onDataRead: () -> Unit
 ) : OutputStream() {
@@ -774,8 +789,10 @@ private fun Throwable.indicatesUnsupportedEncryption(): Boolean =
     generateSequence(this) { it.cause }
         .mapNotNull(Throwable::message)
         .any { message ->
-            message.contains("encrypted", ignoreCase = true) &&
-                    message.contains("not supported", ignoreCase = true)
+            (message.contains("encrypted", ignoreCase = true) ||
+                    message.contains("encryption", ignoreCase = true)) &&
+                    (message.contains("not supported", ignoreCase = true) ||
+                            message.contains("support unavailable", ignoreCase = true))
         }
 
 private fun Throwable.indicatesEncryption(): Boolean =
