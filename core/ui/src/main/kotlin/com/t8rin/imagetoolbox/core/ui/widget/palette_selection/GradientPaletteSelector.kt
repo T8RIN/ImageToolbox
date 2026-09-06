@@ -152,21 +152,16 @@ internal fun GradientPaletteRow(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Box(
-                            modifier = Modifier.size(28.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Gradient,
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Outlined.Gradient,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
                         GradientPalettePreview(
                             palette = value ?: GradientPalette.SoftRainbow,
                             modifier = Modifier
                                 .width(32.dp)
-                                .height(2.dp)
+                                .height(6.dp)
                                 .clip(ShapeDefaults.circle)
                         )
                     }
