@@ -5351,4 +5351,5 @@
     <string name="gradient_length">渐变长度</string>
     <string name="gradient_mirror">镜像重复</string>
     <string name="gradient_mirror_sub">交替渐变的正向和反向方向</string>
+    <string name="gradient_colors_hint">点击一种颜色进行编辑。按住并拖动可更改顺序。</string>
 </resources>

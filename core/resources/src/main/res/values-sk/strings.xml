@@ -5354,4 +5354,5 @@
     <string name="gradient_length">Dĺžka prechodu</string>
     <string name="gradient_mirror">Zrkadlové opakovanie</string>
     <string name="gradient_mirror_sub">Striedajte smer gradientu dopredu a dozadu</string>
+    <string name="gradient_colors_hint">Klepnutím na farbu ju upravíte. Podržaním a potiahnutím zmeníte poradie.</string>
 </resources>

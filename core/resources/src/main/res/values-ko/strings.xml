@@ -5351,4 +5351,5 @@
     <string name="gradient_length">그라데이션 길이</string>
     <string name="gradient_mirror">거울 반복</string>
     <string name="gradient_mirror_sub">그라디언트의 정방향과 역방향을 번갈아 가며</string>
+    <string name="gradient_colors_hint">색상을 탭하여 편집하세요. 순서를 변경하려면 누른 채로 드래그하세요.</string>
 </resources>

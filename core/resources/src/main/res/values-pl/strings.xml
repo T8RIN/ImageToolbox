@@ -5354,4 +5354,5 @@
     <string name="gradient_length">Długość gradientu</string>
     <string name="gradient_mirror">Powtórzenie lustrzane</string>
     <string name="gradient_mirror_sub">Zmieniaj kierunek gradientu do przodu i do tyłu</string>
+    <string name="gradient_colors_hint">Kliknij kolor, aby go edytować. Przytrzymaj i przeciągnij, aby zmienić kolejność.</string>
 </resources>

@@ -5351,4 +5351,5 @@
     <string name="gradient_length">Độ dài chuyển màu</string>
     <string name="gradient_mirror">Gương lặp lại</string>
     <string name="gradient_mirror_sub">Thay đổi hướng tiến và lùi của gradient</string>
+    <string name="gradient_colors_hint">Nhấn vào một màu để chỉnh sửa nó. Giữ và kéo để thay đổi thứ tự.</string>
 </resources>

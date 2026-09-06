@@ -5352,4 +5352,5 @@
     <string name="gradient_length">சாய்வு நீளம்</string>
     <string name="gradient_mirror">கண்ணாடி மீண்டும்</string>
     <string name="gradient_mirror_sub">சாய்வின் முன்னோக்கி மற்றும் தலைகீழ் திசையை மாற்றவும்</string>
+    <string name="gradient_colors_hint">அதைத் திருத்த ஒரு வண்ணத்தைத் தட்டவும். வரிசையை மாற்ற, பிடித்து இழுக்கவும்.</string>
 </resources>

@@ -5352,4 +5352,5 @@
     <string name="gradient_length">Gradiendi pikkus</string>
     <string name="gradient_mirror">Peegelkordus</string>
     <string name="gradient_mirror_sub">Vahetage gradiendi edasi- ja tagasisuunda</string>
+    <string name="gradient_colors_hint">Puudutage värvi muutmiseks. Järjestuse muutmiseks hoidke all ja lohistage.</string>
 </resources>

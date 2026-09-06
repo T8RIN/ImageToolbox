@@ -5351,4 +5351,5 @@
     <string name="gradient_length">勾配の長さ</string>
     <string name="gradient_mirror">ミラーリピート</string>
     <string name="gradient_mirror_sub">グラデーションの順方向と逆方向を交互に切り替える</string>
+    <string name="gradient_colors_hint">色をタップして編集します。押したままドラッグして順序を変更します。</string>
 </resources>

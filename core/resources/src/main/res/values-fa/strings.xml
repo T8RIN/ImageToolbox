@@ -5352,4 +5352,5 @@
     <string name="gradient_length">طول گرادیان</string>
     <string name="gradient_mirror">تکرار آینه</string>
     <string name="gradient_mirror_sub">جهت رو به جلو و معکوس گرادیان را جایگزین کنید</string>
+    <string name="gradient_colors_hint">روی یک رنگ ضربه بزنید تا آن را ویرایش کنید. نگه دارید و بکشید تا ترتیب را تغییر دهید.</string>
 </resources>

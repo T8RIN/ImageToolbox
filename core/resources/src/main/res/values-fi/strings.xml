@@ -5352,4 +5352,5 @@
     <string name="gradient_length">Gradientin pituus</string>
     <string name="gradient_mirror">Peilitoisto</string>
     <string name="gradient_mirror_sub">Vaihtele gradientin suuntaa eteenpäin ja taaksepäin</string>
+    <string name="gradient_colors_hint">Tap a color to edit it. Pidä ja vedä muuttaaksesi järjestystä.</string>
 </resources>

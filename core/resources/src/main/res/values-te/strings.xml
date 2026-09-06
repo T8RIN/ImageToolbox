@@ -5352,4 +5352,5 @@
     <string name="gradient_length">గ్రేడియంట్ పొడవు</string>
     <string name="gradient_mirror">అద్దం పునరావృతం</string>
     <string name="gradient_mirror_sub">ప్రవణత యొక్క ముందుకు మరియు రివర్స్ దిశను ప్రత్యామ్నాయం చేయండి</string>
+    <string name="gradient_colors_hint">దాన్ని సవరించడానికి రంగును నొక్కండి. ఆర్డర్‌ని మార్చడానికి పట్టుకుని లాగండి.</string>
 </resources>

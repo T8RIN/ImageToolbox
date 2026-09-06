@@ -5352,4 +5352,5 @@
     <string name="gradient_length">গ্রেডিয়েন্ট দৈর্ঘ্য</string>
     <string name="gradient_mirror">মিরর পুনরাবৃত্তি</string>
     <string name="gradient_mirror_sub">গ্রেডিয়েন্টের সামনের দিকে এবং বিপরীত দিকটি বিকল্প করুন</string>
+    <string name="gradient_colors_hint">এটি সম্পাদনা করতে একটি রঙ আলতো চাপুন৷ অর্ডার পরিবর্তন করতে ধরে রাখুন এবং টেনে আনুন।</string>
 </resources>

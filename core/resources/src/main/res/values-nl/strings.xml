@@ -5352,4 +5352,5 @@
     <string name="gradient_length">Gradiënt lengte</string>
     <string name="gradient_mirror">Spiegel herhalen</string>
     <string name="gradient_mirror_sub">Wissel de voorwaartse en achterwaartse richting van het verloop af</string>
+    <string name="gradient_colors_hint">Tik op een kleur om deze te bewerken. Houd ingedrukt en sleep om de volgorde te wijzigen.</string>
 </resources>

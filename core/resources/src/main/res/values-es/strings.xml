@@ -5352,4 +5352,5 @@
     <string name="gradient_length">Longitud del gradiente</string>
     <string name="gradient_mirror">repetición espejo</string>
     <string name="gradient_mirror_sub">Alterne la dirección hacia adelante y hacia atrás del gradiente</string>
+    <string name="gradient_colors_hint">Toca un color para editarlo. Mantenga presionado y arrastre para cambiar el orden.</string>
 </resources>

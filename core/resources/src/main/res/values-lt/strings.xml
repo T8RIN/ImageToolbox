@@ -5354,4 +5354,5 @@
     <string name="gradient_length">Gradiento ilgis</string>
     <string name="gradient_mirror">Veidrodinis pakartojimas</string>
     <string name="gradient_mirror_sub">Keiskite gradiento kryptį pirmyn ir atgal</string>
+    <string name="gradient_colors_hint">Tap a color to edit it. Laikykite ir vilkite, kad pakeistumėte tvarką.</string>
 </resources>

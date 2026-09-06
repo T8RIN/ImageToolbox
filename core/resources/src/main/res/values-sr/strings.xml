@@ -5353,4 +5353,5 @@
     <string name="gradient_length">Дужина градијента</string>
     <string name="gradient_mirror">Миррор репеат</string>
     <string name="gradient_mirror_sub">Промените смер градијента унапред и уназад</string>
+    <string name="gradient_colors_hint">Додирните боју да бисте је уредили. Држите и превуците да промените редослед.</string>
 </resources>
