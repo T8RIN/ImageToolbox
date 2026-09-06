@@ -57,11 +57,11 @@ import kotlinx.coroutines.launch
 internal fun GradientPaletteSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
-    value: GradientPalette?,
+    value: GradientPalette,
     onValueChange: (GradientPalette) -> Unit
 ) {
     var draft by rememberSaveable(visible, stateSaver = GradientPaletteSaver) {
-        mutableStateOf<GradientPalette>(value ?: GradientPalette.SoftRainbow)
+        mutableStateOf(value)
     }
     val settings = LocalSettingsState.current
     val interactor = LocalSimpleSettingsInteractor.current

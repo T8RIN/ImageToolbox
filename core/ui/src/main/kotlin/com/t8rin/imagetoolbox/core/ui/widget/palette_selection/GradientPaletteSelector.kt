@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -71,6 +72,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
@@ -84,6 +86,12 @@ fun GradientPaletteSelector(
     allowCustom: Boolean = true
 ) {
     var showPicker by rememberSaveable { mutableStateOf(false) }
+    var customPalette by rememberSaveable(stateSaver = GradientPaletteSaver) {
+        mutableStateOf(value as? GradientPalette.Custom ?: DefaultCustomGradientPalette)
+    }
+    LaunchedEffect(value) {
+        if (value is GradientPalette.Custom) customPalette = value
+    }
     Column(
         modifier = modifier.container(
             shape = shape,
@@ -97,7 +105,11 @@ fun GradientPaletteSelector(
         )
         GradientPaletteRow(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = {
+                customPalette = DefaultCustomGradientPalette
+                onValueChange(it)
+            },
+            customPalette = customPalette,
             onCustomClick = { showPicker = true }.takeIf { allowCustom }
         )
     }
@@ -105,8 +117,11 @@ fun GradientPaletteSelector(
         GradientPaletteSheet(
             visible = showPicker,
             onDismiss = { showPicker = false },
-            value = value,
-            onValueChange = onValueChange
+            value = customPalette,
+            onValueChange = {
+                customPalette = it
+                onValueChange(it)
+            }
         )
     }
 }
@@ -119,12 +134,13 @@ internal fun GradientPaletteRow(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(8.dp),
     onCustomClick: (() -> Unit)? = null,
-    showLabels: Boolean = true
+    showLabels: Boolean = true,
+    customPalette: GradientPalette = DefaultCustomGradientPalette
 ) {
     val state = rememberLazyListState()
-    val isCustom = value is GradientPalette.Custom
+    val isCustom = onCustomClick != null && value == customPalette
     LaunchedEffect(isCustom) {
-        if (isCustom && onCustomClick != null) state.animateScrollToItem(0)
+        if (isCustom) state.animateScrollToItem(0)
     }
     LazyRow(
         state = state,
@@ -158,7 +174,7 @@ internal fun GradientPaletteRow(
                             modifier = Modifier.size(24.dp)
                         )
                         GradientPalettePreview(
-                            palette = value ?: GradientPalette.SoftRainbow,
+                            palette = customPalette,
                             modifier = Modifier
                                 .width(32.dp)
                                 .height(6.dp)
@@ -175,7 +191,7 @@ internal fun GradientPaletteRow(
             if (showLabels) {
                 GradientPaletteChip(
                     palette = palette,
-                    selected = palette == value,
+                    selected = palette == value && !isCustom,
                     onClick = { onValueChange(palette) },
                     shape = ShapeDefaults.byIndex(
                         index = index,
@@ -194,6 +210,10 @@ internal fun GradientPaletteRow(
         }
     }
 }
+
+private val DefaultCustomGradientPalette = GradientPalette.Custom(
+    listOf(ColorModel(0xFF000000.toInt()), ColorModel(0xFFFFFFFF.toInt()))
+)
 
 @Composable
 private fun GradientPaletteChip(
