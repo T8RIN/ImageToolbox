@@ -20,63 +20,79 @@ package com.t8rin.imagetoolbox.core.domain.model
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-enum class GradientPalette(
+sealed class GradientPalette(
+    val name: String,
     private vararg val stops: Int
 ) {
-    Classic(
+    data object Classic : GradientPalette(
+        "Classic",
         0xFF05051A.toInt(),
         0xFF123EAB.toInt(),
         0xFF26BCE1.toInt(),
         0xFFF8E16C.toInt(),
         0xFFF06A24.toInt(),
         0xFF3A0812.toInt()
-    ),
-    Fire(
+    )
+
+    data object Fire : GradientPalette(
+        "Fire",
         0xFF090004.toInt(),
         0xFF5A0900.toInt(),
         0xFFD33A00.toInt(),
         0xFFFFA51F.toInt(),
         0xFFFFFFB0.toInt()
-    ),
-    Ocean(
+    )
+
+    data object Ocean : GradientPalette(
+        "Ocean",
         0xFF020B22.toInt(),
         0xFF063B73.toInt(),
         0xFF087E8B.toInt(),
         0xFF31C5C0.toInt(),
         0xFFD8FFF2.toInt()
-    ),
-    Viridis(
+    )
+
+    data object Viridis : GradientPalette(
+        "Viridis",
         0xFF440154.toInt(),
         0xFF3B528B.toInt(),
         0xFF21918C.toInt(),
         0xFF5EC962.toInt(),
         0xFFFDE725.toInt()
-    ),
-    Magma(
+    )
+
+    data object Magma : GradientPalette(
+        "Magma",
         0xFF000004.toInt(),
         0xFF3B0F70.toInt(),
         0xFF8C2981.toInt(),
         0xFFDE4968.toInt(),
         0xFFFE9F6D.toInt(),
         0xFFFCFDBF.toInt()
-    ),
-    Inferno(
+    )
+
+    data object Inferno : GradientPalette(
+        "Inferno",
         0xFF000004.toInt(),
         0xFF420A68.toInt(),
         0xFF932667.toInt(),
         0xFFDD513A.toInt(),
         0xFFFCA50A.toInt(),
         0xFFFCFFA4.toInt()
-    ),
-    Plasma(
+    )
+
+    data object Plasma : GradientPalette(
+        "Plasma",
         0xFF0D0887.toInt(),
         0xFF6A00A8.toInt(),
         0xFFB12A90.toInt(),
         0xFFE16462.toInt(),
         0xFFFCA636.toInt(),
         0xFFF0F921.toInt()
-    ),
-    Turbo(
+    )
+
+    data object Turbo : GradientPalette(
+        "Turbo",
         0xFF30123B.toInt(),
         0xFF4145AB.toInt(),
         0xFF2A9DF4.toInt(),
@@ -85,8 +101,10 @@ enum class GradientPalette(
         0xFFF9D423.toInt(),
         0xFFF36B1B.toInt(),
         0xFF7A0403.toInt()
-    ),
-    Twilight(
+    )
+
+    data object Twilight : GradientPalette(
+        "Twilight",
         0xFF20134E.toInt(),
         0xFF6D3580.toInt(),
         0xFFC75D75.toInt(),
@@ -94,46 +112,58 @@ enum class GradientPalette(
         0xFF8ED1C5.toInt(),
         0xFF315A8A.toInt(),
         0xFF20134E.toInt()
-    ),
-    Ice(
+    )
+
+    data object Ice : GradientPalette(
+        "Ice",
         0xFF02040F.toInt(),
         0xFF102A56.toInt(),
         0xFF2D78B7.toInt(),
         0xFF8BE4F0.toInt(),
         0xFFF5FFFF.toInt()
-    ),
-    Forest(
+    )
+
+    data object Forest : GradientPalette(
+        "Forest",
         0xFF07150A.toInt(),
         0xFF174B2B.toInt(),
         0xFF3B7D3A.toInt(),
         0xFF9BBF48.toInt(),
         0xFFF1E7A1.toInt()
-    ),
-    Neon(
+    )
+
+    data object Neon : GradientPalette(
+        "Neon",
         0xFF050011.toInt(),
         0xFF7400B8.toInt(),
         0xFFFF007A.toInt(),
         0xFFFFC800.toInt(),
         0xFF00F5D4.toInt(),
         0xFF0077FF.toInt()
-    ),
-    Cividis(
+    )
+
+    data object Cividis : GradientPalette(
+        "Cividis",
         0xFF00204C.toInt(),
         0xFF2E4A7D.toInt(),
         0xFF666870.toInt(),
         0xFFA08A5B.toInt(),
         0xFFD6AF3C.toInt(),
         0xFFFFE945.toInt()
-    ),
-    Cubehelix(
+    )
+
+    data object Cubehelix : GradientPalette(
+        "Cubehelix",
         0xFF000000.toInt(),
         0xFF1D2B53.toInt(),
         0xFF5E3C99.toInt(),
         0xFFB35C8C.toInt(),
         0xFFE3A35D.toInt(),
         0xFFFFFFFF.toInt()
-    ),
-    Spectral(
+    )
+
+    data object Spectral : GradientPalette(
+        "Spectral",
         0xFF9E0142.toInt(),
         0xFFD53E4F.toInt(),
         0xFFF46D43.toInt(),
@@ -142,31 +172,39 @@ enum class GradientPalette(
         0xFF66C2A5.toInt(),
         0xFF3288BD.toInt(),
         0xFF5E4FA2.toInt()
-    ),
-    Aurora(
+    )
+
+    data object Aurora : GradientPalette(
+        "Aurora",
         0xFF07152B.toInt(),
         0xFF44318D.toInt(),
         0xFF0B8F9C.toInt(),
         0xFF35D07F.toInt(),
         0xFFD9F36A.toInt()
-    ),
-    Sunset(
+    )
+
+    data object Sunset : GradientPalette(
+        "Sunset",
         0xFF10143D.toInt(),
         0xFF4A236B.toInt(),
         0xFFA33B69.toInt(),
         0xFFF06A4D.toInt(),
         0xFFFFC56E.toInt(),
         0xFFFFF0B3.toInt()
-    ),
-    Copper(
+    )
+
+    data object Copper : GradientPalette(
+        "Copper",
         0xFF080403.toInt(),
         0xFF3A1C12.toInt(),
         0xFF814425.toInt(),
         0xFFC8783E.toInt(),
         0xFFF0B878.toInt(),
         0xFFFFE0B8.toInt()
-    ),
-    Rocket(
+    )
+
+    data object Rocket : GradientPalette(
+        "Rocket",
         0xFF03051A.toInt(),
         0xFF3F1B43.toInt(),
         0xFF841E5A.toInt(),
@@ -174,8 +212,10 @@ enum class GradientPalette(
         0xFFF06043.toInt(),
         0xFFF6B48F.toInt(),
         0xFFFAEBDD.toInt()
-    ),
-    Mako(
+    )
+
+    data object Mako : GradientPalette(
+        "Mako",
         0xFF0B0405.toInt(),
         0xFF342032.toInt(),
         0xFF3B496C.toInt(),
@@ -183,32 +223,40 @@ enum class GradientPalette(
         0xFF39A7A5.toInt(),
         0xFF8BDAB2.toInt(),
         0xFFDEF5E5.toInt()
-    ),
-    Amethyst(
+    )
+
+    data object Amethyst : GradientPalette(
+        "Amethyst",
         0xFF10002B.toInt(),
         0xFF240046.toInt(),
         0xFF5A189A.toInt(),
         0xFF9D4EDD.toInt(),
         0xFFE0AAFF.toInt(),
         0xFFFFF0FF.toInt()
-    ),
-    Vaporwave(
+    )
+
+    data object Vaporwave : GradientPalette(
+        "Vaporwave",
         0xFF17002E.toInt(),
         0xFF5800A3.toInt(),
         0xFFB5179E.toInt(),
         0xFFF72585.toInt(),
         0xFF4CC9F0.toInt(),
         0xFF00F5D4.toInt()
-    ),
-    Earth(
+    )
+
+    data object Earth : GradientPalette(
+        "Earth",
         0xFF071A12.toInt(),
         0xFF1D4D32.toInt(),
         0xFF607D3B.toInt(),
         0xFFB49A55.toInt(),
         0xFFD9C9A2.toInt(),
         0xFFF2EFE6.toInt()
-    ),
-    Rainbow(
+    )
+
+    data object Rainbow : GradientPalette(
+        "Rainbow",
         rgb(1.0, 0.0, 0.0),
         rgb(1.0, 0.5, 0.0),
         rgb(1.0, 1.0, 0.0),
@@ -217,8 +265,10 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 1.0),
         rgb(0.5, 0.0, 1.0),
         rgb(1.0, 0.0, 0.5)
-    ),
-    Cool(
+    )
+
+    data object Cool : GradientPalette(
+        "Cool",
         rgb(0.0, 1.0, 1.0),
         rgb(0.125, 0.875, 1.0),
         rgb(0.25, 0.75, 1.0),
@@ -227,8 +277,10 @@ enum class GradientPalette(
         rgb(0.625, 0.375, 1.0),
         rgb(0.75, 0.25, 1.0),
         rgb(1.0, 0.0, 1.0)
-    ),
-    Hot(
+    )
+
+    data object Hot : GradientPalette(
+        "Hot",
         rgb(0.0, 0.0, 0.0),
         rgb(0.25, 0.0, 0.0),
         rgb(0.5, 0.0, 0.0),
@@ -237,8 +289,10 @@ enum class GradientPalette(
         rgb(1.0, 0.75, 0.25),
         rgb(1.0, 1.0, 0.5),
         rgb(1.0, 1.0, 1.0)
-    ),
-    PurpleDream(
+    )
+
+    data object PurpleDream : GradientPalette(
+        "PurpleDream",
         rgb(0.05, 0.0, 0.1),
         rgb(0.1, 0.0, 0.2),
         rgb(0.25, 0.0, 0.4),
@@ -247,8 +301,10 @@ enum class GradientPalette(
         rgb(0.7, 0.3, 0.9),
         rgb(0.85, 0.6, 1.0),
         rgb(1.0, 0.9, 1.0)
-    ),
-    Lava(
+    )
+
+    data object Lava : GradientPalette(
+        "Lava",
         rgb(0.05, 0.0, 0.0),
         rgb(0.1, 0.0, 0.0),
         rgb(0.3, 0.0, 0.0),
@@ -257,8 +313,10 @@ enum class GradientPalette(
         rgb(0.85, 0.3, 0.0),
         rgb(1.0, 0.5, 0.0),
         rgb(1.0, 0.8, 0.2)
-    ),
-    Galaxy(
+    )
+
+    data object Galaxy : GradientPalette(
+        "Galaxy",
         rgb(0.025, 0.0, 0.075),
         rgb(0.05, 0.0, 0.15),
         rgb(0.15, 0.0, 0.35),
@@ -267,8 +325,10 @@ enum class GradientPalette(
         rgb(0.7, 0.25, 0.8),
         rgb(0.85, 0.45, 0.85),
         rgb(1.0, 0.7, 0.9)
-    ),
-    Mint(
+    )
+
+    data object Mint : GradientPalette(
+        "Mint",
         rgb(0.0, 0.15, 0.15),
         rgb(0.0, 0.3, 0.3),
         rgb(0.1, 0.4, 0.4),
@@ -277,8 +337,10 @@ enum class GradientPalette(
         rgb(0.5, 0.8, 0.7),
         rgb(0.7, 0.92, 0.85),
         rgb(0.85, 1.0, 0.95)
-    ),
-    Cherry(
+    )
+
+    data object Cherry : GradientPalette(
+        "Cherry",
         rgb(0.15, 0.0, 0.05),
         rgb(0.3, 0.0, 0.1),
         rgb(0.45, 0.0, 0.15),
@@ -287,8 +349,10 @@ enum class GradientPalette(
         rgb(0.9, 0.3, 0.45),
         rgb(1.0, 0.55, 0.65),
         rgb(1.0, 0.8, 0.85)
-    ),
-    XfAlternatingGrey(
+    )
+
+    data object XfAlternatingGrey : GradientPalette(
+        "XfAlternatingGrey",
         rgb(0.0, 0.0, 0.0),
         rgb(0.863, 0.847, 0.847),
         rgb(0.706, 0.706, 0.706),
@@ -297,8 +361,10 @@ enum class GradientPalette(
         rgb(0.267, 0.282, 0.282),
         rgb(0.141, 0.125, 0.157),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfBlues(
+    )
+
+    data object XfBlues : GradientPalette(
+        "XfBlues",
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 0.094, 0.8),
         rgb(0.235, 0.831, 0.988),
@@ -307,8 +373,10 @@ enum class GradientPalette(
         rgb(0.0, 0.22, 0.988),
         rgb(0.0, 0.0, 0.58),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfChromatic(
+    )
+
+    data object XfChromatic : GradientPalette(
+        "XfChromatic",
         rgb(0.188, 0.188, 0.188),
         rgb(0.188, 0.376, 0.878),
         rgb(0.596, 0.878, 0.596),
@@ -317,8 +385,10 @@ enum class GradientPalette(
         rgb(0.188, 0.878, 0.596),
         rgb(0.878, 0.878, 0.376),
         rgb(0.157, 0.188, 0.188)
-    ),
-    XfDefault(
+    )
+
+    data object XfDefault : GradientPalette(
+        "XfDefault",
         rgb(0.0, 0.0, 0.0),
         rgb(0.988, 0.0, 0.988),
         rgb(0.486, 0.988, 0.486),
@@ -327,8 +397,10 @@ enum class GradientPalette(
         rgb(0.251, 0.0, 0.125),
         rgb(0.125, 0.251, 0.188),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfDefaultWhite(
+    )
+
+    data object XfDefaultWhite : GradientPalette(
+        "XfDefaultWhite",
         rgb(0.0, 0.0, 0.0),
         rgb(0.988, 0.612, 0.235),
         rgb(0.235, 0.486, 0.361),
@@ -337,8 +409,10 @@ enum class GradientPalette(
         rgb(0.863, 0.612, 0.612),
         rgb(0.988, 0.361, 0.737),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfFireStorm(
+    )
+
+    data object XfFireStorm : GradientPalette(
+        "XfFireStorm",
         rgb(0.0, 0.0, 0.0),
         rgb(0.918, 0.055, 0.529),
         rgb(0.976, 0.392, 0.129),
@@ -347,8 +421,10 @@ enum class GradientPalette(
         rgb(0.004, 0.8, 0.694),
         rgb(0.137, 0.38, 0.98),
         rgb(0.553, 0.043, 0.902)
-    ),
-    XfFroth3(
+    )
+
+    data object XfFroth3 : GradientPalette(
+        "XfFroth3",
         rgb(0.0, 0.0, 0.0),
         rgb(0.596, 0.0, 0.0),
         rgb(0.408, 0.0, 0.0),
@@ -357,8 +433,10 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 0.816),
         rgb(0.0, 0.0, 0.533),
         rgb(0.0, 0.0, 0.345)
-    ),
-    XfFroth316(
+    )
+
+    data object XfFroth316 : GradientPalette(
+        "XfFroth316",
         rgb(0.0, 0.0, 0.0),
         rgb(0.831, 0.0, 0.0),
         rgb(0.486, 0.0, 0.0),
@@ -367,8 +445,10 @@ enum class GradientPalette(
         rgb(0.0, 0.314, 0.0),
         rgb(0.0, 0.0, 0.831),
         rgb(0.0, 0.0, 0.314)
-    ),
-    XfFroth6(
+    )
+
+    data object XfFroth6 : GradientPalette(
+        "XfFroth6",
         rgb(0.0, 0.0, 0.0),
         rgb(0.439, 0.0, 0.439),
         rgb(0.533, 0.0, 0.0),
@@ -377,8 +457,10 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 0.784),
         rgb(0.0, 0.878, 0.878),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfFroth616(
+    )
+
+    data object XfFroth616 : GradientPalette(
+        "XfFroth616",
         rgb(0.0, 0.0, 0.0),
         rgb(0.627, 0.0, 0.627),
         rgb(0.627, 0.0, 0.0),
@@ -387,8 +469,10 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 0.627),
         rgb(0.0, 0.627, 0.627),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfGamma1(
+    )
+
+    data object XfGamma1 : GradientPalette(
+        "XfGamma1",
         rgb(0.0, 0.0, 0.0),
         rgb(0.361, 0.376, 0.376),
         rgb(0.518, 0.533, 0.502),
@@ -397,8 +481,10 @@ enum class GradientPalette(
         rgb(0.831, 0.831, 0.863),
         rgb(0.91, 0.91, 0.941),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfGamma2(
+    )
+
+    data object XfGamma2 : GradientPalette(
+        "XfGamma2",
         rgb(0.0, 0.0, 0.0),
         rgb(0.141, 0.141, 0.125),
         rgb(0.282, 0.282, 0.251),
@@ -407,8 +493,10 @@ enum class GradientPalette(
         rgb(0.706, 0.706, 0.706),
         rgb(0.863, 0.831, 0.863),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfGlasses1(
+    )
+
+    data object XfGlasses1 : GradientPalette(
+        "XfGlasses1",
         rgb(0.0, 0.0, 0.0),
         rgb(0.282, 0.0, 0.0),
         rgb(0.565, 0.0, 0.0),
@@ -417,8 +505,10 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 0.424),
         rgb(0.0, 0.0, 0.706),
         rgb(0.0, 0.0, 0.988)
-    ),
-    XfGlasses2(
+    )
+
+    data object XfGlasses2 : GradientPalette(
+        "XfGlasses2",
         rgb(0.0, 0.0, 0.0),
         rgb(0.251, 0.0, 0.125),
         rgb(0.502, 0.0, 0.251),
@@ -427,8 +517,10 @@ enum class GradientPalette(
         rgb(0.376, 0.0, 0.69),
         rgb(0.627, 0.0, 0.816),
         rgb(0.941, 0.0, 0.941)
-    ),
-    XfGoodEga(
+    )
+
+    data object XfGoodEga : GradientPalette(
+        "XfGoodEga",
         rgb(0.0, 0.0, 0.0),
         rgb(0.988, 0.329, 0.0),
         rgb(0.988, 0.494, 0.0),
@@ -437,8 +529,10 @@ enum class GradientPalette(
         rgb(0.988, 0.988, 0.0),
         rgb(0.988, 0.988, 0.494),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfGreen(
+    )
+
+    data object XfGreen : GradientPalette(
+        "XfGreen",
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 0.847, 0.0),
         rgb(0.0, 0.706, 0.0),
@@ -447,8 +541,10 @@ enum class GradientPalette(
         rgb(0.0, 0.282, 0.0),
         rgb(0.0, 0.125, 0.0),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfGrey(
+    )
+
+    data object XfGrey : GradientPalette(
+        "XfGrey",
         rgb(0.0, 0.0, 0.0),
         rgb(0.863, 0.863, 0.863),
         rgb(0.718, 0.718, 0.718),
@@ -457,8 +553,10 @@ enum class GradientPalette(
         rgb(0.29, 0.29, 0.29),
         rgb(0.145, 0.145, 0.145),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfGrid(
+    )
+
+    data object XfGrid : GradientPalette(
+        "XfGrid",
         rgb(0.0, 0.0, 0.0),
         rgb(0.143, 0.0, 1.0),
         rgb(0.286, 0.0, 1.0),
@@ -467,8 +565,10 @@ enum class GradientPalette(
         rgb(0.714, 0.0, 1.0),
         rgb(0.857, 0.0, 1.0),
         rgb(1.0, 0.0, 1.0)
-    ),
-    XfHeadache2(
+    )
+
+    data object XfHeadache2 : GradientPalette(
+        "XfHeadache2",
         rgb(0.941, 0.0, 0.0),
         rgb(0.941, 0.125, 0.0),
         rgb(0.941, 0.267, 0.0),
@@ -477,8 +577,10 @@ enum class GradientPalette(
         rgb(0.0, 0.282, 0.706),
         rgb(0.0, 0.141, 0.847),
         rgb(0.0, 0.502, 0.502)
-    ),
-    XfHeadache(
+    )
+
+    data object XfHeadache : GradientPalette(
+        "XfHeadache",
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 0.863, 0.125),
         rgb(0.0, 0.722, 0.267),
@@ -487,8 +589,10 @@ enum class GradientPalette(
         rgb(0.0, 0.282, 0.706),
         rgb(0.0, 0.141, 0.847),
         rgb(0.0, 0.502, 0.502)
-    ),
-    XfLandscape(
+    )
+
+    data object XfLandscape : GradientPalette(
+        "XfLandscape",
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 0.0, 0.659),
         rgb(0.0, 0.0, 0.659),
@@ -497,8 +601,10 @@ enum class GradientPalette(
         rgb(0.251, 0.055, 0.0),
         rgb(0.824, 0.824, 1.0),
         rgb(1.0, 1.0, 1.0)
-    ),
-    XfLyapunov(
+    )
+
+    data object XfLyapunov : GradientPalette(
+        "XfLyapunov",
         rgb(0.0, 0.0, 0.0),
         rgb(0.863, 0.627, 0.0),
         rgb(0.722, 0.486, 0.0),
@@ -507,8 +613,10 @@ enum class GradientPalette(
         rgb(0.282, 0.047, 0.0),
         rgb(0.141, 0.0, 0.0),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfNeon(
+    )
+
+    data object XfNeon : GradientPalette(
+        "XfNeon",
         rgb(0.0, 0.0, 0.0),
         rgb(0.878, 0.282, 0.424),
         rgb(0.0, 0.0, 0.0),
@@ -517,8 +625,10 @@ enum class GradientPalette(
         rgb(0.675, 0.675, 0.0),
         rgb(0.188, 0.188, 0.0),
         rgb(0.0, 0.0, 0.0)
-    ),
-    XfPaintJet(
+    )
+
+    data object XfPaintJet : GradientPalette(
+        "XfPaintJet",
         rgb(0.094, 0.078, 0.047),
         rgb(0.769, 0.267, 0.282),
         rgb(0.941, 0.91, 0.282),
@@ -527,8 +637,10 @@ enum class GradientPalette(
         rgb(0.769, 0.267, 0.282),
         rgb(0.941, 0.91, 0.282),
         rgb(0.157, 0.455, 0.769)
-    ),
-    XfRoyal(
+    )
+
+    data object XfRoyal : GradientPalette(
+        "XfRoyal",
         rgb(0.0, 0.0, 0.0),
         rgb(0.361, 0.0, 0.486),
         rgb(0.549, 0.141, 0.675),
@@ -537,8 +649,10 @@ enum class GradientPalette(
         rgb(0.988, 0.988, 0.125),
         rgb(0.659, 0.549, 0.141),
         rgb(0.235, 0.0, 0.314)
-    ),
-    XfTopo(
+    )
+
+    data object XfTopo : GradientPalette(
+        "XfTopo",
         rgb(0.0, 0.0, 0.0),
         rgb(0.267, 0.518, 0.91),
         rgb(0.235, 0.549, 0.063),
@@ -547,8 +661,10 @@ enum class GradientPalette(
         rgb(0.91, 0.894, 0.408),
         rgb(0.91, 0.675, 0.141),
         rgb(0.988, 0.988, 0.988)
-    ),
-    XfVolcano(
+    )
+
+    data object XfVolcano : GradientPalette(
+        "XfVolcano",
         rgb(0.0, 0.0, 0.0),
         rgb(0.988, 0.11, 0.0),
         rgb(0.988, 0.988, 0.235),
@@ -557,8 +673,10 @@ enum class GradientPalette(
         rgb(0.988, 0.157, 0.0),
         rgb(0.706, 0.0, 0.0),
         rgb(0.235, 0.235, 0.235)
-    ),
-    Rgb(
+    )
+
+    data object Rgb : GradientPalette(
+        "Rgb",
         rgb(1.0, 0.0, 0.0),
         rgb(1.0, 1.0, 0.0),
         rgb(0.0, 1.0, 0.0),
@@ -566,16 +684,20 @@ enum class GradientPalette(
         rgb(0.0, 0.0, 1.0),
         rgb(1.0, 0.0, 1.0),
         rgb(1.0, 0.0, 0.0)
-    ),
-    Ryb(
+    )
+
+    data object Ryb : GradientPalette(
+        "Ryb",
         rgb(0.95, 0.05, 0.05),
         rgb(1.0, 0.55, 0.0),
         rgb(1.0, 0.95, 0.05),
         rgb(0.1, 0.4, 0.9),
         rgb(0.45, 0.05, 0.75),
         rgb(0.95, 0.05, 0.05)
-    ),
-    Cmyk(
+    )
+
+    data object Cmyk : GradientPalette(
+        "Cmyk",
         rgb(0.0, 1.0, 1.0),
         rgb(0.0, 0.2, 1.0),
         rgb(1.0, 0.0, 1.0),
@@ -583,8 +705,10 @@ enum class GradientPalette(
         rgb(1.0, 1.0, 0.0),
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 1.0, 1.0)
-    ),
-    HsvWheel(
+    )
+
+    data object HsvWheel : GradientPalette(
+        "HsvWheel",
         rgb(1.0, 0.0, 0.0),
         rgb(1.0, 0.5, 0.0),
         rgb(1.0, 1.0, 0.0),
@@ -594,40 +718,50 @@ enum class GradientPalette(
         rgb(0.5, 0.0, 1.0),
         rgb(1.0, 0.0, 1.0),
         rgb(1.0, 0.0, 0.0)
-    ),
-    RedChannel(
+    )
+
+    data object RedChannel : GradientPalette(
+        "RedChannel",
         rgb(0.0, 0.0, 0.0),
         rgb(0.25, 0.0, 0.0),
         rgb(0.55, 0.0, 0.0),
         rgb(0.85, 0.05, 0.02),
         rgb(1.0, 0.45, 0.25),
         rgb(1.0, 1.0, 1.0)
-    ),
-    GreenChannel(
+    )
+
+    data object GreenChannel : GradientPalette(
+        "GreenChannel",
         rgb(0.0, 0.0, 0.0),
         rgb(0.0, 0.22, 0.03),
         rgb(0.0, 0.52, 0.08),
         rgb(0.12, 0.82, 0.18),
         rgb(0.55, 1.0, 0.48),
         rgb(1.0, 1.0, 1.0)
-    ),
-    BlueChannel(
+    )
+
+    data object BlueChannel : GradientPalette(
+        "BlueChannel",
         rgb(0.0, 0.0, 0.0),
         rgb(0.01, 0.03, 0.28),
         rgb(0.02, 0.12, 0.62),
         rgb(0.05, 0.4, 0.95),
         rgb(0.4, 0.82, 1.0),
         rgb(1.0, 1.0, 1.0)
-    ),
-    Heatmap(
+    )
+
+    data object Heatmap : GradientPalette(
+        "Heatmap",
         rgb(0.0, 0.0, 0.0),
         rgb(0.25, 0.0, 0.4),
         rgb(0.75, 0.0, 0.1),
         rgb(1.0, 0.35, 0.0),
         rgb(1.0, 0.95, 0.0),
         rgb(1.0, 1.0, 1.0)
-    ),
-    ColdFire(
+    )
+
+    data object ColdFire : GradientPalette(
+        "ColdFire",
         rgb(0.0, 0.02, 0.12),
         rgb(0.0, 0.25, 0.75),
         rgb(0.0, 0.95, 1.0),
@@ -635,40 +769,50 @@ enum class GradientPalette(
         rgb(1.0, 0.65, 0.0),
         rgb(0.75, 0.0, 0.05),
         rgb(0.08, 0.0, 0.0)
-    ),
-    Ultraviolet(
+    )
+
+    data object Ultraviolet : GradientPalette(
+        "Ultraviolet",
         rgb(0.01, 0.0, 0.05),
         rgb(0.08, 0.0, 0.28),
         rgb(0.35, 0.0, 0.7),
         rgb(0.72, 0.0, 1.0),
         rgb(1.0, 0.2, 0.82),
         rgb(0.45, 0.85, 1.0)
-    ),
-    ToxicWaste(
+    )
+
+    data object ToxicWaste : GradientPalette(
+        "ToxicWaste",
         rgb(0.0, 0.02, 0.0),
         rgb(0.04, 0.16, 0.0),
         rgb(0.2, 0.48, 0.0),
         rgb(0.58, 0.9, 0.0),
         rgb(0.9, 1.0, 0.05),
         rgb(0.12, 0.35, 0.15)
-    ),
-    BloodMoon(
+    )
+
+    data object BloodMoon : GradientPalette(
+        "BloodMoon",
         rgb(0.01, 0.0, 0.0),
         rgb(0.12, 0.0, 0.01),
         rgb(0.38, 0.0, 0.02),
         rgb(0.72, 0.05, 0.02),
         rgb(1.0, 0.28, 0.05),
         rgb(1.0, 0.72, 0.3)
-    ),
-    Abyss(
+    )
+
+    data object Abyss : GradientPalette(
+        "Abyss",
         rgb(0.0, 0.0, 0.02),
         rgb(0.0, 0.02, 0.12),
         rgb(0.0, 0.12, 0.24),
         rgb(0.0, 0.38, 0.48),
         rgb(0.08, 0.72, 0.68),
         rgb(0.55, 1.0, 0.88)
-    ),
-    ElectricCandy(
+    )
+
+    data object ElectricCandy : GradientPalette(
+        "ElectricCandy",
         rgb(0.02, 0.0, 0.08),
         rgb(0.25, 0.0, 0.85),
         rgb(1.0, 0.0, 0.72),
@@ -676,8 +820,10 @@ enum class GradientPalette(
         rgb(0.9, 1.0, 0.0),
         rgb(0.0, 1.0, 0.72),
         rgb(0.02, 0.0, 0.08)
-    ),
-    BlackGold(
+    )
+
+    data object BlackGold : GradientPalette(
+        "BlackGold",
         rgb(0.0, 0.0, 0.0),
         rgb(0.08, 0.055, 0.01),
         rgb(0.28, 0.18, 0.025),
@@ -685,8 +831,10 @@ enum class GradientPalette(
         rgb(0.95, 0.75, 0.22),
         rgb(1.0, 0.95, 0.68),
         rgb(0.0, 0.0, 0.0)
-    ),
-    Ghost(
+    )
+
+    data object Ghost : GradientPalette(
+        "Ghost",
         rgb(0.0, 0.0, 0.0),
         rgb(0.08, 0.1, 0.14),
         rgb(0.24, 0.3, 0.38),
@@ -694,18 +842,151 @@ enum class GradientPalette(
         rgb(0.78, 0.92, 0.94),
         rgb(1.0, 1.0, 1.0),
         rgb(0.0, 0.0, 0.0)
-    ),
-    Grayscale(
+    )
+
+    data object Grayscale : GradientPalette(
+        "Grayscale",
         0xFF000000.toInt(),
         0xFF404040.toInt(),
         0xFF909090.toInt(),
         0xFFFFFFFF.toInt()
-    );
+    )
+
+    data object SoftRainbow : GradientPalette(
+        "SoftRainbow",
+        0xFF3FCEBC.toInt(),
+        0xFF3CBCEB.toInt(),
+        0xFF5F96E7.toInt(),
+        0xFF816FE3.toInt(),
+        0xFF9F5EE2.toInt(),
+        0xFFBD4CE0.toInt(),
+        0xFFDE589F.toInt(),
+        0xFFFF645E.toInt(),
+        0xFFFDA859.toInt(),
+        0xFFFAEC54.toInt(),
+        0xFF9EE671.toInt(),
+        0xFF67E282.toInt(),
+        0xFF3FCEBC.toInt()
+    )
+
+    init {
+        require(stops.size >= 2) { "A gradient needs at least two colors" }
+    }
+
+    class Custom(colorStops: List<ColorModel>) : GradientPalette(
+        "Custom", *colorStops.map { it.colorInt }.toIntArray()
+    ) {
+        override fun equals(other: Any?): Boolean = other is Custom && colors == other.colors
+
+        override fun hashCode(): Int = colors.hashCode()
+    }
 
     val colors: List<ColorModel> = stops.map(::ColorModel)
     val suggestedColors: List<ColorModel> = List(SUGGESTED_COLOR_COUNT) { index ->
         colorAt(index.toDouble() / SUGGESTED_COLOR_COUNT)
     }.distinctBy(ColorModel::colorInt)
+
+    fun toSerializedString(): String = if (this is Custom) {
+        "custom;" + colors.joinToString(";") { it.colorInt.toUInt().toString(16).padStart(8, '0') }
+    } else name
+
+    override fun toString(): String = toSerializedString()
+
+    companion object {
+        val entries: List<GradientPalette> by lazy {
+            listOf(
+                Classic,
+                Fire,
+                Ocean,
+                Viridis,
+                Magma,
+                Inferno,
+                Plasma,
+                Turbo,
+                Twilight,
+                Ice,
+                Forest,
+                Neon,
+                Cividis,
+                Cubehelix,
+                Spectral,
+                Aurora,
+                Sunset,
+                Copper,
+                Rocket,
+                Mako,
+                Amethyst,
+                Vaporwave,
+                Earth,
+                Rainbow,
+                Cool,
+                Hot,
+                PurpleDream,
+                Lava,
+                Galaxy,
+                Mint,
+                Cherry,
+                XfAlternatingGrey,
+                XfBlues,
+                XfChromatic,
+                XfDefault,
+                XfDefaultWhite,
+                XfFireStorm,
+                XfFroth3,
+                XfFroth316,
+                XfFroth6,
+                XfFroth616,
+                XfGamma1,
+                XfGamma2,
+                XfGlasses1,
+                XfGlasses2,
+                XfGoodEga,
+                XfGreen,
+                XfGrey,
+                XfGrid,
+                XfHeadache2,
+                XfHeadache,
+                XfLandscape,
+                XfLyapunov,
+                XfNeon,
+                XfPaintJet,
+                XfRoyal,
+                XfTopo,
+                XfVolcano,
+                Rgb,
+                Ryb,
+                Cmyk,
+                HsvWheel,
+                RedChannel,
+                GreenChannel,
+                BlueChannel,
+                Heatmap,
+                ColdFire,
+                Ultraviolet,
+                ToxicWaste,
+                BloodMoon,
+                Abyss,
+                ElectricCandy,
+                BlackGold,
+                Ghost,
+                Grayscale,
+                SoftRainbow
+            )
+        }
+
+        fun fromColors(colors: List<ColorModel>): GradientPalette =
+            entries.firstOrNull { it.colors == colors } ?: Custom(colors)
+
+        fun fromSerializedString(value: String): GradientPalette? {
+            entries.firstOrNull { it.name == value }?.let { return it }
+            if (!value.startsWith("custom;")) return null
+            val colors = value.removePrefix("custom;").split(';').map { color ->
+                if (color.length != 8) return null
+                ColorModel(color.toUIntOrNull(16)?.toInt() ?: return null)
+            }
+            return colors.takeIf { it.size >= 2 }?.let(::Custom)
+        }
+    }
 
     fun sampleColors(count: Int): List<ColorModel> {
         require(count > 0) { "Count must be greater than zero" }

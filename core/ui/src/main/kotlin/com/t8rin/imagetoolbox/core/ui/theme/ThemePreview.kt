@@ -48,6 +48,7 @@ import com.t8rin.dynamic.theme.DynamicTheme
 import com.t8rin.dynamic.theme.rememberDynamicThemeState
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -250,6 +251,10 @@ private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleFavoriteColor(color: ColorModel, forceExclude: Boolean) = Unit
     override fun isInstalledFromPlayStore(): Boolean = false
     override suspend fun toggleSettingsGroupVisibility(key: Int, value: Boolean) = Unit
+    override suspend fun addRecentGradient(palette: GradientPalette) = Unit
+    override suspend fun toggleFavoriteGradient(palette: GradientPalette) = Unit
+    override suspend fun clearRecentGradients() = Unit
+    override suspend fun updateFavoriteGradients(palettes: List<GradientPalette>) = Unit
     override suspend fun clearRecentColors() = Unit
     override suspend fun updateFavoriteColors(colors: List<ColorModel>) = Unit
     override suspend fun setBackgroundColorForNoAlphaFormats(color: ColorModel) = Unit

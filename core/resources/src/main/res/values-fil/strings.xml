@@ -5348,4 +5348,9 @@
     <string name="fractal_palette_electric_candy">Electric Candy</string>
     <string name="fractal_palette_black_gold">Itim na Ginto</string>
     <string name="fractal_palette_ghost">Multo</string>
+    <string name="gradient_palette_soft_rainbow">Malambot na bahaghari</string>
+    <string name="gradient_length">Haba ng gradient</string>
+    <string name="gradient_mirror">Ulitin ang salamin</string>
+    <string name="gradient_mirror_sub">Palitan ang direksyon ng pasulong at pabalik ng gradient</string>
+    <string name="gradient_colors_hint">Mag-tap ng isang kulay para i-edit ito. I-hold at i-drag upang baguhin ang pagkakasunud-sunod.</string>
 </resources>

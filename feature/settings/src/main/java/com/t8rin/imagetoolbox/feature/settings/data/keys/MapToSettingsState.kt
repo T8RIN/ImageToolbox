@@ -197,6 +197,8 @@ internal fun Preferences.toSettingsState(
         ?: default.addTimestampToFilename,
     useFormattedFilenameTimestamp = this[USE_FORMATTED_TIMESTAMP]
         ?: default.useFormattedFilenameTimestamp,
+    favoriteGradients = this[FAVORITE_GRADIENTS].toGradientPalettes(),
+    recentGradients = this[RECENT_GRADIENTS].toGradientPalettes(),
     favoriteColors = this[FAVORITE_COLORS]?.split("/")?.mapNotNull { color ->
         color.toIntOrNull()?.let { ColorModel(it) }
     } ?: default.favoriteColors,

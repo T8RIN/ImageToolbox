@@ -36,7 +36,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -54,6 +53,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Highlight
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.Regex
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
@@ -214,17 +214,14 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                                 shape = ShapeDefaults.center
                             )
                             val palette = remember(params.backgroundColors) {
-                                GradientPalette.entries.firstOrNull { palette ->
-                                    palette.colors.map { it.colorInt } ==
-                                            params.backgroundColors.map { it.toArgb() }
-                                }
+                                GradientPalette.fromColors(params.backgroundColors.map { it.toModel() })
                             }
                             GradientPaletteSelector(
                                 value = palette,
                                 onValueChange = component::updateGradientPalette,
                                 shape = ShapeDefaults.center
                             )
-                            AnimatedVisibility(visible = palette == null) {
+                            AnimatedVisibility(visible = palette is GradientPalette.Custom) {
                                 ColorRowSelector(
                                     value = params.backgroundColors.first(),
                                     onValueChange = component::updateBackgroundStartColor,
@@ -233,7 +230,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                                     modifier = Modifier.container(shape = ShapeDefaults.center)
                                 )
                             }
-                            AnimatedVisibility(visible = palette == null) {
+                            AnimatedVisibility(visible = palette is GradientPalette.Custom) {
                                 ColorRowSelector(
                                     value = params.backgroundColors.last(),
                                     onValueChange = component::updateBackgroundEndColor,

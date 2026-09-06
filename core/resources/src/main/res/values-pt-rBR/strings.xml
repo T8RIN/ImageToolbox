@@ -5348,4 +5348,9 @@
     <string name="fractal_palette_electric_candy">Doces Elétricos</string>
     <string name="fractal_palette_black_gold">Ouro Negro</string>
     <string name="fractal_palette_ghost">Fantasma</string>
+    <string name="gradient_palette_soft_rainbow">Arco-íris suave</string>
+    <string name="gradient_length">Comprimento do gradiente</string>
+    <string name="gradient_mirror">Repetição de espelho</string>
+    <string name="gradient_mirror_sub">Alterne a direção direta e reversa do gradiente</string>
+    <string name="gradient_colors_hint">Toque em uma cor para editá-la. Segure e arraste para alterar a ordem.</string>
 </resources>

@@ -5350,4 +5350,9 @@
     <string name="fractal_palette_electric_candy">סוכריות חשמליות</string>
     <string name="fractal_palette_black_gold">זהב שחור</string>
     <string name="fractal_palette_ghost">רוּחַ</string>
+    <string name="gradient_palette_soft_rainbow">קשת בענן רכה</string>
+    <string name="gradient_length">אורך שיפוע</string>
+    <string name="gradient_mirror">מראה חוזר</string>
+    <string name="gradient_mirror_sub">החלף את כיוון השיפוע קדימה ואחורה</string>
+    <string name="gradient_colors_hint">הקש על צבע כדי לערוך אותו. החזק וגרור כדי לשנות את הסדר.</string>
 </resources>

@@ -5347,4 +5347,9 @@
     <string name="fractal_palette_electric_candy">Permen Listrik</string>
     <string name="fractal_palette_black_gold">Emas Hitam</string>
     <string name="fractal_palette_ghost">Hantu</string>
+    <string name="gradient_palette_soft_rainbow">Pelangi lembut</string>
+    <string name="gradient_length">Panjang gradien</string>
+    <string name="gradient_mirror">Ulangi cermin</string>
+    <string name="gradient_mirror_sub">Ganti arah maju dan mundur gradien</string>
+    <string name="gradient_colors_hint">Ketuk warna untuk mengeditnya. Tahan dan seret untuk mengubah urutan.</string>
 </resources>

@@ -5350,4 +5350,9 @@
     <string name="fractal_palette_electric_candy">Elektrické cukríky</string>
     <string name="fractal_palette_black_gold">Čierne zlato</string>
     <string name="fractal_palette_ghost">Duch</string>
+    <string name="gradient_palette_soft_rainbow">Mäkká dúha</string>
+    <string name="gradient_length">Dĺžka prechodu</string>
+    <string name="gradient_mirror">Zrkadlové opakovanie</string>
+    <string name="gradient_mirror_sub">Striedajte smer gradientu dopredu a dozadu</string>
+    <string name="gradient_colors_hint">Klepnutím na farbu ju upravíte. Podržaním a potiahnutím zmeníte poradie.</string>
 </resources>

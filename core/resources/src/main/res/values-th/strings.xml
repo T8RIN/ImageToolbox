@@ -5347,4 +5347,9 @@
     <string name="fractal_palette_electric_candy">ลูกอมไฟฟ้า</string>
     <string name="fractal_palette_black_gold">ทองดำ</string>
     <string name="fractal_palette_ghost">ผี</string>
+    <string name="gradient_palette_soft_rainbow">สายรุ้งอ่อนๆ</string>
+    <string name="gradient_length">ความยาวไล่ระดับสี</string>
+    <string name="gradient_mirror">ทำซ้ำกระจก</string>
+    <string name="gradient_mirror_sub">สลับทิศทางไปข้างหน้าและย้อนกลับของการไล่ระดับสี</string>
+    <string name="gradient_colors_hint">แตะสีเพื่อแก้ไข กดค้างไว้แล้วลากเพื่อเปลี่ยนลำดับ</string>
 </resources>

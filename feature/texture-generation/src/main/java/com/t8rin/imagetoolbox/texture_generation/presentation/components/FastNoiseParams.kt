@@ -100,7 +100,7 @@ internal fun FastNoiseParams(
             value = remember(params.colors) {
                 GradientPalette.entries.firstOrNull {
                     it.sampleColors(params.colors.size) == params.colors
-                }
+                } ?: GradientPalette.fromColors(params.colors)
             },
             onValueChange = { palette ->
                 onValueChange(

@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,12 +66,12 @@ internal fun PdfDarkModeThemeSelector(
                                     else -> theme.backgroundColor ?: 0xFFFFFFFF.toInt()
                                 }
                             ),
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                         .border(
                             width = 1.dp,
                             color = MaterialTheme.colorScheme.outlineVariant,
-                            shape = CircleShape
+                            shape = ShapeDefaults.circle
                         )
                 )
                 Spacer(Modifier.width(6.dp))

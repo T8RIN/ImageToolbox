@@ -28,8 +28,8 @@ class FractalModelsTest {
 
     @Test
     fun catalogHasUsefulUniqueOptions() {
-        assertEquals(77, FractalFormula.entries.size)
-        assertEquals(75, GradientPalette.entries.size)
+        assertEquals(75, FractalFormula.entries.size)
+        assertEquals(76, GradientPalette.entries.size)
         assertEquals(
             FractalFormula.entries.size,
             FractalFormula.entries.map(FractalFormula::name).distinct().size
@@ -75,10 +75,8 @@ class FractalModelsTest {
             FractalFormula.ChristmasTree,
             FractalFormula.VicsekCross,
             FractalFormula.PythagorasTree,
-            FractalFormula.HTree,
             FractalFormula.HeighwayDragon,
             FractalFormula.KochSnowflake,
-            FractalFormula.HilbertCurve,
             FractalFormula.BarnsleyMandelbrot,
             FractalFormula.BarnsleyJulia,
             FractalFormula.AlphaMandelbrot,
@@ -187,10 +185,8 @@ class FractalModelsTest {
             FractalFormula.ChristmasTree,
             FractalFormula.VicsekCross,
             FractalFormula.PythagorasTree,
-            FractalFormula.HTree,
             FractalFormula.HeighwayDragon,
             FractalFormula.KochSnowflake,
-            FractalFormula.HilbertCurve,
             FractalFormula.Pickover,
             FractalFormula.Lorenz,
             FractalFormula.Rossler
@@ -273,12 +269,12 @@ class FractalModelsTest {
     @Test
     fun everyCoefficientDefaultIsFiniteAndInsideItsRange() {
         FractalFormula.entries.forEach { formula ->
-            listOf(
+            listOfNotNull(
                 formula.coefficientSpecs.a,
                 formula.coefficientSpecs.b,
                 formula.coefficientSpecs.c,
                 formula.coefficientSpecs.d
-            ).filterNotNull().forEach { spec ->
+            ).forEach { spec ->
                 assertTrue("${formula.name}: ${spec.label}", spec.defaultValue.isFinite())
                 assertTrue(
                     "${formula.name}: ${spec.label} default is outside its range",

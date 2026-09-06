@@ -32,7 +32,7 @@ internal class GradientMapFilter(
 ) : Transformation<Bitmap>, Filter.GradientMap {
 
     override val cacheKey: String
-        get() = value.name
+        get() = value.toSerializedString()
 
     override suspend fun transform(
         input: Bitmap,

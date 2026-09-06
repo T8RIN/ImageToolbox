@@ -82,6 +82,7 @@ data class TextSnapshot(
     val alignment: String,
     val geometricTransform: TextGeometricTransformSnapshot? = null,
     val shadow: DropShadowSnapshot? = null,
+    val gradientPalette: String? = null,
 )
 
 data class PictureSnapshot(
@@ -106,6 +107,7 @@ data class ShapeSnapshot(
     val sizeScale: Float? = null,
     val angle: Float? = null,
     val shadow: DropShadowSnapshot? = null,
+    val gradientPalette: String? = null,
 )
 
 data class FontSnapshot(

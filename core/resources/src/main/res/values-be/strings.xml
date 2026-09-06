@@ -5350,4 +5350,9 @@
     <string name="fractal_palette_electric_candy">Электрычныя цукеркі</string>
     <string name="fractal_palette_black_gold">Чорнае золата</string>
     <string name="fractal_palette_ghost">Прывід</string>
+    <string name="gradient_palette_soft_rainbow">Мяккая вясёлка</string>
+    <string name="gradient_length">Градыент даўжыні</string>
+    <string name="gradient_mirror">Люстэркавы паўтор</string>
+    <string name="gradient_mirror_sub">Чаргуйце градыент наперад і назад</string>
+    <string name="gradient_colors_hint">Націсніце колер, каб адрэдагаваць яго. Утрымлівайце і перацягвайце, каб змяніць парадак.</string>
 </resources>

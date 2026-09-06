@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.di
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.PolymorphicJsonAdapterFactory
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.t8rin.imagetoolbox.core.data.json.GradientPaletteJsonAdapter
 import com.t8rin.imagetoolbox.core.data.json.ImageFormatJsonAdapter
 import com.t8rin.imagetoolbox.core.data.json.ImageScaleModeJsonAdapter
 import com.t8rin.imagetoolbox.core.data.json.MoshiParser
@@ -83,6 +84,7 @@ internal interface JsonModule {
                     .withDefaultValue(FilenameBehavior.None())
             )
             .add(ImageFormatJsonAdapter())
+            .add(GradientPaletteJsonAdapter())
             .add(PresetJsonAdapter())
             .add(ResizeTypeJsonAdapter())
             .add(ImageScaleModeJsonAdapter())

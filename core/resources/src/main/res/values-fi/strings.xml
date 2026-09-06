@@ -5348,4 +5348,9 @@
     <string name="fractal_palette_electric_candy">Sähköinen karkki</string>
     <string name="fractal_palette_black_gold">Musta kulta</string>
     <string name="fractal_palette_ghost">Aave</string>
+    <string name="gradient_palette_soft_rainbow">Pehmeä sateenkaari</string>
+    <string name="gradient_length">Gradientin pituus</string>
+    <string name="gradient_mirror">Peilitoisto</string>
+    <string name="gradient_mirror_sub">Vaihtele gradientin suuntaa eteenpäin ja taaksepäin</string>
+    <string name="gradient_colors_hint">Tap a color to edit it. Pidä ja vedä muuttaaksesi järjestystä.</string>
 </resources>

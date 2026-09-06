@@ -39,6 +39,7 @@ internal class FloodFill(image: Bitmap) {
 
     private lateinit var pixelsChecked: BooleanArray
     private lateinit var ranges: Queue<FloodFillRange>
+    private val filledRanges = mutableListOf<FloodFillRange>()
 
     private var tolerance = 0
 
@@ -55,6 +56,7 @@ internal class FloodFill(image: Bitmap) {
         // Called before starting flood-fill
         pixelsChecked = BooleanArray(pixels.size)
         ranges = LinkedList()
+        filledRanges.clear()
     }
 
     //  Fills the specified point on the bitmap with the currently selected fill color.
@@ -112,6 +114,8 @@ internal class FloodFill(image: Bitmap) {
             }
         }
 
+        buildPath()
+
         return path
     }
 
@@ -125,7 +129,6 @@ internal class FloodFill(image: Bitmap) {
         // Find Left Edge of Color Area
         var lFillLoc = x // the location to check/fill on the left
         var pxIdx = width * y + x
-        path.moveTo(x.toFloat(), y.toFloat())
         while (true) {
             pixelsChecked[pxIdx] = true
             lFillLoc--
@@ -135,7 +138,6 @@ internal class FloodFill(image: Bitmap) {
                 break
             }
         }
-        vectorFill(pxIdx + 1)
         lFillLoc++
 
         // Find Right Edge of Color Area
@@ -149,19 +151,52 @@ internal class FloodFill(image: Bitmap) {
                 break
             }
         }
-        vectorFill(pxIdx - 1)
         rFillLoc--
 
         // add range to queue
         val r = FloodFillRange(lFillLoc, rFillLoc, y)
         ranges.offer(r)
+        filledRanges.add(r)
     }
 
-    // vector fill pixels with color
-    private fun vectorFill(pxIndex: Int) {
-        val x = (pxIndex % width).toFloat()
-        val y = (pxIndex - x) / width
-        path.lineTo(x, y)
+    private fun buildPath() {
+        val sortedRanges = filledRanges.sortedWith(
+            compareBy(
+                { it.startX },
+                { it.endX },
+                { it.Y }
+            )
+        )
+        var current = sortedRanges.firstOrNull() ?: return
+        var endY = current.Y
+
+        sortedRanges.drop(1).forEach { range ->
+            if (
+                range.startX == current.startX &&
+                range.endX == current.endX &&
+                range.Y == endY + 1
+            ) {
+                endY = range.Y
+            } else {
+                path.addRange(current, endY)
+                current = range
+                endY = range.Y
+            }
+        }
+        path.addRange(current, endY)
+    }
+
+    private fun Path.addRange(
+        range: FloodFillRange,
+        endY: Int
+    ) {
+        addRect(
+            range.startX.toFloat(),
+            range.Y.toFloat(),
+            (range.endX + 1).toFloat(),
+            (endY + 1).toFloat(),
+            Path.Direction.CW
+        )
     }
 
     // Sees if a pixel is within the color tolerance range.

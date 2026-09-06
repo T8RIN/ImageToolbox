@@ -21,7 +21,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.net.toUri
@@ -82,6 +81,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent.HistorySnapshot
 import dagger.assisted.Assisted
@@ -126,6 +126,7 @@ class SingleEditComponent @AssistedInject internal constructor(
 
         doOnDestroy {
             autoBackgroundRemover.cleanup()
+            drawRenderCache.clear()
         }
     }
 
@@ -163,8 +164,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     private val _drawUndonePaths = mutableStateOf(listOf<UiPathPaint>())
     val drawUndonePaths: List<UiPathPaint> by _drawUndonePaths
 
-    private val _drawSpotHealCache = mutableStateMapOf<Int, Bitmap>()
-    val drawSpotHealCache: Map<Int, Bitmap> = _drawSpotHealCache
+    val drawRenderCache = DrawRenderCache()
 
     private val _filterList =
         mutableStateOf(listOf<UiFilter<*>>())
@@ -393,7 +393,6 @@ class SingleEditComponent @AssistedInject internal constructor(
                     size?.run { IntegerSize(width = first, height = second) }
                 }
             }
-            _drawSpotHealCache.clear()
             _bitmap.update {
                 imageScaler.scaleUntilCanShow(bitmap)
             }
@@ -431,7 +430,6 @@ class SingleEditComponent @AssistedInject internal constructor(
             imageSize?.let { size ->
                 _originalSize.update { size }
             }
-            _drawSpotHealCache.clear()
             _bitmap.update { preview }
             _imageInfo.update { info ->
                 info.copy(
@@ -650,7 +648,6 @@ class SingleEditComponent @AssistedInject internal constructor(
             _originalSize.update {
                 size.run { IntegerSize(width = first, height = second) }
             }
-            _drawSpotHealCache.clear()
             _bitmap.update {
                 _internalBitmap.update {
                     imageScaler.scaleUntilCanShow(bitmap)
@@ -922,10 +919,10 @@ class SingleEditComponent @AssistedInject internal constructor(
     fun clearDrawing(canUndo: Boolean = false) {
         componentScope.launch {
             delay(500L)
+            if (!canUndo) drawRenderCache.clear()
             _drawLastPaths.update { if (canUndo) drawPaths else listOf() }
             _drawPaths.update { listOf() }
             _drawUndonePaths.update { listOf() }
-            _drawSpotHealCache.clear()
             _drawMode.update { DrawMode.Pen }
             _drawPathMode.update { DrawPathMode.Free }
         }
@@ -958,16 +955,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         _drawUndonePaths.update { listOf() }
     }
 
-    fun cacheDrawSpotHealPathResult(
-        key: Int,
-        bitmap: Bitmap
-    ) {
-        _drawSpotHealCache[key] = bitmap
-    }
-
     fun removePath(pathPaint: UiPathPaint) {
         _drawPaths.update { it - pathPaint }
-        _drawSpotHealCache.remove(pathPaint.hashCode())
         registerChanges()
     }
 

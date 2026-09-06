@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.toUiPathPaint
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.UiFilterMask
 import dagger.assisted.Assisted
@@ -81,6 +82,8 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
 
     private val _paths: MutableState<List<UiPathPaint>> = mutableStateOf(emptyList())
     val paths by _paths
+
+    val renderCache = DrawRenderCache()
 
     private val _lastPaths = mutableStateOf(listOf<UiPathPaint>())
     val lastPaths: List<UiPathPaint> by _lastPaths
@@ -284,6 +287,7 @@ class AddMaskSheetComponent @AssistedInject internal constructor(
     }
 
     override fun resetState() {
+        renderCache.clear()
         _maskColor.update { Color.Red }
         _paths.update { emptyList() }
         _undonePaths.update { emptyList() }

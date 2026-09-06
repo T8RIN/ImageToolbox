@@ -104,6 +104,7 @@ internal fun AddMaskSheetBitmapPreview(
             BitmapDrawer(
                 zoomState = zoomState,
                 imageBitmap = imageBitmap,
+                renderCache = component.renderCache,
                 paths = if (!preview || drawing || component.isImageLoading) component.paths else emptyList(),
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,

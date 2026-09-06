@@ -54,7 +54,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -1771,8 +1770,8 @@ private fun CurveSelectionButton(
                             .height(6.dp)
                             .then(
                                 indicatorBrush?.let { brush ->
-                                    Modifier.background(brush, CircleShape)
-                                } ?: Modifier.background(color, CircleShape)
+                                    Modifier.background(brush, ShapeDefaults.circle)
+                                } ?: Modifier.background(color, ShapeDefaults.circle)
                             )
                     )
                     content()

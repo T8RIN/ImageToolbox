@@ -5349,4 +5349,9 @@
     <string name="fractal_palette_electric_candy">Bomboane electrice</string>
     <string name="fractal_palette_black_gold">Aur Negru</string>
     <string name="fractal_palette_ghost">Fantomă</string>
+    <string name="gradient_palette_soft_rainbow">Curcubeu moale</string>
+    <string name="gradient_length">Lungimea gradientului</string>
+    <string name="gradient_mirror">Repetare oglindă</string>
+    <string name="gradient_mirror_sub">Alternați direcția înainte și inversă a gradientului</string>
+    <string name="gradient_colors_hint">Atingeți o culoare pentru a o edita. Țineți apăsat și trageți pentru a schimba ordinea.</string>
 </resources>

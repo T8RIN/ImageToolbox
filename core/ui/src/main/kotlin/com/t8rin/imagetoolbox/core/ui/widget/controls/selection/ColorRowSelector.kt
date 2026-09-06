@@ -86,7 +86,10 @@ fun ColorRowSelector(
     topEndIcon: (@Composable () -> Unit)? = null,
     contentHorizontalPadding: Dp = 12.dp,
     onNullClick: (() -> Unit)? = null,
-    allowCustom: Boolean = true
+    allowCustom: Boolean = true,
+    isColorSelectionVisible: Boolean = true,
+    additionalItem: (@Composable () -> Unit)? = null,
+    isAdditionalItemSelected: Boolean = false
 ) {
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
     val tooltipState = rememberTooltipState()
@@ -236,7 +239,10 @@ fun ColorRowSelector(
                 onValueChange = onValueChange,
                 modifier = Modifier.weight(1f),
                 onNullClick = onNullClick,
-                allowCustom = allowCustom
+                allowCustom = allowCustom,
+                isColorSelectionVisible = isColorSelectionVisible,
+                additionalItem = additionalItem,
+                isAdditionalItemSelected = isAdditionalItemSelected
             )
             if (isCompactLayout && topEndIcon != null) {
                 topEndIcon()

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.markup_layers.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.model.FontType
@@ -84,7 +85,8 @@ sealed interface LayerType {
         val outline: Outline?,
         val alignment: Alignment,
         val geometricTransform: TextGeometricTransform? = null,
-        val shadow: DropShadow? = null
+        val shadow: DropShadow? = null,
+        val gradientPalette: GradientPalette? = null
     ) : LayerType {
 
         enum class Decoration {
@@ -140,7 +142,8 @@ sealed interface LayerType {
         val strokeWidth: Float = 16f,
         val widthRatio: Float = 0.35f,
         val heightRatio: Float = 0.35f,
-        val shadow: DropShadow? = null
+        val shadow: DropShadow? = null,
+        val gradientPalette: GradientPalette? = null
     ) : LayerType {
 
         companion object {

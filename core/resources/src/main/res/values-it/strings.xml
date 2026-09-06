@@ -5348,4 +5348,9 @@
     <string name="fractal_palette_electric_candy">Caramelle elettriche</string>
     <string name="fractal_palette_black_gold">Oro Nero</string>
     <string name="fractal_palette_ghost">Fantasma</string>
+    <string name="gradient_palette_soft_rainbow">Morbido arcobaleno</string>
+    <string name="gradient_length">Lunghezza del gradiente</string>
+    <string name="gradient_mirror">Ripetizione dello specchio</string>
+    <string name="gradient_mirror_sub">Alterna la direzione avanti e indietro del gradiente</string>
+    <string name="gradient_colors_hint">Tocca un colore per modificarlo. Tieni premuto e trascina per modificare l\'ordine.</string>
 </resources>

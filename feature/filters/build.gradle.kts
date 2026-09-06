@@ -25,6 +25,7 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.filters"
 
 dependencies {
+    testImplementation(libs.junit)
     api(projects.core.filters)
     ksp(projects.core.ksp)
     implementation(projects.core.ksp)

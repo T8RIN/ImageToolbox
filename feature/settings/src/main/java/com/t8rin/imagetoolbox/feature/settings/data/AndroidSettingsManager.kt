@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -130,6 +131,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.EXIF_WIDGET_INITIAL_STA
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAB_ALIGNMENT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAST_SETTINGS_SIDE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_COLORS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FAVORITE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_BEHAVIOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FILENAME_PATTERN
@@ -182,6 +184,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_GRADIENTS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RETURN_TO_EXTERNAL_APP_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
@@ -215,6 +218,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
+import com.t8rin.imagetoolbox.feature.settings.data.keys.toGradientPalettes
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -1011,6 +1015,26 @@ internal class AndroidSettingsManager @Inject constructor(
                     "${it.key}:${it.value}"
                 }.toSet()
             }
+    }
+
+    override suspend fun addRecentGradient(palette: GradientPalette) = edit { preferences ->
+        val current = preferences[RECENT_GRADIENTS].toGradientPalettes()
+        preferences[RECENT_GRADIENTS] = (listOf(palette) + (current - palette))
+            .take(30).joinToString("\n", transform = GradientPalette::toSerializedString)
+    }
+
+    override suspend fun toggleFavoriteGradient(palette: GradientPalette) = edit { preferences ->
+        val current = preferences[FAVORITE_GRADIENTS].toGradientPalettes()
+        val updated = if (palette in current) current - palette else listOf(palette) + current
+        preferences[FAVORITE_GRADIENTS] = updated
+            .joinToString("\n", transform = GradientPalette::toSerializedString)
+    }
+
+    override suspend fun clearRecentGradients() = edit { it.remove(RECENT_GRADIENTS) }
+
+    override suspend fun updateFavoriteGradients(palettes: List<GradientPalette>) = edit {
+        it[FAVORITE_GRADIENTS] = palettes.distinct()
+            .joinToString("\n", transform = GradientPalette::toSerializedString)
     }
 
     override suspend fun clearRecentColors() = edit {

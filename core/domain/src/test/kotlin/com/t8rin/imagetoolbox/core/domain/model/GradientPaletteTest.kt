@@ -18,6 +18,8 @@
 package com.t8rin.imagetoolbox.core.domain.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -25,10 +27,13 @@ class GradientPaletteTest {
 
     @Test
     fun containsAllSharedPalettes() {
-        assertEquals(75, GradientPalette.entries.size)
+        assertEquals(76, GradientPalette.entries.size)
+        assertEquals(GradientPalette.Classic, GradientPalette.entries[0])
+        assertEquals(GradientPalette.Grayscale, GradientPalette.entries[74])
+        assertEquals(GradientPalette.SoftRainbow, GradientPalette.entries[75])
         assertEquals(
             GradientPalette.entries.size,
-            GradientPalette.entries.map { it.name }.distinct().size
+            GradientPalette.entries.map { it.name.lowercase() }.distinct().size
         )
     }
 
@@ -81,4 +86,62 @@ class GradientPaletteTest {
     fun sampleColorsRejectsEmptyOutput() {
         GradientPalette.Classic.sampleColors(0)
     }
+
+    @Test
+    fun storedPresetNamesStillRestoreTheSamePalettes() {
+        GradientPalette.entries.forEach { palette ->
+            assertEquals(palette.name, palette.toSerializedString())
+            assertSame(palette, GradientPalette.fromSerializedString(palette.name))
+        }
+    }
+
+    @Test
+    fun customPalettesPreserveOrderDuplicatesAndAlpha() {
+        val colors = listOf(0x00ABCDEF, 0x80403020.toInt(), 0xFFFFCC00.toInt(), 0x00ABCDEF)
+            .map(::ColorModel)
+        val palette = GradientPalette.Custom(colors)
+        val restored = GradientPalette.fromSerializedString(palette.toSerializedString())
+        assertEquals(palette, restored)
+        assertEquals(palette.hashCode(), restored.hashCode())
+        assertEquals(colors, restored?.colors)
+        assertEquals(colors.first(), palette.sampleColors(17).first())
+        assertEquals(colors.last(), palette.sampleColors(17).last())
+    }
+
+    @Test
+    fun modifyingTheInputListDoesNotChangeAnExistingPalette() {
+        val source = mutableListOf(ColorModel(0xFF102030.toInt()), ColorModel(0xFF4080C0.toInt()))
+        val palette = GradientPalette.Custom(source)
+        val original = palette.toSerializedString()
+        val originalHash = palette.hashCode()
+        source.reverse()
+        source.clear()
+        assertEquals(original, palette.toSerializedString())
+        assertEquals(originalHash, palette.hashCode())
+        assertEquals(2, palette.colors.size)
+    }
+
+    @Test
+    fun editedColorsRecognizeBuiltInsWithoutChangingCustomSerialization() {
+        val colors = GradientPalette.Classic.colors
+        assertSame(GradientPalette.Classic, GradientPalette.fromColors(colors))
+        val custom = GradientPalette.Custom(colors)
+        assertEquals(custom, GradientPalette.fromSerializedString(custom.toSerializedString()))
+    }
+
+    @Test
+    fun invalidStoredPalettesAreRejected() {
+        for (value in listOf(
+            "", "RemovedPalette", "custom;", "custom;ffffffff",
+            "custom;ffffffff;notacolor", "custom;ffffffff;ffffff", "custom;ffffffff;"
+        )) {
+            assertNull(value, GradientPalette.fromSerializedString(value))
+        }
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun customPaletteRequiresTwoColors() {
+        GradientPalette.Custom(listOf(ColorModel(0)))
+    }
+
 }

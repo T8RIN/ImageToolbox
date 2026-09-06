@@ -17,37 +17,62 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.palette_selection
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Check
+import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 
 @Composable
@@ -56,77 +81,249 @@ fun GradientPaletteSelector(
     onValueChange: (GradientPalette) -> Unit,
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.palette),
-    shape: Shape = ShapeDefaults.default
+    shape: Shape = ShapeDefaults.default,
+    color: Color = Color.Unspecified,
+    allowCustom: Boolean = true
 ) {
+    var showPicker by rememberSaveable { mutableStateOf(false) }
+    var customPalette by rememberSaveable(stateSaver = GradientPaletteSaver) {
+        mutableStateOf(value as? GradientPalette.Custom ?: DefaultCustomGradientPalette)
+    }
+    LaunchedEffect(value) {
+        if (value is GradientPalette.Custom) customPalette = value
+    }
     Column(
         modifier = modifier.container(
             shape = shape,
+            color = color,
             resultPadding = 8.dp
         )
     ) {
         TitleItem(
             text = title,
-            modifier = Modifier.padding(
-                top = 8.dp,
-                start = 8.dp,
-                end = 8.dp
-            )
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp)
         )
-        val state = rememberLazyListState()
-        LazyRow(
-            state = state,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fadingEdges(state),
-            horizontalArrangement = Arrangement.spacedBy(2.dp),
-            contentPadding = PaddingValues(8.dp),
-            flingBehavior = enhancedFlingBehavior()
-        ) {
-            itemsIndexed(
-                items = GradientPalette.entries,
-                key = { _, palette -> palette.name }
-            ) { index, palette ->
+        GradientPaletteRow(
+            value = value,
+            onValueChange = {
+                customPalette = DefaultCustomGradientPalette
+                onValueChange(it)
+            },
+            customPalette = customPalette,
+            onCustomClick = { showPicker = true }.takeIf { allowCustom }
+        )
+    }
+    if (allowCustom) {
+        GradientPaletteSheet(
+            visible = showPicker,
+            onDismiss = { showPicker = false },
+            value = customPalette,
+            onValueChange = {
+                customPalette = it
+                onValueChange(it)
+            }
+        )
+    }
+}
+
+@Composable
+internal fun GradientPaletteRow(
+    value: GradientPalette?,
+    onValueChange: (GradientPalette) -> Unit,
+    palettes: List<GradientPalette> = GradientPalette.entries,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(8.dp),
+    onCustomClick: (() -> Unit)? = null,
+    showLabels: Boolean = true,
+    customPalette: GradientPalette = DefaultCustomGradientPalette
+) {
+    val state = rememberLazyListState()
+    val isCustom = onCustomClick != null && value == customPalette
+    LaunchedEffect(isCustom) {
+        if (isCustom) state.animateScrollToItem(0)
+    }
+    LazyRow(
+        state = state,
+        modifier = modifier
+            .fillMaxWidth()
+            .then(if (showLabels) Modifier else Modifier.height(64.dp))
+            .fadingEdges(state),
+        horizontalArrangement = Arrangement.spacedBy(if (showLabels) 2.dp else 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = contentPadding,
+        flingBehavior = enhancedFlingBehavior()
+    ) {
+        if (onCustomClick != null) {
+            item(key = "custom_picker") {
                 EnhancedChip(
-                    selected = palette == value,
-                    onClick = { onValueChange(palette) },
+                    selected = isCustom,
+                    onClick = onCustomClick,
+                    modifier = Modifier.padding(end = 6.dp),
                     selectedColor = MaterialTheme.colorScheme.tertiaryContainer,
                     selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                    shape = ShapeDefaults.byIndex(
-                        index = index,
-                        size = GradientPalette.entries.size,
-                        vertical = false,
-                        roundedCorner = 12.dp
-                    ),
+                    shape = ShapeDefaults.small,
                     contentPadding = PaddingValues(8.dp)
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        val colors = remember(palette) {
-                            palette.colors.map { it.toColor() }
-                        }
-                        Box(
-                            modifier = Modifier
-                                .width(64.dp)
-                                .height(18.dp)
-                                .clip(ShapeDefaults.extraSmall)
-                                .background(Brush.horizontalGradient(colors))
+                        Icon(
+                            imageVector = Icons.Outlined.Gradient,
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
                         )
-                        Text(
-                            text = palette.label(),
-                            style = MaterialTheme.typography.labelSmall
+                        GradientPalettePreview(
+                            palette = customPalette,
+                            modifier = Modifier
+                                .width(32.dp)
+                                .height(6.dp)
+                                .clip(ShapeDefaults.circle)
                         )
                     }
                 }
             }
         }
+        itemsIndexed(
+            items = palettes,
+            key = { _, palette -> palette.toSerializedString() }
+        ) { index, palette ->
+            if (showLabels) {
+                GradientPaletteChip(
+                    palette = palette,
+                    selected = palette == value && !isCustom,
+                    onClick = { onValueChange(palette) },
+                    shape = ShapeDefaults.byIndex(
+                        index = index,
+                        size = palettes.size,
+                        vertical = false,
+                        roundedCorner = 12.dp
+                    )
+                )
+            } else {
+                GradientPaletteItem(
+                    palette = palette,
+                    selected = palette == value,
+                    onClick = { onValueChange(palette) }
+                )
+            }
+        }
     }
+}
+
+private val DefaultCustomGradientPalette = GradientPalette.Custom(
+    listOf(ColorModel(0xFF000000.toInt()), ColorModel(0xFFFFFFFF.toInt()))
+)
+
+@Composable
+private fun GradientPaletteChip(
+    palette: GradientPalette,
+    selected: Boolean,
+    onClick: () -> Unit,
+    shape: Shape
+) {
+    EnhancedChip(
+        selected = selected,
+        onClick = onClick,
+        selectedColor = MaterialTheme.colorScheme.tertiaryContainer,
+        selectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+        shape = shape,
+        contentPadding = PaddingValues(8.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            GradientPalettePreview(
+                palette = palette,
+                modifier = Modifier
+                    .width(64.dp)
+                    .height(18.dp)
+                    .clip(ShapeDefaults.extraSmall)
+            )
+            Text(text = palette.label(), style = MaterialTheme.typography.labelSmall)
+        }
+    }
+}
+
+@Composable
+internal fun GradientPaletteItem(
+    palette: GradientPalette,
+    selected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val shape = shapeByInteraction(
+        shape = if (selected) ShapeDefaults.small else AutoCornersShape(21.dp),
+        pressedShape = ShapeDefaults.pressed,
+        interactionSource = interactionSource
+    )
+    val colors = remember(palette) { palette.colors.map { it.toColor() } }
+    val accent = colors[colors.size / 2].blend(MaterialTheme.colorScheme.primary, 0.25f)
+    val light = accent.blend(Color.White, 0.85f)
+    val dark = accent.blend(Color.Black, 0.75f)
+    val contentColor = if (accent.luminance() < 0.3f) light else dark
+    val fillColor = if (accent.luminance() < 0.3f) dark else light
+
+    Box(
+        modifier = modifier
+            .height(42.dp)
+            .aspectRatio(
+                ratio = animateFloatAsState(
+                    targetValue = if (selected) 1.5f else 1f,
+                    animationSpec = tween(400)
+                ).value,
+                matchHeightConstraintsFirst = true
+            )
+            .container(shape = shape, color = Color.Transparent, resultPadding = 0.dp)
+            .clip(shape)
+            .transparencyChecker()
+            .background(Brush.horizontalGradient(colors))
+            .hapticsClickable(
+                interactionSource = interactionSource,
+                indication = LocalIndication.current,
+                onClick = onClick
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        if (selected) {
+            Icon(
+                imageVector = Icons.Rounded.Check,
+                contentDescription = null,
+                tint = fillColor,
+                modifier = Modifier.size(24.dp)
+            )
+            Icon(
+                imageVector = Icons.Rounded.Done,
+                contentDescription = null,
+                tint = contentColor,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+    }
+}
+
+@Composable
+internal fun GradientPalettePreview(
+    palette: GradientPalette,
+    modifier: Modifier = Modifier
+) {
+    val brush = remember(palette) {
+        Brush.horizontalGradient(palette.colors.map { it.toColor() })
+    }
+    Box(
+        modifier
+            .transparencyChecker()
+            .background(brush)
+    )
 }
 
 @Composable
 fun GradientPalette.label(): String = stringResource(
     when (this) {
+        is GradientPalette.Custom -> R.string.custom
+        GradientPalette.SoftRainbow -> R.string.gradient_palette_soft_rainbow
         GradientPalette.Classic -> R.string.fractal_palette_classic
         GradientPalette.Fire -> R.string.fractal_palette_fire
         GradientPalette.Ocean -> R.string.fractal_palette_ocean

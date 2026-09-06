@@ -5348,4 +5348,9 @@
     <string name="fractal_palette_electric_candy">Elektromos cukorka</string>
     <string name="fractal_palette_black_gold">Fekete arany</string>
     <string name="fractal_palette_ghost">Szellem</string>
+    <string name="gradient_palette_soft_rainbow">Puha szivárvány</string>
+    <string name="gradient_length">Gradiens hossza</string>
+    <string name="gradient_mirror">Tükör ismétlés</string>
+    <string name="gradient_mirror_sub">Változtassa meg a gradiens előre és hátra irányát</string>
+    <string name="gradient_colors_hint">Érintsen meg egy színt a szerkesztéséhez. A sorrend módosításához tartsa lenyomva és húzza.</string>
 </resources>
