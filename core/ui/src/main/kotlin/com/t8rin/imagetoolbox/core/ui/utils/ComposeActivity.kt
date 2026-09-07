@@ -58,7 +58,6 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSet
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication.Companion.wrap
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.LocalImagePickerEventEmitter
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePickerEventEmitter
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.adjustFontSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalKeepAliveService
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalMetadataProvider
@@ -129,9 +128,11 @@ abstract class ComposeActivity : AppCompatActivity() {
                 }
             }
         }
-        val newOverride = Configuration(newBase.resources?.configuration)
-        settingsState.fontScale?.let { newOverride.fontScale = it }
-        applyOverrideConfiguration(newOverride)
+        settingsState.fontScale?.let { scale ->
+            applyOverrideConfiguration(
+                Configuration().apply { fontScale = scale }
+            )
+        }
         super.attachBaseContext(newBase)
     }
 
@@ -153,8 +154,6 @@ abstract class ComposeActivity : AppCompatActivity() {
                 applyDynamicColors()
             }
             .launchIn(activityScope)
-
-        adjustFontSize(settingsState.fontScale)
 
         updateFirebaseParams()
 
