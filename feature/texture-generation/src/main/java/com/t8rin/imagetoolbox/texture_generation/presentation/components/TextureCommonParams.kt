@@ -136,6 +136,49 @@ internal fun <T : Enum<T>> EnumParam(
 private fun String.toReadableName(): String = replace(Regex("([a-z])([A-Z])"), "$1 $2")
 
 internal fun TextureFilterType.titleRes(): Int = when (this) {
+    TextureFilterType.RandomTriangles -> R.string.texture_pattern_random_triangles
+    TextureFilterType.HexCubePattern -> R.string.texture_pattern_hex_cube_pattern
+    TextureFilterType.SquareLooper -> R.string.texture_pattern_square_looper
+    TextureFilterType.MoireInterference -> R.string.texture_pattern_moire_interference
+    TextureFilterType.TruchetArcs -> R.string.texture_pattern_truchet_arcs
+    TextureFilterType.CircuitPattern -> R.string.texture_pattern_circuit_pattern
+    TextureFilterType.RosacePattern -> R.string.texture_pattern_rosace_pattern
+    TextureFilterType.RosettePattern -> R.string.texture_pattern_rosette_pattern
+    TextureFilterType.LightArray -> R.string.texture_pattern_light_array
+    TextureFilterType.VoronoiGems -> R.string.texture_pattern_voronoi_gems
+    TextureFilterType.CitySkyline -> R.string.texture_pattern_city_skyline
+    TextureFilterType.WinterLandscape -> R.string.texture_pattern_winter_landscape
+    TextureFilterType.CircleRipplePattern -> R.string.texture_pattern_circle_ripple_pattern
+    TextureFilterType.SquareRipplePattern -> R.string.texture_pattern_square_ripple_pattern
+    TextureFilterType.HatchPattern -> R.string.texture_pattern_hatch_pattern
+    TextureFilterType.SmoothHatch -> R.string.texture_pattern_smooth_hatch
+    TextureFilterType.XorPattern -> R.string.texture_pattern_xor_pattern
+    TextureFilterType.SquareSpiralPattern -> R.string.texture_pattern_square_spiral_pattern
+    TextureFilterType.CrossStitchPattern -> R.string.texture_pattern_cross_stitch_pattern
+    TextureFilterType.PlaidPattern -> R.string.texture_pattern_plaid_pattern
+    TextureFilterType.GeneratedWaves -> R.string.texture_pattern_generated_waves
+    TextureFilterType.VoronoiHatch -> R.string.texture_pattern_voronoi_hatch
+    TextureFilterType.LoopPattern -> R.string.texture_pattern_loop_pattern
+    TextureFilterType.ScintillatingGrid -> R.string.texture_pattern_scintillating_grid
+    TextureFilterType.CircleSpiralPattern -> R.string.texture_pattern_circle_spiral_pattern
+    TextureFilterType.TestChart -> R.string.texture_pattern_test_chart
+    TextureFilterType.BentRows -> R.string.texture_pattern_bent_rows
+    TextureFilterType.DiamondsIllusion -> R.string.texture_pattern_diamonds_illusion
+    TextureFilterType.Sphere3D -> R.string.texture_sphere_3d
+    TextureFilterType.Cube3D -> R.string.texture_cube_3d
+    TextureFilterType.CubeStair3D -> R.string.texture_cube_stair_3d
+    TextureFilterType.CubeSpheres3D -> R.string.texture_cube_spheres_3d
+    TextureFilterType.EmptiedCube3D -> R.string.texture_emptied_cube_3d
+    TextureFilterType.Torus3D -> R.string.texture_torus_3d
+    TextureFilterType.MobiusTorus3D -> R.string.texture_mobius_torus_3d
+    TextureFilterType.GyroRings3D -> R.string.texture_gyro_rings_3d
+    TextureFilterType.TorusGem3D -> R.string.texture_torus_gem_3d
+    TextureFilterType.CubeOctahedron3D -> R.string.texture_cube_octahedron_3d
+    TextureFilterType.InfiniteSpheroids3D -> R.string.texture_infinite_spheroids_3d
+    TextureFilterType.InfiniteStructure3D -> R.string.texture_infinite_structure_3d
+    TextureFilterType.InfiniteCylinders3D -> R.string.texture_infinite_cylinders_3d
+    TextureFilterType.TruchetRings3D -> R.string.texture_truchet_rings_3d
+    TextureFilterType.TruchetPipes3D -> R.string.texture_truchet_pipes_3d
     TextureFilterType.BrushedMetal -> R.string.texture_brushed_metal
     TextureFilterType.Caustics -> R.string.texture_caustics
     TextureFilterType.Cellular -> R.string.texture_cellular

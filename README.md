@@ -691,7 +691,44 @@ or click one of the badges below.
     - [x] Saturation Equalizer
     - [x] Dynamic Contrast
     - [x] Tone Enhance
-
+    - [x] Broken Cells
+    - [x] Broken Glass
+    - [x] Circular Mirror
+    - [x] Column Streak
+    - [x] Concentric Circle Breaks
+    - [x] Concentric Square Breaks
+    - [x] Gallium
+    - [x] Glass Hex Tiles
+    - [x] Glass Rect Tiles
+    - [x] Glass Triangle Tiles
+    - [x] Grid Sine Distortion 2
+    - [x] Helix Waves
+    - [x] Hex Kaleidoscope
+    - [x] Inline Breaks
+    - [x] Inversion Fractal
+    - [x] Logarithmic Spiral
+    - [x] Progressive Scaling
+    - [x] Quicksilver
+    - [x] Radial Interpolate
+    - [x] Radial Shimmer
+    - [x] Radial Streak
+    - [x] Random Color Dispersion
+    - [x] Random Kaleidoscope Grid
+    - [x] Rubidium
+    - [x] Smooth Kaleidoscope
+    - [x] Spiral Arms
+    - [x] Spiral Breaks
+    - [x] Spiral Droste
+    - [x] Square Fresnel
+    - [x] Square Spiral Droste
+    - [x] Streak Circles
+    - [x] Streak Expand
+    - [x] Tiled Streak
+    - [x] Hue Shift Bands
+    - [x] Hue Shift Fan
+    - [x] Hue Shift Tunnel
+    - [x] Bokeh Lights
+    - [x] Fireworks
 
   </details>
 
@@ -700,7 +737,7 @@ or click one of the badges below.
     - Share created filters by QR code
     - Scan filters from the app to get them on your device
 - Native fractal generation with 75 2D and 3D fractal types
-- Texture generation with more than 130 presets
+- Texture generation with more than 170 presets
 
   <details>
   <summary>Available textures</summary>
@@ -840,6 +877,49 @@ or click one of the badges below.
     * Organic Fibers
     * Reaction Diffusion
     * Truchet
+  * Bent rows
+  * Circle ripple illusion
+  * Circle spiral
+  * Circuit pattern
+  * City skyline
+  * Cross stitch
+  * Diamonds illusion
+  * Generated waves
+  * Hatch
+  * Hex cubes
+  * Light array
+  * Loops
+  * Moire interference
+  * Plaid
+  * Random triangles
+  * Rosaces
+  * Rosette
+  * Scintillating grid
+  * Smooth hatch
+  * Square looper
+  * Square ripple illusion
+  * Square spiral
+  * Test chart
+  * Truchet arcs
+  * Voronoi gems
+  * Voronoi hatch
+  * Winter landscape
+  * XOR pattern
+  * 3D Cube
+  * 3D Sphere
+  * 3D Torus
+  * 3D Truchet Pipes
+  * 3D Truchet Rings
+  * Cube Octahedron
+  * Cube Spheres
+  * Cube Stair
+  * Emptied Cube
+  * Gyro Rings
+  * Infinite Cylinders
+  * Infinite Spheroids
+  * Infinite Structure
+  * Möbius Torus
+  * Torus Gem
 
   </details>
 

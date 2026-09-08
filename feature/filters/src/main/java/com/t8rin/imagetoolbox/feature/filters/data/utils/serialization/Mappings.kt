@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianPar
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.ShearParams
@@ -268,6 +269,13 @@ internal fun Any.toPair(): Pair<String, String>? {
                 sides,
                 radius
             ).joinToString(PROPERTIES_SEPARATOR)
+        }
+
+        is ProceduralParams -> {
+            ProceduralParams::class.simpleName() to Base64.encode(
+                (values.map { "${it.key}=${it.value}" } + colors.map { "color:${it.key}=${it.value}" })
+                    .joinToString(";").toByteArray(Charsets.UTF_8)
+            )
         }
 
         is ChannelMixParams -> {
@@ -752,6 +760,19 @@ internal fun Pair<String, String>.fromPair(): Any? {
                 centreY = centreY.toFloat(),
                 sides = sides.toInt(),
                 radius = radius.toFloat()
+            )
+        }
+
+        name == ProceduralParams::class.simpleName -> {
+            val decoded = Base64.decode(value).toString(Charsets.UTF_8)
+            val entries = decoded.split(";").filter { it.isNotEmpty() }.associate { entry ->
+                val (key, number) = entry.split("=", limit = 2)
+                key to number
+            }
+            ProceduralParams(
+                values = entries.filterKeys { !it.contains(":") }.mapValues { it.value.toFloat() },
+                colors = entries.filterKeys { it.startsWith("color:") }
+                    .mapKeys { it.key.removePrefix("color:") }.mapValues { it.value.toInt() }
             )
         }
 

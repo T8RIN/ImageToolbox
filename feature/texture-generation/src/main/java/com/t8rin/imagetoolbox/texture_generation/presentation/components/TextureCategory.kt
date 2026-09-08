@@ -31,7 +31,7 @@ internal enum class TextureCategory(val titleRes: Int) {
 }
 
 internal val TextureFilterType.category: TextureCategory
-    get() = when (this) {
+    get() = if (isRaymarch || pattern != null) TextureCategory.Patterns else when (this) {
         TextureFilterType.Grass,
         TextureFilterType.Dirt,
         TextureFilterType.Foliage,

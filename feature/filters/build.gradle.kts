@@ -23,9 +23,12 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.filters"
+android.defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
 dependencies {
     testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
     api(projects.core.filters)
     ksp(projects.core.ksp)
     implementation(projects.core.ksp)

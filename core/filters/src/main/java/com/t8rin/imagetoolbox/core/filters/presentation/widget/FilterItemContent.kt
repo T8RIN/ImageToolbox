@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianPar
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
@@ -65,6 +66,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.WaterParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiProceduralFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.translatedName
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ArcParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.AsciiParamsItem
@@ -91,6 +93,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.Linear
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.NtscParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PairItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.PinchParamsItem
+import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.ProceduralParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.QuadItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RadialTiltShiftParamsItem
 import com.t8rin.imagetoolbox.core.filters.presentation.widget.filterItem.RubberStampParamsItem
@@ -123,6 +126,15 @@ internal fun <T : Any> FilterItemContent(
         modifier = modifier
     ) {
         when (val value = filter.value) {
+            is ProceduralParams -> {
+                ProceduralParamsItem(
+                    value = value,
+                    filter = filter as UiProceduralFilter,
+                    onFilterChange = onFilterChange,
+                    previewOnly = previewOnly
+                )
+            }
+
             is GmicFilterParams -> {
                 GmicFilterParamsItem(
                     value = value,

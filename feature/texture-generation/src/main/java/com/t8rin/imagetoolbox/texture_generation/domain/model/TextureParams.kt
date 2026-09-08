@@ -63,7 +63,9 @@ data class TextureParams(
     val k: Int,
     val rings: Float,
     val fastNoiseParams: FastNoiseTextureParams? = null,
-    val gmicTextureParams: GmicTextureParams = GmicTextureParams()
+    val gmicTextureParams: GmicTextureParams = GmicTextureParams(),
+    val raymarchParams: RaymarchTextureParams = RaymarchTextureParams(),
+    val patternParams: PatternTextureParams = PatternTextureParams()
 ) {
     companion object {
         val Default by lazy {
@@ -120,6 +122,23 @@ fun TextureParams.withDefaultsFor(textureFilterType: TextureFilterType): Texture
         copy(
             textureFilterType = textureFilterType,
             fastNoiseParams = FastNoiseTextureParams.defaultFor(textureFilterType)
+        )
+    } else if (textureFilterType.pattern != null) {
+        copy(
+            textureFilterType = textureFilterType,
+            patternParams = PatternTextureParams(
+                frequency = textureFilterType.pattern.defaultFrequency,
+                colors = textureFilterType.pattern.defaultColors
+            ),
+            fastNoiseParams = null
+        )
+    } else if (textureFilterType.isRaymarch) {
+        copy(
+            textureFilterType = textureFilterType,
+            raymarchParams = RaymarchTextureParams(),
+            foregroundColor = ColorModel(-4609051),
+            backgroundColor = ColorModel(0),
+            fastNoiseParams = null
         )
     } else when (textureFilterType) {
         TextureFilterType.BrushedMetal -> copy(

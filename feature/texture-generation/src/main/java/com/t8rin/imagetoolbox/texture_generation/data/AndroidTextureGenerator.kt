@@ -19,6 +19,11 @@ package com.t8rin.imagetoolbox.texture_generation.data
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.allowHardware
+import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.utils.appContext
 import androidx.core.graphics.createBitmap
 import com.jhlabs.BrushedMetalFilter
 import com.jhlabs.CausticsFilter
@@ -57,7 +62,21 @@ internal class AndroidTextureGenerator @Inject constructor(
         onFailure: (Throwable) -> Unit
     ): Bitmap? = withContext(defaultDispatcher) {
         runCatching {
-            if (textureParams.textureFilterType.isFastNoise) {
+            if (textureParams.textureFilterType.pattern != null) {
+                generatePatternTexture(width, height, textureParams)
+            } else if (textureParams.textureFilterType.isRaymarch) {
+                val environment = textureParams.raymarchParams.environment
+                    ?.takeIf(String::isNotBlank)?.let { data ->
+                        appContext.imageLoader.execute(
+                            ImageRequest.Builder(appContext)
+                                .data(data)
+                                .size(2048)
+                                .allowHardware(false)
+                                .build()
+                        ).image?.toBitmap() ?: error("Unable to load environment image")
+                    }
+                generateRaymarchTexture(width, height, textureParams, environment = environment)
+            } else if (textureParams.textureFilterType.isFastNoise) {
                 createFastNoiseTexture(
                     width = width,
                     height = height,

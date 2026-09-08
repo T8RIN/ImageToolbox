@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearGaussianPar
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.LinearTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.NtscParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.PinchParams
+import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RadialTiltShiftParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.RubberStampParams
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.SeamCarvingParams
@@ -311,6 +312,44 @@ interface Filter<Value : Any> : VisibilityOwner, ErrorOwner {
     interface ToneCurves : Filter<ToneCurvesParams>
     interface Mirror : PairFilter<Float, MirrorSide>
     interface Kaleidoscope : Filter<KaleidoscopeParams>
+    interface SpiralArms : Filter<ProceduralParams>
+    interface LogarithmicSpiral : Filter<ProceduralParams>
+    interface SpiralDroste : Filter<ProceduralParams>
+    interface SquareSpiralDroste : Filter<ProceduralParams>
+    interface HexKaleidoscope : Filter<ProceduralParams>
+    interface SmoothKaleidoscope : Filter<ProceduralParams>
+    interface RandomKaleidoscopeGrid : Filter<ProceduralParams>
+    interface SquareFresnel : Filter<ProceduralParams>
+    interface InversionFractal : Filter<ProceduralParams>
+    interface StreakExpand : Filter<ProceduralParams>
+    interface RadialInterpolate : Filter<ProceduralParams>
+    interface RadialStreak : Filter<ProceduralParams>
+    interface ColumnStreak : Filter<ProceduralParams>
+    interface StreakCircles : Filter<ProceduralParams>
+    interface TiledStreak : Filter<ProceduralParams>
+    interface BrokenCells : Filter<ProceduralParams>
+    interface SpiralBreaks : Filter<ProceduralParams>
+    interface ConcentricCircleBreaks : Filter<ProceduralParams>
+    interface ConcentricSquareBreaks : Filter<ProceduralParams>
+    interface CircularMirror : Filter<ProceduralParams>
+    interface ProgressiveScaling : Filter<ProceduralParams>
+    interface BrokenGlass : Filter<ProceduralParams>
+    interface InlineBreaks : Filter<ProceduralParams>
+    interface BokehLights : Filter<ProceduralParams>
+    interface Fireworks : Filter<ProceduralParams>
+    interface HueShiftBands : Filter<ProceduralParams>
+    interface HueShiftTunnel : Filter<ProceduralParams>
+    interface HueShiftFan : Filter<ProceduralParams>
+    interface RadialShimmer : Filter<ProceduralParams>
+    interface RandomColorDispersion : Filter<ProceduralParams>
+    interface HelixWaves : Filter<ProceduralParams>
+    interface GridSineDistortion2 : Filter<ProceduralParams>
+    interface Quicksilver : Filter<ProceduralParams>
+    interface Gallium : Filter<ProceduralParams>
+    interface Rubidium : Filter<ProceduralParams>
+    interface GlassRectTiles : Filter<ProceduralParams>
+    interface GlassHexTiles : Filter<ProceduralParams>
+    interface GlassTriangleTiles : Filter<ProceduralParams>
     interface ChannelMix : Filter<ChannelMixParams>
     interface ColorHalftone : QuadFloatFilter
     interface Contour : QuadFilter<Float, Float, Float, Color>

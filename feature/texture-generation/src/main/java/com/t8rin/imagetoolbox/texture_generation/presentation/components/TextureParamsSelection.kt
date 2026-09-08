@@ -274,10 +274,16 @@ fun TextureParamsSelection(
             )
 
             AnimatedContent(
-                targetState = value.textureFilterType,
+                targetState = value,
+                contentKey = { it.textureFilterType },
                 modifier = Modifier.fillMaxWidth()
-            ) { textureFilterType ->
-                when (textureFilterType) {
+            ) { value ->
+                val textureFilterType = value.textureFilterType
+                if (textureFilterType.pattern != null) {
+                    PatternParams(value, onValueChange)
+                } else if (textureFilterType.isRaymarch) {
+                    RaymarchParams(value = value, onValueChange = onValueChange)
+                } else when (textureFilterType) {
                     TextureFilterType.BrushedMetal -> {
                         BrushedMetalParams(
                             value = value,
