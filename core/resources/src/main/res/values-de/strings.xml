@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -2565,7 +2563,7 @@
     <string name="help_tip_format_conversion_step_1">Verwenden Sie JPEG für kompatible Fotos, PNG für verlustfreie Bilder und Alpha und WebP für die kompakte Weitergabe.</string>
     <string name="help_tip_format_conversion_step_2">Passen Sie die Qualität an, wenn das Format dies unterstützt; Niedrigere Werte verringern die Größe, können aber zu Artefakten führen.</string>
     <string name="help_tip_format_conversion_step_3">Bewahren Sie die Originale auf, bis Sie überprüft haben, ob die konvertierten Dateien in der Ziel-App ordnungsgemäß geöffnet werden.</string>
-    <string name="help_tip_exif_privacy_title">Überprüfen Sie EXIF ​​und Datenschutz</string>
+    <string name="help_tip_exif_privacy_title">Überprüfen Sie EXIF und Datenschutz</string>
     <string name="help_tip_exif_privacy_subtitle">Zeigen Sie Metadaten an, bearbeiten oder entfernen Sie sie, bevor Sie vertrauliche Fotos freigeben</string>
     <string name="help_tip_exif_privacy_page_title">Kontrollieren Sie versteckte Bilddaten</string>
     <string name="help_tip_exif_privacy_description">EXIF kann Kameradaten, Daten, Standort, Ausrichtung und andere Details enthalten, die im Bild nicht sichtbar sind. Es lohnt sich, dies zu überprüfen, bevor Sie Support-Berichte, Marktplatz-Einträge oder Fotos, die einen privaten Ort offenbaren könnten, öffentlich teilen.</string>
@@ -2973,7 +2971,7 @@
     <string name="help_tip_limit_resize_modes_description">Limit Resize ist nicht nur ein Tool zum Verkleinern von Bildern. Sein Modus entscheidet, was die App tut, wenn eine Quelle bereits innerhalb Ihrer Grenzen liegt oder wenn nur eine Seite gegen die Regel verstößt, was für gemischte Ordner und die Upload-Vorbereitung wichtig ist.</string>
     <string name="help_tip_limit_resize_modes_step_1">Verwenden Sie Überspringen, wenn Bilder innerhalb der Grenzen unberührt bleiben und nicht erneut exportiert werden sollen.</string>
     <string name="help_tip_limit_resize_modes_step_2">Verwenden Sie „Neu kodieren“, wenn die Abmessungen akzeptabel sind, Sie aber dennoch ein neues Format, Metadatenverhalten, eine neue Qualität oder einen neuen Dateinamen benötigen.</string>
-    <string name="help_tip_limit_resize_modes_step_3">Verwenden Sie Zoom, wenn Bilder, die die Grenzwerte überschreiten, proportional verkleinert werden sollen, bis sie in den zulässigen Rahmen passen.</string>
+    <string name="help_tip_limit_resize_modes_step_3">Verwenden Sie Zoom, wenn Bilder, die den Grenzwerte überschreiten, proportional verkleinert werden sollen, bis sie in den zulässigen Rahmen passen.</string>
     <string name="help_tip_aspect_ratio_targets_title">Seitenverhältnisziele</string>
     <string name="help_tip_aspect_ratio_targets_subtitle">Vermeiden Sie gestreckte Flächen, abgeschnittene Kanten und unerwartete Ränder bei strengen Ausgabegrößen</string>
     <string name="help_tip_aspect_ratio_targets_page_title">Passen Sie die Form an, bevor Sie die Größe ändern</string>
@@ -3043,7 +3041,7 @@
     <string name="help_tip_metadata_dates_location_description">Metadaten sind nicht alle gleichermaßen riskant. Erfassungsdaten können für Archivierungen und Sortierungen nützlich sein, während GPS, Geräteserien-ähnliche Felder, Software-Tags oder Besitzerfelder mehr verraten können als beabsichtigt.</string>
     <string name="help_tip_metadata_dates_location_step_1">Behalten Sie Datums- und Uhrzeitmarkierungen bei, wenn die chronologische Reihenfolge für Alben, Scans oder den Projektverlauf wichtig ist.</string>
     <string name="help_tip_metadata_dates_location_step_2">Entfernen Sie GPS- und geräteidentifizierende Tags, bevor Sie Bilder öffentlich teilen oder an Fremde senden.</string>
-    <string name="help_tip_metadata_dates_location_step_3">Exportieren Sie ein Beispiel und überprüfen Sie EXIF ​​erneut, wenn die Datenschutzanforderungen streng sind.</string>
+    <string name="help_tip_metadata_dates_location_step_3">Exportieren Sie ein Beispiel und überprüfen Sie EXIF erneut, wenn die Datenschutzanforderungen streng sind.</string>
     <string name="help_tip_filename_collision_safety_title">Vermeiden Sie Dateinamenkollisionen</string>
     <string name="help_tip_filename_collision_safety_subtitle">Schützen Sie Batch-Ausgaben, wenn viele Dateien Namen wie image.jpg oder Screenshot.png haben</string>
     <string name="help_tip_filename_collision_safety_page_title">Machen Sie jeden Ausgabenamen eindeutig</string>
@@ -4902,7 +4900,7 @@
     <string name="focus_strength">Fokustrennung</string>
     <string name="source_frames">Quellrahmen</string>
     <string name="fusion_image_limit">Bis zu %1$d Frames können gleichzeitig zusammengeführt werden</string>
-    <string name="search_keywords_multi_frame_fusion">Multi-Frame-Fusion-Belichtung HDR-Fokus-Stacking Median-Rauschen Personenentfernungshalterung</string>
+    <string name="search_keywords_multi_frame_fusion">Mehrfachbelichtung, HDR, Fokus-Stacking, Median-Rauschunterdrückung, Personenentfernung, Belichtungsreihe, Langzeitbelichtung, Lichtbewegung, Sternspuren</string>
     <string name="long_exposure">Lange Exposition</string>
     <string name="long_exposure_sub">Reibungslose Bewegung durch Mittelung der Sequenz im linearen Licht unter Beibehaltung statischer Details</string>
     <string name="light_trails">Leichte Wanderwege</string>
@@ -5162,7 +5160,7 @@
     <string name="delete_templates_warning">%1$d ausgewählte Vorlage(n) löschen? Dies kann nicht rückgängig gemacht werden.</string>
     <string name="fractal_generation">Fraktale</string>
     <string name="fractal_generation_sub">Erstellen und speichern Sie Fraktalbilder</string>
-    <string name="search_keywords_fractal_generation">Fraktale Mandelbrot Julia Brennendes Schiff Dreispitz Multibrot Multikorn Keltischer Büffel Phönix Nova Newton Magnet Lyapunov Sierpinski Mandelbulb Mandelbox Menger Quaternion 3D-Generator mit unendlich tiefem Zoom</string>
+    <string name="search_keywords_fractal_generation">Fraktal Mandelbrot Julia Brennendes Schiff Tricorn Multibrot Multicorn Keltisch Büffel Phönix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha Sinus Kosinus Sinh Spinnenkrake Lambda Dorn Feder Kaktus Zubieta Tetration Farn Drache Zweig Weihnachtsbaum Vicsek Pythagoras H -Baum Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK Generator für unendlichen Deep-Zoom</string>
     <string name="fractal_power">Leistung</string>
     <string name="fractal_iteration_policy">Iterationsrichtlinie</string>
     <string name="fractal_bailout">Fluchtradius</string>
