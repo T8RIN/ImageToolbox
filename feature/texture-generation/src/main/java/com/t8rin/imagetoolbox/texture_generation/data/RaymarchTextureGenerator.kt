@@ -40,9 +40,11 @@ internal fun generateRaymarchTexture(
     return try {
         GPUImage(context).apply {
             setImage(input)
-            setFilter(RaymarchTextureFilter(params, environment != null).apply {
-                setBitmap(environmentBitmap)
-            })
+            setFilter(
+                RaymarchTextureFilter(params, environment != null).apply {
+                    bitmap = environmentBitmap
+                }
+            )
         }.bitmapWithFilterApplied
     } finally {
         input.recycle()
