@@ -64,7 +64,7 @@ sealed class UiProceduralFilter(
                 "particles" -> R.string.procedural_particles
                 "dampening" -> R.string.procedural_dampening
                 "size" -> R.string.size
-                "width" -> R.string.width
+                "width" -> R.string.gmic_param_width
                 else -> error("Unknown procedural parameter: ${param.name}")
             },
             valueRange = param.range,
