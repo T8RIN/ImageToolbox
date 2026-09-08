@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
 @Composable
@@ -39,7 +40,8 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
                         if (it == index) color.toArgb() else params.colors.getOrElse(it) { -1 }
                     }
                     onValueChange(value.copy(patternParams = params.copy(colors = colors)))
-                }
+                },
+                shape = if (index == 0) ShapeDefaults.top else ShapeDefaults.center
             )
         }
         type.parameters.forEach { parameter ->
@@ -101,7 +103,8 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
             value = params.rotation,
             title = stringResource(R.string.rotation),
             range = -180f..180f,
-            onValueChange = { onValueChange(value.copy(patternParams = params.copy(rotation = it))) }
+            onValueChange = { onValueChange(value.copy(patternParams = params.copy(rotation = it))) },
+            shape = ShapeDefaults.bottom
         )
     }
 }

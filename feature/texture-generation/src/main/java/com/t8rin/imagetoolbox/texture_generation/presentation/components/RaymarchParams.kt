@@ -17,13 +17,19 @@
 
 package com.t8rin.imagetoolbox.texture_generation.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageSelector
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
@@ -38,16 +44,33 @@ internal fun RaymarchParams(
         PreferenceRowSwitch(
             title = stringResource(R.string.texture_use_environment),
             checked = params.environment != null,
-            onClick = { onValueChange(value.copy(raymarchParams = params.copy(environment = if (it) "" else null))) }
+            onClick = { onValueChange(value.copy(raymarchParams = params.copy(environment = if (it) "" else null))) },
+            applyHorizontalPadding = false,
+            containerColor = MaterialTheme.colorScheme.surface,
+            shape = ShapeDefaults.top,
+            additionalContent = {
+                AnimatedVisibility(
+                    visible = params.environment != null,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    ImageSelector(
+                        value = params.environment,
+                        title = stringResource(R.string.texture_environment_image),
+                        subtitle = null,
+                        modifier = Modifier.padding(bottom = 8.dp),
+                        onValueChange = {
+                            onValueChange(
+                                value.copy(
+                                    raymarchParams = params.copy(
+                                        environment = it.toString()
+                                    )
+                                )
+                            )
+                        }
+                    )
+                }
+            }
         )
-        if (params.environment != null) {
-            ImageSelector(
-                value = params.environment,
-                title = stringResource(R.string.texture_environment_image),
-                subtitle = null,
-                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(environment = it.toString()))) }
-            )
-        }
         if (value.textureFilterType == TextureFilterType.EmptiedCube3D) {
             FloatParam(
                 value = params.innerRadius,
@@ -59,8 +82,7 @@ internal fun RaymarchParams(
         ColorParam(
             title = stringResource(R.string.texture_object_color),
             value = value.foregroundColor.toColor(),
-            onValueChange = { onValueChange(value.copy(foregroundColor = it.toModel())) },
-            shape = ShapeDefaults.top
+            onValueChange = { onValueChange(value.copy(foregroundColor = it.toModel())) }
         )
         ColorParam(
             title = stringResource(R.string.background_color),
@@ -170,14 +192,18 @@ internal fun RaymarchParams(
             value = params.lightElevation,
             title = stringResource(R.string.texture_light_elevation),
             range = -80.0f..80.0f,
-            onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(lightElevation = it))) }
+            onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(lightElevation = it))) },
+            shape = if (value.textureFilterType == TextureFilterType.MobiusTorus3D) {
+                ShapeDefaults.center
+            } else ShapeDefaults.bottom
         )
         if (value.textureFilterType == TextureFilterType.MobiusTorus3D) {
             IntParam(
                 value = params.count,
                 title = stringResource(R.string.procedural_count),
                 range = 1f..12f,
-                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(count = it))) }
+                onValueChange = { onValueChange(value.copy(raymarchParams = params.copy(count = it))) },
+                shape = ShapeDefaults.bottom
             )
         }
     }
