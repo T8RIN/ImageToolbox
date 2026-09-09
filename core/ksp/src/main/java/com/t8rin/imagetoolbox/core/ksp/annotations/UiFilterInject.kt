@@ -34,6 +34,8 @@ annotation class UiFilterInject(
         const val BLUR = "Blur"
         const val PIXELATION = "Pixelation"
         const val DISTORTION = "Distortion"
+        const val GLITCH = "Glitch"
+        const val GEOMETRY = "Geometry"
         const val DITHERING = "Dithering"
         const val UNSPECIFIED = "Unspecified"
     }

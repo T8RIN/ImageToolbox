@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GLITCH)
 class UiCrtCurvatureFilter(
     override val value: Triple<Float, Float, Float> = Triple(0.25f, 0.65f, 0.015f)
 ) : UiFilter<Triple<Float, Float, Float>>(

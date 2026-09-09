@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GEOMETRY)
 class UiCircleTransformFilter(
     override val value: GmicFilterParams = GmicFilterParams(
         values = listOf("50", "50", "75", "50", "-2", "-2", "None", "Linear", "Mirror")

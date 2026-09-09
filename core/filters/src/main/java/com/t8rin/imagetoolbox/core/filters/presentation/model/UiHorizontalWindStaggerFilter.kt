@@ -25,7 +25,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GLITCH)
 class UiHorizontalWindStaggerFilter(
     override val value: Triple<Float, Int, ColorModel> = Triple(
         first = 0.2f,

@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.FilterParam
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GEOMETRY)
 class UiDeskewFilter(
     override val value: Pair<Float, Boolean> = 15f to true
 ) : UiFilter<Pair<Float, Boolean>>(

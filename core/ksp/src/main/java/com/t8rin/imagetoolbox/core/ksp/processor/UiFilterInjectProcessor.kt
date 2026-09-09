@@ -287,6 +287,8 @@ private class UiFilterInjectProcessorImpl(
         UiFilterInject.Groups.BLUR -> "blurGroupFilters"
         UiFilterInject.Groups.PIXELATION -> "pixelationGroupFilters"
         UiFilterInject.Groups.DISTORTION -> "distortionGroupFilters"
+        UiFilterInject.Groups.GLITCH -> "glitchGroupFilters"
+        UiFilterInject.Groups.GEOMETRY -> "geometryGroupFilters"
         UiFilterInject.Groups.DITHERING -> "ditheringGroupFilters"
         else -> "unspecifiedGroupFilters"
     }
@@ -317,6 +319,8 @@ private class UiFilterInjectProcessorImpl(
             UiFilterInject.Groups.BLUR,
             UiFilterInject.Groups.PIXELATION,
             UiFilterInject.Groups.DISTORTION,
+            UiFilterInject.Groups.GLITCH,
+            UiFilterInject.Groups.GEOMETRY,
             UiFilterInject.Groups.DITHERING
         )
     }

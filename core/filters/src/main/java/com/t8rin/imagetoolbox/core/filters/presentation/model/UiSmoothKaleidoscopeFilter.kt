@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.params.ProceduralParams
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GEOMETRY)
 class UiSmoothKaleidoscopeFilter(
     override val value: ProceduralParams = ProceduralParams()
 ) : UiProceduralFilter(

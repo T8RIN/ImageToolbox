@@ -34,6 +34,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.ditherin
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.effectsGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.enhancementGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.framesGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.geometryGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.glitchGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lightGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.lutGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilterToUiFilter
@@ -46,7 +48,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
+import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
+import com.t8rin.imagetoolbox.core.resources.icons.DrawAbstract
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
 import com.t8rin.imagetoolbox.core.resources.icons.FilterFrames
 import com.t8rin.imagetoolbox.core.resources.icons.FilterHdr
@@ -213,6 +217,18 @@ sealed class UiFilter<T : Any>(
             data = distortionGroupFilters()
         )
 
+        data object Glitch : Group(
+            icon = Icons.Rounded.BrokenImageAlt,
+            title = R.string.glitch,
+            data = glitchGroupFilters()
+        )
+
+        data object Geometry : Group(
+            icon = Icons.Rounded.DrawAbstract,
+            title = R.string.gmic_param_geometry,
+            data = geometryGroupFilters()
+        )
+
         data object Dithering : Group(
             icon = Icons.Rounded.Gradient,
             title = R.string.dithering,
@@ -245,6 +261,8 @@ sealed class UiFilter<T : Any>(
                 Group.Blur,
                 Group.Pixelation,
                 Group.Distortion,
+                Group.Glitch,
+                Group.Geometry,
                 Group.Dithering
             )
         }

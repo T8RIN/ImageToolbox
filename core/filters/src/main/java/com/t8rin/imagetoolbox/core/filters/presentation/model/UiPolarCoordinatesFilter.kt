@@ -22,7 +22,7 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.enums.PolarCoordinatesTy
 import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GEOMETRY)
 class UiPolarCoordinatesFilter(
     override val value: PolarCoordinatesType = PolarCoordinatesType.RECT_TO_POLAR
 ) : UiFilter<PolarCoordinatesType>(

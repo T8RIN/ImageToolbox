@@ -23,7 +23,7 @@ import com.t8rin.imagetoolbox.core.ksp.annotations.UiFilterInject
 import com.t8rin.imagetoolbox.core.resources.R
 import kotlin.math.PI
 
-@UiFilterInject(group = UiFilterInject.Groups.DISTORTION)
+@UiFilterInject(group = UiFilterInject.Groups.GLITCH)
 class UiVHSFilter(
     override val value: Pair<Float, Float> = 2f to 3f,
 ) : UiFilter<Pair<Float, Float>>(
