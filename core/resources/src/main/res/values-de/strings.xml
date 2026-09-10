@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -437,7 +435,7 @@
     <string name="pdf_tools_sub">PDF-Dateien verarbeiten: Vorschau, Konvertieren in einen Stapel von Bildern oder Erstellen eines neuen PDFs aus ausgewählten Bildern</string>
     <string name="enhanced_circle_pixelation">Verbesserte Kreis Pixelierung</string>
     <string name="attention">Achtung</string>
-    <string name="pdf_to_images_sub">Konvrtiert PDF zu Bildern in angegebenem Format</string>
+    <string name="pdf_to_images_sub">Konvertiert PDF zu Bildern in angegebenem Format</string>
     <string name="delete_mask_warn">Du bist dabei, die ausgewählte Filtermaske zu löschen. Dieser Vorgang kann nicht rückgängig gemacht werden</string>
     <string name="delete_mask">Maske löschen</string>
     <string name="free">Freihand</string>
