@@ -37,7 +37,7 @@ detekt = "1.23.8"
 detektCompose = "0.6.6"
 decompose = "3.5.0"
 
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 agp = "9.3.2"
 hilt = "2.60.1"
 gms = "4.5.0"
