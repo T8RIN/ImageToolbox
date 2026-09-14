@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -5162,7 +5160,7 @@
     <string name="delete_templates_warning">Excluir %1$d modelo(s) selecionado(s)? Isto não pode ser desfeito.</string>
     <string name="fractal_generation">Fractais</string>
     <string name="fractal_generation_sub">Crie e salve imagens fractais</string>
-    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Mandelbulb Mandelbox Menger Quaternion 3D gerador de zoom profundo infinito</string>
+    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha sine cosine sinh Spider Man-o-War Lambda Thorn Feather Cactus Zubieta Tetration fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK infinite deep zoom generator</string>
     <string name="fractal_power">Poder</string>
     <string name="fractal_iteration_policy">Política de iteração</string>
     <string name="fractal_bailout">Raio de fuga</string>
