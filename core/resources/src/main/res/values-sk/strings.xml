@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -4904,7 +4902,7 @@
     <string name="focus_strength">Oddelenie zaostrenia</string>
     <string name="source_frames">Zdrojové rámy</string>
     <string name="fusion_image_limit">Naraz je možné zlúčiť až %1$d rámcov</string>
-    <string name="search_keywords_multi_frame_fusion">multi frame fusion exposure hdr focus stacking median noise people remove bracket</string>
+    <string name="search_keywords_multi_frame_fusion">fúzia viacerých snímok, expozícia HDR, vrstvenie zaostrenia, mediánová redukcia šumu, odstránenie osôb, séria expozícií, dlhá expozícia, pohyb svetla, stopy hviezd</string>
     <string name="long_exposure">Dlhá expozícia</string>
     <string name="long_exposure_sub">Plynulý pohyb spriemerovaním sekvencie v lineárnom svetle pri zachovaní statických detailov</string>
     <string name="light_trails">Svetlé chodníky</string>
@@ -5164,7 +5162,7 @@
     <string name="delete_templates_warning">Chcete odstrániť %1$d vybraté šablóny? Toto sa nedá vrátiť späť.</string>
     <string name="fractal_generation">Fraktály</string>
     <string name="fractal_generation_sub">Vytvárajte a ukladajte fraktálne obrázky</string>
-    <string name="search_keywords_fractal_generation">fraktál Mandelbrot Julia Horiaca loď Tricorn Multibrot Multicorn Keltský Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Mandelbulb Mandelbox Menger Quaternion generátor 3D nekonečného hlbokého zoomu</string>
+    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha sine cosine sinh Spider Man-o-War Lambda Thorn Feather Cactus Zubieta Tetration fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK infinite deep zoom generator</string>
     <string name="fractal_power">Sila</string>
     <string name="fractal_iteration_policy">Iteračná politika</string>
     <string name="fractal_bailout">Polomer úniku</string>
