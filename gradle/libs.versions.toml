@@ -19,7 +19,7 @@ composeHighlight = "0.36.0"
 
 avifCoder = "3.0.0-alpha15"
 aire = "0.18.1"
-jixelCoder = "3.0.0-alpha04"
+jixelCoder = "3.0.0-alpha05"
 jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
@@ -39,11 +39,11 @@ detektCompose = "0.6.6"
 decompose = "3.5.0"
 
 kotlin = "2.4.20"
-agp = "9.3.2"
+agp = "9.3.3"
 hilt = "2.60.1"
 gms = "4.5.0"
 
-ktor = "3.5.2"
+ktor = "3.6.0"
 coil = "3.6.2"
 dotlottieAndroid = "0.16.0"
 appCompat = "1.8.0"
@@ -86,7 +86,7 @@ commonsCompress = "1.28.0"
 junrar = "8.1.1"
 xz = "1.12"
 
-onnx = "1.29.0"
+onnx = "1.30.0"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
