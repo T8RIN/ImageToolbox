@@ -83,16 +83,23 @@ internal class AndroidImageCompressor @Inject constructor(
             } else software
         }
 
-        ImageCompressorBackend.Factory()
-            .create(
-                imageFormat = imageFormat,
-                context = context,
-                imageScaler = imageScaler
-            )
-            .compress(
-                image = transformedImage,
-                quality = coercedQuality
-            )
+        try {
+            ImageCompressorBackend.Factory()
+                .create(
+                    imageFormat = imageFormat,
+                    context = context,
+                    imageScaler = imageScaler
+                )
+                .compress(
+                    image = transformedImage,
+                    quality = coercedQuality
+                )
+        } finally {
+            if (transformedImage !== image) transformedImage.recycle()
+            if (softwareImage !== image && softwareImage !== transformedImage) {
+                softwareImage.recycle()
+            }
+        }
     }
 
 

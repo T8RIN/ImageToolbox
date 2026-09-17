@@ -23,6 +23,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.graphics.scale
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -49,6 +50,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlin.math.roundToInt
 import kotlin.time.TimeSource
 
 class CompressionLabComponent @AssistedInject internal constructor(
@@ -371,20 +373,29 @@ class CompressionLabComponent @AssistedInject internal constructor(
         val successful = mutableListOf<CompressionLabResult>()
         val failed = mutableListOf<String>()
         var firstFailure: Throwable? = null
+        val metricSource = bitmap.scaleForMetrics()
 
-        selectedFormats.forEachIndexed { index, format ->
-            runSuspendCatching {
-                findCandidate(bitmap, format).toResult(bitmap, format)
-            }.onSuccess { result ->
-                successful += result
-                registerChanges()
-            }.onFailure {
-                failed += format.title
-                if (firstFailure == null) firstFailure = it
+        try {
+            selectedFormats.forEachIndexed { index, format ->
+                runSuspendCatching {
+                    findCandidate(bitmap, metricSource, format).toResult(
+                        source = bitmap,
+                        metricSource = metricSource,
+                        format = format
+                    )
+                }.onSuccess { result ->
+                    successful += result
+                    registerChanges()
+                }.onFailure {
+                    failed += format.title
+                    if (firstFailure == null) firstFailure = it
+                }
+                _results.update { successful.toList() }
+                _failedFormats.update { failed.toList() }
+                _done.update { index + 1 }
             }
-            _results.update { successful.toList() }
-            _failedFormats.update { failed.toList() }
-            _done.update { index + 1 }
+        } finally {
+            if (metricSource !== bitmap) metricSource.recycle()
         }
 
         firstFailure?.let(AppToastHost::showFailureToast)
@@ -392,6 +403,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
     private suspend fun findCandidate(
         source: Bitmap,
+        metricSource: Bitmap,
         format: ImageFormat
     ): Candidate {
         val range = qualityRange(format)
@@ -399,6 +411,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
         if (range == null) {
             val candidate = encode(
                 source = source,
+                metricSource = metricSource,
                 format = format,
                 qualityValue = null,
                 withSsim = searchMode == CompressionSearchMode.TargetQuality
@@ -423,6 +436,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
             return encode(
                 source = source,
+                metricSource = metricSource,
                 format = format,
                 qualityValue = quality,
                 withSsim = withSsim
@@ -476,6 +490,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
     private suspend fun encode(
         source: Bitmap,
+        metricSource: Bitmap,
         format: ImageFormat,
         qualityValue: Int?,
         withSsim: Boolean
@@ -489,9 +504,9 @@ class CompressionLabComponent @AssistedInject internal constructor(
         )
         val encodingTimeMillis = mark.elapsedNow().inWholeMilliseconds
         val ssim = if (withSsim) {
-            val bitmap = imageGetter.getImage(data = data, originalSize = true)
+            val bitmap = imageGetter.getImage(data = data, size = MetricMaxSize)
                 ?: error("Unable to decode ${format.title} result")
-            metric(source, bitmap, ComparisonType.SSIM)
+            metric(metricSource, bitmap, ComparisonType.SSIM)
         } else null
 
         return Candidate(
@@ -506,24 +521,25 @@ class CompressionLabComponent @AssistedInject internal constructor(
 
     private suspend fun Candidate.toResult(
         source: Bitmap,
+        metricSource: Bitmap,
         format: ImageFormat
     ): CompressionLabResult {
         val bitmap = imageGetter.getImage(
-            uri = uri.toString(),
-            originalSize = true
-        )?.image ?: error("Unable to decode ${format.title} result")
+            data = uri,
+            size = MetricMaxSize
+        ) ?: error("Unable to decode ${format.title} result")
 
         return CompressionLabResult(
             format = format,
             qualityValue = qualityValue,
             quality = quality,
             uri = uri,
-            width = bitmap.width,
-            height = bitmap.height,
+            width = source.width,
+            height = source.height,
             sizeBytes = sizeBytes,
             encodingTimeMillis = encodingTimeMillis,
-            ssim = ssim ?: metric(source, bitmap, ComparisonType.SSIM),
-            psnr = metric(source, bitmap, ComparisonType.PSNR),
+            ssim = ssim ?: metric(metricSource, bitmap, ComparisonType.SSIM),
+            psnr = metric(metricSource, bitmap, ComparisonType.PSNR),
             targetSatisfied = targetSatisfied
         )
     }
@@ -601,6 +617,17 @@ class CompressionLabComponent @AssistedInject internal constructor(
         it.score
     }
 
+    private fun Bitmap.scaleForMetrics(): Bitmap {
+        val maxDimension = maxOf(width, height)
+        if (maxDimension <= MetricMaxSize) return this
+
+        val scale = MetricMaxSize / maxDimension.toFloat()
+        return this.scale(
+            (width * scale).roundToInt().coerceAtLeast(1),
+            (height * scale).roundToInt().coerceAtLeast(1)
+        )
+    }
+
     private fun clearResults() {
         analysisJob?.cancel()
         analysisJob = null
@@ -622,6 +649,8 @@ class CompressionLabComponent @AssistedInject internal constructor(
     }
 
     companion object {
+        private const val MetricMaxSize = 1024
+
         val AvailableFormats: List<ImageFormat> = ImageFormat.entries
 
         val DefaultFormats: List<ImageFormat> = listOf(
