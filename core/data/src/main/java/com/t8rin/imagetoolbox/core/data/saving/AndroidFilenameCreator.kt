@@ -97,7 +97,7 @@ internal class AndroidFilenameCreator @Inject constructor(
                 saveTarget = saveTarget,
                 oneTimePrefix = oneTimePrefix,
                 pattern = (pattern ?: settingsState.filenamePattern).orEmpty().ifBlank {
-                    if (settingsState.addOriginalFilename) {
+                    if (settingsState.addOriginalFilename && saveTarget.sequenceNumber != null) {
                         FilenamePattern.ForOriginal
                     } else {
                         FilenamePattern.Default
