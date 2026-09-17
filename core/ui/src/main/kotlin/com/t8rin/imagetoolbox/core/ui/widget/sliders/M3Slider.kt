@@ -25,6 +25,8 @@ import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.rememberRangeSliderState
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -52,7 +54,16 @@ fun M3Slider(
     drawContainer: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
+    val state = rememberSliderState(
+        value = value,
+        steps = steps,
+        trackRange = valueRange
+    ).apply {
+        this.value = value
+    }
+
     Slider(
+        state = state,
         interactionSource = interactionSource,
         enabled = enabled,
         modifier = modifier
@@ -101,12 +112,9 @@ fun M3Slider(
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 } else Modifier
             ),
-        value = value,
         colors = colors,
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,
-        valueRange = valueRange,
-        steps = steps,
     )
 }
 
@@ -125,7 +133,19 @@ fun M3RangeSlider(
     drawContainer: Boolean = true
 ) {
     val settingsState = LocalSettingsState.current
+    val animatedValue = animateFloatingRangeAsState(value).value
+    val state = rememberRangeSliderState(
+        startValue = animatedValue.start,
+        endValue = animatedValue.endInclusive,
+        steps = steps,
+        trackRange = valueRange
+    ).apply {
+        startValue = animatedValue.start
+        endValue = animatedValue.endInclusive
+    }
+
     RangeSlider(
+        state = state,
         startThumbInteractionSource = startInteractionSource,
         endThumbInteractionSource = endInteractionSource,
         enabled = enabled,
@@ -175,11 +195,8 @@ fun M3RangeSlider(
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 } else Modifier
             ),
-        value = animateFloatingRangeAsState(value).value,
         colors = colors,
         onValueChange = onValueChange,
         onValueChangeFinished = onValueChangeFinished,
-        valueRange = valueRange,
-        steps = steps,
     )
 }

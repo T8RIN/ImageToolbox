@@ -2,6 +2,7 @@
 androidMinSdk = "24"
 androidTargetSdk = "37"
 androidCompileSdk = "37"
+androidCompileSdkMinor = "1"
 androidCompileSdkExtension = "-"
 
 versionName = "4.2.1"
