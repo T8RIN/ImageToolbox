@@ -24,12 +24,18 @@ import coil3.size.pxOrElse
 import com.t8rin.imagetoolbox.core.data.utils.aspectRatio
 import java.lang.Integer.max
 
-internal fun Bitmap.flexible(size: Size): Bitmap = flexibleResize(
+internal fun Bitmap.flexible(
+    size: Size,
+    upscaleFactor: Int = 1
+): Bitmap = flexibleResize(
     image = this,
     max = max(
         size.height.pxOrElse { height },
         size.width.pxOrElse { width }
-    )
+    ).let {
+        if (size == Size.ORIGINAL) it
+        else (it / upscaleFactor).coerceAtLeast(1)
+    }
 )
 
 private fun flexibleResize(
@@ -39,11 +45,11 @@ private fun flexibleResize(
     return runCatching {
         if (image.height >= image.width) {
             val aspectRatio = image.aspectRatio
-            val targetWidth = (max * aspectRatio).toInt()
+            val targetWidth = (max * aspectRatio).toInt().coerceAtLeast(1)
             image.scale(targetWidth, max)
         } else {
             val aspectRatio = 1f / image.aspectRatio
-            val targetHeight = (max * aspectRatio).toInt()
+            val targetHeight = (max * aspectRatio).toInt().coerceAtLeast(1)
             image.scale(max, targetHeight)
         }
     }.getOrNull() ?: image

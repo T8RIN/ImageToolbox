@@ -29,6 +29,8 @@ import coil3.transform.Transformation as CoilTransformation
 
 internal abstract class GMICFilterTransformation : CoilTransformation(), Transformation<Bitmap> {
 
+    protected open val upscaleFactor: Int = 1
+
     abstract fun createFilter(): GmicFilter
 
     open fun createFilter(image: Bitmap): GmicFilter = createFilter()
@@ -36,7 +38,7 @@ internal abstract class GMICFilterTransformation : CoilTransformation(), Transfo
     override suspend fun transform(
         input: Bitmap,
         size: Size
-    ): Bitmap = input.flexible(size).let {
+    ): Bitmap = input.flexible(size, upscaleFactor).let {
         Gmic.runCancellable(
             input = it,
             filter = createFilter(it)

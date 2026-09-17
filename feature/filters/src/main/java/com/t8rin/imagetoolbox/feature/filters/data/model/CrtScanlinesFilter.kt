@@ -35,8 +35,11 @@ internal class CrtScanlinesFilter(
     override val cacheKey: String
         get() = value.hashCode().toString()
 
+    override val upscaleFactor: Int
+        get() = value[0].toInt()
+
     override fun createFilter(): GmicFilter = CrtScanlines(
-        upscaleFactor = value[0].toInt(),
+        upscaleFactor = upscaleFactor,
         neighborhoodSize = value[1].toInt(),
         bloomShape = CrtWindowShape.valueOf(value[2]),
         bloomThreshold = value[3].toFloat(),

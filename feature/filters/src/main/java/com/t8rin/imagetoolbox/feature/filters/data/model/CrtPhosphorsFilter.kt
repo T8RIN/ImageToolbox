@@ -18,8 +18,8 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import com.t8rin.gmic.GmicFilter
-import com.t8rin.gmic.filters.CrtPhosphors
 import com.t8rin.gmic.filters.CrtPhosphorType
+import com.t8rin.gmic.filters.CrtPhosphors
 import com.t8rin.gmic.filters.CrtPrecision
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.params.GmicFilterParams
@@ -48,9 +48,12 @@ internal class CrtPhosphorsFilter(
     override val cacheKey: String
         get() = value.hashCode().toString()
 
+    override val upscaleFactor: Int
+        get() = value[1].toInt()
+
     override fun createFilter(): GmicFilter = CrtPhosphors(
         type = CrtPhosphorType.valueOf(value[0]),
-        upscaleFactor = value[1].toInt(),
+        upscaleFactor = upscaleFactor,
         precision = CrtPrecision.valueOf(value[2]),
         smoothness = value[3].toFloat(),
         neighborhoodSize = value[4].toInt(),
