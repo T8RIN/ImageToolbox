@@ -79,7 +79,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentControls
@@ -174,7 +173,7 @@ fun DrawContent(
 
     val drawLineStyle = component.drawLineStyle
 
-    val isGradientAvailable = drawLineStyle == DrawLineStyle.None && (
+    val isGradientAvailable = drawLineStyle.supportsGradient && (
             drawMode is DrawMode.Pen ||
                     drawMode is DrawMode.Highlighter ||
                     drawMode is DrawMode.Text

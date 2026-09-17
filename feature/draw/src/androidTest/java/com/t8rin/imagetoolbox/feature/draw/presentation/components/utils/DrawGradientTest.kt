@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -47,6 +48,15 @@ import kotlin.math.sqrt
 
 @RunWith(AndroidJUnit4::class)
 class DrawGradientTest {
+
+    @Test
+    fun gradientIsAvailableOnlyForNativeLineStyles() {
+        assertTrue(DrawLineStyle.None.supportsGradient)
+        assertTrue(DrawLineStyle.Dashed().supportsGradient)
+        assertTrue(DrawLineStyle.DotDashed.supportsGradient)
+        assertFalse(DrawLineStyle.ZigZag().supportsGradient)
+        assertFalse(DrawLineStyle.Stamped<Any>().supportsGradient)
+    }
 
     @Test
     fun highlighterCrossingsDoNotRecolourUntouchedPartsOfTheStroke() {

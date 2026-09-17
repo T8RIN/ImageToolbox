@@ -167,7 +167,7 @@ fun DrawEditOption(
         var brushSoftness by rememberSaveable(drawMode, stateSaver = PtSaver) {
             mutableStateOf(if (drawMode is DrawMode.Neon) 35.pt else 0.pt)
         }
-        val isGradientAvailable = drawLineStyle == DrawLineStyle.None && (
+        val isGradientAvailable = drawLineStyle.supportsGradient && (
                 drawMode is DrawMode.Pen ||
                         drawMode is DrawMode.Highlighter ||
                         drawMode is DrawMode.Text
