@@ -42,7 +42,7 @@ suspend fun OrtSession.runCancellable(
     inputs: Map<String, OnnxTensorLike>,
     pinnedOutputs: Map<String, OnnxValue>
 ): OrtSession.Result = runCancellable {
-    run(inputs, outputNames, pinnedOutputs, it)
+    run(inputs, outputNames - pinnedOutputs.keys, pinnedOutputs, it)
 }
 
 private suspend inline fun OrtSession.runCancellable(

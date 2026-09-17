@@ -284,6 +284,7 @@ internal class StyleTransferProcessor @Inject constructor(
 
         close()
         val options = OrtSession.SessionOptions().apply {
+            addConfigEntry("mlas.disable_kleidiai", "1")
             setIntraOpNumThreads(INFERENCE_THREADS)
             setInterOpNumThreads(1)
             setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT)
