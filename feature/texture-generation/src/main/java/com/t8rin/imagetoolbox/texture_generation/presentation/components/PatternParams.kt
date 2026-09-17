@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureParams
 
@@ -66,7 +67,14 @@ internal fun PatternParams(value: TextureParams, onValueChange: (TextureParams) 
             val update: (Float) -> Unit = {
                 onValueChange(value.copy(patternParams = params.copy(values = values + (parameter.name to it))))
             }
-            if (parameter.integer) {
+            if (parameter.name == "seed") {
+                SeedSelector(
+                    value = values.getValue(parameter.name),
+                    title = title,
+                    valueRange = parameter.range,
+                    onValueChange = update
+                )
+            } else if (parameter.integer) {
                 IntParam(
                     value = values.getValue(parameter.name).toInt(),
                     title = title,

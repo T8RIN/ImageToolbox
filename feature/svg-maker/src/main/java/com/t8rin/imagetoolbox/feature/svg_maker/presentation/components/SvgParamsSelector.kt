@@ -55,8 +55,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.LinearScale
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoSizeSelectSmall
 import com.t8rin.imagetoolbox.core.resources.icons.RepeatOne
-import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
 import com.t8rin.imagetoolbox.core.resources.icons.Upcoming
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -224,12 +224,10 @@ fun SvgParamsSelector(
             shape = ShapeDefaults.extraLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
-        EnhancedSliderItem(
+        SeedSelector(
             value = value.seed,
-            icon = Icons.Rounded.SettingsEthernet,
             title = stringResource(id = R.string.seed),
             valueRange = -10000f..10000f,
-            internalStateTransformation = { it.roundToInt() },
             onValueChange = {
                 onValueChange(
                     value.copy(

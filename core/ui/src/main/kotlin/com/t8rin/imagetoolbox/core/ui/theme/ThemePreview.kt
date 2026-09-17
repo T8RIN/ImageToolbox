@@ -24,6 +24,8 @@ import android.graphics.Paint
 import android.graphics.RadialGradient
 import android.graphics.Shader
 import androidx.compose.animation.core.snap
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -74,7 +76,7 @@ import kotlin.math.max
 
 @Composable
 fun ImageToolboxThemeForPreview(
-    isDarkTheme: Boolean,
+    isDarkTheme: Boolean?,
     keyColor: Color? = defaultColorTuple.primary,
     isImageError: Boolean = false,
     shapesType: ShapeType = ShapeType.Rounded(),
@@ -83,42 +85,56 @@ fun ImageToolboxThemeForPreview(
 ) {
     LocalContext.current.applicationContext.initAppContext()
 
-    FakeLoader(
-        isImageError = isImageError,
-        tuple = ColorTuple(
-            keyColor ?: Color.Transparent
-        )
-    ) {
-        DynamicTheme(
-            state = rememberDynamicThemeState(
-                initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)
-            ),
-            dynamicColor = keyColor == null,
-            isDarkTheme = isDarkTheme,
-            defaultColorTuple = ColorTuple(keyColor ?: Color.Transparent),
-            colorAnimationSpec = snap(),
-            content = {
-                CompositionLocalProvider(
-                    LocalSettingsState provides mapSettings(SettingsState.Default).toUiState().copy(
-                        shapesType = shapesType,
-                        isNightMode = isDarkTheme
-                    ),
-                    LocalSimpleSettingsInteractor provides FakeSettings,
-                    LocalResourceManager provides FakeRes,
-                    LocalScreenSize provides rememberScreenSize()
-                ) {
-                    MaterialExpressiveTheme(
-                        motionScheme = CustomMotionScheme,
-                        shapes = modifiedShapes(),
-                        content = {
-                            Surface {
-                                content()
+    val content: @Composable (isDark: Boolean) -> Unit = { isDarkTheme ->
+        FakeLoader(
+            isImageError = isImageError,
+            tuple = ColorTuple(
+                keyColor ?: Color.Transparent
+            )
+        ) {
+            DynamicTheme(
+                state = rememberDynamicThemeState(
+                    initialColorTuple = ColorTuple(keyColor ?: Color.Transparent)
+                ),
+                dynamicColor = keyColor == null,
+                isDarkTheme = isDarkTheme,
+                defaultColorTuple = ColorTuple(keyColor ?: Color.Transparent),
+                colorAnimationSpec = snap(),
+                content = {
+                    CompositionLocalProvider(
+                        LocalSettingsState provides mapSettings(SettingsState.Default).toUiState()
+                            .copy(
+                                shapesType = shapesType,
+                                isNightMode = isDarkTheme
+                            ),
+                        LocalSimpleSettingsInteractor provides FakeSettings,
+                        LocalResourceManager provides FakeRes,
+                        LocalScreenSize provides rememberScreenSize()
+                    ) {
+                        MaterialExpressiveTheme(
+                            motionScheme = CustomMotionScheme,
+                            shapes = modifiedShapes(),
+                            content = {
+                                Surface {
+                                    content()
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
+            )
+        }
+    }
+
+    when (isDarkTheme) {
+        true -> content(true)
+        false -> content(false)
+        null -> {
+            LazyColumn(Modifier.fillMaxWidth()) {
+                item { content(true) }
+                item { content(false) }
             }
-        )
+        }
     }
 }
 

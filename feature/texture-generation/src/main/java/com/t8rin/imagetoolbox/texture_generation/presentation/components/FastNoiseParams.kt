@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.texture_generation.domain.model.TextureFilterType
@@ -87,12 +88,12 @@ internal fun FastNoiseParams(
                 shape = ShapeDefaults.center
             )
         }
-        IntParam(
+        SeedSelector(
             value = params.seed,
             title = stringResource(R.string.seed),
-            range = -10000f..10000f,
+            valueRange = -10000f..10000f,
             onValueChange = { seed ->
-                onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed)))
+                onValueChange(value.copy(fastNoiseParams = params.copy(seed = seed.toInt())))
             },
             shape = ShapeDefaults.bottom
         )

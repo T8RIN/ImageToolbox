@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -161,14 +162,19 @@ internal fun NtscParamsItem(
                     modifier = Modifier.padding(horizontal = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    NtscIntSlider(
-                        value = params.seed,
-                        info = filter.paramsInfo[9],
-                        previewOnly = previewOnly,
-                        onValueChange = {
-                            params = params.copy(seed = it)
-                        }
-                    )
+                    filter.paramsInfo[9].let { info ->
+                        SeedSelector(
+                            value = params.seed,
+                            title = stringResource(info.title!!),
+                            valueRange = info.valueRange,
+                            roundTo = info.roundTo,
+                            enabled = !previewOnly,
+                            behaveAsContainer = false,
+                            onValueChange = {
+                                params = params.copy(seed = it.roundToInt())
+                            }
+                        )
+                    }
                     NtscEnumSelector(
                         title = R.string.ntsc_use_field,
                         entries = NtscSettings.UseField.entries,

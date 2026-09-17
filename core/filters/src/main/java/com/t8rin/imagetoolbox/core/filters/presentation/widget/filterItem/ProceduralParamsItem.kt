@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiProceduralFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 
 @Composable
@@ -59,19 +60,32 @@ internal fun ProceduralParamsItem(
         }
         filter.effect.parameters.forEachIndexed { index, param ->
             val (title, range, decimals) = filter.paramsInfo[index]
-            EnhancedSliderItem(
-                enabled = !previewOnly,
-                value = values.getValue(param.name),
-                title = stringResource(title!!),
-                valueRange = range,
-                onValueChange = {
-                    onFilterChange(
-                        value.copy(values = values + (param.name to it.roundTo(decimals)))
-                    )
-                },
-                internalStateTransformation = { it.roundTo(decimals) },
-                behaveAsContainer = false
-            )
+            val onValueChange: (Float) -> Unit = {
+                onFilterChange(
+                    value.copy(values = values + (param.name to it.roundTo(decimals)))
+                )
+            }
+            if (param.name == "seed") {
+                SeedSelector(
+                    enabled = !previewOnly,
+                    value = values.getValue(param.name),
+                    title = stringResource(title!!),
+                    valueRange = range,
+                    roundTo = decimals,
+                    onValueChange = onValueChange,
+                    behaveAsContainer = false
+                )
+            } else {
+                EnhancedSliderItem(
+                    enabled = !previewOnly,
+                    value = values.getValue(param.name),
+                    title = stringResource(title!!),
+                    valueRange = range,
+                    onValueChange = onValueChange,
+                    internalStateTransformation = { it.roundTo(decimals) },
+                    behaveAsContainer = false
+                )
+            }
         }
     }
 }

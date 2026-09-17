@@ -29,6 +29,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -103,6 +104,7 @@ fun EnhancedSliderItem(
     } else FontWeight.Normal,
     isAnimated: Boolean = true,
     canInputValue: Boolean = true,
+    endContent: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null
 ) {
     val internalColor = contentColor
@@ -292,13 +294,21 @@ fun EnhancedSliderItem(
                                         .width(108.dp)
                                         .padding(
                                             top = topContentPadding,
-                                            end = 8.dp
+                                            end = if (endContent == null) {
+                                                if (icon == null) 8.dp else 14.dp
+                                            } else {
+                                                4.dp
+                                            }
                                         ),
                                     onClick = if (canInputValue) {
                                         { showValueDialog = true }
                                     } else null,
                                     onLongClick = reset
                                 )
+                                if (endContent != null) {
+                                    endContent()
+                                    Spacer(Modifier.width(if (icon == null) 8.dp else 14.dp))
+                                }
                             }
                         } else {
                             Row(
@@ -340,13 +350,17 @@ fun EnhancedSliderItem(
                                     valueSuffix = valueSuffix,
                                     modifier = Modifier.padding(
                                         top = topContentPadding,
-                                        end = 14.dp
+                                        end = if (endContent == null) 14.dp else 4.dp
                                     ),
                                     onClick = if (canInputValue) {
                                         { showValueDialog = true }
                                     } else null,
                                     onLongClick = reset
                                 )
+                                if (endContent != null) {
+                                    endContent()
+                                    Spacer(Modifier.width(14.dp))
+                                }
                             }
                             slider()
                         }

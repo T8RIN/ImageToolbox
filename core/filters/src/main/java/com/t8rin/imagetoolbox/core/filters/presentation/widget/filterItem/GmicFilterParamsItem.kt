@@ -33,6 +33,8 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.isSeedString
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
@@ -51,20 +53,38 @@ internal fun GmicFilterParamsItem(
             val currentValue = value[index]
 
             when (info) {
-                is GmicParameterInfo.Number -> EnhancedSliderItem(
-                    value = currentValue.toFloat(),
-                    title = stringResource(info.title),
-                    valueRange = info.range,
-                    internalStateTransformation = {
-                        if (info.isInteger) it.toInt().toFloat() else it.roundTo(info.roundTo)
-                    },
-                    onValueChange = {
+                is GmicParameterInfo.Number -> {
+                    val onValueChange: (Float) -> Unit = {
                         val updated = if (info.isInteger) it.toInt().toString() else it.toString()
                         onFilterChange(value.withValue(index, updated))
-                    },
-                    enabled = !previewOnly,
-                    behaveAsContainer = false
-                )
+                    }
+
+                    if (isSeedString(info.title)) {
+                        SeedSelector(
+                            value = currentValue.toFloat(),
+                            title = stringResource(info.title),
+                            valueRange = info.range,
+                            roundTo = if (info.isInteger) 0 else info.roundTo,
+                            onValueChange = onValueChange,
+                            enabled = !previewOnly,
+                            icon = null,
+                            behaveAsContainer = false
+                        )
+                    } else {
+                        EnhancedSliderItem(
+                            value = currentValue.toFloat(),
+                            title = stringResource(info.title),
+                            valueRange = info.range,
+                            internalStateTransformation = {
+                                if (info.isInteger) it.toInt()
+                                    .toFloat() else it.roundTo(info.roundTo)
+                            },
+                            onValueChange = onValueChange,
+                            enabled = !previewOnly,
+                            behaveAsContainer = false
+                        )
+                    }
+                }
 
                 is GmicParameterInfo.Toggle -> PreferenceRowSwitch(
                     title = stringResource(info.title),

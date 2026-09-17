@@ -33,10 +33,10 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Build
 import com.t8rin.imagetoolbox.core.resources.icons.RampLeft
-import com.t8rin.imagetoolbox.core.resources.icons.SettingsEthernet
 import com.t8rin.imagetoolbox.core.resources.icons.Waves
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -72,16 +72,12 @@ fun NoiseParamsSelection(
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                EnhancedSliderItem(
+                SeedSelector(
                     value = value.seed,
-                    icon = Icons.Rounded.SettingsEthernet,
                     title = stringResource(R.string.seed),
                     valueRange = -10000f..10000f,
-                    internalStateTransformation = {
-                        it.roundToInt()
-                    },
                     onValueChange = {
-                        onValueChange(value.copy(seed = it.toInt()))
+                        onValueChange(value.copy(seed = it.roundToInt()))
                     },
                     shape = ShapeDefaults.top
                 )
