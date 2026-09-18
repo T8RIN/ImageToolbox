@@ -70,6 +70,7 @@ import kotlin.math.pow
 
 @Composable
 fun ValueDialog(
+    title: String,
     valueRange: ClosedFloatingPointRange<Float>,
     valueState: String,
     expanded: Boolean,
@@ -130,13 +131,9 @@ fun ValueDialog(
             )
         },
         title = {
-            Text(
-                stringResource(
-                    R.string.value_in_range,
-                    valueRange.start.toString().trimTrailingZero(),
-                    valueRange.endInclusive.toString().trimTrailingZero()
-                )
-            )
+            val rangeStart = valueRange.start.toString().trimTrailingZero()
+            val rangeEnd = valueRange.endInclusive.toString().trimTrailingZero()
+            Text("$title\n[$rangeStart .. $rangeEnd]")
         },
         text = {
             val requester = remember { FocusRequester() }

@@ -371,6 +371,7 @@ fun EnhancedSliderItem(
         }
     }
     ValueDialog(
+        title = title,
         valueRange = valueRange,
         valueState = internalStateTransformation(value.toFloat()).toString(),
         expanded = visible && showValueDialog,

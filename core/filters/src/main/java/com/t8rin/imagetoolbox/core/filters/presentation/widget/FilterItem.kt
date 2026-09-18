@@ -339,6 +339,8 @@ fun <T : Any> FilterItem(
                             }
                         )
                         ValueDialog(
+                            title = filter.paramsInfo[0].title?.let { stringResource(it) }
+                                ?: stringResource(filter.title),
                             valueRange = filter.paramsInfo[0].valueRange,
                             valueState = sliderValue.toString(),
                             expanded = showValueDialog && !previewOnly,

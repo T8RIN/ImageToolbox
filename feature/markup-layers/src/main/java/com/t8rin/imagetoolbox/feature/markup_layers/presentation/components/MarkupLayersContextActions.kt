@@ -487,6 +487,13 @@ internal fun BoxScope.MarkupLayersContextActions(
     }
 
     ValueDialog(
+        title = when (activeValueDialogType) {
+            ValueDialogType.Rotation -> stringResource(R.string.rotation)
+            ValueDialogType.Scale -> stringResource(R.string.scale)
+            ValueDialogType.PositionX -> "${stringResource(R.string.position)} X"
+            ValueDialogType.PositionY -> "${stringResource(R.string.position)} Y"
+            ValueDialogType.None -> ""
+        },
         valueRange = when (activeValueDialogType) {
             ValueDialogType.Rotation -> 0f..360f
             ValueDialogType.Scale -> 0.1f..10f

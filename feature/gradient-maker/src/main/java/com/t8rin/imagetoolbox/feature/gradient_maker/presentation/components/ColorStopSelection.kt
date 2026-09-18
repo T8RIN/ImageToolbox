@@ -254,6 +254,7 @@ private fun ColorStopSelectionItem(
                         }
                     )
                     ValueDialog(
+                        title = stringResource(R.string.position),
                         valueRange = 0f..100f,
                         valueState = (value * 100).toInt().toString(),
                         expanded = showValueDialog,

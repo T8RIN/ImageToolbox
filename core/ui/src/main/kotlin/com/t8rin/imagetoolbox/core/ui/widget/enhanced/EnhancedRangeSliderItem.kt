@@ -390,6 +390,7 @@ fun EnhancedRangeSliderItem(
     }
 
     ValueDialog(
+        title = title,
         valueRange = valueRange.start..internalState.value.endInclusive,
         valueState = internalStateTransformation(internalState.value).start.toString(),
         expanded = visible && showStartValueDialog,
@@ -408,6 +409,7 @@ fun EnhancedRangeSliderItem(
         }
     )
     ValueDialog(
+        title = title,
         valueRange = internalState.value.start..valueRange.endInclusive,
         valueState = internalStateTransformation(internalState.value).endInclusive.toString(),
         expanded = visible && showEndValueDialog,
