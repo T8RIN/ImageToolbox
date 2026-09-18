@@ -40,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
@@ -61,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.alphaNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import kotlinx.coroutines.android.awaitFrame
@@ -160,10 +160,11 @@ fun ValueDialog(
                 ) {
                     EnhancedIconButton(
                         onClick = { updateValue(-1) },
+                        onHoldStep = { updateValue(-1) },
                         modifier = Modifier
                             .fillMaxHeight()
                             .width(40.dp)
-                            .alpha(animateFloatAsState(if (canSubtract) 1f else 0.5f).value),
+                            .alphaNoClip(animateFloatAsState(if (canSubtract) 1f else 0.5f).value),
                         shape = if (canSubtract) ShapeDefaults.start else ShapeDefaults.default,
                         containerColor = addRemoveButtonsColor,
                         forceMinimumInteractiveComponentSize = false,
@@ -213,10 +214,11 @@ fun ValueDialog(
                 ) {
                     EnhancedIconButton(
                         onClick = { updateValue(1) },
+                        onHoldStep = { updateValue(1) },
                         modifier = Modifier
                             .fillMaxHeight()
                             .width(40.dp)
-                            .alpha(animateFloatAsState(if (canAdd) 1f else 0.5f).value),
+                            .alphaNoClip(animateFloatAsState(if (canAdd) 1f else 0.5f).value),
                         shape = if (canAdd) ShapeDefaults.end else ShapeDefaults.default,
                         containerColor = addRemoveButtonsColor,
                         forceMinimumInteractiveComponentSize = false

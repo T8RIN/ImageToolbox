@@ -31,6 +31,7 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
@@ -57,6 +58,7 @@ fun EnhancedIconButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     onLongClick: (() -> Unit)? = null,
+    onHoldStep: (() -> Unit)? = null,
     enabled: Boolean = true,
     containerColor: Color = Color.Transparent,
     contentColor: Color = contentColor(containerColor),
@@ -71,34 +73,45 @@ fun EnhancedIconButton(
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
+    val currentOnClick = rememberUpdatedState(onClick)
+    val currentOnLongClick = rememberUpdatedState(onLongClick)
+    val currentOnHoldStep = rememberUpdatedState(onHoldStep)
 
     LocalMinimumInteractiveComponentSize.ProvidesValue(Dp.Unspecified) {
-        if (onLongClick != null) {
+        if (onLongClick != null || onHoldStep != null) {
             val viewConfiguration = LocalViewConfiguration.current
 
-
             LaunchedEffect(interactionSource) {
-                var isLongClick = false
+                var isLongClickOrHold = false
 
                 interactionSource.interactions.collectLatest { interaction ->
                     when (interaction) {
                         is PressInteraction.Press -> {
-                            isLongClick = false
+                            isLongClickOrHold = false
                             delay(viewConfiguration.longPressTimeoutMillis)
-                            isLongClick = true
-                            onLongClick()
+                            isLongClickOrHold = true
                             haptics.longPress()
+
+                            currentOnLongClick.value?.invoke()
+
+                            var repeatDelayMs = 140L
+                            while (currentOnHoldStep.value != null) {
+                                currentOnHoldStep.value?.invoke()
+                                delay(repeatDelayMs)
+                                repeatDelayMs = (repeatDelayMs * 0.94f).toLong()
+                                    .coerceAtLeast(45L)
+                            }
                         }
 
                         is PressInteraction.Release -> {
-                            if (!isLongClick) {
-                                onClick()
+                            if (!isLongClickOrHold) {
+                                currentOnClick.value()
                                 haptics.press()
                             }
                         }
 
                         is PressInteraction.Cancel -> {
-                            isLongClick = false
+                            isLongClickOrHold = false
                         }
                     }
                 }
@@ -112,7 +125,7 @@ fun EnhancedIconButton(
 
         OutlinedIconButton(
             onClick = {
-                if (onLongClick == null) {
+                if (onLongClick == null && onHoldStep == null) {
                     onClick()
                     haptics.longPress()
                 }
