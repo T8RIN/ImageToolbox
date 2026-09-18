@@ -390,9 +390,8 @@ fun EnhancedRangeSliderItem(
     }
 
     ValueDialog(
-        roundTo = null,
         valueRange = valueRange.start..internalState.value.endInclusive,
-        valueState = internalState.value.start.toString(),
+        valueState = internalStateTransformation(internalState.value).start.toString(),
         expanded = visible && showStartValueDialog,
         onDismiss = { showStartValueDialog = false },
         onValueUpdate = {
@@ -401,12 +400,16 @@ fun EnhancedRangeSliderItem(
 
             onValueChange(range)
             onValueChangeFinished?.invoke(range)
+        },
+        steps = steps,
+        sliderRange = valueRange,
+        valueTransformation = {
+            internalStateTransformation(it..internalState.value.endInclusive).start
         }
     )
     ValueDialog(
-        roundTo = null,
         valueRange = internalState.value.start..valueRange.endInclusive,
-        valueState = internalState.value.endInclusive.toString(),
+        valueState = internalStateTransformation(internalState.value).endInclusive.toString(),
         expanded = visible && showEndValueDialog,
         onDismiss = { showEndValueDialog = false },
         onValueUpdate = {
@@ -414,6 +417,11 @@ fun EnhancedRangeSliderItem(
 
             onValueChange(range)
             onValueChangeFinished?.invoke(range)
+        },
+        steps = steps,
+        sliderRange = valueRange,
+        valueTransformation = {
+            internalStateTransformation(internalState.value.start..it).endInclusive
         }
     )
 }

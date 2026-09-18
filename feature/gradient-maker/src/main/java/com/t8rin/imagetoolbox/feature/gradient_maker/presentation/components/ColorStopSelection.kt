@@ -254,7 +254,6 @@ private fun ColorStopSelectionItem(
                         }
                     )
                     ValueDialog(
-                        roundTo = 0,
                         valueRange = 0f..100f,
                         valueState = (value * 100).toInt().toString(),
                         expanded = showValueDialog,
@@ -264,7 +263,8 @@ private fun ColorStopSelectionItem(
                         onValueUpdate = {
                             onValueChange(it.roundToInt() / 100f to color)
                             showValueDialog = false
-                        }
+                        },
+                        valueTransformation = Float::roundToInt
                     )
                 }
             }

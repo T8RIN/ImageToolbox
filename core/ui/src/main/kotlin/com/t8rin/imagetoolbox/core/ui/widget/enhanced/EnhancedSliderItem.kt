@@ -371,7 +371,6 @@ fun EnhancedSliderItem(
         }
     }
     ValueDialog(
-        roundTo = null,
         valueRange = valueRange,
         valueState = internalStateTransformation(value.toFloat()).toString(),
         expanded = visible && showValueDialog,
@@ -379,6 +378,8 @@ fun EnhancedSliderItem(
         onValueUpdate = {
             onValueChange(it)
             onValueChangeFinished?.invoke(it)
-        }
+        },
+        steps = steps,
+        valueTransformation = internalStateTransformation
     )
 }

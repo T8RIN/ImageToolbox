@@ -57,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -338,7 +339,6 @@ fun <T : Any> FilterItem(
                             }
                         )
                         ValueDialog(
-                            roundTo = filter.paramsInfo[0].roundTo,
                             valueRange = filter.paramsInfo[0].valueRange,
                             valueState = sliderValue.toString(),
                             expanded = showValueDialog && !previewOnly,
@@ -346,6 +346,9 @@ fun <T : Any> FilterItem(
                             onValueUpdate = {
                                 sliderValue = it
                                 onFilterChange(it)
+                            },
+                            valueTransformation = {
+                                it.roundTo(filter.paramsInfo[0].roundTo)
                             }
                         )
                     }

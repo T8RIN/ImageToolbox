@@ -475,15 +475,18 @@ internal fun BoxScope.MarkupLayersContextActions(
     }
 
     val activeValueDialogType = valueDialogType
+    val valueTransformation: (Float) -> Number = {
+        when (activeValueDialogType) {
+            ValueDialogType.Rotation,
+            ValueDialogType.None -> it
+
+            ValueDialogType.Scale,
+            ValueDialogType.PositionX,
+            ValueDialogType.PositionY -> it.roundTo(3)
+        }
+    }
 
     ValueDialog(
-        roundTo = when (activeValueDialogType) {
-            ValueDialogType.Rotation -> null
-            ValueDialogType.Scale -> 3
-            ValueDialogType.PositionX,
-            ValueDialogType.PositionY -> 3
-            ValueDialogType.None -> null
-        },
         valueRange = when (activeValueDialogType) {
             ValueDialogType.Rotation -> 0f..360f
             ValueDialogType.Scale -> 0.1f..10f
@@ -523,7 +526,8 @@ internal fun BoxScope.MarkupLayersContextActions(
 
                 ValueDialogType.None -> Unit
             }
-        }
+        },
+        valueTransformation = valueTransformation
     )
 
     LayerAlignmentDialog(

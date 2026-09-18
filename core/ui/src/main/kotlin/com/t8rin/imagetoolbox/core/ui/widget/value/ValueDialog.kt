@@ -17,9 +17,15 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.value
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -34,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
@@ -42,26 +49,35 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AddCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Counter
+import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import kotlinx.coroutines.android.awaitFrame
+import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.pow
-import kotlin.math.roundToInt
 
 @Composable
 fun ValueDialog(
-    roundTo: Int?,
     valueRange: ClosedFloatingPointRange<Float>,
     valueState: String,
     expanded: Boolean,
     onDismiss: () -> Unit,
-    onValueUpdate: (Float) -> Unit
+    onValueUpdate: (Float) -> Unit,
+    steps: Int = 0,
+    sliderRange: ClosedFloatingPointRange<Float> = valueRange,
+    valueTransformation: (Float) -> Number = { it }
 ) {
     var value by remember(valueState, expanded) {
         val text = valueState.trimTrailingZero()
@@ -73,10 +89,33 @@ fun ValueDialog(
         )
     }
     val parsedValue = value.text.toFloatOrNull()?.takeIf(Float::isFinite)
+    val step = remember(valueState, sliderRange, steps, valueTransformation) {
+        valueStep(
+            valueState = valueState,
+            valueRange = sliderRange,
+            steps = steps,
+            valueTransformation = valueTransformation
+        )
+    }
+    val updateValue: (Int) -> Unit = { direction ->
+        parsedValue?.let {
+            val text = it.stepBy(
+                direction = direction,
+                valueRange = valueRange,
+                step = step,
+                valueTransformation = valueTransformation
+            ).toString().trimTrailingZero()
+
+            value = TextFieldValue(
+                text = text,
+                selection = TextRange(text.length)
+            )
+        }
+    }
     val submit: () -> Unit = {
         if (parsedValue != null) {
             onDismiss()
-            onValueUpdate(parsedValue.roundTo(roundTo).coerceIn(valueRange))
+            onValueUpdate(valueTransformation(parsedValue).toFloat().coerceIn(valueRange))
         }
     }
 
@@ -107,13 +146,46 @@ fun ValueDialog(
                 runCatching { requester.requestFocus() }
             }
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+            val canSubtract = parsedValue != null && parsedValue > valueRange.start
+            val canAdd = parsedValue != null && parsedValue < valueRange.endInclusive
+            val addRemoveButtonsColor = MaterialTheme.colorScheme.secondaryContainer
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(IntrinsicSize.Max),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
             ) {
+                AnimatedVisibility(
+                    visible = canSubtract || canAdd,
+                    modifier = Modifier.fillMaxHeight(),
+                ) {
+                    EnhancedIconButton(
+                        onClick = { updateValue(-1) },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(40.dp)
+                            .alpha(animateFloatAsState(if (canSubtract) 1f else 0.5f).value),
+                        shape = if (canSubtract) ShapeDefaults.start else ShapeDefaults.default,
+                        containerColor = addRemoveButtonsColor,
+                        forceMinimumInteractiveComponentSize = false,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.RemoveCircle,
+                            contentDescription = null
+                        )
+                    }
+                }
                 OutlinedTextField(
-                    shape = ShapeDefaults.default,
+                    shape = animateShape(
+                        when {
+                            canAdd && canSubtract -> ShapeDefaults.center
+                            !canAdd && canSubtract -> ShapeDefaults.end
+                            canAdd && !canSubtract -> ShapeDefaults.start
+                            else -> ShapeDefaults.default
+                        }
+                    ),
                     value = value,
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Decimal,
@@ -134,13 +206,35 @@ fun ValueDialog(
                             )
                         )
                     },
-                    modifier = Modifier.focusRequester(requester)
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(requester)
                 )
+                AnimatedVisibility(
+                    visible = canAdd || canSubtract,
+                    modifier = Modifier.fillMaxHeight(),
+                ) {
+                    EnhancedIconButton(
+                        onClick = { updateValue(1) },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(40.dp)
+                            .alpha(animateFloatAsState(if (canAdd) 1f else 0.5f).value),
+                        shape = if (canAdd) ShapeDefaults.end else ShapeDefaults.default,
+                        containerColor = addRemoveButtonsColor,
+                        forceMinimumInteractiveComponentSize = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.AddCircle,
+                            contentDescription = null
+                        )
+                    }
+                }
             }
         },
         confirmButton = {
             EnhancedButton(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
                 enabled = parsedValue != null,
                 onClick = submit,
             ) {
@@ -180,8 +274,71 @@ fun String.filterDecimal(): String {
     }
 }
 
-private fun Float.roundTo(
-    digits: Int? = 2
-) = digits?.let {
-    (this * 10f.pow(digits)).roundToInt() / (10f.pow(digits))
-} ?: this
+internal fun Float.stepBy(
+    direction: Int,
+    valueRange: ClosedFloatingPointRange<Float>,
+    step: Float,
+    valueTransformation: (Float) -> Number
+): Float {
+    return valueTransformation(this + direction * step)
+        .toFloat()
+        .roundTo(step.decimalPlaces())
+        .coerceIn(valueRange)
+}
+
+internal fun valueStep(
+    valueState: String,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    valueTransformation: (Float) -> Number
+): Float {
+    val rangeSize = valueRange.endInclusive - valueRange.start
+    if (steps > 0) return rangeSize / (steps + 1)
+
+    val value = valueState.toFloatOrNull()?.takeIf(Float::isFinite)
+        ?: return valueState.decimalStep()
+    val transformedValue = valueTransformation(value).toFloat()
+    var probe = max(
+        max(Math.ulp(value), Math.ulp(transformedValue)),
+        abs(rangeSize) * 1e-7f
+    )
+
+    if (probe > 0f && probe.isFinite()) {
+        val hasPlateau = sequenceOf(-probe, probe)
+            .map { value + it }
+            .filter { it in valueRange }
+            .all { valueTransformation(it).toFloat() == transformedValue }
+
+        if (hasPlateau) {
+            repeat(32) {
+                val step = sequenceOf(-probe, probe)
+                    .map { value + it }
+                    .filter { it in valueRange }
+                    .map {
+                        valueTransformation(it).toFloat().decimalDifference(transformedValue)
+                    }
+                    .filter { it > 0f }
+                    .minOrNull()
+
+                if (step != null) return step
+                probe *= 2
+            }
+        }
+    }
+
+    return valueState.decimalStep()
+}
+
+private fun String.decimalStep(): Float = 1f / 10f.pow(decimalPlaces())
+
+private fun Float.decimalPlaces(): Int = toString().decimalPlaces()
+
+private fun Float.decimalDifference(other: Float): Float = runCatching {
+    toString().toBigDecimal().subtract(other.toString().toBigDecimal()).abs().toFloat()
+}.getOrDefault(abs(this - other))
+
+private fun String.decimalPlaces(): Int = toBigDecimalOrNull()
+    ?.stripTrailingZeros()
+    ?.scale()
+    ?.coerceAtLeast(0)
+    ?: 0
