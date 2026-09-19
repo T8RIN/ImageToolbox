@@ -35,6 +35,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -71,6 +72,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -186,6 +188,10 @@ fun ImagePager(
                     uris?.getOrNull(pagerState.currentPage)
                 )
             }
+
+            val apngPlayback = rememberApngPlayback(
+                uri = uris?.getOrNull(pagerState.currentPage)
+            )
             val progress by remember(draggableState) {
                 derivedStateOf {
                     draggableState.progress(
@@ -228,7 +234,11 @@ fun ImagePager(
                         val zoomState = rememberZoomState(20f)
                         Picture(
                             showTransparencyChecker = false,
-                            model = uris?.getOrNull(page),
+                            model = apngPlayback
+                                ?.takeIf { page == pagerState.currentPage }
+                                ?.player
+                                ?.currentFrame
+                                ?.asImageBitmap() ?: uris?.getOrNull(page),
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clipToBounds()
@@ -393,7 +403,7 @@ fun ImagePager(
                     enter = fadeIn() + slideInVertically { it / 2 },
                     exit = fadeOut() + slideOutVertically { it / 2 }
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(MaterialTheme.colorScheme.scrim.copy(0.5f))
@@ -405,9 +415,21 @@ fun ImagePager(
                                     )
                                     .asPaddingValues()
                             )
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                            .padding(horizontal = 16.dp)
                     ) {
+                        apngPlayback?.let { playback ->
+                            Spacer(Modifier.height(12.dp))
+                            ApngPlayerControlBar(
+                                playback = playback,
+                                filename = selectedUriFilename
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                         Row(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically
@@ -448,13 +470,14 @@ fun ImagePager(
                             )
                         }
                         Spacer(Modifier.width(16.dp))
-                        HistogramChart(
-                            model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(90.dp),
-                            bordersColor = MaterialTheme.colorScheme.primaryFixed.blend(White, 0.5f)
-                        )
+                            HistogramChart(
+                                model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(90.dp),
+                                bordersColor = MaterialTheme.colorScheme.primaryFixed.blend(White, 0.5f)
+                            )
+                        }
                     }
                 }
             }

@@ -48,6 +48,10 @@
     <string name="no_exif">No EXIF data found</string>
     <string name="add_tag">Add tag</string>
     <string name="save">Save</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="save_current_frame">Save current frame</string>
+    <string name="export_all_frames">Export all frames</string>
     <string name="clear">Clear</string>
     <string name="clear_exif">Clear EXIF</string>
     <string name="cancel">Cancel</string>

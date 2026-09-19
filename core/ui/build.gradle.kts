@@ -79,6 +79,7 @@ dependencies {
     api(projects.lib.snowfall)
     implementation(projects.lib.cropper)
     implementation(libs.toolbox.histogram)
+    implementation(libs.toolbox.apng)
 
     api(libs.reorderable)
 
