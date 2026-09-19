@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -4794,7 +4792,7 @@
     <string name="gmic_param_blue_level">المستوى الأزرق</string>
     <string name="gmic_param_blue_smoothness">نعومة زرقاء</string>
     <string name="gmic_param_chromaticity_range">نطاق اللونية</string>
-    <string name="gmic_param_color_median">متوسط ​​اللون</string>
+    <string name="gmic_param_color_median">متوسط اللون</string>
     <string name="gmic_param_constraint_radius">شعاع القيد</string>
     <string name="gmic_param_contrast_smoothness">نعومة التباين</string>
     <string name="gmic_param_dark_gray">رمادي غامق</string>
@@ -4906,9 +4904,9 @@
     <string name="focus_strength">فصل التركيز</string>
     <string name="source_frames">إطارات المصدر</string>
     <string name="fusion_image_limit">يمكن دمج ما يصل إلى %1$d من الإطارات مرة واحدة</string>
-    <string name="search_keywords_multi_frame_fusion">إطار متعدد للتعرض للانصهار والتركيز عالي الدقة وتكديس الضوضاء المتوسطة ودعامة إزالة الأشخاص</string>
+    <string name="search_keywords_multi_frame_fusion">إطار متعدد للتعرض للانصهار والتركيز عالي الدقة وتكديس الضوضاء المتوسطة ودعامة إزالة الأشخاص التعرض الطويل للضوء وحركة النجوم وخطوط النجوم</string>
     <string name="long_exposure">التعرض لفترة طويلة</string>
-    <string name="long_exposure_sub">حركة سلسة عن طريق حساب متوسط ​​التسلسل في الضوء الخطي مع الحفاظ على التفاصيل الثابتة</string>
+    <string name="long_exposure_sub">حركة سلسة عن طريق حساب متوسط التسلسل في الضوء الخطي مع الحفاظ على التفاصيل الثابتة</string>
     <string name="light_trails">مسارات خفيفة</string>
     <string name="light_trails_sub">احتفظ بالتغييرات الساطعة من التسلسل لإنشاء مسارات الضوء والألعاب النارية والنجوم</string>
     <string name="motion_trails">مسارات الحركة</string>
@@ -5166,7 +5164,7 @@
     <string name="delete_templates_warning">هل تريد حذف %1$d من النماذج المحددة؟ لا يمكن التراجع عن هذا.</string>
     <string name="fractal_generation">فركتلات</string>
     <string name="fractal_generation_sub">إنشاء وحفظ الصور النمطية الكسورية</string>
-    <string name="search_keywords_fractal_generation">كسورية ماندلبروت جوليا حرق السفينة تريكورن مولتيبروت مولتيكورن سلتيك بوفالو فينيكس نوفا نيوتن مغناطيس لابونوف سيربينسكي ماندلبولب ماندلبوكس مينجر كواترنيون 3D مولد التكبير العميق اللانهائي</string>
+    <string name="search_keywords_fractal_generation">التعرض الطويل حركة الضوء مسارات النجوم الفركتلات ماندلبروت جوليا السفينة المحترقة تريكورن مولتيبروت مولتيكورن الكلتية البوفالو الفينيق نوفا نيوتن المغناطيس ليابونوف سيربينسكي كليفورد دي يونغ إيكيدا تينكربيل غوموفسكي ميرا بارنسلي ألفا الجيب جيب التمام دالة sinh العنكبوت البحري لامبدا الشوكة الريشة الصبار زوبييتا التترية السرخس التنين الغصن شجرة عيد الميلاد فيكسيك فيثاغورس H -شجرة كوخ هيلبرت ماندلبولب ماندلبوكس مينجر كواتيرنيون ثلاثي الأبعاد RGB CMYK مولد التكبير اللامتناهي العميق</string>
     <string name="fractal_power">قوة</string>
     <string name="fractal_iteration_policy">سياسة التكرار</string>
     <string name="fractal_bailout">دائرة نصف قطرها الهروب</string>
