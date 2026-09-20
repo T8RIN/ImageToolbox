@@ -540,11 +540,8 @@ fun CollageMakerContent(
                     )
                 }
                 BackgroundColorSelector(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .container(
-                            shape = ShapeDefaults.extraLarge
-                        ),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.extraLarge,
                     icon = Icons.Outlined.BackgroundColor,
                     value = component.backgroundColor,
                     gradient = component.backgroundGradient,

@@ -190,11 +190,8 @@ internal fun DrawContentControls(
                 onGradientChange = component::updateBackgroundGradient,
                 onValueChange = component::updateBackgroundColor,
                 icon = Icons.Outlined.BackgroundColor,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .container(
-                        shape = ShapeDefaults.extraLarge
-                    )
+                modifier = Modifier.fillMaxWidth(),
+                shape = ShapeDefaults.extraLarge
             )
         }
         AnimatedVisibility(

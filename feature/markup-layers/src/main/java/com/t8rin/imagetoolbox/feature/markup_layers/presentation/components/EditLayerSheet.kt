@@ -303,10 +303,8 @@ internal fun EditLayerSheet(
                             },
                             title = stringResource(R.string.background_color),
                             icon = Icons.Outlined.BackgroundColor,
-                            modifier = Modifier.container(
-                                shape = ShapeDefaults.center,
-                                color = MaterialTheme.colorScheme.surface
-                            )
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         ColorAndGradientSelector(
@@ -329,10 +327,8 @@ internal fun EditLayerSheet(
                                     layer.copy(type = type.copy(gradientPalette = it))
                                 )
                             },
-                            modifier = Modifier.container(
-                                shape = ShapeDefaults.center,
-                                color = MaterialTheme.colorScheme.surface
-                            )
+                            shape = ShapeDefaults.center,
+                            containerColor = MaterialTheme.colorScheme.surface
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         var haveTextGeometry by remember {
@@ -516,10 +512,8 @@ internal fun EditLayerSheet(
                                                 )
                                             },
                                             title = stringResource(R.string.outline_color),
-                                            modifier = Modifier.container(
-                                                shape = ShapeDefaults.top,
-                                                color = MaterialTheme.colorScheme.surfaceContainerLow
-                                            ),
+                                            shape = ShapeDefaults.top,
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                                             icon = Icons.Outlined.BorderColor
                                         )
                                         EnhancedSliderItem(

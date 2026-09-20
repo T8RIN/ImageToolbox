@@ -25,10 +25,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 
 @Composable
 fun BackgroundColorSelector(
@@ -37,7 +39,10 @@ fun BackgroundColorSelector(
     onValueChange: (Color) -> Unit,
     onGradientChange: (GradientFill) -> Unit,
     modifier: Modifier = Modifier,
-    icon: ImageVector? = Icons.Outlined.BackgroundColor
+    icon: ImageVector? = Icons.Outlined.BackgroundColor,
+    shape: Shape = ShapeDefaults.default,
+    containerColor: Color = Color.Unspecified,
+    nestedContainerColor: Color = Color.Unspecified
 ) {
     var lastAngle by rememberSaveable { mutableFloatStateOf(gradient?.angle ?: 0f) }
     LaunchedEffect(gradient) {
@@ -56,6 +61,9 @@ fun BackgroundColorSelector(
         gradientAngle = gradient?.angle ?: 0f,
         onGradientAngleChange = { onGradientChange((gradient ?: GradientFill()).copy(angle = it)) },
         modifier = modifier,
-        icon = icon
+        icon = icon,
+        shape = shape,
+        containerColor = containerColor,
+        nestedContainerColor = nestedContainerColor
     )
 }

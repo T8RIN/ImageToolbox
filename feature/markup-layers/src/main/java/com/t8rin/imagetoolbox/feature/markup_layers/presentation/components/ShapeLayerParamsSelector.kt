@@ -211,13 +211,11 @@ private fun ShapeAppearanceSection(
         onGradientPaletteChange = {
             onUpdateLayer(layer.copy(type = type.copy(gradientPalette = it)))
         },
-        modifier = Modifier.container(
-            shape = when {
-                showFillColor || showStrokeWidth -> ShapeDefaults.top
-                else -> singleItemShape
-            },
-            color = MaterialTheme.colorScheme.surface
-        )
+        shape = when {
+            showFillColor || showStrokeWidth -> ShapeDefaults.top
+            else -> singleItemShape
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     )
 
     AnimatedVisibility(
@@ -256,10 +254,8 @@ private fun ShapeAppearanceSection(
                 title = stringResource(R.string.fill_color),
                 icon = Icons.Rounded.FormatColorFill,
                 allowAlpha = true,
-                modifier = Modifier.container(
-                    shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,
-                    color = MaterialTheme.colorScheme.surface
-                )
+                shape = if (showStrokeWidth) ShapeDefaults.center else ShapeDefaults.bottom,
+                containerColor = MaterialTheme.colorScheme.surface
             )
         }
     }

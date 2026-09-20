@@ -31,6 +31,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,9 +40,12 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.GradientColorItem
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
 import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import kotlin.math.roundToInt
@@ -58,7 +63,10 @@ fun ColorAndGradientSelector(
     onNullClick: (() -> Unit)? = null,
     allowAlpha: Boolean = true,
     gradientAngle: Float = 0f,
-    onGradientAngleChange: ((Float) -> Unit)? = null
+    onGradientAngleChange: ((Float) -> Unit)? = null,
+    shape: Shape = ShapeDefaults.default,
+    containerColor: Color = Color.Unspecified,
+    nestedContainerColor: Color = Color.Unspecified
 ) {
     var lastPalette by rememberSaveable(selectionKey, stateSaver = GradientPaletteSaver) {
         mutableStateOf(gradientPalette ?: GradientPalette.SoftRainbow)
@@ -67,7 +75,7 @@ fun ColorAndGradientSelector(
         gradientPalette?.let { lastPalette = it }
     }
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.container(shape = shape, color = containerColor)) {
         ColorRowSelector(
             value = value,
             onValueChange = onValueChange,
@@ -92,11 +100,23 @@ fun ColorAndGradientSelector(
                     start = 8.dp, end = 8.dp, bottom = 8.dp
                 )
             ) {
+                val outerColor = containerColor.takeOrElse { SafeLocalContainerColor }
+                val cardColor = nestedContainerColor.takeOrElse {
+                    if (
+                        outerColor == MaterialTheme.colorScheme.surfaceContainer ||
+                        outerColor == EnhancedBottomSheetDefaults.contentContainerColor
+                    ) {
+                        MaterialTheme.colorScheme.surface
+                    } else {
+                        MaterialTheme.colorScheme.surfaceContainer
+                    }
+                }
+
                 GradientPaletteSelector(
                     value = gradientPalette ?: lastPalette,
                     onValueChange = onGradientPaletteChange,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.surface,
+                    color = cardColor,
                     shape = if (onGradientAngleChange == null) ShapeDefaults.large else ShapeDefaults.top
                 )
                 if (onGradientAngleChange != null) {
@@ -106,7 +126,7 @@ fun ColorAndGradientSelector(
                         valueRange = 0f..360f,
                         title = stringResource(R.string.angle),
                         internalStateTransformation = { it.roundToInt().toFloat() },
-                        containerColor = MaterialTheme.colorScheme.surface,
+                        containerColor = cardColor,
                         shape = ShapeDefaults.bottom
                     )
                 }

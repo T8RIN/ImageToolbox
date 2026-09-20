@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorAndGradientSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 
 @Composable
 fun OutlinedFillColorSelector(
@@ -39,7 +38,8 @@ fun OutlinedFillColorSelector(
     onGradientPaletteChange: (GradientPalette) -> Unit,
     modifier: Modifier = Modifier,
     shape: Shape = ShapeDefaults.default,
-    containerColor: Color = Color.Unspecified
+    containerColor: Color = Color.Unspecified,
+    nestedContainerColor: Color = Color.Unspecified
 ) {
     ColorAndGradientSelector(
         value = value,
@@ -50,11 +50,9 @@ fun OutlinedFillColorSelector(
         title = stringResource(R.string.fill_color),
         icon = Icons.Rounded.FormatColorFill,
         allowAlpha = true,
-        modifier = modifier
-            .fillMaxWidth()
-            .container(
-                color = containerColor,
-                shape = shape
-            )
+        modifier = modifier.fillMaxWidth(),
+        containerColor = containerColor,
+        nestedContainerColor = nestedContainerColor,
+        shape = shape
     )
 }

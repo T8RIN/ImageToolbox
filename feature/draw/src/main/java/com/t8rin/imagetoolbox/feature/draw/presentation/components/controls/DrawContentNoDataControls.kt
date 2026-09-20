@@ -254,13 +254,12 @@ internal fun DrawContentNoDataControls(
                             sheetGradientAngle = it.angle
                         },
                         icon = Icons.Outlined.BackgroundColor,
-                        modifier = Modifier
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                bottom = 16.dp
-                            )
-                            .container(ShapeDefaults.extraLarge)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = 16.dp
+                        ),
+                        shape = ShapeDefaults.extraLarge
                     )
                 }
             }

@@ -94,7 +94,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
@@ -389,11 +388,8 @@ fun MarkupLayersContent(
                         onGradientChange = component::updateBackgroundGradient,
                         onValueChange = component::updateBackgroundColor,
                         icon = Icons.Outlined.BackgroundColor,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .container(
-                                shape = ShapeDefaults.extraLarge
-                            )
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = ShapeDefaults.extraLarge
                     )
                     BackgroundCanvasSizeControls(
                         behavior = behavior,
