@@ -85,7 +85,7 @@ internal class ResizeTypeJsonAdapter {
         )
 
         CenterCrop -> ResizeType.CenterCrop(
-            canvasColor = value.canvasColor,
+            canvasColor = value.canvasColor.takeUnless { value.useBlurredBackground },
             blurRadius = value.blurRadius,
             originalSize = value.originalSize,
             scaleFactor = value.scaleFactor,
@@ -94,7 +94,7 @@ internal class ResizeTypeJsonAdapter {
         )
 
         Fit -> ResizeType.Fit(
-            canvasColor = value.canvasColor,
+            canvasColor = value.canvasColor.takeUnless { value.useBlurredBackground },
             blurRadius = value.blurRadius,
             position = value.position
         )
@@ -114,6 +114,7 @@ internal class ResizeTypeJsonAdapter {
         is ResizeType.CenterCrop -> ResizeTypeJson(
             type = CenterCrop,
             canvasColor = value.canvasColor,
+            useBlurredBackground = value.canvasColor == null,
             blurRadius = value.blurRadius,
             originalSize = value.originalSize,
             scaleFactor = value.scaleFactor,
@@ -124,6 +125,7 @@ internal class ResizeTypeJsonAdapter {
         is ResizeType.Fit -> ResizeTypeJson(
             type = Fit,
             canvasColor = value.canvasColor,
+            useBlurredBackground = value.canvasColor == null,
             blurRadius = value.blurRadius,
             position = value.position
         )
@@ -166,6 +168,7 @@ internal data class ResizeTypeJson(
     val type: String = "explicit",
     val resizeAnchor: ResizeAnchor = ResizeAnchor.Default,
     val canvasColor: Int? = 0,
+    val useBlurredBackground: Boolean = false,
     val blurRadius: Int = 35,
     val originalSize: IntegerSize = IntegerSize.Undefined,
     val scaleFactor: Float = 1f,
