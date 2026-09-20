@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 
 fun Modifier.alphaNoClip(alpha: Float) = this
@@ -25,6 +26,7 @@ fun Modifier.alphaNoClip(alpha: Float) = this
         if (alpha != 1.0f) {
             Modifier.graphicsLayer {
                 clip = false
+                compositingStrategy = CompositingStrategy.ModulateAlpha
                 this.alpha = alpha
             }
         } else {

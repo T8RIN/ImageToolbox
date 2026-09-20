@@ -60,7 +60,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.alphaNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import kotlinx.coroutines.android.awaitFrame
@@ -146,6 +145,7 @@ fun ValueDialog(
             val canSubtract = parsedValue != null && parsedValue > valueRange.start
             val canAdd = parsedValue != null && parsedValue < valueRange.endInclusive
             val addRemoveButtonsColor = MaterialTheme.colorScheme.secondaryContainer
+            val addRemoveButtonsContentColor = MaterialTheme.colorScheme.onSecondaryContainer
 
             Row(
                 modifier = Modifier
@@ -158,15 +158,16 @@ fun ValueDialog(
                     visible = canSubtract || canAdd,
                     modifier = Modifier.fillMaxHeight(),
                 ) {
+                    val alpha by animateFloatAsState(if (canSubtract) 1f else 0.5f)
                     EnhancedIconButton(
                         onClick = { updateValue(-1) },
                         onHoldStep = { updateValue(-1) },
                         modifier = Modifier
                             .fillMaxHeight()
-                            .width(40.dp)
-                            .alphaNoClip(animateFloatAsState(if (canSubtract) 1f else 0.5f).value),
+                            .width(40.dp),
                         shape = if (canSubtract) ShapeDefaults.start else ShapeDefaults.default,
-                        containerColor = addRemoveButtonsColor,
+                        containerColor = addRemoveButtonsColor.copy(alpha),
+                        contentColor = addRemoveButtonsContentColor.copy(alpha),
                         forceMinimumInteractiveComponentSize = false,
                     ) {
                         Icon(
@@ -212,15 +213,16 @@ fun ValueDialog(
                     visible = canAdd || canSubtract,
                     modifier = Modifier.fillMaxHeight(),
                 ) {
+                    val alpha by animateFloatAsState(if (canAdd) 1f else 0.5f)
                     EnhancedIconButton(
                         onClick = { updateValue(1) },
                         onHoldStep = { updateValue(1) },
                         modifier = Modifier
                             .fillMaxHeight()
-                            .width(40.dp)
-                            .alphaNoClip(animateFloatAsState(if (canAdd) 1f else 0.5f).value),
+                            .width(40.dp),
                         shape = if (canAdd) ShapeDefaults.end else ShapeDefaults.default,
-                        containerColor = addRemoveButtonsColor,
+                        containerColor = addRemoveButtonsColor.copy(alpha),
+                        contentColor = addRemoveButtonsContentColor.copy(alpha),
                         forceMinimumInteractiveComponentSize = false
                     ) {
                         Icon(
