@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">การปรับขนาดแบบก้าวหน้า</string>
     <string name="procedural_dampening">การทำให้หมาด ๆ</string>
     <string name="random_color_dispersion">การกระจายสีแบบสุ่ม</string>
+    <string name="lama_model_link">ดาวน์โหลดโมเดลลามะ</string>
+    <string name="only_lama_onnx_model">สามารถนำเข้าได้เฉพาะรุ่น .onnx LaMa เท่านั้น</string>
+    <string name="delete_lama_model_sub">ลบโมเดลลามะ? คุณสามารถดาวน์โหลดหรือนำเข้าอีกครั้งในภายหลังได้</string>
 </resources>

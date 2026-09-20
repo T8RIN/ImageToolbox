@@ -5467,4 +5467,7 @@
     <string name="progressive_scaling">Progresivní škálování</string>
     <string name="procedural_dampening">Tlumení</string>
     <string name="random_color_dispersion">Náhodná disperze barev</string>
+    <string name="lama_model_link">Stáhněte si model LaMa</string>
+    <string name="only_lama_onnx_model">Importovat lze pouze modely .onnx LaMa</string>
+    <string name="delete_lama_model_sub">Smazat model LaMa? Později si jej můžete stáhnout nebo importovat znovu</string>
 </resources>

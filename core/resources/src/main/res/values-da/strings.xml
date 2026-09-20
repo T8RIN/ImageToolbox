@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progressiv skalering</string>
     <string name="procedural_dampening">Dæmpning</string>
     <string name="random_color_dispersion">Tilfældig farvespredning</string>
+    <string name="lama_model_link">Download LaMa model</string>
+    <string name="only_lama_onnx_model">Kun .onnx LaMa-modeller kan importeres</string>
+    <string name="delete_lama_model_sub">Vil du slette LaMa-modellen? Du kan downloade eller importere den igen senere</string>
 </resources>

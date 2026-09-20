@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Escalat progressiu</string>
     <string name="procedural_dampening">Amortiment</string>
     <string name="random_color_dispersion">Dispersió de colors aleatòria</string>
+    <string name="lama_model_link">Descarrega el model LaMa</string>
+    <string name="only_lama_onnx_model">Només es poden importar models .onnx LaMa</string>
+    <string name="delete_lama_model_sub">Vols suprimir el model LaMa? Podeu descarregar-lo o importar-lo de nou més tard</string>
 </resources>

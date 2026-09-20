@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
     <string name="quality">Qualität</string>
@@ -5463,4 +5465,7 @@
     <string name="progressive_scaling">Progressive Skalierung</string>
     <string name="procedural_dampening">Dämpfung</string>
     <string name="random_color_dispersion">Zufällige Farbverteilung</string>
+    <string name="lama_model_link">Laden Sie das LaMa-Modell herunter</string>
+    <string name="only_lama_onnx_model">Es können nur .onnx-LaMa-Modelle importiert werden</string>
+    <string name="delete_lama_model_sub">Das LaMa-Modell löschen? Sie können es später herunterladen oder erneut importieren</string>
 </resources>

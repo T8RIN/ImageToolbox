@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">Chia tỷ lệ lũy tiến</string>
     <string name="procedural_dampening">Giảm chấn</string>
     <string name="random_color_dispersion">Phân tán màu ngẫu nhiên</string>
+    <string name="lama_model_link">Tải xuống mô hình LaMa</string>
+    <string name="only_lama_onnx_model">Chỉ có thể nhập các mô hình .onnx LaMa</string>
+    <string name="delete_lama_model_sub">Xóa mô hình LaMa? Bạn có thể tải xuống hoặc nhập lại sau</string>
 </resources>

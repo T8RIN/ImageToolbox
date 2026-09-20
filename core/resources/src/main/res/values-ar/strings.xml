@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
     <string name="amoled_mode_sub">إذا فُعّل لون الأسطح فسيتم ضبطه على الظلام المطلق في الوضع الليلي</string>
@@ -5467,4 +5469,7 @@
     <string name="progressive_scaling">التحجيم التدريجي</string>
     <string name="procedural_dampening">التلطيف</string>
     <string name="random_color_dispersion">تشتت اللون العشوائي</string>
+    <string name="lama_model_link">تحميل نموذج لاما</string>
+    <string name="only_lama_onnx_model">يمكن استيراد نماذج .onnx LaMa فقط</string>
+    <string name="delete_lama_model_sub">هل تريد حذف نموذج LaMa؟ ويمكنك تنزيله أو استيراده مرة أخرى لاحقًا</string>
 </resources>

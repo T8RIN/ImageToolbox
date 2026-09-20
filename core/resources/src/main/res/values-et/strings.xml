@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progressiivne skaleerimine</string>
     <string name="procedural_dampening">Summutamine</string>
     <string name="random_color_dispersion">Juhuslik värvidispersioon</string>
+    <string name="lama_model_link">Laadige alla LaMa mudel</string>
+    <string name="only_lama_onnx_model">Importida saab ainult .onnx LaMa mudeleid</string>
+    <string name="delete_lama_model_sub">Kas kustutada LaMa mudel? Saate selle hiljem uuesti alla laadida või importida</string>
 </resources>

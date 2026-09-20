@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Escalado progresivo</string>
     <string name="procedural_dampening">humedecimiento</string>
     <string name="random_color_dispersion">Dispersión de color aleatoria</string>
+    <string name="lama_model_link">Descargar modelo LaMa</string>
+    <string name="only_lama_onnx_model">Solo se pueden importar modelos .onnx LaMa</string>
+    <string name="delete_lama_model_sub">¿Eliminar el modelo LaMa? Puedes descargarlo o importarlo nuevamente más tarde.</string>
 </resources>

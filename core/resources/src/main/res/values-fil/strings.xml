@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progresibong Pagsusukat</string>
     <string name="procedural_dampening">Dampening</string>
     <string name="random_color_dispersion">Random na Pagpapakalat ng Kulay</string>
+    <string name="lama_model_link">I-download ang modelo ng LaMa</string>
+    <string name="only_lama_onnx_model">Tanging mga .onnx LaMa na modelo ang maaaring i-import</string>
+    <string name="delete_lama_model_sub">Tanggalin ang modelo ng LaMa? Maaari mo itong i-download o i-import muli sa ibang pagkakataon</string>
 </resources>

@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Прогрессивті масштабтау</string>
     <string name="procedural_dampening">Ылғалдандыру</string>
     <string name="random_color_dispersion">Кездейсоқ түсті дисперсия</string>
+    <string name="lama_model_link">LaMa үлгісін жүктеп алыңыз</string>
+    <string name="only_lama_onnx_model">Тек .onnx LaMa үлгілерін импорттауға болады</string>
+    <string name="delete_lama_model_sub">LaMa үлгісін жою керек пе? Оны кейінірек қайта жүктеп алуға немесе импорттауға болады</string>
 </resources>

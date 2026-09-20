@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">प्रगतिशील स्केलिंग</string>
     <string name="procedural_dampening">कमी लाने के</string>
     <string name="random_color_dispersion">यादृच्छिक रंग फैलाव</string>
+    <string name="lama_model_link">लामा मॉडल डाउनलोड करें</string>
+    <string name="only_lama_onnx_model">केवल .onnx LaMa मॉडल आयात किए जा सकते हैं</string>
+    <string name="delete_lama_model_sub">लामा मॉडल हटाएं? आप इसे बाद में दोबारा डाउनलोड या आयात कर सकते हैं</string>
 </resources>

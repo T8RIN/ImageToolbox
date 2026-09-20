@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progressiivinen skaalaus</string>
     <string name="procedural_dampening">Vaimennus</string>
     <string name="random_color_dispersion">Satunnainen väridispersio</string>
+    <string name="lama_model_link">Lataa LaMa-malli</string>
+    <string name="only_lama_onnx_model">Vain .onnx LaMa -malleja voidaan tuoda</string>
+    <string name="delete_lama_model_sub">Poistetaanko LaMa-malli? Voit ladata tai tuoda sen myöhemmin uudelleen</string>
 </resources>

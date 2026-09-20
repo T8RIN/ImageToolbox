@@ -5467,4 +5467,7 @@
     <string name="progressive_scaling">קנה מידה פרוגרסיבי</string>
     <string name="procedural_dampening">הרטבה</string>
     <string name="random_color_dispersion">פיזור צבע אקראי</string>
+    <string name="lama_model_link">הורד את דגם LaMa</string>
+    <string name="only_lama_onnx_model">ניתן לייבא רק דגמי .onnx LaMa</string>
+    <string name="delete_lama_model_sub">למחוק את דגם LaMa? תוכל להוריד או לייבא אותו שוב מאוחר יותר</string>
 </resources>

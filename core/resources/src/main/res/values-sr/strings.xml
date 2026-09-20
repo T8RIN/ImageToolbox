@@ -5466,4 +5466,7 @@
     <string name="progressive_scaling">Прогресивно скалирање</string>
     <string name="procedural_dampening">Дампенинг</string>
     <string name="random_color_dispersion">Насумична дисперзија боја</string>
+    <string name="lama_model_link">Преузмите модел ЛаМа</string>
+    <string name="only_lama_onnx_model">Могу се увозити само .оннк ЛаМа модели</string>
+    <string name="delete_lama_model_sub">Избрисати модел ЛаМа? Касније можете поново да га преузмете или увезете</string>
 </resources>

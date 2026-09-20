@@ -5466,4 +5466,7 @@
     <string name="progressive_scaling">Scalare progresivă</string>
     <string name="procedural_dampening">Amortire</string>
     <string name="random_color_dispersion">Dispersia aleatorie a culorilor</string>
+    <string name="lama_model_link">Descărcați modelul LaMa</string>
+    <string name="only_lama_onnx_model">Numai modelele .onnx LaMa pot fi importate</string>
+    <string name="delete_lama_model_sub">Ștergeți modelul LaMa? Îl puteți descărca sau importa din nou mai târziu</string>
 </resources>

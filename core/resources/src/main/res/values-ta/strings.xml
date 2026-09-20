@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">முற்போக்கான அளவிடுதல்</string>
     <string name="procedural_dampening">தணித்தல்</string>
     <string name="random_color_dispersion">சீரற்ற வண்ண பரவல்</string>
+    <string name="lama_model_link">லாமா மாதிரியைப் பதிவிறக்கவும்</string>
+    <string name="only_lama_onnx_model">.onnx LaMa மாடல்களை மட்டுமே இறக்குமதி செய்ய முடியும்</string>
+    <string name="delete_lama_model_sub">லாமா மாதிரியை நீக்கவா? பின்னர் மீண்டும் பதிவிறக்கம் செய்யலாம் அல்லது இறக்குமதி செய்யலாம்</string>
 </resources>

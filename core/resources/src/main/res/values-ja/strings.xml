@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">プログレッシブスケーリング</string>
     <string name="procedural_dampening">減衰</string>
     <string name="random_color_dispersion">ランダムな色の分散</string>
+    <string name="lama_model_link">LaMaモデルをダウンロード</string>
+    <string name="only_lama_onnx_model">.onnx LaMa モデルのみをインポートできます</string>
+    <string name="delete_lama_model_sub">LaMa モデルを削除しますか?後で再度ダウンロードまたはインポートできます</string>
 </resources>

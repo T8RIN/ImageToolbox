@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -5465,4 +5467,7 @@
     <string name="progressive_scaling">Progresívne škálovanie</string>
     <string name="procedural_dampening">Tlmenie</string>
     <string name="random_color_dispersion">Náhodná disperzia farieb</string>
+    <string name="lama_model_link">Stiahnite si model LaMa</string>
+    <string name="only_lama_onnx_model">Importovať je možné iba modely .onnx LaMa</string>
+    <string name="delete_lama_model_sub">Odstrániť model LaMa? Neskôr si ho môžete stiahnuť alebo importovať znova</string>
 </resources>

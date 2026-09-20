@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">Penskalaan Progresif</string>
     <string name="procedural_dampening">Meredam</string>
     <string name="random_color_dispersion">Dispersi Warna Acak</string>
+    <string name="lama_model_link">Unduh model LaMa</string>
+    <string name="only_lama_onnx_model">Hanya model .onnx LaMa yang dapat diimpor</string>
+    <string name="delete_lama_model_sub">Hapus model LaMa? Anda dapat mendownload atau mengimpornya lagi nanti</string>
 </resources>

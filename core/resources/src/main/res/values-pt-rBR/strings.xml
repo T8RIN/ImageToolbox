@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Algo deu errado: %1$s</string>
     <string name="size">Tamanho %1$s</string>
     <string name="loading">Carregando…</string>
@@ -5463,4 +5465,7 @@
     <string name="progressive_scaling">Escala progressiva</string>
     <string name="procedural_dampening">Amortecimento</string>
     <string name="random_color_dispersion">Dispersão de cores aleatórias</string>
+    <string name="lama_model_link">Baixe o modelo LaMa</string>
+    <string name="only_lama_onnx_model">Somente modelos .onnx LaMa podem ser importados</string>
+    <string name="delete_lama_model_sub">Excluir o modelo LaMa? Você pode baixá-lo ou importá-lo novamente mais tarde</string>
 </resources>

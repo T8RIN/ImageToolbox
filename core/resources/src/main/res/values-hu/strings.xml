@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progresszív skálázás</string>
     <string name="procedural_dampening">Csillapítás</string>
     <string name="random_color_dispersion">Véletlenszerű színszórás</string>
+    <string name="lama_model_link">Töltse le a LaMa modellt</string>
+    <string name="only_lama_onnx_model">Csak .onnx LaMa modellek importálhatók</string>
+    <string name="delete_lama_model_sub">Törli a LaMa modellt? Később újra letöltheti vagy importálhatja</string>
 </resources>

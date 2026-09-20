@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">ప్రోగ్రెసివ్ స్కేలింగ్</string>
     <string name="procedural_dampening">డంపింగ్</string>
     <string name="random_color_dispersion">యాదృచ్ఛిక రంగు వ్యాప్తి</string>
+    <string name="lama_model_link">లామా మోడల్‌ని డౌన్‌లోడ్ చేయండి</string>
+    <string name="only_lama_onnx_model">.onnx LaMa మోడల్‌లను మాత్రమే దిగుమతి చేసుకోవచ్చు</string>
+    <string name="delete_lama_model_sub">లామా మోడల్‌ను తొలగించాలా? మీరు దీన్ని తర్వాత మళ్లీ డౌన్‌లోడ్ చేసుకోవచ్చు లేదా దిగుమతి చేసుకోవచ్చు</string>
 </resources>

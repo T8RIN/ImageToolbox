@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Aşamalı Ölçeklendirme</string>
     <string name="procedural_dampening">Nemlendirme</string>
     <string name="random_color_dispersion">Rastgele Renk Dağılımı</string>
+    <string name="lama_model_link">LaMa modelini indirin</string>
+    <string name="only_lama_onnx_model">Yalnızca .onnx LaMa modelleri içe aktarılabilir</string>
+    <string name="delete_lama_model_sub">LaMa modeli silinsin mi? Daha sonra tekrar indirebilir veya içe aktarabilirsiniz</string>
 </resources>

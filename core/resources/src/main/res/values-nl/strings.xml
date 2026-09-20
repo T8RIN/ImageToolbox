@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">Progressieve schaalvergroting</string>
     <string name="procedural_dampening">Demping</string>
     <string name="random_color_dispersion">Willekeurige kleurverspreiding</string>
+    <string name="lama_model_link">LaMa-model downloaden</string>
+    <string name="only_lama_onnx_model">Alleen .onnx LaMa-modellen kunnen worden geïmporteerd</string>
+    <string name="delete_lama_model_sub">Het LaMa-model verwijderen? Je kunt het later downloaden of opnieuw importeren</string>
 </resources>

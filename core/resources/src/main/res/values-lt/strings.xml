@@ -5467,4 +5467,7 @@
     <string name="progressive_scaling">Progresyvus mastelio keitimas</string>
     <string name="procedural_dampening">Slopinimas</string>
     <string name="random_color_dispersion">Atsitiktinė spalvų dispersija</string>
+    <string name="lama_model_link">Atsisiųskite LaMa modelį</string>
+    <string name="only_lama_onnx_model">Galima importuoti tik .onnx LaMa modelius</string>
+    <string name="delete_lama_model_sub">Ištrinti LaMa modelį? Vėliau galėsite atsisiųsti arba importuoti dar kartą</string>
 </resources>

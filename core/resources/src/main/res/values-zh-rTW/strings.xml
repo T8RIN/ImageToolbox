@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">漸進式縮放</string>
     <string name="procedural_dampening">阻尼</string>
     <string name="random_color_dispersion">隨機色散</string>
+    <string name="lama_model_link">下載喇嘛模型</string>
+    <string name="only_lama_onnx_model">只能匯入 .onnx LaMa 模型</string>
+    <string name="delete_lama_model_sub">刪除LaMa模型？您可以稍後再次下載或匯入</string>
 </resources>

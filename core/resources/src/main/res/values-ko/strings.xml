@@ -5464,4 +5464,7 @@
     <string name="progressive_scaling">점진적 스케일링</string>
     <string name="procedural_dampening">댐핑</string>
     <string name="random_color_dispersion">무작위 색상 분산</string>
+    <string name="lama_model_link">라마 모델 다운로드</string>
+    <string name="only_lama_onnx_model">.onnx LaMa 모델만 가져올 수 있습니다.</string>
+    <string name="delete_lama_model_sub">LaMa 모델을 삭제하시겠습니까? 나중에 다시 다운로드하거나 가져올 수 있습니다.</string>
 </resources>

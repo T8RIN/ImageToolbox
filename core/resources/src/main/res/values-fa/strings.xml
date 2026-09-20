@@ -5465,4 +5465,7 @@
     <string name="progressive_scaling">مقیاس بندی پیشرونده</string>
     <string name="procedural_dampening">مرطوب کردن</string>
     <string name="random_color_dispersion">پراکندگی رنگ تصادفی</string>
+    <string name="lama_model_link">دانلود مدل LaMa</string>
+    <string name="only_lama_onnx_model">فقط مدل‌های .onnx LaMa را می‌توان وارد کرد</string>
+    <string name="delete_lama_model_sub">مدل LaMa حذف شود؟ بعداً می‌توانید دوباره آن را دانلود یا وارد کنید</string>
 </resources>
