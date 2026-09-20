@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
@@ -122,7 +123,14 @@ fun CompressionLabContent(
             )
         },
         onGoBack = onBack,
-        actions = {},
+        actions = {
+            UndoRedoButtons(
+                canUndo = component.canUndo && !component.isImageLoading,
+                canRedo = component.canRedo && !component.isImageLoading,
+                onUndo = component::undo,
+                onRedo = component::redo
+            )
+        },
         topAppBarPersistentActions = {
             if (component.sourceBitmap == null) TopAppBarEmoji()
             CompareButton(
@@ -188,7 +196,6 @@ fun CompressionLabContent(
                 isPrimaryButtonEnabled = component.sourceBitmap != null &&
                         !component.isImageLoading && !component.isSaving,
                 actions = {
-                    actions()
                     ShareButton(
                         enabled = hasResult &&
                                 !component.isImageLoading && !component.isSaving,
@@ -197,6 +204,7 @@ fun CompressionLabContent(
                             component.cacheResults { editSheetData = it }
                         }
                     )
+                    if (isPortrait) actions()
                 }
             )
 

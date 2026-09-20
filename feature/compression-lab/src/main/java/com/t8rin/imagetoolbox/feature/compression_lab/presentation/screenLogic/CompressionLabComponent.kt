@@ -40,7 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.onSuccess
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
@@ -64,7 +64,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
     private val shareProvider: ShareProvider,
     private val filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(
+) : BaseHistoryComponent<CompressionLabComponent.HistorySnapshot>(
     dispatchersHolder = dispatchersHolder,
     componentContext = componentContext
 ) {
@@ -121,12 +121,14 @@ class CompressionLabComponent @AssistedInject internal constructor(
     }
 
     init {
+        resetHistory()
         debounce {
             initialUri?.let { setUris(listOf(it)) }
         }
     }
 
     fun setUris(newUris: List<Uri>?) {
+        clearHistory()
         val distinctUris = newUris.orEmpty()
             .filterNot { it == Uri.EMPTY }
             .distinct()
@@ -138,6 +140,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
             _benchmarkUri.update { null }
             _sourceBitmap.update { null }
             clearResults()
+            resetHistory()
             return
         }
 
@@ -146,6 +149,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
             ?: distinctUris.first()
 
         loadBenchmark(selectedBenchmarkUri)
+        resetHistory()
     }
 
     fun selectBenchmark(uri: Uri) {
@@ -154,6 +158,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
             uri = uri,
             runAnalysis = false
         )
+        resetHistory()
     }
 
     fun removeUri(uri: Uri) {
@@ -171,6 +176,7 @@ class CompressionLabComponent @AssistedInject internal constructor(
                 runAnalysis = false
             )
         }
+        resetHistory()
     }
 
     fun selectPreviousBenchmark() = selectBenchmarkByOffset(-1)
@@ -178,6 +184,8 @@ class CompressionLabComponent @AssistedInject internal constructor(
     fun selectNextBenchmark() = selectBenchmarkByOffset(1)
 
     fun toggleFormat(format: ImageFormat) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _selectedFormats.update { formats ->
             if (format in formats) {
                 formats.filterNot { it == format }.ifEmpty { formats }
@@ -186,28 +194,66 @@ class CompressionLabComponent @AssistedInject internal constructor(
             }
         }
         clearResults()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun setSearchMode(mode: CompressionSearchMode) {
         if (_searchMode.value == mode) return
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _searchMode.update { mode }
         clearResults()
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun setManualQuality(value: Int) {
+        if (manualQuality == value.coerceIn(0, 100)) return
+        beginPendingHistoryTransaction()
         _manualQuality.update { value.coerceIn(0, 100) }
         clearResults()
+        schedulePendingHistoryCommit()
     }
 
     fun setTargetQuality(value: Int) {
+        if (targetQuality == value.coerceIn(1, 100)) return
+        beginPendingHistoryTransaction()
         _targetQuality.update { value.coerceIn(1, 100) }
         clearResults()
+        schedulePendingHistoryCommit()
     }
 
     fun setTargetSizeKb(value: Int) {
+        if (targetSizeKb == value.coerceIn(1, 100_000)) return
+        beginPendingHistoryTransaction()
         _targetSizeKb.update { value.coerceIn(1, 100_000) }
         clearResults()
+        schedulePendingHistoryCommit()
     }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        selectedFormats = selectedFormats,
+        searchMode = searchMode,
+        manualQuality = manualQuality,
+        targetQuality = targetQuality,
+        targetSizeKb = targetSizeKb
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _selectedFormats.value = snapshot.selectedFormats
+        _searchMode.value = snapshot.searchMode
+        _manualQuality.intValue = snapshot.manualQuality
+        _targetQuality.intValue = snapshot.targetQuality
+        _targetSizeKb.intValue = snapshot.targetSizeKb
+        clearResults()
+    }
+
+    data class HistorySnapshot(
+        val selectedFormats: List<ImageFormat>,
+        val searchMode: CompressionSearchMode,
+        val manualQuality: Int,
+        val targetQuality: Int,
+        val targetSizeKb: Int
+    )
 
     fun runLab() {
         val bitmap = sourceBitmap ?: return

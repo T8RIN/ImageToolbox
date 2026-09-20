@@ -21,8 +21,6 @@ import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +30,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -40,12 +37,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.FileOpen
 import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.FileNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
@@ -91,6 +89,7 @@ fun BatchRenameContent(component: BatchRenameComponent) {
     }
 
     val validationError by component.validationError.collectAsStateWithLifecycle()
+    val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
         shouldDisableBackHandler = component.files.isEmpty(),
@@ -101,7 +100,14 @@ fun BatchRenameContent(component: BatchRenameComponent) {
                 modifier = Modifier.marquee()
             )
         },
-        actions = {},
+        actions = {
+            UndoRedoButtons(
+                canUndo = component.canUndo && !component.isLoading,
+                canRedo = component.canRedo && !component.isLoading,
+                onUndo = component::undo,
+                onRedo = component::redo
+            )
+        },
         topAppBarPersistentActions = { TopAppBarEmoji() },
         imagePreview = {},
         placeImagePreview = false,
@@ -138,16 +144,7 @@ fun BatchRenameContent(component: BatchRenameComponent) {
                 primaryButtonText = stringResource(R.string.rename),
                 isPrimaryButtonEnabled = validationError == null,
                 actions = {
-                    if (component.files.isNotEmpty()) {
-                        EnhancedChip(
-                            selected = true,
-                            onClick = null,
-                            selectedColor = MaterialTheme.colorScheme.secondaryContainer,
-                            modifier = Modifier.padding(8.dp)
-                        ) {
-                            Text(component.files.size.toString())
-                        }
-                    }
+                    if (isPortrait) it()
                 }
             )
 

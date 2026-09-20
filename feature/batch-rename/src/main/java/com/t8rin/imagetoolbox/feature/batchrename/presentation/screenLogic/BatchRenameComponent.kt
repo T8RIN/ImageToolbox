@@ -32,7 +32,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.batchrename.domain.RenameManager
@@ -61,7 +61,10 @@ class BatchRenameComponent @AssistedInject internal constructor(
     private val manager: RenameManager,
     settingsProvider: SettingsProvider,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<BatchRenameComponent.HistorySnapshot>(
+    dispatchersHolder,
+    componentContext
+) {
 
     private val settings = settingsProvider.settingsState.value
 
@@ -130,14 +133,19 @@ class BatchRenameComponent @AssistedInject internal constructor(
     )
 
     init {
+        resetHistory()
         initialUris?.let(::setUris)
     }
 
     fun setUris(uris: List<Uri>) {
         componentScope.launch {
             _isLoading.value = true
-            _files.value = manager.readFiles(uris.map { it.toString() })
+            val loadedFiles = manager.readFiles(uris.map { it.toString() })
+            finalizePendingHistoryTransaction()
+            val beforeSnapshot = currentHistorySnapshot()
+            _files.value = loadedFiles
             writableUris.clear()
+            commitHistoryFrom(beforeSnapshot)
             _isLoading.value = false
         }
     }
@@ -147,19 +155,47 @@ class BatchRenameComponent @AssistedInject internal constructor(
     }
 
     fun removeFile(uri: Uri) {
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _files.update { current -> current.filterNot { it.uri.toUri() == uri } }
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun updatePattern(value: String) {
+        if (pattern == value) return
+        beginPendingHistoryTransaction()
         _pattern.value = value
+        schedulePendingHistoryCommit()
     }
 
     fun updateDateSource(value: DateSource) {
+        if (dateSource == value) return
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _dateSource.value = value
+        commitHistoryFrom(beforeSnapshot)
     }
 
     fun updateManualDate(value: Long) {
+        if (manualDate == value) return
+        finalizePendingHistoryTransaction()
+        val beforeSnapshot = currentHistorySnapshot()
         _manualDate.value = value
+        commitHistoryFrom(beforeSnapshot)
+    }
+
+    override fun currentHistorySnapshot(): HistorySnapshot = HistorySnapshot(
+        files = files,
+        pattern = pattern,
+        dateSource = dateSource,
+        manualDate = manualDate
+    )
+
+    override fun applyHistorySnapshot(snapshot: HistorySnapshot) {
+        _files.value = snapshot.files
+        _pattern.value = snapshot.pattern
+        _dateSource.value = snapshot.dateSource
+        _manualDate.value = snapshot.manualDate
     }
 
     fun rename() {
@@ -178,6 +214,7 @@ class BatchRenameComponent @AssistedInject internal constructor(
                     _pattern.value = RenamePatterns.Default
                     _files.value = emptyList()
                     writableUris.clear()
+                    resetHistory()
                     _isLoading.value = false
                     AppToastHost.showToast(
                         message = R.string.batch_rename_success,
@@ -243,6 +280,13 @@ class BatchRenameComponent @AssistedInject internal constructor(
             )
         }
     }
+
+    data class HistorySnapshot(
+        val files: List<RenameFile>,
+        val pattern: String,
+        val dateSource: DateSource,
+        val manualDate: Long
+    )
 
     @AssistedFactory
     fun interface Factory {
