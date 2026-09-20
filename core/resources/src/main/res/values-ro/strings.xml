@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">S-a detectat imaginea de filigran ascunsă</string>
     <string name="this_image_was_hidden">Această imagine a fost ascunsă</string>
     <string name="generative_inpaint">Inpainting generativ</string>
-    <string name="generative_inpaint_sub">Vă permite să eliminați obiecte dintr-o imagine folosind un model AI, fără a vă baza pe OpenCV. Pentru a utiliza această caracteristică, aplicația va descărca modelul necesar (~200 MB) de pe GitHub</string>
+    <string name="generative_inpaint_sub">Vă permite să eliminați obiecte dintr-o imagine folosind un model AI, fără a vă baza pe OpenCV. Pentru a utiliza această caracteristică, aplicația va descărca modelul necesar (~200 MB) de pe Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Vă permite să eliminați obiecte dintr-o imagine folosind un model AI, fără a vă baza pe OpenCV. Aceasta ar putea fi o operațiune de lungă durată</string>
     <string name="error_level_analysis">Analiza nivelului de eroare</string>
     <string name="luminance_gradient">Gradient de luminanță</string>

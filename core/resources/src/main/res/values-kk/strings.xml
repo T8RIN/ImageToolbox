@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Жасырын су таңбасының кескіні анықталды</string>
     <string name="this_image_was_hidden">Бұл сурет жасырылды</string>
     <string name="generative_inpaint">Генеративті кескіндеме</string>
-    <string name="generative_inpaint_sub">OpenCV-ге сенбей, AI үлгісін пайдаланып кескіндегі нысандарды жоюға мүмкіндік береді. Бұл мүмкіндікті пайдалану үшін қолданба GitHub сайтынан қажетті үлгіні (~200 МБ) жүктеп алады</string>
+    <string name="generative_inpaint_sub">OpenCV-ге сенбей, AI үлгісін пайдаланып кескіндегі нысандарды жоюға мүмкіндік береді. Бұл мүмкіндікті пайдалану үшін қолданба Hugging Face сайтынан қажетті үлгіні (~200 МБ) жүктеп алады</string>
     <string name="generative_inpaint_ready_sub">OpenCV-ге сенбей, AI үлгісін пайдаланып кескіндегі нысандарды жоюға мүмкіндік береді. Бұл ұзаққа созылатын операция болуы мүмкін</string>
     <string name="error_level_analysis">Қате деңгейін талдау</string>
     <string name="luminance_gradient">Жарықтық градиенті</string>

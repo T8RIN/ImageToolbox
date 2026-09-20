@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Rejtett vízjelképet észlelt</string>
     <string name="this_image_was_hidden">Ez a kép el volt rejtve</string>
     <string name="generative_inpaint">Generatív festészet</string>
-    <string name="generative_inpaint_sub">Lehetővé teszi objektumok eltávolítását a képről mesterséges intelligencia modell segítségével, anélkül, hogy az OpenCV-re támaszkodna. A funkció használatához az alkalmazás letölti a szükséges modellt (~200 MB) a GitHubról</string>
+    <string name="generative_inpaint_sub">Lehetővé teszi objektumok eltávolítását a képről mesterséges intelligencia modell segítségével, anélkül, hogy az OpenCV-re támaszkodna. A funkció használatához az alkalmazás letölti a szükséges modellt (~200 MB) a Hugging Face-ről</string>
     <string name="generative_inpaint_ready_sub">Lehetővé teszi objektumok eltávolítását a képről mesterséges intelligencia modell segítségével, anélkül, hogy az OpenCV-re támaszkodna. Ez egy hosszú ideig tartó művelet lehet</string>
     <string name="error_level_analysis">Hibaszint-elemzés</string>
     <string name="luminance_gradient">Fényerő gradiens</string>

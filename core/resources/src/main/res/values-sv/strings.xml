@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Upptäckte dold vattenstämpelbild</string>
     <string name="this_image_was_hidden">Den här bilden var gömd</string>
     <string name="generative_inpaint">Generativ målning</string>
-    <string name="generative_inpaint_sub">Låter dig ta bort objekt i en bild med hjälp av en AI-modell, utan att förlita dig på OpenCV. För att använda den här funktionen laddar appen ner den modell som krävs (~200 MB) från GitHub</string>
+    <string name="generative_inpaint_sub">Låter dig ta bort objekt i en bild med hjälp av en AI-modell, utan att förlita dig på OpenCV. För att använda den här funktionen laddar appen ner den modell som krävs (~200 MB) från Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Låter dig ta bort objekt i en bild med hjälp av en AI-modell, utan att förlita dig på OpenCV. Detta kan vara en långvarig operation</string>
     <string name="error_level_analysis">Felnivåanalys</string>
     <string name="luminance_gradient">Luminansgradient</string>

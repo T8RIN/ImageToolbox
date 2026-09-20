@@ -1848,7 +1848,7 @@
     <string name="hidden_watermark_image_detected">Gizli filigran görüntüsü algılandı</string>
     <string name="this_image_was_hidden">Bu resim gizlendi</string>
     <string name="generative_inpaint">Üretken İçboya</string>
-    <string name="generative_inpaint_sub">OpenCV\'ye bağlı kalmadan, bir AI modeli kullanarak görüntüdeki nesneleri kaldırmanıza olanak tanır. Bu özelliği kullanmak için, uygulama gerekli modeli (~200 MB) GitHub\'dan indirecektir</string>
+    <string name="generative_inpaint_sub">OpenCV\'ye bağlı kalmadan, bir AI modeli kullanarak görüntüdeki nesneleri kaldırmanıza olanak tanır. Bu özelliği kullanmak için, uygulama gerekli modeli (~200 MB) Hugging Face\'den indirecektir</string>
     <string name="generative_inpaint_ready_sub">OpenCV\'ye bağlı kalmadan, bir AI modeli kullanarak görüntüdeki nesneleri kaldırmanıza olanak tanır. Bu, uzun süren bir işlem olabilir</string>
     <string name="error_level_analysis">Hata Seviyesi Analizi</string>
     <string name="luminance_gradient">Parlaklık Gradyanı</string>

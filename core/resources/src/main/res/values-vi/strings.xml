@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Đã phát hiện hình ảnh mờ ẩn</string>
     <string name="this_image_was_hidden">Hình ảnh này đã bị ẩn</string>
     <string name="generative_inpaint">Inpainting sáng tạo</string>
-    <string name="generative_inpaint_sub">Cho phép bạn xóa các đối tượng trong hình ảnh bằng mô hình AI mà không cần dựa vào OpenCV. Để sử dụng tính năng này, ứng dụng sẽ tải xuống mô hình cần thiết (~200 MB) từ GitHub</string>
+    <string name="generative_inpaint_sub">Cho phép bạn xóa các đối tượng trong hình ảnh bằng mô hình AI mà không cần dựa vào OpenCV. Để sử dụng tính năng này, ứng dụng sẽ tải xuống mô hình cần thiết (~200 MB) từ Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Cho phép bạn xóa các đối tượng trong hình ảnh bằng mô hình AI mà không cần dựa vào OpenCV. Đây có thể là một hoạt động kéo dài</string>
     <string name="error_level_analysis">Phân tích mức độ lỗi</string>
     <string name="luminance_gradient">Độ sáng độ sáng</string>

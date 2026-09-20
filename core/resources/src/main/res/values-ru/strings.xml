@@ -1959,7 +1959,10 @@
     <string name="hidden_watermark_image_detected">Обнаружено скрытое изображение водяного знака</string>
     <string name="this_image_was_hidden">Это изображение было скрыто</string>
     <string name="generative_inpaint">Генеративная закраска</string>
-    <string name="generative_inpaint_sub">Позволяет удалять объекты на изображении с помощью модели ИИ, не полагаясь на OpenCV. Для использования этой функции приложение загрузит необходимую модель (~200 МБ) с GitHub</string>
+    <string name="generative_inpaint_sub">Позволяет удалять объекты на изображении с помощью модели ИИ, не полагаясь на OpenCV. Для использования этой функции приложение загрузит необходимую модель (~200 МБ) с Hugging Face</string>
+    <string name="lama_model_link">Скачать модель LaMa</string>
+    <string name="only_lama_onnx_model">Можно импортировать только модель LaMa в формате .onnx</string>
+    <string name="delete_lama_model_sub">Удалить модель LaMa? Позже её можно снова скачать или импортировать</string>
     <string name="generative_inpaint_ready_sub">Позволяет удалять объекты на изображении с помощью модели ИИ, не полагаясь на OpenCV. Это может быть длительная операция</string>
     <string name="error_level_analysis">Анализ уровня ошибок</string>
     <string name="luminance_gradient">Градиент яркости</string>

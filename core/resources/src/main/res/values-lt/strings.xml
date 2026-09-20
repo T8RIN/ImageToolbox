@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Aptiktas paslėptas vandens ženklo vaizdas</string>
     <string name="this_image_was_hidden">Šis vaizdas buvo paslėptas</string>
     <string name="generative_inpaint">Generatyvus tapymas</string>
-    <string name="generative_inpaint_sub">Leidžia pašalinti objektus vaizde naudojant AI modelį, nepasikliaujant OpenCV. Norėdami naudotis šia funkcija, programa atsisiųs reikiamą modelį (~200 MB) iš GitHub</string>
+    <string name="generative_inpaint_sub">Leidžia pašalinti objektus vaizde naudojant AI modelį, nepasikliaujant OpenCV. Norėdami naudotis šia funkcija, programa atsisiųs reikiamą modelį (~200 MB) iš Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Leidžia pašalinti objektus vaizde naudojant AI modelį, nepasikliaujant OpenCV. Tai gali būti ilgai trunkanti operacija</string>
     <string name="error_level_analysis">Klaidos lygio analizė</string>
     <string name="luminance_gradient">Šviesumo gradientas</string>

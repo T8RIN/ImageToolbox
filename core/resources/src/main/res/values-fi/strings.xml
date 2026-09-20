@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Havaittiin piilotettu vesileimakuva</string>
     <string name="this_image_was_hidden">Tämä kuva oli piilotettu</string>
     <string name="generative_inpaint">Generatiivinen maalaus</string>
-    <string name="generative_inpaint_sub">Mahdollistaa objektien poistamisen kuvasta tekoälymallin avulla turvautumatta OpenCV:hen. Tämän ominaisuuden käyttämiseksi sovellus lataa vaaditun mallin (~200 Mt) GitHubista</string>
+    <string name="generative_inpaint_sub">Mahdollistaa objektien poistamisen kuvasta tekoälymallin avulla turvautumatta OpenCV:hen. Tämän ominaisuuden käyttämiseksi sovellus lataa vaaditun mallin (~200 Mt) Hugging Facesta</string>
     <string name="generative_inpaint_ready_sub">Mahdollistaa objektien poistamisen kuvasta tekoälymallin avulla turvautumatta OpenCV:hen. Tämä voi olla pitkäkestoinen operaatio</string>
     <string name="error_level_analysis">Virhetason analyysi</string>
     <string name="luminance_gradient">Luminanssigradientti</string>

@@ -1842,7 +1842,7 @@
     <string name="hidden_watermark_image_detected">تم الكشف عن صورة العلامة المائية المخفية</string>
     <string name="this_image_was_hidden">أُخفت هذه الصورة</string>
     <string name="generative_inpaint">الرسم التوليدي</string>
-    <string name="generative_inpaint_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. لاستخدام هذه الميزة، سيقوم التطبيق بتنزيل النموذج المطلوب (حوالي 200 ميجابايت) من GitHub</string>
+    <string name="generative_inpaint_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. لاستخدام هذه الميزة، سيقوم التطبيق بتنزيل النموذج المطلوب (حوالي 200 ميجابايت) من Hugging Face</string>
     <string name="generative_inpaint_ready_sub">يسمح لك بإزالة الكائنات في الصورة باستخدام نموذج الذكاء الاصطناعي، دون الاعتماد على OpenCV. قد تكون هذه عملية طويلة الأمد</string>
     <string name="error_level_analysis">تحليل مستوى الخطأ</string>
     <string name="luminance_gradient">التدرج النصوع</string>

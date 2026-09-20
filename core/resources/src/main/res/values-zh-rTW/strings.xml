@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">檢測到隱藏水印圖像</string>
     <string name="this_image_was_hidden">該圖片已被隱藏</string>
     <string name="generative_inpaint">生成修復</string>
-    <string name="generative_inpaint_sub">允許您使用 AI 模型刪除圖像中的對象，而無需依賴 OpenCV。要使用此功能，應用程式將從 GitHub 下載所需的模型（約 200 MB）</string>
+    <string name="generative_inpaint_sub">允許您使用 AI 模型刪除圖像中的對象，而無需依賴 OpenCV。要使用此功能，應用程式將從 Hugging Face 下載所需的模型（約 200 MB）</string>
     <string name="generative_inpaint_ready_sub">允許您使用 AI 模型刪除圖像中的對象，而無需依賴 OpenCV。這可能是一個長時間運行的操作</string>
     <string name="error_level_analysis">錯誤等級分析</string>
     <string name="luminance_gradient">亮度梯度</string>

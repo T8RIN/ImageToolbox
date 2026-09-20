@@ -1845,7 +1845,7 @@
     <string name="hidden_watermark_image_detected">检测到隐藏水印图像</string>
     <string name="this_image_was_hidden">该图像已被隐藏</string>
     <string name="generative_inpaint">生成式修复</string>
-    <string name="generative_inpaint_sub">可通过AI模型移除图像中的物体，无需依赖OpenCV。使用此功能前，应用将从GitHub下载所需模型（约200MB）</string>
+    <string name="generative_inpaint_sub">可通过AI模型移除图像中的物体，无需依赖OpenCV。使用此功能前，应用将从Hugging Face下载所需模型（约200MB）</string>
     <string name="generative_inpaint_ready_sub">可通过人工智能模型移除图像中的物体，无需依赖OpenCV，此操作可能耗时较久</string>
     <string name="error_level_analysis">错误等级分析</string>
     <string name="luminance_gradient">亮度梯度</string>

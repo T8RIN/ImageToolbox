@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">লুকানো জলছাপ চিত্র সনাক্ত করা হয়েছে</string>
     <string name="this_image_was_hidden">এই ছবি লুকানো ছিল</string>
     <string name="generative_inpaint">জেনারেটিভ ইনপেইন্টিং</string>
-    <string name="generative_inpaint_sub">OpenCV-এর উপর নির্ভর না করেই আপনাকে AI মডেল ব্যবহার করে একটি ইমেজে অবজেক্ট অপসারণ করতে দেয়। এই বৈশিষ্ট্যটি ব্যবহার করতে, অ্যাপটি গিটহাব থেকে প্রয়োজনীয় মডেল (~200 MB) ডাউনলোড করবে</string>
+    <string name="generative_inpaint_sub">OpenCV-এর উপর নির্ভর না করেই আপনাকে AI মডেল ব্যবহার করে একটি ইমেজে অবজেক্ট অপসারণ করতে দেয়। এই বৈশিষ্ট্যটি ব্যবহার করতে, অ্যাপটি Hugging Face থেকে প্রয়োজনীয় মডেল (~200 MB) ডাউনলোড করবে</string>
     <string name="generative_inpaint_ready_sub">OpenCV-এর উপর নির্ভর না করেই আপনাকে AI মডেল ব্যবহার করে একটি ইমেজে অবজেক্ট অপসারণ করতে দেয়। এটি একটি দীর্ঘ চলমান অপারেশন হতে পারে</string>
     <string name="error_level_analysis">ত্রুটি স্তর বিশ্লেষণ</string>
     <string name="luminance_gradient">লুমিনেন্স গ্রেডিয়েন্ট</string>

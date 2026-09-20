@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Tuvastati peidetud vesimärgi kujutis</string>
     <string name="this_image_was_hidden">See pilt oli peidetud</string>
     <string name="generative_inpaint">Generatiivne maalimine</string>
-    <string name="generative_inpaint_sub">Võimaldab eemaldada pildilt objekte AI-mudeli abil, ilma OpenCV-le tuginemata. Selle funktsiooni kasutamiseks laadib rakendus GitHubist alla vajaliku mudeli (~200 MB).</string>
+    <string name="generative_inpaint_sub">Võimaldab eemaldada pildilt objekte AI-mudeli abil, ilma OpenCV-le tuginemata. Selle funktsiooni kasutamiseks laadib rakendus Hugging Face’ist alla vajaliku mudeli (~200 MB).</string>
     <string name="generative_inpaint_ready_sub">Võimaldab eemaldada pildilt objekte AI-mudeli abil, ilma OpenCV-le tuginemata. See võib olla pikaajaline operatsioon</string>
     <string name="error_level_analysis">Veataseme analüüs</string>
     <string name="luminance_gradient">Heleduse gradient</string>

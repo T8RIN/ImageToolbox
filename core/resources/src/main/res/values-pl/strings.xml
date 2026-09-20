@@ -1850,7 +1850,7 @@
     <string name="hidden_watermark_image_detected">Wykryto ukryty obraz znaku wodnego</string>
     <string name="this_image_was_hidden">Ten obraz został ukryty</string>
     <string name="generative_inpaint">Generatywne uzupełnianie obrazów</string>
-    <string name="generative_inpaint_sub">Umożliwia usuwanie obiektów z obrazu przy użyciu modelu AI, bez konieczności korzystania z OpenCV. Aby skorzystać z tej funkcji, aplikacja pobierze wymagany model (~200 MB) z serwisu GitHub.</string>
+    <string name="generative_inpaint_sub">Umożliwia usuwanie obiektów z obrazu przy użyciu modelu AI, bez konieczności korzystania z OpenCV. Aby skorzystać z tej funkcji, aplikacja pobierze wymagany model (~200 MB) z serwisu Hugging Face.</string>
     <string name="generative_inpaint_ready_sub">Umożliwia usuwanie obiektów z obrazu przy użyciu modelu AI, bez konieczności korzystania z OpenCV. Może to być operacja długotrwała.</string>
     <string name="error_level_analysis">Analiza poziomu błędów</string>
     <string name="luminance_gradient">Gradient luminancji</string>

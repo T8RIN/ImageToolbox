@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Nakita ang nakatagong larawan ng watermark</string>
     <string name="this_image_was_hidden">Nakatago ang larawang ito</string>
     <string name="generative_inpaint">Generative Inpainting</string>
-    <string name="generative_inpaint_sub">Binibigyang-daan kang mag-alis ng mga bagay sa isang imahe gamit ang isang modelo ng AI, nang hindi umaasa sa OpenCV. Para magamit ang feature na ito, ida-download ng app ang kinakailangang modelo (~200 MB) mula sa GitHub</string>
+    <string name="generative_inpaint_sub">Binibigyang-daan kang mag-alis ng mga bagay sa isang imahe gamit ang isang modelo ng AI, nang hindi umaasa sa OpenCV. Para magamit ang feature na ito, ida-download ng app ang kinakailangang modelo (~200 MB) mula sa Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Binibigyang-daan kang mag-alis ng mga bagay sa isang imahe gamit ang isang modelo ng AI, nang hindi umaasa sa OpenCV. Ito ay maaaring isang matagal na operasyon</string>
     <string name="error_level_analysis">Pagsusuri sa Antas ng Error</string>
     <string name="luminance_gradient">Luminance Gradient</string>

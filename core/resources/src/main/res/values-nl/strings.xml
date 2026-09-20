@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Verborgen watermerkafbeelding gedetecteerd</string>
     <string name="this_image_was_hidden">Deze afbeelding was verborgen</string>
     <string name="generative_inpaint">Generatief inschilderen</string>
-    <string name="generative_inpaint_sub">Hiermee kunt u objecten in een afbeelding verwijderen met behulp van een AI-model, zonder afhankelijk te zijn van OpenCV. Om deze functie te gebruiken, downloadt de app het vereiste model (~200 MB) van GitHub</string>
+    <string name="generative_inpaint_sub">Hiermee kunt u objecten in een afbeelding verwijderen met behulp van een AI-model, zonder afhankelijk te zijn van OpenCV. Om deze functie te gebruiken, downloadt de app het vereiste model (~200 MB) van Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Hiermee kunt u objecten in een afbeelding verwijderen met behulp van een AI-model, zonder afhankelijk te zijn van OpenCV. Dit kan een langdurige operatie zijn</string>
     <string name="error_level_analysis">Analyse van foutniveau</string>
     <string name="luminance_gradient">Luminantiegradiënt</string>

@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Terdeteksi gambar tanda air tersembunyi</string>
     <string name="this_image_was_hidden">Gambar ini disembunyikan</string>
     <string name="generative_inpaint">Lukisan Generatif</string>
-    <string name="generative_inpaint_sub">Memungkinkan Anda menghapus objek dalam gambar menggunakan model AI, tanpa bergantung pada OpenCV. Untuk menggunakan fitur ini, aplikasi akan mengunduh model yang diperlukan (~200 MB) dari GitHub</string>
+    <string name="generative_inpaint_sub">Memungkinkan Anda menghapus objek dalam gambar menggunakan model AI, tanpa bergantung pada OpenCV. Untuk menggunakan fitur ini, aplikasi akan mengunduh model yang diperlukan (~200 MB) dari Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Memungkinkan Anda menghapus objek dalam gambar menggunakan model AI, tanpa bergantung pada OpenCV. Ini mungkin merupakan operasi yang berjalan lama</string>
     <string name="error_level_analysis">Analisis Tingkat Kesalahan</string>
     <string name="luminance_gradient">Gradien Pencahayaan</string>

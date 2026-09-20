@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Byl zjištěn skrytý obrázek vodoznaku</string>
     <string name="this_image_was_hidden">Tento obrázek byl skrytý</string>
     <string name="generative_inpaint">Generativní malba</string>
-    <string name="generative_inpaint_sub">Umožňuje odstranit objekty z obrázku pomocí modelu AI, aniž byste se spoléhali na OpenCV. K použití této funkce si aplikace stáhne požadovaný model (~200 MB) z GitHubu</string>
+    <string name="generative_inpaint_sub">Umožňuje odstranit objekty z obrázku pomocí modelu AI, aniž byste se spoléhali na OpenCV. K použití této funkce si aplikace stáhne požadovaný model (~200 MB) z Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Umožňuje odstranit objekty z obrázku pomocí modelu AI, aniž byste se spoléhali na OpenCV. Může se jednat o dlouhodobou operaci</string>
     <string name="error_level_analysis">Analýza úrovně chyb</string>
     <string name="luminance_gradient">Gradient jasu</string>

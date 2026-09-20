@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">숨겨진 워터마크 이미지가 감지되었습니다.</string>
     <string name="this_image_was_hidden">이 이미지는 숨겨져 있습니다</string>
     <string name="generative_inpaint">생성적 인페인팅</string>
-    <string name="generative_inpaint_sub">OpenCV에 의존하지 않고 AI 모델을 사용하여 이미지의 개체를 제거할 수 있습니다. 이 기능을 사용하려면 앱이 GitHub에서 필요한 모델(~200MB)을 다운로드합니다.</string>
+    <string name="generative_inpaint_sub">OpenCV에 의존하지 않고 AI 모델을 사용하여 이미지의 개체를 제거할 수 있습니다. 이 기능을 사용하려면 앱이 Hugging Face에서 필요한 모델(~200MB)을 다운로드합니다.</string>
     <string name="generative_inpaint_ready_sub">OpenCV에 의존하지 않고 AI 모델을 사용하여 이미지의 개체를 제거할 수 있습니다. 이는 장기간 실행되는 작업일 수 있습니다.</string>
     <string name="error_level_analysis">오류 수준 분석</string>
     <string name="luminance_gradient">휘도 변화도</string>

@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">దాచిన వాటర్‌మార్క్ చిత్రం కనుగొనబడింది</string>
     <string name="this_image_was_hidden">ఈ చిత్రం దాచబడింది</string>
     <string name="generative_inpaint">జనరేటివ్ పెయింటింగ్</string>
-    <string name="generative_inpaint_sub">OpenCVపై ఆధారపడకుండా, AI మోడల్‌ని ఉపయోగించి ఇమేజ్‌లోని వస్తువులను తీసివేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఈ ఫీచర్‌ని ఉపయోగించడానికి, యాప్ GitHub నుండి అవసరమైన మోడల్‌ని (~200 MB) డౌన్‌లోడ్ చేస్తుంది</string>
+    <string name="generative_inpaint_sub">OpenCVపై ఆధారపడకుండా, AI మోడల్‌ని ఉపయోగించి ఇమేజ్‌లోని వస్తువులను తీసివేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఈ ఫీచర్‌ని ఉపయోగించడానికి, యాప్ Hugging Face నుండి అవసరమైన మోడల్‌ని (~200 MB) డౌన్‌లోడ్ చేస్తుంది</string>
     <string name="generative_inpaint_ready_sub">OpenCVపై ఆధారపడకుండా, AI మోడల్‌ని ఉపయోగించి ఇమేజ్‌లోని వస్తువులను తీసివేయడానికి మిమ్మల్ని అనుమతిస్తుంది. ఇది సుదీర్ఘమైన ఆపరేషన్ కావచ్చు</string>
     <string name="error_level_analysis">లోపం స్థాయి విశ్లేషణ</string>
     <string name="luminance_gradient">ప్రకాశం గ్రేడియంట్</string>

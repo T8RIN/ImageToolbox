@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">検出された隠し透かし画像</string>
     <string name="this_image_was_hidden">この画像は非表示にされました</string>
     <string name="generative_inpaint">ジェネレーティブ・インペインティング</string>
-    <string name="generative_inpaint_sub">OpenCV に依存せずに、AI モデルを使用して画像内のオブジェクトを削除できます。この機能を使用するには、アプリは必要なモデル (約 200 MB) を GitHub からダウンロードします。</string>
+    <string name="generative_inpaint_sub">OpenCV に依存せずに、AI モデルを使用して画像内のオブジェクトを削除できます。この機能を使用するには、アプリは必要なモデル (約 200 MB) を Hugging Face からダウンロードします。</string>
     <string name="generative_inpaint_ready_sub">OpenCV に依存せずに、AI モデルを使用して画像内のオブジェクトを削除できます。これは長時間実行される操作になる可能性があります</string>
     <string name="error_level_analysis">エラーレベル分析</string>
     <string name="luminance_gradient">輝度勾配</string>

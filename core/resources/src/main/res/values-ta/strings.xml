@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">மறைக்கப்பட்ட வாட்டர்மார்க் படம் கண்டறியப்பட்டது</string>
     <string name="this_image_was_hidden">இந்த படம் மறைக்கப்பட்டது</string>
     <string name="generative_inpaint">உருவாக்கும் ஓவியம்</string>
-    <string name="generative_inpaint_sub">OpenCV ஐ நம்பாமல், AI மாதிரியைப் பயன்படுத்தி ஒரு படத்தில் உள்ள பொருட்களை அகற்ற உங்களை அனுமதிக்கிறது. இந்த அம்சத்தைப் பயன்படுத்த, ஆப்ஸ் GitHub இலிருந்து தேவையான மாதிரியை (~200 MB) பதிவிறக்கும்</string>
+    <string name="generative_inpaint_sub">OpenCV ஐ நம்பாமல், AI மாதிரியைப் பயன்படுத்தி ஒரு படத்தில் உள்ள பொருட்களை அகற்ற உங்களை அனுமதிக்கிறது. இந்த அம்சத்தைப் பயன்படுத்த, ஆப்ஸ் Hugging Face இலிருந்து தேவையான மாதிரியை (~200 MB) பதிவிறக்கும்</string>
     <string name="generative_inpaint_ready_sub">OpenCV ஐ நம்பாமல், AI மாதிரியைப் பயன்படுத்தி ஒரு படத்தில் உள்ள பொருட்களை அகற்ற உங்களை அனுமதிக்கிறது. இது நீண்ட கால நடவடிக்கையாக இருக்கலாம்</string>
     <string name="error_level_analysis">பிழை நிலை பகுப்பாய்வு</string>
     <string name="luminance_gradient">ஒளிர்வு சாய்வு</string>

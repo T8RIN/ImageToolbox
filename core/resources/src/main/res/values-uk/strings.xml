@@ -1850,7 +1850,7 @@
     <string name="hidden_watermark_image_detected">Виявлено приховане зображення водяного знака</string>
     <string name="this_image_was_hidden">Це зображення було приховано</string>
     <string name="generative_inpaint">Генеративне інпайнінг</string>
-    <string name="generative_inpaint_sub">Дозволяє видаляти об\'єкти на зображенні за допомогою моделі штучного інтелекту, не покладаючись на OpenCV. Щоб скористатися цією функцією, програма завантажить необхідну модель (~200 МБ) з GitHub.</string>
+    <string name="generative_inpaint_sub">Дозволяє видаляти об\'єкти на зображенні за допомогою моделі штучного інтелекту, не покладаючись на OpenCV. Щоб скористатися цією функцією, програма завантажить необхідну модель (~200 МБ) з Hugging Face.</string>
     <string name="generative_inpaint_ready_sub">Дозволяє видаляти об\'єкти на зображенні за допомогою моделі штучного інтелекту, не покладаючись на OpenCV. Це може бути тривалою операцією.</string>
     <string name="error_level_analysis">Аналіз рівня помилок</string>
     <string name="luminance_gradient">Градієнт яскравості</string>

@@ -1856,7 +1856,7 @@
     <string name="hidden_watermark_image_detected">Verstecktes Wasserzeichenbild erkannt</string>
     <string name="this_image_was_hidden">Dieses Bild wurde ausgeblendet</string>
     <string name="generative_inpaint">Generatives Inpainting</string>
-    <string name="generative_inpaint_sub">Ermöglicht das Entfernen von Objekten in einem Bild mithilfe eines KI-Modells, ohne auf OpenCV angewiesen zu sein. Um diese Funktion zu nutzen, lädt die App das erforderliche Modell (~200 MB) von GitHub herunter</string>
+    <string name="generative_inpaint_sub">Ermöglicht das Entfernen von Objekten in einem Bild mithilfe eines KI-Modells, ohne auf OpenCV angewiesen zu sein. Um diese Funktion zu nutzen, lädt die App das erforderliche Modell (~200 MB) von Hugging Face herunter</string>
     <string name="generative_inpaint_ready_sub">Ermöglicht das Entfernen von Objekten in einem Bild mithilfe eines KI-Modells, ohne auf OpenCV angewiesen zu sein. Dies könnte ein langwieriger Vorgang sein</string>
     <string name="error_level_analysis">Fehlerebenenanalyse</string>
     <string name="luminance_gradient">Luminanzgradient</string>

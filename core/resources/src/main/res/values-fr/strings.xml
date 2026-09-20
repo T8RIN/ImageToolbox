@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Image de filigrane cachée détectée</string>
     <string name="this_image_was_hidden">Cette image était cachée</string>
     <string name="generative_inpaint">Inpainting génératif</string>
-    <string name="generative_inpaint_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Pour utiliser cette fonctionnalité, l\'application téléchargera le modèle requis (~ 200 Mo) depuis GitHub.</string>
+    <string name="generative_inpaint_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Pour utiliser cette fonctionnalité, l\'application téléchargera le modèle requis (~ 200 Mo) depuis Hugging Face.</string>
     <string name="generative_inpaint_ready_sub">Vous permet de supprimer des objets dans une image à l\'aide d\'un modèle d\'IA, sans recourir à OpenCV. Cela pourrait être une opération de longue durée</string>
     <string name="error_level_analysis">Analyse du niveau d\'erreur</string>
     <string name="luminance_gradient">Dégradé de luminance</string>

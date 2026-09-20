@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">Откривена је скривена слика воденог жига</string>
     <string name="this_image_was_hidden">Ова слика је била скривена</string>
     <string name="generative_inpaint">Генеративе Инпаинтинг</string>
-    <string name="generative_inpaint_sub">Омогућава вам да уклоните објекте са слике користећи АИ модел, без ослањања на ОпенЦВ. Да би користила ову функцију, апликација ће преузети потребни модел (~200 МБ) са ГитХуб-а</string>
+    <string name="generative_inpaint_sub">Омогућава вам да уклоните објекте са слике користећи АИ модел, без ослањања на ОпенЦВ. Да би користила ову функцију, апликација ће преузети потребни модел (~200 МБ) са Hugging Face-а</string>
     <string name="generative_inpaint_ready_sub">Омогућава вам да уклоните објекте са слике користећи АИ модел, без ослањања на ОпенЦВ. Ово би могла бити дуготрајна операција</string>
     <string name="error_level_analysis">Анализа нивоа грешке</string>
     <string name="luminance_gradient">Градијент осветљености</string>

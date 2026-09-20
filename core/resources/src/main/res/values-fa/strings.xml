@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">تصویر واترمارک مخفی شناسایی شد</string>
     <string name="this_image_was_hidden">این تصویر مخفی بود</string>
     <string name="generative_inpaint">رنگ آمیزی مولد</string>
-    <string name="generative_inpaint_sub">به شما امکان می دهد اشیاء موجود در یک تصویر را با استفاده از مدل هوش مصنوعی، بدون تکیه بر OpenCV حذف کنید. برای استفاده از این ویژگی، برنامه مدل مورد نیاز (~200 مگابایت) را از GitHub دانلود می کند</string>
+    <string name="generative_inpaint_sub">به شما امکان می دهد اشیاء موجود در یک تصویر را با استفاده از مدل هوش مصنوعی، بدون تکیه بر OpenCV حذف کنید. برای استفاده از این ویژگی، برنامه مدل مورد نیاز (~200 مگابایت) را از Hugging Face دانلود می کند</string>
     <string name="generative_inpaint_ready_sub">به شما امکان می دهد اشیاء موجود در یک تصویر را با استفاده از مدل هوش مصنوعی، بدون تکیه بر OpenCV حذف کنید. این می تواند یک عملیات طولانی مدت باشد</string>
     <string name="error_level_analysis">تجزیه و تحلیل سطح خطا</string>
     <string name="luminance_gradient">گرادیان درخشندگی</string>

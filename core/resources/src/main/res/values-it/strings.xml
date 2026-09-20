@@ -1845,7 +1845,7 @@
     <string name="hidden_watermark_image_detected">Rilevata immagine filigrana nascosta</string>
     <string name="this_image_was_hidden">Questa immagine era nascosta</string>
     <string name="generative_inpaint">Pittura generativa</string>
-    <string name="generative_inpaint_sub">Ti consente di rimuovere oggetti in un\'immagine utilizzando un modello AI, senza fare affidamento su OpenCV. Per utilizzare questa funzione, l\'app scaricherà il modello richiesto (~200 MB) da GitHub</string>
+    <string name="generative_inpaint_sub">Ti consente di rimuovere oggetti in un\'immagine utilizzando un modello AI, senza fare affidamento su OpenCV. Per utilizzare questa funzione, l\'app scaricherà il modello richiesto (~200 MB) da Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Ti consente di rimuovere oggetti in un\'immagine utilizzando un modello AI, senza fare affidamento su OpenCV. Potrebbe trattarsi di un\'operazione a lungo termine</string>
     <string name="error_level_analysis">Analisi del livello di errore</string>
     <string name="luminance_gradient">Gradiente di luminanza</string>

@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">छिपी हुई वॉटरमार्क छवि का पता लगाया गया</string>
     <string name="this_image_was_hidden">यह छवि छिपाई गई थी</string>
     <string name="generative_inpaint">जनरेटिव इनपेंटिंग</string>
-    <string name="generative_inpaint_sub">आपको OpenCV पर भरोसा किए बिना, AI मॉडल का उपयोग करके किसी छवि में ऑब्जेक्ट को हटाने की अनुमति देता है। इस सुविधा का उपयोग करने के लिए, ऐप GitHub से आवश्यक मॉडल (~200 एमबी) डाउनलोड करेगा</string>
+    <string name="generative_inpaint_sub">आपको OpenCV पर भरोसा किए बिना, AI मॉडल का उपयोग करके किसी छवि में ऑब्जेक्ट को हटाने की अनुमति देता है। इस सुविधा का उपयोग करने के लिए, ऐप Hugging Face से आवश्यक मॉडल (~200 एमबी) डाउनलोड करेगा</string>
     <string name="generative_inpaint_ready_sub">आपको OpenCV पर भरोसा किए बिना, AI मॉडल का उपयोग करके किसी छवि में ऑब्जेक्ट को हटाने की अनुमति देता है। यह लंबे समय तक चलने वाला ऑपरेशन हो सकता है</string>
     <string name="error_level_analysis">त्रुटि स्तर विश्लेषण</string>
     <string name="luminance_gradient">चमक प्रवणता</string>

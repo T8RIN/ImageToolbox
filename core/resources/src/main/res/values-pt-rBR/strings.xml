@@ -1847,7 +1847,7 @@
     <string name="hidden_watermark_image_detected">Imagem com marca d\'água oculta detectada</string>
     <string name="this_image_was_hidden">Esta imagem foi ocultada</string>
     <string name="generative_inpaint">Preenchimento Generativo</string>
-    <string name="generative_inpaint_sub">Permite remover objetos de uma imagem usando um modelo de IA, sem depender do OpenCV. Para usar esse recurso, o aplicativo baixará o modelo necessário (~200 MB) do GitHub</string>
+    <string name="generative_inpaint_sub">Permite remover objetos de uma imagem usando um modelo de IA, sem depender do OpenCV. Para usar esse recurso, o aplicativo baixará o modelo necessário (~200 MB) do Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Permite remover objetos em uma imagem usando um modelo de IA, sem depender do OpenCV. Essa pode ser uma operação demorada</string>
     <string name="error_level_analysis">Análise do Nível de Erro</string>
     <string name="luminance_gradient">Gradiente de Luminância</string>

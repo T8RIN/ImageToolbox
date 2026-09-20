@@ -1844,7 +1844,7 @@
     <string name="hidden_watermark_image_detected">S\'ha detectat una imatge de marca d\'aigua oculta</string>
     <string name="this_image_was_hidden">Aquesta imatge estava amagada</string>
     <string name="generative_inpaint">Inpainting generatiu</string>
-    <string name="generative_inpaint_sub">Us permet eliminar objectes d\'una imatge mitjançant un model d\'IA, sense dependre d\'OpenCV. Per utilitzar aquesta funció, l\'aplicació baixarà el model necessari (~200 MB) de GitHub</string>
+    <string name="generative_inpaint_sub">Us permet eliminar objectes d\'una imatge mitjançant un model d\'IA, sense dependre d\'OpenCV. Per utilitzar aquesta funció, l\'aplicació baixarà el model necessari (~200 MB) de Hugging Face</string>
     <string name="generative_inpaint_ready_sub">Us permet eliminar objectes d\'una imatge mitjançant un model d\'IA, sense dependre d\'OpenCV. Aquesta pot ser una operació de llarga durada</string>
     <string name="error_level_analysis">Anàlisi del nivell d\'error</string>
     <string name="luminance_gradient">Gradient de lluminància</string>
