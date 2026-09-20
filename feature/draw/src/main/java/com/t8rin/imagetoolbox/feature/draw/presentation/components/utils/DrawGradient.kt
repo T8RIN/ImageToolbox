@@ -37,6 +37,8 @@ import androidx.core.graphics.createBitmap
 import com.awxkee.aire.Aire
 import com.awxkee.aire.EdgeMode
 import com.awxkee.aire.GaussianPreciseLevel
+import com.t8rin.imagetoolbox.core.data.image.utils.createShader
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import kotlin.math.atan2
@@ -58,12 +60,23 @@ internal fun Canvas.drawPathWithGradient(
     softnessRadius: Float = 0f,
     cache: GradientStrokeCache? = null,
     gradientLength: Float = 1f,
-    isGradientMirrored: Boolean = false
+    isGradientMirrored: Boolean = false,
+    gradientGeometry: GradientGeometry? = null
 ) {
     if (palette == null) {
         drawPath(path, paint)
     } else if (isFilled) {
-        drawPath(path, paint.withPathGradient(path, palette, gradientLength, isGradientMirrored))
+        val fillPaint = if (gradientGeometry == null) {
+            paint.withPathGradient(path, palette, gradientLength, isGradientMirrored)
+        } else {
+            val bounds = RectF().also { path.computeBounds(it, true) }
+            Paint(paint).apply {
+                shader = gradientGeometry.withPalette(palette).createShader(
+                    bounds.width(), bounds.height(), bounds.left, bounds.top
+                )
+            }
+        }
+        drawPath(path, fillPaint)
     } else {
         drawGradientStroke(
             path = path,

@@ -19,12 +19,29 @@ package com.t8rin.imagetoolbox.core.domain.model
 
 import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.hypot
 import kotlin.math.sin
 
 data class GradientFill(
     val palette: GradientPalette = GradientPalette.SoftRainbow,
-    val angle: Float = 0f
+    val angle: Float = 0f,
+    val type: GradientType = GradientType.Linear,
+    val centerX: Float = 0.5f,
+    val centerY: Float = 0.5f,
+    val radius: Float = 1f
 ) {
+    val geometry: GradientGeometry
+        get() = GradientGeometry(type, angle, centerX, centerY, radius)
+
+    fun radiusFor(width: Float, height: Float): Float =
+        (hypot(width, height) / 2f * radius.coerceIn(0.05f, 2f)).coerceAtLeast(1f)
+
+    fun centerXFor(width: Float, left: Float = 0f): Float =
+        left + width * centerX.coerceIn(0f, 1f)
+
+    fun centerYFor(height: Float, top: Float = 0f): Float =
+        top + height * centerY.coerceIn(0f, 1f)
+
     fun lineFor(width: Float, height: Float, left: Float = 0f, top: Float = 0f): GradientLine {
         val radians = (angle.takeIf { it.isFinite() } ?: 0f) * Math.PI / 180.0
         val dx = cos(radians).toFloat()

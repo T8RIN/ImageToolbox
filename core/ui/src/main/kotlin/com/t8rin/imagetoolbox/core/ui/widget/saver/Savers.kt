@@ -24,7 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.domain.model.GradientType
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
@@ -79,4 +81,20 @@ val OffsetSaver: Saver<Offset?, Any> = listSaver<Offset?, Float>(
 val GradientPaletteSaver: Saver<GradientPalette, String> = Saver(
     save = { it.toSerializedString() },
     restore = GradientPalette::fromSerializedString
+)
+
+val GradientGeometrySaver: Saver<GradientGeometry, Any> = listSaver<GradientGeometry, Any>(
+    save = {
+        listOf(it.type.name, it.angle, it.centerX, it.centerY, it.radius)
+    },
+    restore = {
+        GradientGeometry(
+            type = GradientType.entries.firstOrNull { type -> type.name == it[0] }
+                ?: GradientType.Linear,
+            angle = it[1] as Float,
+            centerX = it[2] as Float,
+            centerY = it[3] as Float,
+            radius = it[4] as Float
+        )
+    }
 )

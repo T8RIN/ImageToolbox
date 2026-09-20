@@ -38,7 +38,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,7 +50,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -71,6 +70,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientGeometrySaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -156,11 +156,14 @@ internal fun MarkupLayersNoDataControls(
     var sheetGradientPalette by rememberSaveable(showBackgroundDrawingSetup) {
         mutableStateOf<String?>(null)
     }
-    var sheetGradientAngle by rememberSaveable(showBackgroundDrawingSetup) {
-        mutableFloatStateOf(0f)
+    var sheetGradientGeometry by rememberSaveable(
+        showBackgroundDrawingSetup,
+        stateSaver = GradientGeometrySaver
+    ) {
+        mutableStateOf(GradientGeometry())
     }
     val sheetGradient = sheetGradientPalette?.let(GradientPalette::fromSerializedString)?.let {
-        GradientFill(it, sheetGradientAngle)
+        sheetGradientGeometry.withPalette(it)
     }
     var sheetBackgroundColor by rememberSaveable(
         showBackgroundDrawingSetup,
@@ -250,7 +253,7 @@ internal fun MarkupLayersNoDataControls(
                     gradient = sheetGradient,
                     onGradientChange = {
                         sheetGradientPalette = it.palette.toSerializedString()
-                        sheetGradientAngle = it.angle
+                        sheetGradientGeometry = it.geometry
                     },
                     icon = Icons.Outlined.BackgroundColor,
                     modifier = Modifier.padding(

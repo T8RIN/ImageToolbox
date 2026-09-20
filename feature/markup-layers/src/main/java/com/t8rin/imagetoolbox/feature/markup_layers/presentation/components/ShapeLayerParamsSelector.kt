@@ -51,6 +51,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowSizeScale
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.cornerRadius
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.innerRadiusRatio
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.isFilledShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isOutlinedShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isRegular
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ordinal
@@ -211,6 +212,10 @@ private fun ShapeAppearanceSection(
         onGradientPaletteChange = {
             onUpdateLayer(layer.copy(type = type.copy(gradientPalette = it)))
         },
+        gradientGeometry = type.gradientGeometry,
+        onGradientGeometryChange = if (mode.isFilledShapeMode()) {
+            { onUpdateLayer(layer.copy(type = type.copy(gradientGeometry = it))) }
+        } else null,
         shape = when {
             showFillColor || showStrokeWidth -> ShapeDefaults.top
             else -> singleItemShape
@@ -229,6 +234,10 @@ private fun ShapeAppearanceSection(
                 gradientPalette = type.fillGradientPalette,
                 onGradientPaletteChange = {
                     onUpdateLayer(layer.copy(type = type.copy(fillGradientPalette = it)))
+                },
+                gradientGeometry = type.fillGradientGeometry,
+                onGradientGeometryChange = {
+                    onUpdateLayer(layer.copy(type = type.copy(fillGradientGeometry = it)))
                 },
                 value = mode.outlinedFillColorInt()?.toColor(),
                 onValueChange = {

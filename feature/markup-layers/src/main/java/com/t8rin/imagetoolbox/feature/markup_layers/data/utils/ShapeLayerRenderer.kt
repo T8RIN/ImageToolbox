@@ -24,6 +24,7 @@ import android.graphics.Paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.LinearGradientShader
@@ -40,6 +41,7 @@ import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.createShader
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toBrush
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.arrowAngle
@@ -183,9 +185,12 @@ internal fun DrawScope.drawShapeLayer(
         data = data
     )
     val brush = type.gradientPalette?.let { palette ->
-        Brush.horizontalGradient(
-            colors = palette.colors.map { Color(it.colorInt) },
-            endX = data.contentWidth
+        if (type.shapeMode.isFilledShapeMode()) {
+            type.gradientGeometry.withPalette(palette).toBrush(
+                Size(data.contentWidth, data.contentHeight)
+            )
+        } else Brush.horizontalGradient(
+            palette.colors.map { Color(it.colorInt) }, endX = data.contentWidth
         )
     } ?: SolidColor(type.color.toColor())
 
@@ -199,12 +204,12 @@ internal fun DrawScope.drawShapeLayer(
     }
 
     if (type.shapeMode.isOutlinedShapeMode()) {
-        val fillBrush = type.fillGradientPalette?.let { palette ->
-            Brush.horizontalGradient(
-                palette.colors.map { Color(it.colorInt) },
-                endX = data.contentWidth
+        val fillBrush = type.fillGradientPalette?.let {
+            type.fillGradientGeometry.withPalette(it).toBrush(
+                Size(data.contentWidth, data.contentHeight)
             )
-        } ?: type.shapeMode.outlinedFillColorInt()?.let { SolidColor(Color(it)) }
+        }
+            ?: type.shapeMode.outlinedFillColorInt()?.let { SolidColor(Color(it)) }
         fillBrush?.let {
             drawPath(path = path, brush = it, style = Fill)
         }
@@ -230,11 +235,16 @@ internal fun Canvas.drawShapeLayer(
         data = data
     ).asAndroidPath()
     val gradient = type.gradientPalette?.let { palette ->
-        LinearGradientShader(
-            from = Offset.Zero,
-            to = Offset(data.contentWidth, 0f),
-            colors = palette.colors.map { Color(it.colorInt) }
-        )
+        if (type.shapeMode.isFilledShapeMode()) {
+            type.gradientGeometry.withPalette(palette)
+                .createShader(data.contentWidth, data.contentHeight)
+        } else {
+            LinearGradientShader(
+                from = Offset.Zero,
+                to = Offset(data.contentWidth, 0f),
+                colors = palette.colors.map { Color(it.colorInt) }
+            )
+        }
     }
 
     if (type.shapeMode.isFilledShapeMode()) {
@@ -258,10 +268,10 @@ internal fun Canvas.drawShapeLayer(
                     color = if (type.fillGradientPalette == null) {
                         type.shapeMode.outlinedFillColorInt() ?: android.graphics.Color.TRANSPARENT
                     } else android.graphics.Color.WHITE
-                    shader = type.fillGradientPalette?.createShader(
-                        data.contentWidth,
-                        data.contentHeight
-                    )
+                    shader = type.fillGradientPalette?.let {
+                        type.fillGradientGeometry.withPalette(it)
+                            .createShader(data.contentWidth, data.contentHeight)
+                    }
                     isDither = type.fillGradientPalette != null
                     style = Paint.Style.FILL
                 }

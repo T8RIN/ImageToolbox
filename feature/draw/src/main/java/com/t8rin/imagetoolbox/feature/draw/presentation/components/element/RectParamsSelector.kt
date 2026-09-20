@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.cornerR
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isRect
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rotationDegrees
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlined
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlinedGradientGeometry
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateRect
 import kotlin.math.roundToInt
 
@@ -65,6 +66,10 @@ internal fun RectParamsSelector(
                 OutlinedFillColorSelector(
                     value = value.outlinedFillColor?.toColor(),
                     gradientPalette = value.outlinedFillGradientPalette,
+                    gradientGeometry = value.outlinedFillGradientGeometry,
+                    onGradientGeometryChange = {
+                        onValueChange(value.updateOutlinedGradientGeometry(it))
+                    },
                     onGradientPaletteChange = {
                         onValueChange(value.updateOutlined(fillGradientPalette = it))
                     },

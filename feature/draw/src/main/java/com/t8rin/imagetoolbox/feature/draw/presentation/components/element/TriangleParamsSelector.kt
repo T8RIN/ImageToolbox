@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlined
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlinedGradientGeometry
 
 @Composable
 internal fun TriangleParamsSelector(
@@ -51,6 +52,10 @@ internal fun TriangleParamsSelector(
             OutlinedFillColorSelector(
                 value = value.outlinedFillColor?.toColor(),
                 gradientPalette = value.outlinedFillGradientPalette,
+                gradientGeometry = value.outlinedFillGradientGeometry,
+                onGradientGeometryChange = {
+                    onValueChange(value.updateOutlinedGradientGeometry(it))
+                },
                 onGradientPaletteChange = {
                     onValueChange(value.updateOutlined(fillGradientPalette = it))
                 },

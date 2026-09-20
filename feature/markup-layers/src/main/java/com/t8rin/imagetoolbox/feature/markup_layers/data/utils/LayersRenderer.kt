@@ -408,9 +408,10 @@ internal class LayersRenderer @Inject constructor(
                         backgroundColor
                     } else android.graphics.Color.WHITE
                     isDither = type.backgroundGradientPalette != null
-                    shader = type.backgroundGradientPalette?.createShader(
-                        bitmapWidth.toFloat(), bitmapHeight.toFloat()
-                    )
+                    shader = type.backgroundGradientPalette?.let {
+                        type.backgroundGradientGeometry.withPalette(it)
+                            .createShader(bitmapWidth.toFloat(), bitmapHeight.toFloat())
+                    }
                 }
             },
             textLeft = textMetrics.padding.leftPx,

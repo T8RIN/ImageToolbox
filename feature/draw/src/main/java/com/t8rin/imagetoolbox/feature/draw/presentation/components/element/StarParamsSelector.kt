@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isRegul
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.isStar
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.rotationDegrees
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlined
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateOutlinedGradientGeometry
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.updateStar
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.vertices
 import kotlin.math.roundToInt
@@ -70,6 +71,10 @@ internal fun StarParamsSelector(
                 OutlinedFillColorSelector(
                     value = value.outlinedFillColor?.toColor(),
                     gradientPalette = value.outlinedFillGradientPalette,
+                    gradientGeometry = value.outlinedFillGradientGeometry,
+                    onGradientGeometryChange = {
+                        onValueChange(value.updateOutlinedGradientGeometry(it))
+                    },
                     onGradientPaletteChange = {
                         onValueChange(value.updateOutlined(fillGradientPalette = it))
                     },

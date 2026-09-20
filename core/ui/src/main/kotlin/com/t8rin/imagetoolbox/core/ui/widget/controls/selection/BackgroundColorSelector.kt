@@ -20,7 +20,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.controls.selection
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -28,9 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
+import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientGeometrySaver
 
 @Composable
 fun BackgroundColorSelector(
@@ -44,9 +47,11 @@ fun BackgroundColorSelector(
     containerColor: Color = Color.Unspecified,
     nestedContainerColor: Color = Color.Unspecified
 ) {
-    var lastAngle by rememberSaveable { mutableFloatStateOf(gradient?.angle ?: 0f) }
+    var lastGeometry by rememberSaveable(stateSaver = GradientGeometrySaver) {
+        mutableStateOf(gradient?.geometry ?: GradientGeometry())
+    }
     LaunchedEffect(gradient) {
-        gradient?.let { lastAngle = it.angle }
+        gradient?.let { lastGeometry = it.geometry }
     }
 
     ColorAndGradientSelector(
@@ -54,12 +59,12 @@ fun BackgroundColorSelector(
         gradientPalette = gradient?.palette,
         onValueChange = onValueChange,
         onGradientPaletteChange = {
-            onGradientChange(
-                (gradient ?: GradientFill(angle = lastAngle)).copy(palette = it)
-            )
+            onGradientChange((gradient?.geometry ?: lastGeometry).withPalette(it))
         },
-        gradientAngle = gradient?.angle ?: 0f,
-        onGradientAngleChange = { onGradientChange((gradient ?: GradientFill()).copy(angle = it)) },
+        gradientGeometry = gradient?.geometry ?: lastGeometry,
+        onGradientGeometryChange = {
+            onGradientChange(it.withPalette(gradient?.palette ?: GradientPalette.SoftRainbow))
+        },
         modifier = modifier,
         icon = icon,
         shape = shape,

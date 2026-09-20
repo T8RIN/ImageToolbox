@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -39,6 +40,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrushColor
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.GradientColorItem
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.GradientGeometrySelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -55,6 +57,9 @@ fun DrawColorSelector(
     allowGradient: Boolean = false,
     gradientPalette: GradientPalette = GradientPalette.SoftRainbow,
     onGradientPaletteChange: (GradientPalette) -> Unit = {},
+    gradientGeometry: GradientGeometry = GradientGeometry(),
+    onGradientGeometryChange: (GradientGeometry) -> Unit = {},
+    showFillGradientGeometry: Boolean = false,
     gradientLength: Float = 1f,
     onGradientLengthChange: (Float) -> Unit = {},
     isGradientMirrored: Boolean = false,
@@ -114,28 +119,35 @@ fun DrawColorSelector(
                     color = MaterialTheme.colorScheme.surface,
                     shape = ShapeDefaults.top
                 )
-                EnhancedSliderItem(
-                    value = gradientLength * 100f,
-                    onValueChange = { onGradientLengthChange(it.roundToInt() / 100f) },
-                    title = stringResource(R.string.gradient_length),
-                    valueRange = 10f..400f,
-                    valueSuffix = "%",
-                    shape = ShapeDefaults.center,
-                    internalStateTransformation = { it.roundToInt() },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.gradient_mirror),
-                    subtitle = stringResource(R.string.gradient_mirror_sub),
-                    checked = isGradientMirrored,
-                    onClick = onGradientMirroredChange,
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    shape = ShapeDefaults.bottom,
-                    modifier = Modifier.fillMaxWidth(),
-                    resultModifier = Modifier.padding(16.dp),
-                    applyHorizontalPadding = false
-                )
+                if (showFillGradientGeometry) {
+                    GradientGeometrySelector(
+                        value = gradientGeometry,
+                        onValueChange = onGradientGeometryChange
+                    )
+                } else {
+                    EnhancedSliderItem(
+                        value = gradientLength * 100f,
+                        onValueChange = { onGradientLengthChange(it.roundToInt() / 100f) },
+                        title = stringResource(R.string.gradient_length),
+                        valueRange = 10f..400f,
+                        valueSuffix = "%",
+                        shape = ShapeDefaults.center,
+                        internalStateTransformation = { it.roundToInt() },
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.gradient_mirror),
+                        subtitle = stringResource(R.string.gradient_mirror_sub),
+                        checked = isGradientMirrored,
+                        onClick = onGradientMirroredChange,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        shape = ShapeDefaults.bottom,
+                        modifier = Modifier.fillMaxWidth(),
+                        resultModifier = Modifier.padding(16.dp),
+                        applyHorizontalPadding = false
+                    )
+                }
             }
         }
     }

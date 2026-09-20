@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toColor
 import com.t8rin.imagetoolbox.core.data.image.utils.ColorUtils.toModel
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -195,7 +196,8 @@ internal fun DrawPathMode.saveState(
     if (value is DrawPathMode.Outlined && this is DrawPathMode.Outlined) {
         updateOutlined(
             fillColor = value.fillColor?.toColor(),
-            fillGradientPalette = value.fillGradientPalette
+            fillGradientPalette = value.fillGradientPalette,
+            fillGradientGeometry = value.fillGradientGeometry
         )
     } else this
 }
@@ -276,39 +278,51 @@ internal fun DrawPathMode.innerRadiusRatio(): Float = when (this) {
 
 internal fun DrawPathMode.updateOutlined(
     fillColor: Color? = outlinedFillColor?.toColor(),
-    fillGradientPalette: GradientPalette? = null
+    fillGradientPalette: GradientPalette? = null,
+    fillGradientGeometry: GradientGeometry = outlinedFillGradientGeometry
 ) = when (this) {
     is DrawPathMode.Outlined -> {
         when (this) {
             is DrawPathMode.OutlinedOval -> copy(
                 fillColor = fillColor?.toModel(),
-                fillGradientPalette = fillGradientPalette
+                fillGradientPalette = fillGradientPalette,
+                fillGradientGeometry = fillGradientGeometry
             )
 
             is DrawPathMode.OutlinedPolygon -> copy(
                 fillColor = fillColor?.toModel(),
-                fillGradientPalette = fillGradientPalette
+                fillGradientPalette = fillGradientPalette,
+                fillGradientGeometry = fillGradientGeometry
             )
 
             is DrawPathMode.OutlinedRect -> copy(
                 fillColor = fillColor?.toModel(),
-                fillGradientPalette = fillGradientPalette
+                fillGradientPalette = fillGradientPalette,
+                fillGradientGeometry = fillGradientGeometry
             )
 
             is DrawPathMode.OutlinedStar -> copy(
                 fillColor = fillColor?.toModel(),
-                fillGradientPalette = fillGradientPalette
+                fillGradientPalette = fillGradientPalette,
+                fillGradientGeometry = fillGradientGeometry
             )
 
             is DrawPathMode.OutlinedTriangle -> copy(
                 fillColor = fillColor?.toModel(),
-                fillGradientPalette = fillGradientPalette
+                fillGradientPalette = fillGradientPalette,
+                fillGradientGeometry = fillGradientGeometry
             )
         }
     }
 
     else -> this
 }
+
+internal fun DrawPathMode.updateOutlinedGradientGeometry(geometry: GradientGeometry): DrawPathMode =
+    updateOutlined(
+        fillGradientPalette = outlinedFillGradientPalette,
+        fillGradientGeometry = geometry
+    )
 
 internal fun DrawPathMode.updatePolygon(
     vertices: Int? = null,

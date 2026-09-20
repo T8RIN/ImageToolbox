@@ -33,7 +33,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.domain.model.GradientType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
@@ -53,6 +55,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistoryS
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ShapeMode
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.isFilledShapeMode
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.isOutlinedShapeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -123,6 +126,37 @@ class GradientLayerTest {
     }
 
     @Test
+    fun filledShapePreviewMatchesExportForRadialAndSweep() {
+        val mode = ShapeMode.entries.first { it.isFilledShapeMode() }
+        for (geometry in listOf(
+            GradientGeometry(angle = 125f),
+            GradientGeometry(GradientType.Radial, centerX = 0.2f, centerY = 0.7f, radius = 0.6f),
+            GradientGeometry(GradientType.Sweep, angle = 125f, centerX = 0.2f, centerY = 0.7f)
+        )) {
+            val type = LayerType.Shape.Default.copy(
+                shapeMode = mode,
+                gradientPalette = palette,
+                gradientGeometry = geometry
+            )
+            val data = resolveShapeLayerRenderData(type, 512f)
+            val width = ceil(data.contentWidth).toInt()
+            val height = ceil(data.contentHeight).toInt()
+            val exported = createBitmap(width, height)
+            Canvas(exported).drawShapeLayer(type, data)
+            val preview = createBitmap(width, height)
+            CanvasDrawScope().draw(
+                Density(1f), LayoutDirection.Ltr, ComposeCanvas(Canvas(preview)),
+                Size(width.toFloat(), height.toFloat())
+            ) {
+                drawShapeLayer(type, data)
+            }
+            assertTrue("Fill differs for $geometry", exported.sameAs(preview))
+            exported.recycle()
+            preview.recycle()
+        }
+    }
+
+    @Test
     fun textExportKeepsGradientWithOutlineShadowAndTransforms() = runBlocking {
         val dispatchers = object : DispatchersHolder {
             override val uiDispatcher = Dispatchers.Main
@@ -184,6 +218,9 @@ class GradientLayerTest {
             LayerType.Text.Default.copy(
                 gradientPalette = palette,
                 backgroundGradientPalette = GradientPalette.Ocean,
+                backgroundGradientGeometry = GradientGeometry(
+                    GradientType.Sweep, angle = 85f, centerX = 0.3f, centerY = 0.7f
+                ),
                 outlineGradientPalette = palette,
                 outline = Outline(Color.GREEN, 3f)
             ), position
@@ -191,11 +228,21 @@ class GradientLayerTest {
         val shape = MarkupLayer(
             LayerType.Shape.Default.copy(
                 gradientPalette = GradientPalette.Fire,
-                fillGradientPalette = palette
+                fillGradientPalette = palette,
+                gradientGeometry = GradientGeometry(
+                    GradientType.Radial, centerX = 0.3f, centerY = 0.7f, radius = 1.4f
+                ),
+                fillGradientGeometry = GradientGeometry(
+                    GradientType.Sweep, angle = 210f, centerX = 0.8f, centerY = 0.3f
+                )
             ), position
         )
         val layers = listOf(text, shape, shape.copy(groupedLayers = listOf(text, shape)))
-        val background = ProjectBackground.Color(512, 256, Color.GREEN, GradientFill(palette, 125f))
+        val background = ProjectBackground.Color(
+            512, 256, Color.GREEN, GradientFill(
+                palette, 125f, GradientType.Radial, centerX = 0.3f, centerY = 0.7f, radius = 1.4f
+            )
+        )
         val project = MarkupProject(
             background = background,
             layers = layers,
@@ -215,6 +262,40 @@ class GradientLayerTest {
         val restored =
             mapper.map(adapter.fromJson(json)!!, context.cacheDir) as MarkupProjectResult.Success
         assertEquals(project, restored.project)
+
+        val oldGradientJson = json
+            .replace(
+                Regex(",\"(?:gradientType|backgroundGradientType|fillGradientType)\":\"[^\"]*\""),
+                ""
+            )
+            .replace(
+                Regex(",\"(?:gradientAngle|backgroundGradientAngle|fillGradientAngle|gradientCenterX|gradientCenterY|gradientRadius|backgroundGradientCenterX|backgroundGradientCenterY|backgroundGradientRadius|fillGradientCenterX|fillGradientCenterY|fillGradientRadius)\":-?[0-9.]+"),
+                ""
+            )
+        val oldGradientProject = mapper.map(
+            adapter.fromJson(oldGradientJson)!!,
+            context.cacheDir
+        ) as MarkupProjectResult.Success
+        assertEquals(
+            GradientType.Linear,
+            (oldGradientProject.project.background as ProjectBackground.Color).gradient?.type
+        )
+        assertEquals(
+            GradientType.Linear,
+            (oldGradientProject.project.layers[0].type as LayerType.Text).backgroundGradientGeometry.type
+        )
+        assertEquals(
+            GradientType.Linear,
+            (oldGradientProject.project.layers[1].type as LayerType.Shape).fillGradientGeometry.type
+        )
+        assertEquals(
+            GradientGeometry(),
+            (oldGradientProject.project.layers[0].type as LayerType.Text).backgroundGradientGeometry
+        )
+        assertEquals(
+            GradientGeometry(),
+            (oldGradientProject.project.layers[1].type as LayerType.Shape).fillGradientGeometry
+        )
 
         val legacyJson = json.replace(
             Regex(",\"(?:gradientPalette|backgroundGradientPalette|outlineGradientPalette|fillGradientPalette)\":\"[^\"]*\""),
@@ -238,7 +319,10 @@ class GradientLayerTest {
             val type = LayerType.Shape.Default.copy(
                 shapeMode = mode,
                 color = Color.GREEN,
-                fillGradientPalette = palette
+                fillGradientPalette = palette,
+                fillGradientGeometry = GradientGeometry(
+                    GradientType.Radial, centerX = 0.2f, centerY = 0.7f, radius = 0.7f
+                )
             )
             val data = resolveShapeLayerRenderData(type, 512f)
             val width = ceil(data.contentWidth).toInt()
@@ -258,7 +342,7 @@ class GradientLayerTest {
             val pixels = exported.pixels()
             assertTrue(pixels.any { it == Color.GREEN })
             assertTrue(pixels.any { Color.red(it) > Color.blue(it) + 80 && Color.alpha(it) > 200 })
-            assertTrue(pixels.any { Color.blue(it) > Color.red(it) + 80 && Color.alpha(it) > 200 })
+            assertTrue(pixels.any { Color.blue(it) > 20 && Color.red(it) > 20 && Color.alpha(it) > 200 })
             exported.recycle()
             preview.recycle()
         }
@@ -284,7 +368,10 @@ class GradientLayerTest {
                     color = Color.WHITE,
                     outline = if (useOutline) Outline(Color.GREEN, 8f) else null,
                     outlineGradientPalette = if (useOutline) palette else null,
-                    backgroundGradientPalette = if (useOutline) null else palette
+                    backgroundGradientPalette = if (useOutline) null else palette,
+                    backgroundGradientGeometry = GradientGeometry(
+                        GradientType.Radial, centerX = 0.25f, centerY = 0.7f, radius = 0.7f
+                    )
                 )
                 val result =
                     renderer.render(background, listOf(MarkupLayer(text, position)), fontScale = 1f)

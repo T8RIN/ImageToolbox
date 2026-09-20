@@ -15,6 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.gradient_maker.domain
+package com.t8rin.imagetoolbox.core.domain.model
 
-typealias GradientType = com.t8rin.imagetoolbox.core.domain.model.GradientType
+data class GradientGeometry(
+    val type: GradientType = GradientType.Linear,
+    val angle: Float = 0f,
+    val centerX: Float = 0.5f,
+    val centerY: Float = 0.5f,
+    val radius: Float = 1f
+) {
+    fun withPalette(palette: GradientPalette): GradientFill = GradientFill(
+        palette = palette,
+        angle = angle,
+        type = type,
+        centerX = centerX,
+        centerY = centerY,
+        radius = radius
+    )
+}

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
@@ -39,7 +40,8 @@ data class UiPathPaint(
     override val drawLineStyle: DrawLineStyle = DrawLineStyle.None,
     override val gradientPalette: GradientPalette? = null,
     override val gradientLength: Float = 1f,
-    override val isGradientMirrored: Boolean = false
+    override val isGradientMirrored: Boolean = false,
+    override val gradientGeometry: GradientGeometry? = null
 ) : PathPaint<Path, Color>
 
 
@@ -55,5 +57,6 @@ fun PathPaint<Path, Color>.toUiPathPaint() = UiPathPaint(
     drawLineStyle = drawLineStyle,
     gradientPalette = gradientPalette,
     gradientLength = gradientLength,
-    isGradientMirrored = isGradientMirrored
+    isGradientMirrored = isGradientMirrored,
+    gradientGeometry = gradientGeometry
 )

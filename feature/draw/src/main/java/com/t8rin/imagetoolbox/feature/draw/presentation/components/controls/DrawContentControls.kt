@@ -40,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.Pt
 import com.t8rin.imagetoolbox.core.domain.model.pt
@@ -80,6 +81,8 @@ internal fun DrawContentControls(
     onDrawColorChange: (Color) -> Unit,
     gradientPalette: GradientPalette,
     onGradientPaletteChange: (GradientPalette) -> Unit,
+    gradientGeometry: GradientGeometry,
+    onGradientGeometryChange: (GradientGeometry) -> Unit,
     gradientLength: Float,
     onGradientLengthChange: (Float) -> Unit,
     isGradientMirrored: Boolean,
@@ -145,6 +148,10 @@ internal fun DrawContentControls(
                 allowGradient = isGradientAvailable,
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = onGradientPaletteChange,
+                gradientGeometry = gradientGeometry,
+                onGradientGeometryChange = onGradientGeometryChange,
+                showFillGradientGeometry = drawPathMode.isFilledShape &&
+                        (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter),
                 gradientLength = gradientLength,
                 isGradientMirrored = isGradientMirrored,
                 onGradientLengthChange = onGradientLengthChange,

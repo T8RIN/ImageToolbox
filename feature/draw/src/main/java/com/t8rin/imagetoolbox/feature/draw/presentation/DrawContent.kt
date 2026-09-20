@@ -48,6 +48,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.dynamic.theme.LocalDynamicThemeState
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.coerceIn
 import com.t8rin.imagetoolbox.core.domain.model.pt
@@ -73,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.other.DrawLockScreenOrientation
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
+import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientGeometrySaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.GradientPaletteSaver
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -149,6 +151,11 @@ fun DrawContent(
         mutableStateOf<GradientPalette>(GradientPalette.SoftRainbow)
     }
 
+    var gradientGeometry by rememberSaveable(
+        component.drawBehavior,
+        stateSaver = GradientGeometrySaver
+    ) { mutableStateOf(GradientGeometry()) }
+
     var gradientLength by rememberSaveable { mutableFloatStateOf(1f) }
     var isGradientMirrored by rememberSaveable { mutableStateOf(false) }
     var isGradientEnabled by rememberSaveable(component.drawBehavior) {
@@ -180,6 +187,9 @@ fun DrawContent(
             )
     val activeGradientPalette = gradientPalette.takeIf {
         isGradientEnabled && isGradientAvailable && !isEraserOn
+    }
+    val filledShapeGradientGeometry = gradientGeometry.takeIf {
+        drawPathMode.isFilledShape && (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter)
     }
 
     LaunchedEffect(drawMode, strokeWidth) {
@@ -299,6 +309,7 @@ fun DrawContent(
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
                     gradientPalette = activeGradientPalette,
+                    gradientGeometry = filledShapeGradientGeometry,
                     gradientLength = gradientLength,
                     isGradientMirrored = isGradientMirrored,
                     onAddPath = component::addPath,
@@ -334,6 +345,8 @@ fun DrawContent(
                 onDrawColorChange = { drawColor = it },
                 gradientPalette = gradientPalette,
                 onGradientPaletteChange = { gradientPalette = it },
+                gradientGeometry = gradientGeometry,
+                onGradientGeometryChange = { gradientGeometry = it },
                 gradientLength = gradientLength,
                 isGradientMirrored = isGradientMirrored,
                 onGradientLengthChange = { gradientLength = it },

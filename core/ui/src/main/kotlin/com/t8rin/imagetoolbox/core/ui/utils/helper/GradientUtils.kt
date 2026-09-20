@@ -17,21 +17,44 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.helper
 
+import android.graphics.Matrix
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.LinearGradientShader
+import androidx.compose.ui.graphics.RadialGradientShader
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.SweepGradientShader
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientType
 
-fun GradientFill.toBrush(): ShaderBrush = object : ShaderBrush() {
+fun GradientFill.toBrush(shaderSize: Size? = null): ShaderBrush = object : ShaderBrush() {
     override fun createShader(size: Size): Shader {
-        val line = lineFor(size.width, size.height)
-        return LinearGradientShader(
-            from = Offset(line.startX, line.startY),
-            to = Offset(line.endX, line.endY),
-            colors = palette.colors.map { Color(it.colorInt) }
-        )
+        val actualSize = shaderSize ?: size
+        val colors = palette.colors.map { Color(it.colorInt) }
+        val center = Offset(centerXFor(actualSize.width), centerYFor(actualSize.height))
+        return when (type) {
+            GradientType.Linear -> {
+                val line = lineFor(actualSize.width, actualSize.height)
+                LinearGradientShader(
+                    from = Offset(line.startX, line.startY),
+                    to = Offset(line.endX, line.endY),
+                    colors = colors
+                )
+            }
+
+            GradientType.Radial -> RadialGradientShader(
+                center = center,
+                radius = radiusFor(actualSize.width, actualSize.height),
+                colors = colors
+            )
+
+            GradientType.Sweep -> SweepGradientShader(center = center, colors = colors).apply {
+                setLocalMatrix(Matrix().apply {
+                    setRotate(angle.takeIf(Float::isFinite) ?: 0f, center.x, center.y)
+                })
+            }
+        }
     }
 }

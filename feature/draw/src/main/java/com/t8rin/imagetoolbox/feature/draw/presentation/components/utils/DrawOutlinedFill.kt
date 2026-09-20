@@ -42,7 +42,9 @@ internal fun Canvas.drawOutlinedFill(
         shader = palette?.let {
             val bounds = RectF()
             path.computeBounds(bounds, true)
-            it.createShader(bounds.width(), bounds.height(), left = bounds.left, top = bounds.top)
+            mode.fillGradientGeometry.withPalette(it).createShader(
+                bounds.width(), bounds.height(), left = bounds.left, top = bounds.top
+            )
         }
         if (palette != null || Color.alpha(color) == 255) {
             this.alpha = (alpha * 255).roundToInt().coerceIn(0, 255)

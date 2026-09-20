@@ -388,11 +388,7 @@ fun CollageMakerContent(
                                     backgroundShader = remember(component.backgroundGradient) {
                                         component.backgroundGradient?.let { gradient ->
                                             { width: Float, height: Float ->
-                                                gradient.palette.createShader(
-                                                    width,
-                                                    height,
-                                                    gradient.angle
-                                                )
+                                                gradient.createShader(width, height)
                                             }
                                         }
                                     },

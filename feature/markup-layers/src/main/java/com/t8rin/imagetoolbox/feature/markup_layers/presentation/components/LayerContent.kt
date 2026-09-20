@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiFont
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
+import com.t8rin.imagetoolbox.core.ui.utils.helper.toBrush
 import com.t8rin.imagetoolbox.core.ui.widget.image.SubcomposePicture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.text.OutlineParams
@@ -456,7 +457,7 @@ private fun TextLayerContent(
                     }
 
                     val backgroundBrush = type.backgroundGradientPalette?.let { palette ->
-                        Brush.horizontalGradient(palette.colors.map { Color(it.colorInt) })
+                        type.backgroundGradientGeometry.withPalette(palette).toBrush()
                     }
                     onDrawWithContent {
                         if (backgroundBrush != null) drawRect(backgroundBrush)

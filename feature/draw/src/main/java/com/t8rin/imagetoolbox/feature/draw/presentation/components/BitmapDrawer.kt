@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBackground
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
@@ -129,6 +130,7 @@ fun BitmapDrawer(
     panEnabled: Boolean,
     drawColor: Color,
     gradientPalette: GradientPalette? = null,
+    gradientGeometry: GradientGeometry? = null,
     gradientLength: Float = 1f,
     isGradientMirrored: Boolean = false,
     drawLineStyle: DrawLineStyle = DrawLineStyle.None,
@@ -264,6 +266,7 @@ fun BitmapDrawer(
                 brushSoftness,
                 drawPathMode,
                 gradientPalette,
+                gradientGeometry,
                 gradientLength,
                 isGradientMirrored
             ) { mutableStateOf(Path()) }
@@ -276,6 +279,7 @@ fun BitmapDrawer(
                 brushSoftness,
                 drawPathMode,
                 gradientPalette,
+                gradientGeometry,
                 gradientLength,
                 isGradientMirrored
             ) { mutableStateOf(Path()) }
@@ -618,6 +622,7 @@ fun BitmapDrawer(
                                         drawPathMode = drawPathMode,
                                         drawLineStyle = drawLineStyle,
                                         gradientPalette = gradientPalette,
+                                        gradientGeometry = gradientGeometry,
                                         gradientLength = gradientLength,
                                         isGradientMirrored = isGradientMirrored
                                     )
@@ -727,6 +732,7 @@ fun BitmapDrawer(
                                 path = androidPath,
                                 paint = drawPaint,
                                 palette = gradientPalette.takeUnless { isEraserOn },
+                                gradientGeometry = gradientGeometry,
                                 gradientLength = gradientLength,
                                 isGradientMirrored = isGradientMirrored,
                                 isFilled = !isEraserOn && drawPathMode.isFilled,

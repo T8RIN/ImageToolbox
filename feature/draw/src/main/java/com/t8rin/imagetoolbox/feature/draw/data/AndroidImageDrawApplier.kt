@@ -123,7 +123,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                     if (gradient == null) drawColor(color)
                 }
 
-                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength, isGradientMirrored) ->
+                pathPaints.forEach { (nonScaledPath, nonScaledStroke, radius, drawColor, isErasing, drawMode, size, drawPathMode, drawLineStyle, gradientPalette, gradientLength, isGradientMirrored, gradientGeometry) ->
                     val stroke = drawPathMode.convertStrokeWidth(
                         strokeWidth = nonScaledStroke,
                         canvasSize = canvasSize
@@ -349,6 +349,7 @@ internal class AndroidImageDrawApplier @Inject constructor(
                                 gradientLength = gradientLength,
                                 isGradientMirrored = isGradientMirrored,
                                 isFilled = !isErasing && drawPathMode.isFilled,
+                                gradientGeometry = gradientGeometry,
                                 canvasSize = canvasSize,
                                 softnessRadius = radius.toPx(canvasSize)
                             )

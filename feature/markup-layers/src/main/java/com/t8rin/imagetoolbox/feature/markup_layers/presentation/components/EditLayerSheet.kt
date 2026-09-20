@@ -290,6 +290,12 @@ internal fun EditLayerSheet(
                                     layer.copy(type = type.copy(backgroundGradientPalette = it))
                                 )
                             },
+                            gradientGeometry = type.backgroundGradientGeometry,
+                            onGradientGeometryChange = {
+                                updateLayerWithHistory(
+                                    layer.copy(type = type.copy(backgroundGradientGeometry = it))
+                                )
+                            },
                             value = type.backgroundColor.toColor(),
                             onValueChange = {
                                 updateLayerWithHistory(

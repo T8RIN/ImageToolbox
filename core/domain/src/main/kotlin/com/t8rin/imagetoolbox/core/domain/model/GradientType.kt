@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.gradient_maker.domain
+package com.t8rin.imagetoolbox.core.domain.model
 
-typealias GradientType = com.t8rin.imagetoolbox.core.domain.model.GradientType
+enum class GradientType {
+    Linear, Radial, Sweep
+}

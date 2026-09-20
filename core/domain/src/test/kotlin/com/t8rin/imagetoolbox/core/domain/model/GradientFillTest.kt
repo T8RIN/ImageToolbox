@@ -52,4 +52,20 @@ class GradientFillTest {
         assertTrue(line.startX.isFinite() && line.endX.isFinite())
         assertTrue(line.startX < line.endX)
     }
+
+    @Test
+    fun geometryKeepsNormalizedCenterAndScaledRadius() {
+        val geometry = GradientGeometry(
+            type = GradientType.Radial,
+            angle = 135f,
+            centerX = 0.25f,
+            centerY = 0.75f,
+            radius = 0.5f
+        )
+        val fill = geometry.withPalette(GradientPalette.Ocean)
+        assertEquals(geometry, fill.geometry)
+        assertEquals(60f, fill.centerXFor(200f, 10f), 0.001f)
+        assertEquals(95f, fill.centerYFor(100f, 20f), 0.001f)
+        assertEquals(55.9017f, fill.radiusFor(200f, 100f), 0.001f)
+    }
 }

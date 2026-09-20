@@ -21,7 +21,9 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.domain.model.GradientType
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Outline
 import com.t8rin.imagetoolbox.core.resources.R
@@ -150,7 +152,11 @@ internal class MarkupMapper @Inject constructor(
             height = height,
             color = color,
             gradientPalette = gradient?.palette?.toSerializedString(),
-            gradientAngle = gradient?.angle ?: 0f
+            gradientAngle = gradient?.angle ?: 0f,
+            gradientType = gradient?.type?.name,
+            gradientCenterX = gradient?.centerX ?: 0.5f,
+            gradientCenterY = gradient?.centerY ?: 0.5f,
+            gradientRadius = gradient?.radius ?: 1f
         )
 
         is ProjectBackground.Image -> {
@@ -242,7 +248,12 @@ internal class MarkupMapper @Inject constructor(
         shadow = shadow?.toSnapshot(),
         gradientPalette = gradientPalette?.toSerializedString(),
         backgroundGradientPalette = backgroundGradientPalette?.toSerializedString(),
-        outlineGradientPalette = outlineGradientPalette?.toSerializedString()
+        outlineGradientPalette = outlineGradientPalette?.toSerializedString(),
+        backgroundGradientType = backgroundGradientGeometry.type.name,
+        backgroundGradientAngle = backgroundGradientGeometry.angle,
+        backgroundGradientCenterX = backgroundGradientGeometry.centerX,
+        backgroundGradientCenterY = backgroundGradientGeometry.centerY,
+        backgroundGradientRadius = backgroundGradientGeometry.radius
     )
 
     private fun LayerType.toPictureSnapshot(
@@ -290,7 +301,17 @@ internal class MarkupMapper @Inject constructor(
         angle = shapeMode.arrowAngle(),
         shadow = shadow?.toSnapshot(),
         gradientPalette = gradientPalette?.toSerializedString(),
-        fillGradientPalette = fillGradientPalette?.toSerializedString()
+        fillGradientPalette = fillGradientPalette?.toSerializedString(),
+        gradientType = gradientGeometry.type.name,
+        fillGradientType = fillGradientGeometry.type.name,
+        gradientAngle = gradientGeometry.angle,
+        gradientCenterX = gradientGeometry.centerX,
+        gradientCenterY = gradientGeometry.centerY,
+        gradientRadius = gradientGeometry.radius,
+        fillGradientAngle = fillGradientGeometry.angle,
+        fillGradientCenterX = fillGradientGeometry.centerX,
+        fillGradientCenterY = fillGradientGeometry.centerY,
+        fillGradientRadius = fillGradientGeometry.radius
     )
 
     private fun Outline.toSnapshot(): OutlineSnapshot = OutlineSnapshot(
@@ -336,7 +357,14 @@ internal class MarkupMapper @Inject constructor(
             height = height ?: 1,
             color = color ?: 0,
             gradient = gradientPalette?.let(GradientPalette::fromSerializedString)?.let {
-                GradientFill(it, gradientAngle)
+                GradientFill(
+                    palette = it,
+                    angle = gradientAngle,
+                    type = gradientType.toGradientType(),
+                    centerX = gradientCenterX,
+                    centerY = gradientCenterY,
+                    radius = gradientRadius
+                )
             }
         )
 
@@ -402,7 +430,13 @@ internal class MarkupMapper @Inject constructor(
         shadow = shadow?.toDomain(),
         gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString),
         backgroundGradientPalette = backgroundGradientPalette?.let(GradientPalette::fromSerializedString),
-        outlineGradientPalette = outlineGradientPalette?.let(GradientPalette::fromSerializedString)
+        outlineGradientPalette = outlineGradientPalette?.let(GradientPalette::fromSerializedString),
+        backgroundGradientGeometry = backgroundGradientType.toGradientGeometry(
+            backgroundGradientAngle,
+            backgroundGradientCenterX,
+            backgroundGradientCenterY,
+            backgroundGradientRadius
+        )
     )
 
     private fun ShapeSnapshot.toDomain(): LayerType.Shape {
@@ -441,7 +475,13 @@ internal class MarkupMapper @Inject constructor(
             heightRatio = heightRatio,
             shadow = shadow?.toDomain(),
             gradientPalette = gradientPalette?.let(GradientPalette::fromSerializedString),
-            fillGradientPalette = fillGradientPalette?.let(GradientPalette::fromSerializedString)
+            fillGradientPalette = fillGradientPalette?.let(GradientPalette::fromSerializedString),
+            gradientGeometry = gradientType.toGradientGeometry(
+                gradientAngle, gradientCenterX, gradientCenterY, gradientRadius
+            ),
+            fillGradientGeometry = fillGradientType.toGradientGeometry(
+                fillGradientAngle, fillGradientCenterX, fillGradientCenterY, fillGradientRadius
+            )
         )
     }
 
@@ -621,5 +661,15 @@ internal class MarkupMapper @Inject constructor(
     ): Boolean = runCatching {
         appContext.resources.getResourceTypeName(resourceId) == "font"
     }.getOrDefault(false)
+
+    private fun String?.toGradientType(): GradientType =
+        GradientType.entries.firstOrNull { it.name == this } ?: GradientType.Linear
+
+    private fun String?.toGradientGeometry(
+        angle: Float,
+        centerX: Float,
+        centerY: Float,
+        radius: Float
+    ): GradientGeometry = GradientGeometry(toGradientType(), angle, centerX, centerY, radius)
 
 }

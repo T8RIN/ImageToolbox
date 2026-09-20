@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -36,6 +37,8 @@ fun OutlinedFillColorSelector(
     onValueChange: (Color?) -> Unit,
     gradientPalette: GradientPalette?,
     onGradientPaletteChange: (GradientPalette) -> Unit,
+    gradientGeometry: GradientGeometry = GradientGeometry(),
+    onGradientGeometryChange: ((GradientGeometry) -> Unit)? = null,
     modifier: Modifier = Modifier,
     shape: Shape = ShapeDefaults.default,
     containerColor: Color = Color.Unspecified,
@@ -45,6 +48,8 @@ fun OutlinedFillColorSelector(
         value = value,
         gradientPalette = gradientPalette,
         onGradientPaletteChange = onGradientPaletteChange,
+        gradientGeometry = gradientGeometry,
+        onGradientGeometryChange = onGradientGeometryChange,
         onValueChange = onValueChange,
         onNullClick = { onValueChange(null) },
         title = stringResource(R.string.fill_color),

@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.draw.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.GradientGeometry
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.Pt
@@ -34,6 +35,7 @@ interface PathPaint<Path, Color> {
     operator fun component10() = gradientPalette
     operator fun component11() = gradientLength
     operator fun component12() = isGradientMirrored
+    operator fun component13() = gradientGeometry
 
     val path: Path
     val strokeWidth: Pt
@@ -47,4 +49,5 @@ interface PathPaint<Path, Color> {
     val gradientPalette: GradientPalette?
     val gradientLength: Float get() = 1f
     val isGradientMirrored: Boolean get() = false
+    val gradientGeometry: GradientGeometry? get() = null
 }
