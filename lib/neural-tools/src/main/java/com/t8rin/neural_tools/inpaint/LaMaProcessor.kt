@@ -20,7 +20,10 @@ package com.t8rin.neural_tools.inpaint
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
+import ai.onnxruntime.TensorInfo
 import android.graphics.Bitmap
+import android.net.Uri
+import android.system.Os
 import android.util.Log
 import com.awxkee.aire.Aire
 import com.awxkee.aire.ResizeFunction
@@ -35,6 +38,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.nio.FloatBuffer
 
@@ -53,6 +57,9 @@ object LaMaProcessor : NeuralTool() {
                 "onnx/inpaint/lama/LaMa_512.onnx"
             }
         )
+
+    val modelDownloadLink: String
+        get() = MODEL_DOWNLOAD_LINK
 
     private val directory: File
         get() = File(context.filesDir, "onnx").apply {
@@ -97,6 +104,41 @@ object LaMaProcessor : NeuralTool() {
         _isDownloaded.update { modelFile.exists() && modelFile.length() > 0L }
         check(_isDownloaded.value)
     }.flowOn(Dispatchers.IO)
+
+    suspend fun importModel(uri: Uri) = withContext(Dispatchers.IO) {
+        val temporaryFile = File.createTempFile("lama_import_", ".onnx", directory)
+        try {
+            context.contentResolver.openInputStream(uri)?.use { input ->
+                temporaryFile.outputStream().use(input::copyTo)
+            } ?: error("Unable to open model file")
+            check(temporaryFile.length() > 0L) { "Model file is empty" }
+
+            OrtEnvironment.getEnvironment().createSession(temporaryFile.absolutePath)
+                .use { imported ->
+                    val image = imported.inputInfo["image"]?.info as? TensorInfo
+                    val mask = imported.inputInfo["mask"]?.info as? TensorInfo
+                    check(
+                        image?.shape?.size == 4 && image.shape.getOrNull(1) == 3L &&
+                                mask?.shape?.size == 4 && mask.shape.getOrNull(1) == 1L &&
+                                imported.outputInfo.isNotEmpty()
+                    ) { "This is not a compatible LaMa model" }
+                }
+
+            sessionHolder?.close()
+            sessionHolder = null
+            Os.rename(temporaryFile.absolutePath, modelFile.absolutePath)
+            _isDownloaded.update { true }
+        } finally {
+            temporaryFile.delete()
+        }
+    }
+
+    suspend fun deleteModel() = withContext(Dispatchers.IO) {
+        sessionHolder?.close()
+        sessionHolder = null
+        check(!modelFile.exists() || modelFile.delete()) { "Unable to delete LaMa model" }
+        _isDownloaded.update { false }
+    }
 
     fun inpaint(
         image: Bitmap,

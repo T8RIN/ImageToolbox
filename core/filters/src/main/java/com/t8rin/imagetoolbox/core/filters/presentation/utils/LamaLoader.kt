@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.filters.presentation.utils
 
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +32,10 @@ import kotlinx.coroutines.flow.onEach
 
 interface LamaLoader {
     val isDownloaded: Boolean
+    val modelPointerLink: String
     fun download(): Flow<DownloadProgress>
+    suspend fun importModel(uri: Uri)
+    suspend fun deleteModel()
 
     companion object Companion : LamaLoader by LamaLoaderImpl
 }
@@ -40,6 +44,8 @@ private object LamaLoaderImpl : LamaLoader {
     private val _isDownloaded: MutableState<Boolean> =
         mutableStateOf(LaMaProcessor.isDownloaded.value)
     override val isDownloaded: Boolean by _isDownloaded
+    override val modelPointerLink: String
+        get() = LaMaProcessor.modelDownloadLink.replace("/resolve/", "/blob/")
 
     init {
         LaMaProcessor.isDownloaded.onEach {
@@ -54,4 +60,8 @@ private object LamaLoaderImpl : LamaLoader {
                 currentTotalSize = it.currentTotalSize
             )
         }
+
+    override suspend fun importModel(uri: Uri) = LaMaProcessor.importModel(uri)
+
+    override suspend fun deleteModel() = LaMaProcessor.deleteModel()
 }
