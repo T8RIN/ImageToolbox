@@ -76,6 +76,7 @@ object LaMaProcessor : NeuralTool() {
     private val session: OrtSession
         get() = sessionHolder ?: run {
             val options = OrtSession.SessionOptions().apply {
+                addConfigEntry("mlas.disable_kleidiai", "1")
                 runCatching { addCUDA() }
                 runCatching { setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT) }
                 runCatching { setInterOpNumThreads(8) }
