@@ -26,7 +26,4 @@ android.namespace = "com.t8rin.imagetoolbox.feature.code_preview"
 
 dependencies {
     implementation(libs.compose.highlight)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

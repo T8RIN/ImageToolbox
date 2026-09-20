@@ -19,11 +19,7 @@ plugins {
     alias(libs.plugins.image.toolbox.library)
 }
 
-android {
-    namespace = "com.t8rin.archive"
-
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-}
+android.namespace = "com.t8rin.archive"
 
 dependencies {
     api(libs.libarchive.android)
@@ -31,9 +27,4 @@ dependencies {
     implementation(libs.commons.compress)
     "marketImplementation"(libs.junrar)
     implementation(libs.xz)
-
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

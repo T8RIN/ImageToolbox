@@ -27,5 +27,4 @@ dependencies {
     implementation(libs.toolbox.exif)
     implementation(projects.lib.gesture)
     implementation(projects.core.resources)
-    testImplementation(libs.junit)
 }

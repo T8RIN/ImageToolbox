@@ -26,5 +26,4 @@ android.namespace = "com.t8rin.imagetoolbox.feature.photomosaic"
 
 dependencies {
     implementation(projects.feature.compare)
-    testImplementation(libs.junit)
 }

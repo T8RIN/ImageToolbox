@@ -22,13 +22,7 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.pdf_tools"
 
 dependencies {
     implementation(projects.lib.archive)
@@ -38,9 +32,4 @@ dependencies {
     implementation(libs.trickle)
     implementation(libs.aire)
     implementation(libs.pdfbox)
-
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

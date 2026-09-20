@@ -25,6 +25,5 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.settings"
 
 dependencies {
-    testImplementation(libs.junit)
     implementation(libs.toolbox.rawCoder)
 }

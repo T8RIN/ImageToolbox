@@ -16,38 +16,34 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
-import com.t8rin.imagetoolbox.configureDetekt
-import com.t8rin.imagetoolbox.configureKotlinAndroid
-import com.t8rin.imagetoolbox.implementation
 import com.t8rin.imagetoolbox.libs
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 @Suppress("UNUSED")
-class ImageToolboxLibraryPlugin : Plugin<Project> {
+class ImageToolboxTestsPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("com.android.library")
-                apply("kotlin-parcelize")
-                apply("kotlinx-serialization")
-                apply(libs.detekt.gradle.get().group)
-                apply("image.toolbox.tests")
-            }
-
-            configureDetekt(extensions.getByType<DetektExtension>())
-
             extensions.configure<LibraryExtension> {
-                configureKotlinAndroid(this)
-                defaultConfig.minSdk = libs.versions.androidMinSdk.get().toIntOrNull()
+                defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
 
             dependencies {
-                implementation(libs.androidxCore)
+                add("testImplementation", libs.junit)
+                add("androidTestImplementation", libs.junit)
+                add("androidTestImplementation", libs.androidx.test.ext.junit)
+                add("androidTestImplementation", libs.androidx.runner)
+
+                when (path) {
+                    ":lib:palette" -> add("testImplementation", libs.kotlin.test)
+                    ":feature:markup-layers" -> add("androidTestImplementation", libs.moshi)
+                    ":feature:cipher" -> add(
+                        "androidTestImplementation",
+                        libs.bouncycastle.provider
+                    )
+                }
             }
         }
     }

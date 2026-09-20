@@ -119,6 +119,4 @@ dependencies {
     api(libs.evaluator)
 
     api(libs.flinger)
-
-    testImplementation(libs.junit)
 }

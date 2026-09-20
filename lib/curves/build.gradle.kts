@@ -28,8 +28,4 @@ dependencies {
     implementation(libs.coilCompose)
     implementation(libs.toolbox.gpuimage)
     implementation(libs.toolbox.histogram)
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

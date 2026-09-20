@@ -22,19 +22,9 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.multi_frame_fusion"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.multi_frame_fusion"
 
 dependencies {
     implementation(projects.feature.compare)
     implementation(projects.lib.opencvTools)
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

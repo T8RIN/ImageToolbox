@@ -22,20 +22,11 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.apng_tools"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.apng_tools"
 
 dependencies {
     implementation(libs.toolbox.apng)
     implementation(libs.toolbox.awebp)
     implementation(libs.toolbox.gifConverter)
     implementation(libs.jxl.coder)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }

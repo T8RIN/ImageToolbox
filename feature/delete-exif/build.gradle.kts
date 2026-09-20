@@ -23,7 +23,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.delete_exif"
-
-dependencies {
-    testImplementation(libs.junit)
-}

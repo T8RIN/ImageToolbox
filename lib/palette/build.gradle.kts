@@ -25,6 +25,4 @@ android.namespace = "com.t8rin.palette"
 
 dependencies {
     implementation(libs.kotlinx.serialization.json)
-    testImplementation(kotlin("test"))
-    testImplementation(libs.junit)
 }

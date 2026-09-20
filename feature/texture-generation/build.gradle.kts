@@ -22,15 +22,9 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.texture_generation"
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.texture_generation"
 
 dependencies {
-    androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-
     implementation(projects.core.ksp)
     ksp(projects.core.ksp)
 

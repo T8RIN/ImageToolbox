@@ -24,5 +24,4 @@ android.namespace = "com.t8rin.imagetoolbox.core.domain"
 
 dependencies {
     implementation(projects.core.resources)
-    testImplementation(libs.junit)
 }

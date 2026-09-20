@@ -20,15 +20,9 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.collages"
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-}
+android.namespace = "com.t8rin.collages"
 
 dependencies {
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
-
     implementation(libs.appCompat)
     implementation(libs.coilCompose)
 }

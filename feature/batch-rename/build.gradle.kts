@@ -23,7 +23,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.batch_rename"
-
-dependencies {
-    testImplementation(libs.junit)
-}

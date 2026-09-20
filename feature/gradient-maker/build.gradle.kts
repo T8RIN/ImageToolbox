@@ -22,15 +22,9 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.gradient_maker"
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.gradient_maker"
 
 dependencies {
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
-
     implementation(projects.feature.compare)
     implementation(projects.feature.pickColor)
     implementation(projects.lib.palette)

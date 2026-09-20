@@ -23,7 +23,3 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.duplicate_finder"
-
-dependencies {
-    testImplementation(libs.junit)
-}

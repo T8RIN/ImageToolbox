@@ -22,13 +22,4 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.imagetoolbox.feature.markup_layers"
-    defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-}
-
-dependencies {
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.moshi)
-}
+android.namespace = "com.t8rin.imagetoolbox.feature.markup_layers"

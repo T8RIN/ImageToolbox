@@ -26,9 +26,4 @@ android.namespace = "com.t8rin.imagetoolbox.feature.fractal_generation"
 
 dependencies {
     implementation(libs.toolbox.fractalEngine)
-
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.androidx.runner)
 }
