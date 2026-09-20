@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.SaveExifWidget
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
@@ -172,31 +173,40 @@ fun EraseBackgroundContent(
                 panEnabled = !panEnabled
             }
         )
-        EnhancedIconButton(
-            containerColor = Color.Transparent,
-            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.1f
-            ),
-            onClick = { component.undo() },
-            enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Undo,
-                contentDescription = "Undo"
+        if (isPortrait) {
+            UndoRedoButtons(
+                canUndo = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty(),
+                canRedo = component.undonePaths.isNotEmpty(),
+                onUndo = component::undo,
+                onRedo = component::redo
             )
-        }
-        EnhancedIconButton(
-            containerColor = Color.Transparent,
-            borderColor = MaterialTheme.colorScheme.outlineVariant(
-                luminance = 0.1f
-            ),
-            onClick = { component.redo() },
-            enabled = component.undonePaths.isNotEmpty()
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Redo,
-                contentDescription = "Redo"
-            )
+        } else {
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.1f
+                ),
+                onClick = { component.undo() },
+                enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Undo,
+                    contentDescription = "Undo"
+                )
+            }
+            EnhancedIconButton(
+                containerColor = Color.Transparent,
+                borderColor = MaterialTheme.colorScheme.outlineVariant(
+                    luminance = 0.1f
+                ),
+                onClick = { component.redo() },
+                enabled = component.undonePaths.isNotEmpty()
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Redo,
+                    contentDescription = "Redo"
+                )
+            }
         }
     }
 

@@ -38,7 +38,6 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -76,6 +75,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
@@ -195,32 +195,40 @@ fun DrawEditOption(
                 )
             ) {
                 switch()
-                Spacer(Modifier.width(8.dp))
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f
-                    ),
-                    onClick = undo,
-                    enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Undo,
-                        contentDescription = "Undo"
+                if (useScaffold) {
+                    UndoRedoButtons(
+                        canUndo = lastPaths.isNotEmpty() || paths.isNotEmpty(),
+                        canRedo = undonePaths.isNotEmpty(),
+                        onUndo = undo,
+                        onRedo = redo
                     )
-                }
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f
-                    ),
-                    onClick = redo,
-                    enabled = undonePaths.isNotEmpty()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Redo,
-                        contentDescription = "Redo"
-                    )
+                } else {
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                            luminance = 0.1f
+                        ),
+                        onClick = undo,
+                        enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Undo,
+                            contentDescription = "Undo"
+                        )
+                    }
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                            luminance = 0.1f
+                        ),
+                        onClick = redo,
+                        enabled = undonePaths.isNotEmpty()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Redo,
+                            contentDescription = "Redo"
+                        )
+                    }
                 }
                 EraseModeButton(
                     selected = isEraserOn,

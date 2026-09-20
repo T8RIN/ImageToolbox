@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ResizeImageField
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
@@ -146,23 +147,32 @@ fun FractalGenerationContent(
                 contentDescription = null
             )
         }
-        EnhancedIconButton(
-            onClick = component::undo,
-            enabled = component.canUndo
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Undo,
-                contentDescription = null
+        if (isPortrait) {
+            UndoRedoButtons(
+                canUndo = component.canUndo,
+                canRedo = component.canRedo,
+                onUndo = component::undo,
+                onRedo = component::redo
             )
-        }
-        EnhancedIconButton(
-            onClick = component::redo,
-            enabled = component.canRedo
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Redo,
-                contentDescription = null
-            )
+        } else {
+            EnhancedIconButton(
+                onClick = component::undo,
+                enabled = component.canUndo
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Undo,
+                    contentDescription = null
+                )
+            }
+            EnhancedIconButton(
+                onClick = component::redo,
+                enabled = component.canRedo
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Redo,
+                    contentDescription = null
+                )
+            }
         }
     }
 

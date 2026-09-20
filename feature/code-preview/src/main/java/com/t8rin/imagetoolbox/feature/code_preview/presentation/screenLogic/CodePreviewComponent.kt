@@ -35,7 +35,7 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
-import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -65,7 +65,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val imageCompressor: ImageCompressor<Bitmap>,
     dispatchersHolder: DispatchersHolder
-) : BaseComponent(dispatchersHolder, componentContext) {
+) : BaseHistoryComponent<CodePreviewParams>(dispatchersHolder, componentContext) {
 
     private val _params = mutableStateOf(CodePreviewParams.Default)
     val params: CodePreviewParams by _params
@@ -85,6 +85,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private var highlightedSnapshot: HighlightedSnapshot? = null
 
     init {
+        resetHistory()
         updatePreview(debounce = false)
 
         doOnDestroy {
@@ -196,6 +197,16 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     fun updateOutputFormat(value: ImageFormat) = updateParams { copy(outputFormat = value) }
 
+    override fun currentHistorySnapshot(): CodePreviewParams = params
+
+    override fun applyHistorySnapshot(snapshot: CodePreviewParams) {
+        val previousParams = params
+        _params.value = snapshot
+        if (previousParams.copy(outputFormat = snapshot.outputFormat) != snapshot) {
+            updatePreview()
+        }
+    }
+
     fun saveBitmap(oneTimeSaveLocationUri: String?) {
         val renderParams = params
         val outputFormat = renderParams.outputFormat
@@ -273,10 +284,14 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     private fun updateParams(transform: CodePreviewParams.() -> CodePreviewParams) {
         val previousParams = params
-        _params.update(transform)
+        val updatedParams = previousParams.transform()
+        if (updatedParams == previousParams) return
+        beginPendingHistoryTransaction()
+        _params.value = updatedParams
         if (previousParams.outputFormat == params.outputFormat) {
             updatePreview()
         }
+        schedulePendingHistoryCommit()
         registerChanges()
     }
 
@@ -293,7 +308,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
                 )
             }
             ensureActive()
-            if (params == renderParams) {
+            if (params.copy(outputFormat = renderParams.outputFormat) == renderParams) {
                 _previewBitmap.value = bitmap
             }
         }

@@ -39,8 +39,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -61,6 +59,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Done
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
@@ -69,6 +68,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -157,32 +157,40 @@ fun EraseBackgroundEditOption(
                     )
             ) {
                 switch()
-                Spacer(Modifier.width(8.dp))
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f
-                    ),
-                    onClick = undo,
-                    enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Undo,
-                        contentDescription = "Undo"
+                if (useScaffold) {
+                    UndoRedoButtons(
+                        canUndo = lastPaths.isNotEmpty() || paths.isNotEmpty(),
+                        canRedo = undonePaths.isNotEmpty(),
+                        onUndo = undo,
+                        onRedo = redo
                     )
-                }
-                EnhancedIconButton(
-                    containerColor = Color.Transparent,
-                    borderColor = MaterialTheme.colorScheme.outlineVariant(
-                        luminance = 0.1f
-                    ),
-                    onClick = redo,
-                    enabled = undonePaths.isNotEmpty()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Redo,
-                        contentDescription = "Redo"
-                    )
+                } else {
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                            luminance = 0.1f
+                        ),
+                        onClick = undo,
+                        enabled = lastPaths.isNotEmpty() || paths.isNotEmpty()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Undo,
+                            contentDescription = "Undo"
+                        )
+                    }
+                    EnhancedIconButton(
+                        containerColor = Color.Transparent,
+                        borderColor = MaterialTheme.colorScheme.outlineVariant(
+                            luminance = 0.1f
+                        ),
+                        onClick = redo,
+                        enabled = undonePaths.isNotEmpty()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Redo,
+                            contentDescription = "Redo"
+                        )
+                    }
                 }
                 RecoverModeButton(
                     selected = isRecoveryOn,

@@ -17,13 +17,16 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components.controls
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
 import com.t8rin.imagetoolbox.core.resources.icons.Undo
+import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.feature.draw.presentation.screenLogic.DrawComponent
 
@@ -35,27 +38,37 @@ internal fun DrawContentSecondaryControls(
     isEraserOn: Boolean,
     onToggleIsEraserOn: () -> Unit
 ) {
+    val isPortrait by isPortraitOrientationAsState()
     PanModeButton(
         selected = panEnabled,
         onClick = onTogglePanEnabled
     )
-    EnhancedIconButton(
-        onClick = component::undo,
-        enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
-    ) {
-        Icon(
-            imageVector = Icons.Rounded.Undo,
-            contentDescription = "Undo"
+    if (isPortrait) {
+        UndoRedoButtons(
+            canUndo = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty(),
+            canRedo = component.undonePaths.isNotEmpty(),
+            onUndo = component::undo,
+            onRedo = component::redo
         )
-    }
-    EnhancedIconButton(
-        onClick = component::redo,
-        enabled = component.undonePaths.isNotEmpty()
-    ) {
-        Icon(
-            imageVector = Icons.Rounded.Redo,
-            contentDescription = "Redo"
-        )
+    } else {
+        EnhancedIconButton(
+            onClick = component::undo,
+            enabled = component.lastPaths.isNotEmpty() || component.paths.isNotEmpty()
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Undo,
+                contentDescription = "Undo"
+            )
+        }
+        EnhancedIconButton(
+            onClick = component::redo,
+            enabled = component.undonePaths.isNotEmpty()
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Redo,
+                contentDescription = "Redo"
+            )
+        }
     }
     EraseModeButton(
         selected = isEraserOn,

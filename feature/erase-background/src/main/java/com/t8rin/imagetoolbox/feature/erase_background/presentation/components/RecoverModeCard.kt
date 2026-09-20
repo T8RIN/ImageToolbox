@@ -82,7 +82,7 @@ fun RecoverModeButton(
         onClick = onClick
     ) {
         Icon(
-            imageVector = Icons.Rounded.Healing,
+            imageVector = if (selected) Icons.Rounded.Healing else Icons.Outlined.Healing,
             contentDescription = "Brush"
         )
     }
