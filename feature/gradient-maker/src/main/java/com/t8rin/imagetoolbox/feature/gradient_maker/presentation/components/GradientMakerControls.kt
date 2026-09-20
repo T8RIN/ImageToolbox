@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSe
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.PickImageFromUrisSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.gradient_maker.domain.GradientType
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.canPickImage
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components.model.isMesh
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
@@ -154,8 +155,8 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
             ) {
                 GradientPropertiesSelector(
                     gradientType = component.gradientType,
-                    linearAngle = component.angle,
-                    onLinearAngleChange = component::updateLinearAngle,
+                    angle = component.angle,
+                    onAngleChange = component::updateGradientAngle,
                     centerFriction = component.centerFriction,
                     radiusFriction = component.radiusFriction,
                     onRadialDimensionsChange = component::setRadialProperties
@@ -183,11 +184,13 @@ internal fun GradientMakerControls(component: GradientMakerComponent) {
                 endIcon = Icons.Outlined.AddCircle,
                 onClick = palettePicker::pickFile
             )
-            Spacer(Modifier.height(8.dp))
-            TileModeSelector(
-                value = component.tileMode,
-                onValueChange = component::setTileMode
-            )
+            if (component.gradientType != GradientType.Sweep) {
+                Spacer(Modifier.height(8.dp))
+                TileModeSelector(
+                    value = component.tileMode,
+                    onValueChange = component::setTileMode
+                )
+            }
         }
         if (screenType.canPickImage()) {
             Spacer(Modifier.height(8.dp))

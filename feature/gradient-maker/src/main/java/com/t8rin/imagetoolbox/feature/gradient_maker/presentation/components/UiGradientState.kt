@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 
+import android.graphics.Matrix
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -30,6 +31,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.platform.LocalDensity
@@ -122,13 +124,26 @@ class UiGradientState(
                     tileMode = tileMode
                 )
 
-                GradientType.Sweep -> Brush.sweepGradient(
-                    colorStops = colorStops,
-                    center = Offset(
+                GradientType.Sweep -> {
+                    val center = Offset(
                         x = size.width * centerFriction.x,
                         y = size.height * centerFriction.y
                     )
-                )
+                    val angle = linearGradientAngle
+                    val sweep = Brush.sweepGradient(
+                        colorStops = colorStops, center = center
+                    ) as ShaderBrush
+                    object : ShaderBrush() {
+                        override fun createShader(size: Size): Shader =
+                            sweep.createShader(size).apply {
+                                setLocalMatrix(
+                                    Matrix().apply {
+                                        setRotate(angle, center.x, center.y)
+                                    }
+                                )
+                            }
+                    }
+                }
             } as ShaderBrush
         }.getOrNull()
 

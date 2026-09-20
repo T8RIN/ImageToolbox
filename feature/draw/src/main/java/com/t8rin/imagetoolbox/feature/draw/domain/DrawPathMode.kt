@@ -148,9 +148,6 @@ sealed class DrawPathMode(
     val isFilled: Boolean
         get() = filled.any { this::class.isInstance(it) }
 
-    val isFilledShape: Boolean
-        get() = this is Rect || this == Oval || this == Triangle || this is Polygon || this is Star
-
     val outlinedFillColor: ColorModel?
         get() = this.safeCast<Outlined>()?.fillColor
 

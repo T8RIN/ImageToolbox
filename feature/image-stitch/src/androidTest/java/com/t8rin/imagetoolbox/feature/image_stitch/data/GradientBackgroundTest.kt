@@ -30,6 +30,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
+import com.t8rin.imagetoolbox.core.domain.model.GradientType
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
@@ -83,7 +84,15 @@ class GradientBackgroundTest {
             null,
             GradientFill(palette),
             GradientFill(palette, 90f),
-            GradientFill(palette, 37f)
+            GradientFill(palette, 37f),
+            GradientFill(
+                palette, type = GradientType.Radial,
+                centerX = 0.25f, centerY = 0.75f, radius = 0.7f
+            ),
+            GradientFill(
+                palette, angle = 120f, type = GradientType.Sweep,
+                centerX = 0.25f, centerY = 0.75f
+            )
         )) {
             val (actual, info) = combiner.combineImages(
                 uris,

@@ -188,8 +188,8 @@ fun DrawContent(
     val activeGradientPalette = gradientPalette.takeIf {
         isGradientEnabled && isGradientAvailable && !isEraserOn
     }
-    val filledShapeGradientGeometry = gradientGeometry.takeIf {
-        drawPathMode.isFilledShape && (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter)
+    val fillGradientGeometry = gradientGeometry.takeIf {
+        drawPathMode.isFilled && (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter)
     }
 
     LaunchedEffect(drawMode, strokeWidth) {
@@ -309,7 +309,7 @@ fun DrawContent(
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
                     gradientPalette = activeGradientPalette,
-                    gradientGeometry = filledShapeGradientGeometry,
+                    gradientGeometry = fillGradientGeometry,
                     gradientLength = gradientLength,
                     isGradientMirrored = isGradientMirrored,
                     onAddPath = component::addPath,

@@ -164,45 +164,47 @@ class GradientFillExportTest {
     }
 
     @Test
-    fun filledShapeGeometryMatchesCommittedPreview() = runBlocking {
+    fun filledModesGeometryMatchesCommittedPreview() = runBlocking {
         val geometries = listOf(
             GradientGeometry(angle = 90f),
             GradientGeometry(GradientType.Radial, centerX = 0.2f, centerY = 0.7f, radius = 0.6f),
             GradientGeometry(GradientType.Sweep, angle = 135f, centerX = 0.2f, centerY = 0.7f)
         )
-        val samples = mutableListOf<Int>()
-        for (geometry in geometries) {
-            val entry = UiPathPaint(
-                path = Path().apply { addRect(Rect(20f, 20f, 236f, 108f)) },
-                strokeWidth = 10.pt,
-                brushSoftness = 0.pt,
-                drawColor = ComposeColor.Green,
-                isErasing = false,
-                drawMode = DrawMode.Pen,
-                canvasSize = size,
-                drawPathMode = DrawPathMode.Rect(),
-                gradientPalette = palette,
-                gradientGeometry = geometry
-            )
-            val actual = checkNotNull(
-                applier.applyDrawToImage(
-                    DrawBehavior.Background(0, size.width, size.height, Color.TRANSPARENT),
-                    listOf(entry),
-                    ""
+        for (mode in DrawPathMode.entries.filter { it.isFilled }) {
+            val samples = mutableListOf<Int>()
+            for (geometry in geometries) {
+                val entry = UiPathPaint(
+                    path = Path().apply { addRect(Rect(20f, 20f, 236f, 108f)) },
+                    strokeWidth = 10.pt,
+                    brushSoftness = 0.pt,
+                    drawColor = ComposeColor.Green,
+                    isErasing = false,
+                    drawMode = DrawMode.Pen,
+                    canvasSize = size,
+                    drawPathMode = mode,
+                    gradientPalette = palette,
+                    gradientGeometry = geometry
                 )
-            )
-            val expected = createBitmap(size.width, size.height)
-            Canvas(expected).drawCommittedPath(
-                entry, size, context,
-                source = { error("Unexpected effect") },
-                onRequestFiltering = { _, _ -> error("Unexpected filter") }
-            )
-            assertTrue("Fill differs for $geometry", expected.sameAs(actual))
-            samples += actual.getPixel(60, 64)
-            expected.recycle()
-            actual.recycle()
+                val actual = checkNotNull(
+                    applier.applyDrawToImage(
+                        DrawBehavior.Background(0, size.width, size.height, Color.TRANSPARENT),
+                        listOf(entry),
+                        ""
+                    )
+                )
+                val expected = createBitmap(size.width, size.height)
+                Canvas(expected).drawCommittedPath(
+                    entry, size, context,
+                    source = { error("Unexpected effect") },
+                    onRequestFiltering = { _, _ -> error("Unexpected filter") }
+                )
+                assertTrue("Fill differs for $mode, $geometry", expected.sameAs(actual))
+                samples += actual.getPixel(60, 64)
+                expected.recycle()
+                actual.recycle()
+            }
+            assertEquals("Geometry ignored for $mode", geometries.size, samples.distinct().size)
         }
-        assertEquals(geometries.size, samples.distinct().size)
     }
 
     @Suppress("UNCHECKED_CAST")

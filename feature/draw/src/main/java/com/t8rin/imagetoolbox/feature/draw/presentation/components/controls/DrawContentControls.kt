@@ -150,7 +150,7 @@ internal fun DrawContentControls(
                 onGradientPaletteChange = onGradientPaletteChange,
                 gradientGeometry = gradientGeometry,
                 onGradientGeometryChange = onGradientGeometryChange,
-                showFillGradientGeometry = drawPathMode.isFilledShape &&
+                showFillGradientGeometry = drawPathMode.isFilled &&
                         (drawMode is DrawMode.Pen || drawMode is DrawMode.Highlighter),
                 gradientLength = gradientLength,
                 isGradientMirrored = isGradientMirrored,

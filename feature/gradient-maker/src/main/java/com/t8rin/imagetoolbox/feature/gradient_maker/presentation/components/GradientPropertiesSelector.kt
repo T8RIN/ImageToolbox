@@ -20,11 +20,8 @@ package com.t8rin.imagetoolbox.feature.gradient_maker.presentation.components
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
@@ -37,10 +34,10 @@ import kotlin.math.roundToInt
 @Composable
 fun GradientPropertiesSelector(
     gradientType: GradientType,
-    linearAngle: Float,
+    angle: Float,
     centerFriction: Offset,
     radiusFriction: Float,
-    onLinearAngleChange: (Float) -> Unit,
+    onAngleChange: (Float) -> Unit,
     onRadialDimensionsChange: (Offset, Float) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,63 +49,77 @@ fun GradientPropertiesSelector(
             GradientType.Linear -> {
                 EnhancedSliderItem(
                     behaveAsContainer = false,
-                    value = linearAngle,
+                    value = angle,
                     title = stringResource(id = R.string.angle),
                     valueRange = 0f..360f,
                     internalStateTransformation = { it.roundToInt() },
                     onValueChange = {
-                        onLinearAngleChange(it.roundToInt().toFloat())
+                        onAngleChange(it.roundToInt().toFloat())
                     }
                 )
             }
 
             GradientType.Radial,
             GradientType.Sweep -> {
-                var centerX by remember { mutableFloatStateOf(centerFriction.x) }
-                var centerY by remember { mutableFloatStateOf(centerFriction.y) }
-                var radius by remember { mutableFloatStateOf(radiusFriction) }
-
-                onRadialDimensionsChange(Offset(centerX, centerY), radius)
-
                 Column {
                     EnhancedSliderItem(
-                        value = centerX,
+                        value = centerFriction.x,
                         title = stringResource(id = R.string.center_x),
                         internalStateTransformation = {
                             it.roundToTwoDigits()
                         },
                         onValueChange = {
-                            centerX = it
+                            onRadialDimensionsChange(
+                                Offset(it, centerFriction.y), radiusFriction
+                            )
                         },
                         valueRange = 0f..1f,
                         behaveAsContainer = false
                     )
                     EnhancedSliderItem(
-                        value = centerY,
+                        value = centerFriction.y,
                         title = stringResource(id = R.string.center_y),
                         internalStateTransformation = {
                             it.roundToTwoDigits()
                         },
                         onValueChange = {
-                            centerY = it
+                            onRadialDimensionsChange(
+                                Offset(centerFriction.x, it), radiusFriction
+                            )
                         },
                         valueRange = 0f..1f,
                         behaveAsContainer = false
                     )
                     AnimatedVisibility(
-                        visible = type != GradientType.Sweep
+                        visible = type == GradientType.Radial,
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         EnhancedSliderItem(
-                            value = radius,
+                            value = radiusFriction,
                             title = stringResource(id = R.string.radius),
                             internalStateTransformation = {
                                 it.roundToTwoDigits()
                             },
                             onValueChange = {
-                                radius = it
+                                onRadialDimensionsChange(centerFriction, it)
                             },
                             valueRange = 0f..1f,
                             behaveAsContainer = false
+                        )
+                    }
+                    AnimatedVisibility(
+                        visible = type != GradientType.Radial,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        EnhancedSliderItem(
+                            behaveAsContainer = false,
+                            value = angle,
+                            title = stringResource(id = R.string.angle),
+                            valueRange = 0f..360f,
+                            internalStateTransformation = { it.roundToInt() },
+                            onValueChange = {
+                                onAngleChange(it.roundToInt().toFloat())
+                            }
                         )
                     }
                 }

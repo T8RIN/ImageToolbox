@@ -406,7 +406,7 @@ class GradientMakerComponent @AssistedInject internal constructor(
         }
     }
 
-    fun updateLinearAngle(angle: Float) {
+    fun updateGradientAngle(angle: Float) {
         if (gradientState.linearGradientAngle != angle) {
             updateWithHistory {
                 gradientState.linearGradientAngle = angle
