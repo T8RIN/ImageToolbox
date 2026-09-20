@@ -124,36 +124,51 @@ internal class StyleTransferProcessor @Inject constructor(
 
             listener.onProgress(0, 1)
             val amount = (params.strength / 100f).coerceIn(0f, 1f)
-            val result = when (styleModel) {
-                StyleTransferModel.Arbitrary -> processArbitrary(
-                    content = content,
-                    styleUri = styleUri,
-                    prediction = prediction,
-                    transformer = transformer,
-                    amount = amount,
-                    listener = listener
-                )
-
-                StyleTransferModel.MicroAst -> processMicroAst(
-                    content = content,
-                    styleUri = styleUri,
-                    prediction = prediction,
-                    transformer = transformer,
-                    amount = amount,
-                    listener = listener
-                )
-
-                StyleTransferModel.AesFa -> processAesFa(
-                    content = content,
-                    styleUri = styleUri,
-                    prediction = prediction,
-                    transformer = transformer,
-                    amount = amount,
-                    listener = listener
-                )
+            val maxSize = when {
+                maxOf(content.width, content.height) <= MAX_CONTENT_SIZE -> DEFAULT_CONTENT_SIZE
+                styleModel == StyleTransferModel.Arbitrary -> ARBITRARY_CONTENT_SIZE
+                else -> MAX_CONTENT_SIZE
             }
-            result?.also {
+            val preparedContent = content.scaledForInference(maxSize)
+            val result = try {
+                when (styleModel) {
+                    StyleTransferModel.Arbitrary -> processArbitrary(
+                        content = preparedContent,
+                        styleUri = styleUri,
+                        prediction = prediction,
+                        transformer = transformer,
+                        amount = amount,
+                        listener = listener
+                    )
+
+                    StyleTransferModel.MicroAst -> processMicroAst(
+                        content = preparedContent,
+                        styleUri = styleUri,
+                        prediction = prediction,
+                        transformer = transformer,
+                        amount = amount,
+                        listener = listener
+                    )
+
+                    StyleTransferModel.AesFa -> processAesFa(
+                        content = preparedContent,
+                        styleUri = styleUri,
+                        prediction = prediction,
+                        transformer = transformer,
+                        amount = amount,
+                        listener = listener
+                    )
+                }
+            } finally {
+                if (preparedContent !== content) preparedContent.recycle()
+            }
+            result?.let { workingResult ->
                 listener.onProgress(1, 1)
+                if (workingResult.width != content.width || workingResult.height != content.height) {
+                    workingResult.scale(content.width, content.height).also {
+                        workingResult.recycle()
+                    }
+                } else workingResult
             }
         }
     }
@@ -175,7 +190,7 @@ internal class StyleTransferProcessor @Inject constructor(
         amount: Float,
         listener: AiProgressListener
     ): Bitmap? {
-        val styleEmbedding = getStyleData(styleUri) { style ->
+        val styleEmbedding = getStyleData(styleUri, STYLE_IMAGE_SIZE) { style ->
             listOf(predictStyle(prediction, style.scaledForPrediction(STYLE_IMAGE_SIZE)))
         }?.single() ?: return null.also {
             listener.onError(context.getString(R.string.style_image_not_selected))
@@ -267,11 +282,16 @@ internal class StyleTransferProcessor @Inject constructor(
 
     private suspend fun getStyleData(
         styleUri: String,
+        size: Int? = null,
         create: suspend (Bitmap) -> List<FloatArray>
     ): List<FloatArray>? {
         cachedStyleData?.let { return it.map(FloatArray::copyOf) }
 
-        val style = imageGetter.getImage(styleUri)?.image ?: return null
+        val style = if (size != null) {
+            imageGetter.getImage(styleUri, size)
+        } else {
+            imageGetter.getImage(styleUri)?.image
+        } ?: return null
         return create(style).also { cachedStyleData = it.map(FloatArray::copyOf) }
     }
 
@@ -455,15 +475,13 @@ internal class StyleTransferProcessor @Inject constructor(
             (session.inputInfo.getValue(name).info as TensorInfo).shape.last() == RGB_CHANNELS.toLong()
         }
         val styleName = session.inputNames.first { it != contentName }
-        val outputName = session.outputNames.single()
         val contentBuffer = image.toRgbBuffer()
         val styleBuffer = directFloatBuffer(STYLE_EMBEDDING_SIZE).apply {
             put(styleEmbedding)
             rewind()
         }
-        val outputBuffer = directFloatBuffer(image.width * image.height * RGB_CHANNELS)
 
-        OnnxTensor.createTensor(
+        return OnnxTensor.createTensor(
             environment,
             contentBuffer,
             longArrayOf(1, image.height.toLong(), image.width.toLong(), RGB_CHANNELS.toLong())
@@ -473,29 +491,29 @@ internal class StyleTransferProcessor @Inject constructor(
                 styleBuffer,
                 longArrayOf(1, 1, 1, STYLE_EMBEDDING_SIZE.toLong())
             ).use { styleTensor ->
-                OnnxTensor.createTensor(
-                    environment,
-                    outputBuffer,
-                    longArrayOf(
-                        1,
-                        image.height.toLong(),
-                        image.width.toLong(),
-                        RGB_CHANNELS.toLong()
-                    )
-                ).use { outputTensor ->
-                    session.runCancellable(
-                        mapOf(contentName to contentTensor, styleName to styleTensor),
-                        mapOf(outputName to outputTensor)
-                    ).close()
+                session.runCancellable(
+                    mapOf(contentName to contentTensor, styleName to styleTensor)
+                ).use { result ->
+                    val output = result[0] as OnnxTensor
+                    val shape = (output.info as TensorInfo).shape
+                    val outputHeight = shape[1].toInt()
+                    val outputWidth = shape[2].toInt()
+                    check(outputHeight >= image.height && outputWidth >= image.width)
+                    output.floatBuffer.toBitmap(image.width, image.height, outputWidth)
                 }
             }
         }
-
-        outputBuffer.rewind()
-        return outputBuffer.toBitmap(image.width, image.height)
     }
 
     private fun Bitmap.scaledForPrediction(maxSize: Int): Bitmap {
+        val scale = maxSize.toFloat() / maxOf(width, height)
+        val targetWidth = (width * scale).toInt().coerceAtLeast(1)
+        val targetHeight = (height * scale).toInt().coerceAtLeast(1)
+        return this.scale(targetWidth, targetHeight)
+    }
+
+    private fun Bitmap.scaledForInference(maxSize: Int): Bitmap {
+        if (maxOf(width, height) <= maxSize) return this
         val scale = maxSize.toFloat() / maxOf(width, height)
         val targetWidth = (width * scale).toInt().coerceAtLeast(1)
         val targetHeight = (height * scale).toInt().coerceAtLeast(1)
@@ -561,11 +579,12 @@ internal class StyleTransferProcessor @Inject constructor(
         }
     }
 
-    private fun FloatBuffer.toBitmap(width: Int, height: Int): Bitmap {
-        val pixels = IntArray(width * height) {
-            val red = (get().coerceIn(0f, 1f) * 255).toInt()
-            val green = (get().coerceIn(0f, 1f) * 255).toInt()
-            val blue = (get().coerceIn(0f, 1f) * 255).toInt()
+    private fun FloatBuffer.toBitmap(width: Int, height: Int, tensorWidth: Int): Bitmap {
+        val pixels = IntArray(width * height) { index ->
+            val offset = (index / width * tensorWidth + index % width) * RGB_CHANNELS
+            val red = (get(offset).coerceIn(0f, 1f) * 255).toInt()
+            val green = (get(offset + 1).coerceIn(0f, 1f) * 255).toInt()
+            val blue = (get(offset + 2).coerceIn(0f, 1f) * 255).toInt()
             Color.rgb(red, green, blue)
         }
         return Bitmap.createBitmap(pixels, width, height, Bitmap.Config.ARGB_8888)
@@ -720,6 +739,9 @@ internal class StyleTransferProcessor @Inject constructor(
     )
 
     private companion object {
+        const val MAX_CONTENT_SIZE = 2048
+        const val ARBITRARY_CONTENT_SIZE = 1024
+        const val DEFAULT_CONTENT_SIZE = 500
         const val STYLE_IMAGE_SIZE = 256
         const val STYLE_EMBEDDING_SIZE = 100
         const val MICRO_AST_STYLE_CODE_SIZE = 512

@@ -161,7 +161,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
     ): OptimizationTargets? {
         createSession(TARGETS_MODEL_NAME).use { session ->
             val styleTargets = cachedStyleTargets ?: run {
-                val style = imageGetter.getImage(styleUri)?.image ?: return null.also {
+                val style = imageGetter.getImage(styleUri, 512) ?: return null.also {
                     listener.onError(context.getString(R.string.style_image_not_selected))
                 }
                 val preparedStyle = style.prepareForOptimization()
@@ -769,7 +769,7 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
         const val LOSS_OUTPUT_NAME = "total_loss"
         const val RGB_CHANNELS = 3
         const val IMAGE_MULTIPLE = 16
-        const val WORKING_PIXEL_BUDGET = 256 * 256
+        const val WORKING_PIXEL_BUDGET = 384 * 384
         const val OPTIMIZATION_STEPS = 240
         const val TARGET_STEPS = 2
         const val INFERENCE_THREADS = 2

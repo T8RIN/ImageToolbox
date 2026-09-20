@@ -22,6 +22,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.net.toUri
 import coil3.ImageLoader
+import coil3.request.CachePolicy
 import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.request.transformations
@@ -252,6 +253,7 @@ internal class AndroidImageGetter @Inject constructor(
                     key = "rawDevelopSettings",
                     value = rawDevelopSettingsCacheKey
                 )
+                if (size == null) memoryCachePolicy(CachePolicy.DISABLED)
                 if (addSizeToRequest) {
                     size(
                         size?.let {
