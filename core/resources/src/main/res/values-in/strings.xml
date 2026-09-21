@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -1610,7 +1608,7 @@
     <string name="ocr_write_to_file">Tulis Ke File</string>
     <string name="ocr_write_to_file_sub">Ekstrak teks dari kumpulan gambar dan simpan dalam satu file teks</string>
     <string name="ocr_write_to_metadata">Tulis Ke Metadata</string>
-    <string name="ocr_write_to_metadata_sub">Ekstrak teks dari setiap gambar dan letakkan di info EXIF ​​​​dari foto relatif</string>
+    <string name="ocr_write_to_metadata_sub">Ekstrak teks dari setiap gambar dan letakkan di info EXIF dari foto relatif</string>
     <string name="invisible_mode">Modus Tak Terlihat</string>
     <string name="invisible_mode_sub">Gunakan steganografi untuk membuat tanda air yang tidak terlihat oleh mata di dalam byte gambar Anda</string>
     <string name="use_lsb">Gunakan LSB</string>
@@ -2396,7 +2394,7 @@
     <string name="shader_parse_error_vec2_component_count_expected">%1$s harus berisi tepat 2 angka.</string>
     <string name="duplicate">Duplikat</string>
     <string name="always_clear_exif">Selalu hapus EXIF</string>
-    <string name="always_clear_exif_sub">Hapus data EXIF ​​gambar saat disimpan, bahkan ketika alat meminta penyimpanan metadata</string>
+    <string name="always_clear_exif_sub">Hapus data EXIF gambar saat disimpan, bahkan ketika alat meminta penyimpanan metadata</string>
     <string name="help_tips">Bantuan &amp; Tip</string>
     <string name="tutorials_count">%1$d tutorial</string>
     <string name="open_tool">Buka alat</string>
@@ -2564,20 +2562,20 @@
     <string name="help_tip_format_conversion_step_1">Gunakan JPEG untuk foto yang kompatibel, PNG untuk gambar lossless dan alfa, dan WebP untuk berbagi secara ringkas.</string>
     <string name="help_tip_format_conversion_step_2">Sesuaikan kualitas jika formatnya mendukung; nilai yang lebih rendah mengurangi ukuran tetapi dapat menambah artefak.</string>
     <string name="help_tip_format_conversion_step_3">Simpan yang asli sampai Anda memverifikasi file yang dikonversi terbuka dengan benar di aplikasi target.</string>
-    <string name="help_tip_exif_privacy_title">Periksa EXIF ​​dan privasi</string>
+    <string name="help_tip_exif_privacy_title">Periksa EXIF dan privasi</string>
     <string name="help_tip_exif_privacy_subtitle">Lihat, edit, atau hapus metadata sebelum membagikan foto sensitif</string>
     <string name="help_tip_exif_privacy_page_title">Kontrol data gambar tersembunyi</string>
     <string name="help_tip_exif_privacy_description">EXIF dapat berisi data kamera, tanggal, lokasi, orientasi, dan detail lainnya yang tidak terlihat pada gambar. Sebaiknya periksa sebelum membagikannya kepada publik, laporan dukungan, daftar pasar, atau foto apa pun yang mungkin mengungkapkan tempat pribadi.</string>
-    <string name="help_tip_exif_privacy_step_1">Buka alat EXIF ​​sebelum berbagi foto yang mungkin berisi informasi lokasi atau perangkat pribadi.</string>
+    <string name="help_tip_exif_privacy_step_1">Buka alat EXIF sebelum berbagi foto yang mungkin berisi informasi lokasi atau perangkat pribadi.</string>
     <string name="help_tip_exif_privacy_step_2">Hapus bidang sensitif atau edit tag yang salah seperti tanggal, orientasi, penulis, atau data kamera.</string>
     <string name="help_tip_exif_privacy_step_3">Simpan salinan baru dan bagikan salinan tersebut, bukan salinan asli, jika privasi penting.</string>
-    <string name="help_tip_automatic_exif_cleanup_title">Pembersihan EXIF ​​​​otomatis</string>
+    <string name="help_tip_automatic_exif_cleanup_title">Pembersihan EXIF otomatis</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">Hapus metadata secara default saat memutuskan apakah tanggal harus dipertahankan</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">Jadikan privasi sebagai default</string>
-    <string name="help_tip_automatic_exif_cleanup_description">Grup pengaturan EXIF ​​​​berguna ketika Anda ingin pembersihan privasi terjadi secara otomatis alih-alih mengingatnya untuk setiap ekspor. Pertahankan Tanggal Waktu adalah keputusan terpisah karena tanggal dapat berguna untuk menyortir namun sensitif untuk dibagikan.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">Aktifkan EXIF ​​yang selalu jelas ketika sebagian besar ekspor Anda ditujukan untuk berbagi publik atau semi-publik.</string>
+    <string name="help_tip_automatic_exif_cleanup_description">Grup pengaturan EXIF berguna ketika Anda ingin pembersihan privasi terjadi secara otomatis alih-alih mengingatnya untuk setiap ekspor. Pertahankan Tanggal Waktu adalah keputusan terpisah karena tanggal dapat berguna untuk menyortir namun sensitif untuk dibagikan.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">Aktifkan EXIF yang selalu jelas ketika sebagian besar ekspor Anda ditujukan untuk berbagi publik atau semi-publik.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">Aktifkan Pertahankan Waktu Tanggal hanya ketika mempertahankan waktu pengambilan lebih penting daripada menghapus setiap stempel waktu.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_3">Gunakan pengeditan EXIF ​​manual untuk file satu kali di mana Anda perlu menyimpan beberapa bidang dan menghapus yang lain.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_3">Gunakan pengeditan EXIF manual untuk file satu kali di mana Anda perlu menyimpan beberapa bidang dan menghapus yang lain.</string>
     <string name="help_tip_filenames_title">Kontrol nama file</string>
     <string name="help_tip_filenames_subtitle">Gunakan prefiks, sufiks, stempel waktu, preset, checksum, dan nomor urut</string>
     <string name="help_tip_filenames_page_title">Jadikan ekspor mudah ditemukan</string>
@@ -3042,7 +3040,7 @@
     <string name="help_tip_metadata_dates_location_description">Metadata tidak semuanya memiliki risiko yang sama. Tanggal pengambilan dapat berguna untuk pengarsipan dan penyortiran, sementara GPS, bidang seperti serial perangkat, tag perangkat lunak, atau bidang pemilik dapat mengungkapkan lebih dari yang diharapkan.</string>
     <string name="help_tip_metadata_dates_location_step_1">Simpan tag tanggal dan waktu ketika urutan kronologis penting untuk album, pindaian, atau riwayat proyek.</string>
     <string name="help_tip_metadata_dates_location_step_2">Hapus GPS dan tag pengenal perangkat sebelum membagikannya secara publik atau mengirim gambar kepada orang asing.</string>
-    <string name="help_tip_metadata_dates_location_step_3">Ekspor sampel dan periksa kembali EXIF ​​ketika persyaratan privasi ketat.</string>
+    <string name="help_tip_metadata_dates_location_step_3">Ekspor sampel dan periksa kembali EXIF ketika persyaratan privasi ketat.</string>
     <string name="help_tip_filename_collision_safety_title">Hindari tabrakan nama file</string>
     <string name="help_tip_filename_collision_safety_subtitle">Lindungi keluaran batch ketika banyak file memiliki nama yang sama seperti image.jpg atau screenshot.png</string>
     <string name="help_tip_filename_collision_safety_page_title">Jadikan setiap nama keluaran unik</string>
@@ -3662,7 +3660,7 @@
     <string name="filename_pattern">Pola nama file</string>
     <string name="rename">Ganti nama</string>
     <string name="date_source">Sumber tanggal</string>
-    <string name="date_source_exif">Tanggal EXIF ​​diambil</string>
+    <string name="date_source_exif">Tanggal EXIF diambil</string>
     <string name="date_source_modified">Tanggal modifikasi file</string>
     <string name="date_source_created">Tanggal pembuatan file</string>
     <string name="date_source_current">Tanggal saat ini</string>
@@ -4443,7 +4441,7 @@
     <string name="return_to_external_app_after_save">Kembali setelah menyimpan hasil edit eksternal</string>
     <string name="return_to_external_app_after_save_sub">Tutup Kotak Alat Gambar setelah menyimpan gambar yang dibuka untuk diedit dari aplikasi lain</string>
     <string name="add_imagetoolbox_metadata">Tambahkan metadata ImageToolbox</string>
-    <string name="add_imagetoolbox_metadata_sub">Tulis versi aplikasi dan parameter gambar yang dikonfigurasi ke EXIF ​​saat menyimpan</string>
+    <string name="add_imagetoolbox_metadata_sub">Tulis versi aplikasi dan parameter gambar yang dikonfigurasi ke EXIF saat menyimpan</string>
     <string name="read_only">Hanya Baca</string>
     <string name="tag_camera_firmware">Firmware kamera</string>
     <string name="tag_chromatic_aberration_correction">Koreksi penyimpangan kromatik</string>
