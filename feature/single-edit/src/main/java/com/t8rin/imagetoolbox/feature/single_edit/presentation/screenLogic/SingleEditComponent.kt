@@ -90,6 +90,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class SingleEditComponent @AssistedInject internal constructor(
@@ -608,9 +609,10 @@ class SingleEditComponent @AssistedInject internal constructor(
                 val size = IntegerSize(bitmap.width, bitmap.height)
                 _originalSize.update { size }
                 _imageInfo.update {
+                    val rotated = abs(it.rotationDegrees) % 180 != 0f
                     it.copy(
-                        width = size.width,
-                        height = size.height
+                        width = if (rotated) size.height else size.width,
+                        height = if (rotated) size.width else size.height
                     )
                 }
                 imageScaler.scaleUntilCanShow(bitmap).let { scaledBitmap ->

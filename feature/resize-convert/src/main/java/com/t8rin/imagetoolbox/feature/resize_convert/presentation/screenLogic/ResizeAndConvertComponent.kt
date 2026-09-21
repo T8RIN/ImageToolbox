@@ -70,6 +70,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 class ResizeAndConvertComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -555,9 +556,10 @@ class ResizeAndConvertComponent @AssistedInject internal constructor(
                 val size = IntegerSize(bitmap.width, bitmap.height)
                 _originalSize.update { size }
                 _imageInfo.update {
+                    val rotated = abs(it.rotationDegrees) % 180 != 0f
                     it.copy(
-                        width = size.width,
-                        height = size.height
+                        width = if (rotated) size.height else size.width,
+                        height = if (rotated) size.width else size.height
                     )
                 }
                 _bitmap.update { imageScaler.scaleUntilCanShow(bitmap) }
