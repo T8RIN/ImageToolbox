@@ -205,7 +205,11 @@ internal class AndroidFileController @Inject constructor(
                 }
             }
 
-            if (allowOverwrite && settingsState.filenameBehavior is FilenameBehavior.Overwrite) {
+            if (
+                allowOverwrite
+                && originalUri != Uri.EMPTY
+                && settingsState.filenameBehavior is FilenameBehavior.Overwrite
+            ) {
                 val providedMetadata = (saveTarget as? ImageSaveTarget)
                     ?.metadata
                     ?.takeUnless { settingsState.isAlwaysClearExif }

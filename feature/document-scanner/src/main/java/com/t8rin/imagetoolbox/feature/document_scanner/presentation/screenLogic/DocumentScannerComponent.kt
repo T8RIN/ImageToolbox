@@ -126,7 +126,7 @@ class DocumentScannerComponent @AssistedInject internal constructor(
                             saveTarget = ImageSaveTarget(
                                 imageInfo = imageInfo,
                                 metadata = null,
-                                originalUri = uri.toString(),
+                                originalUri = "",
                                 sequenceNumber = _done.value + 1,
                                 data = imageCompressor.compressAndTransform(
                                     image = bitmap,
