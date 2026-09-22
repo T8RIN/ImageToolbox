@@ -37,6 +37,7 @@ import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FormatColorFill
+import com.t8rin.imagetoolbox.core.resources.icons.Padding
 import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.ui.theme.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorAndGradientSelector
@@ -141,6 +142,24 @@ internal fun ShapeLayerParamsSelector(
         type = type,
         onUpdateLayerContinuously = onUpdateLayerContinuously,
         onContinuousEditFinished = onContinuousEditFinished
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+    PreferenceRowSwitch(
+        title = stringResource(R.string.padding),
+        checked = type.isPaddingEnabled || type.shadow != null,
+        enabled = type.shadow == null,
+        onClick = {
+            onUpdateLayer(
+                layer.copy(
+                    type = type.copy(isPaddingEnabled = it)
+                )
+            )
+        },
+        shape = ShapeDefaults.large,
+        modifier = Modifier.fillMaxWidth(),
+        startIcon = Icons.Outlined.Padding,
+        containerColor = MaterialTheme.colorScheme.surface
     )
 
     AnimatedContent(

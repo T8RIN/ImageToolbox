@@ -146,6 +146,7 @@ sealed interface LayerType {
         val strokeWidth: Float = 16f,
         val widthRatio: Float = 0.35f,
         val heightRatio: Float = 0.35f,
+        val isPaddingEnabled: Boolean = true,
         val shadow: DropShadow? = null,
         val gradientPalette: GradientPalette? = null,
         val fillGradientPalette: GradientPalette? = null,

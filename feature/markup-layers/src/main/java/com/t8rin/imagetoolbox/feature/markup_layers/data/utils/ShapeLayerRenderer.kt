@@ -84,6 +84,9 @@ internal fun resolveShapeLayerRenderData(
     contentInsetPx: Float = 0f
 ): ShapeLayerRenderData {
     val shadowPadding = calculateShadowPadding(type.shadow)
+    val resolvedContentInsetPx = if (type.isPaddingEnabled || type.shadow != null) {
+        contentInsetPx
+    } else 0f
     val horizontalShadowPadding = shadowPadding.leftPx + shadowPadding.rightPx
     val verticalShadowPadding = shadowPadding.topPx + shadowPadding.bottomPx
     val desiredShapeWidth = (referenceSize * type.widthRatio).coerceAtLeast(1f)
@@ -105,7 +108,7 @@ internal fun resolveShapeLayerRenderData(
         type = type,
         shapeWidth = desiredShapeWidth,
         shapeHeight = desiredShapeHeight,
-        contentInsetPx = contentInsetPx
+        contentInsetPx = resolvedContentInsetPx
     )
     val fitScale = min(
         1f,
@@ -120,7 +123,7 @@ internal fun resolveShapeLayerRenderData(
         type = type,
         shapeWidth = shapeWidth,
         shapeHeight = shapeHeight,
-        contentInsetPx = contentInsetPx
+        contentInsetPx = resolvedContentInsetPx
     )
     val resolvedContentWidth = constrainedSize?.let {
         (it.width.toFloat() - horizontalShadowPadding).coerceAtLeast(1f)

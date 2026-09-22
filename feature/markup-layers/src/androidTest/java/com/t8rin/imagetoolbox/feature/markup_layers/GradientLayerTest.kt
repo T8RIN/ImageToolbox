@@ -82,6 +82,36 @@ class GradientLayerTest {
     )
 
     @Test
+    fun shapePaddingCanBeDisabledOnlyWithoutShadow() {
+        val type = LayerType.Shape.Default.copy(
+            shapeMode = ShapeMode.Rect()
+        )
+        val padded = resolveShapeLayerRenderData(
+            type = type,
+            referenceSize = 512f,
+            contentInsetPx = 4f
+        )
+        val withoutPadding = resolveShapeLayerRenderData(
+            type = type.copy(isPaddingEnabled = false),
+            referenceSize = 512f,
+            contentInsetPx = 4f
+        )
+        val withShadow = resolveShapeLayerRenderData(
+            type = type.copy(
+                isPaddingEnabled = false,
+                shadow = DropShadow.Default
+            ),
+            referenceSize = 512f,
+            contentInsetPx = 4f
+        )
+
+        assertEquals(8f, padded.contentWidth - withoutPadding.contentWidth, 0.01f)
+        assertEquals(8f, padded.contentHeight - withoutPadding.contentHeight, 0.01f)
+        assertEquals(padded.contentWidth, withShadow.contentWidth, 0.01f)
+        assertEquals(padded.contentHeight, withShadow.contentHeight, 0.01f)
+    }
+
+    @Test
     fun shapePreviewMatchesExportForEveryMode() {
         val transparentPalette = GradientPalette.Custom(
             listOf(ColorModel(Color.TRANSPARENT), ColorModel(0x800000FF.toInt()))

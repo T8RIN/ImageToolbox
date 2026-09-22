@@ -111,6 +111,7 @@ data class ShapeSnapshot(
     val strokeWidth: Float,
     val widthRatio: Float,
     val heightRatio: Float,
+    val isPaddingEnabled: Boolean = true,
     val fillColor: Int? = null,
     val rotationDegrees: Int? = null,
     val cornerRadius: Float? = null,
