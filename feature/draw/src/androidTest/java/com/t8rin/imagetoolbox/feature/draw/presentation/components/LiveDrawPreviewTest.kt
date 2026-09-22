@@ -19,165 +19,24 @@ package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.os.Bundle
 import android.os.SystemClock
 import android.view.MotionEvent
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.retainedComponent
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.pt
-import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
-import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
-import com.t8rin.imagetoolbox.core.utils.initAppContext
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawLineStyle
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
-import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
-import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
-import kotlinx.coroutines.delay
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
-import java.util.concurrent.atomic.AtomicInteger
-
-private class LiveDrawTestState(context: ComponentContext) : ComponentContext by context {
-    val cache = DrawRenderCache()
-    val image = Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888)
-        .apply { eraseColor(android.graphics.Color.WHITE) }.asImageBitmap()
-    var paths by mutableStateOf(emptyList<UiPathPaint>())
-    val filterCalls = AtomicInteger()
-}
-
-class LiveDrawTestActivity : ComponentActivity() {
-    private lateinit var state: LiveDrawTestState
-    val image get() = state.image.asAndroidBitmap()
-    val cache get() = state.cache
-    val filterCalls get() = state.filterCalls.get()
-    var mode: DrawMode by mutableStateOf(DrawMode.Pen)
-    var gradient: GradientPalette? by mutableStateOf(null)
-    var gradientLength by mutableStateOf(1f)
-    var gradientMirrored by mutableStateOf(false)
-    var background by mutableStateOf(Color.Transparent)
-    var backgroundGradient: GradientFill? by mutableStateOf(null)
-    var erasing by mutableStateOf(false)
-    var softness by mutableStateOf(0.pt)
-    var alpha by mutableStateOf(1f)
-    var width by mutableStateOf(65.pt)
-    var viewport by mutableStateOf(256.dp)
-    var paths: List<UiPathPaint>
-        get() = state.paths
-        set(value) {
-            state.paths = value
-        }
-
-    @Volatile
-    var frame: Bitmap? = null
-
-    @Volatile
-    var bounds = Rect.Zero
-
-    @Volatile
-    var ready = false
-
-    @Volatile
-    var readyPaths: List<UiPathPaint>? = null
-
-    @Volatile
-    var observeFrame: ((Bitmap) -> Unit)? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initAppContext()
-        state = retainedComponent { LiveDrawTestState(it) }
-        viewport =
-            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 208.dp else 256.dp
-        current = this
-        setContent {
-            val settings = SettingsState.Default.toUiState().copy(
-                magnifierEnabled = false, drawBitmapBorder = false
-            )
-            CompositionLocalProvider(LocalSettingsState provides settings) {
-                MaterialTheme {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        val displayedPaths = paths
-                        BitmapDrawer(
-                            imageBitmap = state.image,
-                            renderCache = state.cache,
-                            paths = displayedPaths,
-                            onAddPath = { paths = paths + it },
-                            onRequestFiltering = { source, _ ->
-                                state.filterCalls.incrementAndGet()
-                                delay(80)
-                                Bitmap.createBitmap(
-                                    source.width,
-                                    source.height,
-                                    Bitmap.Config.ARGB_8888
-                                )
-                                    .apply { eraseColor(android.graphics.Color.CYAN) }
-                            },
-                            strokeWidth = width,
-                            brushSoftness = softness,
-                            drawColor = Color.Red.copy(alpha = alpha),
-                            gradientPalette = gradient,
-                            gradientLength = gradientLength,
-                            isGradientMirrored = gradientMirrored,
-                            isEraserOn = erasing,
-                            drawMode = mode,
-                            drawPathMode = DrawPathMode.Free,
-                            drawLineStyle = DrawLineStyle.None,
-                            modifier = Modifier
-                                .size(viewport)
-                                .onGloballyPositioned { bounds = it.boundsInWindow() },
-                            backgroundColor = background,
-                            backgroundGradient = backgroundGradient,
-                            panEnabled = false,
-                            helperGridParams = HelperGridParams(),
-                            onDraw = { frame = it; observeFrame?.invoke(it) },
-                            onRenderReady = {
-                                ready = it
-                                readyPaths = displayedPaths.takeIf { _ -> it }
-                            }
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    companion object {
-        @Volatile
-        var current: LiveDrawTestActivity? = null
-    }
-}
 
 @RunWith(AndroidJUnit4::class)
 class LiveDrawPreviewTest {

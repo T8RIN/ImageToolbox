@@ -23,6 +23,7 @@ package com.t8rin.imagetoolbox.core.data.image
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.get
@@ -42,7 +43,8 @@ class UserCommentMetadataInstrumentedTest {
         val file = File(context.cacheDir, "user_comment_${System.nanoTime()}.webp")
 
         try {
-            context.assets.open("metadata_round_trip/rich.webp").use { input ->
+            InstrumentationRegistry.getInstrumentation().context.assets
+                .open("metadata_round_trip/rich.webp").use { input ->
                 file.outputStream().use(input::copyTo)
             }
 

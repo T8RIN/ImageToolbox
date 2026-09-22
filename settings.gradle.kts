@@ -162,3 +162,4 @@ include(":lib:fast-scroller")
 include(":lib:archive")
 
 include(":benchmark")
+include(":instrumentation-tests")

@@ -21,6 +21,7 @@ import android.content.Context
 import android.util.Log
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.data.image.toMetadata
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
@@ -360,7 +361,7 @@ class MetadataRoundTripInstrumentedTest {
     }
 
     private fun testAssetNames(): List<String> =
-        context.assets
+        InstrumentationRegistry.getInstrumentation().context.assets
             .list(ASSET_DIRECTORY)
             .orEmpty()
             .filter(::isSupportedTestImage)
@@ -516,7 +517,8 @@ class MetadataRoundTripInstrumentedTest {
         }
         val destination = File(scenarioDirectory, assetName)
 
-        context.assets.open("$ASSET_DIRECTORY/$assetName").use { input ->
+        InstrumentationRegistry.getInstrumentation().context.assets
+            .open("$ASSET_DIRECTORY/$assetName").use { input ->
             destination.outputStream().buffered().use(input::copyTo)
         }
 

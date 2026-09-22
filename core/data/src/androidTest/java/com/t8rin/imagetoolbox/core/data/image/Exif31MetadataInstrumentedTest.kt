@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.image
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
@@ -220,7 +221,7 @@ class Exif31MetadataInstrumentedTest {
     }
 
     private fun testAssets(): List<String> =
-        context.assets
+        InstrumentationRegistry.getInstrumentation().context.assets
             .list(ASSET_DIRECTORY)
             .orEmpty()
             .filter { name ->
@@ -238,7 +239,8 @@ class Exif31MetadataInstrumentedTest {
             check(mkdirs() || isDirectory)
         }
         val destination = File(outputDirectory, name)
-        context.assets.open("$ASSET_DIRECTORY/$name").use { input ->
+        InstrumentationRegistry.getInstrumentation().context.assets
+            .open("$ASSET_DIRECTORY/$name").use { input ->
             destination.outputStream().buffered().use(input::copyTo)
         }
         check(destination.length() > 0L)
@@ -282,7 +284,25 @@ class Exif31MetadataInstrumentedTest {
     private data class ReflectedAttribute(
         val format: Int,
         val bytes: ByteArray
-    )
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as ReflectedAttribute
+
+            if (format != other.format) return false
+            if (!bytes.contentEquals(other.bytes)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = format
+            result = 31 * result + bytes.contentHashCode()
+            return result
+        }
+    }
 
     private companion object {
         const val ASSET_DIRECTORY = "metadata_round_trip"

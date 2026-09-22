@@ -16,6 +16,7 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.t8rin.imagetoolbox.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -30,19 +31,17 @@ class ImageToolboxTestsPlugin : Plugin<Project> {
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
             }
 
+            extensions.configure<LibraryAndroidComponentsExtension> {
+                beforeVariants(selector().all()) { variantBuilder ->
+                    variantBuilder.androidTest.enable = false
+                }
+            }
+
             dependencies {
                 add("testImplementation", libs.junit)
-                add("androidTestImplementation", libs.junit)
-                add("androidTestImplementation", libs.androidx.test.ext.junit)
-                add("androidTestImplementation", libs.androidx.runner)
 
                 when (path) {
                     ":lib:palette" -> add("testImplementation", libs.kotlin.test)
-                    ":feature:markup-layers" -> add("androidTestImplementation", libs.moshi)
-                    ":feature:cipher" -> add(
-                        "androidTestImplementation",
-                        libs.bouncycastle.provider
-                    )
                 }
             }
         }

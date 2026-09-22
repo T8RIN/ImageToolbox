@@ -185,11 +185,15 @@ class AndroidCryptographyManagerTest {
         fun registerBouncyCastleProvider() {
             InstrumentationRegistry.getInstrumentation().targetContext.initAppContext()
             Security.addProvider(BouncyCastleWorkaroundProvider())
-            CipherType.registerSecurityCiphers(
-                Security.getAlgorithms("Cipher")
-                    .filterNot { cipher -> CipherType.BROKEN.any { cipher.contains(it, true) } }
-                    .map(CipherType::getInstance)
-            )
+            runCatching {
+                CipherType.registerSecurityCiphers(
+                    Security.getAlgorithms("Cipher")
+                        .filterNot { cipher -> CipherType.BROKEN.any { cipher.contains(it, true) } }
+                        .map(CipherType::getInstance)
+                )
+            }.onFailure {
+                require(it.message == "SecurityCiphers already registered")
+            }
         }
 
         private fun isExtraExcluded(type: CipherType): Boolean =

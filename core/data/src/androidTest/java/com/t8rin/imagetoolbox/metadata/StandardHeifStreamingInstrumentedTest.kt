@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.core.data.image
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.get
@@ -200,7 +201,8 @@ class StandardHeifStreamingInstrumentedTest {
             check(mkdirs() || isDirectory)
         }
         return File(scenarioDirectory, assetName).also { destination ->
-            context.assets.open("metadata_round_trip/$assetName").use { input ->
+            InstrumentationRegistry.getInstrumentation().context.assets
+                .open("metadata_round_trip/$assetName").use { input ->
                 destination.outputStream().buffered().use(input::copyTo)
             }
             check(destination.length() > 0L)
