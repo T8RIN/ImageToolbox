@@ -19,7 +19,7 @@
 
     <application>
         <activity
-            android:name=".presentation.components.TextureParamsTestActivity"
+            android:name="com.t8rin.imagetoolbox.texture_generation.presentation.components.TextureParamsTestActivity"
             android:theme="@android:style/Theme.Material.Light.NoActionBar" />
     </application>
 </manifest>
