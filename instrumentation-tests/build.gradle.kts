@@ -17,7 +17,6 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.gradle.api.artifacts.ProjectDependency
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -89,6 +88,24 @@ android {
                 rootProject.file("$projectPath/src/androidTest/assets").absolutePath
             }
         )
+    }
+    listOf("foss", "market").forEach { flavorName ->
+        sourceSets.named(flavorName) {
+            val sourceSetName = "androidTest${flavorName.replaceFirstChar(Char::uppercaseChar)}"
+            kotlin.directories.addAll(
+                testedProjects.flatMap { projectPath ->
+                    listOf(
+                        rootProject.file("$projectPath/src/$sourceSetName/java").absolutePath,
+                        rootProject.file("$projectPath/src/$sourceSetName/kotlin").absolutePath
+                    )
+                }
+            )
+            assets.directories.addAll(
+                testedProjects.map { projectPath ->
+                    rootProject.file("$projectPath/src/$sourceSetName/assets").absolutePath
+                }
+            )
+        }
     }
 
     targetProjectPath = ":app"
