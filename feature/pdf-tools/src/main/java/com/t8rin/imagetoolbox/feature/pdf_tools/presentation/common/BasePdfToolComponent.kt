@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.makeLog
@@ -100,7 +101,10 @@ abstract class BasePdfToolComponent(
                     onSuccess(result.decryptedUri.toUri())
                 }
 
-                is PdfCheckResult.Failure -> result.throwable.makeLog("checkPdf")
+                is PdfCheckResult.Failure -> {
+                    AppToastHost.showFailureToast(result.throwable)
+                    result.throwable.makeLog("checkPdf")
+                }
             }
         }
     }
