@@ -303,7 +303,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.type == NeuralModel.Type.REMOVE_BG -> {
                 processImage {
-                    withClosedSession(listener) {
+                    withClosedSession {
                         withCancellableRunOptions(
                             onCancellation = Bitmap::recycle
                         ) { runOptions ->
@@ -318,7 +318,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.isWatermarkRemover -> {
                 processImage {
-                    withClosedSession(listener) {
+                    withClosedSession {
                         listener.onProgress(0, 2)
                         withCancellableRunOptions(
                             onCancellation = { it?.recycle() }
@@ -347,9 +347,6 @@ internal class AndroidAiToolsRepository @Inject constructor(
                         }
 
                     keepAliveService.track(
-                        onFailure = {
-                            listener.onError(it.extractMessage())
-                        },
                         action = {
                             listener.onProgress(0, 1)
                             withCancellableRunOptions(
@@ -393,7 +390,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.isOptimizationStyleTransfer -> {
                 processImage {
-                    withClosedSession(listener) {
+                    withClosedSession {
                         optimizationStyleTransferProcessor.process(
                             content = image,
                             params = params,
@@ -405,7 +402,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
 
             model.isStyleTransfer -> {
                 processImage {
-                    withClosedSession(listener) {
+                    withClosedSession {
                         styleTransferProcessor.process(
                             content = image,
                             model = model,
@@ -466,16 +463,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
         }
     }
 
-    private suspend fun withClosedSession(
-        listener: AiProgressListener,
-        function: suspend () -> Bitmap?
-    ): Bitmap? {
+    private suspend fun withClosedSession(function: suspend () -> Bitmap?): Bitmap? {
         closeSession()
 
         return keepAliveService.track(
-            onFailure = {
-                listener.onError(it.extractMessage())
-            },
             action = {
                 function()
             }

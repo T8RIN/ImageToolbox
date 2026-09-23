@@ -32,7 +32,6 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
-import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.ModelInfo
 import com.t8rin.imagetoolbox.feature.ai_tools.data.model.TensorSize
@@ -86,9 +85,6 @@ internal class AiProcessor @Inject constructor(
             onCancel = {
                 "Processing was cancelled; dropping temporary tiles".makeLog(LOG_TAG)
                 chunksDir.deleteRecursively()
-            },
-            onFailure = { error ->
-                listener.onError(error.extractMessage())
             },
             action = {
                 renderBitmap(

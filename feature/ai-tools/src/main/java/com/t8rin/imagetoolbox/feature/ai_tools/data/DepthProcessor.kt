@@ -35,7 +35,6 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
-import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.AiProgressListener
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthEffect
 import com.t8rin.imagetoolbox.feature.ai_tools.domain.model.DepthParams
@@ -75,7 +74,6 @@ internal class DepthProcessor @Inject constructor(
         listener: AiProgressListener
     ): Bitmap? = withContext(defaultDispatcher) {
         service.track(
-            onFailure = { listener.onError(it.extractMessage()) },
             action = {
                 reportProgress(listener, 0)
                 val depth = params.customDepthMap?.let { loadDepthMap(it) }
