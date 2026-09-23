@@ -14,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -5468,9 +5466,6 @@
     <string name="only_lama_onnx_model">只能匯入 .onnx LaMa 模型</string>
     <string name="delete_lama_model_sub">刪除LaMa模型？您可以稍後再次下載或匯入</string>
     <string name="crop_preset_summary">頁邊距：左 %1$d%%，上 %2$d%%，右 %3$d%%，下 %4$d%%</string>
-    <string name="crop_presets" />
     <string name="crop_presets_sub">儲存或重複使用裁切範圍</string>
-    <string name="save_crop_preset" />
-    <string name="delete_crop_preset" />
     <string name="delete_crop_preset_sub">您想刪除裁切預設「%1$s」嗎？</string>
 </resources>
