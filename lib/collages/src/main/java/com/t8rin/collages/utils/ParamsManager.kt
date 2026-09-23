@@ -44,6 +44,15 @@ internal class ParamsManager(
 
     fun snapshotValues(): FloatArray = values.copyOf()
 
+    fun restoreValues(savedValues: List<Float>) {
+        val count = minOf(savedValues.size, values.size)
+        if (count <= 0) return
+        updateParams(
+            params = (0 until count).toList(),
+            newValues = FloatArray(count) { savedValues[it] }
+        )
+    }
+
     // Only for handles registered with this manager
     internal fun valuesRef(): FloatArray = values
 

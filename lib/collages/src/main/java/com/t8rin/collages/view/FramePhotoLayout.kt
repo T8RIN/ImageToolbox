@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.withTranslation
+import com.t8rin.collages.CollageState
 import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
@@ -84,17 +85,33 @@ internal class FramePhotoLayout(
     }
 
     private var mOnDragListener: OnDragListener = OnDragListener { v, event ->
-        if (event.action == DragEvent.ACTION_DROP) {
-            var target: FrameImageView? = v as FrameImageView
-            val selectedView = getSelectedFrameImageView(target!!, event)
-            if (selectedView != null) {
-                target = selectedView
-                val dragged = event.localState as FrameImageView
-                var targetPath: Uri? = target.photoItem.imagePath
-                var draggedPath: Uri? = dragged.photoItem.imagePath
-                if (targetPath == null) targetPath = Uri.EMPTY
-                if (draggedPath == null) draggedPath = Uri.EMPTY
-                if (targetPath != draggedPath) target.swapImage(dragged)
+        when (event.action) {
+            DragEvent.ACTION_DRAG_STARTED -> {
+                if (dragStartState == null) {
+                    dragStartState = snapshotState()
+                }
+            }
+
+            DragEvent.ACTION_DROP -> {
+                var target: FrameImageView? = v as FrameImageView
+                val selectedView = getSelectedFrameImageView(target!!, event)
+                if (selectedView != null) {
+                    target = selectedView
+                    val dragged = event.localState as FrameImageView
+                    var targetPath: Uri? = target.photoItem.imagePath
+                    var draggedPath: Uri? = dragged.photoItem.imagePath
+                    if (targetPath == null) targetPath = Uri.EMPTY
+                    if (draggedPath == null) draggedPath = Uri.EMPTY
+                    if (targetPath != draggedPath) target.swapImage(dragged)
+                }
+            }
+
+            DragEvent.ACTION_DRAG_ENDED -> {
+                val before = dragStartState
+                dragStartState = null
+                if (before != null) {
+                    dispatchUserStateChange(before)
+                }
             }
         }
 
@@ -106,6 +123,12 @@ internal class FramePhotoLayout(
     private var backgroundColor: ComposeColor = ComposeColor.White
     private var backgroundShader: ((Float, Float) -> Shader)? = null
     private var onItemTapListener: ((index: Int) -> Unit)? = null
+    private var onStateReadyListener: ((CollageState) -> Unit)? = null
+    private var onUserStateChangeListener: ((CollageState, CollageState) -> Unit)? = null
+    private var interactionStartState: CollageState? = null
+    private var dragStartState: CollageState? = null
+    private var isRestoringState: Boolean = false
+    private var layoutId: String = ""
 
     // Handle overlay state
     private var selectedItemIndex: Int? = null
@@ -145,11 +168,13 @@ internal class FramePhotoLayout(
     }
 
     fun setEnableSnapToBorders(enable: Boolean) {
+        if (enableSnapToBorders == enable) return
         enableSnapToBorders = enable
         // Update existing children
         for (v in mItemImageViews) {
             v.setSnapToBordersEnabled(enableSnapToBorders)
         }
+        onStateReadyListener?.invoke(snapshotState())
     }
 
     private fun getSelectedFrameImageView(
@@ -195,6 +220,9 @@ internal class FramePhotoLayout(
         space: Float = 0f,
         corner: Float = 0f
     ) {
+        isRestoringState = false
+        selectedItemIndex = null
+        activeHandle = null
         mItemImageViews.clear()
         removeAllViews()
         if (viewWidth < 1 || viewHeight < 1) {
@@ -266,6 +294,58 @@ internal class FramePhotoLayout(
 
     fun setOnItemTapListener(listener: ((index: Int) -> Unit)?) {
         onItemTapListener = listener
+    }
+
+    fun setStateListeners(
+        layoutId: String,
+        onStateReady: ((CollageState) -> Unit)?,
+        onUserStateChange: ((CollageState, CollageState) -> Unit)?
+    ) {
+        this.layoutId = layoutId
+        onStateReadyListener = onStateReady
+        onUserStateChangeListener = onUserStateChange
+    }
+
+    fun snapshotState(): CollageState = CollageState(
+        layoutId = layoutId,
+        images = mItemImageViews.map(FrameImageView::snapshotState),
+        layoutParams = paramsManager?.snapshotValues()?.toList().orEmpty()
+    )
+
+    fun restoreState(state: CollageState) {
+        if (state.layoutId != layoutId) return
+        isRestoringState = true
+        paramsManager?.restoreValues(state.layoutParams)
+        var restored = true
+        state.images.forEach { imageState ->
+            val imageRestored = mItemImageViews
+                .firstOrNull { it.photoItem.index == imageState.index }
+                ?.restoreState(imageState) != false
+            restored = restored && imageRestored
+        }
+        if (restored) {
+            finishStateRestoration()
+        }
+    }
+
+    private fun beginUserInteraction() {
+        if (interactionStartState == null) {
+            interactionStartState = snapshotState()
+        }
+    }
+
+    private fun finishUserInteraction() {
+        val before = interactionStartState ?: return
+        interactionStartState = null
+        dispatchUserStateChange(before)
+    }
+
+    private fun dispatchUserStateChange(before: CollageState) {
+        val after = snapshotState()
+        if (before != after) {
+            onUserStateChangeListener?.invoke(before, after)
+        }
+        onStateReadyListener?.invoke(after)
     }
 
     fun setSpace(space: Float, corner: Float) {
@@ -399,6 +479,29 @@ internal class FramePhotoLayout(
         }
     }
 
+    override fun onImageTransformStart() {
+        beginUserInteraction()
+    }
+
+    override fun onImageTransformEnd() {
+        finishUserInteraction()
+    }
+
+    override fun onImageStateReady() {
+        if (mItemImageViews.all(FrameImageView::isStateReady)) {
+            if (isRestoringState) {
+                finishStateRestoration()
+            } else {
+                onStateReadyListener?.invoke(snapshotState())
+            }
+        }
+    }
+
+    private fun finishStateRestoration() {
+        isRestoringState = false
+        onStateReadyListener?.invoke(snapshotState())
+    }
+
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         super.onWindowFocusChanged(hasWindowFocus)
         if (!hasWindowFocus) {
@@ -484,6 +587,9 @@ internal class FramePhotoLayout(
                     val dy = globalY - hy
                     dx * dx + dy * dy <= radius * radius
                 }
+                if (activeHandle != null) {
+                    beginUserInteraction()
+                }
                 return activeHandle != null || super.onTouchEvent(event)
             }
 
@@ -498,6 +604,7 @@ internal class FramePhotoLayout(
 
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 activeHandle = null
+                finishUserInteraction()
                 return super.onTouchEvent(event)
             }
         }

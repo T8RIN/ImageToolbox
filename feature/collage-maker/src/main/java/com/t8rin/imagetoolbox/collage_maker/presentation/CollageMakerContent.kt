@@ -98,6 +98,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveBottomScaffoldLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
+import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
@@ -274,6 +275,13 @@ fun CollageMakerContent(
                     contentDescription = stringResource(R.string.properties)
                 )
             }
+            UndoRedoButtons(
+                canUndo = component.canUndo,
+                canRedo = component.canRedo,
+                onUndo = component::undo,
+                onRedo = component::redo,
+                modifier = Modifier.padding(2.dp)
+            )
             ShareButton(
                 onShare = component::performSharing,
                 onCopy = {
@@ -313,7 +321,7 @@ fun CollageMakerContent(
                     visible = showResetDialog,
                     onDismiss = { showResetDialog = false },
                     onReset = {
-                        resettingTrigger++
+                        component.resetCollage()
                     }
                 )
             }
@@ -358,7 +366,7 @@ fun CollageMakerContent(
                         )
                 ) {
                     AnimatedContent(
-                        targetState = resettingTrigger,
+                        targetState = resettingTrigger to component.collageResetKey,
                         transitionSpec = { fadeIn() togetherWith fadeOut() }
                     ) { trigger ->
                         key(trigger) {
@@ -398,6 +406,9 @@ fun CollageMakerContent(
                                     outputScaleRatio = component.params.outputScaleRatio,
                                     disableRotation = component.params.disableRotation,
                                     enableSnapToBorders = component.params.enableSnapToBorders,
+                                    state = component.collageState,
+                                    onStateReady = component::updateCollageState,
+                                    onUserStateChange = component::onCollageStateChange,
                                     onImageTap = { index ->
                                         if (index >= 0) {
                                             tapIndex = index

@@ -38,6 +38,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.withClip
 import androidx.core.graphics.withSave
 import androidx.core.net.toUri
+import com.t8rin.collages.CollageImageState
 import com.t8rin.collages.utils.GeometryUtils
 import com.t8rin.collages.utils.ImageDecoder
 import kotlinx.coroutines.CoroutineScope
@@ -151,9 +152,16 @@ internal class FrameImageView(
         fun onDoubleClickImage(view: FrameImageView)
 
         fun onSingleTapImage(view: FrameImageView)
+
+        fun onImageTransformStart()
+
+        fun onImageTransformEnd()
+
+        fun onImageStateReady()
     }
 
     private var viewState: Bundle = Bundle.EMPTY
+    private var pendingState: CollageImageState? = null
 
     init {
         reloadImageFromPhotoItem()
@@ -198,7 +206,14 @@ internal class FrameImageView(
     }
 
     fun swapImage(view: FrameImageView) {
-        if (image != null && view.image != null) {
+        if (
+            image != null &&
+            view.image != null &&
+            imageLoadJob?.isActive != true &&
+            view.imageLoadJob?.isActive != true &&
+            pendingState == null &&
+            view.pendingState == null
+        ) {
             val temp = view.image
             view.image = image
             image = temp
@@ -206,6 +221,8 @@ internal class FrameImageView(
             val tmpPath = view.photoItem.imagePath
             view.photoItem.imagePath = photoItem.imagePath
             photoItem.imagePath = tmpPath
+            imageLoadToken = photoItem.imagePath?.toString()
+            view.imageLoadToken = view.photoItem.imagePath?.toString()
             resetImageMatrix()
             view.resetImageMatrix()
         }
@@ -238,11 +255,17 @@ internal class FrameImageView(
 
             if (bmp == null) {
                 image = null
+                pendingState?.let(::applyState)
+                pendingState = null
                 invalidate()
             } else {
                 image = bmp
                 resetImageMatrix()
-                if (viewState != Bundle.EMPTY) {
+                val state = pendingState
+                if (state != null) {
+                    pendingState = null
+                    applyState(state)
+                } else if (viewState != Bundle.EMPTY) {
                     restoreInstanceState(viewState)
                     viewState = Bundle.EMPTY
                 }
@@ -250,12 +273,65 @@ internal class FrameImageView(
 
             // Clear the job if we're still the latest load for this token
             if (token == imageLoadToken) imageLoadJob = null
+            mOnImageClickListener?.onImageStateReady()
         }
     }
 
     fun setOnImageClickListener(onImageClickListener: OnImageClickListener) {
         mOnImageClickListener = onImageClickListener
     }
+
+    fun snapshotState(): CollageImageState {
+        val matrixValues = FloatArray(9)
+        mImageMatrix.getValues(matrixValues)
+        return CollageImageState(
+            index = photoItem.index,
+            uri = photoItem.imagePath?.toString(),
+            matrixValues = matrixValues.toList(),
+            viewWidth = viewWidth,
+            viewHeight = viewHeight,
+            userAllowedEmptySpace = userAllowedEmptySpace
+        )
+    }
+
+    fun restoreState(state: CollageImageState): Boolean {
+        val currentUri = photoItem.imagePath?.toString()
+        if (currentUri != state.uri) {
+            photoItem.imagePath = state.uri?.toUri()
+            pendingState = state
+            reloadImageFromPhotoItem()
+            return false
+        }
+        if (image == null || imageLoadJob?.isActive == true) {
+            pendingState = state
+            return false
+        }
+
+        pendingState = null
+        applyState(state)
+        return true
+    }
+
+    private fun applyState(state: CollageImageState) {
+        val values = state.matrixValues.toFloatArray()
+        if (values.size != 9) return
+        if (state.viewWidth > 0f && state.viewHeight > 0f) {
+            val scaleX = viewWidth / state.viewWidth
+            val scaleY = viewHeight / state.viewHeight
+            values[Matrix.MSCALE_X] *= scaleX
+            values[Matrix.MSKEW_X] *= scaleX
+            values[Matrix.MTRANS_X] *= scaleX
+            values[Matrix.MSKEW_Y] *= scaleY
+            values[Matrix.MSCALE_Y] *= scaleY
+            values[Matrix.MTRANS_Y] *= scaleY
+        }
+        mImageMatrix.setValues(values)
+        userAllowedEmptySpace = state.userAllowedEmptySpace
+        mTouchHandler?.matrix = mImageMatrix
+        invalidate()
+    }
+
+    fun isStateReady(): Boolean = pendingState == null && imageLoadJob?.isActive != true
 
     override fun setBackgroundColor(backgroundColor: Int) {
         mBackgroundColor = backgroundColor
@@ -408,6 +484,9 @@ internal class FrameImageView(
         } else {
             if (event.action == MotionEvent.ACTION_DOWN) {
                 mSelected = GeometryUtils.contains(mPolygon, PointF(event.x, event.y))
+                if (mSelected) {
+                    mOnImageClickListener?.onImageTransformStart()
+                }
             }
 
             if (mSelected) {
@@ -428,6 +507,12 @@ internal class FrameImageView(
                         userAllowedEmptySpace = hasEmptySpace(mImageMatrix, viewWidth, viewHeight)
                     }
                     invalidate()
+                }
+                if (
+                    event.action == MotionEvent.ACTION_UP ||
+                    event.action == MotionEvent.ACTION_CANCEL
+                ) {
+                    mOnImageClickListener?.onImageTransformEnd()
                 }
                 return true
             } else {

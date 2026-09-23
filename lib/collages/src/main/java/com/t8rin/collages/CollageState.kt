@@ -17,25 +17,21 @@
 
 package com.t8rin.collages
 
-import com.t8rin.collages.model.CollageLayout
+import androidx.compose.runtime.Immutable
 
-@ConsistentCopyVisibility
-data class CollageType internal constructor(
-    internal val layout: CollageLayout?,
-    internal val index: Int?
-) {
-    val layoutId: String?
-        get() = layout?.title
+@Immutable
+data class CollageState(
+    val layoutId: String,
+    val images: List<CollageImageState>,
+    val layoutParams: List<Float>
+)
 
-    val imageCount: Int
-        get() = layout?.photoItemList?.size ?: 0
-
-    companion object {
-        val Empty by lazy {
-            CollageType(
-                layout = null,
-                index = null
-            )
-        }
-    }
-}
+@Immutable
+data class CollageImageState(
+    val index: Int,
+    val uri: String?,
+    val matrixValues: List<Float>,
+    val viewWidth: Float,
+    val viewHeight: Float,
+    val userAllowedEmptySpace: Boolean
+)

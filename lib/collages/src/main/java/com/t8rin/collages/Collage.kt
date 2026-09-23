@@ -67,7 +67,10 @@ fun Collage(
     handleDrawable: Drawable? = null,
     disableRotation: Boolean = false,
     enableSnapToBorders: Boolean = false,
-    backgroundShader: ((Float, Float) -> Shader)? = null
+    backgroundShader: ((Float, Float) -> Shader)? = null,
+    state: CollageState? = null,
+    onStateReady: ((CollageState) -> Unit)? = null,
+    onUserStateChange: ((before: CollageState, after: CollageState) -> Unit)? = null
 ) {
     var previousSize by rememberSaveable {
         mutableIntStateOf(100)
@@ -78,8 +81,8 @@ fun Collage(
     var previousImages by rememberSaveable {
         mutableStateOf(listOf<Uri>())
     }
-    var needToInvalidate by remember {
-        mutableStateOf(false)
+    var previousLayoutId by remember {
+        mutableStateOf<String?>(null)
     }
     val ownedCollageLayout by remember(collageType.layout?.title) {
         mutableStateOf(
@@ -87,10 +90,6 @@ fun Collage(
                 createCollageLayouts(template.title)
             }
         )
-    }
-
-    LaunchedEffect(collageType.layout?.title) {
-        needToInvalidate = true
     }
 
     AnimatedVisibility(
@@ -108,7 +107,9 @@ fun Collage(
                 mutableStateOf(Bundle.EMPTY)
             }
             DisposableEffect(viewInstance) {
-                viewInstance?.restoreInstanceState(viewState)
+                if (viewState != Bundle.EMPTY) {
+                    viewInstance?.restoreInstanceState(viewState)
+                }
 
                 onDispose {
                     viewState = Bundle()
@@ -121,6 +122,11 @@ fun Collage(
                 viewInstance?.setSpace(spacing, cornerRadius)
                 viewInstance?.setDisableRotation(disableRotation)
                 viewInstance?.setEnableSnapToBorders(enableSnapToBorders)
+                viewInstance?.setStateListeners(
+                    layoutId = ownedCollageLayout?.title.orEmpty(),
+                    onStateReady = onStateReady,
+                    onUserStateChange = onUserStateChange
+                )
             }
             CompositionLocalProvider(
                 LocalLayoutDirection provides LayoutDirection.Ltr
@@ -134,6 +140,7 @@ fun Collage(
                             updateImages(images)
                             previousImages = images
                             setParamsManager(ownedCollageLayout?.paramsManager)
+                            previousLayoutId = ownedCollageLayout?.title
 
                             val (width, height) = calculateDimensions(
                                 size,
@@ -149,18 +156,26 @@ fun Collage(
                             setHandleDrawable(handleDrawable)
                             setDisableRotation(disableRotation)
                             setEnableSnapToBorders(enableSnapToBorders)
+                            setStateListeners(
+                                layoutId = ownedCollageLayout?.title.orEmpty(),
+                                onStateReady = onStateReady,
+                                onUserStateChange = onUserStateChange
+                            )
                             build(
                                 viewWidth = width,
                                 viewHeight = height,
                                 space = spacing,
                                 corner = cornerRadius
                             )
+                            state
+                                ?.takeIf { it.layoutId == ownedCollageLayout?.title }
+                                ?.let(::restoreState)
                         }
                     },
                     update = {
-                        if (needToInvalidate) {
+                        if (previousLayoutId != ownedCollageLayout?.title) {
                             //Full rebuild
-                            needToInvalidate = false
+                            previousLayoutId = ownedCollageLayout?.title
 
                             it.mPhotoItems = ownedCollageLayout?.photoItemList ?: emptyList()
                             it.updateImages(images)
@@ -169,6 +184,11 @@ fun Collage(
 
                             it.setOnItemTapListener(onImageTap)
                             it.setHandleDrawable(handleDrawable)
+                            it.setStateListeners(
+                                layoutId = ownedCollageLayout?.title.orEmpty(),
+                                onStateReady = onStateReady,
+                                onUserStateChange = onUserStateChange
+                            )
                             previousSize = size
                             previousAspect = aspectRatio
 
@@ -183,9 +203,11 @@ fun Collage(
                                 space = spacing,
                                 corner = cornerRadius
                             )
+                            state
+                                ?.takeIf { state -> state.layoutId == ownedCollageLayout?.title }
+                                ?.let(it::restoreState)
                         } else {
                             //Readjustments
-
                             if (previousSize != size || previousAspect != aspectRatio) {
                                 val (width, height) = calculateDimensions(
                                     size,
@@ -202,6 +224,13 @@ fun Collage(
                                 it.updateImages(images)
                                 previousImages = images
                             }
+
+                            state
+                                ?.takeIf { state ->
+                                    state.layoutId == ownedCollageLayout?.title &&
+                                            state != it.snapshotState()
+                                }
+                                ?.let(it::restoreState)
                         }
                     }
                 )
