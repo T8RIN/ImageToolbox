@@ -30,13 +30,18 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfCropPresetRepository
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.PdfManager
 import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropParams
+import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropPreset
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.stateIn
 
 class CropPdfToolComponent @AssistedInject internal constructor(
     @Assisted val initialUri: Uri?,
@@ -44,6 +49,7 @@ class CropPdfToolComponent @AssistedInject internal constructor(
     @Assisted onGoBack: () -> Unit,
     @Assisted onNavigate: (Screen) -> Unit,
     private val pdfManager: PdfManager,
+    private val cropPresetRepository: PdfCropPresetRepository,
     private val shareProvider: ImageShareProvider<Bitmap>,
     private val fileController: FileController,
     dispatchersHolder: DispatchersHolder
@@ -69,6 +75,12 @@ class CropPdfToolComponent @AssistedInject internal constructor(
 
     private val _params: MutableState<PdfCropParams> = mutableStateOf(PdfCropParams())
     val params by _params
+
+    val cropPresets: StateFlow<List<PdfCropPreset>> = cropPresetRepository.presets.stateIn(
+        scope = componentScope,
+        started = SharingStarted.Eagerly,
+        initialValue = emptyList()
+    )
 
     override fun getKey(): Pair<String, Uri?> = "cropped" to uri
 
@@ -109,6 +121,27 @@ class CropPdfToolComponent @AssistedInject internal constructor(
 
     fun updateParams(params: PdfCropParams) {
         _params.update { params }
+    }
+
+    fun applyCropPreset(preset: PdfCropPreset) {
+        _params.update { it.copy(rect = preset.rect) }
+    }
+
+    fun saveCropPreset(name: String) {
+        componentScope.launch {
+            cropPresetRepository.upsert(
+                PdfCropPreset(
+                    name = name,
+                    rect = params.rect
+                )
+            )
+        }
+    }
+
+    fun deleteCropPreset(preset: PdfCropPreset) {
+        componentScope.launch {
+            cropPresetRepository.delete(preset)
+        }
     }
 
     override fun saveTo(

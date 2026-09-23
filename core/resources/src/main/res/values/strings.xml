@@ -3272,6 +3272,12 @@
     <string name="manually">Manually</string>
     <string name="crop_pdf">Crop PDF</string>
     <string name="crop_pdf_sub">Crop document pages to any bounds</string>
+    <string name="crop_preset_summary">Margins: left %1$d%%, top %2$d%%, right %3$d%%, bottom %4$d%%</string>
+    <string name="crop_presets">Crop presets</string>
+    <string name="crop_presets_sub">Save or reuse crop bounds</string>
+    <string name="save_crop_preset">Save current crop preset</string>
+    <string name="delete_crop_preset">Delete crop preset</string>
+    <string name="delete_crop_preset_sub">Do you want to delete crop preset "%1$s"?</string>
     <string name="flatten_pdf">Flatten PDF</string>
     <string name="flatten_pdf_sub">Make PDF unmodifiable by rastering document pages</string>
     <string name="camera_failed_to_open">Could not start the camera. Please check permissions and make sure it\'s not being used by another app.</string>

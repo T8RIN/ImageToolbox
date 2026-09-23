@@ -19,15 +19,16 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.model.MimeType
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BorderHorizontal
 import com.t8rin.imagetoolbox.core.resources.icons.BorderVertical
@@ -35,7 +36,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFilePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberPdfPages
 import com.t8rin.imagetoolbox.core.ui.widget.controls.page.PageSelectionItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedRangeSliderItem
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
+import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components.CropPresetSelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.components.CropPreview
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.crop.screenLogic.CropPdfToolComponent
 
@@ -45,6 +48,7 @@ fun CropPdfToolContent(
 ) {
     val pageCount by rememberPdfPages(component.uri)
     val params = component.params
+    val cropPresets by component.cropPresets.collectAsStateWithLifecycle()
 
     LaunchedEffect(pageCount, params.pages) {
         if (params.pages == null && pageCount > 0) {
@@ -86,6 +90,15 @@ fun CropPdfToolContent(
 
             Spacer(Modifier.height(16.dp))
 
+            CropPresetSelector(
+                rect = params.rect,
+                presets = cropPresets,
+                onApplyPreset = component::applyCropPreset,
+                onSavePreset = component::saveCropPreset,
+                onDeletePreset = component::deleteCropPreset,
+                shape = ShapeDefaults.top
+            )
+            Spacer(Modifier.height(4.dp))
             EnhancedRangeSliderItem(
                 value = params.rect.let { it.left..it.right },
                 valueRange = 0f..1f,
@@ -103,9 +116,10 @@ fun CropPdfToolContent(
                             )
                         )
                     )
-                }
+                },
+                shape = ShapeDefaults.center
             )
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(4.dp))
             EnhancedRangeSliderItem(
                 value = params.rect.let { it.top..it.bottom },
                 valueRange = 0f..1f,
@@ -123,7 +137,8 @@ fun CropPdfToolContent(
                             )
                         )
                     )
-                }
+                },
+                shape = ShapeDefaults.bottom
             )
         },
         onFilledPassword = {
