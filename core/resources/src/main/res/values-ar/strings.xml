@@ -5472,4 +5472,10 @@
     <string name="lama_model_link">تحميل نموذج لاما</string>
     <string name="only_lama_onnx_model">يمكن استيراد نماذج .onnx LaMa فقط</string>
     <string name="delete_lama_model_sub">هل تريد حذف نموذج LaMa؟ ويمكنك تنزيله أو استيراده مرة أخرى لاحقًا</string>
+    <string name="crop_preset_summary">الهوامش: يسار %1$d%%، أعلى %2$d%%، يمين %3$d%%، أسفل %4$d%%</string>
+    <string name="crop_presets">الإعدادات المسبقة للمحاصيل</string>
+    <string name="crop_presets_sub">حفظ أو إعادة استخدام حدود المحاصيل</string>
+    <string name="save_crop_preset">حفظ الإعداد المسبق للاقتصاص الحالي</string>
+    <string name="delete_crop_preset">حذف الإعداد المسبق للاقتصاص</string>
+    <string name="delete_crop_preset_sub">هل تريد حذف الإعداد المسبق للاقتصاص \"%1$s\"؟</string>
 </resources>

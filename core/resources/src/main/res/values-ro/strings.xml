@@ -5469,4 +5469,10 @@
     <string name="lama_model_link">Descărcați modelul LaMa</string>
     <string name="only_lama_onnx_model">Numai modelele .onnx LaMa pot fi importate</string>
     <string name="delete_lama_model_sub">Ștergeți modelul LaMa? Îl puteți descărca sau importa din nou mai târziu</string>
+    <string name="crop_preset_summary">Margini: stânga %1$d%%, sus %2$d%%, dreapta %3$d%%, jos %4$d%%</string>
+    <string name="crop_presets">Decupați presetări</string>
+    <string name="crop_presets_sub">Salvați sau reutilizați limitele decupate</string>
+    <string name="save_crop_preset">Salvați presetarea curentă a decupării</string>
+    <string name="delete_crop_preset">Ștergeți presetarea de decupare</string>
+    <string name="delete_crop_preset_sub">Doriți să ștergeți presetarea de decupare „%1$s”?</string>
 </resources>

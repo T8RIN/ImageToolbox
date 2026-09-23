@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">Atsisiųskite LaMa modelį</string>
     <string name="only_lama_onnx_model">Galima importuoti tik .onnx LaMa modelius</string>
     <string name="delete_lama_model_sub">Ištrinti LaMa modelį? Vėliau galėsite atsisiųsti arba importuoti dar kartą</string>
+    <string name="crop_preset_summary">Paraštės: kairėje %1$d%%, viršuje %2$d%%, dešinėje %3$d%%, apačioje %4$d%%</string>
+    <string name="crop_presets">Apkarpyti išankstiniai nustatymai</string>
+    <string name="crop_presets_sub">Išsaugokite arba pakartotinai naudokite apkarpymo ribas</string>
+    <string name="save_crop_preset">Išsaugoti esamą apkarpymo nustatymą</string>
+    <string name="delete_crop_preset">Ištrinti išankstinį apkarpymo nustatymą</string>
+    <string name="delete_crop_preset_sub">Ar norite ištrinti išankstinį apkarpymo nustatymą „%1$s“?</string>
 </resources>

@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Laden Sie das LaMa-Modell herunter</string>
     <string name="only_lama_onnx_model">Es können nur .onnx-LaMa-Modelle importiert werden</string>
     <string name="delete_lama_model_sub">Das LaMa-Modell löschen? Sie können es später herunterladen oder erneut importieren</string>
+    <string name="crop_preset_summary">Ränder: links %1$d%%, oben %2$d%%, rechts %3$d%%, unten %4$d%%</string>
+    <string name="crop_presets">Zuschneidevoreinstellungen</string>
+    <string name="crop_presets_sub">Beschnittgrenzen speichern oder wiederverwenden</string>
+    <string name="save_crop_preset">Speichern Sie die aktuelle Zuschneidevoreinstellung</string>
+    <string name="delete_crop_preset">Zuschnittvoreinstellung löschen</string>
+    <string name="delete_crop_preset_sub">Möchten Sie die Zuschnittvorgabe „%1$s“ löschen?</string>
 </resources>

@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">LaMa modelini indirin</string>
     <string name="only_lama_onnx_model">Yalnızca .onnx LaMa modelleri içe aktarılabilir</string>
     <string name="delete_lama_model_sub">LaMa modeli silinsin mi? Daha sonra tekrar indirebilir veya içe aktarabilirsiniz</string>
+    <string name="crop_preset_summary">Kenar boşlukları: sol %1$d%%, üst %2$d%%, sağ %3$d%%, alt %4$d%%</string>
+    <string name="crop_presets">Kırpma ön ayarları</string>
+    <string name="crop_presets_sub">Kırpma sınırlarını kaydedin veya yeniden kullanın</string>
+    <string name="save_crop_preset">Geçerli kırpma ön ayarını kaydet</string>
+    <string name="delete_crop_preset">Kırpma ön ayarını sil</string>
+    <string name="delete_crop_preset_sub">\"%1$s\" kırpma ön ayarını silmek istiyor musunuz?</string>
 </resources>

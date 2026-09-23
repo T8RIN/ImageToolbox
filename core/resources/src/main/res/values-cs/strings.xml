@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">Stáhněte si model LaMa</string>
     <string name="only_lama_onnx_model">Importovat lze pouze modely .onnx LaMa</string>
     <string name="delete_lama_model_sub">Smazat model LaMa? Později si jej můžete stáhnout nebo importovat znovu</string>
+    <string name="crop_preset_summary">Okraje: vlevo %1$d%%, nahoře %2$d%%, vpravo %3$d%%, dole %4$d%%</string>
+    <string name="crop_presets">Předvolby oříznutí</string>
+    <string name="crop_presets_sub">Uložte nebo znovu použijte hranice oříznutí</string>
+    <string name="save_crop_preset">Uložit aktuální předvolbu oříznutí</string>
+    <string name="delete_crop_preset">Smazat předvolbu oříznutí</string>
+    <string name="delete_crop_preset_sub">Chcete smazat předvolbu oříznutí „%1$s“?</string>
 </resources>

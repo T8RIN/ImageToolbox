@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">I-download ang modelo ng LaMa</string>
     <string name="only_lama_onnx_model">Tanging mga .onnx LaMa na modelo ang maaaring i-import</string>
     <string name="delete_lama_model_sub">Tanggalin ang modelo ng LaMa? Maaari mo itong i-download o i-import muli sa ibang pagkakataon</string>
+    <string name="crop_preset_summary">Mga margin: kaliwa %1$d%%, itaas %2$d%%, kanan %3$d%%, ibaba %4$d%%</string>
+    <string name="crop_presets">I-crop ang mga preset</string>
+    <string name="crop_presets_sub">I-save o muling gamitin ang mga hangganan ng pag-crop</string>
+    <string name="save_crop_preset">I-save ang kasalukuyang crop preset</string>
+    <string name="delete_crop_preset">Tanggalin ang crop preset</string>
+    <string name="delete_crop_preset_sub">Gusto mo bang tanggalin ang crop preset na \"%1$s\"?</string>
 </resources>

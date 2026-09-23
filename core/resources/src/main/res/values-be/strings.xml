@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">Спампаваць мадэль LaMa</string>
     <string name="only_lama_onnx_model">Можна імпартаваць толькі мадэлі .onnx LaMa</string>
     <string name="delete_lama_model_sub">Выдаліць мадэль LaMa? Вы можаце загрузіць або імпартаваць яго пазней</string>
+    <string name="crop_preset_summary">Палі: левае %1$d%%, верхняе %2$d%%, правае %3$d%%, ніжняе %4$d%%</string>
+    <string name="crop_presets">Прасэты абрэзкі</string>
+    <string name="crop_presets_sub">Захавайце або паўторна выкарыстоўвайце межы абрэзкі</string>
+    <string name="save_crop_preset">Захаваць бягучую наладу абрэзкі</string>
+    <string name="delete_crop_preset">Выдаліць налад кадравання</string>
+    <string name="delete_crop_preset_sub">Вы хочаце выдаліць налад кадравання \"%1$s\"?</string>
 </resources>

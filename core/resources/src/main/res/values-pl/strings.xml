@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">Pobierz model LaMa</string>
     <string name="only_lama_onnx_model">Można importować tylko modele .onnx LaMa</string>
     <string name="delete_lama_model_sub">Usunąć model LaMa? Możesz pobrać lub zaimportować go ponownie później</string>
+    <string name="crop_preset_summary">Marginesy: lewy %1$d%%, górny %2$d%%, prawy %3$d%%, dolny %4$d%%</string>
+    <string name="crop_presets">Ustawienia wstępne przycinania</string>
+    <string name="crop_presets_sub">Zapisz lub użyj ponownie granic przycięcia</string>
+    <string name="save_crop_preset">Zapisz bieżące ustawienie wstępne przycinania</string>
+    <string name="delete_crop_preset">Usuń ustawienie wstępne przycinania</string>
+    <string name="delete_crop_preset_sub">Czy chcesz usunąć ustawienie wstępne przycinania „%1$s”?</string>
 </resources>

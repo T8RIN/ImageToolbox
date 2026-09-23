@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Töltse le a LaMa modellt</string>
     <string name="only_lama_onnx_model">Csak .onnx LaMa modellek importálhatók</string>
     <string name="delete_lama_model_sub">Törli a LaMa modellt? Később újra letöltheti vagy importálhatja</string>
+    <string name="crop_preset_summary">Margók: bal %1$d%%, felül %2$d%%, jobb %3$d%%, lent %4$d%%</string>
+    <string name="crop_presets">Előbeállítások kivágása</string>
+    <string name="crop_presets_sub">Mentse vagy használja újra a vágási határokat</string>
+    <string name="save_crop_preset">Az aktuális kivágás előre beállított beállítása</string>
+    <string name="delete_crop_preset">Előbeállított kivágás törlése</string>
+    <string name="delete_crop_preset_sub">Törli a \"%1$s\" vágási előbeállítást?</string>
 </resources>

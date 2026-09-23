@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">הורד את דגם LaMa</string>
     <string name="only_lama_onnx_model">ניתן לייבא רק דגמי .onnx LaMa</string>
     <string name="delete_lama_model_sub">למחוק את דגם LaMa? תוכל להוריד או לייבא אותו שוב מאוחר יותר</string>
+    <string name="crop_preset_summary">שוליים: שמאל %1$d%%, למעלה %2$d%%, ימין %3$d%%, למטה %4$d%%</string>
+    <string name="crop_presets">קביעות מראש של חיתוך</string>
+    <string name="crop_presets_sub">שמור או השתמש מחדש בגבולות היבול</string>
+    <string name="save_crop_preset">שמור קביעת חיתוך נוכחית מראש</string>
+    <string name="delete_crop_preset">מחק קביעת חיתוך מראש</string>
+    <string name="delete_crop_preset_sub">האם ברצונך למחוק קביעת חיתוך מראש \"%1$s\"?</string>
 </resources>

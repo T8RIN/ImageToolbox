@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">लामा मॉडल डाउनलोड करें</string>
     <string name="only_lama_onnx_model">केवल .onnx LaMa मॉडल आयात किए जा सकते हैं</string>
     <string name="delete_lama_model_sub">लामा मॉडल हटाएं? आप इसे बाद में दोबारा डाउनलोड या आयात कर सकते हैं</string>
+    <string name="crop_preset_summary">मार्जिन: बाएँ %1$d%%, ऊपर %2$d%%, दाएँ %3$d%%, निचला %4$d%%</string>
+    <string name="crop_presets">फसल प्रीसेट</string>
+    <string name="crop_presets_sub">फसल सीमा को बचाएं या पुन: उपयोग करें</string>
+    <string name="save_crop_preset">वर्तमान फसल प्रीसेट सहेजें</string>
+    <string name="delete_crop_preset">क्रॉप प्रीसेट हटाएं</string>
+    <string name="delete_crop_preset_sub">क्या आप क्रॉप प्रीसेट \"%1$s\" को हटाना चाहते हैं?</string>
 </resources>

@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">లామా మోడల్‌ని డౌన్‌లోడ్ చేయండి</string>
     <string name="only_lama_onnx_model">.onnx LaMa మోడల్‌లను మాత్రమే దిగుమతి చేసుకోవచ్చు</string>
     <string name="delete_lama_model_sub">లామా మోడల్‌ను తొలగించాలా? మీరు దీన్ని తర్వాత మళ్లీ డౌన్‌లోడ్ చేసుకోవచ్చు లేదా దిగుమతి చేసుకోవచ్చు</string>
+    <string name="crop_preset_summary">అంచులు: ఎడమ %1$d%%, ఎగువ %2$d%%, కుడి %3$d%%, దిగువ %4$d%%</string>
+    <string name="crop_presets">ప్రీసెట్‌లను కత్తిరించండి</string>
+    <string name="crop_presets_sub">పంట హద్దులను సేవ్ చేయండి లేదా మళ్లీ ఉపయోగించుకోండి</string>
+    <string name="save_crop_preset">ప్రస్తుత క్రాప్ ప్రీసెట్‌ను సేవ్ చేయండి</string>
+    <string name="delete_crop_preset">క్రాప్ ప్రీసెట్‌ను తొలగించండి</string>
+    <string name="delete_crop_preset_sub">మీరు క్రాప్ ప్రీసెట్ \"%1$s\"ని తొలగించాలనుకుంటున్నారా?</string>
 </resources>

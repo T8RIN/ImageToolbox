@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Download LaMa model</string>
     <string name="only_lama_onnx_model">Kun .onnx LaMa-modeller kan importeres</string>
     <string name="delete_lama_model_sub">Vil du slette LaMa-modellen? Du kan downloade eller importere den igen senere</string>
+    <string name="crop_preset_summary">Marginer: venstre %1$d%%, øverst %2$d%%, højre %3$d%%, nederst %4$d%%</string>
+    <string name="crop_presets">Forudindstillinger for beskæring</string>
+    <string name="crop_presets_sub">Gem eller genbrug afgrødegrænser</string>
+    <string name="save_crop_preset">Gem den aktuelle beskæringsindstilling</string>
+    <string name="delete_crop_preset">Slet forudindstillet beskæring</string>
+    <string name="delete_crop_preset_sub">Vil du slette beskæringsforudindstillingen \"%1$s\"?</string>
 </resources>

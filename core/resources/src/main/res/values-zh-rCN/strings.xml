@@ -5467,4 +5467,10 @@
     <string name="lama_model_link">下载喇嘛模型</string>
     <string name="only_lama_onnx_model">只能导入 .onnx LaMa 模型</string>
     <string name="delete_lama_model_sub">删除LaMa模型？您可以稍后再次下载或导入</string>
+    <string name="crop_preset_summary">页边距：左 %1$d%%，上 %2$d%%，右 %3$d%%，下 %4$d%%</string>
+    <string name="crop_presets">裁剪预设</string>
+    <string name="crop_presets_sub">保存或重复使用裁剪范围</string>
+    <string name="save_crop_preset">保存当前裁剪预设</string>
+    <string name="delete_crop_preset">删除裁剪预设</string>
+    <string name="delete_crop_preset_sub">您想删除裁剪预设“%1$s”吗？</string>
 </resources>

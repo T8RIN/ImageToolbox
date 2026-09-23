@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Ladda ner LaMa-modell</string>
     <string name="only_lama_onnx_model">Endast .onnx LaMa-modeller kan importeras</string>
     <string name="delete_lama_model_sub">Ta bort LaMa-modellen? Du kan ladda ner eller importera den igen senare</string>
+    <string name="crop_preset_summary">Marginaler: vänster %1$d%%, övre %2$d%%, höger %3$d%%, nedre %4$d%%</string>
+    <string name="crop_presets">Beskär förinställningar</string>
+    <string name="crop_presets_sub">Spara eller återanvänd grödagränser</string>
+    <string name="save_crop_preset">Spara aktuell beskärningsförinställning</string>
+    <string name="delete_crop_preset">Ta bort beskärningsförinställning</string>
+    <string name="delete_crop_preset_sub">Vill du ta bort beskärningsförinställningen \"%1$s\"?</string>
 </resources>

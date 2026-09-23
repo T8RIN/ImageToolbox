@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Lataa LaMa-malli</string>
     <string name="only_lama_onnx_model">Vain .onnx LaMa -malleja voidaan tuoda</string>
     <string name="delete_lama_model_sub">Poistetaanko LaMa-malli? Voit ladata tai tuoda sen myöhemmin uudelleen</string>
+    <string name="crop_preset_summary">Marginaalit: vasen %1$d%%, ylhäällä %2$d%%, oikea %3$d%%, alhaalla %4$d%%</string>
+    <string name="crop_presets">Rajaa esiasetukset</string>
+    <string name="crop_presets_sub">Tallenna tai käytä uudelleen rajausrajat</string>
+    <string name="save_crop_preset">Tallenna nykyinen rajauksen esiasetus</string>
+    <string name="delete_crop_preset">Poista rajauksen esiasetus</string>
+    <string name="delete_crop_preset_sub">Haluatko poistaa rajauksen esiasetuksen \"%1$s\"?</string>
 </resources>

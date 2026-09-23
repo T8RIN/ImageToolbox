@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">دانلود مدل LaMa</string>
     <string name="only_lama_onnx_model">فقط مدل‌های .onnx LaMa را می‌توان وارد کرد</string>
     <string name="delete_lama_model_sub">مدل LaMa حذف شود؟ بعداً می‌توانید دوباره آن را دانلود یا وارد کنید</string>
+    <string name="crop_preset_summary">حاشیه: چپ %1$d%%، بالا %2$d%%، سمت راست %3$d%%، پایین %4$d%%</string>
+    <string name="crop_presets">از پیش تنظیمات برش</string>
+    <string name="crop_presets_sub">محدودیت‌های محصول را ذخیره یا مجدداً استفاده کنید</string>
+    <string name="save_crop_preset">ذخیره از پیش تعیین شده برش فعلی</string>
+    <string name="delete_crop_preset">حذف از پیش تعیین شده برش</string>
+    <string name="delete_crop_preset_sub">آیا می‌خواهید «%1$s» از پیش تنظیم شده را حذف کنید؟</string>
 </resources>

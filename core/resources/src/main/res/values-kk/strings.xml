@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">LaMa үлгісін жүктеп алыңыз</string>
     <string name="only_lama_onnx_model">Тек .onnx LaMa үлгілерін импорттауға болады</string>
     <string name="delete_lama_model_sub">LaMa үлгісін жою керек пе? Оны кейінірек қайта жүктеп алуға немесе импорттауға болады</string>
+    <string name="crop_preset_summary">Шеттері: сол %1$d%%, жоғарғы %2$d%%, оң %3$d%%, төменгі %4$d%%</string>
+    <string name="crop_presets">Алдын ала орнатуларды қию</string>
+    <string name="crop_presets_sub">Кесу шекараларын сақтаңыз немесе қайта пайдаланыңыз</string>
+    <string name="save_crop_preset">Ағымдағы қиюдың алдын ала орнатуын сақтаңыз</string>
+    <string name="delete_crop_preset">Алдын ала кесу параметрін жою</string>
+    <string name="delete_crop_preset_sub">\"%1$s\" алдын ала кесу параметрін жойғыңыз келе ме?</string>
 </resources>

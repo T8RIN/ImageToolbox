@@ -5469,4 +5469,10 @@
     <string name="lama_model_link">Преузмите модел ЛаМа</string>
     <string name="only_lama_onnx_model">Могу се увозити само .оннк ЛаМа модели</string>
     <string name="delete_lama_model_sub">Избрисати модел ЛаМа? Касније можете поново да га преузмете или увезете</string>
+    <string name="crop_preset_summary">Марге: лева __ПХ_0____ПХ_1__, горња __ПХ_2____ПХ_3__, десна __ПХ_4____ПХ_5__, доња __ПХ_6____ПХ_7__</string>
+    <string name="crop_presets">Опсецање унапред подешених поставки</string>
+    <string name="crop_presets_sub">Сачувајте или поново користите границе исецања</string>
+    <string name="save_crop_preset">Сачувајте тренутну унапред подешену поставку</string>
+    <string name="delete_crop_preset">Избриши унапред подешено опсецање</string>
+    <string name="delete_crop_preset_sub">Да ли желите да избришете унапред подешено опсецање „__ПХ_0__“?</string>
 </resources>

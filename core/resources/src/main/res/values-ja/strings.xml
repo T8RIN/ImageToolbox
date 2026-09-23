@@ -5467,4 +5467,10 @@
     <string name="lama_model_link">LaMaモデルをダウンロード</string>
     <string name="only_lama_onnx_model">.onnx LaMa モデルのみをインポートできます</string>
     <string name="delete_lama_model_sub">LaMa モデルを削除しますか?後で再度ダウンロードまたはインポートできます</string>
+    <string name="crop_preset_summary">余白: 左 %1$d%%、上 %2$d%%、右 %3$d%%、下 %4$d%%</string>
+    <string name="crop_presets">クロッププリセット</string>
+    <string name="crop_presets_sub">切り抜き境界を保存または再利用する</string>
+    <string name="save_crop_preset">現在のクロッププリセットを保存する</string>
+    <string name="delete_crop_preset">クロッププリセットを削除する</string>
+    <string name="delete_crop_preset_sub">クロッププリセット「%1$s」を削除しますか?</string>
 </resources>

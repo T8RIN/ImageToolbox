@@ -5467,4 +5467,10 @@
     <string name="lama_model_link">ดาวน์โหลดโมเดลลามะ</string>
     <string name="only_lama_onnx_model">สามารถนำเข้าได้เฉพาะรุ่น .onnx LaMa เท่านั้น</string>
     <string name="delete_lama_model_sub">ลบโมเดลลามะ? คุณสามารถดาวน์โหลดหรือนำเข้าอีกครั้งในภายหลังได้</string>
+    <string name="crop_preset_summary">ขอบ: ซ้าย %1$d%%, บน %2$d%%, ขวา %3$d%%, ล่าง %4$d%%</string>
+    <string name="crop_presets">ครอบตัดที่ตั้งไว้ล่วงหน้า</string>
+    <string name="crop_presets_sub">บันทึกหรือนำขอบเขตการครอบตัดมาใช้ซ้ำ</string>
+    <string name="save_crop_preset">บันทึกค่าที่ตั้งไว้ครอบตัดปัจจุบัน</string>
+    <string name="delete_crop_preset">ลบค่าที่ตั้งไว้ครอบตัด</string>
+    <string name="delete_crop_preset_sub">คุณต้องการลบค่าที่ตั้งไว้ครอบตัด \"%1$s\" หรือไม่</string>
 </resources>

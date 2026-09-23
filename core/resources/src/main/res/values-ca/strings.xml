@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Descarrega el model LaMa</string>
     <string name="only_lama_onnx_model">Només es poden importar models .onnx LaMa</string>
     <string name="delete_lama_model_sub">Vols suprimir el model LaMa? Podeu descarregar-lo o importar-lo de nou més tard</string>
+    <string name="crop_preset_summary">Marges: esquerre %1$d%%, superior %2$d%%, dret %3$d%%, inferior %4$d%%</string>
+    <string name="crop_presets">Retalla els valors predefinits</string>
+    <string name="crop_presets_sub">Desa o reutilitza els límits de retall</string>
+    <string name="save_crop_preset">Desa el valor predefinit de retall actual</string>
+    <string name="delete_crop_preset">Suprimeix el valor predefinit de retall</string>
+    <string name="delete_crop_preset_sub">Voleu suprimir el valor predefinit de retall \"%1$s\"?</string>
 </resources>

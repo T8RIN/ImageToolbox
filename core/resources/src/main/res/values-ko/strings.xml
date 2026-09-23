@@ -5467,4 +5467,10 @@
     <string name="lama_model_link">라마 모델 다운로드</string>
     <string name="only_lama_onnx_model">.onnx LaMa 모델만 가져올 수 있습니다.</string>
     <string name="delete_lama_model_sub">LaMa 모델을 삭제하시겠습니까? 나중에 다시 다운로드하거나 가져올 수 있습니다.</string>
+    <string name="crop_preset_summary">여백: 왼쪽 %1$d%%, 위쪽 %2$d%%, 오른쪽 %3$d%%, 아래쪽 %4$d%%</string>
+    <string name="crop_presets">자르기 사전 설정</string>
+    <string name="crop_presets_sub">자르기 경계 저장 또는 재사용</string>
+    <string name="save_crop_preset">현재 자르기 사전 설정 저장</string>
+    <string name="delete_crop_preset">자르기 사전 설정 삭제</string>
+    <string name="delete_crop_preset_sub">자르기 사전 설정 \"%1$s\"을(를) 삭제하시겠습니까?</string>
 </resources>

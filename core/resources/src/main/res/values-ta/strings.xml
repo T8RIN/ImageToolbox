@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">லாமா மாதிரியைப் பதிவிறக்கவும்</string>
     <string name="only_lama_onnx_model">.onnx LaMa மாடல்களை மட்டுமே இறக்குமதி செய்ய முடியும்</string>
     <string name="delete_lama_model_sub">லாமா மாதிரியை நீக்கவா? பின்னர் மீண்டும் பதிவிறக்கம் செய்யலாம் அல்லது இறக்குமதி செய்யலாம்</string>
+    <string name="crop_preset_summary">ஓரங்கள்: இடது %1$d%%, மேல் %2$d%%, வலது %3$d%%, கீழே %4$d%%</string>
+    <string name="crop_presets">செதுக்கு முன்னமைவுகள்</string>
+    <string name="crop_presets_sub">பயிர் வரம்புகளைச் சேமிக்கவும் அல்லது மீண்டும் பயன்படுத்தவும்</string>
+    <string name="save_crop_preset">தற்போதைய பயிர் முன்னமைவைச் சேமிக்கவும்</string>
+    <string name="delete_crop_preset">செதுக்கும் முன்னமைவை நீக்கு</string>
+    <string name="delete_crop_preset_sub">முன்னமைக்கப்பட்ட \"%1$s\" ஐ நீக்க வேண்டுமா?</string>
 </resources>

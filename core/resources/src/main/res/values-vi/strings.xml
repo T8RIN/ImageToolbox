@@ -5467,4 +5467,10 @@
     <string name="lama_model_link">Tải xuống mô hình LaMa</string>
     <string name="only_lama_onnx_model">Chỉ có thể nhập các mô hình .onnx LaMa</string>
     <string name="delete_lama_model_sub">Xóa mô hình LaMa? Bạn có thể tải xuống hoặc nhập lại sau</string>
+    <string name="crop_preset_summary">Lề: trái %1$d%%, trên cùng %2$d_%%, phải %3$dPH_5__, dưới %4$d%%</string>
+    <string name="crop_presets">Cắt cài đặt trước</string>
+    <string name="crop_presets_sub">Lưu hoặc sử dụng lại giới hạn cắt</string>
+    <string name="save_crop_preset">Lưu cài đặt trước cắt xén hiện tại</string>
+    <string name="delete_crop_preset">Xóa cài đặt trước cắt xén</string>
+    <string name="delete_crop_preset_sub">Bạn có muốn xóa cài đặt trước cắt xén \"%1$s\" không?</string>
 </resources>

@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Télécharger le modèle LaMa</string>
     <string name="only_lama_onnx_model">Seuls les modèles .onnx LaMa peuvent être importés</string>
     <string name="delete_lama_model_sub">Supprimer le modèle LaMa ? Vous pourrez le télécharger ou l\'importer à nouveau plus tard</string>
+    <string name="crop_preset_summary">Marges : gauche %1$d%%, haut %2$d%%, droite %3$d%%, bas %4$d%%</string>
+    <string name="crop_presets">Préréglages de recadrage</string>
+    <string name="crop_presets_sub">Enregistrer ou réutiliser les limites de recadrage</string>
+    <string name="save_crop_preset">Enregistrer le préréglage de recadrage actuel</string>
+    <string name="delete_crop_preset">Supprimer le préréglage de recadrage</string>
+    <string name="delete_crop_preset_sub">Voulez-vous supprimer le préréglage de recadrage « %1$s » ?</string>
 </resources>

@@ -5470,4 +5470,10 @@
     <string name="lama_model_link">Завантажити модель LaMa</string>
     <string name="only_lama_onnx_model">Можна імпортувати лише моделі .onnx LaMa</string>
     <string name="delete_lama_model_sub">Видалити модель LaMa? Ви можете завантажити або імпортувати його пізніше</string>
+    <string name="crop_preset_summary">Поля: ліве %1$d%%, верхнє %2$d%%, праве %3$d%%, нижнє %4$d%%</string>
+    <string name="crop_presets">Попередні налаштування кадрування</string>
+    <string name="crop_presets_sub">Збережіть або повторно використовуйте межі кадрування</string>
+    <string name="save_crop_preset">Зберегти поточні налаштування кадрування</string>
+    <string name="delete_crop_preset">Видалити попередні налаштування кадрування</string>
+    <string name="delete_crop_preset_sub">Ви бажаєте видалити стиль кадрування \"%1$s\"?</string>
 </resources>

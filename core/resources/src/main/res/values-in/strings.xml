@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Ada yang tidak beres: %1$s</string>
     <string name="size">Ukuran %1$s</string>
     <string name="copied">Disalin ke papan klip</string>
@@ -5465,4 +5467,10 @@
     <string name="lama_model_link">Unduh model LaMa</string>
     <string name="only_lama_onnx_model">Hanya model .onnx LaMa yang dapat diimpor</string>
     <string name="delete_lama_model_sub">Hapus model LaMa? Anda dapat mendownload atau mengimpornya lagi nanti</string>
+    <string name="crop_preset_summary">Margin: kiri %1$d%%, atas %2$d%%, kanan %3$d%%, bawah %4$d%%</string>
+    <string name="crop_presets">Pangkas preset</string>
+    <string name="crop_presets_sub">Simpan atau gunakan kembali batas pangkas</string>
+    <string name="save_crop_preset">Simpan preset pemotongan saat ini</string>
+    <string name="delete_crop_preset">Hapus preset pemangkasan</string>
+    <string name="delete_crop_preset_sub">Apakah Anda ingin menghapus preset pangkas \"%1$s\"?</string>
 </resources>

@@ -5468,4 +5468,10 @@
     <string name="lama_model_link">Descargar modelo LaMa</string>
     <string name="only_lama_onnx_model">Solo se pueden importar modelos .onnx LaMa</string>
     <string name="delete_lama_model_sub">¿Eliminar el modelo LaMa? Puedes descargarlo o importarlo nuevamente más tarde.</string>
+    <string name="crop_preset_summary">Márgenes: izquierdo %1$d%%, superior %2$d%%, derecho %3$d%%, inferior %4$d%%</string>
+    <string name="crop_presets">Ajustes preestablecidos de recorte</string>
+    <string name="crop_presets_sub">Guardar o reutilizar límites de recorte</string>
+    <string name="save_crop_preset">Guardar ajuste preestablecido de recorte actual</string>
+    <string name="delete_crop_preset">Eliminar ajuste preestablecido de recorte</string>
+    <string name="delete_crop_preset_sub">¿Quieres eliminar el ajuste preestablecido de recorte \"%1$s\"?</string>
 </resources>
