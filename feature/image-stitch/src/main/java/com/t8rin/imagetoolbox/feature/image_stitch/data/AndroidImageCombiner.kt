@@ -100,17 +100,6 @@ internal class AndroidImageCombiner @Inject constructor(
                 imageScale = combiningParams.outputScale
             )
 
-            val bitmaps = images.map { image ->
-                if (
-                    combiningParams.scaleSmallImagesToLarge && image.shouldUpscale(
-                        isHorizontal = isHorizontal,
-                        size = size
-                    )
-                ) {
-                    image.upscale(isHorizontal, size)
-                } else image
-            }
-
             val bitmap = createBitmap(
                 width = size.width,
                 height = size.height,
@@ -131,7 +120,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 val strength = combiningParams.fadeStrength
 
                 for (i in imagesUris.indices) {
-                    var bmp = bitmaps[i]
+                    var bmp = images[i]
 
                     imageSpacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
                         ?.let {
@@ -351,21 +340,34 @@ internal class AndroidImageCombiner @Inject constructor(
     ): Pair<IntegerSize, List<Bitmap>> = withContext(defaultDispatcher) {
         var w = 0
         var h = 0
-        var maxHeight = 0
-        var maxWidth = 0
-        val drawables = imageUris.mapNotNull { uri ->
-            imageGetter.getImage(
-                data = uri,
-                originalSize = true
-            )?.let {
-                it.createScaledBitmap(
-                    width = (it.width * imageScale).roundToInt(),
-                    height = (it.height * imageScale).roundToInt()
-                )
-            }?.apply {
-                maxWidth = max(maxWidth, width)
-                maxHeight = max(maxHeight, height)
+        val imageSizes = if (scaleSmallImagesToLarge) imageUris.mapNotNull { uri ->
+            imageGetter.getImage(data = uri, originalSize = true)?.let { image ->
+                IntegerSize(image.width, image.height)
             }
+        } else emptyList()
+        val maxWidth = imageSizes.maxOfOrNull { (it.width * imageScale).roundToInt() } ?: 0
+        val maxHeight = imageSizes.maxOfOrNull { (it.height * imageScale).roundToInt() } ?: 0
+        val drawables = imageUris.mapNotNull { uri ->
+            val image = imageGetter.getImage(data = uri, originalSize = true)
+                ?: return@mapNotNull null
+            val scaledWidth = (image.width * imageScale).roundToInt()
+            val scaledHeight = (image.height * imageScale).roundToInt()
+            val targetSize = when {
+                scaleSmallImagesToLarge && isHorizontal && scaledHeight != maxHeight -> {
+                    IntegerSize((maxHeight * image.aspectRatio).toInt(), maxHeight)
+                }
+
+                scaleSmallImagesToLarge && !isHorizontal && scaledWidth != maxWidth -> {
+                    IntegerSize(maxWidth, (maxWidth / image.aspectRatio).toInt())
+                }
+
+                else -> IntegerSize(scaledWidth, scaledHeight)
+            }
+
+            image.createScaledBitmap(
+                width = targetSize.width,
+                height = targetSize.height
+            )
         }
 
         drawables.forEachIndexed { index, image ->
@@ -374,39 +376,17 @@ internal class AndroidImageCombiner @Inject constructor(
 
             val spacing = if (index != drawables.lastIndex) imageSpacing else 0
 
-            if (scaleSmallImagesToLarge && image.shouldUpscale(
-                    isHorizontal = isHorizontal,
-                    size = IntegerSize(maxWidth, maxHeight)
-                )
-            ) {
-                val targetHeight: Int
-                val targetWidth: Int
-
-                if (isHorizontal) {
-                    targetHeight = maxHeight
-                    targetWidth = (targetHeight * image.aspectRatio).toInt()
-                } else {
-                    targetWidth = maxWidth
-                    targetHeight = (targetWidth / image.aspectRatio).toInt()
-                }
-                if (isHorizontal) {
-                    w += (targetWidth + spacing).coerceAtLeast(1)
-                } else {
-                    h += (targetHeight + spacing).coerceAtLeast(1)
-                }
+            if (isHorizontal) {
+                w += (width + spacing).coerceAtLeast(1)
             } else {
-                if (isHorizontal) {
-                    w += (width + spacing).coerceAtLeast(1)
-                } else {
-                    h += (height + spacing).coerceAtLeast(1)
-                }
+                h += (height + spacing).coerceAtLeast(1)
             }
         }
 
         if (isHorizontal) {
-            h = maxHeight
+            h = drawables.maxOfOrNull { it.height } ?: 0
         } else {
-            w = maxWidth
+            w = drawables.maxOfOrNull { it.width } ?: 0
         }
 
         IntegerSize(
@@ -492,31 +472,6 @@ internal class AndroidImageCombiner @Inject constructor(
                     onGetByteCount(original.roundToLong())
                 }
             ) withSize imageSize
-        }
-    }
-
-    private fun Bitmap.shouldUpscale(
-        isHorizontal: Boolean,
-        size: IntegerSize
-    ): Boolean {
-        return if (isHorizontal) this.height != size.height
-        else this.width != size.width
-    }
-
-    private suspend fun Bitmap.upscale(
-        isHorizontal: Boolean,
-        size: IntegerSize
-    ): Bitmap {
-        return if (isHorizontal) {
-            createScaledBitmap(
-                width = (size.height * aspectRatio).toInt(),
-                height = size.height
-            )
-        } else {
-            createScaledBitmap(
-                width = size.width,
-                height = (size.width / aspectRatio).toInt()
-            )
         }
     }
 
