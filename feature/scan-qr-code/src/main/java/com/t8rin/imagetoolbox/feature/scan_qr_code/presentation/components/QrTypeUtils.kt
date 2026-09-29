@@ -19,14 +19,17 @@ package com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.components
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.wifi.WifiNetworkSuggestion
+import android.os.Build
 import android.provider.CalendarContract
 import android.provider.ContactsContract
-import com.t8rin.imagetoolbox.core.resources.Icons
+import android.provider.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.model.QrType
 import com.t8rin.imagetoolbox.core.domain.model.copy
 import com.t8rin.imagetoolbox.core.domain.model.ifNotEmpty
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.CalendarMonth
 import com.t8rin.imagetoolbox.core.resources.icons.Contacts
@@ -101,7 +104,29 @@ internal fun QrType.toIntent(): Intent? = ifNotEmpty {
 
         is QrType.Geo -> Intent(Intent.ACTION_VIEW, raw.toUri())
 
-        is QrType.Wifi -> null
+        is QrType.Wifi -> if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            ssid.isNotBlank() &&
+            encryptionType != QrType.Wifi.EncryptionType.WEP
+        ) {
+            runCatching {
+                val suggestion = WifiNetworkSuggestion.Builder()
+                    .setSsid(ssid)
+                    .apply {
+                        if (encryptionType == QrType.Wifi.EncryptionType.WPA) {
+                            setWpa2Passphrase(password)
+                        }
+                    }
+                    .build()
+
+                Intent(Settings.ACTION_WIFI_ADD_NETWORKS).apply {
+                    putParcelableArrayListExtra(
+                        Settings.EXTRA_WIFI_NETWORK_LIST,
+                        arrayListOf(suggestion)
+                    )
+                }
+            }.getOrNull()
+        } else null
 
         is QrType.Contact -> {
             Intent(Intent.ACTION_INSERT).apply {
