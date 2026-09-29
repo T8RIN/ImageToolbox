@@ -46,6 +46,8 @@ import com.t8rin.collages.utils.Handle
 import com.t8rin.collages.utils.ImageDecoder
 import com.t8rin.collages.utils.ParamsManager
 import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 import androidx.compose.ui.graphics.Color as ComposeColor
 
 @SuppressLint("ViewConstructor")
@@ -120,6 +122,7 @@ internal class FramePhotoLayout(
     private val mItemImageViews: MutableList<FrameImageView> = ArrayList()
     private var mViewWidth: Int = 0
     private var mViewHeight: Int = 0
+    private val sourceDimensions = mutableMapOf<Uri, Int>()
     private var backgroundColor: ComposeColor = ComposeColor.White
     private var backgroundShader: ((Float, Float) -> Shader)? = null
     private var onItemTapListener: ((index: Int) -> Unit)? = null
@@ -359,7 +362,7 @@ internal class FramePhotoLayout(
     }
 
     fun updateImages(images: List<Uri>) {
-        val minSize = kotlin.math.min(images.size, mPhotoItems.size)
+        val minSize = min(images.size, mPhotoItems.size)
         for (i in 0 until minSize) {
             val newUri = images[i]
             val item = mPhotoItems[i]
@@ -410,22 +413,47 @@ internal class FramePhotoLayout(
         return imageView
     }
 
+    suspend fun outputDimensions(outputScaleRatio: Float): Pair<Int, Int> {
+        val sourceMaxDimension = mItemImageViews.maxOfOrNull { view ->
+            view.photoItem.imagePath?.let { uri ->
+                sourceDimensions[uri] ?: ImageDecoder.sourceMaxDimension(context, uri)
+                    .also { size ->
+                        if (size > 0) sourceDimensions[uri] = size
+                    }
+            } ?: 0
+        }?.takeIf { it > 0 } ?: mItemImageViews.maxOfOrNull { view ->
+            max(view.image?.width ?: 0, view.image?.height ?: 0)
+        }?.takeIf { it > 0 } ?: max(mViewWidth, mViewHeight)
+        val viewMaxDimension = max(mViewWidth, mViewHeight)
+        val sourceScale = sourceMaxDimension.toDouble() / viewMaxDimension
+        val maxPixels = Runtime.getRuntime().maxMemory() / 16
+        val memoryScale = sqrt(maxPixels.toDouble() / (mViewWidth.toLong() * mViewHeight))
+        val maxScale = min(memoryScale, 8192.0 / viewMaxDimension)
+        val outputScale = min(
+            min(sourceScale, maxScale) * outputScaleRatio,
+            maxScale
+        ).toFloat().coerceAtLeast(1f / viewMaxDimension)
+        return (outputScale * mViewWidth).toInt() to (outputScale * mViewHeight).toInt()
+    }
+
     @Throws(OutOfMemoryError::class)
-    fun createImage(outputScaleRatio: Float): Bitmap {
+    suspend fun createImage(outputScaleRatio: Float): Bitmap {
         try {
+            val (outputWidth, outputHeight) = outputDimensions(outputScaleRatio)
+            val outputScale = outputWidth.toFloat() / mViewWidth
             val template = createBitmap(
-                (outputScaleRatio * mViewWidth).toInt(),
-                (outputScaleRatio * mViewHeight).toInt()
+                outputWidth,
+                outputHeight
             )
             val canvas = Canvas(template)
             if (backgroundShader == null) canvas.drawColor(backgroundColor.toArgb())
             else drawBackgroundGradient(canvas, template.width.toFloat(), template.height.toFloat())
             for (view in mItemImageViews)
                 if (view.image != null && !view.image!!.isRecycled) {
-                    val left = (view.left * outputScaleRatio).toInt()
-                    val top = (view.top * outputScaleRatio).toInt()
-                    val width = (view.width * outputScaleRatio).toInt()
-                    val height = (view.height * outputScaleRatio).toInt()
+                    val left = (view.left * outputScale).toInt()
+                    val top = (view.top * outputScale).toInt()
+                    val width = (view.width * outputScale).toInt()
+                    val height = (view.height * outputScale).toInt()
                     //draw image
                     canvas.saveLayer(
                         left.toFloat(),
@@ -436,7 +464,15 @@ internal class FramePhotoLayout(
                     )
                     canvas.translate(left.toFloat(), top.toFloat())
                     canvas.clipRect(0, 0, width, height)
-                    view.drawOutputImage(canvas, outputScaleRatio)
+                    view.drawOutputImage(
+                        canvas,
+                        outputScale,
+                        min(
+                            sourceDimensions[view.photoItem.imagePath]
+                                ?: max(template.width, template.height),
+                            max(template.width, template.height) * 2
+                        )
+                    )
                     canvas.restore()
                 }
 

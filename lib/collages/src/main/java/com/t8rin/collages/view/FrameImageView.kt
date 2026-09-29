@@ -173,6 +173,7 @@ internal class FrameImageView(
     }
 
     fun saveInstanceState(outState: Bundle) {
+        if (image == null || imageLoadJob?.isActive == true) return
         val index = photoItem.index
         val values = FloatArray(9)
         mImageMatrix.getValues(values)
@@ -190,12 +191,10 @@ internal class FrameImageView(
      * @param savedInstanceState
      */
     fun restoreInstanceState(savedInstanceState: Bundle) {
-        viewState = savedInstanceState
         val index = photoItem.index
-        val values = savedInstanceState.getFloatArray("mImageMatrix_$index")
-        if (values != null) {
-            mImageMatrix.setValues(values)
-        }
+        val values = savedInstanceState.getFloatArray("mImageMatrix_$index") ?: return
+        viewState = savedInstanceState
+        mImageMatrix.setValues(values)
         viewWidth = savedInstanceState.getFloat("mViewWidth_$index", 1f)
         viewHeight = savedInstanceState.getFloat("mViewHeight_$index", 1f)
         corner = savedInstanceState.getFloat("mCorner_$index", 0f)
@@ -261,6 +260,7 @@ internal class FrameImageView(
             } else {
                 image = bmp
                 resetImageMatrix()
+                if (snapToBordersEnabled) snapToBorders()
                 val state = pendingState
                 if (state != null) {
                     pendingState = null
@@ -457,7 +457,7 @@ internal class FrameImageView(
         )
     }
 
-    fun drawOutputImage(canvas: Canvas, outputScale: Float) {
+    suspend fun drawOutputImage(canvas: Canvas, outputScale: Float, imageSize: Int) {
         val viewWidth = this.viewWidth * outputScale
         val viewHeight = this.viewHeight * outputScale
         val path = Path()
@@ -470,11 +470,25 @@ internal class FrameImageView(
             ArrayList(), path, clearPath, backgroundPath, polygon, pathRect,
             space * outputScale, corner * outputScale
         )
-        val exportMatrix = Matrix(mImageMatrix).apply { postScale(outputScale, outputScale) }
-        drawImage(
-            canvas, path, mPaint, pathRect, image, exportMatrix,
-            viewWidth, viewHeight, mBackgroundColor, backgroundPath, clearPath, polygon
-        )
+        val previewImage = image ?: return
+        val exportImage = photoItem.imagePath?.let { uri ->
+            ImageDecoder.decodeFileToBitmap(context, uri, imageSize, cache = false)
+        } ?: previewImage
+        try {
+            val exportMatrix = Matrix(mImageMatrix).apply {
+                preScale(
+                    previewImage.width.toFloat() / exportImage.width,
+                    previewImage.height.toFloat() / exportImage.height
+                )
+                postScale(outputScale, outputScale)
+            }
+            drawImage(
+                canvas, path, mPaint, pathRect, exportImage, exportMatrix,
+                viewWidth, viewHeight, mBackgroundColor, backgroundPath, clearPath, polygon
+            )
+        } finally {
+            if (exportImage !== previewImage) exportImage.recycle()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

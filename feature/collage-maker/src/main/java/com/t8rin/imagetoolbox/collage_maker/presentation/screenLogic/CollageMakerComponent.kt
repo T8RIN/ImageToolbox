@@ -109,7 +109,10 @@ class CollageMakerComponent @AssistedInject internal constructor(
         scope = componentScope,
         initial = CollageParams()
     )
-    val params by _params
+    val params: CollageParams
+        get() = _params.get().let { value ->
+            value.copy(outputScaleRatio = value.outputScaleRatio.coerceIn(0.1f, 1f))
+        }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)
     val uris by _uris
@@ -203,7 +206,13 @@ class CollageMakerComponent @AssistedInject internal constructor(
         _collageState.update { state ->
             state?.copy(
                 images = state.images.map { image ->
-                    if (image.index == index) image.copy(uri = uri.toString()) else image
+                    if (image.index == index) {
+                        image.copy(
+                            uri = uri.toString(),
+                            matrixValues = emptyList(),
+                            userAllowedEmptySpace = false
+                        )
+                    } else image
                 }
             )
         }
@@ -262,7 +271,7 @@ class CollageMakerComponent @AssistedInject internal constructor(
     }
 
     fun setOutputScaleRatio(ratio: Float) {
-        if (params.outputScaleRatio == ratio) return
+        if (_params.get().outputScaleRatio == ratio) return
         beginPendingHistoryTransaction()
         _params.update { it.copy(outputScaleRatio = ratio) }
         registerChanges()

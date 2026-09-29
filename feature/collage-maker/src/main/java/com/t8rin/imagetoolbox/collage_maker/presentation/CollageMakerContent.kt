@@ -33,13 +33,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
@@ -63,6 +66,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.DrawableCompat
@@ -139,6 +143,11 @@ fun CollageMakerContent(
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     var isLoading by rememberSaveable { mutableStateOf(true) }
+    var outputSize by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+
+    LaunchedEffect(component.uris) {
+        outputSize = null
+    }
 
     LaunchedEffect(component.initialUris) {
         component.initialUris?.takeIf { it.isNotEmpty() }?.let {
@@ -404,6 +413,9 @@ fun CollageMakerContent(
                                     cornerRadius = component.params.cornerRadius,
                                     aspectRatio = component.aspectRatio.value,
                                     outputScaleRatio = component.params.outputScaleRatio,
+                                    onOutputSizeChanged = { width, height ->
+                                        outputSize = width to height
+                                    },
                                     disableRotation = component.params.disableRotation,
                                     enableSnapToBorders = component.params.enableSnapToBorders,
                                     state = component.collageState,
@@ -607,7 +619,7 @@ fun CollageMakerContent(
                     modifier = Modifier.fillMaxWidth(),
                     value = component.params.outputScaleRatio,
                     title = stringResource(R.string.output_image_scale),
-                    valueRange = 0.5f..4f,
+                    valueRange = 0.1f..1f,
                     internalStateTransformation = {
                         it.roundToTwoDigits()
                     },
@@ -621,7 +633,61 @@ fun CollageMakerContent(
                         ),
                     icon = Icons.Outlined.PhotoSizeSelectSmall,
                     shape = ShapeDefaults.extraLarge
-                )
+                ) {
+                    if (outputSize != null) {
+                        val (width, height) = outputSize!!
+                        Row(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .container(
+                                    shape = ShapeDefaults.large,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(4.dp)
+                        ) {
+                            listOf(
+                                stringResource(R.string.width, "") to width,
+                                stringResource(R.string.height, "") to height
+                            ).forEachIndexed { index, (title, value) ->
+                                if (index > 0) Spacer(Modifier.width(8.dp))
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .container(
+                                            autoShadowElevation = 0.2.dp,
+                                            color = MaterialTheme.colorScheme.surfaceContainerLow
+                                        )
+                                        .padding(4.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(title)
+                                    Spacer(Modifier.height(8.dp))
+                                    Text(
+                                        text = value.toString(),
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        color = LocalContentColor.current.copy(alpha = 0.5f)
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        Text(
+                            text = stringResource(R.string.loading),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .fillMaxWidth()
+                                .container(
+                                    shape = ShapeDefaults.large,
+                                    color = MaterialTheme.colorScheme.surface
+                                )
+                                .padding(6.dp),
+                            color = LocalContentColor.current.copy(alpha = 0.5f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
                 PreferenceRowSwitch(
                     title = stringResource(id = R.string.disable_rotation),
                     subtitle = stringResource(id = R.string.disable_rotation_sub),

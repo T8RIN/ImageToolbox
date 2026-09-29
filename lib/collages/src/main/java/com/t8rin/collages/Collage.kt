@@ -70,6 +70,7 @@ fun Collage(
     backgroundShader: ((Float, Float) -> Shader)? = null,
     state: CollageState? = null,
     onStateReady: ((CollageState) -> Unit)? = null,
+    onOutputSizeChanged: ((Int, Int) -> Unit)? = null,
     onUserStateChange: ((before: CollageState, after: CollageState) -> Unit)? = null
 ) {
     var previousSize by rememberSaveable {
@@ -248,6 +249,14 @@ fun Collage(
             LaunchedEffect(viewInstance, collageCreationTrigger) {
                 if (collageCreationTrigger) {
                     viewInstance?.createImage(outputScaleRatio)?.let(onCollageCreated)
+                }
+            }
+
+            LaunchedEffect(viewInstance, images, collageType, aspectRatio, outputScaleRatio) {
+                if (onOutputSizeChanged != null) {
+                    viewInstance?.outputDimensions(outputScaleRatio)?.let { (width, height) ->
+                        onOutputSizeChanged(width, height)
+                    }
                 }
             }
         }
