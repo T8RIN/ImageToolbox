@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.seconds
 
 object LinkUtils {
     fun parseLinks(text: String): Set<String> {
-        val regex = Regex("""\b(?:https?://|www\.|http?://)\S+\b""")
+        val regex = Regex("""\b(?:https?://|www\.|http?://)\S+\b/*""")
         val matches = regex.findAll(text)
         return matches.map { it.value }.toSet()
     }
