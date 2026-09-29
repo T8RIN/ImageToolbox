@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ fun QRContent.toQrType(): QrType {
     val raw = rawValue ?: rawBytes?.toString(Charsets.UTF_8).orEmpty()
 
     if (raw.startsWith("geo:", true)) {
-        val data = raw.drop(4).split(";")
+        val data = raw.drop(4).substringBefore('?').substringBefore(';').split(',')
         return QrType.Geo(
             raw = raw,
             latitude = data.getOrNull(0)?.toDoubleOrNull(),

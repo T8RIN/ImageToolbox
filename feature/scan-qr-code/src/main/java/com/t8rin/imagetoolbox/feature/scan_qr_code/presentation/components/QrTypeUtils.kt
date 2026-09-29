@@ -90,7 +90,15 @@ internal fun QrType.toIntent(): Intent? = ifNotEmpty {
 
         is QrType.Url -> Intent(Intent.ACTION_VIEW, url.toUri())
 
-        is QrType.Email -> Intent(Intent.ACTION_SENDTO, raw.toUri())
+        is QrType.Email -> if (address.isNotBlank()) {
+            Intent(Intent.ACTION_SENDTO, "mailto:".toUri()).apply {
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(address))
+                putExtra(Intent.EXTRA_SUBJECT, subject)
+                putExtra(Intent.EXTRA_TEXT, body)
+            }
+        } else {
+            Intent(Intent.ACTION_SENDTO, raw.toUri())
+        }
         is QrType.Phone -> Intent(Intent.ACTION_DIAL, raw.toUri())
         is QrType.Sms -> {
             val cleanNumber = phoneNumber.removePrefix("smsto:").removePrefix("sms:")
