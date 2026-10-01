@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
@@ -281,7 +282,7 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         updateCombiningParams(
             combiningParams.copy(
                 stitchMode = value,
-                scaleSmallImagesToLarge = false
+                scaleDirection = ImageScaleDirection.None
             )
         )
         calculatePreview()
@@ -323,9 +324,9 @@ class ImageStitchingComponent @AssistedInject internal constructor(
         calculatePreview()
     }
 
-    fun toggleScaleSmallImagesToLarge(checked: Boolean) {
+    fun setScaleDirection(value: ImageScaleDirection) {
         updateCombiningParams(
-            combiningParams.copy(scaleSmallImagesToLarge = checked)
+            combiningParams.copy(scaleDirection = value)
         )
         calculatePreview()
     }

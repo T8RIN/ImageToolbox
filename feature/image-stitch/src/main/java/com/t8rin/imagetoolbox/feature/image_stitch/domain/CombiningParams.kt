@@ -18,13 +18,14 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 
 data class CombiningParams(
     val stitchMode: StitchMode = StitchMode.Horizontal,
     val horizontalSpacing: Int = 0,
     val verticalSpacing: Int = 0,
-    val scaleSmallImagesToLarge: Boolean = false,
+    val scaleDirection: ImageScaleDirection = ImageScaleDirection.None,
     val backgroundColor: Int = 0x00000000,
     val fadingEdgesMode: StitchFadeSide = StitchFadeSide.Start,
     val alignment: StitchAlignment = StitchAlignment.Start,

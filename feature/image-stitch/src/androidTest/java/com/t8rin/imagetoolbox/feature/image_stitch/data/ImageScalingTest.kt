@@ -24,10 +24,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.CombiningParams
 import com.t8rin.imagetoolbox.feature.image_stitch.domain.StitchMode
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.toParams
+import com.t8rin.imagetoolbox.feature.image_stitch.domain.toSavable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
@@ -62,7 +67,7 @@ class ImageScalingTest {
                 imageUris = listOf("large", "small"),
                 combiningParams = CombiningParams(
                     stitchMode = mode,
-                    scaleSmallImagesToLarge = true,
+                    scaleDirection = ImageScaleDirection.Up,
                     outputScale = 0.5f
                 ),
                 onProgress = {}
@@ -85,7 +90,7 @@ class ImageScalingTest {
             imageUris = listOf("large", "small"),
             combiningParams = CombiningParams(
                 stitchMode = StitchMode.Vertical,
-                scaleSmallImagesToLarge = false,
+                scaleDirection = ImageScaleDirection.None,
                 outputScale = 0.5f
             ),
             onProgress = {}
@@ -111,7 +116,7 @@ class ImageScalingTest {
             imageUris = List(48) { "image-$it" },
             combiningParams = CombiningParams(
                 stitchMode = StitchMode.Vertical,
-                scaleSmallImagesToLarge = true,
+                scaleDirection = ImageScaleDirection.Up,
                 outputScale = 0.25f
             ),
             onProgress = {}
@@ -122,9 +127,87 @@ class ImageScalingTest {
         result.recycle()
     }
 
+    @Test
+    fun allDirectionsPreserveAspectRatiosAndMatchCalculatedDimensions() = runBlocking {
+        val images = mutableMapOf(
+            "large" to createBitmap(40, 20),
+            "square" to createBitmap(20, 20),
+            "wide" to createBitmap(30, 10)
+        )
+        val getter = dependency<ImageGetter<Bitmap>> { name, args ->
+            check(name == "getImage")
+            images[args[0]]
+        }
+        val scaler = dependency<ImageScaler<Bitmap>> { name, args ->
+            check(name == "scaleImage")
+            Bitmap.createScaledBitmap(args[0] as Bitmap, args[1] as Int, args[2] as Int, false)
+        }
+        val shareProvider = dependency<ImageShareProvider<Bitmap>> { name, args ->
+            check(name == "cacheImage")
+            val uri = "cached-${images.size}"
+            images[uri] = args[0] as Bitmap
+            uri
+        }
+        val combiner = combiner(getter, scaler, shareProvider)
+        val expectedSizes = mapOf(
+            StitchMode.Horizontal to listOf(
+                IntegerSize(90, 20),
+                IntegerSize(120, 20),
+                IntegerSize(60, 10)
+            ),
+            StitchMode.Vertical to listOf(
+                IntegerSize(40, 50),
+                IntegerSize(40, 73),
+                IntegerSize(20, 36)
+            ),
+            StitchMode.Grid.Horizontal(2) to listOf(
+                IntegerSize(60, 30),
+                IntegerSize(60, 40),
+                IntegerSize(30, 20)
+            ),
+            StitchMode.Grid.Vertical(2) to listOf(
+                IntegerSize(70, 40),
+                IntegerSize(220, 60),
+                IntegerSize(36, 10)
+            )
+        )
+        for ((mode, sizes) in expectedSizes) {
+            for (direction in ImageScaleDirection.entries) {
+                val params = CombiningParams(
+                    stitchMode = mode,
+                    scaleDirection = direction,
+                    outputScale = 1f
+                )
+                val uris = listOf("large", "square", "wide")
+                val expectedSize = sizes[direction.ordinal]
+                assertEquals(expectedSize, combiner.calculateCombinedImageDimensions(uris, params))
+                val (result, info) = combiner.combineImages(uris, params, {})
+                assertEquals("Width in $mode with $direction", expectedSize.width, info.width)
+                assertEquals("Height in $mode with $direction", expectedSize.height, info.height)
+                result.recycle()
+            }
+        }
+        images.values.forEach(Bitmap::recycle)
+    }
+
+    @Test
+    fun scaleDirectionRestoresOldSettingsAndSurvivesSaving() {
+        for (direction in ImageScaleDirection.entries) {
+            val params = CombiningParams(scaleDirection = direction)
+            assertEquals(params, params.toSavable().toParams())
+        }
+        val legacy = CombiningParams().toSavable().copy(scaleDirection = null)
+        assertEquals(ImageScaleDirection.None, legacy.toParams().scaleDirection)
+        assertEquals(
+            ImageScaleDirection.Up,
+            legacy.copy(scaleSmallImagesToLarge = true).toParams().scaleDirection
+        )
+    }
+
     private fun combiner(
         getter: ImageGetter<Bitmap>,
-        scaler: ImageScaler<Bitmap>
+        scaler: ImageScaler<Bitmap>,
+        shareProvider: ImageShareProvider<Bitmap> = dependency()
     ): AndroidImageCombiner {
         val settings = dependency<SettingsProvider> { name, _ ->
             check(name == "getSettingsState")
@@ -135,10 +218,10 @@ class ImageScalingTest {
             imageScaler = scaler,
             imageGetter = getter,
             imageTransformer = dependency(),
-            shareProvider = dependency(),
+            shareProvider = shareProvider,
             filterProvider = dependency(),
             imagePreviewCreator = dependency(),
-            cvStitchHelper = dependency(),
+            cvStitchHelper = CvStitchHelper(getter, scaler),
             settingsProvider = settings,
             dispatchersHolder = dispatchers
         )

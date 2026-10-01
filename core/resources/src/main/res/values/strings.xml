@@ -5503,4 +5503,6 @@
     <string name="progressive_scaling">Progressive Scaling</string>
     <string name="procedural_dampening">Dampening</string>
     <string name="random_color_dispersion">Random Color Dispersion</string>
+    <string name="small">Small</string>
+    <string name="large">Large</string>
 </resources>

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.image_stitch.domain
 
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.ui.utils.helper.entries
 
@@ -32,7 +33,8 @@ data class SavableCombiningParams(
     val outputScale: Float,
     val blendingMode: Int,
     val fadeStrength: Float,
-    val backgroundGradient: GradientFill? = null
+    val backgroundGradient: GradientFill? = null,
+    val scaleDirection: ImageScaleDirection? = null
 )
 
 fun CombiningParams.toSavable() = SavableCombiningParams(
@@ -41,14 +43,15 @@ fun CombiningParams.toSavable() = SavableCombiningParams(
     }",
     horizontalSpacing = horizontalSpacing,
     verticalSpacing = verticalSpacing,
-    scaleSmallImagesToLarge = scaleSmallImagesToLarge,
+    scaleSmallImagesToLarge = scaleDirection == ImageScaleDirection.Up,
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
     alignment = alignment,
     outputScale = outputScale,
     blendingMode = blendingMode.value,
     fadeStrength = fadeStrength,
-    backgroundGradient = backgroundGradient
+    backgroundGradient = backgroundGradient,
+    scaleDirection = scaleDirection
 )
 
 fun SavableCombiningParams.toParams() = CombiningParams(
@@ -74,7 +77,11 @@ fun SavableCombiningParams.toParams() = CombiningParams(
     },
     horizontalSpacing = horizontalSpacing,
     verticalSpacing = verticalSpacing,
-    scaleSmallImagesToLarge = scaleSmallImagesToLarge,
+    scaleDirection = scaleDirection ?: if (scaleSmallImagesToLarge) {
+        ImageScaleDirection.Up
+    } else {
+        ImageScaleDirection.None
+    },
     backgroundColor = backgroundColor,
     fadingEdgesMode = fadingEdgesMode,
     alignment = alignment,

@@ -19,7 +19,6 @@ package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.images_to_pdf
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,11 +26,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
-import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
+import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageScaleDirectionSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.PresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.QualitySelector
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
@@ -82,11 +82,9 @@ fun ImagesToPdfToolContent(
                 autoCoerce = false
             )
             Spacer(Modifier.height(8.dp))
-            ScaleSmallImagesToLargeToggle(
-                checked = component.scaleSmallImagesToLarge,
-                onCheckedChange = {
-                    component.toggleScaleSmallImagesToLarge()
-                }
+            ImageScaleDirectionSelector(
+                value = component.scaleDirection,
+                onValueChange = component::setScaleDirection
             )
         }
     )

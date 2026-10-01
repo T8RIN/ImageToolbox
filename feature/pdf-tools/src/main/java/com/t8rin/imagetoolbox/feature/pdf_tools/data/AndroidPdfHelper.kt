@@ -37,8 +37,8 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
-import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
@@ -429,35 +429,20 @@ internal class AndroidPdfHelper @Inject constructor(
     internal suspend fun createPdfFromPreparedImages(
         images: List<Bitmap>,
         quality: Float,
-        scaleSmallImagesToLarge: Boolean,
+        scaleDirection: ImageScaleDirection,
         addTextLayer: (PDPageContentStream.(pageIndex: Int, pageWidth: Float, pageHeight: Float, document: PDDocument) -> Unit)?
     ): String {
         if (images.isEmpty()) error("No PDF created")
 
         return createPdf { newDoc ->
-            var h = 0
-            var maxWidth = 0
-
-            images.forEach {
-                maxWidth = max(maxWidth, it.width)
-            }
-
-            for (image in images) {
-                h += if (scaleSmallImagesToLarge && image.width != maxWidth) {
-                    (maxWidth / image.aspectRatio).toInt().coerceAtLeast(1)
-                } else {
-                    image.height.coerceAtLeast(1)
-                }
-            }
-
-            val size = IntegerSize(maxWidth, h)
+            val targetWidth = scaleDirection.targetDimension(images.map { it.width })
 
             images.forEachIndexed { index, image ->
-                val bitmap = if (scaleSmallImagesToLarge && image.width != size.width) {
+                val bitmap = if (targetWidth != null && image.width != targetWidth) {
                     Aire.scale(
                         bitmap = image,
-                        dstWidth = size.width,
-                        dstHeight = (size.width / image.aspectRatio).toInt(),
+                        dstWidth = targetWidth,
+                        dstHeight = (targetWidth / image.aspectRatio).toInt().coerceAtLeast(1),
                         scaleMode = ResizeFunction.Bicubic,
                         colorSpace = ScaleColorSpace.SRGB
                     )

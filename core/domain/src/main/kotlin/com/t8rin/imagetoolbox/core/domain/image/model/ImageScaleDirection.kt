@@ -15,13 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.pdf_tools.domain.model
+package com.t8rin.imagetoolbox.core.domain.image.model
 
-import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
-import com.t8rin.imagetoolbox.core.domain.image.model.Preset
+enum class ImageScaleDirection {
+    None,
+    Up,
+    Down;
 
-data class PdfCreationParams(
-    val scaleDirection: ImageScaleDirection = ImageScaleDirection.None,
-    val preset: Preset.Percentage = Preset.Original,
-    val quality: Int = 85
-)
+    fun targetDimension(dimensions: List<Int>): Int? = when (this) {
+        None -> null
+        Up -> dimensions.maxOrNull()
+        Down -> dimensions.minOrNull()
+    }
+}

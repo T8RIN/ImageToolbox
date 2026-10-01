@@ -27,6 +27,7 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -67,12 +68,12 @@ class ImagesToPdfToolComponent @AssistedInject internal constructor(
     private val _quality: MutableState<Int> = mutableIntStateOf(85)
     val quality by _quality
 
-    private val _scaleSmallImagesToLarge: MutableState<Boolean> = mutableStateOf(false)
-    val scaleSmallImagesToLarge by _scaleSmallImagesToLarge
+    private val _scaleDirection = mutableStateOf(ImageScaleDirection.None)
+    val scaleDirection by _scaleDirection
 
     private val pdfCreationParams: PdfCreationParams
         get() = PdfCreationParams(
-            scaleSmallImagesToLarge = _scaleSmallImagesToLarge.value,
+            scaleDirection = _scaleDirection.value,
             preset = _presetSelected.value,
             quality = _quality.value
         )
@@ -99,8 +100,8 @@ class ImagesToPdfToolComponent @AssistedInject internal constructor(
         }
     }
 
-    fun toggleScaleSmallImagesToLarge() {
-        _scaleSmallImagesToLarge.update { !it }
+    fun setScaleDirection(value: ImageScaleDirection) {
+        _scaleDirection.update { value }
         registerChanges()
     }
 

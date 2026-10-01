@@ -176,7 +176,7 @@ internal class AndroidPdfManager @Inject constructor(
                 params = params
             ),
             quality = params.quality / 100f,
-            scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
+            scaleDirection = params.scaleDirection,
             addTextLayer = null
         )
     }
@@ -392,7 +392,7 @@ internal class AndroidPdfManager @Inject constructor(
                 params = params
             ),
             quality = params.quality / 100f,
-            scaleSmallImagesToLarge = params.scaleSmallImagesToLarge,
+            scaleDirection = params.scaleDirection,
             addTextLayer = { pageIndex, pageWidth, pageHeight, document ->
                 val page = pages.getOrNull(pageIndex) ?: return@createPdfFromPreparedImages
                 val hocrData = page.hocr.let(::parseHocrData)

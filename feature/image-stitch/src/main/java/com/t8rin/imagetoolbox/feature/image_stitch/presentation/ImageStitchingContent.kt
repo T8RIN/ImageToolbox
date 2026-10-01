@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleDirection
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -48,7 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ZoomButton
 import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageReorderCarousel
-import com.t8rin.imagetoolbox.core.ui.widget.controls.ScaleSmallImagesToLargeToggle
+import com.t8rin.imagetoolbox.core.ui.widget.controls.ImageScaleDirectionSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BackgroundColorSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.BlendingModeSelector
@@ -277,9 +278,9 @@ fun ImageStitchingContent(
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
-                    ScaleSmallImagesToLargeToggle(
-                        checked = combiningParams.scaleSmallImagesToLarge,
-                        onCheckedChange = component::toggleScaleSmallImagesToLarge
+                    ImageScaleDirectionSelector(
+                        value = combiningParams.scaleDirection,
+                        onValueChange = component::setScaleDirection
                     )
                 }
                 AnimatedVisibility(
@@ -294,7 +295,7 @@ fun ImageStitchingContent(
                     )
                 }
                 AnimatedVisibility(
-                    visible = !combiningParams.scaleSmallImagesToLarge && !stitchMode.isAuto(),
+                    visible = combiningParams.scaleDirection == ImageScaleDirection.None && !stitchMode.isAuto(),
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
