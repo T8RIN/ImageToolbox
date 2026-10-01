@@ -15,16 +15,14 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner.constants
 
-android.namespace = "com.t8rin.documentscanner"
-
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
+/**
+ * constants that represent all possible document scanner response formats
+ */
+class ResponseType {
+    companion object {
+        const val BASE64 = "base64"
+        const val IMAGE_FILE_PATH = "imageFilePath"
+    }
 }

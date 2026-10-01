@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner.models
 
-android.namespace = "com.t8rin.documentscanner"
+import android.graphics.PointF
 
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
+/**
+ * represents a line connecting 2 Android points
+ *
+ * @param fromPoint the 1st point
+ * @param toPoint the 2nd point
+ * @constructor creates a line connecting 2 points
+ */
+class Line(fromPoint: PointF, toPoint: PointF) {
+    val from: PointF = fromPoint
+    val to: PointF = toPoint
 }

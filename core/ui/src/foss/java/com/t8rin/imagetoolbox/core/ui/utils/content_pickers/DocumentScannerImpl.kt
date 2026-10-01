@@ -41,7 +41,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ScanResult
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.utils.appContext
-import com.websitebeaver.documentscanner.DocumentScanner as DocumentScannerDelegate
+import com.t8rin.documentscanner.DocumentScanner as DocumentScannerDelegate
 
 private class DocumentScannerImpl(
     private val context: Context,

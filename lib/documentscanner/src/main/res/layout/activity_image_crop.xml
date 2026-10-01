@@ -24,7 +24,7 @@
     android:paddingVertical="@dimen/image_crop_view_vertical_padding"
     tools:context=".DocumentScannerActivity">
 
-    <com.websitebeaver.documentscanner.ui.ImageCropView
+    <com.t8rin.documentscanner.ui.ImageCropView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_crop_view_initial_height"
@@ -46,7 +46,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <com.websitebeaver.documentscanner.ui.CircleButton
+            <com.t8rin.documentscanner.ui.CircleButton
                 android:id="@+id/retake_photo_button"
                 android:layout_width="@dimen/small_button_diameter"
                 android:layout_height="@dimen/small_button_diameter"
@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <com.websitebeaver.documentscanner.ui.DoneButton
+            <com.t8rin.documentscanner.ui.DoneButton
                 android:id="@+id/complete_document_scan_button"
                 android:layout_width="@dimen/large_button_diameter"
                 android:layout_height="@dimen/large_button_diameter"
@@ -78,7 +78,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1">
 
-            <com.websitebeaver.documentscanner.ui.CircleButton
+            <com.t8rin.documentscanner.ui.CircleButton
                 android:id="@+id/new_photo_button"
                 android:layout_width="@dimen/small_button_diameter"
                 android:layout_height="@dimen/small_button_diameter"

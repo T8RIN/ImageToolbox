@@ -15,16 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner.models
 
-android.namespace = "com.t8rin.documentscanner"
-
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
-}
+/**
+ * This class contains the original document photo, and a cropper. The user can drag the corners
+ * to make adjustments to the detected corners.
+ *
+ * @param originalPhotoFilePath the photo file path before cropping
+ * @param originalPhotoWidth the original photo width
+ * @param originalPhotoHeight the original photo height
+ * @param corners the document's 4 corner points
+ * @constructor creates a document
+ */
+class Document(
+    val originalPhotoFilePath: String,
+    private val originalPhotoWidth: Int,
+    val originalPhotoHeight: Int,
+    var corners: Quad
+)

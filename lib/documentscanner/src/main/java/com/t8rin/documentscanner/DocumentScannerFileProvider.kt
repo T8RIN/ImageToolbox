@@ -15,16 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner
 
-android.namespace = "com.t8rin.documentscanner"
+import androidx.core.content.FileProvider
 
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
-}
+class DocumentScannerFileProvider : FileProvider()

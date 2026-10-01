@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner.constants
 
-android.namespace = "com.t8rin.documentscanner"
-
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
+/**
+ * This class contains default document scanner options
+ */
+class DefaultSetting {
+    companion object {
+        const val CROPPED_IMAGE_QUALITY = 100
+        const val LET_USER_ADJUST_CROP = true
+        const val MAX_NUM_DOCUMENTS = 24
+        const val RESPONSE_TYPE = ResponseType.IMAGE_FILE_PATH
+    }
 }

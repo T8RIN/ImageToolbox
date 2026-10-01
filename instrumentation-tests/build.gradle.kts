@@ -43,7 +43,8 @@ val testedProjects = listOf(
     "feature/webp-tools",
     "lib/archive",
     "lib/collages",
-    "lib/curves"
+    "lib/curves",
+    "lib/documentscanner"
 )
 
 android {

@@ -32,7 +32,7 @@
             android:theme="@style/Theme.FullScreen" />
 
         <provider
-            android:name="com.websitebeaver.documentscanner.DocumentScannerFileProvider"
+            android:name="com.t8rin.documentscanner.DocumentScannerFileProvider"
             android:authorities="${applicationId}.DocumentScannerFileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

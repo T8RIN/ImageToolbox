@@ -15,16 +15,21 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-plugins {
-    alias(libs.plugins.image.toolbox.library)
-}
+package com.t8rin.documentscanner.extensions
 
-android.namespace = "com.t8rin.documentscanner"
+import android.widget.ImageButton
 
-dependencies {
-    implementation(libs.opencv)
-    implementation(libs.appCompat)
-    implementation(libs.toolbox.exif)
-
-    implementation(projects.lib.opencvTools)
+/**
+ * This function adds an on click listener to the button. It makes the button not clickable,
+ * calls the on click function, and then makes the button clickable. This prevents the on click
+ * function from being called while it runs.
+ *
+ * @param onClick the click event handler
+ */
+fun ImageButton.onClick(onClick: () -> Unit) {
+    setOnClickListener {
+        isClickable = false
+        onClick()
+        isClickable = true
+    }
 }
