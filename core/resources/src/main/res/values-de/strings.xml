@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Speichern Sie die aktuelle Zuschneidevoreinstellung</string>
     <string name="delete_crop_preset">Zuschnittvoreinstellung löschen</string>
     <string name="delete_crop_preset_sub">Möchten Sie die Zuschnittvorgabe „%1$s“ löschen?</string>
-<string name="small">Klein</string><string name="large">Groß</string><string name="gallery_years">Jahre</string><string name="gallery_months">Monate</string><string name="gallery_days">Tage</string><string name="gallery_order">Befehl</string><string name="gallery_ascending">Aufsteigend</string><string name="gallery_descending">Absteigend</string><string name="gallery_display_options">Gruppieren und Sortieren</string><string name="gallery_grouping">Gruppierung</string></resources>
+    <string name="small">Klein</string>
+    <string name="large">Groß</string>
+    <string name="gallery_years">Jahre</string>
+    <string name="gallery_months">Monate</string>
+    <string name="gallery_days">Tage</string>
+    <string name="gallery_order">Befehl</string>
+    <string name="gallery_ascending">Aufsteigend</string>
+    <string name="gallery_descending">Absteigend</string>
+    <string name="gallery_display_options">Gruppieren und Sortieren</string>
+    <string name="gallery_grouping">Gruppierung</string>
+</resources>

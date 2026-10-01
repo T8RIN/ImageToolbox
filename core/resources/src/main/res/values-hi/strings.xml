@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">वर्तमान फसल प्रीसेट सहेजें</string>
     <string name="delete_crop_preset">क्रॉप प्रीसेट हटाएं</string>
     <string name="delete_crop_preset_sub">क्या आप क्रॉप प्रीसेट \"%1$s\" को हटाना चाहते हैं?</string>
-<string name="small">छोटा</string><string name="large">बड़ा</string><string name="gallery_years">साल</string><string name="gallery_months">महीने</string><string name="gallery_days">दिन</string><string name="gallery_order">आदेश</string><string name="gallery_ascending">आरोही</string><string name="gallery_descending">अवरोही</string><string name="gallery_display_options">समूहीकरण एवं वर्गीकरण</string><string name="gallery_grouping">समूहन</string></resources>
+    <string name="small">छोटा</string>
+    <string name="large">बड़ा</string>
+    <string name="gallery_years">साल</string>
+    <string name="gallery_months">महीने</string>
+    <string name="gallery_days">दिन</string>
+    <string name="gallery_order">आदेश</string>
+    <string name="gallery_ascending">आरोही</string>
+    <string name="gallery_descending">अवरोही</string>
+    <string name="gallery_display_options">समूहीकरण एवं वर्गीकरण</string>
+    <string name="gallery_grouping">समूहन</string>
+</resources>

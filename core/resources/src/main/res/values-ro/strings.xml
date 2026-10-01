@@ -5458,4 +5458,14 @@
     <string name="save_crop_preset">Salvați presetarea curentă a decupării</string>
     <string name="delete_crop_preset">Ștergeți presetarea de decupare</string>
     <string name="delete_crop_preset_sub">Doriți să ștergeți presetarea de decupare „%1$s”?</string>
-<string name="small">Mic</string><string name="large">Mare</string><string name="gallery_years">ani</string><string name="gallery_months">Luni</string><string name="gallery_days">Zile</string><string name="gallery_order">Comanda</string><string name="gallery_ascending">Ascendent</string><string name="gallery_descending">Descendent</string><string name="gallery_display_options">Gruparea și sortarea</string><string name="gallery_grouping">Gruparea</string></resources>
+    <string name="small">Mic</string>
+    <string name="large">Mare</string>
+    <string name="gallery_years">ani</string>
+    <string name="gallery_months">Luni</string>
+    <string name="gallery_days">Zile</string>
+    <string name="gallery_order">Comanda</string>
+    <string name="gallery_ascending">Ascendent</string>
+    <string name="gallery_descending">Descendent</string>
+    <string name="gallery_display_options">Gruparea și sortarea</string>
+    <string name="gallery_grouping">Gruparea</string>
+</resources>

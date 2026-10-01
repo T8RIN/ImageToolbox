@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">Uložit aktuální předvolbu oříznutí</string>
     <string name="delete_crop_preset">Smazat předvolbu oříznutí</string>
     <string name="delete_crop_preset_sub">Chcete smazat předvolbu oříznutí „%1$s“?</string>
-<string name="small">Malý</string><string name="large">Velký</string><string name="gallery_years">let</string><string name="gallery_months">měsíce</string><string name="gallery_days">Dny</string><string name="gallery_order">Objednávka</string><string name="gallery_ascending">Vzestupně</string><string name="gallery_descending">Klesající</string><string name="gallery_display_options">Seskupování a třídění</string><string name="gallery_grouping">Seskupování</string></resources>
+    <string name="small">Malý</string>
+    <string name="large">Velký</string>
+    <string name="gallery_years">let</string>
+    <string name="gallery_months">měsíce</string>
+    <string name="gallery_days">Dny</string>
+    <string name="gallery_order">Objednávka</string>
+    <string name="gallery_ascending">Vzestupně</string>
+    <string name="gallery_descending">Klesající</string>
+    <string name="gallery_display_options">Seskupování a třídění</string>
+    <string name="gallery_grouping">Seskupování</string>
+</resources>

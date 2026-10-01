@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Gem den aktuelle beskæringsindstilling</string>
     <string name="delete_crop_preset">Slet forudindstillet beskæring</string>
     <string name="delete_crop_preset_sub">Vil du slette beskæringsforudindstillingen \"%1$s\"?</string>
-<string name="small">Lille</string><string name="large">Stor</string><string name="gallery_years">år</string><string name="gallery_months">måneder</string><string name="gallery_days">dage</string><string name="gallery_order">Bestille</string><string name="gallery_ascending">Stigende</string><string name="gallery_descending">Faldende</string><string name="gallery_display_options">Gruppering og sortering</string><string name="gallery_grouping">Gruppering</string></resources>
+    <string name="small">Lille</string>
+    <string name="large">Stor</string>
+    <string name="gallery_years">år</string>
+    <string name="gallery_months">måneder</string>
+    <string name="gallery_days">dage</string>
+    <string name="gallery_order">Bestille</string>
+    <string name="gallery_ascending">Stigende</string>
+    <string name="gallery_descending">Faldende</string>
+    <string name="gallery_display_options">Gruppering og sortering</string>
+    <string name="gallery_grouping">Gruppering</string>
+</resources>

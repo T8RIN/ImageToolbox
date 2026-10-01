@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">Зберегти поточні налаштування кадрування</string>
     <string name="delete_crop_preset">Видалити попередні налаштування кадрування</string>
     <string name="delete_crop_preset_sub">Ви бажаєте видалити стиль кадрування \"%1$s\"?</string>
-<string name="small">Маленький</string><string name="large">Великий</string><string name="gallery_years">років</string><string name="gallery_months">Місяці</string><string name="gallery_days">днів</string><string name="gallery_order">порядок</string><string name="gallery_ascending">Висхідний</string><string name="gallery_descending">Спускається</string><string name="gallery_display_options">Групування та сортування</string><string name="gallery_grouping">Групування</string></resources>
+    <string name="small">Маленький</string>
+    <string name="large">Великий</string>
+    <string name="gallery_years">років</string>
+    <string name="gallery_months">Місяці</string>
+    <string name="gallery_days">днів</string>
+    <string name="gallery_order">порядок</string>
+    <string name="gallery_ascending">Висхідний</string>
+    <string name="gallery_descending">Спускається</string>
+    <string name="gallery_display_options">Групування та сортування</string>
+    <string name="gallery_grouping">Групування</string>
+</resources>

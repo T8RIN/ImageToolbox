@@ -5458,4 +5458,14 @@
     <string name="save_crop_preset">Сачувајте тренутну унапред подешену поставку</string>
     <string name="delete_crop_preset">Избриши унапред подешено опсецање</string>
     <string name="delete_crop_preset_sub">Да ли желите да избришете унапред подешено опсецање „__ПХ_0__“?</string>
-<string name="small">Мала</string><string name="large">Велики</string><string name="gallery_years">Године</string><string name="gallery_months">месеци</string><string name="gallery_days">Дани</string><string name="gallery_order">Ред</string><string name="gallery_ascending">Узлазно</string><string name="gallery_descending">Десцендинг</string><string name="gallery_display_options">Груписање и сортирање</string><string name="gallery_grouping">Груписање</string></resources>
+    <string name="small">Мала</string>
+    <string name="large">Велики</string>
+    <string name="gallery_years">Године</string>
+    <string name="gallery_months">месеци</string>
+    <string name="gallery_days">Дани</string>
+    <string name="gallery_order">Ред</string>
+    <string name="gallery_ascending">Узлазно</string>
+    <string name="gallery_descending">Десцендинг</string>
+    <string name="gallery_display_options">Груписање и сортирање</string>
+    <string name="gallery_grouping">Груписање</string>
+</resources>

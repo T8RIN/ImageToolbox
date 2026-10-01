@@ -5456,4 +5456,14 @@
     <string name="save_crop_preset">현재 자르기 사전 설정 저장</string>
     <string name="delete_crop_preset">자르기 사전 설정 삭제</string>
     <string name="delete_crop_preset_sub">자르기 사전 설정 \"%1$s\"을(를) 삭제하시겠습니까?</string>
-<string name="small">작은</string><string name="large">크기가 큰</string><string name="gallery_years">연령</string><string name="gallery_months">개월</string><string name="gallery_days">날</string><string name="gallery_order">주문하다</string><string name="gallery_ascending">오름차순</string><string name="gallery_descending">내림차순</string><string name="gallery_display_options">그룹화 및 정렬</string><string name="gallery_grouping">그룹화</string></resources>
+    <string name="small">작은</string>
+    <string name="large">크기가 큰</string>
+    <string name="gallery_years">연령</string>
+    <string name="gallery_months">개월</string>
+    <string name="gallery_days">날</string>
+    <string name="gallery_order">주문하다</string>
+    <string name="gallery_ascending">오름차순</string>
+    <string name="gallery_descending">내림차순</string>
+    <string name="gallery_display_options">그룹화 및 정렬</string>
+    <string name="gallery_grouping">그룹화</string>
+</resources>

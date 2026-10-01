@@ -5456,4 +5456,14 @@
     <string name="save_crop_preset">Lưu cài đặt trước cắt xén hiện tại</string>
     <string name="delete_crop_preset">Xóa cài đặt trước cắt xén</string>
     <string name="delete_crop_preset_sub">Bạn có muốn xóa cài đặt trước cắt xén \"%1$s\" không?</string>
-<string name="small">Bé nhỏ</string><string name="large">Lớn</string><string name="gallery_years">Năm</string><string name="gallery_months">Tháng</string><string name="gallery_days">Ngày</string><string name="gallery_order">Đặt hàng</string><string name="gallery_ascending">Tăng dần</string><string name="gallery_descending">Giảm dần</string><string name="gallery_display_options">Nhóm và sắp xếp</string><string name="gallery_grouping">Nhóm</string></resources>
+    <string name="small">Bé nhỏ</string>
+    <string name="large">Lớn</string>
+    <string name="gallery_years">Năm</string>
+    <string name="gallery_months">Tháng</string>
+    <string name="gallery_days">Ngày</string>
+    <string name="gallery_order">Đặt hàng</string>
+    <string name="gallery_ascending">Tăng dần</string>
+    <string name="gallery_descending">Giảm dần</string>
+    <string name="gallery_display_options">Nhóm và sắp xếp</string>
+    <string name="gallery_grouping">Nhóm</string>
+</resources>

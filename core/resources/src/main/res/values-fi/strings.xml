@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Tallenna nykyinen rajauksen esiasetus</string>
     <string name="delete_crop_preset">Poista rajauksen esiasetus</string>
     <string name="delete_crop_preset_sub">Haluatko poistaa rajauksen esiasetuksen \"%1$s\"?</string>
-<string name="small">Pieni</string><string name="large">Suuri</string><string name="gallery_years">Vuosia</string><string name="gallery_months">Kuukausia</string><string name="gallery_days">päivää</string><string name="gallery_order">Tilata</string><string name="gallery_ascending">Nouseva</string><string name="gallery_descending">Laskeva</string><string name="gallery_display_options">Ryhmittely ja lajittelu</string><string name="gallery_grouping">Ryhmittely</string></resources>
+    <string name="small">Pieni</string>
+    <string name="large">Suuri</string>
+    <string name="gallery_years">Vuosia</string>
+    <string name="gallery_months">Kuukausia</string>
+    <string name="gallery_days">päivää</string>
+    <string name="gallery_order">Tilata</string>
+    <string name="gallery_ascending">Nouseva</string>
+    <string name="gallery_descending">Laskeva</string>
+    <string name="gallery_display_options">Ryhmittely ja lajittelu</string>
+    <string name="gallery_grouping">Ryhmittely</string>
+</resources>

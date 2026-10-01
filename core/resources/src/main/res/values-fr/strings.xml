@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Enregistrer le préréglage de recadrage actuel</string>
     <string name="delete_crop_preset">Supprimer le préréglage de recadrage</string>
     <string name="delete_crop_preset_sub">Voulez-vous supprimer le préréglage de recadrage « %1$s » ?</string>
-<string name="small">Petit</string><string name="large">Grand</string><string name="gallery_years">Années</string><string name="gallery_months">Mois</string><string name="gallery_days">Jours</string><string name="gallery_order">Commande</string><string name="gallery_ascending">Ascendant</string><string name="gallery_descending">Descendant</string><string name="gallery_display_options">Regroupement et tri</string><string name="gallery_grouping">Regroupement</string></resources>
+    <string name="small">Petit</string>
+    <string name="large">Grand</string>
+    <string name="gallery_years">Années</string>
+    <string name="gallery_months">Mois</string>
+    <string name="gallery_days">Jours</string>
+    <string name="gallery_order">Commande</string>
+    <string name="gallery_ascending">Ascendant</string>
+    <string name="gallery_descending">Descendant</string>
+    <string name="gallery_display_options">Regroupement et tri</string>
+    <string name="gallery_grouping">Regroupement</string>
+</resources>

@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">বর্তমান ক্রপ প্রিসেট সংরক্ষণ করুন</string>
     <string name="delete_crop_preset">ক্রপ প্রিসেট মুছুন</string>
     <string name="delete_crop_preset_sub">আপনি কি ক্রপ প্রিসেট \"%1$s\" মুছতে চান?</string>
-<string name="small">ছোট</string><string name="large">বড়</string><string name="gallery_years">বছর</string><string name="gallery_months">মাস</string><string name="gallery_days">দিন</string><string name="gallery_order">অর্ডার</string><string name="gallery_ascending">আরোহী</string><string name="gallery_descending">অবরোহী</string><string name="gallery_display_options">গ্রুপিং এবং বাছাই</string><string name="gallery_grouping">গ্রুপিং</string></resources>
+    <string name="small">ছোট</string>
+    <string name="large">বড়</string>
+    <string name="gallery_years">বছর</string>
+    <string name="gallery_months">মাস</string>
+    <string name="gallery_days">দিন</string>
+    <string name="gallery_order">অর্ডার</string>
+    <string name="gallery_ascending">আরোহী</string>
+    <string name="gallery_descending">অবরোহী</string>
+    <string name="gallery_display_options">গ্রুপিং এবং বাছাই</string>
+    <string name="gallery_grouping">গ্রুপিং</string>
+</resources>

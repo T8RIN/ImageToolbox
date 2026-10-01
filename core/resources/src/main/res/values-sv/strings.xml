@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Spara aktuell beskärningsförinställning</string>
     <string name="delete_crop_preset">Ta bort beskärningsförinställning</string>
     <string name="delete_crop_preset_sub">Vill du ta bort beskärningsförinställningen \"%1$s\"?</string>
-<string name="small">Små</string><string name="large">Stor</string><string name="gallery_years">år</string><string name="gallery_months">månader</string><string name="gallery_days">dagar</string><string name="gallery_order">Beställa</string><string name="gallery_ascending">Stigande</string><string name="gallery_descending">Fallande</string><string name="gallery_display_options">Gruppering och sortering</string><string name="gallery_grouping">Gruppering</string></resources>
+    <string name="small">Små</string>
+    <string name="large">Stor</string>
+    <string name="gallery_years">år</string>
+    <string name="gallery_months">månader</string>
+    <string name="gallery_days">dagar</string>
+    <string name="gallery_order">Beställa</string>
+    <string name="gallery_ascending">Stigande</string>
+    <string name="gallery_descending">Fallande</string>
+    <string name="gallery_display_options">Gruppering och sortering</string>
+    <string name="gallery_grouping">Gruppering</string>
+</resources>

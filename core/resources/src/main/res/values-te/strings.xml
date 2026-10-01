@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">ప్రస్తుత క్రాప్ ప్రీసెట్‌ను సేవ్ చేయండి</string>
     <string name="delete_crop_preset">క్రాప్ ప్రీసెట్‌ను తొలగించండి</string>
     <string name="delete_crop_preset_sub">మీరు క్రాప్ ప్రీసెట్ \"%1$s\"ని తొలగించాలనుకుంటున్నారా?</string>
-<string name="small">చిన్నది</string><string name="large">పెద్దది</string><string name="gallery_years">సంవత్సరాలు</string><string name="gallery_months">నెలలు</string><string name="gallery_days">రోజులు</string><string name="gallery_order">ఆర్డర్ చేయండి</string><string name="gallery_ascending">ఆరోహణ</string><string name="gallery_descending">అవరోహణ</string><string name="gallery_display_options">సమూహపరచడం మరియు క్రమబద్ధీకరించడం</string><string name="gallery_grouping">గ్రూపింగ్</string></resources>
+    <string name="small">చిన్నది</string>
+    <string name="large">పెద్దది</string>
+    <string name="gallery_years">సంవత్సరాలు</string>
+    <string name="gallery_months">నెలలు</string>
+    <string name="gallery_days">రోజులు</string>
+    <string name="gallery_order">ఆర్డర్ చేయండి</string>
+    <string name="gallery_ascending">ఆరోహణ</string>
+    <string name="gallery_descending">అవరోహణ</string>
+    <string name="gallery_display_options">సమూహపరచడం మరియు క్రమబద్ధీకరించడం</string>
+    <string name="gallery_grouping">గ్రూపింగ్</string>
+</resources>

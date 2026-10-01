@@ -5458,4 +5458,14 @@
     <string name="save_crop_preset">Salvar predefinição de corte atual</string>
     <string name="delete_crop_preset">Excluir predefinição de corte</string>
     <string name="delete_crop_preset_sub">Deseja excluir a predefinição de corte \"%1$s\"?</string>
-<string name="small">Pequeno</string><string name="large">Grande</string><string name="gallery_years">Anos</string><string name="gallery_months">Meses</string><string name="gallery_days">Dias</string><string name="gallery_order">Ordem</string><string name="gallery_ascending">Ascendente</string><string name="gallery_descending">Descendente</string><string name="gallery_display_options">Agrupamento e classificação</string><string name="gallery_grouping">Agrupamento</string></resources>
+    <string name="small">Pequeno</string>
+    <string name="large">Grande</string>
+    <string name="gallery_years">Anos</string>
+    <string name="gallery_months">Meses</string>
+    <string name="gallery_days">Dias</string>
+    <string name="gallery_order">Ordem</string>
+    <string name="gallery_ascending">Ascendente</string>
+    <string name="gallery_descending">Descendente</string>
+    <string name="gallery_display_options">Agrupamento e classificação</string>
+    <string name="gallery_grouping">Agrupamento</string>
+</resources>

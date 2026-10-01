@@ -5456,4 +5456,14 @@
     <string name="save_crop_preset">現在のクロッププリセットを保存する</string>
     <string name="delete_crop_preset">クロッププリセットを削除する</string>
     <string name="delete_crop_preset_sub">クロッププリセット「%1$s」を削除しますか?</string>
-<string name="small">小さい</string><string name="large">大きい</string><string name="gallery_years">年</string><string name="gallery_months">月</string><string name="gallery_days">日数</string><string name="gallery_order">注文</string><string name="gallery_ascending">上昇</string><string name="gallery_descending">降順</string><string name="gallery_display_options">グループ化と並べ替え</string><string name="gallery_grouping">グループ化</string></resources>
+    <string name="small">小さい</string>
+    <string name="large">大きい</string>
+    <string name="gallery_years">年</string>
+    <string name="gallery_months">月</string>
+    <string name="gallery_days">日数</string>
+    <string name="gallery_order">注文</string>
+    <string name="gallery_ascending">上昇</string>
+    <string name="gallery_descending">降順</string>
+    <string name="gallery_display_options">グループ化と並べ替え</string>
+    <string name="gallery_grouping">グループ化</string>
+</resources>

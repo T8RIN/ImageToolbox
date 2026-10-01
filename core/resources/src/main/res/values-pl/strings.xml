@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">Zapisz bieżące ustawienie wstępne przycinania</string>
     <string name="delete_crop_preset">Usuń ustawienie wstępne przycinania</string>
     <string name="delete_crop_preset_sub">Czy chcesz usunąć ustawienie wstępne przycinania „%1$s”?</string>
-<string name="small">Mały</string><string name="large">Duży</string><string name="gallery_years">Lata</string><string name="gallery_months">Miesiące</string><string name="gallery_days">Dni</string><string name="gallery_order">Zamówienie</string><string name="gallery_ascending">Rosnąco</string><string name="gallery_descending">Malejąco</string><string name="gallery_display_options">Grupowanie i sortowanie</string><string name="gallery_grouping">Grupowanie</string></resources>
+    <string name="small">Mały</string>
+    <string name="large">Duży</string>
+    <string name="gallery_years">Lata</string>
+    <string name="gallery_months">Miesiące</string>
+    <string name="gallery_days">Dni</string>
+    <string name="gallery_order">Zamówienie</string>
+    <string name="gallery_ascending">Rosnąco</string>
+    <string name="gallery_descending">Malejąco</string>
+    <string name="gallery_display_options">Grupowanie i sortowanie</string>
+    <string name="gallery_grouping">Grupowanie</string>
+</resources>

@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Az aktuális kivágás előre beállított beállítása</string>
     <string name="delete_crop_preset">Előbeállított kivágás törlése</string>
     <string name="delete_crop_preset_sub">Törli a \"%1$s\" vágási előbeállítást?</string>
-<string name="small">Kicsi</string><string name="large">Nagy</string><string name="gallery_years">Évek</string><string name="gallery_months">Hónapok</string><string name="gallery_days">Napok</string><string name="gallery_order">Rendelés</string><string name="gallery_ascending">Emelkedő</string><string name="gallery_descending">Csökkenő</string><string name="gallery_display_options">Csoportosítás és rendezés</string><string name="gallery_grouping">Csoportosítás</string></resources>
+    <string name="small">Kicsi</string>
+    <string name="large">Nagy</string>
+    <string name="gallery_years">Évek</string>
+    <string name="gallery_months">Hónapok</string>
+    <string name="gallery_days">Napok</string>
+    <string name="gallery_order">Rendelés</string>
+    <string name="gallery_ascending">Emelkedő</string>
+    <string name="gallery_descending">Csökkenő</string>
+    <string name="gallery_display_options">Csoportosítás és rendezés</string>
+    <string name="gallery_grouping">Csoportosítás</string>
+</resources>

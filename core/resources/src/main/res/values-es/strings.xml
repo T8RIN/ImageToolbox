@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Guardar ajuste preestablecido de recorte actual</string>
     <string name="delete_crop_preset">Eliminar ajuste preestablecido de recorte</string>
     <string name="delete_crop_preset_sub">¿Quieres eliminar el ajuste preestablecido de recorte \"%1$s\"?</string>
-<string name="small">Pequeño</string><string name="large">Grande</string><string name="gallery_years">Años</string><string name="gallery_months">Meses</string><string name="gallery_days">Días</string><string name="gallery_order">Orden</string><string name="gallery_ascending">Ascendente</string><string name="gallery_descending">Descendente</string><string name="gallery_display_options">Agrupar y ordenar</string><string name="gallery_grouping">Agrupamiento</string></resources>
+    <string name="small">Pequeño</string>
+    <string name="large">Grande</string>
+    <string name="gallery_years">Años</string>
+    <string name="gallery_months">Meses</string>
+    <string name="gallery_days">Días</string>
+    <string name="gallery_order">Orden</string>
+    <string name="gallery_ascending">Ascendente</string>
+    <string name="gallery_descending">Descendente</string>
+    <string name="gallery_display_options">Agrupar y ordenar</string>
+    <string name="gallery_grouping">Agrupamiento</string>
+</resources>

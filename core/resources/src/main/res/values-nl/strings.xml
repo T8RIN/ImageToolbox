@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Bewaar de huidige bijsnijdvoorinstelling</string>
     <string name="delete_crop_preset">Voorinstelling voor bijsnijden verwijderen</string>
     <string name="delete_crop_preset_sub">Wilt u de bijsnijdvoorinstelling \"%1$s\" verwijderen?</string>
-<string name="small">Klein</string><string name="large">Groot</string><string name="gallery_years">Jaren</string><string name="gallery_months">Maanden</string><string name="gallery_days">Dagen</string><string name="gallery_order">Volgorde</string><string name="gallery_ascending">Oplopend</string><string name="gallery_descending">Aflopend</string><string name="gallery_display_options">Groeperen en sorteren</string><string name="gallery_grouping">Groepering</string></resources>
+    <string name="small">Klein</string>
+    <string name="large">Groot</string>
+    <string name="gallery_years">Jaren</string>
+    <string name="gallery_months">Maanden</string>
+    <string name="gallery_days">Dagen</string>
+    <string name="gallery_order">Volgorde</string>
+    <string name="gallery_ascending">Oplopend</string>
+    <string name="gallery_descending">Aflopend</string>
+    <string name="gallery_display_options">Groeperen en sorteren</string>
+    <string name="gallery_grouping">Groepering</string>
+</resources>

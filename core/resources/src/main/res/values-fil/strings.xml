@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">I-save ang kasalukuyang crop preset</string>
     <string name="delete_crop_preset">Tanggalin ang crop preset</string>
     <string name="delete_crop_preset_sub">Gusto mo bang tanggalin ang crop preset na \"%1$s\"?</string>
-<string name="small">Maliit</string><string name="large">Malaki</string><string name="gallery_years">taon</string><string name="gallery_months">mga buwan</string><string name="gallery_days">Mga araw</string><string name="gallery_order">Umorder</string><string name="gallery_ascending">Paakyat</string><string name="gallery_descending">Pababa</string><string name="gallery_display_options">Pagpapangkat at pag-uuri</string><string name="gallery_grouping">Pagpapangkat</string></resources>
+    <string name="small">Maliit</string>
+    <string name="large">Malaki</string>
+    <string name="gallery_years">taon</string>
+    <string name="gallery_months">mga buwan</string>
+    <string name="gallery_days">Mga araw</string>
+    <string name="gallery_order">Umorder</string>
+    <string name="gallery_ascending">Paakyat</string>
+    <string name="gallery_descending">Pababa</string>
+    <string name="gallery_display_options">Pagpapangkat at pag-uuri</string>
+    <string name="gallery_grouping">Pagpapangkat</string>
+</resources>

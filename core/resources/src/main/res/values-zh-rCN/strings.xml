@@ -5456,4 +5456,14 @@
     <string name="save_crop_preset">保存当前裁剪预设</string>
     <string name="delete_crop_preset">删除裁剪预设</string>
     <string name="delete_crop_preset_sub">您想删除裁剪预设“%1$s”吗？</string>
-<string name="small">小的</string><string name="large">大的</string><string name="gallery_years">年</string><string name="gallery_months">几个月</string><string name="gallery_days">天</string><string name="gallery_order">命令</string><string name="gallery_ascending">升序</string><string name="gallery_descending">降序</string><string name="gallery_display_options">分组和排序</string><string name="gallery_grouping">分组</string></resources>
+    <string name="small">小的</string>
+    <string name="large">大的</string>
+    <string name="gallery_years">年</string>
+    <string name="gallery_months">几个月</string>
+    <string name="gallery_days">天</string>
+    <string name="gallery_order">命令</string>
+    <string name="gallery_ascending">升序</string>
+    <string name="gallery_descending">降序</string>
+    <string name="gallery_display_options">分组和排序</string>
+    <string name="gallery_grouping">分组</string>
+</resources>

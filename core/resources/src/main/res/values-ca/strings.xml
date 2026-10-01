@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Desa el valor predefinit de retall actual</string>
     <string name="delete_crop_preset">Suprimeix el valor predefinit de retall</string>
     <string name="delete_crop_preset_sub">Voleu suprimir el valor predefinit de retall \"%1$s\"?</string>
-<string name="small">Petit</string><string name="large">Gran</string><string name="gallery_years">Anys</string><string name="gallery_months">Mesos</string><string name="gallery_days">Dies</string><string name="gallery_order">Ordre</string><string name="gallery_ascending">Ascendent</string><string name="gallery_descending">Descens</string><string name="gallery_display_options">Agrupació i classificació</string><string name="gallery_grouping">Agrupació</string></resources>
+    <string name="small">Petit</string>
+    <string name="large">Gran</string>
+    <string name="gallery_years">Anys</string>
+    <string name="gallery_months">Mesos</string>
+    <string name="gallery_days">Dies</string>
+    <string name="gallery_order">Ordre</string>
+    <string name="gallery_ascending">Ascendent</string>
+    <string name="gallery_descending">Descens</string>
+    <string name="gallery_display_options">Agrupació i classificació</string>
+    <string name="gallery_grouping">Agrupació</string>
+</resources>

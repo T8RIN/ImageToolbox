@@ -5456,4 +5456,14 @@
     <string name="save_crop_preset">บันทึกค่าที่ตั้งไว้ครอบตัดปัจจุบัน</string>
     <string name="delete_crop_preset">ลบค่าที่ตั้งไว้ครอบตัด</string>
     <string name="delete_crop_preset_sub">คุณต้องการลบค่าที่ตั้งไว้ครอบตัด \"%1$s\" หรือไม่</string>
-<string name="small">เล็ก</string><string name="large">ใหญ่</string><string name="gallery_years">ปี</string><string name="gallery_months">เดือน</string><string name="gallery_days">วัน</string><string name="gallery_order">คำสั่ง</string><string name="gallery_ascending">จากน้อยไปมาก</string><string name="gallery_descending">จากมากไปน้อย</string><string name="gallery_display_options">การจัดกลุ่มและการเรียงลำดับ</string><string name="gallery_grouping">การจัดกลุ่ม</string></resources>
+    <string name="small">เล็ก</string>
+    <string name="large">ใหญ่</string>
+    <string name="gallery_years">ปี</string>
+    <string name="gallery_months">เดือน</string>
+    <string name="gallery_days">วัน</string>
+    <string name="gallery_order">คำสั่ง</string>
+    <string name="gallery_ascending">จากน้อยไปมาก</string>
+    <string name="gallery_descending">จากมากไปน้อย</string>
+    <string name="gallery_display_options">การจัดกลุ่มและการเรียงลำดับ</string>
+    <string name="gallery_grouping">การจัดกลุ่ม</string>
+</resources>

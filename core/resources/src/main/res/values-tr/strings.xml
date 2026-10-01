@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Geçerli kırpma ön ayarını kaydet</string>
     <string name="delete_crop_preset">Kırpma ön ayarını sil</string>
     <string name="delete_crop_preset_sub">\"%1$s\" kırpma ön ayarını silmek istiyor musunuz?</string>
-<string name="small">Küçük</string><string name="large">Büyük</string><string name="gallery_years">Yıllar</string><string name="gallery_months">Aylar</string><string name="gallery_days">Günler</string><string name="gallery_order">Emir</string><string name="gallery_ascending">Artan</string><string name="gallery_descending">Azalan</string><string name="gallery_display_options">Gruplama ve sıralama</string><string name="gallery_grouping">Gruplama</string></resources>
+    <string name="small">Küçük</string>
+    <string name="large">Büyük</string>
+    <string name="gallery_years">Yıllar</string>
+    <string name="gallery_months">Aylar</string>
+    <string name="gallery_days">Günler</string>
+    <string name="gallery_order">Emir</string>
+    <string name="gallery_ascending">Artan</string>
+    <string name="gallery_descending">Azalan</string>
+    <string name="gallery_display_options">Gruplama ve sıralama</string>
+    <string name="gallery_grouping">Gruplama</string>
+</resources>

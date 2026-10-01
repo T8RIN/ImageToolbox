@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">Uložiť aktuálnu predvoľbu orezania</string>
     <string name="delete_crop_preset">Odstrániť predvoľbu orezania</string>
     <string name="delete_crop_preset_sub">Chcete odstrániť predvoľbu orezania „%1$s“?</string>
-<string name="small">Malý</string><string name="large">Veľký</string><string name="gallery_years">rokov</string><string name="gallery_months">Mesiace</string><string name="gallery_days">dní</string><string name="gallery_order">Objednať</string><string name="gallery_ascending">Vzostupne</string><string name="gallery_descending">Zostupne</string><string name="gallery_display_options">Zoskupovanie a triedenie</string><string name="gallery_grouping">Zoskupovanie</string></resources>
+    <string name="small">Malý</string>
+    <string name="large">Veľký</string>
+    <string name="gallery_years">rokov</string>
+    <string name="gallery_months">Mesiace</string>
+    <string name="gallery_days">dní</string>
+    <string name="gallery_order">Objednať</string>
+    <string name="gallery_ascending">Vzostupne</string>
+    <string name="gallery_descending">Zostupne</string>
+    <string name="gallery_display_options">Zoskupovanie a triedenie</string>
+    <string name="gallery_grouping">Zoskupovanie</string>
+</resources>

@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Salvestage praegune kärpimise eelseadistus</string>
     <string name="delete_crop_preset">Kustuta kärpimise eelseadistus</string>
     <string name="delete_crop_preset_sub">Kas soovite kärpimise eelseadistuse \"%1$s\" kustutada?</string>
-<string name="small">Väike</string><string name="large">Suur</string><string name="gallery_years">Aastaid</string><string name="gallery_months">Kuud</string><string name="gallery_days">Päevad</string><string name="gallery_order">Telli</string><string name="gallery_ascending">Kasvav</string><string name="gallery_descending">Langevad</string><string name="gallery_display_options">Rühmitamine ja sorteerimine</string><string name="gallery_grouping">Rühmitamine</string></resources>
+    <string name="small">Väike</string>
+    <string name="large">Suur</string>
+    <string name="gallery_years">Aastaid</string>
+    <string name="gallery_months">Kuud</string>
+    <string name="gallery_days">Päevad</string>
+    <string name="gallery_order">Telli</string>
+    <string name="gallery_ascending">Kasvav</string>
+    <string name="gallery_descending">Langevad</string>
+    <string name="gallery_display_options">Rühmitamine ja sorteerimine</string>
+    <string name="gallery_grouping">Rühmitamine</string>
+</resources>

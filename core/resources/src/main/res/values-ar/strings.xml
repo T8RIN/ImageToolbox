@@ -5461,4 +5461,14 @@
     <string name="save_crop_preset">حفظ الإعداد المسبق للاقتصاص الحالي</string>
     <string name="delete_crop_preset">حذف الإعداد المسبق للاقتصاص</string>
     <string name="delete_crop_preset_sub">هل تريد حذف الإعداد المسبق للاقتصاص \"%1$s\"؟</string>
-<string name="small">صغير</string><string name="large">كبير</string><string name="gallery_years">سنين</string><string name="gallery_months">شهور</string><string name="gallery_days">أيام</string><string name="gallery_order">طلب</string><string name="gallery_ascending">تصاعدي</string><string name="gallery_descending">تنازلي</string><string name="gallery_display_options">التجميع والفرز</string><string name="gallery_grouping">التجميع</string></resources>
+    <string name="small">صغير</string>
+    <string name="large">كبير</string>
+    <string name="gallery_years">سنين</string>
+    <string name="gallery_months">شهور</string>
+    <string name="gallery_days">أيام</string>
+    <string name="gallery_order">طلب</string>
+    <string name="gallery_ascending">تصاعدي</string>
+    <string name="gallery_descending">تنازلي</string>
+    <string name="gallery_display_options">التجميع والفرز</string>
+    <string name="gallery_grouping">التجميع</string>
+</resources>

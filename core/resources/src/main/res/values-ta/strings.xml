@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">தற்போதைய பயிர் முன்னமைவைச் சேமிக்கவும்</string>
     <string name="delete_crop_preset">செதுக்கும் முன்னமைவை நீக்கு</string>
     <string name="delete_crop_preset_sub">முன்னமைக்கப்பட்ட \"%1$s\" ஐ நீக்க வேண்டுமா?</string>
-<string name="small">சிறியது</string><string name="large">பெரியது</string><string name="gallery_years">ஆண்டுகள்</string><string name="gallery_months">மாதங்கள்</string><string name="gallery_days">நாட்கள்</string><string name="gallery_order">ஆர்டர்</string><string name="gallery_ascending">ஏறுமுகம்</string><string name="gallery_descending">இறங்குதல்</string><string name="gallery_display_options">தொகுத்தல் மற்றும் வரிசைப்படுத்துதல்</string><string name="gallery_grouping">குழுவாக்கம்</string></resources>
+    <string name="small">சிறியது</string>
+    <string name="large">பெரியது</string>
+    <string name="gallery_years">ஆண்டுகள்</string>
+    <string name="gallery_months">மாதங்கள்</string>
+    <string name="gallery_days">நாட்கள்</string>
+    <string name="gallery_order">ஆர்டர்</string>
+    <string name="gallery_ascending">ஏறுமுகம்</string>
+    <string name="gallery_descending">இறங்குதல்</string>
+    <string name="gallery_display_options">தொகுத்தல் மற்றும் வரிசைப்படுத்துதல்</string>
+    <string name="gallery_grouping">குழுவாக்கம்</string>
+</resources>

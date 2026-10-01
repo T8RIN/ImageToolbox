@@ -5466,4 +5466,7 @@
     <string name="gallery_ascending">По возрастанию</string>
     <string name="gallery_descending">По убыванию</string>
     <string name="gallery_grouping">Группировка</string>
-<string name="small">Маленький</string><string name="large">Большой</string><string name="gallery_display_options">Группировка и сортировка</string></resources>
+    <string name="small">Маленький</string>
+    <string name="large">Большой</string>
+    <string name="gallery_display_options">Группировка и сортировка</string>
+</resources>

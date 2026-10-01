@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">שמור קביעת חיתוך נוכחית מראש</string>
     <string name="delete_crop_preset">מחק קביעת חיתוך מראש</string>
     <string name="delete_crop_preset_sub">האם ברצונך למחוק קביעת חיתוך מראש \"%1$s\"?</string>
-<string name="small">קָטָן</string><string name="large">גָדוֹל</string><string name="gallery_years">שנים</string><string name="gallery_months">חודשים</string><string name="gallery_days">ימים</string><string name="gallery_order">לְהַזמִין</string><string name="gallery_ascending">עוֹלֶה</string><string name="gallery_descending">יורד</string><string name="gallery_display_options">קיבוץ ומיון</string><string name="gallery_grouping">הַקבָּצָה</string></resources>
+    <string name="small">קָטָן</string>
+    <string name="large">גָדוֹל</string>
+    <string name="gallery_years">שנים</string>
+    <string name="gallery_months">חודשים</string>
+    <string name="gallery_days">ימים</string>
+    <string name="gallery_order">לְהַזמִין</string>
+    <string name="gallery_ascending">עוֹלֶה</string>
+    <string name="gallery_descending">יורד</string>
+    <string name="gallery_display_options">קיבוץ ומיון</string>
+    <string name="gallery_grouping">הַקבָּצָה</string>
+</resources>

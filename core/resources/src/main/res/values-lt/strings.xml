@@ -5459,4 +5459,14 @@
     <string name="save_crop_preset">Išsaugoti esamą apkarpymo nustatymą</string>
     <string name="delete_crop_preset">Ištrinti išankstinį apkarpymo nustatymą</string>
     <string name="delete_crop_preset_sub">Ar norite ištrinti išankstinį apkarpymo nustatymą „%1$s“?</string>
-<string name="small">Mažas</string><string name="large">Didelis</string><string name="gallery_years">Metai</string><string name="gallery_months">Mėnesiai</string><string name="gallery_days">Dienos</string><string name="gallery_order">Užsakyti</string><string name="gallery_ascending">Kylantis</string><string name="gallery_descending">Mažėjantis</string><string name="gallery_display_options">Grupavimas ir rūšiavimas</string><string name="gallery_grouping">Grupavimas</string></resources>
+    <string name="small">Mažas</string>
+    <string name="large">Didelis</string>
+    <string name="gallery_years">Metai</string>
+    <string name="gallery_months">Mėnesiai</string>
+    <string name="gallery_days">Dienos</string>
+    <string name="gallery_order">Užsakyti</string>
+    <string name="gallery_ascending">Kylantis</string>
+    <string name="gallery_descending">Mažėjantis</string>
+    <string name="gallery_display_options">Grupavimas ir rūšiavimas</string>
+    <string name="gallery_grouping">Grupavimas</string>
+</resources>

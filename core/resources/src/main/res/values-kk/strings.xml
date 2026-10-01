@@ -5457,4 +5457,14 @@
     <string name="save_crop_preset">Ағымдағы қиюдың алдын ала орнатуын сақтаңыз</string>
     <string name="delete_crop_preset">Алдын ала кесу параметрін жою</string>
     <string name="delete_crop_preset_sub">\"%1$s\" алдын ала кесу параметрін жойғыңыз келе ме?</string>
-<string name="small">Кішкентай</string><string name="large">Үлкен</string><string name="gallery_years">Жылдар</string><string name="gallery_months">Айлар</string><string name="gallery_days">Күндер</string><string name="gallery_order">Тапсырыс беру</string><string name="gallery_ascending">Көтерілу</string><string name="gallery_descending">Төмендеу</string><string name="gallery_display_options">Топтастыру және сұрыптау</string><string name="gallery_grouping">Топтастыру</string></resources>
+    <string name="small">Кішкентай</string>
+    <string name="large">Үлкен</string>
+    <string name="gallery_years">Жылдар</string>
+    <string name="gallery_months">Айлар</string>
+    <string name="gallery_days">Күндер</string>
+    <string name="gallery_order">Тапсырыс беру</string>
+    <string name="gallery_ascending">Көтерілу</string>
+    <string name="gallery_descending">Төмендеу</string>
+    <string name="gallery_display_options">Топтастыру және сұрыптау</string>
+    <string name="gallery_grouping">Топтастыру</string>
+</resources>

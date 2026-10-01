@@ -5453,4 +5453,17 @@
     <string name="crop_preset_summary">頁邊距：左 %1$d%%，上 %2$d%%，右 %3$d%%，下 %4$d%%</string>
     <string name="crop_presets_sub">儲存或重複使用裁切範圍</string>
     <string name="delete_crop_preset_sub">您想刪除裁切預設「%1$s」嗎？</string>
-<string name="crop_presets">裁切預設</string><string name="save_crop_preset">儲存目前裁切預設</string><string name="delete_crop_preset">刪除裁切預設</string><string name="small">小的</string><string name="large">大的</string><string name="gallery_years">年</string><string name="gallery_months">幾個月</string><string name="gallery_days">天</string><string name="gallery_order">命令</string><string name="gallery_ascending">升序</string><string name="gallery_descending">降序</string><string name="gallery_display_options">分組和排序</string><string name="gallery_grouping">分組</string></resources>
+    <string name="crop_presets">裁切預設</string>
+    <string name="save_crop_preset">儲存目前裁切預設</string>
+    <string name="delete_crop_preset">刪除裁切預設</string>
+    <string name="small">小的</string>
+    <string name="large">大的</string>
+    <string name="gallery_years">年</string>
+    <string name="gallery_months">幾個月</string>
+    <string name="gallery_days">天</string>
+    <string name="gallery_order">命令</string>
+    <string name="gallery_ascending">升序</string>
+    <string name="gallery_descending">降序</string>
+    <string name="gallery_display_options">分組和排序</string>
+    <string name="gallery_grouping">分組</string>
+</resources>
