@@ -23,9 +23,11 @@ import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.awaitLongPressOrCancellation
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.lazy.grid.LazyGridItemInfo
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
@@ -54,7 +56,7 @@ import kotlinx.coroutines.launch
 
 /**
 [Modifier] which helps you to implement google photos selection grid,
-to make it work pass item key which is should be "[key]-index"
+Pass keys in the "[key]-index" format or provide itemIndex for stable keys.
  **/
 @SuppressLint("UnnecessaryComposedModifier")
 fun Modifier.dragHandler(
@@ -67,9 +69,13 @@ fun Modifier.dragHandler(
     onTap: (Int) -> Unit = {},
     onLongTap: (Int) -> Unit = {},
     shouldHandleLongTap: Boolean = true,
-    tapEnabled: Boolean = true
+    tapEnabled: Boolean = true,
+    itemIndex: (LazyGridItemInfo) -> Int? = {
+        it.key.toString().takeLastWhile { char -> char != '-' }.toIntOrNull()
+    }
 ): Modifier = this.composed {
     val haptics = LocalHapticFeedback.current
+    val currentItemIndex by rememberUpdatedState(itemIndex)
     val isRtl = !isVertical && LocalLayoutDirection.current == LayoutDirection.Rtl
 
     val autoScrollThreshold = with(LocalDensity.current) { 40.dp.toPx() }
@@ -82,7 +88,8 @@ fun Modifier.dragHandler(
                 detectTapGestures { offset ->
                     lazyGridState
                         .gridItemKeyAtPosition(
-                            if (isRtl) offset.copy(x = size.width - offset.x) else offset
+                            if (isRtl) offset.copy(x = size.width - offset.x) else offset,
+                            currentItemIndex
                         )
                         ?.let { key ->
                             if (tapEnabled) {
@@ -113,7 +120,7 @@ fun Modifier.dragHandler(
                         val initial = initialKey ?: return
 
                         lazyGridState
-                            .gridItemKeyAtPosition(position)
+                            .gridItemKeyAtPosition(position, currentItemIndex)
                             ?.let { key ->
                                 if (currentKey != key) {
                                     val newItems = selectedItems.value
@@ -143,7 +150,7 @@ fun Modifier.dragHandler(
                             val position =
                                 if (isRtl) offset.copy(x = size.width - offset.x) else offset
                             lazyGridState
-                                .gridItemKeyAtPosition(position)
+                                .gridItemKeyAtPosition(position, currentItemIndex)
                                 ?.let { key ->
                                     if (!selectedItems.value.contains(key) && shouldHandleLongTap) {
                                         initialKey = key
@@ -248,10 +255,12 @@ private suspend fun PointerInputScope.detectDragGesturesAfterLongPressInInitialP
     }
 }
 
-private fun LazyGridState.gridItemKeyAtPosition(hitPoint: Offset): Int? {
+private fun LazyGridState.gridItemKeyAtPosition(
+    hitPoint: Offset,
+    itemIndex: (LazyGridItemInfo) -> Int?
+): Int? {
     val find = layoutInfo.visibleItemsInfo.find { itemInfo ->
         itemInfo.size.toIntRect().contains(hitPoint.round() - itemInfo.offset)
     }
-    val itemKey = find?.key
-    return itemKey?.toString()?.takeLastWhile { it != '-' }?.toIntOrNull()
+    return find?.let(itemIndex)
 }

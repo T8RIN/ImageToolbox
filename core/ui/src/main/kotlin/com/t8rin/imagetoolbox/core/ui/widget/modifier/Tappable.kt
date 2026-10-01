@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.modifier
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Surface
@@ -87,13 +88,15 @@ fun Modifier.tappable(
 @Composable
 fun Disableable(
     enabled: Boolean,
-    onDisabledClick: () -> Unit,
+    onDisabledClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = modifier
-            .alpha(if (enabled) 1f else 0.5f)
+            .alpha(
+                animateFloatAsState(if (enabled) 1f else 0.5f).value
+            )
     ) {
         content()
         if (!enabled) {

@@ -46,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.domain.utils.safeCast
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -55,7 +54,9 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isHeaderKey
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 internal fun MediaPickerGrid(
@@ -72,8 +73,8 @@ internal fun MediaPickerGrid(
     val gridState = rememberLazyGridState()
     val hapticFeedback = LocalHapticFeedback.current
 
-    LaunchedEffect(state.media) {
-        gridState.scrollToItem(0)
+    LaunchedEffect(state.mappedMedia) {
+        gridState.requestScrollToItem(0)
     }
 
     var imagePreviewUri by rememberSaveable {
@@ -94,17 +95,27 @@ internal fun MediaPickerGrid(
     }
 
     val layoutDirection = LocalLayoutDirection.current
+    val selection = selectedMedia.toList()
+    val selectionIndices = remember(selection) {
+        buildMap {
+            selection.forEachIndexed { index, media ->
+                putIfAbsent(media, index)
+            }
+        }
+    }
     val privateSelection = remember {
         mutableStateOf(emptySet<Int>())
     }
 
     LaunchedEffect(state.mappedMedia, isSelectionOfAll, selectedMedia.size) {
         if (isSelectionOfAll) {
-            privateSelection.value = state.mappedMedia.mapIndexedNotNull { index, item ->
-                if (item is MediaItem.MediaViewItem && item.media in selectedMedia) {
-                    index
-                } else null
-            }.toSet()
+            privateSelection.value = withContext(Dispatchers.Default) {
+                state.mappedMedia.mapIndexedNotNull { index, item ->
+                    if (item is MediaItem.MediaViewItem && item.media in selectionIndices) {
+                        index
+                    } else null
+                }.toSet()
+            }
         }
     }
 
@@ -130,20 +141,18 @@ internal fun MediaPickerGrid(
                 enabled = isSelectionOfAll && allowMultiple &&
                         (!isGalleryMode || selectedMedia.isNotEmpty()),
                 key = state.mappedMedia,
+                itemIndex = { item ->
+                    (item.index - if (isManagePermissionAllowed) 0 else 1).takeIf { it >= 0 }
+                },
                 lazyGridState = gridState,
                 isVertical = true,
                 selectedItems = privateSelection,
                 onSelectionChange = { indices ->
-                    val order: MutableList<Any> = indices.toMutableList()
-                    state.mappedMedia.forEachIndexed { index, mediaItem ->
-                        if (index in indices && mediaItem is MediaItem.MediaViewItem) {
-                            order.indexOf(index).takeIf { it >= 0 }?.let {
-                                order[it] = mediaItem.media
-                            }
-                        }
+                    val media = indices.mapNotNull {
+                        (state.mappedMedia.getOrNull(it) as? MediaItem.MediaViewItem)?.media
                     }
                     selectedMedia.clear()
-                    selectedMedia.addAll(order.mapNotNull(Any::safeCast))
+                    selectedMedia.addAll(media)
                 },
                 onLongTap = {
                     if (selectedMedia.isEmpty()) {
@@ -185,9 +194,7 @@ internal fun MediaPickerGrid(
         }
         itemsIndexed(
             items = state.mappedMedia,
-            key = { index, item ->
-                "${item.key}-$index"
-            },
+            key = { _, item -> item.key },
             contentType = { _, item -> item.key.startsWith("media_") },
             span = { _, item ->
                 GridItemSpan(if (item.key.isHeaderKey) maxLineSpan else 1)
@@ -197,9 +204,9 @@ internal fun MediaPickerGrid(
                 is MediaItem.Header -> {
                     val isChecked = rememberSaveable { mutableStateOf(false) }
                     if (allowMultiple) {
-                        LaunchedEffect(selectedMedia.size) {
+                        LaunchedEffect(selectedMedia.size, item.data) {
                             // Partial check of media items should not check the header
-                            isChecked.value = selectedMedia.containsAll(item.data)
+                            isChecked.value = selectionIndices.keys.containsAll(item.data)
                         }
                     }
                     MediaStickyHeader(
@@ -215,10 +222,10 @@ internal fun MediaPickerGrid(
                                     if (isChecked.value) {
                                         val toAdd = item.data.toMutableList().apply {
                                             // Avoid media from being added twice to selection
-                                            removeIf { selectedMedia.contains(it) }
+                                            removeIf { it in selectionIndices }
                                         }
                                         selectedMedia.addAll(toAdd)
-                                    } else selectedMedia.removeAll(item.data)
+                                    } else selectedMedia.removeAll(item.data.toSet())
                                 }
                             }
                         } else null
@@ -226,7 +233,7 @@ internal fun MediaPickerGrid(
                 }
 
                 is MediaItem.MediaViewItem -> {
-                    val selectionIndex = selectedMedia.indexOf(item.media)
+                    val selectionIndex = selectionIndices[item.media] ?: -1
 
                     MediaImage(
                         media = item.media,

@@ -164,7 +164,9 @@ fun Cursor.getMediaFromCursor(): Media {
         expiryTimestamp = expiryTimestamp,
         mimeType = mimeType,
         width = width,
-        height = height
+        height = height,
+        size = getColumnIndex(MediaStore.MediaColumns.SIZE).takeIf { it != -1 && !isNull(it) }
+            ?.let { getLong(it) }
     )
 }
 

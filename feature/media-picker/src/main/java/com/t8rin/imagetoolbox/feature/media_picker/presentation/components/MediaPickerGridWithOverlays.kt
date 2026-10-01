@@ -53,6 +53,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -75,10 +76,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Deselect
-import com.t8rin.imagetoolbox.core.resources.icons.Search
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
-import com.t8rin.imagetoolbox.core.resources.shapes.MaterialStarShape
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -123,6 +122,10 @@ internal fun MediaPickerGridWithOverlays(
             isForceReset = !isSearching || searchKeyword.trim()
                 .isBlank() || mediaState.media.isEmpty()
         )
+    }
+
+    LaunchedEffect(isSearching) {
+        if (!isSearching) component.filterMedia("", isForceReset = true)
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
@@ -424,24 +427,14 @@ internal fun MediaPickerGridWithOverlays(
                             shape = ShapeDefaults.circle
                         )
                     } else {
-                        EnhancedIconButton(
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            modifier = Modifier
-                                .padding(bottom = 6.dp)
-                                .size(44.dp),
-                            onClick = {
+                        MediaSearchAndFilter(
+                            component = component,
+                            onSearch = {
                                 onSearchingChange(true)
                                 filterMedia()
                             },
-                            shape = MaterialStarShape,
-                            pressedShape = MaterialStarShape
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = null
-                            )
-                        }
+                            modifier = Modifier.padding(bottom = 6.dp)
+                        )
                     }
                 }
             }

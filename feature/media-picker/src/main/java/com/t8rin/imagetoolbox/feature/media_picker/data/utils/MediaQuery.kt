@@ -42,6 +42,7 @@ sealed class Query(
                 MediaStore.MediaColumns.RELATIVE_PATH
             } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
+            MediaStore.MediaColumns.SIZE,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN,
@@ -63,6 +64,7 @@ sealed class Query(
                 MediaStore.MediaColumns.RELATIVE_PATH
             } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
+            MediaStore.MediaColumns.SIZE,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN,
@@ -94,6 +96,7 @@ sealed class Query(
                 MediaStore.MediaColumns.RELATIVE_PATH
             } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
+            MediaStore.MediaColumns.SIZE,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.BUCKET_DISPLAY_NAME,
@@ -141,6 +144,7 @@ sealed class Query(
                 MediaStore.MediaColumns.RELATIVE_PATH
             } else MediaStore.MediaColumns.DATA,
             MediaStore.MediaColumns.DISPLAY_NAME,
+            MediaStore.MediaColumns.SIZE,
             MediaStore.MediaColumns.BUCKET_ID,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN,

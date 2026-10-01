@@ -39,8 +39,9 @@ data class Media(
     val mimeType: String,
     val width: Int? = null,
     val height: Int? = null,
+    val size: Long? = null,
 ) {
-    val fileSize: Long by lazy { uri.toUri().fileSize() ?: 0 }
+    val fileSize: Long by lazy { size ?: uri.toUri().fileSize() ?: 0 }
 
     val humanFileSize: String by lazy { humanFileSize(fileSize) }
 

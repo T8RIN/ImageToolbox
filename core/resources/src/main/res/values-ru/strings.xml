@@ -5476,4 +5476,11 @@
     <string name="save_crop_preset">Сохранить текущий набор настроек обрезки</string>
     <string name="delete_crop_preset">Удалить набор настроек обрезки</string>
     <string name="delete_crop_preset_sub">Вы хотите удалить набор настроек обрезки «%1$s»?</string>
+    <string name="gallery_years">Годы</string>
+    <string name="gallery_months">Месяцы</string>
+    <string name="gallery_days">Дни</string>
+    <string name="gallery_order">Порядок</string>
+    <string name="gallery_ascending">По возрастанию</string>
+    <string name="gallery_descending">По убыванию</string>
+    <string name="gallery_grouping">Группировка</string>
 </resources>

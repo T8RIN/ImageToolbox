@@ -5505,4 +5505,12 @@
     <string name="random_color_dispersion">Random Color Dispersion</string>
     <string name="small">Small</string>
     <string name="large">Large</string>
+    <string name="gallery_years">Years</string>
+    <string name="gallery_months">Months</string>
+    <string name="gallery_days">Days</string>
+    <string name="gallery_order">Order</string>
+    <string name="gallery_ascending">Ascending</string>
+    <string name="gallery_descending">Descending</string>
+    <string name="gallery_display_options">Grouping and sorting</string>
+    <string name="gallery_grouping">Grouping</string>
 </resources>

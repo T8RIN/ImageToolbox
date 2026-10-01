@@ -31,8 +31,11 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySettings
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.groupMedia
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -40,11 +43,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MediaPickerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -57,6 +67,15 @@ class MediaPickerComponent @AssistedInject internal constructor(
     val settingsState: SettingsState by _settingsState
 
     val selectedMedia = mutableStateListOf<Media>()
+
+    private val sourceMediaState = MutableStateFlow(MediaState())
+    private val searchKeyword = MutableStateFlow("")
+    private val _displaySettings = MutableStateFlow(MediaDisplaySettings())
+    val displaySettings = _displaySettings.asStateFlow()
+
+    fun updateDisplaySettings(settings: MediaDisplaySettings) {
+        _displaySettings.value = settings
+    }
 
     private val _mediaState = MutableStateFlow(MediaState())
     val mediaState = _mediaState.asStateFlow()
@@ -126,7 +145,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         allowedMedia: AllowedMedia
     ) {
         mediaGettingJob = componentScope.launch {
-            _mediaState.emit(mediaState.value.copy(isLoading = true))
+            sourceMediaState.emit(sourceMediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
@@ -139,82 +158,79 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
-                    if (data.isEmpty()) {
-                        return@collectLatest _mediaState.emit(MediaState(isLoading = false))
-                    }
-                    _mediaState.collectMedia(data, error)
-                    _filteredMediaState.emit(mediaState.value)
+                    sourceMediaState.emit(
+                        MediaState(media = data, error = error, isLoading = false)
+                    )
                 }
         }
     }
-
-    private suspend fun MutableStateFlow<MediaState>.collectMedia(
-        data: List<Media>,
-        error: String
-    ) {
-        val mappedData = mutableListOf<MediaItem>()
-        withContext(defaultDispatcher) {
-            val groupedData = data.groupBy {
-                it.timestamp.getDate()
-            }
-            groupedData.forEach { (date, data) ->
-                val dateHeader = MediaItem.Header("header_$date", date, data)
-                val groupedMedia = data.map {
-                    MediaItem.MediaViewItem("media_${it.id}_${it.label}", it)
-                }
-                mappedData.add(dateHeader)
-                mappedData.addAll(groupedMedia)
-            }
-        }
-        withContext(uiDispatcher) {
-            tryEmit(
-                MediaState(
-                    isLoading = false,
-                    error = error,
-                    media = data,
-                    mappedMedia = mappedData,
-                )
-            )
-        }
-    }
-
-    private var mediaFilterJob: Job? by smartJob()
 
     fun filterMedia(
         searchKeyword: String,
         isForceReset: Boolean
     ) {
-        mediaFilterJob = componentScope.launch {
-            if (isForceReset) {
-                _filteredMediaState.emit(mediaState.value)
-            } else {
-                _filteredMediaState.emit(mediaState.value.copy(isLoading = true))
-                _filteredMediaState.collectMedia(
-                    data = mediaState.value.media.filter {
-                        if (searchKeyword.startsWith("*")) {
-                            it.label.endsWith(
-                                suffix = searchKeyword.drop(1),
-                                ignoreCase = true
-                            )
-                        } else if (searchKeyword.endsWith("*")) {
-                            it.label.startsWith(
-                                prefix = searchKeyword.dropLast(1),
-                                ignoreCase = true
-                            )
-                        } else {
-                            it.label.contains(
-                                other = searchKeyword,
-                                ignoreCase = true
-                            )
-                        }
-                    }.distinctBy { it.id },
-                    error = mediaState.value.error
-                )
-            }
+        this.searchKeyword.value = if (isForceReset) "" else searchKeyword
+    }
+
+    private fun List<Media>.mapMedia(
+        settings: MediaDisplaySettings
+    ) = groupMedia(settings) { timestamp, group ->
+        when (group) {
+            MediaDateGroup.Year -> SimpleDateFormat("yyyy", Locale.getDefault())
+                .format(Date(timestamp * 1000))
+
+            MediaDateGroup.Month -> SimpleDateFormat("LLLL yyyy", Locale.getDefault())
+                .format(Date(timestamp * 1000))
+
+            else -> timestamp.getDate()
         }
     }
 
+    private fun MediaState.withMappedMedia(
+        settings: MediaDisplaySettings
+    ): MediaState {
+        val mapped = media.mapMedia(settings)
+        return copy(
+            media = if (settings.dateGroup == MediaDateGroup.None) media else {
+                mapped.filterIsInstance<MediaItem.MediaViewItem>().map { it.media }
+            },
+            mappedMedia = mapped
+        )
+    }
+
     init {
+        componentScope.launch {
+            val sortedMediaState = combine(
+                sourceMediaState,
+                _displaySettings.map { it.mediaOrder }.distinctUntilChanged()
+            ) { state, order -> state to order }
+                .mapLatest { (state, order) ->
+                    withContext(ioDispatcher) {
+                        state.copy(media = order.sortMedia(state.media)) to order
+                    }
+                }
+            combine(sortedMediaState, _displaySettings, searchKeyword) { state, settings, keyword ->
+                Triple(state, settings, keyword)
+            }.collectLatest { (sortedState, settings, keyword) ->
+                val (state, order) = sortedState
+                if (order != settings.mediaOrder) return@collectLatest
+                val (media, filtered) = withContext(ioDispatcher) {
+                    val filtered = if (keyword.isBlank()) state.media else state.media.filter {
+                        when {
+                            keyword.startsWith("*") -> it.label.endsWith(keyword.drop(1), true)
+                            keyword.endsWith("*") -> it.label.startsWith(keyword.dropLast(1), true)
+                            else -> it.label.contains(keyword, true)
+                        }
+                    }
+                    val mapped = state.withMappedMedia(settings)
+                    mapped to if (keyword.isBlank()) mapped else {
+                        state.copy(media = filtered).withMappedMedia(settings)
+                    }
+                }
+                _mediaState.emit(media)
+                _filteredMediaState.emit(filtered)
+            }
+        }
         runBlocking {
             _settingsState.value = settingsManager.getSettingsState()
         }

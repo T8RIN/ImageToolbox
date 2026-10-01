@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,15 @@
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 
-sealed class MediaOrder(private val orderType: OrderType) {
+sealed class MediaOrder(val orderType: OrderType) {
     class Label(orderType: OrderType) : MediaOrder(orderType)
     class Date(orderType: OrderType) : MediaOrder(orderType)
+    class Path(orderType: OrderType) : MediaOrder(orderType)
+    class Size(orderType: OrderType) : MediaOrder(orderType)
+    class DateTaken(orderType: OrderType) : MediaOrder(orderType)
+    class Random(orderType: OrderType = OrderType.Descending) : MediaOrder(orderType)
     class Expiry(orderType: OrderType = OrderType.Descending) : MediaOrder(orderType)
 
     fun copy(orderType: OrderType): MediaOrder {
@@ -29,24 +34,58 @@ sealed class MediaOrder(private val orderType: OrderType) {
             is Date -> Date(orderType)
             is Label -> Label(orderType)
             is Expiry -> Expiry(orderType)
+            is Path -> Path(orderType)
+            is Size -> Size(orderType)
+            is DateTaken -> DateTaken(orderType)
+            is Random -> Random(orderType)
         }
     }
 
     suspend fun sortMedia(media: List<Media>): List<Media> = coroutineScope {
+        fun sortByText(selector: (Media) -> String): List<Media> {
+            val withKeys = media.map {
+                ensureActive()
+                it to selector(it).lowercase()
+            }
+            val comparator = compareBy<Pair<Media, String>> {
+                ensureActive()
+                it.second
+            }
+            return withKeys.sortedWith(
+                if (orderType == OrderType.Ascending) comparator else comparator.reversed()
+            ).map { it.first }
+        }
+
         when (orderType) {
             OrderType.Ascending -> {
                 when (this@MediaOrder) {
                     is Date -> media.sortedBy { it.timestamp }
-                    is Label -> media.sortedBy { it.label.lowercase() }
+                    is Label -> sortByText(Media::label)
                     is Expiry -> media.sortedBy { it.expiryTimestamp ?: it.timestamp }
+                    is Path -> sortByText(Media::path)
+                    is Size -> media.sortedBy {
+                        ensureActive()
+                        it.fileSize
+                    }
+
+                    is DateTaken -> media.sortedBy { it.dateTakenSeconds }
+                    is Random -> media.shuffled()
                 }
             }
 
             OrderType.Descending -> {
                 when (this@MediaOrder) {
                     is Date -> media.sortedByDescending { it.timestamp }
-                    is Label -> media.sortedByDescending { it.label.lowercase() }
+                    is Label -> sortByText(Media::label)
                     is Expiry -> media.sortedByDescending { it.expiryTimestamp ?: it.timestamp }
+                    is Path -> sortByText(Media::path)
+                    is Size -> media.sortedByDescending {
+                        ensureActive()
+                        it.fileSize
+                    }
+
+                    is DateTaken -> media.sortedByDescending { it.dateTakenSeconds }
+                    is Random -> media.shuffled()
                 }
             }
         }
