@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
@@ -5476,4 +5459,4 @@
     <string name="save_crop_preset">שמור קביעת חיתוך נוכחית מראש</string>
     <string name="delete_crop_preset">מחק קביעת חיתוך מראש</string>
     <string name="delete_crop_preset_sub">האם ברצונך למחוק קביעת חיתוך מראש \"%1$s\"?</string>
-</resources>
+<string name="small">קָטָן</string><string name="large">גָדוֹל</string><string name="gallery_years">שנים</string><string name="gallery_months">חודשים</string><string name="gallery_days">ימים</string><string name="gallery_order">לְהַזמִין</string><string name="gallery_ascending">עוֹלֶה</string><string name="gallery_descending">יורד</string><string name="gallery_display_options">קיבוץ ומיון</string><string name="gallery_grouping">הַקבָּצָה</string></resources>

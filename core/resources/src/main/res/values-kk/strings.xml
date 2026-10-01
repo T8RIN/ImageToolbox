@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">Ағымдағы қиюдың алдын ала орнатуын сақтаңыз</string>
     <string name="delete_crop_preset">Алдын ала кесу параметрін жою</string>
     <string name="delete_crop_preset_sub">\"%1$s\" алдын ала кесу параметрін жойғыңыз келе ме?</string>
-</resources>
+<string name="small">Кішкентай</string><string name="large">Үлкен</string><string name="gallery_years">Жылдар</string><string name="gallery_months">Айлар</string><string name="gallery_days">Күндер</string><string name="gallery_order">Тапсырыс беру</string><string name="gallery_ascending">Көтерілу</string><string name="gallery_descending">Төмендеу</string><string name="gallery_display_options">Топтастыру және сұрыптау</string><string name="gallery_grouping">Топтастыру</string></resources>

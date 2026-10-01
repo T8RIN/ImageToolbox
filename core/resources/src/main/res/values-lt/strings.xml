@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
@@ -5476,4 +5459,4 @@
     <string name="save_crop_preset">Išsaugoti esamą apkarpymo nustatymą</string>
     <string name="delete_crop_preset">Ištrinti išankstinį apkarpymo nustatymą</string>
     <string name="delete_crop_preset_sub">Ar norite ištrinti išankstinį apkarpymo nustatymą „%1$s“?</string>
-</resources>
+<string name="small">Mažas</string><string name="large">Didelis</string><string name="gallery_years">Metai</string><string name="gallery_months">Mėnesiai</string><string name="gallery_days">Dienos</string><string name="gallery_order">Užsakyti</string><string name="gallery_ascending">Kylantis</string><string name="gallery_descending">Mažėjantis</string><string name="gallery_display_options">Grupavimas ir rūšiavimas</string><string name="gallery_grouping">Grupavimas</string></resources>

@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">वर्तमान फसल प्रीसेट सहेजें</string>
     <string name="delete_crop_preset">क्रॉप प्रीसेट हटाएं</string>
     <string name="delete_crop_preset_sub">क्या आप क्रॉप प्रीसेट \"%1$s\" को हटाना चाहते हैं?</string>
-</resources>
+<string name="small">छोटा</string><string name="large">बड़ा</string><string name="gallery_years">साल</string><string name="gallery_months">महीने</string><string name="gallery_days">दिन</string><string name="gallery_order">आदेश</string><string name="gallery_ascending">आरोही</string><string name="gallery_descending">अवरोही</string><string name="gallery_display_options">समूहीकरण एवं वर्गीकरण</string><string name="gallery_grouping">समूहन</string></resources>

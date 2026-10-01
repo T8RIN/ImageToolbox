@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="loading">লোড হচ্ছে…</string>
     <string name="image_too_large_preview">ছবিটি প্রিভিউ করার জন্য খুব বড়, তবে সেভ করার চেষ্টা করা হবে।</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">বর্তমান ক্রপ প্রিসেট সংরক্ষণ করুন</string>
     <string name="delete_crop_preset">ক্রপ প্রিসেট মুছুন</string>
     <string name="delete_crop_preset_sub">আপনি কি ক্রপ প্রিসেট \"%1$s\" মুছতে চান?</string>
-</resources>
+<string name="small">ছোট</string><string name="large">বড়</string><string name="gallery_years">বছর</string><string name="gallery_months">মাস</string><string name="gallery_days">দিন</string><string name="gallery_order">অর্ডার</string><string name="gallery_ascending">আরোহী</string><string name="gallery_descending">অবরোহী</string><string name="gallery_display_options">গ্রুপিং এবং বাছাই</string><string name="gallery_grouping">গ্রুপিং</string></resources>

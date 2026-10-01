@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="smth_went_wrong">Qualcosa non ha funzionato: %1$s</string>
     <string name="size">Dimensione %1$s</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">Salva la preimpostazione di ritaglio corrente</string>
     <string name="delete_crop_preset">Elimina la preimpostazione di ritaglio</string>
     <string name="delete_crop_preset_sub">Vuoi eliminare la preimpostazione di ritaglio \"%1$s\"?</string>
-</resources>
+<string name="small">Piccolo</string><string name="large">Grande</string><string name="gallery_years">Anni</string><string name="gallery_months">Mesi</string><string name="gallery_days">Giorni</string><string name="gallery_order">Ordine</string><string name="gallery_ascending">Ascendente</string><string name="gallery_descending">Discendente</string><string name="gallery_display_options">Raggruppamento e ordinamento</string><string name="gallery_grouping">Raggruppamento</string></resources>

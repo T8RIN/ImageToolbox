@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">ప్రస్తుత క్రాప్ ప్రీసెట్‌ను సేవ్ చేయండి</string>
     <string name="delete_crop_preset">క్రాప్ ప్రీసెట్‌ను తొలగించండి</string>
     <string name="delete_crop_preset_sub">మీరు క్రాప్ ప్రీసెట్ \"%1$s\"ని తొలగించాలనుకుంటున్నారా?</string>
-</resources>
+<string name="small">చిన్నది</string><string name="large">పెద్దది</string><string name="gallery_years">సంవత్సరాలు</string><string name="gallery_months">నెలలు</string><string name="gallery_days">రోజులు</string><string name="gallery_order">ఆర్డర్ చేయండి</string><string name="gallery_ascending">ఆరోహణ</string><string name="gallery_descending">అవరోహణ</string><string name="gallery_display_options">సమూహపరచడం మరియు క్రమబద్ధీకరించడం</string><string name="gallery_grouping">గ్రూపింగ్</string></resources>

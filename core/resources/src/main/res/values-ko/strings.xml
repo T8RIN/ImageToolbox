@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
@@ -5473,4 +5456,4 @@
     <string name="save_crop_preset">현재 자르기 사전 설정 저장</string>
     <string name="delete_crop_preset">자르기 사전 설정 삭제</string>
     <string name="delete_crop_preset_sub">자르기 사전 설정 \"%1$s\"을(를) 삭제하시겠습니까?</string>
-</resources>
+<string name="small">작은</string><string name="large">크기가 큰</string><string name="gallery_years">연령</string><string name="gallery_months">개월</string><string name="gallery_days">날</string><string name="gallery_order">주문하다</string><string name="gallery_ascending">오름차순</string><string name="gallery_descending">내림차순</string><string name="gallery_display_options">그룹화 및 정렬</string><string name="gallery_grouping">그룹화</string></resources>

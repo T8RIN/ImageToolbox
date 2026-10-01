@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ ImageToolbox is an image editor for android
-  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  ~
-  ~ You should have received a copy of the Apache License
-  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
@@ -5474,4 +5457,4 @@
     <string name="save_crop_preset">ذخیره از پیش تعیین شده برش فعلی</string>
     <string name="delete_crop_preset">حذف از پیش تعیین شده برش</string>
     <string name="delete_crop_preset_sub">آیا می‌خواهید «%1$s» از پیش تنظیم شده را حذف کنید؟</string>
-</resources>
+<string name="small">کوچک</string><string name="large">بزرگ</string><string name="gallery_years">سالها</string><string name="gallery_months">ماه ها</string><string name="gallery_days">روزها</string><string name="gallery_order">سفارش دهید</string><string name="gallery_ascending">صعودی</string><string name="gallery_descending">نزولی</string><string name="gallery_display_options">گروه بندی و مرتب سازی</string><string name="gallery_grouping">گروه بندی</string></resources>
