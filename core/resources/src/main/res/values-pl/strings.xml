@@ -5469,4 +5469,5 @@
     <string name="gallery_descending">Malejąco</string>
     <string name="gallery_display_options">Grupowanie i sortowanie</string>
     <string name="gallery_grouping">Grupowanie</string>
+    <string name="save_color_as_image">Zapisz jako obraz</string>
 </resources>
