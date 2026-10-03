@@ -45,9 +45,11 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorImageExportDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -72,6 +74,8 @@ fun ColorPickerSheet(
     val settingsState = LocalSettingsState.current
 
     val simpleSettingsInteractor = LocalSimpleSettingsInteractor.current
+    var showExportDialog by remember { mutableStateOf(false) }
+
     EnhancedModalBottomSheet(
         sheetContent = {
             Box {
@@ -115,8 +119,18 @@ fun ColorPickerSheet(
         confirmButton = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                EnhancedIconButton(
+                    onClick = { showExportDialog = true },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    forceMinimumInteractiveComponentSize = false
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Save,
+                        contentDescription = null
+                    )
+                }
                 val favoriteColors = settingsState.favoriteColors
 
                 val inFavorite by remember(tempColor, favoriteColors) {
@@ -137,6 +151,7 @@ fun ColorPickerSheet(
                 EnhancedIconButton(
                     containerColor = containerColor,
                     contentColor = contentColor,
+                    forceMinimumInteractiveComponentSize = false,
                     onClick = {
                         scope.launch {
                             simpleSettingsInteractor.toggleFavoriteColor(
@@ -169,5 +184,11 @@ fun ColorPickerSheet(
                 }
             }
         }
+    )
+
+    ColorImageExportDialog(
+        visible = showExportDialog,
+        onDismiss = { showExportDialog = false },
+        color = tempColor
     )
 }

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
@@ -3269,6 +3285,7 @@
     <string name="help_tip_wallpaper_export_step_2">Выберите доступные записи «Домой», «Блокировка» или встроенные обои, которые вы хотите сохранить, скопировать или поделиться.</string>
     <string name="help_tip_wallpaper_export_step_3">Если обои отсутствуют или функция недоступна, обычно это связано с ограничением системы, разрешения или варианта сборки, а не с настройкой редактирования.</string>
     <string name="copy_color_as">Скопировать цвет как</string>
+    <string name="save_color_as_image">Сохранить как изображение</string>
     <string name="hex_and_name">Шестнадцатеричный + имя</string>
     <string name="model_modnet">Модель портретного коврика для быстрой стрижки людей с более мягкими волосами и обработкой краев.</string>
     <string name="model_zero_dcepp">Быстрое улучшение при слабом освещении с использованием оценки кривой Zero-DCE++.</string>

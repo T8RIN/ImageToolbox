@@ -20,16 +20,21 @@ package com.t8rin.imagetoolbox.core.ui.widget.dialogs
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,11 +48,13 @@ import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.ShortText
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -96,6 +103,9 @@ fun ColorCopyFormatSelectionDialog(
     color: Color,
     colorName: String
 ) {
+    var showExportDialog by remember { mutableStateOf(false) }
+    var exportTarget by remember { mutableStateOf(color) }
+
     EnhancedAlertDialog(
         visible = visible,
         onDismissRequest = onDismiss,
@@ -162,13 +172,36 @@ fun ColorCopyFormatSelectionDialog(
             }
         },
         confirmButton = {
-            EnhancedButton(
-                onClick = onDismiss,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(stringResource(R.string.close))
+                EnhancedIconButton(
+                    onClick = {
+                        exportTarget = color
+                        showExportDialog = true
+                        onDismiss()
+                    },
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Save,
+                        contentDescription = null
+                    )
+                }
+                EnhancedButton(
+                    onClick = onDismiss,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(stringResource(R.string.close))
+                }
             }
         }
+    )
+
+    ColorImageExportDialog(
+        visible = showExportDialog,
+        onDismiss = { showExportDialog = false },
+        color = exportTarget
     )
 }
 

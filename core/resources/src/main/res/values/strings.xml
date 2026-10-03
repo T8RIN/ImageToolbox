@@ -66,6 +66,7 @@
     <string name="color">Color</string>
     <string name="color_copied">Color copied</string>
     <string name="copy_color_as">Copy color as</string>
+    <string name="save_color_as_image">Save as image</string>
     <string name="hex_and_name">HEX + name</string>
     <string name="crop_sub">Crop image to any bounds</string>
     <string name="version">Version</string>
