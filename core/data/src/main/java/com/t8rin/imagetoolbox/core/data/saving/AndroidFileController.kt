@@ -176,6 +176,15 @@ internal class AndroidFileController @Inject constructor(
                     byteArray = data,
                     filename = filenameCreator.constructRandomFilename(saveTarget.extension)
                 )?.toUri()?.let { uri ->
+                    if (saveTarget is ImageSaveTarget) {
+                        copyMetadata(
+                            initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif },
+                            fileUri = uri,
+                            keepOriginalMetadata = shouldKeepMetadata,
+                            originalUri = saveTarget.originalUri.toUri(),
+                            imageSaveTarget = saveTarget
+                        )
+                    }
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
                             context.contentResolver,
@@ -493,6 +502,15 @@ internal class AndroidFileController @Inject constructor(
                     filename = filenameCreator.constructRandomFilename(saveTarget.extension),
                     writeData = ::copySourceTo
                 )?.toUri()?.let { uri ->
+                    if (saveTarget is ImageSaveTarget) {
+                        copyMetadata(
+                            initialExif = saveTarget.metadata.takeUnless { settingsState.isAlwaysClearExif },
+                            fileUri = uri,
+                            keepOriginalMetadata = shouldKeepMetadata,
+                            originalUri = saveTarget.originalUri.toUri(),
+                            imageSaveTarget = saveTarget
+                        )
+                    }
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
                             context.contentResolver,
@@ -950,10 +968,12 @@ internal class AndroidFileController @Inject constructor(
             }.makeLog("metadataCleared")
         }
 
-        addImageToolboxMetadata(
-            fileUri = fileUri,
-            imageSaveTarget = imageSaveTarget
-        )
+        if (initialExif?.shouldClearAllAttributes != true) {
+            addImageToolboxMetadata(
+                fileUri = fileUri,
+                imageSaveTarget = imageSaveTarget
+            )
+        }
     }
 
     private fun addImageToolboxMetadata(

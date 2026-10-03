@@ -22,6 +22,8 @@ package com.t8rin.imagetoolbox.core.domain.image
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 
 interface Metadata {
+    val shouldClearAllAttributes: Boolean
+
     fun saveAttributes(): Metadata
 
     fun getAttribute(tag: MetadataTag): String?
@@ -30,12 +32,20 @@ interface Metadata {
         tag: MetadataTag,
         value: String?
     ): Metadata
+
+    fun clearAttributes(
+        attributes: List<MetadataTag>
+    ): Metadata
 }
 
 private class TagMapMetadata(
-    initialTags: Map<MetadataTag, String>
+    initialTags: Map<MetadataTag, String>,
+    shouldClearAllAttributes: Boolean
 ) : Metadata {
     private val tags: MutableMap<MetadataTag, String> = initialTags.toMutableMap()
+
+    override var shouldClearAllAttributes: Boolean = shouldClearAllAttributes
+        private set
 
     override fun saveAttributes(): Metadata = this
 
@@ -52,10 +62,22 @@ private class TagMapMetadata(
         }
     }
 
+    override fun clearAttributes(
+        attributes: List<MetadataTag>
+    ): Metadata = apply {
+        attributes.forEach(::clearAttribute)
+        if (attributes.containsAll(MetadataTag.entries)) {
+            shouldClearAllAttributes = true
+        }
+    }
+
     override fun toString(): String = "ReadOnly(${toMap()})"
 }
 
-fun Metadata.readOnly(): Metadata = this as? TagMapMetadata ?: TagMapMetadata(toMap())
+fun Metadata.readOnly(): Metadata = this as? TagMapMetadata ?: TagMapMetadata(
+    initialTags = toMap(),
+    shouldClearAllAttributes = shouldClearAllAttributes
+)
 
 inline operator fun Metadata.get(
     tag: MetadataTag
@@ -75,12 +97,6 @@ inline fun Metadata.clearAttribute(
     )
 }
 
-inline fun Metadata.clearAttributes(
-    attributes: List<MetadataTag>
-): Metadata = apply {
-    attributes.forEach(::clearAttribute)
-}
-
 inline fun Metadata.clearAllAttributes(): Metadata =
     clearAttributes(attributes = MetadataTag.entries)
 
@@ -94,6 +110,9 @@ inline fun Metadata.copyTo(
     metadata: Metadata,
     tags: List<MetadataTag> = MetadataTag.entries
 ): Metadata {
+    if (shouldClearAllAttributes && this !== metadata) {
+        metadata.clearAllAttributes()
+    }
     tags.forEach { attr ->
         getAttribute(attr).let { metadata.setAttribute(attr, it) }
     }

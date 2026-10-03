@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
-import com.t8rin.imagetoolbox.core.domain.image.clearAttributes
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
@@ -146,9 +145,9 @@ class DeleteExifComponent @AssistedInject internal constructor(
                 runSuspendCatching {
                     imageGetter.getImage(uri.toString())
                 }.getOrNull()?.let {
-                    val metadata = if (selectedTags.isNotEmpty()) {
-                        it.metadata?.clearAttributes(selectedTags)
-                    } else null
+                    val metadata = it.metadata?.clearAttributes(
+                        selectedTags.ifEmpty { MetadataTag.entries }
+                    )
 
                     results.add(
                         fileController.save(
@@ -251,9 +250,9 @@ class DeleteExifComponent @AssistedInject internal constructor(
                 imageGetter.getImage(
                     uri.toString()
                 )?.let {
-                    val metadata = if (selectedTags.isNotEmpty()) {
-                        it.metadata?.clearAttributes(selectedTags)
-                    } else null
+                    val metadata = it.metadata?.clearAttributes(
+                        selectedTags.ifEmpty { MetadataTag.entries }
+                    )
 
                     shareProvider.cacheData(
                         writeData = { w ->

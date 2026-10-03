@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.data.image
 
 import com.t8rin.exif.ExifInterface
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
+import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.toMap
 import java.io.FileDescriptor
@@ -26,6 +27,9 @@ import java.io.FileDescriptor
 private data class ExifInterfaceMetadata(
     private val exifInterface: ExifInterface
 ) : Metadata {
+
+    override var shouldClearAllAttributes: Boolean = false
+        private set
 
     override fun saveAttributes(): Metadata = apply {
         exifInterface.saveAttributes()
@@ -40,6 +44,17 @@ private data class ExifInterfaceMetadata(
         value: String?
     ): Metadata = apply {
         exifInterface.setAttribute(tag.key, value)
+    }
+
+    override fun clearAttributes(
+        attributes: List<MetadataTag>
+    ): Metadata = apply {
+        attributes.forEach(::clearAttribute)
+
+        if (attributes.containsAll(MetadataTag.entries)) {
+            shouldClearAllAttributes = true
+            exifInterface.clearAttributes()
+        }
     }
 
     override fun toString(): String = "Android(${toMap()})"
