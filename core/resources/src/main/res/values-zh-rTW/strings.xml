@@ -2190,8 +2190,8 @@
     <string name="text_geometry_sub">拉伸或倾斜文本以获得更清晰的风格</string>
     <string name="scale_x">规模 X</string>
     <string name="skew_x">倾斜 X</string>
-    <string name="remove_annotations">删除注释</string>
-    <string name="remove_annotations_sub">从 PDF 页面中删除选定的注释类型，例如链接、注释、突出显示、形状或表单字段</string>
+    <string name="remove_annotations">刪除註釋</string>
+    <string name="remove_annotations_sub">從 PDF 頁面中刪除選定的註釋類別，例如連結、註釋、highlights、形狀或表單字段</string>
     <string name="annotation_link">超链接</string>
     <string name="annotation_file_attachment">文件附件</string>
     <string name="annotation_line">线路</string>
@@ -2209,7 +2209,7 @@
     <string name="distortion_filter">内容感知失真</string>
     <string name="oom_description">内存不足，无法完成此操作。请尝试使用较小的图像、关闭其他应用程序或重新启动应用程序。</string>
     <string name="parallel_workers">并行工作者</string>
-    <string name="skipped_images_warning">这些图像未保存，因为转换后的文件比原始文件大。在删除原始图像之前检查此列表。</string>
+    <string name="skipped_images_warning">這些圖片未保存，因為轉換後的文件比原始文件大。在刪除原始圖片之前檢查此列表。</string>
     <string name="skipped_saving_count">跳过的文件：%1$s</string>
     <string name="app_logs">应用程序日志</string>
     <string name="app_logs_sub">查看应用程序日志以发现问题</string>
@@ -2221,7 +2221,7 @@
     <string name="vertical_spacing">垂直间距</string>
     <string name="seam_carving_backward_energy">落后能源</string>
     <string name="seam_carving_backward_energy_sub">使用简单的梯度幅度能量图代替前向能量算法</string>
-    <string name="seam_carving_mask_as_removal">删除遮罩区域</string>
+    <string name="seam_carving_mask_as_removal">刪除遮罩區域</string>
     <string name="seam_carving_mask_as_removal_sub">接缝将穿过遮罩区域，仅移除选定区域而不是保护它</string>
     <string name="vhs_ntsc">录像带NTSC</string>
     <string name="ntsc_advanced_settings">高级 NTSC 设置</string>
@@ -2319,7 +2319,7 @@
     <string name="shader_studio">着色器工作室</string>
     <string name="shader_studio_sub">创建、编辑、验证、导入和导出自定义片段着色器</string>
     <string name="saved_shaders">保存的着色器</string>
-    <string name="shader_library_sub">打开保存的着色器，复制、导出、共享或删除</string>
+    <string name="shader_library_sub">開啟已儲存的著色器、建立副本、匯出、分享或刪除</string>
     <string name="new_shader">新着色器</string>
     <string name="shader_file">着色器文件</string>
     <string name="itshader_json">.itshader JSON</string>
@@ -2357,7 +2357,7 @@
     <string name="shader_error_external_textures">不支持外部纹理。</string>
     <string name="shader_error_external_texture_extensions">不支持外部纹理扩展。</string>
     <string name="shader_error_libretro_parameters">不支持 Libretro 着色器参数。</string>
-    <string name="shader_error_extra_input_texture">仅支持一种输入纹理。删除“uniform %1$s %2$s;”。</string>
+    <string name="shader_error_extra_input_texture">僅支援一個輸入紋理。請刪除 “uniform %1$s %2$s;”。</string>
     <string name="shader_error_missing_uniform">参数“%1$s”必须声明为“uniform %2$s %1$s;”。</string>
     <string name="shader_error_wrong_uniform_type">参数“%1$s”声明为“uniform %2$s %1$s;”，预期为“uniform %3$s %1$s;”。</string>
     <string name="shader_parse_error_empty_file">着色器文件为空。</string>
@@ -2379,7 +2379,7 @@
     <string name="shader_parse_error_vec2_component_count_expected">%1$s 必须恰好包含 2 个数字。</string>
     <string name="duplicate">复制</string>
     <string name="always_clear_exif">始终清除 EXIF</string>
-    <string name="always_clear_exif_sub">即使工具请求保留元数据，在保存时也会删除图像 EXIF 数据</string>
+    <string name="always_clear_exif_sub">即使工具請求保留原始資料，在保存時也会刪除圖像 EXIF 資料</string>
     <string name="help_tips">幫助和提示</string>
     <string name="tutorials_count">%1$d 教程</string>
     <string name="open_tool">開啟工具</string>
