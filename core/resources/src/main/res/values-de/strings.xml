@@ -1767,7 +1767,7 @@
     <string name="longitude">Längengrad</string>
     <string name="create_barcode">Barcode erstellen</string>
     <string name="edit_barcode">Barcode bearbeiten</string>
-    <string name="wifi_configuration">WLAN Konfiguration</string>
+    <string name="wifi_configuration">WLAN-Konfiguration</string>
     <string name="security">Sicherheit</string>
     <string name="pick_contact">Kontakt auswählen</string>
     <string name="grant_contact_permission">Kontakte Berechtigung in den Einstellungn erteilen, um mit ausgewählten Kontakt automatisch Auszufüllen.</string>
