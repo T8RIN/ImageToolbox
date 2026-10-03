@@ -166,15 +166,9 @@ class LimitsResizeComponent @AssistedInject internal constructor(
             if (_selectedUri.value == removedUri) {
                 val index = uris?.indexOf(removedUri) ?: -1
                 if (index == 0) {
-                    uris?.getOrNull(1)?.let {
-                        _selectedUri.value = it
-                        _bitmap.value = imageGetter.getImage(it.toString())?.image
-                    }
+                    uris?.getOrNull(1)?.let(::updateSelectedUri)
                 } else {
-                    uris?.getOrNull(index - 1)?.let {
-                        _selectedUri.value = it
-                        _bitmap.value = imageGetter.getImage(it.toString())?.image
-                    }
+                    uris?.getOrNull(index - 1)?.let(::updateSelectedUri)
                 }
             }
             val u = _uris.value?.toMutableList()?.apply {
