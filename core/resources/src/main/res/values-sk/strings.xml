@@ -5469,4 +5469,5 @@
     <string name="gallery_descending">Zostupne</string>
     <string name="gallery_display_options">Zoskupovanie a triedenie</string>
     <string name="gallery_grouping">Zoskupovanie</string>
+    <string name="save_color_as_image">Uložiť ako obrázok</string>
 </resources>
