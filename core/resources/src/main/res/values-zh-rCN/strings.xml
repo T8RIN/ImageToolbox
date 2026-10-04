@@ -5466,4 +5466,5 @@
     <string name="gallery_descending">降序</string>
     <string name="gallery_display_options">分组和排序</string>
     <string name="gallery_grouping">分组</string>
+    <string name="save_color_as_image">保存为图片</string>
 </resources>
