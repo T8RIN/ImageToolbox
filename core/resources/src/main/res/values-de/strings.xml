@@ -5467,4 +5467,5 @@
     <string name="gallery_descending">Absteigend</string>
     <string name="gallery_display_options">Gruppieren und Sortieren</string>
     <string name="gallery_grouping">Gruppierung</string>
+    <string name="save_color_as_image">Als Bild speichern</string>
 </resources>

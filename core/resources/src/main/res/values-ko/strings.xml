@@ -772,7 +772,7 @@
     <string name="foss_update_checker_warning">이 업데이트 검사기는 사용 가능한 새 업데이트가 있는지 확인하기 위해 GitHub에 연결됩니다.</string>
     <string name="attention">주목</string>
     <string name="fading_edges">페이딩 엣지</string>
-    <string name="disabled">장애가 있는</string>
+    <string name="disabled">꺼짐</string>
     <string name="invert_colors">색상 반전</string>
     <string name="exit">나가기</string>
     <string name="preview_closing">지금 미리보기를 종료하면 이미지를 다시 추가해야 합니다.</string>
@@ -4884,7 +4884,7 @@
     <string name="focus_strength">초점 분리</string>
     <string name="source_frames">소스 프레임</string>
     <string name="fusion_image_limit">한 번에 최대 %1$d 프레임을 융합할 수 있습니다.</string>
-    <string name="search_keywords_multi_frame_fusion">멀티 프레임 퓨전 노출 hdr 포커스 스태킹 중앙값 소음 사람 제거 브래킷</string>
+    <string name="search_keywords_multi_frame_fusion">멀티 프레임 퓨전 노출 hdr 포커스 스태킹 중앙값 소음 사람 제거 브래킷 장노출 빛 모션 별 궤적</string>
     <string name="long_exposure">장시간 노출</string>
     <string name="long_exposure_sub">정적 세부 사항을 유지하면서 선형 조명의 시퀀스를 평균화하여 부드러운 동작</string>
     <string name="light_trails">가벼운 산책로</string>
@@ -5466,4 +5466,5 @@
     <string name="gallery_descending">내림차순</string>
     <string name="gallery_display_options">그룹화 및 정렬</string>
     <string name="gallery_grouping">그룹화</string>
+    <string name="save_color_as_image">이미지로 저장</string>
 </resources>
