@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Có gì đó sai: %1$s</string>
     <string name="size">Kích thước %1$s</string>
@@ -5466,4 +5482,22 @@
     <string name="gallery_descending">Giảm dần</string>
     <string name="gallery_display_options">Nhóm và sắp xếp</string>
     <string name="gallery_grouping">Nhóm</string>
+    <string name="save_color_as_image">Lưu dưới dạng hình ảnh</string>
+    <string name="compare_animation">Hoạt hình trước/sau</string>
+    <string name="compare_animation_sub">Xuất so sánh vòng lặp dưới dạng GIF</string>
+    <string name="compare_animation_before">Trước</string>
+    <string name="compare_animation_after">Sau đó</string>
+    <string name="compare_animation_duration">Thời lượng vòng lặp</string>
+    <string name="compare_animation_direction">Hướng di chuyển</string>
+    <string name="compare_animation_labels">Nhãn trước/sau</string>
+    <string name="screenshot_framing">Đóng khung ảnh chụp màn hình</string>
+    <string name="screenshot_framing_sub">Làm cho ảnh chụp màn hình và ảnh chụp nổi bật với nền đầy màu sắc, các góc tròn và bóng mềm mại</string>
+    <string name="screenshot_framing_search">Ảnh chụp màn hình,khung,mô hình,lý lịch,độ dốc,bóng,trình bày,Thẻ</string>
+    <string name="screenshot_framing_background">Lý lịch</string>
+    <string name="screenshot_framing_gradient_sub">Trộn màu hoặc tắt để sử dụng nền đồng màu</string>
+    <string name="screenshot_framing_layout">Cách trình bày</string>
+    <string name="screenshot_framing_corners">Bán kính góc hình ảnh</string>
+    <string name="screenshot_framing_shadow">Bóng mềm</string>
+    <string name="screenshot_framing_shadow_sub">Nâng hình ảnh lên trên nền</string>
+    <string name="screenshot_framing_shadow_opacity">Độ mờ bóng</string>
 </resources>

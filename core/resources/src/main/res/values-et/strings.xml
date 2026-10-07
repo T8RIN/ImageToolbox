@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="smth_went_wrong">Midagi läks valesti: %1$s</string>
     <string name="size">Suurus %1$s</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Langevad</string>
     <string name="gallery_display_options">Rühmitamine ja sorteerimine</string>
     <string name="gallery_grouping">Rühmitamine</string>
+    <string name="save_color_as_image">Salvesta pildina</string>
+    <string name="compare_animation">Animeeritud enne/pärast</string>
+    <string name="compare_animation_sub">Ekspordi silmuste võrdlus GIF-vormingus</string>
+    <string name="compare_animation_before">Enne</string>
+    <string name="compare_animation_after">Pärast</string>
+    <string name="compare_animation_duration">Silmuse kestus</string>
+    <string name="compare_animation_direction">Liikumise suund</string>
+    <string name="compare_animation_labels">Enne/pärast sildid</string>
+    <string name="screenshot_framing">Ekraanipildi raamimine</string>
+    <string name="screenshot_framing_sub">Ekraanitõmmised ja fotod paistavad silma värvilise tausta, ümarate nurkade ja pehmete varjudega</string>
+    <string name="screenshot_framing_search">ekraanipilt, raam, makett, taust, gradient, vari, esitlus, kaart</string>
+    <string name="screenshot_framing_background">Taust</string>
+    <string name="screenshot_framing_gradient_sub">Segage värve või lülitage see välja, et kasutada ühtlast tausta</string>
+    <string name="screenshot_framing_layout">Paigutus</string>
+    <string name="screenshot_framing_corners">Pildi nurga raadius</string>
+    <string name="screenshot_framing_shadow">Pehme vari</string>
+    <string name="screenshot_framing_shadow_sub">Tõstke pilt taustast kõrgemale</string>
+    <string name="screenshot_framing_shadow_opacity">Varju läbipaistmatus</string>
 </resources>

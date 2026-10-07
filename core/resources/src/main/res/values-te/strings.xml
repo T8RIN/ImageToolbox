@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">పరిమాణం %1$s</string>
     <string name="app_closing">యాప్‌ను మూసివేస్తోంది</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">అవరోహణ</string>
     <string name="gallery_display_options">సమూహపరచడం మరియు క్రమబద్ధీకరించడం</string>
     <string name="gallery_grouping">గ్రూపింగ్</string>
+    <string name="save_color_as_image">చిత్రంగా సేవ్ చేయండి</string>
+    <string name="compare_animation">ముందు/తర్వాత యానిమేట్ చేయబడింది</string>
+    <string name="compare_animation_sub">GIF వలె లూపింగ్ పోలికను ఎగుమతి చేయండి</string>
+    <string name="compare_animation_before">ముందు</string>
+    <string name="compare_animation_after">తర్వాత</string>
+    <string name="compare_animation_duration">లూప్ వ్యవధి</string>
+    <string name="compare_animation_direction">కదలిక దిశ</string>
+    <string name="compare_animation_labels">లేబుల్‌లకు ముందు/తర్వాత</string>
+    <string name="screenshot_framing">స్క్రీన్‌షాట్ ఫ్రేమింగ్</string>
+    <string name="screenshot_framing_sub">స్క్రీన్‌షాట్‌లు మరియు ఫోటోలను రంగురంగుల నేపథ్యాలు, గుండ్రని మూలలు మరియు మృదువైన నీడలతో ప్రత్యేకంగా కనిపించేలా చేయండి</string>
+    <string name="screenshot_framing_search">స్క్రీన్‌షాట్, ఫ్రేమ్, మోకప్, బ్యాక్‌గ్రౌండ్, గ్రేడియంట్, షాడో, ప్రెజెంటేషన్, కార్డ్</string>
+    <string name="screenshot_framing_background">నేపథ్యం</string>
+    <string name="screenshot_framing_gradient_sub">రంగులను కలపండి లేదా ఘన నేపథ్యాన్ని ఉపయోగించడానికి ఆఫ్ చేయండి</string>
+    <string name="screenshot_framing_layout">లేఅవుట్</string>
+    <string name="screenshot_framing_corners">చిత్రం మూల వ్యాసార్థం</string>
+    <string name="screenshot_framing_shadow">మృదువైన నీడ</string>
+    <string name="screenshot_framing_shadow_sub">నేపథ్యం పైన చిత్రాన్ని ఎత్తండి</string>
+    <string name="screenshot_framing_shadow_opacity">నీడ అస్పష్టత</string>
 </resources>

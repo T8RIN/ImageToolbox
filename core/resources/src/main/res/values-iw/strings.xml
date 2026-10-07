@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="exception">חריג</string>
     <string name="edit_exif">ערוך EXIF</string>
@@ -5469,4 +5485,22 @@
     <string name="gallery_descending">יורד</string>
     <string name="gallery_display_options">קיבוץ ומיון</string>
     <string name="gallery_grouping">הַקבָּצָה</string>
+    <string name="save_color_as_image">שמור כתמונה</string>
+    <string name="compare_animation">אנימציה לפני/אחרי</string>
+    <string name="compare_animation_sub">ייצא השוואת לולאה כ-GIF</string>
+    <string name="compare_animation_before">לִפנֵי</string>
+    <string name="compare_animation_after">לְאַחַר</string>
+    <string name="compare_animation_duration">משך לולאה</string>
+    <string name="compare_animation_direction">כיוון תנועה</string>
+    <string name="compare_animation_labels">תוויות לפני/אחרי</string>
+    <string name="screenshot_framing">מסגור צילום מסך</string>
+    <string name="screenshot_framing_sub">הבלוט צילומי מסך ותמונות עם רקעים צבעוניים, פינות מעוגלות וצללים רכים</string>
+    <string name="screenshot_framing_search">צילום מסך, מסגרת, דגם, רקע, שיפוע, צל, מצגת, כרטיס</string>
+    <string name="screenshot_framing_background">רֶקַע</string>
+    <string name="screenshot_framing_gradient_sub">מערבבים צבעים, או כבה כדי להשתמש ברקע מוצק</string>
+    <string name="screenshot_framing_layout">מַעֲרָך</string>
+    <string name="screenshot_framing_corners">רדיוס פינת תמונה</string>
+    <string name="screenshot_framing_shadow">צל רך</string>
+    <string name="screenshot_framing_shadow_sub">הרם את התמונה מעל הרקע</string>
+    <string name="screenshot_framing_shadow_opacity">אטימות צל</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
@@ -5467,4 +5483,21 @@
     <string name="gallery_display_options">그룹화 및 정렬</string>
     <string name="gallery_grouping">그룹화</string>
     <string name="save_color_as_image">이미지로 저장</string>
+    <string name="compare_animation">애니메이션 전/후</string>
+    <string name="compare_animation_sub">반복 비교를 GIF로 내보내기</string>
+    <string name="compare_animation_before">전에</string>
+    <string name="compare_animation_after">후에</string>
+    <string name="compare_animation_duration">루프 기간</string>
+    <string name="compare_animation_direction">이동방향</string>
+    <string name="compare_animation_labels">라벨 전/후</string>
+    <string name="screenshot_framing">스크린샷 프레이밍</string>
+    <string name="screenshot_framing_sub">다채로운 배경, 둥근 모서리, 부드러운 그림자로 스크린샷과 사진을 돋보이게 만드세요.</string>
+    <string name="screenshot_framing_search">스크린샷,프레임,모형,배경,그라데이션,그림자,프레젠테이션,카드</string>
+    <string name="screenshot_framing_background">배경</string>
+    <string name="screenshot_framing_gradient_sub">색상을 혼합하거나 끄고 단색 배경을 사용하세요.</string>
+    <string name="screenshot_framing_layout">공들여 나열한 것</string>
+    <string name="screenshot_framing_corners">이미지 코너 반경</string>
+    <string name="screenshot_framing_shadow">부드러운 그림자</string>
+    <string name="screenshot_framing_shadow_sub">배경 위로 이미지를 들어 올리세요.</string>
+    <string name="screenshot_framing_shadow_opacity">그림자 불투명도</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="updates">Жаңартулар</string>
     <string name="palette">Палитра</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Төмендеу</string>
     <string name="gallery_display_options">Топтастыру және сұрыптау</string>
     <string name="gallery_grouping">Топтастыру</string>
+    <string name="save_color_as_image">Сурет ретінде сақтау</string>
+    <string name="compare_animation">Анимация алдында/кейін</string>
+    <string name="compare_animation_sub">Циклдік салыстыруды GIF ретінде экспорттаңыз</string>
+    <string name="compare_animation_before">Бұрын</string>
+    <string name="compare_animation_after">Кейін</string>
+    <string name="compare_animation_duration">Цикл ұзақтығы</string>
+    <string name="compare_animation_direction">Қозғалыс бағыты</string>
+    <string name="compare_animation_labels">Белгілерге дейін/кейін</string>
+    <string name="screenshot_framing">Скриншотты жақтау</string>
+    <string name="screenshot_framing_sub">Скриншоттар мен фотосуреттерді түрлі-түсті фондармен, дөңгелектелген бұрыштармен және жұмсақ көлеңкелермен ерекшелендіріңіз</string>
+    <string name="screenshot_framing_search">скриншот, жақтау, макет, фон, градиент, көлеңке, презентация, карта</string>
+    <string name="screenshot_framing_background">Фон</string>
+    <string name="screenshot_framing_gradient_sub">Түстерді араластырыңыз немесе қатты фонды пайдалану үшін өшіріңіз</string>
+    <string name="screenshot_framing_layout">Орналасу</string>
+    <string name="screenshot_framing_corners">Кескін бұрышының радиусы</string>
+    <string name="screenshot_framing_shadow">Жұмсақ көлеңке</string>
+    <string name="screenshot_framing_shadow_sub">Кескінді фонның үстінен көтеріңіз</string>
+    <string name="screenshot_framing_shadow_opacity">Көлеңке мөлдірлігі</string>
 </resources>

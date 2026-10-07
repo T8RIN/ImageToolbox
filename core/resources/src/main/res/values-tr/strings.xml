@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Azalan</string>
     <string name="gallery_display_options">Gruplama ve sıralama</string>
     <string name="gallery_grouping">Gruplama</string>
+    <string name="save_color_as_image">Resim olarak kaydet</string>
+    <string name="compare_animation">Öncesi/sonrası animasyonlu</string>
+    <string name="compare_animation_sub">Döngüsel bir karşılaştırmayı GIF olarak dışa aktarma</string>
+    <string name="compare_animation_before">Önce</string>
+    <string name="compare_animation_after">Sonrasında</string>
+    <string name="compare_animation_duration">Döngü süresi</string>
+    <string name="compare_animation_direction">Hareket yönü</string>
+    <string name="compare_animation_labels">Etiketlerden önce/sonra</string>
+    <string name="screenshot_framing">Ekran görüntüsü çerçeveleme</string>
+    <string name="screenshot_framing_sub">Renkli arka planlar, yuvarlatılmış köşeler ve yumuşak gölgelerle ekran görüntülerinin ve fotoğrafların öne çıkmasını sağlayın</string>
+    <string name="screenshot_framing_search">ekran görüntüsü,çerçeve,model,arka plan,gradyan,gölge,sunum,kart</string>
+    <string name="screenshot_framing_background">Arka plan</string>
+    <string name="screenshot_framing_gradient_sub">Renkleri karıştırın veya düz bir arka plan kullanmak için kapatın</string>
+    <string name="screenshot_framing_layout">Düzen</string>
+    <string name="screenshot_framing_corners">Resim köşe yarıçapı</string>
+    <string name="screenshot_framing_shadow">Yumuşak gölge</string>
+    <string name="screenshot_framing_shadow_sub">Resmi arka planın üzerine kaldırın</string>
+    <string name="screenshot_framing_shadow_opacity">Gölge opaklığı</string>
 </resources>

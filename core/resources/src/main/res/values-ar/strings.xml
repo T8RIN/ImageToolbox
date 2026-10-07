@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="language">اللغة</string>
     <string name="amoled_mode">وضع Amoled</string>
@@ -5471,4 +5487,22 @@
     <string name="gallery_descending">تنازلي</string>
     <string name="gallery_display_options">التجميع والفرز</string>
     <string name="gallery_grouping">التجميع</string>
+    <string name="save_color_as_image">حفظ كصورة</string>
+    <string name="compare_animation">الرسوم المتحركة قبل / بعد</string>
+    <string name="compare_animation_sub">قم بتصدير مقارنة متكررة بتنسيق GIF</string>
+    <string name="compare_animation_before">قبل</string>
+    <string name="compare_animation_after">بعد</string>
+    <string name="compare_animation_duration">مدة الحلقة</string>
+    <string name="compare_animation_direction">اتجاه الحركة</string>
+    <string name="compare_animation_labels">قبل/بعد التسميات</string>
+    <string name="screenshot_framing">تأطير لقطة الشاشة</string>
+    <string name="screenshot_framing_sub">اجعل لقطات الشاشة والصور مميزة بخلفيات ملونة وزوايا مستديرة وظلال ناعمة</string>
+    <string name="screenshot_framing_search">لقطة شاشة، إطار، نموذج بالحجم الطبيعي، الخلفية، التدرج، الظل، العرض التقديمي، البطاقة</string>
+    <string name="screenshot_framing_background">خلفية</string>
+    <string name="screenshot_framing_gradient_sub">قم بمزج الألوان، أو قم بإيقاف تشغيلها لاستخدام خلفية صلبة</string>
+    <string name="screenshot_framing_layout">تَخطِيط</string>
+    <string name="screenshot_framing_corners">نصف قطر زاوية الصورة</string>
+    <string name="screenshot_framing_shadow">الظل الناعم</string>
+    <string name="screenshot_framing_shadow_sub">ارفع الصورة فوق الخلفية</string>
+    <string name="screenshot_framing_shadow_opacity">عتامة الظل</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
@@ -5469,4 +5485,22 @@
     <string name="gallery_descending">Па сыходзе</string>
     <string name="gallery_display_options">Групоўка і сартаванне</string>
     <string name="gallery_grouping">Групоўка</string>
+    <string name="save_color_as_image">Захаваць як малюнак</string>
+    <string name="compare_animation">Анімацыя да/пасля</string>
+    <string name="compare_animation_sub">Экспарт цыклічнага параўнання ў фармаце GIF</string>
+    <string name="compare_animation_before">Раней</string>
+    <string name="compare_animation_after">Пасля</string>
+    <string name="compare_animation_duration">Працягласць цыкла</string>
+    <string name="compare_animation_direction">Кірунак руху</string>
+    <string name="compare_animation_labels">Этыкеткі да/пасля</string>
+    <string name="screenshot_framing">Рамка скрыншота</string>
+    <string name="screenshot_framing_sub">Вылучайце скрыншоты і фатаграфіі маляўнічым фонам, закругленымі кутамі і мяккімі ценямі</string>
+    <string name="screenshot_framing_search">скрыншот, рамка, макет, фон, градыент, цень, прэзентацыя, картка</string>
+    <string name="screenshot_framing_background">Фон</string>
+    <string name="screenshot_framing_gradient_sub">Змешвайце колеры або адключыце, каб выкарыстоўваць аднатонны фон</string>
+    <string name="screenshot_framing_layout">Макет</string>
+    <string name="screenshot_framing_corners">Радыус вугла выявы</string>
+    <string name="screenshot_framing_shadow">Мяккі цень</string>
+    <string name="screenshot_framing_shadow_sub">Падніміце малюнак над фонам</string>
+    <string name="screenshot_framing_shadow_opacity">Непразрыстасць цені</string>
 </resources>

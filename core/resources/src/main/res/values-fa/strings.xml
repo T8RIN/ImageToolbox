@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">نزولی</string>
     <string name="gallery_display_options">گروه بندی و مرتب سازی</string>
     <string name="gallery_grouping">گروه بندی</string>
+    <string name="save_color_as_image">ذخیره به عنوان تصویر</string>
+    <string name="compare_animation">متحرک قبل / بعد</string>
+    <string name="compare_animation_sub">یک مقایسه حلقه ای را به عنوان GIF صادر کنید</string>
+    <string name="compare_animation_before">قبل از</string>
+    <string name="compare_animation_after">بعد از</string>
+    <string name="compare_animation_duration">مدت زمان حلقه</string>
+    <string name="compare_animation_direction">جهت حرکت</string>
+    <string name="compare_animation_labels">برچسب های قبل / بعد</string>
+    <string name="screenshot_framing">کادربندی اسکرین شات</string>
+    <string name="screenshot_framing_sub">اسکرین شات ها و عکس ها را با پس زمینه های رنگارنگ، گوشه های گرد و سایه های ملایم برجسته کنید</string>
+    <string name="screenshot_framing_search">اسکرین شات، قاب، ماکت، پس زمینه، گرادیان، سایه، ارائه، کارت</string>
+    <string name="screenshot_framing_background">پس زمینه</string>
+    <string name="screenshot_framing_gradient_sub">رنگ ها را با هم ترکیب کنید یا برای استفاده از پس زمینه جامد خاموش کنید</string>
+    <string name="screenshot_framing_layout">طرح بندی</string>
+    <string name="screenshot_framing_corners">شعاع گوشه تصویر</string>
+    <string name="screenshot_framing_shadow">سایه نرم</string>
+    <string name="screenshot_framing_shadow_sub">تصویر را بالای پس زمینه ببرید</string>
+    <string name="screenshot_framing_shadow_opacity">کدورت سایه</string>
 </resources>

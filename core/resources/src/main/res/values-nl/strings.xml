@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Formaat %1$s</string>
     <string name="loading">Laden…</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Aflopend</string>
     <string name="gallery_display_options">Groeperen en sorteren</string>
     <string name="gallery_grouping">Groepering</string>
+    <string name="save_color_as_image">Opslaan als afbeelding</string>
+    <string name="compare_animation">Geanimeerd voor/na</string>
+    <string name="compare_animation_sub">Exporteer een lusvergelijking als GIF</string>
+    <string name="compare_animation_before">Voor</string>
+    <string name="compare_animation_after">Na</string>
+    <string name="compare_animation_duration">Duur van de lus</string>
+    <string name="compare_animation_direction">Bewegingsrichting</string>
+    <string name="compare_animation_labels">Voor/na-labels</string>
+    <string name="screenshot_framing">Schermafbeelding inlijsten</string>
+    <string name="screenshot_framing_sub">Laat schermafbeeldingen en foto\'s opvallen met kleurrijke achtergronden, afgeronde hoeken en zachte schaduwen</string>
+    <string name="screenshot_framing_search">screenshot,frame,mockup,achtergrond,kleurovergang,schaduw,presentatie,kaart</string>
+    <string name="screenshot_framing_background">Achtergrond</string>
+    <string name="screenshot_framing_gradient_sub">Meng kleuren of schakel uit om een ​​effen achtergrond te gebruiken</string>
+    <string name="screenshot_framing_layout">Indeling</string>
+    <string name="screenshot_framing_corners">Hoekradius van afbeelding</string>
+    <string name="screenshot_framing_shadow">Zachte schaduw</string>
+    <string name="screenshot_framing_shadow_sub">Til de afbeelding boven de achtergrond</string>
+    <string name="screenshot_framing_shadow_opacity">Schaduwdekking</string>
 </resources>

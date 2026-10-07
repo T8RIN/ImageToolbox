@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
@@ -5466,4 +5482,22 @@
     <string name="gallery_descending">降順</string>
     <string name="gallery_display_options">グループ化と並べ替え</string>
     <string name="gallery_grouping">グループ化</string>
+    <string name="save_color_as_image">画像として保存</string>
+    <string name="compare_animation">前後のアニメーション</string>
+    <string name="compare_animation_sub">ループ比較を GIF としてエクスポートする</string>
+    <string name="compare_animation_before">前に</string>
+    <string name="compare_animation_after">後</string>
+    <string name="compare_animation_duration">ループ期間</string>
+    <string name="compare_animation_direction">移動方向</string>
+    <string name="compare_animation_labels">ラベルの前後</string>
+    <string name="screenshot_framing">スクリーンショットのフレーミング</string>
+    <string name="screenshot_framing_sub">カラフルな背景、丸い角、柔らかい影でスクリーンショットや写真を目立たせる</string>
+    <string name="screenshot_framing_search">スクリーンショット、フレーム、モックアップ、背景、グラデーション、シャドウ、プレゼンテーション、カード</string>
+    <string name="screenshot_framing_background">背景</string>
+    <string name="screenshot_framing_gradient_sub">カラーをブレンドするか、オフにして単色の背景を使用します</string>
+    <string name="screenshot_framing_layout">レイアウト</string>
+    <string name="screenshot_framing_corners">画像の角の半径</string>
+    <string name="screenshot_framing_shadow">ソフトシャドウ</string>
+    <string name="screenshot_framing_shadow_sub">画像を背景の上に持ち上げます</string>
+    <string name="screenshot_framing_shadow_opacity">影の不透明度</string>
 </resources>

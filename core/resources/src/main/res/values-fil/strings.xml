@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="size">Laki %1$s</string>
     <string name="loading">Ikinakarga…</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Pababa</string>
     <string name="gallery_display_options">Pagpapangkat at pag-uuri</string>
     <string name="gallery_grouping">Pagpapangkat</string>
+    <string name="save_color_as_image">I-save bilang larawan</string>
+    <string name="compare_animation">Animated bago/pagkatapos</string>
+    <string name="compare_animation_sub">I-export ang isang looping paghahambing bilang GIF</string>
+    <string name="compare_animation_before">dati</string>
+    <string name="compare_animation_after">Pagkatapos</string>
+    <string name="compare_animation_duration">Tagal ng loop</string>
+    <string name="compare_animation_direction">Direksyon ng paggalaw</string>
+    <string name="compare_animation_labels">Bago/pagkatapos ng mga label</string>
+    <string name="screenshot_framing">Pag-frame ng screenshot</string>
+    <string name="screenshot_framing_sub">Gawing kapansin-pansin ang mga screenshot at larawan gamit ang mga makukulay na background, mga bilugan na sulok at malambot na anino</string>
+    <string name="screenshot_framing_search">screenshot,frame,mockup,background,gradient,shadow,presentation,card</string>
+    <string name="screenshot_framing_background">Background</string>
+    <string name="screenshot_framing_gradient_sub">Paghaluin ang mga kulay, o i-off para gumamit ng solid na background</string>
+    <string name="screenshot_framing_layout">Layout</string>
+    <string name="screenshot_framing_corners">Radius ng sulok ng larawan</string>
+    <string name="screenshot_framing_shadow">Malambot na anino</string>
+    <string name="screenshot_framing_shadow_sub">Itaas ang larawan sa itaas ng background</string>
+    <string name="screenshot_framing_shadow_opacity">Opacity ng anino</string>
 </resources>

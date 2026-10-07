@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="sharpen">Élesítés</string>
     <string name="palette">Paletta</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Csökkenő</string>
     <string name="gallery_display_options">Csoportosítás és rendezés</string>
     <string name="gallery_grouping">Csoportosítás</string>
+    <string name="save_color_as_image">Mentés képként</string>
+    <string name="compare_animation">Animált előtte/utána</string>
+    <string name="compare_animation_sub">Exportáljon hurkolt összehasonlítást GIF-ként</string>
+    <string name="compare_animation_before">Előtt</string>
+    <string name="compare_animation_after">Után</string>
+    <string name="compare_animation_duration">Hurok időtartama</string>
+    <string name="compare_animation_direction">Mozgásirány</string>
+    <string name="compare_animation_labels">Címkék előtt/utána</string>
+    <string name="screenshot_framing">Képernyőkép keretezése</string>
+    <string name="screenshot_framing_sub">Színes hátterekkel, lekerekített sarkokkal és lágy árnyékokkal kitűnhet a képernyőképek és fényképek</string>
+    <string name="screenshot_framing_search">képernyőkép, keret, makett, háttér, színátmenet, árnyék, prezentáció, kártya</string>
+    <string name="screenshot_framing_background">Háttér</string>
+    <string name="screenshot_framing_gradient_sub">Keverje össze a színeket, vagy kapcsolja ki, ha szilárd hátteret szeretne használni</string>
+    <string name="screenshot_framing_layout">Elrendezés</string>
+    <string name="screenshot_framing_corners">Kép sarok sugara</string>
+    <string name="screenshot_framing_shadow">Lágy árnyék</string>
+    <string name="screenshot_framing_shadow_sub">Emelje fel a képet a háttér fölé</string>
+    <string name="screenshot_framing_shadow_opacity">Árnyék átlátszatlansága</string>
 </resources>

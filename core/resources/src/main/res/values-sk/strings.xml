@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
@@ -5470,4 +5486,21 @@
     <string name="gallery_display_options">Zoskupovanie a triedenie</string>
     <string name="gallery_grouping">Zoskupovanie</string>
     <string name="save_color_as_image">Uložiť ako obrázok</string>
+    <string name="compare_animation">Animované pred/po</string>
+    <string name="compare_animation_sub">Exportujte porovnanie opakovania ako GIF</string>
+    <string name="compare_animation_before">Predtým</string>
+    <string name="compare_animation_after">Po</string>
+    <string name="compare_animation_duration">Trvanie slučky</string>
+    <string name="compare_animation_direction">Smer pohybu</string>
+    <string name="compare_animation_labels">Štítky pred/po</string>
+    <string name="screenshot_framing">Rámovanie snímky obrazovky</string>
+    <string name="screenshot_framing_sub">Nechajte snímky obrazovky a fotografie vyniknúť farebným pozadím, zaoblenými rohmi a jemnými tieňmi</string>
+    <string name="screenshot_framing_search">snímka obrazovky,rám,maketa,pozadie,prechod,tieň,prezentácia,karta</string>
+    <string name="screenshot_framing_background">Pozadie</string>
+    <string name="screenshot_framing_gradient_sub">Zmiešajte farby alebo vypnite, aby ste použili jednoliate pozadie</string>
+    <string name="screenshot_framing_layout">Rozloženie</string>
+    <string name="screenshot_framing_corners">Polomer rohu obrázka</string>
+    <string name="screenshot_framing_shadow">Mäkký tieň</string>
+    <string name="screenshot_framing_shadow_sub">Zdvihnite obrázok nad pozadie</string>
+    <string name="screenshot_framing_shadow_opacity">Nepriehľadnosť tieňa</string>
 </resources>

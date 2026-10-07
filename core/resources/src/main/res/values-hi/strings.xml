@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="stay">ठहरें</string>
     <string name="close">बंद करें</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">अवरोही</string>
     <string name="gallery_display_options">समूहीकरण एवं वर्गीकरण</string>
     <string name="gallery_grouping">समूहन</string>
+    <string name="save_color_as_image">छवि के रूप में सहेजें</string>
+    <string name="compare_animation">पहले/बाद में एनिमेटेड</string>
+    <string name="compare_animation_sub">लूपिंग तुलना को GIF के रूप में निर्यात करें</string>
+    <string name="compare_animation_before">पहले</string>
+    <string name="compare_animation_after">बाद</string>
+    <string name="compare_animation_duration">लूप अवधि</string>
+    <string name="compare_animation_direction">आंदोलन की दिशा</string>
+    <string name="compare_animation_labels">लेबल से पहले/बाद में</string>
+    <string name="screenshot_framing">स्क्रीनशॉट फ़्रेमिंग</string>
+    <string name="screenshot_framing_sub">स्क्रीनशॉट और फ़ोटो को रंगीन पृष्ठभूमि, गोलाकार कोनों और नरम छाया के साथ अलग बनाएं</string>
+    <string name="screenshot_framing_search">स्क्रीनशॉट, फ़्रेम, मॉकअप, पृष्ठभूमि, ग्रेडिएंट, छाया, प्रस्तुति, कार्ड</string>
+    <string name="screenshot_framing_background">पृष्ठभूमि</string>
+    <string name="screenshot_framing_gradient_sub">ठोस पृष्ठभूमि का उपयोग करने के लिए रंगों को मिश्रित करें या बंद करें</string>
+    <string name="screenshot_framing_layout">लेआउट</string>
+    <string name="screenshot_framing_corners">छवि कोने की त्रिज्या</string>
+    <string name="screenshot_framing_shadow">कोमल छाया</string>
+    <string name="screenshot_framing_shadow_sub">छवि को पृष्ठभूमि से ऊपर उठाएं</string>
+    <string name="screenshot_framing_shadow_opacity">छाया अपारदर्शिता</string>
 </resources>

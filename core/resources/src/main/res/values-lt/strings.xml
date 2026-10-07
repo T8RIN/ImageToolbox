@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="single_edit">Vienas redagavimas</string>
     <string name="create_shortcut_title">Pasirinkite įrankį, kurį prisegti</string>
@@ -5469,4 +5485,22 @@
     <string name="gallery_descending">Mažėjantis</string>
     <string name="gallery_display_options">Grupavimas ir rūšiavimas</string>
     <string name="gallery_grouping">Grupavimas</string>
+    <string name="save_color_as_image">Išsaugoti kaip paveikslėlį</string>
+    <string name="compare_animation">Animuotas prieš/po</string>
+    <string name="compare_animation_sub">Eksportuokite kilpinį palyginimą kaip GIF</string>
+    <string name="compare_animation_before">Prieš</string>
+    <string name="compare_animation_after">Po to</string>
+    <string name="compare_animation_duration">Ciklo trukmė</string>
+    <string name="compare_animation_direction">Judėjimo kryptis</string>
+    <string name="compare_animation_labels">Etiketės prieš/po</string>
+    <string name="screenshot_framing">Ekrano kopijos kadravimas</string>
+    <string name="screenshot_framing_sub">Ekrano kopijos ir nuotraukos išsiskirtų spalvingu fonu, užapvalintais kampais ir švelniais šešėliais</string>
+    <string name="screenshot_framing_search">ekrano kopija, rėmelis, maketas, fonas, gradientas, šešėlis, pristatymas, kortelė</string>
+    <string name="screenshot_framing_background">Fonas</string>
+    <string name="screenshot_framing_gradient_sub">Sumaišykite spalvas arba išjunkite, jei norite naudoti vientisą foną</string>
+    <string name="screenshot_framing_layout">Išdėstymas</string>
+    <string name="screenshot_framing_corners">Vaizdo kampo spindulys</string>
+    <string name="screenshot_framing_shadow">Švelnus šešėlis</string>
+    <string name="screenshot_framing_shadow_sub">Pakelkite vaizdą virš fono</string>
+    <string name="screenshot_framing_shadow_opacity">Šešėlių neskaidrumas</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
@@ -5466,4 +5482,22 @@
     <string name="gallery_descending">จากมากไปน้อย</string>
     <string name="gallery_display_options">การจัดกลุ่มและการเรียงลำดับ</string>
     <string name="gallery_grouping">การจัดกลุ่ม</string>
+    <string name="save_color_as_image">บันทึกเป็นภาพ</string>
+    <string name="compare_animation">ภาพเคลื่อนไหวก่อน/หลัง</string>
+    <string name="compare_animation_sub">ส่งออกการเปรียบเทียบแบบวนซ้ำเป็น GIF</string>
+    <string name="compare_animation_before">ก่อน</string>
+    <string name="compare_animation_after">หลังจาก</string>
+    <string name="compare_animation_duration">ระยะเวลาวนซ้ำ</string>
+    <string name="compare_animation_direction">ทิศทางการเคลื่อนไหว</string>
+    <string name="compare_animation_labels">ก่อน/หลังฉลาก</string>
+    <string name="screenshot_framing">การจัดเฟรมภาพหน้าจอ</string>
+    <string name="screenshot_framing_sub">ทำให้ภาพหน้าจอและภาพถ่ายโดดเด่นด้วยพื้นหลังสีสันสดใส มุมโค้งมน และเงาที่นุ่มนวล</string>
+    <string name="screenshot_framing_search">ภาพหน้าจอ กรอบ จำลอง พื้นหลัง การไล่ระดับสี เงา การนำเสนอ การ์ด</string>
+    <string name="screenshot_framing_background">พื้นหลัง</string>
+    <string name="screenshot_framing_gradient_sub">ผสมผสานสีหรือปิดเพื่อใช้พื้นหลังทึบ</string>
+    <string name="screenshot_framing_layout">เค้าโครง</string>
+    <string name="screenshot_framing_corners">รัศมีมุมภาพ</string>
+    <string name="screenshot_framing_shadow">เงานุ่มนวล</string>
+    <string name="screenshot_framing_shadow_sub">ยกภาพขึ้นเหนือพื้นหลัง</string>
+    <string name="screenshot_framing_shadow_opacity">ความทึบแสงของเงา</string>
 </resources>

@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Alguna cosa ha anat malament: %1$s</string>
     <string name="size">Mida %1$s</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">Descens</string>
     <string name="gallery_display_options">Agrupació i classificació</string>
     <string name="gallery_grouping">Agrupació</string>
+    <string name="save_color_as_image">Desa com a imatge</string>
+    <string name="compare_animation">Animació abans/després</string>
+    <string name="compare_animation_sub">Exporta una comparació en bucle com a GIF</string>
+    <string name="compare_animation_before">Abans</string>
+    <string name="compare_animation_after">Després</string>
+    <string name="compare_animation_duration">Durada del bucle</string>
+    <string name="compare_animation_direction">Direcció del moviment</string>
+    <string name="compare_animation_labels">Etiquetes abans/després</string>
+    <string name="screenshot_framing">Enquadrament de la captura de pantalla</string>
+    <string name="screenshot_framing_sub">Feu que les captures de pantalla i les fotos destaquin amb fons de colors, cantonades arrodonides i ombres suaus</string>
+    <string name="screenshot_framing_search">captura de pantalla, marc, maqueta, fons, degradat, ombra, presentació, targeta</string>
+    <string name="screenshot_framing_background">Fons</string>
+    <string name="screenshot_framing_gradient_sub">Barreja colors o desactiva per utilitzar un fons sòlid</string>
+    <string name="screenshot_framing_layout">Disseny</string>
+    <string name="screenshot_framing_corners">Radi de la cantonada de la imatge</string>
+    <string name="screenshot_framing_shadow">Ombra suau</string>
+    <string name="screenshot_framing_shadow_sub">Aixeca la imatge per sobre del fons</string>
+    <string name="screenshot_framing_shadow_opacity">Opacitat de l\'ombra</string>
 </resources>

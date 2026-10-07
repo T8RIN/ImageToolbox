@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pick_image">தொடங்குவதற்கு படத்தைத் தேர்ந்தெடுக்கவும்</string>
     <string name="flexible">நெகிழ்வான</string>
@@ -5467,4 +5483,22 @@
     <string name="gallery_descending">இறங்குதல்</string>
     <string name="gallery_display_options">தொகுத்தல் மற்றும் வரிசைப்படுத்துதல்</string>
     <string name="gallery_grouping">குழுவாக்கம்</string>
+    <string name="save_color_as_image">படமாக சேமிக்கவும்</string>
+    <string name="compare_animation">முன்/பின் அனிமேஷன்</string>
+    <string name="compare_animation_sub">லூப்பிங் ஒப்பீட்டை GIF ஆக ஏற்றுமதி செய்யவும்</string>
+    <string name="compare_animation_before">முன்பு</string>
+    <string name="compare_animation_after">பிறகு</string>
+    <string name="compare_animation_duration">லூப் காலம்</string>
+    <string name="compare_animation_direction">இயக்கத்தின் திசை</string>
+    <string name="compare_animation_labels">லேபிள்களுக்கு முன்/பின்</string>
+    <string name="screenshot_framing">ஸ்கிரீன்ஷாட் ஃப்ரேமிங்</string>
+    <string name="screenshot_framing_sub">ஸ்கிரீன் ஷாட்கள் மற்றும் புகைப்படங்களை வண்ணமயமான பின்னணிகள், வட்டமான மூலைகள் மற்றும் மென்மையான நிழல்களுடன் தனித்து நிற்கச் செய்யுங்கள்</string>
+    <string name="screenshot_framing_search">ஸ்கிரீன்ஷாட், ஃப்ரேம், மொக்கப், பின்னணி, சாய்வு, நிழல், விளக்கக்காட்சி, அட்டை</string>
+    <string name="screenshot_framing_background">பின்னணி</string>
+    <string name="screenshot_framing_gradient_sub">வண்ணங்களைக் கலக்கவும் அல்லது திடமான பின்னணியைப் பயன்படுத்த அணைக்கவும்</string>
+    <string name="screenshot_framing_layout">தளவமைப்பு</string>
+    <string name="screenshot_framing_corners">படத்தின் மூலையின் ஆரம்</string>
+    <string name="screenshot_framing_shadow">மென்மையான நிழல்</string>
+    <string name="screenshot_framing_shadow_sub">பின்னணிக்கு மேலே படத்தை உயர்த்தவும்</string>
+    <string name="screenshot_framing_shadow_opacity">நிழல் ஒளிபுகாநிலை</string>
 </resources>

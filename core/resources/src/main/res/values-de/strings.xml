@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ImageToolbox is an image editor for android
+  ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ You should have received a copy of the Apache License
+  ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+  -->
+
 <resources>
     <string name="size">Größe %1$s</string>
     <string name="height">Höhe %1$s</string>
@@ -5468,4 +5484,21 @@
     <string name="gallery_display_options">Gruppieren und Sortieren</string>
     <string name="gallery_grouping">Gruppierung</string>
     <string name="save_color_as_image">Als Bild speichern</string>
+    <string name="compare_animation">Vorher/nachher animiert</string>
+    <string name="compare_animation_sub">Exportieren Sie einen Schleifenvergleich als GIF</string>
+    <string name="compare_animation_before">Vor</string>
+    <string name="compare_animation_after">Nach</string>
+    <string name="compare_animation_duration">Schleifendauer</string>
+    <string name="compare_animation_direction">Bewegungsrichtung</string>
+    <string name="compare_animation_labels">Vorher/Nachher-Etiketten</string>
+    <string name="screenshot_framing">Screenshot-Framing</string>
+    <string name="screenshot_framing_sub">Heben Sie Screenshots und Fotos mit farbenfrohen Hintergründen, abgerundeten Ecken und weichen Schatten hervor</string>
+    <string name="screenshot_framing_search">Screenshot, Rahmen, Modell, Hintergrund, Farbverlauf, Schatten, Präsentation, Karte</string>
+    <string name="screenshot_framing_background">Hintergrund</string>
+    <string name="screenshot_framing_gradient_sub">Mischen Sie Farben oder deaktivieren Sie sie, um einen einfarbigen Hintergrund zu verwenden</string>
+    <string name="screenshot_framing_layout">Layout</string>
+    <string name="screenshot_framing_corners">Bildeckenradius</string>
+    <string name="screenshot_framing_shadow">Weicher Schatten</string>
+    <string name="screenshot_framing_shadow_sub">Heben Sie das Bild über den Hintergrund</string>
+    <string name="screenshot_framing_shadow_opacity">Schattenopazität</string>
 </resources>
