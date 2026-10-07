@@ -159,6 +159,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PickColorFromImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
@@ -192,6 +193,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is Compare -> "Compare"
     is CompressionLab -> "Compression_Lab"
     is CodePreview -> "Code_Preview"
+    is ScreenshotFraming -> "Screenshot_Framing"
     is Crop -> "Crop"
     is Curves -> "Tone_Curves"
     is DeleteExif -> "Delete_Exif"
@@ -301,6 +303,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Compare -> Icons.Outlined.Compare
     is CompressionLab -> Icons.Rounded.Labs
     is CodePreview -> Icons.Outlined.Terminal
+    is ScreenshotFraming -> Icons.Outlined.WallArt
     is Crop -> Icons.Rounded.CropSmall
     is Curves -> Icons.Outlined.Curve
     is DeleteExif -> Icons.Outlined.Exif
@@ -400,6 +403,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Compare -> Icons.TwoTone.Compare
     is CompressionLab -> Icons.TwoTone.Labs
     is CodePreview -> Icons.TwoTone.Terminal
+    is ScreenshotFraming -> Icons.TwoTone.WallArt
     is Crop -> Icons.TwoTone.CropSmall
     is Curves -> Icons.TwoTone.Curve
     is DeleteExif -> Icons.TwoTone.Exif
@@ -545,6 +549,7 @@ private object ScreenConstantsImpl : ScreenConstants {
                     MultiFrameFusion(),
                     ShaderStudio,
                     CodePreview,
+                    ScreenshotFraming(),
                     NoiseGeneration,
                     TextureGeneration,
                     FractalGeneration,
@@ -603,5 +608,5 @@ private object ScreenConstantsImpl : ScreenConstants {
             .sortedBy { it.id }
     }
 
-    override val FEATURES_COUNT = 109 + PdfTools.options.size
+    override val FEATURES_COUNT = 110 + PdfTools.options.size
 }

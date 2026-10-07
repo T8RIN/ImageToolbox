@@ -31,6 +31,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.data.image.utils.drawBitmap
 import com.t8rin.imagetoolbox.core.data.utils.asDomain
+import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.data.utils.safeConfig
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
@@ -41,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
+import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.transformation.GenericTransformation
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.resources.R
@@ -51,6 +53,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.compare.data.CompareAnimationRenderer
+import com.t8rin.imagetoolbox.feature.compare.data.writeGif
+import com.t8rin.imagetoolbox.feature.compare.domain.CompareAnimationParams
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareType
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.PixelByPixelCompareState
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.CompareData
@@ -61,8 +66,12 @@ import com.t8rin.opencv_tools.image_comparison.model.ComparisonType
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
 class CompareComponent @AssistedInject internal constructor(
@@ -92,6 +101,88 @@ class CompareComponent @AssistedInject internal constructor(
 
     private val _bitmapData: MutableState<CompareData?> = mutableStateOf(null)
     val bitmapData by _bitmapData
+
+    private val _animationParams = mutableStateOf(CompareAnimationParams())
+    internal val animationParams by _animationParams
+
+    private val _animationProgress = mutableStateOf<Float?>(null)
+    internal val animationProgress by _animationProgress
+
+    internal fun updateAnimationParams(params: CompareAnimationParams) {
+        _animationParams.value = params.copy(
+            durationSeconds = params.durationSeconds.coerceIn(2, 8)
+        )
+    }
+
+    internal fun exportAnimation(
+        share: Boolean,
+        oneTimeSaveLocationUri: String? = null
+    ) {
+        val data = bitmapData ?: return
+        val before = data.first?.image ?: return
+        val after = data.second?.image ?: return
+        val params = animationParams
+        savingJob = trackProgress {
+            _isImageLoading.value = true
+            _animationProgress.value = 0f
+            try {
+                val (width, height) = CompareAnimationParams.outputSize(before.width, before.height)
+                val uri = withContext(defaultDispatcher) {
+                    shareProvider.cacheDataOrThrow(filename = "before_after.gif") { output ->
+                        val renderer = CompareAnimationRenderer(
+                            before = before,
+                            after = after,
+                            width = width,
+                            height = height,
+                            beforeLabel = getString(R.string.compare_animation_before),
+                            afterLabel = getString(R.string.compare_animation_after)
+                        )
+                        renderer.writeGif(
+                            output = output.outputStream(),
+                            params = params,
+                            onProgress = { done, total ->
+                                _animationProgress.value = done.toFloat() / total
+                                updateProgress(done = done, total = total)
+                            }
+                        )
+                    }
+                }
+                currentCoroutineContext().ensureActive()
+                if (share) {
+                    shareProvider.shareUri(
+                        uri = uri,
+                        type = ImageFormat.Gif.mimeType,
+                        onComplete = AppToastHost::showConfetti
+                    )
+                } else {
+                    parseSaveResult(
+                        fileController.move(
+                            sourceUri = uri,
+                            saveTarget = ImageSaveTarget(
+                                imageInfo = ImageInfo(
+                                    width = width,
+                                    height = height,
+                                    imageFormat = ImageFormat.Gif
+                                ),
+                                originalUri = "",
+                                sequenceNumber = null,
+                                data = byteArrayOf()
+                            ),
+                            keepOriginalMetadata = false,
+                            oneTimeSaveLocationUri = oneTimeSaveLocationUri
+                        )
+                    )
+                }
+            } catch (exception: CancellationException) {
+                throw exception
+            } catch (throwable: Throwable) {
+                AppToastHost.showFailureToast(throwable)
+            } finally {
+                _animationProgress.value = null
+                _isImageLoading.value = false
+            }
+        }
+    }
 
     private val _rotation: MutableState<Float> = mutableFloatStateOf(0f)
     val rotation by _rotation

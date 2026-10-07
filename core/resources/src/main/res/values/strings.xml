@@ -5514,4 +5514,21 @@
     <string name="gallery_descending">Descending</string>
     <string name="gallery_display_options">Grouping and sorting</string>
     <string name="gallery_grouping">Grouping</string>
+    <string name="compare_animation">Animated before/after</string>
+    <string name="compare_animation_sub">Export a looping comparison as GIF</string>
+    <string name="compare_animation_before">Before</string>
+    <string name="compare_animation_after">After</string>
+    <string name="compare_animation_duration">Loop duration</string>
+    <string name="compare_animation_direction">Movement direction</string>
+    <string name="compare_animation_labels">Before/after labels</string>
+    <string name="screenshot_framing">Screenshot framing</string>
+    <string name="screenshot_framing_sub">Make screenshots and photos stand out with colorful backgrounds, rounded corners and soft shadows</string>
+    <string name="screenshot_framing_search">screenshot,frame,mockup,background,gradient,shadow,presentation,card</string>
+    <string name="screenshot_framing_background">Background</string>
+    <string name="screenshot_framing_gradient_sub">Blend colors, or turn off to use a solid background</string>
+    <string name="screenshot_framing_layout">Layout</string>
+    <string name="screenshot_framing_corners">Image corner radius</string>
+    <string name="screenshot_framing_shadow">Soft shadow</string>
+    <string name="screenshot_framing_shadow_sub">Lift the image above the background</string>
+    <string name="screenshot_framing_shadow_opacity">Shadow opacity</string>
 </resources>

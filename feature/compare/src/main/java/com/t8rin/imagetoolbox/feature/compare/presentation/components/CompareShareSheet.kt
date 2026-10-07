@@ -42,6 +42,7 @@ import coil3.transform.Transformation
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Animation
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.IosShare
 import com.t8rin.imagetoolbox.core.resources.icons.Save
@@ -68,6 +69,7 @@ internal fun CompareShareSheet(
     onSaveBitmap: (ImageFormat, String?) -> Unit,
     onShare: (ImageFormat) -> Unit,
     onCopy: (ImageFormat) -> Unit,
+    onAnimate: () -> Unit,
     previewData: Any?,
     transformations: List<Transformation>
 ) {
@@ -102,6 +104,16 @@ internal fun CompareShareSheet(
                         )
                     }
                     Spacer(Modifier.height(16.dp))
+                    PreferenceItem(
+                        title = stringResource(R.string.compare_animation),
+                        subtitle = stringResource(R.string.compare_animation_sub),
+                        onClick = onAnimate,
+                        endIcon = Icons.Rounded.Animation,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    )
+                    Spacer(Modifier.height(8.dp))
                     ImageFormatSelector(
                         modifier = Modifier
                             .fillMaxWidth()

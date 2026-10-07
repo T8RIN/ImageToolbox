@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.PickColorFromImage
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.RecognizeText
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
@@ -160,6 +161,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is Compare -> R.string.search_keywords_compare
     is CompressionLab -> R.string.search_keywords_compression_lab
     is CodePreview -> R.string.search_keywords_code_preview
+    is ScreenshotFraming -> R.string.screenshot_framing_search
     is LimitResize -> R.string.search_keywords_limit_resize
     is PdfTools -> R.string.search_keywords_pdf_tools
     is RecognizeText -> R.string.search_keywords_recognize_text

@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.code_preview.presentation.model
+package com.t8rin.imagetoolbox.core.ui.widget.palette_selection
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.resources.R
 
-enum class CodeBackgroundPreset(
+enum class GradientBackgroundPreset(
     @StringRes val title: Int,
     val startColor: Color,
     val endColor: Color

@@ -5486,4 +5486,21 @@
     <string name="small">Маленький</string>
     <string name="large">Большой</string>
     <string name="gallery_display_options">Группировка и сортировка</string>
+    <string name="compare_animation">Анимированное до/после</string>
+    <string name="compare_animation_sub">Сохранить зацикленное сравнение в GIF</string>
+    <string name="compare_animation_before">До</string>
+    <string name="compare_animation_after">После</string>
+    <string name="compare_animation_duration">Длительность цикла</string>
+    <string name="compare_animation_direction">Направление движения</string>
+    <string name="compare_animation_labels">Подписи до/после</string>
+    <string name="screenshot_framing">Оформление скриншотов</string>
+    <string name="screenshot_framing_sub">Оформляйте скриншоты и фотографии с помощью цветного фона, скруглений и мягких теней</string>
+    <string name="screenshot_framing_search">скриншот,рамка,мокап,фон,градиент,тень,презентация,карточка</string>
+    <string name="screenshot_framing_background">Фон</string>
+    <string name="screenshot_framing_gradient_sub">Плавный переход между цветами. Выключите для однотонного фона</string>
+    <string name="screenshot_framing_layout">Оформление</string>
+    <string name="screenshot_framing_corners">Радиус скругления изображения</string>
+    <string name="screenshot_framing_shadow">Мягкая тень</string>
+    <string name="screenshot_framing_shadow_sub">Добавить изображению объём над фоном</string>
+    <string name="screenshot_framing_shadow_opacity">Непрозрачность тени</string>
 </resources>

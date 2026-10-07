@@ -1367,6 +1367,15 @@ sealed class Screen(
         subtitle = R.string.fractal_generation_sub
     )
 
+    @Serializable
+    data class ScreenshotFraming(
+        val uri: Uri? = null
+    ) : Screen(
+        id = 83,
+        title = R.string.screenshot_framing,
+        subtitle = R.string.screenshot_framing_sub
+    )
+
     companion object : ScreenConstants by ScreenConstants
 
 }

@@ -1270,6 +1270,7 @@ or click one of the badges below.
 - Files to Zip
 - Comparing images
     - Slide
+  - Animated before/after GIF export with horizontal or vertical movement and optional labels
     - Toggle Tap
     - Transparency
     - Side By Side
@@ -1362,6 +1363,9 @@ or click one of the badges below.
       transparency
     - Customize canvas spacing, rounded corners, rotation, window controls, line numbers and card
       shadow
+- Screenshot Framing
+  - Place images on solid or gradient backgrounds
+  - Customize padding, rounded corners, shadow and aspect ratio
 - Archive Tools
   - Stream archives directly from source files to the selected destination without loading the
     whole archive into memory

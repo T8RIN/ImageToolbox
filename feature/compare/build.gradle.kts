@@ -26,4 +26,5 @@ android.namespace = "com.t8rin.imagetoolbox.feature.compare"
 
 dependencies {
     implementation(projects.lib.opencvTools)
+    implementation(libs.toolbox.gifConverter)
 }

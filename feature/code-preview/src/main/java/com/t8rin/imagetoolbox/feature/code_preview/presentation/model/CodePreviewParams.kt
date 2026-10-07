@@ -20,16 +20,17 @@ package com.t8rin.imagetoolbox.feature.code_preview.presentation.model
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundPreset
 
 @Immutable
 data class CodePreviewParams(
     val code: String = DefaultCode,
     val language: CodeLanguage = CodeLanguage.Kotlin,
     val theme: CodePreviewTheme = CodePreviewTheme.Dracula,
-    val backgroundPreset: CodeBackgroundPreset = CodeBackgroundPreset.Aurora,
+    val backgroundPreset: GradientBackgroundPreset = GradientBackgroundPreset.Aurora,
     val backgroundColors: List<Color> = listOf(
-        CodeBackgroundPreset.Aurora.startColor,
-        CodeBackgroundPreset.Aurora.endColor
+        GradientBackgroundPreset.Aurora.startColor,
+        GradientBackgroundPreset.Aurora.endColor
     ),
     val title: String = "Main.kt",
     val fontSize: Int = 15,

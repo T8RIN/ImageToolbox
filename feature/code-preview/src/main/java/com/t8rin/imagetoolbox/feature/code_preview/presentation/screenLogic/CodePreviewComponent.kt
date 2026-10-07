@@ -40,9 +40,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundPreset
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.renderCodePreviewBitmap
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeBackgroundPreset
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewParams
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
@@ -107,7 +107,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     fun updateTheme(value: CodePreviewTheme) = updateParams { copy(theme = value) }
 
-    fun updateBackgroundPreset(value: CodeBackgroundPreset) = updateParams {
+    fun updateBackgroundPreset(value: GradientBackgroundPreset) = updateParams {
         copy(
             backgroundPreset = value,
             backgroundColors = listOf(value.startColor, value.endColor)
@@ -116,14 +116,14 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     fun updateGradientPalette(value: GradientPalette) = updateParams {
         copy(
-            backgroundPreset = CodeBackgroundPreset.Custom,
+            backgroundPreset = GradientBackgroundPreset.Custom,
             backgroundColors = value.colors.map { it.toColor() }
         )
     }
 
     fun updateBackgroundStartColor(value: androidx.compose.ui.graphics.Color) = updateParams {
         copy(
-            backgroundPreset = CodeBackgroundPreset.Custom,
+            backgroundPreset = GradientBackgroundPreset.Custom,
             backgroundColors = backgroundColors.toMutableList().apply {
                 this[0] = value
             }
@@ -132,7 +132,7 @@ class CodePreviewComponent @AssistedInject internal constructor(
 
     fun updateBackgroundEndColor(value: androidx.compose.ui.graphics.Color) = updateParams {
         copy(
-            backgroundPreset = CodeBackgroundPreset.Custom,
+            backgroundPreset = GradientBackgroundPreset.Custom,
             backgroundColors = backgroundColors.toMutableList().apply {
                 this[lastIndex] = value
             }

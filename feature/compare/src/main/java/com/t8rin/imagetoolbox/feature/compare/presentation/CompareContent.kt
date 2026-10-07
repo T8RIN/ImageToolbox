@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.OneTimeImagePickingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
+import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareAnimationSheet
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareScreenContent
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareScreenTopAppBar
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareShareSheet
@@ -108,6 +109,7 @@ fun CompareContent(
     val isPortrait by isPortraitOrientationAsState()
 
     var showShareSheet by rememberSaveable { mutableStateOf(false) }
+    var showAnimationSheet by rememberSaveable { mutableStateOf(false) }
     var isLabelsEnabled by rememberSaveable {
         mutableStateOf(true)
     }
@@ -222,12 +224,41 @@ fun CompareContent(
             showShareSheet = false
         },
         onCopy = component::cacheCurrentImage,
+        onAnimate = {
+            showShareSheet = false
+            showAnimationSheet = true
+        },
         previewData = previewBitmap,
         transformations = transformations
     )
 
-    LoadingDialog(
-        visible = component.isImageLoading,
-        onCancelLoading = component::cancelSaving
+    CompareAnimationSheet(
+        visible = showAnimationSheet,
+        onVisibleChange = { showAnimationSheet = it },
+        data = component.bitmapData,
+        params = component.animationParams,
+        onParamsChange = component::updateAnimationParams,
+        onSave = {
+            component.exportAnimation(share = false, oneTimeSaveLocationUri = it)
+            showAnimationSheet = false
+        },
+        onShare = {
+            component.exportAnimation(share = true)
+            showAnimationSheet = false
+        }
     )
+
+    val animationProgress = component.animationProgress
+    if (animationProgress != null) {
+        LoadingDialog(
+            visible = component.isImageLoading,
+            progress = { animationProgress },
+            onCancelLoading = component::cancelSaving
+        )
+    } else {
+        LoadingDialog(
+            visible = component.isImageLoading,
+            onCancelLoading = component::cancelSaving
+        )
+    }
 }

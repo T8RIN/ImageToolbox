@@ -89,5 +89,6 @@ dependencies {
     implementation(projects.feature.multiFrameFusion)
     implementation(projects.feature.compressionLab)
     implementation(projects.feature.codePreview)
+    implementation(projects.feature.screenshotFraming)
     implementation(projects.feature.fractalGeneration)
 }

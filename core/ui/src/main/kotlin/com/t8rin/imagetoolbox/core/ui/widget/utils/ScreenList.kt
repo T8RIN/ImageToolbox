@@ -158,6 +158,7 @@ internal fun List<Uri>.screenList(
                 ),
                 Screen.AiTools(uris),
                 Screen.MarkupLayers(uris.firstOrNull()),
+                Screen.ScreenshotFraming(uris.firstOrNull()),
                 Screen.Watermarking(uris),
                 Screen.ImageStitching(uris),
                 Screen.ImageStacking(uris),

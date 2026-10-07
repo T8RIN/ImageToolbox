@@ -18,24 +18,18 @@
 package com.t8rin.imagetoolbox.feature.code_preview.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -44,29 +38,24 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormatGroup
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
-import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Code
-import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.resources.icons.Highlight
 import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.resources.icons.Regex
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
-import com.t8rin.imagetoolbox.core.ui.utils.helper.toModel
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
-import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientPaletteSelector
+import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeBackgroundPreset
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
@@ -167,79 +156,14 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         onClick = component::toggleCanvasBackground
                     )
                     AnimatedVisibility(visible = params.showCanvasBackground) {
-                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            val entries = remember {
-                                CodeBackgroundPreset.entries.filterNot {
-                                    it == CodeBackgroundPreset.Custom
-                                }
-                            }
-
-                            DataSelector(
-                                value = params.backgroundPreset,
-                                onValueChange = component::updateBackgroundPreset,
-                                entries = entries,
-                                title = stringResource(R.string.gradient),
-                                titleIcon = Icons.Outlined.Gradient,
-                                itemContentText = { preset ->
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Spacer(
-                                            modifier = Modifier
-                                                .size(20.dp)
-                                                .background(
-                                                    brush = Brush.linearGradient(
-                                                        colors = listOf(
-                                                            preset.startColor,
-                                                            preset.endColor
-                                                        )
-                                                    ),
-                                                    shape = ShapeDefaults.extraSmall
-                                                )
-                                                .border(
-                                                    width = 0.5.dp,
-                                                    color = MaterialTheme.colorScheme.outlineVariant,
-                                                    shape = AutoCornersShape(3.5.dp)
-                                                )
-                                        )
-                                        Spacer(Modifier.width(6.dp))
-                                        Text(stringResource(preset.title))
-                                    }
-
-                                    null
-                                },
-                                spanCount = 3,
-                                badgeContent = { Text(entries.size.toString()) },
-                                key = CodeBackgroundPreset::name,
-                                shape = ShapeDefaults.center
-                            )
-                            val palette = remember(params.backgroundColors) {
-                                GradientPalette.fromColors(params.backgroundColors.map { it.toModel() })
-                            }
-                            GradientPaletteSelector(
-                                value = palette,
-                                onValueChange = component::updateGradientPalette,
-                                shape = ShapeDefaults.center
-                            )
-                            AnimatedVisibility(visible = palette is GradientPalette.Custom) {
-                                ColorRowSelector(
-                                    value = params.backgroundColors.first(),
-                                    onValueChange = component::updateBackgroundStartColor,
-                                    title = stringResource(R.string.code_preview_gradient_start),
-                                    allowAlpha = false,
-                                    modifier = Modifier.container(shape = ShapeDefaults.center)
-                                )
-                            }
-                            AnimatedVisibility(visible = palette is GradientPalette.Custom) {
-                                ColorRowSelector(
-                                    value = params.backgroundColors.last(),
-                                    onValueChange = component::updateBackgroundEndColor,
-                                    title = stringResource(R.string.code_preview_gradient_end),
-                                    allowAlpha = false,
-                                    modifier = Modifier.container(shape = ShapeDefaults.center)
-                                )
-                            }
-                        }
+                        GradientBackgroundSelector(
+                            preset = params.backgroundPreset,
+                            colors = params.backgroundColors,
+                            onPresetChange = component::updateBackgroundPreset,
+                            onPaletteChange = component::updateGradientPalette,
+                            onStartColorChange = component::updateBackgroundStartColor,
+                            onEndColorChange = component::updateBackgroundEndColor
+                        )
                     }
                     EnhancedSliderItem(
                         value = params.fontSize,

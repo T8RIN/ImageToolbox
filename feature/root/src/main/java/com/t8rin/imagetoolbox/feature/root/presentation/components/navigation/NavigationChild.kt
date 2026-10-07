@@ -179,6 +179,8 @@ import com.t8rin.imagetoolbox.feature.resize_convert.presentation.ResizeAndConve
 import com.t8rin.imagetoolbox.feature.resize_convert.presentation.screenLogic.ResizeAndConvertComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.ScanQrCodeContent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.ScreenshotFramingContent
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.ShaderStudioContent
@@ -350,6 +352,11 @@ internal sealed interface NavigationChild {
     class CodePreview(private val component: CodePreviewComponent) : NavigationChild {
         @Composable
         override fun Content() = CodePreviewContent(component)
+    }
+
+    class ScreenshotFraming(private val component: ScreenshotFramingComponent) : NavigationChild {
+        @Composable
+        override fun Content() = ScreenshotFramingContent(component)
     }
 
     class Gallery(

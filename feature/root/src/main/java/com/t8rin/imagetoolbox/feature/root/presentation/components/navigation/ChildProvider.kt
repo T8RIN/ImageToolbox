@@ -178,6 +178,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.RotatePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SanitizePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScreenshotFraming
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ShaderStudio
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SignaturePdfTool
@@ -195,6 +196,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ZipConvertPdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.screenLogic.ShaderStudioComponent
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent
@@ -219,6 +221,7 @@ internal class ChildProvider @Inject constructor(
     private val compareComponentFactory: CompareComponent.Factory,
     private val compressionLabComponentFactory: CompressionLabComponent.Factory,
     private val codePreviewComponentFactory: CodePreviewComponent.Factory,
+    private val screenshotFramingComponentFactory: ScreenshotFramingComponent.Factory,
     private val cropComponentFactory: CropComponent.Factory,
     private val curvesComponentFactory: CurvesComponent.Factory,
     private val deleteExifComponentFactory: DeleteExifComponent.Factory,
@@ -548,6 +551,15 @@ internal class ChildProvider @Inject constructor(
         Screen.CodePreview -> CodePreview(
             codePreviewComponentFactory(
                 componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.ScreenshotFraming -> ScreenshotFraming(
+            screenshotFramingComponentFactory(
+                componentContext = componentContext,
+                initialUri = config.uri,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )
