@@ -4885,7 +4885,7 @@
     <string name="focus_strength">Fokusseparation</string>
     <string name="source_frames">Källramar</string>
     <string name="fusion_image_limit">Upp till %1$d ramar kan smältas ihop på en gång</string>
-    <string name="search_keywords_multi_frame_fusion">multi frame fusion exponering hdr fokus stapling median brus människor borttagning fäste</string>
+    <string name="search_keywords_multi_frame_fusion">multi frame fusion exponering hdr fokus stapling median brus borttagning av personer fäste lång exponering ljusrörelse stjärnspår</string>
     <string name="long_exposure">Lång exponering</string>
     <string name="long_exposure_sub">Jämna rörelser genom att medelvärdesbilda sekvensen i linjärt ljus samtidigt som statiska detaljer bibehålls</string>
     <string name="light_trails">Ljusspår</string>
@@ -5467,4 +5467,5 @@
     <string name="gallery_descending">Fallande</string>
     <string name="gallery_display_options">Gruppering och sortering</string>
     <string name="gallery_grouping">Gruppering</string>
+    <string name="save_color_as_image">Spara som bild</string>
 </resources>
