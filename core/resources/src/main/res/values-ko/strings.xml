@@ -5144,7 +5144,7 @@
     <string name="delete_templates_warning">%1$d 선택한 템플릿을 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.</string>
     <string name="fractal_generation">프랙탈</string>
     <string name="fractal_generation_sub">프랙탈 이미지 생성 및 저장</string>
-    <string name="search_keywords_fractal_generation">프랙탈 만델브로트 줄리아 불타는 배 트라이콘 멀티브로트 멀티콘 켈트족 버팔로 피닉스 노바 뉴턴 자석 리아푸노프 시에르핀스키 만델불브 만델박스 멩거 쿼터니언 3D 무한 딥 줌 생성기</string>
+    <string name="search_keywords_fractal_generation">프랙탈 만델브로트 줄리아 불타는 배 트라이콘 멀티브로트 멀티콘 켈트족 버팔로 피닉스 노바 뉴턴 자석 리아푸노프 시에르핀스키 클리퍼드 드 종 이케다 팅커벨 구모프스키 미라 반즐리 알파 사인 코사인 쌍곡사인 거미 맨오워 람다 가시 깃털 선인장 주비에타 테트레이션 고사리 용 잔가지 크리스마스 트리 빅섹 피타고라스 H-트리 코흐 힐베르트 만델불브 만델박스 멩거 쿼터니언 3D RGB CMYK 무한 딥 줌 생성기</string>
     <string name="fractal_power">힘</string>
     <string name="fractal_iteration_policy">반복 정책</string>
     <string name="fractal_bailout">탈출 반경</string>
