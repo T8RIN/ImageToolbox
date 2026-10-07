@@ -108,7 +108,8 @@ internal fun CompareShareSheet(
                         title = stringResource(R.string.compare_animation),
                         subtitle = stringResource(R.string.compare_animation_sub),
                         onClick = onAnimate,
-                        endIcon = Icons.Rounded.Animation,
+                        startIcon = Icons.Rounded.Animation,
+                        endIcon = Icons.Rounded.IosShare,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)

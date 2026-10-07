@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.compare.presentation
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -31,9 +32,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -64,6 +65,7 @@ import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareTyp
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.ifNotEmpty
 import com.t8rin.imagetoolbox.feature.compare.presentation.screenLogic.CompareComponent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 
 @Composable
@@ -189,9 +191,18 @@ fun CompareContent(
         }
     }
 
-    val previewBitmap by remember(component.bitmapData) {
-        derivedStateOf {
-            component.getImagePreview()
+    val previewBitmap by produceState<Bitmap?>(
+        initialValue = null,
+        component.bitmapData,
+        component.compareProgress,
+        component.compareType,
+        showShareSheet
+    ) {
+        value = null
+        if (showShareSheet) {
+            value = withContext(component.defaultDispatcher) {
+                component.getImagePreview()
+            }
         }
     }
     val transformations = remember(

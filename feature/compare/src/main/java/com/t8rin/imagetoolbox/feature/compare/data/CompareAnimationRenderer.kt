@@ -21,10 +21,13 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
-import com.t8rin.imagetoolbox.feature.compare.domain.CompareAnimationParams
 import androidx.core.graphics.withSave
+import com.t8rin.imagetoolbox.feature.compare.domain.CompareAnimationParams
+import kotlin.math.ceil
+import kotlin.math.floor
 
 internal class CompareAnimationRenderer(
     private val before: Bitmap,
@@ -43,6 +46,23 @@ internal class CompareAnimationRenderer(
     }
     private val beforeRect = before.fitRect()
     private val afterRect = after.fitRect()
+    private val dividerWidth = (minOf(width, height) * 0.004f).coerceAtLeast(1f)
+
+    fun frameBounds(
+        previousPosition: Float?,
+        position: Float,
+        params: CompareAnimationParams
+    ): Rect {
+        if (previousPosition == null) return Rect(0, 0, width, height)
+
+        val side = if (params.isVertical) height else width
+        val previousEdge = side * previousPosition.coerceIn(0f, 1f)
+        val edge = side * position.coerceIn(0f, 1f)
+        val start = floor(minOf(previousEdge, edge) - dividerWidth).toInt().coerceIn(0, side - 1)
+        val end = ceil(maxOf(previousEdge, edge) + dividerWidth).toInt().coerceIn(start + 1, side)
+        return if (params.isVertical) Rect(0, start, width, end)
+        else Rect(start, 0, end, height)
+    }
 
     fun draw(
         canvas: Canvas,
@@ -68,7 +88,7 @@ internal class CompareAnimationRenderer(
 
         if (progress > 0f && progress < 1f) {
             overlayPaint.color = Color.WHITE
-            overlayPaint.strokeWidth = (minOf(width, height) * 0.004f).coerceAtLeast(1f)
+            overlayPaint.strokeWidth = dividerWidth
             if (params.isVertical) {
                 canvas.drawLine(0f, edge, width.toFloat(), edge, overlayPaint)
             } else {

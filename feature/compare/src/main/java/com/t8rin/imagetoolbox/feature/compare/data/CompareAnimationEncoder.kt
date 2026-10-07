@@ -30,8 +30,6 @@ internal suspend fun CompareAnimationRenderer.writeGif(
     params: CompareAnimationParams,
     onProgress: (Int, Int) -> Unit
 ) {
-    val frame = createBitmap(width, height)
-    val canvas = Canvas(frame)
     val encoder = GifEncoder()
         .setRepeat(0)
         .setQuality(90)
@@ -41,12 +39,27 @@ internal suspend fun CompareAnimationRenderer.writeGif(
     try {
         check(encoder.start(output)) { "Cannot start GIF encoding" }
         val frames = params.frames()
+        var previousPosition: Float? = null
         frames.forEachIndexed { index, animationFrame ->
             currentCoroutineContext().ensureActive()
-            draw(canvas, animationFrame.position, params)
-            check(encoder.setDelay(animationFrame.durationMillis).addFrame(frame)) {
-                "Cannot encode GIF frame"
+            val bounds = frameBounds(previousPosition, animationFrame.position, params)
+            val frame = createBitmap(bounds.width(), bounds.height())
+            try {
+                val canvas = Canvas(frame).apply {
+                    translate(-bounds.left.toFloat(), -bounds.top.toFloat())
+                }
+                draw(canvas, animationFrame.position, params)
+                check(
+                    encoder
+                        .setSize(frame.width, frame.height)
+                        .setPosition(bounds.left, bounds.top)
+                        .setDelay(animationFrame.durationMillis)
+                        .addFrame(frame)
+                ) { "Cannot encode GIF frame" }
+            } finally {
+                frame.recycle()
             }
+            previousPosition = animationFrame.position
             onProgress(index + 1, frames.size)
         }
         currentCoroutineContext().ensureActive()
@@ -55,6 +68,5 @@ internal suspend fun CompareAnimationRenderer.writeGif(
         check(success) { "Cannot finish GIF encoding" }
     } finally {
         if (!finished) runCatching { encoder.finish() }
-        frame.recycle()
     }
 }

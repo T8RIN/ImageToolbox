@@ -66,11 +66,20 @@ class CompareAnimationParamsTest {
 
     @Test
     fun dimensionsStayBoundedWithoutUpscalingOrLosingThinImages() {
-        assertEquals(720 to 360, CompareAnimationParams.outputSize(4000, 2000))
-        assertEquals(360 to 720, CompareAnimationParams.outputSize(2000, 4000))
+        assertEquals(2048 to 1024, CompareAnimationParams.outputSize(4000, 2000))
+        assertEquals(1024 to 2048, CompareAnimationParams.outputSize(2000, 4000))
         assertEquals(120 to 80, CompareAnimationParams.outputSize(120, 80))
-        assertEquals(720 to 1, CompareAnimationParams.outputSize(Int.MAX_VALUE, 1))
-        assertEquals(1 to 720, CompareAnimationParams.outputSize(1, Int.MAX_VALUE))
+        assertEquals(2048 to 1, CompareAnimationParams.outputSize(Int.MAX_VALUE, 1))
+        assertEquals(1 to 2048, CompareAnimationParams.outputSize(1, Int.MAX_VALUE))
+    }
+
+    @Test
+    fun selectedResolutionKeepsTheSourceAspectRatio() {
+        for (size in CompareAnimationParams.sizes) {
+            assertEquals(size to size / 2, CompareAnimationParams.outputSize(8000, 4000, size))
+            assertEquals(size / 2 to size, CompareAnimationParams.outputSize(4000, 8000, size))
+            assertEquals(120 to 80, CompareAnimationParams.outputSize(120, 80, size))
+        }
     }
 
     @Test

@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
@@ -53,6 +54,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toCoil
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.feature.compare.data.CompareAnimationRenderer
 import com.t8rin.imagetoolbox.feature.compare.data.writeGif
 import com.t8rin.imagetoolbox.feature.compare.domain.CompareAnimationParams
@@ -110,7 +112,8 @@ class CompareComponent @AssistedInject internal constructor(
 
     internal fun updateAnimationParams(params: CompareAnimationParams) {
         _animationParams.value = params.copy(
-            durationSeconds = params.durationSeconds.coerceIn(2, 8)
+            durationSeconds = params.durationSeconds.coerceIn(2, 8),
+            maxSize = params.maxSize.coerceIn(720, 4096)
         )
     }
 
@@ -126,7 +129,11 @@ class CompareComponent @AssistedInject internal constructor(
             _isImageLoading.value = true
             _animationProgress.value = 0f
             try {
-                val (width, height) = CompareAnimationParams.outputSize(before.width, before.height)
+                val (width, height) = CompareAnimationParams.outputSize(
+                    width = before.width,
+                    height = before.height,
+                    maxSize = params.maxSize
+                )
                 val uri = withContext(defaultDispatcher) {
                     shareProvider.cacheDataOrThrow(filename = "before_after.gif") { output ->
                         val renderer = CompareAnimationRenderer(
@@ -281,10 +288,15 @@ class CompareComponent @AssistedInject internal constructor(
 
     private suspend fun getBitmapByUri(
         uri: Uri
-    ): Bitmap? = imageGetter.getImage(
-        data = uri.toString(),
-        size = 4000
-    )
+    ): Bitmap? = withContext(defaultDispatcher) {
+        val sourceSize = uri.imageSize()
+        if (sourceSize != null) {
+            val side = minOf(4096, maxOf(sourceSize.width, sourceSize.height))
+            imageGetter.getImage(data = uri, size = IntegerSize(side, side))
+        } else {
+            imageGetter.getImage(data = uri, size = 2048)
+        }
+    }
 
     private var savingJob: Job? by smartJob {
         _isImageLoading.update { false }

@@ -22,7 +22,8 @@ import kotlin.math.roundToInt
 internal data class CompareAnimationParams(
     val durationSeconds: Int = 4,
     val isVertical: Boolean = false,
-    val showLabels: Boolean = true
+    val showLabels: Boolean = true,
+    val maxSize: Int = 2048
 ) {
     val durationMillis: Int
         get() = durationSeconds.coerceIn(2, 8) * 1000
@@ -57,10 +58,10 @@ internal data class CompareAnimationParams(
     companion object {
         private const val HOLD_MILLIS = 500
         private const val FRAME_MILLIS = 50
-        const val MAX_SIZE = 720
+        val sizes = listOf(720, 1080, 2048, 4096)
 
-        fun outputSize(width: Int, height: Int): Pair<Int, Int> {
-            val scale = (MAX_SIZE.toFloat() / maxOf(width, height)).coerceAtMost(1f)
+        fun outputSize(width: Int, height: Int, maxSize: Int = 2048): Pair<Int, Int> {
+            val scale = (maxSize.coerceAtLeast(1).toFloat() / maxOf(width, height)).coerceAtMost(1f)
             return (width * scale).roundToInt().coerceAtLeast(1) to
                     (height * scale).roundToInt().coerceAtLeast(1)
         }

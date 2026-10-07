@@ -38,15 +38,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.scale
+import androidx.core.graphics.withTranslation
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -62,6 +65,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
@@ -69,8 +73,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.compare.data.CompareAnimationRenderer
 import com.t8rin.imagetoolbox.feature.compare.domain.CompareAnimationParams
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.CompareData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
-import androidx.core.graphics.withTranslation
 
 @Composable
 internal fun CompareAnimationSheet(
@@ -86,10 +91,6 @@ internal fun CompareAnimationSheet(
     val after = data.second?.image ?: return
     val beforeLabel = stringResource(R.string.compare_animation_before)
     val afterLabel = stringResource(R.string.compare_animation_after)
-    val renderer = remember(before, after, beforeLabel, afterLabel) {
-        val (width, height) = CompareAnimationParams.outputSize(before.width, before.height)
-        CompareAnimationRenderer(before, after, width, height, beforeLabel, afterLabel)
-    }
     var showFolderSelection by rememberSaveable(visible) { mutableStateOf(false) }
 
     EnhancedModalBottomSheet(
@@ -110,6 +111,31 @@ internal fun CompareAnimationSheet(
             }
         },
         sheetContent = {
+            val previewSize = with(LocalDensity.current) { 120.dp.roundToPx() }
+            val renderer by produceState<CompareAnimationRenderer?>(
+                initialValue = null,
+                key1 = data,
+                key2 = previewSize,
+                key3 = beforeLabel to afterLabel
+            ) {
+                value = null
+                value = withContext(Dispatchers.Default) {
+                    val (width, height) = CompareAnimationParams.outputSize(
+                        before.width, before.height, previewSize
+                    )
+                    val (afterWidth, afterHeight) = CompareAnimationParams.outputSize(
+                        after.width, after.height, previewSize
+                    )
+                    CompareAnimationRenderer(
+                        before = before.scale(width, height),
+                        after = after.scale(afterWidth, afterHeight),
+                        width = width,
+                        height = height,
+                        beforeLabel = beforeLabel,
+                        afterLabel = afterLabel
+                    )
+                }
+            }
             Column(
                 modifier = Modifier.enhancedVerticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -125,9 +151,10 @@ internal fun CompareAnimationSheet(
                         .height(100.dp)
                         .width(120.dp)
                         .container(
-                            shape = MaterialTheme.shapes.extraLarge,
+                            shape = MaterialTheme.shapes.medium,
                             resultPadding = 0.dp
                         )
+                        .transparencyChecker()
                 ) {
                     val transition = rememberInfiniteTransition()
                     val time by transition.animateFloat(
@@ -138,8 +165,9 @@ internal fun CompareAnimationSheet(
                         )
                     )
                     Canvas(Modifier.fillMaxSize()) {
+                        val renderer = renderer ?: return@Canvas
                         val scale =
-                            maxOf(size.width / renderer.width, size.height / renderer.height)
+                            minOf(size.width / renderer.width, size.height / renderer.height)
                         drawIntoCanvas {
                             val canvas = it.nativeCanvas
                             canvas.withTranslation(
@@ -181,6 +209,18 @@ internal fun CompareAnimationSheet(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .container(shape = ShapeDefaults.center),
+                            value = params.maxSize,
+                            entries = CompareAnimationParams.sizes,
+                            onValueChange = { onParamsChange(params.copy(maxSize = it)) },
+                            title = stringResource(R.string.resolution),
+                            itemContent = { Text(it.toString()) },
+                            inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainer,
+                            isScrollable = false
+                        )
+                        EnhancedButtonGroup(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .container(shape = ShapeDefaults.center),
                             value = params.isVertical,
                             entries = listOf(false, true),
                             onValueChange = { onParamsChange(params.copy(isVertical = it)) },
@@ -196,7 +236,8 @@ internal fun CompareAnimationSheet(
                             checked = params.showLabels,
                             onClick = { onParamsChange(params.copy(showLabels = it)) },
                             shape = ShapeDefaults.bottom,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            applyHorizontalPadding = false
                         )
                     }
                 }
