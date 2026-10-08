@@ -1,0 +1,84 @@
+# iOS port: format, lint, package tests, app build and UI tests.
+# Runs on macOS because Xcode and the iOS Simulator exist only there.
+# Not run yet: the file is written locally and the labels below must be checked on the first run.
+name: iOS
+
+on:
+  pull_request:
+    paths:
+      - "ios/**"
+      - ".github/workflows/ios.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: macos-26
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.3"
+      - name: Strict format lint
+        run: |
+          swift format lint --strict --recursive \
+            ImageToolboxKit/Sources ImageToolboxKit/Tests \
+            ImageToolbox/Sources ImageToolbox/UITests
+
+  package:
+    runs-on: macos-26
+    defaults:
+      run:
+        working-directory: ios/ImageToolboxKit
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.3"
+      - name: Package tests on macOS
+        run: swift test
+      - name: Package tests on iOS Simulator
+        run: |
+          xcodebuild -scheme ImageToolboxKit \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            test
+
+  app:
+    runs-on: macos-26
+    defaults:
+      run:
+        working-directory: ios
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.3"
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Regenerate project from project.yml
+        run: xcodegen generate
+      - name: Build app
+        run: |
+          xcodebuild -project ImageToolbox.xcodeproj -scheme ImageToolbox \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            build
+      - name: Add the UI test photo to the simulator
+        run: |
+          # UI tests pick a photo from the library. The fixture must be committed for this step.
+          test -f ImageToolbox/UITests/Fixtures/ui-sample.png
+          xcrun simctl boot "iPhone 17 Pro" || true
+          xcrun simctl addmedia booted ImageToolbox/UITests/Fixtures/ui-sample.png
+      - name: UI tests
+        run: |
+          xcodebuild -project ImageToolbox.xcodeproj -scheme ImageToolbox \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            test

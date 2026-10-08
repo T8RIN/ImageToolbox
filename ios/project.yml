@@ -1,0 +1,68 @@
+# Source of truth for ImageToolbox.xcodeproj.
+# After changing this file, regenerate the project from the ios/ directory:
+#   xcodegen generate
+name: ImageToolbox
+options:
+  bundleIdPrefix: com.the80hz
+  createIntermediateGroups: true
+  developmentLanguage: en
+  deploymentTarget:
+    iOS: "26.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_EMIT_LOC_STRINGS: YES
+packages:
+  ImageToolboxKit:
+    path: ImageToolboxKit
+targets:
+  ImageToolbox:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: ImageToolbox/Sources
+      - path: ImageToolbox/Resources
+    dependencies:
+      - package: ImageToolboxKit
+        product: ImageToolboxKit
+    info:
+      path: ImageToolbox/Info.plist
+      properties:
+        CFBundleDisplayName: Image Toolbox
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.the80hz.imagetoolbox
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+  ImageToolboxUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: ImageToolbox/UITests
+    dependencies:
+      - target: ImageToolbox
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.the80hz.imagetoolbox.uitests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  ImageToolbox:
+    build:
+      targets:
+        ImageToolbox: all
+        ImageToolboxUITests: [test]
+    test:
+      targets:
+        - ImageToolboxUITests

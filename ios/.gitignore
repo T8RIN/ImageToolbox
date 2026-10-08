@@ -1,0 +1,10 @@
+# SwiftPM build output and caches
+.build/
+.swiftpm/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Xcode
+DerivedData/
+xcuserdata/
+*.xcuserstate
