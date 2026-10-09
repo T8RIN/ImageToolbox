@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,8 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">Image Toolbox</string>
     <string name="app_launcher_name" translatable="false">Image Toolbox</string>
     <string name="file_provider" translatable="false">com.t8rin.imagetoolbox.fileprovider</string>
@@ -3156,7 +3156,7 @@
     <string name="filename_format">Filename Format</string>
     <string name="prefix_pattern_description">Custom text placed at the very beginning of the filename, perfect for project names, brands, or personal tags.</string>
     <string name="original_filename_pattern_description">Uses the original file name without extension, helping you keep source identification intact. Also supports slicing with \\o{start:end}, transliteration with \\o{t} and replace with \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Auto-incrementing counter. Supports custom formatting: \\c{padding} (e.g. \\c{3} -> 001), \\c{start:step} or \\c{start:step:padding}.</string>
+    <string name="sequence_number_pattern_description">Auto-incrementing counter. Supports custom formatting: \\c{padding} (e.g. \\c{3} -&gt; 001), \\c{start:step} or \\c{start:step:padding}.</string>
     <string name="width_pattern_description">The image width in pixels, useful for tracking resolution changes or scaling results.</string>
     <string name="height_pattern_description">The image height in pixels, helpful when working with aspect ratios or exports.</string>
     <string name="formatted_timestamp_pattern_description">A customizable timestamp that lets you define your own format by Java specification for perfect sorting.</string>
@@ -5136,7 +5136,7 @@
     <string name="compression_lab_mode_manual">Fixed quality</string>
     <string name="compression_lab_mode_target_quality">Smallest at quality</string>
     <string name="compression_lab_mode_target_size">Best under size</string>
-    <string name="compression_lab_target_quality">Target visual quality</string>
+    <string name="compression_lab_target_quality">Target visual similarity score</string>
     <string name="compression_lab_target_size">Target file size</string>
     <string name="compression_lab_run">Run comparison</string>
     <string name="compression_lab_result_details">Encoder: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
