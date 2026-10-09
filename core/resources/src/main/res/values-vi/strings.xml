@@ -5500,4 +5500,7 @@
     <string name="screenshot_framing_shadow">Bóng mềm</string>
     <string name="screenshot_framing_shadow_sub">Nâng hình ảnh lên trên nền</string>
     <string name="screenshot_framing_shadow_opacity">Độ mờ bóng</string>
+    <string name="weblate_info_sub">Bạn có thể giúp dịch Hộp công cụ hình ảnh trên Weblate. Cải thiện các bản dịch hiện có hoặc thêm ngôn ngữ của bạn để cung cấp ứng dụng cho nhiều người hơn.</string>
+    <string name="understood">Hiểu rồi</string>
+    <string name="open">Mở</string>
 </resources>

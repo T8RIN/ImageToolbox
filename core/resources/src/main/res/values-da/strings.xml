@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Blød skygge</string>
     <string name="screenshot_framing_shadow_sub">Løft billedet over baggrunden</string>
     <string name="screenshot_framing_shadow_opacity">Skyggeopacitet</string>
+    <string name="weblate_info_sub">Du kan hjælpe med at oversætte Image Toolbox på Weblate. Forbedre eksisterende oversættelser, eller tilføj dit sprog for at gøre appen tilgængelig for flere mennesker.</string>
+    <string name="understood">Forstår det</string>
+    <string name="open">Åben</string>
 </resources>

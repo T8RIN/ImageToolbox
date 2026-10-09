@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Жұмсақ көлеңке</string>
     <string name="screenshot_framing_shadow_sub">Кескінді фонның үстінен көтеріңіз</string>
     <string name="screenshot_framing_shadow_opacity">Көлеңке мөлдірлігі</string>
+    <string name="weblate_info_sub">Weblate сайтындағы Image Toolbox бағдарламасын аударуға көмектесе аласыз. Қолданбаны көбірек адамдарға қолжетімді ету үшін бар аудармаларды жақсартыңыз немесе тіліңізді қосыңыз.</string>
+    <string name="understood">Түсіндім</string>
+    <string name="open">Ашық</string>
 </resources>

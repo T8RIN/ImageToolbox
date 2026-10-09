@@ -386,6 +386,18 @@ class RootComponent @AssistedInject internal constructor(
         }
     }
 
+    fun registerWeblateInfoDialogOpen() {
+        componentScope.launch {
+            settingsManager.registerWeblateInfoDialogOpen()
+        }
+    }
+
+    fun notShowWeblateInfoDialogAgain() {
+        componentScope.launch {
+            settingsManager.setNotShowWeblateInfoDialogAgain()
+        }
+    }
+
     fun registerTelegramGroupOpen() {
         componentScope.launch {
             settingsManager.registerTelegramGroupOpen()

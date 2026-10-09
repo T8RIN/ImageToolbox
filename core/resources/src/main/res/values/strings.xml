@@ -138,6 +138,8 @@
     <string name="issue_tracker_sub">Send bug reports and feature requests here</string>
     <string name="help_translate">Help translate</string>
     <string name="help_translate_sub">Correct translation mistakes or localize project to another languages</string>
+    <string name="weblate_info_sub">You can help translate Image Toolbox on Weblate. Improve existing translations or add your language to make the app available to more people.</string>
+    <string name="understood">Got it</string>
     <string name="help_tips">Help &amp; Tips</string>
     <string name="tutorials_count">%1$d tutorials</string>
     <string name="open_tool">Open tool</string>
@@ -5531,4 +5533,5 @@
     <string name="screenshot_framing_shadow">Soft shadow</string>
     <string name="screenshot_framing_shadow_sub">Lift the image above the background</string>
     <string name="screenshot_framing_shadow_opacity">Shadow opacity</string>
+    <string name="open">Open</string>
 </resources>

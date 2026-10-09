@@ -112,6 +112,7 @@ internal val OPEN_EDIT_INSTEAD_OF_PREVIEW = booleanPreferencesKey("OPEN_EDIT_INS
 internal val CAN_ENTER_PRESETS_BY_TEXT_FIELD =
     booleanPreferencesKey("CAN_ENTER_PRESETS_BY_TEXT_FIELD")
 internal val DONATE_DIALOG_OPEN_COUNT = intPreferencesKey("DONATE_DIALOG_OPEN_COUNT")
+internal val WEBLATE_INFO_DIALOG_OPEN_COUNT = intPreferencesKey("WEBLATE_INFO_DIALOG_OPEN_COUNT")
 internal val COLOR_BLIND_TYPE = intPreferencesKey("COLOR_BLIND_TYPE")
 internal val FAVORITE_SCREENS = stringPreferencesKey("FAVORITE_SCREENS")
 internal val IS_LINK_PREVIEW_ENABLED = booleanPreferencesKey("IS_LINK_PREVIEW_ENABLED")

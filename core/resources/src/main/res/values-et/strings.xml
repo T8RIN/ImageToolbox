@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Pehme vari</string>
     <string name="screenshot_framing_shadow_sub">Tõstke pilt taustast kõrgemale</string>
     <string name="screenshot_framing_shadow_opacity">Varju läbipaistmatus</string>
+    <string name="weblate_info_sub">Saate aidata Weblate\'is Image Toolboxi tõlkida. Täiustage olemasolevaid tõlkeid või lisage oma keel, et muuta rakendus rohkematele inimestele kättesaadavaks.</string>
+    <string name="understood">Sain aru</string>
+    <string name="open">Avatud</string>
 </resources>

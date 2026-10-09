@@ -5502,4 +5502,7 @@
     <string name="screenshot_framing_shadow">Sombra suave</string>
     <string name="screenshot_framing_shadow_sub">Levante a imagem acima do fundo</string>
     <string name="screenshot_framing_shadow_opacity">Opacidade da sombra</string>
+    <string name="weblate_info_sub">Você pode ajudar a traduzir o Image Toolbox no Weblate. Melhore as traduções existentes ou adicione seu idioma para disponibilizar o aplicativo para mais pessoas.</string>
+    <string name="understood">Entendi</string>
+    <string name="open">Abrir</string>
 </resources>

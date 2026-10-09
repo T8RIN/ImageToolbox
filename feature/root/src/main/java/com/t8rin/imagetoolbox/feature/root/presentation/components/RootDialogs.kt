@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.HandleL
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.SuccessRestoreBackupToastHandler
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.DonateDialog
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.WeblateInfoDialog
 
 @Composable
 internal fun RootDialogs(component: RootComponent) {
@@ -73,6 +74,11 @@ internal fun RootDialogs(component: RootComponent) {
     DonateDialog(
         onRegisterDonateDialogOpen = component::registerDonateDialogOpen,
         onNotShowDonateDialogAgain = component::notShowDonateDialogAgain
+    )
+
+    WeblateInfoDialog(
+        onRegisterWeblateInfoDialogOpen = component::registerWeblateInfoDialogOpen,
+        onNotShowWeblateInfoDialogAgain = component::notShowWeblateInfoDialogAgain
     )
 
     PermissionDialog()

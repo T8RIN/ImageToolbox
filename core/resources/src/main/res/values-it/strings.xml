@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Ombra morbida</string>
     <string name="screenshot_framing_shadow_sub">Solleva l\'immagine sopra lo sfondo</string>
     <string name="screenshot_framing_shadow_opacity">Opacità dell\'ombra</string>
+    <string name="weblate_info_sub">Puoi aiutare a tradurre Image Toolbox su Weblate. Migliora le traduzioni esistenti o aggiungi la tua lingua per rendere l\'app disponibile a più persone.</string>
+    <string name="understood">Fatto</string>
+    <string name="open">Aprire</string>
 </resources>

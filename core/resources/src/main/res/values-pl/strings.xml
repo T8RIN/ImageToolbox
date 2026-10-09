@@ -5502,4 +5502,7 @@
     <string name="screenshot_framing_shadow">Miękki cień</string>
     <string name="screenshot_framing_shadow_sub">Podnieś obraz ponad tło</string>
     <string name="screenshot_framing_shadow_opacity">Nieprzezroczystość cienia</string>
+    <string name="weblate_info_sub">Możesz pomóc w tłumaczeniu Image Toolbox na Weblate. Popraw istniejące tłumaczenia lub dodaj swój język, aby udostępnić aplikację większej liczbie osób.</string>
+    <string name="understood">Rozumiem</string>
+    <string name="open">Otwarte</string>
 </resources>

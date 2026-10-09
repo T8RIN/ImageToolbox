@@ -5505,4 +5505,7 @@
     <string name="screenshot_framing_shadow">الظل الناعم</string>
     <string name="screenshot_framing_shadow_sub">ارفع الصورة فوق الخلفية</string>
     <string name="screenshot_framing_shadow_opacity">عتامة الظل</string>
+    <string name="weblate_info_sub">يمكنك المساعدة في ترجمة Image Toolbox على Weblate. قم بتحسين الترجمات الحالية أو أضف لغتك لجعل التطبيق متاحًا لمزيد من الأشخاص.</string>
+    <string name="understood">فهمتها</string>
+    <string name="open">يفتح</string>
 </resources>

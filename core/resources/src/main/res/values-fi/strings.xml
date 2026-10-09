@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Pehmeä varjo</string>
     <string name="screenshot_framing_shadow_sub">Nosta kuva taustan yläpuolelle</string>
     <string name="screenshot_framing_shadow_opacity">Varjon peittävyys</string>
+    <string name="weblate_info_sub">Voit auttaa Image Toolboxin kääntämisessä Weblatessa. Paranna olemassa olevia käännöksiä tai lisää kieli, jotta sovellus on useammille ihmisille saatavilla.</string>
+    <string name="understood">Selvä</string>
+    <string name="open">Avata</string>
 </resources>

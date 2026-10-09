@@ -46,6 +46,7 @@ const val SHADER_EXT = "itshader"
 const val PDF = "pdf/"
 
 
+const val WEBLATE_TITLE = "Weblate"
 const val WEBLATE_LINK = "https://hosted.weblate.org/engage/image-resizer/"
 const val PARTNER_FREE_SOFTWARE = "tg://resolve?domain=freeapkexe"
 const val JAVA_FORMAT_SPECIFICATION =

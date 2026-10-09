@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">Měkký stín</string>
     <string name="screenshot_framing_shadow_sub">Zvedněte obrázek nad pozadí</string>
     <string name="screenshot_framing_shadow_opacity">Neprůhlednost stínů</string>
+    <string name="weblate_info_sub">Můžete pomoci s překladem Image Toolbox na Weblate. Vylepšete stávající překlady nebo přidejte svůj jazyk, aby byla aplikace dostupná více lidem.</string>
+    <string name="understood">Rozumím</string>
+    <string name="open">OTEVŘENO</string>
 </resources>

@@ -203,6 +203,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setNotShowDonateDialogAgain()
 
+    suspend fun registerWeblateInfoDialogOpen()
+
+    suspend fun setNotShowWeblateInfoDialogAgain()
+
     suspend fun setColorBlindType(value: Int?)
 
     suspend fun toggleFavoriteScreen(screenId: Int)

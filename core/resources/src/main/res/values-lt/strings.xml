@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">Švelnus šešėlis</string>
     <string name="screenshot_framing_shadow_sub">Pakelkite vaizdą virš fono</string>
     <string name="screenshot_framing_shadow_opacity">Šešėlių neskaidrumas</string>
+    <string name="weblate_info_sub">Galite padėti „Weblate“ išversti „Image Toolbox“. Patobulinkite esamus vertimus arba pridėkite savo kalbą, kad programa būtų pasiekiama daugiau žmonių.</string>
+    <string name="understood">Supratau</string>
+    <string name="open">Atidaryti</string>
 </resources>

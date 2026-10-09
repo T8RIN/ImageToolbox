@@ -182,6 +182,8 @@ internal fun Preferences.toSettingsState(
         ?: default.canEnterPresetsByTextField,
     donateDialogOpenCount = this[DONATE_DIALOG_OPEN_COUNT]
         ?: default.donateDialogOpenCount,
+    weblateInfoDialogOpenCount = this[WEBLATE_INFO_DIALOG_OPEN_COUNT]
+        ?: default.weblateInfoDialogOpenCount,
     colorBlindType = this[COLOR_BLIND_TYPE]?.let {
         if (it < 0) null
         else it

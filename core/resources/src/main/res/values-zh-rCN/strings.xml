@@ -5500,4 +5500,7 @@
     <string name="screenshot_framing_shadow">软阴影</string>
     <string name="screenshot_framing_shadow_sub">将图像提升到背景之上</string>
     <string name="screenshot_framing_shadow_opacity">阴影不透明度</string>
+    <string name="weblate_info_sub">您可以在 Weblate 上帮助翻译 Image Toolbox。改进现有翻译或添加您的语言，以使更多人可以使用该应用程序。</string>
+    <string name="understood">知道了</string>
+    <string name="open">打开</string>
 </resources>

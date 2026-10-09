@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">మృదువైన నీడ</string>
     <string name="screenshot_framing_shadow_sub">నేపథ్యం పైన చిత్రాన్ని ఎత్తండి</string>
     <string name="screenshot_framing_shadow_opacity">నీడ అస్పష్టత</string>
+    <string name="weblate_info_sub">వెబ్‌లేట్‌లో ఇమేజ్ టూల్‌బాక్స్‌ని అనువదించడంలో మీరు సహాయం చేయవచ్చు. యాప్‌ను మరింత మందికి అందుబాటులో ఉంచడానికి ఇప్పటికే ఉన్న అనువాదాలను మెరుగుపరచండి లేదా మీ భాషను జోడించండి.</string>
+    <string name="understood">అర్థమైంది</string>
+    <string name="open">తెరవండి</string>
 </resources>

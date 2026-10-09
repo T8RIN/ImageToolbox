@@ -5499,4 +5499,7 @@
     <string name="screenshot_framing_shadow">부드러운 그림자</string>
     <string name="screenshot_framing_shadow_sub">배경 위로 이미지를 들어 올리세요.</string>
     <string name="screenshot_framing_shadow_opacity">그림자 불투명도</string>
+    <string name="weblate_info_sub">Weblate에서 Image Toolbox 번역을 도울 수 있습니다. 기존 번역을 개선하거나 언어를 추가하여 더 많은 사람들이 앱을 사용할 수 있도록 하세요.</string>
+    <string name="understood">알았어요</string>
+    <string name="open">열려 있는</string>
 </resources>

@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Weicher Schatten</string>
     <string name="screenshot_framing_shadow_sub">Heben Sie das Bild über den Hintergrund</string>
     <string name="screenshot_framing_shadow_opacity">Schattenopazität</string>
+    <string name="weblate_info_sub">Sie können bei der Übersetzung der Image Toolbox auf Weblate helfen. Verbessern Sie vorhandene Übersetzungen oder fügen Sie Ihre Sprache hinzu, um die App mehr Menschen zugänglich zu machen.</string>
+    <string name="understood">Habe es</string>
+    <string name="open">Offen</string>
 </resources>

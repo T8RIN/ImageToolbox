@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">צל רך</string>
     <string name="screenshot_framing_shadow_sub">הרם את התמונה מעל הרקע</string>
     <string name="screenshot_framing_shadow_opacity">אטימות צל</string>
+    <string name="weblate_info_sub">אתה יכול לעזור בתרגום Image Toolbox ב-Weblate. שפר את התרגומים הקיימים או הוסף את השפה שלך כדי להפוך את האפליקציה לזמינה ליותר אנשים.</string>
+    <string name="understood">הבנתי</string>
+    <string name="open">לִפְתוֹחַ</string>
 </resources>

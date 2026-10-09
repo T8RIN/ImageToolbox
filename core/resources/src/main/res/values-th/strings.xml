@@ -5500,4 +5500,7 @@
     <string name="screenshot_framing_shadow">เงานุ่มนวล</string>
     <string name="screenshot_framing_shadow_sub">ยกภาพขึ้นเหนือพื้นหลัง</string>
     <string name="screenshot_framing_shadow_opacity">ความทึบแสงของเงา</string>
+    <string name="weblate_info_sub">คุณสามารถช่วยแปล Image Toolbox บน Weblate ได้ ปรับปรุงการแปลที่มีอยู่หรือเพิ่มภาษาของคุณเพื่อให้แอปพร้อมใช้งานสำหรับผู้คนมากขึ้น</string>
+    <string name="understood">เข้าใจแล้ว</string>
+    <string name="open">เปิด</string>
 </resources>
