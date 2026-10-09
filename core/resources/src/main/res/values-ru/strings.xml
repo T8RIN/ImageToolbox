@@ -130,6 +130,8 @@
     <string name="issue_tracker_sub">Отправляйте отчёты об ошибках и предлагайте новые идеи для развития проекта</string>
     <string name="help_translate">Помочь с переводом</string>
     <string name="help_translate_sub">Исправляйте ошибки в написании слов или переводите проект на новые языки</string>
+    <string name="weblate_info_sub">Вы можете помочь с переводом Image Toolbox на Weblate. Улучшайте существующие переводы или добавьте свой язык, чтобы приложение стало доступно большему числу людей.</string>
+    <string name="understood">Понятно</string>
     <string name="nothing_found_by_search">Ничего не найдено по вашему запросу</string>
     <string name="search_here">Ищите здесь</string>
     <string name="dynamic_colors_sub">При включении тема приложения будет подстраиваться под ваши обои</string>

@@ -218,6 +218,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
+import com.t8rin.imagetoolbox.feature.settings.data.keys.WEBLATE_INFO_DIALOG_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toGradientPalettes
 import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
@@ -911,6 +912,18 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setNotShowDonateDialogAgain() = edit {
         it[DONATE_DIALOG_OPEN_COUNT] = -1
+    }
+
+    override suspend fun registerWeblateInfoDialogOpen() = edit {
+        val value = it[WEBLATE_INFO_DIALOG_OPEN_COUNT] ?: default.weblateInfoDialogOpenCount
+
+        if (value != -1) {
+            it[WEBLATE_INFO_DIALOG_OPEN_COUNT] = value + 1
+        }
+    }
+
+    override suspend fun setNotShowWeblateInfoDialogAgain() = edit {
+        it[WEBLATE_INFO_DIALOG_OPEN_COUNT] = -1
     }
 
     override suspend fun setColorBlindType(value: Int?) = edit {
