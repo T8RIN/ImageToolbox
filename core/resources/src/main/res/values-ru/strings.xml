@@ -5505,4 +5505,5 @@
     <string name="screenshot_framing_shadow">Мягкая тень</string>
     <string name="screenshot_framing_shadow_sub">Добавить изображению объём над фоном</string>
     <string name="screenshot_framing_shadow_opacity">Непрозрачность тени</string>
+    <string name="open">Открыть</string>
 </resources>

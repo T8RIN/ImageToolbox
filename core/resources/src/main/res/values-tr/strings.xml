@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Yumuşak gölge</string>
     <string name="screenshot_framing_shadow_sub">Resmi arka planın üzerine kaldırın</string>
     <string name="screenshot_framing_shadow_opacity">Gölge opaklığı</string>
+    <string name="weblate_info_sub">Weblate\'de Image Toolbox\'ın çevrilmesine yardımcı olabilirsiniz. Uygulamanın daha fazla kişinin kullanımına sunulması için mevcut çevirileri iyileştirin veya dilinizi ekleyin.</string>
+    <string name="understood">Anladım</string>
+    <string name="open">Açık</string>
 </resources>

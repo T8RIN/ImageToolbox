@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">নরম ছায়া</string>
     <string name="screenshot_framing_shadow_sub">ব্যাকগ্রাউন্ডের উপরে ইমেজ তুলুন</string>
     <string name="screenshot_framing_shadow_opacity">ছায়ার অস্বচ্ছতা</string>
+    <string name="weblate_info_sub">আপনি Weblate-এ ইমেজ টুলবক্স অনুবাদ করতে সাহায্য করতে পারেন। বিদ্যমান অনুবাদগুলিকে উন্নত করুন বা অ্যাপটিকে আরও লোকেদের কাছে উপলব্ধ করতে আপনার ভাষা যোগ করুন৷</string>
+    <string name="understood">বুঝেছি</string>
+    <string name="open">খোলা</string>
 </resources>

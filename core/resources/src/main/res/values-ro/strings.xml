@@ -5502,4 +5502,7 @@
     <string name="screenshot_framing_shadow">Umbră moale</string>
     <string name="screenshot_framing_shadow_sub">Ridicați imaginea deasupra fundalului</string>
     <string name="screenshot_framing_shadow_opacity">Opacitatea umbrei</string>
+    <string name="weblate_info_sub">Puteți ajuta la traducerea Image Toolbox pe Weblate. Îmbunătățiți traducerile existente sau adăugați limba dvs. pentru a face aplicația disponibilă pentru mai multe persoane.</string>
+    <string name="understood">Am înţeles</string>
+    <string name="open">Deschide</string>
 </resources>

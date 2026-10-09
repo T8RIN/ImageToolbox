@@ -5502,4 +5502,7 @@
     <string name="screenshot_framing_shadow">Мека сенка</string>
     <string name="screenshot_framing_shadow_sub">Подигните слику изнад позадине</string>
     <string name="screenshot_framing_shadow_opacity">Прозирност сенке</string>
+    <string name="weblate_info_sub">Можете помоћи у превођењу Имаге Тоолбок-а на Веблате-у. Побољшајте постојеће преводе или додајте свој језик да бисте апликацију учинили доступном већем броју људи.</string>
+    <string name="understood">Схватио сам</string>
+    <string name="open">Отвори</string>
 </resources>

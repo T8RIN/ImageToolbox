@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Malambot na anino</string>
     <string name="screenshot_framing_shadow_sub">Itaas ang larawan sa itaas ng background</string>
     <string name="screenshot_framing_shadow_opacity">Opacity ng anino</string>
+    <string name="weblate_info_sub">Makakatulong ka sa pagsasalin ng Image Toolbox sa Weblate. Pagbutihin ang mga kasalukuyang pagsasalin o idagdag ang iyong wika upang gawing available ang app sa mas maraming tao.</string>
+    <string name="understood">Nakuha ko</string>
+    <string name="open">Bukas</string>
 </resources>

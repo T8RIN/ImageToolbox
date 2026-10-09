@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">М\'яка тінь</string>
     <string name="screenshot_framing_shadow_sub">Підніміть зображення над фоном</string>
     <string name="screenshot_framing_shadow_opacity">Непрозорість тіні</string>
+    <string name="weblate_info_sub">Ви можете допомогти перекласти Image Toolbox на Weblate. Покращте наявні переклади або додайте свою мову, щоб зробити програму доступною для більшої кількості людей.</string>
+    <string name="understood">зрозумів</string>
+    <string name="open">ВІДЧИНЕНО</string>
 </resources>

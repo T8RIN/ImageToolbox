@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Ombre douce</string>
     <string name="screenshot_framing_shadow_sub">Soulevez l\'image au-dessus de l\'arrière-plan</string>
     <string name="screenshot_framing_shadow_opacity">Opacité de l\'ombre</string>
+    <string name="weblate_info_sub">Vous pouvez aider à traduire Image Toolbox sur Weblate. Améliorez les traductions existantes ou ajoutez votre langue pour rendre l\'application accessible à davantage de personnes.</string>
+    <string name="understood">J\'ai compris</string>
+    <string name="open">Ouvrir</string>
 </resources>

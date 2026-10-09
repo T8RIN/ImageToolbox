@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">மென்மையான நிழல்</string>
     <string name="screenshot_framing_shadow_sub">பின்னணிக்கு மேலே படத்தை உயர்த்தவும்</string>
     <string name="screenshot_framing_shadow_opacity">நிழல் ஒளிபுகாநிலை</string>
+    <string name="weblate_info_sub">Weblate இல் பட கருவிப்பெட்டியை மொழிபெயர்க்க நீங்கள் உதவலாம். ஏற்கனவே உள்ள மொழிபெயர்ப்புகளை மேம்படுத்தவும் அல்லது அதிகமான நபர்களுக்கு பயன்பாட்டைக் கிடைக்கச் செய்ய உங்கள் மொழியைச் சேர்க்கவும்.</string>
+    <string name="understood">கிடைத்தது</string>
+    <string name="open">திற</string>
 </resources>

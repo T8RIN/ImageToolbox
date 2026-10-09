@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Ombra suau</string>
     <string name="screenshot_framing_shadow_sub">Aixeca la imatge per sobre del fons</string>
     <string name="screenshot_framing_shadow_opacity">Opacitat de l\'ombra</string>
+    <string name="weblate_info_sub">Pots ajudar a traduir Image Toolbox a Weblate. Millora les traduccions existents o afegeix el teu idioma per fer que l\'aplicació estigui disponible per a més persones.</string>
+    <string name="understood">Ho entenc</string>
+    <string name="open">Obert</string>
 </resources>

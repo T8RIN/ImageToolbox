@@ -5500,4 +5500,7 @@
     <string name="screenshot_framing_shadow">ソフトシャドウ</string>
     <string name="screenshot_framing_shadow_sub">画像を背景の上に持ち上げます</string>
     <string name="screenshot_framing_shadow_opacity">影の不透明度</string>
+    <string name="weblate_info_sub">Weblate で Image Toolbox の翻訳を支援できます。既存の翻訳を改善するか言語を追加して、より多くの人がアプリを利用できるようにします。</string>
+    <string name="understood">わかった</string>
+    <string name="open">開ける</string>
 </resources>

@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">سایه نرم</string>
     <string name="screenshot_framing_shadow_sub">تصویر را بالای پس زمینه ببرید</string>
     <string name="screenshot_framing_shadow_opacity">کدورت سایه</string>
+    <string name="weblate_info_sub">می‌توانید به ترجمه جعبه ابزار تصویر در Weblate کمک کنید. ترجمه های موجود را بهبود دهید یا زبان خود را اضافه کنید تا برنامه در دسترس افراد بیشتری قرار گیرد.</string>
+    <string name="understood">متوجه شدم</string>
+    <string name="open">باز کنید</string>
 </resources>

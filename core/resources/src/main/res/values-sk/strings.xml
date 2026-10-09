@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">Mäkký tieň</string>
     <string name="screenshot_framing_shadow_sub">Zdvihnite obrázok nad pozadie</string>
     <string name="screenshot_framing_shadow_opacity">Nepriehľadnosť tieňa</string>
+    <string name="weblate_info_sub">Môžete pomôcť s prekladom Image Toolbox na Weblate. Vylepšite existujúce preklady alebo pridajte svoj jazyk, aby bola aplikácia dostupná viacerým ľuďom.</string>
+    <string name="understood">Dobre</string>
+    <string name="open">OTVORENÉ</string>
 </resources>

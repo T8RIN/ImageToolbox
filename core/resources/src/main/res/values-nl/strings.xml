@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Zachte schaduw</string>
     <string name="screenshot_framing_shadow_sub">Til de afbeelding boven de achtergrond</string>
     <string name="screenshot_framing_shadow_opacity">Schaduwdekking</string>
+    <string name="weblate_info_sub">U kunt helpen met het vertalen van Image Toolbox op Weblate. Verbeter bestaande vertalingen of voeg uw taal toe om de app voor meer mensen beschikbaar te maken.</string>
+    <string name="understood">Ik heb het</string>
+    <string name="open">Open</string>
 </resources>

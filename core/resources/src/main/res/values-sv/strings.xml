@@ -5501,4 +5501,7 @@
     <string name="screenshot_framing_shadow">Mjuk skugga</string>
     <string name="screenshot_framing_shadow_sub">Lyft bilden ovanför bakgrunden</string>
     <string name="screenshot_framing_shadow_opacity">Skuggopacitet</string>
+    <string name="weblate_info_sub">Du kan hjälpa till att översätta Image Toolbox på Weblate. Förbättra befintliga översättningar eller lägg till ditt språk för att göra appen tillgänglig för fler människor.</string>
+    <string name="understood">Jag förstår</string>
+    <string name="open">Öppna</string>
 </resources>

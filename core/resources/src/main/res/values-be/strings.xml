@@ -5503,4 +5503,7 @@
     <string name="screenshot_framing_shadow">Мяккі цень</string>
     <string name="screenshot_framing_shadow_sub">Падніміце малюнак над фонам</string>
     <string name="screenshot_framing_shadow_opacity">Непразрыстасць цені</string>
+    <string name="weblate_info_sub">Вы можаце дапамагчы перакласці Image Toolbox на Weblate. Палепшыце існуючыя пераклады або дадайце сваю мову, каб зрабіць праграму даступнай для большай колькасці людзей.</string>
+    <string name="understood">Зразумеў</string>
+    <string name="open">Адкрыты</string>
 </resources>
