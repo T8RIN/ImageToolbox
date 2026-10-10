@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Weblate\'de Image Toolbox\'ın çevrilmesine yardımcı olabilirsiniz. Uygulamanın daha fazla kişinin kullanımına sunulması için mevcut çevirileri iyileştirin veya dilinizi ekleyin.</string>
     <string name="understood">Anladım</string>
     <string name="open">Açık</string>
+    <string name="dialog_position">Diyalog Konumu</string>
+    <string name="dialog_position_sub">Diyalogların ekranda nerede görüneceğini seçin</string>
 </resources>

@@ -5506,4 +5506,6 @@
     <string name="weblate_info_sub">Galite padėti „Weblate“ išversti „Image Toolbox“. Patobulinkite esamus vertimus arba pridėkite savo kalbą, kad programa būtų pasiekiama daugiau žmonių.</string>
     <string name="understood">Supratau</string>
     <string name="open">Atidaryti</string>
+    <string name="dialog_position">Dialogo padėtis</string>
+    <string name="dialog_position_sub">Pasirinkite, kur ekrane bus rodomi dialogo langai</string>
 </resources>

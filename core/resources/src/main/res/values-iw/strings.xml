@@ -5506,4 +5506,6 @@
     <string name="weblate_info_sub">אתה יכול לעזור בתרגום Image Toolbox ב-Weblate. שפר את התרגומים הקיימים או הוסף את השפה שלך כדי להפוך את האפליקציה לזמינה ליותר אנשים.</string>
     <string name="understood">הבנתי</string>
     <string name="open">לִפְתוֹחַ</string>
+    <string name="dialog_position">מיקום דיאלוג</string>
+    <string name="dialog_position_sub">בחר היכן מופיעות תיבות דו-שיח על המסך</string>
 </resources>

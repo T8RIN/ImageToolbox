@@ -5505,4 +5505,6 @@
     <string name="weblate_info_sub">Puteți ajuta la traducerea Image Toolbox pe Weblate. Îmbunătățiți traducerile existente sau adăugați limba dvs. pentru a face aplicația disponibilă pentru mai multe persoane.</string>
     <string name="understood">Am înţeles</string>
     <string name="open">Deschide</string>
+    <string name="dialog_position">Poziție de dialog</string>
+    <string name="dialog_position_sub">Alegeți unde apar casetele de dialog pe ecran</string>
 </resources>

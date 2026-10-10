@@ -132,6 +132,7 @@ internal val USE_COMPACT_SELECTORS_LAYOUT = booleanPreferencesKey("USE_COMPACT_S
 internal val MAIN_SCREEN_TITLE = stringPreferencesKey("MAIN_SCREEN_TITLE")
 internal val SLIDER_TYPE = intPreferencesKey("SLIDER_TYPE")
 internal val CENTER_ALIGN_DIALOG_BUTTONS = booleanPreferencesKey("CENTER_ALIGN_DIALOG_BUTTONS")
+internal val DIALOG_POSITION = intPreferencesKey("DIALOG_POSITION")
 internal val FAST_SETTINGS_SIDE = intPreferencesKey("FAST_SETTINGS_SIDE")
 internal val SETTINGS_GROUP_VISIBILITY = stringSetPreferencesKey("SETTINGS_GROUP_VISIBILITY")
 internal val CUSTOM_FONTS = stringSetPreferencesKey("CUSTOM_FONTS")

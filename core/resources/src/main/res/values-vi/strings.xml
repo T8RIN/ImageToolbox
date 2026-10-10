@@ -5503,4 +5503,6 @@
     <string name="weblate_info_sub">Bạn có thể giúp dịch Hộp công cụ hình ảnh trên Weblate. Cải thiện các bản dịch hiện có hoặc thêm ngôn ngữ của bạn để cung cấp ứng dụng cho nhiều người hơn.</string>
     <string name="understood">Hiểu rồi</string>
     <string name="open">Mở</string>
+    <string name="dialog_position">Vị trí hộp thoại</string>
+    <string name="dialog_position_sub">Chọn vị trí hộp thoại xuất hiện trên màn hình</string>
 </resources>

@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Segíthet az Image Toolbox lefordításában a Weblate-en. Javítsa a meglévő fordításokat, vagy adja hozzá nyelvét, hogy több ember számára elérhetővé tegye az alkalmazást.</string>
     <string name="understood">Értem</string>
     <string name="open">Nyitott</string>
+    <string name="dialog_position">Párbeszédhelyzet</string>
+    <string name="dialog_position_sub">Válassza ki, hol jelenjenek meg a párbeszédpanelek a képernyőn</string>
 </resources>

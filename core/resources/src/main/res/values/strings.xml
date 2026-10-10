@@ -5534,4 +5534,6 @@
     <string name="screenshot_framing_shadow_sub">Lift the image above the background</string>
     <string name="screenshot_framing_shadow_opacity">Shadow opacity</string>
     <string name="open">Open</string>
+    <string name="dialog_position">Dialog Position</string>
+    <string name="dialog_position_sub">Choose where dialogs appear on the screen</string>
 </resources>

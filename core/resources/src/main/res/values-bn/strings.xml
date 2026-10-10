@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">আপনি Weblate-এ ইমেজ টুলবক্স অনুবাদ করতে সাহায্য করতে পারেন। বিদ্যমান অনুবাদগুলিকে উন্নত করুন বা অ্যাপটিকে আরও লোকেদের কাছে উপলব্ধ করতে আপনার ভাষা যোগ করুন৷</string>
     <string name="understood">বুঝেছি</string>
     <string name="open">খোলা</string>
+    <string name="dialog_position">ডায়ালগ অবস্থান</string>
+    <string name="dialog_position_sub">পর্দায় ডায়ালগগুলি কোথায় প্রদর্শিত হবে তা চয়ন করুন৷</string>
 </resources>

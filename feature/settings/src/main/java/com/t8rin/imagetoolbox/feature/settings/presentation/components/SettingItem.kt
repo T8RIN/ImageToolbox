@@ -606,6 +606,10 @@ internal fun SettingItem(
                 SliderTypeSettingItem(onValueChange = component::setSliderType)
             }
 
+            Setting.DialogPosition -> {
+                DialogPositionSettingItem(onValueChange = component::setDialogPosition)
+            }
+
             Setting.CenterAlignDialogButtons -> {
                 CenterAlignDialogButtonsSettingItem(onClick = component::toggleIsCenterAlignDialogButtons)
             }

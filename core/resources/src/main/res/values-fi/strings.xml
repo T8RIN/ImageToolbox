@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Voit auttaa Image Toolboxin kääntämisessä Weblatessa. Paranna olemassa olevia käännöksiä tai lisää kieli, jotta sovellus on useammille ihmisille saatavilla.</string>
     <string name="understood">Selvä</string>
     <string name="open">Avata</string>
+    <string name="dialog_position">Dialogin sijainti</string>
+    <string name="dialog_position_sub">Valitse, missä valintaikkunat näkyvät näytöllä</string>
 </resources>

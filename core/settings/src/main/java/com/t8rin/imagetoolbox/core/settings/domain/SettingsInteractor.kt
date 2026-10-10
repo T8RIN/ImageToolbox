@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
@@ -242,6 +243,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setSliderType(type: SliderType)
 
     suspend fun toggleIsCenterAlignDialogButtons()
+
+    suspend fun setDialogPosition(position: DialogPosition)
 
     suspend fun setFastSettingsSide(side: FastSettingsSide)
 

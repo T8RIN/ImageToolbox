@@ -111,6 +111,7 @@ sealed class SettingsGroup(
             Setting.MotionDurationScale,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,
+            Setting.DialogPosition,
             Setting.CenterAlignDialogButtons,
             Setting.FabAlignment
         ),

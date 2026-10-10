@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Makakatulong ka sa pagsasalin ng Image Toolbox sa Weblate. Pagbutihin ang mga kasalukuyang pagsasalin o idagdag ang iyong wika upang gawing available ang app sa mas maraming tao.</string>
     <string name="understood">Nakuha ko</string>
     <string name="open">Bukas</string>
+    <string name="dialog_position">Posisyon ng Dialog</string>
+    <string name="dialog_position_sub">Piliin kung saan lalabas ang mga dialog sa screen</string>
 </resources>

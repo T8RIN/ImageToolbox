@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Pots ajudar a traduir Image Toolbox a Weblate. Millora les traduccions existents o afegeix el teu idioma per fer que l\'aplicació estigui disponible per a més persones.</string>
     <string name="understood">Ho entenc</string>
     <string name="open">Obert</string>
+    <string name="dialog_position">Posició de diàleg</string>
+    <string name="dialog_position_sub">Trieu on apareixen els diàlegs a la pantalla</string>
 </resources>

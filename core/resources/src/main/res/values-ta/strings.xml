@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Weblate இல் பட கருவிப்பெட்டியை மொழிபெயர்க்க நீங்கள் உதவலாம். ஏற்கனவே உள்ள மொழிபெயர்ப்புகளை மேம்படுத்தவும் அல்லது அதிகமான நபர்களுக்கு பயன்பாட்டைக் கிடைக்கச் செய்ய உங்கள் மொழியைச் சேர்க்கவும்.</string>
     <string name="understood">கிடைத்தது</string>
     <string name="open">திற</string>
+    <string name="dialog_position">உரையாடல் நிலை</string>
+    <string name="dialog_position_sub">திரையில் உரையாடல்கள் எங்கு தோன்றும் என்பதைத் தேர்ந்தெடுக்கவும்</string>
 </resources>

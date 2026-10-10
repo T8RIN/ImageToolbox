@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">می‌توانید به ترجمه جعبه ابزار تصویر در Weblate کمک کنید. ترجمه های موجود را بهبود دهید یا زبان خود را اضافه کنید تا برنامه در دسترس افراد بیشتری قرار گیرد.</string>
     <string name="understood">متوجه شدم</string>
     <string name="open">باز کنید</string>
+    <string name="dialog_position">موقعیت دیالوگ</string>
+    <string name="dialog_position_sub">محل ظاهر شدن دیالوگ ها روی صفحه را انتخاب کنید</string>
 </resources>

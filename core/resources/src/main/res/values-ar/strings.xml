@@ -5508,4 +5508,6 @@
     <string name="weblate_info_sub">يمكنك المساعدة في ترجمة Image Toolbox على Weblate. قم بتحسين الترجمات الحالية أو أضف لغتك لجعل التطبيق متاحًا لمزيد من الأشخاص.</string>
     <string name="understood">فهمتها</string>
     <string name="open">يفتح</string>
+    <string name="dialog_position">موقف الحوار</string>
+    <string name="dialog_position_sub">اختر مكان ظهور مربعات الحوار على الشاشة</string>
 </resources>

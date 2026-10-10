@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Saate aidata Weblate\'is Image Toolboxi tõlkida. Täiustage olemasolevaid tõlkeid või lisage oma keel, et muuta rakendus rohkematele inimestele kättesaadavaks.</string>
     <string name="understood">Sain aru</string>
     <string name="open">Avatud</string>
+    <string name="dialog_position">Dialoogi positsioon</string>
+    <string name="dialog_position_sub">Valige, kus ekraanil kuvatakse dialoogiaknad</string>
 </resources>

@@ -632,6 +632,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object DialogPosition : Setting(
+        title = R.string.dialog_position,
+        subtitle = R.string.dialog_position_sub
+    )
+
+    @Serializable
     data object CenterAlignDialogButtons : Setting(
         title = R.string.center_align_dialog_buttons,
         subtitle = R.string.center_align_dialog_buttons_sub

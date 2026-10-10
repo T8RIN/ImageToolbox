@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">이미지 선택</string>
     <string name="width">너비 %1$s</string>
     <string name="height">높이 %1$s</string>
@@ -5502,4 +5504,6 @@
     <string name="weblate_info_sub">Weblate에서 Image Toolbox 번역을 도울 수 있습니다. 기존 번역을 개선하거나 언어를 추가하여 더 많은 사람들이 앱을 사용할 수 있도록 하세요.</string>
     <string name="understood">알았어요</string>
     <string name="open">열려 있는</string>
+    <string name="dialog_position">대화상자 위치</string>
+    <string name="dialog_position_sub">화면에 대화상자가 표시되는 위치 선택</string>
 </resources>

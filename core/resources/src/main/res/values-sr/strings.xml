@@ -5505,4 +5505,6 @@
     <string name="weblate_info_sub">Можете помоћи у превођењу Имаге Тоолбок-а на Веблате-у. Побољшајте постојеће преводе или додајте свој језик да бисте апликацију учинили доступном већем броју људи.</string>
     <string name="understood">Схватио сам</string>
     <string name="open">Отвори</string>
+    <string name="dialog_position">Диалог Поситион</string>
+    <string name="dialog_position_sub">Изаберите где се дијалози појављују на екрану</string>
 </resources>

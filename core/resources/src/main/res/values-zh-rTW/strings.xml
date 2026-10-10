@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -5502,4 +5504,6 @@
     <string name="weblate_info_sub">您可以在 Weblate 上協助翻譯 Image Toolbox。改進現有翻譯或添加您的語言，以使更多人可以使用該應用程式。</string>
     <string name="understood">知道了</string>
     <string name="open">打開</string>
+    <string name="dialog_position">對話方塊位置</string>
+    <string name="dialog_position_sub">選擇對話方塊在螢幕上顯示的位置</string>
 </resources>

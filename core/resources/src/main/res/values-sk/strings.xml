@@ -5506,4 +5506,6 @@
     <string name="weblate_info_sub">Môžete pomôcť s prekladom Image Toolbox na Weblate. Vylepšite existujúce preklady alebo pridajte svoj jazyk, aby bola aplikácia dostupná viacerým ľuďom.</string>
     <string name="understood">Dobre</string>
     <string name="open">OTVORENÉ</string>
+    <string name="dialog_position">Pozícia dialógu</string>
+    <string name="dialog_position_sub">Vyberte, kde sa na obrazovke zobrazia dialógové okná</string>
 </resources>

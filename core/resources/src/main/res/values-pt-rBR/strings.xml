@@ -5505,4 +5505,6 @@
     <string name="weblate_info_sub">Você pode ajudar a traduzir o Image Toolbox no Weblate. Melhore as traduções existentes ou adicione seu idioma para disponibilizar o aplicativo para mais pessoas.</string>
     <string name="understood">Entendi</string>
     <string name="open">Abrir</string>
+    <string name="dialog_position">Posição da caixa de diálogo</string>
+    <string name="dialog_position_sub">Escolha onde as caixas de diálogo aparecem na tela</string>
 </resources>

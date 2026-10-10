@@ -5506,4 +5506,6 @@
     <string name="weblate_info_sub">Вы можаце дапамагчы перакласці Image Toolbox на Weblate. Палепшыце існуючыя пераклады або дадайце сваю мову, каб зрабіць праграму даступнай для большай колькасці людзей.</string>
     <string name="understood">Зразумеў</string>
     <string name="open">Адкрыты</string>
+    <string name="dialog_position">Палажэнне дыялогу</string>
+    <string name="dialog_position_sub">Выберыце, дзе на экране з\'явяцца дыялогавыя вокны</string>
 </resources>

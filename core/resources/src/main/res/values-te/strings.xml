@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">వెబ్‌లేట్‌లో ఇమేజ్ టూల్‌బాక్స్‌ని అనువదించడంలో మీరు సహాయం చేయవచ్చు. యాప్‌ను మరింత మందికి అందుబాటులో ఉంచడానికి ఇప్పటికే ఉన్న అనువాదాలను మెరుగుపరచండి లేదా మీ భాషను జోడించండి.</string>
     <string name="understood">అర్థమైంది</string>
     <string name="open">తెరవండి</string>
+    <string name="dialog_position">డైలాగ్ స్థానం</string>
+    <string name="dialog_position_sub">స్క్రీన్‌పై డైలాగ్‌లు ఎక్కడ కనిపించాలో ఎంచుకోండి</string>
 </resources>

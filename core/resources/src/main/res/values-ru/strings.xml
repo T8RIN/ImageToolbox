@@ -5506,4 +5506,6 @@
     <string name="screenshot_framing_shadow_sub">Добавить изображению объём над фоном</string>
     <string name="screenshot_framing_shadow_opacity">Непрозрачность тени</string>
     <string name="open">Открыть</string>
+    <string name="dialog_position">Положение диалогов</string>
+    <string name="dialog_position_sub">Выберите, где на экране будут отображаться диалоги</string>
 </resources>

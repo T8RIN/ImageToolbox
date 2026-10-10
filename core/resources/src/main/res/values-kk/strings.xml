@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">Weblate сайтындағы Image Toolbox бағдарламасын аударуға көмектесе аласыз. Қолданбаны көбірек адамдарға қолжетімді ету үшін бар аудармаларды жақсартыңыз немесе тіліңізді қосыңыз.</string>
     <string name="understood">Түсіндім</string>
     <string name="open">Ашық</string>
+    <string name="dialog_position">Диалогтың орны</string>
+    <string name="dialog_position_sub">Диалогтар экранда қай жерде пайда болатынын таңдаңыз</string>
 </resources>

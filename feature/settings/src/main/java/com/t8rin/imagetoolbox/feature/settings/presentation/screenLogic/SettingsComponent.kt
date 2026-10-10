@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
@@ -511,6 +512,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setSliderType(sliderType: SliderType) = settingsScope { setSliderType(sliderType) }
 
     fun toggleIsCenterAlignDialogButtons() = settingsScope { toggleIsCenterAlignDialogButtons() }
+
+    fun setDialogPosition(position: DialogPosition) = settingsScope { setDialogPosition(position) }
 
     fun setFastSettingsSide(side: FastSettingsSide) = settingsScope { setFastSettingsSide(side) }
 

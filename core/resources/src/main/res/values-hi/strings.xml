@@ -5504,4 +5504,6 @@
     <string name="weblate_info_sub">आप वेबलेट पर इमेज टूलबॉक्स का अनुवाद करने में मदद कर सकते हैं। ऐप को अधिक लोगों तक उपलब्ध कराने के लिए मौजूदा अनुवादों में सुधार करें या अपनी भाषा जोड़ें।</string>
     <string name="understood">समझ गया</string>
     <string name="open">खुला</string>
+    <string name="dialog_position">संवाद स्थिति</string>
+    <string name="dialog_position_sub">चुनें कि स्क्रीन पर संवाद कहाँ दिखाई देंगे</string>
 </resources>

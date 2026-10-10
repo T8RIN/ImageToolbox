@@ -14,7 +14,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">Rozmiar %1$s</string>
     <string name="width">Szerokość %1$s</string>
     <string name="loading">Ładowanie…</string>
@@ -5505,4 +5507,6 @@
     <string name="weblate_info_sub">Możesz pomóc w tłumaczeniu Image Toolbox na Weblate. Popraw istniejące tłumaczenia lub dodaj swój język, aby udostępnić aplikację większej liczbie osób.</string>
     <string name="understood">Rozumiem</string>
     <string name="open">Otwarte</string>
+    <string name="dialog_position">Pozycja dialogowa</string>
+    <string name="dialog_position_sub">Wybierz, gdzie na ekranie mają pojawiać się okna dialogowe</string>
 </resources>
