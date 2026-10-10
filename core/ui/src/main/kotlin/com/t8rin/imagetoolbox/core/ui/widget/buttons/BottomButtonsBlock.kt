@@ -73,10 +73,12 @@ import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ProvideFABType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 
@@ -106,14 +108,16 @@ fun BottomButtonsBlock(
     drawBothStrokes: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val useFloatingButtons = shouldUseFloatingButtons()
     val spacing = 8.dp
 
     AnimatedContent(
-        targetState = Triple(isNoData, isPortrait, isScreenHaveNoDataContent),
+        targetState = Triple(isNoData, isPortrait to useFloatingButtons, isScreenHaveNoDataContent),
         transitionSpec = {
             fadeIn() + slideInVertically { it / 2 } togetherWith fadeOut() + slideOutVertically { it / 2 }
         }
-    ) { (isEmptyState, portrait, isHaveNoDataContent) ->
+    ) { (isEmptyState, layout, isHaveNoDataContent) ->
+        val (portrait, floating) = layout
         if (isEmptyState) {
             val cutout = WindowInsets.displayCutout.only(
                 WindowInsetsSides.Horizontal
@@ -296,7 +300,7 @@ fun BottomButtonsBlock(
                     }
                 }
             )
-        } else {
+        } else if (!floating) {
             val direction = LocalLayoutDirection.current
             Column(
                 modifier = Modifier
@@ -400,6 +404,123 @@ fun BottomButtonsBlock(
                     }
                 }
             }
+        } else {
+            val buttonsCount = (if (isPrimaryButtonVisible) 1 else 0) +
+                    (if (isSecondaryButtonVisible) 1 else 0) +
+                    (if (middleFab != null) 1 else 0)
+            FloatingButtonsBlock(
+                showContainer = buttonsCount > 1
+            ) {
+                val middle = @Composable {
+                    middleFab?.let {
+                        ProvideFABType(EnhancedFloatingActionButtonType.SecondaryHorizontal) {
+                            Column(content = it)
+                        }
+                    }
+                }
+
+                actions()
+
+                if (!isPrimaryButtonVisible) middle()
+
+                AnimatedVisibility(visible = isSecondaryButtonVisible) {
+                    EnhancedFloatingActionButton(
+                        onClick = onSecondaryButtonClick,
+                        onLongClick = onSecondaryButtonLongClick,
+                        containerColor = takeColorFromScheme {
+                            if (isPrimaryButtonVisible) tertiaryContainer
+                            else primaryContainer
+                        },
+                        type = if (isPrimaryButtonVisible) {
+                            EnhancedFloatingActionButtonType.SecondaryHorizontal
+                        } else {
+                            EnhancedFloatingActionButtonType.Primary
+                        }
+                    ) {
+                        Icon(
+                            imageVector = secondaryButtonIcon,
+                            contentDescription = null
+                        )
+                    }
+                }
+
+                if (isPrimaryButtonVisible) middle()
+
+                AnimatedVisibility(visible = isPrimaryButtonVisible) {
+                    EnhancedFloatingActionButton(
+                        onClick = if (isPrimaryButtonEnabled) {
+                            onPrimaryButtonClick
+                        } else {
+                            onDisabledPrimaryButtonClick
+                        },
+                        onLongClick = onPrimaryButtonLongClick.takeIf { isPrimaryButtonEnabled },
+                        interactionSource = remember { MutableInteractionSource() }.takeIf {
+                            isPrimaryButtonEnabled || onDisabledPrimaryButtonClick != null
+                        },
+                        containerColor = takeColorFromScheme {
+                            if (isPrimaryButtonEnabled) primaryButtonContainerColor
+                            else surfaceContainerHighest
+                        },
+                        contentColor = takeColorFromScheme {
+                            if (isPrimaryButtonEnabled) primaryButtonContentColor
+                            else outline
+                        }
+                    ) {
+                        AnimatedContent(
+                            targetState = primaryButtonIcon to primaryButtonText,
+                            transitionSpec = { fadeIn() + scaleIn() togetherWith fadeOut() + scaleOut() }
+                        ) { (icon, text) ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                if (text.isNotEmpty()) {
+                                    Spacer(Modifier.width(16.dp))
+                                }
+                                Icon(
+                                    imageVector = icon,
+                                    contentDescription = null
+                                )
+                                if (text.isNotEmpty()) {
+                                    Spacer(Modifier.width(16.dp))
+                                    Text(text)
+                                    Spacer(Modifier.width(16.dp))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+fun FloatingButtonsBlock(
+    showContainer: Boolean,
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        modifier = modifier
+            .windowInsetsPadding(
+                WindowInsets.navigationBars.union(
+                    WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)
+                )
+            )
+            .padding(24.dp)
+            .then(
+                if (showContainer) {
+                    Modifier.container(
+                        shape = ShapeDefaults.extraLarge,
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        resultPadding = 8.dp,
+                        autoShadowElevation = 1.5.dp
+                    )
+                } else Modifier
+            ),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = content
+    )
 }

@@ -42,7 +42,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -53,6 +52,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,15 +61,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -117,6 +121,9 @@ fun AdaptiveLayoutScreen(
     portraitTopPadding: Dp = 0.dp
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val useFloatingButtons = shouldUseFloatingButtons()
+    val density = LocalDensity.current
+    var buttonsHeight by remember { mutableStateOf(0.dp) }
     val settingsState = LocalSettingsState.current
 
     var imageState by rememberImageState()
@@ -189,6 +196,14 @@ fun AdaptiveLayoutScreen(
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.then(
+                            if (useFloatingButtons && canShowScreenData) {
+                                Modifier.windowInsetsPadding(
+                                    WindowInsets.navigationBars.union(WindowInsets.displayCutout)
+                                        .only(WindowInsetsSides.End)
+                                )
+                            } else Modifier
+                        )
                     ) {
                         val direction = LocalLayoutDirection.current
                         if (!isPortrait && canShowScreenData && placeImagePreview) {
@@ -223,6 +238,7 @@ fun AdaptiveLayoutScreen(
                                     .weight(1f)
                                     .fillMaxHeight()
                                     .clipToBounds()
+                                    .padding(bottom = if (useFloatingButtons) buttonsHeight else 0.dp)
                             ) {
                                 controls(listState)
                             }
@@ -246,14 +262,14 @@ fun AdaptiveLayoutScreen(
                                 Dispatchers.Main.immediate
                             }
 
+                            val bottomInset = WindowInsets.navigationBars.union(WindowInsets.ime)
+                                .asPaddingValues().calculateBottomPadding()
                             LazyColumn(
                                 state = listState,
                                 contentPadding = PaddingValues(
-                                    bottom = WindowInsets
-                                        .navigationBars
-                                        .union(WindowInsets.ime)
-                                        .asPaddingValues()
-                                        .calculateBottomPadding() + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
+                                    bottom = (if (useFloatingButtons && canShowScreenData) {
+                                        maxOf(bottomInset, buttonsHeight)
+                                    } else bottomInset) + (if (!isPortrait && canShowScreenData) contentPadding else 100.dp),
                                     top = if (!canShowScreenData || !isPortrait) contentPadding else portraitTopPadding,
                                     start = contentPadding + cutout,
                                     end = contentPadding
@@ -315,7 +331,7 @@ fun AdaptiveLayoutScreen(
                                 }
                             }
                         }
-                        AnimatedVisibility(!isPortrait && canShowScreenData) {
+                        AnimatedVisibility(!isPortrait && !useFloatingButtons && canShowScreenData) {
                             buttons(actions)
                         }
                     }
@@ -323,8 +339,15 @@ fun AdaptiveLayoutScreen(
             }
 
             AnimatedVisibility(
-                visible = isPortrait || !canShowScreenData,
-                modifier = Modifier.align(settingsState.fabAlignment)
+                visible = isPortrait || useFloatingButtons || !canShowScreenData,
+                modifier = Modifier
+                    .align(
+                        if (useFloatingButtons && canShowScreenData) Alignment.BottomEnd
+                        else settingsState.fabAlignment
+                    )
+                    .onSizeChanged {
+                        buttonsHeight = with(density) { it.height.toDp() }
+                    }
             ) {
                 buttons(actions)
             }

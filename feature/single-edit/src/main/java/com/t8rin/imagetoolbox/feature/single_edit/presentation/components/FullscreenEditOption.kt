@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.displayCutout
@@ -37,7 +38,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
@@ -65,6 +69,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -74,8 +80,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.FloatingButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -122,6 +130,7 @@ fun FullscreenEditOption(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val useFloatingButtons = shouldUseFloatingButtons()
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -146,6 +155,8 @@ fun FullscreenEditOption(
             else onDismiss()
         }
         val direction = LocalLayoutDirection.current
+        val density = LocalDensity.current
+        var buttonsHeight by remember { mutableStateOf(0.dp) }
         val bottomSheetScope = rememberCoroutineScope()
         val isExpanded by remember {
             derivedStateOf {
@@ -347,69 +358,98 @@ fun FullscreenEditOption(
                         },
                         contentWindowInsets = WindowInsets()
                     ) { contentPadding ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(contentPadding)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(contentPadding)
                         ) {
-                            Box(
-                                Modifier
-                                    .container(
-                                        shape = RectangleShape,
-                                        resultPadding = 0.dp
-                                    )
-                                    .weight(0.8f)
-                                    .fillMaxHeight()
-                                    .clipToBounds()
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.then(
+                                    if (fabButtons != null && showControls && useFloatingButtons) {
+                                        Modifier.windowInsetsPadding(
+                                            WindowInsets.navigationBars.union(WindowInsets.displayCutout)
+                                                .only(WindowInsetsSides.End)
+                                        )
+                                    } else Modifier
+                                )
                             ) {
-                                content()
-                            }
-
-                            if (showControls) {
-                                Column(
-                                    modifier = Modifier
-                                        .weight(0.7f)
-                                        .clearFocusOnTap()
-                                        .enhancedVerticalScroll(rememberScrollState())
-                                        .then(
-                                            if (fabButtons == null) {
-                                                Modifier.padding(
-                                                    end = WindowInsets.displayCutout
-                                                        .asPaddingValues()
-                                                        .calculateEndPadding(direction)
-                                                )
-                                            } else Modifier
-                                        ),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    ProvideContainerDefaults(
-                                        color = MaterialTheme.colorScheme.surfaceContainerLowest
-                                    ) {
-                                        controls(null)
-                                    }
-                                }
-                            }
-                            fabButtons?.let {
-                                Column(
+                                Box(
                                     Modifier
                                         .container(
                                             shape = RectangleShape,
                                             resultPadding = 0.dp
                                         )
-                                        .padding(horizontal = 20.dp)
-                                        .padding(
-                                            end = WindowInsets.displayCutout
-                                                .asPaddingValues()
-                                                .calculateEndPadding(direction)
-                                        )
+                                        .weight(0.8f)
                                         .fillMaxHeight()
-                                        .navigationBarsPadding(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        8.dp,
-                                        Alignment.CenterVertically
-                                    )
+                                        .clipToBounds()
                                 ) {
-                                    it()
+                                    content()
+                                }
+
+                                if (showControls) {
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(0.7f)
+                                            .clearFocusOnTap()
+                                            .enhancedVerticalScroll(rememberScrollState())
+                                            .padding(bottom = if (fabButtons != null && useFloatingButtons) buttonsHeight else 0.dp)
+                                            .then(
+                                                if (fabButtons == null) {
+                                                    Modifier.padding(
+                                                        end = WindowInsets.displayCutout
+                                                            .asPaddingValues()
+                                                            .calculateEndPadding(direction)
+                                                    )
+                                                } else Modifier
+                                            ),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        ProvideContainerDefaults(
+                                            color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                        ) {
+                                            controls(null)
+                                        }
+                                    }
+                                }
+                                if (!showControls || !useFloatingButtons) {
+                                    fabButtons?.let {
+                                        Column(
+                                            Modifier
+                                                .container(
+                                                    shape = RectangleShape,
+                                                    resultPadding = 0.dp
+                                                )
+                                                .padding(horizontal = 20.dp)
+                                                .padding(
+                                                    end = WindowInsets.displayCutout
+                                                        .asPaddingValues()
+                                                        .calculateEndPadding(direction)
+                                                )
+                                                .fillMaxHeight()
+                                                .navigationBarsPadding(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.spacedBy(
+                                                8.dp,
+                                                Alignment.CenterVertically
+                                            )
+                                        ) {
+                                            it()
+                                        }
+                                    }
+                                }
+                            }
+                            fabButtons?.takeIf { showControls && useFloatingButtons }
+                                ?.let { buttons ->
+                                    FloatingButtonsBlock(
+                                        showContainer = false,
+                                        modifier = Modifier
+                                            .align(Alignment.BottomEnd)
+                                            .onSizeChanged {
+                                                buttonsHeight = with(density) { it.height.toDp() }
+                                            }
+                                    ) {
+                                        buttons()
                                 }
                             }
                         }

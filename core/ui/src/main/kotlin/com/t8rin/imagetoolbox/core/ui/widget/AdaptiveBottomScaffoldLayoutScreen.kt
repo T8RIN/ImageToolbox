@@ -52,6 +52,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -62,6 +63,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -73,6 +76,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
@@ -108,6 +112,9 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     enableNoDataScroll: Boolean = true
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val useFloatingButtons = shouldUseFloatingButtons()
+    val density = LocalDensity.current
+    var buttonsHeight by remember { mutableStateOf(0.dp) }
     val screenWidthPx = LocalScreenSize.current.widthPx
 
     val settingsState = LocalSettingsState.current
@@ -194,7 +201,15 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                             mainContent()
                         } else {
                             Row(
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.then(
+                                    if (useFloatingButtons) {
+                                        Modifier.windowInsetsPadding(
+                                            WindowInsets.navigationBars.union(WindowInsets.displayCutout)
+                                                .only(WindowInsetsSides.End)
+                                        )
+                                    } else Modifier
+                                )
                             ) {
                                 Box(
                                     Modifier
@@ -209,11 +224,14 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                     Modifier
                                         .weight(mainContentWeight)
                                         .enhancedVerticalScroll(scrollState)
+                                        .padding(bottom = if (useFloatingButtons) buttonsHeight else 0.dp)
                                 ) {
                                     controls(scaffoldState)
                                 }
-                                buttons {
-                                    actions(scaffoldState)
+                                if (!useFloatingButtons) {
+                                    buttons {
+                                        actions(scaffoldState)
+                                    }
                                 }
                             }
                         }
@@ -249,9 +267,16 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                 }
             }
 
-            if (!canShowScreenData) {
+            if (useFloatingButtons || !canShowScreenData) {
                 Box(
-                    modifier = Modifier.align(settingsState.fabAlignment)
+                    modifier = Modifier
+                        .align(
+                            if (canShowScreenData) Alignment.BottomEnd
+                            else settingsState.fabAlignment
+                        )
+                        .onSizeChanged {
+                            buttonsHeight = with(density) { it.height.toDp() }
+                        }
                 ) {
                     buttons {
                         actions(scaffoldState)

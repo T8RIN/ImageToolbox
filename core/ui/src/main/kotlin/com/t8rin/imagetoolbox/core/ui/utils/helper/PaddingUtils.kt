@@ -22,10 +22,13 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalWindowSizeClass
 
 @Composable
@@ -40,4 +43,10 @@ fun isPortraitOrientationAsState(): State<Boolean> {
             configuration.orientation != Configuration.ORIENTATION_LANDSCAPE || sizeClass.widthSizeClass == WindowWidthSizeClass.Compact
         }
     }
+}
+
+@Composable
+fun shouldUseFloatingButtons(): Boolean {
+    val isPortrait by isPortraitOrientationAsState()
+    return !isPortrait && LocalScreenSize.current.height >= 600.dp
 }
