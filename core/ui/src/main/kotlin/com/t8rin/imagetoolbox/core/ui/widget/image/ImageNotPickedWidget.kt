@@ -19,12 +19,14 @@
 
 package com.t8rin.imagetoolbox.core.ui.widget.image
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -32,9 +34,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -49,6 +55,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.graphics.shapes.Morph
@@ -59,9 +66,11 @@ import com.t8rin.imagetoolbox.core.resources.icons.Image
 import com.t8rin.imagetoolbox.core.resources.shapes.MorphShape
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.currentScreenTwoToneIcon
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
@@ -77,6 +86,7 @@ fun ImageNotPickedWidget(
     onPickImage: () -> Unit,
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_image),
+    isLarge: Boolean = defaultIsLarge(),
     containerColor: Color = Color.Unspecified,
 ) {
     SourceNotPickedWidget(
@@ -84,7 +94,8 @@ fun ImageNotPickedWidget(
         modifier = modifier,
         text = text,
         icon = currentScreenTwoToneIcon(Icons.TwoTone.Image),
-        containerColor = containerColor
+        containerColor = containerColor,
+        isLarge = isLarge,
     )
 }
 
@@ -93,6 +104,7 @@ fun FileNotPickedWidget(
     onPickFile: () -> Unit,
     modifier: Modifier = Modifier,
     text: String = stringResource(R.string.pick_file_to_start),
+    isLarge: Boolean = defaultIsLarge(),
     containerColor: Color = Color.Unspecified,
 ) {
     SourceNotPickedWidget(
@@ -100,7 +112,8 @@ fun FileNotPickedWidget(
         modifier = modifier,
         text = text,
         icon = currentScreenTwoToneIcon(Icons.TwoTone.FileOpen),
-        containerColor = containerColor
+        containerColor = containerColor,
+        isLarge = isLarge,
     )
 }
 
@@ -110,31 +123,61 @@ fun SourceNotPickedWidget(
     onClick: (() -> Unit)?,
     text: String,
     icon: ImageVector,
+    isLarge: Boolean = defaultIsLarge(),
     maxLines: Int = 3,
     containerColor: Color = Color.Unspecified,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     BoxWithConstraints(
         contentAlignment = Alignment.Center
     ) {
-        val targetSize = min(min(maxWidth, maxHeight), 300.dp)
+        val targetSize = min(min(maxWidth, maxHeight), if (isLarge) 360.dp else 300.dp)
 
         Column(
             modifier = modifier
                 .animateContentSizeNoClip()
                 .padding(0.5.dp)
-                .container(color = containerColor),
+                .then(
+                    if (isLarge) {
+                        val canvasWidth = min(maxWidth, 420.dp)
+                        Modifier
+                            .width(canvasWidth)
+                            .heightIn(min = canvasWidth * 250 / 420)
+                            .container(
+                                color = containerColor,
+                                resultPadding = 24.dp
+                            )
+                    } else {
+                        Modifier.container(color = containerColor)
+                    }
+                )
+                .hapticsClickable(
+                    enabled = onClick != null,
+                    indication = null,
+                    onClick = onClick ?: {},
+                    interactionSource = interactionSource
+                ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(if (isLarge) 24.dp else 16.dp))
             ClickableActionIcon(
                 icon = icon,
                 onClick = onClick,
-                modifier = Modifier.size(targetSize / 3)
+                modifier = Modifier.size(targetSize / 3),
+                interactionSource = interactionSource
             )
             AutoSizeText(
                 text = text,
-                modifier = Modifier.padding(16.dp),
+                modifier = if (isLarge) {
+                    Modifier
+                        .widthIn(max = 240.dp)
+                        .padding(vertical = 24.dp)
+                } else {
+                    Modifier.padding(16.dp)
+                },
+                style = if (isLarge) MaterialTheme.typography.bodyLarge else LocalTextStyle.current,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 key = { it.length },
@@ -148,9 +191,9 @@ fun SourceNotPickedWidget(
 fun ClickableActionIcon(
     icon: ImageVector,
     onClick: (() -> Unit)?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     val pressed by interactionSource.collectIsPressedAsState()
     val haptics = LocalHapticFeedback.current
 
@@ -245,3 +288,55 @@ fun ClickableActionIcon(
         }
     }
 }
+
+@Composable
+private fun defaultIsLarge() = LocalScreenSize.current.run {
+    minOf(width, height) >= 480.dp
+}
+
+@Preview(name = "Phone portrait", widthDp = 360, heightDp = 480, locale = "ru")
+@Preview(
+    name = "Phone landscape",
+    widthDp = 720,
+    heightDp = 240,
+    locale = "ru",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun SourceNotPickedWidgetPreview() = ImageToolboxThemeForPreview(isSystemInDarkTheme()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        ImageNotPickedWidget(
+            onPickImage = {},
+            isLarge = false
+        )
+    }
+}
+
+@Preview(name = "Tablet portrait", widthDp = 800, heightDp = 1000, locale = "ru")
+@Preview(
+    name = "Tablet landscape",
+    widthDp = 1000,
+    heightDp = 700,
+    locale = "ru",
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun SourceNotPickedWidgetLargePreview() =
+    ImageToolboxThemeForPreview(isSystemInDarkTheme()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            ImageNotPickedWidget(
+                onPickImage = {},
+                isLarge = true
+            )
+        }
+    }

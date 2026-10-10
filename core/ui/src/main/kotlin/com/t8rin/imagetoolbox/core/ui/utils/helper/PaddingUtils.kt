@@ -50,8 +50,3 @@ fun shouldUseFloatingButtons(): Boolean {
     val isPortrait by isPortraitOrientationAsState()
     return !isPortrait && LocalScreenSize.current.height >= 600.dp
 }
-
-@Composable
-fun isLargeScreen(): Boolean = LocalScreenSize.current.run {
-    minOf(width, height) >= 600.dp
-}
