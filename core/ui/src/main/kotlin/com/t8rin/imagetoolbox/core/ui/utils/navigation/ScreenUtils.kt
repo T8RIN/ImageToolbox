@@ -66,6 +66,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
 import com.t8rin.imagetoolbox.core.resources.icons.JoinInner
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
@@ -316,7 +317,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
-    is Gallery -> Icons.Outlined.WallArt
+    is Gallery -> Icons.Outlined.ImagesMode
     is ImagePreview -> Icons.Outlined.Landscape
     is ImageStitching -> Icons.Rounded.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -416,7 +417,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
-    is Gallery -> Icons.TwoTone.WallArt
+    is Gallery -> Icons.TwoTone.ImagesMode
     is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
