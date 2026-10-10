@@ -211,6 +211,7 @@ fun EraseBackgroundContent(
     }
 
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.background_remover),

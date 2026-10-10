@@ -53,6 +53,7 @@ fun LoadNetImageContent(
     AutoContentBasedColors(component.bitmap)
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = true,
         title = {
             TopAppBarTitle(

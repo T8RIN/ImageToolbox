@@ -92,6 +92,7 @@ fun Base64ToolsContent(
     }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = true,
         title = {
             TopAppBarTitle(

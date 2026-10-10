@@ -120,6 +120,7 @@ fun ImageStackingContent(
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

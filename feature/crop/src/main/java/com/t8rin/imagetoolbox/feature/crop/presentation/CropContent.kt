@@ -181,6 +181,7 @@ fun CropContent(
     }
 
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.crop),

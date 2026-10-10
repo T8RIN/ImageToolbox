@@ -224,6 +224,7 @@ fun CollageMakerContent(
     val scope = rememberCoroutineScope()
 
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             AnimatedContent(
                 targetState = component.uris.isNullOrEmpty()

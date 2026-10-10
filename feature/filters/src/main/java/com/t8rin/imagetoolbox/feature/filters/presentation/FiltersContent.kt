@@ -232,6 +232,7 @@ private fun FiltersMainContent(component: FiltersComponent) {
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !(component.haveChanges || component.filterType != null),
         onGoBack = onBack,
         title = {

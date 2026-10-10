@@ -223,6 +223,7 @@ fun PaletteToolsContent(
     }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = paletteType == null,
         title = {
             TopAppBarTitle(

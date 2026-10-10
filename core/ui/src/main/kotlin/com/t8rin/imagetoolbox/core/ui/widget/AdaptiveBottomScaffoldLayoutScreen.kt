@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -109,10 +110,12 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     showActionsInTopAppBar: Boolean = true,
     collapseTopAppBarWhenHaveData: Boolean = true,
     autoClearFocus: Boolean = true,
-    enableNoDataScroll: Boolean = true
+    enableNoDataScroll: Boolean = true,
+    isLoading: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val useFloatingButtons = shouldUseFloatingButtons()
+    val showButtons = canShowScreenData || !isLoading
     val density = LocalDensity.current
     var buttonsHeight by remember { mutableStateOf(0.dp) }
     val screenWidthPx = LocalScreenSize.current.widthPx
@@ -196,6 +199,15 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         )
                     }
                 ) { canShowScreenData ->
+                    if (!canShowScreenData && isLoading) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EnhancedLoadingIndicator()
+                        }
+                        return@AnimatedContent
+                    }
                     if (canShowScreenData) {
                         if (isPortrait) {
                             mainContent()
@@ -228,7 +240,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                 ) {
                                     controls(scaffoldState)
                                 }
-                                if (!useFloatingButtons) {
+                                if (!useFloatingButtons && showButtons) {
                                     buttons {
                                         actions(scaffoldState)
                                     }
@@ -267,7 +279,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                 }
             }
 
-            if (useFloatingButtons || !canShowScreenData) {
+            if (showButtons && (useFloatingButtons || !canShowScreenData)) {
                 Box(
                     modifier = Modifier
                         .align(

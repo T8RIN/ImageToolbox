@@ -230,6 +230,7 @@ fun MarkupLayersContent(
     }
 
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         autoClearFocus = false,
         modifier = Modifier
             .clearFocusOnTap()

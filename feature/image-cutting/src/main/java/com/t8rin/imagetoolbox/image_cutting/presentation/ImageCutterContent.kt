@@ -102,6 +102,7 @@ fun ImageCutterContent(
     var showPickImageFromUrisSheet by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

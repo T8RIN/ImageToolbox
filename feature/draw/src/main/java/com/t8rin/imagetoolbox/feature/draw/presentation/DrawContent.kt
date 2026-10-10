@@ -224,6 +224,7 @@ fun DrawContent(
         mutableStateOf(false)
     }
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.draw),

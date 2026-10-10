@@ -112,6 +112,7 @@ fun CompressionLabContent(
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

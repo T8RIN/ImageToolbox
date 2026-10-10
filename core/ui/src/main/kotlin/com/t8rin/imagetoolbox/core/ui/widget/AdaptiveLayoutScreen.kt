@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -118,10 +119,12 @@ fun AdaptiveLayoutScreen(
     ),
     listState: LazyListState = rememberLazyListState(),
     placeControlsSeparately: Boolean = false,
-    portraitTopPadding: Dp = 0.dp
+    portraitTopPadding: Dp = 0.dp,
+    isLoading: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val useFloatingButtons = shouldUseFloatingButtons()
+    val showButtons = canShowScreenData || !isLoading
     val density = LocalDensity.current
     var buttonsHeight by remember { mutableStateOf(0.dp) }
     val settingsState = LocalSettingsState.current
@@ -193,6 +196,15 @@ fun AdaptiveLayoutScreen(
                         .fillMaxSize()
                         .padding(scaffoldPadding)
                 ) { canShowScreenData ->
+                    if (!canShowScreenData && isLoading) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EnhancedLoadingIndicator()
+                        }
+                        return@AnimatedContent
+                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center,
@@ -331,7 +343,7 @@ fun AdaptiveLayoutScreen(
                                 }
                             }
                         }
-                        AnimatedVisibility(!isPortrait && !useFloatingButtons && canShowScreenData) {
+                        AnimatedVisibility(showButtons && !isPortrait && !useFloatingButtons && canShowScreenData) {
                             buttons(actions)
                         }
                     }
@@ -339,7 +351,7 @@ fun AdaptiveLayoutScreen(
             }
 
             AnimatedVisibility(
-                visible = isPortrait || useFloatingButtons || !canShowScreenData,
+                visible = showButtons && (isPortrait || useFloatingButtons || !canShowScreenData),
                 modifier = Modifier
                     .align(
                         if (useFloatingButtons && canShowScreenData) Alignment.BottomEnd

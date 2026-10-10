@@ -117,6 +117,7 @@ fun DeleteExifContent(
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

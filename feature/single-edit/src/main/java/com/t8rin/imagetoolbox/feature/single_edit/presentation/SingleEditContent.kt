@@ -148,6 +148,7 @@ fun SingleEditContent(
 
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             val originalSize = component.uri.fileSize() ?: 0
@@ -348,7 +349,7 @@ fun SingleEditContent(
                 mutableStateOf(false)
             }
             BottomButtonsBlock(
-                isNoData = component.uri == Uri.EMPTY,
+                isNoData = component.bitmap == null,
                 onSecondaryButtonClick = pickImage,
                 onSecondaryButtonLongClick = {
                     showOneTimeImagePickingDialog = true
