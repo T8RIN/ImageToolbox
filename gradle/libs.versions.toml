@@ -86,7 +86,7 @@ commonsCompress = "1.28.0"
 junrar = "8.1.1"
 xz = "1.12"
 
-onnx = "1.30.0"
+onnx = "1.31.0"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
