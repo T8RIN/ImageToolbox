@@ -175,6 +175,41 @@ class SpotHealMaskTest {
     }
 
     @Test
+    fun erasingSubtractsEarlierMasksAndAllowsPaintingAgain() {
+        val painted = stroke(.5f, 200)
+        val eraser = stroke(.5f, 40, IntegerSize(400, 400)).copy(
+            isErasing = true,
+            drawPathMode = DrawPathMode.Lasso
+        )
+        val cut = checkNotNull(listOf(painted, eraser).combineSpotHealPaths(mode))
+        val result = mask(listOf(cut))
+        assertEquals(NativeColor.BLACK, result.getPixel(100, 100))
+        assertEquals(NativeColor.WHITE, result.getPixel(100, 75))
+        assertTrue(!cut.isErasing)
+        val repainted = mask(
+            listOf(
+                checkNotNull(
+                    listOf(painted, eraser, stroke(.5f, 20)).combineSpotHealPaths(mode)
+                )
+            )
+        )
+        assertEquals(NativeColor.WHITE, repainted.getPixel(100, 100))
+        assertEquals(NativeColor.BLACK, repainted.getPixel(100, 105))
+        result.recycle()
+        repainted.recycle()
+    }
+
+    @Test
+    fun fullyErasedMaskDoesNotApplyOrEraseOrdinaryStrokes() {
+        val pen = stroke(.5f).copy(drawMode = DrawMode.Pen, isPendingSpotHeal = false)
+        val painted = stroke(.5f)
+        val eraser = painted.copy(isErasing = true, strokeWidth = 100.pt)
+        assertNull(listOf(painted, eraser).combineSpotHealPaths(mode))
+        assertNull(listOf(eraser).combineSpotHealPaths(mode))
+        assertEquals(listOf(pen), listOf(pen, painted, eraser).applySpotHeal(mode))
+    }
+
+    @Test
     fun emptyMaskDoesNotCreateAHealingOperation() {
         assertNull(emptyList<UiPathPaint>().combineSpotHealPaths(mode))
     }

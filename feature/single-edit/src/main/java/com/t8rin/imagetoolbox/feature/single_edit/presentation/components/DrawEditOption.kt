@@ -249,7 +249,7 @@ fun DrawEditOption(
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
         var renderedPaths by remember(bitmap, visible) { mutableStateOf<List<UiPathPaint>?>(null) }
-        val isRenderReady = renderedPaths == appliedPaths
+        val isRenderReady = renderedPaths == paths
         FullscreenEditOption(
             canGoBack = paths.isEmpty(),
             visible = visible,
@@ -546,7 +546,7 @@ fun DrawEditOption(
                         onDraw = {
                             stateBitmap = it
                         },
-                        onRenderReady = { renderedPaths = appliedPaths.takeIf { _ -> it } },
+                        onRenderReady = { renderedPaths = paths.takeIf { _ -> it } },
                         drawPathMode = drawPathMode,
                         backgroundColor = Color.Transparent,
                         drawLineStyle = drawLineStyle,

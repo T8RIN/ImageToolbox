@@ -68,6 +68,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class DrawComponent @AssistedInject internal constructor(
@@ -157,6 +159,23 @@ class DrawComponent @AssistedInject internal constructor(
 
     val pendingSpotHealPaths: List<UiPathPaint>
         get() = paths.filter { it.isPendingSpotHeal }
+
+    init {
+        componentScope.launch {
+            settingsProvider.settingsState.map { it.applySpotHealManually }
+                .distinctUntilChanged()
+                .collect { manual ->
+                    if (!manual) {
+                        _paths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _lastPaths.update { history ->
+                            history.filterNot { it.isPendingSpotHeal }
+                                .takeUnless { it == paths }.orEmpty()
+                        }
+                        _undonePaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                    }
+                }
+        }
+    }
 
     val renderCache = DrawRenderCache()
 
@@ -391,16 +410,23 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun clearDrawing() {
+        val remaining = if (applySpotHealManually && drawMode is DrawMode.SpotHeal) {
+            appliedPaths
+        } else listOf()
+        if (remaining == paths) return
         if (paths.isNotEmpty()) {
             _lastPaths.value = paths
-            _paths.value = listOf()
+            _paths.value = remaining
             _undonePaths.value = listOf()
             registerChanges()
         }
     }
 
     fun undo() {
-        if (paths.isEmpty() && lastPaths.isNotEmpty()) {
+        if (lastPaths.isNotEmpty() && (paths.isEmpty() ||
+                    lastPaths.any { it.isPendingSpotHeal } &&
+                    paths == lastPaths.filterNot { it.isPendingSpotHeal })
+        ) {
             _paths.value = lastPaths
             _lastPaths.value = listOf()
             return
@@ -425,7 +451,7 @@ class DrawComponent @AssistedInject internal constructor(
 
     fun addPath(pathPaint: UiPathPaint) {
         val entry =
-            if (applySpotHealManually && !pathPaint.isErasing && pathPaint.drawMode is DrawMode.SpotHeal) {
+            if (applySpotHealManually && pathPaint.drawMode is DrawMode.SpotHeal) {
                 pathPaint.copy(isPendingSpotHeal = true)
             } else pathPaint
         _paths.update { it + entry }

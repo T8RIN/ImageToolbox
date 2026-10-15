@@ -132,7 +132,7 @@ class LiveDrawTestActivity : ComponentActivity() {
                             applySpotHealManually = manualHealing,
                             onAddPath = {
                                 paths =
-                                    paths + if (manualHealing && it.drawMode is DrawMode.SpotHeal && !it.isErasing) {
+                                    paths + if (manualHealing && it.drawMode is DrawMode.SpotHeal) {
                                         it.copy(isPendingSpotHeal = true)
                                     } else it
                             },

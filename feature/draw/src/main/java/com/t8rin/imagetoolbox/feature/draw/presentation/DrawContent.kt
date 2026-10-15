@@ -171,13 +171,14 @@ fun DrawContent(
     var showLineAngle by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     val drawMode = component.drawMode
+    val paths = component.paths
     val appliedPaths = component.appliedPaths
     val pendingSpotHealPaths = component.pendingSpotHealPaths
     val hasPendingSpotHeal = pendingSpotHealPaths.isNotEmpty()
     var renderedPaths by remember(component.imageBitmap, component.drawBehavior) {
         mutableStateOf<List<UiPathPaint>?>(null)
     }
-    val isRenderReady = renderedPaths == appliedPaths
+    val isRenderReady = renderedPaths == paths
 
     var alpha by rememberSaveable(component.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -296,7 +297,10 @@ fun DrawContent(
                 )
                 EnhancedIconButton(
                     onClick = component::clearDrawing,
-                    enabled = component.drawBehavior !is DrawBehavior.None && component.havePaths
+                    enabled = component.drawBehavior !is DrawBehavior.None &&
+                            if (settingsState.applySpotHealManually && drawMode is DrawMode.SpotHeal) {
+                                hasPendingSpotHeal
+                            } else component.havePaths
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
@@ -319,7 +323,7 @@ fun DrawContent(
                     paths = appliedPaths,
                     pendingSpotHealPaths = pendingSpotHealPaths,
                     applySpotHealManually = settingsState.applySpotHealManually,
-                    onRenderReady = { renderedPaths = appliedPaths.takeIf { _ -> it } },
+                    onRenderReady = { renderedPaths = paths.takeIf { _ -> it } },
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),

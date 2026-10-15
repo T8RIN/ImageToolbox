@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
@@ -168,6 +169,7 @@ fun BitmapDrawer(
             val motionEvent = remember { mutableStateOf(MotionEvent.Idle) }
             var previousDrawPosition by remember { mutableStateOf(Offset.Unspecified) }
             var drawDownPosition by remember { mutableStateOf(Offset.Unspecified) }
+            var strokeIsManualSpotHeal by remember { mutableStateOf<Boolean?>(null) }
 
             val imageWidth = constraints.maxWidth
             val imageHeight = constraints.maxHeight
@@ -204,8 +206,10 @@ fun BitmapDrawer(
                 mutableIntStateOf(0)
             }
 
+            val isManualSpotHeal = applySpotHealManually && drawMode is DrawMode.SpotHeal
+            val currentManualSpotHeal by rememberUpdatedState(isManualSpotHeal)
             val needsDrawPathBitmap = !isEraserOn && (
-                    drawMode is DrawMode.SpotHeal
+                    drawMode is DrawMode.SpotHeal && !isManualSpotHeal
                             || drawMode is DrawMode.Warp
                     )
 
@@ -264,6 +268,7 @@ fun BitmapDrawer(
 
             var drawPath by remember(
                 drawMode,
+                applySpotHealManually,
                 strokeWidth,
                 isEraserOn,
                 drawColor,
@@ -277,6 +282,7 @@ fun BitmapDrawer(
 
             var pathWithoutTransformations by remember(
                 drawMode,
+                applySpotHealManually,
                 strokeWidth,
                 isEraserOn,
                 drawColor,
@@ -287,6 +293,19 @@ fun BitmapDrawer(
                 gradientLength,
                 isGradientMirrored
             ) { mutableStateOf(Path()) }
+
+            LaunchedEffect(applySpotHealManually) {
+                if (drawMode is DrawMode.SpotHeal) {
+                    strokeIsManualSpotHeal = null
+                    drawPath = Path()
+                    pathWithoutTransformations = Path()
+                    currentDrawPosition = Offset.Unspecified
+                    previousDrawPosition = Offset.Unspecified
+                    drawDownPosition = Offset.Unspecified
+                    motionEvent.value = MotionEvent.Idle
+                    invalidations++
+                }
+            }
 
             var warpRuntimeStrokes by remember(drawMode) {
                 mutableStateOf(emptyList<WarpStroke>())
@@ -527,7 +546,9 @@ fun BitmapDrawer(
                         motionEvent.value = MotionEvent.Idle
                     },
                     onUp = {
-                        if (currentDrawPosition.isSpecified && drawDownPosition.isSpecified) {
+                        if (strokeIsManualSpotHeal == isManualSpotHeal &&
+                            currentDrawPosition.isSpecified && drawDownPosition.isSpecified
+                        ) {
                             if (drawMode is DrawMode.Warp && warpRuntimeStrokes.isNotEmpty() && !isEraserOn) {
                                 PathMeasure().apply {
                                     setPath(drawPath, false)
@@ -657,7 +678,7 @@ fun BitmapDrawer(
 
                     if (drawPath.isEmpty) gradientStroke.clear()
 
-                    if ((pendingCommit == null || pendingCommit !in renderedPaths) &&
+                    if (!isManualSpotHeal && (pendingCommit == null || pendingCommit !in renderedPaths) &&
                         ((drawMode !is DrawMode.PathEffect && drawMode !is DrawMode.Warp) || isEraserOn)
                     ) {
                         val androidPath by remember(drawPath) {
@@ -757,10 +778,22 @@ fun BitmapDrawer(
                 )
             }
 
+            val liveSpotHealPath = if (isManualSpotHeal && !drawPath.isEmpty) {
+                UiPathPaint(
+                    path = drawPath.copy(),
+                    strokeWidth = strokeWidth,
+                    brushSoftness = brushSoftness,
+                    isErasing = isEraserOn,
+                    drawMode = drawMode,
+                    canvasSize = canvasSize,
+                    drawPathMode = drawPathMode
+                )
+            } else null
+
             finishedStroke?.let { committed ->
-                if (committed.isErasing || committed.drawMode !is DrawMode.SpotHeal &&
+                if (!isManualSpotHeal && (committed.isErasing || committed.drawMode !is DrawMode.SpotHeal &&
                     committed.drawMode !is DrawMode.Warp &&
-                    (committed.drawMode !is DrawMode.PathEffect || preparedEffect != null)
+                            (committed.drawMode !is DrawMode.PathEffect || preparedEffect != null))
                 ) {
                     pendingPreview = DrawPreviewSnapshot(
                         paths = paths + committed,
@@ -772,6 +805,7 @@ fun BitmapDrawer(
                 onAddPath(committed)
             }
             if (pointerReleased) {
+                strokeIsManualSpotHeal = null
                 currentDrawPosition = Offset.Unspecified
                 previousDrawPosition = Offset.Unspecified
                 if (pendingCommit == null) drawPath = Path()
@@ -835,18 +869,33 @@ fun BitmapDrawer(
                 }
             }
 
-            val pendingMask = remember(pendingSpotHealPaths, canvasSize) {
-                pendingSpotHealPaths.combineSpotHealPaths(DrawMode.SpotHeal())?.let { mask ->
-                    createBitmap(imageWidth, imageHeight).apply {
-                        AndroidCanvas(this).drawPath(
-                            mask.path.scaleToFitCanvas(canvasSize, mask.canvasSize).asAndroidPath(),
-                            pathEffectPaint(mask.strokeWidth, mask.drawPathMode, canvasSize).apply {
-                                color = Color.Red.copy(0.5f).toArgb()
-                                xfermode = null
-                            }
-                        )
-                    }.asImageBitmap()
-                }
+            val pendingMaskPath = remember(pendingSpotHealPaths, canvasSize) {
+                pendingSpotHealPaths.combineSpotHealPaths(DrawMode.SpotHeal())
+            }
+            val pendingMask = remember(
+                pendingMaskPath,
+                liveSpotHealPath,
+                canvasSize,
+                applySpotHealManually
+            ) {
+                listOfNotNull(pendingMaskPath, liveSpotHealPath)
+                    .takeIf { applySpotHealManually }
+                    ?.combineSpotHealPaths(DrawMode.SpotHeal())?.let { mask ->
+                        createBitmap(imageWidth, imageHeight).apply {
+                            AndroidCanvas(this).drawPath(
+                                mask.path.scaleToFitCanvas(canvasSize, mask.canvasSize)
+                                    .asAndroidPath(),
+                                pathEffectPaint(
+                                    mask.strokeWidth,
+                                    mask.drawPathMode,
+                                    canvasSize
+                                ).apply {
+                                    color = Color.Red.copy(0.5f).toArgb()
+                                    xfermode = null
+                                }
+                            )
+                        }.asImageBitmap()
+                    }
             }
 
             val previewBitmap by remember(invalidations, historyBitmap, drawPath, pendingMask) {
@@ -860,15 +909,29 @@ fun BitmapDrawer(
                 }
             }
 
-            LaunchedEffect(previewBitmap, paths, renderedPaths, pendingCommit, historyBitmap) {
+            LaunchedEffect(
+                previewBitmap,
+                paths,
+                pendingSpotHealPaths,
+                renderedPaths,
+                pendingCommit,
+                pendingPreview,
+                historyBitmap
+            ) {
                 onDraw?.invoke(previewBitmap.asAndroidBitmap())
-                onRenderReady?.invoke(drawImageBitmap != null && paths == renderedPaths && pendingCommit == null)
+                onRenderReady?.invoke(
+                    drawImageBitmap != null && paths == renderedPaths &&
+                            pendingCommit == null && pendingPreview == null
+                )
             }
 
             BitmapDrawerPreview(
                 preview = previewBitmap,
                 globalTouchPointersCount = globalTouchPointersCount,
-                onReceiveMotionEvent = { motionEvent.value = it },
+                onReceiveMotionEvent = {
+                    if (it == MotionEvent.Down) strokeIsManualSpotHeal = currentManualSpotHeal
+                    motionEvent.value = it
+                },
                 onInvalidate = { invalidations++ },
                 onUpdateCurrentDrawPosition = { currentDrawPosition = it },
                 onUpdateDrawDownPosition = { drawDownPosition = it },

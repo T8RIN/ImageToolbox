@@ -32,14 +32,20 @@ internal fun List<UiPathPaint>.combineSpotHealPaths(
     val mask = NativePath()
     forEach { entry ->
         val outline = NativePath()
-        pathEffectPaint(entry.strokeWidth, entry.drawPathMode, first.canvasSize).getFillPath(
+        pathEffectPaint(
+            entry.strokeWidth,
+            if (entry.isErasing) DrawPathMode.Free else entry.drawPathMode,
+            first.canvasSize
+        ).getFillPath(
             entry.path.scaleToFitCanvas(first.canvasSize, entry.canvasSize).asAndroidPath(),
             outline
         )
-        mask.op(outline, NativePath.Op.UNION)
+        mask.op(outline, if (entry.isErasing) NativePath.Op.DIFFERENCE else NativePath.Op.UNION)
     }
+    if (mask.isEmpty) return null
     return first.copy(
         path = mask.asComposePath(),
+        isErasing = false,
         drawMode = mode,
         drawPathMode = DrawPathMode.Lasso,
         isPendingSpotHeal = false
@@ -48,9 +54,10 @@ internal fun List<UiPathPaint>.combineSpotHealPaths(
 
 fun List<UiPathPaint>.applySpotHeal(mode: DrawMode): List<UiPathPaint> {
     val pending = filter { it.isPendingSpotHeal }
+    if (pending.isEmpty()) return this
     val healMode = mode as? DrawMode.SpotHeal
         ?: pending.lastOrNull()?.drawMode as? DrawMode.SpotHeal
         ?: return this
-    val combined = pending.combineSpotHealPaths(healMode) ?: return this
-    return filterNot { it.isPendingSpotHeal } + combined
+    val combined = pending.combineSpotHealPaths(healMode)
+    return filterNot { it.isPendingSpotHeal } + listOfNotNull(combined)
 }

@@ -90,6 +90,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -258,6 +260,17 @@ class SingleEditComponent @AssistedInject internal constructor(
             _imageInfo.update {
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
+        }
+        componentScope.launch {
+            settingsManager.settingsState.map { it.applySpotHealManually }
+                .distinctUntilChanged()
+                .collect { manual ->
+                    if (!manual) {
+                        _drawPaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _drawLastPaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _drawUndonePaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                    }
+                }
         }
     }
 
@@ -955,7 +968,7 @@ class SingleEditComponent @AssistedInject internal constructor(
 
     fun addPathToDrawList(pathPaint: UiPathPaint) {
         val entry =
-            if (settingsManager.settingsState.value.applySpotHealManually && !pathPaint.isErasing &&
+            if (settingsManager.settingsState.value.applySpotHealManually &&
                 pathPaint.drawMode is DrawMode.SpotHeal
             ) {
                 pathPaint.copy(isPendingSpotHeal = true)
