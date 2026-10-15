@@ -69,6 +69,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Archive
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.Opacity
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
@@ -98,10 +99,13 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.BackgroundCanvasSizeControls
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.Layer
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.LayerSnapGuides
+import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.LayerSnapResult
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersActions
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersNoDataControls
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.MarkupLayersSideMenu
@@ -190,6 +194,11 @@ fun MarkupLayersContent(
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    var snappingEnabled by rememberSaveable { mutableStateOf(true) }
+    var snapResult by remember(activeLayer, snappingEnabled) {
+        mutableStateOf<LayerSnapResult?>(null)
+    }
+
     var showLayersSelection by rememberSaveable {
         mutableStateOf(false)
     }
@@ -265,12 +274,13 @@ fun MarkupLayersContent(
         },
         mainContent = {
             val direction = LocalLayoutDirection.current
+            val zoomState = rememberZoomState(maxScale = 10f)
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .clipToBounds()
                     .zoomable(
-                        zoomState = rememberZoomState(maxScale = 10f),
+                        zoomState = zoomState,
                         zoomEnabled = !component.layers.fastAny { it.state.isActive }
                     ),
                 contentAlignment = Alignment.Center
@@ -309,7 +319,10 @@ fun MarkupLayersContent(
                                 .matchParentSize()
                                 .activeLayerGestures(
                                     component = component,
-                                    activeLayer = activeLayer
+                                    activeLayer = activeLayer,
+                                    snappingEnabled = snappingEnabled,
+                                    canvasScale = zoomState.scale,
+                                    onSnap = { snapResult = it }
                                 )
                                 .graphicsLayer {
                                     compositingStrategy = CompositingStrategy.Offscreen
@@ -360,6 +373,7 @@ fun MarkupLayersContent(
                                     }
                                 )
                             }
+                            LayerSnapGuides(snapResult)
                         }
                     }
                 }
@@ -398,6 +412,15 @@ fun MarkupLayersContent(
                         onApply = component::resizeBackgroundCanvas
                     )
                 }
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.snap_to_grid),
+                    subtitle = stringResource(R.string.snap_to_grid_sub),
+                    startIcon = Icons.Outlined.GridOn,
+                    checked = snappingEnabled,
+                    onClick = { snappingEnabled = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.large
+                )
                 SaveExifWidget(
                     modifier = Modifier.fillMaxWidth(),
                     checked = component.saveExif,

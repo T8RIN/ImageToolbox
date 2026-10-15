@@ -30,6 +30,8 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.positionChanged
+import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.applyGroupGlobalChanges
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
@@ -39,12 +41,16 @@ import kotlin.math.abs
 
 internal fun Modifier.activeLayerGestures(
     component: MarkupLayersComponent,
-    activeLayer: UiMarkupLayer?
-): Modifier = pointerInput(activeLayer) {
+    activeLayer: UiMarkupLayer?,
+    snappingEnabled: Boolean,
+    canvasScale: Float,
+    onSnap: (LayerSnapResult?) -> Unit
+): Modifier = pointerInput(activeLayer, snappingEnabled, canvasScale) {
     activeLayer ?: return@pointerInput
 
     awaitEachGesture {
-        activeLayer.state
+        var snapCorrection = Offset.Zero
+        val snapThreshold = 6.dp.toPx() / canvasScale
         var totalZoom = 1f
         var totalRotation = 0f
         var totalPan = Offset.Zero
@@ -57,91 +63,112 @@ internal fun Modifier.activeLayerGestures(
         )
         var activePointerId = down.id
 
-        do {
-            val event = awaitPointerEvent(pass = PointerEventPass.Initial)
-            val pressedChanges = event.changes.filter(PointerInputChange::pressed)
-            if (pressedChanges.isEmpty()) break
+        try {
+            do {
+                val event = awaitPointerEvent(pass = PointerEventPass.Initial)
+                val pressedChanges = event.changes.filter(PointerInputChange::pressed)
+                if (pressedChanges.isEmpty()) break
 
-            val activePointer = pressedChanges.firstOrNull { it.id == activePointerId }
-                ?: pressedChanges.first().also {
-                    activePointerId = it.id
-                }
+                val activePointer = pressedChanges.firstOrNull { it.id == activePointerId }
+                    ?: pressedChanges.first().also {
+                        activePointerId = it.id
+                    }
 
-            val isMultiTouch = pressedChanges.size > 1
-            val panChange = if (isMultiTouch) {
-                event.calculatePan()
-            } else {
-                activePointer.positionChange()
-            }
-            val zoomChange = if (isMultiTouch) event.calculateZoom() else 1f
-            val rotationChange = if (isMultiTouch) event.calculateRotation() else 0f
-
-            if (!pastTouchSlop) {
-                totalPan += panChange
-                totalZoom *= zoomChange
-                totalRotation += rotationChange
-
-                val centroidSize = if (isMultiTouch) {
-                    event.calculateCentroidSize(useCurrent = false)
+                val isMultiTouch = pressedChanges.size > 1
+                val panChange = if (isMultiTouch) {
+                    event.calculatePan()
                 } else {
-                    0f
+                    activePointer.positionChange()
                 }
-                val zoomMotion = abs(1 - totalZoom) * centroidSize
-                val rotationMotion = abs(totalRotation * PI.toFloat() * centroidSize / 180f)
-                val panMotion = totalPan.getDistance()
+                val zoomChange = if (isMultiTouch) event.calculateZoom() else 1f
+                val rotationChange = if (isMultiTouch) event.calculateRotation() else 0f
 
-                if (zoomMotion > touchSlop ||
-                    rotationMotion > touchSlop ||
-                    panMotion > touchSlop
-                ) {
-                    component.beginHistoryTransaction()
-                    pastTouchSlop = true
-                }
-            }
+                if (!pastTouchSlop) {
+                    totalPan += panChange
+                    totalZoom *= zoomChange
+                    totalRotation += rotationChange
 
-            if (pastTouchSlop) {
-                component.updateLayerState(
-                    layer = activeLayer,
-                    commitToHistory = false
-                ) {
-                    if (activeLayer.isGroup) {
-                        activeLayer.applyGroupGlobalChanges(
-                            zoomChange = zoomChange,
-                            offsetChange = panChange,
-                            rotationChange = rotationChange
-                        )
+                    val centroidSize = if (isMultiTouch) {
+                        event.calculateCentroidSize(useCurrent = false)
                     } else {
-                        val contentSize = contentSize
-                        if (contentSize.width > 0 && contentSize.height > 0) {
-                            val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: size.width
-                            val canvasHeight = canvasSize.height.takeIf { it > 0 } ?: size.height
+                        0f
+                    }
+                    val zoomMotion = abs(1 - totalZoom) * centroidSize
+                    val rotationMotion = abs(totalRotation * PI.toFloat() * centroidSize / 180f)
+                    val panMotion = totalPan.getDistance()
 
-                            applyGlobalChanges(
-                                parentMaxWidth = canvasWidth,
-                                parentMaxHeight = canvasHeight,
-                                contentSize = contentSize,
-                                cornerRadiusPercent = activeLayer.uiCornerRadiusPercent(),
+                    if (zoomMotion > touchSlop ||
+                        rotationMotion > touchSlop ||
+                        panMotion > touchSlop
+                    ) {
+                        component.beginHistoryTransaction()
+                        pastTouchSlop = true
+                    }
+                }
+
+                if (pastTouchSlop) {
+                    val canvasSize = IntegerSize(size.width, size.height)
+                    val offsetChange = if (snappingEnabled && !isMultiTouch) {
+                        panChange - snapCorrection
+                    } else panChange
+                    snapCorrection = Offset.Zero
+                    var snapResult: LayerSnapResult? = null
+
+                    component.updateLayerState(
+                        layer = activeLayer,
+                        commitToHistory = false
+                    ) {
+                        if (activeLayer.isGroup) {
+                            activeLayer.applyGroupGlobalChanges(
                                 zoomChange = zoomChange,
-                                offsetChange = panChange,
+                                offsetChange = offsetChange,
                                 rotationChange = rotationChange
                             )
+                        } else {
+                            val contentSize = contentSize
+                            if (contentSize.width > 0 && contentSize.height > 0) {
+                                val canvasWidth = canvasSize.width.takeIf { it > 0 } ?: size.width
+                                val canvasHeight =
+                                    canvasSize.height.takeIf { it > 0 } ?: size.height
+
+                                applyGlobalChanges(
+                                    parentMaxWidth = canvasWidth,
+                                    parentMaxHeight = canvasHeight,
+                                    contentSize = contentSize,
+                                    cornerRadiusPercent = activeLayer.uiCornerRadiusPercent(),
+                                    zoomChange = zoomChange,
+                                    offsetChange = offsetChange,
+                                    rotationChange = rotationChange
+                                )
+                            }
+                        }
+
+                        if (snappingEnabled && !isMultiTouch) {
+                            snapResult = activeLayer.snapToLayers(
+                                layers = component.layers,
+                                canvasSize = canvasSize,
+                                threshold = snapThreshold
+                            )
+                            snapCorrection = snapResult?.offset ?: Offset.Zero
+                        }
+                    }
+                    onSnap(snapResult)
+
+                    event.changes.forEach { change ->
+                        if (change.positionChanged()) {
+                            change.consume()
                         }
                     }
                 }
 
-                event.changes.forEach { change ->
-                    if (change.positionChanged()) {
-                        change.consume()
-                    }
-                }
+                down = activePointer
+                activePointerId = down.id
+            } while (true)
+        } finally {
+            onSnap(null)
+            if (pastTouchSlop) {
+                component.commitHistoryTransaction()
             }
-
-            down = activePointer
-            activePointerId = down.id
-        } while (true)
-
-        if (pastTouchSlop) {
-            component.commitHistoryTransaction()
         }
     }
 }

@@ -5508,4 +5508,6 @@
     <string name="open">Открыть</string>
     <string name="dialog_position">Положение диалогов</string>
     <string name="dialog_position_sub">Выберите, где на экране будут отображаться диалоги</string>
+    <string name="snap_to_grid">Привязка к сетке</string>
+    <string name="snap_to_grid_sub">Выравнивать слои по центру и краям холста и других слоёв при перетаскивании</string>
 </resources>
