@@ -107,6 +107,11 @@
 -keep class com.t8rin.imagetoolbox.core.data.json.ResizeTypeJson { *; }
 -keep class com.t8rin.imagetoolbox.core.data.json.ImageScaleModeJson { *; }
 
+# Moshi reflects PDF crop presets and their rectangle bounds.
+-keep class com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropPresets { *; }
+-keep class com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropPreset { *; }
+-keep class com.t8rin.imagetoolbox.core.domain.model.RectModel { *; }
+
 # Moshi reflects app history/statistics models for recent tools.
 -keep class com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool { *; }
 -keep class com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics { *; }
