@@ -17,11 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.SystemClock
+import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,6 +42,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class LiveDrawPreviewTest {
@@ -74,6 +79,120 @@ class LiveDrawPreviewTest {
         event.recycle()
         SystemClock.sleep(40)
     }
+
+    private fun cancelHealing(manual: Boolean) = withDrawer { activity ->
+        fun stroke(y: Float) {
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .2f, y, down)
+            for (step in 1..8) {
+                event(activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, y, down)
+            }
+            event(activity, MotionEvent.ACTION_UP, .8f, y, down)
+        }
+
+        stroke(.3f)
+        await("Initial drawing did not finish") { activity.ready && activity.readyPaths?.size == 1 }
+        val original = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        val prefix = activity.paths
+        val entered = CountDownLatch(1)
+        val release = CountDownLatch(1)
+        val finished = CountDownLatch(1)
+        activity.beforeFiltering = {
+            entered.countDown()
+            try {
+                check(release.await(60, TimeUnit.SECONDS))
+            } finally {
+                finished.countDown()
+            }
+        }
+        try {
+            instrumentation.runOnMainSync {
+                activity.mode = DrawMode.SpotHeal()
+                activity.manualHealing = manual
+            }
+            instrumentation.waitForIdleSync()
+            stroke(.7f)
+            if (manual) {
+                await("Manual mask did not finish") {
+                    activity.ready && activity.paths.lastOrNull()?.isPendingSpotHeal == true
+                }
+                instrumentation.runOnMainSync {
+                    activity.paths = activity.paths.applySpotHeal(DrawMode.SpotHeal())
+                }
+            }
+            assertTrue("Healing did not start", entered.await(5, TimeUnit.SECONDS))
+            SystemClock.sleep(300)
+            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
+            val cancel = activity.getString(com.t8rin.imagetoolbox.core.resources.R.string.cancel)
+            val automation = instrumentation.uiAutomation
+            automation.serviceInfo = automation.serviceInfo.apply {
+                flags = flags or AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+            }
+            fun findCancel(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
+                node ?: return null
+                if (node.isVisibleToUser && node.text?.toString() == cancel) return node
+                for (index in 0 until node.childCount) {
+                    findCancel(node.getChild(index))?.let { return it }
+                }
+                return null
+            }
+
+            fun cancelButton() = automation.windows.firstNotNullOfOrNull { findCancel(it.root) }
+            await("Cancel confirmation did not appear") { cancelButton() != null }
+            var button = checkNotNull(cancelButton())
+            while (!button.isClickable && button.parent != null) button = button.parent
+            assertTrue(
+                "Cancel button did not respond",
+                button.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            )
+            await("Cancel did not remove the active heal") { activity.paths == prefix }
+            await("Cancel did not restore the drawing while healing was still running") {
+                activity.ready && activity.readyPaths == prefix && original.sameAs(activity.frame)
+            }
+            SystemClock.sleep(600)
+            assertEquals(
+                "The native operation finished before cancellation was checked",
+                1L,
+                release.count
+            )
+            activity.beforeFiltering = null
+            assertEquals(prefix, activity.paths)
+            stroke(.5f)
+            if (manual) {
+                await("New mask did not finish") {
+                    activity.ready && activity.paths.lastOrNull()?.isPendingSpotHeal == true
+                }
+                instrumentation.runOnMainSync {
+                    activity.paths = activity.paths.applySpotHeal(DrawMode.SpotHeal())
+                }
+            }
+            await("A new heal could not be applied after cancellation") {
+                activity.ready && activity.readyPaths?.size == 2 && activity.frame!!.let {
+                    it.getPixel(it.width / 2, it.height / 2) == android.graphics.Color.CYAN
+                }
+            }
+            val healed = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            release.countDown()
+            assertTrue("Cancelled operation did not finish", finished.await(5, TimeUnit.SECONDS))
+            SystemClock.sleep(300)
+            assertTrue(
+                "Cancelled healing appeared after it finished",
+                healed.sameAs(activity.frame)
+            )
+            assertEquals(2, activity.filterCalls)
+            healed.recycle()
+        } finally {
+            activity.beforeFiltering = null
+            release.countDown()
+            original.recycle()
+        }
+    }
+
+    @Test
+    fun cancellingHealingRestoresTheDrawingBeforeNativeWorkFinishes() = cancelHealing(false)
+
+    @Test
+    fun cancellingManualHealingRestoresTheDrawingBeforeNativeWorkFinishes() = cancelHealing(true)
 
     @Test
     fun highlighterSelfCrossingKeepsUntouchedInkDuringAndAfterTheGesture() =
@@ -563,7 +682,7 @@ class LiveDrawPreviewTest {
                 down
             )
             event(activity, MotionEvent.ACTION_UP, .8f, y, down)
-            await("Stroke did not commit") { activity.ready && activity.paths.size == count + 1 }
+            await("Stroke did not commit") { activity.ready && activity.readyPaths?.size == count + 1 }
         }
         stroke(DrawMode.Pen, .45f)
         stroke(DrawMode.SpotHeal(), .5f)
@@ -595,7 +714,9 @@ class LiveDrawPreviewTest {
                 )
             }
             instrumentation.runOnMainSync { activity.ready = false; activity.paths = paths }
-            await("Redo after rotation did not finish") { activity.ready && activity.readyPaths == paths }
+            await("Redo after rotation did not finish") {
+                activity.ready && activity.readyPaths == paths && rotated.sameAs(activity.frame)
+            }
             assertEquals("Undo/redo recalculated SpotHeal", calls, activity.filterCalls)
             if (!rotated.sameAs(activity.frame)) {
                 for ((name, frame) in listOf("rotated" to rotated, "redo" to activity.frame!!)) {

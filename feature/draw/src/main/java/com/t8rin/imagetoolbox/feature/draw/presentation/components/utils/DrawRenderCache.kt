@@ -27,6 +27,10 @@ import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.drawCommittedPath
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.sync.Mutex
@@ -108,7 +112,16 @@ class DrawRenderCache {
                         source.asImageBitmap().overlay(bitmap.asImageBitmap()).asAndroidBitmap()
                     },
                     onRequestFiltering = { input, filters ->
-                        onRequestFiltering(input, filters)?.also {
+                        val filtered = if (healKey != null) {
+                            // Native healing must not hold the history lock after cancellation.
+                            val scope = CoroutineScope(Dispatchers.Default)
+                            try {
+                                scope.async { onRequestFiltering(input, filters) }.await()
+                            } finally {
+                                scope.cancel()
+                            }
+                        } else onRequestFiltering(input, filters)
+                        filtered?.also {
                             currentCoroutineContext().ensureActive()
                             if (healKey != null) healedPaths[healKey] = it
                         }

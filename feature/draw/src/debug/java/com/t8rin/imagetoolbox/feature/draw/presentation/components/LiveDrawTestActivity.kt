@@ -108,6 +108,9 @@ class LiveDrawTestActivity : ComponentActivity() {
     @Volatile
     var observeFrame: ((Bitmap) -> Unit)? = null
 
+    @Volatile
+    var beforeFiltering: (() -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initAppContext()
@@ -136,8 +139,10 @@ class LiveDrawTestActivity : ComponentActivity() {
                                         it.copy(isPendingSpotHeal = true)
                                     } else it
                             },
+                            onRemovePath = { paths = paths - it },
                             onRequestFiltering = { source, _ ->
                                 state.filterCalls.incrementAndGet()
+                                beforeFiltering?.invoke()
                                 delay(80)
                                 createBitmap(
                                     source.width,
