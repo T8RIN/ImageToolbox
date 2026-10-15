@@ -46,7 +46,7 @@ internal fun Modifier.activeLayerGestures(
     canvasScale: Float,
     onSnap: (LayerSnapResult?) -> Unit
 ): Modifier = pointerInput(activeLayer, snappingEnabled, canvasScale) {
-    activeLayer ?: return@pointerInput
+    if (activeLayer == null || activeLayer.isLocked) return@pointerInput
 
     awaitEachGesture {
         var snapCorrection = Offset.Zero

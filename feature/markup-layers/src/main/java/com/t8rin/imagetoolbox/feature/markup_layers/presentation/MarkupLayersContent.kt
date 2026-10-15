@@ -342,19 +342,26 @@ fun MarkupLayersContent(
                                             }
                                         }
                                 )
-                            } else if (imageBitmap != null) {
-                                Picture(
-                                    model = imageBitmap,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.FillBounds,
-                                    modifier = Modifier
-                                        .matchParentSize()
-                                        .clipToBounds(),
-                                    showTransparencyChecker = false
-                                )
                             }
 
                             component.layers.forEachIndexed { index, layer ->
+                                if (layer.isBackground) {
+                                    if (layer.state.isVisible) {
+                                        Picture(
+                                            model = imageBitmap,
+                                            contentDescription = null,
+                                            contentScale = ContentScale.FillBounds,
+                                            modifier = Modifier
+                                                .matchParentSize()
+                                                .clipToBounds()
+                                                .graphicsLayer {
+                                                    alpha = layer.state.alpha
+                                                },
+                                            showTransparencyChecker = false
+                                        )
+                                    }
+                                    return@forEachIndexed
+                                }
                                 Layer(
                                     component = component,
                                     layer = layer,

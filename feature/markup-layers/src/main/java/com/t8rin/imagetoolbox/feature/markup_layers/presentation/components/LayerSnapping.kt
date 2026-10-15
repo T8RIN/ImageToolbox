@@ -44,7 +44,7 @@ internal data class LayerSnapResult(
 internal fun UiMarkupLayer.snappingBounds(
     canvasSize: IntegerSize
 ): LayerBounds? {
-    if (!state.isVisible || state.alpha <= 0f) return null
+    if (isBackground || !state.isVisible || state.alpha <= 0f) return null
 
     return if (isGroup) {
         canvasLeafLayers(canvasSize = canvasSize)

@@ -228,7 +228,9 @@ internal fun MarkupLayersSideMenu(
                                         }
                                 ) {
                                     val showContextActions =
-                                        isContextOptionsVisible && (activeLayer != null || component.isGroupingSelectionMode)
+                                        activeLayer?.isBackground != true &&
+                                                isContextOptionsVisible &&
+                                                (activeLayer != null || component.isGroupingSelectionMode)
 
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
@@ -238,7 +240,8 @@ internal fun MarkupLayersSideMenu(
                                             onClick = {
                                                 activeLayer?.let(component::removeLayer)
                                             },
-                                            enabled = activeLayer != null && !component.isGroupingSelectionMode && !showContextActions
+                                            enabled = activeLayer != null && activeLayer?.isBackground != true &&
+                                                    !component.isGroupingSelectionMode && !showContextActions
                                         ) {
                                             Icon(
                                                 imageVector = Icons.Rounded.Delete,
@@ -282,7 +285,8 @@ internal fun MarkupLayersSideMenu(
                                                 onClick = {
                                                     onContextOptionsVisibleChange(true)
                                                 },
-                                                enabled = activeLayer != null || component.isGroupingSelectionMode
+                                                enabled = activeLayer?.isBackground != true &&
+                                                        (activeLayer != null || component.isGroupingSelectionMode)
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.Rounded.Build,
@@ -402,17 +406,16 @@ internal fun MarkupLayersSideMenu(
                                     EnhancedSlider(
                                         value = activeLayer?.state?.alpha ?: 1f,
                                         enabled = activeLayer != null &&
-                                                activeLayer?.isLocked != true &&
+                                                (activeLayer?.isLocked != true || activeLayer?.isBackground == true) &&
                                                 !component.isGroupingSelectionMode,
                                         onValueChange = {
                                             component.beginHistoryTransaction()
                                             activeLayer?.let { layer ->
-                                                component.updateLayerState(
+                                                component.setLayerAlpha(
                                                     layer = layer,
+                                                    alpha = it,
                                                     commitToHistory = false
-                                                ) {
-                                                    alpha = it
-                                                }
+                                                )
                                             }
                                         },
                                         onValueChangeFinished = component::commitHistoryTransaction,

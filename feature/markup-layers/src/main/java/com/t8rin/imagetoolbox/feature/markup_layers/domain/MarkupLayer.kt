@@ -31,6 +31,7 @@ data class MarkupLayer(
     val visibleLineCount: Int? = null,
     val cornerRadiusPercent: Int = 0,
     val isLocked: Boolean = false,
+    val isBackground: Boolean = false,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
     val groupedLayers: List<MarkupLayer> = emptyList()
 )

@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.updatePolygon
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateRect
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.updateStar
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.vertices
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.withImageBackgroundLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.withOutlinedFillColor
 import java.io.File
 import javax.inject.Inject
@@ -92,7 +93,7 @@ internal class MarkupMapper @Inject constructor(
     private suspend fun MarkupProjectFile.toDomain(
         extractionDir: File
     ): MarkupProjectResult {
-        if (version != MarkupProjectVersion) {
+        if (version !in 1..MarkupProjectVersion) {
             return MarkupProjectResult.Error.UnsupportedVersion(
                 version = version,
                 message = getString(R.string.unsupported_markup_project_version, version)
@@ -107,7 +108,7 @@ internal class MarkupMapper @Inject constructor(
                 undoneLayers = undoneLayers.toDomainLayers(extractionDir),
                 history = history.toDomainSnapshots(extractionDir),
                 redoHistory = redoHistory.toDomainSnapshots(extractionDir)
-            )
+            ).withImageBackgroundLayer()
         )
     }
 
@@ -191,6 +192,7 @@ internal class MarkupMapper @Inject constructor(
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,
+            isBackground = isBackground,
             blendingMode = blendingMode.value,
             text = (layerType as? LayerType.Text)?.toSnapshot(
                 assetRegistry = assetRegistry,
@@ -386,6 +388,7 @@ internal class MarkupMapper @Inject constructor(
             visibleLineCount = visibleLineCount,
             cornerRadiusPercent = layerType.layerCornerRadiusPercent(cornerRadiusPercent),
             isLocked = isLocked,
+            isBackground = isBackground,
             blendingMode = BlendingMode.entries.find { it.value == blendingMode }
                 ?: BlendingMode.SrcOver,
             groupedLayers = groupedLayers.toDomainLayers(extractionDir)

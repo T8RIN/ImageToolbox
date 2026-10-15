@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProject
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectHistorySnapshot
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.MarkupProjectResult
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.ProjectBackground
+import com.t8rin.imagetoolbox.feature.markup_layers.domain.asLayer
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.EditBoxState
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.BackgroundBehavior
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.UiMarkupLayer
@@ -189,11 +190,11 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun clearLayers() {
-        if (layers.isEmpty()) return
+        if (layers.none { !it.isBackground }) return
 
         cancelGroupingSelection()
         runEditorChange {
-            _layers.value = emptyList()
+            _layers.value = layers.filter(UiMarkupLayer::isBackground)
         }
     }
 
@@ -210,12 +211,14 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun activateLayer(layer: UiMarkupLayer) {
-        if (layer.isLocked) return
+        if (layer.isLocked && !layer.isBackground) return
         deactivateAllLayers()
         layer.state.activate()
     }
 
     fun copyLayer(layer: UiMarkupLayer) {
+        if (layer.isBackground) return
+
         cancelGroupingSelection()
         runEditorChange {
             val copied = layer.deepDuplicate()
@@ -277,6 +280,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun toggleLayerLock(layer: UiMarkupLayer) {
+        if (layer.isBackground) return
+
         cancelGroupingSelection()
         runEditorChange {
             val copied = layer.copy(
@@ -299,6 +304,8 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     fun removeLayer(layer: UiMarkupLayer) {
+        if (layer.isBackground) return
+
         cancelGroupingSelection()
         runEditorChange {
             _layers.update { it - layer }
@@ -340,6 +347,20 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                     cornerRadiusPercent = layer.uiCornerRadiusPercent()
                 )
             }
+        }
+    }
+
+    fun setLayerAlpha(
+        layer: UiMarkupLayer,
+        alpha: Float,
+        commitToHistory: Boolean = true
+    ) {
+        updateLayerState(
+            layer = layer,
+            commitToHistory = commitToHistory,
+            allowLocked = layer.isBackground
+        ) {
+            this.alpha = alpha.coerceIn(0f, 1f)
         }
     }
 
@@ -623,6 +644,7 @@ class MarkupLayersComponent @AssistedInject internal constructor(
                 originalSize = false,
                 onGetImage = { data ->
                     _backgroundBehavior.update { BackgroundBehavior.Image }
+                    _layers.value = listOf(ProjectBackground.Image(uri.toString()).asLayer().asUi())
                     updateBitmap(data.image)
                     _imageFormat.update { data.imageInfo.imageFormat }
                     resetHistory()
@@ -922,7 +944,9 @@ class MarkupLayersComponent @AssistedInject internal constructor(
     }
 
     private fun resetHistory() {
-        restoreHistory()
+        pendingHistorySnapshot = null
+        _history.value = listOf(currentHistorySnapshot())
+        _redoHistory.value = emptyList()
     }
 
     private fun restoreHistory(

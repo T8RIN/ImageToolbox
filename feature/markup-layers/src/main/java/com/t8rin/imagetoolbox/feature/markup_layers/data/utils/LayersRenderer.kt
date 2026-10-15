@@ -82,7 +82,11 @@ internal class LayersRenderer @Inject constructor(
         layers: List<MarkupLayer>,
         fontScale: Float? = null
     ): Bitmap = withContext(defaultDispatcher) {
-        val resultBitmap = backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
+        val resultBitmap = if (layers.any(MarkupLayer::isBackground)) {
+            createBitmap(backgroundImage.width, backgroundImage.height)
+        } else {
+            backgroundImage.copy(Bitmap.Config.ARGB_8888, true)
+        }
 
         val visibleLayers = layers.filter { it.position.isVisible }
         if (visibleLayers.isEmpty()) return@withContext resultBitmap
@@ -91,6 +95,7 @@ internal class LayersRenderer @Inject constructor(
         val targetHeight = resultBitmap.height.toFloat()
         val authorSize = visibleLayers
             .asSequence()
+            .filterNot(MarkupLayer::isBackground)
             .map { it.position.currentCanvasSize }
             .firstOrNull { it.width > 0 && it.height > 0 }
 
@@ -120,12 +125,23 @@ internal class LayersRenderer @Inject constructor(
         val shapeCache = mutableMapOf<ShapeLayerCacheKey, ShapeLayerCacheValue>()
 
         resultBitmap.applyCanvas {
-            withSave {
-                translate(canvasOffsetX, canvasOffsetY)
-                scale(ratio, ratio)
+            layers.forEach { layer ->
+                if (!layer.position.isVisible) return@forEach
+                if (layer.isBackground) {
+                    drawBitmap(
+                        backgroundImage,
+                        0f,
+                        0f,
+                        Paint().apply {
+                            alpha = (layer.position.alpha * 255).roundToInt().coerceIn(0, 255)
+                        }
+                    )
+                    return@forEach
+                }
 
-                layers.forEach { layer ->
-                    if (!layer.position.isVisible) return@forEach
+                withSave {
+                    translate(canvasOffsetX, canvasOffsetY)
+                    scale(ratio, ratio)
 
                     val centerX = authorWidth / 2f + layer.position.offsetX
                     val centerY = authorHeight / 2f + layer.position.offsetY
