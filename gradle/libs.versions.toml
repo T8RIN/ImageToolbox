@@ -10,7 +10,7 @@ versionCode = "271"
 
 jvmTarget = "21"
 
-imageToolboxLibs = "8.1.0"
+imageToolboxLibs = "8.1.1"
 trickle = "1.9.3"
 evaluator = "1.0.0"
 quickie = "1.19.0"
