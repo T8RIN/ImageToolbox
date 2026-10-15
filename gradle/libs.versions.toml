@@ -90,7 +90,7 @@ onnx = "1.31.0"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
-palette = "1.1.0-alpha01"
+palette = "1.1.0-rc01"
 kotlinxSerializationJson = "1.11.0"
 
 firebaseBom = "34.19.0"
