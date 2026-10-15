@@ -83,6 +83,8 @@ interface SimpleSettingsInteractor {
 
     suspend fun setSpotHealMode(mode: Int)
 
+    suspend fun setApplySpotHealManually(value: Boolean)
+
     suspend fun setBorderWidth(width: Float)
 
     suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance)

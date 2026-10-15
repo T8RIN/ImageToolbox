@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.createScaledBitmap
+import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.HelperGridParams
 import com.t8rin.imagetoolbox.core.ui.widget.saver.OneTimeEffect
@@ -77,6 +78,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.BitmapD
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.GradientStrokeCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.MotionEvent
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.combineSpotHealPaths
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.copy
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawBitmapThroughPath
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.drawOutlinedFill
@@ -137,6 +139,8 @@ fun BitmapDrawer(
     helperGridParams: HelperGridParams = remember { HelperGridParams() },
     showLineAngle: Boolean = false,
     onRemovePath: (UiPathPaint) -> Unit = {},
+    pendingSpotHealPaths: List<UiPathPaint> = emptyList(),
+    applySpotHealManually: Boolean = false,
 ) {
     val context = LocalContext.current
 
@@ -626,7 +630,7 @@ fun BitmapDrawer(
                                         gradientLength = gradientLength,
                                         isGradientMirrored = isGradientMirrored
                                     )
-                                    if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal)) {
+                                    if (!isEraserOn && (drawMode is DrawMode.PathEffect || drawMode is DrawMode.SpotHeal && !applySpotHealManually)) {
                                         pendingCommit = committed
                                         pendingFilteredSource = preparedEffect?.asAndroidBitmap()
                                     }
@@ -831,13 +835,28 @@ fun BitmapDrawer(
                 }
             }
 
-            val previewBitmap by remember(invalidations, historyBitmap, drawPath) {
+            val pendingMask = remember(pendingSpotHealPaths, canvasSize) {
+                pendingSpotHealPaths.combineSpotHealPaths(DrawMode.SpotHeal())?.let { mask ->
+                    createBitmap(imageWidth, imageHeight).apply {
+                        AndroidCanvas(this).drawPath(
+                            mask.path.scaleToFitCanvas(canvasSize, mask.canvasSize).asAndroidPath(),
+                            pathEffectPaint(mask.strokeWidth, mask.drawPathMode, canvasSize).apply {
+                                color = Color.Red.copy(0.5f).toArgb()
+                                xfermode = null
+                            }
+                        )
+                    }.asImageBitmap()
+                }
+            }
+
+            val previewBitmap by remember(invalidations, historyBitmap, drawPath, pendingMask) {
                 derivedStateOf {
-                    if (drawMode is DrawMode.Warp) {
+                    val preview = if (drawMode is DrawMode.Warp) {
                         warpedImage
                     } else {
                         drawPathBitmap?.let(outputImage::overlay) ?: outputImage
                     }
+                    pendingMask?.let(preview::overlay) ?: preview
                 }
             }
 

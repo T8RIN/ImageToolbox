@@ -149,6 +149,7 @@ internal val ALLOW_SKIP_IF_LARGER = booleanPreferencesKey("ALLOW_SKIP_IF_LARGER"
 internal val ASCII_CUSTOM_GRADIENTS = stringSetPreferencesKey("ASCII_CUSTOM_GRADIENTS")
 internal val IS_LAUNCHER_MODE = booleanPreferencesKey("IS_LAUNCHER_MODE")
 internal val SPOT_HEAL_MODE = intPreferencesKey("SPOT_HEAL_MODE")
+internal val APPLY_SPOT_HEAL_MANUALLY = booleanPreferencesKey("APPLY_SPOT_HEAL_MANUALLY")
 internal val SNOWFALL_MODE = intPreferencesKey("SNOWFALL_MODE")
 internal val DEFAULT_QUALITY = stringPreferencesKey("DEFAULT_QUALITY")
 internal val DEFAULT_IMAGE_FORMAT = stringPreferencesKey("DEFAULT_IMAGE_FORMAT")

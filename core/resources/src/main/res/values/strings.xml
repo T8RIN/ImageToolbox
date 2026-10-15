@@ -2451,6 +2451,8 @@
     <string name="mask">Mask</string>
     <string name="spot_heal_sub">Content aware fill under drawn path</string>
     <string name="spot_heal">Heal Spot</string>
+    <string name="apply_spot_heal_manually">Apply manually</string>
+    <string name="apply_spot_heal_manually_sub">Mark several areas, then tap Apply to heal them together</string>
     <string name="use_circle_kernel">Use Circle Kernel</string>
     <string name="opening">Opening</string>
     <string name="closing">Closing</string>

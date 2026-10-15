@@ -18,10 +18,15 @@
 package com.t8rin.imagetoolbox.feature.single_edit.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -109,6 +114,7 @@ fun FullscreenEditOption(
     showControls: Boolean = true,
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
     fabButtons: (@Composable () -> Unit)?,
+    fabButtonsVisible: Boolean = true,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -131,6 +137,12 @@ fun FullscreenEditOption(
 ) {
     val settingsState = LocalSettingsState.current
     val useFloatingButtons = shouldUseFloatingButtons()
+    val fabVisibility = remember(visible) {
+        MutableTransitionState(fabButtons != null && fabButtonsVisible)
+    }.apply {
+        targetState = fabButtons != null && fabButtonsVisible
+    }
+    val haveFabButtons = fabVisibility.currentState || fabVisibility.targetState
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -303,15 +315,21 @@ fun FullscreenEditOption(
                                                 }
                                             },
                                             floatingActionButton = {
-                                                Row(
-                                                    horizontalArrangement = Arrangement.spacedBy(
-                                                        8.dp,
-                                                        Alignment.CenterHorizontally
-                                                    ),
-                                                    verticalAlignment = Alignment.CenterVertically
+                                                androidx.compose.animation.AnimatedVisibility(
+                                                    visibleState = fabVisibility,
+                                                    enter = fadeIn() + expandHorizontally(expandFrom = Alignment.End),
+                                                    exit = fadeOut() + shrinkHorizontally(
+                                                        shrinkTowards = Alignment.End
+                                                    )
                                                 ) {
-                                                    if (fabButtons != null) {
-                                                        fabButtons()
+                                                    Row(
+                                                        horizontalArrangement = Arrangement.spacedBy(
+                                                            8.dp,
+                                                            Alignment.CenterHorizontally
+                                                        ),
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        fabButtons?.invoke()
                                                     }
                                                 }
                                             }
@@ -366,7 +384,7 @@ fun FullscreenEditOption(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier.then(
-                                    if (fabButtons != null && showControls && useFloatingButtons) {
+                                    if (haveFabButtons && showControls && useFloatingButtons) {
                                         Modifier.windowInsetsPadding(
                                             WindowInsets.navigationBars.union(WindowInsets.displayCutout)
                                                 .only(WindowInsetsSides.End)
@@ -393,9 +411,9 @@ fun FullscreenEditOption(
                                             .weight(0.7f)
                                             .clearFocusOnTap()
                                             .enhancedVerticalScroll(rememberScrollState())
-                                            .padding(bottom = if (fabButtons != null && useFloatingButtons) buttonsHeight else 0.dp)
+                                            .padding(bottom = if (haveFabButtons && useFloatingButtons) buttonsHeight else 0.dp)
                                             .then(
-                                                if (fabButtons == null) {
+                                                if (!haveFabButtons) {
                                                     Modifier.padding(
                                                         end = WindowInsets.displayCutout
                                                             .asPaddingValues()
@@ -413,7 +431,11 @@ fun FullscreenEditOption(
                                     }
                                 }
                                 if (!showControls || !useFloatingButtons) {
-                                    fabButtons?.let {
+                                    AnimatedVisibility(
+                                        visibleState = fabVisibility,
+                                        enter = fadeIn() + expandHorizontally(expandFrom = Alignment.End),
+                                        exit = fadeOut() + shrinkHorizontally(shrinkTowards = Alignment.End)
+                                    ) {
                                         Column(
                                             Modifier
                                                 .container(
@@ -434,22 +456,26 @@ fun FullscreenEditOption(
                                                 Alignment.CenterVertically
                                             )
                                         ) {
-                                            it()
+                                            fabButtons?.invoke()
                                         }
                                     }
                                 }
                             }
-                            fabButtons?.takeIf { showControls && useFloatingButtons }
-                                ?.let { buttons ->
+                            if (showControls && useFloatingButtons) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visibleState = fabVisibility,
+                                    modifier = Modifier.align(Alignment.BottomEnd),
+                                    enter = fadeIn() + scaleIn(initialScale = 0.8f),
+                                    exit = fadeOut() + scaleOut(targetScale = 0.8f)
+                                ) {
                                     FloatingButtonsBlock(
                                         showContainer = false,
-                                        modifier = Modifier
-                                            .align(Alignment.BottomEnd)
-                                            .onSizeChanged {
-                                                buttonsHeight = with(density) { it.height.toDp() }
-                                            }
+                                        modifier = Modifier.onSizeChanged {
+                                            buttonsHeight = with(density) { it.height.toDp() }
+                                        }
                                     ) {
-                                        buttons()
+                                        fabButtons?.invoke()
+                                    }
                                 }
                             }
                         }

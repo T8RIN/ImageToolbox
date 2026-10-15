@@ -31,6 +31,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,6 +56,8 @@ import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Healing
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
@@ -83,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentControls
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentNoDataControls
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentSecondaryControls
@@ -167,6 +171,13 @@ fun DrawContent(
     var showLineAngle by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     val drawMode = component.drawMode
+    val appliedPaths = component.appliedPaths
+    val pendingSpotHealPaths = component.pendingSpotHealPaths
+    val hasPendingSpotHeal = pendingSpotHealPaths.isNotEmpty()
+    var renderedPaths by remember(component.imageBitmap, component.drawBehavior) {
+        mutableStateOf<List<UiPathPaint>?>(null)
+    }
+    val isRenderReady = renderedPaths == appliedPaths
 
     var alpha by rememberSaveable(component.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -264,7 +275,7 @@ fun DrawContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    enabled = component.drawBehavior !is DrawBehavior.None,
+                    enabled = component.drawBehavior !is DrawBehavior.None && !hasPendingSpotHeal && isRenderReady,
                     onShare = component::shareBitmap,
                     onCopy = {
                         component.cacheCurrentImage(Clipboard::copy)
@@ -305,7 +316,10 @@ fun DrawContent(
                     imageBitmap = imageBitmap,
                     renderCache = component.renderCache,
                     sourceKey = component.imageBitmap?.asAndroidBitmap() ?: component.drawBehavior,
-                    paths = component.paths,
+                    paths = appliedPaths,
+                    pendingSpotHealPaths = pendingSpotHealPaths,
+                    applySpotHealManually = settingsState.applySpotHealManually,
+                    onRenderReady = { renderedPaths = appliedPaths.takeIf { _ -> it } },
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
@@ -377,11 +391,18 @@ fun DrawContent(
                 },
                 isSecondaryButtonVisible = component.drawBehavior !is DrawBehavior.Background,
                 onPrimaryButtonClick = {
-                    saveBitmap(null)
+                    if (hasPendingSpotHeal) component.applySpotHeal()
+                    else saveBitmap(null)
                 },
+                primaryButtonIcon = if (hasPendingSpotHeal) Icons.Outlined.Healing else Icons.Rounded.Save,
+                primaryButtonText = if (hasPendingSpotHeal) stringResource(R.string.apply) else "",
+                primaryButtonContainerColor = if (hasPendingSpotHeal) {
+                    MaterialTheme.colorScheme.primary
+                } else MaterialTheme.colorScheme.primaryContainer,
                 isPrimaryButtonVisible = component.drawBehavior !is DrawBehavior.None,
-                onPrimaryButtonLongClick = {
-                    showFolderSelectionDialog = true
+                isPrimaryButtonEnabled = isRenderReady,
+                onPrimaryButtonLongClick = if (hasPendingSpotHeal) null else {
+                    { showFolderSelectionDialog = true }
                 },
                 actions = {
                     if (isPortrait) it()

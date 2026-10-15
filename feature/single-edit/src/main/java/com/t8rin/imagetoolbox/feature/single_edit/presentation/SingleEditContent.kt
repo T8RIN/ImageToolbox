@@ -464,6 +464,7 @@ fun SingleEditContent(
         lastPaths = component.drawLastPaths,
         undonePaths = component.drawUndonePaths,
         addPath = component::addPathToDrawList,
+        onApplySpotHeal = component::applySpotHeal,
         drawMode = component.drawMode,
         onUpdateDrawMode = component::updateDrawMode,
         drawPathMode = component.drawPathMode,

@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
@@ -69,6 +70,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.widget.addFilters.AddFil
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.resources.icons.Healing
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
 import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -79,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.controls.UndoRedoButtons
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.AlphaSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.HelperGridParamsSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.MagnifierEnabledSelector
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
@@ -128,6 +131,7 @@ fun DrawEditOption(
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
+    onApplySpotHeal: () -> Unit,
     helperGridParams: HelperGridParams,
     onUpdateHelperGridParams: (HelperGridParams) -> Unit,
     addFiltersSheetComponent: AddFiltersSheetComponent,
@@ -151,6 +155,9 @@ fun DrawEditOption(
         var isEraserOn by rememberSaveable { mutableStateOf(false) }
 
         val settingsState = LocalSettingsState.current
+        val appliedPaths = remember(paths) { paths.filterNot { it.isPendingSpotHeal } }
+        val pendingSpotHealPaths = remember(paths) { paths.filter { it.isPendingSpotHeal } }
+        val hasPendingSpotHeal = pendingSpotHealPaths.isNotEmpty()
         var strokeWidth by rememberSaveable(stateSaver = PtSaver) { mutableStateOf(settingsState.defaultDrawLineWidth.pt) }
         var drawColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(settingsState.defaultDrawColor) }
         var gradientPalette by rememberSaveable(stateSaver = GradientPaletteSaver) {
@@ -241,7 +248,8 @@ fun DrawEditOption(
         }
 
         var stateBitmap by remember(bitmap, visible) { mutableStateOf(bitmap) }
-        var isRenderReady by remember(bitmap, visible) { mutableStateOf(false) }
+        var renderedPaths by remember(bitmap, visible) { mutableStateOf<List<UiPathPaint>?>(null) }
+        val isRenderReady = renderedPaths == appliedPaths
         FullscreenEditOption(
             canGoBack = paths.isEmpty(),
             visible = visible,
@@ -444,7 +452,25 @@ fun DrawEditOption(
                     )
                 }
             },
-            fabButtons = null,
+            fabButtonsVisible = hasPendingSpotHeal,
+            fabButtons = {
+                EnhancedFloatingActionButton(
+                    onClick = onApplySpotHeal.takeIf { isRenderReady },
+                    containerColor = if (isRenderReady) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.surfaceContainerHighest,
+                    contentColor = if (isRenderReady) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.outline
+                ) {
+                    Spacer(Modifier.width(16.dp))
+                    Icon(
+                        imageVector = Icons.Outlined.Healing,
+                        contentDescription = null
+                    )
+                    Spacer(Modifier.width(16.dp))
+                    Text(stringResource(R.string.apply))
+                    Spacer(Modifier.width(16.dp))
+                }
+            },
             actions = {
                 if (useScaffold) {
                     secondaryControls()
@@ -463,7 +489,7 @@ fun DrawEditOption(
                         ) {
                             EnhancedIconButton(
                                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                enabled = isRenderReady,
+                                enabled = isRenderReady && !hasPendingSpotHeal,
                                 onClick = {
                                     onGetBitmap(stateBitmap)
                                     onDismiss()
@@ -471,7 +497,7 @@ fun DrawEditOption(
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Done,
-                                    contentDescription = "Done"
+                                    contentDescription = stringResource(R.string.confirm)
                                 )
                             }
                         }
@@ -493,7 +519,9 @@ fun DrawEditOption(
                         imageBitmap = imageBitmap,
                         renderCache = renderCache,
                         sourceKey = bitmap,
-                        paths = paths,
+                        paths = appliedPaths,
+                        pendingSpotHealPaths = pendingSpotHealPaths,
+                        applySpotHealManually = settingsState.applySpotHealManually,
                         onRequestFiltering = onRequestFiltering,
                         strokeWidth = strokeWidth,
                         brushSoftness = brushSoftness,
@@ -518,7 +546,7 @@ fun DrawEditOption(
                         onDraw = {
                             stateBitmap = it
                         },
-                        onRenderReady = { isRenderReady = it },
+                        onRenderReady = { renderedPaths = appliedPaths.takeIf { _ -> it } },
                         drawPathMode = drawPathMode,
                         backgroundColor = Color.Transparent,
                         drawLineStyle = drawLineStyle,

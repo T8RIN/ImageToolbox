@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALWAYS_CLEAR_EXIF
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.APPLY_SPOT_HEAL_MANUALLY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ASCII_CUSTOM_GRADIENTS
@@ -626,6 +627,10 @@ internal class AndroidSettingsManager @Inject constructor(
         defaultValue = default.deleteOriginalsAfterSave,
         predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
     )
+
+    override suspend fun setApplySpotHealManually(value: Boolean) = edit {
+        it[APPLY_SPOT_HEAL_MANUALLY] = value
+    }
 
     override suspend fun setSpotHealMode(mode: Int) = edit {
         it[SPOT_HEAL_MODE] = mode

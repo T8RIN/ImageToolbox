@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -87,6 +88,8 @@ class DrawComponent @AssistedInject internal constructor(
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    private val applySpotHealManually get() = settingsProvider.settingsState.value.applySpotHealManually
 
     init {
         debounce {
@@ -148,6 +151,12 @@ class DrawComponent @AssistedInject internal constructor(
 
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
+
+    val appliedPaths: List<UiPathPaint>
+        get() = paths.filterNot { it.isPendingSpotHeal }
+
+    val pendingSpotHealPaths: List<UiPathPaint>
+        get() = paths.filter { it.isPendingSpotHeal }
 
     val renderCache = DrawRenderCache()
 
@@ -286,7 +295,7 @@ class DrawComponent @AssistedInject internal constructor(
                     it.copy(color = backgroundColor.toArgb(), gradient = backgroundGradient)
                 } else it
             },
-            pathPaints = paths,
+            pathPaints = appliedPaths,
             imageUri = _uri.value.toString()
         )
     }
@@ -415,7 +424,19 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun addPath(pathPaint: UiPathPaint) {
-        _paths.update { it + pathPaint }
+        val entry =
+            if (applySpotHealManually && !pathPaint.isErasing && pathPaint.drawMode is DrawMode.SpotHeal) {
+                pathPaint.copy(isPendingSpotHeal = true)
+            } else pathPaint
+        _paths.update { it + entry }
+        _undonePaths.value = listOf()
+        registerChanges()
+    }
+
+    fun applySpotHeal() {
+        val applied = paths.applySpotHeal(drawMode)
+        if (applied == paths) return
+        _paths.value = applied
         _undonePaths.value = listOf()
         registerChanges()
     }

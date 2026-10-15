@@ -282,6 +282,7 @@ private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleSaveToOriginalFolder() = Unit
     override suspend fun toggleDeleteOriginalsAfterSave() = Unit
     override suspend fun setSpotHealMode(mode: Int) = Unit
+    override suspend fun setApplySpotHealManually(value: Boolean) = Unit
     override suspend fun setBorderWidth(width: Float) = Unit
     override suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) = Unit
     override suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) = Unit

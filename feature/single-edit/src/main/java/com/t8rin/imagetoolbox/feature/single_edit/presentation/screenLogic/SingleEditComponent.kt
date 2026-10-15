@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent.HistorySnapshot
 import dagger.assisted.Assisted
@@ -953,8 +954,21 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun addPathToDrawList(pathPaint: UiPathPaint) {
-        _drawPaths.update { it + pathPaint }
+        val entry =
+            if (settingsManager.settingsState.value.applySpotHealManually && !pathPaint.isErasing &&
+                pathPaint.drawMode is DrawMode.SpotHeal
+            ) {
+                pathPaint.copy(isPendingSpotHeal = true)
+            } else pathPaint
+        _drawPaths.update { it + entry }
         _drawUndonePaths.update { listOf() }
+    }
+
+    fun applySpotHeal() {
+        val applied = drawPaths.applySpotHeal(drawMode)
+        if (applied == drawPaths) return
+        _drawPaths.value = applied
+        _drawUndonePaths.value = listOf()
     }
 
     fun removePath(pathPaint: UiPathPaint) {

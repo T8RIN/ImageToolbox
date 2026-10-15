@@ -1473,6 +1473,8 @@
     <string name="free_corners">Свободные углы</string>
     <string name="coerce_points_to_image_bounds">Приведение точек к границам изображения</string>
     <string name="spot_heal">Восстанавливающая кисть</string>
+    <string name="apply_spot_heal_manually">Применять вручную</string>
+    <string name="apply_spot_heal_manually_sub">Отметьте несколько областей и нажмите «Применить», чтобы восстановить их вместе</string>
     <string name="use_circle_kernel">Использовать ядро круга</string>
     <string name="opening">Открытие</string>
     <string name="closing">Закрытие</string>

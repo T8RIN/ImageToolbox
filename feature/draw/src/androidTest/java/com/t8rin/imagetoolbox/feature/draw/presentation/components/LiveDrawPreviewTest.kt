@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.combineSpotHealPaths
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
@@ -376,6 +377,72 @@ class LiveDrawPreviewTest {
         } finally {
             event(activity, MotionEvent.ACTION_UP, .63f, .5f, down)
         }
+    }
+
+    @Test
+    fun manualHealingKeepsMarksUntilOneCombinedApply() = withDrawer { activity ->
+        instrumentation.runOnMainSync {
+            activity.mode = DrawMode.SpotHeal()
+            activity.manualHealing = true
+        }
+        instrumentation.waitForIdleSync()
+        for ((index, y) in listOf(.3f, .7f).withIndex()) {
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .2f, y, down)
+            for (step in 1..8) {
+                event(activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, y, down)
+            }
+            event(activity, MotionEvent.ACTION_UP, .8f, y, down)
+            await("Manual mark did not finish") {
+                activity.ready && activity.paths.size == index + 1 &&
+                        activity.frame!!.getPixel(
+                            activity.frame!!.width / 2,
+                            (activity.frame!!.height * y).toInt()
+                        ) != android.graphics.Color.WHITE
+            }
+            assertEquals("Marking ran the healing filter", 0, activity.filterCalls)
+        }
+        val marked = activity.paths
+        assertTrue(marked.all { it.isPendingSpotHeal })
+        instrumentation.runOnMainSync { activity.paths = marked.take(1) }
+        await("Undo did not remove the second mask") {
+            val frame = activity.frame!!
+            activity.ready && frame.getPixel(
+                frame.width / 2,
+                (frame.height * .7f).toInt()
+            ) == android.graphics.Color.WHITE
+        }
+        instrumentation.runOnMainSync { activity.paths = marked; activity.viewport = 208.dp }
+        await("Resized mask was lost") {
+            val frame = activity.frame!!
+            activity.ready && frame.getPixel(
+                frame.width / 2,
+                (frame.height * .7f).toInt()
+            ) != android.graphics.Color.WHITE
+        }
+        assertEquals("Undo, redo or resizing ran healing", 0, activity.filterCalls)
+        val batch = checkNotNull(marked.combineSpotHealPaths(DrawMode.SpotHeal()))
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
+        await("Combined healing did not finish") {
+            activity.ready && activity.readyPaths == listOf(
+                batch
+            )
+        }
+        assertEquals("The batch was processed more than once", 1, activity.filterCalls)
+        val healed = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        for (y in listOf(.3f, .7f)) {
+            assertEquals(
+                android.graphics.Color.CYAN,
+                healed.getPixel(healed.width / 2, (healed.height * y).toInt())
+            )
+        }
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = emptyList() }
+        await("Undo did not finish") { activity.ready && activity.readyPaths?.isEmpty() == true }
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
+        await("Redo did not finish") { activity.ready && activity.readyPaths == listOf(batch) }
+        assertEquals("Redo recalculated the batch", 1, activity.filterCalls)
+        assertTrue("Redo changed the healed image", healed.sameAs(activity.frame))
+        healed.recycle()
     }
 
     @Test
