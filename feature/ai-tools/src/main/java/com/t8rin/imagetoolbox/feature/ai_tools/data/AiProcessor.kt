@@ -250,7 +250,7 @@ internal class AiProcessor @Inject constructor(
         val completedTiles = atomic(0)
 
         suspend fun processTile(tile: Tile) {
-            ensureActive()
+            this@coroutineScope.ensureActive()
             transformStoredTile(
                 session = session,
                 tile = tile,

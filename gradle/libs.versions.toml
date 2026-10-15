@@ -26,7 +26,7 @@ jpegliCoder = "1.0.2"
 tesseract = "4.9.0"
 material3 = "1.5.0-beta01"
 composeVersion = "1.13.0-beta01"
-dataStore = "1.3.0-alpha11"
+dataStore = "1.3.0-rc01"
 appUpdateKtx = "2.1.0"
 appUpdate = "2.1.0"
 shadowGadgets = "2.5.0"
@@ -39,7 +39,7 @@ detektCompose = "0.6.8"
 decompose = "3.5.0"
 
 kotlin = "2.4.21"
-agp = "9.3.3"
+agp = "9.4.1"
 hilt = "2.60.1"
 gms = "4.5.0"
 
@@ -77,13 +77,13 @@ bouncycastle = "1.86"
 bouncycastleProvider = "1.86"
 pdfviewer = "1.0.0-beta01"
 fragmentCompose = "1.9.1"
-aboutlibraries = "15.2.0"
+aboutlibraries = "15.3.0"
 flinger = "2.1.0"
 zxingCore = "3.5.4"
 pdfbox = "2.0.27.0"
 libarchiveAndroid = "1.1.7"
 commonsCompress = "1.28.0"
-junrar = "8.1.1"
+junrar = "8.1.2"
 xz = "1.12"
 
 onnx = "1.31.0"
@@ -93,7 +93,7 @@ materialKolor = "5.0.1"
 palette = "1.1.0-rc01"
 kotlinxSerializationJson = "1.11.0"
 
-firebaseBom = "34.19.0"
+firebaseBom = "35.0.1"
 firebaseCrashlyticsGradle = "3.0.8"
 junit = "4.13.2"
 coilResvg = "1.1.2"
@@ -105,7 +105,6 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 junit = { module = "junit:junit", version.ref = "junit" }
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 androidx-palette-ktx = { module = "androidx.palette:palette", version.ref = "palette" }
@@ -219,6 +218,8 @@ aboutlibraries-gradle = { module = "com.mikepenz.aboutlibraries.plugin:aboutlibr
 compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 # Used in convention plugins
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
