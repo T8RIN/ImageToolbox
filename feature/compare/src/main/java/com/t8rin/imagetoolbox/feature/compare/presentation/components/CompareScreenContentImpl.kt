@@ -260,8 +260,12 @@ internal fun CompareScreenContentImpl(
                             showSecondImage = !showSecondImage
                         }
                 ) {
-                    val first = bitmapPair.first?.image
-                    val second = bitmapPair.second?.image
+                    val first = remember(bitmapPair.first) {
+                        bitmapPair.first?.image?.asImageBitmap()
+                    }
+                    val second = remember(bitmapPair.second) {
+                        bitmapPair.second?.image?.asImageBitmap()
+                    }
                     if (!showSecondImage && first != null) {
                         Picture(
                             model = first,
