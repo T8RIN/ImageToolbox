@@ -110,6 +110,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         const val DefaultValues = "default-values"
         const val PickerLauncher = "picker-launcher"
         const val ImageSource = "image-source"
+        const val GallerySearch = "gallery-search"
         const val SkipFilePicking = "skip-file-picking"
         const val OpenEditDirectly = "open-edit-directly"
         const val FavoritesShareTools = "favorites-share-tools"
@@ -397,6 +398,61 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_image_source_step_1,
                 R.string.help_tip_image_source_step_2,
                 R.string.help_tip_image_source_step_3
+            )
+        ),
+        pagesTip(
+            id = TipIds.GallerySearch,
+            title = R.string.help_tip_gallery_search_title,
+            subtitle = R.string.help_tip_gallery_search_subtitle,
+            icon = Icons.Outlined.ImageSearch,
+            category = gettingStarted,
+            deepLink = Screen.Settings(targetSetting = Setting.SemanticSearch),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_gallery_search_page_title,
+                    description = R.string.help_tip_gallery_search_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_step_1,
+                        R.string.help_tip_gallery_search_step_2,
+                        R.string.help_tip_gallery_search_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gallery_search_page_2_title,
+                    description = R.string.help_tip_gallery_search_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_page_2_step_1,
+                        R.string.help_tip_gallery_search_page_2_step_2,
+                        R.string.help_tip_gallery_search_page_2_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gallery_search_page_3_title,
+                    description = R.string.help_tip_gallery_search_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_page_3_step_1,
+                        R.string.help_tip_gallery_search_page_3_step_2,
+                        R.string.help_tip_gallery_search_page_3_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gallery_search_page_4_title,
+                    description = R.string.help_tip_gallery_search_page_4_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_page_4_step_1,
+                        R.string.help_tip_gallery_search_page_4_step_2,
+                        R.string.help_tip_gallery_search_page_4_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_gallery_search_page_5_title,
+                    description = R.string.help_tip_gallery_search_page_5_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_page_5_step_1,
+                        R.string.help_tip_gallery_search_page_5_step_2,
+                        R.string.help_tip_gallery_search_page_5_step_3
+                    )
+                )
             )
         ),
         tip(

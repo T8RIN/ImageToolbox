@@ -54,6 +54,7 @@ internal fun Preferences.toSettingsState(
     default: SettingsState,
     jsonParser: JsonParser
 ): SettingsState = SettingsState(
+    isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
     nightMode = NightMode.fromOrdinal(this[NIGHT_MODE]) ?: default.nightMode,
     isDynamicColors = this[DYNAMIC_COLORS] ?: default.isDynamicColors,
     isAmoledMode = this[AMOLED_MODE] ?: default.isAmoledMode,

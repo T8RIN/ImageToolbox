@@ -278,7 +278,8 @@ sealed class SettingsGroup(
         icon = Icons.Rounded.ImageSearch,
         titleId = R.string.image_source,
         settingsList = listOf(
-            Setting.ImagePickerMode
+            Setting.ImagePickerMode,
+            Setting.SemanticSearch
         ),
         initialState = false
     )

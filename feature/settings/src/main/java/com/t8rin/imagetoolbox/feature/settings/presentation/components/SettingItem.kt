@@ -281,6 +281,10 @@ internal fun SettingItem(
                 ImagePickerModeSettingItemGroup(onValueChange = component::setImagePickerMode)
             }
 
+            Setting.SemanticSearch -> {
+                SemanticSearchSettingItem(onValueChange = component::setSemanticSearchEnabled)
+            }
+
             Setting.IssueTracker -> {
                 IssueTrackerSettingItem()
             }

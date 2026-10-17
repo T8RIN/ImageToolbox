@@ -48,6 +48,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setImagePickerMode(mode: Int)
 
+    suspend fun setSemanticSearchEnabled(enabled: Boolean)
+
     suspend fun toggleAddFileSize()
 
     suspend fun setEmoji(emoji: Int)

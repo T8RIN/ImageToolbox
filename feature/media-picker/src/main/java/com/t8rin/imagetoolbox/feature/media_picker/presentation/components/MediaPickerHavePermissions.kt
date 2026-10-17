@@ -70,6 +70,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.coerceAtLeast
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
@@ -107,6 +108,13 @@ internal fun MediaPickerHavePermissions(
         mutableStateOf(false)
     }
 
+    val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
+    val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
+    val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val showCategories = !isSearching && allowedMedia != AllowedMedia.Videos &&
+            component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
+            categories.isNotEmpty()
+
     BackHandler(selectedAlbumIndex != -1L) {
         selectedAlbumIndex = -1L
         component.getAlbum(selectedAlbumIndex)
@@ -114,6 +122,10 @@ internal fun MediaPickerHavePermissions(
 
     BackHandler(isSearching) {
         isSearching = false
+    }
+
+    BackHandler(selectedCategory != null && !isSearching) {
+        component.selectSemanticCategory(null)
     }
 
     Scaffold(
@@ -124,7 +136,7 @@ internal fun MediaPickerHavePermissions(
             Column(
                 Modifier
                     .drawHorizontalStroke(
-                        enabled = hasAlbums || isRefreshing
+                        enabled = hasAlbums || isRefreshing || showCategories
                     )
                     .background(MaterialTheme.colorScheme.surfaceContainer)
             ) {
@@ -273,6 +285,21 @@ internal fun MediaPickerHavePermissions(
                             )
                         }
                     }
+                }
+                AnimatedVisibility(
+                    visible = showCategories,
+                    enter = fadeIn() + expandVertically(),
+                    exit = fadeOut() + shrinkVertically()
+                ) {
+                    MediaSemanticSearchCategories(
+                        categories = categories,
+                        selectedCategory = selectedCategory,
+                        onCategorySelected = component::selectSemanticCategory,
+                        modifier = Modifier.padding(
+                            top = if (hasAlbums) 0.dp else 8.dp,
+                            bottom = 8.dp
+                        )
+                    )
                 }
                 AnimatedVisibility(
                     visible = isRefreshing,

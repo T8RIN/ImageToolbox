@@ -197,6 +197,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREEN_SEARCH_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SECURE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SEMANTIC_SEARCH_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_THROTTLE
@@ -360,6 +361,10 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setEmojisCount(count: Int) = edit {
         it[EMOJI_COUNT] = count
+    }
+
+    override suspend fun setSemanticSearchEnabled(enabled: Boolean) = edit {
+        it[SEMANTIC_SEARCH_ENABLED] = enabled
     }
 
     override suspend fun setImagePickerMode(mode: Int) = edit {

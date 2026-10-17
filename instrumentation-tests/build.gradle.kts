@@ -38,6 +38,7 @@ val testedProjects = listOf(
     "feature/image-stitch",
     "feature/jxl-tools",
     "feature/markup-layers",
+    "feature/media-picker",
     "feature/multi-frame-fusion",
     "feature/pdf-tools",
     "feature/screenshot-framing",

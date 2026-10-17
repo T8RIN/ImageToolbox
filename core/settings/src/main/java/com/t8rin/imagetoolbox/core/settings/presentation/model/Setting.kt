@@ -248,6 +248,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object SemanticSearch : Setting(
+        title = R.string.gallery_search_auto,
+        subtitle = R.string.gallery_search_auto_sub
+    )
+
+    @Serializable
     data object IssueTracker : Setting(
         title = R.string.issue_tracker,
         subtitle = R.string.issue_tracker_sub

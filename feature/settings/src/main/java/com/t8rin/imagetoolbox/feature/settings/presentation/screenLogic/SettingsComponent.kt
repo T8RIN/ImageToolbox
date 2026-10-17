@@ -227,6 +227,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun setImagePickerMode(mode: Int) = settingsScope { setImagePickerMode(mode) }
 
+    fun setSemanticSearchEnabled(enabled: Boolean) =
+        settingsScope { setSemanticSearchEnabled(enabled) }
+
     fun toggleAddFileSize() = settingsScope { toggleAddFileSize() }
 
     fun setEmoji(emoji: Int) = settingsScope { setEmoji(emoji) }
