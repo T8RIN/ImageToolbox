@@ -41,8 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -51,7 +49,6 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
-import com.t8rin.imagetoolbox.core.resources.icons.RestartAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
@@ -63,6 +60,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
@@ -70,7 +68,8 @@ import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.Medi
 
 @Composable
 internal fun MediaSemanticSearchControls(
-    component: MediaPickerComponent
+    component: MediaPickerComponent,
+    onPickSearchImage: () -> Unit
 ) = LocalContentColor.ProvidesValue(MaterialTheme.colorScheme.onSurface) {
     val enabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
     val autoIndexing = component.settingsState.isSemanticSearchEnabled
@@ -81,9 +80,6 @@ internal fun MediaSemanticSearchControls(
     val searchError by component.semanticSearchError.collectAsStateWithLifecycle()
     val error = searchError ?: state.error
     val busy = state.isDownloading || state.isIndexing || state.isQueued
-    val description = stringResource(
-        if (searching) R.string.gallery_search_searching else R.string.gallery_search_settings
-    )
     var showOptions by rememberSaveable { mutableStateOf(false) }
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
     val downloadProgress by rememberUpdatedState(state.downloadProgress)
@@ -107,14 +103,12 @@ internal fun MediaSemanticSearchControls(
         },
         containerColor = if (enabled) MaterialTheme.colorScheme.secondaryContainer
         else Color.Transparent,
-        modifier = Modifier
-            .padding(end = 4.dp)
-            .semantics { contentDescription = description }
+        modifier = Modifier.padding(end = 4.dp)
     ) {
         if (searching || busy) {
             EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
-                strokeWidth = 2.dp
+                strokeWidth = 3.dp
             )
         } else {
             Icon(
@@ -159,7 +153,7 @@ internal fun MediaSemanticSearchControls(
                 .fillMaxWidth()
                 .enhancedVerticalScroll(rememberScrollState())
                 .padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             PreferenceRowSwitch(
                 title = stringResource(R.string.gallery_search_auto),
@@ -170,9 +164,12 @@ internal fun MediaSemanticSearchControls(
                 onClick = component::setSemanticSearchAutoIndexing,
                 startIcon = Icons.Outlined.Neurology,
                 contentInsteadOfSwitch = downloadContent.takeIf { state.isDownloading },
+                shape = ShapeDefaults.top,
                 modifier = Modifier.fillMaxWidth()
             )
-            if (state.modelsReady && ((autoIndexing && busy) || state.indexedImages > 0)) {
+            if (
+                (autoIndexing && (state.isQueued || state.isIndexing)) || (state.modelsReady && state.indexedImages > 0)
+            ) {
                 PreferenceItem(
                     title = when {
                         autoIndexing && state.isIndexing -> stringResource(
@@ -185,6 +182,7 @@ internal fun MediaSemanticSearchControls(
                         else -> stringResource(R.string.gallery_search_indexed, state.indexedImages)
                     },
                     animateTitle = false,
+                    shape = ShapeDefaults.center,
                     startIcon = when {
                         autoIndexing && state.isQueued -> Icons.Rounded.Schedule
                         else -> Icons.Rounded.PhotoLibrary
@@ -193,12 +191,10 @@ internal fun MediaSemanticSearchControls(
                     bottomContent = if (autoIndexing && busy) {
                         {
                             SearchPreparationProgress(
-                                when {
-                                    state.isIndexing -> state.processedImages.toFloat() /
-                                            state.totalImages.coerceAtLeast(1)
-
-                                    else -> null
-                                }
+                                if (state.isIndexing) {
+                                    state.processedImages / state.totalImages.coerceAtLeast(1)
+                                        .toFloat()
+                                } else null
                             )
                         }
                     } else null,
@@ -208,6 +204,7 @@ internal fun MediaSemanticSearchControls(
             if (autoIndexing && state.isWaitingForPermission) {
                 PreferenceItem(
                     title = stringResource(R.string.gallery_search_permission),
+                    shape = ShapeDefaults.center,
                     startIcon = Icons.Rounded.PhotoLibrary,
                     onClick = {
                         context.requestPermissions(
@@ -228,21 +225,25 @@ internal fun MediaSemanticSearchControls(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            error?.let {
-                PreferenceItem(
-                    title = stringResource(R.string.try_again),
-                    subtitle = it,
-                    startIcon = Icons.Rounded.RestartAlt,
-                    onClick = {
-                        if (autoIndexing) component.retrySemanticSearch()
-                        else component.setSemanticSearchAutoIndexing(true)
-                    },
-                    enabled = !state.isDownloading && !state.isIndexing,
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            PreferenceItem(
+                title = stringResource(R.string.gallery_search_similar),
+                subtitle = stringResource(
+                    when {
+                        !autoIndexing -> R.string.gallery_search_similar_enable
+                        !state.modelsReady -> R.string.gallery_search_similar_download
+                        state.indexedImages == 0 -> R.string.gallery_search_similar_prepare
+                        else -> R.string.gallery_search_similar_description
+                    }
+                ),
+                startIcon = Icons.Outlined.ImageSearch,
+                enabled = autoIndexing && state.modelsReady && state.indexedImages > 0,
+                onClick = {
+                    showOptions = false
+                    onPickSearchImage()
+                },
+                shape = ShapeDefaults.bottom,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 

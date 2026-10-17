@@ -31,7 +31,6 @@ import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.PriorityQueue
-import kotlin.coroutines.coroutineContext
 
 internal class SemanticSearchIndex(
     context: Context,

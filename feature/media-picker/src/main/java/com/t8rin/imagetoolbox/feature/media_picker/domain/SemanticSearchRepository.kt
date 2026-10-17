@@ -36,6 +36,8 @@ interface SemanticSearchRepository {
 
     suspend fun search(query: String, media: List<Media>): List<Media>
 
+    suspend fun searchByImage(uri: String, media: List<Media>): List<Media>
+
     suspend fun categories(media: List<Media>): List<SemanticSearchCategoryResult>
 
     suspend fun clear()

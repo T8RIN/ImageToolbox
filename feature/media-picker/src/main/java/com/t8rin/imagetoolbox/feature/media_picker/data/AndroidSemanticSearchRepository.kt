@@ -18,15 +18,11 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.Context
-import coil3.ImageLoader
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
-import coil3.request.SuccessResult
-import coil3.request.allowHardware
-import coil3.size.Precision
-import coil3.toBitmap
-import com.t8rin.imagetoolbox.core.data.image.utils.static
+import android.graphics.Bitmap
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
@@ -35,6 +31,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchSt
 import com.t8rin.neural_tools.search.ClipImageSearch
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,11 +40,10 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 internal class AndroidSemanticSearchRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val imageLoader: ImageLoader,
+    private val imageGetter: ImageGetter<Bitmap>,
     dispatchersHolder: DispatchersHolder
 ) : SemanticSearchRepository, DispatchersHolder by dispatchersHolder {
 
@@ -115,39 +111,29 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 _state.update { it.copy(indexedImages = index.count()) }
                 try {
                     images.forEachIndexed { position, media ->
-                        coroutineContext.ensureActive()
+                        currentCoroutineContext().ensureActive()
                         if (index.get(media) == null) {
-                            val result = imageLoader.execute(
-                                ImageRequest.Builder(context)
-                                    .data(media.uri)
-                                    .size(512)
-                                    .precision(Precision.INEXACT)
-                                    .allowHardware(false)
-                                    .memoryCachePolicy(CachePolicy.DISABLED)
-                                    .diskCachePolicy(CachePolicy.DISABLED)
-                                    .static()
-                                    .build()
-                            )
-                            val image = (result as? SuccessResult)?.image?.toBitmap()
+                            val image = loadImage(media.uri)
                             if (image == null) {
-                                coroutineContext.ensureActive()
+                                currentCoroutineContext().ensureActive()
                                 _state.update { it.copy(failedImages = it.failedImages + 1) }
                             } else {
-                                try {
-                                    coroutineContext.ensureActive()
-                                    val currentEncoder = encoder ?: modelMutex.withLock {
-                                        ClipImageSearch.openImageEncoder()
-                                    }.also { encoder = it }
-                                    val embedding = currentEncoder.encode(image)
-                                    coroutineContext.ensureActive()
-                                    index.put(media, embedding)
-                                } finally {
-                                    image.recycle()
-                                }
+                                currentCoroutineContext().ensureActive()
+                                val currentEncoder = encoder ?: modelMutex.withLock {
+                                    ClipImageSearch.openImageEncoder()
+                                }.also { encoder = it }
+                                val embedding = currentEncoder.encode(image)
+                                currentCoroutineContext().ensureActive()
+                                index.put(media, embedding)
                             }
                         }
                         _state.update {
-                            it.copy(processedImages = position + 1)
+                            it.copy(
+                                processedImages = position + 1,
+                                indexedImages = if (it.indexedImages == 0 || (position + 1) % 32 == 0) {
+                                    index.count()
+                                } else it.indexedImages
+                            )
                         }
                     }
                 } finally {
@@ -172,11 +158,41 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 } ?: return@use
                 encoder.use {
                     val embedding = it.encode(query)
-                    coroutineContext.ensureActive()
+                    currentCoroutineContext().ensureActive()
                     result = index.search(
                         embedding, media.filter { item -> item.mimeType.startsWith("image/") }
                     )
                 }
+            }
+        }
+        return result
+    }
+
+    override suspend fun searchByImage(uri: String, media: List<Media>): List<Media> {
+        val images = media.filter { it.mimeType.startsWith("image/") }
+        if (uri.isBlank() || images.isEmpty()) return emptyList()
+        var result = emptyList<Media>()
+        perform(searchMutex) {
+            _state.update { it.copy(error = null) }
+            val sourceUri = uri.toUri().tryExtractOriginal().toString()
+            val source = images.find { it.uri == uri || it.uri == sourceUri }
+            val candidates = images.filterNot { it.uri == uri || it.uri == sourceUri }
+            if (candidates.isEmpty()) return@perform
+            SemanticSearchIndex(context).use { index ->
+                if (index.count() == 0) return@use
+                if (!modelMutex.withLock { ClipImageSearch.isDownloaded() }) return@use
+                val embedding = source?.let(index::get) ?: run {
+                    val image = checkNotNull(loadImage(uri)) { "Could not read the selected photo" }
+                    currentCoroutineContext().ensureActive()
+                    val encoder = modelMutex.withLock { ClipImageSearch.openImageEncoder() }
+                    encoder.use { it.encode(image) }
+                }
+                currentCoroutineContext().ensureActive()
+                result = index.search(
+                    embeddings = listOf(embedding),
+                    media = candidates,
+                    minimumSimilarity = 0.7f
+                ).single()
             }
         }
         return result
@@ -200,13 +216,13 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                                 SemanticSearchCategory.entries.associateWith { category ->
                                     SemanticSearchClassifier.descriptions(category)
                                         .map { description ->
-                                            coroutineContext.ensureActive()
+                                            currentCoroutineContext().ensureActive()
                                             it.encode(description)
                                         }
                                 }
                             val backgrounds =
                                 SemanticSearchClassifier.backgroundDescriptions.map { description ->
-                                    coroutineContext.ensureActive()
+                                    currentCoroutineContext().ensureActive()
                                     it.encode(description)
                                 }
                             SemanticSearchClassifier(categories, backgrounds)
@@ -231,6 +247,12 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         }
     }
 
+    private suspend fun loadImage(uri: String): Bitmap? = imageGetter.getImageData(
+        uri = uri,
+        size = 512,
+        onFailure = {}
+    )?.image
+
     private suspend fun perform(mutex: Mutex, action: suspend () -> Unit) =
         withContext(ioDispatcher) {
             mutex.withLock {
@@ -239,7 +261,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 } catch (exception: CancellationException) {
                     throw exception
                 } catch (exception: Exception) {
-                    coroutineContext.ensureActive()
+                    currentCoroutineContext().ensureActive()
                     _state.update {
                         it.copy(
                             error = exception.localizedMessage ?: exception.toString()

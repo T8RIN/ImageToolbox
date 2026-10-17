@@ -34,7 +34,11 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
+import com.t8rin.neural_tools.search.ClipImageSearch
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -55,6 +59,7 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
     private val started = AtomicBoolean()
     private val schedulingMutex = Mutex()
     private val workManager get() = WorkManager.getInstance(context)
+    private var downloadJob: Job? = null
 
     override fun start() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -75,9 +80,9 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
                     previous = enabled
                     runSuspendCatching {
                         if (enabled) {
+                            enqueueIndex()
                             schedulePeriodicWork()
                             scheduleObserver(ExistingWorkPolicy.KEEP)
-                            enqueueIndex()
                         } else {
                             stop()
                         }
@@ -90,15 +95,17 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
         appScope.launch {
             runSuspendCatching {
                 if (settingsManager.getSettingsState().isSemanticSearchEnabled) {
+                    enqueueIndex()
                     schedulePeriodicWork()
                     scheduleObserver(ExistingWorkPolicy.KEEP)
-                    enqueueIndex()
                 }
             }.onFailure(::reportFailure)
         }
     }
 
     override suspend fun stop() = schedulingMutex.withLock {
+        downloadJob?.cancelAndJoin()
+        downloadJob = null
         workManager.cancelAllWorkByTag(WORK_TAG).await()
         SemanticSearchWorker.cancelAndJoin()
         repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
@@ -112,11 +119,22 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
             repository.updateWorkState(isQueued = false, isWaitingForPermission = true)
             return@withLock
         }
+        if (!ClipImageSearch.isDownloaded()) {
+            downloadModels()
+            return@withLock
+        }
         val unfinished = workManager.getWorkInfosForUniqueWorkFlow(INDEX_WORK).first()
             .filterNot { it.state.isFinished }
         // A waiting worker reads the latest MediaStore snapshot when it starts. If a worker is
         // already running, keep one follow-up so changes made during indexing cannot be missed.
         if (unfinished.size >= 2 || unfinished.any { it.state != WorkInfo.State.RUNNING }) {
+            if (unfinished.none { it.state == WorkInfo.State.RUNNING }) {
+                repository.updateWorkState(
+                    isQueued = true,
+                    isWaitingForPermission = false,
+                    error = repository.state.value.error
+                )
+            }
             return@withLock
         }
         if (unfinished.isEmpty()) {
@@ -131,6 +149,17 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
                 .addTag(WORK_TAG)
                 .build()
         ).await()
+    }
+
+    private fun downloadModels() {
+        if (downloadJob?.isActive == true) return
+        downloadJob = appScope.launch(start = CoroutineStart.LAZY) {
+            repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
+            runSuspendCatching {
+                repository.downloadModels()
+                enqueueIndex()
+            }.onFailure(::reportFailure)
+        }.also { it.start() }
     }
 
     private suspend fun schedulePeriodicWork() = schedulingMutex.withLock {

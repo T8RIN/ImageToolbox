@@ -18,25 +18,16 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.Environment
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.utils.isNetworkAvailable
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
@@ -82,16 +73,8 @@ internal class SemanticSearchWorker(
                 try {
                     repository.refresh()
                     if (!repository.state.value.modelsReady) {
-                        if (!applicationContext.isNetworkAvailable()) {
-                            repository.updateWorkState(
-                                isQueued = true,
-                                isWaitingForPermission = false
-                            )
-                            return@withLock Result.retry()
-                        }
-                        // A first model download may take longer than a regular worker can run.
-                        setForeground(downloadForegroundInfo())
-                        repository.downloadModels()
+                        dependencies.scheduler().refresh()
+                        return@withLock Result.success()
                     }
                     currentCoroutineContext().ensureActive()
                     if (!settings.getSettingsState().isSemanticSearchEnabled) return@withLock Result.success()
@@ -127,46 +110,6 @@ internal class SemanticSearchWorker(
         } finally {
             activeJobs.remove(job)
         }
-    }
-
-    private fun downloadForegroundInfo(): ForegroundInfo {
-        val channel = "semantic_search_models"
-        val manager = requireNotNull(applicationContext.getSystemService<NotificationManager>())
-        if (Build.VERSION.SDK_INT >= 26) {
-            manager.createNotificationChannel(
-                NotificationChannel(
-                    channel,
-                    applicationContext.getString(R.string.gallery_search_contents),
-                    NotificationManager.IMPORTANCE_LOW
-                ).apply {
-                    setSound(null, null)
-                    enableVibration(false)
-                }
-            )
-        }
-        val notification = NotificationCompat.Builder(applicationContext, channel)
-            .setContentTitle(applicationContext.getString(R.string.gallery_search_contents))
-            .setContentText(applicationContext.getString(R.string.gallery_search_downloading))
-            .setSmallIcon(R.drawable.ic_notification_icon)
-            .setOngoing(true)
-            .setProgress(0, 0, true)
-            .apply {
-                applicationContext.packageManager.getLaunchIntentForPackage(applicationContext.packageName)
-                    ?.let { intent ->
-                        setContentIntent(
-                            PendingIntent.getActivity(
-                                applicationContext, 0, intent,
-                                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                            )
-                        )
-                    }
-            }
-            .build()
-        return ForegroundInfo(
-            1900,
-            notification,
-            if (Build.VERSION.SDK_INT >= 29) ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC else 0
-        )
     }
 
     companion object {

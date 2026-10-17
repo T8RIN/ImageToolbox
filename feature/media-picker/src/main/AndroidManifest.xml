@@ -15,14 +15,9 @@
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="dataSync"
-            tools:node="merge" />
         <activity
             android:name=".presentation.MediaPickerActivity"
             android:enabled="@bool/at_least_26"

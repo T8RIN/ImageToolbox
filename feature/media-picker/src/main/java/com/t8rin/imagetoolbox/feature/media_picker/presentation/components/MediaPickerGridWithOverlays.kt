@@ -64,6 +64,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -86,12 +87,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Deselect
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -129,9 +133,23 @@ internal fun MediaPickerGridWithOverlays(
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
     }
-    val isFilenameOnlySearch = !isSemanticSearchEnabled || searchKeyword.trim().let {
-        it.startsWith("*") || it.endsWith("*")
+    val searchImage by component.semanticSearchImage.collectAsStateWithLifecycle()
+    val semanticState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val imagePicker = rememberImagePicker(ImagePickerMode.PhotoPickerSingle) { uris ->
+        uris.firstOrNull()?.let {
+            searchKeyword = ""
+            component.searchSimilarImages(it.toString())
+        }
     }
+    val pickSearchImage = {
+        focusManager.clearFocus()
+        imagePicker.pickImage()
+    }
+    val isFilenameOnlySearch = searchImage == null && (
+            !isSemanticSearchEnabled || searchKeyword.trim().let {
+                it.startsWith("*") || it.endsWith("*")
+            }
+            )
 
     val filterMedia = {
         component.filterMedia(
@@ -142,7 +160,10 @@ internal fun MediaPickerGridWithOverlays(
     }
 
     LaunchedEffect(isSearching) {
-        if (!isSearching) component.filterMedia("", isForceReset = true)
+        if (!isSearching) {
+            component.clearSearchImage()
+            component.filterMedia("", isForceReset = true)
+        }
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
@@ -423,7 +444,8 @@ internal fun MediaPickerGridWithOverlays(
                                 keyboardActions = KeyboardActions(
                                     onSearch = { focusManager.clearFocus() }
                                 ),
-                                value = searchKeyword,
+                                value = if (searchImage == null) searchKeyword else stringResource(R.string.gallery_search_similar_results),
+                                readOnly = searchImage != null,
                                 onValueChange = {
                                     searchKeyword = it
                                     filterMedia()
@@ -447,25 +469,42 @@ internal fun MediaPickerGridWithOverlays(
                                 endIcon = {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         BoxAnimatedVisibility(
-                                            visible = searchKeyword.isNotEmpty(),
+                                            visible = searchKeyword.isNotEmpty() || searchImage != null,
                                             enter = fadeIn() + scaleIn(),
                                             exit = fadeOut() + scaleOut()
                                         ) {
                                             EnhancedIconButton(
                                                 onClick = {
                                                     searchKeyword = ""
+                                                    component.clearSearchImage()
                                                     filterMedia()
                                                 }
                                             ) {
                                                 Icon(
                                                     imageVector = Icons.Outlined.Delete,
-                                                    contentDescription = stringResource(R.string.close),
+                                                    contentDescription = stringResource(R.string.clear),
                                                     tint = MaterialTheme.colorScheme.onSurface
                                                 )
                                             }
                                         }
                                         if (allowedMedia != AllowedMedia.Videos) {
-                                            MediaSemanticSearchControls(component)
+                                            if (isSemanticSearchEnabled && semanticState.modelsReady && semanticState.indexedImages > 0 && searchImage != null) {
+                                                EnhancedIconButton(
+                                                    onClick = pickSearchImage,
+                                                    shape = ShapeDefaults.small
+                                                ) {
+                                                    Picture(
+                                                        model = searchImage,
+                                                        contentDescription = stringResource(R.string.gallery_search_change_image),
+                                                        shape = RectangleShape,
+                                                        modifier = Modifier.fillMaxSize()
+                                                    )
+                                                }
+                                            }
+                                            MediaSemanticSearchControls(
+                                                component = component,
+                                                onPickSearchImage = pickSearchImage
+                                            )
                                         }
                                     }
                                 },
