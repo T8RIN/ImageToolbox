@@ -134,12 +134,12 @@ internal fun MediaPickerGridWithOverlays(
         mutableStateOf("")
     }
     val searchImage by component.semanticSearchImage.collectAsStateWithLifecycle()
-    val semanticState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val onSearchImagePicked: (Uri) -> Unit = {
+        searchKeyword = ""
+        component.searchSimilarImages(it.toString())
+    }
     val imagePicker = rememberImagePicker(ImagePickerMode.PhotoPickerSingle) { uris ->
-        uris.firstOrNull()?.let {
-            searchKeyword = ""
-            component.searchSimilarImages(it.toString())
-        }
+        uris.firstOrNull()?.let(onSearchImagePicked)
     }
     val pickSearchImage = {
         focusManager.clearFocus()
@@ -488,7 +488,7 @@ internal fun MediaPickerGridWithOverlays(
                                             }
                                         }
                                         if (allowedMedia != AllowedMedia.Videos) {
-                                            if (isSemanticSearchEnabled && semanticState.modelsReady && semanticState.indexedImages > 0 && searchImage != null) {
+                                            if (isSemanticSearchEnabled && semanticSearchState.modelsReady && semanticSearchState.indexedImages > 0 && searchImage != null) {
                                                 EnhancedIconButton(
                                                     onClick = pickSearchImage,
                                                     shape = ShapeDefaults.small
@@ -503,7 +503,7 @@ internal fun MediaPickerGridWithOverlays(
                                             }
                                             MediaSemanticSearchControls(
                                                 component = component,
-                                                onPickSearchImage = pickSearchImage
+                                                onSearchImagePicked = onSearchImagePicked
                                             )
                                         }
                                     }

@@ -86,7 +86,12 @@ class SemanticSearchRepositoryInstrumentedTest {
             },
             dispatchers = dispatchers
         )
-        val repository = AndroidSemanticSearchRepository(context, imageGetter, dispatchers)
+        val repository = AndroidSemanticSearchRepository(
+            context = context,
+            imageGetter = imageGetter,
+            referenceStore = semanticSearchReferenceStore(context, imageGetter, dispatchers),
+            dispatchersHolder = dispatchers
+        )
         val cached = media(1)
         try {
             val bitmap = createBitmap(224, 224).apply { eraseColor(Color.RED) }

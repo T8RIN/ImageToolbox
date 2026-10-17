@@ -69,6 +69,7 @@ class SimilarImageSearchInstrumentedTest {
     private val directory = File(application.cacheDir, "similar-image-search-${UUID.randomUUID()}")
     private val context = object : ContextWrapper(application) {
         override fun getNoBackupFilesDir(): File = directory
+        override fun getFilesDir() = File(directory, "files")
     }
     private val loaders = mutableListOf<ImageLoader>()
     private val appScope = object : AppScope {
@@ -212,6 +213,16 @@ class SimilarImageSearchInstrumentedTest {
         ).single { it.category.id == category.id }
 
         assertEquals(listOf(red), matches(category).media)
+        assertEquals(
+            listOf(red),
+            matches(
+                category.copy(
+                    referenceImages = listOf(
+                        File(directory, "missing.png").toUri().toString()
+                    )
+                )
+            ).media
+        )
         val renamed = matches(category.copy(name = "Мои красные фото"))
         assertEquals("Мои красные фото", (renamed.category as SemanticSearchCategory.Custom).name)
         assertEquals(listOf(red), renamed.media)
@@ -232,6 +243,165 @@ class SimilarImageSearchInstrumentedTest {
             assertArrayEquals(embeddings[0], index.get(red), 0f)
             assertArrayEquals(embeddings[1], index.get(blue), 0f)
         }
+    }
+
+    @Test
+    fun photoCategoriesReuseIndexedReferencesAndPreviewExactlyTheSavedMatches() = runBlocking {
+        val source = media(1)
+        val duplicate = media(2)
+        val similar = media(3)
+        val weak = media(4)
+        val media = listOf(source, duplicate, similar, weak)
+        SemanticSearchIndex(context).use { index ->
+            index.put(source, embedding(1f))
+            index.put(duplicate, embedding(1f))
+            index.put(similar, embedding(0.8f))
+            index.put(weak, embedding(0.4f))
+        }
+        val reference =
+            File(directory, "reference.png").apply { writeBytes(byteArrayOf(1)) }.toUri()
+        UriReplacements.register(reference, source.uri.toUri())
+        val repository = repository(object : Interceptor {
+            override suspend fun intercept(chain: Interceptor.Chain): ImageResult =
+                error("An indexed reference must not be decoded again")
+        })
+        repository.refresh()
+        val category = CustomSemanticSearchCategory(
+            id = "photos",
+            name = "Фото-примеры",
+            description = "",
+            referenceImages = listOf(
+                File(directory, "missing.png").toUri().toString(),
+                reference.toString()
+            )
+        )
+        val settings = SemanticSearchSettings(customCategories = listOf(category))
+        val preview = repository.previewCategory(media, settings, category.id)
+        val saved = repository.categories(media, settings)
+
+        assertEquals(setOf(source, duplicate, similar), preview?.media?.toSet())
+        assertEquals(saved.single { it.category.id == category.id }, preview)
+        assertEquals(
+            preview?.copy(media = emptyList()),
+            repository.previewCategory(emptyList(), settings, category.id)
+        )
+        assertEquals(
+            preview?.copy(media = emptyList()),
+            repository.previewCategory(
+                listOf(source.copy(mimeType = "video/mp4")),
+                settings,
+                category.id
+            )
+        )
+        assertEquals(
+            saved.single { it.category == SemanticSearchCategory.BuiltIn.People }
+                .copy(media = emptyList()),
+            repository.previewCategory(
+                emptyList(),
+                settings,
+                SemanticSearchCategory.BuiltIn.People.id
+            )
+        )
+        assertEquals(
+            saved.single { it.category == SemanticSearchCategory.BuiltIn.People },
+            repository.previewCategory(media, settings, SemanticSearchCategory.BuiltIn.People.id)
+        )
+        assertEquals(
+            setOf(source, duplicate),
+            repository.previewCategory(
+                media,
+                settings.copy(customCategories = listOf(category.copy(referenceThreshold = 0.95f))),
+                category.id
+            )?.media?.toSet()
+        )
+        assertEquals(preview, repository.previewCategory(media, settings, category.id))
+        assertNull(repository.state.value.error)
+        assertFalse(repository.state.value.isIndexing)
+        SemanticSearchIndex(context).use { assertEquals(4, it.count()) }
+    }
+
+    @Test
+    fun unsavedReferencesAreCachedAcrossDraftChangesAndStopMatchingAfterDeletion() = runBlocking {
+        val reference = File(directory, "external-reference.png")
+        val bitmap = createBitmap(224, 224).apply { eraseColor(Color.RED) }
+        val embedding = try {
+            reference.outputStream()
+                .use { check(bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)) }
+            ClipImageSearch.openImageEncoder().use { it.encode(bitmap) }
+        } finally {
+            bitmap.recycle()
+        }
+        val candidate = media(1)
+        SemanticSearchIndex(context).use { it.put(candidate, embedding) }
+        var decoded = 0
+        val repository = repository(object : Interceptor {
+            override suspend fun intercept(chain: Interceptor.Chain): ImageResult {
+                decoded++
+                return chain.proceed()
+            }
+        })
+        repository.refresh()
+        val category = CustomSemanticSearchCategory(
+            id = "photos",
+            name = "Reference",
+            description = "",
+            referenceImages = listOf(reference.toUri().toString())
+        )
+        val settings = SemanticSearchSettings(customCategories = listOf(category))
+
+        suspend fun preview(value: CustomSemanticSearchCategory = category) =
+            repository.previewCategory(
+                listOf(candidate),
+                settings.copy(customCategories = listOf(value)),
+                category.id
+            )
+
+        assertEquals(listOf(candidate), preview()?.media)
+        assertEquals(listOf(candidate), preview(category.copy(referenceThreshold = 0.9f))?.media)
+        assertEquals(listOf(candidate), preview(category.copy(name = "Похожие"))?.media)
+        assertEquals(1, decoded)
+        check(reference.delete())
+        assertEquals(emptyList<Media>(), preview()?.media)
+        assertEquals(1, decoded)
+        assertNull(repository.state.value.error)
+        SemanticSearchIndex(context).use { assertEquals(1, it.count()) }
+    }
+
+    @Test
+    fun savedPhotoCategoriesSurviveOriginalDeletionAndRepositoryRecreation() = runBlocking {
+        val original = File(directory, "original-reference.png")
+        val bitmap = createBitmap(1024, 512).apply { eraseColor(Color.RED) }
+        val embedding = try {
+            original.outputStream()
+                .use { check(bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)) }
+            ClipImageSearch.openImageEncoder().use { it.encode(bitmap) }
+        } finally {
+            bitmap.recycle()
+        }
+        val candidate = media(1)
+        SemanticSearchIndex(context).use { it.put(candidate, embedding) }
+        val repository = repository()
+        val category = CustomSemanticSearchCategory(
+            id = "saved-photos",
+            name = "Saved photos",
+            description = "",
+            referenceImages = listOf(original.toUri().toString())
+        )
+        val saved = repository.prepareCategoryReferences(
+            SemanticSearchSettings(customCategories = listOf(category))
+        )
+        check(original.delete())
+
+        val recreated = repository()
+        recreated.refresh()
+        val result = recreated.previewCategory(listOf(candidate), saved, category.id)
+        assertEquals(listOf(candidate), result?.media)
+        assertEquals(
+            result,
+            recreated.categories(listOf(candidate), saved).single { it.category.id == category.id }
+        )
+        assertEquals(saved, recreated.prepareCategoryReferences(saved))
+        assertNull(recreated.state.value.error)
     }
 
     @Test
@@ -419,7 +589,12 @@ class SimilarImageSearchInstrumentedTest {
             override val defaultDispatcher = Dispatchers.Default
         }
         val imageGetter = semanticSearchImageGetter(context, loader, appScope, dispatchers)
-        return AndroidSemanticSearchRepository(context, imageGetter, dispatchers)
+        return AndroidSemanticSearchRepository(
+            context = context,
+            imageGetter = imageGetter,
+            referenceStore = semanticSearchReferenceStore(context, imageGetter, dispatchers),
+            dispatchersHolder = dispatchers
+        )
     }
 
     private fun embedding(similarity: Float) = FloatArray(512).apply {

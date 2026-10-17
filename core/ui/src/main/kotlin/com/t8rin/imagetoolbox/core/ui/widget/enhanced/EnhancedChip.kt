@@ -60,6 +60,7 @@ fun EnhancedChip(
     pressedShape: Shape = ShapeDefaults.extraSmall,
     interactionSource: MutableInteractionSource? = null,
     defaultMinSize: Dp = 36.dp,
+    onLongClick: (() -> Unit)? = null,
     label: @Composable () -> Unit
 ) {
     val color by animateColorAsState(
@@ -101,11 +102,20 @@ fun EnhancedChip(
                 )
                 .then(
                     onClick?.let {
-                        Modifier.hapticsClickable(
-                            indication = LocalIndication.current,
-                            interactionSource = realInteractionSource,
-                            onClick = onClick
-                        )
+                        if (onLongClick == null) {
+                            Modifier.hapticsClickable(
+                                indication = LocalIndication.current,
+                                interactionSource = realInteractionSource,
+                                onClick = onClick
+                            )
+                        } else {
+                            Modifier.hapticsCombinedClickable(
+                                indication = LocalIndication.current,
+                                interactionSource = realInteractionSource,
+                                onClick = onClick,
+                                onLongClick = onLongClick
+                            )
+                        }
                     } ?: Modifier
                 ),
             contentAlignment = Alignment.Center

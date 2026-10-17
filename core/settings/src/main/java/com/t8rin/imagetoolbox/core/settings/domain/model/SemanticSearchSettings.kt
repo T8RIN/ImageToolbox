@@ -33,16 +33,21 @@ data class SemanticSearchSettings(
         }.mapValues { (_, threshold) ->
             threshold.coerceIn(TextThresholdRange)
         },
-        customCategories = customCategories.filter {
-            it.id.isNotBlank() && it.name.isNotBlank() && it.description.isNotBlank()
-        }.distinctBy { it.id }.map {
+        customCategories = customCategories.map {
             it.copy(
                 name = it.name.trim(),
                 description = it.description.trim(),
                 threshold = it.threshold.takeIf(Float::isFinite)
-                    ?.coerceIn(TextThresholdRange) ?: DefaultTextThreshold
+                    ?.coerceIn(TextThresholdRange) ?: DefaultTextThreshold,
+                referenceImages = it.referenceImages.map(String::trim)
+                    .filter(String::isNotEmpty).distinct(),
+                referenceThreshold = it.referenceThreshold.takeIf(Float::isFinite)
+                    ?.coerceIn(ImageThresholdRange) ?: DefaultImageThreshold
             )
-        }
+        }.filter {
+            it.id.isNotBlank() && it.name.isNotBlank() &&
+                    (it.description.isNotBlank() || it.referenceImages.isNotEmpty())
+        }.distinctBy { it.id }
     )
 
     @Suppress("ConstPropertyName")
@@ -59,5 +64,7 @@ data class CustomSemanticSearchCategory(
     val id: String,
     val name: String,
     val description: String,
-    val threshold: Float = SemanticSearchSettings.DefaultTextThreshold
+    val threshold: Float = SemanticSearchSettings.DefaultTextThreshold,
+    val referenceImages: List<String> = emptyList(),
+    val referenceThreshold: Float = SemanticSearchSettings.DefaultImageThreshold
 )

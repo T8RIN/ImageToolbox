@@ -219,6 +219,63 @@ class SemanticSearchClassifierTest {
         assertEquals(listOf(SemanticSearchCategory.BuiltIn.People), classifier.classify(axis(0)))
     }
 
+    @Test
+    fun referenceOnlyCategoriesMatchAnyPhotoWithoutAveragingDifferentSubjects() {
+        val category = SemanticSearchCategory.Custom("photos", "Photos", "")
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(category to emptyList()),
+            backgroundEmbeddings = emptyList(),
+            referenceEmbeddings = mapOf(category.id to listOf(axis(0), axis(1)))
+        )
+
+        assertEquals(listOf(category), classifier.classify(axis(0)))
+        assertEquals(listOf(category), classifier.classify(axis(1)))
+        assertTrue(classifier.classify(axis(2)).isEmpty())
+    }
+
+    @Test
+    fun textAndPhotoReferencesMatchIndependentlyWithDifferentThresholds() {
+        val category = SemanticSearchCategory.Custom("mixed", "Mixed", "a cat")
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(category to listOf(description(0.3f))),
+            backgroundEmbeddings = emptyList(),
+            thresholds = mapOf(category.id to 0.26f),
+            referenceEmbeddings = mapOf(category.id to listOf(axis(1))),
+            referenceThresholds = mapOf(category.id to 0.8f)
+        )
+
+        assertEquals(listOf(category), classifier.classify(axis(0)))
+        assertEquals(listOf(category), classifier.classify(axis(1)))
+        assertTrue(classifier.classify(FloatArray(512).apply { this[1] = 0.79f }).isEmpty())
+    }
+
+    @Test
+    fun missingReferencesDoNotBreakTextOrCreateReferenceOnlyMatches() {
+        val text = SemanticSearchCategory.Custom("text", "Text", "a cat")
+        val photo = SemanticSearchCategory.Custom("photo", "Photo", "")
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(text to listOf(description(0.4f)), photo to emptyList()),
+            backgroundEmbeddings = emptyList(),
+            referenceEmbeddings = mapOf(text.id to emptyList(), photo.id to emptyList())
+        )
+
+        assertEquals(listOf(text), classifier.classify(axis(0)))
+    }
+
+    @Test
+    fun photoReferencesDoNotUseTheLowerTextThreshold() {
+        val category = SemanticSearchCategory.Custom("photo", "Photo", "")
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(category to emptyList()),
+            backgroundEmbeddings = emptyList(),
+            thresholds = mapOf(category.id to 0.15f),
+            referenceEmbeddings = mapOf(category.id to listOf(description(0.5f))),
+            referenceThresholds = mapOf(category.id to Float.NaN)
+        )
+
+        assertTrue(classifier.classify(axis(0)).isEmpty())
+    }
+
     private fun description(similarity: Float) = FloatArray(512).apply {
         this[0] = similarity
         this[511] = sqrt(1f - similarity * similarity)

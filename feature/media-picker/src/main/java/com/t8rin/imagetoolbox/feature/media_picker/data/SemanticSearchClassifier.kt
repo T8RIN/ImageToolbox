@@ -17,12 +17,15 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 
 internal class SemanticSearchClassifier(
     private val categoryEmbeddings: Map<SemanticSearchCategory, List<FloatArray>>,
     private val backgroundEmbeddings: List<FloatArray>,
-    private val thresholds: Map<String, Float> = emptyMap()
+    private val thresholds: Map<String, Float> = emptyMap(),
+    private val referenceEmbeddings: Map<String, List<FloatArray>> = emptyMap(),
+    private val referenceThresholds: Map<String, Float> = emptyMap()
 ) {
 
     val categories: Set<SemanticSearchCategory> get() = categoryEmbeddings.keys
@@ -31,7 +34,7 @@ internal class SemanticSearchClassifier(
         val backgroundScore = backgroundEmbeddings.maxOfOrNull { it.similarity(embedding) }
             ?: Float.NEGATIVE_INFINITY
         val scores = categoryEmbeddings.mapValues { (_, descriptions) ->
-            descriptions.maxOf { it.similarity(embedding) }
+            descriptions.maxOfOrNull { it.similarity(embedding) } ?: Float.NEGATIVE_INFINITY
         }
         val animalScore = scores[SemanticSearchCategory.BuiltIn.Animals] ?: Float.NEGATIVE_INFINITY
         return scores.mapNotNull { (category, score) ->
@@ -45,9 +48,15 @@ internal class SemanticSearchClassifier(
             val matchesSubject =
                 category != SemanticSearchCategory.BuiltIn.People || score >= 0.28f ||
                     score >= animalScore - 0.02f
+            val referenceMinimum = referenceThresholds[category.id]?.takeIf(Float::isFinite)
+                ?.coerceIn(SemanticSearchSettings.ImageThresholdRange)
+                ?: SemanticSearchSettings.DefaultImageThreshold
+            val matchesReference = referenceEmbeddings[category.id].orEmpty().any {
+                it.similarity(embedding) >= referenceMinimum
+            }
             category.takeIf {
-                score >= minimum && matchesSubject &&
-                        (!needsForeground || score >= backgroundScore + 0.01f)
+                matchesReference || (score >= minimum && matchesSubject &&
+                        (!needsForeground || score >= backgroundScore + 0.01f))
             }
         }
     }

@@ -52,6 +52,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +65,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -109,15 +111,24 @@ internal fun MediaPickerHavePermissions(
         mutableStateOf(false)
     }
 
+    var editingCategoryId by rememberSaveable { mutableStateOf<String?>(null) }
+    val focusManager = LocalFocusManager.current
+
     val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
+    val categoriesLoading by component.isSemanticSearchCategoriesLoading.collectAsStateWithLifecycle()
     val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
     val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
-    val visibleCategories = remember(categories, selectedCategory) {
+    val currentCategories = remember(categories, selectedCategory) {
         categories.filter {
             it.media.isNotEmpty() || it.category is SemanticSearchCategory.Custom ||
                     it.category.id == selectedCategory
         }.sortedBy { it.category !is SemanticSearchCategory.Custom }
     }
+    var previousCategories by remember { mutableStateOf(currentCategories) }
+    SideEffect {
+        if (!categoriesLoading) previousCategories = currentCategories
+    }
+    val visibleCategories = if (categoriesLoading) previousCategories else currentCategories
     val showCategories = allowedMedia != AllowedMedia.Videos &&
             component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
             visibleCategories.isNotEmpty()
@@ -301,7 +312,12 @@ internal fun MediaPickerHavePermissions(
                     MediaSemanticSearchCategories(
                         categories = visibleCategories,
                         selectedCategory = selectedCategory,
+                        isLoading = categoriesLoading,
                         onCategorySelected = component::selectSemanticCategory,
+                        onEditCategory = {
+                            focusManager.clearFocus()
+                            editingCategoryId = it
+                        },
                         modifier = Modifier.padding(
                             top = if (hasAlbums) 0.dp else 8.dp,
                             bottom = 8.dp
@@ -336,4 +352,11 @@ internal fun MediaPickerHavePermissions(
             modifier = Modifier.padding(contentPadding)
         )
     }
+
+    SemanticSearchCategoryEditor(
+        visible = editingCategoryId != null,
+        onDismiss = { if (!it) editingCategoryId = null },
+        id = editingCategoryId.orEmpty(),
+        component = component
+    )
 }

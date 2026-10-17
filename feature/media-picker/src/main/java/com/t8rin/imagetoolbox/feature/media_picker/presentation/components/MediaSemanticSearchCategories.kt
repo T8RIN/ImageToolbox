@@ -44,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -62,7 +63,9 @@ internal fun MediaSemanticSearchCategories(
     categories: List<SemanticSearchCategoryResult>,
     selectedCategory: String?,
     onCategorySelected: (String?) -> Unit,
-    modifier: Modifier = Modifier
+    onEditCategory: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false
 ) {
     val listState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
@@ -117,8 +120,10 @@ internal fun MediaSemanticSearchCategories(
                     title = result.category.title(),
                     count = result.media.size,
                     selected = isSelected,
-                    onClick = {
-                        onCategorySelected(result.category.id.takeUnless { isSelected })
+                    isLoading = isLoading,
+                    onLongClick = { onEditCategory(result.category.id) }.takeUnless { isLoading },
+                    onClick = if (isLoading) null else {
+                        { onCategorySelected(result.category.id.takeUnless { isSelected }) }
                     }
                 )
             }
@@ -130,12 +135,15 @@ internal fun MediaSemanticSearchCategories(
 private fun CategoryChip(
     title: String,
     selected: Boolean,
-    onClick: () -> Unit,
-    count: Int
+    onClick: (() -> Unit)?,
+    onLongClick: (() -> Unit)?,
+    count: Int,
+    isLoading: Boolean
 ) {
     EnhancedChip(
         selected = selected,
         onClick = onClick,
+        onLongClick = onLongClick,
         selectedColor = MaterialTheme.colorScheme.tertiary,
         unselectedColor = MaterialTheme.colorScheme.tertiaryContainer,
         unselectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
@@ -151,7 +159,8 @@ private fun CategoryChip(
                 Text(
                     text = count.toString(),
                     style = MaterialTheme.typography.labelMedium,
-                    color = LocalContentColor.current.copy(alpha = 0.65f)
+                    color = LocalContentColor.current.copy(alpha = 0.65f),
+                    modifier = Modifier.alpha(if (isLoading) 0f else 1f)
                 )
             }
         }

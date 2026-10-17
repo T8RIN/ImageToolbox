@@ -52,6 +52,18 @@ interface SemanticSearchRepository {
         settings: SemanticSearchSettings = SemanticSearchSettings()
     ): List<SemanticSearchCategoryResult>
 
+    suspend fun previewCategory(
+        media: List<Media>,
+        settings: SemanticSearchSettings,
+        categoryId: String
+    ): SemanticSearchCategoryResult?
+
+    suspend fun prepareCategoryReferences(
+        settings: SemanticSearchSettings
+    ): SemanticSearchSettings
+
+    suspend fun cleanupCategoryReferences(settings: SemanticSearchSettings)
+
     suspend fun clear()
 
 }

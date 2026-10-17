@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.Manifest
+import android.net.Uri
 import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,10 +48,13 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
+import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
@@ -70,7 +74,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.Medi
 @Composable
 internal fun MediaSemanticSearchControls(
     component: MediaPickerComponent,
-    onPickSearchImage: () -> Unit
+    onSearchImagePicked: (Uri) -> Unit
 ) = LocalContentColor.ProvidesValue(MaterialTheme.colorScheme.onSurface) {
     val enabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
     val autoIndexing = component.settingsState.isSemanticSearchEnabled
@@ -85,6 +89,12 @@ internal fun MediaSemanticSearchControls(
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
     var showCategories by rememberSaveable { mutableStateOf(false) }
     var showAccuracy by rememberSaveable { mutableStateOf(false) }
+    val imagePicker = rememberImagePicker(ImagePickerMode.PhotoPickerSingle) { uris ->
+        uris.firstOrNull()?.let {
+            onSearchImagePicked(it)
+            showOptions = false
+        }
+    }
     val downloadProgress by rememberUpdatedState(state.downloadProgress)
     val cancelDownload by rememberUpdatedState { component.setSemanticSearchAutoIndexing(false) }
     val downloadContent: @Composable () -> Unit = remember {
@@ -187,7 +197,7 @@ internal fun MediaSemanticSearchControls(
                     animateTitle = false,
                     shape = ShapeDefaults.center,
                     startIcon = when {
-                        autoIndexing && state.isQueued -> Icons.Rounded.Schedule
+                        autoIndexing && state.isQueued -> Icons.Outlined.Schedule
                         else -> Icons.Rounded.PhotoLibrary
                     },
                     placeBottomContentInside = true,
@@ -241,11 +251,12 @@ internal fun MediaSemanticSearchControls(
                 startIcon = Icons.Outlined.ImageSearch,
                 enabled = autoIndexing && state.modelsReady && state.indexedImages > 0,
                 onClick = {
-                    showOptions = false
-                    onPickSearchImage()
+                    focusManager.clearFocus()
+                    imagePicker.pickImage()
                 },
                 shape = ShapeDefaults.center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                endIcon = Icons.Rounded.MiniEdit
             )
             PreferenceItem(
                 title = stringResource(R.string.gallery_search_manage_categories),
@@ -253,7 +264,8 @@ internal fun MediaSemanticSearchControls(
                 startIcon = Icons.Outlined.Neurology,
                 onClick = { showCategories = true },
                 shape = ShapeDefaults.center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                endIcon = Icons.Rounded.MiniEdit
             )
             PreferenceItem(
                 title = stringResource(R.string.gallery_search_accuracy),
@@ -261,7 +273,8 @@ internal fun MediaSemanticSearchControls(
                 startIcon = Icons.Rounded.Tune,
                 onClick = { showAccuracy = true },
                 shape = ShapeDefaults.bottom,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                endIcon = Icons.Rounded.MiniEdit
             )
         }
     }

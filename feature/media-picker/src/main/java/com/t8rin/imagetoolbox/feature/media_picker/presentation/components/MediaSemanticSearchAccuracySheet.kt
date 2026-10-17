@@ -34,7 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
-import com.t8rin.imagetoolbox.core.resources.icons.Restore
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -43,7 +42,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
-import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 import kotlin.math.roundToInt
@@ -91,8 +89,9 @@ internal fun MediaSemanticSearchAccuracySheet(
                 value = (textThreshold * 100).roundToInt(),
                 title = stringResource(R.string.gallery_search_text_threshold),
                 valueRange = SemanticSearchSettings.TextThresholdRange.let {
-                    (it.start * 100).roundToInt().toFloat()..
-                            (it.endInclusive * 100).roundToInt().toFloat()
+                    val start = (it.start * 100).roundToInt().toFloat()
+                    val end = (it.endInclusive * 100).roundToInt().toFloat()
+                    start..end
                 },
                 onValueChange = { textThreshold = it.roundToInt() / 100f },
                 onValueChangeFinished = { value ->
@@ -110,8 +109,9 @@ internal fun MediaSemanticSearchAccuracySheet(
                 value = (imageThreshold * 100).roundToInt(),
                 title = stringResource(R.string.gallery_search_image_threshold),
                 valueRange = SemanticSearchSettings.ImageThresholdRange.let {
-                    (it.start * 100).roundToInt().toFloat()..
-                            (it.endInclusive * 100).roundToInt().toFloat()
+                    val start = (it.start * 100).roundToInt().toFloat()
+                    val end = (it.endInclusive * 100).roundToInt().toFloat()
+                    start..end
                 },
                 onValueChange = { imageThreshold = it.roundToInt() / 100f },
                 onValueChangeFinished = { value ->
@@ -122,22 +122,6 @@ internal fun MediaSemanticSearchAccuracySheet(
                 },
                 internalStateTransformation = Float::roundToInt,
                 valueSuffix = "%",
-                shape = ShapeDefaults.center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            PreferenceItem(
-                title = stringResource(R.string.reset),
-                startIcon = Icons.Rounded.Restore,
-                onClick = {
-                    textThreshold = SemanticSearchSettings.DefaultTextThreshold
-                    imageThreshold = SemanticSearchSettings.DefaultImageThreshold
-                    component.updateSemanticSearchSettings {
-                        it.copy(
-                            textThreshold = SemanticSearchSettings.DefaultTextThreshold,
-                            imageThreshold = SemanticSearchSettings.DefaultImageThreshold
-                        )
-                    }
-                },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth()
             )

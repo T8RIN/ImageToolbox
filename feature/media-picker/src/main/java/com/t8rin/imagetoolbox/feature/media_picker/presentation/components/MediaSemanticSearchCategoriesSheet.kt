@@ -17,11 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -34,9 +37,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -47,11 +54,14 @@ import com.t8rin.imagetoolbox.core.resources.icons.Add
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
-import com.t8rin.imagetoolbox.core.resources.icons.Restore
 import com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCategory
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -65,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
+import kotlinx.coroutines.launch
 import java.util.UUID
 import kotlin.math.roundToInt
 
@@ -125,10 +136,19 @@ internal fun MediaSemanticSearchCategoriesSheet(
                 ) { index, category ->
                     PreferenceItem(
                         title = category.name,
-                        subtitle = stringResource(
-                            R.string.gallery_search_threshold_value,
-                            (category.threshold * 100).roundToInt()
-                        ),
+                        subtitle = if (category.description.isNotBlank() && category.referenceImages.isNotEmpty()) {
+                            stringResource(
+                                R.string.gallery_search_category_thresholds,
+                                (category.threshold * 100).roundToInt(),
+                                (category.referenceThreshold * 100).roundToInt()
+                            )
+                        } else {
+                            stringResource(
+                                R.string.gallery_search_threshold_value,
+                                ((if (category.referenceImages.isEmpty()) category.threshold
+                                else category.referenceThreshold) * 100).roundToInt()
+                            )
+                        },
                         endIcon = Icons.Rounded.MiniEdit,
                         onClick = {
                             editingId = category.id
@@ -180,7 +200,7 @@ internal fun MediaSemanticSearchCategoriesSheet(
 }
 
 @Composable
-private fun SemanticSearchCategoryEditor(
+internal fun SemanticSearchCategoryEditor(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit,
     id: String,
@@ -192,13 +212,28 @@ private fun SemanticSearchCategoryEditor(
     val defaultThreshold = builtIn?.defaultThreshold ?: SemanticSearchSettings.DefaultTextThreshold
     val initialThreshold = custom?.threshold ?: settings.categoryThresholds[id] ?: defaultThreshold
     val focusManager = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
     var name by rememberSaveable(id, visible) { mutableStateOf(custom?.name.orEmpty()) }
     var description by rememberSaveable(
         id,
         visible
     ) { mutableStateOf(custom?.description.orEmpty()) }
     var threshold by rememberSaveable(id, visible) { mutableFloatStateOf(initialThreshold) }
+    var referenceImages by rememberSaveable(id, visible) {
+        mutableStateOf(custom?.referenceImages.orEmpty())
+    }
+    var referenceThreshold by rememberSaveable(id, visible) {
+        mutableFloatStateOf(
+            custom?.referenceThreshold ?: SemanticSearchSettings.DefaultImageThreshold
+        )
+    }
+    val imagePicker = rememberImagePicker(ImagePickerMode.PhotoPickerMultiple) { uris ->
+        referenceImages = (referenceImages + uris.map {
+            it.takePersistablePermission(Intent.FLAG_GRANT_READ_URI_PERMISSION).toString()
+        }).distinct()
+    }
     var showDeleteConfirmation by rememberSaveable(id, visible) { mutableStateOf(false) }
+    var isSaving by remember(id, visible) { mutableStateOf(false) }
     val builtInNames = SemanticSearchCategory.BuiltIn.entries.map { it.title() }
     val duplicateName = name.isNotBlank() && (
             builtInNames.any { it.equals(name.trim(), ignoreCase = true) } ||
@@ -206,14 +241,27 @@ private fun SemanticSearchCategoryEditor(
                         it.id != id && it.name.equals(name.trim(), ignoreCase = true)
                     }
             )
-    val canSave =
-        builtIn != null || (name.isNotBlank() && description.isNotBlank() && !duplicateName)
+    val canSave = builtIn != null || (
+            name.isNotBlank() && !duplicateName &&
+                    (description.isNotBlank() || referenceImages.isNotEmpty())
+            )
+    val draft = CustomSemanticSearchCategory(
+        id = id,
+        name = name.trim(),
+        description = description.trim(),
+        threshold = threshold,
+        referenceImages = referenceImages,
+        referenceThreshold = referenceThreshold
+    )
 
     EnhancedModalBottomSheet(
         visible = visible,
+        cancelable = !isSaving,
         onDismiss = {
-            focusManager.clearFocus()
-            onDismiss(it)
+            if (!isSaving) {
+                focusManager.clearFocus()
+                onDismiss(it)
+            }
         },
         title = {
             TitleItem(
@@ -224,6 +272,7 @@ private fun SemanticSearchCategoryEditor(
         confirmButton = {
             if (custom != null) {
                 EnhancedIconButton(
+                    enabled = !isSaving,
                     onClick = {
                         focusManager.clearFocus()
                         showDeleteConfirmation = true
@@ -237,35 +286,48 @@ private fun SemanticSearchCategoryEditor(
                 }
             }
             EnhancedButton(
-                enabled = canSave,
+                enabled = canSave && !isSaving,
                 onClick = {
                     focusManager.clearFocus()
                     val savedThreshold = threshold
-                    val category = CustomSemanticSearchCategory(
-                        id = id,
-                        name = name.trim(),
-                        description = description.trim(),
-                        threshold = savedThreshold
-                    )
-                    component.updateSemanticSearchSettings { current ->
-                        if (builtIn != null) {
-                            current.copy(
-                                categoryThresholds = if (savedThreshold == defaultThreshold) {
-                                    current.categoryThresholds - id
-                                } else current.categoryThresholds + (id to savedThreshold)
-                            )
-                        } else {
-                            current.copy(
-                                customCategories = if (current.customCategories.any { it.id == id }) {
-                                    current.customCategories.map { if (it.id == id) category else it }
-                                } else current.customCategories + category
-                            )
+                    val category = draft
+                    scope.launch {
+                        isSaving = true
+                        try {
+                            val saved = component.saveSemanticSearchSettings { current ->
+                                if (builtIn != null) {
+                                    current.copy(
+                                        categoryThresholds = if (savedThreshold == defaultThreshold) {
+                                            current.categoryThresholds - id
+                                        } else current.categoryThresholds + (id to savedThreshold)
+                                    )
+                                } else {
+                                    current.copy(
+                                        customCategories = if (current.customCategories.any { it.id == id }) {
+                                            current.customCategories.map { if (it.id == id) category else it }
+                                        } else current.customCategories + category
+                                    )
+                                }
+                            }
+                            if (saved) onDismiss(false)
+                        } finally {
+                            isSaving = false
                         }
                     }
-                    onDismiss(false)
                 }
             ) {
-                Text(stringResource(R.string.save))
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = stringResource(R.string.save),
+                        modifier = Modifier.alpha(if (isSaving) 0f else 1f)
+                    )
+                    if (isSaving) {
+                        EnhancedCircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp
+                        )
+                    }
+                }
             }
         }
     ) {
@@ -286,6 +348,7 @@ private fun SemanticSearchCategoryEditor(
                 )
             } else {
                 RoundedTextField(
+                    enabled = !isSaving,
                     value = name,
                     onValueChange = { name = it },
                     label = stringResource(R.string.gallery_search_category_name),
@@ -302,6 +365,7 @@ private fun SemanticSearchCategoryEditor(
                         )
                 )
                 RoundedTextField(
+                    enabled = !isSaving,
                     value = description,
                     onValueChange = { description = it },
                     label = stringResource(R.string.gallery_search_category_description),
@@ -318,26 +382,56 @@ private fun SemanticSearchCategoryEditor(
                         )
                 )
             }
-            EnhancedSliderItem(
-                value = (threshold * 100).roundToInt(),
-                title = stringResource(R.string.gallery_search_threshold),
-                valueRange = SemanticSearchSettings.TextThresholdRange.let {
-                    (it.start * 100).roundToInt().toFloat()..
-                            (it.endInclusive * 100).roundToInt().toFloat()
-                },
-                onValueChange = { threshold = it.roundToInt() / 100f },
-                internalStateTransformation = Float::roundToInt,
-                valueSuffix = "%",
-                shape = ShapeDefaults.center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            PreferenceItem(
-                title = stringResource(R.string.reset),
-                startIcon = Icons.Rounded.Restore,
-                onClick = { threshold = defaultThreshold },
-                shape = ShapeDefaults.bottom,
-                modifier = Modifier.fillMaxWidth()
-            )
+            if (builtIn == null) {
+                SemanticSearchCategoryReferences(
+                    referenceImages = referenceImages,
+                    enabled = !isSaving,
+                    onAdd = {
+                        focusManager.clearFocus()
+                        imagePicker.pickImage()
+                    },
+                    onRemove = { referenceImages = referenceImages - it }
+                )
+            }
+            if (builtIn != null || description.isNotBlank() || referenceImages.isEmpty()) {
+                EnhancedSliderItem(
+                    enabled = !isSaving,
+                    value = (threshold * 100).roundToInt(),
+                    title = stringResource(
+                        if (referenceImages.isEmpty()) R.string.gallery_search_threshold
+                        else R.string.gallery_search_category_text_threshold
+                    ),
+                    valueRange = SemanticSearchSettings.TextThresholdRange.let {
+                        val start = (it.start * 100).roundToInt().toFloat()
+                        val end = (it.endInclusive * 100).roundToInt().toFloat()
+                        start..end
+                    },
+                    onValueChange = { threshold = it.roundToInt() / 100f },
+                    internalStateTransformation = Float::roundToInt,
+                    valueSuffix = "%",
+                    shape = if (builtIn != null || referenceImages.isEmpty()) {
+                        ShapeDefaults.bottom
+                    } else ShapeDefaults.center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            if (builtIn == null && referenceImages.isNotEmpty()) {
+                EnhancedSliderItem(
+                    enabled = !isSaving,
+                    value = (referenceThreshold * 100).roundToInt(),
+                    title = stringResource(R.string.gallery_search_category_image_threshold),
+                    valueRange = SemanticSearchSettings.ImageThresholdRange.let {
+                        val start = (it.start * 100).roundToInt().toFloat()
+                        val end = (it.endInclusive * 100).roundToInt().toFloat()
+                        start..end
+                    },
+                    onValueChange = { referenceThreshold = it.roundToInt() / 100f },
+                    internalStateTransformation = Float::roundToInt,
+                    valueSuffix = "%",
+                    shape = ShapeDefaults.bottom,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             InfoContainer(
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
                 contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.85f),
@@ -345,6 +439,13 @@ private fun SemanticSearchCategoryEditor(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp)
+            )
+            SemanticSearchCategoryPreview(
+                visible = visible,
+                categoryId = id,
+                category = draft.takeIf { builtIn == null },
+                threshold = threshold,
+                component = component
             )
         }
     }

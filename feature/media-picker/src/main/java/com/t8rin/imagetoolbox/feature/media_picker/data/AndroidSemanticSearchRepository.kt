@@ -19,11 +19,13 @@ package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.system.Os
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
+import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getMediaFromCursor
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
@@ -40,11 +42,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import java.io.Closeable
 import javax.inject.Inject
 
 internal class AndroidSemanticSearchRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap>,
+    private val referenceStore: SemanticSearchReferenceStore,
     dispatchersHolder: DispatchersHolder
 ) : SemanticSearchRepository, DispatchersHolder by dispatchersHolder {
 
@@ -54,6 +58,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     private val categoriesMutex = Mutex()
 
     private val categoryEmbeddings = mutableMapOf<String, FloatArray>()
+    private val referenceEmbeddings = mutableMapOf<String, ReferenceEmbedding>()
     private val _state = MutableStateFlow(SemanticSearchState())
     override val state = _state.asStateFlow()
 
@@ -107,37 +112,34 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         }
         try {
             SemanticSearchIndex(context).use { index ->
-                var encoder: ClipImageSearch.ImageEncoder? = null
                 _state.update { it.copy(indexedImages = index.count()) }
                 try {
-                    images.forEachIndexed { position, media ->
-                        currentCoroutineContext().ensureActive()
-                        if (index.get(media) == null) {
-                            val image = loadImage(media.uri)
-                            if (image == null) {
-                                currentCoroutineContext().ensureActive()
-                                _state.update { it.copy(failedImages = it.failedImages + 1) }
-                            } else {
-                                currentCoroutineContext().ensureActive()
-                                val currentEncoder = encoder ?: modelMutex.withLock {
-                                    ClipImageSearch.openImageEncoder()
-                                }.also { encoder = it }
-                                val embedding = currentEncoder.encode(image)
-                                currentCoroutineContext().ensureActive()
-                                index.put(media, embedding)
+                    LazyImageEncoder().use { encoder ->
+                        images.forEachIndexed { position, media ->
+                            currentCoroutineContext().ensureActive()
+                            if (index.get(media) == null) {
+                                val image = loadImage(media.uri)
+                                if (image == null) {
+                                    currentCoroutineContext().ensureActive()
+                                    _state.update { it.copy(failedImages = it.failedImages + 1) }
+                                } else {
+                                    currentCoroutineContext().ensureActive()
+                                    val embedding = encoder.encode(image)
+                                    currentCoroutineContext().ensureActive()
+                                    index.put(media, embedding)
+                                }
                             }
-                        }
-                        _state.update {
-                            it.copy(
-                                processedImages = position + 1,
-                                indexedImages = if (it.indexedImages == 0 || (position + 1) % 32 == 0) {
-                                    index.count()
-                                } else it.indexedImages
-                            )
+                            _state.update {
+                                it.copy(
+                                    processedImages = position + 1,
+                                    indexedImages = if (it.indexedImages == 0 || (position + 1) % 32 == 0) {
+                                        index.count()
+                                    } else it.indexedImages
+                                )
+                            }
                         }
                     }
                 } finally {
-                    encoder?.close()
                     _state.update { it.copy(indexedImages = index.count()) }
                 }
             }
@@ -211,16 +213,50 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     override suspend fun categories(
         media: List<Media>,
         settings: SemanticSearchSettings
+    ): List<SemanticSearchCategoryResult> = classifyCategories(media, settings)
+
+    override suspend fun previewCategory(
+        media: List<Media>,
+        settings: SemanticSearchSettings,
+        categoryId: String
+    ): SemanticSearchCategoryResult? = classifyCategories(media, settings, categoryId)
+        .find { it.category.id == categoryId }
+
+    override suspend fun prepareCategoryReferences(
+        settings: SemanticSearchSettings
+    ): SemanticSearchSettings = referenceStore.prepare(settings)
+
+    override suspend fun cleanupCategoryReferences(settings: SemanticSearchSettings) =
+        referenceStore.cleanup(settings)
+
+    private suspend fun classifyCategories(
+        media: List<Media>,
+        settings: SemanticSearchSettings,
+        categoryId: String? = null
     ): List<SemanticSearchCategoryResult> {
-        if (media.isEmpty()) return emptyList()
         var result = emptyList<SemanticSearchCategoryResult>()
         perform(categoriesMutex) {
             val images = media.filter { it.mimeType.startsWith("image/") }
-            if (images.isEmpty()) return@perform
             SemanticSearchIndex(context).use { index ->
                 if (index.count() == 0 || !_state.value.modelsReady) return@use
+                if (images.isEmpty()) {
+                    val category =
+                        SemanticSearchCategory.BuiltIn.entries.find { it.id == categoryId }
+                            ?: settings.customCategories.find { it.id == categoryId }?.run {
+                                SemanticSearchCategory.Custom(id, name, description)
+                            }
+                    result = listOfNotNull(
+                        category?.let {
+                            SemanticSearchCategoryResult(
+                                it,
+                                emptyList()
+                            )
+                        }
+                    )
+                    return@use
+                }
                 val classifier = searchMutex.withLock {
-                    val descriptions = buildMap {
+                    val allDescriptions = buildMap {
                         SemanticSearchCategory.BuiltIn.entries.forEach { category ->
                             put(category, SemanticSearchClassifier.descriptions(category))
                         }
@@ -231,13 +267,25 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                                     name = category.name,
                                     description = category.description
                                 ),
-                                listOf(category.description)
+                                listOfNotNull(category.description.takeIf(String::isNotBlank))
                             )
                         }
                     }
-                    val backgrounds = SemanticSearchClassifier.backgroundDescriptions
+                    val descriptions = allDescriptions.filterKeys {
+                        categoryId == null || it.id == categoryId ||
+                                (categoryId == SemanticSearchCategory.BuiltIn.People.id &&
+                                        it == SemanticSearchCategory.BuiltIn.Animals)
+                    }
+                    val backgrounds = SemanticSearchClassifier.backgroundDescriptions.takeIf {
+                        descriptions.keys.any {
+                            it == SemanticSearchCategory.BuiltIn.People ||
+                                    it == SemanticSearchCategory.BuiltIn.Animals
+                        }
+                    }.orEmpty()
                     val required = (descriptions.values.flatten() + backgrounds).toSet()
-                    categoryEmbeddings.keys.retainAll(required)
+                    categoryEmbeddings.keys.retainAll(
+                        (allDescriptions.values.flatten() + SemanticSearchClassifier.backgroundDescriptions).toSet()
+                    )
                     val missing = required - categoryEmbeddings.keys
                     if (missing.isNotEmpty()) {
                         val encoder = modelMutex.withLock {
@@ -257,11 +305,84 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                         backgroundEmbeddings = backgrounds.map(categoryEmbeddings::getValue),
                         thresholds = settings.categoryThresholds + settings.customCategories.associate {
                             it.id to it.threshold
+                        },
+                        referenceEmbeddings = categoryReferences(
+                            settings = settings,
+                            categoryId = categoryId,
+                            media = images,
+                            index = index
+                        ),
+                        referenceThresholds = settings.customCategories.associate {
+                            it.id to it.referenceThreshold
                         }
                     )
                 }
                 result = index.categories(classifier, images)
             }
+        }
+        return result
+    }
+
+    private suspend fun categoryReferences(
+        settings: SemanticSearchSettings,
+        categoryId: String?,
+        media: List<Media>,
+        index: SemanticSearchIndex
+    ): Map<String, List<FloatArray>> {
+        referenceEmbeddings.keys.retainAll(settings.customCategories.flatMap { it.referenceImages }
+            .toSet())
+        val result = mutableMapOf<String, List<FloatArray>>()
+        LazyImageEncoder().use { encoder ->
+            settings.customCategories.filter { categoryId == null || it.id == categoryId }
+                .forEach { category ->
+                    val embeddings = mutableListOf<FloatArray>()
+                    category.referenceImages.distinct().forEach reference@{ uri ->
+                        currentCoroutineContext().ensureActive()
+                        val fileFingerprint = runCatching {
+                            context.contentResolver.openAssetFileDescriptor(uri.toUri(), "r")?.use {
+                                Os.fstat(it.fileDescriptor)
+                                    .run { "$st_size:$st_mtime:$st_ctime:$st_ino" }
+                            }
+                        }.getOrNull()
+                        if (fileFingerprint == null) {
+                            referenceEmbeddings.remove(uri)
+                            return@reference
+                        }
+                        val original = uri.toUri().tryExtractOriginal()
+                        val source = media.find { it.uri == uri || it.uri == original.toString() }
+                            ?: runCatching {
+                                context.contentResolver.query(original, null, null, null, null)
+                                    ?.use { cursor ->
+                                        if (cursor.moveToFirst()) cursor.getMediaFromCursor() else null
+                                    }
+                            }.getOrNull()
+                        val sourceFingerprint = source?.run {
+                            "$timestamp:$size:$width:$height:$mimeType"
+                        }
+                        val fingerprint = "$fileFingerprint:$sourceFingerprint"
+                        val cached = referenceEmbeddings[uri]?.takeIf {
+                            it.fingerprint == fingerprint
+                        }
+                        val embedding = source?.let(index::get) ?: cached?.embedding ?: try {
+                            val image = loadImage(uri)
+                            if (image == null) null else {
+                                currentCoroutineContext().ensureActive()
+                                encoder.encode(image)
+                            }
+                        } catch (exception: CancellationException) {
+                            throw exception
+                        } catch (_: Exception) {
+                            currentCoroutineContext().ensureActive()
+                            null
+                        }
+                        currentCoroutineContext().ensureActive()
+                        if (embedding != null) {
+                            embeddings.add(embedding)
+                            referenceEmbeddings[uri] = ReferenceEmbedding(fingerprint, embedding)
+                        } else referenceEmbeddings.remove(uri)
+                    }
+                    result[category.id] = embeddings
+                }
         }
         return result
     }
@@ -273,6 +394,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 ClipImageSearch.deleteModels()
                 SemanticSearchIndex(context).use(SemanticSearchIndex::clear)
                 categoryEmbeddings.clear()
+                referenceEmbeddings.clear()
                 _state.value = SemanticSearchState()
             }
         }
@@ -283,6 +405,41 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         size = 512,
         onFailure = {}
     )?.image
+
+    private inner class LazyImageEncoder : Closeable {
+        private var encoder: ClipImageSearch.ImageEncoder? = null
+
+        suspend fun encode(image: Bitmap): FloatArray {
+            val current = encoder ?: modelMutex.withLock {
+                ClipImageSearch.openImageEncoder()
+            }.also { encoder = it }
+            return current.encode(image)
+        }
+
+        override fun close() {
+            encoder?.close()
+        }
+    }
+
+    private data class ReferenceEmbedding(val fingerprint: String, val embedding: FloatArray) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as ReferenceEmbedding
+
+            if (fingerprint != other.fingerprint) return false
+            if (!embedding.contentEquals(other.embedding)) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = fingerprint.hashCode()
+            result = 31 * result + embedding.contentHashCode()
+            return result
+        }
+    }
 
     private suspend fun perform(mutex: Mutex, action: suspend () -> Unit) =
         withContext(ioDispatcher) {

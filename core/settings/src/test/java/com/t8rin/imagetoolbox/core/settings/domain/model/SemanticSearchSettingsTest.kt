@@ -80,4 +80,51 @@ class SemanticSearchSettingsTest {
         assertEquals(listOf(category), settings.customCategories)
         assertEquals(settings, settings.normalized())
     }
+
+    @Test
+    fun referenceOnlyCategoriesKeepDistinctTrimmedPhotosAndIndependentThresholds() {
+        val category = CustomSemanticSearchCategory(
+            id = "photos",
+            name = "  Любимые места  ",
+            description = " ",
+            referenceImages = listOf(
+                " content://photo/1 ",
+                "",
+                "content://photo/1",
+                "content://photo/2"
+            ),
+            referenceThreshold = 2f
+        )
+        val settings = SemanticSearchSettings(
+            customCategories = listOf(
+                category,
+                category.copy(id = "empty", referenceImages = listOf(" "))
+            )
+        ).normalized()
+
+        assertEquals(
+            listOf(
+                category.copy(
+                    name = "Любимые места",
+                    description = "",
+                    referenceImages = listOf("content://photo/1", "content://photo/2"),
+                    referenceThreshold = SemanticSearchSettings.ImageThresholdRange.endInclusive
+                )
+            ),
+            settings.customCategories
+        )
+        assertEquals(settings, settings.normalized())
+    }
+
+    @Test
+    fun existingTextCategoriesKeepDefaultsForNewReferenceFields() {
+        val category = CustomSemanticSearchCategory("cats", "Cats", "a cat")
+        val settings = SemanticSearchSettings(
+            customCategories = listOf(category.copy(referenceThreshold = Float.NaN))
+        ).normalized()
+
+        assertEquals(emptyList<String>(), category.referenceImages)
+        assertEquals(listOf(category), settings.customCategories)
+        assertEquals(SemanticSearchSettings.DefaultImageThreshold, category.referenceThreshold, 0f)
+    }
 }

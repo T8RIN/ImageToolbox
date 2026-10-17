@@ -18,20 +18,30 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.Environment
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -40,9 +50,16 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
@@ -84,7 +101,7 @@ internal class SemanticSearchWorker(
                             .getMediaByType(AllowedMedia.Photos(null))
                             .first()
                             .getOrThrow()
-                        repository.index(media)
+                        indexWithProgress(repository, media)
                         repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
                         Result.success()
                     }
@@ -112,7 +129,78 @@ internal class SemanticSearchWorker(
         }
     }
 
+    private suspend fun indexWithProgress(
+        repository: SemanticSearchRepository,
+        media: List<Media>
+    ) = coroutineScope {
+        val progressJob = launch {
+            delay(500)
+            repository.state
+                .filter { it.isIndexing }
+                .map { it.processedImages to it.totalImages }
+                .distinctUntilChanged()
+                .conflate()
+                .collect { (processed, total) ->
+                    setForeground(createForegroundInfo(processed, total))
+                    delay(1_000)
+                }
+        }
+        try {
+            repository.index(media)
+        } finally {
+            progressJob.cancelAndJoin()
+        }
+    }
+
+    private fun createForegroundInfo(processed: Int, total: Int) = ForegroundInfo(
+        NOTIFICATION_ID,
+        notificationBuilder
+            .setContentText(
+                applicationContext.getString(R.string.gallery_search_indexing, processed, total)
+            )
+            .setProgress(total, processed, total == 0)
+            .build(),
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+        } else 0
+    )
+
+    private val notificationBuilder by lazy {
+        val context = applicationContext
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.getSystemService<NotificationManager>()?.createNotificationChannel(
+                NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.gallery_search_auto),
+                    NotificationManager.IMPORTANCE_LOW
+                ).apply {
+                    setSound(null, null)
+                    enableVibration(false)
+                }
+            )
+        }
+        val contentIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+            ?.apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP }
+            ?.let {
+                PendingIntent.getActivity(
+                    context,
+                    NOTIFICATION_ID,
+                    it,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            }
+        NotificationCompat.Builder(context, CHANNEL_ID)
+            .setContentTitle(context.getString(R.string.gallery_search_auto))
+            .setSmallIcon(R.drawable.ic_notification_icon)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .setSilent(true)
+            .setContentIntent(contentIntent)
+    }
+
     companion object {
+        private const val CHANNEL_ID = "semantic_search_channel"
+        private const val NOTIFICATION_ID = 1900
         private val activeJobs = ConcurrentHashMap.newKeySet<Job>()
         private val workMutex = Mutex()
 
