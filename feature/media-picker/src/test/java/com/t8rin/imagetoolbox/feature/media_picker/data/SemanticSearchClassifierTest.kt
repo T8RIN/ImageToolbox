@@ -29,8 +29,8 @@ class SemanticSearchClassifierTest {
     fun aStrongBackgroundMatchRejectsFalsePeopleAndAnimals() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.42f)),
-                SemanticSearchCategory.Animals to listOf(description(0.45f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.42f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.45f))
             ),
             backgroundEmbeddings = listOf(description(-0.1f), description(0.65f))
         )
@@ -42,14 +42,20 @@ class SemanticSearchClassifierTest {
     fun oneRelevantDescriptionRetainsTheSubjectWithoutAveragingItAway() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.01f), description(0.41f)),
-                SemanticSearchCategory.Animals to listOf(description(0.01f), description(0.43f))
+                SemanticSearchCategory.BuiltIn.People to listOf(
+                    description(0.01f),
+                    description(0.41f)
+                ),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(
+                    description(0.01f),
+                    description(0.43f)
+                )
             ),
             backgroundEmbeddings = listOf(description(0.18f))
         )
 
         assertEquals(
-            setOf(SemanticSearchCategory.People, SemanticSearchCategory.Animals),
+            setOf(SemanticSearchCategory.BuiltIn.People, SemanticSearchCategory.BuiltIn.Animals),
             classifier.classify(axis(0)).toSet()
         )
     }
@@ -58,8 +64,8 @@ class SemanticSearchClassifierTest {
     fun ambiguousForegroundAndBackgroundScoresDoNotCreateSubjectCategories() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.45f)),
-                SemanticSearchCategory.Animals to listOf(description(0.45f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.45f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.45f))
             ),
             backgroundEmbeddings = listOf(description(0.445f))
         )
@@ -71,8 +77,8 @@ class SemanticSearchClassifierTest {
     fun aPersonWithAPetCanBelongToBothCategories() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(axis(0)),
-                SemanticSearchCategory.Animals to listOf(axis(1))
+                SemanticSearchCategory.BuiltIn.People to listOf(axis(0)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(axis(1))
             ),
             backgroundEmbeddings = listOf(axis(2))
         )
@@ -82,7 +88,7 @@ class SemanticSearchClassifierTest {
         }
 
         assertEquals(
-            setOf(SemanticSearchCategory.People, SemanticSearchCategory.Animals),
+            setOf(SemanticSearchCategory.BuiltIn.People, SemanticSearchCategory.BuiltIn.Animals),
             classifier.classify(image).toSet()
         )
     }
@@ -91,27 +97,27 @@ class SemanticSearchClassifierTest {
     fun aWeakHumanMatchDoesNotMislabelAnAnimalFaceAsPeople() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.26f)),
-                SemanticSearchCategory.Animals to listOf(description(0.31f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.26f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.31f))
             ),
             backgroundEmbeddings = listOf(description(0.1f))
         )
 
-        assertEquals(listOf(SemanticSearchCategory.Animals), classifier.classify(axis(0)))
+        assertEquals(listOf(SemanticSearchCategory.BuiltIn.Animals), classifier.classify(axis(0)))
     }
 
     @Test
     fun similarlySupportedPeopleAndAnimalsRemainIndependentMatches() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.26f)),
-                SemanticSearchCategory.Animals to listOf(description(0.27f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.26f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.27f))
             ),
             backgroundEmbeddings = listOf(description(0.1f))
         )
 
         assertEquals(
-            setOf(SemanticSearchCategory.People, SemanticSearchCategory.Animals),
+            setOf(SemanticSearchCategory.BuiltIn.People, SemanticSearchCategory.BuiltIn.Animals),
             classifier.classify(axis(0)).toSet()
         )
     }
@@ -120,26 +126,97 @@ class SemanticSearchClassifierTest {
     fun abstractArtworkCanStillBelongToArtWhileSubjectCategoriesAreRejected() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.4f)),
-                SemanticSearchCategory.Art to listOf(description(0.45f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.4f)),
+                SemanticSearchCategory.BuiltIn.Art to listOf(description(0.45f))
             ),
             backgroundEmbeddings = listOf(description(0.9f))
         )
 
-        assertEquals(listOf(SemanticSearchCategory.Art), classifier.classify(axis(0)))
+        assertEquals(listOf(SemanticSearchCategory.BuiltIn.Art), classifier.classify(axis(0)))
     }
 
     @Test
     fun beatingAnUnrelatedBackgroundDoesNotMakeAWeakSubjectMatchRelevant() {
         val classifier = SemanticSearchClassifier(
             categoryEmbeddings = mapOf(
-                SemanticSearchCategory.People to listOf(description(0.1f)),
-                SemanticSearchCategory.Animals to listOf(description(0.1f))
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.1f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.1f))
             ),
             backgroundEmbeddings = listOf(description(-0.2f))
         )
 
         assertTrue(classifier.classify(axis(0)).isEmpty())
+    }
+
+    @Test
+    fun categoryThresholdsChangeMatchesWithoutChangingOtherCategories() {
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(
+                SemanticSearchCategory.BuiltIn.Nature to listOf(description(0.22f)),
+                SemanticSearchCategory.BuiltIn.Food to listOf(description(0.35f)),
+                SemanticSearchCategory.BuiltIn.Art to listOf(description(0.3f))
+            ),
+            backgroundEmbeddings = listOf(description(0.1f)),
+            thresholds = mapOf(
+                SemanticSearchCategory.BuiltIn.Nature.id to 0.2f,
+                SemanticSearchCategory.BuiltIn.Food.id to 0.4f
+            )
+        )
+
+        assertEquals(
+            listOf(SemanticSearchCategory.BuiltIn.Nature, SemanticSearchCategory.BuiltIn.Art),
+            classifier.classify(axis(0))
+        )
+    }
+
+    @Test
+    fun relaxedSubjectThresholdsStillRejectAbstractBackgrounds() {
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.23f)),
+                SemanticSearchCategory.BuiltIn.Animals to listOf(description(0.24f))
+            ),
+            backgroundEmbeddings = listOf(description(0.5f)),
+            thresholds = mapOf(
+                SemanticSearchCategory.BuiltIn.People.id to 0.15f,
+                SemanticSearchCategory.BuiltIn.Animals.id to 0.15f
+            )
+        )
+
+        assertTrue(classifier.classify(axis(0)).isEmpty())
+    }
+
+    @Test
+    fun customCategoriesUseTheirOwnThresholdAndMayDescribeAbstractImages() {
+        val matching = SemanticSearchCategory.Custom("custom-1", "Patterns", "colorful patterns")
+        val strict = matching.copy(id = "custom-2", name = "Strict patterns")
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(
+                matching to listOf(description(0.3f)),
+                strict to listOf(description(0.3f))
+            ),
+            backgroundEmbeddings = listOf(description(0.9f)),
+            thresholds = mapOf(matching.id to 0.25f, strict.id to 0.4f)
+        )
+
+        assertEquals(listOf(matching), classifier.classify(axis(0)))
+    }
+
+    @Test
+    fun invalidThresholdsFallBackToCategoryDefaults() {
+        val classifier = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(
+                SemanticSearchCategory.BuiltIn.People to listOf(description(0.255f)),
+                SemanticSearchCategory.BuiltIn.Nature to listOf(description(0.255f))
+            ),
+            backgroundEmbeddings = listOf(description(0.1f)),
+            thresholds = mapOf(
+                SemanticSearchCategory.BuiltIn.People.id to Float.NaN,
+                SemanticSearchCategory.BuiltIn.Nature.id to Float.POSITIVE_INFINITY
+            )
+        )
+
+        assertEquals(listOf(SemanticSearchCategory.BuiltIn.People), classifier.classify(axis(0)))
     }
 
     private fun description(similarity: Float) = FloatArray(512).apply {

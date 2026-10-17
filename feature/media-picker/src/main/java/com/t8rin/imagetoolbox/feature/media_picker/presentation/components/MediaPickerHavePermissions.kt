@@ -87,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -111,9 +112,15 @@ internal fun MediaPickerHavePermissions(
     val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
     val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
     val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val visibleCategories = remember(categories, selectedCategory) {
+        categories.filter {
+            it.media.isNotEmpty() || it.category is SemanticSearchCategory.Custom ||
+                    it.category.id == selectedCategory
+        }.sortedBy { it.category !is SemanticSearchCategory.Custom }
+    }
     val showCategories = allowedMedia != AllowedMedia.Videos &&
             component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
-            categories.isNotEmpty()
+            visibleCategories.isNotEmpty()
 
     BackHandler(selectedAlbumIndex != -1L) {
         selectedAlbumIndex = -1L
@@ -292,7 +299,7 @@ internal fun MediaPickerHavePermissions(
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     MediaSemanticSearchCategories(
-                        categories = categories,
+                        categories = visibleCategories,
                         selectedCategory = selectedCategory,
                         onCategorySelected = component::selectSemanticCategory,
                         modifier = Modifier.padding(

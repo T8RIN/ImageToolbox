@@ -23,6 +23,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
@@ -38,7 +39,6 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySett
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
-import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.groupMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.mergeMediaSearchResults
@@ -62,6 +62,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -96,7 +98,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private val _semanticSearchCategories =
         MutableStateFlow<List<SemanticSearchCategoryResult>>(emptyList())
     val semanticSearchCategories = _semanticSearchCategories.asStateFlow()
-    private val _selectedSemanticCategory = MutableStateFlow<SemanticSearchCategory?>(null)
+    private val _selectedSemanticCategory = MutableStateFlow<String?>(null)
     val selectedSemanticCategory = _selectedSemanticCategory.asStateFlow()
     private val _semanticSearchImage = MutableStateFlow<String?>(null)
     val semanticSearchImage = _semanticSearchImage.asStateFlow()
@@ -113,8 +115,30 @@ class MediaPickerComponent @AssistedInject internal constructor(
         _semanticSearchError.value = null
     }
 
-    fun selectSemanticCategory(category: SemanticSearchCategory?) {
+    fun selectSemanticCategory(category: String?) {
         _selectedSemanticCategory.value = category
+    }
+
+    private val semanticSearchSettings = settingsManager.settingsState
+        .map { it.semanticSearchSettings }
+        .distinctUntilChanged()
+    private val semanticSearchSettingsMutex = Mutex()
+
+    fun updateSemanticSearchSettings(
+        transform: (SemanticSearchSettings) -> SemanticSearchSettings
+    ) {
+        componentScope.launch {
+            try {
+                semanticSearchSettingsMutex.withLock {
+                    val settings = settingsManager.getSettingsState().semanticSearchSettings
+                    settingsManager.setSemanticSearchSettings(transform(settings))
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                _semanticSearchError.value = e.message ?: e.toString()
+            }
+        }
     }
 
     fun setSemanticSearchAutoIndexing(enabled: Boolean) = runSemanticSearchOperation {
@@ -307,10 +331,16 @@ class MediaPickerComponent @AssistedInject internal constructor(
                         indexedBatch = it.processedImages / 256,
                         isIndexing = it.isIndexing
                     )
+                }.distinctUntilChanged(),
+                semanticSearchSettings.map {
+                    it.copy(
+                        textThreshold = SemanticSearchSettings.DefaultTextThreshold,
+                        imageThreshold = SemanticSearchSettings.DefaultImageThreshold
+                    )
                 }.distinctUntilChanged()
-            ) { media, enabled, index ->
-                CategoryRequest(media, enabled, index)
-            }.collectLatest { (media, enabled, index) ->
+            ) { media, enabled, index, settings ->
+                CategoryRequest(media, enabled, index, settings)
+            }.collectLatest { (media, enabled, index, settings) ->
                 if (!enabled || !index.modelsReady || index.indexedImages == 0) {
                     _semanticSearchCategories.value = emptyList()
                     _selectedSemanticCategory.value = null
@@ -319,10 +349,10 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 if (media.isLoading) return@collectLatest
                 try {
                     delay(500)
-                    val categories = semanticSearchRepository.categories(media.media)
+                    val categories = semanticSearchRepository.categories(media.media, settings)
                     currentCoroutineContext().ensureActive()
                     _semanticSearchCategories.value = categories
-                    if (categories.none { it.category == _selectedSemanticCategory.value }) {
+                    if (categories.none { it.category.id == _selectedSemanticCategory.value }) {
                         _selectedSemanticCategory.value = null
                     }
                 } catch (e: CancellationException) {
@@ -335,7 +365,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         componentScope.launch {
             var lastSemanticQuery: String? = null
             var lastSemanticAlbum: Long? = null
-            var lastSemanticCategory: SemanticSearchCategory? = null
+            var lastSemanticCategory: String? = null
             var lastSemanticImage: String? = null
             val sortedMediaState = combine(
                 sourceMediaState,
@@ -349,21 +379,25 @@ class MediaPickerComponent @AssistedInject internal constructor(
             val semanticRequest = combine(
                 _isSemanticSearchEnabled,
                 semanticSearchState,
-                semanticSearchRevision
-            ) { enabled, state, revision ->
+                semanticSearchRevision,
+                semanticSearchSettings.map {
+                    it.copy(categoryThresholds = emptyMap(), customCategories = emptyList())
+                }.distinctUntilChanged()
+            ) { enabled, state, revision, settings ->
                 SemanticSearchRequest(
                     enabled = enabled,
                     modelsReady = state.modelsReady,
                     isDownloading = state.isDownloading,
                     revision = revision,
                     indexedBatch = state.processedImages / 32,
-                    isIndexing = state.isIndexing
+                    isIndexing = state.isIndexing,
+                    settings = settings
                 )
             }.distinctUntilChanged()
             val selectedCategory = combine(
                 _selectedSemanticCategory,
                 _semanticSearchCategories
-            ) { category, categories -> categories.firstOrNull { it.category == category } }
+            ) { category, categories -> categories.firstOrNull { it.category.id == category } }
             val searchInput = combine(searchKeyword, _semanticSearchImage) { keyword, image ->
                 keyword to image
             }
@@ -415,7 +449,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     val searchSettings = settings.copy(dateGroup = MediaDateGroup.None)
                     _isSemanticSearching.value = true
                     if (lastSemanticQuery != keyword || lastSemanticAlbum != selectedAlbumId ||
-                        lastSemanticCategory != category?.category || lastSemanticImage != image
+                        lastSemanticCategory != category?.category?.id || lastSemanticImage != image
                     ) {
                         _filteredMediaState.emit(
                             searchState.copy(media = nameMatches).withMappedMedia(searchSettings)
@@ -423,15 +457,23 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     }
                     lastSemanticQuery = keyword
                     lastSemanticAlbum = selectedAlbumId
-                    lastSemanticCategory = category?.category
+                    lastSemanticCategory = category?.category?.id
                     lastSemanticImage = image
                     val source = sourceMediaState.value
                     try {
                         delay(350)
                         val results = if (image == null) {
-                            semanticSearchRepository.search(keyword, searchState.media)
+                            semanticSearchRepository.search(
+                                query = keyword,
+                                media = searchState.media,
+                                minimumSimilarity = semantic.settings.textThreshold
+                            )
                         } else {
-                            semanticSearchRepository.searchByImage(image, searchState.media)
+                            semanticSearchRepository.searchByImage(
+                                uri = image,
+                                media = searchState.media,
+                                minimumSimilarity = semantic.settings.imageThreshold
+                            )
                         }
                         currentCoroutineContext().ensureActive()
                         if (source != sourceMediaState.value || keyword != searchKeyword.value ||
@@ -484,7 +526,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private data class CategoryRequest(
         val media: MediaState,
         val enabled: Boolean,
-        val index: CategoryIndexState
+        val index: CategoryIndexState,
+        val settings: SemanticSearchSettings
     )
 
     private data class CategoryIndexState(
@@ -500,7 +543,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
         val isDownloading: Boolean,
         val revision: Int,
         val indexedBatch: Int,
-        val isIndexing: Boolean
+        val isIndexing: Boolean,
+        val settings: SemanticSearchSettings
     )
 
     @AssistedFactory

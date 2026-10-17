@@ -37,6 +37,11 @@ import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -55,12 +60,23 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCa
 @Composable
 internal fun MediaSemanticSearchCategories(
     categories: List<SemanticSearchCategoryResult>,
-    selectedCategory: SemanticSearchCategory?,
-    onCategorySelected: (SemanticSearchCategory?) -> Unit,
+    selectedCategory: String?,
+    onCategorySelected: (String?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
+    val customCategoryIds = categories.mapNotNull {
+        (it.category as? SemanticSearchCategory.Custom)?.id
+    }
+    var knownCategoryIds by remember { mutableStateOf(customCategoryIds) }
+    LaunchedEffect(customCategoryIds) {
+        val addedCategory = customCategoryIds.lastOrNull { it !in knownCategoryIds }
+        knownCategoryIds = customCategoryIds
+        if (addedCategory != null) {
+            listState.animateScrollToItem(categories.indexOfFirst { it.category.id == addedCategory })
+        }
+    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -94,15 +110,15 @@ internal fun MediaSemanticSearchCategories(
         ) {
             items(
                 items = categories,
-                key = { it.category.name }
+                key = { it.category.id }
             ) { result ->
-                val isSelected = selectedCategory == result.category
+                val isSelected = selectedCategory == result.category.id
                 CategoryChip(
-                    title = stringResource(result.category.titleRes),
+                    title = result.category.title(),
                     count = result.media.size,
                     selected = isSelected,
                     onClick = {
-                        onCategorySelected(result.category.takeUnless { isSelected })
+                        onCategorySelected(result.category.id.takeUnless { isSelected })
                     }
                 )
             }
@@ -142,23 +158,29 @@ private fun CategoryChip(
     )
 }
 
+@Composable
+internal fun SemanticSearchCategory.title(): String = when (this) {
+    is SemanticSearchCategory.BuiltIn -> stringResource(titleRes)
+    is SemanticSearchCategory.Custom -> name
+}
+
 @get:StringRes
-private val SemanticSearchCategory.titleRes: Int
+private val SemanticSearchCategory.BuiltIn.titleRes: Int
     get() = when (this) {
-        SemanticSearchCategory.People -> R.string.gallery_category_people
-        SemanticSearchCategory.Animals -> R.string.gallery_category_animals
-        SemanticSearchCategory.Nature -> R.string.gallery_category_nature
-        SemanticSearchCategory.Food -> R.string.gallery_category_food
-        SemanticSearchCategory.Documents -> R.string.gallery_category_documents
-        SemanticSearchCategory.Screenshots -> R.string.gallery_category_screenshots
-        SemanticSearchCategory.Vehicles -> R.string.gallery_category_vehicles
-        SemanticSearchCategory.Travel -> R.string.gallery_category_travel
-        SemanticSearchCategory.Architecture -> R.string.gallery_category_architecture
-        SemanticSearchCategory.Art -> R.string.gallery_category_art
-        SemanticSearchCategory.Sports -> R.string.gallery_category_sports
-        SemanticSearchCategory.Events -> R.string.gallery_category_events
-        SemanticSearchCategory.Night -> R.string.gallery_category_night
-        SemanticSearchCategory.Beach -> R.string.gallery_category_beach
-        SemanticSearchCategory.Mountains -> R.string.gallery_category_mountains
-        SemanticSearchCategory.Sunset -> R.string.gallery_category_sunset
+        SemanticSearchCategory.BuiltIn.People -> R.string.gallery_category_people
+        SemanticSearchCategory.BuiltIn.Animals -> R.string.gallery_category_animals
+        SemanticSearchCategory.BuiltIn.Nature -> R.string.gallery_category_nature
+        SemanticSearchCategory.BuiltIn.Food -> R.string.gallery_category_food
+        SemanticSearchCategory.BuiltIn.Documents -> R.string.gallery_category_documents
+        SemanticSearchCategory.BuiltIn.Screenshots -> R.string.gallery_category_screenshots
+        SemanticSearchCategory.BuiltIn.Vehicles -> R.string.gallery_category_vehicles
+        SemanticSearchCategory.BuiltIn.Travel -> R.string.gallery_category_travel
+        SemanticSearchCategory.BuiltIn.Architecture -> R.string.gallery_category_architecture
+        SemanticSearchCategory.BuiltIn.Art -> R.string.gallery_category_art
+        SemanticSearchCategory.BuiltIn.Sports -> R.string.gallery_category_sports
+        SemanticSearchCategory.BuiltIn.Events -> R.string.gallery_category_events
+        SemanticSearchCategory.BuiltIn.Night -> R.string.gallery_category_night
+        SemanticSearchCategory.BuiltIn.Beach -> R.string.gallery_category_beach
+        SemanticSearchCategory.BuiltIn.Mountains -> R.string.gallery_category_mountains
+        SemanticSearchCategory.BuiltIn.Sunset -> R.string.gallery_category_sunset
     }

@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -88,6 +89,7 @@ data class UiSettingsState(
     val selectedEmoji: Uri?,
     val picturePickerMode: PicturePickerMode,
     val isSemanticSearchEnabled: Boolean,
+    val semanticSearchSettings: SemanticSearchSettings,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -368,6 +370,7 @@ fun SettingsState.toUiState(
                 selectedEmoji = selectedEmoji,
                 picturePickerMode = PicturePickerMode.fromInt(picturePickerModeInt),
                 isSemanticSearchEnabled = isSemanticSearchEnabled,
+                semanticSearchSettings = semanticSearchSettings,
                 clearCacheOnLaunch = clearCacheOnLaunch,
                 cacheAutoClearLimitBytes = cacheAutoClearLimitBytes,
                 cacheAutoClearInterval = cacheAutoClearInterval,

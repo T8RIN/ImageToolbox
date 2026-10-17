@@ -17,25 +17,40 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 
-enum class SemanticSearchCategory(
-    internal val query: String
-) {
-    People("a photo of a person or a group of people"),
-    Animals("a photo of an animal, a pet or a bird"),
-    Nature("a photo of nature, a landscape, plants or flowers"),
-    Food("a photo of food or a meal"),
-    Documents("a photo of a document, a receipt or printed text"),
-    Screenshots("a screenshot of an app or a website"),
-    Vehicles("a photo of a car, a motorcycle, a train or a boat"),
-    Travel("a travel photo of a tourist landmark or a vacation"),
-    Architecture("a photo of architecture, buildings or a city skyline"),
-    Art("a photo of a painting, a sculpture or a work of art"),
-    Sports("a photo of sports, exercise or an athletic competition"),
-    Events("a photo of a party, a wedding, a concert or a celebration"),
-    Night("a photo taken at night with a dark sky and lights"),
-    Beach("a photo of a sandy beach, the ocean or the sea"),
-    Mountains("a photo of mountains, peaks or hiking trails"),
-    Sunset("a photo of a sunset or sunrise with a colorful sky")
+sealed interface SemanticSearchCategory {
+
+    val id: String
+
+    enum class BuiltIn(
+        internal val query: String
+    ) : SemanticSearchCategory {
+        People("a photo of a person or a group of people"),
+        Animals("a photo of an animal, a pet or a bird"),
+        Nature("a photo of nature, a landscape, plants or flowers"),
+        Food("a photo of food or a meal"),
+        Documents("a photo of a document, a receipt or printed text"),
+        Screenshots("a screenshot of an app or a website"),
+        Vehicles("a photo of a car, a motorcycle, a train or a boat"),
+        Travel("a travel photo of a tourist landmark or a vacation"),
+        Architecture("a photo of architecture, buildings or a city skyline"),
+        Art("a photo of a painting, a sculpture or a work of art"),
+        Sports("a photo of sports, exercise or an athletic competition"),
+        Events("a photo of a party, a wedding, a concert or a celebration"),
+        Night("a photo taken at night with a dark sky and lights"),
+        Beach("a photo of a sandy beach, the ocean or the sea"),
+        Mountains("a photo of mountains, peaks or hiking trails"),
+        Sunset("a photo of a sunset or sunrise with a colorful sky");
+
+        override val id: String get() = name
+
+        val defaultThreshold: Float get() = if (this == People) 0.25f else 0.26f
+    }
+
+    data class Custom(
+        override val id: String,
+        val name: String,
+        val description: String
+    ) : SemanticSearchCategory
 }
 
 data class SemanticSearchCategoryResult(

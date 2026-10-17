@@ -165,7 +165,7 @@ class SemanticSearchIndexTest {
     }
 
     @Test
-    fun categoriesExcludeUnavailableAndChangedImagesWithoutCreatingEmptyCategories() = runBlocking {
+    fun categoriesExcludeUnavailableAndChangedImagesAndKeepEmptyCategories() = runBlocking {
         val person = media(1)
         val animal = media(2)
         val shared = media(3)
@@ -191,15 +191,23 @@ class SemanticSearchIndexTest {
         ).associate { it.category to it.media }
 
         assertEquals(
-            setOf(SemanticSearchCategory.People, SemanticSearchCategory.Animals),
+            setOf(
+                SemanticSearchCategory.BuiltIn.People,
+                SemanticSearchCategory.BuiltIn.Animals,
+                SemanticSearchCategory.BuiltIn.Art
+            ),
             results.keys
         )
-        assertEquals(setOf(person, shared), results.getValue(SemanticSearchCategory.People).toSet())
+        assertEquals(
+            setOf(person, shared),
+            results.getValue(SemanticSearchCategory.BuiltIn.People).toSet()
+        )
         assertEquals(
             setOf(animal, shared),
-            results.getValue(SemanticSearchCategory.Animals).toSet()
+            results.getValue(SemanticSearchCategory.BuiltIn.Animals).toSet()
         )
-        assertEquals(2, results.getValue(SemanticSearchCategory.People).size)
+        assertEquals(2, results.getValue(SemanticSearchCategory.BuiltIn.People).size)
+        assertTrue(results.getValue(SemanticSearchCategory.BuiltIn.Art).isEmpty())
     }
 
     @Test
@@ -209,12 +217,36 @@ class SemanticSearchIndexTest {
             media.forEach { index.put(it, embedding(1f)) }
 
             val results = index.categories(classifier(), media)
+                .single { it.category == SemanticSearchCategory.BuiltIn.People }
 
-            assertEquals(SemanticSearchCategory.People, results.single().category)
-            assertEquals(1205, results.single().media.size)
-            assertEquals(media.toSet(), results.single().media.toSet())
+            assertEquals(1205, results.media.size)
+            assertEquals(media.toSet(), results.media.toSet())
             assertEquals(100, index.search(embedding(1f), media).size)
         }
+
+    @Test
+    fun customThresholdChangesReclassifyAllCachedMatchesWithoutReindexing() = runBlocking {
+        val category = SemanticSearchCategory.Custom("custom", "My photos", "a colorful pattern")
+        val media = List(1205) { media(it.toLong() + 1) }
+        media.forEach { index.put(it, embedding(0.35f)) }
+        fun classifier(threshold: Float) = SemanticSearchClassifier(
+            categoryEmbeddings = mapOf(category to listOf(embedding(1f))),
+            backgroundEmbeddings = listOf(embedding(0f)),
+            thresholds = mapOf(category.id to threshold)
+        )
+
+        val broad = index.categories(classifier(0.3f), media).single()
+        val strict = index.categories(classifier(0.4f), media).single()
+        val restored = index.categories(classifier(0.3f), media).single()
+
+        assertEquals(category, broad.category)
+        assertEquals(media.toSet(), broad.media.toSet())
+        assertEquals(category, strict.category)
+        assertTrue(strict.media.isEmpty())
+        assertEquals(broad, restored)
+        assertEquals(1205, index.count())
+        assertArrayEquals(embedding(0.35f), index.get(media.first()), 0f)
+    }
 
     @Test
     fun cancelledClassificationDoesNotReturnPartialCategories() = runBlocking {
@@ -286,9 +318,9 @@ class SemanticSearchIndexTest {
 
     private fun classifier() = SemanticSearchClassifier(
         categoryEmbeddings = mapOf(
-            SemanticSearchCategory.People to listOf(embedding(1f)),
-            SemanticSearchCategory.Animals to listOf(embedding(0f)),
-            SemanticSearchCategory.Art to listOf(FloatArray(512).apply { this[2] = 1f })
+            SemanticSearchCategory.BuiltIn.People to listOf(embedding(1f)),
+            SemanticSearchCategory.BuiltIn.Animals to listOf(embedding(0f)),
+            SemanticSearchCategory.BuiltIn.Art to listOf(FloatArray(512).apply { this[2] = 1f })
         ),
         backgroundEmbeddings = listOf(FloatArray(512).apply { this[3] = 1f })
     )

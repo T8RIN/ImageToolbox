@@ -21,21 +21,29 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCa
 
 internal class SemanticSearchClassifier(
     private val categoryEmbeddings: Map<SemanticSearchCategory, List<FloatArray>>,
-    private val backgroundEmbeddings: List<FloatArray>
+    private val backgroundEmbeddings: List<FloatArray>,
+    private val thresholds: Map<String, Float> = emptyMap()
 ) {
 
+    val categories: Set<SemanticSearchCategory> get() = categoryEmbeddings.keys
+
     fun classify(embedding: FloatArray): List<SemanticSearchCategory> {
-        val backgroundScore = backgroundEmbeddings.maxOf { it.similarity(embedding) }
+        val backgroundScore = backgroundEmbeddings.maxOfOrNull { it.similarity(embedding) }
+            ?: Float.NEGATIVE_INFINITY
         val scores = categoryEmbeddings.mapValues { (_, descriptions) ->
             descriptions.maxOf { it.similarity(embedding) }
         }
-        val animalScore = scores[SemanticSearchCategory.Animals] ?: Float.NEGATIVE_INFINITY
+        val animalScore = scores[SemanticSearchCategory.BuiltIn.Animals] ?: Float.NEGATIVE_INFINITY
         return scores.mapNotNull { (category, score) ->
-            val minimum = if (category == SemanticSearchCategory.People) 0.25f else 0.26f
-            val needsForeground = category == SemanticSearchCategory.People ||
-                    category == SemanticSearchCategory.Animals
+            val defaultThreshold = (category as? SemanticSearchCategory.BuiltIn)?.defaultThreshold
+                ?: 0.26f
+            val minimum = thresholds[category.id]?.takeIf(Float::isFinite)?.coerceIn(0.15f, 0.8f)
+                ?: defaultThreshold
+            val needsForeground = category == SemanticSearchCategory.BuiltIn.People ||
+                    category == SemanticSearchCategory.BuiltIn.Animals
             // Reject weak face matches from animal portraits without vetoing a clear person with a pet.
-            val matchesSubject = category != SemanticSearchCategory.People || score >= 0.28f ||
+            val matchesSubject =
+                category != SemanticSearchCategory.BuiltIn.People || score >= 0.28f ||
                     score >= animalScore - 0.02f
             category.takeIf {
                 score >= minimum && matchesSubject &&
@@ -52,14 +60,14 @@ internal class SemanticSearchClassifier(
 
     companion object {
 
-        fun descriptions(category: SemanticSearchCategory): List<String> = when (category) {
-            SemanticSearchCategory.People -> listOf(
+        fun descriptions(category: SemanticSearchCategory.BuiltIn): List<String> = when (category) {
+            SemanticSearchCategory.BuiltIn.People -> listOf(
                 "a photograph with a person in the foreground",
                 "a portrait showing a human face",
                 "a photograph of people posing together"
             )
 
-            SemanticSearchCategory.Animals -> listOf(
+            SemanticSearchCategory.BuiltIn.Animals -> listOf(
                 "a photo of an animal",
                 "a photo of a dog",
                 "a photo of a cat",

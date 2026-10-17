@@ -33,6 +33,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
@@ -49,6 +50,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setImagePickerMode(mode: Int)
 
     suspend fun setSemanticSearchEnabled(enabled: Boolean)
+
+    suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
 
     suspend fun toggleAddFileSize()
 

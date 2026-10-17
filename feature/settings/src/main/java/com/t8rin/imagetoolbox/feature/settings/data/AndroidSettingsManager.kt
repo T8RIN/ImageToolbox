@@ -61,6 +61,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -198,6 +199,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SECURE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SEMANTIC_SEARCH_ENABLED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SEMANTIC_SEARCH_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_THROTTLE
@@ -365,6 +367,12 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setSemanticSearchEnabled(enabled: Boolean) = edit {
         it[SEMANTIC_SEARCH_ENABLED] = enabled
+    }
+
+    override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {
+        jsonParser.toJson(value.normalized(), SemanticSearchSettings::class.java)?.apply {
+            it[SEMANTIC_SEARCH_SETTINGS] = this
+        }
     }
 
     override suspend fun setImagePickerMode(mode: Int) = edit {

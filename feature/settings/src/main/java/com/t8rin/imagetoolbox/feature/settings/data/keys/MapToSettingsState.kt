@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -55,6 +56,12 @@ internal fun Preferences.toSettingsState(
     jsonParser: JsonParser
 ): SettingsState = SettingsState(
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
+    semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
+        jsonParser.fromJson<SemanticSearchSettings>(
+            json = it,
+            type = SemanticSearchSettings::class.java
+        )?.normalized()
+    } ?: default.semanticSearchSettings,
     nightMode = NightMode.fromOrdinal(this[NIGHT_MODE]) ?: default.nightMode,
     isDynamicColors = this[DYNAMIC_COLORS] ?: default.isDynamicColors,
     isAmoledMode = this[AMOLED_MODE] ?: default.isAmoledMode,

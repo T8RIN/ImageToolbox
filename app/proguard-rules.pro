@@ -112,6 +112,10 @@
 -keep class com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropPreset { *; }
 -keep class com.t8rin.imagetoolbox.core.domain.model.RectModel { *; }
 
+# Moshi reflects semantic search preferences and custom categories.
+-keep class com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings { *; }
+-keep class com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCategory { *; }
+
 # Moshi reflects app history/statistics models for recent tools.
 -keep class com.t8rin.imagetoolbox.core.domain.history.model.LastUsedTool { *; }
 -keep class com.t8rin.imagetoolbox.core.domain.history.model.AppUsageStatistics { *; }

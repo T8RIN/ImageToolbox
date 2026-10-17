@@ -31,8 +31,11 @@ import coil3.request.allowHardware
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCategory
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.neural_tools.search.ClipImageSearch
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -124,6 +127,111 @@ class SimilarImageSearchInstrumentedTest {
             assertEquals(uri, listOf(duplicate, similar, lessSimilar), results)
         }
         assertNull(repository.state.value.error)
+    }
+
+    @Test
+    fun changingImageSimilarityThresholdReusesTheSourceAndExistingIndex() = runBlocking {
+        val source = media(1)
+        val similar = media(2)
+        val broader = media(3)
+        val media = listOf(source, broader, similar)
+        SemanticSearchIndex(context).use { index ->
+            index.put(source, embedding(1f))
+            index.put(similar, embedding(0.9f))
+            index.put(broader, embedding(0.5f))
+        }
+        val repository = repository(object : Interceptor {
+            override suspend fun intercept(chain: Interceptor.Chain): ImageResult =
+                error("Changing the threshold must reuse the cached image vectors")
+        })
+
+        assertEquals(listOf(similar), repository.searchByImage(source.uri, media))
+        assertEquals(
+            listOf(similar, broader),
+            repository.searchByImage(source.uri, media, minimumSimilarity = 0.4f)
+        )
+        assertTrue(repository.searchByImage(source.uri, media, minimumSimilarity = 0.95f).isEmpty())
+        assertEquals(listOf(similar), repository.searchByImage(source.uri, media))
+        SemanticSearchIndex(context).use { index ->
+            assertEquals(3, index.count())
+            assertArrayEquals(embedding(1f), index.get(source), 0f)
+        }
+    }
+
+    @Test
+    fun customCategoriesAndTextThresholdsUseTheExistingImageIndex() = runBlocking {
+        val red = media(1)
+        val blue = media(2)
+        val media = listOf(red, blue)
+        val embeddings = ClipImageSearch.openImageEncoder().use { encoder ->
+            listOf(Color.RED, Color.BLUE).map { color ->
+                val bitmap = createBitmap(224, 224).apply { eraseColor(color) }
+                try {
+                    encoder.encode(bitmap)
+                } finally {
+                    bitmap.recycle()
+                }
+            }
+        }
+        SemanticSearchIndex(context).use { index ->
+            media.zip(embeddings).forEach { (image, embedding) -> index.put(image, embedding) }
+        }
+        val descriptions = listOf("красный квадрат", "a blue square")
+        val thresholds = ClipImageSearch.openTextEncoder().use { encoder ->
+            descriptions.mapIndexed { position, description ->
+                val query = encoder.encode(description)
+                val scores = embeddings.map { vector ->
+                    query.indices.sumOf { (query[it] * vector[it]).toDouble() }.toFloat()
+                }
+                assertTrue(
+                    "The description must favor its color: $scores",
+                    scores[position] > scores[1 - position]
+                )
+                assertTrue(scores[position] < 0.8f)
+                scores.average().toFloat().also { assertTrue(it in 0.15f..0.8f) }
+            }
+        }
+        var decoded = 0
+        val repository = repository(object : Interceptor {
+            override suspend fun intercept(chain: Interceptor.Chain): ImageResult {
+                decoded++
+                error("Editing categories must use the existing image vectors")
+            }
+        })
+        repository.refresh()
+        val category = CustomSemanticSearchCategory(
+            id = UUID.randomUUID().toString(),
+            name = "Красные",
+            description = descriptions[0],
+            threshold = thresholds[0]
+        )
+
+        suspend fun matches(value: CustomSemanticSearchCategory) = repository.categories(
+            media = media,
+            settings = SemanticSearchSettings(customCategories = listOf(value))
+        ).single { it.category.id == category.id }
+
+        assertEquals(listOf(red), matches(category).media)
+        val renamed = matches(category.copy(name = "Мои красные фото"))
+        assertEquals("Мои красные фото", (renamed.category as SemanticSearchCategory.Custom).name)
+        assertEquals(listOf(red), renamed.media)
+        assertTrue(matches(category.copy(threshold = 0.8f)).media.isEmpty())
+        assertEquals(listOf(red), matches(category).media)
+        assertEquals(
+            listOf(blue),
+            matches(category.copy(description = descriptions[1], threshold = thresholds[1])).media
+        )
+        assertEquals(listOf(red), repository.search(descriptions[0], media, thresholds[0]))
+        assertTrue(repository.search(descriptions[0], media, minimumSimilarity = 0.8f).isEmpty())
+        assertFalse(repository.categories(media).any { it.category.id == category.id })
+        assertEquals(0, decoded)
+        assertFalse(repository.state.value.isIndexing)
+        assertEquals(2, repository.state.value.indexedImages)
+        SemanticSearchIndex(context).use { index ->
+            assertEquals(2, index.count())
+            assertArrayEquals(embeddings[0], index.get(red), 0f)
+            assertArrayEquals(embeddings[1], index.get(blue), 0f)
+        }
     }
 
     @Test

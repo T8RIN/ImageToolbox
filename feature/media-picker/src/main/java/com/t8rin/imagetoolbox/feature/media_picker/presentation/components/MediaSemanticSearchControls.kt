@@ -50,6 +50,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
+import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.requestPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
@@ -82,6 +83,8 @@ internal fun MediaSemanticSearchControls(
     val busy = state.isDownloading || state.isIndexing || state.isQueued
     var showOptions by rememberSaveable { mutableStateOf(false) }
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
+    var showCategories by rememberSaveable { mutableStateOf(false) }
+    var showAccuracy by rememberSaveable { mutableStateOf(false) }
     val downloadProgress by rememberUpdatedState(state.downloadProgress)
     val cancelDownload by rememberUpdatedState { component.setSemanticSearchAutoIndexing(false) }
     val downloadContent: @Composable () -> Unit = remember {
@@ -241,11 +244,38 @@ internal fun MediaSemanticSearchControls(
                     showOptions = false
                     onPickSearchImage()
                 },
+                shape = ShapeDefaults.center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            PreferenceItem(
+                title = stringResource(R.string.gallery_search_manage_categories),
+                subtitle = stringResource(R.string.gallery_search_manage_categories_description),
+                startIcon = Icons.Outlined.Neurology,
+                onClick = { showCategories = true },
+                shape = ShapeDefaults.center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            PreferenceItem(
+                title = stringResource(R.string.gallery_search_accuracy),
+                subtitle = stringResource(R.string.gallery_search_accuracy_description),
+                startIcon = Icons.Rounded.Tune,
+                onClick = { showAccuracy = true },
                 shape = ShapeDefaults.bottom,
                 modifier = Modifier.fillMaxWidth()
             )
         }
     }
+
+    MediaSemanticSearchCategoriesSheet(
+        visible = showCategories,
+        onDismiss = { showCategories = it },
+        component = component
+    )
+    MediaSemanticSearchAccuracySheet(
+        visible = showAccuracy,
+        onDismiss = { showAccuracy = it },
+        component = component
+    )
 
     EnhancedAlertDialog(
         visible = showClearConfirmation,

@@ -22,7 +22,6 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
-import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -84,8 +83,9 @@ internal class SemanticSearchIndex(
 
     suspend fun search(
         embedding: FloatArray,
-        media: List<Media>
-    ): List<Media> = search(listOf(embedding), media).single()
+        media: List<Media>,
+        minimumSimilarity: Float = SIMILARITY_THRESHOLD
+    ): List<Media> = search(listOf(embedding), media, minimumSimilarity).single()
 
     suspend fun search(
         embeddings: List<FloatArray>,
@@ -121,16 +121,14 @@ internal class SemanticSearchIndex(
         classifier: SemanticSearchClassifier,
         media: List<Media>
     ): List<SemanticSearchCategoryResult> {
-        val matches = SemanticSearchCategory.entries.associateWith { mutableListOf<Media>() }
+        val matches = classifier.categories.associateWith { mutableListOf<Media>() }
         forEachEmbedding(media) { item, vector ->
             classifier.classify(vector).forEach { category ->
                 matches.getValue(category).add(item.value)
             }
         }
-        return matches.mapNotNull { (category, images) ->
-            images.takeIf(List<Media>::isNotEmpty)?.let {
-                SemanticSearchCategoryResult(category, it)
-            }
+        return matches.map { (category, images) ->
+            SemanticSearchCategoryResult(category, images)
         }
     }
 
