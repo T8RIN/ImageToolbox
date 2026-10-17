@@ -33,6 +33,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -46,7 +48,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
-import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
@@ -57,6 +58,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
@@ -84,6 +86,19 @@ internal fun MediaSemanticSearchControls(
     )
     var showOptions by rememberSaveable { mutableStateOf(false) }
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
+    val downloadProgress by rememberUpdatedState(state.downloadProgress)
+    val cancelDownload by rememberUpdatedState { component.setSemanticSearchAutoIndexing(false) }
+    val downloadContent: @Composable () -> Unit = remember {
+        {
+            EnhancedCancellableCircularProgressIndicator(
+                progress = { downloadProgress },
+                modifier = Modifier.size(24.dp),
+                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                strokeWidth = 3.dp,
+                onCancel = { cancelDownload() }
+            )
+        }
+    }
 
     EnhancedIconButton(
         onClick = {
@@ -124,7 +139,7 @@ internal fun MediaSemanticSearchControls(
             EnhancedIconButton(
                 onClick = { showClearConfirmation = true },
                 containerColor = MaterialTheme.colorScheme.errorContainer,
-                enabled = state.modelsReady || state.indexedImages > 0 || busy
+                enabled = !state.isDownloading && (state.modelsReady || state.indexedImages > 0 || busy)
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Delete,
@@ -148,22 +163,18 @@ internal fun MediaSemanticSearchControls(
         ) {
             PreferenceRowSwitch(
                 title = stringResource(R.string.gallery_search_auto),
-                subtitle = stringResource(
-                    when {
-                        autoIndexing -> R.string.gallery_search_description
-                        state.modelsReady -> R.string.gallery_search_disabled
-                        else -> R.string.gallery_search_download_hint
-                    }
-                ),
+                subtitle = stringResource(R.string.gallery_search_description) + if (!state.modelsReady) {
+                    "\n" + stringResource(R.string.gallery_search_download_hint)
+                } else "",
                 checked = autoIndexing,
                 onClick = component::setSemanticSearchAutoIndexing,
                 startIcon = Icons.Outlined.Neurology,
+                contentInsteadOfSwitch = downloadContent.takeIf { state.isDownloading },
                 modifier = Modifier.fillMaxWidth()
             )
-            if ((autoIndexing && busy) || state.indexedImages > 0) {
+            if (state.modelsReady && ((autoIndexing && busy) || state.indexedImages > 0)) {
                 PreferenceItem(
                     title = when {
-                        autoIndexing && state.isDownloading -> stringResource(R.string.gallery_search_downloading)
                         autoIndexing && state.isIndexing -> stringResource(
                             R.string.gallery_search_indexing,
                             state.processedImages,
@@ -173,8 +184,8 @@ internal fun MediaSemanticSearchControls(
                         autoIndexing && state.isQueued -> stringResource(R.string.gallery_search_queued)
                         else -> stringResource(R.string.gallery_search_indexed, state.indexedImages)
                     },
+                    animateTitle = false,
                     startIcon = when {
-                        autoIndexing && state.isDownloading -> Icons.Rounded.Download
                         autoIndexing && state.isQueued -> Icons.Rounded.Schedule
                         else -> Icons.Rounded.PhotoLibrary
                     },
@@ -183,7 +194,6 @@ internal fun MediaSemanticSearchControls(
                         {
                             SearchPreparationProgress(
                                 when {
-                                    state.isDownloading -> state.downloadProgress
                                     state.isIndexing -> state.processedImages.toFloat() /
                                             state.totalImages.coerceAtLeast(1)
 

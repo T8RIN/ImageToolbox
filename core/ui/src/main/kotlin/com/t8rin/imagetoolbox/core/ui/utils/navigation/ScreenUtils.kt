@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
+import android.os.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -560,13 +561,13 @@ private object ScreenConstantsImpl : ScreenConstants {
                 baseIcon = Icons.Outlined.WandShine
             ),
             ScreenGroup(
-                entries = listOf(
+                entries = listOfNotNull(
                     PickColorFromImage(),
                     RecognizeText(),
                     Compare(),
                     CompressionLab(),
                     DuplicateFinder(),
-                    Gallery,
+                    Gallery.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
                     ImagePreview(),
                     WallpapersExport,
                     Base64Tools(),

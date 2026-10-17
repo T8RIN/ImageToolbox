@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
+import android.os.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
@@ -277,9 +278,9 @@ sealed class SettingsGroup(
         id = 15,
         icon = Icons.Rounded.ImageSearch,
         titleId = R.string.image_source,
-        settingsList = listOf(
+        settingsList = listOfNotNull(
             Setting.ImagePickerMode,
-            Setting.SemanticSearch
+            Setting.SemanticSearch.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O }
         ),
         initialState = false
     )

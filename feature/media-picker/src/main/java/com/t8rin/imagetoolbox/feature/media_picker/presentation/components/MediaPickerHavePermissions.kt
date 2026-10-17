@@ -111,7 +111,7 @@ internal fun MediaPickerHavePermissions(
     val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
     val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
     val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
-    val showCategories = !isSearching && allowedMedia != AllowedMedia.Videos &&
+    val showCategories = allowedMedia != AllowedMedia.Videos &&
             component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
             categories.isNotEmpty()
 

@@ -82,6 +82,7 @@ fun PreferenceItemOverload(
         .fillMaxWidth()
         .padding(horizontal = 12.dp),
     titleFontStyle: TextStyle = PreferenceItemDefaults.TitleFontStyle,
+    animateTitle: Boolean = true,
     subtitleFontStyle: TextStyle = PreferenceItemDefaults.SubtitleFontStyle,
     onDisabledClick: (() -> Unit)? = null,
     drawStartIconContainer: Boolean = true,
@@ -175,14 +176,22 @@ fun PreferenceItemOverload(
                         Row(
                             verticalAlignment = badgeAlignment
                         ) {
-                            AnimatedContent(
-                                targetState = title,
-                                transitionSpec = { fadeIn() togetherWith fadeOut() },
-                                modifier = Modifier.weight(1f, fill = badge == null)
-                            ) { title ->
+                            if (animateTitle) {
+                                AnimatedContent(
+                                    targetState = title,
+                                    transitionSpec = { fadeIn() togetherWith fadeOut() },
+                                    modifier = Modifier.weight(1f, fill = badge == null)
+                                ) { title ->
+                                    Text(
+                                        text = title,
+                                        style = titleFontStyle
+                                    )
+                                }
+                            } else {
                                 Text(
                                     text = title,
-                                    style = titleFontStyle
+                                    style = titleFontStyle,
+                                    modifier = Modifier.weight(1f, fill = badge == null)
                                 )
                             }
                             badge?.invoke(this)

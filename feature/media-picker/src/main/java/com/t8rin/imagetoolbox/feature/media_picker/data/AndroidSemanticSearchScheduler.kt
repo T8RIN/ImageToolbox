@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.Context
+import android.os.Build
 import android.provider.MediaStore
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -34,7 +35,6 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -57,6 +57,7 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
     private val workManager get() = WorkManager.getInstance(context)
 
     override fun start() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         if (!started.compareAndSet(false, true)) return
         appScope.launch {
             var first = true

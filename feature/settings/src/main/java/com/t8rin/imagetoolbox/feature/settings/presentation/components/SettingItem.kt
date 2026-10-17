@@ -28,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -282,7 +283,11 @@ internal fun SettingItem(
             }
 
             Setting.SemanticSearch -> {
-                SemanticSearchSettingItem(onValueChange = component::setSemanticSearchEnabled)
+                val state by component.semanticSearchState.collectAsStateWithLifecycle()
+                SemanticSearchSettingItem(
+                    state = state,
+                    onValueChange = component::setSemanticSearchEnabled
+                )
             }
 
             Setting.IssueTracker -> {

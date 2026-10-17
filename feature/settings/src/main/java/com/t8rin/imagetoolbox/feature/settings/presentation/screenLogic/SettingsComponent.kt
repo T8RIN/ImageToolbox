@@ -70,6 +70,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -91,12 +92,15 @@ class SettingsComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
     private val shareProvider: ShareProvider,
+    semanticSearchRepository: SemanticSearchRepository,
     filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext), FilenameCreator by filenameCreator {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    val semanticSearchState = semanticSearchRepository.state
 
     private val _searchKeyword = mutableStateOf("")
     val searchKeyword by _searchKeyword

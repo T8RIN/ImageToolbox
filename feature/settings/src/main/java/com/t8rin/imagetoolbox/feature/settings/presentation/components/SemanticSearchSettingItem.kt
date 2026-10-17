@@ -22,8 +22,12 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
@@ -38,17 +42,33 @@ import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.askUserTo
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.checkPermissions
 import com.t8rin.imagetoolbox.core.ui.utils.permission.PermissionUtils.hasPermissionAllowed
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchState
 
 @Composable
 internal fun SemanticSearchSettingItem(
+    state: SemanticSearchState,
     onValueChange: (Boolean) -> Unit,
-    shape: Shape = ShapeDefaults.bottom,
+    shape: Shape = ShapeDefaults.default,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp)
 ) {
     val settingsState = LocalSettingsState.current
     val context = LocalComponentActivity.current
+    val downloadProgress = rememberUpdatedState(state.downloadProgress)
+    val onValueChangeState by rememberUpdatedState(onValueChange)
+    val downloadContent: @Composable () -> Unit = remember {
+        {
+            EnhancedCancellableCircularProgressIndicator(
+                progress = { downloadProgress.value },
+                modifier = Modifier.size(24.dp),
+                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                strokeWidth = 3.dp,
+                onCancel = { onValueChangeState(false) }
+            )
+        }
+    }
     val permissions = remember {
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> listOf(
@@ -82,6 +102,9 @@ internal fun SemanticSearchSettingItem(
         title = stringResource(R.string.gallery_search_auto),
         subtitle = stringResource(R.string.gallery_search_auto_sub),
         checked = settingsState.isSemanticSearchEnabled,
+        contentInsteadOfSwitch = downloadContent.takeIf {
+            settingsState.isSemanticSearchEnabled && state.isDownloading
+        },
         onClick = { enabled ->
             when {
                 !enabled || permissions.any { context.hasPermissionAllowed(it) } -> onValueChange(

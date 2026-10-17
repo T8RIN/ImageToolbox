@@ -142,8 +142,7 @@ internal fun MediaPickerGridWithOverlays(
     }
 
     LaunchedEffect(isSearching) {
-        if (isSearching) component.selectSemanticCategory(null)
-        else component.filterMedia("", isForceReset = true)
+        if (!isSearching) component.filterMedia("", isForceReset = true)
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
