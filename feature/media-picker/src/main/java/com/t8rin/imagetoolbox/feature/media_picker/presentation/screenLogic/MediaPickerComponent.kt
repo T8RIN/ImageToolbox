@@ -100,6 +100,10 @@ class MediaPickerComponent @AssistedInject internal constructor(
     val semanticSearchError = _semanticSearchError.asStateFlow()
     private val semanticSearchRevision = MutableStateFlow(0)
     private var semanticSearchJob: Job? by smartJob()
+    private val categoryScope = MutableStateFlow(
+        CategoryScope(-1L, AllowedMedia.Photos(null))
+    )
+    private var readyCategoryScope: CategoryScope? = null
     private val _semanticSearchCategories =
         MutableStateFlow<List<SemanticSearchCategoryResult>>(emptyList())
     val semanticSearchCategories = _semanticSearchCategories.asStateFlow()
@@ -137,8 +141,34 @@ class MediaPickerComponent @AssistedInject internal constructor(
     }
 
     fun selectSemanticCategory(category: String?) {
+        if (category != null && sourceMediaState.value.isLoading) return
         _selectedSemanticCategory.value = category
     }
+
+    private fun prepareSemanticCategories(scope: CategoryScope) {
+        if (readyCategoryScope != scope) {
+            _isSemanticSearchCategoriesLoading.value = true
+            _semanticSearchCategories.value = emptyList()
+            readyCategoryScope = null
+        }
+    }
+
+    private fun updateSemanticCategories(
+        scope: CategoryScope,
+        categories: List<SemanticSearchCategoryResult>
+    ) {
+        _semanticSearchCategories.value = categories
+        readyCategoryScope = scope
+        _isSemanticSearchCategoriesLoading.value = false
+        if (categories.none { it.category.id == _selectedSemanticCategory.value }) {
+            _selectedSemanticCategory.value = null
+        }
+    }
+
+    private fun SemanticSearchSettings.forCategories() = copy(
+        textThreshold = SemanticSearchSettings.DefaultTextThreshold,
+        imageThreshold = SemanticSearchSettings.DefaultImageThreshold
+    )
 
     private val semanticSearchSettings = settingsManager.settingsState
         .map { it.semanticSearchSettings }
@@ -272,7 +302,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     fun getAlbum(albumId: Long) {
         _selectedSemanticCategory.value = null
-        _isSemanticSearchCategoriesLoading.value = _semanticSearchCategories.value.isNotEmpty()
         this.selectedAlbumId = albumId
         getMedia(albumId, allowedMedia)
         getAlbums(allowedMedia)
@@ -324,8 +353,15 @@ class MediaPickerComponent @AssistedInject internal constructor(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
+        sourceMediaState.value = sourceMediaState.value.copy(isLoading = true)
+        val scope = CategoryScope(albumId, allowedMedia)
+        categoryScope.value = scope
+        if (_isSemanticSearchEnabled.value && semanticSearchState.value.modelsReady &&
+            semanticSearchState.value.indexedImages > 0
+        ) {
+            prepareSemanticCategories(scope)
+        }
         mediaGettingJob = componentScope.launch {
-            sourceMediaState.emit(sourceMediaState.value.copy(isLoading = true))
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
@@ -398,35 +434,39 @@ class MediaPickerComponent @AssistedInject internal constructor(
                         isIndexing = it.isIndexing
                     )
                 }.distinctUntilChanged(),
-                semanticSearchSettings.map {
-                    it.copy(
-                        textThreshold = SemanticSearchSettings.DefaultTextThreshold,
-                        imageThreshold = SemanticSearchSettings.DefaultImageThreshold
-                    )
-                }.distinctUntilChanged()
-            ) { media, enabled, index, settings ->
-                CategoryRequest(media, enabled, index, settings)
-            }.collectLatest { (media, enabled, index, settings) ->
+                semanticSearchSettings.map { it.forCategories() }.distinctUntilChanged(),
+                categoryScope
+            ) { media, enabled, index, settings, scope ->
+                CategoryRequest(media, enabled, index, settings, scope)
+            }.collectLatest { (media, enabled, index, settings, scope) ->
+                if (scope != categoryScope.value || media != sourceMediaState.value ||
+                    enabled != _isSemanticSearchEnabled.value
+                ) return@collectLatest
                 if (!enabled || !index.modelsReady || index.indexedImages == 0) {
                     _semanticSearchCategories.value = emptyList()
+                    readyCategoryScope = null
                     _selectedSemanticCategory.value = null
                     _isSemanticSearchCategoriesLoading.value = false
                     return@collectLatest
                 }
+                prepareSemanticCategories(scope)
                 if (media.isLoading) return@collectLatest
+                if (media.error.isNotEmpty()) {
+                    _isSemanticSearchCategoriesLoading.value = false
+                    return@collectLatest
+                }
                 try {
-                    delay(500)
+                    _isSemanticSearchCategoriesLoading.value = readyCategoryScope != scope
+                    if (readyCategoryScope == scope) delay(500)
                     val categories = semanticSearchRepository.categories(media.media, settings)
                     currentCoroutineContext().ensureActive()
-                    _semanticSearchCategories.value = categories
-                    _isSemanticSearchCategoriesLoading.value = false
-                    if (categories.none { it.category.id == _selectedSemanticCategory.value }) {
-                        _selectedSemanticCategory.value = null
-                    }
+                    if (scope != categoryScope.value || media != sourceMediaState.value ||
+                        !_isSemanticSearchEnabled.value
+                    ) return@collectLatest
+                    updateSemanticCategories(scope, categories)
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
-                    _semanticSearchCategories.value = emptyList()
                     _isSemanticSearchCategoriesLoading.value = false
                     _semanticSearchError.value = e.message ?: e.toString()
                 }
@@ -593,11 +633,14 @@ class MediaPickerComponent @AssistedInject internal constructor(
         val image: String?
     )
 
+    private data class CategoryScope(val albumId: Long, val allowedMedia: AllowedMedia)
+
     private data class CategoryRequest(
         val media: MediaState,
         val enabled: Boolean,
         val index: CategoryIndexState,
-        val settings: SemanticSearchSettings
+        val settings: SemanticSearchSettings,
+        val scope: CategoryScope
     )
 
     private data class CategoryIndexState(

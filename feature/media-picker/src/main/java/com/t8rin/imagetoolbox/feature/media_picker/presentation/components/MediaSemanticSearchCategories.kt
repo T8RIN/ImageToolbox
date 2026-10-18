@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -33,18 +34,16 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -52,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -67,6 +67,7 @@ internal fun MediaSemanticSearchCategories(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false
 ) {
+    var showCategoryThumbnail by rememberSaveable { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
     val customCategoryIds = categories.mapNotNull {
@@ -87,16 +88,18 @@ internal fun MediaSemanticSearchCategories(
                 start = WindowInsets.displayCutout.asPaddingValues()
                     .calculateStartPadding(layoutDirection) + 8.dp
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Top
     ) {
-        Icon(
-            imageVector = Icons.Outlined.Neurology,
-            contentDescription = stringResource(R.string.gallery_search_categories),
-            tint = MaterialTheme.colorScheme.tertiary,
-            modifier = Modifier
-                .padding(horizontal = 4.dp)
-                .size(24.dp)
-        )
+        EnhancedIconButton(
+            onClick = { showCategoryThumbnail = !showCategoryThumbnail },
+            modifier = Modifier.size(32.dp),
+            contentColor = MaterialTheme.colorScheme.tertiary
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Neurology,
+                contentDescription = stringResource(R.string.gallery_search_categories)
+            )
+        }
         LazyRow(
             modifier = Modifier
                 .weight(1f)
@@ -119,6 +122,8 @@ internal fun MediaSemanticSearchCategories(
                 CategoryChip(
                     title = result.category.title(),
                     count = result.media.size,
+                    previewUri = result.media.firstOrNull()?.uri,
+                    showThumbnail = showCategoryThumbnail,
                     selected = isSelected,
                     isLoading = isLoading,
                     onLongClick = { onEditCategory(result.category.id) }.takeUnless { isLoading },
@@ -138,8 +143,11 @@ private fun CategoryChip(
     onClick: (() -> Unit)?,
     onLongClick: (() -> Unit)?,
     count: Int,
+    previewUri: String?,
+    showThumbnail: Boolean,
     isLoading: Boolean
 ) {
+    val isImageVisible = showThumbnail && !previewUri.isNullOrEmpty()
     EnhancedChip(
         selected = selected,
         onClick = onClick,
@@ -147,22 +155,21 @@ private fun CategoryChip(
         selectedColor = MaterialTheme.colorScheme.tertiary,
         unselectedColor = MaterialTheme.colorScheme.tertiaryContainer,
         unselectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-        contentPadding = PaddingValues(horizontal = 12.dp),
+        contentPadding = PaddingValues(
+            horizontal = animateDpAsState(if (isImageVisible) 8.dp else 12.dp).value,
+            vertical = animateDpAsState(if (isImageVisible) 8.dp else 0.dp).value
+        ),
         defaultMinSize = 32.dp,
-        shape = ShapeDefaults.circle,
+        shape = ShapeDefaults.default,
         label = {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(title)
-                Text(
-                    text = count.toString(),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = LocalContentColor.current.copy(alpha = 0.65f),
-                    modifier = Modifier.alpha(if (isLoading) 0f else 1f)
-                )
-            }
+            MediaPickerChipContent(
+                title = title,
+                previewUri = previewUri,
+                count = count.toLong(),
+                showThumbnail = showThumbnail,
+                showInlineCount = true,
+                isLoading = isLoading
+            )
         }
     )
 }
