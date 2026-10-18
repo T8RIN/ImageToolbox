@@ -319,9 +319,11 @@ internal fun MediaPickerGridWithOverlays(
             visible = filteredMediaState.media.isEmpty() && !filteredMediaState.isLoading && isSearching &&
                     (isFilenameOnlySearch || (
                             !isSemanticSearching && semanticSearchError == null && semanticSearchState.error == null &&
-                                    semanticSearchState.modelsReady && !semanticSearchState.isIndexing &&
-                                    !semanticSearchState.isDownloading && !semanticSearchState.isQueued &&
-                                    !semanticSearchState.isWaitingForPermission
+                                    semanticSearchState.modelsReady && !semanticSearchState.isDownloading &&
+                                    (semanticSearchState.indexedImages > 0 || (
+                                            !semanticSearchState.isIndexing && !semanticSearchState.isQueued &&
+                                                    !semanticSearchState.isWaitingForPermission
+                                            ))
                             )),
             enter = scaleIn() + fadeIn(),
             exit = scaleOut() + fadeOut(),
