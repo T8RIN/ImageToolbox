@@ -46,11 +46,9 @@ import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -59,7 +57,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
@@ -73,7 +70,6 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
-import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -87,7 +83,11 @@ internal fun MediaPickerHavePermissions(
     isManagePermissionAllowed: Boolean,
     onPicked: (List<Uri>) -> Unit,
     mediaState: MediaState,
-    albumsState: AlbumState
+    albumsState: AlbumState,
+    showCategories: Boolean,
+    visibleCategories: List<SemanticSearchCategoryResult>,
+    selectedCategory: String?,
+    categoriesLoading: Boolean
 ) {
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
 
@@ -97,39 +97,6 @@ internal fun MediaPickerHavePermissions(
 
     var editingCategoryId by rememberSaveable { mutableStateOf<String?>(null) }
     val focusManager = LocalFocusManager.current
-
-    val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
-    val categoriesLoading by component.isSemanticSearchCategoriesLoading.collectAsStateWithLifecycle()
-    val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
-    val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
-    val currentCategories = remember(categories, selectedCategory) {
-        categories.filter {
-            it.media.isNotEmpty() || it.category is SemanticSearchCategory.Custom ||
-                    it.category.id == selectedCategory
-        }.sortedBy { it.category !is SemanticSearchCategory.Custom }
-    }
-    var previousCategories by remember { mutableStateOf(currentCategories) }
-    SideEffect {
-        if (!categoriesLoading) previousCategories = currentCategories
-    }
-    val visibleCategories = if (categoriesLoading) {
-        previousCategories.ifEmpty {
-            val customCategories = component.settingsState.semanticSearchSettings.customCategories
-            remember(customCategories) {
-                customCategories.map {
-                    SemanticSearchCategoryResult(
-                        category = SemanticSearchCategory.Custom(it.id, it.name, it.description),
-                        media = emptyList()
-                    )
-                } + SemanticSearchCategory.BuiltIn.entries.map {
-                    SemanticSearchCategoryResult(category = it, media = emptyList())
-                }
-            }
-        }
-    } else currentCategories
-    val showCategories = allowedMedia != AllowedMedia.Videos &&
-            component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
-            visibleCategories.isNotEmpty()
 
     BackHandler(selectedAlbumIndex != -1L) {
         selectedAlbumIndex = -1L
