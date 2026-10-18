@@ -168,8 +168,7 @@ fun MediaPickerRootContentEmbeddable(
 
     val currentCategories = remember(categories, selectedCategory) {
         categories.filter {
-            it.media.isNotEmpty() || it.category is SemanticSearchCategory.Custom ||
-                    it.category.id == selectedCategory
+            it.media.isNotEmpty() || it.category.id == selectedCategory
         }.sortedBy { it.category !is SemanticSearchCategory.Custom }
     }
     var previousCategories by remember { mutableStateOf(currentCategories) }
