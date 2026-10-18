@@ -88,12 +88,11 @@ internal fun MediaPickerChipContent(
                     titleWidth = with(density) { it.width.toDp().coerceAtLeast(100.dp).value }
                 }
             )
-            if (showInlineCount && (!showThumbnail || !hasPreview)) {
+            if (showInlineCount && (!showThumbnail || !hasPreview) && !isLoading) {
                 Text(
                     text = count.toString(),
                     style = MaterialTheme.typography.labelMedium,
-                    color = LocalContentColor.current.copy(alpha = 0.65f),
-                    modifier = Modifier.alpha(if (isLoading) 0f else 1f)
+                    color = LocalContentColor.current.copy(alpha = 0.65f)
                 )
             }
         }
