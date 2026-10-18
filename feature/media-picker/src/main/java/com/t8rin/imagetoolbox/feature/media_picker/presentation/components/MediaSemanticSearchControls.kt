@@ -118,7 +118,7 @@ internal fun MediaSemanticSearchControls(
         else Color.Transparent,
         modifier = Modifier.padding(end = 4.dp)
     ) {
-        if (searching || busy) {
+        if (searching || state.isDownloading || (busy && state.indexedImages == 0)) {
             EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
                 strokeWidth = 3.dp
