@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.domain
 
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchState
@@ -46,6 +47,19 @@ interface SemanticSearchRepository {
         media: List<Media>,
         minimumSimilarity: Float = 0.7f
     ): List<Media>
+
+    fun getCachedCategories(
+        albumId: Long,
+        allowedMedia: AllowedMedia,
+        settings: SemanticSearchSettings
+    ): List<SemanticSearchCategoryResult>?
+
+    fun cacheCategories(
+        albumId: Long,
+        allowedMedia: AllowedMedia,
+        settings: SemanticSearchSettings,
+        categories: List<SemanticSearchCategoryResult>
+    )
 
     suspend fun categories(
         media: List<Media>,

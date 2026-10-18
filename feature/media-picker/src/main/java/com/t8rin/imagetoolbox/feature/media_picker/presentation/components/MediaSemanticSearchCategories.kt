@@ -126,9 +126,9 @@ internal fun MediaSemanticSearchCategories(
                     showThumbnail = showCategoryThumbnail,
                     selected = isSelected,
                     isLoading = isLoading,
-                    onLongClick = { onEditCategory(result.category.id) }.takeUnless { isLoading },
-                    onClick = if (isLoading) null else {
-                        { onCategorySelected(result.category.id.takeUnless { isSelected }) }
+                    onLongClick = { onEditCategory(result.category.id) },
+                    onClick = {
+                        onCategorySelected(result.category.id.takeUnless { isSelected })
                     }
                 )
             }
@@ -140,8 +140,8 @@ internal fun MediaSemanticSearchCategories(
 private fun CategoryChip(
     title: String,
     selected: Boolean,
-    onClick: (() -> Unit)?,
-    onLongClick: (() -> Unit)?,
+    onClick: () -> Unit,
+    onLongClick: () -> Unit,
     count: Int,
     previewUri: String?,
     showThumbnail: Boolean,

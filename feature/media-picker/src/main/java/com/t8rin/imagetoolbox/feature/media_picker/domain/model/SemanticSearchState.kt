@@ -28,5 +28,6 @@ data class SemanticSearchState(
     val totalImages: Int = 0,
     val failedImages: Int = 0,
     val indexedImages: Int = 0,
+    val indexRevision: Long = 0L,
     val error: String? = null
 )
