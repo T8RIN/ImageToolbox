@@ -1049,7 +1049,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
-        transformations = mapFilters(filters)
+        transformations = mapFilters(filters),
+        size = IntegerSize(bitmap.width, bitmap.height)
     )
 
     fun mapFilters(

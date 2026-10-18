@@ -20,11 +20,23 @@ package com.t8rin.imagetoolbox.feature.ai_tools.data
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.SystemClock
+import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.size.Size
+import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.utils.toCoil
+import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
+import com.t8rin.imagetoolbox.feature.filters.data.model.SpotHealFilter
 import com.t8rin.neural_tools.inpaint.LaMaProcessor
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -34,6 +46,7 @@ import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import kotlin.math.abs
 
 @RunWith(AndroidJUnit4::class)
 class NeuralProcessorsTest {
@@ -45,7 +58,7 @@ class NeuralProcessorsTest {
     fun lamaKeepsUnmaskedPixelsAndOriginalSize() {
         val name = "LaMa_dynamic.onnx"
         fixture(name).copyTo(
-            File(context.filesDir, "onnx/$name").apply { parentFile?.mkdirs() },
+            File(context.filesDir, "onnx/LaMa_dynamic.onnx").apply { parentFile?.mkdirs() },
             overwrite = true
         )
         val source = patternedBitmap(769, 521)
@@ -93,6 +106,89 @@ class NeuralProcessorsTest {
             mask.recycle()
         }
         source.recycle()
+    }
+
+    @Test
+    fun lamaKeepsContextForLargeRemovals() {
+        fixture("LaMa_dynamic.onnx").copyTo(
+            File(context.filesDir, "onnx/LaMa_dynamic.onnx").apply { parentFile?.mkdirs() },
+            overwrite = true
+        )
+        val source = BitmapFactory.decodeFile(fixture("lama-context.jpg").absolutePath)
+        val mask = BitmapFactory.decodeFile(fixture("lama-context-mask.png").absolutePath)
+        val reference = BitmapFactory.decodeFile(fixture("lama-context-reference.png").absolutePath)
+        val previewStart = SystemClock.elapsedRealtime()
+        val preview = LaMaProcessor.inpaint(source, mask, isPreview = true)!!
+        val previewTime = SystemClock.elapsedRealtime() - previewStart
+        Log.i("LaMaBenchmark", "${source.width}x${source.height}: preview=$previewTime ms")
+        val exportStart = SystemClock.elapsedRealtime()
+        val result = LaMaProcessor.inpaint(source, mask)!!
+        val exportTime = SystemClock.elapsedRealtime() - exportStart
+        Log.i(
+            "LaMaBenchmark",
+            "${source.width}x${source.height}: preview=$previewTime ms, export=$exportTime ms"
+        )
+        assertEquals(source.width, preview.width)
+        assertEquals(source.height, preview.height)
+        assertTrue("Export reused the reduced preview", !preview.sameAs(result))
+        assertEquals(source.width, result.width)
+        assertEquals(source.height, result.height)
+        var error = 0L
+        var samples = 0
+        for (y in 0 until source.height step 4) {
+            for (x in 0 until source.width step 4) {
+                if (Color.red(mask.getPixel(x, y)) > 0) {
+                    val expected = reference.getPixel(x, y)
+                    val actual = result.getPixel(x, y)
+                    error += abs(Color.red(expected) - Color.red(actual))
+                    error += abs(Color.green(expected) - Color.green(actual))
+                    error += abs(Color.blue(expected) - Color.blue(actual))
+                    samples += 3
+                } else {
+                    assertEquals(source.getPixel(x, y), result.getPixel(x, y))
+                    assertEquals(source.getPixel(x, y), preview.getPixel(x, y))
+                }
+            }
+        }
+        assertTrue(
+            "The removal lost its surrounding colors: ${error.toDouble() / samples}",
+            samples > 0 && error.toDouble() / samples < 10
+        )
+        File(fixtures, "lama-context-result.png").outputStream().use {
+            result.compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+        source.recycle()
+        mask.recycle()
+        reference.recycle()
+        preview.recycle()
+        result.recycle()
+    }
+
+    @Test
+    fun lamaPreviewCacheDoesNotReplaceOriginalExport() = runBlocking {
+        fixture("LaMa_dynamic.onnx").copyTo(
+            File(context.filesDir, "onnx/LaMa_dynamic.onnx").apply { parentFile?.mkdirs() },
+            overwrite = true
+        )
+        val source = patternedBitmap(769, 521)
+        val mask = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+        Canvas(mask).apply {
+            drawColor(Color.BLACK)
+            drawRect(140f, 100f, 600f, 400f, Paint().apply { color = Color.WHITE })
+        }
+        val filter = SpotHealFilter(ImageModel(mask) to SpotHealMode.LaMa).toCoil()
+        val preview = context.imageLoader.execute(
+            ImageRequest.Builder(context).data(source).size(source.width, source.height)
+                .transformations(filter).build()
+        ).image!!.toBitmap()
+        val exported = context.imageLoader.execute(
+            ImageRequest.Builder(context).data(source).size(Size.ORIGINAL)
+                .transformations(filter).build()
+        ).image!!.toBitmap()
+        assertEquals(source.width, exported.width)
+        assertEquals(source.height, exported.height)
+        assertTrue("The original request reused the preview cache", !preview.sameAs(exported))
+        assertEquals(source.getPixel(0, 0), exported.getPixel(0, 0))
     }
 
     @Test

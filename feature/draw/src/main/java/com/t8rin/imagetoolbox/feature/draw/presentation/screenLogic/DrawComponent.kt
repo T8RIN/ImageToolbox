@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -483,7 +484,8 @@ class DrawComponent @AssistedInject internal constructor(
         filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
-        transformations = filters.map { filterProvider.filterToTransformation(it) }
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        size = IntegerSize(bitmap.width, bitmap.height)
     )
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
