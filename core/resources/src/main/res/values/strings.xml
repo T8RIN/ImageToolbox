@@ -5622,6 +5622,7 @@
     <string name="gallery_search_auto">Semantic photo search</string>
     <string name="gallery_search_auto_sub">Find photos by what is in them and browse automatic categories in Gallery and Embedded Picker. First setup requires a download of about 227 MB.</string>
     <string name="gallery_search_queued">Waiting to prepare photos…</string>
+    <string name="gallery_search_update_queued">Waiting to update photo search…</string>
     <string name="gallery_search_permission">Allow photo access for semantic search</string>
     <string name="gallery_search_contents">Semantic photo search</string>
     <string name="gallery_search_settings">Search settings</string>

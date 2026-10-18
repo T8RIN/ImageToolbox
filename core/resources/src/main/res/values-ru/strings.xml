@@ -5591,6 +5591,7 @@
     <string name="gallery_search_auto">Семантический поиск по фото</string>
     <string name="gallery_search_auto_sub">Находите фото по содержимому и просматривайте автоматические категории в «Галерее» и «Встроенном средстве выбора». При первом включении загружается около 227 МБ.</string>
     <string name="gallery_search_queued">Ожидание подготовки фото…</string>
+    <string name="gallery_search_update_queued">Ожидание обновления поиска…</string>
     <string name="gallery_search_permission">Разрешите доступ к фото для семантического поиска</string>
     <string name="gallery_search_contents">Семантический поиск по фото</string>
     <string name="gallery_search_settings">Настройки поиска</string>

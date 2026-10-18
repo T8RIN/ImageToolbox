@@ -191,7 +191,11 @@ internal fun MediaSemanticSearchControls(
                             state.totalImages
                         )
 
-                        autoIndexing && state.isQueued -> stringResource(R.string.gallery_search_queued)
+                        autoIndexing && state.isQueued -> stringResource(
+                            if (state.indexedImages > 0) R.string.gallery_search_update_queued
+                            else R.string.gallery_search_queued
+                        )
+
                         else -> stringResource(R.string.gallery_search_indexed, state.indexedImages)
                     },
                     animateTitle = false,
