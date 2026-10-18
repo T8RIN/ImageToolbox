@@ -5631,4 +5631,5 @@
     <string name="snap_to_grid">Привязка к сетке</string>
     <string name="snap_to_grid_sub">Выравнивать слои по центру и краям холста и других слоёв при перетаскивании</string>
     <string name="markup_background_layer">Фон</string>
+    <string name="model_docshadow">Удаляет тени на документах с помощью DocShadow SD7K. Коррекция освещения применяется в исходном разрешении, сохраняя чёткость текста.</string>
 </resources>

@@ -40,11 +40,13 @@ data class NeuralModel(
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
     val isUvDocUnwarper = name == "uvdoc_grid.onnx"
+    val isDocShadow = name == "docshadow_sd7k.onnx"
     val isAiDetector = type == Type.AI_DETECTION && aiDetectionContract != null
 
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
-                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector
+                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector ||
+                isDocShadow
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
@@ -90,6 +92,15 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("scans/docshadow_sd7k.onnx"),
+                    title = "DocShadow SD7K",
+                    description = R.string.model_docshadow,
+                    type = Type.SCANS,
+                    downloadSize = 120_041_674,
+                    speed = Speed.VeryFast(0.604f),
+                    checksum = "8c09b9320a0fb3c53806cdf9cb8410b3706c77caed81f4ec1cb0bf2cbd14b049"
+                ),
                 NeuralModel(
                     downloadLink = res("detectors/ai_detector_mirage_siglip2_base_fp16.onnx"),
                     title = "Mirage SigLIP2 Base (FP16)",

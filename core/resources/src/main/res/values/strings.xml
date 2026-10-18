@@ -5659,4 +5659,5 @@
     <string name="snap_to_grid">Snap to grid</string>
     <string name="snap_to_grid_sub">Align layers to the center and edges of the canvas and other layers while dragging</string>
     <string name="markup_background_layer">Background</string>
+    <string name="model_docshadow">Removes document shadows with DocShadow SD7K. Applies the predicted lighting correction at original resolution to preserve text detail.</string>
 </resources>

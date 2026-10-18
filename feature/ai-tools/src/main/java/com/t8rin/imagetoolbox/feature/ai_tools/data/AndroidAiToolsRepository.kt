@@ -90,6 +90,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
     private val processor: AiProcessor,
     private val aiImageDetectorProcessor: AiImageDetectorProcessor,
     private val depthProcessor: DepthProcessor,
+    private val docShadowProcessor: DocShadowProcessor,
     private val styleTransferProcessor: StyleTransferProcessor,
     private val optimizationStyleTransferProcessor: OptimizationStyleTransferProcessor,
     private val keepAliveService: KeepAliveService,
@@ -338,6 +339,21 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 }
             }
 
+            model.isDocShadow -> {
+                processImage {
+                    val ortSession = session ?: createSession(model)
+                    ?: return@processImage listener.failedSession()
+                    keepAliveService.track(
+                        action = {
+                            listener.onProgress(0, 1)
+                            docShadowProcessor.process(image, ortSession).also {
+                                listener.onProgress(1, 1)
+                            }
+                        }
+                    )
+                }
+            }
+
             model.isUvDocUnwarper -> {
                 processImage {
                     val ortSession = session.makeLog("Held session")
@@ -551,7 +567,7 @@ internal class AndroidAiToolsRepository @Inject constructor(
                     "Error setting InterOpNumThreads: ${e.message}".makeLog("ModelManager")
                 }
                 try {
-                    if (model?.isAiDetector == true) {
+                    if (model?.isAiDetector == true || model?.isDocShadow == true) {
                         addConfigEntry("mlas.disable_kleidiai", "1")
                     }
                     when {
