@@ -6,7 +6,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Set Swap Space
@@ -14,13 +14,13 @@ jobs:
         with:
           swap-size-gb: 10
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           java-version: '21'
-          distribution: 'adopt'
+          distribution: 'temurin'
           java-package: 'jdk'
           cache: gradle
 
@@ -48,7 +48,7 @@ jobs:
           done
 
       - name: Upload Market APKs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Signed Market APKs
           path: app/build/outputs/apk/market/release/*.apk
