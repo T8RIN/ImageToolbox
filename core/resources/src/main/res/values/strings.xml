@@ -1643,6 +1643,7 @@
     <string name="glitch">Glitch</string>
     <string name="amount">Amount</string>
     <string name="seed">Seed</string>
+    <string name="randomize_seed_after_save">Randomize seed after saving</string>
     <string name="anaglyph">Anaglyph</string>
     <string name="noise">Noise</string>
     <string name="pixel_sort">Pixel Sort</string>

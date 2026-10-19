@@ -94,7 +94,17 @@ internal fun NumberQuadItem(
                     title = stringResource(title!!),
                     valueRange = valueRange,
                     roundTo = roundTo,
-                    onValueChange = { state.value = it },
+                    onValueChange = {
+                        state.value = it
+                        onFilterChange(
+                            Quad(
+                                sliderState1.value,
+                                sliderState2.value,
+                                sliderState3.value,
+                                sliderState4.value
+                            )
+                        )
+                    },
                     icon = null,
                     behaveAsContainer = false
                 )

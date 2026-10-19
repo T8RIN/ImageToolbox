@@ -734,6 +734,7 @@
     <string name="shuffle">Перемешивание</string>
     <string name="glitch">Сбой</string>
     <string name="seed">Зерно</string>
+    <string name="randomize_seed_after_save">Случайное зерно после сохранения</string>
     <string name="amount">Количество</string>
     <string name="anaglyph">Анаглиф</string>
     <string name="noise">Шум</string>

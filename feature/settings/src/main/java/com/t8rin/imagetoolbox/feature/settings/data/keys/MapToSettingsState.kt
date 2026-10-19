@@ -90,6 +90,7 @@ internal fun Preferences.toSettingsState(
     saveToOriginalFolder = this[SAVE_TO_ORIGINAL_FOLDER] ?: default.saveToOriginalFolder,
     deleteOriginalsAfterSave = this[DELETE_ORIGINALS_AFTER_SAVE]
         ?: default.deleteOriginalsAfterSave,
+    randomizeSeedAfterSave = this[RANDOMIZE_SEED_AFTER_SAVE] ?: default.randomizeSeedAfterSave,
     returnToExternalAppAfterSave = this[RETURN_TO_EXTERNAL_APP_AFTER_SAVE]
         ?: default.returnToExternalAppAfterSave,
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,

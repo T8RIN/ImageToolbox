@@ -281,6 +281,7 @@ private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleOverwriteFiles() = Unit
     override suspend fun toggleSaveToOriginalFolder() = Unit
     override suspend fun toggleDeleteOriginalsAfterSave() = Unit
+    override suspend fun toggleRandomizeSeedAfterSave() = Unit
     override suspend fun setSpotHealMode(mode: Int) = Unit
     override suspend fun setLamaThreads(value: Int) = Unit
     override suspend fun setLamaLimitResolution(value: Boolean) = Unit

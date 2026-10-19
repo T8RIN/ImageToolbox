@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,6 +48,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -72,7 +72,8 @@ fun ExpandableItem(
     canExpand: Boolean = true,
     onClick: () -> Unit = {},
     onLongClick: (() -> Unit)? = null,
-    expansionIconContainerColor: Color = Color.Transparent
+    expansionIconContainerColor: Color = Color.Transparent,
+    keepContentOnCollapse: Boolean = false
 ) {
     val animatedShape = shapeByInteraction(
         shape = shape,
@@ -128,6 +129,7 @@ fun ExpandableItem(
         }
         BoxAnimatedVisibility(
             visible = expanded,
+            keepContentOnCollapse = keepContentOnCollapse,
             enter = fadeIn(spec(500)) + expandVertically(spec(500)),
             exit = fadeOut(spec(700)) + shrinkVertically(spec(700))
         ) {

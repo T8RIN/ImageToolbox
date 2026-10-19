@@ -28,6 +28,7 @@ import androidx.datastore.preferences.core.stringSetPreferencesKey
 internal val SAVE_FOLDER_URI = stringPreferencesKey("saveFolder")
 internal val SAVE_TO_ORIGINAL_FOLDER = booleanPreferencesKey("SAVE_TO_ORIGINAL_FOLDER")
 internal val DELETE_ORIGINALS_AFTER_SAVE = booleanPreferencesKey("DELETE_ORIGINALS_AFTER_SAVE")
+internal val RANDOMIZE_SEED_AFTER_SAVE = booleanPreferencesKey("RANDOMIZE_SEED_AFTER_SAVE")
 internal val RETURN_TO_EXTERNAL_APP_AFTER_SAVE =
     booleanPreferencesKey("RETURN_TO_EXTERNAL_APP_AFTER_SAVE")
 internal val NIGHT_MODE = intPreferencesKey("nightMode")

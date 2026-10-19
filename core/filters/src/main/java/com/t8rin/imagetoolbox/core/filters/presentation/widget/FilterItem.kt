@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
 import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -70,6 +69,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -81,6 +81,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueDialog
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueText
 
@@ -355,8 +356,9 @@ fun <T : Any> FilterItem(
                         )
                     }
                 }
-                AnimatedVisibility(
-                    visible = isControlsExpanded || filter.value.isSingle() || previewOnly
+                BoxAnimatedVisibility(
+                    visible = isControlsExpanded || filter.value.isSingle() || previewOnly,
+                    keepContentOnCollapse = LocalSettingsState.current.randomizeSeedAfterSave
                 ) {
                     Column {
                         FilterItemContent(

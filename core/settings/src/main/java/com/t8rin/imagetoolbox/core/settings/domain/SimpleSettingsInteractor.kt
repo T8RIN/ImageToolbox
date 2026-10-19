@@ -81,6 +81,8 @@ interface SimpleSettingsInteractor {
 
     suspend fun toggleDeleteOriginalsAfterSave()
 
+    suspend fun toggleRandomizeSeedAfterSave()
+
     suspend fun setSpotHealMode(mode: Int)
 
     suspend fun setLamaThreads(value: Int)

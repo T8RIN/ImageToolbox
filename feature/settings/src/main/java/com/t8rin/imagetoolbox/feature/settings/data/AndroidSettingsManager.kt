@@ -173,6 +173,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RANDOMIZE_SEED_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_APPLY_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_AUTO_BRIGHTNESS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_BRIGHTNESS
@@ -641,6 +642,11 @@ internal class AndroidSettingsManager @Inject constructor(
         key = DELETE_ORIGINALS_AFTER_SAVE,
         defaultValue = default.deleteOriginalsAfterSave,
         predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
+    )
+
+    override suspend fun toggleRandomizeSeedAfterSave() = toggle(
+        key = RANDOMIZE_SEED_AFTER_SAVE,
+        defaultValue = default.randomizeSeedAfterSave
     )
 
     override suspend fun setApplySpotHealManually(value: Boolean) = edit {
