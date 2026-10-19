@@ -196,6 +196,8 @@ fun AdaptiveLayoutScreen(
                         .fillMaxSize()
                         .padding(scaffoldPadding)
                 ) { canShowScreenData ->
+                    val listState = if (canShowScreenData) listState else rememberLazyListState()
+
                     if (!canShowScreenData && isLoading) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
