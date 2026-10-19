@@ -21,10 +21,8 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -39,14 +37,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 
 /**
@@ -64,13 +63,14 @@ internal fun DefaultOverlay(
     width: Dp,
     height: Dp,
     position: Offset,
-    overlayStyle: OverlayStyle
+    overlayStyle: OverlayStyle,
+    zoomScale: Float = 1f
 ) {
     CompositionLocalProvider(
         LocalLayoutDirection provides LayoutDirection.Ltr
     ) {
         val verticalThumbMove = overlayStyle.verticalThumbMove
-        val dividerWidth = overlayStyle.dividerWidth
+        val dividerWidth = overlayStyle.dividerWidth / zoomScale
 
         val dividerColor =
             overlayStyle.dividerColor.takeOrElse { MaterialTheme.colorScheme.primary }
@@ -97,7 +97,10 @@ internal fun DefaultOverlay(
         val density = LocalDensity.current
 
         with(density) {
-            val thumbRadius = (maxOf(thumbHeight, thumbWidth) / 2).toPx()
+            val thumbRadius = minOf(
+                (maxOf(thumbHeight, thumbWidth) / 2).toPx() / zoomScale,
+                height.toPx() / 2f
+            )
             val imageWidthInPx = width.toPx()
             val imageHeightInPx = height.toPx()
 
@@ -138,8 +141,8 @@ internal fun DefaultOverlay(
                     end = Offset(linePosition, size.height),
                     pathEffect = PathEffect.dashPathEffect(
                         intervals = floatArrayOf(
-                            overlayStyle.dash.toPx(),
-                            overlayStyle.gap.toPx()
+                            overlayStyle.dash.toPx() / zoomScale,
+                            overlayStyle.gap.toPx() / zoomScale
                         )
                     )
                 )
@@ -151,8 +154,11 @@ internal fun DefaultOverlay(
                 contentDescription = "compare thumb",
                 tint = thumbTintColor,
                 modifier = Modifier
-                    .offset {
-                        IntOffset(thumbPosX.toInt(), thumbPosY.toInt())
+                    .graphicsLayer {
+                        translationX = thumbPosX
+                        translationY = thumbPosY
+                        scaleX = 1f / zoomScale
+                        scaleY = 1f / zoomScale
                     }
                     .shadow(thumbElevation, thumbShape)
                     .background(thumbBackgroundColor)

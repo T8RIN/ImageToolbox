@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.Comp
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.model.ifNotEmpty
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -72,6 +73,7 @@ internal fun CompareScreenContentImpl(
     bitmapPair: CompareData,
     pixelByPixelCompareState: PixelByPixelCompareState,
     compareProgressState: MutableFloatState,
+    zoomState: ZoomState,
     onCompareProgressChange: (Float) -> Unit,
     isPortrait: Boolean,
     isLabelsEnabled: Boolean,
@@ -94,6 +96,7 @@ internal fun CompareScreenContentImpl(
 
                         BeforeAfterLayout(
                             modifier = modifier,
+                            zoomState = zoomState,
                             progress = { compareProgressState.floatValue },
                             sharedProgress = compareProgressState,
                             onProgressChange = onCompareProgressChange,
