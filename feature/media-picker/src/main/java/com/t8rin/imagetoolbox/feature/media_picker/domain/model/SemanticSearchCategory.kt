@@ -53,12 +53,15 @@ sealed interface SemanticSearchCategory {
         val threshold: Float = 0.55f,
         val excludedPhotos: Int = 0,
         val coverUri: String? = null,
-        val faceThumbnails: Map<String, String> = emptyMap(),
         val hidden: Boolean = false,
-        val similarPeople: Map<Long, Float> = emptyMap()
+        val similarPeople: Map<Long, Float> = emptyMap(),
+        val faces: List<PersonFace> = emptyList(),
+        val coverFaceId: String? = null
     ) : SemanticSearchCategory {
         override val id: String get() = "person:$personId"
     }
+
+    data class PersonFace(val id: String, val uri: String, val thumbnail: String)
 
     data class Custom(
         override val id: String,

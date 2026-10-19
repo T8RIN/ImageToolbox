@@ -40,7 +40,9 @@ interface SemanticSearchRepository {
         threshold: Float,
         cover: String? = null,
         excludedUris: Set<String> = emptySet(),
-        restoreExcluded: Boolean = false
+        restoreExcluded: Boolean = false,
+        excludedFaces: Set<String> = emptySet(),
+        coverFaceId: String? = null
     )
 
     suspend fun mergePeople(from: Set<Long>, into: Long)

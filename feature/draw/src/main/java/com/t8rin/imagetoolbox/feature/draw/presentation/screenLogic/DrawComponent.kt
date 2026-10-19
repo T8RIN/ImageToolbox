@@ -23,12 +23,9 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
@@ -44,7 +41,6 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
-import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -69,15 +65,12 @@ import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
-import com.t8rin.neural_tools.faces.UltraFaceDetector
-import com.t8rin.opencv_tools.face.YuNetFaceDetector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.detectFaceRegions
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -436,6 +429,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun undo() {
+        faceDetectionJob?.cancel()
         if (lastPaths.isNotEmpty() && (paths.isEmpty() ||
                     lastPaths.any { it.isPendingSpotHeal } &&
                     paths == lastPaths.filterNot { it.isPendingSpotHeal })
@@ -454,6 +448,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun redo() {
+        faceDetectionJob?.cancel()
         if (undonePaths.isEmpty()) return
 
         val lastPath = undonePaths.last()
@@ -464,57 +459,28 @@ class DrawComponent @AssistedInject internal constructor(
 
     private var faceDetectionJob: Job? by smartJob()
 
-    var isDetectingFaces by mutableStateOf(false)
-        private set
+    private val _isDetectingFaces = mutableStateOf(false)
+    val isDetectingFaces by _isDetectingFaces
 
-    fun detectFaces(useYuNet: Boolean, onNothingFound: () -> Unit) {
+    fun detectFaces(bitmap: Bitmap, useYuNet: Boolean, onNothingFound: () -> Unit) {
         val source = imageBitmap ?: return
         val mode = drawMode
+        val currentPaths = paths
         if (isDetectingFaces || mode !is DrawMode.PathEffect.PrivacyBlur &&
             mode !is DrawMode.PathEffect.Pixelation
         ) {
             return
         }
 
-        isDetectingFaces = true
+        _isDetectingFaces.value = true
         faceDetectionJob = componentScope.launch {
             try {
                 val entry = withContext(defaultDispatcher) {
-                    val bitmap = source.asAndroidBitmap()
-                    val boxes = if (useYuNet) {
-                        YuNetFaceDetector.detect(bitmap)
-                    } else {
-                        UltraFaceDetector().use { detector ->
-                            detector.detect(bitmap).map { it.bounds }
-                        }
-                    }
-                    currentCoroutineContext().ensureActive()
-                    if (boxes.isEmpty()) return@withContext null
-
-                    UiPathPaint(
-                        path = Path().apply {
-                            boxes.forEach { box ->
-                                val marginX = box.width() * 0.15f
-                                val marginY = box.height() * 0.2f
-                                addOval(
-                                    Rect(
-                                        left = (box.left - marginX).coerceAtLeast(0f) * bitmap.width,
-                                        top = (box.top - marginY).coerceAtLeast(0f) * bitmap.height,
-                                        right = (box.right + marginX).coerceAtMost(1f) * bitmap.width,
-                                        bottom = (box.bottom + marginY).coerceAtMost(1f) * bitmap.height
-                                    )
-                                )
-                            }
-                        },
-                        strokeWidth = 1.pt,
-                        brushSoftness = 0.pt,
-                        isErasing = false,
-                        drawMode = mode,
-                        canvasSize = IntegerSize(bitmap.width, bitmap.height),
-                        drawPathMode = DrawPathMode.Oval
-                    )
+                    bitmap.detectFaceRegions(mode, useYuNet)
                 }
-                if (source !== imageBitmap || mode::class != drawMode::class) return@launch
+                if (source !== imageBitmap || currentPaths != paths ||
+                    mode::class != drawMode::class
+                ) return@launch
 
                 if (entry == null) {
                     onNothingFound()
@@ -526,7 +492,7 @@ class DrawComponent @AssistedInject internal constructor(
             } catch (e: Exception) {
                 AppToastHost.showFailureToast(e)
             } finally {
-                isDetectingFaces = false
+                _isDetectingFaces.value = false
             }
         }
     }

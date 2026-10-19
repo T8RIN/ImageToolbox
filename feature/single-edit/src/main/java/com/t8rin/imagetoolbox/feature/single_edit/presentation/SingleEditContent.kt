@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.History
 import com.t8rin.imagetoolbox.core.resources.icons.ImageReset
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -461,6 +462,12 @@ fun SingleEditContent(
         redo = component::redoDraw,
         paths = component.drawPaths,
         renderCache = component.drawRenderCache,
+        isDetectingFaces = component.isDetectingFaces,
+        onDetectFaces = { bitmap, useYuNet ->
+            component.detectDrawFaces(bitmap, useYuNet) {
+                AppToastHost.showToast(R.string.faces_not_found)
+            }
+        },
         lastPaths = component.drawLastPaths,
         undonePaths = component.drawUndonePaths,
         addPath = component::addPathToDrawList,

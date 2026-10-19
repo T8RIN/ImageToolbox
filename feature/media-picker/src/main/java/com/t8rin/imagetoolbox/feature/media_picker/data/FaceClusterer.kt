@@ -82,8 +82,12 @@ internal object FaceClusterer {
             val excludedPhoto = mediaAssertions.any {
                 it.mediaId == face.mediaId && it.personId == face.personId
             }
+            val excludedFace = faceAssertions.any {
+                !it.include && it.personId == face.personId && it.mediaId == face.mediaId &&
+                        overlap(face, it.left, it.top, it.right, it.bottom) >= 0.5f
+            }
             val valid = face.embedding.size == 512 && face.embedding.all(Float::isFinite) &&
-                    quality >= MIN_FACE_QUALITY && !excludedPhoto
+                    quality >= MIN_FACE_QUALITY && !excludedPhoto && !excludedFace
             if (!valid) rejected += face.id
             valid
         }

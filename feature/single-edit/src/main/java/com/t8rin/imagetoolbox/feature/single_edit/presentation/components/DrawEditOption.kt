@@ -50,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -109,6 +110,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.canShowLineAngle
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
 import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickColorFromImageSheet
+import kotlinx.coroutines.launch
 
 @Composable
 fun DrawEditOption(
@@ -128,6 +130,8 @@ fun DrawEditOption(
     redo: () -> Unit,
     paths: List<UiPathPaint>,
     renderCache: DrawRenderCache,
+    isDetectingFaces: Boolean,
+    onDetectFaces: (Bitmap, Boolean) -> Unit,
     lastPaths: List<UiPathPaint>,
     undonePaths: List<UiPathPaint>,
     addPath: (UiPathPaint) -> Unit,
@@ -139,6 +143,7 @@ fun DrawEditOption(
     onRemovePath: (UiPathPaint) -> Unit
 ) {
     bitmap?.let {
+        val scope = rememberCoroutineScope()
         var panEnabled by rememberSaveable { mutableStateOf(false) }
 
         val switch = @Composable {
@@ -351,6 +356,15 @@ fun DrawEditOption(
                         modifier = Modifier.padding(horizontal = 16.dp),
                         value = drawMode,
                         strokeWidth = strokeWidth,
+                        canDetectFaces = true,
+                        isDetectingFaces = isDetectingFaces,
+                        isFaceDetectionEnabled = isRenderReady && !hasPendingSpotHeal,
+                        onDetectFaces = { useYuNet ->
+                            if (isRenderReady && !hasPendingSpotHeal) {
+                                onDetectFaces(stateBitmap, useYuNet)
+                                scope.launch { scaffoldState?.bottomSheetState?.partialExpand() }
+                            }
+                        },
                         onValueChange = {
                             if (it is DrawMode.Warp) {
                                 onUpdateDrawPathMode(DrawPathMode.Free)

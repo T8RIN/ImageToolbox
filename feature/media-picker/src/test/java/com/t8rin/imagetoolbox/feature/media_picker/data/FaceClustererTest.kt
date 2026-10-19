@@ -68,6 +68,23 @@ class FaceClustererTest {
     }
 
     @Test
+    fun excludingOneFaceKeepsTheOtherFaceFromTheSamePhoto() = runBlocking {
+        val wrong = FaceClusterer.Face(2, 1, vector(0f, 1f), 0.55f, 0.1f, 0.95f, 0.5f, 1f, "1")
+        val result = cluster(
+            faces = listOf(face(1, vector(1f), "1"), wrong),
+            people = listOf(seed("1")),
+            pins = listOf(
+                FaceClusterer.FaceAssertion(1, 0.1f, 0.1f, 0.5f, 0.5f, "1", true),
+                FaceClusterer.FaceAssertion(1, 0.55f, 0.1f, 0.95f, 0.5f, "1", true),
+                FaceClusterer.FaceAssertion(1, 0.55f, 0.1f, 0.95f, 0.5f, "1", false)
+            )
+        )
+        assertEquals(listOf(1L), result.resolved.single().second.faceIds)
+        assertEquals(listOf(2L), result.unassignedFaceIds)
+        assertTrue(result.fresh.isEmpty())
+    }
+
+    @Test
     fun manualMergeSurvivesDifferentEmbeddings() = runBlocking {
         val result = cluster(
             faces = listOf(face(1, vector(1f)), face(2, vector(0f, 1f))),

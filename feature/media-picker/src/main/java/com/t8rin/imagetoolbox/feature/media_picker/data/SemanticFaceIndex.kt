@@ -38,7 +38,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
     context,
     File(context.noBackupFilesDir, "semantic-search-faces-v1.db").absolutePath,
     null,
-    2
+    3
 ) {
 
     val thumbnails = File(context.noBackupFilesDir, "semantic-faces").apply(File::mkdirs)
@@ -47,7 +47,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         db.execSQL(
             "CREATE TABLE people (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL DEFAULT '', " +
                     "threshold REAL NOT NULL DEFAULT 0.55, hidden INTEGER NOT NULL DEFAULT 0, cover TEXT, " +
-                    "pinned INTEGER NOT NULL DEFAULT 0)"
+                    "pinned INTEGER NOT NULL DEFAULT 0, cover_face TEXT)"
         )
         db.execSQL(
             "CREATE TABLE faces (id TEXT PRIMARY KEY, uri TEXT NOT NULL, fingerprint TEXT NOT NULL, " +
@@ -62,6 +62,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                     "right REAL NOT NULL, bottom REAL NOT NULL, person_id INTEGER NOT NULL)"
         )
         db.createRejectedPairs()
+        db.createFaceExclusions()
         db.execSQL("CREATE TABLE metadata (key TEXT PRIMARY KEY, value INTEGER NOT NULL)")
         db.execSQL("CREATE TABLE scans (uri TEXT PRIMARY KEY, fingerprint TEXT NOT NULL)")
         db.execSQL(
@@ -72,12 +73,24 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 2) db.createRejectedPairs()
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE people ADD COLUMN cover_face TEXT")
+            db.createFaceExclusions()
+        }
     }
 
     private fun SQLiteDatabase.createRejectedPairs() {
         execSQL(
             "CREATE TABLE IF NOT EXISTS rejected_pairs (first_id INTEGER NOT NULL, second_id INTEGER NOT NULL, " +
                     "PRIMARY KEY(first_id, second_id), CHECK(first_id < second_id))"
+        )
+    }
+
+    private fun SQLiteDatabase.createFaceExclusions() {
+        execSQL(
+            "CREATE TABLE IF NOT EXISTS face_exclusions (person_id INTEGER NOT NULL, uri TEXT NOT NULL, " +
+                    "media_id INTEGER NOT NULL, left REAL NOT NULL, top REAL NOT NULL, right REAL NOT NULL, " +
+                    "bottom REAL NOT NULL, PRIMARY KEY(person_id, media_id, left, top, right, bottom))"
         )
     }
 
@@ -91,7 +104,7 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         null
     ).use { !it.moveToFirst() || it.getString(0) != media.fingerprint }
 
-    data class Face(
+    class Face(
         val id: String,
         val vector: FloatArray,
         val thumbnail: String,
@@ -99,12 +112,71 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         val confidence: Float
     )
 
-    private data class Group(
+    private class Group(
         val id: Long,
         val threshold: Float,
         val vector: FloatArray,
         val mediaIds: Set<Long> = emptySet()
     )
+
+    private class FacePosition(val mediaId: Long, val bounds: RectF) {
+        val id: String get() = "$mediaId:${bounds.left}:${bounds.top}:${bounds.right}:${bounds.bottom}"
+
+        fun matches(other: FacePosition): Boolean {
+            if (mediaId != other.mediaId) return false
+            val width =
+                (minOf(bounds.right, other.bounds.right) - maxOf(bounds.left, other.bounds.left))
+                    .coerceAtLeast(0f)
+            val height =
+                (minOf(bounds.bottom, other.bounds.bottom) - maxOf(bounds.top, other.bounds.top))
+                    .coerceAtLeast(0f)
+            val intersection = width * height
+            val union =
+                bounds.width() * bounds.height() + other.bounds.width() * other.bounds.height() - intersection
+            return union > 0f && intersection / union >= 0.5f
+        }
+    }
+
+    private class IndexedFace(
+        val media: Media,
+        val face: SemanticSearchCategory.PersonFace,
+        val position: FacePosition,
+        val excluded: Boolean
+    )
+
+    private fun String.toFacePosition(): FacePosition? {
+        val parts = split(':')
+        if (parts.size != 5) return null
+        val mediaId = parts[0].toLongOrNull()
+        val values = parts.drop(1).mapNotNull { it.toFloatOrNull()?.takeIf(Float::isFinite) }
+        return if (mediaId != null && values.size == 4 && values[0] < values[2] && values[1] < values[3]) {
+            FacePosition(mediaId, RectF(values[0], values[1], values[2], values[3]))
+        } else {
+            null
+        }
+    }
+
+    private fun faceExclusions(): Map<Long, List<FacePosition>> {
+        val result = mutableMapOf<Long, MutableList<FacePosition>>()
+        readableDatabase.query("face_exclusions", null, null, null, null, null, null)
+            .use { cursor ->
+                while (cursor.moveToNext()) {
+                    result.getOrPut(cursor.getLong(cursor.getColumnIndexOrThrow("person_id"))) { mutableListOf() }
+                        .add(
+                            FacePosition(
+                                cursor.getLong(cursor.getColumnIndexOrThrow("media_id")),
+                                RectF(
+                                    cursor.getFloat(cursor.getColumnIndexOrThrow("left")),
+                                    cursor.getFloat(cursor.getColumnIndexOrThrow("top")),
+                                    cursor.getFloat(cursor.getColumnIndexOrThrow("right")),
+                                    cursor.getFloat(cursor.getColumnIndexOrThrow("bottom"))
+                                )
+                            )
+                        )
+                }
+            }
+        return result
+    }
 
     private var groupRepresentatives: MutableList<Group>? = null
     private var peopleRevision = -1L
@@ -118,9 +190,11 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
 
     private fun representatives(): MutableList<Group> {
         val groups = mutableListOf<Group>()
+        val excludedFaces = faceExclusions()
         readableDatabase.rawQuery(
-            "SELECT p.id, p.threshold, f.vector, f.media_id FROM people p JOIN faces f ON f.person_id = p.id " +
-                    "WHERE NOT EXISTS (SELECT 1 FROM exclusions e WHERE e.person_id = p.id AND e.uri = f.uri) " +
+            "SELECT p.id, p.threshold, f.vector, f.media_id, f.left, f.top, f.right, f.bottom FROM people p " +
+                    "JOIN faces f ON f.person_id = p.id WHERE NOT EXISTS " +
+                    "(SELECT 1 FROM exclusions e WHERE e.person_id = p.id AND e.uri = f.uri) " +
                     "ORDER BY p.id, f.id",
             null
         ).use { cursor ->
@@ -134,6 +208,16 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
             }
             while (cursor.moveToNext()) {
                 val next = cursor.getLong(0)
+                val position = FacePosition(
+                    cursor.getLong(3),
+                    RectF(
+                        cursor.getFloat(4),
+                        cursor.getFloat(5),
+                        cursor.getFloat(6),
+                        cursor.getFloat(7)
+                    )
+                )
+                if (excludedFaces[next].orEmpty().any { it.matches(position) }) continue
                 if (next != id) {
                     append()
                     id = next
@@ -152,8 +236,35 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         return groups
     }
 
+    private fun faceLinks(mediaId: Long): List<Pair<Long, FacePosition>> = readableDatabase.query(
+        "face_links",
+        null,
+        "media_id = ?",
+        arrayOf(mediaId.toString()),
+        null,
+        null,
+        null
+    ).use { cursor ->
+        buildList {
+            while (cursor.moveToNext()) {
+                add(
+                    cursor.getLong(cursor.getColumnIndexOrThrow("person_id")) to FacePosition(
+                        mediaId,
+                        RectF(
+                            cursor.getFloat(cursor.getColumnIndexOrThrow("left")),
+                            cursor.getFloat(cursor.getColumnIndexOrThrow("top")),
+                            cursor.getFloat(cursor.getColumnIndexOrThrow("right")),
+                            cursor.getFloat(cursor.getColumnIndexOrThrow("bottom"))
+                        )
+                    )
+                )
+            }
+        }
+    }
+
     fun replace(media: Media, faces: List<Face>) {
         val groups = groupRepresentatives ?: representatives().also { groupRepresentatives = it }
+        val links = faceLinks(media.id)
         val db = writableDatabase
         val oldThumbnails = db.query(
             "faces",
@@ -175,7 +286,9 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 val group = groups.map { it to similarity(it.vector, face.vector) }
                     .filter { (group, score) -> score >= group.threshold }
                     .maxByOrNull { it.second }?.first
-                val person = group?.id ?: db.insertOrThrow(
+                val position = FacePosition(media.id, face.bounds)
+                val person = links.firstOrNull { it.second.matches(position) }?.first ?: group?.id
+                ?: db.insertOrThrow(
                     "people", null, ContentValues().apply { put("name", "") }
                 ).also { groups += Group(it, 0.55f, face.vector) }
                 db.insertOrThrow(
@@ -277,6 +390,20 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 )
             }
         }
+        faceExclusions().forEach { (person, positions) ->
+            positions.forEach { position ->
+                val bounds = position.bounds
+                pins += FaceClusterer.FaceAssertion(
+                    position.mediaId,
+                    bounds.left,
+                    bounds.top,
+                    bounds.right,
+                    bounds.bottom,
+                    person.toString(),
+                    false
+                )
+            }
+        }
         val exclusions = readableDatabase.rawQuery(
             "SELECT DISTINCT e.person_id, f.media_id FROM exclusions e JOIN faces f ON f.uri = e.uri",
             null
@@ -315,6 +442,17 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 val old = faces.first { it.id == id }
                 val excluded = exclusions.any {
                     it.mediaId == old.mediaId && it.personId == old.personId
+                } || pins.any {
+                    !it.include && it.personId == old.personId &&
+                            FacePosition(
+                                it.mediaId,
+                                RectF(it.left, it.top, it.right, it.bottom)
+                            ).matches(
+                                FacePosition(
+                                    old.mediaId,
+                                    RectF(old.left, old.top, old.right, old.bottom)
+                                )
+                            )
                 }
                 if (!excluded) {
                     db.update(
@@ -375,52 +513,74 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
 
     fun people(media: List<Media>): List<SemanticSearchCategoryResult> {
         val available = media.associateBy(Media::uri)
-        val matches = linkedMapOf<Long, MutableList<Pair<Media, String>>>()
-        val allMatches = linkedMapOf<Long, MutableList<Pair<Media, String>>>()
+        val excludedFaces = faceExclusions()
+        val matches = linkedMapOf<Long, MutableList<IndexedFace>>()
         readableDatabase.rawQuery(
-            "SELECT f.person_id, f.uri, f.fingerprint, f.thumbnail, EXISTS (SELECT 1 FROM exclusions e WHERE " +
-                    "e.person_id = f.person_id AND e.uri = f.uri) FROM faces f ORDER BY f.uri, f.id",
+            "SELECT f.person_id, f.uri, f.fingerprint, f.thumbnail, f.media_id, f.left, f.top, f.right, f.bottom, " +
+                    "EXISTS (SELECT 1 FROM exclusions e WHERE e.person_id = f.person_id AND e.uri = f.uri) " +
+                    "FROM faces f ORDER BY f.uri, f.id",
             null
         ).use { cursor ->
             while (cursor.moveToNext()) {
                 val image = available[cursor.getString(1)] ?: continue
                 if (image.fingerprint != cursor.getString(2)) continue
-                val match = image to cursor.getString(3)
-                allMatches.getOrPut(cursor.getLong(0)) { mutableListOf() }.add(match)
-                if (cursor.getInt(4) == 0) matches.getOrPut(cursor.getLong(0)) { mutableListOf() }
-                    .add(match)
+                val person = cursor.getLong(0)
+                val position = FacePosition(
+                    cursor.getLong(4),
+                    RectF(
+                        cursor.getFloat(5),
+                        cursor.getFloat(6),
+                        cursor.getFloat(7),
+                        cursor.getFloat(8)
+                    )
+                )
+                val match = IndexedFace(
+                    media = image,
+                    face = SemanticSearchCategory.PersonFace(
+                        id = position.id,
+                        uri = image.uri,
+                        thumbnail = File(cursor.getString(3)).toUri().toString()
+                    ),
+                    position = position,
+                    excluded = cursor.getInt(9) != 0 || excludedFaces[person].orEmpty()
+                        .any { it.matches(position) }
+                )
+                matches.getOrPut(person) { mutableListOf() }.add(match)
             }
         }
         val result = readableDatabase.rawQuery(
-            "SELECT p.*, (SELECT COUNT(*) FROM exclusions e WHERE e.person_id = p.id) AS excluded_count FROM " +
-                    "people p ORDER BY p.id",
+            "SELECT p.*, (SELECT COUNT(DISTINCT uri) FROM (SELECT person_id, uri FROM exclusions UNION ALL " +
+                    "SELECT person_id, uri FROM face_exclusions) e WHERE e.person_id = p.id) AS excluded_count " +
+                    "FROM people p ORDER BY p.id",
             null
         ).use { cursor ->
             buildList {
                 while (cursor.moveToNext()) {
                     val id = cursor.getLong(cursor.getColumnIndexOrThrow("id"))
-                    val faces = matches[id].orEmpty()
-                    val availableFaces = allMatches[id].orEmpty()
+                    val availableFaces = matches[id].orEmpty()
                     if (availableFaces.isEmpty()) continue
+                    val faces = availableFaces.filterNot { it.excluded }
                     val cover = cursor.getString(cursor.getColumnIndexOrThrow("cover"))
-                    val coverFace = faces.firstOrNull { it.first.uri == cover }
-                        ?: faces.firstOrNull() ?: availableFaces.first()
-                    val thumbnails = faces.distinctBy { it.first.uri }.associate { (media, path) ->
-                        media.uri to File(path).toUri().toString()
-                    }
+                    val coverPosition = cursor.getString(cursor.getColumnIndexOrThrow("cover_face"))
+                        ?.toFacePosition()
+                    val coverFace =
+                        faces.firstOrNull { coverPosition?.matches(it.position) == true }
+                            ?: faces.firstOrNull { it.media.uri == cover }
+                            ?: faces.firstOrNull() ?: availableFaces.first()
                     add(
                         SemanticSearchCategoryResult(
                             SemanticSearchCategory.Person(
                                 personId = id,
                                 name = cursor.getString(cursor.getColumnIndexOrThrow("name")),
-                                thumbnail = File(coverFace.second).toUri().toString(),
+                                thumbnail = coverFace.face.thumbnail,
                                 threshold = cursor.getFloat(cursor.getColumnIndexOrThrow("threshold")),
                                 excludedPhotos = cursor.getInt(cursor.getColumnIndexOrThrow("excluded_count")),
-                                coverUri = coverFace.first.uri,
-                                faceThumbnails = thumbnails,
-                                hidden = cursor.getInt(cursor.getColumnIndexOrThrow("hidden")) != 0
+                                coverUri = coverFace.media.uri,
+                                hidden = cursor.getInt(cursor.getColumnIndexOrThrow("hidden")) != 0,
+                                faces = faces.map { it.face },
+                                coverFaceId = coverFace.face.id
                             ),
-                            faces.map { it.first }.distinctBy(Media::uri)
+                            faces.map { it.media }.distinctBy(Media::uri)
                         )
                     )
                 }
@@ -471,7 +631,9 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
         threshold: Float,
         cover: String?,
         excludedUris: Set<String> = emptySet(),
-        restoreExcluded: Boolean = false
+        restoreExcluded: Boolean = false,
+        excludedFaces: Set<String> = emptySet(),
+        coverFaceId: String? = null
     ): Boolean {
         val newThreshold = threshold.coerceIn(0.5f, 0.85f)
         val db = writableDatabase
@@ -492,19 +654,26 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 ContentValues().apply {
                     put("name", name.trim())
                     put("threshold", newThreshold)
-                    if (cover != null) put("cover", cover)
+                    if (cover != null) {
+                        put("cover", cover)
+                        if (coverFaceId == null) putNull("cover_face")
+                    }
+                    if (coverFaceId != null) {
+                        requireNotNull(coverFaceId.toFacePosition())
+                        put("cover_face", coverFaceId)
+                    }
                 },
                 "id = ?",
                 arrayOf(id.toString())
             )
             var changed = oldThreshold != newThreshold
-            if (restoreExcluded && db.delete(
-                    "exclusions",
-                    "person_id = ?",
-                    arrayOf(id.toString())
-                ) > 0
-            ) {
-                changed = true
+            if (restoreExcluded) {
+                val photos = db.delete("exclusions", "person_id = ?", arrayOf(id.toString()))
+                val faces = db.delete("face_exclusions", "person_id = ?", arrayOf(id.toString()))
+                if (photos + faces > 0) changed = true
+            }
+            excludedFaces.forEach { face ->
+                if (db.excludeFace(id, face)) changed = true
             }
             excludedUris.forEach { uri ->
                 val added = db.insertWithOnConflict(
@@ -531,6 +700,68 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
             }
             changed
         }
+    }
+
+    private fun SQLiteDatabase.excludeFace(person: Long, id: String): Boolean {
+        val position = requireNotNull(id.toFacePosition())
+        val uri = query(
+            "faces",
+            arrayOf("uri", "left", "top", "right", "bottom"),
+            "person_id = ? AND media_id = ?",
+            arrayOf(person.toString(), position.mediaId.toString()),
+            null,
+            null,
+            null
+        ).use { cursor ->
+            var result: String? = null
+            while (cursor.moveToNext()) {
+                val candidate = FacePosition(
+                    position.mediaId,
+                    RectF(
+                        cursor.getFloat(1),
+                        cursor.getFloat(2),
+                        cursor.getFloat(3),
+                        cursor.getFloat(4)
+                    )
+                )
+                if (position.matches(candidate)) result = cursor.getString(0)
+            }
+            result
+        } ?: return false
+        val added = insertWithOnConflict(
+            "face_exclusions",
+            null,
+            ContentValues().apply {
+                put("person_id", person)
+                put("uri", uri)
+                put("media_id", position.mediaId)
+                put("left", position.bounds.left)
+                put("top", position.bounds.top)
+                put("right", position.bounds.right)
+                put("bottom", position.bounds.bottom)
+            },
+            SQLiteDatabase.CONFLICT_IGNORE
+        ) != -1L
+        if (added) {
+            execSQL(
+                "INSERT INTO face_links(media_id, left, top, right, bottom, person_id) VALUES (?, ?, ?, ?, ?, ?)",
+                arrayOf<Any>(
+                    position.mediaId,
+                    position.bounds.left,
+                    position.bounds.top,
+                    position.bounds.right,
+                    position.bounds.bottom,
+                    person
+                )
+            )
+            update(
+                "people",
+                ContentValues().apply { put("pinned", 1) },
+                "id = ?",
+                arrayOf(person.toString())
+            )
+        }
+        return added
     }
 
     fun rejectPair(first: Long, second: Long) {
@@ -605,6 +836,11 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                             "SELECT ?, uri FROM exclusions WHERE person_id = ?",
                     arrayOf(into, source)
                 )
+                db.execSQL(
+                    "INSERT OR IGNORE INTO face_exclusions(person_id, uri, media_id, left, top, right, bottom) " +
+                            "SELECT ?, uri, media_id, left, top, right, bottom FROM face_exclusions WHERE person_id = ?",
+                    arrayOf(into, source)
+                )
                 db.mergeRejectedPairs(source, into)
                 require(
                     db.update(
@@ -672,7 +908,8 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 "exclusions",
                 "metadata",
                 "face_links",
-                "rejected_pairs"
+                "rejected_pairs",
+                "face_exclusions"
             ).forEach {
                 db.delete(it, null, null)
             }

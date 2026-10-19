@@ -79,31 +79,15 @@ internal fun MediaSemanticSearchCategories(
     var showCategoryThumbnail by rememberSaveable { mutableStateOf(false) }
     val listState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
-    val customCategoryIds = categories.mapNotNull {
-        (it.category as? SemanticSearchCategory.Custom)?.id
-    }
-    var knownCategoryIds by remember { mutableStateOf(customCategoryIds) }
     var hadPeople by remember { mutableStateOf(false) }
     var hadIndexedPeople by remember { mutableStateOf(false) }
     var previousPersonId by remember { mutableStateOf<Long?>(null) }
     val hasIndexedPeople = peopleCount > 0
     val personId = selectedPerson?.personId
-    LaunchedEffect(customCategoryIds, showPeople, hasIndexedPeople, personId) {
-        val showPeopleChip = showPeople && (
-                !hadPeople || (hasIndexedPeople && !hadIndexedPeople) ||
-                        (personId != null && personId != previousPersonId)
-                )
-        val addedCategory = customCategoryIds.lastOrNull { it !in knownCategoryIds }
+    LaunchedEffect(showPeople, hasIndexedPeople, personId) {
         hadPeople = showPeople
         hadIndexedPeople = hasIndexedPeople
         previousPersonId = personId
-        knownCategoryIds = customCategoryIds
-        when {
-            showPeopleChip -> listState.animateScrollToItem(0)
-            addedCategory != null -> listState.animateScrollToItem(
-                index = categories.indexOfFirst { it.category.id == addedCategory } + if (showPeople) 1 else 0
-            )
-        }
     }
     Row(
         modifier = modifier

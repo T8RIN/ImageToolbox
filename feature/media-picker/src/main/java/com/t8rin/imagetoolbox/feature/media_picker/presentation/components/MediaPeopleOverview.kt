@@ -327,17 +327,17 @@ internal fun PeopleGroupSettings(
     val person = result.category as SemanticSearchCategory.Person
     var name by rememberSaveable(person.id) { mutableStateOf(person.name) }
     var threshold by rememberSaveable(person.id) { mutableFloatStateOf(person.threshold) }
-    var cover by rememberSaveable(person.id) {
-        mutableStateOf(person.coverUri ?: result.media.firstOrNull()?.uri)
+    var coverFaceId by rememberSaveable(person.id) {
+        mutableStateOf(person.coverFaceId ?: person.faces.firstOrNull()?.id)
     }
-    var excludedUris by rememberSaveable(person.id) { mutableStateOf(emptyList<String>()) }
+    var excludedFaces by rememberSaveable(person.id) { mutableStateOf(emptyList<String>()) }
     var restoreExcluded by rememberSaveable(person.id) { mutableStateOf(false) }
     var merging by rememberSaveable(person.id) { mutableStateOf(false) }
     var showHideConfirmation by rememberSaveable(person.id) { mutableStateOf(false) }
     val saving = component.isSavingPersonSettings
     val focusManager = LocalFocusManager.current
-    val photos = remember(result.media, excludedUris) {
-        result.media.filterNot { it.uri in excludedUris }
+    val photoCount = remember(person.faces, excludedFaces) {
+        person.faces.filterNot { it.id in excludedFaces }.distinctBy { it.uri }.size
     }
     val mergeCandidates = remember(people, person.id, person.similarPeople) {
         val relevance = person.similarPeople
@@ -353,8 +353,8 @@ internal fun PeopleGroupSettings(
         if (visible && !wasVisible) {
             name = person.name
             threshold = person.threshold
-            cover = person.coverUri ?: result.media.firstOrNull()?.uri
-            excludedUris = emptyList()
+            coverFaceId = person.coverFaceId ?: person.faces.firstOrNull()?.id
+            excludedFaces = emptyList()
             restoreExcluded = false
             merging = false
             showHideConfirmation = false
@@ -366,9 +366,10 @@ internal fun PeopleGroupSettings(
         id = person.personId,
         name = name,
         threshold = threshold,
-        cover = cover,
-        excludedUris = excludedUris.toSet(),
-        restoreExcluded = restoreExcluded
+        cover = person.faces.firstOrNull { it.id == coverFaceId }?.uri,
+        restoreExcluded = restoreExcluded,
+        excludedFaces = excludedFaces.toSet(),
+        coverFaceId = coverFaceId
     )
 
     fun save(action: suspend () -> Boolean) {
@@ -387,7 +388,7 @@ internal fun PeopleGroupSettings(
         title = {
             TitleItem(
                 text = stringResource(R.string.gallery_people_group),
-                subtitle = stringResource(R.string.gallery_people_photo_count, photos.size),
+                subtitle = stringResource(R.string.gallery_people_photo_count, photoCount),
                 icon = Icons.Outlined.Person
             )
         },
@@ -452,28 +453,26 @@ internal fun PeopleGroupSettings(
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
             )
-            if (result.media.isNotEmpty()) {
-                PeopleGroupPhotos(
-                    result = result,
-                    cover = cover,
-                    excludedUris = excludedUris,
+            if (person.faces.isNotEmpty()) {
+                PeopleGroupFaces(
+                    faces = person.faces,
+                    coverFaceId = coverFaceId,
+                    excludedFaces = excludedFaces,
                     enabled = !saving,
-                    onSelectCover = { cover = it },
-                    onExclude = { uri ->
-                        excludedUris =
-                            if (uri in excludedUris) excludedUris - uri else excludedUris + uri
-                        if (cover == null || cover in excludedUris) {
-                            cover = result.media.firstOrNull { it.uri !in excludedUris }?.uri
+                    onSelectCover = { coverFaceId = it },
+                    onExclude = { faceId ->
+                        excludedFaces = if (faceId in excludedFaces) {
+                            excludedFaces - faceId
+                        } else excludedFaces + faceId
+                        if (coverFaceId == null || coverFaceId in excludedFaces) {
+                            coverFaceId = person.faces.firstOrNull { it.id !in excludedFaces }?.id
                         }
                     }
                 )
             }
             if (person.excludedPhotos > 0) {
                 PreferenceRowSwitch(
-                    title = stringResource(
-                        R.string.gallery_people_restore_photos,
-                        person.excludedPhotos
-                    ),
+                    title = stringResource(R.string.gallery_people_restore_faces),
                     startIcon = Icons.Rounded.Restore,
                     checked = restoreExcluded,
                     enabled = !saving,
@@ -565,15 +564,14 @@ internal fun PeopleGroupSettings(
 }
 
 @Composable
-private fun PeopleGroupPhotos(
-    result: SemanticSearchCategoryResult,
-    cover: String?,
-    excludedUris: List<String>,
+private fun PeopleGroupFaces(
+    faces: List<SemanticSearchCategory.PersonFace>,
+    coverFaceId: String?,
+    excludedFaces: List<String>,
     enabled: Boolean,
     onSelectCover: (String) -> Unit,
     onExclude: (String) -> Unit
 ) {
-    val person = result.category as SemanticSearchCategory.Person
     PreferenceItem(
         title = stringResource(R.string.gallery_people_cover),
         subtitle = stringResource(R.string.gallery_people_cover_description),
@@ -584,14 +582,14 @@ private fun PeopleGroupPhotos(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(result.media, key = { it.uri }) { media ->
-                    val excluded = media.uri in excludedUris
-                    val selected = !excluded && cover == media.uri
+                items(faces, key = { it.id }) { face ->
+                    val excluded = face.id in excludedFaces
+                    val selected = !excluded && coverFaceId == face.id
                     Box {
                         EnhancedChip(
                             selected = selected,
                             selectedColor = MaterialTheme.colorScheme.primaryContainer,
-                            onClick = if (enabled && !excluded) ({ onSelectCover(media.uri) }) else null,
+                            onClick = if (enabled && !excluded) ({ onSelectCover(face.id) }) else null,
                             contentPadding = PaddingValues(
                                 animateDpAsState(if (selected) 6.dp else 0.dp).value
                             ),
@@ -599,7 +597,7 @@ private fun PeopleGroupPhotos(
                             shape = ShapeDefaults.small,
                             label = {
                                 Picture(
-                                    model = person.faceThumbnails[media.uri] ?: media.uri,
+                                    model = face.thumbnail,
                                     shape = ShapeDefaults.extraSmall,
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -610,7 +608,7 @@ private fun PeopleGroupPhotos(
                         )
                         EnhancedIconButton(
                             enabled = enabled,
-                            onClick = { onExclude(media.uri) },
+                            onClick = { onExclude(face.id) },
                             containerColor = if (excluded) {
                                 MaterialTheme.colorScheme.secondaryContainer
                             } else {

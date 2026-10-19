@@ -85,6 +85,7 @@ fun DrawModeSelector(
     onValueChange: (DrawMode) -> Unit,
     canDetectFaces: Boolean = false,
     isDetectingFaces: Boolean = false,
+    isFaceDetectionEnabled: Boolean = true,
     onDetectFaces: ((Boolean) -> Unit)? = null,
     values: List<DrawMode> = DrawMode.entries
 ) {
@@ -97,6 +98,7 @@ fun DrawModeSelector(
                 useYuNet = useYuNet,
                 onUseYuNetChange = { useYuNet = it },
                 isDetecting = isDetectingFaces,
+                enabled = isFaceDetectionEnabled,
                 onDetectFaces = { onDetectFaces(useYuNet) }
             )
         }

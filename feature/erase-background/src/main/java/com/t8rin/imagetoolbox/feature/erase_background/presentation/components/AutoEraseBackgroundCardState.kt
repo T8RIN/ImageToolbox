@@ -46,15 +46,14 @@ class AutoEraseBackgroundCardState internal constructor(
         if (Flavor.isFoss()) it.toggle(BgModelType.MlKit) else it
     }
 
-    var selectedModel by mutableStateOf(BgModelType.Default)
-        private set
+    private val _selectedModel = mutableStateOf(BgModelType.Default)
+    val selectedModel: BgModelType by _selectedModel
 
-    var downloadedModels by mutableStateOf(setOf(BgModelType.U2NetP, BgModelType.MlKit))
-        private set
+    private val _downloadedModels = mutableStateOf(setOf(BgModelType.U2NetP, BgModelType.MlKit))
+    val downloadedModels: Set<BgModelType> by _downloadedModels
 
-    private val _downloadProgresses = mutableStateMapOf<BgModelType, DownloadProgress>()
     val downloadProgresses: Map<BgModelType, DownloadProgress>
-        get() = _downloadProgresses
+        field = mutableStateMapOf<BgModelType, DownloadProgress>()
 
     private var downloadJob by mutableStateOf<Job?>(null)
     private var checkJob: Job? = null
@@ -65,7 +64,7 @@ class AutoEraseBackgroundCardState internal constructor(
     init {
         scope.launch {
             BgRemover.downloadedModels.collect {
-                downloadedModels = withContext(Dispatchers.IO) { readyModels() }
+                _downloadedModels.value = withContext(Dispatchers.IO) { readyModels() }
             }
         }
     }
@@ -81,9 +80,9 @@ class AutoEraseBackgroundCardState internal constructor(
                     }
                     delay(100)
                 }
-                downloadedModels = withContext(Dispatchers.IO) { readyModels() }
+                _downloadedModels.value = withContext(Dispatchers.IO) { readyModels() }
                 if (!isDownloading && selectedModel !in downloadedModels) {
-                    selectedModel = BgModelType.Default
+                    _selectedModel.value = BgModelType.Default
                 }
             } catch (e: CancellationException) {
                 throw e
@@ -101,10 +100,10 @@ class AutoEraseBackgroundCardState internal constructor(
         if (selectedModel != type) {
             BgRemover.getRemover(selectedModel.toLib()).close()
         }
-        selectedModel = type
+        _selectedModel.value = type
         if (type in downloadedModels) return
 
-        _downloadProgresses[type] = DownloadProgress(
+        downloadProgresses[type] = DownloadProgress(
             currentPercent = 0f,
             currentTotalSize = 0L
         )
@@ -112,18 +111,18 @@ class AutoEraseBackgroundCardState internal constructor(
             try {
                 BgRemover.downloadModel(type.toLib())
                     .throttleLatest(50)
-                    .collect { _downloadProgresses[type] = it }
-                downloadedModels = withContext(Dispatchers.IO) {
+                    .collect { downloadProgresses[type] = it }
+                _downloadedModels.value = withContext(Dispatchers.IO) {
                     check(BgRemover.getRemover(type.toLib()).checkModel())
                     readyModels()
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                selectedModel = BgModelType.Default
+                _selectedModel.value = BgModelType.Default
                 AppToastHost.showFailureToast(e)
             } finally {
-                _downloadProgresses.remove(type)
+                downloadProgresses.remove(type)
                 downloadJob = null
             }
         }
@@ -132,8 +131,8 @@ class AutoEraseBackgroundCardState internal constructor(
 
     fun cancelDownload() {
         downloadJob?.cancel()
-        _downloadProgresses.remove(selectedModel)
-        selectedModel = BgModelType.Default
+        downloadProgresses.remove(selectedModel)
+        _selectedModel.value = BgModelType.Default
     }
 
     private fun readyModels(): Set<BgModelType> = models.filter {

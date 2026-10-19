@@ -128,24 +128,6 @@ fun EraseBackgroundContent(
         if (activeSelection != null) retainedSelection = activeSelection
     }
 
-    (activeSelection ?: retainedSelection)?.let { state ->
-        MobileSAMSelectionSheet(
-            state = state,
-            visible = activeSelection === state,
-            onDismiss = {
-                if (component.samSelection === state) component.dismissSubjectSelection()
-            },
-            onHidden = {
-                if (component.samSelection == null && retainedSelection === state) {
-                    retainedSelection = null
-                }
-            },
-            onApply = {
-                if (component.samSelection === state) component.applySubjectSelection(it)
-            }
-        )
-    }
-
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
 
@@ -264,6 +246,26 @@ fun EraseBackgroundContent(
             )
         },
         topAppBarPersistentActions = { scaffoldState ->
+            (activeSelection ?: retainedSelection)?.let { state ->
+                MobileSAMSelectionSheet(
+                    state = state,
+                    visible = activeSelection === state,
+                    onDismiss = {
+                        if (component.samSelection === state) component.dismissSubjectSelection()
+                    },
+                    onHidden = {
+                        if (component.samSelection == null && retainedSelection === state) {
+                            retainedSelection = null
+                        }
+                    },
+                    onApply = {
+                        if (component.samSelection === state) {
+                            component.applySubjectSelection(it)
+                            scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                        }
+                    }
+                )
+            }
             if (component.bitmap == null) TopAppBarEmoji()
             else {
                 if (isPortrait) {

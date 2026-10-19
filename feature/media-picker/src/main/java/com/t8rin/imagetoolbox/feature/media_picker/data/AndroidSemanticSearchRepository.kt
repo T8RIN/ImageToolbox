@@ -147,7 +147,9 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         threshold: Float,
         cover: String?,
         excludedUris: Set<String>,
-        restoreExcluded: Boolean
+        restoreExcluded: Boolean,
+        excludedFaces: Set<String>,
+        coverFaceId: String?
     ) = editPeople {
         if (updatePerson(
                 id,
@@ -155,7 +157,9 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                 threshold,
                 cover,
                 excludedUris,
-                restoreExcluded
+                restoreExcluded,
+                excludedFaces,
+                coverFaceId
             ) || needsRegroup()
         ) {
             regroup()

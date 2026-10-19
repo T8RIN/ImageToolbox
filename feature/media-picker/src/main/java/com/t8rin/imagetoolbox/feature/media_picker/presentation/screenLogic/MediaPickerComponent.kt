@@ -219,7 +219,9 @@ class MediaPickerComponent @AssistedInject internal constructor(
         threshold: Float,
         cover: String? = null,
         excludedUris: Set<String> = emptySet(),
-        restoreExcluded: Boolean = false
+        restoreExcluded: Boolean = false,
+        excludedFaces: Set<String> = emptySet(),
+        coverFaceId: String? = null
     ): Boolean = editPerson {
         semanticSearchRepository.updatePerson(
             id,
@@ -227,7 +229,9 @@ class MediaPickerComponent @AssistedInject internal constructor(
             threshold,
             cover,
             excludedUris,
-            restoreExcluded
+            restoreExcluded,
+            excludedFaces,
+            coverFaceId
         )
     }
 

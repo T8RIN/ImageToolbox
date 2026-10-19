@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation
 
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -179,6 +180,9 @@ fun DrawContent(
     var renderedPaths by remember(component.imageBitmap, component.drawBehavior) {
         mutableStateOf<List<UiPathPaint>?>(null)
     }
+    var drawingBitmap by remember(component.imageBitmap, component.drawBehavior) {
+        mutableStateOf<Bitmap?>(null)
+    }
     val isRenderReady = renderedPaths == paths
 
     var alpha by rememberSaveable(component.drawBehavior, drawMode) {
@@ -324,6 +328,7 @@ fun DrawContent(
                     paths = appliedPaths,
                     pendingSpotHealPaths = pendingSpotHealPaths,
                     applySpotHealManually = settingsState.applySpotHealManually,
+                    onDraw = { drawingBitmap = it },
                     onRenderReady = { renderedPaths = paths.takeIf { _ -> it } },
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
@@ -360,12 +365,13 @@ fun DrawContent(
         controls = { scaffoldState ->
             DrawContentControls(
                 component = component,
+                isFaceDetectionEnabled = isRenderReady && !hasPendingSpotHeal,
                 onDetectFaces = { useYuNet ->
-                    scope.launch {
-                        scaffoldState.bottomSheetState.partialExpand()
-                        component.detectFaces(useYuNet) {
+                    drawingBitmap?.takeIf { isRenderReady && !hasPendingSpotHeal }?.let { bitmap ->
+                        component.detectFaces(bitmap, useYuNet) {
                             AppToastHost.showToast(R.string.faces_not_found)
                         }
+                        scope.launch { scaffoldState.bottomSheetState.partialExpand() }
                     }
                 },
                 secondaryControls = secondaryControls,

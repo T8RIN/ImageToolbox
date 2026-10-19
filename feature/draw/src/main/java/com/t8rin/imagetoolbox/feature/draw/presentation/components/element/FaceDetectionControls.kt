@@ -40,11 +40,13 @@ internal fun FaceDetectionControls(
     useYuNet: Boolean,
     onUseYuNetChange: (Boolean) -> Unit,
     isDetecting: Boolean,
+    enabled: Boolean,
     onDetectFaces: () -> Unit
 ) {
     PreferenceItemOverload(
         title = stringResource(R.string.detect_faces),
-        onClick = onDetectFaces.takeUnless { isDetecting },
+        onClick = onDetectFaces.takeIf { enabled && !isDetecting },
+        enabled = enabled || isDetecting,
         startIcon = {
             Icon(
                 imageVector = Icons.Outlined.Face6,
