@@ -129,6 +129,7 @@ internal fun MediaPickerGridWithOverlays(
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
     var searchPanelHeight by remember { mutableStateOf(0.dp) }
+    var controlsHeight by remember { mutableStateOf(0.dp) }
 
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
@@ -185,7 +186,7 @@ internal fun MediaPickerGridWithOverlays(
                 isButtonVisible = isButtonVisible,
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission,
-                bottomContentPadding = if (isSearching) searchPanelHeight + 32.dp else 0.dp
+                bottomContentPadding = (if (isSearching) searchPanelHeight else controlsHeight) + 32.dp
             )
             BoxAnimatedVisibility(
                 modifier = Modifier
@@ -520,7 +521,11 @@ internal fun MediaPickerGridWithOverlays(
                                 onSearchingChange(true)
                                 filterMedia()
                             },
-                            modifier = Modifier.padding(bottom = 6.dp)
+                            modifier = Modifier
+                                .onSizeChanged {
+                                    controlsHeight = with(density) { it.height.toDp() }
+                                }
+                                .padding(bottom = 6.dp)
                         )
                     }
                 }

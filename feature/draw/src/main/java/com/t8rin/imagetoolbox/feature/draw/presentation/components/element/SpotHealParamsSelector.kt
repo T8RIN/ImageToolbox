@@ -332,14 +332,11 @@ internal fun SpotHealParamsSelector(
                 }
             )
             AnimatedVisibility(visible = useLama) {
-                val workerLimit = remember {
-                    Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
-                }
-                val workerOptions = remember(workerLimit) {
+                val workerOptions = remember {
                     listOf(0) + (1..8)
                 }
                 val workerIndex = workerOptions.indexOf(
-                    settingsState.lamaThreads.coerceIn(0, workerLimit)
+                    settingsState.lamaThreads.coerceIn(workerOptions.first(), workerOptions.last())
                 ).coerceAtLeast(0)
 
                 val auto = stringResource(R.string.auto)
@@ -348,7 +345,8 @@ internal fun SpotHealParamsSelector(
                     EnhancedSliderItem(
                         value = workerIndex,
                         internalStateTransformation = { it.roundToInt() },
-                        onValueChange = {
+                        onValueChange = {},
+                        onValueChangeFinished = {
                             val index = it.roundToInt().coerceIn(workerOptions.indices)
                             uiScope.launch {
                                 simpleSettingsInteractor.setLamaThreads(workerOptions[index])
