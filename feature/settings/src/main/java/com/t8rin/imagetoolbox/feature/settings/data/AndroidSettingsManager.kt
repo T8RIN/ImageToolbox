@@ -160,6 +160,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_LIMIT_RESOLUTION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_THREADS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
@@ -647,6 +649,14 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setSpotHealMode(mode: Int) = edit {
         it[SPOT_HEAL_MODE] = mode
+    }
+
+    override suspend fun setLamaThreads(value: Int) = edit {
+        it[LAMA_THREADS] = value.coerceIn(0, 8)
+    }
+
+    override suspend fun setLamaLimitResolution(value: Boolean) = edit {
+        it[LAMA_LIMIT_RESOLUTION] = value
     }
 
     override suspend fun setFilenameSuffix(name: String) = edit {

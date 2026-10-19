@@ -83,6 +83,10 @@ interface SimpleSettingsInteractor {
 
     suspend fun setSpotHealMode(mode: Int)
 
+    suspend fun setLamaThreads(value: Int)
+
+    suspend fun setLamaLimitResolution(value: Boolean)
+
     suspend fun setApplySpotHealManually(value: Boolean)
 
     suspend fun setBorderWidth(width: Float)

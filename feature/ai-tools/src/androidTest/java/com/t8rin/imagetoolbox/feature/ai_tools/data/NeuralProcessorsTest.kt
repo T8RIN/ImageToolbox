@@ -34,11 +34,16 @@ import coil3.request.transformations
 import coil3.size.Size
 import coil3.toBitmap
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
+import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
+import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.feature.filters.data.model.SpotHealFilter
 import com.t8rin.neural_tools.inpaint.LaMaProcessor
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -189,6 +194,107 @@ class NeuralProcessorsTest {
         assertEquals(source.height, exported.height)
         assertTrue("The original request reused the preview cache", !preview.sameAs(exported))
         assertEquals(source.getPixel(0, 0), exported.getPixel(0, 0))
+    }
+
+    @Test
+    fun lamaLimitedExportKeepsOriginalPhotoSize() {
+        fixture("LaMa_dynamic.onnx").copyTo(
+            File(context.filesDir, "onnx/LaMa_dynamic.onnx").apply { parentFile?.mkdirs() },
+            overwrite = true
+        )
+        val source = BitmapFactory.decodeFile(fixture("lama-context.jpg").path)
+        val mask = BitmapFactory.decodeFile(fixture("lama-context-mask.png").path)
+        LaMaProcessor.inpaint(source, mask, isPreview = true)!!.recycle()
+        val start = SystemClock.elapsedRealtime()
+        val result = LaMaProcessor.inpaint(source, mask, limitResolution = true)!!
+        val elapsed = SystemClock.elapsedRealtime() - start
+        Log.i("LaMaBenchmark", "${source.width}x${source.height}: limited export=$elapsed ms")
+        assertEquals(source.width, result.width)
+        assertEquals(source.height, result.height)
+        val original = IntArray(source.width)
+        val selection = IntArray(source.width)
+        val actual = IntArray(source.width)
+        for (y in 0 until source.height) {
+            source.getPixels(original, 0, source.width, 0, y, source.width, 1)
+            mask.getPixels(selection, 0, source.width, 0, y, source.width, 1)
+            result.getPixels(actual, 0, source.width, 0, y, source.width, 1)
+            for (x in original.indices) {
+                if (Color.red(selection[x]) == 0) assertEquals(original[x], actual[x])
+            }
+        }
+        File(fixtures, "lama-limited-result.png").outputStream().use {
+            result.compress(Bitmap.CompressFormat.PNG, 100, it)
+        }
+        File(fixtures, "lama-limited-timing.txt").writeText("$elapsed")
+        source.recycle()
+        mask.recycle()
+        result.recycle()
+    }
+
+    @Test
+    fun lamaOptionsPreserveSizeAndSeparateExportCaches() = runBlocking {
+        fixture("LaMa_dynamic.onnx").copyTo(
+            File(context.filesDir, "onnx/LaMa_dynamic.onnx").apply { parentFile?.mkdirs() },
+            overwrite = true
+        )
+        val settings = context.entryPoint<SettingsStateEntryPoint>().settingsManager
+        val original = settings.getSettingsState()
+        val source = patternedBitmap(1153, 257)
+        val mask = Bitmap.createBitmap(source.width, source.height, Bitmap.Config.ARGB_8888)
+        Canvas(mask).drawRect(100f, 60f, 1050f, 180f, Paint().apply { color = Color.WHITE })
+        val value = ImageModel(mask) to SpotHealMode.LaMa
+        try {
+            settings.setLamaThreads(2)
+            settings.setLamaLimitResolution(false)
+            withTimeout(10_000) {
+                settings.settingsState.first { it.lamaThreads == 2 && !it.lamaLimitResolution }
+            }
+            val nativeFilter = SpotHealFilter(value)
+            val nativeKey = nativeFilter.cacheKey
+            val native = nativeFilter.transform(source, IntegerSize.Undefined)
+            settings.setLamaLimitResolution(true)
+            withTimeout(10_000) { settings.settingsState.first { it.lamaLimitResolution } }
+            val reducedFilter = SpotHealFilter(value)
+            assertTrue(
+                "Export resolution did not change the cache key",
+                nativeKey != reducedFilter.cacheKey
+            )
+            assertEquals(
+                "An existing filter changed its cache key",
+                nativeKey,
+                nativeFilter.cacheKey
+            )
+            val reduced = reducedFilter.transform(source, IntegerSize.Undefined)
+            val expected =
+                LaMaProcessor.inpaint(source, mask, threads = 2, limitResolution = true)!!
+            assertEquals(source.width, reduced.width)
+            assertEquals(source.height, reduced.height)
+            assertTrue("The saved setting was not applied", expected.sameAs(reduced))
+            assertTrue("Reduced export reused the native result", !native.sameAs(reduced))
+            for (y in 0 until source.height) {
+                for (x in 0 until source.width) {
+                    if (x !in 100 until 1050 || y !in 60 until 180) {
+                        assertEquals(source.getPixel(x, y), reduced.getPixel(x, y))
+                    }
+                }
+            }
+            settings.setLamaThreads(0)
+            withTimeout(10_000) { settings.settingsState.first { it.lamaThreads == 0 } }
+            assertTrue(
+                "Thread settings did not change the cache key",
+                reducedFilter.cacheKey != SpotHealFilter(value).cacheKey
+            )
+            assertEquals(0, settings.getSettingsState().lamaThreads)
+            assertTrue(settings.getSettingsState().lamaLimitResolution)
+            native.recycle()
+            reduced.recycle()
+            expected.recycle()
+        } finally {
+            settings.setLamaThreads(original.lamaThreads)
+            settings.setLamaLimitResolution(original.lamaLimitResolution)
+            source.recycle()
+            mask.recycle()
+        }
     }
 
     @Test

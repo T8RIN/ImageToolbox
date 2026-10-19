@@ -5632,4 +5632,6 @@
     <string name="snap_to_grid_sub">Выравнивать слои по центру и краям холста и других слоёв при перетаскивании</string>
     <string name="markup_background_layer">Фон</string>
     <string name="model_docshadow">Удаляет тени на документах с помощью DocShadow SD7K. Коррекция освещения применяется в исходном разрешении, сохраняя чёткость текста.</string>
+    <string name="lama_limit_resolution">Ограничить разрешение обработки</string>
+    <string name="lama_limit_resolution_sub">Обработка до 1024 пикселей для ускорения сохранения. Размер изображения сохраняется, но заполненная область может потерять детали.</string>
 </resources>

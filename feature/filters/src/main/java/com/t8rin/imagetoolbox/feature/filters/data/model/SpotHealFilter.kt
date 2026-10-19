@@ -18,12 +18,15 @@
 package com.t8rin.imagetoolbox.feature.filters.data.model
 
 import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.enums.SpotHealMode
 import com.t8rin.imagetoolbox.core.ksp.annotations.FilterInject
+import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.filters.data.utils.image.loadBitmap
 import com.t8rin.neural_tools.inpaint.LaMaProcessor
 import com.t8rin.neural_tools.withCancellableRunOptions
@@ -35,8 +38,14 @@ internal class SpotHealFilter(
     override val value: Pair<ImageModel, SpotHealMode>,
 ) : Transformation<Bitmap>, Filter.SpotHeal {
 
+    private val settings by lazy {
+        appContext.entryPoint<SettingsStateEntryPoint>().settingsManager.settingsState.value
+    }
+
     override val cacheKey: String
-        get() = value.hashCode().toString()
+        get() = if (value.second == SpotHealMode.LaMa) {
+            "${value.hashCode()}-${settings.lamaThreads}-${settings.lamaLimitResolution}"
+        } else value.hashCode().toString()
 
     override suspend fun transform(
         input: Bitmap,
@@ -79,7 +88,9 @@ internal class SpotHealFilter(
             image = input,
             mask = mask,
             runOptions = options,
-            isPreview = isPreview
+            isPreview = isPreview,
+            threads = settings.lamaThreads,
+            limitResolution = settings.lamaLimitResolution
         )
     } ?: openCV(
         input = input,
