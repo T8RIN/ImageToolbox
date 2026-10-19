@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox.feature.media_picker.data
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Color
+import android.graphics.RectF
 import androidx.core.graphics.createBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -33,6 +34,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.FailureNotifier
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsProvider
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.neural_tools.search.ClipImageSearch
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -89,6 +91,8 @@ class SemanticSearchRepositoryInstrumentedTest {
         val repository = AndroidSemanticSearchRepository(
             context = context,
             imageGetter = imageGetter,
+            imageScaler = semanticSearchImageScaler(),
+            imageCompressor = semanticSearchImageCompressor(),
             referenceStore = semanticSearchReferenceStore(context, imageGetter, dispatchers),
             dispatchersHolder = dispatchers
         )
@@ -105,10 +109,36 @@ class SemanticSearchRepositoryInstrumentedTest {
             assertFalse("Cached photos must not be decoded again", decodeStarted.isCompleted)
             assertEquals(1, repository.state.value.indexedImages)
 
+            val personId = SemanticFaceIndex(context).use { faces ->
+                faces.replace(
+                    cached,
+                    listOf(
+                        SemanticFaceIndex.Face(
+                            id = "cached-face",
+                            vector = embedding,
+                            thumbnail = File(directory, "face.webp").absolutePath,
+                            bounds = RectF(0.1f, 0.1f, 0.5f, 0.5f),
+                            confidence = 1f
+                        )
+                    )
+                )
+                (faces.people(listOf(cached))
+                    .single().category as SemanticSearchCategory.Person).personId
+            }
             val indexing = launch(Dispatchers.Default) { repository.index(listOf(media(2))) }
             try {
                 withTimeout(5_000) { decodeStarted.await() }
                 assertTrue(repository.state.value.isIndexing)
+                withTimeout(2_000) {
+                    repository.updatePerson(personId, "Alice", 0.55f, cached.uri)
+                    repository.setPersonHidden(personId, true)
+                }
+                SemanticFaceIndex(context).use { faces ->
+                    val person = faces.people(listOf(cached))
+                        .single().category as SemanticSearchCategory.Person
+                    assertEquals("Alice", person.name)
+                    assertTrue(person.hidden)
+                }
                 val results = withTimeout(30_000) {
                     repository.search("a red square", listOf(cached))
                 }

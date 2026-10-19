@@ -44,11 +44,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -64,6 +66,13 @@ internal fun MediaSemanticSearchCategories(
     selectedCategory: String?,
     onCategorySelected: (String?) -> Unit,
     onEditCategory: (String) -> Unit,
+    showPeople: Boolean,
+    peopleSelected: Boolean,
+    peopleCount: Int,
+    selectedPerson: SemanticSearchCategory.Person?,
+    onEditPerson: (String) -> Unit,
+    peoplePreviewUri: String?,
+    onPeopleClick: () -> Unit,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false
 ) {
@@ -74,11 +83,26 @@ internal fun MediaSemanticSearchCategories(
         (it.category as? SemanticSearchCategory.Custom)?.id
     }
     var knownCategoryIds by remember { mutableStateOf(customCategoryIds) }
-    LaunchedEffect(customCategoryIds) {
+    var hadPeople by remember { mutableStateOf(false) }
+    var hadIndexedPeople by remember { mutableStateOf(false) }
+    var previousPersonId by remember { mutableStateOf<Long?>(null) }
+    val hasIndexedPeople = peopleCount > 0
+    val personId = selectedPerson?.personId
+    LaunchedEffect(customCategoryIds, showPeople, hasIndexedPeople, personId) {
+        val showPeopleChip = showPeople && (
+                !hadPeople || (hasIndexedPeople && !hadIndexedPeople) ||
+                        (personId != null && personId != previousPersonId)
+                )
         val addedCategory = customCategoryIds.lastOrNull { it !in knownCategoryIds }
+        hadPeople = showPeople
+        hadIndexedPeople = hasIndexedPeople
+        previousPersonId = personId
         knownCategoryIds = customCategoryIds
-        if (addedCategory != null) {
-            listState.animateScrollToItem(categories.indexOfFirst { it.category.id == addedCategory })
+        when {
+            showPeopleChip -> listState.animateScrollToItem(0)
+            addedCategory != null -> listState.animateScrollToItem(
+                index = categories.indexOfFirst { it.category.id == addedCategory } + if (showPeople) 1 else 0
+            )
         }
     }
     Row(
@@ -114,6 +138,22 @@ internal fun MediaSemanticSearchCategories(
             ),
             flingBehavior = enhancedFlingBehavior()
         ) {
+            if (showPeople) {
+                item(key = "people_overview") {
+                    CategoryChip(
+                        title = selectedPerson?.title()
+                            ?: stringResource(R.string.gallery_people_groups),
+                        count = peopleCount,
+                        previewUri = selectedPerson?.thumbnail ?: peoplePreviewUri,
+                        showThumbnail = showCategoryThumbnail,
+                        selected = peopleSelected,
+                        isLoading = isLoading,
+                        icon = if (selectedPerson != null) Icons.Rounded.Close else null,
+                        onLongClick = selectedPerson?.let { person -> { onEditPerson(person.id) } },
+                        onClick = onPeopleClick
+                    )
+                }
+            }
             items(
                 items = categories,
                 key = { it.category.id }
@@ -141,11 +181,12 @@ private fun CategoryChip(
     title: String,
     selected: Boolean,
     onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     count: Int,
     previewUri: String?,
     showThumbnail: Boolean,
-    isLoading: Boolean
+    isLoading: Boolean,
+    icon: ImageVector? = null
 ) {
     val isImageVisible = showThumbnail && !previewUri.isNullOrEmpty()
     EnhancedChip(
@@ -155,10 +196,22 @@ private fun CategoryChip(
         selectedColor = MaterialTheme.colorScheme.tertiary,
         unselectedColor = MaterialTheme.colorScheme.tertiaryContainer,
         unselectedContentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-        contentPadding = PaddingValues(
-            horizontal = animateDpAsState(if (isImageVisible) 8.dp else 12.dp).value,
-            vertical = animateDpAsState(if (isImageVisible) 8.dp else 0.dp).value
-        ),
+        contentPadding = if (icon == null) {
+            PaddingValues(
+                horizontal = animateDpAsState(if (isImageVisible) 8.dp else 12.dp).value,
+                vertical = animateDpAsState(if (isImageVisible) 8.dp else 0.dp).value
+            )
+        } else {
+            val horizontal = animateDpAsState(if (isImageVisible) 8.dp else 12.dp).value
+            val vertical = animateDpAsState(if (isImageVisible) 8.dp else 0.dp).value
+
+            PaddingValues(
+                start = if (isImageVisible) horizontal else horizontal - 2.dp,
+                end = horizontal,
+                top = vertical,
+                bottom = vertical
+            )
+        },
         defaultMinSize = 32.dp,
         shape = ShapeDefaults.default,
         label = {
@@ -168,7 +221,8 @@ private fun CategoryChip(
                 count = count.toLong(),
                 showThumbnail = showThumbnail,
                 showInlineCount = true,
-                isLoading = isLoading
+                isLoading = isLoading,
+                icon = icon
             )
         }
     )
@@ -178,6 +232,12 @@ private fun CategoryChip(
 internal fun SemanticSearchCategory.title(): String = when (this) {
     is SemanticSearchCategory.BuiltIn -> stringResource(titleRes)
     is SemanticSearchCategory.Custom -> name
+    is SemanticSearchCategory.Person -> name.ifBlank {
+        stringResource(
+            R.string.gallery_person_number,
+            personId
+        )
+    }
 }
 
 @get:StringRes

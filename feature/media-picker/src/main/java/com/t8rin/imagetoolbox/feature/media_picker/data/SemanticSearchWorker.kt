@@ -137,26 +137,35 @@ internal class SemanticSearchWorker(
             delay(500)
             repository.state
                 .filter { it.isIndexing }
-                .map { it.processedImages to it.totalImages }
+                .map { Triple(it.processedImages, it.totalImages, it.isFacesIndexing) }
                 .distinctUntilChanged()
                 .conflate()
-                .collect { (processed, total) ->
-                    setForeground(createForegroundInfo(processed, total))
+                .collect { (processed, total, faces) ->
+                    setForeground(createForegroundInfo(processed, total, faces))
                     delay(1_000)
                 }
         }
         try {
-            repository.index(media)
+            repository.index(
+                media = media,
+                groupPeople = applicationContext.semanticSearchDependencies().settingsManager()
+                    .getSettingsState().semanticSearchSettings.groupPeople
+            )
         } finally {
             progressJob.cancelAndJoin()
         }
     }
 
-    private fun createForegroundInfo(processed: Int, total: Int) = ForegroundInfo(
+    private fun createForegroundInfo(processed: Int, total: Int, faces: Boolean = false) =
+        ForegroundInfo(
         NOTIFICATION_ID,
         notificationBuilder
             .setContentText(
-                applicationContext.getString(R.string.gallery_search_indexing, processed, total)
+                applicationContext.getString(
+                    if (faces) R.string.gallery_faces_indexing else R.string.gallery_search_indexing,
+                    processed,
+                    total
+                )
             )
             .setProgress(total, processed, total == 0)
             .build(),

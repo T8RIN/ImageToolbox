@@ -435,8 +435,15 @@ internal fun MediaPickerGridWithOverlays(
                                 hint = {
                                     Text(
                                         stringResource(
-                                            if (isSemanticSearchEnabled) R.string.gallery_search_hint
-                                            else R.string.search_here
+                                            when {
+                                                isSemanticSearchEnabled &&
+                                                        component.settingsState.semanticSearchSettings.groupPeople -> {
+                                                    R.string.gallery_search_people_hint
+                                                }
+
+                                                isSemanticSearchEnabled -> R.string.gallery_search_hint
+                                                else -> R.string.search_here
+                                            }
                                         )
                                     )
                                 },

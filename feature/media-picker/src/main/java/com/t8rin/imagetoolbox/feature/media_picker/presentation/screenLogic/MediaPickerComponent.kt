@@ -27,6 +27,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCat
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
@@ -41,10 +42,12 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySett
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.groupMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.mergeMediaSearchResults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByName
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByPeople
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -124,6 +127,127 @@ class MediaPickerComponent @AssistedInject internal constructor(
             started = SharingStarted.WhileSubscribed(5_000, replayExpirationMillis = 0),
             initialValue = MediaState()
         )
+    private val _showPeopleGroups = MutableStateFlow(false)
+    val showPeopleGroups = _showPeopleGroups.asStateFlow()
+
+    fun showPeopleGroups(show: Boolean) {
+        _showPeopleGroups.value = show
+        if (show) {
+            searchKeyword.value = ""
+            clearSearchImage()
+            selectSemanticCategory(null)
+        }
+    }
+
+    private var faceDownloadJob: Job? by smartJob()
+
+    fun setFaceGrouping(enabled: Boolean) {
+        faceDownloadJob = componentScope.launch {
+            try {
+                if (enabled) semanticSearchRepository.downloadFaceModels()
+                if (saveSemanticSearchSettings { it.copy(groupPeople = enabled) }) {
+                    if (enabled) semanticSearchScheduler.refresh()
+                    else {
+                        _showPeopleGroups.value = false
+                        if (_selectedSemanticCategory.value?.startsWith("person:") == true) {
+                            selectSemanticCategory(null)
+                        }
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppToastHost.showFailureToast(e)
+            }
+        }
+    }
+
+    private val _editingPersonId = mutableStateOf<String?>(null)
+    val editingPersonId: String? by _editingPersonId
+    private val _isSavingPersonSettings = mutableStateOf(false)
+    val isSavingPersonSettings: Boolean by _isSavingPersonSettings
+
+    fun showPersonSettings(id: String?) {
+        if (!isSavingPersonSettings) _editingPersonId.value = id
+    }
+
+    fun savePersonSettings(action: suspend () -> Boolean) {
+        if (isSavingPersonSettings) return
+        _isSavingPersonSettings.value = true
+        componentScope.launch {
+            try {
+                if (action()) _editingPersonId.value = null
+            } finally {
+                _isSavingPersonSettings.value = false
+            }
+        }
+    }
+
+    private val _resolvingPeoplePair = mutableStateOf<Pair<Long, Long>?>(null)
+    val resolvingPeoplePair: Pair<Long, Long>? by _resolvingPeoplePair
+    private val _resolvedPeoplePairs = mutableStateOf<Set<Pair<Long, Long>>>(emptySet())
+    val resolvedPeoplePairs: Set<Pair<Long, Long>> by _resolvedPeoplePairs
+
+    fun resolvePeoplePair(first: Long, second: Long, samePerson: Boolean) {
+        if (resolvingPeoplePair != null || first == second) return
+        _resolvingPeoplePair.value = first to second
+        componentScope.launch {
+            try {
+                val saved = editPerson {
+                    if (samePerson) semanticSearchRepository.mergePeople(setOf(second), first)
+                    else semanticSearchRepository.rejectPeoplePair(first, second)
+                }
+                if (saved) {
+                    val others = if (samePerson) {
+                        _semanticSearchCategories.value.mapNotNull {
+                            (it.category as? SemanticSearchCategory.Person)?.personId
+                        }
+                    } else listOf(first)
+                    _resolvedPeoplePairs.value += others.filter { it != second }.map {
+                        minOf(it, second) to maxOf(it, second)
+                    }
+                }
+            } finally {
+                _resolvingPeoplePair.value = null
+            }
+        }
+    }
+
+    suspend fun savePerson(
+        id: Long,
+        name: String,
+        threshold: Float,
+        cover: String? = null,
+        excludedUris: Set<String> = emptySet(),
+        restoreExcluded: Boolean = false
+    ): Boolean = editPerson {
+        semanticSearchRepository.updatePerson(
+            id,
+            name,
+            threshold,
+            cover,
+            excludedUris,
+            restoreExcluded
+        )
+    }
+
+    suspend fun mergePeople(from: Set<Long>, into: Long): Boolean =
+        editPerson { semanticSearchRepository.mergePeople(from, into) }
+
+    suspend fun setPersonHidden(id: Long, hidden: Boolean): Boolean =
+        editPerson { semanticSearchRepository.setPersonHidden(id, hidden) }
+
+    private suspend fun editPerson(action: suspend () -> Unit): Boolean = try {
+        action()
+        semanticSearchRevision.value++
+        true
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        AppToastHost.showFailureToast(e)
+        false
+    }
+
     private val _selectedSemanticCategory = MutableStateFlow<String?>(null)
     val selectedSemanticCategory = _selectedSemanticCategory.asStateFlow()
     private val _semanticSearchImage = MutableStateFlow<String?>(null)
@@ -145,6 +269,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
         if (_selectedSemanticCategory.value == category) return
         _filteredMediaState.value = _filteredMediaState.value.copy(isLoading = true)
         _selectedSemanticCategory.value = category
+        if (category?.startsWith("person:") == true) _showPeopleGroups.value = false
     }
 
     private fun prepareSemanticCategories(
@@ -269,11 +394,14 @@ class MediaPickerComponent @AssistedInject internal constructor(
     }
 
     fun clearSemanticSearch() = runSemanticSearchOperation {
+        faceDownloadJob?.cancel()
+        saveSemanticSearchSettings { it.copy(groupPeople = false) }
         clearSearchImage()
         settingsManager.setSemanticSearchEnabled(false)
         _isSemanticSearchEnabled.value = false
         semanticSearchScheduler.stop()
         semanticSearchRepository.clear()
+        _resolvedPeoplePairs.value = emptySet()
     }
 
     private fun runSemanticSearchOperation(action: suspend () -> Unit) {
@@ -309,12 +437,16 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     fun init(allowedMedia: AllowedMedia) {
         this.allowedMedia = allowedMedia
-        if (allowedMedia is AllowedMedia.Videos) _isSemanticSearchEnabled.value = false
+        if (allowedMedia is AllowedMedia.Videos) {
+            _isSemanticSearchEnabled.value = false
+            _showPeopleGroups.value = false
+        }
         getMedia(selectedAlbumId, allowedMedia)
         getAlbums(allowedMedia)
     }
 
     fun getAlbum(albumId: Long) {
+        _showPeopleGroups.value = false
         _selectedSemanticCategory.value = null
         this.selectedAlbumId = albumId
         getMedia(albumId, allowedMedia)
@@ -444,7 +576,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     CategoryIndexState(
                         modelsReady = it.modelsReady,
                         hasIndexedImages = it.indexedImages > 0,
-                        indexRevision = it.indexRevision
+                        indexRevision = it.indexRevision,
+                        faceModelsReady = it.faceModelsReady
                     )
                 }.distinctUntilChanged(),
                 semanticSearchSettings.map { it.forCategories() }.distinctUntilChanged(),
@@ -455,7 +588,9 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 if (scope != categoryScope.value || media != sourceMediaState.value ||
                     enabled != _isSemanticSearchEnabled.value
                 ) return@collectLatest
+                if (!settings.groupPeople) _showPeopleGroups.value = false
                 if (!enabled || !index.modelsReady || !index.hasIndexedImages) {
+                    _showPeopleGroups.value = false
                     _semanticSearchCategories.value = emptyList()
                     readyCategoryScope = null
                     _selectedSemanticCategory.value = null
@@ -528,7 +663,11 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 CategorySelection(
                     id = id,
                     result = result,
-                    isLoading = id != null && result == null && isLoading
+                    isLoading = id != null && result == null && isLoading,
+                    namedPeople = categories.filter {
+                        val person = it.category as? SemanticSearchCategory.Person
+                        person != null && !person.hidden && person.name.isNotBlank()
+                    }
                 )
             }.distinctUntilChanged()
             val searchInput = combine(searchKeyword, _semanticSearchImage) { keyword, image ->
@@ -581,7 +720,19 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     } else state
                 }
                 val nameMatches = withContext(ioDispatcher) {
-                    if (image == null) searchState.media.searchByName(keyword) else emptyList()
+                    if (image == null) {
+                        val filenames = searchState.media.searchByName(keyword)
+                        if (enabled && semantic.settings.groupPeople) {
+                            mergeMediaSearchResults(
+                                searchState.media.searchByPeople(keyword, selection.namedPeople),
+                                filenames
+                            )
+                        } else {
+                            filenames
+                        }
+                    } else {
+                        emptyList()
+                    }
                 }
                 if (!canSearch) {
                     val filtered = withContext(ioDispatcher) {
@@ -606,7 +757,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
                             semanticSearchRepository.searchByImage(
                                 uri = image,
                                 media = searchState.media,
-                                minimumSimilarity = semantic.settings.imageThreshold
+                                minimumSimilarity = semantic.settings.imageThreshold,
+                                groupPeople = semantic.settings.groupPeople
                             )
                         }
                         val filtered = withContext(ioDispatcher) {
@@ -663,7 +815,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private data class CategorySelection(
         val id: String?,
         val result: SemanticSearchCategoryResult?,
-        val isLoading: Boolean
+        val isLoading: Boolean,
+        val namedPeople: List<SemanticSearchCategoryResult>
     )
 
     private data class CategoryScope(val albumId: Long, val allowedMedia: AllowedMedia)
@@ -679,7 +832,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private data class CategoryIndexState(
         val modelsReady: Boolean,
         val hasIndexedImages: Boolean,
-        val indexRevision: Long
+        val indexRevision: Long,
+        val faceModelsReady: Boolean
     )
 
     private data class SemanticSearchRequest(

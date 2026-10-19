@@ -107,6 +107,92 @@ class MediaSearchTest {
         assertTrue(mergeMediaSearchResults(emptyList(), emptyList()).isEmpty())
     }
 
+    @Test
+    fun peopleSearchMatchesCyrillicNamesIgnoringCaseAndPreservesSourceOrder() {
+        val media = listOf(media(3, "third.jpg"), media(1, "first.jpg"), media(2, "second.jpg"))
+        val categories = listOf(person("АННА Иванова", listOf(media[1], media[0])))
+
+        assertEquals(listOf(media[0], media[1]), media.searchByPeople("на и", categories))
+    }
+
+    @Test
+    fun peopleSearchSkipsBlankQueriesUnnamedPeopleAndHiddenGroups() {
+        val media = listOf(media(1, "first.jpg"), media(2, "second.jpg"), media(3, "third.jpg"))
+        val categories = listOf(
+            person("Alice", listOf(media[0]), hidden = true),
+            person(" ", listOf(media[1])),
+            person("Alice", listOf(media[2])),
+            SemanticSearchCategoryResult(
+                SemanticSearchCategory.Custom("custom", "Alice", "Alice"),
+                listOf(media[1])
+            )
+        )
+
+        assertTrue(media.searchByPeople("", categories).isEmpty())
+        assertTrue(media.searchByPeople(" \t\n", categories).isEmpty())
+        assertEquals(listOf(media[2]), media.searchByPeople("ali", categories))
+        assertEquals(listOf(media[2]), media.searchByPeople("*", categories))
+    }
+
+    @Test
+    fun peopleSearchOnlyReturnsCurrentAlbumOrCategoryMediaWithCurrentMetadata() {
+        val current = media(1, "current.jpg")
+        val outside = media(2, "outside.jpg")
+        val old = current.copy(label = "old.jpg", timestamp = 1)
+        val categories = listOf(person("Alice", listOf(outside, old, old)))
+        val results = listOf(current).searchByPeople("Alice", categories)
+
+        assertEquals(listOf(current), results)
+        assertSame(current, results.single())
+        assertTrue(emptyList<Media>().searchByPeople("Alice", categories).isEmpty())
+    }
+
+    @Test
+    fun peopleSearchUsesTheSameWildcardRulesAsFilenames() {
+        val media = listOf(media(1, "first.jpg"), media(2, "second.jpg"))
+        val categories = listOf(
+            person("Alice Smith", listOf(media[0])),
+            person("Smith Alice", listOf(media[1]))
+        )
+
+        assertEquals(listOf(media[0]), media.searchByPeople("alice*", categories))
+        assertEquals(listOf(media[1]), media.searchByPeople("*alice", categories))
+        assertTrue(media.searchByPeople(" Alice ", categories).isEmpty())
+    }
+
+    @Test
+    fun peopleComeBeforeFilenamesAndContentWithoutDuplicatingPhotos() {
+        val filename = media(4, "alex-file.jpg")
+        val portrait = media(3, "IMG_003.jpg")
+        val shared = media(1, "alex.jpg")
+        val content = media(2, "IMG_002.jpg")
+        val media = listOf(filename, portrait, shared, content)
+        val categories = listOf(person("Alex", listOf(shared, portrait, portrait)))
+        val names = mergeMediaSearchResults(
+            media.searchByPeople("alex", categories),
+            media.searchByName("alex")
+        )
+
+        assertEquals(
+            listOf(portrait, shared, filename, content),
+            mergeMediaSearchResults(names, listOf(content, portrait, shared, filename))
+        )
+    }
+
+    private fun person(
+        name: String,
+        media: List<Media>,
+        hidden: Boolean = false
+    ) = SemanticSearchCategoryResult(
+        category = SemanticSearchCategory.Person(
+            personId = media.firstOrNull()?.id ?: 0,
+            name = name,
+            thumbnail = "",
+            hidden = hidden
+        ),
+        media = media
+    )
+
     private fun media(id: Long, label: String) = Media(
         id = id,
         label = label,

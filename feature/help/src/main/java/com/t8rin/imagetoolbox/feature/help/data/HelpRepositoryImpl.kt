@@ -445,6 +445,17 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                     )
                 ),
                 page(
+                    title = R.string.help_tip_gallery_search_people_title,
+                    description = R.string.help_tip_gallery_search_people_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_search_people_step_1,
+                        R.string.help_tip_gallery_search_people_step_2,
+                        R.string.help_tip_gallery_search_people_step_3,
+                        R.string.help_tip_gallery_search_people_step_4,
+                        R.string.help_tip_gallery_search_people_step_5
+                    )
+                ),
+                page(
                     title = R.string.help_tip_gallery_search_accuracy_title,
                     description = R.string.help_tip_gallery_search_accuracy_description,
                     steps = listOf(

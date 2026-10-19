@@ -592,6 +592,8 @@ class SimilarImageSearchInstrumentedTest {
         return AndroidSemanticSearchRepository(
             context = context,
             imageGetter = imageGetter,
+            imageScaler = semanticSearchImageScaler(),
+            imageCompressor = semanticSearchImageCompressor(),
             referenceStore = semanticSearchReferenceStore(context, imageGetter, dispatchers),
             dispatchersHolder = dispatchers
         )

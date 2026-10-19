@@ -18,13 +18,27 @@
 package com.t8rin.imagetoolbox.feature.media_picker.domain.model
 
 internal fun List<Media>.searchByName(query: String): List<Media> =
-    if (query.isBlank()) this else filter {
-        when {
-            query.startsWith("*") -> it.label.endsWith(query.drop(1), true)
-            query.endsWith("*") -> it.label.startsWith(query.dropLast(1), true)
-            else -> it.label.contains(query, true)
-        }
-    }
+    if (query.isBlank()) this else filter { it.label.matchesSearchQuery(query) }
+
+internal fun List<Media>.searchByPeople(
+    query: String,
+    categories: List<SemanticSearchCategoryResult>
+): List<Media> {
+    if (query.isBlank()) return emptyList()
+    val uris = categories.asSequence().filter {
+        val person = it.category as? SemanticSearchCategory.Person
+        person != null && !person.hidden && person.name.isNotBlank() && person.name.matchesSearchQuery(
+            query
+        )
+    }.flatMap { it.media.asSequence() }.mapTo(hashSetOf(), Media::uri)
+    return filter { it.uri in uris }.distinctBy(Media::uri)
+}
+
+private fun String.matchesSearchQuery(query: String): Boolean = when {
+    query.startsWith("*") -> endsWith(query.drop(1), true)
+    query.endsWith("*") -> startsWith(query.dropLast(1), true)
+    else -> contains(query, true)
+}
 
 internal fun mergeMediaSearchResults(
     nameMatches: List<Media>,

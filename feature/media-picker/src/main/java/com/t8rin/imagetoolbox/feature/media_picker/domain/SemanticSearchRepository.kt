@@ -32,9 +32,26 @@ interface SemanticSearchRepository {
 
     suspend fun refresh()
 
+    suspend fun downloadFaceModels()
+
+    suspend fun updatePerson(
+        id: Long,
+        name: String,
+        threshold: Float,
+        cover: String? = null,
+        excludedUris: Set<String> = emptySet(),
+        restoreExcluded: Boolean = false
+    )
+
+    suspend fun mergePeople(from: Set<Long>, into: Long)
+
+    suspend fun rejectPeoplePair(first: Long, second: Long)
+
+    suspend fun setPersonHidden(id: Long, hidden: Boolean)
+
     suspend fun downloadModels()
 
-    suspend fun index(media: List<Media>)
+    suspend fun index(media: List<Media>, groupPeople: Boolean = false)
 
     suspend fun search(
         query: String,
@@ -45,7 +62,8 @@ interface SemanticSearchRepository {
     suspend fun searchByImage(
         uri: String,
         media: List<Media>,
-        minimumSimilarity: Float = 0.7f
+        minimumSimilarity: Float = 0.7f,
+        groupPeople: Boolean = false
     ): List<Media>
 
     fun getCachedCategories(

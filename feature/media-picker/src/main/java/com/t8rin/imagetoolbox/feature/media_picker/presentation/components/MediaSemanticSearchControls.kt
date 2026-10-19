@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.MiniEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
+import com.t8rin.imagetoolbox.core.resources.icons.Person
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoLibrary
 import com.t8rin.imagetoolbox.core.resources.icons.Schedule
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
@@ -86,7 +87,7 @@ internal fun MediaSemanticSearchControls(
     val searching by component.isSemanticSearching.collectAsStateWithLifecycle()
     val searchError by component.semanticSearchError.collectAsStateWithLifecycle()
     val error = searchError ?: state.error
-    val busy = state.isDownloading || state.isIndexing || state.isQueued
+    val busy = state.isDownloading || state.isFacesDownloading || state.isIndexing || state.isQueued
     var showOptions by rememberSaveable { mutableStateOf(false) }
     var showClearConfirmation by rememberSaveable { mutableStateOf(false) }
     var showCategories by rememberSaveable { mutableStateOf(false) }
@@ -108,6 +109,17 @@ internal fun MediaSemanticSearchControls(
         }
     }
 
+    val faceDownloadProgress by rememberUpdatedState(state.facesDownloadProgress)
+    val cancelFaceDownload by rememberUpdatedState { component.setFaceGrouping(false) }
+    val faceDownloadContent: @Composable () -> Unit = remember {
+        {
+            SearchModelDownloadProgress(
+                progress = { faceDownloadProgress },
+                onCancel = { cancelFaceDownload() }
+            )
+        }
+    }
+
     EnhancedIconButton(
         onClick = {
             focusManager.clearFocus()
@@ -117,7 +129,7 @@ internal fun MediaSemanticSearchControls(
         else Color.Transparent,
         modifier = Modifier.padding(end = 4.dp)
     ) {
-        if (searching || state.isDownloading || (busy && state.indexedImages == 0)) {
+        if (searching || state.isDownloading || state.isFacesDownloading || (busy && state.indexedImages == 0)) {
             EnhancedCircularProgressIndicator(
                 modifier = Modifier.size(24.dp),
                 strokeWidth = 3.dp
@@ -179,13 +191,25 @@ internal fun MediaSemanticSearchControls(
                 shape = ShapeDefaults.top,
                 modifier = Modifier.fillMaxWidth()
             )
+            PreferenceRowSwitch(
+                title = stringResource(R.string.gallery_people_grouping),
+                subtitle = stringResource(R.string.gallery_people_grouping_description),
+                checked = component.settingsState.semanticSearchSettings.groupPeople || state.isFacesDownloading,
+                enabled = autoIndexing && !state.isDownloading,
+                onClick = component::setFaceGrouping,
+                startIcon = Icons.Outlined.Person,
+                contentInsteadOfSwitch = faceDownloadContent.takeIf { state.isFacesDownloading },
+                shape = ShapeDefaults.center,
+                modifier = Modifier.fillMaxWidth()
+            )
             if (
                 (autoIndexing && (state.isQueued || state.isIndexing)) || (state.modelsReady && state.indexedImages > 0)
             ) {
                 PreferenceItem(
                     title = when {
                         autoIndexing && state.isIndexing -> stringResource(
-                            R.string.gallery_search_indexing,
+                            if (state.isFacesIndexing) R.string.gallery_faces_indexing
+                            else R.string.gallery_search_indexing,
                             state.processedImages,
                             state.totalImages
                         )

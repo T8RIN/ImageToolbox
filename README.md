@@ -1362,6 +1362,7 @@ or click one of the badges below.
   - Automatic categories and custom categories from descriptions or reference photos
   - Adjustable similarity thresholds and live category preview
   - Automatic indexing and offline search after downloading the models
+  - People groups with names, face covers, matching thresholds, merging and photo exclusions
 - Shader Studio
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters

@@ -46,6 +46,20 @@ sealed interface SemanticSearchCategory {
         val defaultThreshold: Float get() = if (this == People) 0.25f else 0.26f
     }
 
+    data class Person(
+        val personId: Long,
+        val name: String,
+        val thumbnail: String,
+        val threshold: Float = 0.55f,
+        val excludedPhotos: Int = 0,
+        val coverUri: String? = null,
+        val faceThumbnails: Map<String, String> = emptyMap(),
+        val hidden: Boolean = false,
+        val similarPeople: Map<Long, Float> = emptyMap()
+    ) : SemanticSearchCategory {
+        override val id: String get() = "person:$personId"
+    }
+
     data class Custom(
         override val id: String,
         val name: String,

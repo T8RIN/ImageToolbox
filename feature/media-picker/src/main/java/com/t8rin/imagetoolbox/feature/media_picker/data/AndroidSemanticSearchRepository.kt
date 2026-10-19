@@ -23,7 +23,11 @@ import android.system.Os
 import android.util.LruCache
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageCompressor
 import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
+import com.t8rin.imagetoolbox.core.domain.image.ImageScaler
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getMediaFromCursor
@@ -33,6 +37,9 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchState
+import com.t8rin.neural_tools.faces.ArcFace
+import com.t8rin.neural_tools.faces.DetectedFace
+import com.t8rin.neural_tools.faces.UltraFaceDetector
 import com.t8rin.neural_tools.search.ClipImageSearch
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
@@ -45,23 +52,31 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.Closeable
+import java.io.File
+import java.util.UUID
 import javax.inject.Inject
 
 internal class AndroidSemanticSearchRepository @Inject constructor(
     @ApplicationContext private val context: Context,
     private val imageGetter: ImageGetter<Bitmap>,
+    private val imageScaler: ImageScaler<Bitmap>,
+    private val imageCompressor: ImageCompressor<Bitmap>,
     private val referenceStore: SemanticSearchReferenceStore,
     dispatchersHolder: DispatchersHolder
 ) : SemanticSearchRepository, DispatchersHolder by dispatchersHolder {
 
     private val indexMutex = Mutex()
+    private val faceIndexMutex = Mutex()
+    private var peopleRevision = 0L
     private val modelMutex = Mutex()
     private val searchMutex = Mutex()
     private val categoriesMutex = Mutex()
+    private val faceSearchMutex = Mutex()
 
     private val categoryCache = LruCache<CategoryCacheKey, List<SemanticSearchCategoryResult>>(4)
     private val categoryEmbeddings = mutableMapOf<String, FloatArray>()
     private val referenceEmbeddings = mutableMapOf<String, ReferenceEmbedding>()
+    private val faceReferences = mutableMapOf<String, FaceReference>()
     private val _state = MutableStateFlow(SemanticSearchState())
     override val state = _state.asStateFlow()
 
@@ -82,9 +97,79 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     override suspend fun refresh() = perform(modelMutex) {
         SemanticSearchIndex(context).use { index ->
             _state.update {
-                it.copy(modelsReady = ClipImageSearch.isDownloaded(), indexedImages = index.count())
+                it.copy(
+                    modelsReady = ClipImageSearch.isDownloaded(),
+                    indexedImages = index.count(),
+                    faceModelsReady = ArcFace.isDownloaded()
+                )
             }
         }
+    }
+
+    override suspend fun downloadFaceModels() = perform(modelMutex) {
+        _state.update {
+            it.copy(
+                isFacesDownloading = true,
+                facesDownloadProgress = 0f,
+                error = null
+            )
+        }
+        try {
+            ArcFace.download { progress ->
+                _state.update { it.copy(facesDownloadProgress = progress) }
+            }
+        } finally {
+            _state.update {
+                it.copy(isFacesDownloading = false, faceModelsReady = ArcFace.isDownloaded())
+            }
+        }
+    }
+
+    private suspend fun editPeople(action: suspend SemanticFaceIndex.() -> Unit) =
+        perform(faceIndexMutex) {
+            val hiddenPeopleCount = try {
+                SemanticFaceIndex(context).use { index ->
+                    index.action()
+                    index.hiddenCount()
+                }
+            } finally {
+                peopleRevision++
+            }
+            categoryCache.evictAll()
+            _state.update {
+                it.copy(indexRevision = it.indexRevision + 1, hiddenPeopleCount = hiddenPeopleCount)
+            }
+        }
+
+    override suspend fun updatePerson(
+        id: Long,
+        name: String,
+        threshold: Float,
+        cover: String?,
+        excludedUris: Set<String>,
+        restoreExcluded: Boolean
+    ) = editPeople {
+        if (updatePerson(
+                id,
+                name,
+                threshold,
+                cover,
+                excludedUris,
+                restoreExcluded
+            ) || needsRegroup()
+        ) {
+            regroup()
+        }
+    }
+
+    override suspend fun mergePeople(from: Set<Long>, into: Long) = editPeople { merge(from, into) }
+
+    override suspend fun rejectPeoplePair(first: Long, second: Long) = editPeople {
+        rejectPair(first, second)
+    }
+
+    override suspend fun setPersonHidden(id: Long, hidden: Boolean) = editPeople {
+        setHidden(id, hidden)
     }
 
     override suspend fun downloadModels() = perform(indexMutex) {
@@ -102,7 +187,7 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         }
     }
 
-    override suspend fun index(media: List<Media>) = perform(indexMutex) {
+    override suspend fun index(media: List<Media>, groupPeople: Boolean) = perform(indexMutex) {
         modelMutex.withLock {
             check(ClipImageSearch.isDownloaded()) { "Download the search models first" }
         }
@@ -110,8 +195,11 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         var pendingWrites = 0
         _state.update {
             it.copy(
-                isIndexing = true, processedImages = 0, totalImages = images.size,
-                failedImages = 0, error = null
+                isIndexing = true,
+                processedImages = 0,
+                totalImages = images.size,
+                failedImages = 0,
+                error = null
             )
         }
         try {
@@ -154,10 +242,20 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                     _state.update { it.copy(indexedImages = index.count()) }
                 }
             }
+            if (groupPeople && ArcFace.isDownloaded()) {
+                indexFaces(images) {
+                    pendingWrites++
+                    if (pendingWrites >= 256) {
+                        _state.update { it.copy(indexRevision = it.indexRevision + pendingWrites) }
+                        pendingWrites = 0
+                    }
+                }
+            }
         } finally {
             _state.update {
                 it.copy(
                     isIndexing = false,
+                    isFacesIndexing = false,
                     indexRevision = it.indexRevision + pendingWrites
                 )
             }
@@ -195,7 +293,8 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     override suspend fun searchByImage(
         uri: String,
         media: List<Media>,
-        minimumSimilarity: Float
+        minimumSimilarity: Float,
+        groupPeople: Boolean
     ): List<Media> {
         val images = media.filter { it.mimeType.startsWith("image/") }
         if (uri.isBlank() || images.isEmpty()) return emptyList()
@@ -222,6 +321,14 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                     minimumSimilarity = minimumSimilarity
                 ).single()
             }
+            if (groupPeople && _state.value.faceModelsReady) {
+                SemanticFaceIndex(context).use { index ->
+                    val faces = source?.let(index::embeddings)?.takeIf { it.isNotEmpty() }
+                        ?: faceEmbeddings(uri)
+                    val matches = index.search(faces, candidates, faceThreshold(minimumSimilarity))
+                    result = (matches + result).distinctBy(Media::uri)
+                }
+            }
         }
         return result
     }
@@ -246,14 +353,30 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     override suspend fun categories(
         media: List<Media>,
         settings: SemanticSearchSettings
-    ): List<SemanticSearchCategoryResult> = classifyCategories(media, settings)
+    ): List<SemanticSearchCategoryResult> {
+        val categories = withFaceReferences(classifyCategories(media, settings), media, settings)
+        return if (settings.groupPeople && _state.value.faceModelsReady) {
+            categories + withContext(ioDispatcher) {
+                SemanticFaceIndex(context).use { index ->
+                    _state.update { it.copy(hiddenPeopleCount = index.hiddenCount()) }
+                    index.people(media)
+                }
+            }
+        } else {
+            categories
+        }
+    }
 
     override suspend fun previewCategory(
         media: List<Media>,
         settings: SemanticSearchSettings,
         categoryId: String
-    ): SemanticSearchCategoryResult? = classifyCategories(media, settings, categoryId)
-        .find { it.category.id == categoryId }
+    ): SemanticSearchCategoryResult? = withFaceReferences(
+        classifyCategories(media, settings, categoryId),
+        media,
+        settings,
+        categoryId
+    ).find { it.category.id == categoryId }
 
     override suspend fun prepareCategoryReferences(
         settings: SemanticSearchSettings
@@ -261,6 +384,76 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
 
     override suspend fun cleanupCategoryReferences(settings: SemanticSearchSettings) =
         referenceStore.cleanup(settings)
+
+    private fun faceThreshold(imageThreshold: Float): Float =
+        (0.55f + imageThreshold - SemanticSearchSettings.DefaultImageThreshold).coerceIn(
+            0.4f,
+            0.85f
+        )
+
+    private suspend fun faceEmbeddings(uri: String): List<FloatArray> {
+        val image = loadFaceImage(uri) ?: return emptyList()
+        return UltraFaceDetector().use { detector ->
+            val faces = detector.detect(image).filter { it.isUsable() }
+            if (faces.isEmpty()) {
+                emptyList()
+            } else {
+                ArcFace.openEncoder().use { encoder -> faces.map { encoder.encode(image, it) } }
+            }
+        }
+    }
+
+    private suspend fun withFaceReferences(
+        categories: List<SemanticSearchCategoryResult>,
+        media: List<Media>,
+        settings: SemanticSearchSettings,
+        categoryId: String? = null
+    ): List<SemanticSearchCategoryResult> {
+        if (!settings.groupPeople || !_state.value.faceModelsReady) return categories
+        return withContext(ioDispatcher) {
+            faceSearchMutex.withLock {
+                val custom = settings.customCategories.filter {
+                    (categoryId == null || it.id == categoryId) && it.referenceImages.isNotEmpty()
+                }
+                faceReferences.keys.retainAll(settings.customCategories.flatMap { it.referenceImages }
+                    .toSet())
+                SemanticFaceIndex(context).use { index ->
+                    val matches = mutableMapOf<String, List<Media>>()
+                    custom.forEach { category ->
+                        val vectors = category.referenceImages.flatMap { uri ->
+                            val fingerprint = runCatching {
+                                context.contentResolver.openAssetFileDescriptor(uri.toUri(), "r")
+                                    ?.use {
+                                        Os.fstat(it.fileDescriptor)
+                                            .run { "$st_size:$st_mtime:$st_ctime:$st_ino" }
+                                    }
+                            }.getOrNull()
+                            if (fingerprint == null) {
+                                faceReferences.remove(uri)
+                                emptyList()
+                            } else {
+                                faceReferences[uri]?.takeIf { it.fingerprint == fingerprint }?.vectors
+                                    ?: faceEmbeddings(uri).also {
+                                        faceReferences[uri] = FaceReference(fingerprint, it)
+                                    }
+                            }
+                        }
+                        matches[category.id] = index.search(
+                            vectors, media, faceThreshold(category.referenceThreshold)
+                        )
+                    }
+                    categories.map { result ->
+                        val faces = matches[result.category.id].orEmpty()
+                        if (faces.isEmpty()) {
+                            result
+                        } else {
+                            result.copy(media = (faces + result.media).distinctBy(Media::uri))
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private suspend fun classifyCategories(
         media: List<Media>,
@@ -306,8 +499,10 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
                     }
                     val descriptions = allDescriptions.filterKeys {
                         categoryId == null || it.id == categoryId ||
-                                (categoryId == SemanticSearchCategory.BuiltIn.People.id &&
-                                        it == SemanticSearchCategory.BuiltIn.Animals)
+                                (
+                                        categoryId == SemanticSearchCategory.BuiltIn.People.id &&
+                                                it == SemanticSearchCategory.BuiltIn.Animals
+                                        )
                     }
                     val backgrounds = SemanticSearchClassifier.backgroundDescriptions.takeIf {
                         descriptions.keys.any {
@@ -362,8 +557,9 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         media: List<Media>,
         index: SemanticSearchIndex
     ): Map<String, List<FloatArray>> {
-        referenceEmbeddings.keys.retainAll(settings.customCategories.flatMap { it.referenceImages }
-            .toSet())
+        referenceEmbeddings.keys.retainAll(
+            settings.customCategories.flatMap { it.referenceImages }.toSet()
+        )
         val result = mutableMapOf<String, List<FloatArray>>()
         LazyImageEncoder().use { encoder ->
             settings.customCategories.filter { categoryId == null || it.id == categoryId }
@@ -425,7 +621,15 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
             modelMutex.withLock {
                 _state.update { it.copy(modelsReady = false) }
                 ClipImageSearch.deleteModels()
+                faceSearchMutex.withLock {
+                    ArcFace.deleteModels()
+                    faceReferences.clear()
+                }
                 SemanticSearchIndex(context).use(SemanticSearchIndex::clear)
+                faceIndexMutex.withLock {
+                    SemanticFaceIndex(context).use(SemanticFaceIndex::clear)
+                    peopleRevision++
+                }
                 categoryCache.evictAll()
                 categoryEmbeddings.clear()
                 referenceEmbeddings.clear()
@@ -433,6 +637,104 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
             }
         }
     }
+
+    private suspend fun indexFaces(images: List<Media>, onIndexed: () -> Unit) {
+        _state.update { it.copy(isFacesIndexing = true, processedImages = 0) }
+        SemanticFaceIndex(context).use { index ->
+            UltraFaceDetector().use { detector ->
+                ArcFace.openEncoder().use { encoder ->
+                    images.forEachIndexed { position, media ->
+                        currentCoroutineContext().ensureActive()
+                        if (index.needsScan(media)) {
+                            loadFaceImage(media.uri)?.let { image ->
+                                val faces = detector.detect(image).filter { it.isUsable() }
+                                saveFaces(index, media, image, faces, encoder)
+                                onIndexed()
+                            }
+                        }
+                        _state.update { it.copy(processedImages = position + 1) }
+                    }
+                    faceIndexMutex.withLock {
+                        if (index.needsRegroup()) {
+                            index.regroup()
+                            onIndexed()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun saveFaces(
+        index: SemanticFaceIndex,
+        media: Media,
+        image: Bitmap,
+        faces: List<DetectedFace>,
+        encoder: ArcFace.Encoder
+    ) {
+        val files = mutableListOf<File>()
+        var saved = false
+        try {
+            val entries = faces.map { face ->
+                val vector = encoder.encode(image, face)
+                val id = UUID.randomUUID().toString()
+                val file = File(index.thumbnails, "$id.webp")
+                files += file
+                saveFaceThumbnail(image, face, file)
+                SemanticFaceIndex.Face(
+                    id = id,
+                    vector = vector,
+                    thumbnail = file.absolutePath,
+                    bounds = face.bounds,
+                    confidence = face.confidence
+                )
+            }
+            faceIndexMutex.withLock {
+                index.invalidatePeopleCache(peopleRevision)
+                index.replace(media, entries)
+                saved = true
+            }
+        } finally {
+            if (!saved) files.forEach(File::delete)
+        }
+    }
+
+    private fun DetectedFace.isUsable(): Boolean =
+        bounds.width() * bounds.height() * confidence >= FaceClusterer.MIN_FACE_QUALITY
+
+    private suspend fun saveFaceThumbnail(image: Bitmap, face: DetectedFace, file: File) {
+        val bounds = face.bounds
+        val side = maxOf(bounds.width() * image.width, bounds.height() * image.height)
+            .toInt().coerceIn(1, minOf(image.width, image.height))
+        val x = (bounds.centerX() * image.width - side / 2f)
+            .toInt().coerceIn(0, image.width - side)
+        val y = (bounds.centerY() * image.height - side / 2f)
+            .toInt().coerceIn(0, image.height - side)
+        val crop = Bitmap.createBitmap(image, x, y, side, side)
+        try {
+            val thumbnail = imageScaler.scaleImage(crop, 160, 160)
+            try {
+                val bytes = imageCompressor.compress(
+                    image = thumbnail,
+                    imageFormat = ImageFormat.Webp.Lossy,
+                    quality = Quality.Base(85)
+                )
+                currentCoroutineContext().ensureActive()
+                check(bytes.isNotEmpty()) { "Could not save face thumbnail" }
+                file.writeBytes(bytes)
+            } finally {
+                if (thumbnail !== crop) thumbnail.recycle()
+            }
+        } finally {
+            if (crop !== image) crop.recycle()
+        }
+    }
+
+    private suspend fun loadFaceImage(uri: String): Bitmap? = imageGetter.getImageData(
+        uri = uri,
+        size = 1600,
+        onFailure = {}
+    )?.image
 
     private suspend fun loadImage(uri: String): Bitmap? = imageGetter.getImageData(
         uri = uri,
@@ -460,6 +762,8 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
         val allowedMedia: AllowedMedia,
         val settings: SemanticSearchSettings
     )
+
+    private class FaceReference(val fingerprint: String, val vectors: List<FloatArray>)
 
     private data class ReferenceEmbedding(val fingerprint: String, val embedding: FloatArray) {
         override fun equals(other: Any?): Boolean {

@@ -39,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -103,6 +104,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.BitmapEraser
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionSheet
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionState
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.OriginalImagePreviewAlphaSelector
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeButton
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeCard
@@ -120,11 +122,27 @@ fun EraseBackgroundContent(
 
     AutoContentBasedColors(component.bitmap)
 
-    component.samSelection?.let { state ->
+    val activeSelection = component.samSelection
+    var retainedSelection by remember { mutableStateOf<MobileSAMSelectionState?>(null) }
+    SideEffect {
+        if (activeSelection != null) retainedSelection = activeSelection
+    }
+
+    (activeSelection ?: retainedSelection)?.let { state ->
         MobileSAMSelectionSheet(
             state = state,
-            onDismiss = component::dismissSubjectSelection,
-            onApply = component::applySubjectSelection
+            visible = activeSelection === state,
+            onDismiss = {
+                if (component.samSelection === state) component.dismissSubjectSelection()
+            },
+            onHidden = {
+                if (component.samSelection == null && retainedSelection === state) {
+                    retainedSelection = null
+                }
+            },
+            onApply = {
+                if (component.samSelection === state) component.applySubjectSelection(it)
+            }
         )
     }
 
@@ -142,9 +160,14 @@ fun EraseBackgroundContent(
         isPickedAlready = component.initialUri != null
     )
 
+    val onGoBack = {
+        component.dismissSubjectSelection()
+        component.onGoBack()
+    }
+
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else component.onGoBack()
+        else onGoBack()
     }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -494,7 +517,7 @@ fun EraseBackgroundContent(
     )
 
     ExitWithoutSavingDialog(
-        onExit = component.onGoBack,
+        onExit = onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

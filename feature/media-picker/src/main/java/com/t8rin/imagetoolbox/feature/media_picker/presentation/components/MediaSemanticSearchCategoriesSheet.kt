@@ -34,6 +34,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -213,16 +214,13 @@ internal fun SemanticSearchCategoryEditor(
     val initialThreshold = custom?.threshold ?: settings.categoryThresholds[id] ?: defaultThreshold
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
-    var name by rememberSaveable(id, visible) { mutableStateOf(custom?.name.orEmpty()) }
-    var description by rememberSaveable(
-        id,
-        visible
-    ) { mutableStateOf(custom?.description.orEmpty()) }
-    var threshold by rememberSaveable(id, visible) { mutableFloatStateOf(initialThreshold) }
-    var referenceImages by rememberSaveable(id, visible) {
+    var name by rememberSaveable(id) { mutableStateOf(custom?.name.orEmpty()) }
+    var description by rememberSaveable(id) { mutableStateOf(custom?.description.orEmpty()) }
+    var threshold by rememberSaveable(id) { mutableFloatStateOf(initialThreshold) }
+    var referenceImages by rememberSaveable(id) {
         mutableStateOf(custom?.referenceImages.orEmpty())
     }
-    var referenceThreshold by rememberSaveable(id, visible) {
+    var referenceThreshold by rememberSaveable(id) {
         mutableFloatStateOf(
             custom?.referenceThreshold ?: SemanticSearchSettings.DefaultImageThreshold
         )
@@ -232,8 +230,21 @@ internal fun SemanticSearchCategoryEditor(
             it.takePersistablePermission(Intent.FLAG_GRANT_READ_URI_PERMISSION).toString()
         }).distinct()
     }
-    var showDeleteConfirmation by rememberSaveable(id, visible) { mutableStateOf(false) }
-    var isSaving by remember(id, visible) { mutableStateOf(false) }
+    var showDeleteConfirmation by rememberSaveable(id) { mutableStateOf(false) }
+    var isSaving by remember(id) { mutableStateOf(false) }
+    var wasVisible by rememberSaveable(id) { mutableStateOf(false) }
+    LaunchedEffect(visible, id) {
+        if (visible && !wasVisible) {
+            name = custom?.name.orEmpty()
+            description = custom?.description.orEmpty()
+            threshold = initialThreshold
+            referenceImages = custom?.referenceImages.orEmpty()
+            referenceThreshold = custom?.referenceThreshold
+                ?: SemanticSearchSettings.DefaultImageThreshold
+            showDeleteConfirmation = false
+        }
+        wasVisible = visible
+    }
     val builtInNames = SemanticSearchCategory.BuiltIn.entries.map { it.title() }
     val duplicateName = name.isNotBlank() && (
             builtInNames.any { it.equals(name.trim(), ignoreCase = true) } ||
@@ -441,7 +452,7 @@ internal fun SemanticSearchCategoryEditor(
                     .padding(top = 4.dp)
             )
             SemanticSearchCategoryPreview(
-                visible = visible,
+                visible = true,
                 categoryId = id,
                 category = draft.takeIf { builtIn == null },
                 threshold = threshold,

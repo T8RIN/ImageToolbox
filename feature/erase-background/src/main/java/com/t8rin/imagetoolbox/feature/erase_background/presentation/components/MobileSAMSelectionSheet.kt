@@ -35,9 +35,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -63,28 +66,40 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun MobileSAMSelectionSheet(
     state: MobileSAMSelectionState,
+    visible: Boolean,
     onDismiss: () -> Unit,
+    onHidden: () -> Unit,
     onApply: (Bitmap) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
+    var applyRequested by remember(state) { mutableStateOf(false) }
 
-    LaunchedEffect(state) {
-        state.prepare()
-        onDismiss()
+    LaunchedEffect(state, visible) {
+        if (visible) {
+            state.prepare()
+            onDismiss()
+        }
     }
-    LaunchedEffect(state.isPrepared, state.points) {
-        state.updatePreview()
+    LaunchedEffect(state, visible, state.isPrepared, state.points) {
+        if (visible) state.updatePreview()
+    }
+    LaunchedEffect(state, visible, applyRequested) {
+        if (visible && applyRequested) {
+            try {
+                state.applySelection()?.let(onApply)
+            } finally {
+                applyRequested = false
+            }
+        }
     }
 
     EnhancedModalBottomSheet(
         nestedScrollEnabled = false,
         enableBottomContentWeight = true,
-        visible = true,
+        visible = visible,
         onDismiss = { if (!it) onDismiss() },
         title = {
             TitleItem(
@@ -94,10 +109,9 @@ internal fun MobileSAMSelectionSheet(
         },
         confirmButton = {
             EnhancedButton(
-                enabled = state.isPrepared && state.canApply && !state.isLoading,
-                onClick = {
-                    scope.launch { state.applySelection()?.let(onApply) }
-                }
+                enabled = visible && state.isPrepared && state.canApply &&
+                        !state.isLoading && !applyRequested,
+                onClick = { applyRequested = true }
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
@@ -114,6 +128,10 @@ internal fun MobileSAMSelectionSheet(
             }
         }
     ) {
+        DisposableEffect(state) {
+            onDispose { onHidden() }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,6 +140,7 @@ internal fun MobileSAMSelectionSheet(
         ) {
             MobileSAMSelectionPreview(
                 state = state,
+                visible = visible,
                 positive = state.positive,
                 modifier = Modifier
                     .weight(1f, false)
@@ -135,7 +154,7 @@ internal fun MobileSAMSelectionSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 EnhancedButtonGroup(
-                    enabled = state.isPrepared && !state.isApplying,
+                    enabled = visible && state.isPrepared && !state.isApplying,
                     title = null,
                     items = listOf(
                         stringResource(R.string.sam_keep),
@@ -147,7 +166,8 @@ internal fun MobileSAMSelectionSheet(
                     modifier = Modifier.weight(1f)
                 )
                 EnhancedIconButton(
-                    enabled = state.isPrepared && state.points.isNotEmpty() && !state.isApplying,
+                    enabled = visible && state.isPrepared &&
+                            state.points.isNotEmpty() && !state.isApplying,
                     onClick = state::undoPoint
                 ) {
                     Icon(
@@ -169,6 +189,7 @@ internal fun MobileSAMSelectionSheet(
 @Composable
 private fun MobileSAMSelectionPreview(
     state: MobileSAMSelectionState,
+    visible: Boolean,
     positive: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -181,8 +202,10 @@ private fun MobileSAMSelectionPreview(
         modifier = modifier
             .container(shape = ShapeDefaults.default, resultPadding = 0.dp)
             .transparencyChecker()
-            .pointerInput(state, positive) {
+            .pointerInput(state, positive, visible) {
                 detectTapGestures { offset ->
+                    if (!visible) return@detectTapGestures
+
                     val scale = minOf(
                         size.width / source.width.toFloat(),
                         size.height / source.height.toFloat()
@@ -236,7 +259,7 @@ private fun MobileSAMSelectionPreview(
                 )
             }
         }
-        if (state.isLoading) {
+        if (visible && state.isLoading) {
             Box(
                 modifier = Modifier
                     .matchParentSize()

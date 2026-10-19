@@ -21,7 +21,8 @@ data class SemanticSearchSettings(
     val textThreshold: Float = DefaultTextThreshold,
     val imageThreshold: Float = DefaultImageThreshold,
     val categoryThresholds: Map<String, Float> = emptyMap(),
-    val customCategories: List<CustomSemanticSearchCategory> = emptyList()
+    val customCategories: List<CustomSemanticSearchCategory> = emptyList(),
+    val groupPeople: Boolean = false
 ) {
     fun normalized(): SemanticSearchSettings = copy(
         textThreshold = textThreshold.takeIf(Float::isFinite)

@@ -39,6 +39,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
@@ -46,9 +47,11 @@ import androidx.compose.material3.LinearWavyProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -57,6 +60,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
@@ -70,6 +74,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -89,16 +94,45 @@ internal fun MediaPickerHavePermissions(
     selectedCategory: String?,
     categoriesLoading: Boolean
 ) {
+    val showPeopleGroups by component.showPeopleGroups.collectAsStateWithLifecycle()
+    val categoryResults by component.semanticSearchCategories.collectAsStateWithLifecycle()
+    val personResults = categoryResults.filter { it.category is SemanticSearchCategory.Person }
+    val peoplePreview = personResults.firstOrNull {
+        !(it.category as SemanticSearchCategory.Person).hidden
+    } ?: personResults.firstOrNull()
+    val selectedPerson = personResults.firstOrNull { it.category.id == selectedCategory }
+        ?.category as? SemanticSearchCategory.Person
+    val showPeople = component.settingsState.semanticSearchSettings.groupPeople
+    var showHiddenPeople by rememberSaveable { mutableStateOf(false) }
+    val peopleGridState = rememberLazyGridState()
+
+    BackHandler(showPeopleGroups) { component.showPeopleGroups(false) }
+
     var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
     }
 
-    var editingCategoryId by rememberSaveable { mutableStateOf<String?>(null) }
+    var editingCategoryId by rememberSaveable { mutableStateOf("") }
+    var showCategoryEditor by rememberSaveable { mutableStateOf(false) }
+    val editingPersonId = component.editingPersonId
+    var editingPersonResult by remember { mutableStateOf<SemanticSearchCategoryResult?>(null) }
     val focusManager = LocalFocusManager.current
+    val onEditPerson: (String) -> Unit = { id ->
+        personResults.firstOrNull { it.category.id == id }?.let {
+            focusManager.clearFocus()
+            editingPersonResult = it
+            component.showPersonSettings(id)
+        }
+    }
+    LaunchedEffect(editingPersonId, personResults) {
+        if (editingPersonId != null && editingPersonResult?.category?.id != editingPersonId) {
+            editingPersonResult = personResults.firstOrNull { it.category.id == editingPersonId }
+        }
+    }
 
-    BackHandler(selectedAlbumIndex != -1L) {
+    BackHandler(selectedAlbumIndex != -1L && !showPeopleGroups) {
         selectedAlbumIndex = -1L
         component.getAlbum(selectedAlbumIndex)
     }
@@ -108,7 +142,8 @@ internal fun MediaPickerHavePermissions(
     }
 
     BackHandler(selectedCategory != null && !isSearching) {
-        component.selectSemanticCategory(null)
+        if (selectedCategory?.startsWith("person:") == true) component.showPeopleGroups(true)
+        else component.selectSemanticCategory(null)
     }
 
     Scaffold(
@@ -213,10 +248,25 @@ internal fun MediaPickerHavePermissions(
                         categories = visibleCategories,
                         selectedCategory = selectedCategory,
                         isLoading = categoriesLoading,
-                        onCategorySelected = component::selectSemanticCategory,
+                        showPeople = showPeople,
+                        peopleCount = personResults.size,
+                        selectedPerson = selectedPerson,
+                        onEditPerson = onEditPerson,
+                        peoplePreviewUri = (peoplePreview?.category as? SemanticSearchCategory.Person)?.thumbnail,
+                        peopleSelected = showPeopleGroups || selectedCategory?.startsWith("person:") == true,
+                        onPeopleClick = {
+                            isSearching = false
+                            focusManager.clearFocus()
+                            component.showPeopleGroups(true)
+                        },
+                        onCategorySelected = {
+                            component.showPeopleGroups(false)
+                            component.selectSemanticCategory(it)
+                        },
                         onEditCategory = {
                             focusManager.clearFocus()
                             editingCategoryId = it
+                            showCategoryEditor = true
                         },
                         modifier = Modifier.padding(
                             top = if (hasAlbums) 0.dp else 8.dp,
@@ -236,7 +286,16 @@ internal fun MediaPickerHavePermissions(
         },
         contentWindowInsets = WindowInsets()
     ) { contentPadding ->
-        MediaPickerGridWithOverlays(
+        if (showPeopleGroups) {
+            MediaPeopleOverview(
+                component = component,
+                showHidden = showHiddenPeople,
+                onShowHiddenChange = { showHiddenPeople = it },
+                gridState = peopleGridState,
+                onEditPerson = onEditPerson,
+                modifier = Modifier.padding(contentPadding)
+            )
+        } else MediaPickerGridWithOverlays(
             component = component,
             isSearching = isSearching,
             isGalleryMode = isGalleryMode,
@@ -254,9 +313,18 @@ internal fun MediaPickerHavePermissions(
     }
 
     SemanticSearchCategoryEditor(
-        visible = editingCategoryId != null,
-        onDismiss = { if (!it) editingCategoryId = null },
-        id = editingCategoryId.orEmpty(),
+        visible = showCategoryEditor,
+        onDismiss = { showCategoryEditor = it },
+        id = editingCategoryId,
         component = component
     )
+    editingPersonResult?.let { result ->
+        PeopleGroupSettings(
+            result = result,
+            people = personResults,
+            component = component,
+            visible = editingPersonId != null,
+            onDismiss = { component.showPersonSettings(null) }
+        )
+    }
 }

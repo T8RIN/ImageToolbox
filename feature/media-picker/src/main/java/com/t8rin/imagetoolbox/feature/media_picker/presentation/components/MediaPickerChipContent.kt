@@ -29,8 +29,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -43,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -62,7 +66,8 @@ internal fun MediaPickerChipContent(
     count: Long,
     showThumbnail: Boolean,
     showInlineCount: Boolean = false,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    icon: ImageVector? = null
 ) {
     val hasPreview = !previewUri.isNullOrEmpty()
     Column(
@@ -82,12 +87,32 @@ internal fun MediaPickerChipContent(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = title,
-                modifier = Modifier.onSizeChanged {
-                    titleWidth = with(density) { it.width.toDp().coerceAtLeast(100.dp).value }
+            if (icon == null) {
+                Text(
+                    text = title,
+                    modifier = Modifier.onSizeChanged {
+                        titleWidth = with(density) { it.width.toDp().coerceAtLeast(100.dp).value }
+                    }
+                )
+            } else {
+                Row(
+                    modifier = Modifier
+                        .heightIn(min = 20.dp)
+                        .onSizeChanged {
+                            titleWidth =
+                                with(density) { it.width.toDp().coerceAtLeast(100.dp).value }
+                        },
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(text = title)
                 }
-            )
+            }
             if (showInlineCount && (!showThumbnail || !hasPreview) && !isLoading) {
                 Text(
                     text = count.toString(),

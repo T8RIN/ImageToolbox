@@ -258,41 +258,47 @@ internal fun semanticSearchReferenceStore(
 ) = SemanticSearchReferenceStore(
     context = context,
     imageGetter = imageGetter,
-    imageScaler = object : ImageScaler<Bitmap> {
-        override suspend fun scaleImage(
-            image: Bitmap,
-            width: Int,
-            height: Int,
-            resizeType: ResizeType,
-            imageScaleMode: ImageScaleMode
-        ) = image.scale(width, height)
-
-        override suspend fun scaleUntilCanShow(image: Bitmap?) = image
-    },
-    imageCompressor = object : ImageCompressor<Bitmap> {
-        @Suppress("DEPRECATION")
-        override suspend fun compress(
-            image: Bitmap,
-            imageFormat: ImageFormat,
-            quality: Quality
-        ): ByteArray {
-            onCompress()
-            assertEquals(ImageFormat.Webp.Lossy, imageFormat)
-            return ByteArrayOutputStream().use {
-                check(image.compress(Bitmap.CompressFormat.WEBP, quality.qualityValue, it))
-                it.toByteArray()
-            }
-        }
-
-        override suspend fun compressAndTransform(
-            image: Bitmap,
-            imageInfo: ImageInfo,
-            onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
-            applyImageTransformations: Boolean
-        ): ByteArray = error("Reference copies must not apply user transformations")
-
-        override suspend fun calculateImageSize(image: Bitmap, imageInfo: ImageInfo): Long =
-            error("Reference copies must not need an extra compression pass")
-    },
+    imageScaler = semanticSearchImageScaler(),
+    imageCompressor = semanticSearchImageCompressor(onCompress),
     dispatchersHolder = dispatchers
 )
+
+internal fun semanticSearchImageScaler(): ImageScaler<Bitmap> = object : ImageScaler<Bitmap> {
+    override suspend fun scaleImage(
+        image: Bitmap,
+        width: Int,
+        height: Int,
+        resizeType: ResizeType,
+        imageScaleMode: ImageScaleMode
+    ) = image.scale(width, height)
+
+    override suspend fun scaleUntilCanShow(image: Bitmap?) = image
+}
+
+internal fun semanticSearchImageCompressor(
+    onCompress: suspend () -> Unit = {}
+): ImageCompressor<Bitmap> = object : ImageCompressor<Bitmap> {
+    @Suppress("DEPRECATION")
+    override suspend fun compress(
+        image: Bitmap,
+        imageFormat: ImageFormat,
+        quality: Quality
+    ): ByteArray {
+        onCompress()
+        assertEquals(ImageFormat.Webp.Lossy, imageFormat)
+        return ByteArrayOutputStream().use {
+            check(image.compress(Bitmap.CompressFormat.WEBP, quality.qualityValue, it))
+            it.toByteArray()
+        }
+    }
+
+    override suspend fun compressAndTransform(
+        image: Bitmap,
+        imageInfo: ImageInfo,
+        onImageReadyToCompressInterceptor: suspend (Bitmap) -> Bitmap,
+        applyImageTransformations: Boolean
+    ): ByteArray = error("Reference copies must not apply user transformations")
+
+    override suspend fun calculateImageSize(image: Bitmap, imageInfo: ImageInfo): Long =
+        error("Reference copies must not need an extra compression pass")
+}
