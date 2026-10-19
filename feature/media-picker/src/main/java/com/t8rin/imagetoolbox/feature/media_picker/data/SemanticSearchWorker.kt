@@ -106,7 +106,7 @@ internal class SemanticSearchWorker(
                         Result.success()
                     }
                 } catch (_: TimeoutCancellationException) {
-                    repository.updateWorkState(isQueued = true, isWaitingForPermission = false)
+                    repository.updateWorkState(isQueued = false, isWaitingForPermission = false)
                     runSuspendCatching {
                         (dependencies.scheduler() as AndroidSemanticSearchScheduler).continueIndexing()
                     }.fold(
@@ -117,7 +117,7 @@ internal class SemanticSearchWorker(
                     throw cancellation
                 } catch (exception: Exception) {
                     repository.updateWorkState(
-                        isQueued = true,
+                        isQueued = false,
                         isWaitingForPermission = false,
                         error = exception.localizedMessage ?: exception.toString()
                     )

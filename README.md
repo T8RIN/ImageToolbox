@@ -954,6 +954,8 @@ or click one of the badges below.
     - ISNet
     - YOLO
     - MODNet
+    - MobileSAM
+  - Select objects with keep and remove points using MobileSAM
 - Watermarking
     - Repeating Text
     - Image
@@ -969,6 +971,7 @@ or click one of the badges below.
     - Warp (Move, Grow, Shrink, Swirl, Mix)
     - Privacy Blur
     - Pixelation Paint
+    - Automatic face masking with YuNet or UltraFace
     - Text
     - Image Brush
     - Filter Brush

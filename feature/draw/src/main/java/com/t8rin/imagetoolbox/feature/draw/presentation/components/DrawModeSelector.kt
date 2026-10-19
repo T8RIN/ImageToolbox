@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.CustomPathEffectParamsSelector
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.FaceDetectionControls
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.ImageParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PixelationParamsSelector
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.element.PrivacyBlurParamsSelector
@@ -82,9 +83,26 @@ fun DrawModeSelector(
     value: DrawMode,
     strokeWidth: Pt,
     onValueChange: (DrawMode) -> Unit,
+    canDetectFaces: Boolean = false,
+    isDetectingFaces: Boolean = false,
+    onDetectFaces: ((Boolean) -> Unit)? = null,
     values: List<DrawMode> = DrawMode.entries
 ) {
     var isSheetVisible by rememberSaveable { mutableStateOf(false) }
+    var useYuNet by rememberSaveable { mutableStateOf(true) }
+
+    val faceDetectionControls: (@Composable () -> Unit)? = if (canDetectFaces && onDetectFaces != null) {
+        {
+            FaceDetectionControls(
+                useYuNet = useYuNet,
+                onUseYuNetChange = { useYuNet = it },
+                isDetecting = isDetectingFaces,
+                onDetectFaces = { onDetectFaces(useYuNet) }
+            )
+        }
+    } else {
+        null
+    }
 
     LaunchedEffect(values, value) {
         if (values.find { it::class.isInstance(value) } == null) {
@@ -139,12 +157,14 @@ fun DrawModeSelector(
 
         PrivacyBlurParamsSelector(
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            faceDetectionControls = faceDetectionControls
         )
 
         PixelationParamsSelector(
             value = value,
-            onValueChange = onValueChange
+            onValueChange = onValueChange,
+            faceDetectionControls = faceDetectionControls
         )
 
         TextParamsSelector(

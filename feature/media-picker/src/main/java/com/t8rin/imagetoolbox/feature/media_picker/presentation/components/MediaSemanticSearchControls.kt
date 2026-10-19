@@ -21,6 +21,7 @@ import android.Manifest
 import android.net.Uri
 import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,6 +39,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -99,11 +101,8 @@ internal fun MediaSemanticSearchControls(
     val cancelDownload by rememberUpdatedState { component.setSemanticSearchAutoIndexing(false) }
     val downloadContent: @Composable () -> Unit = remember {
         {
-            EnhancedCancellableCircularProgressIndicator(
+            SearchModelDownloadProgress(
                 progress = { downloadProgress },
-                modifier = Modifier.size(24.dp),
-                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                strokeWidth = 3.dp,
                 onCancel = { cancelDownload() }
             )
         }
@@ -333,6 +332,25 @@ private fun SearchPreparationProgress(progress: Float?) {
         LinearWavyProgressIndicator(
             progress = { progress.coerceIn(0f, 1f) },
             modifier = modifier
+        )
+    }
+}
+
+@Composable
+private fun SearchModelDownloadProgress(
+    progress: () -> Float,
+    onCancel: () -> Unit
+) {
+    Box(
+        modifier = Modifier.size(width = 52.dp, height = 32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        EnhancedCancellableCircularProgressIndicator(
+            progress = progress,
+            modifier = Modifier.size(24.dp),
+            trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+            strokeWidth = 3.dp,
+            onCancel = onCancel
         )
     }
 }

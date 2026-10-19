@@ -28,6 +28,8 @@ dependencies {
     implementation(libs.trickle)
     implementation(libs.aire)
 
+    implementation(projects.lib.neuralTools)
+    implementation(projects.lib.opencvTools)
     implementation(projects.core.filters)
     implementation(projects.feature.pickColor)
 }

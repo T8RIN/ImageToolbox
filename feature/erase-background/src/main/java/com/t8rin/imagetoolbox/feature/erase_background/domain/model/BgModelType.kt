@@ -30,7 +30,8 @@ enum class BgModelType(
     BiRefNetTiny("BiRefNet"),
     ISNet("ISNet"),
     YOLO("YOLO"),
-    MODNet("MODNet");
+    MODNet("MODNet"),
+    MobileSAM("MobileSAM");
 
     companion object {
         val Default = if (Flavor.isFoss()) U2NetP else MlKit

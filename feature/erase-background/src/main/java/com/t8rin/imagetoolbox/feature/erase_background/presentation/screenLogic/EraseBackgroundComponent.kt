@@ -48,10 +48,17 @@ import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.AutoEraseBackgroundCardState
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class EraseBackgroundComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -134,6 +141,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     fun setUri(
         uri: Uri
     ) {
+        dismissSubjectSelection()
         _uri.value = uri
         autoEraseCount = 0
         _isImageLoading.value = true
@@ -291,6 +299,65 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    val bgModelState = AutoEraseBackgroundCardState(componentScope)
+
+    private val _samSelection = mutableStateOf<MobileSAMSelectionState?>(null)
+    internal val samSelection: MobileSAMSelectionState? by _samSelection
+
+    private val _isPreparingSubjectSelection = mutableStateOf(false)
+    val isPreparingSubjectSelection: Boolean by _isPreparingSubjectSelection
+
+    private var subjectSelectionJob: Job? = null
+
+    internal fun prepareSubjectSelection() {
+        if (isPreparingSubjectSelection || isErasingBG || samSelection != null) return
+
+        _isPreparingSubjectSelection.value = true
+        subjectSelectionJob = componentScope.launch {
+            try {
+                _samSelection.value = withContext(defaultDispatcher) {
+                    getErasedBitmap(false)?.let { source ->
+                        val scale = (1536f / maxOf(source.width, source.height)).coerceAtMost(1f)
+                        val preview = if (scale < 1f) {
+                            imageScaler.scaleImage(
+                                image = source,
+                                width = (source.width * scale).roundToInt().coerceAtLeast(1),
+                                height = (source.height * scale).roundToInt().coerceAtLeast(1)
+                            )
+                        } else source
+                        MobileSAMSelectionState(source = source, previewSource = preview)
+                    }
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppToastHost.showFailureToast(e)
+            } finally {
+                if (currentCoroutineContext().isActive) {
+                    _isPreparingSubjectSelection.value = false
+                    subjectSelectionJob = null
+                }
+            }
+        }
+    }
+
+    internal fun dismissSubjectSelection() {
+        subjectSelectionJob?.cancel()
+        subjectSelectionJob = null
+        _isPreparingSubjectSelection.value = false
+        _samSelection.value = null
+    }
+
+    fun applySubjectSelection(image: Bitmap) {
+        dismissSubjectSelection()
+        _bitmap.value = image
+        _paths.value = emptyList()
+        _lastPaths.value = emptyList()
+        _undonePaths.value = emptyList()
+        autoEraseCount++
+        registerChanges()
+    }
+
     private var autoEraseCount: Int = 0
 
     fun autoEraseBackground(
@@ -322,6 +389,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     }
 
     fun resetImage() {
+        dismissSubjectSelection()
         componentScope.launch {
             autoEraseCount = 0
             _bitmap.value = _internalBitmap.value

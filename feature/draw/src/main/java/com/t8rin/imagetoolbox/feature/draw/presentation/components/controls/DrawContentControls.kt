@@ -76,6 +76,7 @@ import com.t8rin.imagetoolbox.feature.pick_color.presentation.components.PickCol
 @Composable
 internal fun DrawContentControls(
     component: DrawComponent,
+    onDetectFaces: (Boolean) -> Unit,
     secondaryControls: @Composable () -> Unit,
     drawColor: Color,
     onDrawColorChange: (Color) -> Unit,
@@ -218,6 +219,9 @@ internal fun DrawContentControls(
             value = drawMode,
             strokeWidth = strokeWidth,
             onValueChange = component::updateDrawMode,
+            canDetectFaces = component.imageBitmap != null,
+            isDetectingFaces = component.isDetectingFaces,
+            onDetectFaces = onDetectFaces,
             values = remember(drawLineStyle) {
                 derivedStateOf {
                     if (drawLineStyle == DrawLineStyle.None) {

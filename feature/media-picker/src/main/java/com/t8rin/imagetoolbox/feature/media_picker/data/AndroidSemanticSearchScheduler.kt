@@ -65,6 +65,23 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         if (!started.compareAndSet(false, true)) return
         appScope.launch {
+            workManager.getWorkInfosForUniqueWorkFlow(INDEX_WORK)
+                .map { work ->
+                    work.none { it.state == WorkInfo.State.RUNNING } && work.any {
+                        it.state == WorkInfo.State.ENQUEUED || it.state == WorkInfo.State.BLOCKED
+                    }
+                }
+                .distinctUntilChanged()
+                .collect { queued ->
+                    val state = repository.state.value
+                    repository.updateWorkState(
+                        isQueued = queued && settingsManager.getSettingsState().isSemanticSearchEnabled,
+                        isWaitingForPermission = state.isWaitingForPermission,
+                        error = state.error
+                    )
+                }
+        }
+        appScope.launch {
             var first = true
             var previous: Boolean? = null
             settingsManager.settingsState
@@ -125,9 +142,9 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
         }
         val unfinished = workManager.getWorkInfosForUniqueWorkFlow(INDEX_WORK).first()
             .filterNot { it.state.isFinished }
-        // A waiting worker reads the latest MediaStore snapshot when it starts. If a worker is
-        // already running, keep one follow-up so changes made during indexing cannot be missed.
-        if (unfinished.size >= 2 || unfinished.any { it.state != WorkInfo.State.RUNNING }) {
+        val retry = unfinished.isNotEmpty() && unfinished.none { it.state == WorkInfo.State.RUNNING } &&
+            unfinished.any { it.runAttemptCount > 0 }
+        if (!retry && (unfinished.size >= 2 || unfinished.any { it.state != WorkInfo.State.RUNNING })) {
             if (unfinished.none { it.state == WorkInfo.State.RUNNING }) {
                 repository.updateWorkState(
                     isQueued = true,
@@ -142,7 +159,11 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
         }
         workManager.enqueueUniqueWork(
             INDEX_WORK,
-            if (unfinished.isEmpty()) ExistingWorkPolicy.KEEP else ExistingWorkPolicy.APPEND_OR_REPLACE,
+            when {
+                retry -> ExistingWorkPolicy.REPLACE
+                unfinished.isEmpty() -> ExistingWorkPolicy.KEEP
+                else -> ExistingWorkPolicy.APPEND_OR_REPLACE
+            },
             OneTimeWorkRequestBuilder<SemanticSearchWorker>()
                 .setConstraints(indexConstraints())
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 30, TimeUnit.SECONDS)
@@ -206,7 +227,6 @@ internal class AndroidSemanticSearchScheduler @Inject constructor(
     }
 
     private fun indexConstraints() = Constraints.Builder()
-        .setRequiresBatteryNotLow(true)
         .setRequiresStorageNotLow(true)
         .build()
 

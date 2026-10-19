@@ -102,6 +102,7 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeS
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.BitmapEraser
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionSheet
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.OriginalImagePreviewAlphaSelector
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeButton
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeCard
@@ -118,6 +119,14 @@ fun EraseBackgroundContent(
     val scope = rememberCoroutineScope()
 
     AutoContentBasedColors(component.bitmap)
+
+    component.samSelection?.let { state ->
+        MobileSAMSelectionSheet(
+            state = state,
+            onDismiss = component::dismissSubjectSelection,
+            onApply = component::applySubjectSelection
+        )
+    }
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -362,7 +371,10 @@ fun EraseBackgroundContent(
                             )
                         }
                     },
-                    onReset = component::resetImage
+                    onReset = component::resetImage,
+                    onSelectSubject = component::prepareSubjectSelection,
+                    isSelectingSubject = component.isPreparingSubjectSelection,
+                    state = component.bgModelState
                 )
                 OriginalImagePreviewAlphaSelector(
                     value = originalImagePreviewAlpha,

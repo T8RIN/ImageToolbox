@@ -95,9 +95,10 @@ abstract class GenericBackgroundRemover(
             throw NotActiveException("Model ${modelFile.name} is not downloaded")
         }
 
-        val session = session ?: env.createSession(modelPath, OrtSession.SessionOptions()).also {
-            session = it
-        }
+        val session = session ?: OrtSession.SessionOptions().use { options ->
+            options.addConfigEntry("mlas.disable_kleidiai", "1")
+            env.createSession(modelPath, options)
+        }.also { session = it }
 
         val dstWidth = trainedSize ?: image.width
         val dstHeight = trainedSize ?: image.height

@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -356,9 +357,17 @@ fun DrawContent(
                 )
             }
         },
-        controls = {
+        controls = { scaffoldState ->
             DrawContentControls(
                 component = component,
+                onDetectFaces = { useYuNet ->
+                    scope.launch {
+                        scaffoldState.bottomSheetState.partialExpand()
+                        component.detectFaces(useYuNet) {
+                            AppToastHost.showToast(R.string.faces_not_found)
+                        }
+                    }
+                },
                 secondaryControls = secondaryControls,
                 drawColor = drawColor,
                 onDrawColorChange = { drawColor = it },

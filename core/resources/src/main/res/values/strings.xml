@@ -193,7 +193,7 @@
     <string name="help_tip_gallery_search_page_3_step_3">Android may delay preparation when battery or storage is low. If an error appears, check photo access and free space. An internet connection is also needed while files are downloading. Then tap Try again; data for already prepared photos is kept.</string>
     <string name="help_tip_gallery_search_page_4_title">Browse automatic categories</string>
     <string name="help_tip_gallery_search_page_4_description">Semantic photo search groups prepared photos by their contents into 16 built-in categories: People, Animals, Nature, Food, Documents, Screenshots, Vehicles, Travel, Architecture, Art, Sports, Events, Night, Beach, Mountains, and Sunset. Categories can make mistakes or miss some photos.</string>
-    <string name="help_tip_gallery_search_page_4_step_1">Categories appear below the albums, beside the brain icon, and stay visible while searching. Built-in categories are shown when they have matches in the current album or are selected. Your own categories remain visible even without matches. The count shows photos in the category and current album, regardless of your search query.</string>
+    <string name="help_tip_gallery_search_page_4_step_1">Categories appear below the albums, beside the brain icon, and stay visible while searching. Categories appear when they have matches in the current album or are selected. The count shows photos in the category and current album, regardless of your search query.</string>
     <string name="help_tip_gallery_search_page_4_step_2">Select a category to search within it. Tap the active category again to remove that filter without clearing your query. Choose All in the album row to clear the category and search all available photos. Closing search clears the query and keeps the selected category.</string>
     <string name="help_tip_gallery_search_page_4_step_3">A photo can belong to several categories. Select photos for editing as usual; browsing categories does not select them or change the original files.</string>
     <string name="help_tip_gallery_search_page_5_title">Turn off semantic search or delete its data</string>
@@ -5596,7 +5596,7 @@
     <string name="help_tip_gallery_search_custom_title">Create your own categories</string>
     <string name="help_tip_gallery_search_custom_description">Create a category using a description, reference photos, or both. The app groups matching photos automatically using the saved search data. You do not need to select every matching photo or prepare the library again.</string>
     <string name="help_tip_gallery_search_custom_step_1">Open Search settings → Categories → New category. Enter a unique name, then describe what should be in the photos or tap Reference photos to add examples. The name labels the category; only the description and examples determine matches. Descriptions support the same languages as semantic search. You can remove an example with its trash button without deleting the original photo. When you save the category, smaller copies of the examples are stored in the app, so deleting the originals does not affect the category.</string>
-    <string name="help_tip_gallery_search_custom_step_2">The preview updates as you edit: it shows the number of matching prepared photos across your library and one example. Album, search query, and selected category filters do not limit this preview. Tap Save to apply changes. Your category appears before the built-in categories, even without matches, and updates as new photos are prepared.</string>
+    <string name="help_tip_gallery_search_custom_step_2">The preview updates as you edit: it shows the number of matching prepared photos across your library and one example. Album, search query and category filters do not limit the preview. Tap Save to apply changes. Categories with matches appear before the built-in categories and update as new photos are prepared.</string>
     <string name="help_tip_gallery_search_custom_step_3">Long-press a category chip to edit it, or open Search settings → Categories. Custom categories can use a description and several reference photos. A photo is included if it matches the description or at least one example; adding examples expands the category. Built-in categories allow threshold changes only. Closing without saving discards edits. Deleting a custom category keeps your photos and search data.</string>
     <string name="help_tip_gallery_search_accuracy_title">Adjust similarity thresholds</string>
     <string name="help_tip_gallery_search_accuracy_description">The threshold controls how similar a photo must be to appear in results. A higher value filters out weaker matches but may hide relevant photos. A lower value shows more results, including less accurate matches. These percentages are similarity thresholds, not recognition confidence.</string>
@@ -5663,4 +5663,11 @@
     <string name="model_docshadow">Removes document shadows with DocShadow SD7K. Applies the predicted lighting correction at original resolution to preserve text detail.</string>
     <string name="lama_limit_resolution">Limit processing resolution</string>
     <string name="lama_limit_resolution_sub">Process at up to 1024 px for faster saving. The image keeps its size, but the filled area may lose detail.</string>
+    <string name="detect_faces">Detect faces</string>
+    <string name="faces_not_found">No faces found</string>
+    <string name="sam_select_subject">Select object with points</string>
+    <string name="sam_points_hint">Tap the object to keep it. Switch to Remove and tap unwanted areas. You can undo points before applying.</string>
+    <string name="sam_keep">Keep</string>
+    <string name="sam_remove">Remove</string>
+    <string name="sam_undo_point">Undo point</string>
 </resources>
