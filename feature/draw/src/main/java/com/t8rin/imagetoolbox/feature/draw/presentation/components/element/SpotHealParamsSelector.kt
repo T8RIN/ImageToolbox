@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -73,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -80,6 +82,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 internal fun SpotHealParamsSelector(
@@ -328,6 +331,66 @@ internal fun SpotHealParamsSelector(
                     )
                 }
             )
+            AnimatedVisibility(visible = useLama) {
+                val workerLimit = remember {
+                    Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
+                }
+                val workerOptions = remember(workerLimit) {
+                    listOf(0) + (1..8)
+                }
+                val workerIndex = workerOptions.indexOf(
+                    settingsState.lamaThreads.coerceIn(0, workerLimit)
+                ).coerceAtLeast(0)
+
+                val auto = stringResource(R.string.auto)
+
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    EnhancedSliderItem(
+                        value = workerIndex,
+                        internalStateTransformation = { it.roundToInt() },
+                        onValueChange = {
+                            val index = it.roundToInt().coerceIn(workerOptions.indices)
+                            uiScope.launch {
+                                simpleSettingsInteractor.setLamaThreads(workerOptions[index])
+                            }
+                        },
+                        valueRange = 0f..workerOptions.lastIndex.toFloat(),
+                        steps = (workerOptions.size - 2).coerceAtLeast(0),
+                        title = stringResource(R.string.parallel_workers),
+                        valuesPreviewMapping = remember(workerOptions, auto) {
+                            buildMap {
+                                workerOptions.forEachIndexed { index, workers ->
+                                    put(
+                                        key = index.toFloat(),
+                                        value = if (workers == 0) auto else workers.toString()
+                                    )
+                                }
+                            }.toPersistentMap()
+                        },
+                        isAnimated = false,
+                        canInputValue = false,
+                        shape = ShapeDefaults.center,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    )
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.lama_limit_resolution),
+                        subtitle = stringResource(R.string.lama_limit_resolution_sub),
+                        checked = settingsState.lamaLimitResolution,
+                        onClick = {
+                            uiScope.launch {
+                                simpleSettingsInteractor.setLamaLimitResolution(
+                                    it
+                                )
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        shape = ShapeDefaults.center,
+                        modifier = Modifier.fillMaxWidth(),
+                        resultModifier = Modifier.padding(16.dp),
+                        applyHorizontalPadding = false
+                    )
+                }
+            }
             PreferenceRowSwitch(
                 title = stringResource(R.string.apply_spot_heal_manually),
                 subtitle = stringResource(R.string.apply_spot_heal_manually_sub),

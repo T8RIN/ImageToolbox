@@ -256,6 +256,8 @@ internal fun Preferences.toSettingsState(
     initialOcrEngine = this[INITIAL_OCR_ENGINE] ?: default.initialOcrEngine,
     initialPaddleOcrModel = this[INITIAL_PADDLE_OCR_MODEL] ?: default.initialPaddleOcrModel,
     spotHealMode = this[SPOT_HEAL_MODE] ?: default.spotHealMode,
+    lamaThreads = this[LAMA_THREADS] ?: default.lamaThreads,
+    lamaLimitResolution = this[LAMA_LIMIT_RESOLUTION] ?: default.lamaLimitResolution,
     applySpotHealManually = this[APPLY_SPOT_HEAL_MANUALLY] ?: default.applySpotHealManually,
     snowfallMode = this[SNOWFALL_MODE]?.let { SnowfallMode.entries[it] } ?: default.snowfallMode,
     defaultImageFormat = this[DEFAULT_IMAGE_FORMAT].let { title ->

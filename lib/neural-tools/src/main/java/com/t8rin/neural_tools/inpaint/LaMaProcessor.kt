@@ -79,6 +79,7 @@ object LaMaProcessor : NeuralTool() {
     }
 
     private var sessionHolder: OrtSession? = null
+    private var sessionThreads = 4
     private val session: OrtSession
         get() = sessionHolder ?: run {
             val options = OrtSession.SessionOptions().apply {
@@ -88,11 +89,8 @@ object LaMaProcessor : NeuralTool() {
                 runCatching { addCUDA() }
                 runCatching { setOptimizationLevel(OrtSession.SessionOptions.OptLevel.ALL_OPT) }
                 runCatching { setInterOpNumThreads(1) }
-                runCatching {
-                    setIntraOpNumThreads(
-                        Runtime.getRuntime().availableProcessors().coerceIn(1, 4)
-                    )
-                }
+                runCatching { setIntraOpNumThreads(sessionThreads) }
+                runCatching { addConfigEntry("session.dynamic_block_base", "4") }
                 runCatching { setMemoryPatternOptimization(true) }
             }
             options.use {
@@ -164,7 +162,9 @@ object LaMaProcessor : NeuralTool() {
         image: Bitmap,
         mask: Bitmap,
         runOptions: OrtSession.RunOptions? = null,
-        isPreview: Boolean = false
+        isPreview: Boolean = false,
+        threads: Int = 0,
+        limitResolution: Boolean = false
     ): Bitmap? = runCatching {
         if (!modelFile.exists()) {
             _isDownloaded.update { false }
@@ -178,15 +178,28 @@ object LaMaProcessor : NeuralTool() {
         try {
             val selection =
                 maskBounds(fullMask) ?: return image.copy(Bitmap.Config.ARGB_8888, false)
+            val threadCount = (threads.takeIf { it > 0 } ?: 4).coerceIn(
+                1, Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
+            )
+            if (sessionThreads != threadCount) {
+                sessionHolder?.close()
+                sessionHolder = null
+                sessionThreads = threadCount
+            }
             val bounds = selection.bounds
             val region = bounds.expanded(
                 maxOf(CONTEXT_PADDING, bounds.width(), bounds.height()), image
             )
-            if (!isPreview && maxOf(region.width(), region.height()) > OVERVIEW_SIZE) {
+            if (!isPreview && !limitResolution && maxOf(
+                    region.width(),
+                    region.height()
+                ) > OVERVIEW_SIZE
+            ) {
                 return inpaintTiled(image, fullMask, selection, region, runOptions)
             }
-            val scale = if (isPreview) {
-                minOf(1f, PREVIEW_SIZE.toFloat() / maxOf(region.width(), region.height()))
+            val scale = if (isPreview || limitResolution) {
+                val size = if (isPreview) PREVIEW_SIZE else OVERVIEW_SIZE
+                minOf(1f, size.toFloat() / maxOf(region.width(), region.height()))
             } else 1f
             val width = (region.width() * scale).roundToInt().coerceAtLeast(1)
             val height = (region.height() * scale).roundToInt().coerceAtLeast(1)
