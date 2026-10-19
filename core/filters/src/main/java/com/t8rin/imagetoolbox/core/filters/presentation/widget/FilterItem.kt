@@ -58,6 +58,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -106,6 +107,14 @@ fun <T : Any> FilterItem(
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
+
+    val hasSeedSelector = remember(filter) {
+        filter.paramsInfo.any {
+            it.title == R.string.seed || it.title == R.string.procedural_seed
+        } || (filter as? GmicUiFilter)?.gmicParamsInfo?.any { it.title == R.string.seed } == true
+    }
+    val keepSeedSelector =
+        !previewOnly && LocalSettingsState.current.randomizeSeedAfterSave && hasSeedSelector
 
     val onCreateTemplateSafe = onCreateTemplate?.takeIf { filter.canUseTemplate }
 
@@ -358,7 +367,7 @@ fun <T : Any> FilterItem(
                 }
                 BoxAnimatedVisibility(
                     visible = isControlsExpanded || filter.value.isSingle() || previewOnly,
-                    keepContentOnCollapse = LocalSettingsState.current.randomizeSeedAfterSave
+                    keepContentOnCollapse = keepSeedSelector
                 ) {
                     Column {
                         FilterItemContent(
