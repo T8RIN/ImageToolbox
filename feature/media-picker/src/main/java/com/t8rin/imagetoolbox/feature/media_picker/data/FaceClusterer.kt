@@ -24,6 +24,7 @@ import kotlin.math.sqrt
 
 internal object FaceClusterer {
 
+    const val VERSION = 1
     const val MIN_FACE_QUALITY = 0.002f
     private const val NEIGHBORS = 8
 
@@ -219,7 +220,7 @@ internal object FaceClusterer {
             return FloatArray(vector.size) { vector[it] / norm }
         }
 
-        val components = mutableListOf<List<Int>>()
+        val components = mutableListOf<MutableList<Int>>()
         members.filter { it.isNotEmpty() }.forEach { group ->
             val center = centroid(group)
             val stable = group.filter {
@@ -228,13 +229,50 @@ internal object FaceClusterer {
                     center
                 ) >= 0.4f
             }
-            if (stable.isNotEmpty()) components += stable
-            group.filterNot(stable::contains).forEach { components += listOf(it) }
+            if (stable.isNotEmpty()) components += stable.toMutableList()
+            group.filterNot(stable::contains).forEach { components += mutableListOf(it) }
+        }
+        val representatives = components.filter { it.size > 1 }.map { group ->
+            Triple(group, centroid(group), group.maxOf { thresholds[it] })
+        }
+        val attachments = components.filter { it.size == 1 }.mapIndexedNotNull { position, single ->
+            if (position % 64 == 0) {
+                currentCoroutineContext().ensureActive()
+                yield()
+            }
+            val index = single.single()
+            val matches = representatives.mapNotNull candidate@{ (group, center, threshold) ->
+                if (!canJoin(single, group)) return@candidate null
+                Triple(
+                    group,
+                    cosine(usable[index].embedding, center),
+                    maxOf(thresholds[index], threshold)
+                )
+            }.sortedByDescending { it.second }
+            val best = matches.firstOrNull() ?: return@mapIndexedNotNull null
+            if (best.second < best.third ||
+                (matches.size > 1 && best.second - matches[1].second < 0.05f)
+            ) {
+                return@mapIndexedNotNull null
+            }
+            val support = best.first.asSequence().filter {
+                cosine(usable[index].embedding, usable[it].embedding) >= best.third
+            }.map { usable[it].mediaId }.distinct().take(2).count()
+            if (support < 2) null else Triple(single, best.first, best.second)
+        }.sortedWith(
+            compareByDescending<Triple<MutableList<Int>, MutableList<Int>, Float>> { it.third }
+                .thenBy { usable[it.first.single()].id }
+        )
+        attachments.forEach { (single, group) ->
+            if (canJoin(single, group)) {
+                group += single
+                single.clear()
+            }
         }
         val used = hashSetOf<String>()
         val resolved = mutableListOf<Pair<String, Component>>()
         val fresh = mutableListOf<Component>()
-        components.sortedWith(
+        components.filter { it.isNotEmpty() }.sortedWith(
             compareByDescending<List<Int>> { group -> group.count { pins[it].isNotEmpty() } }
                 .thenByDescending { it.size }.thenBy { usable[it.first()].id }
         ).forEach { group ->
@@ -245,7 +283,7 @@ internal object FaceClusterer {
                 (forced.keys + previous.keys).filter { it in known && it !in used && it !in blocked }
             val target = candidates.maxWithOrNull(
                 compareBy<String> { forced[it] ?: 0 }
-                    .thenBy { previous[it] ?: 0 }.thenBy { known[it]?.curated == true }
+                    .thenBy { known[it]?.curated == true }.thenBy { previous[it] ?: 0 }
                     .thenBy { known[it]?.faceCount ?: 0 }.thenByDescending { it }
             )
             val component = Component(group.map { usable[it].id })

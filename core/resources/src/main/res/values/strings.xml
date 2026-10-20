@@ -5673,10 +5673,8 @@
     <string name="gallery_person_number">Person %1$d</string>
     <string name="gallery_people_photo_count">Photos: %1$d</string>
     <string name="gallery_people_empty">No people groups yet.</string>
-    <string name="gallery_people_show_hidden">Show hidden groups</string>
     <string name="gallery_people_hidden_groups">Hidden groups</string>
-    <string name="gallery_people_hidden_description">View hidden groups and restore them individually. Photos are kept.</string>
-    <string name="gallery_people_all_hidden">All groups are hidden. Turn on Show hidden groups to view or restore them.</string>
+    <string name="gallery_people_all_hidden">All groups are hidden. You can open them in the section above.</string>
     <string name="gallery_people_restore">Restore group</string>
     <string name="gallery_people_name">Name</string>
     <string name="gallery_people_add_name">Add name</string>
@@ -5704,7 +5702,7 @@
     <string name="help_tip_gallery_search_people_description">Turn on Group people in Semantic photo search settings. After the one-time model download, faces are grouped during background photo preparation. Open People groups beside the automatic categories. The list follows the selected album. Recognition can make mistakes.</string>
     <string name="help_tip_gallery_search_people_step_1">Tap a photo to open the group. Tap Add name or the existing name to edit it. Above the photos, tap the group name to return to all groups or hold it for settings. To merge groups manually, open Merge, select other groups of the same person and tap Apply. With Group people on, enter a saved name in the main search to find that person’s photos in the selected album.</string>
     <string name="help_tip_gallery_search_people_step_2">In Faces in group, tap a face to choose the cover. The trash button excludes only that face. The photo stays in the group if it contains another face from the same group. Tap the restore button on a dimmed face to undo its exclusion. Turn on Restore excluded faces to return previously excluded faces. Tap Save to apply your edits; closing the editor cancels them.</string>
-    <string name="help_tip_gallery_search_people_step_3">Hide group removes a group from the main list. Turn on Show hidden groups to view hidden groups. To restore one, hold it and tap Restore group. Your current edits are saved before hiding, restoring or merging the group.</string>
+    <string name="help_tip_gallery_search_people_step_3">Hide group removes a group from the main list. Open Hidden groups above the grid to browse them without scrolling through the other groups. To restore one, tap its name or hold the card, then tap Restore group. Your current edits are saved before hiding, restoring or merging the group.</string>
     <string name="help_tip_gallery_search_people_step_4">With Group people on, photo search and custom categories with reference photos also compare faces. This helps find a person in different surroundings or clothing. Turning grouping off keeps its data. Deleting search data removes people groups and their settings; original photos are kept.</string>
     <string name="help_tip_gallery_search_people_step_5">Open Similar groups and compare each pair. Same person merges the groups. Different people dismisses the suggestion and prevents that pair from being suggested again.</string>
     <string name="gallery_people_merge_description">Add other groups of the same person to this group.</string>

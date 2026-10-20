@@ -334,9 +334,19 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
     }
 
     fun needsRegroup(): Boolean = readableDatabase.rawQuery(
-        "SELECT value FROM metadata WHERE key = 'groups_dirty'",
+        "SELECT key, value FROM metadata WHERE key IN ('groups_dirty', 'grouping_version')",
         null
-    ).use { it.moveToFirst() && it.getInt(0) != 0 }
+    ).use { cursor ->
+        var dirty = false
+        var version = 0
+        while (cursor.moveToNext()) {
+            when (cursor.getString(0)) {
+                "groups_dirty" -> dirty = cursor.getInt(1) != 0
+                "grouping_version" -> version = cursor.getInt(1)
+            }
+        }
+        dirty || version != FaceClusterer.VERSION
+    }
 
     suspend fun regroup() {
         val faces = readableDatabase.rawQuery(
@@ -369,12 +379,15 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow("id")).toString()
                 val members = faces.filter { it.personId == id }
                 val hidden = cursor.getInt(cursor.getColumnIndexOrThrow("hidden")) != 0
+                val threshold = cursor.getFloat(cursor.getColumnIndexOrThrow("threshold"))
                 seeds += FaceClusterer.PersonSeed(
                     id = id,
                     curated = hidden || cursor.getInt(cursor.getColumnIndexOrThrow("pinned")) != 0 ||
-                            cursor.getString(cursor.getColumnIndexOrThrow("name")).isNotBlank(),
+                            cursor.getString(cursor.getColumnIndexOrThrow("name")).isNotBlank() ||
+                            threshold != 0.55f || !cursor.isNull(cursor.getColumnIndexOrThrow("cover")) ||
+                            !cursor.isNull(cursor.getColumnIndexOrThrow("cover_face")),
                     faceCount = members.size,
-                    threshold = cursor.getFloat(cursor.getColumnIndexOrThrow("threshold"))
+                    threshold = threshold
                 )
             }
         }
@@ -464,6 +477,15 @@ internal class SemanticFaceIndex(context: Context) : SQLiteOpenHelper(
                 }
             }
             db.delete("metadata", "key = ?", arrayOf("groups_dirty"))
+            db.insertWithOnConflict(
+                "metadata",
+                null,
+                ContentValues().apply {
+                    put("key", "grouping_version")
+                    put("value", FaceClusterer.VERSION)
+                },
+                SQLiteDatabase.CONFLICT_REPLACE
+            )
         }
         groupRepresentatives = null
     }

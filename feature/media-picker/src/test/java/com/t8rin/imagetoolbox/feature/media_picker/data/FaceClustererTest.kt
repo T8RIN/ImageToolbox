@@ -21,6 +21,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 class FaceClustererTest {
@@ -137,6 +139,133 @@ class FaceClustererTest {
     }
 
     @Test
+    fun aDifferentViewJoinsADenseGroupAfterItsNeighborsAreFull() = runBlocking {
+        val faces = (1L..9L).map { face(it, vector(1f)) } + face(10, angle(55f))
+
+        val result = cluster(faces)
+
+        assertEquals((1L..10L).toSet(), result.fresh.single().faceIds.toSet())
+        assertEquals(
+            result.fresh.map { it.faceIds.toSet() },
+            cluster(faces.reversed()).fresh.map { it.faceIds.toSet() }
+        )
+    }
+
+    @Test
+    fun aCuratedSingletonKeepsItsIdentityWhenJoiningADenseUnnamedGroup() = runBlocking {
+        val faces = (1L..9L).map { face(it, vector(1f), "1") } + face(10, angle(55f), "2")
+        val result = cluster(
+            faces = faces,
+            people = listOf(FaceClusterer.PersonSeed("1", false, 9), seed("2"))
+        )
+
+        assertEquals("2", result.resolved.single().first)
+        assertEquals((1L..10L).toSet(), result.resolved.single().second.faceIds.toSet())
+        assertTrue(result.fresh.isEmpty())
+    }
+
+    @Test
+    fun anAmbiguousViewStaysSeparateFromTwoDenseGroups() = runBlocking {
+        val first = (1L..9L).map { face(it, angle(0f)) }
+        val second = (10L..18L).map { face(it, angle(110f)) }
+
+        val result = cluster(first + second + face(19, angle(55f)))
+
+        assertEquals(
+            setOf((1L..9L).toSet(), (10L..18L).toSet(), setOf(19L)),
+            result.fresh.map { it.faceIds.toSet() }.toSet()
+        )
+    }
+
+    @Test
+    fun aCompetingGroupBelowTheThresholdStillMakesAViewAmbiguous() = runBlocking {
+        val first = (1L..9L).map { face(it, angle(0f)) }
+        val second = (10L..18L).map { face(it, angle(113f)) }
+
+        val result = cluster(first + second + face(19, angle(55f)))
+
+        assertEquals(
+            setOf((1L..9L).toSet(), (10L..18L).toSet(), setOf(19L)),
+            result.fresh.map { it.faceIds.toSet() }.toSet()
+        )
+    }
+
+    @Test
+    fun attachingADifferentViewRespectsTheGroupsStrictness() = runBlocking {
+        val faces = (1L..9L).map { face(it, vector(1f), "1") } + face(10, angle(55f))
+
+        val result = cluster(faces, people = listOf(seed("1", 0.6f)))
+
+        assertEquals((1L..9L).toList(), result.resolved.single().second.faceIds)
+        assertEquals(listOf(10L), result.fresh.single().faceIds)
+    }
+
+    @Test
+    fun aDifferentViewCannotJoinAGroupWithAnotherFaceFromItsPhoto() = runBlocking {
+        val faces = (1L..9L).map { face(it, vector(1f)) } +
+                face(10, angle(55f), mediaId = 1)
+
+        val result = cluster(faces)
+
+        assertEquals(
+            setOf((1L..9L).toSet(), setOf(10L)),
+            result.fresh.map { it.faceIds.toSet() }.toSet()
+        )
+    }
+
+    @Test
+    fun twoDifferentViewsFromOnePhotoCannotBothJoinADenseGroup() = runBlocking {
+        val group = (1L..9L).map { face(it, vector(1f)) }
+
+        val result = cluster(
+            group + face(10, angle(55f), mediaId = 10) + face(11, angle(55f), mediaId = 10)
+        )
+
+        assertEquals(
+            setOf((1L..10L).toSet(), setOf(11L)),
+            result.fresh.map { it.faceIds.toSet() }.toSet()
+        )
+    }
+
+    @Test
+    fun aDifferentViewCannotJoinAnExcludedOrDifferentCuratedGroup() = runBlocking {
+        val group = (1L..9L).map { face(it, vector(1f), "1") }
+        val excluded = cluster(
+            faces = group + face(10, angle(55f)),
+            people = listOf(seed("1")),
+            exclusions = listOf(FaceClusterer.MediaAssertion(10, "1"))
+        )
+        val curated = cluster(
+            faces = group + face(10, angle(55f), "2"),
+            people = listOf(seed("1"), seed("2"))
+        )
+
+        assertEquals((1L..9L).toList(), excluded.resolved.single().second.faceIds)
+        assertEquals(listOf(10L), excluded.fresh.single().faceIds)
+        assertEquals(
+            setOf((1L..9L).toSet(), setOf(10L)),
+            curated.resolved.map { it.second.faceIds.toSet() }.toSet()
+        )
+    }
+
+    @Test
+    fun aDifferentViewRequiresMoreThanOneMatchingFace() = runBlocking {
+        val group = (1L..16L).map {
+            face(it, vector(0.54f, sqrt(1f - 0.54f * 0.54f) * if (it <= 8) 1f else -1f), "1")
+        } + face(17, vector(0.58f, sqrt(1f - 0.58f * 0.58f)), "1")
+        val result = cluster(
+            faces = group + face(18, vector(1f)),
+            people = listOf(seed("1")),
+            pins = group.map {
+                FaceClusterer.FaceAssertion(it.mediaId, 0.1f, 0.1f, 0.5f, 0.5f, "1", true)
+            }
+        )
+
+        assertEquals((1L..17L).toSet(), result.resolved.single().second.faceIds.toSet())
+        assertEquals(listOf(18L), result.fresh.single().faceIds)
+    }
+
+    @Test
     fun inputOrderDoesNotChangeGroups() = runBlocking {
         val faces = listOf(face(1, vector(1f)), face(2, vector(1f, 0.1f)), face(3, vector(0f, 1f)))
         assertEquals(
@@ -168,5 +297,10 @@ class FaceClustererTest {
             this[0] = x / norm
             this[1] = y / norm
         }
+    }
+
+    private fun angle(degrees: Float): FloatArray {
+        val radians = Math.toRadians(degrees.toDouble())
+        return vector(cos(radians).toFloat(), sin(radians).toFloat())
     }
 }

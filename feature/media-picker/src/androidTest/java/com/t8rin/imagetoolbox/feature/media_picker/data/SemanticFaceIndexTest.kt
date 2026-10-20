@@ -56,6 +56,96 @@ class SemanticFaceIndexTest {
     }
 
     @Test
+    fun aGroupingUpdateReusesExistingFaceEmbeddingsAndRunsOnlyOnce() = runBlocking {
+        val images = (1L..10L).map(::media)
+        images.forEach { image ->
+            index.replace(image, listOf(face(image.id, if (image.id == 10L) 55f else 0f)))
+        }
+        index.regroup()
+        assertFalse(index.needsRegroup())
+        index.writableDatabase.delete("metadata", "key = ?", arrayOf("grouping_version"))
+        val isolated = separateFace(10)
+        reopen()
+
+        assertTrue(index.needsRegroup())
+        images.forEach { assertFalse(index.needsScan(it)) }
+        index.regroup()
+        reopen()
+
+        val result = index.people(images).single()
+        assertEquals(images.toSet(), result.media.toSet())
+        assertTrue(result.person.personId != isolated)
+        assertFalse(index.needsRegroup())
+        images.forEach { assertFalse(index.needsScan(it)) }
+    }
+
+    @Test
+    fun attachingANamedSingletonPreservesItsIdentityCoverAndHiddenState() = runBlocking {
+        val images = (1L..10L).map(::media)
+        images.forEach { image ->
+            index.replace(image, listOf(face(image.id, if (image.id == 10L) 55f else 0f)))
+        }
+        index.regroup()
+        val id = separateFace(10)
+        val cover = index.people(images).first { it.person.personId == id }.person.faces.single()
+        index.updatePerson(id, "Alice", 0.55f, images.last().uri, coverFaceId = cover.id)
+        index.setHidden(id, true)
+
+        index.regroup()
+        reopen()
+
+        val result = index.people(images).single()
+        assertEquals(id, result.person.personId)
+        assertEquals("Alice", result.person.name)
+        assertEquals(images.toSet(), result.media.toSet())
+        assertEquals(cover.id, result.person.coverFaceId)
+        assertEquals(cover.thumbnail, result.person.thumbnail)
+        assertTrue(result.person.hidden)
+    }
+
+    @Test
+    fun attachingASingletonPreservesItsCustomThresholdWithoutANameOrCover() = runBlocking {
+        val images = (1L..10L).map(::media)
+        images.forEach { image ->
+            index.replace(image, listOf(face(image.id, if (image.id == 10L) 55f else 0f)))
+        }
+        index.regroup()
+        val id = separateFace(10)
+        index.updatePerson(id, "", 0.56f, null)
+
+        index.regroup()
+        reopen()
+
+        val result = index.people(images).single()
+        assertEquals(id, result.person.personId)
+        assertEquals("", result.person.name)
+        assertEquals(0.56f, result.person.threshold, 0f)
+        assertEquals(images.toSet(), result.media.toSet())
+    }
+
+    @Test
+    fun selectingACoverKeepsAnUnnamedSingletonsIdentityAfterJoiningADenseGroup() = runBlocking {
+        val images = (1L..10L).map(::media)
+        images.forEach { image ->
+            index.replace(image, listOf(face(image.id, if (image.id == 10L) 55f else 0f)))
+        }
+        index.regroup()
+        val id = separateFace(10)
+        val cover = index.people(images).first { it.person.personId == id }.person.faces.single()
+        index.updatePerson(id, "", 0.55f, images.last().uri, coverFaceId = cover.id)
+
+        index.regroup()
+        reopen()
+
+        val result = index.people(images).single()
+        assertEquals(id, result.person.personId)
+        assertEquals("", result.person.name)
+        assertEquals(cover.id, result.person.coverFaceId)
+        assertEquals(cover.thumbnail, result.person.thumbnail)
+        assertEquals(images.toSet(), result.media.toSet())
+    }
+
+    @Test
     fun upgradingTheOriginalDatabasePreservesPeoplePhotosAndSettings() = runBlocking {
         val images = listOf(media(1), media(2))
         images.forEach { index.replace(it, listOf(face(it.id, 0f))) }

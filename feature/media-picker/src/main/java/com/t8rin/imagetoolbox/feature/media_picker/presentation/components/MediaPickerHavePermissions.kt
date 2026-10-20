@@ -103,7 +103,6 @@ internal fun MediaPickerHavePermissions(
     val selectedPerson = personResults.firstOrNull { it.category.id == selectedCategory }
         ?.category as? SemanticSearchCategory.Person
     val showPeople = component.settingsState.semanticSearchSettings.groupPeople
-    var showHiddenPeople by rememberSaveable { mutableStateOf(false) }
     val peopleGridState = rememberLazyGridState()
 
     BackHandler(showPeopleGroups) { component.showPeopleGroups(false) }
@@ -289,8 +288,6 @@ internal fun MediaPickerHavePermissions(
         if (showPeopleGroups) {
             MediaPeopleOverview(
                 component = component,
-                showHidden = showHiddenPeople,
-                onShowHiddenChange = { showHiddenPeople = it },
                 gridState = peopleGridState,
                 onEditPerson = onEditPerson,
                 modifier = Modifier.padding(contentPadding)

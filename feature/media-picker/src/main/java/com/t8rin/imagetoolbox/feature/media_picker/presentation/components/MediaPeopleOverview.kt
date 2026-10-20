@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -42,6 +43,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -59,6 +61,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -91,6 +94,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.other.ExpandableItem
 import com.t8rin.imagetoolbox.core.ui.widget.other.InfoContainer
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
@@ -105,8 +110,6 @@ import kotlin.math.roundToInt
 @Composable
 internal fun MediaPeopleOverview(
     component: MediaPickerComponent,
-    showHidden: Boolean,
-    onShowHiddenChange: (Boolean) -> Unit,
     gridState: LazyGridState,
     onEditPerson: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -116,6 +119,10 @@ internal fun MediaPeopleOverview(
     val loading by component.isSemanticSearchCategoriesLoading.collectAsStateWithLifecycle()
     val people = remember(categories) {
         categories.filter { it.category is SemanticSearchCategory.Person }
+            .sortedWith(
+                compareByDescending<SemanticSearchCategoryResult> { it.media.size }
+                    .thenBy { (it.category as SemanticSearchCategory.Person).personId }
+            )
     }
     val visiblePeople = remember(people) {
         people.filterNot { (it.category as SemanticSearchCategory.Person).hidden }
@@ -150,22 +157,10 @@ internal fun MediaPeopleOverview(
         }.sortedByDescending(PeopleGroupSuggestion::similarity)
     }
     var showSuggestions by rememberSaveable { mutableStateOf(false) }
-    LaunchedEffect(visiblePeople.isEmpty(), hiddenPeople.isNotEmpty()) {
-        if (visiblePeople.isEmpty() && hiddenPeople.isNotEmpty()) {
-            onShowHiddenChange(true)
-        }
-    }
+    val hiddenListState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val navBar = WindowInsets.navigationBars.asPaddingValues()
-    val sections = remember(visiblePeople, hiddenPeople, showHidden) {
-        listOf(
-            R.string.gallery_people_groups to visiblePeople.sortedBy {
-                (it.category as SemanticSearchCategory.Person).name.isBlank()
-            },
-            R.string.gallery_people_hidden_groups to hiddenPeople.takeIf { showHidden }.orEmpty()
-        ).filter { it.second.isNotEmpty() }
-    }
     LazyVerticalGrid(
         columns = GridCells.Adaptive(120.dp),
         modifier = modifier
@@ -185,6 +180,53 @@ internal fun MediaPeopleOverview(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        if (hiddenPeople.isNotEmpty()) {
+            item(key = "hidden", span = { GridItemSpan(maxLineSpan) }) {
+                ExpandableItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    visibleContent = {
+                        TitleItem(
+                            text = stringResource(R.string.gallery_people_hidden_groups),
+                            icon = Icons.Rounded.VisibilityOff,
+                            subtitle = null,
+                            modifier = Modifier.padding(8.dp),
+                            endContent = {
+                                Text(
+                                    text = hiddenPeople.size.toString(),
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        )
+                    },
+                    expandableContent = {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fadingEdges(hiddenListState),
+                            state = hiddenListState,
+                            contentPadding = PaddingValues(
+                                start = 12.dp,
+                                end = 12.dp,
+                                bottom = 4.dp
+                            ),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            flingBehavior = enhancedFlingBehavior()
+                        ) {
+                            items(hiddenPeople, key = { it.category.id }) { result ->
+                                PeopleGroupCard(
+                                    result = result,
+                                    onClick = { component.selectSemanticCategory(result.category.id) },
+                                    onLongClick = { onEditPerson(result.category.id) },
+                                    modifier = Modifier.width(120.dp),
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                )
+                            }
+                        }
+                    },
+                    shape = ShapeDefaults.extraLarge
+                )
+            }
+        }
         if (suggestions.isNotEmpty()) {
             item(key = "similar", span = { GridItemSpan(maxLineSpan) }) {
                 PreferenceItem(
@@ -200,19 +242,7 @@ internal fun MediaPeopleOverview(
                 )
             }
         }
-        if (hiddenPeople.isNotEmpty()) {
-            item(key = "show_hidden", span = { GridItemSpan(maxLineSpan) }) {
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.gallery_people_show_hidden),
-                    subtitle = stringResource(R.string.gallery_people_hidden_description),
-                    startIcon = Icons.Rounded.VisibilityOff,
-                    checked = showHidden,
-                    onClick = onShowHiddenChange,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-        if (sections.isEmpty()) {
+        if (visiblePeople.isEmpty()) {
             item(key = "empty", span = { GridItemSpan(maxLineSpan) }) {
                 Box(
                     modifier = Modifier
@@ -225,7 +255,7 @@ internal fun MediaPeopleOverview(
                     } else {
                         InfoContainer(
                             text = stringResource(
-                                if (hiddenPeople.isNotEmpty() && !showHidden) R.string.gallery_people_all_hidden
+                                if (hiddenPeople.isNotEmpty()) R.string.gallery_people_all_hidden
                                 else R.string.gallery_people_empty
                             ),
                             containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
@@ -236,22 +266,12 @@ internal fun MediaPeopleOverview(
                 }
             }
         }
-        sections.forEach { (title, groups) ->
-            if (title == R.string.gallery_people_hidden_groups) {
-                item(key = title, span = { GridItemSpan(maxLineSpan) }) {
-                    TitleItem(
-                        text = stringResource(title),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                    )
-                }
-            }
-            items(groups, key = { it.category.id }) { result ->
-                PeopleGroupCard(
-                    result = result,
-                    onClick = { component.selectSemanticCategory(result.category.id) },
-                    onLongClick = { onEditPerson(result.category.id) }
-                )
-            }
+        items(visiblePeople, key = { it.category.id }) { result ->
+            PeopleGroupCard(
+                result = result,
+                onClick = { component.selectSemanticCategory(result.category.id) },
+                onLongClick = { onEditPerson(result.category.id) }
+            )
         }
     }
     MediaPeopleSuggestionsSheet(
@@ -267,13 +287,15 @@ internal fun MediaPeopleOverview(
 private fun PeopleGroupCard(
     result: SemanticSearchCategoryResult,
     onClick: () -> Unit,
-    onLongClick: () -> Unit
+    onLongClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    containerColor: Color = Color.Unspecified
 ) {
     val person = result.category as SemanticSearchCategory.Person
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .container(shape = ShapeDefaults.default, resultPadding = 0.dp)
+            .container(shape = ShapeDefaults.default, resultPadding = 0.dp, color = containerColor)
             .hapticsCombinedClickable(onClick = onClick, onLongClick = onLongClick)
     ) {
         Picture(
@@ -476,6 +498,7 @@ internal fun PeopleGroupSettings(
                     startIcon = Icons.Rounded.Restore,
                     checked = restoreExcluded,
                     enabled = !saving,
+                    resultModifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     onClick = { restoreExcluded = it },
                     modifier = Modifier.fillMaxWidth()
                 )
