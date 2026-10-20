@@ -115,7 +115,8 @@ fun AdaptiveBottomScaffoldLayoutScreen(
 ) {
     val isPortrait by isPortraitOrientationAsState()
     val useFloatingButtons = shouldUseFloatingButtons()
-    val showButtons = canShowScreenData || !isLoading
+    val showLoading = !canShowScreenData && isLoading
+    val showButtons = !showLoading
     val density = LocalDensity.current
     var buttonsHeight by remember { mutableStateOf(0.dp) }
     val screenWidthPx = LocalScreenSize.current.widthPx
@@ -204,7 +205,7 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            EnhancedLoadingIndicator()
+                            if (showLoading) EnhancedLoadingIndicator()
                         }
                         return@AnimatedContent
                     }
