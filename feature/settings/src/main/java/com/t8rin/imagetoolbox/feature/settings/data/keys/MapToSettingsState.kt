@@ -55,6 +55,10 @@ internal fun Preferences.toSettingsState(
     default: SettingsState,
     jsonParser: JsonParser
 ): SettingsState = SettingsState(
+    isAiAssistantEnabled = this[AI_ASSISTANT_ENABLED] ?: default.isAiAssistantEnabled,
+    aiAssistantModel = SettingsState.normalizeAiAssistantModel(
+        this[AI_ASSISTANT_MODEL] ?: default.aiAssistantModel
+    ),
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
         jsonParser.fromJson<SemanticSearchSettings>(

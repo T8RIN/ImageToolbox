@@ -1,0 +1,89 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.settings.data.keys
+
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.mutablePreferencesOf
+import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import java.lang.reflect.Type
+
+class AssistantSettingsTest {
+
+    @Test
+    fun missingPreferencesKeepAssistantDisabledAndSelectLite() {
+        val settings = emptyPreferences().settings()
+
+        assertFalse(settings.isAiAssistantEnabled)
+        assertEquals("lite", settings.aiAssistantModel)
+    }
+
+    @Test
+    fun storedModelsAndEnabledStateAreRestored() {
+        listOf("lite", "advanced").forEach { model ->
+            val settings = mutablePreferencesOf(
+                AI_ASSISTANT_ENABLED to true,
+                AI_ASSISTANT_MODEL to model
+            ).settings()
+
+            assertTrue(settings.isAiAssistantEnabled)
+            assertEquals(model, settings.aiAssistantModel)
+        }
+    }
+
+    @Test
+    fun legacyAndUnknownModelsReadAsLite() {
+        listOf("help", "unknown-model", "").forEach { model ->
+            val settings = mutablePreferencesOf(
+                AI_ASSISTANT_ENABLED to true,
+                AI_ASSISTANT_MODEL to model
+            ).settings()
+
+            assertTrue(settings.isAiAssistantEnabled)
+            assertEquals("lite", settings.aiAssistantModel)
+        }
+    }
+
+    @Test
+    fun disablingAssistantPreservesModelSelection() {
+        val preferences = mutablePreferencesOf(
+            AI_ASSISTANT_ENABLED to true,
+            AI_ASSISTANT_MODEL to "advanced"
+        )
+        preferences[AI_ASSISTANT_ENABLED] = false
+
+        val settings = preferences.settings()
+
+        assertFalse(settings.isAiAssistantEnabled)
+        assertEquals("advanced", settings.aiAssistantModel)
+    }
+
+    private fun Preferences.settings() = toSettingsState(
+        default = SettingsState.Default,
+        jsonParser = object : JsonParser {
+            override fun <T> toJson(obj: T, type: Type): String? = null
+
+            override fun <T> fromJson(json: String, type: Type): T? = null
+        }
+    )
+}

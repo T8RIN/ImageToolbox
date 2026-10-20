@@ -296,8 +296,8 @@
     <string name="help_tip_resize_by_file_size_subtitle">Target a size limit when a website, messenger, or form rejects heavy images</string>
     <string name="help_tip_resize_by_file_size_page_title">Fit strict upload limits</string>
     <string name="help_tip_resize_by_file_size_description">Resize by file size is better than guessing quality values when the destination accepts only files below a specific limit. The tool may adjust compression and dimensions to reach the target while trying to keep the result usable.</string>
-    <string name="help_tip_resize_by_file_size_step_1">Enter the target size slightly below the real upload limit to leave room for metadata and provider changes.</string>
-    <string name="help_tip_resize_by_file_size_step_2">Prefer lossy formats for photos when the target is small; PNG can stay large even after resizing.</string>
+    <string name="help_tip_resize_by_file_size_step_1">Enter the maximum output file size in the “Max size in KB” field. Use a value slightly below the upload limit.</string>
+    <string name="help_tip_resize_by_file_size_step_2">For small photo files, use JPEG or lossy WebP. PNG is lossless and may remain large even after resizing.</string>
     <string name="help_tip_resize_by_file_size_step_3">Inspect faces, text, and edges after export because aggressive size targets can introduce visible artifacts.</string>
     <string name="help_tip_limit_resize_title">Limit resize</string>
     <string name="help_tip_limit_resize_subtitle">Shrink only images that exceed your maximum width, height, or file constraints</string>
@@ -6042,4 +6042,23 @@
     <string name="help_tip_large_files_page_2_step_1">Start with a smaller representative batch and a modest output size. Increase size after checking the processing and result.</string>
     <string name="help_tip_large_files_page_2_step_2">For a failed operation, reduce dimensions, frame count, or layer count before lowering output quality alone. Quality mainly changes encoding, not the decoded image size.</string>
     <string name="help_tip_large_files_page_2_step_3">Keep enough free storage for temporary and output files. If the problem repeats on a small input, report the tool, parameters, format, and app logs.</string>
+    <string name="ai_assistant">Assistant</string>
+    <string name="ai_assistant_subtitle">Help with tools and settings. Download a model in the chat to get started.</string>
+    <string name="assistant_lite">Lite</string>
+    <string name="assistant_advanced">Advanced</string>
+    <string name="assistant_prompt_placeholder">Ask a question</string>
+    <string name="assistant_model_not_installed">Model not installed</string>
+    <string name="assistant_stop">Stop</string>
+    <string name="assistant_regenerate">Regenerate</string>
+    <string name="assistant_cancelled">Cancelled</string>
+    <string name="assistant_send">Send</string>
+    <string name="assistant_model_unavailable">Model unavailable on this device</string>
+    <string name="assistant_generation_error">Could not generate an answer</string>
+    <string name="assistant_enabled_required">Enable Assistant in settings</string>
+    <string name="assistant_history_save_error">Could not save conversation</string>
+    <string name="assistant_latest_message">Latest message</string>
+    <string name="assistant_empty_chat">How can I help?</string>
+    <string name="assistant_input_too_long">The conversation is too long. Start a new conversation or shorten your question.</string>
+    <string name="assistant_clear_conversation">Clear conversation</string>
+    <string name="assistant_clear_conversation_question">Delete all messages in this conversation?</string>
 </resources>

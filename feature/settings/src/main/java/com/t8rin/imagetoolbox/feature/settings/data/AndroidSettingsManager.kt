@@ -79,6 +79,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SEQ_NUM_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SIZE_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENAME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_ENABLED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_MODEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_ANALYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_AUTO_PASTE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
@@ -371,6 +373,14 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setSemanticSearchEnabled(enabled: Boolean) = edit {
         it[SEMANTIC_SEARCH_ENABLED] = enabled
+    }
+
+    override suspend fun setAiAssistantEnabled(enabled: Boolean) = edit {
+        it[AI_ASSISTANT_ENABLED] = enabled
+    }
+
+    override suspend fun setAiAssistantModel(model: String) = edit {
+        it[AI_ASSISTANT_MODEL] = SettingsState.normalizeAiAssistantModel(model)
     }
 
     override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {

@@ -44,6 +44,8 @@ data class SettingsState(
     val picturePickerModeInt: Int,
     val isSemanticSearchEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
+    val isAiAssistantEnabled: Boolean,
+    val aiAssistantModel: String,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -173,6 +175,9 @@ data class SettingsState(
 ) {
 
     companion object {
+        fun normalizeAiAssistantModel(model: String?): String =
+            if (model == "advanced") "advanced" else "lite"
+
         val Default by lazy {
             SettingsState(
                 nightMode = NightMode.System,
@@ -188,6 +193,8 @@ data class SettingsState(
                 picturePickerModeInt = 0,
                 isSemanticSearchEnabled = false,
                 semanticSearchSettings = SemanticSearchSettings(),
+                isAiAssistantEnabled = false,
+                aiAssistantModel = normalizeAiAssistantModel(null),
                 clearCacheOnLaunch = false,
                 cacheAutoClearLimitBytes = 20L * 1024 * 1024,
                 cacheAutoClearInterval = CacheAutoClearInterval.OnAppLaunch,

@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.datastore.preferences.android)
     implementation(libs.datastore.core.android)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.coil)
 
     implementation(projects.lib.dynamicTheme)

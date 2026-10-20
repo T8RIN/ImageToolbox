@@ -63,6 +63,8 @@ fun EnhancedIconButton(
     containerColor: Color = Color.Transparent,
     contentColor: Color = contentColor(containerColor),
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant(onTopOf = containerColor),
+    disabledContentColor: Color = contentColor.copy(alpha = DisabledAlpha),
+    disabledContainerColor: Color = Color.Transparent,
     shape: Shape = AutoCircleShape(),
     pressedShape: Shape = IconButtonDefaults.smallPressedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
@@ -145,11 +147,13 @@ fun EnhancedIconButton(
             colors = IconButtonDefaults.iconButtonColors(
                 contentColor = animateColorAsState(
                     if (enabled) contentColor
-                    else contentColor.copy(alpha = DisabledAlpha)
+                    else disabledContentColor
                 ).value,
                 containerColor = animateColorAsState(
-                    if (enabled) containerColor else Color.Transparent
-                ).value
+                    if (enabled) containerColor else disabledContainerColor
+                ).value,
+                disabledContentColor = disabledContentColor,
+                disabledContainerColor = disabledContainerColor
             ),
             enabled = enabled,
             border = BorderStroke(

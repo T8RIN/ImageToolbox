@@ -82,6 +82,7 @@ dependencies {
     implementation(projects.feature.appLogs)
     implementation(projects.feature.shaderStudio)
     implementation(projects.feature.help)
+    implementation(projects.feature.assistant)
     implementation(projects.feature.usageStatistics)
     implementation(projects.feature.batchRename)
     implementation(projects.feature.duplicateFinder)

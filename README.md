@@ -1363,6 +1363,8 @@ or click one of the badges below.
   - Adjustable similarity thresholds and live category preview
   - Automatic indexing and offline search after downloading the models
   - People groups with names, face covers, matching thresholds, merging and photo exclusions
+- AI Assistant
+  - On-device answers grounded in Help & Tips, with tool navigation and contextual settings help
 - Shader Studio
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters

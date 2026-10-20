@@ -1,0 +1,454 @@
+/*
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
+ */
+
+package com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic
+
+import android.content.Intent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.core.net.toUri
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.essenty.lifecycle.doOnDestroy
+import com.arkivanov.essenty.lifecycle.doOnStop
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.presentation.model.key
+import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
+import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
+import com.t8rin.neural_tools.assistant.AssistantModels
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch as launchImmediate
+
+class AssistantComponent @AssistedInject internal constructor(
+    @Assisted componentContext: ComponentContext,
+    @Assisted val route: Screen.Assistant,
+    @Assisted val onGoBack: () -> Unit,
+    @Assisted private val onNavigate: (Screen) -> Unit,
+    private val knowledge: AssistantKnowledge,
+    private val store: AssistantConversationStore,
+    private val settings: SettingsManager,
+    private val resources: ResourceManager,
+    dispatchers: DispatchersHolder
+) : BaseComponent(dispatchers, componentContext) {
+    private val models = AssistantModels()
+    private val cleanupScope = CoroutineScope(componentScope.coroutineContext + SupervisorJob())
+    private var releaseJob: Job? = null
+    private var generation: Job? = null
+
+    private val _messages = mutableStateOf(store.messages.value)
+    val messages by _messages
+    private val _isLoading = mutableStateOf(true)
+    val isLoading by _isLoading
+    private val _isCheckingModels = mutableStateOf(true)
+    val isCheckingModels by _isCheckingModels
+    private val _isGenerating = mutableStateOf(false)
+    val isGenerating by _isGenerating
+    private val _enabled = mutableStateOf(settings.settingsState.value.isAiAssistantEnabled)
+    val enabled by _enabled
+    private val _selectedModel = mutableStateOf(settings.settingsState.value.aiAssistantModel)
+    val selectedModel by _selectedModel
+    private val _installations = mutableStateOf<List<AssistantModels.ModelState>>(emptyList())
+    val installations by _installations
+    private val _error = mutableStateOf<String?>(null)
+    val error by _error
+    private val _selectedUris =
+        mutableStateOf(route.selectedUris.map { it.toString() }.ifEmpty { sourceUris() })
+    val selectedUris by _selectedUris
+
+    private val isBusy: Boolean
+        get() = isLoading || isGenerating
+
+    val context: AssistantScreenContext
+        get() = AssistantScreenContext(
+            toolId = route.source?.id?.takeIf { it >= 0 },
+            settingKey = route.settingKey ?: (route.source as? Screen.Settings)
+                ?.targetSetting?.key(),
+            selectedUris = selectedUris,
+            parameters = route.parameters
+        )
+
+    init {
+        lifecycle.doOnStop { release() }
+        lifecycle.doOnDestroy {
+            release()
+            cleanupScope.launchImmediate {
+                try {
+                    releaseJob?.join()
+                } finally {
+                    cleanupScope.cancel()
+                }
+            }
+        }
+        componentScope.launchImmediate {
+            store.messages.collect { _messages.value = it }
+        }
+        componentScope.launchImmediate {
+            try {
+                store.load()
+            } finally {
+                _isLoading.value = false
+            }
+            refreshModels()
+        }
+        componentScope.launchImmediate {
+            models.states.collect { _installations.value = it }
+        }
+        componentScope.launchImmediate {
+            settings.settingsState.map { it.isAiAssistantEnabled to it.aiAssistantModel }
+                .distinctUntilChanged().collectLatest { (isEnabled, model) ->
+                    val changedModel = selectedModel != model
+                    _enabled.value = isEnabled
+                    _selectedModel.value = model
+                    if (!isEnabled || changedModel) release()
+                    if (!isEnabled) {
+                        AssistantModels.Variant.entries.forEach(models::cancelDownload)
+                    }
+                }
+        }
+    }
+
+    fun updateSelectedUris(uris: List<String>) {
+        _selectedUris.value = uris.distinct().take(MAX_SELECTED_IMAGES)
+    }
+
+    fun send(question: String, requestContext: AssistantScreenContext = context): Boolean {
+        val selected = requestContext.selectedUris.toList()
+        val accepted = send(
+            AssistantRequest(
+                question.trim(),
+                requestContext.copy(selectedUris = selected)
+            )
+        )
+        if (accepted) {
+            selected.forEach {
+                it.toUri().takePersistablePermission(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            _selectedUris.value = emptyList()
+        }
+        return accepted
+    }
+
+    private fun send(request: AssistantRequest, replaceMessageId: Long? = null): Boolean {
+        if (!componentScope.isActive || isBusy) return false
+        if (request.query.isBlank() || request.query.length > MAX_QUERY_LENGTH) return false
+        if (!enabled) {
+            _error.value = resources.getString(R.string.assistant_enabled_required)
+            return false
+        }
+        val model = selectedModel
+        val variant = variant(model)
+        val installed = installations.any { it.variant == variant && it.installed }
+        if (variant == null || !AssistantModels.isSupported() || !installed) {
+            _error.value = resources.getString(R.string.assistant_model_not_installed)
+            return false
+        }
+        _isGenerating.value = true
+        _error.value = null
+        generation = componentScope.launchImmediate {
+            val id = store.nextMessageId()
+            try {
+                store.update {
+                    it.filterNot { message -> message.id == replaceMessageId } + AssistantMessage(
+                        id,
+                        request.query,
+                        AssistantAnswer(""),
+                        request.context,
+                        model
+                    )
+                }
+                persistConversation()
+                releaseJob?.join()
+                val answer = generateAnswer(variant, id, request)
+                updateMessage(id) { it.copy(answer = answer, error = null) }
+            } catch (cancelled: CancellationException) {
+                models.release()
+                updateMessage(id) { it.copy(error = resources.getString(R.string.assistant_cancelled)) }
+                throw cancelled
+            } catch (failure: Exception) {
+                failure.makeLog()
+                val error = if (failure is AssistantModels.InputTooLongException) {
+                    R.string.assistant_input_too_long
+                } else {
+                    models.release()
+                    R.string.assistant_generation_error
+                }
+                updateMessage(id) { it.copy(error = resources.getString(error)) }
+            } finally {
+                try {
+                    withContext(NonCancellable) { persistConversation() }
+                } finally {
+                    _isGenerating.value = false
+                }
+            }
+        }
+        return true
+    }
+
+    private suspend fun generateAnswer(
+        variant: AssistantModels.Variant,
+        id: Long,
+        request: AssistantRequest
+    ): AssistantAnswer {
+        val retrievalStarted = System.nanoTime()
+        val retrieved = knowledge.retrieve(request)
+        val promptStarted = System.nanoTime()
+        val prompt = buildPrompt(request, retrieved)
+        val promptFinished = System.nanoTime()
+        makeLog(
+            "retrievalMs=${(promptStarted - retrievalStarted) / 1_000_000} " +
+                    "promptMs=${(promptFinished - promptStarted) / 1_000_000}",
+            tag = "AssistantInference"
+        )
+        val output = StringBuilder()
+        var lastUpdate = 0L
+        updateMessage(id) { it.copy(answer = retrieved) }
+        try {
+            models.generate(variant, prompt) { token ->
+                output.append(token)
+                val now = System.nanoTime()
+                if (now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
+                    lastUpdate = now
+                    val text = output.toString()
+                    withContext(uiDispatcher) {
+                        updateMessage(id) { it.copy(answer = retrieved.copy(text = text)) }
+                    }
+                }
+            }
+            check(output.isNotBlank()) { "The model returned an empty answer" }
+            return retrieved.copy(text = output.toString().trim())
+        } finally {
+            withContext(NonCancellable + uiDispatcher) {
+                updateMessage(id) {
+                    it.copy(
+                        answer = retrieved.copy(
+                            text = output.toString().trim()
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun buildPrompt(
+        request: AssistantRequest,
+        retrieved: AssistantAnswer
+    ): String = buildString {
+        append("<|im_start|>system\n")
+        append(knowledge.grounding(request, retrieved))
+        append("<|im_end|>\n")
+        store.messages.value.dropLast(1).filter {
+            it.error == null && it.answer.text.isNotBlank()
+        }.takeLast(2).forEach { message ->
+            append(
+                "<|im_start|>user\n${
+                    message.question.take(HISTORY_QUESTION_LENGTH).escapeTemplate()
+                }<|im_end|>\n"
+            )
+            append(
+                "<|im_start|>assistant\n${
+                    message.answer.text.take(HISTORY_ANSWER_LENGTH).escapeTemplate()
+                }<|im_end|>\n"
+            )
+        }
+        append("<|im_start|>user\n${request.query.escapeTemplate()}<|im_end|>\n")
+        append("<|im_start|>assistant\n<think>\n\n</think>\n\n")
+    }
+
+    private fun String.escapeTemplate(): String = replace("<|", "＜|")
+
+    fun regenerate() {
+        if (!componentScope.isActive || !enabled || isBusy) return
+        val last = store.messages.value.lastOrNull() ?: return
+        send(
+            request = AssistantRequest(last.question, last.context),
+            replaceMessageId = last.id
+        )
+    }
+
+    fun newConversation() {
+        if (!componentScope.isActive || isBusy) return
+        store.update { emptyList() }
+        _error.value = null
+        componentScope.launchImmediate { persistConversation() }
+    }
+
+    fun stop() {
+        models.cancel()
+        generation?.cancel()
+    }
+
+    private fun release() {
+        stop()
+        val previous = releaseJob
+        releaseJob = cleanupScope.launchImmediate {
+            previous?.join()
+            models.release()
+        }
+    }
+
+    fun selectModel(model: String) {
+        if (variant(model) == null) return
+        componentScope.launchImmediate { settings.setAiAssistantModel(model) }
+    }
+
+    fun downloadModel(variant: AssistantModels.Variant) {
+        if (!componentScope.isActive || !enabled || isDownloading(variant)) return
+        componentScope.launchImmediate {
+            try {
+                models.download(variant) {}
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (failure: Exception) {
+                failure.makeLog()
+            }
+        }
+    }
+
+    fun cancelDownload(variant: AssistantModels.Variant) {
+        models.cancelDownload(variant)
+    }
+
+    fun deleteModel(variant: AssistantModels.Variant) {
+        if (isGenerating || isDownloading(variant)) return
+        componentScope.launchImmediate {
+            try {
+                models.delete(variant)
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (failure: Exception) {
+                failure.makeLog()
+                _error.value = resources.getString(R.string.something_went_wrong)
+            }
+            refreshModels()
+        }
+    }
+
+    private fun isDownloading(variant: AssistantModels.Variant): Boolean = installations.any {
+        it.variant == variant && it.phase in setOf(
+            AssistantModels.Phase.Downloading,
+            AssistantModels.Phase.Verifying
+        )
+    }
+
+    private suspend fun refreshModels() {
+        _isCheckingModels.value = true
+        try {
+            models.installations()
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (failure: Exception) {
+            failure.makeLog()
+            _error.value = failure.message
+        } finally {
+            _isCheckingModels.value = false
+        }
+    }
+
+    fun openTool(tool: AssistantTool, messageContext: AssistantScreenContext) {
+        if (!enabled) return
+        val screen = Screen.entries.firstOrNull { it.id == tool.id } ?: return
+        val uris = messageContext.selectedUris.map { it.toUri() }.takeIf { it.isNotEmpty() }
+        val image = uris?.firstOrNull()
+        val destination = if (uris == null) screen else when (screen) {
+            is Screen.WeightResize -> screen.copy(uris = uris)
+            is Screen.DeleteExif -> screen.copy(uris = uris)
+            is Screen.ResizeAndConvert -> screen.copy(uris = uris)
+            is Screen.SingleEdit -> screen.copy(uri = image)
+            is Screen.EraseBackground -> screen.copy(uri = image)
+            is Screen.Filter -> screen.copy(type = Screen.Filter.Type.Basic(uris))
+            is Screen.RecognizeText -> screen.copy(type = Screen.RecognizeText.Type.Extraction(image))
+            else -> screen
+        }
+        release()
+        onNavigate(destination)
+    }
+
+    fun openReference(reference: AssistantReference) {
+        if (!enabled) return
+        release()
+        onNavigate(Screen.Help(categoryName = reference.categoryKey, tipId = reference.tipId))
+    }
+
+    private suspend fun persistConversation() {
+        try {
+            store.save()
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (failure: Exception) {
+            failure.makeLog()
+            _error.value = resources.getString(R.string.assistant_history_save_error)
+        }
+    }
+
+    private fun updateMessage(id: Long, update: (AssistantMessage) -> AssistantMessage) {
+        store.update { messages -> messages.map { if (it.id == id) update(it) else it } }
+    }
+
+    private fun variant(id: String) = AssistantModels.Variant.entries.firstOrNull { it.id == id }
+
+    private fun sourceUris(): List<String> = when (val source = route.source) {
+        is Screen.WeightResize -> source.uris
+        is Screen.DeleteExif -> source.uris
+        is Screen.ResizeAndConvert -> source.uris
+        is Screen.SingleEdit -> listOfNotNull(source.uri)
+        is Screen.EraseBackground -> listOfNotNull(source.uri)
+        else -> emptyList()
+    }.orEmpty().map { it.toString() }
+
+    companion object {
+        const val MAX_QUERY_LENGTH = 4_000
+        private const val MAX_SELECTED_IMAGES = 500
+        private const val HISTORY_QUESTION_LENGTH = 300
+        private const val HISTORY_ANSWER_LENGTH = 400
+        private const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
+    }
+
+    @AssistedFactory
+    fun interface Factory {
+        operator fun invoke(
+            componentContext: ComponentContext,
+            route: Screen.Assistant,
+            onGoBack: () -> Unit,
+            onNavigate: (Screen) -> Unit
+        ): AssistantComponent
+    }
+}

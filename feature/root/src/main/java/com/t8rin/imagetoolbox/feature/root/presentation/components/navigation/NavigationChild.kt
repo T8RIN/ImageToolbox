@@ -26,7 +26,9 @@ import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibrar
 import com.t8rin.imagetoolbox.color_tools.presentation.ColorToolsContent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
+import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
@@ -35,6 +37,8 @@ import com.t8rin.imagetoolbox.feature.archive_tools.presentation.ArchiveToolsCon
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.AsciiArtContent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
+import com.t8rin.imagetoolbox.feature.assistant.presentation.AssistantContent
+import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.AudioCoverExtractorContent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.Base64ToolsContent
@@ -221,6 +225,8 @@ internal sealed interface NavigationChild {
     @Composable
     fun Content()
 
+    fun assistantScreen(source: Screen?): Screen.Assistant = Screen.Assistant(source = source)
+
 
     class ApngTools(private val component: ApngToolsComponent) : NavigationChild {
         @Composable
@@ -253,6 +259,12 @@ internal sealed interface NavigationChild {
     }
 
     class DeleteExif(private val component: DeleteExifComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.DeleteExif(component.uris),
+            parameters = mapOf("removalPreset" to component.removalPreset.name),
+            selectedUris = component.uris.orEmpty()
+        )
+
         @Composable
         override fun Content() = DeleteExifContent(component)
     }
@@ -283,11 +295,38 @@ internal sealed interface NavigationChild {
     }
 
     class EraseBackground(private val component: EraseBackgroundComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.EraseBackground(component.uri.takeUnless { it == Uri.EMPTY }),
+            selectedUris = listOfNotNull(component.uri.takeUnless { it == Uri.EMPTY })
+        )
+
         @Composable
         override fun Content() = EraseBackgroundContent(component)
     }
 
     class Filter(private val component: FiltersComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = when (component.filterType) {
+            is Screen.Filter.Type.Basic -> Screen.Assistant(
+                source = Screen.Filter(Screen.Filter.Type.Basic(component.basicFilterState.uris)),
+                parameters = mapOf(
+                    "mode" to "basic",
+                    "filterCount" to component.basicFilterState.filters.size.toString()
+                ),
+                selectedUris = component.basicFilterState.uris.orEmpty()
+            )
+
+            is Screen.Filter.Type.Masking -> Screen.Assistant(
+                source = Screen.Filter(Screen.Filter.Type.Masking(component.maskingFilterState.uri)),
+                parameters = mapOf(
+                    "mode" to "masking",
+                    "filterCount" to component.maskingFilterState.masks.size.toString()
+                ),
+                selectedUris = listOfNotNull(component.maskingFilterState.uri)
+            )
+
+            null -> Screen.Assistant(source = source)
+        }
+
         @Composable
         override fun Content() = FiltersContent(component)
     }
@@ -427,11 +466,28 @@ internal sealed interface NavigationChild {
     }
 
     class RecognizeText(private val component: RecognizeTextComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.RecognizeText(component.type),
+            parameters = when (component.type) {
+                is Screen.RecognizeText.Type.Extraction -> mapOf("mode" to "extract")
+                is Screen.RecognizeText.Type.WriteToFile -> mapOf("mode" to "text_file")
+                is Screen.RecognizeText.Type.WriteToMetadata -> mapOf("mode" to "metadata")
+                is Screen.RecognizeText.Type.WriteToSearchablePdf -> mapOf("mode" to "searchable_pdf")
+                null -> emptyMap()
+            },
+            selectedUris = component.uris.ifEmpty { listOfNotNull(component.currentImageUri) }
+        )
+
         @Composable
         override fun Content() = RecognizeTextContent(component)
     }
 
     class ResizeAndConvert(private val component: ResizeAndConvertComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.ResizeAndConvert(component.uris),
+            selectedUris = component.uris.orEmpty()
+        )
+
         @Composable
         override fun Content() = ResizeAndConvertContent(component)
     }
@@ -442,6 +498,12 @@ internal sealed interface NavigationChild {
     }
 
     class Settings(private val component: SettingsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.Settings(component.searchKeyword, component.targetSetting),
+            settingKey = (component.filteredSettings?.singleOrNull()?.second
+                ?: component.targetSetting)?.key()
+        )
+
         @Composable
         override fun Content() {
             val category = SettingsGroup.entries.firstOrNull {
@@ -474,7 +536,17 @@ internal sealed interface NavigationChild {
         override fun Content() = HelpContent(component)
     }
 
+    class Assistant(private val component: AssistantComponent) : NavigationChild {
+        @Composable
+        override fun Content() = AssistantContent(component)
+    }
+
     class SingleEdit(private val component: SingleEditComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.SingleEdit(component.uri.takeUnless { it == Uri.EMPTY }),
+            selectedUris = listOfNotNull(component.uri.takeUnless { it == Uri.EMPTY })
+        )
+
         @Composable
         override fun Content() = SingleEditContent(component)
     }
@@ -495,6 +567,15 @@ internal sealed interface NavigationChild {
     }
 
     class WeightResize(private val component: WeightResizeComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.WeightResize(uris = component.uris),
+            parameters = mapOf(
+                "maxBytes" to component.maxBytes.toString(),
+                "keepExif" to component.keepExif.toString()
+            ),
+            selectedUris = component.uris.orEmpty()
+        )
+
         @Composable
         override fun Content() = WeightResizeContent(component)
     }

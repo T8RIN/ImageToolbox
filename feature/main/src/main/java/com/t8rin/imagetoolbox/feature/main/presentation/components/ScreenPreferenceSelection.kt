@@ -79,6 +79,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPasteOff
 import com.t8rin.imagetoolbox.core.resources.icons.LayersSearchOutline
+import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -135,16 +136,14 @@ internal fun RowScope.ScreenPreferenceSelection(
             fadeIn() togetherWith fadeOut()
         }
     ) { (hasScreens, isSearching, noFavorites) ->
-        if (hasScreens) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                val clipboardData by rememberClipboardData()
-                val allowAutoPaste = settingsState.allowAutoClipboardPaste
-                val showClipButton =
-                    (clipboardData.isNotEmpty() && allowAutoPaste) || !allowAutoPaste
-                val showSearchButton = !showScreenSearch && canSearchScreens
-
+        val clipboardData by rememberClipboardData()
+        val allowAutoPaste = settingsState.allowAutoClipboardPaste
+        val showClipButton = hasScreens &&
+                ((clipboardData.isNotEmpty() && allowAutoPaste) || !allowAutoPaste)
+        val showSearchButton = hasScreens && !showScreenSearch && canSearchScreens
+        val showBottomActions = showClipButton || settingsState.isAiAssistantEnabled
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (hasScreens) {
                 val layoutDirection = LocalLayoutDirection.current
                 val navBarsPadding = WindowInsets
                     .navigationBars
@@ -155,7 +154,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                     isGrid, navBarsPadding,
                     showClipButton, showSearchButton,
                     isSheetSlideable, layoutDirection,
-                    cutout, showNavRail, isScreenSelectionLauncherMode
+                    cutout, showNavRail, isScreenSelectionLauncherMode,
+                    settingsState.isAiAssistantEnabled
                 ) {
                     derivedStateOf {
                         val vertical = if (isScreenSelectionLauncherMode) 12.dp else 0.dp
@@ -165,9 +165,9 @@ internal fun RowScope.ScreenPreferenceSelection(
                             0.dp
                         }
 
-                        val secondBottomPart = if (showClipButton && showSearchButton) {
+                        val secondBottomPart = if (showBottomActions && showSearchButton) {
                             76.dp + 48.dp
-                        } else if (showClipButton || showSearchButton) {
+                        } else if (showClipButton || showSearchButton || settingsState.isAiAssistantEnabled) {
                             76.dp
                         } else {
                             0.dp
@@ -328,82 +328,102 @@ internal fun RowScope.ScreenPreferenceSelection(
                     }
                 }
 
-                val context = LocalContext.current
-                val clipboardManager = remember(context) {
-                    context.getSystemService<ClipboardManager>()
-                }
-                BoxAnimatedVisibility(
-                    visible = showClipButton,
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
-                        .then(
-                            if (showNavRail) {
-                                Modifier.navigationBarsPadding()
-                            } else Modifier
-                        ),
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut()
-                ) {
-                    BadgedBox(
-                        badge = {
-                            if (clipboardData.isNotEmpty()) {
-                                EnhancedBadge(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                ) {
-                                    Text(clipboardData.size.toString())
-                                }
-                            }
-                        }
+            } else {
+                if (!isSearching && noFavorites) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        EnhancedFloatingActionButton(
-                            onClick = {
-                                if (!allowAutoPaste) {
-                                    val list = clipboardManager.clipList()
-                                    if (list.isEmpty()) {
-                                        AppToastHost.showToast(
-                                            message = getString(R.string.clipboard_paste_invalid_empty),
-                                            icon = Icons.Rounded.ContentPasteOff
-                                        )
-                                    } else onGetClipList(list)
-                                } else onGetClipList(clipboardData)
-                            },
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.ContentPaste,
-                                contentDescription = stringResource(R.string.copy)
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = stringResource(R.string.no_favorite_options_selected),
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(
+                                start = 24.dp,
+                                end = 24.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
                             )
+                        )
+                        Icon(
+                            imageVector = Icons.Outlined.BookmarkOff,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .weight(2f)
+                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                .fillMaxSize()
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        EnhancedButton(
+                            onClick = {
+                                onNavigationBarItemChange(
+                                    when {
+                                        settingsState.groupOptionsByTypes && !settingsState.showFavoriteAsLast -> 1
+                                        settingsState.groupOptionsByTypes -> 0
+                                        settingsState.showFavoriteAsLast -> 0
+                                        else -> 1
+                                    }
+                                )
+                            }
+                        ) {
+                            Text(stringResource(R.string.add_favorites))
                         }
+                        Spacer(Modifier.weight(1f))
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = stringResource(R.string.nothing_found_by_search),
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(
+                                start = 24.dp,
+                                end = 24.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            )
+                        )
+                        Icon(
+                            imageVector = Icons.Outlined.SearchOff,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .weight(2f)
+                                .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
+                                .fillMaxSize()
+                        )
+                        Spacer(Modifier.weight(1f))
                     }
                 }
+            }
+            val context = LocalContext.current
+            val clipboardManager = remember(context) {
+                context.getSystemService<ClipboardManager>()
+            }
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+                    .then(if (showNavRail) Modifier.navigationBarsPadding() else Modifier),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 BoxAnimatedVisibility(
                     visible = showSearchButton,
                     enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut(),
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .then(
-                            if (showClipButton) {
-                                Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
-                            } else Modifier.padding(16.dp)
-                        )
-                        .then(
-                            if (showNavRail) {
-                                Modifier.navigationBarsPadding()
-                            } else Modifier
-                        )
-                        .then(
-                            if (showClipButton) {
-                                Modifier.padding(bottom = 76.dp)
-                            } else Modifier
-                        )
+                    exit = fadeOut() + scaleOut()
                 ) {
                     EnhancedFloatingActionButton(
-                        containerColor = if (showClipButton) {
+                        containerColor = if (showBottomActions) {
                             MaterialTheme.colorScheme.secondaryContainer
                         } else MaterialTheme.colorScheme.tertiaryContainer,
-                        type = if (showClipButton) {
+                        type = if (showBottomActions) {
                             EnhancedFloatingActionButtonType.Small
                         } else EnhancedFloatingActionButtonType.Primary,
                         onClick = { onChangeShowScreenSearch(canSearchScreens) }
@@ -414,78 +434,67 @@ internal fun RowScope.ScreenPreferenceSelection(
                         )
                     }
                 }
-            }
-        } else {
-            if (!isSearching && noFavorites) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = stringResource(R.string.no_favorite_options_selected),
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(
-                            start = 24.dp,
-                            end = 24.dp,
-                            top = 8.dp,
-                            bottom = 8.dp
-                        )
-                    )
-                    Icon(
-                        imageVector = Icons.Outlined.BookmarkOff,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .weight(2f)
-                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                            .fillMaxSize()
-                    )
-                    Spacer(Modifier.height(16.dp))
-                    EnhancedButton(
-                        onClick = {
-                            onNavigationBarItemChange(
-                                when {
-                                    settingsState.groupOptionsByTypes && !settingsState.showFavoriteAsLast -> 1
-                                    settingsState.groupOptionsByTypes -> 0
-                                    settingsState.showFavoriteAsLast -> 0
-                                    else -> 1
-                                }
-                            )
-                        }
+                AnimatedVisibility(visible = showBottomActions) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(stringResource(R.string.add_favorites))
+                        AnimatedVisibility(
+                            visible = settingsState.isAiAssistantEnabled,
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
+                            EnhancedFloatingActionButton(
+                                onClick = { onNavigateToScreenWithPopUpTo(Screen.Assistant(source = Screen.Main)) },
+                                type = if (showClipButton) {
+                                    EnhancedFloatingActionButtonType.SecondaryHorizontal
+                                } else EnhancedFloatingActionButtonType.Primary,
+                                containerColor = if (showClipButton) {
+                                    MaterialTheme.colorScheme.secondaryContainer
+                                } else MaterialTheme.colorScheme.tertiaryContainer
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Neurology,
+                                    contentDescription = stringResource(R.string.ai_assistant)
+                                )
+                            }
+                        }
+                        AnimatedVisibility(
+                            visible = showClipButton,
+                            enter = fadeIn() + scaleIn(),
+                            exit = fadeOut() + scaleOut()
+                        ) {
+                            BadgedBox(
+                                badge = {
+                                    if (clipboardData.isNotEmpty()) {
+                                        EnhancedBadge(containerColor = MaterialTheme.colorScheme.primary) {
+                                            Text(clipboardData.size.toString())
+                                        }
+                                    }
+                                }
+                            ) {
+                                EnhancedFloatingActionButton(
+                                    onClick = {
+                                        if (!allowAutoPaste) {
+                                            val list = clipboardManager.clipList()
+                                            if (list.isEmpty()) {
+                                                AppToastHost.showToast(
+                                                    message = getString(R.string.clipboard_paste_invalid_empty),
+                                                    icon = Icons.Rounded.ContentPasteOff
+                                                )
+                                            } else onGetClipList(list)
+                                        } else onGetClipList(clipboardData)
+                                    },
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.ContentPaste,
+                                        contentDescription = stringResource(R.string.copy)
+                                    )
+                                }
+                            }
+                        }
                     }
-                    Spacer(Modifier.weight(1f))
-                }
-            } else {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = stringResource(R.string.nothing_found_by_search),
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(
-                            start = 24.dp,
-                            end = 24.dp,
-                            top = 8.dp,
-                            bottom = 8.dp
-                        )
-                    )
-                    Icon(
-                        imageVector = Icons.Outlined.SearchOff,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .weight(2f)
-                            .sizeIn(maxHeight = 140.dp, maxWidth = 140.dp)
-                            .fillMaxSize()
-                    )
-                    Spacer(Modifier.weight(1f))
                 }
             }
         }

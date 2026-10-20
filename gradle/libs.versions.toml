@@ -88,6 +88,8 @@ junrar = "8.1.2"
 xz = "1.12"
 
 onnx = "1.31.0"
+onnx-genai = "0.17.0"
+commonmark = "0.30.1"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
@@ -112,6 +114,8 @@ materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "ma
 androidx-palette-ktx = { module = "androidx.palette:palette", version.ref = "palette" }
 opencv = { module = "org.opencv:opencv", version.ref = "opencv" }
 onnx-runtime = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnx" }
+onnx-genai = { module = "com.github.T8RIN:OnnxRuntimeGenAIAndroid", version.ref = "onnx-genai" }
+commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark" }
 pdfbox = { module = "com.tom-roush:pdfbox-android", version.ref = "pdfbox" }
 libarchive-android = { module = "me.zhanghai.android.libarchive:library", version.ref = "libarchiveAndroid" }
 commons-compress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompress" }

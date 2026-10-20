@@ -53,6 +53,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
 
+    suspend fun setAiAssistantEnabled(enabled: Boolean)
+
+    suspend fun setAiAssistantModel(model: String)
+
     suspend fun toggleAddFileSize()
 
     suspend fun setEmoji(emoji: Int)
