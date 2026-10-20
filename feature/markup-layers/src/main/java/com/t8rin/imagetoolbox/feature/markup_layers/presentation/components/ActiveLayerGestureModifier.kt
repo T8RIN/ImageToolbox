@@ -36,8 +36,8 @@ import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.mode
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.applyGroupGlobalChanges
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model.uiCornerRadiusPercent
 import com.t8rin.imagetoolbox.feature.markup_layers.presentation.screenLogic.MarkupLayersComponent
-import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.sign
 
 internal fun Modifier.activeLayerGestures(
     component: MarkupLayersComponent,
@@ -55,7 +55,9 @@ internal fun Modifier.activeLayerGestures(
         var totalRotation = 0f
         var totalPan = Offset.Zero
         var pastTouchSlop = false
+        var pastRotationSlop = false
         val touchSlop = viewConfiguration.touchSlop
+        val rotationSlop = 10f
 
         var down = awaitFirstDown(
             pass = PointerEventPass.Initial,
@@ -81,12 +83,26 @@ internal fun Modifier.activeLayerGestures(
                     activePointer.positionChange()
                 }
                 val zoomChange = if (isMultiTouch) event.calculateZoom() else 1f
-                val rotationChange = if (isMultiTouch) event.calculateRotation() else 0f
+                val rotationChange = if (isMultiTouch) {
+                    val change = event.calculateRotation()
+                    if (pastRotationSlop) {
+                        change
+                    } else {
+                        totalRotation += change
+                        val rotationBeyondSlop =
+                            (abs(totalRotation) - rotationSlop).coerceAtLeast(0f)
+                        pastRotationSlop = rotationBeyondSlop > 0f
+                        rotationBeyondSlop * totalRotation.sign
+                    }
+                } else {
+                    totalRotation = 0f
+                    pastRotationSlop = false
+                    0f
+                }
 
                 if (!pastTouchSlop) {
                     totalPan += panChange
                     totalZoom *= zoomChange
-                    totalRotation += rotationChange
 
                     val centroidSize = if (isMultiTouch) {
                         event.calculateCentroidSize(useCurrent = false)
@@ -94,11 +110,10 @@ internal fun Modifier.activeLayerGestures(
                         0f
                     }
                     val zoomMotion = abs(1 - totalZoom) * centroidSize
-                    val rotationMotion = abs(totalRotation * PI.toFloat() * centroidSize / 180f)
                     val panMotion = totalPan.getDistance()
 
                     if (zoomMotion > touchSlop ||
-                        rotationMotion > touchSlop ||
+                        pastRotationSlop ||
                         panMotion > touchSlop
                     ) {
                         component.beginHistoryTransaction()
