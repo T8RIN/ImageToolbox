@@ -415,6 +415,7 @@ sealed class SettingsGroup(
             Setting.EnableBackgroundColorForAlphaFormats,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
+            Setting.UseCategorizedSettings,
             Setting.AllowCollapsingSettingsGroups,
             Setting.FastSettingsSide,
             Setting.OpenEditInsteadOfPreview,

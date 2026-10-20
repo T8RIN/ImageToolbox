@@ -195,6 +195,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleAllowCollapsingSettingsGroups()
 
+    suspend fun toggleUseCategorizedSettings()
+
     suspend fun setSwitchType(type: SwitchType)
 
     suspend fun setDefaultDrawLineWidth(value: Float)

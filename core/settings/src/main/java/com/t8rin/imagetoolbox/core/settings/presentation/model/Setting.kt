@@ -524,6 +524,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object UseCategorizedSettings : Setting(
+        title = R.string.categorized_settings,
+        subtitle = R.string.categorized_settings_sub
+    )
+
+    @Serializable
     data object AllowCollapsingSettingsGroups : Setting(
         title = R.string.collapsible_settings_groups,
         subtitle = R.string.collapsible_settings_groups_sub

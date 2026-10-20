@@ -25,6 +25,9 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Album
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
+import com.t8rin.imagetoolbox.core.resources.icons.ApngBox
+import com.t8rin.imagetoolbox.core.resources.icons.ArtTrack
+import com.t8rin.imagetoolbox.core.resources.icons.Ascii
 import com.t8rin.imagetoolbox.core.resources.icons.AspectRatio
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.BackgroundColor
@@ -36,12 +39,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Collage
 import com.t8rin.imagetoolbox.core.resources.icons.Compare
 import com.t8rin.imagetoolbox.core.resources.icons.ContentPaste
 import com.t8rin.imagetoolbox.core.resources.icons.CropSmall
+import com.t8rin.imagetoolbox.core.resources.icons.Curve
+import com.t8rin.imagetoolbox.core.resources.icons.DarkMode
 import com.t8rin.imagetoolbox.core.resources.icons.Description
 import com.t8rin.imagetoolbox.core.resources.icons.DocumentScanner
 import com.t8rin.imagetoolbox.core.resources.icons.Draw
 import com.t8rin.imagetoolbox.core.resources.icons.Encrypted
 import com.t8rin.imagetoolbox.core.resources.icons.Eraser
 import com.t8rin.imagetoolbox.core.resources.icons.EvShadow
+import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.ExifEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Eyedropper
 import com.t8rin.imagetoolbox.core.resources.icons.File
@@ -49,19 +55,32 @@ import com.t8rin.imagetoolbox.core.resources.icons.FileRename
 import com.t8rin.imagetoolbox.core.resources.icons.FileReplace
 import com.t8rin.imagetoolbox.core.resources.icons.FolderZip
 import com.t8rin.imagetoolbox.core.resources.icons.FormatPaintVariant
+import com.t8rin.imagetoolbox.core.resources.icons.GifBox
+import com.t8rin.imagetoolbox.core.resources.icons.Glyphs
 import com.t8rin.imagetoolbox.core.resources.icons.Gradient
+import com.t8rin.imagetoolbox.core.resources.icons.GridOn
 import com.t8rin.imagetoolbox.core.resources.icons.HardDrive
 import com.t8rin.imagetoolbox.core.resources.icons.HashTag
 import com.t8rin.imagetoolbox.core.resources.icons.Help
+import com.t8rin.imagetoolbox.core.resources.icons.HouseholdSupplies
+import com.t8rin.imagetoolbox.core.resources.icons.Hub
+import com.t8rin.imagetoolbox.core.resources.icons.ImageCombine
 import com.t8rin.imagetoolbox.core.resources.icons.ImageConvert
 import com.t8rin.imagetoolbox.core.resources.icons.ImageDownload
 import com.t8rin.imagetoolbox.core.resources.icons.ImageEdit
+import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
+import com.t8rin.imagetoolbox.core.resources.icons.JoinInner
+import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.LabelPercent
+import com.t8rin.imagetoolbox.core.resources.icons.Labs
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.resources.icons.MeshGradient
+import com.t8rin.imagetoolbox.core.resources.icons.MobileLayout
+import com.t8rin.imagetoolbox.core.resources.icons.MobileVibrate
 import com.t8rin.imagetoolbox.core.resources.icons.MultipleImageEdit
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.NoiseAlt
@@ -79,6 +98,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.SaveAs
 import com.t8rin.imagetoolbox.core.resources.icons.SaveConfirm
 import com.t8rin.imagetoolbox.core.resources.icons.Scanner
 import com.t8rin.imagetoolbox.core.resources.icons.Scissors
+import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.ShieldLock
 import com.t8rin.imagetoolbox.core.resources.icons.SplitAlt
@@ -86,11 +106,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.SquareFoot
 import com.t8rin.imagetoolbox.core.resources.icons.StackSticky
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.TagText
+import com.t8rin.imagetoolbox.core.resources.icons.Terminal
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Unarchive
 import com.t8rin.imagetoolbox.core.resources.icons.VectorPolyline
+import com.t8rin.imagetoolbox.core.resources.icons.ViewQuilt
+import com.t8rin.imagetoolbox.core.resources.icons.WallArt
 import com.t8rin.imagetoolbox.core.resources.icons.WallpaperAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Watermark
+import com.t8rin.imagetoolbox.core.resources.icons.WebpBox
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
@@ -102,6 +126,39 @@ import javax.inject.Inject
 internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
 
     private object TipIds {
+        const val ToneCurves = "tone-curves"
+        const val StitchingModes = "stitching-modes"
+        const val StackingLayers = "stacking-layers"
+        const val MultiFrameFusion = "multi-frame-fusion"
+        const val Photomosaic = "photomosaic"
+        const val CompressionLab = "compression-lab"
+        const val ScreenshotFraming = "screenshot-framing"
+        const val CodePreview = "code-preview"
+        const val FractalGeneration = "fractal-generation"
+        const val ColorTools = "color-tools"
+        const val PalettePdf = "palette-pdf"
+        const val GifWorkflow = "gif-workflow"
+        const val ApngWorkflow = "apng-workflow"
+        const val WebpWorkflow = "webp-workflow"
+        const val JxlWorkflow = "jxl-workflow"
+        const val AsciiWorkflow = "ascii-workflow"
+        const val DrawingWorkflow = "drawing-workflow"
+        const val ExifRemoval = "exif-removal"
+        const val GalleryWorkflow = "gallery-workflow"
+        const val ArchiveWorkflow = "archive-workflow"
+        const val Base64Workflow = "base64-workflow"
+        const val PdfComparison = "pdf-comparison"
+        const val PdfPageResizing = "pdf-page-resizing"
+        const val PdfSanitizing = "pdf-sanitizing"
+        const val PdfContactSheets = "pdf-contact-sheets"
+        const val PdfDarkReading = "pdf-dark-reading"
+        const val PdfImageExtraction = "pdf-image-extraction"
+        const val SettingsNavigation = "settings-navigation"
+        const val SettingsPanels = "settings-panels"
+        const val ThemeCustomization = "theme-customization"
+        const val InterfaceTypography = "interface-typography"
+        const val InterfaceMotion = "interface-motion"
+        const val SettingsGroupVisibility = "settings-group-visibility"
         const val ChooseTool = "choose-tool"
         const val ImportSaveShare = "import-save-share"
         const val BatchWorkflow = "batch-workflow"
@@ -263,6 +320,13 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         icon = Icons.Outlined.ImageConvert
     )
 
+    private val customization = HelpCategory(
+        key = "customization",
+        title = R.string.help_category_customization,
+        subtitle = R.string.help_category_customization_sub,
+        icon = Icons.Outlined.Settings
+    )
+
     private val troubleshooting = HelpCategory(
         key = "troubleshooting",
         title = R.string.help_category_troubleshooting,
@@ -278,10 +342,101 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         textAndData,
         colorTools,
         creativeTools,
+        customization,
         troubleshooting
     )
 
     override val tips: List<HelpTip> = listOf(
+        tip(
+            id = TipIds.SettingsNavigation,
+            title = R.string.help_tip_settings_navigation_title,
+            subtitle = R.string.help_tip_settings_navigation_subtitle,
+            icon = Icons.Rounded.Settings,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.UseCategorizedSettings),
+            pageTitle = R.string.help_tip_settings_navigation_page_title,
+            description = R.string.help_tip_settings_navigation_description,
+            steps = listOf(
+                R.string.help_tip_settings_navigation_step_1,
+                R.string.help_tip_settings_navigation_step_2,
+                R.string.help_tip_settings_navigation_step_3
+            )
+        ),
+        tip(
+            id = TipIds.SettingsPanels,
+            title = R.string.help_tip_settings_panels_title,
+            subtitle = R.string.help_tip_settings_panels_subtitle,
+            icon = Icons.Rounded.MobileLayout,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.UseFullscreenSettings),
+            pageTitle = R.string.help_tip_settings_panels_page_title,
+            description = R.string.help_tip_settings_panels_description,
+            steps = listOf(
+                R.string.help_tip_settings_panels_step_1,
+                R.string.help_tip_settings_panels_step_2,
+                R.string.help_tip_settings_panels_step_3
+            )
+        ),
+        tip(
+            id = TipIds.ThemeCustomization,
+            title = R.string.help_tip_theme_customization_title,
+            subtitle = R.string.help_tip_theme_customization_subtitle,
+            icon = Icons.Rounded.Palette,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ColorScheme),
+            pageTitle = R.string.help_tip_theme_customization_page_title,
+            description = R.string.help_tip_theme_customization_description,
+            steps = listOf(
+                R.string.help_tip_theme_customization_step_1,
+                R.string.help_tip_theme_customization_step_2,
+                R.string.help_tip_theme_customization_step_3
+            )
+        ),
+        tip(
+            id = TipIds.InterfaceTypography,
+            title = R.string.help_tip_interface_typography_title,
+            subtitle = R.string.help_tip_interface_typography_subtitle,
+            icon = Icons.Outlined.Glyphs,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ChangeFont),
+            pageTitle = R.string.help_tip_interface_typography_page_title,
+            description = R.string.help_tip_interface_typography_description,
+            steps = listOf(
+                R.string.help_tip_interface_typography_step_1,
+                R.string.help_tip_interface_typography_step_2,
+                R.string.help_tip_interface_typography_step_3
+            )
+        ),
+        tip(
+            id = TipIds.InterfaceMotion,
+            title = R.string.help_tip_interface_motion_title,
+            subtitle = R.string.help_tip_interface_motion_subtitle,
+            icon = Icons.Rounded.MobileVibrate,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.MotionDurationScale),
+            pageTitle = R.string.help_tip_interface_motion_page_title,
+            description = R.string.help_tip_interface_motion_description,
+            steps = listOf(
+                R.string.help_tip_interface_motion_step_1,
+                R.string.help_tip_interface_motion_step_2,
+                R.string.help_tip_interface_motion_step_3
+            )
+        ),
+        tip(
+            id = TipIds.SettingsGroupVisibility,
+            title = R.string.help_tip_settings_group_visibility_title,
+            subtitle = R.string.help_tip_settings_group_visibility_subtitle,
+            icon = Icons.Rounded.Settings,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.AllowCollapsingSettingsGroups),
+            pageTitle = R.string.help_tip_settings_group_visibility_page_title,
+            description = R.string.help_tip_settings_group_visibility_description,
+            steps = listOf(
+                R.string.help_tip_settings_group_visibility_step_1,
+                R.string.help_tip_settings_group_visibility_step_2,
+                R.string.help_tip_settings_group_visibility_step_3
+            )
+        ),
         tip(
             id = TipIds.ChooseTool,
             title = R.string.help_tip_choose_tool_title,
@@ -598,34 +753,60 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_load_net_image_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.ResizeConvert,
             title = R.string.help_tip_resize_convert_title,
             subtitle = R.string.help_tip_resize_convert_subtitle,
             icon = Icons.Outlined.MultipleImageEdit,
             category = imageEditing,
             deepLink = Screen.ResizeAndConvert(),
-            pageTitle = R.string.help_tip_resize_convert_page_title,
-            description = R.string.help_tip_resize_convert_description,
-            steps = listOf(
-                R.string.help_tip_resize_convert_step_1,
-                R.string.help_tip_resize_convert_step_2,
-                R.string.help_tip_resize_convert_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_resize_convert_page_title,
+                    description = R.string.help_tip_resize_convert_description,
+                    steps = listOf(
+                        R.string.help_tip_resize_convert_step_1,
+                        R.string.help_tip_resize_convert_step_2,
+                        R.string.help_tip_resize_convert_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_resize_convert_page_2_title,
+                    description = R.string.help_tip_resize_convert_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_resize_convert_page_2_step_1,
+                        R.string.help_tip_resize_convert_page_2_step_2,
+                        R.string.help_tip_resize_convert_page_2_step_3
+                    )
+                )
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.ResizeByFileSize,
             title = R.string.help_tip_resize_by_file_size_title,
             subtitle = R.string.help_tip_resize_by_file_size_subtitle,
             icon = Icons.Outlined.ImageWeight,
             category = imageEditing,
             deepLink = Screen.WeightResize(),
-            pageTitle = R.string.help_tip_resize_by_file_size_page_title,
-            description = R.string.help_tip_resize_by_file_size_description,
-            steps = listOf(
-                R.string.help_tip_resize_by_file_size_step_1,
-                R.string.help_tip_resize_by_file_size_step_2,
-                R.string.help_tip_resize_by_file_size_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_resize_by_file_size_page_title,
+                    description = R.string.help_tip_resize_by_file_size_description,
+                    steps = listOf(
+                        R.string.help_tip_resize_by_file_size_step_1,
+                        R.string.help_tip_resize_by_file_size_step_2,
+                        R.string.help_tip_resize_by_file_size_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_resize_by_file_size_page_2_title,
+                    description = R.string.help_tip_resize_by_file_size_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_resize_by_file_size_page_2_step_1,
+                        R.string.help_tip_resize_by_file_size_page_2_step_2,
+                        R.string.help_tip_resize_by_file_size_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -733,34 +914,60 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_upscale_vs_resize_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.CropStraighten,
             title = R.string.help_tip_crop_straighten_title,
             subtitle = R.string.help_tip_crop_straighten_subtitle,
             icon = Icons.Rounded.CropSmall,
             category = imageEditing,
             deepLink = Screen.Crop(),
-            pageTitle = R.string.help_tip_crop_straighten_page_title,
-            description = R.string.help_tip_crop_straighten_description,
-            steps = listOf(
-                R.string.help_tip_crop_straighten_step_1,
-                R.string.help_tip_crop_straighten_step_2,
-                R.string.help_tip_crop_straighten_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_crop_straighten_page_title,
+                    description = R.string.help_tip_crop_straighten_description,
+                    steps = listOf(
+                        R.string.help_tip_crop_straighten_step_1,
+                        R.string.help_tip_crop_straighten_step_2,
+                        R.string.help_tip_crop_straighten_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_crop_straighten_page_2_title,
+                    description = R.string.help_tip_crop_straighten_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_crop_straighten_page_2_step_1,
+                        R.string.help_tip_crop_straighten_page_2_step_2,
+                        R.string.help_tip_crop_straighten_page_2_step_3
+                    )
+                )
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.Filters,
             title = R.string.help_tip_filters_title,
             subtitle = R.string.help_tip_filters_subtitle,
             icon = Icons.Outlined.AutoFixHigh,
             category = imageEditing,
             deepLink = Screen.Filter(),
-            pageTitle = R.string.help_tip_filters_page_title,
-            description = R.string.help_tip_filters_description,
-            steps = listOf(
-                R.string.help_tip_filters_step_1,
-                R.string.help_tip_filters_step_2,
-                R.string.help_tip_filters_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_filters_page_title,
+                    description = R.string.help_tip_filters_description,
+                    steps = listOf(
+                        R.string.help_tip_filters_step_1,
+                        R.string.help_tip_filters_step_2,
+                        R.string.help_tip_filters_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_filters_page_2_title,
+                    description = R.string.help_tip_filters_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_filters_page_2_step_1,
+                        R.string.help_tip_filters_page_2_step_2,
+                        R.string.help_tip_filters_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -912,19 +1119,32 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_preview_before_editing_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.BackgroundRemover,
             title = R.string.help_tip_background_remover_title,
             subtitle = R.string.help_tip_background_remover_subtitle,
             icon = Icons.Rounded.Eraser,
             category = imageEditing,
             deepLink = Screen.EraseBackground(),
-            pageTitle = R.string.help_tip_background_remover_page_title,
-            description = R.string.help_tip_background_remover_description,
-            steps = listOf(
-                R.string.help_tip_background_remover_step_1,
-                R.string.help_tip_background_remover_step_2,
-                R.string.help_tip_background_remover_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_background_remover_page_title,
+                    description = R.string.help_tip_background_remover_description,
+                    steps = listOf(
+                        R.string.help_tip_background_remover_step_1,
+                        R.string.help_tip_background_remover_step_2,
+                        R.string.help_tip_background_remover_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_background_remover_page_2_title,
+                    description = R.string.help_tip_background_remover_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_background_remover_page_2_step_1,
+                        R.string.help_tip_background_remover_page_2_step_2,
+                        R.string.help_tip_background_remover_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1122,18 +1342,31 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_automatic_exif_cleanup_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.Filenames,
             title = R.string.help_tip_filenames_title,
             subtitle = R.string.help_tip_filenames_subtitle,
             icon = Icons.Outlined.File,
             category = filesAndMetadata,
-            pageTitle = R.string.help_tip_filenames_page_title,
-            description = R.string.help_tip_filenames_description,
-            steps = listOf(
-                R.string.help_tip_filenames_step_1,
-                R.string.help_tip_filenames_step_2,
-                R.string.help_tip_filenames_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_filenames_page_title,
+                    description = R.string.help_tip_filenames_description,
+                    steps = listOf(
+                        R.string.help_tip_filenames_step_1,
+                        R.string.help_tip_filenames_step_2,
+                        R.string.help_tip_filenames_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_filenames_page_2_title,
+                    description = R.string.help_tip_filenames_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_filenames_page_2_step_1,
+                        R.string.help_tip_filenames_page_2_step_2,
+                        R.string.help_tip_filenames_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1315,19 +1548,32 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_pdf_hub_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.ImagesToPdf,
             title = R.string.help_tip_images_to_pdf_title,
             subtitle = R.string.help_tip_images_to_pdf_subtitle,
             icon = Icons.Outlined.Scanner,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools.ImagesToPdf(),
-            pageTitle = R.string.help_tip_images_to_pdf_page_title,
-            description = R.string.help_tip_images_to_pdf_description,
-            steps = listOf(
-                R.string.help_tip_images_to_pdf_step_1,
-                R.string.help_tip_images_to_pdf_step_2,
-                R.string.help_tip_images_to_pdf_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_images_to_pdf_page_title,
+                    description = R.string.help_tip_images_to_pdf_description,
+                    steps = listOf(
+                        R.string.help_tip_images_to_pdf_step_1,
+                        R.string.help_tip_images_to_pdf_step_2,
+                        R.string.help_tip_images_to_pdf_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_images_to_pdf_page_2_title,
+                    description = R.string.help_tip_images_to_pdf_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_images_to_pdf_page_2_step_1,
+                        R.string.help_tip_images_to_pdf_page_2_step_2,
+                        R.string.help_tip_images_to_pdf_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1375,34 +1621,60 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_scan_cleanup_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.PdfProtection,
             title = R.string.help_tip_pdf_protection_title,
             subtitle = R.string.help_tip_pdf_protection_subtitle,
             icon = Icons.Outlined.ShieldLock,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
-            pageTitle = R.string.help_tip_pdf_protection_page_title,
-            description = R.string.help_tip_pdf_protection_description,
-            steps = listOf(
-                R.string.help_tip_pdf_protection_step_1,
-                R.string.help_tip_pdf_protection_step_2,
-                R.string.help_tip_pdf_protection_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_protection_page_title,
+                    description = R.string.help_tip_pdf_protection_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_protection_step_1,
+                        R.string.help_tip_pdf_protection_step_2,
+                        R.string.help_tip_pdf_protection_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_pdf_protection_page_2_title,
+                    description = R.string.help_tip_pdf_protection_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_protection_page_2_step_1,
+                        R.string.help_tip_pdf_protection_page_2_step_2,
+                        R.string.help_tip_pdf_protection_page_2_step_3
+                    )
+                )
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.PdfPageOrganization,
             title = R.string.help_tip_pdf_page_organization_title,
             subtitle = R.string.help_tip_pdf_page_organization_subtitle,
             icon = Icons.Outlined.SwapVerticalCircle,
             category = pdfAndDocuments,
             deepLink = Screen.PdfTools,
-            pageTitle = R.string.help_tip_pdf_page_organization_page_title,
-            description = R.string.help_tip_pdf_page_organization_description,
-            steps = listOf(
-                R.string.help_tip_pdf_page_organization_step_1,
-                R.string.help_tip_pdf_page_organization_step_2,
-                R.string.help_tip_pdf_page_organization_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_page_organization_page_title,
+                    description = R.string.help_tip_pdf_page_organization_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_page_organization_step_1,
+                        R.string.help_tip_pdf_page_organization_step_2,
+                        R.string.help_tip_pdf_page_organization_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_pdf_page_organization_page_2_title,
+                    description = R.string.help_tip_pdf_page_organization_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_page_organization_page_2_step_1,
+                        R.string.help_tip_pdf_page_organization_page_2_step_2,
+                        R.string.help_tip_pdf_page_organization_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1465,19 +1737,32 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_pdf_metadata_flatten_print_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.Ocr,
             title = R.string.help_tip_ocr_title,
             subtitle = R.string.help_tip_ocr_subtitle,
             icon = Icons.Outlined.TextSearch,
             category = textAndData,
             deepLink = Screen.RecognizeText(),
-            pageTitle = R.string.help_tip_ocr_page_title,
-            description = R.string.help_tip_ocr_description,
-            steps = listOf(
-                R.string.help_tip_ocr_step_1,
-                R.string.help_tip_ocr_step_2,
-                R.string.help_tip_ocr_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_ocr_page_title,
+                    description = R.string.help_tip_ocr_description,
+                    steps = listOf(
+                        R.string.help_tip_ocr_step_1,
+                        R.string.help_tip_ocr_step_2,
+                        R.string.help_tip_ocr_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_ocr_page_2_title,
+                    description = R.string.help_tip_ocr_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_ocr_page_2_step_1,
+                        R.string.help_tip_ocr_page_2_step_2,
+                        R.string.help_tip_ocr_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1879,19 +2164,32 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_shader_studio_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.SvgAscii,
             title = R.string.help_tip_svg_ascii_title,
             subtitle = R.string.help_tip_svg_ascii_subtitle,
             icon = Icons.Outlined.VectorPolyline,
             category = creativeTools,
             deepLink = Screen.SvgMaker(),
-            pageTitle = R.string.help_tip_svg_ascii_page_title,
-            description = R.string.help_tip_svg_ascii_description,
-            steps = listOf(
-                R.string.help_tip_svg_ascii_step_1,
-                R.string.help_tip_svg_ascii_step_2,
-                R.string.help_tip_svg_ascii_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_svg_ascii_page_title,
+                    description = R.string.help_tip_svg_ascii_description,
+                    steps = listOf(
+                        R.string.help_tip_svg_ascii_step_1,
+                        R.string.help_tip_svg_ascii_step_2,
+                        R.string.help_tip_svg_ascii_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_svg_ascii_page_2_title,
+                    description = R.string.help_tip_svg_ascii_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_svg_ascii_page_2_step_1,
+                        R.string.help_tip_svg_ascii_page_2_step_2,
+                        R.string.help_tip_svg_ascii_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1938,19 +2236,32 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_wallpaper_export_step_3
             )
         ),
-        tip(
+        pagesTip(
             id = TipIds.MarkupProjects,
             title = R.string.help_tip_markup_projects_title,
             subtitle = R.string.help_tip_markup_projects_subtitle,
             icon = Icons.Outlined.StackSticky,
             category = creativeTools,
             deepLink = Screen.MarkupLayers(),
-            pageTitle = R.string.help_tip_markup_projects_page_title,
-            description = R.string.help_tip_markup_projects_description,
-            steps = listOf(
-                R.string.help_tip_markup_projects_step_1,
-                R.string.help_tip_markup_projects_step_2,
-                R.string.help_tip_markup_projects_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_markup_projects_page_title,
+                    description = R.string.help_tip_markup_projects_description,
+                    steps = listOf(
+                        R.string.help_tip_markup_projects_step_1,
+                        R.string.help_tip_markup_projects_step_2,
+                        R.string.help_tip_markup_projects_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_markup_projects_page_2_title,
+                    description = R.string.help_tip_markup_projects_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_markup_projects_page_2_step_1,
+                        R.string.help_tip_markup_projects_page_2_step_2,
+                        R.string.help_tip_markup_projects_page_2_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -1968,18 +2279,602 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_encryption_workflow_step_3
             )
         ),
-        tip(
+        pagesTip(
+            id = TipIds.ToneCurves,
+            title = R.string.help_tip_tone_curves_title,
+            subtitle = R.string.help_tip_tone_curves_subtitle,
+            icon = Icons.Outlined.Curve,
+            category = imageEditing,
+            deepLink = Screen.Curves(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_tone_curves_page_title,
+                    description = R.string.help_tip_tone_curves_description,
+                    steps = listOf(
+                        R.string.help_tip_tone_curves_step_1,
+                        R.string.help_tip_tone_curves_step_2,
+                        R.string.help_tip_tone_curves_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_tone_curves_page_2_title,
+                    description = R.string.help_tip_tone_curves_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_tone_curves_page_2_step_1,
+                        R.string.help_tip_tone_curves_page_2_step_2,
+                        R.string.help_tip_tone_curves_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.StitchingModes,
+            title = R.string.help_tip_stitching_modes_title,
+            subtitle = R.string.help_tip_stitching_modes_subtitle,
+            icon = Icons.Rounded.ImageCombine,
+            category = imageEditing,
+            deepLink = Screen.ImageStitching(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_stitching_modes_page_title,
+                    description = R.string.help_tip_stitching_modes_description,
+                    steps = listOf(
+                        R.string.help_tip_stitching_modes_step_1,
+                        R.string.help_tip_stitching_modes_step_2,
+                        R.string.help_tip_stitching_modes_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_stitching_modes_page_2_title,
+                    description = R.string.help_tip_stitching_modes_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_stitching_modes_page_2_step_1,
+                        R.string.help_tip_stitching_modes_page_2_step_2,
+                        R.string.help_tip_stitching_modes_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.StackingLayers,
+            title = R.string.help_tip_stacking_layers_title,
+            subtitle = R.string.help_tip_stacking_layers_subtitle,
+            icon = Icons.Outlined.ImageOverlay,
+            category = imageEditing,
+            deepLink = Screen.ImageStacking(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_stacking_layers_page_title,
+                    description = R.string.help_tip_stacking_layers_description,
+                    steps = listOf(
+                        R.string.help_tip_stacking_layers_step_1,
+                        R.string.help_tip_stacking_layers_step_2,
+                        R.string.help_tip_stacking_layers_step_3,
+                        R.string.help_tip_stacking_layers_step_4
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.MultiFrameFusion,
+            title = R.string.help_tip_multi_frame_fusion_title,
+            subtitle = R.string.help_tip_multi_frame_fusion_subtitle,
+            icon = Icons.Outlined.JoinInner,
+            category = imageEditing,
+            deepLink = Screen.MultiFrameFusion(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_multi_frame_fusion_page_title,
+                    description = R.string.help_tip_multi_frame_fusion_description,
+                    steps = listOf(
+                        R.string.help_tip_multi_frame_fusion_step_1,
+                        R.string.help_tip_multi_frame_fusion_step_2,
+                        R.string.help_tip_multi_frame_fusion_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_multi_frame_fusion_page_2_title,
+                    description = R.string.help_tip_multi_frame_fusion_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_multi_frame_fusion_page_2_step_1,
+                        R.string.help_tip_multi_frame_fusion_page_2_step_2,
+                        R.string.help_tip_multi_frame_fusion_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.Photomosaic,
+            title = R.string.help_tip_photomosaic_title,
+            subtitle = R.string.help_tip_photomosaic_subtitle,
+            icon = Icons.Outlined.ViewQuilt,
+            category = creativeTools,
+            deepLink = Screen.Photomosaic(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_photomosaic_page_title,
+                    description = R.string.help_tip_photomosaic_description,
+                    steps = listOf(
+                        R.string.help_tip_photomosaic_step_1,
+                        R.string.help_tip_photomosaic_step_2,
+                        R.string.help_tip_photomosaic_step_3,
+                        R.string.help_tip_photomosaic_step_4
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.CompressionLab,
+            title = R.string.help_tip_compression_lab_title,
+            subtitle = R.string.help_tip_compression_lab_subtitle,
+            icon = Icons.Rounded.Labs,
+            category = filesAndMetadata,
+            deepLink = Screen.CompressionLab(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_compression_lab_page_title,
+                    description = R.string.help_tip_compression_lab_description,
+                    steps = listOf(
+                        R.string.help_tip_compression_lab_step_1,
+                        R.string.help_tip_compression_lab_step_2,
+                        R.string.help_tip_compression_lab_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_compression_lab_page_2_title,
+                    description = R.string.help_tip_compression_lab_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_compression_lab_page_2_step_1,
+                        R.string.help_tip_compression_lab_page_2_step_2,
+                        R.string.help_tip_compression_lab_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.ScreenshotFraming,
+            title = R.string.help_tip_screenshot_framing_title,
+            subtitle = R.string.help_tip_screenshot_framing_subtitle,
+            icon = Icons.Outlined.WallArt,
+            category = creativeTools,
+            deepLink = Screen.ScreenshotFraming(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_screenshot_framing_page_title,
+                    description = R.string.help_tip_screenshot_framing_description,
+                    steps = listOf(
+                        R.string.help_tip_screenshot_framing_step_1,
+                        R.string.help_tip_screenshot_framing_step_2,
+                        R.string.help_tip_screenshot_framing_step_3,
+                        R.string.help_tip_screenshot_framing_step_4
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.CodePreview,
+            title = R.string.help_tip_code_preview_title,
+            subtitle = R.string.help_tip_code_preview_subtitle,
+            icon = Icons.Outlined.Terminal,
+            category = creativeTools,
+            deepLink = Screen.CodePreview,
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_code_preview_page_title,
+                    description = R.string.help_tip_code_preview_description,
+                    steps = listOf(
+                        R.string.help_tip_code_preview_step_1,
+                        R.string.help_tip_code_preview_step_2,
+                        R.string.help_tip_code_preview_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_code_preview_page_2_title,
+                    description = R.string.help_tip_code_preview_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_code_preview_page_2_step_1,
+                        R.string.help_tip_code_preview_page_2_step_2,
+                        R.string.help_tip_code_preview_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.FractalGeneration,
+            title = R.string.help_tip_fractal_generation_title,
+            subtitle = R.string.help_tip_fractal_generation_subtitle,
+            icon = Icons.Outlined.Hub,
+            category = creativeTools,
+            deepLink = Screen.FractalGeneration,
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_fractal_generation_page_title,
+                    description = R.string.help_tip_fractal_generation_description,
+                    steps = listOf(
+                        R.string.help_tip_fractal_generation_step_1,
+                        R.string.help_tip_fractal_generation_step_2,
+                        R.string.help_tip_fractal_generation_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_fractal_generation_page_2_title,
+                    description = R.string.help_tip_fractal_generation_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_fractal_generation_page_2_step_1,
+                        R.string.help_tip_fractal_generation_page_2_step_2,
+                        R.string.help_tip_fractal_generation_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.ColorTools,
+            title = R.string.help_tip_color_tools_title,
+            subtitle = R.string.help_tip_color_tools_subtitle,
+            icon = Icons.Outlined.Palette,
+            category = colorTools,
+            deepLink = Screen.ColorTools,
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_color_tools_page_title,
+                    description = R.string.help_tip_color_tools_description,
+                    steps = listOf(
+                        R.string.help_tip_color_tools_step_1,
+                        R.string.help_tip_color_tools_step_2,
+                        R.string.help_tip_color_tools_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PalettePdf,
+            title = R.string.help_tip_palette_pdf_title,
+            subtitle = R.string.help_tip_palette_pdf_subtitle,
+            icon = Icons.Outlined.PaletteSwatch,
+            category = colorTools,
+            deepLink = Screen.PalettePdfTool(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_palette_pdf_page_title,
+                    description = R.string.help_tip_palette_pdf_description,
+                    steps = listOf(
+                        R.string.help_tip_palette_pdf_step_1,
+                        R.string.help_tip_palette_pdf_step_2,
+                        R.string.help_tip_palette_pdf_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.GifWorkflow,
+            title = R.string.help_tip_gif_workflow_title,
+            subtitle = R.string.help_tip_gif_workflow_subtitle,
+            icon = Icons.Outlined.GifBox,
+            category = filesAndMetadata,
+            deepLink = Screen.GifTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_gif_workflow_page_title,
+                    description = R.string.help_tip_gif_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_gif_workflow_step_1,
+                        R.string.help_tip_gif_workflow_step_2,
+                        R.string.help_tip_gif_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.ApngWorkflow,
+            title = R.string.help_tip_apng_workflow_title,
+            subtitle = R.string.help_tip_apng_workflow_subtitle,
+            icon = Icons.Outlined.ApngBox,
+            category = filesAndMetadata,
+            deepLink = Screen.ApngTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_apng_workflow_page_title,
+                    description = R.string.help_tip_apng_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_apng_workflow_step_1,
+                        R.string.help_tip_apng_workflow_step_2,
+                        R.string.help_tip_apng_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.WebpWorkflow,
+            title = R.string.help_tip_webp_workflow_title,
+            subtitle = R.string.help_tip_webp_workflow_subtitle,
+            icon = Icons.Outlined.WebpBox,
+            category = filesAndMetadata,
+            deepLink = Screen.WebpTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_webp_workflow_page_title,
+                    description = R.string.help_tip_webp_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_webp_workflow_step_1,
+                        R.string.help_tip_webp_workflow_step_2,
+                        R.string.help_tip_webp_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.JxlWorkflow,
+            title = R.string.help_tip_jxl_workflow_title,
+            subtitle = R.string.help_tip_jxl_workflow_subtitle,
+            icon = Icons.Filled.Jxl,
+            category = filesAndMetadata,
+            deepLink = Screen.JxlTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_jxl_workflow_page_title,
+                    description = R.string.help_tip_jxl_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_jxl_workflow_step_1,
+                        R.string.help_tip_jxl_workflow_step_2,
+                        R.string.help_tip_jxl_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.AsciiWorkflow,
+            title = R.string.help_tip_ascii_workflow_title,
+            subtitle = R.string.help_tip_ascii_workflow_subtitle,
+            icon = Icons.Outlined.Ascii,
+            category = creativeTools,
+            deepLink = Screen.AsciiArt(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_ascii_workflow_page_title,
+                    description = R.string.help_tip_ascii_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_ascii_workflow_step_1,
+                        R.string.help_tip_ascii_workflow_step_2,
+                        R.string.help_tip_ascii_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.DrawingWorkflow,
+            title = R.string.help_tip_drawing_workflow_title,
+            subtitle = R.string.help_tip_drawing_workflow_subtitle,
+            icon = Icons.Outlined.Draw,
+            category = imageEditing,
+            deepLink = Screen.Draw(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_drawing_workflow_page_title,
+                    description = R.string.help_tip_drawing_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_drawing_workflow_step_1,
+                        R.string.help_tip_drawing_workflow_step_2,
+                        R.string.help_tip_drawing_workflow_step_3,
+                        R.string.help_tip_drawing_workflow_step_4
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.ExifRemoval,
+            title = R.string.help_tip_exif_removal_title,
+            subtitle = R.string.help_tip_exif_removal_subtitle,
+            icon = Icons.Outlined.Exif,
+            category = filesAndMetadata,
+            deepLink = Screen.DeleteExif(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_exif_removal_page_title,
+                    description = R.string.help_tip_exif_removal_description,
+                    steps = listOf(
+                        R.string.help_tip_exif_removal_step_1,
+                        R.string.help_tip_exif_removal_step_2,
+                        R.string.help_tip_exif_removal_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.GalleryWorkflow,
+            title = R.string.help_tip_gallery_workflow_title,
+            subtitle = R.string.help_tip_gallery_workflow_subtitle,
+            icon = Icons.Outlined.ImagesMode,
+            category = gettingStarted,
+            deepLink = Screen.Gallery,
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_gallery_workflow_page_title,
+                    description = R.string.help_tip_gallery_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_gallery_workflow_step_1,
+                        R.string.help_tip_gallery_workflow_step_2,
+                        R.string.help_tip_gallery_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.ArchiveWorkflow,
+            title = R.string.help_tip_archive_workflow_title,
+            subtitle = R.string.help_tip_archive_workflow_subtitle,
+            icon = Icons.Outlined.FolderZip,
+            category = textAndData,
+            deepLink = Screen.ArchiveTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_archive_workflow_page_title,
+                    description = R.string.help_tip_archive_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_archive_workflow_step_1,
+                        R.string.help_tip_archive_workflow_step_2,
+                        R.string.help_tip_archive_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.Base64Workflow,
+            title = R.string.help_tip_base64_workflow_title,
+            subtitle = R.string.help_tip_base64_workflow_subtitle,
+            icon = Icons.Outlined.Base64,
+            category = textAndData,
+            deepLink = Screen.Base64Tools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_base64_workflow_page_title,
+                    description = R.string.help_tip_base64_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_base64_workflow_step_1,
+                        R.string.help_tip_base64_workflow_step_2,
+                        R.string.help_tip_base64_workflow_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfComparison,
+            title = R.string.help_tip_pdf_comparison_title,
+            subtitle = R.string.help_tip_pdf_comparison_subtitle,
+            icon = Icons.Outlined.Compare,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.ComparePdf(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_comparison_page_title,
+                    description = R.string.help_tip_pdf_comparison_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_comparison_step_1,
+                        R.string.help_tip_pdf_comparison_step_2,
+                        R.string.help_tip_pdf_comparison_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfPageResizing,
+            title = R.string.help_tip_pdf_page_resizing_title,
+            subtitle = R.string.help_tip_pdf_page_resizing_subtitle,
+            icon = Icons.Outlined.ImageResize,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.ResizePdfPages(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_page_resizing_page_title,
+                    description = R.string.help_tip_pdf_page_resizing_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_page_resizing_step_1,
+                        R.string.help_tip_pdf_page_resizing_step_2,
+                        R.string.help_tip_pdf_page_resizing_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfSanitizing,
+            title = R.string.help_tip_pdf_sanitizing_title,
+            subtitle = R.string.help_tip_pdf_sanitizing_subtitle,
+            icon = Icons.Outlined.HouseholdSupplies,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.SanitizePdf(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_sanitizing_page_title,
+                    description = R.string.help_tip_pdf_sanitizing_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_sanitizing_step_1,
+                        R.string.help_tip_pdf_sanitizing_step_2,
+                        R.string.help_tip_pdf_sanitizing_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfContactSheets,
+            title = R.string.help_tip_pdf_contact_sheets_title,
+            subtitle = R.string.help_tip_pdf_contact_sheets_subtitle,
+            icon = Icons.Outlined.GridOn,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.PdfContactSheet(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_contact_sheets_page_title,
+                    description = R.string.help_tip_pdf_contact_sheets_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_contact_sheets_step_1,
+                        R.string.help_tip_pdf_contact_sheets_step_2,
+                        R.string.help_tip_pdf_contact_sheets_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfDarkReading,
+            title = R.string.help_tip_pdf_dark_reading_title,
+            subtitle = R.string.help_tip_pdf_dark_reading_subtitle,
+            icon = Icons.Outlined.DarkMode,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.DarkMode(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_dark_reading_page_title,
+                    description = R.string.help_tip_pdf_dark_reading_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_dark_reading_step_1,
+                        R.string.help_tip_pdf_dark_reading_step_2,
+                        R.string.help_tip_pdf_dark_reading_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = TipIds.PdfImageExtraction,
+            title = R.string.help_tip_pdf_image_extraction_title,
+            subtitle = R.string.help_tip_pdf_image_extraction_subtitle,
+            icon = Icons.Outlined.ArtTrack,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.ExtractPages(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_pdf_image_extraction_page_title,
+                    description = R.string.help_tip_pdf_image_extraction_description,
+                    steps = listOf(
+                        R.string.help_tip_pdf_image_extraction_step_1,
+                        R.string.help_tip_pdf_image_extraction_step_2,
+                        R.string.help_tip_pdf_image_extraction_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
             id = TipIds.LargeFiles,
             title = R.string.help_tip_large_files_title,
             subtitle = R.string.help_tip_large_files_subtitle,
             icon = Icons.Outlined.Help,
             category = troubleshooting,
-            pageTitle = R.string.help_tip_large_files_page_title,
-            description = R.string.help_tip_large_files_description,
-            steps = listOf(
-                R.string.help_tip_large_files_step_1,
-                R.string.help_tip_large_files_step_2,
-                R.string.help_tip_large_files_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_large_files_page_title,
+                    description = R.string.help_tip_large_files_description,
+                    steps = listOf(
+                        R.string.help_tip_large_files_step_1,
+                        R.string.help_tip_large_files_step_2,
+                        R.string.help_tip_large_files_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_large_files_page_2_title,
+                    description = R.string.help_tip_large_files_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_large_files_page_2_step_1,
+                        R.string.help_tip_large_files_page_2_step_2,
+                        R.string.help_tip_large_files_page_2_step_3
+                    )
+                )
             )
         ),
         tip(

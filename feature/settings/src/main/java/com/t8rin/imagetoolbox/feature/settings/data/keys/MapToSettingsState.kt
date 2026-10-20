@@ -170,6 +170,8 @@ internal fun Preferences.toSettingsState(
         ?: default.showSettingsInLandscape,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
+    useCategorizedSettings = this[USE_CATEGORIZED_SETTINGS]
+        ?: default.useCategorizedSettings,
     allowCollapsingSettingsGroups = this[ALLOW_COLLAPSING_SETTINGS_GROUPS]
         ?: default.allowCollapsingSettingsGroups,
     switchType = this[SWITCH_TYPE]?.let {

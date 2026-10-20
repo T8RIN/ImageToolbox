@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -42,6 +44,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerShape
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEvent
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
@@ -55,10 +58,14 @@ internal fun SettingItem(
     containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
     val isUpdateAvailable by component.isUpdateAvailable.subscribeAsState()
+    val shape = LocalContainerShape.current
 
     ProvideContainerDefaults(
         color = containerColor,
-        shape = LocalContainerShape.current
+        shape = when (setting) {
+            Setting.SavingFolder, Setting.NightMode, Setting.ImagePickerMode -> null
+            else -> shape
+        }
     ) {
         when (setting) {
             Setting.AddFileSize -> {
@@ -279,7 +286,10 @@ internal fun SettingItem(
             }
 
             Setting.ImagePickerMode -> {
-                ImagePickerModeSettingItemGroup(onValueChange = component::setImagePickerMode)
+                ImagePickerModeSettingItemGroup(
+                    onValueChange = component::setImagePickerMode,
+                    shape = shape
+                )
             }
 
             Setting.SemanticSearch -> {
@@ -301,7 +311,8 @@ internal fun SettingItem(
             Setting.NightMode -> {
                 NightModeSettingItemGroup(
                     value = component.settingsState.nightMode,
-                    onValueChange = component::setNightMode
+                    onValueChange = component::setNightMode,
+                    shape = shape
                 )
             }
 
@@ -352,7 +363,10 @@ internal fun SettingItem(
             }
 
             Setting.SavingFolder -> {
-                SavingFolderSettingItemGroup(onValueChange = component::setSaveFolderUri)
+                SavingFolderSettingItemGroup(
+                    onValueChange = component::setSaveFolderUri,
+                    shape = shape
+                )
             }
 
             Setting.SaveToOriginalFolder -> {
@@ -542,6 +556,12 @@ internal fun SettingItem(
                     onNavigateToSettings = {
                         component.onNavigate(Screen.Settings())
                     }
+                )
+            }
+
+            Setting.UseCategorizedSettings -> {
+                UseCategorizedSettingsSettingItem(
+                    onClick = component::toggleUseCategorizedSettings
                 )
             }
 
@@ -811,4 +831,21 @@ internal fun SettingItem(
             }
         }
     }
+}
+
+@Composable
+internal fun settingsGroupItemShape(
+    index: Int,
+    size: Int,
+    shape: Shape?
+): Shape {
+    val itemShape = ShapeDefaults.byIndex(index, size)
+    if (shape !is CornerBasedShape || itemShape !is CornerBasedShape) return itemShape
+
+    return itemShape.copy(
+        topStart = if (index == 0) shape.topStart else itemShape.topStart,
+        topEnd = if (index == 0) shape.topEnd else itemShape.topEnd,
+        bottomStart = if (index == size - 1) shape.bottomStart else itemShape.bottomStart,
+        bottomEnd = if (index == size - 1) shape.bottomEnd else itemShape.bottomEnd
+    )
 }

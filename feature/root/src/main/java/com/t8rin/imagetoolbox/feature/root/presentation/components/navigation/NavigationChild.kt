@@ -25,6 +25,8 @@ import com.t8rin.imagetoolbox.color_library.presentation.ColorLibraryContent
 import com.t8rin.imagetoolbox.color_library.presentation.screenLogic.ColorLibraryComponent
 import com.t8rin.imagetoolbox.color_tools.presentation.ColorToolsContent
 import com.t8rin.imagetoolbox.color_tools.presentation.screenLogic.ColorToolsComponent
+import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
@@ -181,6 +183,7 @@ import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.ScanQrCodeConten
 import com.t8rin.imagetoolbox.feature.scan_qr_code.presentation.screenLogic.ScanQrCodeComponent
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.ScreenshotFramingContent
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
+import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsCategoryContent
 import com.t8rin.imagetoolbox.feature.settings.presentation.SettingsContent
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import com.t8rin.imagetoolbox.feature.shader_studio.presentation.ShaderStudioContent
@@ -440,7 +443,25 @@ internal sealed interface NavigationChild {
 
     class Settings(private val component: SettingsComponent) : NavigationChild {
         @Composable
-        override fun Content() = SettingsContent(component)
+        override fun Content() {
+            val category = SettingsGroup.entries.firstOrNull {
+                component.targetSetting in it.settingsList
+            }.takeIf { LocalSettingsState.current.useCategorizedSettings }
+
+            if (category != null) {
+                SettingsCategoryContent(component, category.id)
+            } else {
+                SettingsContent(component)
+            }
+        }
+    }
+
+    class SettingsCategory(
+        private val component: SettingsComponent,
+        private val categoryId: Int
+    ) : NavigationChild {
+        @Composable
+        override fun Content() = SettingsCategoryContent(component, categoryId)
     }
 
     class ShaderStudio(private val component: ShaderStudioComponent) : NavigationChild {

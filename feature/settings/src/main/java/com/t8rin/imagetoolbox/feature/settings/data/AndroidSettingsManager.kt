@@ -224,6 +224,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_ANIMATED_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_CATEGORIZED_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
@@ -825,6 +826,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleUseFullscreenSettings() = toggle(
         key = USE_FULLSCREEN_SETTINGS,
         defaultValue = default.useFullscreenSettings
+    )
+
+    override suspend fun toggleUseCategorizedSettings() = toggle(
+        key = USE_CATEGORIZED_SETTINGS,
+        defaultValue = default.useCategorizedSettings
     )
 
     override suspend fun toggleAllowCollapsingSettingsGroups() = toggle(

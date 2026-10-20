@@ -480,6 +480,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 
+    fun toggleUseCategorizedSettings() = settingsScope { toggleUseCategorizedSettings() }
+
     fun toggleAllowCollapsingSettingsGroups() = settingsScope {
         toggleAllowCollapsingSettingsGroups()
     }

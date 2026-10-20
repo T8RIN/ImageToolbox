@@ -100,6 +100,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSet
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
@@ -117,6 +118,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.CategorizedSettings
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SearchableSettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
@@ -131,7 +133,9 @@ fun SettingsContent(
     component: SettingsComponent,
     disableBottomInsets: Boolean = false,
     gridState: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
-    appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null
+    appBarNavigationIcon: (@Composable (Boolean, () -> Unit) -> Unit)? = null,
+    isActive: Boolean = true,
+    category: SettingsGroup? = null
 ) {
     val isStandaloneScreen = appBarNavigationIcon == null
     val settingsState = LocalSettingsState.current
@@ -146,6 +150,46 @@ fun SettingsContent(
     val settings = component.filteredSettings
     val loading = component.isFilteringSettings
     val targetSetting = component.targetSetting
+    val useCategorizedSettings = settingsState.useCategorizedSettings || category != null
+    var selectedGroupId by rememberSaveable(useCategorizedSettings, targetSetting) {
+        mutableStateOf(
+            initialSettingGroups.firstOrNull {
+                !isStandaloneScreen && useCategorizedSettings && targetSetting in it.settingsList
+            }?.id
+        )
+    }
+    val selectedGroup = category ?: initialSettingGroups.firstOrNull {
+        it.id == selectedGroupId
+    }.takeIf { useCategorizedSettings }
+    val categoriesGridState = rememberLazyStaggeredGridState()
+    val categoryGridState = rememberSaveable(
+        selectedGroup?.id,
+        saver = LazyStaggeredGridState.Saver
+    ) {
+        LazyStaggeredGridState()
+    }
+    LaunchedEffect(selectedGroup, targetSetting) {
+        val index = selectedGroup?.settingsList?.indexOf(targetSetting) ?: -1
+        if (index >= 0) categoryGridState.scrollToItem(index)
+    }
+
+    val searchGridState = rememberLazyStaggeredGridState()
+    val currentGridState = if (settings == null) gridState else searchGridState
+
+    val onNavigateBack: () -> Unit = {
+        if (showSearch || searchKeyword.isNotEmpty()) {
+            component.updateSearchKeyword("")
+            showSearch = false
+        } else if (category != null) {
+            component.onGoBack?.invoke()
+        } else {
+            selectedGroupId = null
+        }
+    }
+
+    if (isActive && (showSearch || searchKeyword.isNotEmpty() || (selectedGroup != null && category == null))) {
+        BackHandler(onBack = onNavigateBack)
+    }
 
     var showTargetHighlight by rememberSaveable {
         mutableStateOf(false)
@@ -173,6 +217,11 @@ fun SettingsContent(
         MaterialTheme.colorScheme.surfaceContainerLow
     }
 
+    val contentSpacing = when {
+        !isStandaloneScreen -> 12.dp
+        useCategorizedSettings -> 16.dp
+        else -> 8.dp
+    }
     val padding = WindowInsets.navigationBars
         .union(WindowInsets.displayCutout)
         .let { insets ->
@@ -187,11 +236,12 @@ fun SettingsContent(
         .asPaddingValues()
         .run {
             PaddingValues(
-                top = 8.dp,
-                bottom = calculateBottomPadding() + 8.dp,
-                end = calculateEndPadding(layoutDirection) + 8.dp,
-                start = if (isStandaloneScreen) calculateStartPadding(layoutDirection) + 8.dp
-                else 8.dp
+                top = contentSpacing,
+                bottom = calculateBottomPadding() + contentSpacing,
+                end = calculateEndPadding(layoutDirection) + contentSpacing,
+                start = if (isStandaloneScreen) {
+                    calculateStartPadding(layoutDirection) + contentSpacing
+                } else contentSpacing
             )
         }
 
@@ -208,8 +258,9 @@ fun SettingsContent(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    LaunchedEffect(targetSetting, settings) {
+    LaunchedEffect(targetSetting, settings, useCategorizedSettings) {
         targetSetting ?: return@LaunchedEffect
+        if (useCategorizedSettings && settings == null) return@LaunchedEffect
         val index = settings?.indexOfFirst { (_, setting) ->
             setting == targetSetting
         } ?: initialSettingGroups.indexOfFirst { group ->
@@ -217,7 +268,7 @@ fun SettingsContent(
         }
 
         if (index >= 0) {
-            gridState.scrollToItem(index)
+            currentGridState.scrollToItem(index)
         }
     }
 
@@ -248,29 +299,25 @@ fun SettingsContent(
                 else EnhancedTopAppBarType.Normal,
                 title = {
                     AnimatedContent(
-                        targetState = showSearch
-                    ) { searching ->
+                        targetState = showSearch to selectedGroup?.titleId
+                    ) { (searching, groupTitle) ->
                         if (!searching) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier.marquee()
                             ) {
                                 Text(
-                                    text = stringResource(R.string.settings),
+                                    text = stringResource(groupTitle ?: R.string.settings),
                                     style = if (!isStandaloneScreen) {
                                         MaterialTheme.typography.titleLarge
                                     } else LocalTextStyle.current
                                 )
-                                if (isStandaloneScreen) {
+                                if (isStandaloneScreen && groupTitle == null) {
                                     Spacer(modifier = Modifier.width(8.dp))
                                     TopAppBarEmoji()
                                 }
                             }
                         } else {
-                            BackHandler {
-                                component.updateSearchKeyword("")
-                                showSearch = false
-                            }
                             SearchBar(
                                 searchString = searchKeyword,
                                 onValueChange = component::updateSearchKeyword
@@ -308,16 +355,15 @@ fun SettingsContent(
                 },
                 navigationIcon = {
                     if (appBarNavigationIcon != null) {
-                        appBarNavigationIcon(showSearch) {
-                            showSearch = false
-                            component.updateSearchKeyword("")
-                        }
-                    } else if (component.onGoBack != null || showSearch) {
+                        appBarNavigationIcon(
+                            showSearch || selectedGroup != null || searchKeyword.isNotEmpty(),
+                            onNavigateBack
+                        )
+                    } else if (component.onGoBack != null || showSearch || selectedGroup != null) {
                         EnhancedIconButton(
                             onClick = {
-                                if (showSearch) {
-                                    showSearch = false
-                                    component.updateSearchKeyword("")
+                                if (showSearch || selectedGroup != null || searchKeyword.isNotEmpty()) {
+                                    onNavigateBack()
                                 } else {
                                     component.onGoBack?.invoke()
                                 }
@@ -360,7 +406,7 @@ fun SettingsContent(
             modifier = Modifier.padding(contentPadding)
         ) {
             AnimatedContent(
-                targetState = settings,
+                targetState = settings?.isNotEmpty(),
                 modifier = Modifier
                     .fillMaxSize()
                     .clearFocusOnTap(),
@@ -369,13 +415,31 @@ fun SettingsContent(
                         targetScale = 0.8f
                     )
                 }
-            ) { settingsAnimated ->
+            ) { haveSettings ->
                 val oneColumn = LocalScreenSize.current.width < 600.dp
                 val spacing = if (searchKeyword.isNotEmpty()) 4.dp
                 else if (isStandaloneScreen) 8.dp
                 else 2.dp
 
-                if (settingsAnimated == null) {
+                if (haveSettings == null && useCategorizedSettings) {
+                    CategorizedSettings(
+                        groups = initialSettingGroups,
+                        selectedGroup = selectedGroup,
+                        onSelectGroup = {
+                            if (isStandaloneScreen) {
+                                component.onNavigate(Screen.SettingsCategory(it.id))
+                            } else {
+                                selectedGroupId = it.id
+                            }
+                        },
+                        component = component,
+                        gridState = categoriesGridState,
+                        categoryGridState = categoryGridState,
+                        contentPadding = padding,
+                        targetSetting = targetSetting,
+                        highlightedContainerColor = highlightedContainerColor
+                    )
+                } else if (haveSettings == null) {
                     LazyVerticalStaggeredGrid(
                         state = gridState,
                         contentPadding = padding,
@@ -522,9 +586,10 @@ fun SettingsContent(
                             }
                         }
                     }
-                } else if (settingsAnimated.isNotEmpty()) {
+                } else if (haveSettings) {
+                    val settingsAnimated = settings.orEmpty()
                     LazyVerticalStaggeredGrid(
-                        state = gridState,
+                        state = searchGridState,
                         contentPadding = padding,
                         columns = StaggeredGridCells.Adaptive(300.dp),
                         verticalItemSpacing = spacing,

@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SettingsCategory
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
@@ -230,6 +231,7 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is LibraryDetails,

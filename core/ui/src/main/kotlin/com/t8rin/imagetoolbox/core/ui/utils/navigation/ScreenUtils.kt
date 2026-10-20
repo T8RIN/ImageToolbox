@@ -163,6 +163,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SettingsCategory
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
@@ -222,6 +223,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ResizeAndConvert -> "Resize_And_Convert"
     is WeightResize -> "Resize_By_Bytes"
     is Settings -> "Settings"
+    is SettingsCategory -> "Settings_Category"
     is SingleEdit -> "Single_Edit"
     is Watermarking -> "Watermarking"
     is ArchiveTools -> "ArchiveTools"
@@ -292,6 +294,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
@@ -392,6 +395,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,

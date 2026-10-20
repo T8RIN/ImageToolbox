@@ -180,6 +180,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScreenshotFraming
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SettingsCategory
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ShaderStudio
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SignaturePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
@@ -671,6 +672,19 @@ internal class ChildProvider @Inject constructor(
                 uriToAnalyze = config.uriToAnalyze,
                 onGoBack = ::navigateBack
             )
+        )
+
+        is Screen.SettingsCategory -> SettingsCategory(
+            component = settingsComponentFactory(
+                componentContext = componentContext,
+                onTryGetUpdate = ::tryGetUpdate,
+                onNavigate = ::navigateToNew,
+                isUpdateAvailable = isUpdateAvailable,
+                onGoBack = ::navigateBack,
+                initialSearchQuery = "",
+                targetSetting = null
+            ),
+            categoryId = config.categoryId
         )
 
         is Screen.Settings -> Settings(

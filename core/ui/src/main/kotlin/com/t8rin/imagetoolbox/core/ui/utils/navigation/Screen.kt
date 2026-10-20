@@ -115,6 +115,15 @@ sealed class Screen(
     )
 
     @Serializable
+    data class SettingsCategory(
+        val categoryId: Int
+    ) : Screen(
+        id = -9,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
     data object EasterEgg : Screen(
         id = -2,
         title = 0,

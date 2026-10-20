@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -40,14 +41,14 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun NightModeSettingItemGroup(
     value: NightMode,
     onValueChange: (NightMode) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    shape: Shape? = null
 ) {
     Column(
         modifier = modifier,
@@ -72,7 +73,7 @@ fun NightModeSettingItemGroup(
             ),
         ).forEachIndexed { index, (title, icon, nightMode) ->
             val selected = nightMode == value
-            val shape = ShapeDefaults.byIndex(index, 3)
+            val itemShape = settingsGroupItemShape(index = index, size = 3, shape = shape)
             PreferenceItem(
                 onClick = { onValueChange(nightMode) },
                 title = title,
@@ -80,7 +81,7 @@ fun NightModeSettingItemGroup(
                     if (selected) secondaryContainer.copy(0.7f)
                     else SafeLocalContainerColor
                 },
-                shape = shape,
+                shape = itemShape,
                 startIcon = icon,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -93,7 +94,7 @@ fun NightModeSettingItemGroup(
                                 .copy(alpha = 0.5f)
                             else Color.Transparent
                         ).value,
-                        shape = shape
+                        shape = itemShape
                     ),
                 endIcon = if (selected) {
                     Icons.Rounded.RadioButtonChecked
