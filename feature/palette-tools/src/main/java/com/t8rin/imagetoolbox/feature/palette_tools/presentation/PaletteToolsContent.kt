@@ -222,6 +222,9 @@ fun PaletteToolsContent(
         }
     }
 
+    val canShowScreenData =
+        paletteType != null && (paletteType == PaletteType.Edit || component.bitmap != null)
+
     AdaptiveLayoutScreen(
         isLoading = component.isImageLoading,
         shouldDisableBackHandler = paletteType == null,
@@ -335,7 +338,7 @@ fun PaletteToolsContent(
         ).value,
         insetsForNoData = WindowInsets(0),
         noDataControls = { preferences() },
-        canShowScreenData = paletteType != null && (paletteType == PaletteType.Edit || component.bitmap != null)
+        canShowScreenData = canShowScreenData
     )
 
     var colorPickerValue by rememberSaveable(stateSaver = ColorSaver) {
@@ -394,7 +397,7 @@ fun PaletteToolsContent(
     )
 
     LoadingDialog(
-        visible = component.isImageLoading || component.isSaving,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         canCancel = false
     )
 }

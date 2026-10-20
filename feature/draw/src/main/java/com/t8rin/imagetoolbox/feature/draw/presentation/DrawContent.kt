@@ -240,6 +240,8 @@ fun DrawContent(
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val canShowScreenData = component.drawBehavior !is DrawBehavior.None
+
     AdaptiveBottomScaffoldLayoutScreen(
         isLoading = component.isImageLoading,
         title = {
@@ -450,13 +452,13 @@ fun DrawContent(
                 onPickImage = pickImage
             )
         },
-        canShowScreenData = component.drawBehavior !is DrawBehavior.None,
+        canShowScreenData = canShowScreenData,
         showActionsInTopAppBar = false,
         mainContentWeight = 0.65f
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )

@@ -224,6 +224,8 @@ fun EraseBackgroundContent(
         }
     }
 
+    val canShowScreenData = component.bitmap != null
+
     AdaptiveBottomScaffoldLayoutScreen(
         isLoading = component.isImageLoading,
         title = {
@@ -507,13 +509,14 @@ fun EraseBackgroundContent(
                 onPickImage = pickImage
             )
         },
-        canShowScreenData = component.bitmap != null,
+        canShowScreenData = canShowScreenData,
         showActionsInTopAppBar = false,
         mainContentWeight = 0.65f
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading || component.isErasingBG,
+        visible = component.isSaving || component.isErasingBG ||
+                (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )

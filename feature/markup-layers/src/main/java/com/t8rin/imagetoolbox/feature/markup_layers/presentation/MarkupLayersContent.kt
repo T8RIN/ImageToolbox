@@ -238,6 +238,8 @@ fun MarkupLayersContent(
         }
     }
 
+    val canShowScreenData = component.backgroundBehavior !is BackgroundBehavior.None
+
     AdaptiveBottomScaffoldLayoutScreen(
         isLoading = component.isImageLoading,
         autoClearFocus = false,
@@ -520,7 +522,7 @@ fun MarkupLayersContent(
                 onOpenProject = projectOpener::pickFile
             )
         },
-        canShowScreenData = component.backgroundBehavior !is BackgroundBehavior.None,
+        canShowScreenData = canShowScreenData,
         mainContentWeight = 0.65f
     )
 
@@ -533,7 +535,7 @@ fun MarkupLayersContent(
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )

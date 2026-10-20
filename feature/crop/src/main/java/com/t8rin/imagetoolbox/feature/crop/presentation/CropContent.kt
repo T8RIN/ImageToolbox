@@ -180,6 +180,8 @@ fun CropContent(
         if (isPortrait) undoRedoButtons()
     }
 
+    val canShowScreenData = component.bitmap != null
+
     AdaptiveBottomScaffoldLayoutScreen(
         isLoading = component.isImageLoading,
         title = {
@@ -473,7 +475,7 @@ fun CropContent(
         noDataControls = {
             ImageNotPickedWidget(onPickImage = pickImage)
         },
-        canShowScreenData = component.bitmap != null,
+        canShowScreenData = canShowScreenData,
         showActionsInTopAppBar = false
     )
 
@@ -503,7 +505,7 @@ fun CropContent(
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )
