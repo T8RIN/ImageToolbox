@@ -461,17 +461,13 @@ private fun AssistantConversation(
     }
     Box(modifier) {
         if (loading && component.messages.isEmpty()) {
-            EnhancedLoadingIndicator(
-                Modifier
-                    .size(40.dp)
-                    .align(Alignment.Center)
-            )
+            EnhancedLoadingIndicator(Modifier.align(Alignment.Center))
         } else if (component.messages.isEmpty()) {
             AssistantPlaceholder(
-                component.enabled,
-                modelReady,
-                onShowModels,
-                Modifier.align(Alignment.Center)
+                enabled = component.enabled,
+                modelReady = modelReady,
+                onShowModels = onShowModels,
+                modifier = Modifier.align(Alignment.Center)
             )
         } else {
             LazyColumn(
