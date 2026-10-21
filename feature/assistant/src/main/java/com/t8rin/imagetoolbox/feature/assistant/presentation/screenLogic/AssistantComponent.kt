@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
@@ -26,6 +27,7 @@ import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStop
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
@@ -50,6 +52,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -76,6 +79,7 @@ class AssistantComponent @AssistedInject internal constructor(
     private val store: AssistantConversationStore,
     private val settings: SettingsManager,
     private val resources: ResourceManager,
+    private val imageGetter: ImageGetter<Bitmap>,
     private val appScope: AppScope,
     dispatchers: DispatchersHolder
 ) : BaseComponent(dispatchers, componentContext) {
@@ -101,8 +105,11 @@ class AssistantComponent @AssistedInject internal constructor(
     private val _error = mutableStateOf<String?>(null)
     val error by _error
     private val _selectedUris =
-        mutableStateOf(route.selectedUris.map { it.toString() })
+        mutableStateOf(route.selectedUris.map { it.toString() }.distinct().take(maxSelectedImages))
     val selectedUris by _selectedUris
+
+    private val maxSelectedImages: Int
+        get() = if (selectedModel.supportsVision) AssistantModels.MAX_IMAGES else MAX_SELECTED_IMAGES
 
     private val isBusy: Boolean
         get() = isLoading || isGenerating
@@ -155,6 +162,7 @@ class AssistantComponent @AssistedInject internal constructor(
                     val changedModel = selectedModel != model
                     _enabled.value = isEnabled
                     _selectedModel.value = model
+                    if (changedModel) updateSelectedUris(selectedUris)
                     if (!isEnabled || changedModel) release()
                     if (!isEnabled) {
                         AssistantModel.entries.forEach(models::cancelDownload)
@@ -164,11 +172,11 @@ class AssistantComponent @AssistedInject internal constructor(
     }
 
     fun updateSelectedUris(uris: List<String>) {
-        _selectedUris.value = uris.distinct().take(MAX_SELECTED_IMAGES)
+        _selectedUris.value = uris.distinct().take(maxSelectedImages)
     }
 
     fun send(question: String, requestContext: AssistantScreenContext = context): Boolean {
-        val selected = requestContext.selectedUris.toList()
+        val selected = requestContext.selectedUris.distinct().take(maxSelectedImages)
         val accepted = send(
             AssistantRequest(
                 question.trim(),
@@ -179,7 +187,7 @@ class AssistantComponent @AssistedInject internal constructor(
             selected.forEach {
                 it.toUri().takePersistablePermission(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            _selectedUris.value = emptyList()
+            if (!selectedModel.supportsVision) _selectedUris.value = emptyList()
         }
         return accepted
     }
@@ -193,6 +201,9 @@ class AssistantComponent @AssistedInject internal constructor(
             return false
         }
         val variant = selectedModel
+        val context = request.context.copy(
+            selectedUris = request.context.selectedUris.distinct().take(maxSelectedImages)
+        )
         val model = variant.id
         val installed = installations.any { it.variant == variant && it.installed }
         if (!AssistantModels.isSupported() || !installed) {
@@ -209,13 +220,13 @@ class AssistantComponent @AssistedInject internal constructor(
                         id,
                         request.query,
                         AssistantAnswer(""),
-                        request.context,
+                        context,
                         model
                     )
                 }
                 persistConversation()
                 releaseJob?.join()
-                val answer = generateAnswer(variant, id, request)
+                val answer = generateAnswer(variant, id, request.copy(context = context))
                 updateMessage(id) { it.copy(answer = answer, error = null) }
             } catch (cancelled: CancellationException) {
                 models.release()
@@ -223,11 +234,13 @@ class AssistantComponent @AssistedInject internal constructor(
                 throw cancelled
             } catch (failure: Exception) {
                 failure.makeLog()
-                val error = if (failure is AssistantModels.InputTooLongException) {
-                    R.string.assistant_input_too_long
-                } else {
-                    models.release()
-                    R.string.assistant_generation_error
+                val error = when (failure) {
+                    is AssistantModels.InputTooLongException -> R.string.assistant_input_too_long
+                    is ImageLoadException -> R.string.assistant_image_load_error
+                    else -> {
+                        models.release()
+                        R.string.assistant_generation_error
+                    }
                 }
                 updateMessage(id) { it.copy(error = resources.getString(error)) }
             } finally {
@@ -247,15 +260,24 @@ class AssistantComponent @AssistedInject internal constructor(
         originalRequest: AssistantRequest
     ): AssistantAnswer {
         val metadataStarted = System.nanoTime()
+        val images = loadImages(variant, originalRequest.context)
+        if (variant.supportsVision && selectedUris == originalRequest.context.selectedUris) {
+            _selectedUris.value = emptyList()
+        }
         val request = originalRequest.copy(
-            query = originalRequest.query.ifBlank { resources.getString(R.string.assistant_photo_prompt) },
+            query = originalRequest.query.ifBlank {
+                resources.getString(
+                    if (images.isNotEmpty()) R.string.assistant_vision_photo_prompt
+                    else R.string.assistant_photo_prompt
+                )
+            },
             context = withFileInfo(originalRequest.context)
         )
         updateMessage(id) { it.copy(context = request.context) }
         val retrievalStarted = System.nanoTime()
         val retrieved = knowledge.retrieve(request)
         val promptStarted = System.nanoTime()
-        val prompt = buildPrompt(request, retrieved)
+        val prompt = buildPrompt(request, retrieved, variant, images.isNotEmpty())
         val promptFinished = System.nanoTime()
         makeLog(
             "metadataMs=${(retrievalStarted - metadataStarted) / 1_000_000} " +
@@ -267,7 +289,7 @@ class AssistantComponent @AssistedInject internal constructor(
         var lastUpdate = 0L
         updateMessage(id) { it.copy(answer = retrieved) }
         try {
-            models.generate(variant, prompt) { token ->
+            models.generate(variant, prompt, images) { token ->
                 output.append(token)
                 val now = System.nanoTime()
                 if (now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
@@ -313,37 +335,42 @@ class AssistantComponent @AssistedInject internal constructor(
             )
         }
 
-    private fun buildPrompt(
-        request: AssistantRequest,
-        retrieved: AssistantAnswer
-    ): String = buildString {
-        append("<|im_start|>system\n")
-        append(knowledge.grounding(request, retrieved, selectedModel))
-        append("<|im_end|>\n")
-        store.messages.value.dropLast(1).filter {
-            it.error == null && it.answer.text.isNotBlank()
-        }.takeLast(2).forEach { message ->
-            append(
-                "<|im_start|>user\n${
-                    message.question.ifBlank { resources.getString(R.string.assistant_photo_prompt) }
-                        .take(HISTORY_QUESTION_LENGTH).escapeTemplate()
-                }<|im_end|>\n"
-            )
-            append(
-                "<|im_start|>assistant\n${
-                    message.answer.text.take(HISTORY_ANSWER_LENGTH).escapeTemplate()
-                }<|im_end|>\n"
-            )
+    private suspend fun loadImages(
+        variant: AssistantModel,
+        context: AssistantScreenContext
+    ): List<Bitmap> {
+        if (!variant.supportsVision) return emptyList()
+        val uris = withContext(ioDispatcher) {
+            context.selectedUris.filter { uri ->
+                val mime = runCatching { uri.toUri().mimeType() }.getOrNull()
+                mime == null || mime.startsWith("image/")
+            }
         }
-        append(
-            "<|im_start|>user\n${
-                knowledge.userPrompt(request, retrieved).escapeTemplate()
-            }<|im_end|>\n"
-        )
-        append("<|im_start|>assistant\n<think>\n\n</think>\n\n")
+        return uris.map { uri ->
+            try {
+                imageGetter.getImage(data = uri, size = AssistantModels.MAX_IMAGE_SIZE)
+                    ?: throw ImageLoadException()
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Exception) {
+                throw ImageLoadException(error)
+            }
+        }
     }
 
-    private fun String.escapeTemplate(): String = replace("<|", "＜|")
+    private fun buildPrompt(
+        request: AssistantRequest,
+        retrieved: AssistantAnswer,
+        variant: AssistantModel,
+        hasImage: Boolean
+    ): String = assistantPrompt(
+        grounding = knowledge.grounding(request, retrieved, variant, hasImage),
+        history = store.messages.value.dropLast(1),
+        question = knowledge.userPrompt(request, retrieved),
+        hasImage = hasImage
+    )
+
+    private class ImageLoadException(cause: Exception? = null) : IllegalArgumentException(cause)
 
     fun regenerate() {
         if (!componentScope.isActive || !enabled || isBusy) return
@@ -501,8 +528,6 @@ class AssistantComponent @AssistedInject internal constructor(
     companion object {
         const val MAX_QUERY_LENGTH = 4_000
         private const val MAX_SELECTED_IMAGES = 500
-        private const val HISTORY_QUESTION_LENGTH = 300
-        private const val HISTORY_ANSWER_LENGTH = 400
         private const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
     }
 

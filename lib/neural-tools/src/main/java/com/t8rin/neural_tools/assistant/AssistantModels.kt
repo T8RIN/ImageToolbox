@@ -21,12 +21,15 @@ import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.genai.GenAI
 import ai.onnxruntime.genai.Generator
 import ai.onnxruntime.genai.GeneratorParams
+import ai.onnxruntime.genai.Images
 import ai.onnxruntime.genai.Model
+import ai.onnxruntime.genai.MultiModalProcessor
 import ai.onnxruntime.genai.Tokenizer
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Process
+import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
-import com.t8rin.neural_tools.BuildConfig
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.ModelFiles
 import com.t8rin.neural_tools.NeuralTool
@@ -47,13 +50,12 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.MessageDigest
+import java.text.Normalizer
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class AssistantModels(
-    private val source: Source = Source()
-) : NeuralTool() {
+class AssistantModels : NeuralTool() {
 
     class InputTooLongException(val tokenCount: Int) : IllegalArgumentException(
         "Assistant input exceeds $MAX_PROMPT_TOKENS tokens: $tokenCount"
@@ -72,21 +74,6 @@ class AssistantModels(
         val error: String? = null,
         val progress: Float? = null
     )
-
-    data class Source(
-        val repository: String = BuildConfig.ASSISTANT_MODEL_REPOSITORY,
-        val revision: String = BuildConfig.ASSISTANT_MODEL_REVISION,
-        val path: String = BuildConfig.ASSISTANT_MODEL_PATH
-    ) {
-        init {
-            require(repository.matches(Regex("[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")))
-            require(revision.matches(Regex("[A-Za-z0-9][A-Za-z0-9_.-]*")))
-            require(isRelativePath(path))
-        }
-
-        internal fun url(variant: AssistantModel, filename: String): String =
-            "https://huggingface.co/$repository/resolve/$revision/$path/${variant.id}/$filename?download=true"
-    }
 
     val states: StateFlow<List<ModelState>> = _states.asStateFlow()
 
@@ -256,10 +243,14 @@ class AssistantModels(
     suspend fun generate(
         variant: AssistantModel,
         prompt: String,
+        images: List<Bitmap> = emptyList(),
         onToken: suspend (String) -> Unit
     ) = withContext(Dispatchers.Default) {
         check(isSupported()) { unsupportedReason.orEmpty() }
         require(prompt.isNotBlank())
+        require(images.size <= MAX_IMAGES) { "Assistant accepts one image per request" }
+        require(images.isEmpty() || variant.supportsVision) { "This assistant model does not support images" }
+        require(images.none { it.isRecycled }) { "Assistant image has already been recycled" }
         val job = currentCoroutineContext()[Job]
         synchronized(nativeLock) {
             check(generationJob == null) { "Assistant generation is already running" }
@@ -289,7 +280,15 @@ class AssistantModels(
                             }
                         }
                         currentCoroutineContext().ensureActive()
-                        generateTokens(prompt, onToken)
+                        if (variant.supportsVision) {
+                            generateVisionTokens(
+                                Normalizer.normalize(prompt, Normalizer.Form.NFC),
+                                images.singleOrNull(),
+                                onToken
+                            )
+                        } else {
+                            generateTokens(prompt, onToken)
+                        }
                     } catch (error: Throwable) {
                         if (error !is InputTooLongException) closeModel()
                         throw error
@@ -308,19 +307,91 @@ class AssistantModels(
         val tokenizer = checkNotNull(activeTokenizer)
         tokenizer.encode(prompt).use { tokens ->
             val inputSize = tokens.getSequence(0).size
-            if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
-            GeneratorParams(checkNotNull(activeModel)).use { params ->
-                params.setSearchOption("max_length", (inputSize + MAX_OUTPUT_TOKENS).toDouble())
-                params.setSearchOption("do_sample", false)
-                Generator(checkNotNull(activeModel), params).use { generator ->
-                    synchronized(nativeLock) { activeGenerator = generator }
-                    try {
-                        runCancellable { generator.appendTokenSequences(tokens) }
-                        streamTokens(generator, tokenizer, onToken)
-                    } finally {
-                        synchronized(nativeLock) { activeGenerator = null }
+            generateTokens(inputSize, onToken) { generator ->
+                generator.appendTokenSequences(tokens)
+            }
+        }
+    }
+
+    private suspend fun generateVisionTokens(
+        prompt: String,
+        image: Bitmap?,
+        onToken: suspend (String) -> Unit
+    ) {
+        val inputSize = checkNotNull(activeTokenizer).encode(prompt).use { tokens ->
+            tokens.getSequence(0).size + if (image != null) MAX_IMAGE_TOKENS - 1 else 0
+        }
+        if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
+        MultiModalProcessor(checkNotNull(activeModel)).use { processor ->
+            withPreparedImage(image) { file ->
+                file?.let { Images(it.absolutePath) }.use { images ->
+                    processor.processImages(prompt, images).use { inputs ->
+                        currentCoroutineContext().ensureActive()
+                        generateTokens(inputSize, onToken) { generator ->
+                            generator.setInputs(inputs)
+                            val actualSize = generator.tokenCount().toInt()
+                            if (actualSize > MAX_PROMPT_TOKENS) {
+                                throw InputTooLongException(actualSize)
+                            }
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun generateTokens(
+        inputSize: Int,
+        onToken: suspend (String) -> Unit,
+        prepare: (Generator) -> Unit
+    ) {
+        if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
+        GeneratorParams(checkNotNull(activeModel)).use { params ->
+            params.setSearchOption("max_length", (inputSize + MAX_OUTPUT_TOKENS).toDouble())
+            params.setSearchOption("do_sample", false)
+            if (activeVariant?.supportsVision == true) {
+                params.setSearchOption("repetition_penalty", 1.1)
+            }
+            Generator(checkNotNull(activeModel), params).use { generator ->
+                synchronized(nativeLock) { activeGenerator = generator }
+                try {
+                    runCancellable { prepare(generator) }
+                    streamTokens(generator, checkNotNull(activeTokenizer), onToken)
+                } finally {
+                    synchronized(nativeLock) { activeGenerator = null }
+                }
+            }
+        }
+    }
+
+    private suspend fun withPreparedImage(
+        image: Bitmap?,
+        action: suspend (File?) -> Unit
+    ) {
+        if (image == null) return action(null)
+        withContext(Dispatchers.IO) {
+            val file = File.createTempFile("assistant-vision-", ".png", context.cacheDir)
+            var scaled = image
+            try {
+                currentCoroutineContext().ensureActive()
+                val longestSide = maxOf(image.width, image.height)
+                if (longestSide > MAX_IMAGE_SIZE) {
+                    val scale = MAX_IMAGE_SIZE.toFloat() / longestSide
+                    scaled = image.scale(
+                        (image.width * scale).toInt().coerceAtLeast(1),
+                        (image.height * scale).toInt().coerceAtLeast(1)
+                    )
+                }
+                file.outputStream().use { output ->
+                    check(scaled.compress(Bitmap.CompressFormat.PNG, 100, output)) {
+                        "Cannot prepare image for assistant"
+                    }
+                }
+                currentCoroutineContext().ensureActive()
+                withContext(Dispatchers.Default) { action(file) }
+            } finally {
+                if (scaled !== image) scaled.recycle()
+                file.delete()
             }
         }
     }
@@ -333,7 +404,8 @@ class AssistantModels(
         tokenizer.createStream().use { stream ->
             val eos = tokenizer.eosTokenIds.toSet()
             var emittedTokens = generator.tokenCount()
-            while (true) {
+            val maxTokens = emittedTokens + MAX_OUTPUT_TOKENS
+            while (emittedTokens < maxTokens) {
                 currentCoroutineContext().ensureActive()
                 if (generator.isDone) break
                 runCancellable { generator.generateNextToken() }
@@ -409,10 +481,9 @@ class AssistantModels(
         directory: File,
         modelPackage: AssistantModelFiles
     ): ModelFiles = ModelFiles(
-        folder = "assistant/${variant.id}",
+        folder = "assistant/v1/${variant.id}",
         models = modelPackage.files.toTypedArray(),
-        directoryOverride = directory,
-        urlForFile = { source.url(variant, it) }
+        directoryOverride = directory
     )
 
     private suspend fun isInstalled(directory: File, modelPackage: AssistantModelFiles): Boolean {
@@ -482,8 +553,10 @@ class AssistantModels(
         const val RUNTIME_VERSION = AssistantModelFiles.RUNTIME_VERSION
         const val MAX_PROMPT_TOKENS = 3072
         const val MAX_OUTPUT_TOKENS = 1024
+        const val MAX_IMAGES = 1
+        const val MAX_IMAGE_SIZE = 768
+        private const val MAX_IMAGE_TOKENS = MAX_IMAGE_SIZE * MAX_IMAGE_SIZE / (32 * 32)
         private const val VERIFY_BUFFER_SIZE = 1024 * 1024
-        private const val MAX_SOURCE_PATH_LENGTH = 256
         private val packageLocks = AssistantModel.entries.associateWith { Mutex() }
         private val downloadJobs = ConcurrentHashMap<AssistantModel, Job>()
         private val verified =
@@ -497,9 +570,5 @@ class AssistantModels(
 
         val unsupportedReason: String?
             get() = if (isSupported()) null else "Local generation requires arm64-v8a or x86_64"
-
-        private fun isRelativePath(path: String): Boolean = path.isNotEmpty() &&
-                path.length <= MAX_SOURCE_PATH_LENGTH && path.matches(Regex("[A-Za-z0-9_./-]+")) &&
-                path.split('/').all { it.isNotEmpty() && it != "." && it != ".." }
     }
 }

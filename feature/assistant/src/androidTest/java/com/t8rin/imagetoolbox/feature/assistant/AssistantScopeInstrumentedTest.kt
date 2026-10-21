@@ -41,7 +41,7 @@ class AssistantScopeInstrumentedTest {
         val app = InstrumentationRegistry.getInstrumentation().targetContext
         val knowledge = app.entryPoint<AssistantEntryPoint>().knowledge
         val models = AssistantModels()
-        val variants = AssistantModel.entries
+        val variants = AssistantModel.entries.filterNot { it.supportsVision }
         assumeTrue(models.installations().filter { it.variant in variants }.all { it.installed })
         val report = JSONArray()
         val failures = mutableListOf<String>()

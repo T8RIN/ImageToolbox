@@ -56,6 +56,17 @@ class AssistantSettingsTest {
     }
 
     @Test
+    fun existingModelOrdinalsRemainCompatible() {
+        listOf(AssistantModel.Lite, AssistantModel.Advanced, AssistantModel.Max)
+            .forEachIndexed { ordinal, model ->
+                assertEquals(
+                    model,
+                    mutablePreferencesOf(AI_ASSISTANT_MODEL_TYPE to ordinal).settings().aiAssistantModel
+                )
+            }
+    }
+
+    @Test
     fun disabledAssistantPreservesCompletedSetupAndModelSelection() {
         val preferences = mutablePreferencesOf(
             AI_ASSISTANT_ENABLED to true,

@@ -188,8 +188,9 @@ class AssistantGenerationInstrumentedTest {
             .getString("assistantCases")?.split(',')
         val selectedModels = InstrumentationRegistry.getArguments()
             .getString("assistantModels")?.split(',')
-        val variants =
-            AssistantModel.entries.filter { selectedModels == null || it.id in selectedModels }
+        val variants = AssistantModel.entries.filter {
+            if (selectedModels == null) !it.supportsVision else it.id in selectedModels
+        }
         assertTrue("No requested models were found", variants.isNotEmpty())
         val installationStarted = System.nanoTime()
         assumeTrue(models.installations().filter { it.variant in variants }.all { it.installed })
@@ -327,7 +328,7 @@ class AssistantGenerationInstrumentedTest {
         val models = AssistantModels()
         assumeTrue(
             "Install all three packages before testing switching",
-            models.installations().all { it.installed }
+            models.installations().filterNot { it.variant.supportsVision }.all { it.installed }
         )
         val report = JSONObject()
         val replies = JSONArray()
@@ -605,7 +606,8 @@ class AssistantGenerationInstrumentedTest {
                     )
                     assertTrue(
                         "The other package was affected",
-                        missing.filter { it.variant != variant }.all { it.installed }
+                        missing.filter { it.variant in standardModels && it.variant != variant }
+                            .all { it.installed }
                     )
                     assertFalse(models.installations().single { it.variant == variant }.installed)
                     check(backup.renameTo(target))
@@ -624,7 +626,8 @@ class AssistantGenerationInstrumentedTest {
                     )
                     assertTrue(
                         "The other package was affected",
-                        invalid.filter { it.variant != variant }.all { it.installed }
+                        invalid.filter { it.variant in standardModels && it.variant != variant }
+                            .all { it.installed }
                     )
                     assertFalse(
                         otherModels.installations().single { it.variant == variant }.installed

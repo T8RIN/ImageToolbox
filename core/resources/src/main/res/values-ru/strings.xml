@@ -6021,6 +6021,10 @@
     <string name="assistant_lite">Lite</string>
     <string name="assistant_advanced">Advanced</string>
     <string name="assistant_max">Max</string>
+    <string name="assistant_vision_lite">Vision Lite</string>
+    <string name="assistant_vision_advanced">Vision Advanced</string>
+    <string name="assistant_vision_photo_prompt">Опиши изображение и предложи полезную обработку в ImageToolbox.</string>
+    <string name="assistant_image_load_error">Не удалось прочитать изображение. Прикрепите его заново или выберите другое.</string>
     <string name="assistant_photo_prompt">Что можно сделать с этими файлами?</string>
     <string name="assistant_prompt_placeholder">Ваш вопрос</string>
     <string name="assistant_model_not_installed">Модель не установлена</string>

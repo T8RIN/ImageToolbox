@@ -129,10 +129,122 @@ internal class AssistantModelFiles private constructor(
             )
         )
 
+        private val visionLite = AssistantModelFiles(
+            files = listOf(
+                ModelFiles.Model(
+                    name = "genai_config.json",
+                    size = 2_866L,
+                    sha256 = "639443e319c3cfc4f2df9f65f50f1cffa2dadb402bb47d4e051ce3f1e4247235"
+                ),
+                ModelFiles.Model(
+                    name = "processor_config.json",
+                    size = 1_528L,
+                    sha256 = "ceb4f9c08b4fb66a7dbba921d2da1074f57ddf58f12ccaa2052b0f0cf2f27caa"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer.json",
+                    size = 19_989_339L,
+                    sha256 = "a5cd9732badce41de57e6efce8302930ded1c1188c5f81feb2bd6c24c4a1941f"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer_config.json",
+                    size = 1_462L,
+                    sha256 = "6bcfdefdea3da31bacc5741005cd5523a6a5bffcb5af4596f6b4641643450ee1"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx",
+                    size = 2_745L,
+                    sha256 = "a90615fb71379f3a730d72adbf2def710b4f50b46f2470daf6bad8e8054dbdc5"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx.data",
+                    size = 286_064_640L,
+                    sha256 = "80668d32e2bc7570fc97573263f4a21aa9c142e9d313397c79800b7846caef60"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx",
+                    size = 363_968L,
+                    sha256 = "51c0df5309939ce108fe4af71088ff67cc56fa7ce8e25d7f1be3b005bf89b514"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx.data",
+                    size = 851_062_016L,
+                    sha256 = "e78ac9a769e99996e9c3410a33fa68b67625f9a12297b73fb6b4389eeac29c88"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx",
+                    size = 1_539_738L,
+                    sha256 = "c7e2a3ba4cb0ff56cf721b20210ea30366bddc462a8a2ae6b12783501f6e3cff"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx.data",
+                    size = 116_981_760L,
+                    sha256 = "7ffa58330aa3907db3b0869792ebc721f752d2c86ef083d7ab113bd5af3ca966"
+                )
+            )
+        )
+
+        private val visionAdvanced = AssistantModelFiles(
+            files = listOf(
+                ModelFiles.Model(
+                    name = "genai_config.json",
+                    size = 2_866L,
+                    sha256 = "ffa0090f4f9e4c025aafd4b9f31a13e972a8abeef451c9c95e7b5204092aced4"
+                ),
+                ModelFiles.Model(
+                    name = "processor_config.json",
+                    size = 1_528L,
+                    sha256 = "ceb4f9c08b4fb66a7dbba921d2da1074f57ddf58f12ccaa2052b0f0cf2f27caa"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer.json",
+                    size = 19_989_339L,
+                    sha256 = "a5cd9732badce41de57e6efce8302930ded1c1188c5f81feb2bd6c24c4a1941f"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer_config.json",
+                    size = 1_462L,
+                    sha256 = "6bcfdefdea3da31bacc5741005cd5523a6a5bffcb5af4596f6b4641643450ee1"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx",
+                    size = 2_745L,
+                    sha256 = "0158757c64317e9915e31bcab906f6a44ca47831f3c5e225c2a3b460285c9526"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx.data",
+                    size = 572_129_280L,
+                    sha256 = "58a35460276a890fec4b4a3dd8b61b8d1e5b50d85afa1ad6881012bed34635ce"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx",
+                    size = 364_527L,
+                    sha256 = "21a03b0df4859c8b178b6effd1294f13b99776f6d69224de66a39ea189fe48f1"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx.data",
+                    size = 2_123_513_088L,
+                    sha256 = "f306874b0c48b773364d889453cb6051fe6dfe013c5a66c3d100ea337f39224e"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx",
+                    size = 3_123_637L,
+                    sha256 = "3b89180d42d93dd410f56b63f977635ca7e1b7448367b22b9e3cada99d5b29ec"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx.data",
+                    size = 378_339_328L,
+                    sha256 = "45740b760bc963207548c86e282064403acf486cc690cea898961d9cc85e4dba"
+                )
+            )
+        )
+
         operator fun get(variant: AssistantModel): AssistantModelFiles = when (variant) {
             AssistantModel.Lite -> lite
             AssistantModel.Advanced -> advanced
             AssistantModel.Max -> max
+            AssistantModel.VisionLite -> visionLite
+            AssistantModel.VisionAdvanced -> visionAdvanced
         }
     }
 }

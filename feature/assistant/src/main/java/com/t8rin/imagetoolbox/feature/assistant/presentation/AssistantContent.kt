@@ -147,7 +147,9 @@ fun AssistantContent(component: AssistantComponent) {
             previousMode?.let { window.setSoftInputMode(it) }
         }
     }
-    val picker = rememberImagePicker(picker = Picker.Multiple) { uris ->
+    val picker = rememberImagePicker(
+        picker = if (component.selectedModel.supportsVision) Picker.Single else Picker.Multiple
+    ) { uris ->
         if (uris.isNotEmpty()) {
             component.updateSelectedUris(component.selectedUris + uris.map { it.toString() })
         }
@@ -363,7 +365,8 @@ private fun AssistantComposer(
         ) {
             EnhancedIconButton(
                 onClick = onPickImages,
-                enabled = component.enabled && !component.isLoading && !busy
+                enabled = component.enabled && !component.isLoading && !busy &&
+                        (!component.selectedModel.supportsVision || component.selectedUris.isEmpty())
             ) {
                 Icon(Icons.Rounded.Add, stringResource(R.string.add_image))
             }
@@ -654,5 +657,7 @@ internal fun assistantModelTitle(model: AssistantModel): String = stringResource
         AssistantModel.Advanced -> R.string.assistant_advanced
         AssistantModel.Max -> R.string.assistant_max
         AssistantModel.Lite -> R.string.assistant_lite
+        AssistantModel.VisionLite -> R.string.assistant_vision_lite
+        AssistantModel.VisionAdvanced -> R.string.assistant_vision_advanced
     }
 )

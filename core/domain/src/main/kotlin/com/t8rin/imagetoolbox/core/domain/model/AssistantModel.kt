@@ -20,11 +20,14 @@ package com.t8rin.imagetoolbox.core.domain.model
 enum class AssistantModel(
     val id: String,
     val displayName: String,
-    val sourceUrl: String
+    val sourceUrl: String,
+    val supportsVision: Boolean = false
 ) {
     Lite("lite", "Qwen3 0.6B", "https://huggingface.co/Qwen/Qwen3-0.6B"),
     Advanced("advanced", "Qwen3 1.7B", "https://huggingface.co/Qwen/Qwen3-1.7B"),
-    Max("max", "Qwen3 8B", "https://huggingface.co/Qwen/Qwen3-8B");
+    Max("max", "Qwen3 8B", "https://huggingface.co/Qwen/Qwen3-8B"),
+    VisionLite("vision_lite", "Qwen3.5 0.8B", "https://huggingface.co/Qwen/Qwen3.5-0.8B", true),
+    VisionAdvanced("vision_advanced", "Qwen3.5 2B", "https://huggingface.co/Qwen/Qwen3.5-2B", true);
 
     companion object {
         fun fromOrdinal(ordinal: Int?): AssistantModel? = ordinal?.let(entries::getOrNull)

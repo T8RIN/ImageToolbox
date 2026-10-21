@@ -472,6 +472,50 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
+    fun visionGroundingUsesPixelsOnlyWhenAnImageWasPrepared() = runBlocking {
+        val request = AssistantRequest(
+            "Придумай подпись к фото",
+            AssistantScreenContext(selectedUris = listOf("content://private/photo"))
+        )
+        val answer = knowledge.retrieve(request)
+        AssistantModel.entries.filter { it.supportsVision }.forEach { model ->
+            val prompt = knowledge.grounding(request, answer, model, hasImage = true)
+            assertTrue(prompt, prompt.contains("предлагай подписи"))
+            assertTrue(prompt, prompt.contains("visible details"))
+            assertTrue(prompt, prompt.contains("Earlier attachments are not available"))
+            assertTrue(prompt, prompt.contains("Отвечай по-русски"))
+            assertFalse(prompt, prompt.contains("not image pixels"))
+            assertFalse(
+                prompt,
+                prompt.contains("Name the matching ImageToolbox tool or setting first")
+            )
+            assertFalse(prompt, prompt.contains("content://private/photo"))
+            val withoutImage = knowledge.grounding(request, answer, model)
+            assertTrue(withoutImage, withoutImage.contains("not image pixels"))
+        }
+        val textOnly = knowledge.grounding(request, answer, AssistantModel.Lite, hasImage = true)
+        assertTrue(textOnly, textOnly.contains("not image pixels"))
+    }
+
+    @Test
+    fun visionPhotoPromptStillProvidesActualEditingTools() = runBlocking {
+        listOf("en", "ru").forEach { language ->
+            val request = AssistantRequest(
+                query = services.resources.getStringLocalized(
+                    R.string.assistant_vision_photo_prompt,
+                    language
+                ),
+                context = AssistantScreenContext(selectedUris = listOf("content://private/photo")),
+                language = language
+            )
+            val answer = knowledge.retrieve(request)
+            assertTrue(answer.tools.any { it.key == Screen.Crop().simpleName })
+            assertTrue(answer.tools.any { it.key == Screen.SingleEdit().simpleName })
+            assertEquals(request.query, knowledge.userPrompt(request, answer))
+        }
+    }
+
+    @Test
     fun fileOnlyRequestsSuggestToolsForTheMeasuredMimeType() = runBlocking {
         listOf(
             "application/pdf" to listOf(
