@@ -18,7 +18,9 @@
 package com.t8rin.imagetoolbox.feature.assistant.data
 
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -27,6 +29,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
@@ -42,6 +45,7 @@ class AssistantKnowledge @Inject constructor(
     private data class Index(
         val help: AssistantSearchIndex<AssistantReference>,
         val tools: AssistantSearchIndex<Screen>,
+        val settings: AssistantSearchIndex<String>,
         val references: Map<String, AssistantReference>
     )
 
@@ -49,6 +53,8 @@ class AssistantKnowledge @Inject constructor(
     // rebuilds the index instead of retaining stale documentation in a second database.
     private val indices = mutableMapOf<String, Index>()
     private val strings = ConcurrentHashMap<Pair<Int, String>, String>()
+    private val catalog = (Screen.typedEntries.flatMap { it.entries } + Screen.PdfTools.options)
+        .distinctBy { it.simpleName }
     private val settings by lazy {
         SettingsGroup.entries.flatMap { it.settingsList }.distinct().associateBy { it.key() }
     }
@@ -59,80 +65,335 @@ class AssistantKnowledge @Inject constructor(
             val language = language(request)
             val index = index(language)
             val contextSetting = request.context.settingKey?.let(settings::get)
-            val contextTool = Screen.entries.firstOrNull { it.id == request.context.toolId }
+            val contextTool =
+                catalog.firstOrNull { it.simpleName == request.context.parameters["toolKey"] }
+                    ?: catalog.firstOrNull { it.id == request.context.toolId }
             val contextual = contextQuestion.containsMatchIn(request.query)
             val discoveredTools = mutableListOf<Screen>()
-            val matches =
-                request.query.split(topicSeparator).filter(String::isNotBlank).map { topic ->
-                    val query = searchQuery(
-                        when {
-                            contextSetting != null && contextual -> topic + " " + string(
-                                contextSetting.title,
-                                language
-                            )
-
-                            contextTool != null && contextual -> topic + " " + string(
-                                contextTool.title,
-                                language
-                            )
-
-                            else -> topic
-                        }
+            val discoveredSettings = mutableListOf<String>()
+            val fileSuggestion = request.context.selectedUris.isNotEmpty() &&
+                    listOf(
+                        "en",
+                        "ru"
+                    ).any { request.query == string(R.string.assistant_photo_prompt, it) }
+            val topics = if (fileSuggestion) emptyList() else request.query.split(topicSeparator)
+            val matches = topics.filter(String::isNotBlank).map { topic ->
+                val normalizedTopic = AssistantSearchIndex.normalize(topic)
+                val settingIntent = settingQuestion.containsMatchIn(topic) ||
+                        settingToggle.containsMatchIn(topic) || settingLocation.containsMatchIn(
+                    topic
+                )
+                val exactSettings = settings.values.filter {
+                    matchesTitle(
+                        normalizedTopic,
+                        it.title,
+                        language,
+                        exact = true
                     )
-                    val reference =
-                        helpAliases.firstOrNull { (_, pattern) -> pattern.containsMatchIn(query) }
-                            ?.first?.let(index.references::get)
-                    if (reference != null) {
-                        helpRepository.getTip(reference.tipId)?.deepLink?.let(discoveredTools::add)
-                        return@map listOf(reference)
-                    }
-                    val tools = if (contextTool != null && contextual && contextSetting == null) {
-                        listOf(contextTool)
-                    } else {
-                        index.tools.search(query, 1).map { it.value }
-                    }
-                    discoveredTools.addAll(tools)
-                    findReferences(index, query, tools, language)
                 }
-            val references = matches.flatten().distinctBy { it.tipId }.take(MAX_REFERENCES)
-            val tools =
-                (discoveredTools + references.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink })
-                    .mapNotNull { screen -> Screen.entries.firstOrNull { it.id == screen.id } }
-                    .distinctBy { it.id }.take(MAX_TOOLS).map {
-                        AssistantTool(it.id, toolTitle(it, language), string(it.subtitle, language))
+                    .ifEmpty {
+                        settings.values.filter {
+                            matchesTitle(
+                                normalizedTopic,
+                                it.title,
+                                language,
+                                requireMultipleWords = !settingIntent
+                            )
+                        }
                     }
-            AssistantAnswer(text = "", references = references, tools = tools)
+                    .sortedByDescending { string(it.title, language).length }.map { it.key() }
+                val exactTools = catalog.filter {
+                    matchesTitle(
+                        normalizedTopic,
+                        it.title,
+                        language,
+                        exact = true
+                    )
+                }
+                    .ifEmpty {
+                        catalog.filter {
+                            matchesTitle(
+                                normalizedTopic,
+                                it.title,
+                                language
+                            )
+                        }
+                    }
+                    .sortedByDescending { string(it.title, language).length }
+                val query = searchQuery(topic)
+                val settingKeys = when {
+                    exactSettings.isNotEmpty() -> exactSettings.toList()
+                    contextSetting != null && contextual -> listOf(contextSetting.key())
+                    settingQuestion.containsMatchIn(topic) || settingToggle.containsMatchIn(topic) ->
+                        index.settings.search(settingToggle.replace(query, " "), MAX_SETTINGS)
+                            .map { it.value }
+
+                    else -> emptyList()
+                }
+                discoveredSettings.addAll(settingKeys)
+                if (settingKeys.isNotEmpty() && exactTools.isEmpty()) {
+                    return@map settingKeys.mapNotNull { key ->
+                        helpRepository.tips.firstOrNull {
+                            (it.deepLink as? Screen.Settings)?.targetSetting?.key() == key
+                        }?.id?.let(index.references::get)
+                    }
+                }
+                val reference = if (exactTools.none {
+                        matchesTitle(
+                            normalizedTopic,
+                            it.title,
+                            language,
+                            exact = true
+                        )
+                    }) {
+                    helpAliases.firstOrNull { (_, pattern) -> pattern.containsMatchIn(query) }
+                        ?.first?.let(index.references::get)
+                        ?: if (exactTools.isEmpty() && (contextTool == null || !contextual)) {
+                            index.help.search(query, 1).firstOrNull()?.value
+                        } else null
+                } else null
+                if (reference != null) {
+                    when (val destination = helpRepository.getTip(reference.tipId)?.deepLink) {
+                        is Screen.Settings -> destination.targetSetting?.key()
+                            ?.let(discoveredSettings::add)
+
+                        null -> Unit
+                        else -> discoveredTools.add(destination)
+                    }
+                    return@map listOf(reference)
+                }
+                val tools = when {
+                    exactTools.isNotEmpty() -> exactTools
+                    contextTool != null && contextual -> listOf(contextTool)
+                    else -> index.tools.search(query, 1).map { it.value }
+                }
+                discoveredTools.addAll(tools)
+                findReferences(index, query, tools, language)
+            }.flatten().toMutableList()
+            if (discoveredTools.isEmpty() && discoveredSettings.isEmpty() && matches.isEmpty() &&
+                request.context.selectedUris.isNotEmpty()
+            ) {
+                suggestedTools(request.context).forEach { screen ->
+                    discoveredTools.add(screen)
+                    matches.addAll(
+                        findReferences(
+                            index,
+                            string(screen.title, language),
+                            listOf(screen),
+                            language
+                        )
+                    )
+                }
+            }
+            val references = matches.distinctBy { it.tipId }.take(MAX_REFERENCES)
+            val documentedTools = references.mapNotNull { reference ->
+                val screen =
+                    helpRepository.getTip(reference.tipId)?.deepLink ?: return@mapNotNull null
+                if (catalog.none { it.simpleName == screen.simpleName }) return@mapNotNull null
+                AssistantTool(
+                    screen.simpleName,
+                    toolTitle(screen, language),
+                    string(screen.subtitle, language),
+                    reference.tipId
+                )
+            }
+            val documentedKeys =
+                references.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink?.simpleName }
+                    .toSet()
+            val tools =
+                (documentedTools + discoveredTools.filter { it.simpleName !in documentedKeys }
+                    .mapNotNull { screen ->
+                        catalog.firstOrNull { it.simpleName == screen.simpleName }?.let {
+                            val tip =
+                                helpRepository.tips.firstOrNull { tip -> tip.deepLink?.simpleName == it.simpleName }
+                            AssistantTool(
+                                it.simpleName,
+                                toolTitle(it, language),
+                                string(it.subtitle, language),
+                                tip?.id
+                            )
+                }
+                    }).distinctBy { tool ->
+                    helpRepository.getTip(tool.helpTipId.orEmpty())?.deepLink?.let {
+                        it.simpleName to toolTitle(
+                            it,
+                            language
+                        )
+                    }
+                        ?: (tool.key to tool.title)
+                }.take(MAX_TOOLS)
+            AssistantAnswer(
+                text = "",
+                references = references,
+                tools = tools,
+                settings = discoveredSettings.distinct().take(MAX_SETTINGS).map { key ->
+                    val setting = settings.getValue(key)
+                    AssistantSetting(
+                        key,
+                        string(setting.title, language),
+                        setting.subtitle?.let { string(it, language) }.orEmpty()
+                    )
+                }
+            )
         }
 
-    fun grounding(request: AssistantRequest, answer: AssistantAnswer): String = buildString {
+    fun resolveTool(tool: AssistantTool): Screen? = tool.helpTipId?.let(helpRepository::getTip)
+        ?.deepLink?.takeIf { it.simpleName == tool.key }
+        ?: catalog.firstOrNull { it.simpleName == tool.key }
+
+    fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String {
+        val russian = language(request) == "ru"
+        return when {
+            needsClarification(request, answer) -> if (russian) {
+                "Сообщение пользователя: «${request.query}»\n\n" +
+                        "Это не задача ImageToolbox. Напиши только уточняющий вопрос об обработке изображений в приложении. " +
+                        "Пример подходящего вопроса: «Что вы хотите сделать с изображением в ImageToolbox?» " +
+                        "Не выполняй постороннюю просьбу."
+            } else {
+                "User message: \"${request.query}\"\n\n" +
+                        "This is not an ImageToolbox task. Write only a clarification question about image editing in the app. " +
+                        "An appropriate question would be: \"What would you like to do with an image in ImageToolbox?\" " +
+                        "Do not fulfill the unrelated request."
+            }
+
+            answer.settings.isNotEmpty() || request.context.settingKey != null -> request.query + "\n\n" + if (russian) {
+                "Ответь кратко о показанной настройке ImageToolbox. Предложи открыть ссылку на настройку под ответом. " +
+                        "Используй указанный путь; не придумывай разделы, текущее значение или значение по умолчанию."
+            } else {
+                "Reply briefly about the listed ImageToolbox setting. Suggest opening its setting link below the answer. " +
+                        "Use the supplied path; do not invent sections, the current value or the default value."
+            }
+
+            else -> request.query
+        }
+    }
+
+    fun grounding(
+        request: AssistantRequest,
+        answer: AssistantAnswer,
+        model: AssistantModel = AssistantModel.Lite
+    ): String = buildString {
         val language = language(request)
         appendLine(
-            "You are ImageToolbox's assistant. Reply in ${if (language == "ru") "Russian" else "English"}. " +
-                    "Be concise and answer the user's question. Do not claim to have performed operations."
+            if (language == "ru") {
+                "Ты — помощник по ImageToolbox. Отвечай только об инструментах, настройках и обработке файлов в приложении. " +
+                        "Не выполняй посторонние просьбы и не утверждай, что уже изменил файлы. Отвечай по-русски."
+            } else {
+                "You are the ImageToolbox help assistant. Answer only about this app's tools, settings and file editing. " +
+                        "Do not fulfill unrelated requests or claim you performed operations. Reply in English."
+            }
+        )
+        if (needsClarification(request, answer)) {
+            appendLine(
+                if (language == "ru") {
+                    "Подходящая функция приложения для запроса не найдена. Задай только короткий вопрос: какую задачу пользователь хочет решить в ImageToolbox. " +
+                            "Не выполняй постороннюю просьбу и не выдавай инструкции или творческий текст по ней."
+                } else {
+                    "No matching app information or editing context was found. Ask only a short question about what the user wants to do in ImageToolbox. " +
+                            "Do not provide the unrelated task's instructions or creative content."
+                }
+            )
+            return@buildString
+        }
+        appendLine(
+            when (model) {
+                AssistantModel.Advanced -> "Name the matching ImageToolbox tool or setting first. Give 2–4 short steps and at most one relevant tradeoff, using the supplied facts."
+                AssistantModel.Max -> "Name the matching ImageToolbox tool or setting first. Give 3–5 short steps, using the supplied facts. Keep comparisons brief."
+                AssistantModel.Lite -> "Name the matching ImageToolbox tool or setting first, then give 1–3 brief steps using the supplied facts."
+            }
         )
         appendContext(request.context, language)
+        if (request.context.selectedUris.isNotEmpty()) {
+            appendLine("You receive file metadata, not image pixels or file contents. Suggest useful edits with the listed tools; do not invent visible subjects, text, defects or colors.")
+        }
         if (answer.references.isNotEmpty()) {
-            appendLine(
-                "For ImageToolbox tasks, use the documented tools and steps instead of other apps. " +
-                        "For how-to questions, give brief practical steps. Keep tool names, modes and values exact. " +
-                        "Do not invent settings."
-            )
-            appendDocuments(
-                answer.references.distinctBy { reference ->
-                    helpRepository.getTip(reference.tipId)?.deepLink?.id ?: reference.tipId
-                },
-                language
-            )
+            appendLine("Use the documented ImageToolbox tools instead of other apps. Keep tool names, modes and values exact. Do not invent settings.")
+            appendDocuments(answer.references, language, model)
         }
         if (answer.tools.isNotEmpty()) {
-            appendLine("Tools: ${answer.tools.joinToString { it.title }}")
+            appendLine("Tools:")
+            answer.tools.forEach { appendLine("${it.title}: ${it.subtitle}") }
         }
+        if (answer.settings.isNotEmpty()) {
+            appendLine("Settings:")
+            answer.settings.forEach {
+                appendLine(
+                    "${
+                        settingPath(
+                            it.key,
+                            language
+                        ) ?: it.title
+                    }: ${it.subtitle}"
+                )
+            }
+            appendLine("The setting links below open these exact settings. Current and default values are unknown unless supplied in CONTEXT; do not guess them.")
+        }
+    }
+
+    private fun needsClarification(request: AssistantRequest, answer: AssistantAnswer): Boolean =
+        answer.references.isEmpty() && answer.tools.isEmpty() && answer.settings.isEmpty() &&
+                request.context.toolId == null && request.context.parameters["toolKey"] == null &&
+                request.context.settingKey == null && request.context.selectedUris.isEmpty()
+
+    private fun settingPath(key: String, language: String): String? {
+        val setting = settings[key] ?: return null
+        val group = SettingsGroup.entries.first { setting in it.settingsList }
+        return "${string(R.string.settings, language)} > ${
+            string(
+                group.titleId,
+                language
+            )
+        } > ${string(setting.title, language)}"
+    }
+
+    private fun matchesTitle(
+        normalizedQuery: String,
+        title: Int,
+        language: String,
+        exact: Boolean = false,
+        requireMultipleWords: Boolean = false
+    ): Boolean = listOf(language, "ru", "en").distinct().any {
+        val name = AssistantSearchIndex.normalize(string(title, it))
+        name.isNotEmpty() && (!requireMultipleWords || ' ' in name) && if (exact) name == normalizedQuery else {
+            " $name " in " $normalizedQuery "
+        }
+    }
+
+    private fun suggestedTools(context: AssistantScreenContext): List<Screen> {
+        val mimeTypes = Regex("[\\w.+-]+/[\\w.+-]+")
+            .findAll(context.parameters["selectedImageInfo"].orEmpty())
+            .map { it.value.lowercase() }.toList().ifEmpty { listOf("image/*") }
+        return mimeTypes.flatMap { mime ->
+            when {
+                mime.startsWith("image/") -> listOf(
+                    Screen.SingleEdit(),
+                    Screen.Crop(),
+                    Screen.WeightResize()
+                )
+
+                mime == "application/pdf" -> listOf(
+                    Screen.PdfTools.Compress(),
+                    Screen.PdfTools.ExtractPages(),
+                    Screen.PdfTools.Metadata()
+                )
+
+                mime.startsWith("audio/") -> listOf(Screen.AudioCoverExtractor())
+                else -> listOf(Screen.ArchiveTools())
+            }
+        }.distinctBy { it.simpleName }.take(MAX_TOOLS)
     }
 
     private fun index(language: String): Index = synchronized(indices) {
         indices.getOrPut(language) {
             val help = helpRepository.tips.flatMap { tip ->
                 tip.pages.map { page ->
+                    val destination = tip.deepLink
+                    val setting = (destination as? Screen.Settings)?.targetSetting
+                    val destinationResources = if (setting != null) {
+                        listOfNotNull(setting.title, setting.subtitle)
+                    } else {
+                        listOfNotNull(destination?.title, destination?.subtitle).filter { it != 0 }
+                    }
                     val reference = AssistantReference(
                         title = string(tip.title, language),
                         text = (listOf(page.title, page.description) + page.steps)
@@ -150,12 +411,12 @@ class AssistantKnowledge @Inject constructor(
                                     tip.category.title,
                                     page.title,
                                     page.description
-                                ) + page.steps
+                                ) + page.steps + destinationResources
                                 ).joinToString(" ") { bilingual(it, language) }
                     )
                 }
             }
-            val tools = Screen.entries.map { screen ->
+            val tools = catalog.map { screen ->
                 AssistantSearchIndex.Document(
                     value = screen,
                     title = string(screen.title, language),
@@ -165,6 +426,16 @@ class AssistantKnowledge @Inject constructor(
             Index(
                 AssistantSearchIndex(help),
                 AssistantSearchIndex(tools),
+                AssistantSearchIndex(settings.map { (key, setting) ->
+                    AssistantSearchIndex.Document(
+                        value = key,
+                        title = bilingual(setting.title, language),
+                        text = listOfNotNull(
+                            setting.title,
+                            setting.subtitle
+                        ).joinToString(" ") { bilingual(it, language) }
+                    )
+                }),
                 references = help.map { it.value }.distinctBy { it.tipId }.associateBy { it.tipId }
             )
         }
@@ -193,28 +464,36 @@ class AssistantKnowledge @Inject constructor(
         language: String
     ): List<AssistantReference> {
         val anchors = tools.mapNotNull { screen ->
-            val relatedIds = helpRepository.tips.filter { it.deepLink?.id == screen.id }
+            val relatedIds =
+                helpRepository.tips.filter { it.deepLink?.simpleName == screen.simpleName }
                 .map { it.id }.toSet()
             index.help.search(query + " " + toolTitle(screen, language), 1) {
                 it.tipId in relatedIds
             }.firstOrNull()?.value ?: relatedIds.firstNotNullOfOrNull(index.references::get)
         }.distinctBy { it.tipId }
-        return anchors.ifEmpty { index.help.search(query, 1).map { it.value } }.take(1)
+        return (if (tools.isEmpty()) index.help.search(query, 1)
+            .map { it.value } else anchors).take(1)
     }
 
     private fun StringBuilder.appendDocuments(
         references: List<AssistantReference>,
-        language: String
+        language: String,
+        model: AssistantModel
     ) {
         if (references.isEmpty()) return
         appendLine("Help:")
-        var remainingCharacters = MAX_DOCUMENTS_LENGTH
+        val documentLimit = when (model) {
+            AssistantModel.Max -> 1600
+            AssistantModel.Advanced -> 1200
+            AssistantModel.Lite -> MAX_DOCUMENT_LENGTH
+        }
+        var remainingCharacters = documentLimit * 2
         references.forEachIndexed { index, reference ->
-            val budget = minOf(MAX_DOCUMENT_LENGTH, remainingCharacters / (references.size - index))
+            val budget = minOf(documentLimit, remainingCharacters / (references.size - index))
             val title = when (val screen = helpRepository.getTip(reference.tipId)?.deepLink) {
                 is Screen.Settings -> screen.targetSetting?.let { string(it.title, language) }
                 null -> null
-                else -> toolTitle(screen, language)
+                else -> screen.takeIf { it.title != 0 }?.let { toolTitle(it, language) }
             }
             appendLine(title ?: reference.title)
             var usedCharacters = 0
@@ -230,18 +509,29 @@ class AssistantKnowledge @Inject constructor(
 
     private fun StringBuilder.appendContext(context: AssistantScreenContext, language: String) {
         val lines = buildList {
-            Screen.entries.firstOrNull { it.id == context.toolId }?.let {
+            (catalog.firstOrNull { it.simpleName == context.parameters["toolKey"] }
+                ?: catalog.firstOrNull { it.id == context.toolId })?.let {
                 add("Tool: ${toolTitle(it, language)}")
             }
             context.settingKey?.let(settings::get)?.let {
-                add("Setting: ${string(it.title, language)}")
+                add("Setting: ${settingPath(it.key(), language)}")
                 it.subtitle?.let { subtitle -> add(string(subtitle, language)) }
             }
-            if (context.selectedUris.isNotEmpty()) add("Images: ${context.selectedUris.size}")
-            context.parameters.filterKeys { it in contextParameters }.entries.take(
-                MAX_CONTEXT_PARAMETERS
-            )
-                .forEach { (key, value) -> add("$key: ${value.take(MAX_CONTEXT_VALUE_LENGTH)}") }
+            if (context.selectedUris.isNotEmpty()) add("Files: ${context.selectedUris.size}")
+            context.parameters.filter { (key, value) ->
+                key.matches(Regex("[A-Za-z][A-Za-z0-9_]{0,39}")) &&
+                        !Regex(
+                            "uri|path|filename|private",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(key) &&
+                        !Regex(
+                            "(?:content|file|https?)://|(?:^|\\s)/",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(value)
+            }.entries.take(MAX_CONTEXT_PARAMETERS).forEach { (key, value) ->
+                val limit = if (key == "selectedImageInfo") 400 else MAX_CONTEXT_VALUE_LENGTH
+                add("$key: ${value.take(limit)}")
+            }
         }
         if (lines.isNotEmpty()) {
             appendLine("CONTEXT:")
@@ -262,21 +552,30 @@ private fun searchQuery(query: String): String = AssistantSearchIndex.normalize(
 private const val MAX_QUESTION_LENGTH = 8000
 private const val MAX_REFERENCES = 3
 private const val MAX_TOOLS = 4
-private const val MAX_CONTEXT_PARAMETERS = 12
-private const val MAX_CONTEXT_VALUE_LENGTH = 40
-private const val MAX_DOCUMENTS_LENGTH = 1600
+private const val MAX_SETTINGS = 3
+private const val MAX_CONTEXT_PARAMETERS = 20
+private const val MAX_CONTEXT_VALUE_LENGTH = 64
 private const val MAX_DOCUMENT_LENGTH = 800
 
 private val contextQuestion =
-    Regex("настрой|setting|параметр|эт[аоу]|текущ|this|current|where|где", RegexOption.IGNORE_CASE)
+    Regex(
+        "настрой|setting|параметр|эт[аоуи]|текущ|this|these|current|where|где|улучш|improv|suggest|посовет",
+        RegexOption.IGNORE_CASE
+    )
+private val settingQuestion =
+    Regex("настрой|setting|preference|параметр|по умолчанию|default", RegexOption.IGNORE_CASE)
+private val settingToggle = Regex(
+    "\\b(?:(?:turn|switch)\\s+(?:on|off)|enable|disable|(?:включ|выключ|отключ)[а-я]*)\\b",
+    RegexOption.IGNORE_CASE
+)
+private val settingLocation = Regex(
+    "\\b(?:where|change|adjust|select|choose)\\b|где|измен|выбра|выбер",
+    RegexOption.IGNORE_CASE
+)
 private val topicSeparator = Regex("[.!?;]|\\b(?:затем|потом|then)\\b", RegexOption.IGNORE_CASE)
 private val helpAliases = listOf(
     "background-remover" to Regex("(?:удал|убра|стер).*фон|фон.*(?:удал|убра)|(?:remov|eras).*background|background.*(?:remov|eras)"),
     "searchable-pdf" to Regex("(?:pdf|пдф).*(?:ocr|распозн|текст|поиск|searchable)|(?:ocr|распозн|текст|поиск|searchable).*(?:pdf|пдф)"),
     "resize-by-file-size" to Regex("^(?!.*\\b(?:pdf|пдф)\\b).*(?:\\bсжать\\b|\\bcompress(?:ing|ed)?\\b|уменьш[а-я]*\\s+(?:вес|размер\\s+файл)|reduce\\s+(?:file\\s+size|size\\s+of))"),
     "exif-removal" to Regex("(?:удал|убра|очист|стер|remove|strip|clear|delete).*(?:exif|эксиф|метадан|metadata)|(?:exif|эксиф|метадан|metadata).*(?:удал|убра|очист|стер|remove|strip|clear|delete)")
-)
-private val contextParameters = setOf(
-    "maxBytes", "keepExif", "saveIfSmaller", "imageFormat", "quality", "mode",
-    "filterCount", "selectedCount", "width", "height"
 )

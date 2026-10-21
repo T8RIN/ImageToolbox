@@ -98,9 +98,11 @@ class AssistantSearchIndex<T>(
         private const val TEXT_PHRASE_BONUS = 2.0
         private const val MIN_PREFIX_LENGTH = 4
 
+        private val wordSeparator = Regex("[^\\p{L}\\p{N}]+")
+
         fun normalize(text: String): String = text.lowercase(Locale.ROOT)
             .replace('ё', 'е')
-            .replace(Regex("[^\\p{L}\\p{N}]+"), " ")
+            .replace(wordSeparator, " ")
             .trim()
 
         fun tokens(text: String): List<String> = normalize(text).split(' ')

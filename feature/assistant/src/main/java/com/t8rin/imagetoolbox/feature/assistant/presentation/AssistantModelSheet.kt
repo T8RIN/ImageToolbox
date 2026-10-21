@@ -42,8 +42,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -53,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Download
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadDone
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
 import com.t8rin.imagetoolbox.core.resources.icons.File
+import com.t8rin.imagetoolbox.core.resources.icons.Link
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
@@ -85,8 +88,8 @@ internal fun AssistantModelSheet(
     visible: Boolean,
     onDismiss: (Boolean) -> Unit
 ) {
-    var deleteModel by remember { mutableStateOf<AssistantModels.Variant?>(null) }
-    val (downloaded, available) = AssistantModels.Variant.entries.partition { variant ->
+    var deleteModel by remember { mutableStateOf<AssistantModel?>(null) }
+    val (downloaded, available) = AssistantModel.entries.partition { variant ->
         component.installations.any { it.variant == variant && it.installed }
     }
 
@@ -192,7 +195,7 @@ internal fun AssistantModelSheet(
 @Composable
 private fun AssistantModelItem(
     component: AssistantComponent,
-    variant: AssistantModels.Variant,
+    variant: AssistantModel,
     index: Int,
     count: Int,
     onDismiss: (Boolean) -> Unit,
@@ -209,7 +212,7 @@ private fun AssistantModelItem(
     val downloadable = component.enabled && !component.isLoading && !checking &&
             !installed && progress == null && AssistantModels.isSupported()
     val canDelete = installed && !busy && !checking && progress == null
-    val selected = installed && component.selectedModel == variant.id
+    val selected = installed && component.selectedModel == variant
     val revealState = rememberRevealState()
     val scope = rememberCoroutineScope()
     val interactionSource = remember { MutableInteractionSource() }
@@ -218,9 +221,37 @@ private fun AssistantModelItem(
 
     SwipeToReveal(
         state = revealState,
-        enableSwipe = canDelete,
         interactionSource = interactionSource,
-        directions = setOf(RevealDirection.EndToStart),
+        directions = if (canDelete) {
+            setOf(RevealDirection.StartToEnd, RevealDirection.EndToStart)
+        } else setOf(RevealDirection.StartToEnd),
+        revealedContentStart = {
+            val uriHandler = LocalUriHandler.current
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .container(
+                        color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
+                        shape = shape,
+                        autoShadowElevation = 0.dp,
+                        resultPadding = 0.dp
+                    )
+                    .hapticsClickable {
+                        scope.launch { revealState.animateTo(RevealValue.Default) }
+                        uriHandler.openUri(variant.sourceUrl)
+                    }
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Link,
+                    contentDescription = stringResource(R.string.website),
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .padding(start = 8.dp)
+                        .align(Alignment.CenterStart)
+                )
+            }
+        },
         revealedContentEnd = {
             Box(
                 modifier = Modifier
@@ -250,7 +281,7 @@ private fun AssistantModelItem(
         swipeableContent = {
             PreferenceItemOverload(
                 modifier = Modifier.fillMaxWidth(),
-                title = assistantModelTitle(variant.id),
+                title = assistantModelTitle(variant),
                 subtitle = variant.displayName,
                 shape = shape,
                 containerColor = animateColorAsState(
@@ -260,7 +291,7 @@ private fun AssistantModelItem(
                 onClick = when {
                     selectable -> {
                         {
-                            component.selectModel(variant.id)
+                            component.selectModel(variant)
                             onDismiss(false)
                         }
                     }
@@ -271,9 +302,13 @@ private fun AssistantModelItem(
 
                     else -> null
                 },
-                onLongClick = if (canDelete) {
-                    { scope.launch { revealState.animateTo(RevealValue.FullyRevealedStart) } }
-                } else null,
+                onLongClick = {
+                    scope.launch {
+                        revealState.animateTo(
+                            if (canDelete) RevealValue.FullyRevealedStart else RevealValue.FullyRevealedEnd
+                        )
+                    }
+                },
                 endIcon = {
                     when {
                         checking -> EnhancedCircularProgressIndicator(modifier = Modifier.size(24.dp))

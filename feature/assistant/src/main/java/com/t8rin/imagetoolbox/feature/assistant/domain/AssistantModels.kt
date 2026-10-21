@@ -44,7 +44,15 @@ data class AssistantReference(
 
 @Serializable
 data class AssistantTool(
-    val id: Int,
+    val key: String,
+    val title: String,
+    val subtitle: String,
+    val helpTipId: String? = null
+)
+
+@Serializable
+data class AssistantSetting(
+    val key: String,
     val title: String,
     val subtitle: String
 )
@@ -53,5 +61,6 @@ data class AssistantTool(
 data class AssistantAnswer(
     val text: String,
     val references: List<AssistantReference> = emptyList(),
-    val tools: List<AssistantTool> = emptyList()
+    val tools: List<AssistantTool> = emptyList(),
+    val settings: List<AssistantSetting> = emptyList()
 )

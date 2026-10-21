@@ -30,7 +30,7 @@ android {
     defaultConfig {
         mapOf(
             "REPOSITORY" to ("assistantModelRepository" to "T8RIN/imagetoolbox-models"),
-            "REVISION" to ("assistantModelRevision" to "main"),
+            "REVISION" to ("assistantModelRevision" to "e057ce984e138914e01f6dd9633bb0c12c1cdeff"),
             "PATH" to ("assistantModelPath" to "assistant/v1")
         ).forEach { (field, property) ->
             val value = providers.gradleProperty(property.first).getOrElse(property.second)
@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.domain)
     api(libs.onnx.runtime)
     implementation(libs.onnx.genai)
     implementation(libs.aire)

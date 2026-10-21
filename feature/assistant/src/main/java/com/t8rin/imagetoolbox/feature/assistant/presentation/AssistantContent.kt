@@ -82,6 +82,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Add
@@ -129,7 +130,7 @@ fun AssistantContent(component: AssistantComponent) {
     val keyboardVisible by isKeyboardVisibleAsState()
     val hideTopBar = landscape && keyboardVisible
     val modelReady = AssistantModels.isSupported() && component.installations.any {
-        it.variant.id == component.selectedModel && it.installed
+        it.variant == component.selectedModel && it.installed
     }
     val window = LocalActivity.current?.window
     DisposableEffect(window) {
@@ -145,7 +146,7 @@ fun AssistantContent(component: AssistantComponent) {
         }
     }
     val send: (String) -> Unit = { question ->
-        if (question.isNotBlank() && component.enabled && !busy && !component.isLoading) {
+        if ((question.isNotBlank() || component.selectedUris.isNotEmpty()) && component.enabled && !busy && !component.isLoading) {
             if (!modelReady) {
                 showModels = true
             } else if (component.send(question)) {
@@ -378,7 +379,8 @@ private fun AssistantComposer(
             }
             EnhancedIconButton(
                 onClick = { if (busy) component.stop() else currentOnSend() },
-                enabled = busy || (input.isNotBlank() && component.enabled && !component.isLoading),
+                enabled = busy || ((input.isNotBlank() || component.selectedUris.isNotEmpty()) &&
+                        component.enabled && !component.isLoading),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(DisabledAlpha),
@@ -448,7 +450,7 @@ private fun AssistantConversation(
     val busy = component.isGenerating
     val latestId = component.messages.lastOrNull()?.id
     val selectedModel = component.installations.firstOrNull {
-        it.variant.id == component.selectedModel
+        it.variant == component.selectedModel
     }
     val checkingModel = (!modelReady && component.isCheckingModels) ||
             (selectedModel?.phase == AssistantModels.Phase.Verifying && selectedModel.progress == null)
@@ -583,9 +585,10 @@ private fun AssistantPlaceholder(
 }
 
 @Composable
-internal fun assistantModelTitle(id: String): String = stringResource(
-    when (id) {
-        "advanced" -> R.string.assistant_advanced
-        else -> R.string.assistant_lite
+internal fun assistantModelTitle(model: AssistantModel): String = stringResource(
+    when (model) {
+        AssistantModel.Advanced -> R.string.assistant_advanced
+        AssistantModel.Max -> R.string.assistant_max
+        AssistantModel.Lite -> R.string.assistant_lite
     }
 )

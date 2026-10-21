@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.Help
 import com.t8rin.imagetoolbox.core.resources.icons.OpenInNew
 import com.t8rin.imagetoolbox.core.resources.icons.Refresh
+import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
@@ -69,7 +70,7 @@ internal fun AssistantMessageContent(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        if (message.question.isNotEmpty()) {
+        if (message.question.isNotEmpty() || message.context.selectedUris.isNotEmpty()) {
             Surface(
                 modifier = Modifier.align(Alignment.End).widthIn(max = 560.dp),
                 shape = ShapeDefaults.large,
@@ -95,7 +96,9 @@ internal fun AssistantMessageContent(
                             }
                         }
                     }
-                    SelectionContainer { Text(message.question) }
+                    if (message.question.isNotEmpty()) {
+                        SelectionContainer { Text(message.question) }
+                    }
                 }
             }
         }
@@ -122,7 +125,9 @@ internal fun AssistantMessageContent(
 
 @Composable
 private fun AssistantLinks(message: AssistantMessage, component: AssistantComponent) {
-    if (message.answer.tools.isEmpty() && message.answer.references.isEmpty()) return
+    if (message.answer.tools.isEmpty() && message.answer.references.isEmpty() &&
+        message.answer.settings.isEmpty()
+    ) return
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -144,6 +149,26 @@ private fun AssistantLinks(message: AssistantMessage, component: AssistantCompon
                         Modifier.size(16.dp)
                     )
                     Text(tool.title)
+                }
+            }
+        }
+        message.answer.settings.forEach { setting ->
+            EnhancedChip(
+                selected = false,
+                onClick = { component.openSetting(setting) },
+                selectedColor = MaterialTheme.colorScheme.primaryContainer,
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        Icons.Rounded.Settings,
+                        stringResource(R.string.settings),
+                        Modifier.size(16.dp)
+                    )
+                    Text(setting.title)
                 }
             }
         }

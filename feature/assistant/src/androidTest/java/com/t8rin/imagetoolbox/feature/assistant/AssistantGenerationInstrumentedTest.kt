@@ -27,11 +27,15 @@ import android.os.Debug
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
+import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
@@ -62,15 +66,16 @@ class AssistantGenerationInstrumentedTest {
     private val app = InstrumentationRegistry.getInstrumentation().targetContext
     private val services = app.entryPoint<AssistantEntryPoint>()
     private val knowledge = services.knowledge
+    private val standardModels = listOf(AssistantModel.Lite, AssistantModel.Advanced)
 
     @Test
     fun liteGeneratesGroundedApplicationRepliesAndRecoversAfterCancellation() = runBlocking {
-        verify(AssistantModels.Variant.Lite)
+        verify(AssistantModel.Lite)
     }
 
     @Test
     fun advancedGeneratesGroundedApplicationRepliesAndRecoversAfterCancellation() = runBlocking {
-        verify(AssistantModels.Variant.Advanced)
+        verify(AssistantModel.Advanced)
     }
 
     @Test
@@ -78,15 +83,16 @@ class AssistantGenerationInstrumentedTest {
         val models = AssistantModels()
         assumeTrue(
             "Install both packages before testing compression",
-            models.installations().all { it.installed })
+            models.installations().filter { it.variant in standardModels }.all { it.installed })
         val report = JSONArray()
         try {
-            AssistantModels.Variant.entries.forEach { variant ->
+            standardModels.forEach { variant ->
                 AssistantApplicationFixtures.requests.filter { it.first.endsWith("compress_question") }
                     .forEach { fixture ->
                         val answer = knowledge.retrieve(fixture.second)
                         val prompt = AssistantApplicationFixtures.prompt(
-                            knowledge.grounding(fixture.second, answer), fixture.second.query
+                            knowledge.grounding(fixture.second, answer, variant),
+                            knowledge.userPrompt(fixture.second, answer)
                         )
                         val record =
                             JSONObject().put("variant", variant.id).put("case", fixture.first)
@@ -101,11 +107,87 @@ class AssistantGenerationInstrumentedTest {
     }
 
     @Test
+    fun modelsUseSelectedFilesCurrentToolAndSettings() = runBlocking {
+        val models = AssistantModels()
+        assumeTrue(models.installations().filter { it.variant in standardModels }
+            .all { it.installed })
+        val requests = listOf(
+            "selected_photo" to AssistantRequest(
+                "Что можно сделать с этим фото?",
+                AssistantScreenContext(
+                    selectedUris = listOf("content://assistant-test/photo"),
+                    parameters = mapOf("selectedImageInfo" to "image/jpeg, 4032 × 3024, 5000000 bytes")
+                )
+            ),
+            "current_tool" to AssistantRequest(
+                "Как лучше настроить этот инструмент?",
+                AssistantScreenContext(
+                    toolId = Screen.WeightResize().id,
+                    selectedUris = listOf("content://assistant-test/photo"),
+                    parameters = mapOf(
+                        "toolKey" to Screen.WeightResize().simpleName,
+                        "maxBytes" to "512000", "imageFormat" to "PNG", "keepExif" to "true"
+                    )
+                )
+            ),
+            "setting" to AssistantRequest("Где выключить удаление оригиналов после сохранения?")
+        )
+        val report = JSONArray()
+        try {
+            standardModels.forEach { variant ->
+                requests.forEach { fixture ->
+                    println("AssistantContext ${variant.id}/${fixture.first} started")
+                    val answer = knowledge.retrieve(fixture.second)
+                    val prompt = AssistantApplicationFixtures.prompt(
+                        knowledge.grounding(fixture.second, answer, variant),
+                        knowledge.userPrompt(fixture.second, answer)
+                    )
+                    val record = JSONObject().put("variant", variant.id).put("case", fixture.first)
+                    report.put(record)
+                    verifyGeneration(models, variant, prompt, fixture, answer, record)
+                    when (fixture.first) {
+                        "selected_photo" -> assertTrue(
+                            "No useful image tool was offered",
+                            answer.tools.isNotEmpty()
+                        )
+
+                        "current_tool" -> assertTrue(answer.tools.any { it.key == Screen.WeightResize().simpleName })
+                        "setting" -> assertTrue(answer.settings.any { it.key == Setting.DeleteOriginalsAfterSave.key() })
+                    }
+                    assertFalse(
+                        "The assistant pretended to inspect image contents",
+                        Regex(
+                            "на (?:фото|изображении) (?:вижу|изображен|изображён)|I (?:can )?see",
+                            RegexOption.IGNORE_CASE
+                        )
+                            .containsMatchIn(record.getString("rawOutput"))
+                    )
+                    if (fixture.first == "setting") {
+                        assertFalse(
+                            "The assistant invented the setting's default value",
+                            Regex(
+                                "включ[её]н[а-я]*\\s*\\(?по умолчанию|enabled\\s+by default",
+                                RegexOption.IGNORE_CASE
+                            )
+                                .containsMatchIn(record.getString("rawOutput").replace("*", ""))
+                        )
+                    }
+                    println("AssistantContext ${variant.id}/${fixture.first} passed")
+                }
+            }
+        } finally {
+            models.release()
+            File(app.cacheDir, "assistant-context-quality.json").writeText(report.toString(2))
+        }
+    }
+
+    @Test
     fun rejectsLossyPngClaimsAcrossGeneratedWordingAndMarkdown() {
         listOf(
             "Prefer lossy formats like PNG.",
             "For photos, prefer **lossy formats** (PNG) to preserve quality.",
             "PNG is a lossy format.",
+            "PNG, a lossy format, saves space.",
             "PNG (lossy)",
             "PNG — формат с потерями."
         ).forEach { assertTrue(it, describesPngAsLossy(it)) }
@@ -113,7 +195,8 @@ class AssistantGenerationInstrumentedTest {
             "JPEG or lossy WebP are suitable. PNG is lossless.",
             "Use JPEG (lossy) or PNG (lossless).",
             "PNG is not a lossy format.",
-            "Используйте JPEG или WebP с потерями. PNG — формат без потерь."
+            "Используйте JPEG или WebP с потерями. PNG — формат без потерь.",
+            "Выберите формат (PNG, JPEG, WebP), например JPEG для фотографий с потерями, PNG для беспотерьных изображений."
         ).forEach { assertFalse(it, describesPngAsLossy(it)) }
     }
 
@@ -136,34 +219,48 @@ class AssistantGenerationInstrumentedTest {
     fun switchesModelsAndRejectsOversizedPrompts(): Unit = runBlocking {
         val models = AssistantModels()
         assumeTrue(
-            "Install both packages before testing switching",
+            "Install all three packages before testing switching",
             models.installations().all { it.installed }
         )
         val report = JSONObject()
         val replies = JSONArray()
         try {
             listOf(
-                AssistantModels.Variant.Lite,
-                AssistantModels.Variant.Advanced,
-                AssistantModels.Variant.Lite
+                AssistantModel.Lite,
+                AssistantModel.Advanced,
+                AssistantModel.Max,
+                AssistantModel.Lite
             )
                 .forEach { variant ->
-                    val text = StringBuilder()
-                    withTimeout(60_000) {
-                        models.generate(variant, AssistantApplicationFixtures.prompt("", "Hi")) {
-                            text.append(it)
+                    repeat(2) { run ->
+                        val text = StringBuilder()
+                        val started = System.nanoTime()
+                        var firstToken = 0L
+                        withTimeout(180_000) {
+                            models.generate(
+                                variant,
+                                AssistantApplicationFixtures.prompt("", "Hi")
+                            ) {
+                                if (firstToken == 0L) firstToken = System.nanoTime()
+                                text.append(it)
+                            }
                         }
+                        assertTrue(
+                            "Switching to ${variant.id} produced an empty reply",
+                            text.isNotBlank()
+                        )
+                        replies.put(
+                            JSONObject().put("model", variant.id).put("run", run)
+                                .put("ttftSeconds", (firstToken - started) / 1e9)
+                                .put("totalSeconds", (System.nanoTime() - started) / 1e9)
+                                .put("reply", text.toString())
+                        )
                     }
-                    assertTrue(
-                        "Switching to ${variant.id} produced an empty reply",
-                        text.isNotBlank()
-                    )
-                    replies.put(JSONObject().put("model", variant.id).put("reply", text.toString()))
                 }
             var rejected = false
             try {
                 models.generate(
-                    AssistantModels.Variant.Lite,
+                    AssistantModel.Lite,
                     "test ".repeat(AssistantModels.MAX_PROMPT_TOKENS + 1)
                 ) {
                     error("An oversized prompt emitted output")
@@ -175,7 +272,7 @@ class AssistantGenerationInstrumentedTest {
             assertTrue("The oversized prompt was not rejected", rejected)
             val recovered = StringBuilder()
             models.generate(
-                AssistantModels.Variant.Lite,
+                AssistantModel.Lite,
                 AssistantApplicationFixtures.prompt("", "Hi")
             ) {
                 recovered.append(it)
@@ -199,8 +296,8 @@ class AssistantGenerationInstrumentedTest {
         val downloads = JSONArray()
         report.put("downloads", downloads)
         try {
-            AssistantModels.Variant.entries.forEach { models.delete(it) }
-            AssistantModels.Variant.entries.forEach { variant ->
+            standardModels.forEach { models.delete(it) }
+            standardModels.forEach { variant ->
                 val record = JSONObject().put("variant", variant.id)
                 downloads.put(record)
                 verifyDownloadCancellation(models, variant, record)
@@ -210,10 +307,10 @@ class AssistantGenerationInstrumentedTest {
             val advancedSnapshot = advancedDirectory.listFiles()!!.associate {
                 it.name to (it.length() to it.lastModified())
             }
-            models.delete(AssistantModels.Variant.Lite)
+            models.delete(AssistantModel.Lite)
             val afterDelete = models.installations()
-            assertFalse(afterDelete.single { it.variant == AssistantModels.Variant.Lite }.installed)
-            assertTrue(afterDelete.single { it.variant == AssistantModels.Variant.Advanced }.installed)
+            assertFalse(afterDelete.single { it.variant == AssistantModel.Lite }.installed)
+            assertTrue(afterDelete.single { it.variant == AssistantModel.Advanced }.installed)
             assertEquals(
                 advancedSnapshot,
                 advancedDirectory.listFiles()!!.associate {
@@ -223,12 +320,13 @@ class AssistantGenerationInstrumentedTest {
             report.put("independentDeletionPassed", true)
             downloadAndVerify(
                 models,
-                AssistantModels.Variant.Lite,
+                AssistantModel.Lite,
                 JSONObject().also {
                     report.put("liteReinstallation", it)
                 }
             )
-            assertTrue(models.installations().all { it.installed })
+            assertTrue(models.installations().filter { it.variant in standardModels }
+                .all { it.installed })
             report.put("passed", true)
         } catch (failure: Throwable) {
             report.put("error", failure.toString())
@@ -243,7 +341,7 @@ class AssistantGenerationInstrumentedTest {
 
     private suspend fun verifyDownloadCancellation(
         models: AssistantModels,
-        variant: AssistantModels.Variant,
+        variant: AssistantModel,
         report: JSONObject
     ) = coroutineScope {
         val staging = File(app.filesDir, "ai_models/assistant/.${variant.id}.download")
@@ -281,9 +379,9 @@ class AssistantGenerationInstrumentedTest {
                 "RAG retrieval was blocked by the other screen's download",
                 retrieved.references.isNotEmpty()
             )
-            if (variant == AssistantModels.Variant.Advanced) {
-                withTimeout(60_000) { observer.download(AssistantModels.Variant.Lite) {} }
-                assertTrue(observer.states.value.single { it.variant == AssistantModels.Variant.Lite }.installed)
+            if (variant == AssistantModel.Advanced) {
+                withTimeout(60_000) { observer.download(AssistantModel.Lite) {} }
+                assertTrue(observer.states.value.single { it.variant == AssistantModel.Lite }.installed)
                 assertTrue(
                     "The other model's operation did not complete independently",
                     download.isActive
@@ -307,7 +405,7 @@ class AssistantGenerationInstrumentedTest {
 
     private suspend fun downloadAndVerify(
         models: AssistantModels,
-        variant: AssistantModels.Variant,
+        variant: AssistantModel,
         report: JSONObject
     ) {
         val started = System.nanoTime()
@@ -365,7 +463,7 @@ class AssistantGenerationInstrumentedTest {
 
     @Test
     fun managerRejectsMissingOrCorruptedFiles() = runBlocking {
-        val directories = AssistantModels.Variant.entries.associateWith {
+        val directories = standardModels.associateWith {
             File(app.filesDir, "ai_models/assistant/${it.id}")
         }
         assumeTrue(
@@ -379,9 +477,10 @@ class AssistantGenerationInstrumentedTest {
         try {
             assertTrue(
                 "An installed package failed initial integrity verification",
-                models.installations().all { it.installed }
+                models.installations().filter { it.variant in standardModels }.all { it.installed }
             )
-            assertTrue(otherModels.installations().all { it.installed })
+            assertTrue(otherModels.installations().filter { it.variant in standardModels }
+                .all { it.installed })
             directories.forEach { (variant, directory) ->
                 val target = directory.resolve("tokenizer_config.json")
                 val original = target.readBytes()
@@ -445,7 +544,7 @@ class AssistantGenerationInstrumentedTest {
         }
     }
 
-    private suspend fun verify(variant: AssistantModels.Variant): Unit = coroutineScope {
+    private suspend fun verify(variant: AssistantModel): Unit = coroutineScope {
         assumeTrue(AssistantModels.unsupportedReason, AssistantModels.isSupported())
         val directory = File(app.filesDir, "ai_models/assistant/${variant.id}")
         assumeTrue(
@@ -487,7 +586,8 @@ class AssistantGenerationInstrumentedTest {
             val prompts = requests.mapIndexed { index, (_, request) ->
                 val started = System.nanoTime()
                 AssistantApplicationFixtures.prompt(
-                    knowledge.grounding(request, answers[index]), request.query
+                    knowledge.grounding(request, answers[index], variant),
+                    knowledge.userPrompt(request, answers[index])
                 ).also {
                     retrieval.getJSONObject(index)
                         .put("promptConstructionSeconds", secondsSince(started))
@@ -583,11 +683,11 @@ class AssistantGenerationInstrumentedTest {
                 if (index == 2) report.put("generationAfterNativeCancellationPassed", true)
                 if (index == 3) report.put("generationAfterCoroutineCancellationPassed", true)
             }
-            val outOfDomain = AssistantRequest("time-to-first-token")
+            val outOfDomain = AssistantRequest("Write a recipe for chocolate cake.")
             val outOfDomainAnswer = knowledge.retrieve(outOfDomain)
             val outOfDomainPrompt = AssistantApplicationFixtures.prompt(
-                knowledge.grounding(outOfDomain, outOfDomainAnswer),
-                outOfDomain.query
+                knowledge.grounding(outOfDomain, outOfDomainAnswer, variant),
+                knowledge.userPrompt(outOfDomain, outOfDomainAnswer)
             )
             val outOfDomainRecord = JSONObject().put("case", "out_of_domain")
             report.put("outOfDomain", outOfDomainRecord)
@@ -600,7 +700,7 @@ class AssistantGenerationInstrumentedTest {
                 outOfDomainRecord
             )
             val russianQuestion =
-                AssistantRequest("Сколько будет два плюс два? Ответь по-русски одним словом.")
+                AssistantRequest("Напиши стихотворение про осень.")
             val russianContext = knowledge.retrieve(russianQuestion)
             val russian = JSONObject().put("case", "russian_general_question")
             report.put("russianGeneralQuestion", russian)
@@ -608,15 +708,16 @@ class AssistantGenerationInstrumentedTest {
                 models,
                 variant,
                 AssistantApplicationFixtures.prompt(
-                    knowledge.grounding(russianQuestion, russianContext), russianQuestion.query
+                    knowledge.grounding(russianQuestion, russianContext, variant),
+                    knowledge.userPrompt(russianQuestion, russianContext)
                 ),
                 "out_of_domain" to russianQuestion,
                 russianContext,
                 russian
             )
             assertTrue(
-                "A general Russian question was not answered in Russian",
-                russian.getString("rawOutput").contains("четыре", ignoreCase = true)
+                "The assistant did not redirect an unrelated request in Russian",
+                russian.getString("rawOutput").any { it in 'А'..'я' }
             )
             report.put("generationPssKb", Debug.getPss())
             report.put("androidRuntimeVerified", true)
@@ -635,7 +736,7 @@ class AssistantGenerationInstrumentedTest {
 
     private suspend fun verifyGeneration(
         models: AssistantModels,
-        variant: AssistantModels.Variant,
+        variant: AssistantModel,
         prompt: String,
         fixture: Pair<String, AssistantRequest>,
         retrieved: AssistantAnswer,
@@ -731,7 +832,7 @@ class AssistantGenerationInstrumentedTest {
 
     private suspend fun verifyCancellation(
         models: AssistantModels,
-        variant: AssistantModels.Variant,
+        variant: AssistantModel,
         prompt: String,
         native: Boolean
     ) = coroutineScope {
@@ -771,10 +872,20 @@ class AssistantGenerationInstrumentedTest {
                 reply.references.isEmpty()
             )
             assertTrue("An unrelated request produced tool links", reply.tools.isEmpty())
+            assertTrue("An unrelated request produced settings links", reply.settings.isEmpty())
+            if (name == "out_of_domain") {
+                assertTrue(
+                    "The assistant did not stay within ImageToolbox: ${reply.text}",
+                    reply.text.contains("ImageToolbox", ignoreCase = true)
+                )
+            }
             return
         }
         assertTrue("The model returned no answer", reply.text.isNotBlank())
-        assertTrue("The model did not cite retrieved documentation", reply.references.isNotEmpty())
+        assertTrue(
+            "The reply has no retrieved application context",
+            reply.references.isNotEmpty() || reply.tools.isNotEmpty() || reply.settings.isNotEmpty()
+        )
         assertFalse(
             "The model recommended external editing tools instead of ImageToolbox: ${reply.text}",
             Regex(
@@ -797,7 +908,7 @@ class AssistantGenerationInstrumentedTest {
         if (name.endsWith("compress_question")) {
             assertTrue(
                 "Compression tool link is missing",
-                reply.tools.any { it.id == Screen.WeightResize().id })
+                reply.tools.any { it.key == Screen.WeightResize().simpleName })
             val title = services.resources.getStringLocalized(
                 R.string.by_bytes_resize,
                 if (name.startsWith("ru_")) "ru" else "en"
@@ -817,7 +928,12 @@ class AssistantGenerationInstrumentedTest {
 
     private fun describesPngAsLossy(text: String): Boolean = text.replace(Regex("[*_`]"), "")
         .lowercase().split(Regex("[.!?;\\n]")).any { clause ->
-            "png" in clause && ("lossy" in clause || "с потерями" in clause) &&
+            val directClaim = Regex("png.{0,60}?(?:lossy|с потерями)").findAll(clause).any {
+                !Regex("jpe?g|webp").containsMatchIn(it.value)
+            }
+            val formatList = Regex("(?:lossy|с потерями)\\s+(?:formats?|формат[а-яё]*).{0,40}?png")
+                .containsMatchIn(clause)
+            (directClaim || formatList) &&
                     "lossless" !in clause && "без потерь" !in clause &&
                     !Regex("(?:not|isn't)\\s+(?:a\\s+)?lossy").containsMatchIn(clause)
         }

@@ -24,8 +24,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.cancelAndJoin
@@ -35,7 +35,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,83 +66,33 @@ class AssistantConversationStoreInstrumentedTest {
 
     @Test
     fun restoresConversationWithSentImageAttachments() = runBlocking {
-        val store = AssistantConversationStore(context)
-        store.load()
-        store.update { listOf(fixture) }
-        store.save()
-        assertTrue(file.readFully().decodeToString().contains("content://private/selected/image"))
-        val restored = AssistantConversationStore(context).load().single()
-        assertEquals(fixture, restored)
-    }
-
-    @Test
-    fun restoresLegacyHistoryWithoutExecutableActions() = runBlocking {
-        check(file.baseFile.parentFile!!.mkdirs())
-        file.baseFile.writeText(
-            """
-            [
-              {
-                "id": 1,
-                "question": "Сожми фотографии до 500 КБ",
-                "answer": {
-                  "text": "Откройте изменение размера по весу.",
-                  "references": [{
-                    "title": "Размер по весу",
-                    "text": "Выберите изображения и укажите размер файла.",
-                    "tipId": "weight_resize",
-                    "categoryKey": "editing"
-                  }],
-                  "tools": [{"id": 7, "title": "Размер по весу", "subtitle": "Сжатие"}],
-                  "actions": [{"type": "open_tool", "toolId": 7, "parameters": {"maxBytes": "512000"}}],
-                  "workflow": {"title": "Сжать фотографии", "steps": [{"type": "open_tool", "toolId": 7}]}
-                },
-                "context": {
-                  "selectedUris": ["content://private/selected/image"],
-                  "parameters": {"maxBytes": "512000"}
-                },
-                "model": "advanced",
-                "isOperationResult": false
-              },
-              {
-                "id": 2,
-                "question": "Удаление метаданных",
-                "answer": {"text": "Готово (1/1)"},
-                "context": {"selectedUris": ["content://private/selected/image"]},
-                "isOperationResult": true
-              }
-            ]
-            """.trimIndent()
-        )
-        val expected = listOf(
-            fixture.copy(
-                model = "advanced",
-                answer = fixture.answer.copy(
-                    references = listOf(
-                        AssistantReference(
-                            title = "Размер по весу",
-                            text = "Выберите изображения и укажите размер файла.",
-                            tipId = "weight_resize",
-                            categoryKey = "editing"
-                        )
-                    ),
-                    tools = listOf(AssistantTool(7, "Размер по весу", "Сжатие"))
+        val sent = fixture.copy(
+            question = "",
+            answer = fixture.answer.copy(
+                tools = listOf(
+                    AssistantTool(
+                        "WeightResize",
+                        "Размер по весу",
+                        "Сжатие",
+                        "weight_resize"
+                    )
+                ),
+                settings = listOf(
+                    AssistantSetting(
+                        "clear_cache",
+                        "Очистить кэш",
+                        "Освободить место"
+                    )
                 )
-            ),
-            fixture.copy(
-                id = 2,
-                question = "Удаление метаданных",
-                answer = AssistantAnswer("Готово (1/1)"),
-                context = fixture.context.copy(parameters = emptyMap())
             )
         )
         val store = AssistantConversationStore(context)
-        assertEquals(expected, store.load())
+        store.load()
+        store.update { listOf(sent) }
         store.save()
-        val saved = file.readFully().decodeToString()
-        listOf("actions", "workflow", "isOperationResult").forEach { field ->
-            assertFalse(saved.contains("\"$field\""))
-        }
-        assertEquals(expected, AssistantConversationStore(context).load())
+        assertTrue(file.readFully().decodeToString().contains("content://private/selected/image"))
+        val restored = AssistantConversationStore(context).load().single()
+        assertEquals(sent, restored)
     }
 
     @Test

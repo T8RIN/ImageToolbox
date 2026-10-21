@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset.Percentage
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
@@ -45,7 +46,7 @@ data class SettingsState(
     val isSemanticSearchEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
     val isAiAssistantEnabled: Boolean,
-    val aiAssistantModel: String,
+    val aiAssistantModel: AssistantModel,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -175,9 +176,6 @@ data class SettingsState(
 ) {
 
     companion object {
-        fun normalizeAiAssistantModel(model: String?): String =
-            if (model == "advanced") "advanced" else "lite"
-
         val Default by lazy {
             SettingsState(
                 nightMode = NightMode.System,
@@ -194,7 +192,7 @@ data class SettingsState(
                 isSemanticSearchEnabled = false,
                 semanticSearchSettings = SemanticSearchSettings(),
                 isAiAssistantEnabled = false,
-                aiAssistantModel = normalizeAiAssistantModel(null),
+                aiAssistantModel = AssistantModel.Lite,
                 clearCacheOnLaunch = false,
                 cacheAutoClearLimitBytes = 20L * 1024 * 1024,
                 cacheAutoClearInterval = CacheAutoClearInterval.OnAppLaunch,

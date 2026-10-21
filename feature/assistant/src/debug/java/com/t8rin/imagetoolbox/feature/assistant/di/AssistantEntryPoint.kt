@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.assistant.di
 
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
+import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -28,4 +29,5 @@ import dagger.hilt.components.SingletonComponent
 interface AssistantEntryPoint {
     val knowledge: AssistantKnowledge
     val resources: ResourceManager
+    val helpRepository: HelpRepository
 }

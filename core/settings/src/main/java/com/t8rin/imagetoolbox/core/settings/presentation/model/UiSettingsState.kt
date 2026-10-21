@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -91,7 +92,7 @@ data class UiSettingsState(
     val isSemanticSearchEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
     val isAiAssistantEnabled: Boolean,
-    val aiAssistantModel: String,
+    val aiAssistantModel: AssistantModel,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -378,7 +379,7 @@ fun SettingsState.toUiState(
                 isSemanticSearchEnabled = isSemanticSearchEnabled,
                 semanticSearchSettings = semanticSearchSettings,
                 isAiAssistantEnabled = isAiAssistantEnabled,
-                aiAssistantModel = SettingsState.normalizeAiAssistantModel(aiAssistantModel),
+                aiAssistantModel = aiAssistantModel,
                 clearCacheOnLaunch = clearCacheOnLaunch,
                 cacheAutoClearLimitBytes = cacheAutoClearLimitBytes,
                 cacheAutoClearInterval = cacheAutoClearInterval,

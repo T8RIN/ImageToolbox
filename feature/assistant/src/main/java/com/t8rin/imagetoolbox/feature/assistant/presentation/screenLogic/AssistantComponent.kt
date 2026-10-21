@@ -25,14 +25,21 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStop
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.widget.utils.withSelectedUris
+import com.t8rin.imagetoolbox.core.utils.fileSize
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.makeLog
+import com.t8rin.imagetoolbox.core.utils.mimeType
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
@@ -40,6 +47,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import com.t8rin.neural_tools.assistant.AssistantModels
 import dagger.assisted.Assisted
@@ -91,7 +99,7 @@ class AssistantComponent @AssistedInject internal constructor(
     private val _error = mutableStateOf<String?>(null)
     val error by _error
     private val _selectedUris =
-        mutableStateOf(route.selectedUris.map { it.toString() }.ifEmpty { sourceUris() })
+        mutableStateOf(route.selectedUris.map { it.toString() })
     val selectedUris by _selectedUris
 
     private val isBusy: Boolean
@@ -140,7 +148,7 @@ class AssistantComponent @AssistedInject internal constructor(
                     _selectedModel.value = model
                     if (!isEnabled || changedModel) release()
                     if (!isEnabled) {
-                        AssistantModels.Variant.entries.forEach(models::cancelDownload)
+                        AssistantModel.entries.forEach(models::cancelDownload)
                     }
                 }
         }
@@ -169,15 +177,16 @@ class AssistantComponent @AssistedInject internal constructor(
 
     private fun send(request: AssistantRequest, replaceMessageId: Long? = null): Boolean {
         if (!componentScope.isActive || isBusy) return false
-        if (request.query.isBlank() || request.query.length > MAX_QUERY_LENGTH) return false
+        if (request.query.isBlank() && request.context.selectedUris.isEmpty()) return false
+        if (request.query.length > MAX_QUERY_LENGTH) return false
         if (!enabled) {
             _error.value = resources.getString(R.string.assistant_enabled_required)
             return false
         }
-        val model = selectedModel
-        val variant = variant(model)
+        val variant = selectedModel
+        val model = variant.id
         val installed = installations.any { it.variant == variant && it.installed }
-        if (variant == null || !AssistantModels.isSupported() || !installed) {
+        if (!AssistantModels.isSupported() || !installed) {
             _error.value = resources.getString(R.string.assistant_model_not_installed)
             return false
         }
@@ -224,17 +233,24 @@ class AssistantComponent @AssistedInject internal constructor(
     }
 
     private suspend fun generateAnswer(
-        variant: AssistantModels.Variant,
+        variant: AssistantModel,
         id: Long,
-        request: AssistantRequest
+        originalRequest: AssistantRequest
     ): AssistantAnswer {
+        val metadataStarted = System.nanoTime()
+        val request = originalRequest.copy(
+            query = originalRequest.query.ifBlank { resources.getString(R.string.assistant_photo_prompt) },
+            context = withFileInfo(originalRequest.context)
+        )
+        updateMessage(id) { it.copy(context = request.context) }
         val retrievalStarted = System.nanoTime()
         val retrieved = knowledge.retrieve(request)
         val promptStarted = System.nanoTime()
         val prompt = buildPrompt(request, retrieved)
         val promptFinished = System.nanoTime()
         makeLog(
-            "retrievalMs=${(promptStarted - retrievalStarted) / 1_000_000} " +
+            "metadataMs=${(retrievalStarted - metadataStarted) / 1_000_000} " +
+                    "retrievalMs=${(promptStarted - retrievalStarted) / 1_000_000} " +
                     "promptMs=${(promptFinished - promptStarted) / 1_000_000}",
             tag = "AssistantInference"
         )
@@ -268,19 +284,40 @@ class AssistantComponent @AssistedInject internal constructor(
         }
     }
 
+    private suspend fun withFileInfo(context: AssistantScreenContext): AssistantScreenContext =
+        withContext(ioDispatcher) {
+            val info = context.selectedUris.take(3).mapIndexedNotNull { index, selected ->
+                val uri = selected.toUri()
+                val mime = runCatching { uri.mimeType() }.getOrNull()
+                val size = runCatching { uri.fileSize() }.getOrNull()?.takeIf { it > 0 }
+                val dimensions = if (mime?.startsWith("image/") == true) uri.imageSize() else null
+                val details = listOfNotNull(
+                    mime,
+                    dimensions?.let { "${it.width}x${it.height}px" },
+                    size?.let { "$it bytes" }
+                )
+                details.takeIf { it.isNotEmpty() }?.joinToString(prefix = "${index + 1}: ")
+            }.joinToString("; ")
+            context.copy(
+                parameters = (context.parameters - "selectedImageInfo") +
+                        if (info.isNotEmpty()) mapOf("selectedImageInfo" to info) else emptyMap()
+            )
+        }
+
     private fun buildPrompt(
         request: AssistantRequest,
         retrieved: AssistantAnswer
     ): String = buildString {
         append("<|im_start|>system\n")
-        append(knowledge.grounding(request, retrieved))
+        append(knowledge.grounding(request, retrieved, selectedModel))
         append("<|im_end|>\n")
         store.messages.value.dropLast(1).filter {
             it.error == null && it.answer.text.isNotBlank()
         }.takeLast(2).forEach { message ->
             append(
                 "<|im_start|>user\n${
-                    message.question.take(HISTORY_QUESTION_LENGTH).escapeTemplate()
+                    message.question.ifBlank { resources.getString(R.string.assistant_photo_prompt) }
+                        .take(HISTORY_QUESTION_LENGTH).escapeTemplate()
                 }<|im_end|>\n"
             )
             append(
@@ -289,7 +326,11 @@ class AssistantComponent @AssistedInject internal constructor(
                 }<|im_end|>\n"
             )
         }
-        append("<|im_start|>user\n${request.query.escapeTemplate()}<|im_end|>\n")
+        append(
+            "<|im_start|>user\n${
+                knowledge.userPrompt(request, retrieved).escapeTemplate()
+            }<|im_end|>\n"
+        )
         append("<|im_start|>assistant\n<think>\n\n</think>\n\n")
     }
 
@@ -325,12 +366,11 @@ class AssistantComponent @AssistedInject internal constructor(
         }
     }
 
-    fun selectModel(model: String) {
-        if (variant(model) == null) return
+    fun selectModel(model: AssistantModel) {
         componentScope.launchImmediate { settings.setAiAssistantModel(model) }
     }
 
-    fun downloadModel(variant: AssistantModels.Variant) {
+    fun downloadModel(variant: AssistantModel) {
         if (!componentScope.isActive || !enabled || isDownloading(variant)) return
         componentScope.launchImmediate {
             try {
@@ -343,11 +383,11 @@ class AssistantComponent @AssistedInject internal constructor(
         }
     }
 
-    fun cancelDownload(variant: AssistantModels.Variant) {
+    fun cancelDownload(variant: AssistantModel) {
         models.cancelDownload(variant)
     }
 
-    fun deleteModel(variant: AssistantModels.Variant) {
+    fun deleteModel(variant: AssistantModel) {
         if (isGenerating || isDownloading(variant)) return
         componentScope.launchImmediate {
             try {
@@ -362,7 +402,7 @@ class AssistantComponent @AssistedInject internal constructor(
         }
     }
 
-    private fun isDownloading(variant: AssistantModels.Variant): Boolean = installations.any {
+    private fun isDownloading(variant: AssistantModel): Boolean = installations.any {
         it.variant == variant && it.phase in setOf(
             AssistantModels.Phase.Downloading,
             AssistantModels.Phase.Verifying
@@ -385,21 +425,33 @@ class AssistantComponent @AssistedInject internal constructor(
 
     fun openTool(tool: AssistantTool, messageContext: AssistantScreenContext) {
         if (!enabled) return
-        val screen = Screen.entries.firstOrNull { it.id == tool.id } ?: return
-        val uris = messageContext.selectedUris.map { it.toUri() }.takeIf { it.isNotEmpty() }
-        val image = uris?.firstOrNull()
-        val destination = if (uris == null) screen else when (screen) {
-            is Screen.WeightResize -> screen.copy(uris = uris)
-            is Screen.DeleteExif -> screen.copy(uris = uris)
-            is Screen.ResizeAndConvert -> screen.copy(uris = uris)
-            is Screen.SingleEdit -> screen.copy(uri = image)
-            is Screen.EraseBackground -> screen.copy(uri = image)
-            is Screen.Filter -> screen.copy(type = Screen.Filter.Type.Basic(uris))
-            is Screen.RecognizeText -> screen.copy(type = Screen.RecognizeText.Type.Extraction(image))
-            else -> screen
+        val screen = knowledge.resolveTool(tool) ?: return
+        componentScope.launchImmediate {
+            val destination = withContext(ioDispatcher) {
+                runCatching {
+                    val uris = messageContext.selectedUris.map { it.toUri() }
+                    val mime = uris.firstOrNull()?.mimeType()
+                    val type = when {
+                        mime == "application/pdf" -> ExtraDataType.Pdf
+                        mime == "image/gif" -> ExtraDataType.Gif
+                        mime?.startsWith("audio/") == true -> ExtraDataType.Audio
+                        mime?.startsWith("image/") == true -> null
+                        else -> ExtraDataType.File
+                    }
+                    screen.withSelectedUris(uris, type)
+                }.getOrDefault(screen)
+            }
+            release()
+            onNavigate(destination)
         }
+    }
+
+    fun openSetting(setting: AssistantSetting) {
+        if (!enabled) return
+        val target = SettingsGroup.entries.flatMap { it.settingsList }
+            .firstOrNull { it.key() == setting.key } ?: return
         release()
-        onNavigate(destination)
+        onNavigate(Screen.Settings(targetSetting = target))
     }
 
     fun openReference(reference: AssistantReference) {
@@ -422,17 +474,6 @@ class AssistantComponent @AssistedInject internal constructor(
     private fun updateMessage(id: Long, update: (AssistantMessage) -> AssistantMessage) {
         store.update { messages -> messages.map { if (it.id == id) update(it) else it } }
     }
-
-    private fun variant(id: String) = AssistantModels.Variant.entries.firstOrNull { it.id == id }
-
-    private fun sourceUris(): List<String> = when (val source = route.source) {
-        is Screen.WeightResize -> source.uris
-        is Screen.DeleteExif -> source.uris
-        is Screen.ResizeAndConvert -> source.uris
-        is Screen.SingleEdit -> listOfNotNull(source.uri)
-        is Screen.EraseBackground -> listOfNotNull(source.uri)
-        else -> emptyList()
-    }.orEmpty().map { it.toString() }
 
     companion object {
         const val MAX_QUERY_LENGTH = 4_000

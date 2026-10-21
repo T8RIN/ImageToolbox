@@ -21,6 +21,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.mutablePreferencesOf
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -35,15 +36,15 @@ class AssistantSettingsTest {
         val settings = emptyPreferences().settings()
 
         assertFalse(settings.isAiAssistantEnabled)
-        assertEquals("lite", settings.aiAssistantModel)
+        assertEquals(AssistantModel.Lite, settings.aiAssistantModel)
     }
 
     @Test
     fun storedModelsAndEnabledStateAreRestored() {
-        listOf("lite", "advanced").forEach { model ->
+        AssistantModel.entries.forEach { model ->
             val settings = mutablePreferencesOf(
                 AI_ASSISTANT_ENABLED to true,
-                AI_ASSISTANT_MODEL to model
+                AI_ASSISTANT_MODEL_TYPE to model.ordinal
             ).settings()
 
             assertTrue(settings.isAiAssistantEnabled)
@@ -52,30 +53,17 @@ class AssistantSettingsTest {
     }
 
     @Test
-    fun legacyAndUnknownModelsReadAsLite() {
-        listOf("help", "unknown-model", "").forEach { model ->
-            val settings = mutablePreferencesOf(
-                AI_ASSISTANT_ENABLED to true,
-                AI_ASSISTANT_MODEL to model
-            ).settings()
-
-            assertTrue(settings.isAiAssistantEnabled)
-            assertEquals("lite", settings.aiAssistantModel)
-        }
-    }
-
-    @Test
     fun disablingAssistantPreservesModelSelection() {
         val preferences = mutablePreferencesOf(
             AI_ASSISTANT_ENABLED to true,
-            AI_ASSISTANT_MODEL to "advanced"
+            AI_ASSISTANT_MODEL_TYPE to AssistantModel.Advanced.ordinal
         )
         preferences[AI_ASSISTANT_ENABLED] = false
 
         val settings = preferences.settings()
 
         assertFalse(settings.isAiAssistantEnabled)
-        assertEquals("advanced", settings.aiAssistantModel)
+        assertEquals(AssistantModel.Advanced, settings.aiAssistantModel)
     }
 
     private fun Preferences.settings() = toSettingsState(

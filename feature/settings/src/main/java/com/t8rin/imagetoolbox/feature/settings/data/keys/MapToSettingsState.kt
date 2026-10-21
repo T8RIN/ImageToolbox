@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -56,9 +57,8 @@ internal fun Preferences.toSettingsState(
     jsonParser: JsonParser
 ): SettingsState = SettingsState(
     isAiAssistantEnabled = this[AI_ASSISTANT_ENABLED] ?: default.isAiAssistantEnabled,
-    aiAssistantModel = SettingsState.normalizeAiAssistantModel(
-        this[AI_ASSISTANT_MODEL] ?: default.aiAssistantModel
-    ),
+    aiAssistantModel = AssistantModel.fromOrdinal(this[AI_ASSISTANT_MODEL_TYPE])
+        ?: default.aiAssistantModel,
     isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
     semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
         jsonParser.fromJson<SemanticSearchSettings>(

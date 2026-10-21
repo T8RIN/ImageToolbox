@@ -17,6 +17,7 @@
 
 package com.t8rin.neural_tools.assistant
 
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.neural_tools.ModelFiles
 
 internal class AssistantModelFiles private constructor(
@@ -37,16 +38,18 @@ internal class AssistantModelFiles private constructor(
                 name = "tokenizer.json",
                 size = 11_422_650L,
                 sha256 = "be75606093db2094d7cd20f3c2f385c212750648bd6ea4fb2bf507a6a4c55506"
-            ),
-            ModelFiles.Model(
-                name = "tokenizer_config.json",
-                size = 692L,
-                sha256 = "92b2e6c7c829903e91bed89b790930f0aa78a6cc9744c5c71d7a48db015c47ac"
             )
+        )
+
+        private val smallModelTokenizerConfig = ModelFiles.Model(
+            name = "tokenizer_config.json",
+            size = 692L,
+            sha256 = "92b2e6c7c829903e91bed89b790930f0aa78a6cc9744c5c71d7a48db015c47ac"
         )
 
         private val lite = AssistantModelFiles(
             files = common + listOf(
+                smallModelTokenizerConfig,
                 ModelFiles.Model(
                     name = "config.json",
                     size = 726L,
@@ -72,6 +75,7 @@ internal class AssistantModelFiles private constructor(
 
         private val advanced = AssistantModelFiles(
             files = common + listOf(
+                smallModelTokenizerConfig,
                 ModelFiles.Model(
                     name = "config.json",
                     size = 726L,
@@ -95,9 +99,40 @@ internal class AssistantModelFiles private constructor(
             )
         )
 
-        operator fun get(variant: AssistantModels.Variant): AssistantModelFiles = when (variant) {
-            AssistantModels.Variant.Lite -> lite
-            AssistantModels.Variant.Advanced -> advanced
+        private val max = AssistantModelFiles(
+            files = common + listOf(
+                ModelFiles.Model(
+                    name = "tokenizer_config.json",
+                    size = 691L,
+                    sha256 = "abff6e9dcb26f8db399539ab12e87267f928044c3dad1c275712c6ed1e9bf28b"
+                ),
+                ModelFiles.Model(
+                    name = "config.json",
+                    size = 728L,
+                    sha256 = "f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30"
+                ),
+                ModelFiles.Model(
+                    name = "genai_config.json",
+                    size = 1_486L,
+                    sha256 = "9e2a08f9b01fc71a811742f0e67c12d4ac18bcc98c15e8a92a1d7e17cfaf6d11"
+                ),
+                ModelFiles.Model(
+                    name = "model.onnx",
+                    size = 385_431L,
+                    sha256 = "6545b844d3d024003d8236ebb6eee7a2102354512215c113fca1371edc66774f"
+                ),
+                ModelFiles.Model(
+                    name = "model.onnx.data",
+                    size = 4_373_413_888L,
+                    sha256 = "041b11dd4e54f34e42a64cf59e8be3b940e3f28b08e95aa7b4111cdb2a97e59d"
+                )
+            )
+        )
+
+        operator fun get(variant: AssistantModel): AssistantModelFiles = when (variant) {
+            AssistantModel.Lite -> lite
+            AssistantModel.Advanced -> advanced
+            AssistantModel.Max -> max
         }
     }
 }

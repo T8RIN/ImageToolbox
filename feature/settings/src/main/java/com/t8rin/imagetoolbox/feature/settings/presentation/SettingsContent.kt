@@ -61,6 +61,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
@@ -72,14 +74,17 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -124,6 +129,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGr
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -168,13 +174,14 @@ fun SettingsContent(
     ) {
         LazyStaggeredGridState()
     }
-    LaunchedEffect(selectedGroup, targetSetting) {
-        val index = selectedGroup?.settingsList?.indexOf(targetSetting) ?: -1
-        if (index >= 0) categoryGridState.scrollToItem(index)
-    }
-
     val searchGridState = rememberLazyStaggeredGridState()
-    val currentGridState = if (settings == null) gridState else searchGridState
+    val targetRequester = remember(targetSetting) { BringIntoViewRequester() }
+    var targetIsPlaced by remember(targetSetting, settings, selectedGroup, useCategorizedSettings) {
+        mutableStateOf(false)
+    }
+    val targetModifier = Modifier
+        .bringIntoViewRequester(targetRequester)
+        .onPlaced { targetIsPlaced = true }
 
     val onNavigateBack: () -> Unit = {
         if (showSearch || searchKeyword.isNotEmpty()) {
@@ -258,26 +265,34 @@ fun SettingsContent(
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
-    LaunchedEffect(targetSetting, settings, useCategorizedSettings) {
+    LaunchedEffect(targetSetting, settings, selectedGroup, useCategorizedSettings) {
         targetSetting ?: return@LaunchedEffect
-        if (useCategorizedSettings && settings == null) return@LaunchedEffect
+        if (useCategorizedSettings && selectedGroup == null && settings == null) return@LaunchedEffect
         val index = settings?.indexOfFirst { (_, setting) ->
             setting == targetSetting
-        } ?: initialSettingGroups.indexOfFirst { group ->
+        } ?: selectedGroup?.settingsList?.indexOf(targetSetting)
+        ?: initialSettingGroups.indexOfFirst { group ->
             group.settingsList.contains(targetSetting)
         }
+        if (index < 0) return@LaunchedEffect
 
-        if (index >= 0) {
-            currentGridState.scrollToItem(index)
+        val state = when {
+            settings != null -> searchGridState
+            selectedGroup != null -> categoryGridState
+            else -> gridState
         }
-    }
+        state.scrollToItem(index)
+        snapshotFlow { targetIsPlaced }.first { it }
+        targetRequester.bringIntoView()
 
-    LaunchedEffect(targetSetting) {
-        if (targetSetting != null && !showTargetHighlight && !isHighlightShown) {
+        if (!isHighlightShown) {
             showTargetHighlight = true
-            delay(3.seconds)
-            showTargetHighlight = false
-            isHighlightShown = true
+            try {
+                delay(3.seconds)
+                isHighlightShown = true
+            } finally {
+                showTargetHighlight = false
+            }
         }
     }
 
@@ -437,6 +452,7 @@ fun SettingsContent(
                         categoryGridState = categoryGridState,
                         contentPadding = padding,
                         targetSetting = targetSetting,
+                        targetModifier = targetModifier,
                         highlightedContainerColor = highlightedContainerColor
                     )
                 } else if (haveSettings == null) {
@@ -545,15 +561,17 @@ fun SettingsContent(
                                                 verticalArrangement = Arrangement.spacedBy(4.dp)
                                             ) {
                                                 group.settingsList.forEach { setting ->
-                                                    SettingItem(
-                                                        setting = setting,
-                                                        component = component,
-                                                        containerColor = if (showTargetHighlight && setting == targetSetting) {
-                                                            highlightedContainerColor
-                                                        } else {
-                                                            MaterialTheme.colorScheme.surfaceContainerLow
-                                                        }
-                                                    )
+                                                    Column(if (setting == targetSetting) targetModifier else Modifier) {
+                                                        SettingItem(
+                                                            setting = setting,
+                                                            component = component,
+                                                            containerColor = if (showTargetHighlight && setting == targetSetting) {
+                                                                highlightedContainerColor
+                                                            } else {
+                                                                MaterialTheme.colorScheme.surfaceContainerLow
+                                                            }
+                                                        )
+                                                    }
                                                 }
                                             }
                                         }
@@ -570,15 +588,17 @@ fun SettingsContent(
                                             verticalArrangement = Arrangement.spacedBy(4.dp)
                                         ) {
                                             group.settingsList.forEach { setting ->
-                                                SettingItem(
-                                                    setting = setting,
-                                                    component = component,
-                                                    containerColor = if (showTargetHighlight && setting == targetSetting) {
-                                                        highlightedContainerColor
-                                                    } else {
-                                                        MaterialTheme.colorScheme.surface
-                                                    }
-                                                )
+                                                Column(if (setting == targetSetting) targetModifier else Modifier) {
+                                                    SettingItem(
+                                                        setting = setting,
+                                                        component = component,
+                                                        containerColor = if (showTargetHighlight && setting == targetSetting) {
+                                                            highlightedContainerColor
+                                                        } else {
+                                                            MaterialTheme.colorScheme.surface
+                                                        }
+                                                    )
+                                                }
                                             }
                                         }
                                     }
@@ -601,6 +621,7 @@ fun SettingsContent(
                             key = { _, v -> v.hashCode() }
                         ) { index, (group, setting) ->
                             SearchableSettingItem(
+                                modifier = if (setting == targetSetting) targetModifier else Modifier,
                                 shape = ShapeDefaults.byIndex(
                                     index = if (oneColumn) index else -1,
                                     size = settingsAnimated.size

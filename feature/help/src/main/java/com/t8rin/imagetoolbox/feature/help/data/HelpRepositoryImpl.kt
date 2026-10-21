@@ -348,6 +348,81 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
 
     override val tips: List<HelpTip> = listOf(
         tip(
+            id = "depth-effects",
+            title = R.string.help_tip_depth_effects_title,
+            subtitle = R.string.help_tip_depth_effects_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = creativeTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_depth_effects_title,
+            description = R.string.help_tip_depth_effects_description,
+            steps = listOf(
+                R.string.help_tip_depth_effects_step_1,
+                R.string.help_tip_depth_effects_step_2,
+                R.string.help_tip_depth_effects_step_3
+            )
+        ),
+        tip(
+            id = "pdf-compression",
+            title = R.string.compress_pdf,
+            subtitle = R.string.help_tip_pdf_compression_subtitle,
+            icon = Icons.Outlined.Pdf,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.Compress(),
+            pageTitle = R.string.compress_pdf,
+            description = R.string.help_tip_pdf_compression_description,
+            steps = listOf(
+                R.string.help_tip_pdf_compression_step_1,
+                R.string.help_tip_pdf_compression_step_2,
+                R.string.help_tip_pdf_compression_step_3
+            )
+        ),
+        tip(
+            id = "pdf-annotation-cleanup",
+            title = R.string.remove_annotations,
+            subtitle = R.string.help_tip_pdf_annotation_cleanup_subtitle,
+            icon = Icons.Outlined.Pdf,
+            category = pdfAndDocuments,
+            deepLink = Screen.PdfTools.RemoveAnnotations(),
+            pageTitle = R.string.remove_annotations,
+            description = R.string.help_tip_pdf_annotation_cleanup_description,
+            steps = listOf(
+                R.string.help_tip_pdf_annotation_cleanup_step_1,
+                R.string.help_tip_pdf_annotation_cleanup_step_2,
+                R.string.help_tip_pdf_annotation_cleanup_step_3
+            )
+        ),
+        tip(
+            id = "metadata-editing",
+            title = R.string.edit_exif,
+            subtitle = R.string.help_tip_metadata_editing_subtitle,
+            icon = Icons.Outlined.ExifEdit,
+            category = filesAndMetadata,
+            deepLink = Screen.EditExif(),
+            pageTitle = R.string.edit_exif,
+            description = R.string.help_tip_metadata_editing_description,
+            steps = listOf(
+                R.string.help_tip_metadata_editing_step_1,
+                R.string.help_tip_metadata_editing_step_2,
+                R.string.help_tip_metadata_editing_step_3
+            )
+        ),
+        tip(
+            id = "cache-cleanup",
+            title = R.string.cache_auto_clear_limit,
+            subtitle = R.string.help_tip_cache_cleanup_subtitle,
+            icon = Icons.Outlined.HardDrive,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.CacheAutoClearLimit),
+            pageTitle = R.string.cache_auto_clear_limit,
+            description = R.string.help_tip_cache_cleanup_description,
+            steps = listOf(
+                R.string.help_tip_cache_cleanup_step_1,
+                R.string.help_tip_cache_cleanup_step_2,
+                R.string.help_tip_cache_cleanup_step_3
+            )
+        ),
+        tip(
             id = TipIds.SettingsNavigation,
             title = R.string.help_tip_settings_navigation_title,
             subtitle = R.string.help_tip_settings_navigation_subtitle,
@@ -1801,7 +1876,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             subtitle = R.string.help_tip_searchable_pdf_subtitle,
             icon = Icons.Outlined.Pdf,
             category = textAndData,
-            deepLink = Screen.RecognizeText(),
+            deepLink = Screen.RecognizeText(type = Screen.RecognizeText.Type.WriteToSearchablePdf()),
             pageTitle = R.string.help_tip_searchable_pdf_page_title,
             description = R.string.help_tip_searchable_pdf_description,
             steps = listOf(

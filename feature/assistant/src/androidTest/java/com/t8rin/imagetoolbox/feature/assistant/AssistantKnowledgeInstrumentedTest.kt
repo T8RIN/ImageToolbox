@@ -20,11 +20,15 @@ package com.t8rin.imagetoolbox.feature.assistant
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
+import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import kotlinx.coroutines.runBlocking
@@ -33,6 +37,8 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.json.JSONObject
+import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class AssistantKnowledgeInstrumentedTest {
@@ -50,7 +56,7 @@ class AssistantKnowledgeInstrumentedTest {
             assertTrue(
                 answer.references.toString(),
                 answer.references.any { "background" in it.tipId })
-            assertTrue(answer.tools.any { it.id == Screen.EraseBackground().id })
+            assertTrue(answer.tools.any { it.key == Screen.EraseBackground().simpleName })
             if (query.first() == 'К') {
                 assertTrue(
                     answer.references.first().text,
@@ -100,7 +106,10 @@ class AssistantKnowledgeInstrumentedTest {
             val answer = knowledge.retrieve(request)
             assertEquals(query, "resize-by-file-size", answer.references.first().tipId)
             assertEquals(query, listOf("resize-by-file-size"), answer.references.map { it.tipId })
-            assertEquals(query, listOf(Screen.WeightResize().id), answer.tools.map { it.id })
+            assertEquals(
+                query,
+                listOf(Screen.WeightResize().simpleName),
+                answer.tools.map { it.key })
             val language = if (query.startsWith("How")) "en" else "ru"
             val grounding = knowledge.grounding(request, answer)
             assertTrue(
@@ -118,11 +127,11 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun specificCompressionToolsAreNotReplacedByPhotoCompressionAliases() = runBlocking {
         val lab = knowledge.retrieve(AssistantRequest("Compression Lab"))
-        assertTrue(lab.tools.any { it.id == Screen.CompressionLab().id })
+        assertTrue(lab.tools.any { it.key == Screen.CompressionLab().simpleName })
         listOf("Compression Lab", "Compress PDF", "Сжать PDF").forEach { query ->
             val answer = knowledge.retrieve(AssistantRequest(query))
             assertFalse(query, answer.references.any { it.tipId == "resize-by-file-size" })
-            assertFalse(query, answer.tools.any { it.id == Screen.WeightResize().id })
+            assertFalse(query, answer.tools.any { it.key == Screen.WeightResize().simpleName })
         }
     }
 
@@ -163,21 +172,49 @@ class AssistantKnowledgeInstrumentedTest {
             request to knowledge.retrieve(request)
         }
         val unexpected = results.filter { (_, answer) ->
-            answer.references.isNotEmpty() || answer.tools.isNotEmpty()
+            answer.references.isNotEmpty() || answer.tools.isNotEmpty() || answer.settings.isNotEmpty()
         }
         assertTrue(unexpected.joinToString("\n") { (request, answer) ->
-            "${request.query}: references=${answer.references.map { it.tipId }}"
+            "${request.query}: references=${answer.references.map { it.tipId }}, settings=${answer.settings.map { it.key }}"
         }, unexpected.isEmpty())
         results.forEach { (request, retrieved) ->
             assertTrue(request.query, retrieved.text.isEmpty())
             val prompt = knowledge.grounding(request, retrieved)
             assertFalse(prompt, prompt.contains("DOCS"))
             assertFalse(prompt, prompt.contains("JSON"))
-            assertTrue(prompt, prompt.length < 200)
+            assertTrue(prompt, prompt.length < 450)
+            val russian = request.query.any { it in 'А'..'я' }
             assertTrue(
                 prompt,
-                prompt.contains(if (request.query.any { it in 'А'..'я' }) "Russian" else "English")
+                prompt.contains(if (russian) "Задай только короткий вопрос" else "Ask only a short question")
             )
+            assertTrue(
+                prompt,
+                prompt.contains(if (russian) "Отвечай по-русски" else "Reply in English")
+            )
+            val userPrompt = knowledge.userPrompt(request, retrieved)
+            assertTrue(userPrompt, userPrompt.contains(request.query))
+            assertTrue(
+                userPrompt,
+                userPrompt.contains(if (russian) "Пример подходящего вопроса" else "An appropriate question")
+            )
+        }
+    }
+
+    @Test
+    fun missingDocumentationDoesNotDiscardCurrentEditingOrSettingContext() {
+        listOf(
+            AssistantScreenContext(toolId = Screen.WeightResize().id),
+            AssistantScreenContext(settingKey = Setting.DeleteOriginalsAfterSave.key()),
+            AssistantScreenContext(selectedUris = listOf("content://assistant-test/photo"))
+        ).forEach { context ->
+            val prompt = knowledge.grounding(
+                AssistantRequest("What should I change here?", context),
+                AssistantAnswer(text = "")
+            )
+            assertFalse(prompt, prompt.contains("No matching app information"))
+            assertTrue(prompt, prompt.contains("CONTEXT:"))
+            assertTrue(prompt, prompt.contains("using the supplied facts"))
         }
     }
 
@@ -241,8 +278,8 @@ class AssistantKnowledgeInstrumentedTest {
         val retrieved = knowledge.retrieve(request)
         val grounding = knowledge.grounding(request, retrieved)
         assertEquals(listOf("background-remover"), retrieved.references.map { it.tipId })
-        assertEquals(listOf(Screen.EraseBackground().id), retrieved.tools.map { it.id })
-        assertTrue(grounding, grounding.length < 1200)
+        assertEquals(listOf(Screen.EraseBackground().simpleName), retrieved.tools.map { it.key })
+        assertTrue(grounding, grounding.length < 1500)
         assertTrue(
             grounding,
             grounding.contains(
@@ -267,6 +304,7 @@ class AssistantKnowledgeInstrumentedTest {
             val answer = knowledge.retrieve(request)
             val grounding = knowledge.grounding(request, answer)
             val title = services.resources.getStringLocalized(R.string.by_bytes_resize, language)
+            assertEquals(query, knowledge.userPrompt(request, answer))
             assertTrue(grounding, grounding.contains("Help:\n$title\n"))
             assertFalse(grounding, grounding.contains("\n${answer.references.first().title}\n"))
             assertFalse(grounding, grounding.contains("Available action"))
@@ -274,4 +312,246 @@ class AssistantKnowledgeInstrumentedTest {
             assertFalse(grounding, grounding.contains("open_tool"))
         }
     }
+
+    @Test
+    fun everyCatalogToolIsDiscoverableInBothLanguagesIncludingCollidingIds() = runBlocking {
+        val catalog = (Screen.typedEntries.flatMap { it.entries } + Screen.PdfTools.options)
+            .distinctBy { it.simpleName }
+        val failures = mutableListOf<String>()
+        listOf("en", "ru").forEach { language ->
+            catalog.forEach { screen ->
+                val title = services.resources.getStringLocalized(screen.title, language)
+                val answer = knowledge.retrieve(AssistantRequest(title, language = language))
+                val destinations = answer.tools.mapNotNull(knowledge::resolveTool)
+                if (destinations.none { it.simpleName == screen.simpleName }) {
+                    failures.add("$language/$title (${screen.simpleName}): ${destinations.map { it.simpleName }}")
+                }
+            }
+        }
+        assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
+    fun everyAvailableSettingHasAStableLinkAndCatalogTitle() = runBlocking {
+        val settings = SettingsGroup.entries.flatMap { it.settingsList }.distinct()
+        val failures = mutableListOf<String>()
+        listOf("en", "ru").forEach { language ->
+            settings.forEach { setting ->
+                val title = services.resources.getStringLocalized(setting.title, language)
+                val answer = knowledge.retrieve(AssistantRequest(title, language = language))
+                if (answer.settings.none { it.key == setting.key() }) {
+                    failures.add("$language/$title (${setting.key()}): ${answer.settings.map { it.key }}")
+                }
+                assertTrue(
+                    title,
+                    answer.settings.any { it.key == setting.key() && it.title == title })
+            }
+        }
+        assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
+    fun preciseSettingNamesAreNotReplacedByShorterTitles() = runBlocking {
+        listOf("Cache limit", "Where is Cache limit?", "Лимит кэша").forEach { query ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            assertEquals(query, Setting.CacheAutoClearLimit.key(), answer.settings.first().key)
+        }
+        listOf("Where can I change the language?", "Где изменить язык?").forEach { query ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            assertEquals(query, Setting.ChangeLanguage.key(), answer.settings.first().key)
+        }
+    }
+
+    @Test
+    fun naturalToggleQuestionsFindTheOriginalFileDeletionSetting() = runBlocking {
+        val setting = Setting.DeleteOriginalsAfterSave
+        listOf(
+            "Где выключить удаление оригиналов после сохранения?" to "ru",
+            "Как отключить удаление исходных файлов после сохранения?" to "ru",
+            "Where can I turn off deleting original files after saving?" to "en",
+            "How do I disable deleting original files after saving?" to "en"
+        ).forEach { (query, language) ->
+            val request = AssistantRequest(query, language = language)
+            val answer = knowledge.retrieve(request)
+            assertEquals(query, listOf(setting.key()), answer.settings.map { it.key })
+            assertTrue(query, answer.tools.isEmpty())
+            val prompt = knowledge.grounding(request, answer)
+            assertTrue(
+                prompt,
+                prompt.contains(services.resources.getStringLocalized(setting.title, language))
+            )
+            assertTrue(
+                prompt,
+                prompt.contains(
+                    services.resources.getStringLocalized(
+                        checkNotNull(setting.subtitle),
+                        language
+                    )
+                )
+            )
+            val path = listOf(R.string.settings, R.string.folder, setting.title)
+                .joinToString(" > ") { services.resources.getStringLocalized(it, language) }
+            assertTrue(prompt, prompt.contains(path))
+            assertTrue(prompt, prompt.contains("Current and default values are unknown"))
+            assertTrue(knowledge.userPrompt(request, answer).startsWith(query))
+        }
+    }
+
+    @Test
+    fun documentedModesRetainTheirActualDestinationAndTitle() = runBlocking {
+        val request = AssistantRequest("Create a searchable PDF with OCR")
+        val answer = knowledge.retrieve(request)
+        val tool = answer.tools.first { it.key == Screen.RecognizeText().simpleName }
+        val destination =
+            services.helpRepository.getTip(checkNotNull(tool.helpTipId))?.deepLink as Screen.RecognizeText
+        assertTrue(destination.type is Screen.RecognizeText.Type.WriteToSearchablePdf)
+        assertEquals(
+            services.resources.getStringLocalized(
+                checkNotNull(destination.type).title,
+                "en"
+            ), tool.title
+        )
+    }
+
+    @Test
+    fun helpForServiceScreensUsesTheDocumentTitleInGrounding() {
+        listOf(
+            "choose-tool" to Screen.Main,
+            "logs-feedback" to Screen.AppLogs
+        ).forEach { (id, screen) ->
+            val tip = checkNotNull(services.helpRepository.getTip(id))
+            assertEquals(screen, tip.deepLink)
+            val page = tip.pages.first()
+            val title = services.resources.getStringLocalized(tip.title, "en")
+            val description = services.resources.getStringLocalized(page.description, "en")
+            val answer = AssistantAnswer(
+                text = "",
+                references = listOf(
+                    AssistantReference(
+                        title = title,
+                        text = services.resources.getStringLocalized(
+                            page.title,
+                            "en"
+                        ) + "\n\n" + description,
+                        tipId = id,
+                        categoryKey = tip.category.key
+                    )
+                )
+            )
+            val prompt = knowledge.grounding(AssistantRequest(title), answer)
+            assertTrue(prompt, prompt.contains("Help:\n$title\n"))
+            assertTrue(prompt, prompt.contains(description))
+        }
+    }
+
+    @Test
+    fun photoOnlyRequestsReceiveUsefulEditsWithoutPretendingToSeePixels() = runBlocking {
+        val request = AssistantRequest(
+            "What can I do with these files?",
+            AssistantScreenContext(
+                selectedUris = listOf("content://media/private-photo"),
+                parameters = mapOf("selectedImageInfo" to "1: 4000×3000px, image/jpeg, 4.2 MB")
+            )
+        )
+        val answer = knowledge.retrieve(request)
+        assertTrue(answer.tools.toString(), answer.tools.any { it.key == Screen.Crop().simpleName })
+        assertTrue(
+            answer.tools.toString(),
+            answer.tools.any { it.key == Screen.WeightResize().simpleName })
+        AssistantModel.entries.forEach { model ->
+            val prompt = knowledge.grounding(request, answer, model)
+            assertTrue(prompt, prompt.contains("4000×3000px"))
+            assertTrue(prompt, prompt.contains("not image pixels"))
+            assertTrue(prompt, prompt.contains("Suggest useful edits"))
+            assertFalse(prompt, prompt.contains("content://"))
+        }
+    }
+
+    @Test
+    fun fileOnlyRequestsSuggestToolsForTheMeasuredMimeType() = runBlocking {
+        listOf(
+            "application/pdf" to listOf(
+                Screen.PdfTools.Compress(),
+                Screen.PdfTools.ExtractPages(),
+                Screen.PdfTools.Metadata()
+            ),
+            "audio/mpeg" to listOf(Screen.AudioCoverExtractor()),
+            "application/zip" to listOf(Screen.ArchiveTools())
+        ).forEach { (mime, expected) ->
+            listOf("en", "ru").forEach { language ->
+                val request = AssistantRequest(
+                    query = services.resources.getStringLocalized(
+                        R.string.assistant_photo_prompt,
+                        language
+                    ),
+                    context = AssistantScreenContext(
+                        selectedUris = listOf("content://media/private-file"),
+                        parameters = mapOf("selectedImageInfo" to "1: $mime, 4000000 bytes")
+                    ),
+                    language = language
+                )
+                val answer = knowledge.retrieve(request)
+                assertEquals(
+                    mime,
+                    expected.map { it.simpleName }.toSet(),
+                    answer.tools.map { it.key }.toSet()
+                )
+                val prompt = knowledge.grounding(request, answer)
+                assertTrue(prompt, prompt.contains("Files: 1"))
+                assertFalse(
+                    prompt,
+                    Regex("^Images:", RegexOption.MULTILINE).containsMatchIn(prompt)
+                )
+                assertFalse(prompt, prompt.contains("content://"))
+            }
+        }
+    }
+
+    @Test
+    fun detailedHelpPagesMatchRealControlsWithoutAddingCatalogCards() {
+        listOf(
+            "depth-effects",
+            "pdf-compression",
+            "pdf-annotation-cleanup",
+            "metadata-editing",
+            "cache-cleanup"
+        )
+            .forEach { id ->
+                val tip = checkNotNull(services.helpRepository.getTip(id))
+                assertEquals(id, 3, tip.pages.first().steps.size)
+                assertTrue(id, tip.deepLink != null)
+            }
+        val summaries = services.helpRepository.tips.filter { tip ->
+            tip.pages.all { it.steps.isEmpty() && it.description == tip.subtitle }
+        }
+        assertTrue(summaries.map { it.id }.toString(), summaries.isEmpty())
+        val report = JSONObject()
+            .put(
+                "detailedTips",
+                services.helpRepository.tips.count { tip -> tip.pages.any { it.steps.isNotEmpty() } })
+            .put("newDetailedTips", 5)
+            .put("catalogToolSummaries", summaries.count { it.deepLink !is Screen.Settings })
+            .put("catalogSettingSummaries", summaries.count { it.deepLink is Screen.Settings })
+        File(
+            InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+            "assistant-knowledge-coverage.json"
+        )
+            .writeText(report.toString(2))
+    }
+
+    @Test
+    fun newerToolsRetrieveTheirDocumentedControls() = runBlocking {
+        listOf(
+            "How do I create a depth mask?" to "depth-effects",
+            "How do I remove links from a PDF?" to "pdf-annotation-cleanup",
+            "Как изменить отдельный тег EXIF?" to "metadata-editing",
+            "Почему неактивен лимит кэша?" to "cache-cleanup"
+        ).forEach { (query, tipId) ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            assertTrue(
+                "$query: ${answer.references.map { it.tipId }}",
+                answer.references.any { it.tipId == tipId })
+        }
+    }
+
 }

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.root.presentation.components.navigation
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.collage_maker.presentation.CollageMakerContent
 import com.t8rin.imagetoolbox.collage_maker.presentation.screenLogic.CollageMakerComponent
 import com.t8rin.imagetoolbox.color_library.presentation.ColorLibraryContent
@@ -29,6 +30,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.AiToolsContent
 import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsComponent
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.ApngToolsContent
@@ -225,20 +227,49 @@ internal sealed interface NavigationChild {
     @Composable
     fun Content()
 
-    fun assistantScreen(source: Screen?): Screen.Assistant = Screen.Assistant(source = source)
+    fun assistantScreen(source: Screen?): Screen.Assistant = source.assistantScreen()
 
 
     class ApngTools(private val component: ApngToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) =
+            Screen.ApngTools(component.type).assistantScreen(
+                when (val type = component.type) {
+                    is Screen.ApngTools.Type.ApngToImage -> listOfNotNull(type.apngUri)
+                    is Screen.ApngTools.Type.ImageToApng -> type.imageUris.orEmpty()
+                    is Screen.ApngTools.Type.ApngToJxl -> type.apngUris.orEmpty()
+                    is Screen.ApngTools.Type.ApngToGif -> type.apngUris.orEmpty()
+                    is Screen.ApngTools.Type.ApngToWebp -> type.apngUris.orEmpty()
+                    is Screen.ApngTools.Type.MergeApng -> type.apngUris.orEmpty()
+                    null -> emptyList()
+                },
+                "mode" to component.type?.title?.let(appContext::getString),
+                "imageFormat" to component.imageFormat.title,
+                "isSaving" to component.isSaving
+            )
+
         @Composable
         override fun Content() = ApngToolsContent(component)
     }
 
     class Cipher(private val component: CipherComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "mode" to if (component.isEncrypt) "encrypt" else "decrypt",
+            "cipher" to component.cipherType
+        )
+
         @Composable
         override fun Content() = CipherContent(component)
     }
 
     class CollageMaker(private val component: CollageMakerComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "aspectRatio" to component.aspectRatio
+        )
+
         @Composable
         override fun Content() = CollageMakerContent(component)
     }
@@ -249,11 +280,22 @@ internal sealed interface NavigationChild {
     }
 
     class Compare(private val component: CompareComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.bitmapData?.first?.uri, component.bitmapData?.second?.uri)
+        )
+
         @Composable
         override fun Content() = CompareContent(component)
     }
 
     class Crop(private val component: CropComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.currentUri),
+            "imageFormat" to component.imageFormat.title,
+            "rotation" to component.rotationState.floatValue,
+            "keepExif" to component.saveExif
+        )
+
         @Composable
         override fun Content() = CropContent(component)
     }
@@ -270,21 +312,47 @@ internal sealed interface NavigationChild {
     }
 
     class BatchRename(private val component: BatchRenameComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.files.map { it.uri.toUri() },
+            "dateSource" to component.dateSource
+        )
+
         @Composable
         override fun Content() = BatchRenameContent(component)
     }
 
     class DocumentScanner(private val component: DocumentScannerComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue
+        )
+
         @Composable
         override fun Content() = DocumentScannerContent(component)
     }
 
     class Draw(private val component: DrawComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOf(component.uri),
+            "imageFormat" to component.imageFormat.title,
+            "strokeCount" to component.paths.size,
+            "keepExif" to component.saveExif
+        )
+
         @Composable
         override fun Content() = DrawContent(component)
     }
 
     class DuplicateFinder(private val component: DuplicateFinderComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.sourceUris,
+            "sensitivity" to component.sensitivity,
+            "scanMode" to component.scanMode,
+            "keepStrategy" to component.keepStrategy,
+            "isAnalyzing" to component.isAnalyzing
+        )
+
         @Composable
         override fun Content() = DuplicateFinderContent(component)
     }
@@ -297,6 +365,13 @@ internal sealed interface NavigationChild {
     class EraseBackground(private val component: EraseBackgroundComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = Screen.Assistant(
             source = Screen.EraseBackground(component.uri.takeUnless { it == Uri.EMPTY }),
+            parameters = mapOf(
+                "imageFormat" to component.imageFormat.title,
+                "restoreMode" to component.isRecoveryOn.toString(),
+                "trimImage" to component.trimImage.toString(),
+                "isRemovingBackground" to component.isErasingBG.toString(),
+                "keepExif" to component.saveExif.toString()
+            ),
             selectedUris = listOfNotNull(component.uri.takeUnless { it == Uri.EMPTY })
         )
 
@@ -332,61 +407,145 @@ internal sealed interface NavigationChild {
     }
 
     class FormatConversion(private val component: FormatConversionComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageInfo.imageFormat.title,
+            "quality" to component.imageInfo.quality.qualityValue,
+            "keepExif" to component.keepExif
+        )
+
         @Composable
         override fun Content() = FormatConversionContent(component)
     }
 
     class Curves(private val component: CurvesComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageInfo.imageFormat.title,
+            "keepExif" to component.keepExif
+        )
+
         @Composable
         override fun Content() = CurvesContent(component)
     }
 
     class PaletteTools(private val component: PaletteToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "paletteType" to component.paletteType
+        )
+
         @Composable
         override fun Content() = PaletteToolsContent(component)
     }
 
     class PalettePdfTool(private val component: PalettePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.sourceUri),
+            "sourceType" to component.sourceType,
+            "maximumColorCount" to component.params.maximumColorCount
+        )
+
         @Composable
         override fun Content() = PalettePdfToolContent(component)
     }
 
     class GifTools(private val component: GifToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) =
+            Screen.GifTools(component.type).assistantScreen(
+                when (val type = component.type) {
+                    is Screen.GifTools.Type.GifToImage -> listOfNotNull(type.gifUri)
+                    is Screen.GifTools.Type.MergeGif -> type.gifUris.orEmpty()
+                    is Screen.GifTools.Type.ImageToGif -> type.imageUris.orEmpty()
+                    is Screen.GifTools.Type.GifToJxl -> type.gifUris.orEmpty()
+                    is Screen.GifTools.Type.GifToApng -> type.gifUris.orEmpty()
+                    is Screen.GifTools.Type.GifToWebp -> type.gifUris.orEmpty()
+                    null -> emptyList()
+                },
+                "mode" to component.type?.title?.let(appContext::getString),
+                "imageFormat" to component.imageFormat.title,
+                "isSaving" to component.isSaving
+            )
+
         @Composable
         override fun Content() = GifToolsContent(component)
     }
 
     class GradientMaker(private val component: GradientMakerComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "gradientType" to component.gradientType,
+            "angle" to component.angle,
+            "opacity" to component.gradientAlpha
+        )
+
         @Composable
         override fun Content() = GradientMakerContent(component)
     }
 
     class ImagePreview(private val component: ImagePreviewComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris
+        )
+
         @Composable
         override fun Content() = ImagePreviewContent(component)
     }
 
     class ImageSplitting(private val component: ImageSplitterComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri)
+        )
+
         @Composable
         override fun Content() = ImageSplitterContent(component)
     }
 
     class ImageStacking(private val component: ImageStackingComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.stackImages.map { it.uri.toUri() },
+            "imageFormat" to component.imageInfo.imageFormat.title
+        )
+
         @Composable
         override fun Content() = ImageStackingContent(component)
     }
 
     class Photomosaic(private val component: PhotomosaicComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "tileCount" to component.tileUris.size
+        )
+
         @Composable
         override fun Content() = PhotomosaicContent(component)
     }
 
     class MultiFrameFusion(private val component: MultiFrameFusionComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "canProcess" to component.canProcess
+        )
+
         @Composable
         override fun Content() = MultiFrameFusionContent(component)
     }
 
     class CompressionLab(private val component: CompressionLabComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "mode" to component.searchMode,
+            "quality" to component.manualQuality,
+            "targetQuality" to component.targetQuality,
+            "targetSizeKb" to component.targetSizeKb,
+            "formats" to component.selectedFormats.joinToString { it.title }
+        )
+
         @Composable
         override fun Content() = CompressionLabContent(component)
     }
@@ -397,6 +556,11 @@ internal sealed interface NavigationChild {
     }
 
     class ScreenshotFraming(private val component: ScreenshotFramingComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "isPreviewLoading" to component.isPreviewLoading
+        )
+
         @Composable
         override fun Content() = ScreenshotFramingContent(component)
     }
@@ -416,16 +580,48 @@ internal sealed interface NavigationChild {
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageInfo.imageFormat.title,
+            "quality" to component.imageInfo.quality.qualityValue
+        )
+
         @Composable
         override fun Content() = ImageStitchingContent(component)
     }
 
     class JxlTools(private val component: JxlToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) =
+            Screen.JxlTools(component.type).assistantScreen(
+                when (val type = component.type) {
+                    is Screen.JxlTools.Type.JxlToJpeg -> type.jxlImageUris.orEmpty()
+                    is Screen.JxlTools.Type.JpegToJxl -> type.jpegImageUris.orEmpty()
+                    is Screen.JxlTools.Type.JxlToImage -> listOfNotNull(type.jxlUri)
+                    is Screen.JxlTools.Type.ImageToJxl -> type.imageUris.orEmpty()
+                    is Screen.JxlTools.Type.JxlToGif -> type.jxlUris.orEmpty()
+                    is Screen.JxlTools.Type.JxlToApng -> type.jxlUris.orEmpty()
+                    is Screen.JxlTools.Type.JxlToWebp -> type.jxlUris.orEmpty()
+                    is Screen.JxlTools.Type.MergeJxl -> type.jxlUris.orEmpty()
+                    null -> emptyList()
+                },
+                "mode" to component.type?.title?.let(appContext::getString),
+                "imageFormat" to component.imageFormat.title,
+                "isSaving" to component.isSaving
+            )
+
         @Composable
         override fun Content() = JxlToolsContent(component)
     }
 
     class LimitResize(private val component: LimitsResizeComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageInfo.imageFormat.title,
+            "width" to component.imageInfo.width,
+            "height" to component.imageInfo.height,
+            "keepExif" to component.keepExif
+        )
+
         @Composable
         override fun Content() = LimitsResizeContent(component)
     }
@@ -441,16 +637,40 @@ internal sealed interface NavigationChild {
     }
 
     class FractalGeneration(private val component: FractalGenerationComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "width" to component.outputSize.width,
+            "height" to component.outputSize.height
+        )
+
         @Composable
         override fun Content() = FractalGenerationContent(component)
     }
 
     class NoiseGeneration(private val component: NoiseGenerationComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "width" to component.noiseSize.width,
+            "height" to component.noiseSize.height
+        )
+
         @Composable
         override fun Content() = NoiseGenerationContent(component)
     }
 
     class TextureGeneration(private val component: TextureGenerationComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "width" to component.textureSize.width,
+            "height" to component.textureSize.height
+        )
+
         @Composable
         override fun Content() = TextureGenerationContent(component)
     }
@@ -485,6 +705,13 @@ internal sealed interface NavigationChild {
     class ResizeAndConvert(private val component: ResizeAndConvertComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = Screen.Assistant(
             source = Screen.ResizeAndConvert(component.uris),
+            parameters = mapOf(
+                "imageFormat" to component.imageInfo.imageFormat.title,
+                "quality" to component.imageInfo.quality.qualityValue.toString(),
+                "width" to component.imageInfo.width.toString(),
+                "height" to component.imageInfo.height.toString(),
+                "keepExif" to component.keepExif.toString()
+            ),
             selectedUris = component.uris.orEmpty()
         )
 
@@ -522,6 +749,12 @@ internal sealed interface NavigationChild {
         private val component: SettingsComponent,
         private val categoryId: Int
     ) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = Screen.Assistant(
+            source = Screen.Settings(component.searchKeyword, component.targetSetting),
+            settingKey = (component.filteredSettings?.singleOrNull()?.second
+                ?: component.targetSetting)?.key()
+        )
+
         @Composable
         override fun Content() = SettingsCategoryContent(component, categoryId)
     }
@@ -544,6 +777,14 @@ internal sealed interface NavigationChild {
     class SingleEdit(private val component: SingleEditComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = Screen.Assistant(
             source = Screen.SingleEdit(component.uri.takeUnless { it == Uri.EMPTY }),
+            parameters = mapOf(
+                "imageFormat" to component.imageInfo.imageFormat.title,
+                "quality" to component.imageInfo.quality.qualityValue.toString(),
+                "width" to component.imageInfo.width.toString(),
+                "height" to component.imageInfo.height.toString(),
+                "filterCount" to component.filterList.size.toString(),
+                "strokeCount" to component.drawPaths.size.toString()
+            ),
             selectedUris = listOfNotNull(component.uri.takeUnless { it == Uri.EMPTY })
         )
 
@@ -552,16 +793,44 @@ internal sealed interface NavigationChild {
     }
 
     class SvgMaker(private val component: SvgMakerComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "isSaving" to component.isSaving
+        )
+
         @Composable
         override fun Content() = SvgMakerContent(component)
     }
 
     class Watermarking(private val component: WatermarkingComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "keepExif" to component.keepExif
+        )
+
         @Composable
         override fun Content() = WatermarkingContent(component)
     }
 
     class WebpTools(private val component: WebpToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) =
+            Screen.WebpTools(component.type).assistantScreen(
+                when (val type = component.type) {
+                    is Screen.WebpTools.Type.WebpToImage -> listOfNotNull(type.webpUri)
+                    is Screen.WebpTools.Type.ImageToWebp -> type.imageUris.orEmpty()
+                    is Screen.WebpTools.Type.WebpToGif -> type.webpUris.orEmpty()
+                    is Screen.WebpTools.Type.WebpToApng -> type.webpUris.orEmpty()
+                    is Screen.WebpTools.Type.WebpToJxl -> type.webpUris.orEmpty()
+                    is Screen.WebpTools.Type.MergeWebp -> type.webpUris.orEmpty()
+                    null -> emptyList()
+                },
+                "mode" to component.type?.title?.let(appContext::getString),
+                "imageFormat" to component.imageFormat.title,
+                "isSaving" to component.isSaving
+            )
+
         @Composable
         override fun Content() = WebpToolsContent(component)
     }
@@ -571,7 +840,9 @@ internal sealed interface NavigationChild {
             source = Screen.WeightResize(uris = component.uris),
             parameters = mapOf(
                 "maxBytes" to component.maxBytes.toString(),
-                "keepExif" to component.keepExif.toString()
+                "imageFormat" to component.imageFormat.title,
+                "keepExif" to component.keepExif.toString(),
+                "saveIfSmaller" to component.saveIfSmaller.toString()
             ),
             selectedUris = component.uris.orEmpty()
         )
@@ -581,6 +852,12 @@ internal sealed interface NavigationChild {
     }
 
     class ArchiveTools(private val component: ArchiveToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "mode" to component.mode,
+            "passwordProtection" to component.protectWithPassword
+        )
+
         @Composable
         override fun Content() = ArchiveToolsContent(component)
     }
@@ -601,16 +878,35 @@ internal sealed interface NavigationChild {
     }
 
     class MarkupLayers(private val component: MarkupLayersComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            null,
+            "imageFormat" to component.imageFormat.title,
+            "layerCount" to component.layers.size,
+            "keepExif" to component.saveExif
+        )
+
         @Composable
         override fun Content() = MarkupLayersContent(component)
     }
 
     class Base64Tools(private val component: Base64ToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue
+        )
+
         @Composable
         override fun Content() = Base64ToolsContent(component)
     }
 
     class ChecksumTools(private val component: ChecksumToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.calculateFromUriPage.uri, component.compareWithUriPage.uri) +
+                    component.compareWithUrisPage.uris.map { it.uri },
+            "hashingType" to component.hashingType
+        )
+
         @Composable
         override fun Content() = ChecksumToolsContent(component)
     }
@@ -621,11 +917,22 @@ internal sealed interface NavigationChild {
     }
 
     class EditExif(private val component: EditExifComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOf(component.uri),
+            "imageFormat" to component.imageFormat.title
+        )
+
         @Composable
         override fun Content() = EditExifContent(component)
     }
 
     class ImageCutter(private val component: ImageCutterComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue
+        )
+
         @Composable
         override fun Content() = ImageCutterContent(component)
     }
@@ -633,6 +940,13 @@ internal sealed interface NavigationChild {
     class AudioCoverExtractor(
         private val component: AudioCoverExtractorComponent
     ) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.covers.map { it.audioUri },
+            "imageFormat" to component.imageFormat.title,
+            "quality" to component.quality.qualityValue,
+            "isSaving" to component.isSaving
+        )
+
         @Composable
         override fun Content() = AudioCoverExtractorContent(component)
     }
@@ -648,11 +962,23 @@ internal sealed interface NavigationChild {
     }
 
     class AsciiArt(private val component: AsciiArtComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOf(component.uri),
+            "fontSize" to component.fontSize,
+            "invertImage" to component.isInvertImage
+        )
+
         @Composable
         override fun Content() = AsciiArtContent(component)
     }
 
     class AiTools(private val component: AiToolsComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "model" to component.selectedModel.value?.title,
+            "imageFormat" to component.imageFormat?.title
+        )
+
         @Composable
         override fun Content() = AiToolsContent(component)
     }
@@ -663,156 +989,322 @@ internal sealed interface NavigationChild {
     }
 
     class MergePdfTool(private val component: MergePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = MergePdfToolContent(component)
     }
 
     class ComparePdfTool(private val component: ComparePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.firstUri, component.secondUri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ComparePdfToolContent(component)
     }
 
     class ResizePdfPagesTool(private val component: ResizePdfPagesToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ResizePdfPagesToolContent(component)
     }
 
     class SanitizePdfTool(private val component: SanitizePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = SanitizePdfToolContent(component)
     }
 
     class SplitPdfTool(private val component: SplitPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = SplitPdfToolContent(component)
     }
 
     class RotatePdfTool(private val component: RotatePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = RotatePdfToolContent(component)
     }
 
     class RearrangePdfTool(private val component: RearrangePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = RearrangePdfToolContent(component)
     }
 
     class PageNumbersPdfTool(private val component: PageNumbersPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = PageNumbersPdfToolContent(component)
     }
 
     class OCRPdfTool(private val component: OCRPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = OCRPdfToolContent(component)
     }
 
     class WatermarkPdfTool(private val component: WatermarkPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = WatermarkPdfToolContent(component)
     }
 
     class SignaturePdfTool(private val component: SignaturePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = SignaturePdfToolContent(component)
     }
 
     class ProtectPdfTool(private val component: ProtectPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ProtectPdfToolContent(component)
     }
 
     class UnlockPdfTool(private val component: UnlockPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = UnlockPdfToolContent(component)
     }
 
     class CompressPdfTool(private val component: CompressPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = CompressPdfToolContent(component)
     }
 
     class GrayscalePdfTool(private val component: GrayscalePdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = GrayscalePdfToolContent(component)
     }
 
     class PdfDarkModeTool(private val component: PdfDarkModeToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = PdfDarkModeToolContent(component)
     }
 
     class RepairPdfTool(private val component: RepairPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = RepairPdfToolContent(component)
     }
 
     class MetadataPdfTool(private val component: MetadataPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = MetadataPdfToolContent(component)
     }
 
     class RemovePagesPdfTool(private val component: RemovePagesPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = RemovePagesPdfToolContent(component)
     }
 
     class CropPdfTool(private val component: CropPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = CropPdfToolContent(component)
     }
 
     class FlattenPdfTool(private val component: FlattenPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = FlattenPdfToolContent(component)
     }
 
     class ExtractImagesPdfTool(private val component: ExtractImagesPdfToolComponent) :
         NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ExtractImagesPdfToolContent(component)
     }
 
     class ZipConvertPdfTool(private val component: ZipConvertPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ZipConvertPdfToolContent(component)
     }
 
     class ComicToPdfTool(private val component: ComicToPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ComicToPdfToolContent(component)
     }
 
     class PrintPdfTool(private val component: PrintPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = PrintPdfToolContent(component)
     }
 
     class PreviewPdfTool(private val component: PreviewPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = PreviewPdfToolContent(component)
     }
 
     class ImagesToPdfTool(private val component: ImagesToPdfToolComponent) : NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "quality" to component.quality,
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ImagesToPdfToolContent(component)
     }
 
     class PdfContactSheetTool(private val component: PdfContactSheetToolComponent) :
         NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            component.uris,
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = PdfContactSheetToolContent(component)
     }
 
     class ExtractPagesPdfTool(private val component: ExtractPagesPdfToolComponent) :
         NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = ExtractPagesPdfToolContent(component)
     }
 
     class RemoveAnnotationsPdfTool(private val component: RemoveAnnotationsPdfToolComponent) :
         NavigationChild {
+        override fun assistantScreen(source: Screen?) = source.assistantScreen(
+            listOfNotNull(component.uri),
+            "haveChanges" to component.haveChanges
+        )
+
         @Composable
         override fun Content() = RemoveAnnotationsPdfToolContent(component)
     }
 }
+
+
+private fun Screen?.assistantScreen(
+    uris: List<Uri>? = null,
+    vararg parameters: Pair<String, Any?>
+): Screen.Assistant = Screen.Assistant(
+    source = this,
+    selectedUris = uris.orEmpty().filter { it != Uri.EMPTY }.distinct(),
+    parameters = buildMap {
+        this@assistantScreen?.let { put("toolKey", it.simpleName) }
+        parameters.forEach { (key, value) ->
+            value?.let { put(key, it.toString()) }
+        }
+    }
+)

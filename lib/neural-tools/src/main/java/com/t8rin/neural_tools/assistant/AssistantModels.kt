@@ -25,6 +25,7 @@ import ai.onnxruntime.genai.Model
 import ai.onnxruntime.genai.Tokenizer
 import android.os.Build
 import android.os.Process
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.neural_tools.BuildConfig
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.ModelFiles
@@ -58,20 +59,12 @@ class AssistantModels(
         "Assistant input exceeds $MAX_PROMPT_TOKENS tokens: $tokenCount"
     )
 
-    enum class Variant(
-        val id: String,
-        val displayName: String
-    ) {
-        Lite("lite", "Qwen3 0.6B"),
-        Advanced("advanced", "Qwen3 1.7B")
-    }
-
     enum class Phase {
         Missing, Downloading, Verifying, Installed, Error
     }
 
     data class ModelState(
-        val variant: Variant,
+        val variant: AssistantModel,
         val installed: Boolean,
         val downloadSize: Long?,
         val installedSize: Long,
@@ -91,7 +84,7 @@ class AssistantModels(
             require(isRelativePath(path))
         }
 
-        internal fun url(variant: Variant, filename: String): String =
+        internal fun url(variant: AssistantModel, filename: String): String =
             "https://huggingface.co/$repository/resolve/$revision/$path/${variant.id}/$filename?download=true"
     }
 
@@ -108,13 +101,13 @@ class AssistantModels(
     private var activeTokenizer: Tokenizer? = null
 
     @Volatile
-    private var activeVariant: Variant? = null
+    private var activeVariant: AssistantModel? = null
 
     private val directory: File
         get() = File(context.filesDir, "ai_models/assistant")
 
     suspend fun installations(): List<ModelState> = withContext(Dispatchers.IO) {
-        Variant.entries.forEach { variant ->
+        AssistantModel.entries.forEach { variant ->
             val lock = packageLocks.getValue(variant)
             while (!lock.tryLock()) {
                 val state = states.value.single { it.variant == variant }
@@ -145,7 +138,7 @@ class AssistantModels(
     }
 
     suspend fun download(
-        variant: Variant,
+        variant: AssistantModel,
         onProgress: suspend (DownloadProgress) -> Unit
     ) = withContext(Dispatchers.IO) {
         val job = checkNotNull(currentCoroutineContext()[Job])
@@ -166,12 +159,12 @@ class AssistantModels(
         }
     }
 
-    fun cancelDownload(variant: Variant) {
+    fun cancelDownload(variant: AssistantModel) {
         downloadJobs[variant]?.cancel(CancellationException("Assistant model download cancelled"))
     }
 
     private suspend fun downloadPackage(
-        variant: Variant,
+        variant: AssistantModel,
         onProgress: suspend (DownloadProgress) -> Unit
     ) {
         val modelPackage = AssistantModelFiles[variant]
@@ -192,6 +185,11 @@ class AssistantModels(
                 return
             }
             check(staging.mkdirs() || staging.isDirectory)
+            val filenames = modelPackage.files.map { it.name }.toSet()
+            checkNotNull(staging.listFiles()).forEach { file ->
+                currentCoroutineContext().ensureActive()
+                if (file.name !in filenames) check(file.deleteRecursively())
+            }
             updateState(variant) {
                 ModelState(variant, false, modelPackage.size, 0L, Phase.Downloading, progress = 0f)
             }
@@ -230,7 +228,7 @@ class AssistantModels(
         }
     }
 
-    suspend fun delete(variant: Variant) {
+    suspend fun delete(variant: AssistantModel) {
         if (activeVariant == variant) cancel()
         withContext(Dispatchers.IO) {
             packageLocks.getValue(variant).withLock {
@@ -256,7 +254,7 @@ class AssistantModels(
     }
 
     suspend fun generate(
-        variant: Variant,
+        variant: AssistantModel,
         prompt: String,
         onToken: suspend (String) -> Unit
     ) = withContext(Dispatchers.Default) {
@@ -407,7 +405,7 @@ class AssistantModels(
         }
 
     private fun files(
-        variant: Variant,
+        variant: AssistantModel,
         directory: File,
         modelPackage: AssistantModelFiles
     ): ModelFiles = ModelFiles(
@@ -428,7 +426,10 @@ class AssistantModels(
         }
     }
 
-    private suspend fun recover(variant: Variant, modelPackage: AssistantModelFiles): Boolean {
+    private suspend fun recover(
+        variant: AssistantModel,
+        modelPackage: AssistantModelFiles
+    ): Boolean {
         val target = directory.resolve(variant.id)
         val previous = directory.resolve(".${variant.id}.previous")
         if (isInstalled(target, modelPackage)) {
@@ -473,7 +474,7 @@ class AssistantModels(
         verified[key] = signature
     }
 
-    private fun updateState(variant: Variant, update: (ModelState) -> ModelState) {
+    private fun updateState(variant: AssistantModel, update: (ModelState) -> ModelState) {
         _states.update { states -> states.map { if (it.variant == variant) update(it) else it } }
     }
 
@@ -483,12 +484,12 @@ class AssistantModels(
         const val MAX_OUTPUT_TOKENS = 1024
         private const val VERIFY_BUFFER_SIZE = 1024 * 1024
         private const val MAX_SOURCE_PATH_LENGTH = 256
-        private val packageLocks = Variant.entries.associateWith { Mutex() }
-        private val downloadJobs = ConcurrentHashMap<Variant, Job>()
+        private val packageLocks = AssistantModel.entries.associateWith { Mutex() }
+        private val downloadJobs = ConcurrentHashMap<AssistantModel, Job>()
         private val verified =
             ConcurrentHashMap<Pair<File, AssistantModelFiles>, List<Pair<Long, Long>>>()
         private val _states = MutableStateFlow(
-            Variant.entries.map { ModelState(it, false, AssistantModelFiles[it].size, 0L) }
+            AssistantModel.entries.map { ModelState(it, false, AssistantModelFiles[it].size, 0L) }
         )
 
         fun isSupported(): Boolean = Process.is64Bit() &&
