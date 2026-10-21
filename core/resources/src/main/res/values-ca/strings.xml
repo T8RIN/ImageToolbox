@@ -376,7 +376,7 @@
     <string name="copy">Copia</string>
     <string name="warning_bytes">Desar en mode %1$s pot ser inestable, perquè és un format sense pèrdues</string>
     <string name="presets_sub" formatted="false">Si heu seleccionat el valor predefinit 125, la imatge es desarà com a mida del 125% de la imatge original amb una qualitat del 100%. Si trieu el valor predefinit 50, la imatge es desarà amb un 50% de mida i un 50% de qualitat.</string>
-    <string name="presets_sub_bytes">El valor predefinit aquí determina el percentatge del fitxer de sortida, és a dir, si seleccioneu el valor predefinit 50 en una imatge de 5 MB, obtindreu una imatge de 2,5 MB després de desar-lo.</string>
+    <string name="presets_sub_bytes" formatted="false">El valor predefinit aquí determina el percentatge del fitxer de sortida, és a dir, si seleccioneu el valor predefinit 50 en una imatge de 5 MB, obtindreu una imatge de 2,5 MB després de desar-lo.</string>
     <string name="randomize_filename">Aleatoritzar el nom del fitxer</string>
     <string name="randomize_filename_sub">Si està activat, el nom del fitxer de sortida serà totalment aleatori</string>
     <string name="saved_to">S\'ha desat a la carpeta %1$s amb el nom %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Tonificació de soroll uniforme suau per a una textura subtil i un aspecte suau.</string>
     <string name="model_repainter">Repara les zones danyades o irregulars tornant a pintar els artefactes i millorar la consistència de la imatge.</string>
     <string name="model_debandurh_fs_ultra_lite">Model de desbandada lleuger que elimina les bandes de color amb un cost de rendiment mínim.</string>
-    <string name="model_jpeg_0_20">Optimitza les imatges amb artefactes de compressió molt alts (0-20% de qualitat) per millorar la claredat.</string>
-    <string name="model_jpeg_20_40">Millora les imatges amb artefactes de compressió alta (20-40% de qualitat), restaurant els detalls i reduint el soroll.</string>
-    <string name="model_jpeg_40_60">Millora les imatges amb una compressió moderada (40-60% de qualitat), equilibrant la nitidesa i la suavitat.</string>
-    <string name="model_jpeg_60_80">Perfecciona les imatges amb una compressió lleugera (60-80% de qualitat) per millorar els detalls i les textures subtils.</string>
-    <string name="model_jpeg_80_100">Millora lleugerament les imatges gairebé sense pèrdues (qualitat del 80-100%) alhora que conserva l\'aspecte i els detalls naturals.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimitza les imatges amb artefactes de compressió molt alts (0-20% de qualitat) per millorar la claredat.</string>
+    <string name="model_jpeg_20_40" formatted="false">Millora les imatges amb artefactes de compressió alta (20-40% de qualitat), restaurant els detalls i reduint el soroll.</string>
+    <string name="model_jpeg_40_60" formatted="false">Millora les imatges amb una compressió moderada (40-60% de qualitat), equilibrant la nitidesa i la suavitat.</string>
+    <string name="model_jpeg_60_80" formatted="false">Perfecciona les imatges amb una compressió lleugera (60-80% de qualitat) per millorar els detalls i les textures subtils.</string>
+    <string name="model_jpeg_80_100" formatted="false">Millora lleugerament les imatges gairebé sense pèrdues (qualitat del 80-100%) alhora que conserva l\'aspecte i els detalls naturals.</string>
     <string name="model_spongecolor_lite">Colorització senzilla i ràpida, dibuixos animats, no ideals</string>
     <string name="model_deblr">Redueix lleugerament el desenfocament de la imatge, millorant la nitidesa sense introduir artefactes.</string>
     <string name="processing_channel">Operacions de llarga durada</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Converteix totes les imatges incrustades del document a escala de grisos</string>
     <string name="compress_pdf">Comprimir PDF</string>
     <string name="compress_pdf_sub">Optimitzeu la mida del fitxer del document per compartir-lo més fàcilment</string>
-    <string name="repair_info">ImageToolbox reconstrueix la taula interna de referències creuades i regenera l\'estructura de fitxers des de zero. Això pot restaurar l\'accés a molts fitxers que \\\"no es poden obrir\\\"</string>
+    <string name="repair_info">ImageToolbox reconstrueix la taula interna de referències creuades i regenera l\'estructura de fitxers des de zero. Això pot restaurar l\'accés a molts fitxers que \"no es poden obrir\"</string>
     <string name="grayscale_info">Aquesta eina converteix totes les imatges del document a escala de grisos. El millor per imprimir i reduir la mida del fitxer</string>
     <string name="metadata">Metadades</string>
     <string name="metadata_pdf_sub">Editeu les propietats del document per a una millor privadesa</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">El nom de l\'ombra no ha de quedar en blanc.</string>
     <string name="shader_error_blank_source">La font de l\'ombra no ha d\'estar en blanc.</string>
     <string name="shader_error_unsupported_characters">La font d\'ombra conté caràcters no admesos: %1$s. Utilitzeu només la font ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">El paràmetre \\\"%1$s\\\" es declara més d\'una vegada.</string>
+    <string name="shader_error_duplicate_parameter">El paràmetre \"%1$s\" es declara més d\'una vegada.</string>
     <string name="shader_error_blank_parameter_name">Els noms dels paràmetres no poden quedar en blanc.</string>
-    <string name="shader_error_reserved_parameter_name">El paràmetre \\\"%1$s\\\" utilitza un nom reservat de GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">El paràmetre \\\"%1$s\\\" ha de ser un identificador GLSL vàlid.</string>
-    <string name="shader_error_invalid_value_type">El paràmetre \\\"%1$s\\\" té el tipus de valor %2$s \\\"%3$s\\\", esperat \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">El paràmetre \\\"%1$s\\\" no pot definir el mínim ni el màxim per als valors bool.</string>
-    <string name="shader_error_min_greater_than_max">El paràmetre \\\"%1$s\\\" té un mínim més gran que un màxim.</string>
-    <string name="shader_error_default_lower_than_min">El paràmetre \\\"%1$s\\\" per defecte és inferior al min.</string>
-    <string name="shader_error_default_greater_than_max">El paràmetre \\\"%1$s\\\" per defecte és superior al màxim.</string>
-    <string name="shader_error_missing_input_texture">Shader ha de declarar \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader ha de declarar \\\"vec2 variable %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader ha de definir \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">El paràmetre \"%1$s\" utilitza un nom reservat de GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">El paràmetre \"%1$s\" ha de ser un identificador GLSL vàlid.</string>
+    <string name="shader_error_invalid_value_type">El paràmetre \"%1$s\" té el tipus de valor %2$s \"%3$s\", esperat \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">El paràmetre \"%1$s\" no pot definir el mínim ni el màxim per als valors bool.</string>
+    <string name="shader_error_min_greater_than_max">El paràmetre \"%1$s\" té un mínim més gran que un màxim.</string>
+    <string name="shader_error_default_lower_than_min">El paràmetre \"%1$s\" per defecte és inferior al min.</string>
+    <string name="shader_error_default_greater_than_max">El paràmetre \"%1$s\" per defecte és superior al màxim.</string>
+    <string name="shader_error_missing_input_texture">Shader ha de declarar \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader ha de declarar \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader ha de definir \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader ha d\'escriure un color a gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Els shaders mainImage de ShaderToy no són compatibles. Utilitzeu el contracte void main() de GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">L\'uniforme animat de ShaderToy \\\"iTime\\\" no és compatible.</string>
-    <string name="shader_error_shadertoy_i_frame">L\'uniforme animat de ShaderToy \\\"iFrame\\\" no és compatible.</string>
-    <string name="shader_error_shadertoy_i_resolution">L\'uniforme \\\"iResolution\\\" de ShaderToy no és compatible.</string>
+    <string name="shader_error_shadertoy_i_time">L\'uniforme animat de ShaderToy \"iTime\" no és compatible.</string>
+    <string name="shader_error_shadertoy_i_frame">L\'uniforme animat de ShaderToy \"iFrame\" no és compatible.</string>
+    <string name="shader_error_shadertoy_i_resolution">L\'uniforme \"iResolution\" de ShaderToy no és compatible.</string>
     <string name="shader_error_shadertoy_i_channel">Les textures iChannel de ShaderToy no són compatibles.</string>
     <string name="shader_error_external_textures">Les textures externes no s\'admeten.</string>
     <string name="shader_error_external_texture_extensions">Les extensions de textures externes no són compatibles.</string>
     <string name="shader_error_libretro_parameters">Els paràmetres de l\'ombra de Libretro no són compatibles.</string>
-    <string name="shader_error_extra_input_texture">Només s\'admet una textura d\'entrada. Elimina \\\"uniforme %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">El paràmetre \\\"%1$s\\\" s\'ha de declarar com a \\\"uniforme %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">El paràmetre \\\"%1$s\\\" es declara com a \\\"uniform %2$s %1$s;\\\", esperat \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Només s\'admet una textura d\'entrada. Elimina \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">El paràmetre \"%1$s\" s\'ha de declarar com a \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">El paràmetre \"%1$s\" es declara com a \"uniform %2$s %1$s;\", esperat \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">El fitxer shader està buit.</string>
     <string name="shader_parse_error_not_itshader_json">El fitxer shader ha de ser un objecte JSON .itshader amb camps de versió, nom i shader.</string>
     <string name="shader_parse_error_invalid_json">El fitxer Shader no és un JSON vàlid o no coincideix amb el format .itshader.</string>
-    <string name="shader_parse_error_missing_field">El camp \\\"%1$s\\\" és obligatori.</string>
+    <string name="shader_parse_error_missing_field">El camp \"%1$s\" és obligatori.</string>
     <string name="shader_parse_error_missing_param_field">%1$s és obligatori.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" no és compatible. Tipus compatibles: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s és necessari per als paràmetres \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" no és compatible. Tipus compatibles: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s és necessari per als paràmetres \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ha de ser un nombre finit.</string>
     <string name="shader_parse_error_integer_expected">%1$s ha de ser un nombre enter.</string>
     <string name="shader_parse_error_bool_expected">%1$s ha de ser vertader o fals.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Exportar perfils</string>
     <string name="save_export_profile">Desa el perfil actual</string>
     <string name="delete_export_profile">Suprimeix el perfil d\'exportació</string>
-    <string name="delete_export_profile_sub">Voleu suprimir el perfil d\'exportació \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Voleu suprimir el perfil d\'exportació \"%1$s\"?</string>
     <string name="draw_bitmap_border">Dibuix de vora</string>
     <string name="draw_bitmap_border_sub">Mostra una vora fina al voltant del dibuix i esborra el llenç</string>
     <string name="wavy">Ondulat</string>

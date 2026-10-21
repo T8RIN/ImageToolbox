@@ -334,8 +334,8 @@
     <string name="skip">Praleisti</string>
     <string name="copy">Kopijuoti</string>
     <string name="warning_bytes">Įrašymas %1$s režimu gali būti nestabilus, nes tai yra be nuostolių formatas</string>
-    <string name="presets_sub">Jei pasirinkote išankstinį nustatymą 125, vaizdas bus išsaugotas kaip 125% pradinio vaizdo dydžio. Jei pasirinksite iš anksto nustatytą 50, vaizdas bus išsaugotas 50% dydžiu</string>
-    <string name="presets_sub_bytes">Iš anksto nustatytas čia nustato išvesties failo %, t. y. jei pasirinksite iš anksto nustatytą 50 5 MB vaizde, tada išsaugoję gausite 2,5 MB vaizdą</string>
+    <string name="presets_sub" formatted="false">Jei pasirinkote išankstinį nustatymą 125, vaizdas bus išsaugotas kaip 125% pradinio vaizdo dydžio. Jei pasirinksite iš anksto nustatytą 50, vaizdas bus išsaugotas 50% dydžiu</string>
+    <string name="presets_sub_bytes" formatted="false">Iš anksto nustatytas čia nustato išvesties failo %, t. y. jei pasirinksite iš anksto nustatytą 50 5 MB vaizde, tada išsaugoję gausite 2,5 MB vaizdą</string>
     <string name="randomize_filename">Atsitiktinai nustatyti failo pavadinimą</string>
     <string name="randomize_filename_sub">Jei įjungta, išvesties failo pavadinimas bus visiškai atsitiktinis</string>
     <string name="saved_to">Išsaugota %1$s aplanke pavadinimu %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Švelnus vienodas triukšmo tonizavimas subtiliai tekstūrai ir lygiai išvaizdai.</string>
     <string name="model_repainter">Taiso pažeistas ar nelygias vietas perdažydamas artefaktus ir pagerindamas vaizdo nuoseklumą.</string>
     <string name="model_debandurh_fs_ultra_lite">Lengvas juostų pašalinimo modelis, kuris pašalina spalvų juostas su minimaliomis eksploatacinėmis sąnaudomis.</string>
-    <string name="model_jpeg_0_20">Optimizuoja vaizdus su labai dideliu suspaudimo artefaktu (0–20 % kokybė), kad būtų geresnis aiškumas.</string>
-    <string name="model_jpeg_20_40">Patobulina vaizdus su didelio suspaudimo artefaktais (20–40 % kokybė), atkuria detales ir sumažina triukšmą.</string>
-    <string name="model_jpeg_40_60">Pagerina vaizdus su vidutiniu suspaudimu (40–60 % kokybė), subalansuojant ryškumą ir lygumą.</string>
-    <string name="model_jpeg_60_80">Patobulina vaizdus su lengvu suspaudimu (60–80 % kokybė), kad paryškintų subtilias detales ir tekstūras.</string>
-    <string name="model_jpeg_80_100">Šiek tiek pagerina beveik neprarandančius vaizdus (80–100 % kokybė), išsaugant natūralią išvaizdą ir detales.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimizuoja vaizdus su labai dideliu suspaudimo artefaktu (0–20 % kokybė), kad būtų geresnis aiškumas.</string>
+    <string name="model_jpeg_20_40" formatted="false">Patobulina vaizdus su didelio suspaudimo artefaktais (20–40 % kokybė), atkuria detales ir sumažina triukšmą.</string>
+    <string name="model_jpeg_40_60" formatted="false">Pagerina vaizdus su vidutiniu suspaudimu (40–60 % kokybė), subalansuojant ryškumą ir lygumą.</string>
+    <string name="model_jpeg_60_80" formatted="false">Patobulina vaizdus su lengvu suspaudimu (60–80 % kokybė), kad paryškintų subtilias detales ir tekstūras.</string>
+    <string name="model_jpeg_80_100" formatted="false">Šiek tiek pagerina beveik neprarandančius vaizdus (80–100 % kokybė), išsaugant natūralią išvaizdą ir detales.</string>
     <string name="model_spongecolor_lite">Paprastas ir greitas spalvinimas, animaciniai filmukai, ne idealu</string>
     <string name="model_deblr">Šiek tiek sumažina vaizdo susiliejimą, pagerina ryškumą, neįvedant artefaktų.</string>
     <string name="processing_channel">Ilgos operacijos</string>
@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">Konvertuoti visus dokumento įterptus vaizdus į pilkos spalvos tonus</string>
     <string name="compress_pdf">Suspausti PDF</string>
     <string name="compress_pdf_sub">Optimizuokite dokumento failo dydį, kad būtų lengviau bendrinti</string>
-    <string name="repair_info">„ImageToolbox“ atkuria vidinę kryžminių nuorodų lentelę ir atkuria failo struktūrą nuo nulio. Tai gali atkurti prieigą prie daugelio failų, kurių \\\"negalima atidaryti\\\"</string>
+    <string name="repair_info">„ImageToolbox“ atkuria vidinę kryžminių nuorodų lentelę ir atkuria failo struktūrą nuo nulio. Tai gali atkurti prieigą prie daugelio failų, kurių \"negalima atidaryti\"</string>
     <string name="grayscale_info">Šis įrankis konvertuoja visus dokumentų vaizdus į pilkos spalvos tonus. Geriausiai tinka spausdinti ir sumažinti failo dydį</string>
     <string name="metadata">Metaduomenys</string>
     <string name="metadata_pdf_sub">Redaguokite dokumento ypatybes, kad užtikrintumėte didesnį privatumą</string>
@@ -2344,7 +2344,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parametrai</string>
     <string name="shader_source">Shader šaltinis</string>
-    <string name="shader_main_body_info">Parašykite tik galios main() turinį. Naudokite textureCoordinate UV koordinatėms ir inputImageTexture kaip šaltinio mėginių ėmimo priemonę.</string>
+    <string name="shader_main_body_info">Parašykite tik void main() turinį. Naudokite textureCoordinate UV koordinatėms ir inputImageTexture kaip šaltinio mėginių ėmimo priemonę.</string>
     <string name="shader_helper_code">Funkcijos</string>
     <string name="shader_helper_code_info">Pasirenkamos pagalbinės funkcijos, konstantos ir struktūros, įterptos prieš void main(). Uniformos generuojamos iš parametrų.</string>
     <string name="shader_no_parameters">Pridėkite uniformas čia, kai šešėliui reikia redaguojamų verčių.</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">Shader pavadinimo laukas negali būti tuščias.</string>
     <string name="shader_error_blank_source">Shader šaltinio laukas negali būti tuščias.</string>
     <string name="shader_error_unsupported_characters">Shader šaltinyje yra nepalaikomų simbolių: %1$s. Naudokite tik ASCII GLSL šaltinį.</string>
-    <string name="shader_error_duplicate_parameter">Parametras \\\"%1$s\\\" deklaruojamas daugiau nei vieną kartą.</string>
+    <string name="shader_error_duplicate_parameter">Parametras \"%1$s\" deklaruojamas daugiau nei vieną kartą.</string>
     <string name="shader_error_blank_parameter_name">Parametrų pavadinimų laukas negali būti tuščias.</string>
-    <string name="shader_error_reserved_parameter_name">Parametras \\\"%1$s\\\" naudoja rezervuotą GPUI vaizdo pavadinimą.</string>
-    <string name="shader_error_invalid_parameter_name">Parametras \\\"%1$s\\\" turi būti galiojantis GLSL identifikatorius.</string>
-    <string name="shader_error_invalid_value_type">Parametras \\\"%1$s\\\" turi %2$s vertės tipą \\\"%3$s\\\", numatomas \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parametras \\\"%1$s\\\" negali apibrėžti minimalios arba didžiausios būties reikšmių.</string>
-    <string name="shader_error_min_greater_than_max">Parametras \\\"%1$s\\\" yra mažesnis nei maks.</string>
-    <string name="shader_error_default_lower_than_min">Numatytasis parametras \\\"%1$s\\\" yra mažesnis nei min.</string>
-    <string name="shader_error_default_greater_than_max">Numatytasis parametras \\\"%1$s\\\" yra didesnis nei maks.</string>
-    <string name="shader_error_missing_input_texture">Shader turi deklaruoti \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader turi deklaruoti \\\"varying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader turi apibrėžti \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametras \"%1$s\" naudoja rezervuotą GPUI vaizdo pavadinimą.</string>
+    <string name="shader_error_invalid_parameter_name">Parametras \"%1$s\" turi būti galiojantis GLSL identifikatorius.</string>
+    <string name="shader_error_invalid_value_type">Parametras \"%1$s\" turi %2$s vertės tipą \"%3$s\", numatomas \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parametras \"%1$s\" negali apibrėžti minimalios arba didžiausios būties reikšmių.</string>
+    <string name="shader_error_min_greater_than_max">Parametras \"%1$s\" yra mažesnis nei maks.</string>
+    <string name="shader_error_default_lower_than_min">Numatytasis parametras \"%1$s\" yra mažesnis nei min.</string>
+    <string name="shader_error_default_greater_than_max">Numatytasis parametras \"%1$s\" yra didesnis nei maks.</string>
+    <string name="shader_error_missing_input_texture">Shader turi deklaruoti \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader turi deklaruoti \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader turi apibrėžti \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader turi įrašyti spalvą į gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage šešėliai nepalaikomi. Naudokite GPUImage negaliojančią pagrindinę () sutartį.</string>
-    <string name="shader_error_shadertoy_i_time">Animuota ShaderToy uniforma \\\"iTime\\\" nepalaikoma.</string>
-    <string name="shader_error_shadertoy_i_frame">Animuota ShaderToy uniforma \\\"iFrame\\\" nepalaikoma.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforma \\\"iResolution\\\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage šešėliai nepalaikomi. Naudokite GPUImage void main() sutartį.</string>
+    <string name="shader_error_shadertoy_i_time">Animuota ShaderToy uniforma \"iTime\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_i_frame">Animuota ShaderToy uniforma \"iFrame\" nepalaikoma.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniforma \"iResolution\" nepalaikoma.</string>
     <string name="shader_error_shadertoy_i_channel">„ShaderToy iChannel“ tekstūros nepalaikomos.</string>
     <string name="shader_error_external_textures">Išorinės tekstūros nepalaikomos.</string>
     <string name="shader_error_external_texture_extensions">Išoriniai tekstūros plėtiniai nepalaikomi.</string>
     <string name="shader_error_libretro_parameters">Libretro šešėlių parametrai nepalaikomi.</string>
-    <string name="shader_error_extra_input_texture">Palaikoma tik viena įvesties tekstūra. Pašalinti \\\"uniformą %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parametras \\\"%1$s\\\" turi būti deklaruotas kaip \\\"vienodas %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametras \\\"%1$s\\\" deklaruojamas kaip \\\"vienodas %2$s %1$s;\\\", numatomas \\\"vienodas %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Palaikoma tik viena įvesties tekstūra. Pašalinti \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parametras \"%1$s\" turi būti deklaruotas kaip \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametras \"%1$s\" deklaruojamas kaip \"uniform %2$s %1$s;\", numatomas \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shader failas tuščias.</string>
     <string name="shader_parse_error_not_itshader_json">Shader failas turi būti .itshader JSON objektas su versijos, pavadinimo ir šešėlio laukais.</string>
     <string name="shader_parse_error_invalid_json">Shader failas netinkamas JSON arba neatitinka .itshader formato.</string>
-    <string name="shader_parse_error_missing_field">Lauką \\\"%1$s\\\" būtina užpildyti.</string>
+    <string name="shader_parse_error_missing_field">Lauką \"%1$s\" būtina užpildyti.</string>
     <string name="shader_parse_error_missing_param_field">%1$s reikalingas.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nepalaikomas. Palaikomi tipai: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s reikalingas \\\"%2$s\\\" parametrams.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" nepalaikomas. Palaikomi tipai: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s reikalingas \"%2$s\" parametrams.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s turi būti baigtinis skaičius.</string>
     <string name="shader_parse_error_integer_expected">%1$s turi būti sveikas skaičius.</string>
     <string name="shader_parse_error_bool_expected">%1$s turi būti teisinga arba klaidinga.</string>
@@ -3277,7 +3277,7 @@
     <string name="export_profiles">Eksportuoti profilius</string>
     <string name="save_export_profile">Išsaugoti esamą profilį</string>
     <string name="delete_export_profile">Ištrinti eksporto profilį</string>
-    <string name="delete_export_profile_sub">Ar norite ištrinti eksporto profilį \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Ar norite ištrinti eksporto profilį \"%1$s\"?</string>
     <string name="draw_bitmap_border">Krašto piešimas</string>
     <string name="draw_bitmap_border_sub">Parodykite ploną kraštelį aplink piešimo ir ištrynimo drobę</string>
     <string name="wavy">Banguotas</string>

@@ -23,6 +23,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset.Percentage
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
@@ -44,6 +45,9 @@ data class SettingsState(
     val picturePickerModeInt: Int,
     val isSemanticSearchEnabled: Boolean,
     val semanticSearchSettings: SemanticSearchSettings,
+    val isAiAssistantEnabled: Boolean,
+    val isAiAssistantSetupComplete: Boolean,
+    val aiAssistantModel: AssistantModel,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -188,6 +192,9 @@ data class SettingsState(
                 picturePickerModeInt = 0,
                 isSemanticSearchEnabled = false,
                 semanticSearchSettings = SemanticSearchSettings(),
+                isAiAssistantEnabled = true,
+                isAiAssistantSetupComplete = false,
+                aiAssistantModel = AssistantModel.Lite,
                 clearCacheOnLaunch = false,
                 cacheAutoClearLimitBytes = 20L * 1024 * 1024,
                 cacheAutoClearInterval = CacheAutoClearInterval.OnAppLaunch,

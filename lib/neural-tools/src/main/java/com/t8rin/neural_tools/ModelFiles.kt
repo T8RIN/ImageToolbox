@@ -26,7 +26,9 @@ import java.security.MessageDigest
 
 internal class ModelFiles(
     private val folder: String,
-    private vararg val models: Model
+    private vararg val models: Model,
+    private val directoryOverride: File? = null,
+    private val urlForFile: ((String) -> String)? = null
 ) : NeuralTool() {
 
     data class Model(
@@ -35,7 +37,7 @@ internal class ModelFiles(
         val sha256: String
     )
 
-    private val directory get() = File(context.filesDir, "ai_models/$folder")
+    private val directory get() = directoryOverride ?: File(context.filesDir, "ai_models/$folder")
     private val verified = mutableMapOf<String, Pair<Long, Long>>()
 
     fun file(name: String) = File(directory, name)
@@ -76,7 +78,8 @@ internal class ModelFiles(
                 val temporary = File.createTempFile(model.name, ".download", directory)
                 try {
                     downloader.download(
-                        url = baseUrl.replace("*", "$folder/${model.name}?download=true"),
+                        url = urlForFile?.invoke(model.name)
+                            ?: baseUrl.replace("*", "$folder/${model.name}?download=true"),
                         destinationPath = temporary.absolutePath,
                         onProgress = {
                             currentCoroutineContext().ensureActive()

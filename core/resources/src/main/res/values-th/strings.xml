@@ -355,7 +355,7 @@
     <string name="backup_sub">สำรองการตั้งค่าแอปของคุณเป็นไฟล์</string>
     <string name="presets_sub" formatted="false">หากคุณเลือกค่าที่ตั้งไว้ล่วงหน้า 125 รูปภาพจะถูกบันทึกเป็นขนาด 125% ของรูปภาพต้นฉบับพร้อมคุณภาพ 100% หากคุณเลือกค่าที่ตั้งล่วงหน้า 50 รูปภาพจะถูกบันทึกด้วยขนาด 50% และคุณภาพ 50%</string>
     <string name="randomize_filename_sub">หากเปิดใช้งานชื่อไฟล์เอาต์พุตจะเป็นการสุ่มอย่างสมบูรณ์</string>
-    <string name="presets_sub_bytes">การตั้งค่าล่วงหน้าที่นี่จะกำหนด % ของไฟล์เอาต์พุต เช่น หากคุณเลือกการตั้งค่าล่วงหน้า 50 บนรูปภาพขนาด 5mb คุณจะได้รูปภาพขนาด 2.5mb หลังจากบันทึก</string>
+    <string name="presets_sub_bytes" formatted="false">การตั้งค่าล่วงหน้าที่นี่จะกำหนด % ของไฟล์เอาต์พุต เช่น หากคุณเลือกการตั้งค่าล่วงหน้า 50 บนรูปภาพขนาด 5mb คุณจะได้รูปภาพขนาด 2.5mb หลังจากบันทึก</string>
     <string name="backup">สำรองข้อมูล</string>
     <string name="restore_sub">คืนค่าการตั้งค่าแอปจากไฟล์ที่สร้างไว้ก่อนหน้านี้</string>
     <string name="corrupted_file_or_not_a_backup">ไฟล์เสียหายหรือไม่ใช่ข้อมูลสำรอง</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">การปรับสีเสียงรบกวนที่สม่ำเสมออย่างอ่อนโยนเพื่อเนื้อสัมผัสที่ละเอียดอ่อนและรูปลักษณ์ที่เรียบเนียน</string>
     <string name="model_repainter">ซ่อมแซมพื้นที่ที่เสียหายหรือไม่สม่ำเสมอด้วยการทาสีสิ่งประดิษฐ์ใหม่และปรับปรุงความสม่ำเสมอของภาพ</string>
     <string name="model_debandurh_fs_ultra_lite">รุ่นลอกแถบน้ำหนักเบาที่ช่วยขจัดแถบสีโดยมีค่าใช้จ่ายด้านประสิทธิภาพน้อยที่สุด</string>
-    <string name="model_jpeg_0_20">ปรับภาพให้เหมาะสมด้วยการบีบอัดที่สูงมาก (คุณภาพ 0-20%) เพื่อความชัดเจนที่ดีขึ้น</string>
-    <string name="model_jpeg_20_40">ปรับปรุงภาพด้วยการบีบอัดข้อมูลสูง (คุณภาพ 20-40%) คืนรายละเอียดและลดสัญญาณรบกวน</string>
-    <string name="model_jpeg_40_60">ปรับปรุงภาพด้วยการบีบอัดปานกลาง (คุณภาพ 40-60%) ปรับสมดุลความคมชัดและความเรียบเนียน</string>
-    <string name="model_jpeg_60_80">ปรับแต่งภาพด้วยการบีบอัดแสง (คุณภาพ 60-80%) เพื่อเพิ่มรายละเอียดและพื้นผิวที่ละเอียดอ่อน</string>
-    <string name="model_jpeg_80_100">ปรับปรุงภาพที่เกือบไม่มีการสูญเสียเล็กน้อย (คุณภาพ 80-100%) ในขณะที่ยังคงรูปลักษณ์และรายละเอียดที่เป็นธรรมชาติ</string>
+    <string name="model_jpeg_0_20" formatted="false">ปรับภาพให้เหมาะสมด้วยการบีบอัดที่สูงมาก (คุณภาพ 0-20%) เพื่อความชัดเจนที่ดีขึ้น</string>
+    <string name="model_jpeg_20_40" formatted="false">ปรับปรุงภาพด้วยการบีบอัดข้อมูลสูง (คุณภาพ 20-40%) คืนรายละเอียดและลดสัญญาณรบกวน</string>
+    <string name="model_jpeg_40_60" formatted="false">ปรับปรุงภาพด้วยการบีบอัดปานกลาง (คุณภาพ 40-60%) ปรับสมดุลความคมชัดและความเรียบเนียน</string>
+    <string name="model_jpeg_60_80" formatted="false">ปรับแต่งภาพด้วยการบีบอัดแสง (คุณภาพ 60-80%) เพื่อเพิ่มรายละเอียดและพื้นผิวที่ละเอียดอ่อน</string>
+    <string name="model_jpeg_80_100" formatted="false">ปรับปรุงภาพที่เกือบไม่มีการสูญเสียเล็กน้อย (คุณภาพ 80-100%) ในขณะที่ยังคงรูปลักษณ์และรายละเอียดที่เป็นธรรมชาติ</string>
     <string name="model_spongecolor_lite">การระบายสีการ์ตูนที่ง่ายและรวดเร็วไม่เหมาะ</string>
     <string name="model_deblr">ลดความเบลอของภาพลงเล็กน้อย ปรับปรุงความคมชัดโดยไม่ทำให้เกิดสิ่งแปลกปลอม</string>
     <string name="processing_channel">การดำเนินงานที่ยาวนาน</string>
@@ -2134,7 +2134,7 @@
     <string name="grayscale_pdf_sub">แปลงรูปภาพที่ฝังในเอกสารทั้งหมดให้เป็นระดับสีเทา</string>
     <string name="compress_pdf">บีบอัด PDF</string>
     <string name="compress_pdf_sub">ปรับขนาดไฟล์เอกสารของคุณให้เหมาะสมเพื่อการแชร์ที่ง่ายขึ้น</string>
-    <string name="repair_info">ImageToolbox สร้างตารางอ้างอิงโยงภายในใหม่ และสร้างโครงสร้างไฟล์ใหม่ตั้งแต่ต้น ซึ่งสามารถคืนค่าการเข้าถึงไฟล์จำนวนมากที่ \\\"ไม่สามารถเปิดได้\\\"</string>
+    <string name="repair_info">ImageToolbox สร้างตารางอ้างอิงโยงภายในใหม่ และสร้างโครงสร้างไฟล์ใหม่ตั้งแต่ต้น ซึ่งสามารถคืนค่าการเข้าถึงไฟล์จำนวนมากที่ \"ไม่สามารถเปิดได้\"</string>
     <string name="grayscale_info">เครื่องมือนี้แปลงรูปภาพเอกสารทั้งหมดเป็นโทนสีเทา เหมาะสำหรับการพิมพ์และลดขนาดไฟล์</string>
     <string name="metadata">ข้อมูลเมตา</string>
     <string name="metadata_pdf_sub">แก้ไขคุณสมบัติของเอกสารเพื่อความเป็นส่วนตัวที่ดีขึ้น</string>
@@ -2352,37 +2352,37 @@
     <string name="shader_error_blank_name">ชื่อเชเดอร์ต้องไม่เว้นว่าง</string>
     <string name="shader_error_blank_source">แหล่งที่มาของเชเดอร์ต้องไม่เว้นว่าง</string>
     <string name="shader_error_unsupported_characters">แหล่งที่มาของ Shader มีอักขระที่ไม่รองรับ: %1$s ใช้แหล่งที่มา ASCII GLSL เท่านั้น</string>
-    <string name="shader_error_duplicate_parameter">พารามิเตอร์ \\\"%1$s\\\" ถูกประกาศมากกว่าหนึ่งครั้ง</string>
+    <string name="shader_error_duplicate_parameter">พารามิเตอร์ \"%1$s\" ถูกประกาศมากกว่าหนึ่งครั้ง</string>
     <string name="shader_error_blank_parameter_name">ชื่อพารามิเตอร์ต้องไม่เว้นว่าง</string>
-    <string name="shader_error_reserved_parameter_name">พารามิเตอร์ \\\"%1$s\\\" ใช้ชื่อ GPUImage ที่สงวนไว้</string>
-    <string name="shader_error_invalid_parameter_name">พารามิเตอร์ \\\"%1$s\\\" ต้องเป็นตัวระบุ GLSL ที่ถูกต้อง</string>
-    <string name="shader_error_invalid_value_type">พารามิเตอร์ \\\"%1$s\\\" มีประเภทค่า %2$s \\\"%3$s\\\" ซึ่งคาดว่าจะเป็น \\\"%4$s\\\"</string>
-    <string name="shader_error_bool_bounds">พารามิเตอร์ \\\"%1$s\\\" ไม่สามารถกำหนดค่าต่ำสุดหรือสูงสุดสำหรับค่าบูลได้</string>
-    <string name="shader_error_min_greater_than_max">พารามิเตอร์ \\\"%1$s\\\" มี min มากกว่าค่าสูงสุด</string>
-    <string name="shader_error_default_lower_than_min">พารามิเตอร์ \\\"%1$s\\\" ค่าเริ่มต้นต่ำกว่าค่าต่ำสุด</string>
-    <string name="shader_error_default_greater_than_max">พารามิเตอร์ \\\"%1$s\\\" ค่าเริ่มต้นมีค่ามากกว่าค่าสูงสุด</string>
-    <string name="shader_error_missing_input_texture">Shader ต้องประกาศ \\\"uniform Sampler2D %1$s;\\\"</string>
-    <string name="shader_error_missing_texture_coordinate">Shader ต้องประกาศ \\\"varying vec2 %1$s;\\\"</string>
-    <string name="shader_error_missing_main_function">Shader ต้องกำหนด \\\"void main()\\\"</string>
+    <string name="shader_error_reserved_parameter_name">พารามิเตอร์ \"%1$s\" ใช้ชื่อ GPUImage ที่สงวนไว้</string>
+    <string name="shader_error_invalid_parameter_name">พารามิเตอร์ \"%1$s\" ต้องเป็นตัวระบุ GLSL ที่ถูกต้อง</string>
+    <string name="shader_error_invalid_value_type">พารามิเตอร์ \"%1$s\" มีประเภทค่า %2$s \"%3$s\" ซึ่งคาดว่าจะเป็น \"%4$s\"</string>
+    <string name="shader_error_bool_bounds">พารามิเตอร์ \"%1$s\" ไม่สามารถกำหนดค่าต่ำสุดหรือสูงสุดสำหรับค่าบูลได้</string>
+    <string name="shader_error_min_greater_than_max">พารามิเตอร์ \"%1$s\" มี min มากกว่าค่าสูงสุด</string>
+    <string name="shader_error_default_lower_than_min">พารามิเตอร์ \"%1$s\" ค่าเริ่มต้นต่ำกว่าค่าต่ำสุด</string>
+    <string name="shader_error_default_greater_than_max">พารามิเตอร์ \"%1$s\" ค่าเริ่มต้นมีค่ามากกว่าค่าสูงสุด</string>
+    <string name="shader_error_missing_input_texture">Shader ต้องประกาศ \"uniform sampler2D %1$s;\"</string>
+    <string name="shader_error_missing_texture_coordinate">Shader ต้องประกาศ \"varying vec2 %1$s;\"</string>
+    <string name="shader_error_missing_main_function">Shader ต้องกำหนด \"void main()\"</string>
     <string name="shader_error_missing_fragment_color">Shader ต้องเขียนสีลงใน gl_FragColor</string>
-    <string name="shader_error_shadertoy_main_image">ไม่รองรับ ShaderToy mainImage shader ใช้สัญญาหลัก () ที่เป็นโมฆะของ GPUImage</string>
-    <string name="shader_error_shadertoy_i_time">ไม่รองรับชุดเคลื่อนไหว ShaderToy \\\"iTime\\\"</string>
-    <string name="shader_error_shadertoy_i_frame">ไม่รองรับชุดเคลื่อนไหวของ ShaderToy \\\"iFrame\\\"</string>
-    <string name="shader_error_shadertoy_i_resolution">ไม่รองรับเครื่องแบบ \\\"iResolution\\\" ของ ShaderToy</string>
+    <string name="shader_error_shadertoy_main_image">ไม่รองรับ ShaderToy mainImage shader ใช้สัญญาvoid main()ของ GPUImage</string>
+    <string name="shader_error_shadertoy_i_time">ไม่รองรับชุดเคลื่อนไหว ShaderToy \"iTime\"</string>
+    <string name="shader_error_shadertoy_i_frame">ไม่รองรับชุดเคลื่อนไหวของ ShaderToy \"iFrame\"</string>
+    <string name="shader_error_shadertoy_i_resolution">ไม่รองรับเครื่องแบบ \"iResolution\" ของ ShaderToy</string>
     <string name="shader_error_shadertoy_i_channel">ไม่รองรับพื้นผิว ShaderToy iChannel</string>
     <string name="shader_error_external_textures">ไม่รองรับพื้นผิวภายนอก</string>
     <string name="shader_error_external_texture_extensions">ไม่รองรับส่วนขยายพื้นผิวภายนอก</string>
     <string name="shader_error_libretro_parameters">ไม่รองรับพารามิเตอร์เชเดอร์ Libretro</string>
-    <string name="shader_error_extra_input_texture">รองรับพื้นผิวอินพุตเดียวเท่านั้น ลบ \\\"เครื่องแบบ %1$s %2$s;\\\" ออก</string>
-    <string name="shader_error_missing_uniform">พารามิเตอร์ \\\"%1$s\\\" จะต้องประกาศเป็น \\\"uniform %2$s %1$s;\\\"</string>
-    <string name="shader_error_wrong_uniform_type">พารามิเตอร์ \\\"%1$s\\\" ได้รับการประกาศเป็น \\\"uniform %2$s %1$s;\\\" ซึ่งคาดว่า \\\"uniform %3$s %1$s;\\\"</string>
+    <string name="shader_error_extra_input_texture">รองรับพื้นผิวอินพุตเดียวเท่านั้น ลบ \"uniform %1$s %2$s;\" ออก</string>
+    <string name="shader_error_missing_uniform">พารามิเตอร์ \"%1$s\" จะต้องประกาศเป็น \"uniform %2$s %1$s;\"</string>
+    <string name="shader_error_wrong_uniform_type">พารามิเตอร์ \"%1$s\" ได้รับการประกาศเป็น \"uniform %2$s %1$s;\" ซึ่งคาดว่า \"uniform %3$s %1$s;\"</string>
     <string name="shader_parse_error_empty_file">ไฟล์ Shader ว่างเปล่า</string>
     <string name="shader_parse_error_not_itshader_json">ไฟล์เชเดอร์ต้องเป็นออบเจ็กต์ .itshader JSON พร้อมช่องเวอร์ชัน ชื่อ และเชเดอร์</string>
     <string name="shader_parse_error_invalid_json">ไฟล์ Shader ไม่ใช่ JSON ที่ถูกต้อง หรือไม่ตรงกับรูปแบบ .itshader</string>
-    <string name="shader_parse_error_missing_field">ต้องระบุฟิลด์ \\\"%1$s\\\"</string>
+    <string name="shader_parse_error_missing_field">ต้องระบุฟิลด์ \"%1$s\"</string>
     <string name="shader_parse_error_missing_param_field">%1$s จำเป็น</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ไม่ได้รับการสนับสนุน ประเภทที่รองรับ: %3$s</string>
-    <string name="shader_parse_error_missing_value">%1$s จำเป็นสำหรับพารามิเตอร์ \\\"%2$s\\\"</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" ไม่ได้รับการสนับสนุน ประเภทที่รองรับ: %3$s</string>
+    <string name="shader_parse_error_missing_value">%1$s จำเป็นสำหรับพารามิเตอร์ \"%2$s\"</string>
     <string name="shader_parse_error_finite_number_expected">%1$s ต้องเป็นจำนวนจำกัด</string>
     <string name="shader_parse_error_integer_expected">%1$s ต้องเป็นจำนวนเต็ม</string>
     <string name="shader_parse_error_bool_expected">%1$s จะต้องเป็นจริงหรือเท็จ</string>
@@ -3274,7 +3274,7 @@
     <string name="export_profiles">ส่งออกโปรไฟล์</string>
     <string name="save_export_profile">บันทึกโปรไฟล์ปัจจุบัน</string>
     <string name="delete_export_profile">ลบโปรไฟล์การส่งออก</string>
-    <string name="delete_export_profile_sub">คุณต้องการลบโปรไฟล์การส่งออก \\\"%1$s\\\" หรือไม่</string>
+    <string name="delete_export_profile_sub">คุณต้องการลบโปรไฟล์การส่งออก \"%1$s\" หรือไม่</string>
     <string name="draw_bitmap_border">การวาดเส้นขอบ</string>
     <string name="draw_bitmap_border_sub">แสดงเส้นขอบบางๆ รอบภาพวาดและการลบผืนผ้าใบ</string>
     <string name="wavy">หยัก</string>

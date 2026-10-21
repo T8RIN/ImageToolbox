@@ -554,7 +554,7 @@
     <string name="cannot_change_image_format">ఓవర్‌రైట్ ఫైల్‌ల ఎంపిక ప్రారంభించబడినప్పుడు చిత్ర ఆకృతిని మార్చలేరు</string>
     <string name="emoji_as_color_scheme">రంగు పథకం వలె ఎమోజి</string>
     <string name="emoji_as_color_scheme_sub">మాన్యువల్‌గా నిర్వచించిన వాటికి బదులుగా ఎమోజి ప్రాథమిక రంగును యాప్ కలర్ స్కీమ్‌గా ఉపయోగిస్తుంది</string>
-    <string name="presets_sub_bytes">ఇక్కడ ప్రీసెట్ అవుట్‌పుట్ ఫైల్ %ని నిర్ణయిస్తుంది, అనగా మీరు 5mb ఇమేజ్‌పై ప్రీసెట్ 50ని ఎంచుకుంటే, సేవ్ చేసిన తర్వాత మీరు 2.5mb ఇమేజ్‌ని పొందుతారు</string>
+    <string name="presets_sub_bytes" formatted="false">ఇక్కడ ప్రీసెట్ అవుట్‌పుట్ ఫైల్ %ని నిర్ణయిస్తుంది, అనగా మీరు 5mb ఇమేజ్‌పై ప్రీసెట్ 50ని ఎంచుకుంటే, సేవ్ చేసిన తర్వాత మీరు 2.5mb ఇమేజ్‌ని పొందుతారు</string>
     <string name="tg_chat">టెలిగ్రామ్ చాట్</string>
     <string name="crop_mask">క్రాప్ మాస్క్</string>
     <string name="restore">పునరుద్ధరించు</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">సూక్ష్మ ఆకృతి మరియు మృదువైన ప్రదర్శన కోసం సున్నితమైన ఏకరీతి నాయిస్ టోనింగ్.</string>
     <string name="model_repainter">కళాఖండాలను మళ్లీ పెయింట్ చేయడం మరియు ఇమేజ్ స్థిరత్వాన్ని మెరుగుపరచడం ద్వారా దెబ్బతిన్న లేదా అసమాన ప్రాంతాలను రిపేర్ చేస్తుంది.</string>
     <string name="model_debandurh_fs_ultra_lite">కనిష్ట పనితీరు ఖర్చుతో కలర్ బ్యాండింగ్‌ను తీసివేసే తేలికపాటి డీబాండింగ్ మోడల్.</string>
-    <string name="model_jpeg_0_20">మెరుగైన స్పష్టత కోసం చాలా ఎక్కువ కంప్రెషన్ ఆర్టిఫ్యాక్ట్‌లతో (0-20% నాణ్యత) చిత్రాలను ఆప్టిమైజ్ చేస్తుంది.</string>
-    <string name="model_jpeg_20_40">అధిక కుదింపు కళాఖండాలతో చిత్రాలను మెరుగుపరుస్తుంది (20-40% నాణ్యత), వివరాలను పునరుద్ధరించడం మరియు శబ్దాన్ని తగ్గించడం.</string>
-    <string name="model_jpeg_40_60">మోడరేట్ కంప్రెషన్ (40-60% నాణ్యత), బ్యాలెన్సింగ్ షార్ప్‌నెస్ మరియు స్మూత్‌నెస్‌తో ఇమేజ్‌లను మెరుగుపరుస్తుంది.</string>
-    <string name="model_jpeg_60_80">సూక్ష్మ వివరాలు మరియు అల్లికలను మెరుగుపరచడానికి లైట్ కంప్రెషన్ (60-80% నాణ్యత)తో చిత్రాలను మెరుగుపరుస్తుంది.</string>
-    <string name="model_jpeg_80_100">సహజమైన రూపాన్ని మరియు వివరాలను సంరక్షించేటప్పుడు నష్టం లేని చిత్రాలను (80-100% నాణ్యత) కొద్దిగా మెరుగుపరుస్తుంది.</string>
+    <string name="model_jpeg_0_20" formatted="false">మెరుగైన స్పష్టత కోసం చాలా ఎక్కువ కంప్రెషన్ ఆర్టిఫ్యాక్ట్‌లతో (0-20% నాణ్యత) చిత్రాలను ఆప్టిమైజ్ చేస్తుంది.</string>
+    <string name="model_jpeg_20_40" formatted="false">అధిక కుదింపు కళాఖండాలతో చిత్రాలను మెరుగుపరుస్తుంది (20-40% నాణ్యత), వివరాలను పునరుద్ధరించడం మరియు శబ్దాన్ని తగ్గించడం.</string>
+    <string name="model_jpeg_40_60" formatted="false">మోడరేట్ కంప్రెషన్ (40-60% నాణ్యత), బ్యాలెన్సింగ్ షార్ప్‌నెస్ మరియు స్మూత్‌నెస్‌తో ఇమేజ్‌లను మెరుగుపరుస్తుంది.</string>
+    <string name="model_jpeg_60_80" formatted="false">సూక్ష్మ వివరాలు మరియు అల్లికలను మెరుగుపరచడానికి లైట్ కంప్రెషన్ (60-80% నాణ్యత)తో చిత్రాలను మెరుగుపరుస్తుంది.</string>
+    <string name="model_jpeg_80_100" formatted="false">సహజమైన రూపాన్ని మరియు వివరాలను సంరక్షించేటప్పుడు నష్టం లేని చిత్రాలను (80-100% నాణ్యత) కొద్దిగా మెరుగుపరుస్తుంది.</string>
     <string name="model_spongecolor_lite">సాధారణ మరియు వేగవంతమైన రంగులు, కార్టూన్లు, ఆదర్శం కాదు</string>
     <string name="model_deblr">చిత్ర అస్పష్టతను కొద్దిగా తగ్గిస్తుంది, కళాఖండాలను పరిచయం చేయకుండా పదును మెరుగుపరుస్తుంది.</string>
     <string name="processing_channel">దీర్ఘకాలిక కార్యకలాపాలు</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">అన్ని డాక్యుమెంట్ ఎంబెడెడ్ ఇమేజ్‌లను గ్రేస్కేల్‌కి మార్చండి</string>
     <string name="compress_pdf">PDFని కుదించుము</string>
     <string name="compress_pdf_sub">సులభంగా భాగస్వామ్యం చేయడానికి మీ డాక్యుమెంట్ ఫైల్ పరిమాణాన్ని ఆప్టిమైజ్ చేయండి</string>
-    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \\\"తెరవలేని\\\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
+    <string name="repair_info">ImageToolbox అంతర్గత క్రాస్-రిఫరెన్స్ పట్టికను పునర్నిర్మిస్తుంది మరియు మొదటి నుండి ఫైల్ నిర్మాణాన్ని పునరుత్పత్తి చేస్తుంది. ఇది \"తెరవలేని\" అనేక ఫైల్‌లకు యాక్సెస్‌ని పునరుద్ధరించగలదు</string>
     <string name="grayscale_info">ఈ సాధనం అన్ని డాక్యుమెంట్ చిత్రాలను గ్రేస్కేల్‌కి మారుస్తుంది. ఫైల్ పరిమాణాన్ని ముద్రించడానికి మరియు తగ్గించడానికి ఉత్తమమైనది</string>
     <string name="metadata">మెటాడేటా</string>
     <string name="metadata_pdf_sub">మెరుగైన గోప్యత కోసం డాక్యుమెంట్ ప్రాపర్టీలను సవరించండి</string>
@@ -2342,9 +2342,9 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d పారాములు</string>
     <string name="shader_source">షేడర్ మూలం</string>
-    <string name="shader_main_body_info">శూన్యమైన ప్రధాన() బాడీని మాత్రమే వ్రాయండి. UV కోఆర్డినేట్‌ల కోసం టెక్స్‌చర్‌కోఆర్డినేట్ మరియు సోర్స్ శాంప్లర్‌గా ఇన్‌పుట్ ఇమేజ్‌టెక్చర్‌ని ఉపయోగించండి.</string>
+    <string name="shader_main_body_info">void main() బాడీని మాత్రమే వ్రాయండి. UV కోఆర్డినేట్‌ల కోసం textureCoordinate మరియు సోర్స్ శాంప్లర్‌గా inputImageTextureని ఉపయోగించండి.</string>
     <string name="shader_helper_code">విధులు</string>
-    <string name="shader_helper_code_info">ఐచ్ఛిక సహాయక విధులు, స్థిరాంకాలు మరియు నిర్మాణాలు శూన్యమైన ప్రధాన()కు ముందు చొప్పించబడ్డాయి. పారామ్‌ల నుండి యూనిఫాంలు ఉత్పత్తి చేయబడతాయి.</string>
+    <string name="shader_helper_code_info">ఐచ్ఛిక సహాయక విధులు, స్థిరాంకాలు మరియు నిర్మాణాలు void main()కు ముందు చొప్పించబడ్డాయి. పారామ్‌ల నుండి యూనిఫాంలు ఉత్పత్తి చేయబడతాయి.</string>
     <string name="shader_no_parameters">షేడర్‌కి సవరించగలిగే విలువలు అవసరమైనప్పుడు యూనిఫారాలను ఇక్కడ జోడించండి.</string>
     <string name="reset_shader">షేడర్‌ని రీసెట్ చేయండి</string>
     <string name="reset_shader_sub">ప్రస్తుత షేడర్ డ్రాఫ్ట్ క్లియర్ చేయబడుతుంది</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">షేడర్ పేరు తప్పనిసరిగా ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_blank_source">షేడర్ మూలం ఖాళీగా ఉండకూడదు.</string>
     <string name="shader_error_unsupported_characters">షేడర్ మూలం మద్దతు లేని అక్షరాలను కలిగి ఉంది: %1$s. ASCII GLSL మూలాన్ని మాత్రమే ఉపయోగించండి.</string>
-    <string name="shader_error_duplicate_parameter">పరామితి \\\"%1$s\\\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
+    <string name="shader_error_duplicate_parameter">పరామితి \"%1$s\" ఒకటి కంటే ఎక్కువసార్లు ప్రకటించబడింది.</string>
     <string name="shader_error_blank_parameter_name">పారామీటర్ పేర్లు ఖాళీగా ఉండకూడదు.</string>
-    <string name="shader_error_reserved_parameter_name">పరామితి \\\"%1$s\\\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
-    <string name="shader_error_invalid_parameter_name">పరామితి \\\"%1$s\\\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
-    <string name="shader_error_invalid_value_type">పరామితి \\\"%1$s\\\" %2$s విలువ రకాన్ని కలిగి ఉంది \\\"%3$s\\\", ఊహించిన \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">పారామీటర్ \\\"%1$s\\\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
-    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
-    <string name="shader_error_default_lower_than_min">పరామితి \\\"%1$s\\\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
-    <string name="shader_error_default_greater_than_max">పరామితి \\\"%1$s\\\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
-    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \\\"యూనిఫాం నమూనా2D %1$s;\\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \\\"వైవిధ్యమైన vec2 %1$s;\\\"ని ప్రకటించాలి.</string>
-    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \\\"శూన్యం ప్రధాన()\\\"ను నిర్వచించాలి.</string>
+    <string name="shader_error_reserved_parameter_name">పరామితి \"%1$s\" రిజర్వు చేయబడిన GPUImage పేరును ఉపయోగిస్తుంది.</string>
+    <string name="shader_error_invalid_parameter_name">పరామితి \"%1$s\" తప్పనిసరిగా చెల్లుబాటు అయ్యే GLSL ఐడెంటిఫైయర్ అయి ఉండాలి.</string>
+    <string name="shader_error_invalid_value_type">పరామితి \"%1$s\" %2$s విలువ రకాన్ని కలిగి ఉంది \"%3$s\", ఊహించిన \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">పారామీటర్ \"%1$s\" బూల్ విలువల కోసం నిమి లేదా గరిష్టాన్ని నిర్వచించలేదు.</string>
+    <string name="shader_error_min_greater_than_max">\"%1$s\" పరామితి గరిష్టం కంటే నిమి ఎక్కువ.</string>
+    <string name="shader_error_default_lower_than_min">పరామితి \"%1$s\" డిఫాల్ట్ నిమి కంటే తక్కువగా ఉంది.</string>
+    <string name="shader_error_default_greater_than_max">పరామితి \"%1$s\" డిఫాల్ట్ గరిష్టం కంటే ఎక్కువ.</string>
+    <string name="shader_error_missing_input_texture">షేడర్ తప్పనిసరిగా \"uniform sampler2D %1$s;\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_texture_coordinate">షేడర్ తప్పనిసరిగా \"varying vec2 %1$s;\"ని ప్రకటించాలి.</string>
+    <string name="shader_error_missing_main_function">షేడర్ తప్పనిసరిగా \"void main()\"ను నిర్వచించాలి.</string>
     <string name="shader_error_missing_fragment_color">షేడర్ తప్పనిసరిగా gl_FragColorకి రంగును వ్రాయాలి.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy మెయిన్‌ఇమేజ్ షేడర్‌లకు మద్దతు లేదు. GPUImage యొక్క శూన్యమైన ప్రధాన() ఒప్పందాన్ని ఉపయోగించండి.</string>
-    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iTime\\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \\\"iFrame\\\"కి మద్దతు లేదు.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \\\"iResolution\\\"కు మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage షేడర్‌లకు మద్దతు లేదు. GPUImage యొక్క void main() ఒప్పందాన్ని ఉపయోగించండి.</string>
+    <string name="shader_error_shadertoy_i_time">యానిమేటెడ్ ShaderToy యూనిఫాం \"iTime\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_frame">యానిమేటెడ్ ShaderToy యూనిఫాం \"iFrame\"కి మద్దతు లేదు.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy యూనిఫాం \"iResolution\"కు మద్దతు లేదు.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_textures">బాహ్య అల్లికలకు మద్దతు లేదు.</string>
     <string name="shader_error_external_texture_extensions">బాహ్య ఆకృతి పొడిగింపులకు మద్దతు లేదు.</string>
     <string name="shader_error_libretro_parameters">లిబ్రెట్రో షేడర్ పారామీటర్‌లకు మద్దతు లేదు.</string>
-    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \\\"యూనిఫాం %1$s %2$s;\\\"ని తీసివేయండి.</string>
-    <string name="shader_error_missing_uniform">\\\"%1$s\\\" పరామితి తప్పనిసరిగా \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడాలి.</string>
-    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" పరామితి \\\"యూనిఫాం %2$s %1$s;\\\"గా ప్రకటించబడింది, అంచనా వేయబడిన \\\"యూనిఫాం %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">ఒక ఇన్‌పుట్ ఆకృతికి మాత్రమే మద్దతు ఉంది. \"uniform %1$s %2$s;\"ని తీసివేయండి.</string>
+    <string name="shader_error_missing_uniform">\"%1$s\" పరామితి తప్పనిసరిగా \"uniform %2$s %1$s;\"గా ప్రకటించబడాలి.</string>
+    <string name="shader_error_wrong_uniform_type">\"%1$s\" పరామితి \"uniform %2$s %1$s;\"గా ప్రకటించబడింది, అంచనా వేయబడిన \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">షేడర్ ఫైల్ ఖాళీగా ఉంది.</string>
     <string name="shader_parse_error_not_itshader_json">షేడర్ ఫైల్ తప్పనిసరిగా వెర్షన్, పేరు మరియు షేడర్ ఫీల్డ్‌లతో కూడిన .itshader JSON ఆబ్జెక్ట్ అయి ఉండాలి.</string>
     <string name="shader_parse_error_invalid_json">షేడర్ ఫైల్ చెల్లుబాటు అయ్యే JSON కాదు లేదా .itshader ఫార్మాట్‌తో సరిపోలడం లేదు.</string>
-    <string name="shader_parse_error_missing_field">ఫీల్డ్ \\\"%1$s\\\" అవసరం.</string>
+    <string name="shader_parse_error_missing_field">ఫీల్డ్ \"%1$s\" అవసరం.</string>
     <string name="shader_parse_error_missing_param_field">%1$s అవసరం.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" పారామితుల కోసం %1$s అవసరం.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" మద్దతు లేదు. మద్దతు ఉన్న రకాలు: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" పారామితుల కోసం %1$s అవసరం.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s తప్పనిసరిగా పరిమిత సంఖ్య అయి ఉండాలి.</string>
     <string name="shader_parse_error_integer_expected">%1$s తప్పనిసరిగా పూర్ణాంకం అయి ఉండాలి.</string>
     <string name="shader_parse_error_bool_expected">%1$s తప్పక నిజం లేదా తప్పు.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">ప్రొఫైల్‌లను ఎగుమతి చేయండి</string>
     <string name="save_export_profile">ప్రస్తుత ప్రొఫైల్‌ను సేవ్ చేయండి</string>
     <string name="delete_export_profile">ఎగుమతి ప్రొఫైల్‌ను తొలగించండి</string>
-    <string name="delete_export_profile_sub">మీరు \\\"%1$s\\\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
+    <string name="delete_export_profile_sub">మీరు \"%1$s\" ఎగుమతి ప్రొఫైల్‌ని తొలగించాలనుకుంటున్నారా?</string>
     <string name="draw_bitmap_border">డ్రాయింగ్ సరిహద్దు</string>
     <string name="draw_bitmap_border_sub">డ్రాయింగ్ మరియు ఎరేసింగ్ కాన్వాస్ చుట్టూ సన్నని అంచుని చూపండి</string>
     <string name="wavy">ఉంగరాల</string>
@@ -5576,7 +5576,7 @@
     <string name="gallery_search_category_name_exists">ఈ పేరుతో ఒక వర్గం ఇప్పటికే ఉంది</string>
     <string name="gallery_search_builtin_category_description">ఈ వర్గంలో ఏ ఫోటోలు కనిపించాలో సర్దుబాటు చేయండి.</string>
     <string name="gallery_search_threshold">సారూప్యత థ్రెషోల్డ్</string>
-    <string name="gallery_search_threshold_value">సారూప్యత థ్రెషోల్డ్: %1$d_%%</string>
+    <string name="gallery_search_threshold_value">సారూప్యత థ్రెషోల్డ్: %1$d%%</string>
     <string name="gallery_search_text_threshold">వివరణ ద్వారా శోధించండి</string>
     <string name="gallery_search_image_threshold">ఫోటో ద్వారా శోధించండి</string>
     <string name="gallery_search_threshold_description">చాలా సంబంధం లేని ఫోటోలు కనిపిస్తే థ్రెషోల్డ్‌ని పెంచండి. సంబంధిత ఫోటోలు లేకుంటే దానిని తగ్గించండి. సిద్ధం చేసిన ఫోటోలకు మార్పులు వర్తిస్తాయి; ఫైల్ పేరు శోధన మారదు.</string>

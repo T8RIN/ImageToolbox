@@ -336,7 +336,7 @@
     <string name="using_large_fonts_warn">قد يؤدي استخدام مقاييس الخطوط الكبيرة إلى حدوث خلل في واجهة المستخدم ولن يتم إصلاحه، استخدمه إذا كنت تريد ذلك فقط</string>
     <string name="randomize_filename_sub">إذا فُعّل اسم ملف الإخراج فسيكون عشوائيًا بشكل تام</string>
     <string name="restore_sub">استعادة إعدادات التطبيق من الملف الذي ولّد مسبقًا</string>
-    <string name="presets_sub_bytes">يحدّد الإعداد المسبق هنا النسبة المئوية لملف الإخراج، أي إذا حددت 50 إعدادًا مسبقًا على صورة بحجم 5 ميجابايت، فستحصل على صورة بحجم 2.5 ميجابايت بعد الحفظ</string>
+    <string name="presets_sub_bytes" formatted="false">يحدّد الإعداد المسبق هنا النسبة المئوية لملف الإخراج، أي إذا حددت 50 إعدادًا مسبقًا على صورة بحجم 5 ميجابايت، فستحصل على صورة بحجم 2.5 ميجابايت بعد الحفظ</string>
     <string name="enhanced_pixelation">تعزيز البكسل</string>
     <string name="diamond_pixelation">بكسل الماس</string>
     <string name="draw_mode">وضع الرسم</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">نغمة ضوضاء موحدة لطيفة للحصول على ملمس رقيق ومظهر ناعم.</string>
     <string name="model_repainter">إصلاح المناطق التالفة أو غير المستوية عن طريق إعادة طلاء القطع الأثرية وتحسين تناسق الصورة.</string>
     <string name="model_debandurh_fs_ultra_lite">نموذج debanding خفيف الوزن يزيل نطاقات الألوان بأقل تكلفة للأداء.</string>
-    <string name="model_jpeg_0_20">يعمل على تحسين الصور باستخدام عناصر ضغط عالية جدًا (جودة 0-20%) لتحسين الوضوح.</string>
-    <string name="model_jpeg_20_40">تحسين الصور بتأثيرات ضغط عالية (جودة 20-40%)، واستعادة التفاصيل وتقليل التشويش.</string>
-    <string name="model_jpeg_40_60">يعمل على تحسين الصور بالضغط المعتدل (جودة 40-60%)، وموازنة الحدة والنعومة.</string>
-    <string name="model_jpeg_60_80">ينقي الصور بضغط خفيف (جودة 60-80%) لتحسين التفاصيل والأنسجة الدقيقة.</string>
-    <string name="model_jpeg_80_100">يعمل على تحسين الصور التي لا يمكن فقدانها تقريبًا (جودة 80-100%) مع الحفاظ على المظهر والتفاصيل الطبيعية.</string>
+    <string name="model_jpeg_0_20" formatted="false">يعمل على تحسين الصور باستخدام عناصر ضغط عالية جدًا (جودة 0-20%) لتحسين الوضوح.</string>
+    <string name="model_jpeg_20_40" formatted="false">تحسين الصور بتأثيرات ضغط عالية (جودة 20-40%)، واستعادة التفاصيل وتقليل التشويش.</string>
+    <string name="model_jpeg_40_60" formatted="false">يعمل على تحسين الصور بالضغط المعتدل (جودة 40-60%)، وموازنة الحدة والنعومة.</string>
+    <string name="model_jpeg_60_80" formatted="false">ينقي الصور بضغط خفيف (جودة 60-80%) لتحسين التفاصيل والأنسجة الدقيقة.</string>
+    <string name="model_jpeg_80_100" formatted="false">يعمل على تحسين الصور التي لا يمكن فقدانها تقريبًا (جودة 80-100%) مع الحفاظ على المظهر والتفاصيل الطبيعية.</string>
     <string name="model_spongecolor_lite">تلوين بسيط وسريع، رسوم متحركة، ليست مثالية</string>
     <string name="model_deblr">يقلل من ضبابية الصورة قليلاً، ويحسن الحدة دون إدخال أي تشويش.</string>
     <string name="processing_channel">عمليات تشغيل طويلة</string>
@@ -2346,9 +2346,9 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d المعلمات</string>
     <string name="shader_source">مصدر شادر</string>
-    <string name="shader_main_body_info">اكتب فقط نص الفراغ الرئيسي (). استخدم تنسيق الملمس لإحداثيات الأشعة فوق البنفسجية وInputImageTexture كعينة مصدر.</string>
+    <string name="shader_main_body_info">اكتب فقط نص void main(). استخدم textureCoordinate لإحداثيات الأشعة فوق البنفسجية وinputImageTexture كعينة مصدر.</string>
     <string name="shader_helper_code">وظائف</string>
-    <string name="shader_helper_code_info">يتم إدراج الوظائف المساعدة الاختيارية والثوابت والبنيات قبل الفراغ الرئيسي (). يتم إنشاء الزي الرسمي من المعلمات.</string>
+    <string name="shader_helper_code_info">يتم إدراج الوظائف المساعدة الاختيارية والثوابت والبنيات قبل void main(). يتم إنشاء الزي الرسمي من المعلمات.</string>
     <string name="shader_no_parameters">أضف الزي الرسمي هنا عندما يحتاج التظليل إلى قيم قابلة للتحرير.</string>
     <string name="reset_shader">إعادة تعيين التظليل</string>
     <string name="reset_shader_sub">سيتم مسح مسودة التظليل الحالية</string>
@@ -2357,37 +2357,37 @@
     <string name="shader_error_blank_name">يجب ألا يكون اسم التظليل فارغًا.</string>
     <string name="shader_error_blank_source">يجب ألا يكون مصدر التظليل فارغًا.</string>
     <string name="shader_error_unsupported_characters">يحتوي مصدر التظليل على أحرف غير مدعومة: %1$s. استخدم مصدر ASCII GLSL فقط.</string>
-    <string name="shader_error_duplicate_parameter">تم الإعلان عن المعلمة \\\"%1$s\\\" أكثر من مرة.</string>
+    <string name="shader_error_duplicate_parameter">تم الإعلان عن المعلمة \"%1$s\" أكثر من مرة.</string>
     <string name="shader_error_blank_parameter_name">يجب ألا تكون أسماء المعلمات فارغة.</string>
-    <string name="shader_error_reserved_parameter_name">تستخدم المعلمة \\\"%1$s\\\" اسم GPUImage محجوزًا.</string>
-    <string name="shader_error_invalid_parameter_name">يجب أن تكون المعلمة \\\"%1$s\\\" معرف GLSL صالحًا.</string>
-    <string name="shader_error_invalid_value_type">المعلمة \\\"%1$s\\\" لها %2$s نوع القيمة \\\"%3$s\\\"، المتوقع \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">لا يمكن للمعلمة \\\"%1$s\\\" تعريف الحد الأدنى أو الحد الأقصى للقيم المنطقية.</string>
-    <string name="shader_error_min_greater_than_max">تحتوي المعلمة \\\"%1$s\\\" على الحد الأدنى أكبر من الحد الأقصى.</string>
-    <string name="shader_error_default_lower_than_min">المعلمة \\\"%1$s\\\" الافتراضية أقل من الحد الأدنى.</string>
-    <string name="shader_error_default_greater_than_max">المعلمة \\\"%1$s\\\" الافتراضية أكبر من الحد الأقصى.</string>
-    <string name="shader_error_missing_input_texture">يجب أن يعلن Shader عن \\\"uniform Sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">يجب أن يعلن Shader \\\"Varying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">يجب أن يحدد التظليل \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">تستخدم المعلمة \"%1$s\" اسم GPUImage محجوزًا.</string>
+    <string name="shader_error_invalid_parameter_name">يجب أن تكون المعلمة \"%1$s\" معرف GLSL صالحًا.</string>
+    <string name="shader_error_invalid_value_type">المعلمة \"%1$s\" لها %2$s نوع القيمة \"%3$s\"، المتوقع \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">لا يمكن للمعلمة \"%1$s\" تعريف الحد الأدنى أو الحد الأقصى للقيم المنطقية.</string>
+    <string name="shader_error_min_greater_than_max">تحتوي المعلمة \"%1$s\" على الحد الأدنى أكبر من الحد الأقصى.</string>
+    <string name="shader_error_default_lower_than_min">المعلمة \"%1$s\" الافتراضية أقل من الحد الأدنى.</string>
+    <string name="shader_error_default_greater_than_max">المعلمة \"%1$s\" الافتراضية أكبر من الحد الأقصى.</string>
+    <string name="shader_error_missing_input_texture">يجب أن يعلن Shader عن \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">يجب أن يعلن Shader \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">يجب أن يحدد التظليل \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">يجب على Shader كتابة لون إلى gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">تظليل ShaderToy mainImage غير مدعوم. استخدم العقد الرئيسي () الفارغ الخاص بـ GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">الرسوم المتحركة ShaderToy الموحدة \\\"iTime\\\" غير مدعومة.</string>
-    <string name="shader_error_shadertoy_i_frame">الرسوم المتحركة ShaderToy الموحدة \\\"iFrame\\\" غير مدعومة.</string>
-    <string name="shader_error_shadertoy_i_resolution">الزي الرسمي ShaderToy \\\"iResolution\\\" غير مدعوم.</string>
+    <string name="shader_error_shadertoy_main_image">تظليل ShaderToy mainImage غير مدعوم. استخدم العقد void main() الخاص بـ GPUImage.</string>
+    <string name="shader_error_shadertoy_i_time">الرسوم المتحركة ShaderToy الموحدة \"iTime\" غير مدعومة.</string>
+    <string name="shader_error_shadertoy_i_frame">الرسوم المتحركة ShaderToy الموحدة \"iFrame\" غير مدعومة.</string>
+    <string name="shader_error_shadertoy_i_resolution">الزي الرسمي ShaderToy \"iResolution\" غير مدعوم.</string>
     <string name="shader_error_shadertoy_i_channel">مواد ShaderToy iChannel غير مدعومة.</string>
     <string name="shader_error_external_textures">القوام الخارجي غير مدعوم.</string>
     <string name="shader_error_external_texture_extensions">ملحقات النسيج الخارجية غير مدعومة.</string>
     <string name="shader_error_libretro_parameters">معلمات تظليل Libretro غير مدعومة.</string>
-    <string name="shader_error_extra_input_texture">يتم دعم نسيج إدخال واحد فقط. قم بإزالة \\\"الزي الرسمي %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">يجب تعريف المعلمة \\\"%1$s\\\" كـ \\\"موحدة %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">تم تعريف المعلمة \\\"%1$s\\\" كـ \\\"موحدة %2$s %1$s;\\\"، متوقعة \\\"موحدة %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">يتم دعم نسيج إدخال واحد فقط. قم بإزالة \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">يجب تعريف المعلمة \"%1$s\" كـ \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">تم تعريف المعلمة \"%1$s\" كـ \"uniform %2$s %1$s;\"، متوقعة \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">ملف التظليل فارغ.</string>
     <string name="shader_parse_error_not_itshader_json">يجب أن يكون ملف Shader عبارة عن كائن ‎.itshader JSON يحتوي على حقول الإصدار والاسم والتظليل.</string>
     <string name="shader_parse_error_invalid_json">ملف Shader غير صالح بتنسيق JSON أو لا يتطابق مع تنسيق .itshader.</string>
-    <string name="shader_parse_error_missing_field">الحقل \\\"%1$s\\\" مطلوب.</string>
+    <string name="shader_parse_error_missing_field">الحقل \"%1$s\" مطلوب.</string>
     <string name="shader_parse_error_missing_param_field">%1$s مطلوب.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" غير مدعوم. الأنواع المدعومة: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s مطلوب لمعلمات \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" غير مدعوم. الأنواع المدعومة: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s مطلوب لمعلمات \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s يجب أن يكون عددًا محدودًا.</string>
     <string name="shader_parse_error_integer_expected">%1$s يجب أن يكون عددًا صحيحًا.</string>
     <string name="shader_parse_error_bool_expected">%1$s يجب أن يكون صحيحًا أو خطأ.</string>
@@ -3279,7 +3279,7 @@
     <string name="export_profiles">تصدير الملفات الشخصية</string>
     <string name="save_export_profile">حفظ الملف الشخصي الحالي</string>
     <string name="delete_export_profile">حذف ملف تعريف التصدير</string>
-    <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \\\"%1$s\\\"؟</string>
+    <string name="delete_export_profile_sub">هل تريد حذف ملف تعريف التصدير \"%1$s\"؟</string>
     <string name="draw_bitmap_border">رسم الحدود</string>
     <string name="draw_bitmap_border_sub">إظهار حد رفيع حول لوحة الرسم ومسح القماش</string>
     <string name="wavy">مائج</string>

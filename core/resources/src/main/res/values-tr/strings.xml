@@ -307,7 +307,7 @@
     <string name="copy">Kopyala</string>
     <string name="warning_bytes">%1$s modunda kaydetme kararsız olabilir, çünkü bu kayıpsız bir formattır</string>
     <string name="presets_sub" formatted="false">125 ön ayarını seçtiyseniz, resim orijinal resmin %125 boyutunda kaydedilecektir. Eğer 50 ön ayarını seçerseniz, resim %50 boyutunda kaydedilir</string>
-    <string name="presets_sub_bytes">Buradaki ön ayar, çıktı dosyasının yüzdesini belirler, yani 5 MB\'lık bir resimde %50 ön ayarını seçerseniz, kaydettikten sonra 2,5 MB\'lık bir resim elde edersiniz</string>
+    <string name="presets_sub_bytes" formatted="false">Buradaki ön ayar, çıktı dosyasının yüzdesini belirler, yani 5 MB\'lık bir resimde %50 ön ayarını seçerseniz, kaydettikten sonra 2,5 MB\'lık bir resim elde edersiniz</string>
     <string name="randomize_filename">Dosya adını rastgele yap</string>
     <string name="randomize_filename_sub">Etkinleştirilirse çıktı dosya adı tamamen rastgele olacaktır</string>
     <string name="saved_to">%1$s klasörüne %2$s adıyla kaydedildi</string>
@@ -1958,11 +1958,11 @@
     <string name="model_noise_toner_uniform_soft">Hafif ve düzgün bir doku ve pürüzsüz bir görünüm için hafif ve düzgün bir gürültü tonlaması.</string>
     <string name="model_repainter">Artefaktları yeniden boyayarak ve görüntü tutarlılığını iyileştirerek hasarlı veya düzensiz alanları onarır.</string>
     <string name="model_debandurh_fs_ultra_lite">Performans maliyetini en aza indirerek renk bantlamasını ortadan kaldıran hafif debanding modeli.</string>
-    <string name="model_jpeg_0_20">Görüntüleri çok yüksek sıkıştırma artefaktları (kalite %0-20) ile optimize ederek netliği artırır.</string>
-    <string name="model_jpeg_20_40">Yüksek sıkıştırma artefaktları olan görüntüleri iyileştirir (kalite %20-40), ayrıntıları geri yükler ve gürültüyü azaltır.</string>
-    <string name="model_jpeg_40_60">Görüntüleri orta düzeyde sıkıştırma (kalite %40-60) ile iyileştirir, keskinlik ve pürüzsüzlük arasında denge sağlar.</string>
-    <string name="model_jpeg_60_80">Hafif sıkıştırma (kalite %60-80) ile görüntüleri iyileştirerek ince ayrıntıları ve dokuları güçlendirir.</string>
-    <string name="model_jpeg_80_100">Doğal görünümü ve ayrıntıları korurken, neredeyse kayıpsız görüntüleri (kalite %80-100) hafifçe iyileştirir.</string>
+    <string name="model_jpeg_0_20" formatted="false">Görüntüleri çok yüksek sıkıştırma artefaktları (kalite %0-20) ile optimize ederek netliği artırır.</string>
+    <string name="model_jpeg_20_40" formatted="false">Yüksek sıkıştırma artefaktları olan görüntüleri iyileştirir (kalite %20-40), ayrıntıları geri yükler ve gürültüyü azaltır.</string>
+    <string name="model_jpeg_40_60" formatted="false">Görüntüleri orta düzeyde sıkıştırma (kalite %40-60) ile iyileştirir, keskinlik ve pürüzsüzlük arasında denge sağlar.</string>
+    <string name="model_jpeg_60_80" formatted="false">Hafif sıkıştırma (kalite %60-80) ile görüntüleri iyileştirerek ince ayrıntıları ve dokuları güçlendirir.</string>
+    <string name="model_jpeg_80_100" formatted="false">Doğal görünümü ve ayrıntıları korurken, neredeyse kayıpsız görüntüleri (kalite %80-100) hafifçe iyileştirir.</string>
     <string name="model_deblr">Görüntü bulanıklığını hafifçe azaltır, artefakt oluşturmadan keskinliği artırır.</string>
     <string name="processing_channel">Uzun süreli işlemler</string>
     <string name="processing_image">Resim işleniyor</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Tüm belgeye gömülü görüntüleri gri tonlamaya dönüştürün</string>
     <string name="compress_pdf">PDF\'yi sıkıştır</string>
     <string name="compress_pdf_sub">Daha kolay paylaşım için belgenizin dosya boyutunu optimize edin</string>
-    <string name="repair_info">ImageToolbox dahili çapraz referans tablosunu yeniden oluşturur ve dosya yapısını sıfırdan yeniden oluşturur. Bu, \\\"açılamayan\\\" birçok dosyaya erişimi geri yükleyebilir</string>
+    <string name="repair_info">ImageToolbox dahili çapraz referans tablosunu yeniden oluşturur ve dosya yapısını sıfırdan yeniden oluşturur. Bu, \"açılamayan\" birçok dosyaya erişimi geri yükleyebilir</string>
     <string name="grayscale_info">Bu araç, tüm belge resimlerini gri tonlamaya dönüştürür. Dosya boyutunu yazdırmak ve küçültmek için en iyisi</string>
     <string name="metadata">Meta veriler</string>
     <string name="metadata_pdf_sub">Daha iyi gizlilik için belge özelliklerini düzenleyin</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parametreleri</string>
     <string name="shader_source">Gölgelendirici kaynağı</string>
-    <string name="shader_main_body_info">void main()\'in yalnızca gövdesini yazın. UV koordinatları için TextureCoorder\'ı ve kaynak örnekleyici olarak inputImageTexture\'ı kullanın.</string>
+    <string name="shader_main_body_info">void main()\'in yalnızca gövdesini yazın. UV koordinatları için textureCoordinate\'ı ve kaynak örnekleyici olarak inputImageTexture\'ı kullanın.</string>
     <string name="shader_helper_code">Fonksiyonlar</string>
     <string name="shader_helper_code_info">İsteğe bağlı yardımcı işlevler, sabitler ve yapılar void main()\'den önce eklenir. Üniformalar parametrelerden oluşturulur.</string>
     <string name="shader_no_parameters">Gölgelendiricinin düzenlenebilir değerlere ihtiyacı olduğunda buraya üniformalar ekleyin.</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Gölgelendirici adı boş bırakılmamalıdır.</string>
     <string name="shader_error_blank_source">Gölgelendirici kaynağı boş olmamalıdır.</string>
     <string name="shader_error_unsupported_characters">Gölgelendirici kaynağı desteklenmeyen karakterler içeriyor: %1$s. Yalnızca ASCII GLSL kaynağını kullanın.</string>
-    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" parametresi birden fazla bildirildi.</string>
+    <string name="shader_error_duplicate_parameter">\"%1$s\" parametresi birden fazla bildirildi.</string>
     <string name="shader_error_blank_parameter_name">Parametre adları boş bırakılmamalıdır.</string>
-    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" parametresi ayrılmış bir GPUImage adı kullanır.</string>
-    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" parametresi geçerli bir GLSL tanımlayıcısı olmalıdır.</string>
-    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" parametresi %2$s değer türüne sahip \\\"%3$s\\\", beklenen \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">\\\"%1$s\\\" parametresi bool değerleri için minimum veya maksimumu tanımlayamıyor.</string>
-    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" parametresinin minimum değeri maksimum değerinden büyük.</string>
-    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" parametresi varsayılanı minimumdan düşük.</string>
-    <string name="shader_error_default_greater_than_max">\\\"%1$s\\\" parametresi varsayılanı maks. değerden büyük.</string>
-    <string name="shader_error_missing_input_texture">Gölgelendiricinin \\\"tek tip örnekleyici2D %1$s;\\\" bildiriminde bulunması gerekir.</string>
-    <string name="shader_error_missing_texture_coordinate">Gölgelendiricinin \\\"değişen vec2 %1$s;\\\" bildiriminde bulunması gerekir.</string>
-    <string name="shader_error_missing_main_function">Gölgelendiricinin \\\"void main()\\\" tanımlaması gerekir.</string>
+    <string name="shader_error_reserved_parameter_name">\"%1$s\" parametresi ayrılmış bir GPUImage adı kullanır.</string>
+    <string name="shader_error_invalid_parameter_name">\"%1$s\" parametresi geçerli bir GLSL tanımlayıcısı olmalıdır.</string>
+    <string name="shader_error_invalid_value_type">\"%1$s\" parametresi %2$s değer türüne sahip \"%3$s\", beklenen \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">\"%1$s\" parametresi bool değerleri için minimum veya maksimumu tanımlayamıyor.</string>
+    <string name="shader_error_min_greater_than_max">\"%1$s\" parametresinin minimum değeri maksimum değerinden büyük.</string>
+    <string name="shader_error_default_lower_than_min">\"%1$s\" parametresi varsayılanı minimumdan düşük.</string>
+    <string name="shader_error_default_greater_than_max">\"%1$s\" parametresi varsayılanı maks. değerden büyük.</string>
+    <string name="shader_error_missing_input_texture">Gölgelendiricinin \"uniform sampler2D %1$s;\" bildiriminde bulunması gerekir.</string>
+    <string name="shader_error_missing_texture_coordinate">Gölgelendiricinin \"varying vec2 %1$s;\" bildiriminde bulunması gerekir.</string>
+    <string name="shader_error_missing_main_function">Gölgelendiricinin \"void main()\" tanımlaması gerekir.</string>
     <string name="shader_error_missing_fragment_color">Shader\'ın gl_FragColor\'a bir renk yazması gerekir.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage gölgelendiricileri desteklenmez. GPUImage\'ın void main() sözleşmesini kullanın.</string>
-    <string name="shader_error_shadertoy_i_time">Animasyonlu ShaderToy üniforması \\\"iTime\\\" desteklenmiyor.</string>
-    <string name="shader_error_shadertoy_i_frame">Animasyonlu ShaderToy üniforması \\\"iFrame\\\" desteklenmiyor.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy üniforması \\\"iResolution\\\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_time">Animasyonlu ShaderToy üniforması \"iTime\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_frame">Animasyonlu ShaderToy üniforması \"iFrame\" desteklenmiyor.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy üniforması \"iResolution\" desteklenmiyor.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel dokuları desteklenmez.</string>
     <string name="shader_error_external_textures">Dış dokular desteklenmez.</string>
     <string name="shader_error_external_texture_extensions">Harici doku uzantıları desteklenmez.</string>
     <string name="shader_error_libretro_parameters">Libretro gölgelendirici parametreleri desteklenmez.</string>
-    <string name="shader_error_extra_input_texture">Yalnızca bir giriş dokusu desteklenir. \\\"üniforma %1$s %2$s;\\\" öğesini kaldırın.</string>
-    <string name="shader_error_missing_uniform">\\\"%1$s\\\" parametresi \\\"üniform %2$s %1$s;\\\" olarak bildirilmelidir.</string>
-    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" parametresi \\\"tekdüze %2$s %1$s;\\\" olarak bildirildi, beklenen \\\"tekdüze %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Yalnızca bir giriş dokusu desteklenir. \"uniform %1$s %2$s;\" öğesini kaldırın.</string>
+    <string name="shader_error_missing_uniform">\"%1$s\" parametresi \"uniform %2$s %1$s;\" olarak bildirilmelidir.</string>
+    <string name="shader_error_wrong_uniform_type">\"%1$s\" parametresi \"uniform %2$s %1$s;\" olarak bildirildi, beklenen \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Gölgelendirici dosyası boş.</string>
     <string name="shader_parse_error_not_itshader_json">Gölgelendirici dosyası, sürüm, ad ve gölgelendirici alanlarını içeren bir .itshader JSON nesnesi olmalıdır.</string>
     <string name="shader_parse_error_invalid_json">Gölgelendirici dosyası geçerli bir JSON değil veya .itshader biçimiyle eşleşmiyor.</string>
-    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" alanı gereklidir.</string>
+    <string name="shader_parse_error_missing_field">\"%1$s\" alanı gereklidir.</string>
     <string name="shader_parse_error_missing_param_field">%1$s gerekli.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" desteklenmiyor. Desteklenen türler: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" parametreleri için %1$s gereklidir.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" desteklenmiyor. Desteklenen türler: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" parametreleri için %1$s gereklidir.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s sonlu bir sayı olmalıdır.</string>
     <string name="shader_parse_error_integer_expected">%1$s bir tamsayı olmalıdır.</string>
     <string name="shader_parse_error_bool_expected">%1$s doğru veya yanlış olmalıdır.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Profilleri dışa aktar</string>
     <string name="save_export_profile">Mevcut profili kaydet</string>
     <string name="delete_export_profile">Dışa aktarma profilini sil</string>
-    <string name="delete_export_profile_sub">\\\"%1$s\\\" dışa aktarma profilini silmek istiyor musunuz?</string>
+    <string name="delete_export_profile_sub">\"%1$s\" dışa aktarma profilini silmek istiyor musunuz?</string>
     <string name="draw_bitmap_border">Kenarlık çizme</string>
     <string name="draw_bitmap_border_sub">Çizim ve silme tuvalinin çevresinde ince bir kenarlık gösterme</string>
     <string name="wavy">Dalgalı</string>

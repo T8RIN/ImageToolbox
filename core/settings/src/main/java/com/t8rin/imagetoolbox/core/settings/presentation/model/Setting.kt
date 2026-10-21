@@ -242,6 +242,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object AiAssistant : Setting(
+        title = R.string.ai_assistant,
+        subtitle = R.string.ai_assistant_subtitle
+    )
+
+    @Serializable
     data object ImagePickerMode : Setting(
         title = R.string.photo_picker,
         subtitle = R.string.photo_picker_sub

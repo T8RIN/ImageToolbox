@@ -21,6 +21,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -52,6 +53,12 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setSemanticSearchEnabled(enabled: Boolean)
 
     suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
+
+    suspend fun setAiAssistantEnabled(enabled: Boolean)
+
+    suspend fun setAiAssistantSetupComplete()
+
+    suspend fun setAiAssistantModel(model: AssistantModel)
 
     suspend fun toggleAddFileSize()
 

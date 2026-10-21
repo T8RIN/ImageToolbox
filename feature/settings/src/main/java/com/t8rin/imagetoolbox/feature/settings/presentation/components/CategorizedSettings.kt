@@ -23,6 +23,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -59,6 +60,7 @@ internal fun CategorizedSettings(
     categoryGridState: LazyStaggeredGridState,
     contentPadding: PaddingValues,
     targetSetting: Setting?,
+    targetModifier: Modifier,
     highlightedContainerColor: Color
 ) {
     val settingsState = LocalSettingsState.current
@@ -125,13 +127,15 @@ internal fun CategorizedSettings(
                                 size = group.settingsList.size
                             )
                         ) {
-                            SettingItem(
-                                setting = setting,
-                                component = component,
-                                containerColor = if (setting == targetSetting) {
-                                    highlightedContainerColor
-                                } else MaterialTheme.colorScheme.surfaceContainerLow
-                            )
+                            Column(if (setting == targetSetting) targetModifier else Modifier) {
+                                SettingItem(
+                                    setting = setting,
+                                    component = component,
+                                    containerColor = if (setting == targetSetting) {
+                                        highlightedContainerColor
+                                    } else MaterialTheme.colorScheme.surfaceContainerLow
+                                )
+                            }
                         }
                     }
                 }

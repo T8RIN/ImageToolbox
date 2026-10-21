@@ -119,6 +119,7 @@ class EraseBackgroundComponent @AssistedInject internal constructor(
     val imageFormat: ImageFormat by _imageFormat
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
+    val uri: Uri get() = _uri.value
 
     private val _bitmap: MutableState<Bitmap?> = mutableStateOf(null)
     val bitmap: Bitmap? by _bitmap

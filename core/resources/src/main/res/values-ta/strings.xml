@@ -332,7 +332,7 @@
     <string name="copy">நகலெடுக்கவும்</string>
     <string name="warning_bytes">%1$s பயன்முறையில் சேமிப்பது நிலையற்றதாக இருக்கலாம், ஏனெனில் இது இழப்பற்ற வடிவமாகும்</string>
     <string name="presets_sub" formatted="false">நீங்கள் முன்னமைக்கப்பட்ட 125 ஐத் தேர்ந்தெடுத்திருந்தால், அசல் படத்தின் 125% அளவு 100% தரத்துடன் படம் சேமிக்கப்படும். நீங்கள் முன்னமைக்கப்பட்ட 50 ஐ தேர்வு செய்தால், படம் 50% அளவு மற்றும் 50% தரத்துடன் சேமிக்கப்படும்.</string>
-    <string name="presets_sub_bytes">முன்னமைக்கப்பட்ட இங்கே வெளியீட்டு கோப்பின் % ஐ தீர்மானிக்கிறது, அதாவது 5 எம்பி படத்தில் 50 முன்னமைக்கப்பட்ட 50 ஐத் தேர்ந்தெடுத்தால், சேமித்த பிறகு 2,5 எம்பி படத்தைப் பெறுவீர்கள்</string>
+    <string name="presets_sub_bytes" formatted="false">முன்னமைக்கப்பட்ட இங்கே வெளியீட்டு கோப்பின் % ஐ தீர்மானிக்கிறது, அதாவது 5 எம்பி படத்தில் 50 முன்னமைக்கப்பட்ட 50 ஐத் தேர்ந்தெடுத்தால், சேமித்த பிறகு 2,5 எம்பி படத்தைப் பெறுவீர்கள்</string>
     <string name="randomize_filename">கோப்பு பெயரை சீரற்றதாக்கு</string>
     <string name="randomize_filename_sub">இயக்கப்பட்டால், வெளியீட்டு கோப்பு பெயர் முற்றிலும் சீரற்றதாக இருக்கும்</string>
     <string name="saved_to">%2$s என்ற பெயருடன் %1$s கோப்புறையில் சேமிக்கப்பட்டது</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">நுட்பமான அமைப்பு மற்றும் மென்மையான தோற்றத்திற்காக மென்மையான சீரான இரைச்சல் டோனிங்.</string>
     <string name="model_repainter">கலைப்பொருட்களை மீண்டும் வர்ணம் பூசுவதன் மூலமும், படத்தின் நிலைத்தன்மையை மேம்படுத்துவதன் மூலமும் சேதமடைந்த அல்லது சீரற்ற பகுதிகளை சரிசெய்கிறது.</string>
     <string name="model_debandurh_fs_ultra_lite">லைட்வெயிட் டிபாண்டிங் மாடல், இது குறைந்த செயல்திறன் செலவில் வண்ணப் பட்டையை நீக்குகிறது.</string>
-    <string name="model_jpeg_0_20">மேம்பட்ட தெளிவுக்காக மிக உயர்ந்த சுருக்க கலைப்பொருட்கள் (0-20% தரம்) கொண்ட படங்களை மேம்படுத்துகிறது.</string>
-    <string name="model_jpeg_20_40">உயர் சுருக்க கலைப்பொருட்கள் (20-40% தரம்) கொண்ட படங்களை மேம்படுத்துகிறது, விவரங்களை மீட்டமைக்கிறது மற்றும் சத்தத்தைக் குறைக்கிறது.</string>
-    <string name="model_jpeg_40_60">மிதமான சுருக்கத்துடன் படங்களை மேம்படுத்துகிறது (40-60% தரம்), கூர்மை மற்றும் மென்மையை சமநிலைப்படுத்துகிறது.</string>
-    <string name="model_jpeg_60_80">நுட்பமான விவரங்கள் மற்றும் அமைப்புகளை மேம்படுத்த, ஒளி சுருக்கத்துடன் (60-80% தரம்) படங்களைச் செம்மைப்படுத்துகிறது.</string>
-    <string name="model_jpeg_80_100">இயற்கையான தோற்றத்தையும் விவரங்களையும் பாதுகாக்கும் அதே வேளையில் இழப்பற்ற படங்களை (80-100% தரம்) சற்று மேம்படுத்துகிறது.</string>
+    <string name="model_jpeg_0_20" formatted="false">மேம்பட்ட தெளிவுக்காக மிக உயர்ந்த சுருக்க கலைப்பொருட்கள் (0-20% தரம்) கொண்ட படங்களை மேம்படுத்துகிறது.</string>
+    <string name="model_jpeg_20_40" formatted="false">உயர் சுருக்க கலைப்பொருட்கள் (20-40% தரம்) கொண்ட படங்களை மேம்படுத்துகிறது, விவரங்களை மீட்டமைக்கிறது மற்றும் சத்தத்தைக் குறைக்கிறது.</string>
+    <string name="model_jpeg_40_60" formatted="false">மிதமான சுருக்கத்துடன் படங்களை மேம்படுத்துகிறது (40-60% தரம்), கூர்மை மற்றும் மென்மையை சமநிலைப்படுத்துகிறது.</string>
+    <string name="model_jpeg_60_80" formatted="false">நுட்பமான விவரங்கள் மற்றும் அமைப்புகளை மேம்படுத்த, ஒளி சுருக்கத்துடன் (60-80% தரம்) படங்களைச் செம்மைப்படுத்துகிறது.</string>
+    <string name="model_jpeg_80_100" formatted="false">இயற்கையான தோற்றத்தையும் விவரங்களையும் பாதுகாக்கும் அதே வேளையில் இழப்பற்ற படங்களை (80-100% தரம்) சற்று மேம்படுத்துகிறது.</string>
     <string name="model_spongecolor_lite">எளிய மற்றும் வேகமான வண்ணமயமாக்கல், கார்ட்டூன்கள், சிறந்தவை அல்ல</string>
     <string name="model_deblr">கலைப்பொருட்களை அறிமுகப்படுத்தாமல், பட மங்கலை சிறிது குறைக்கிறது, கூர்மையை மேம்படுத்துகிறது.</string>
     <string name="processing_channel">நீண்ட கால செயல்பாடுகள்</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">அனைத்து ஆவண உட்பொதிக்கப்பட்ட படங்களையும் கிரேஸ்கேலுக்கு மாற்றவும்</string>
     <string name="compress_pdf">PDF ஐ சுருக்கவும்</string>
     <string name="compress_pdf_sub">எளிதாகப் பகிர உங்கள் ஆவணக் கோப்பின் அளவை மேம்படுத்தவும்</string>
-    <string name="repair_info">ImageToolbox உள் குறுக்கு-குறிப்பு அட்டவணையை மீண்டும் உருவாக்குகிறது மற்றும் புதிதாக கோப்பு கட்டமைப்பை மீண்டும் உருவாக்குகிறது. இது \\\"திறக்க முடியாத\\\" பல கோப்புகளுக்கான அணுகலை மீட்டெடுக்கும்.</string>
+    <string name="repair_info">ImageToolbox உள் குறுக்கு-குறிப்பு அட்டவணையை மீண்டும் உருவாக்குகிறது மற்றும் புதிதாக கோப்பு கட்டமைப்பை மீண்டும் உருவாக்குகிறது. இது \"திறக்க முடியாத\" பல கோப்புகளுக்கான அணுகலை மீட்டெடுக்கும்.</string>
     <string name="grayscale_info">இந்தக் கருவி அனைத்து ஆவணப் படங்களையும் கிரேஸ்கேலுக்கு மாற்றுகிறது. கோப்பு அளவை அச்சிடுவதற்கும் குறைப்பதற்கும் சிறந்தது</string>
     <string name="metadata">மெட்டாடேட்டா</string>
     <string name="metadata_pdf_sub">சிறந்த தனியுரிமைக்காக ஆவண பண்புகளைத் திருத்தவும்</string>
@@ -2342,9 +2342,9 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d அளவுருக்கள்</string>
     <string name="shader_source">ஷேடர் ஆதாரம்</string>
-    <string name="shader_main_body_info">முக்கிய() வெற்றிடத்தின் உடலை மட்டும் எழுதவும். UV ஆயத்தொலைவுகளுக்கு textureCoordinate மற்றும் மூல மாதிரியாக inputImageTexture ஐப் பயன்படுத்தவும்.</string>
+    <string name="shader_main_body_info">void main() இன் உடலை மட்டும் எழுதவும். UV ஆயத்தொலைவுகளுக்கு textureCoordinate மற்றும் மூல மாதிரியாக inputImageTexture ஐப் பயன்படுத்தவும்.</string>
     <string name="shader_helper_code">செயல்பாடுகள்</string>
-    <string name="shader_helper_code_info">விருப்ப உதவி செயல்பாடுகள், மாறிலிகள் மற்றும் கட்டமைப்புகள் வெற்றிடத்திற்கு முன் செருகப்பட்டன. சீருடைகள் பாராக்களிலிருந்து உருவாக்கப்படுகின்றன.</string>
+    <string name="shader_helper_code_info">விருப்ப உதவி செயல்பாடுகள், மாறிலிகள் மற்றும் கட்டமைப்புகள் void main()க்கு முன் செருகப்பட்டன. சீருடைகள் பாராக்களிலிருந்து உருவாக்கப்படுகின்றன.</string>
     <string name="shader_no_parameters">ஷேடருக்கு திருத்தக்கூடிய மதிப்புகள் தேவைப்படும்போது சீருடைகளை இங்கே சேர்க்கவும்.</string>
     <string name="reset_shader">ஷேடரை மீட்டமைக்கவும்</string>
     <string name="reset_shader_sub">தற்போதைய ஷேடர் வரைவு அழிக்கப்படும்</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">ஷேடர் பெயர் காலியாக இருக்கக்கூடாது.</string>
     <string name="shader_error_blank_source">ஷேடர் ஆதாரம் காலியாக இருக்கக்கூடாது.</string>
     <string name="shader_error_unsupported_characters">ஷேடர் மூலத்தில் ஆதரிக்கப்படாத எழுத்துகள் உள்ளன: %1$s. ASCII GLSL மூலத்தை மட்டும் பயன்படுத்தவும்.</string>
-    <string name="shader_error_duplicate_parameter">அளவுரு \\\"%1$s\\\" ஒன்றுக்கு மேற்பட்ட முறை அறிவிக்கப்பட்டது.</string>
+    <string name="shader_error_duplicate_parameter">அளவுரு \"%1$s\" ஒன்றுக்கு மேற்பட்ட முறை அறிவிக்கப்பட்டது.</string>
     <string name="shader_error_blank_parameter_name">அளவுரு பெயர்கள் காலியாக இருக்கக்கூடாது.</string>
-    <string name="shader_error_reserved_parameter_name">அளவுரு \\\"%1$s\\\" ஒதுக்கப்பட்ட GPUImage பெயரைப் பயன்படுத்துகிறது.</string>
-    <string name="shader_error_invalid_parameter_name">அளவுரு \\\"%1$s\\\" சரியான GLSL அடையாளங்காட்டியாக இருக்க வேண்டும்.</string>
-    <string name="shader_error_invalid_value_type">அளவுரு \\\"%1$s\\\" %2$s மதிப்பு வகை \\\"%3$s\\\", எதிர்பார்க்கப்படுகிறது \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">அளவுரு \\\"%1$s\\\" ஆனது பூல் மதிப்புகளுக்கான நிமிடம் அல்லது அதிகபட்சத்தை வரையறுக்க முடியாது.</string>
-    <string name="shader_error_min_greater_than_max">அளவுரு \\\"%1$s\\\" அதிகபட்சத்தை விட நிமிடம் அதிகமாக உள்ளது.</string>
-    <string name="shader_error_default_lower_than_min">அளவுரு \\\"%1$s\\\" இயல்புநிலை நிமிடத்தை விட குறைவாக உள்ளது.</string>
-    <string name="shader_error_default_greater_than_max">அளவுரு \\\"%1$s\\\" இயல்புநிலை அதிகபட்சத்தை விட அதிகமாக உள்ளது.</string>
-    <string name="shader_error_missing_input_texture">ஷேடர் கண்டிப்பாக \\\"சீரான மாதிரி2D %1$s;\\\" என்று அறிவிக்க வேண்டும்.</string>
-    <string name="shader_error_missing_texture_coordinate">ஷேடர் கண்டிப்பாக \\\"மாறுபடும் vec2 %1$s;\\\" என்று அறிவிக்க வேண்டும்.</string>
-    <string name="shader_error_missing_main_function">ஷேடர் கண்டிப்பாக \\\" void main()\\\" ஐ வரையறுக்க வேண்டும்.</string>
+    <string name="shader_error_reserved_parameter_name">அளவுரு \"%1$s\" ஒதுக்கப்பட்ட GPUImage பெயரைப் பயன்படுத்துகிறது.</string>
+    <string name="shader_error_invalid_parameter_name">அளவுரு \"%1$s\" சரியான GLSL அடையாளங்காட்டியாக இருக்க வேண்டும்.</string>
+    <string name="shader_error_invalid_value_type">அளவுரு \"%1$s\" %2$s மதிப்பு வகை \"%3$s\", எதிர்பார்க்கப்படுகிறது \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">அளவுரு \"%1$s\" ஆனது பூல் மதிப்புகளுக்கான நிமிடம் அல்லது அதிகபட்சத்தை வரையறுக்க முடியாது.</string>
+    <string name="shader_error_min_greater_than_max">அளவுரு \"%1$s\" அதிகபட்சத்தை விட நிமிடம் அதிகமாக உள்ளது.</string>
+    <string name="shader_error_default_lower_than_min">அளவுரு \"%1$s\" இயல்புநிலை நிமிடத்தை விட குறைவாக உள்ளது.</string>
+    <string name="shader_error_default_greater_than_max">அளவுரு \"%1$s\" இயல்புநிலை அதிகபட்சத்தை விட அதிகமாக உள்ளது.</string>
+    <string name="shader_error_missing_input_texture">ஷேடர் கண்டிப்பாக \"uniform sampler2D %1$s;\" என்று அறிவிக்க வேண்டும்.</string>
+    <string name="shader_error_missing_texture_coordinate">ஷேடர் கண்டிப்பாக \"varying vec2 %1$s;\" என்று அறிவிக்க வேண்டும்.</string>
+    <string name="shader_error_missing_main_function">ஷேடர் கண்டிப்பாக \" void main()\" ஐ வரையறுக்க வேண்டும்.</string>
     <string name="shader_error_missing_fragment_color">ஷேடர் gl_FragColor க்கு வண்ணத்தை எழுத வேண்டும்.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy மெயின்இமேஜ் ஷேடர்கள் ஆதரிக்கப்படவில்லை. GPUImage\'s void main() ஒப்பந்தத்தைப் பயன்படுத்தவும்.</string>
-    <string name="shader_error_shadertoy_i_time">அனிமேஷன் செய்யப்பட்ட ShaderToy சீருடை \\\"iTime\\\" ஆதரிக்கப்படவில்லை.</string>
-    <string name="shader_error_shadertoy_i_frame">அனிமேஷன் செய்யப்பட்ட ShaderToy சீருடை \\\"iFrame\\\" ஆதரிக்கப்படவில்லை.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy சீருடை \\\"iResolution\\\" ஆதரிக்கப்படவில்லை.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage ஷேடர்கள் ஆதரிக்கப்படவில்லை. GPUImage\'s void main() ஒப்பந்தத்தைப் பயன்படுத்தவும்.</string>
+    <string name="shader_error_shadertoy_i_time">அனிமேஷன் செய்யப்பட்ட ShaderToy சீருடை \"iTime\" ஆதரிக்கப்படவில்லை.</string>
+    <string name="shader_error_shadertoy_i_frame">அனிமேஷன் செய்யப்பட்ட ShaderToy சீருடை \"iFrame\" ஆதரிக்கப்படவில்லை.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy சீருடை \"iResolution\" ஆதரிக்கப்படவில்லை.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel இழைமங்கள் ஆதரிக்கப்படவில்லை.</string>
     <string name="shader_error_external_textures">வெளிப்புற இழைமங்கள் ஆதரிக்கப்படவில்லை.</string>
     <string name="shader_error_external_texture_extensions">வெளிப்புற அமைப்பு நீட்டிப்புகள் ஆதரிக்கப்படவில்லை.</string>
     <string name="shader_error_libretro_parameters">லிப்ரெட்ரோ ஷேடர் அளவுருக்கள் ஆதரிக்கப்படவில்லை.</string>
-    <string name="shader_error_extra_input_texture">ஒரே ஒரு உள்ளீட்டு அமைப்பு மட்டுமே ஆதரிக்கப்படுகிறது. \\\"சீருடை %1$s %2$s;\\\" அகற்றவும்.</string>
-    <string name="shader_error_missing_uniform">அளவுரு \\\"%1$s\\\" கண்டிப்பாக \\\"சீரான %2$s %1$s;\\\" என அறிவிக்க வேண்டும்.</string>
-    <string name="shader_error_wrong_uniform_type">அளவுரு \\\"%1$s\\\" \\\"சீரான %2$s %1$s;\\\" என அறிவிக்கப்பட்டது, எதிர்பார்க்கப்படும் \\\"சீரான %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">ஒரே ஒரு உள்ளீட்டு அமைப்பு மட்டுமே ஆதரிக்கப்படுகிறது. \"uniform %1$s %2$s;\" அகற்றவும்.</string>
+    <string name="shader_error_missing_uniform">அளவுரு \"%1$s\" கண்டிப்பாக \"uniform %2$s %1$s;\" என அறிவிக்க வேண்டும்.</string>
+    <string name="shader_error_wrong_uniform_type">அளவுரு \"%1$s\" \"uniform %2$s %1$s;\" என அறிவிக்கப்பட்டது, எதிர்பார்க்கப்படும் \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">ஷேடர் கோப்பு காலியாக உள்ளது.</string>
     <string name="shader_parse_error_not_itshader_json">ஷேடர் கோப்பு பதிப்பு, பெயர் மற்றும் ஷேடர் புலங்களைக் கொண்ட .itshader JSON பொருளாக இருக்க வேண்டும்.</string>
     <string name="shader_parse_error_invalid_json">ஷேடர் கோப்பு தவறான JSON அல்லது .itshader வடிவத்துடன் பொருந்தவில்லை.</string>
-    <string name="shader_parse_error_missing_field">புலம் \\\"%1$s\\\" தேவை.</string>
+    <string name="shader_parse_error_missing_field">புலம் \"%1$s\" தேவை.</string>
     <string name="shader_parse_error_missing_param_field">%1$s தேவை.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ஆதரிக்கப்படவில்லை. ஆதரிக்கப்படும் வகைகள்: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" அளவுருக்களுக்கு %1$s தேவை.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" ஆதரிக்கப்படவில்லை. ஆதரிக்கப்படும் வகைகள்: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" அளவுருக்களுக்கு %1$s தேவை.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s கண்டிப்பாக வரையறுக்கப்பட்ட எண்ணாக இருக்க வேண்டும்.</string>
     <string name="shader_parse_error_integer_expected">%1$s ஒரு முழு எண்ணாக இருக்க வேண்டும்.</string>
     <string name="shader_parse_error_bool_expected">%1$s உண்மையாகவோ அல்லது தவறாகவோ இருக்க வேண்டும்.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">சுயவிவரங்களை ஏற்றுமதி செய்யுங்கள்</string>
     <string name="save_export_profile">தற்போதைய சுயவிவரத்தை சேமிக்கவும்</string>
     <string name="delete_export_profile">ஏற்றுமதி சுயவிவரத்தை நீக்கவும்</string>
-    <string name="delete_export_profile_sub">\\\"%1$s\\\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
+    <string name="delete_export_profile_sub">\"%1$s\" என்ற ஏற்றுமதி சுயவிவரத்தை நீக்க விரும்புகிறீர்களா?</string>
     <string name="draw_bitmap_border">வரைதல் எல்லை</string>
     <string name="draw_bitmap_border_sub">வரைதல் மற்றும் அழிக்கும் கேன்வாஸைச் சுற்றி ஒரு மெல்லிய பார்டரைக் காட்டு</string>
     <string name="wavy">அலை அலையானது</string>
@@ -5576,7 +5576,7 @@
     <string name="gallery_search_category_name_exists">இந்தப் பெயரில் ஒரு வகை ஏற்கனவே உள்ளது</string>
     <string name="gallery_search_builtin_category_description">இந்த வகையில் எந்த புகைப்படங்கள் தோன்றும் என்பதை சரிசெய்யவும்.</string>
     <string name="gallery_search_threshold">ஒற்றுமை வாசல்</string>
-    <string name="gallery_search_threshold_value">ஒற்றுமை வரம்பு: %1$d_%%</string>
+    <string name="gallery_search_threshold_value">ஒற்றுமை வரம்பு: %1$d%%</string>
     <string name="gallery_search_text_threshold">விளக்கம் மூலம் தேடுங்கள்</string>
     <string name="gallery_search_image_threshold">புகைப்படம் மூலம் தேடவும்</string>
     <string name="gallery_search_threshold_description">பல தொடர்பற்ற புகைப்படங்கள் தோன்றினால் வரம்பை உயர்த்தவும். தொடர்புடைய புகைப்படங்கள் விடுபட்டால் அதைக் குறைக்கவும். தயாரிக்கப்பட்ட புகைப்படங்களுக்கு மாற்றங்கள் பொருந்தும்; கோப்பு பெயர் தேடல் மாறாமல் உள்ளது.</string>

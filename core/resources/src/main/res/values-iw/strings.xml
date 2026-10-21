@@ -371,7 +371,7 @@
     <string name="cannot_change_image_format">לא ניתן לשנות את פורמט התמונה כאשר אפשרות החלפת קבצים מופעלת</string>
     <string name="emoji_as_color_scheme">אמוג\'י בתור ערכת צבעים</string>
     <string name="presets_sub" formatted="false">אם בחרת בהגדרה 125, התמונה תישמר בגודל של 125% מהתמונה המקורית. אם תבחר בהגדרה 50, התמונה תישמר בגודל של 50%.</string>
-    <string name="presets_sub_bytes">הגדרה מראש כאן קובעת את % מקובץ הפלט, כלומר אם תבחר הגדרה מראש 50 בתמונה של 5MB אז תקבל תמונה של 2.5MB לאחר השמירה</string>
+    <string name="presets_sub_bytes" formatted="false">הגדרה מראש כאן קובעת את % מקובץ הפלט, כלומר אם תבחר הגדרה מראש 50 בתמונה של 5MB אז תקבל תמונה של 2.5MB לאחר השמירה</string>
     <string name="image_crop_mask_sub">השתמש בסוג המסכה הזה כדי ליצור מסכה מהתמונה הנתונה, שימו לב שהיא אמורה להיות בעלת ערוץ אלפא</string>
     <string name="backup_sub">גבה את הגדרות האפליקציה שלך לקובץ</string>
     <string name="reset_settings_sub">זה יחזיר את ההגדרות שלך לערכי ברירת המחדל. שימו לב שלא ניתן לבטל זאת ללא קובץ גיבוי שהוזכר לעיל.</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">גוון רעש עדין אחיד למרקם עדין ומראה חלק.</string>
     <string name="model_repainter">מתקן אזורים פגומים או לא אחידים על ידי צביעה מחדש של חפצים ושיפור עקביות התמונה.</string>
     <string name="model_debandurh_fs_ultra_lite">דגם קל משקל המסיר פסי צבע בעלות ביצועים מינימלית.</string>
-    <string name="model_jpeg_0_20">מייעל תמונות עם חפצי דחיסה גבוהים מאוד (איכות 0-20%) לשיפור הבהירות.</string>
-    <string name="model_jpeg_20_40">משפר תמונות עם חפצי דחיסה גבוהים (איכות 20-40%), שחזור פרטים והפחתת רעש.</string>
-    <string name="model_jpeg_40_60">משפר תמונות עם דחיסה מתונה (איכות 40-60%), מאזן חדות וחלקות.</string>
-    <string name="model_jpeg_60_80">מחדד תמונות עם דחיסה קלה (איכות 60-80%) כדי לשפר פרטים ומרקמים עדינים.</string>
-    <string name="model_jpeg_80_100">משפר מעט תמונות כמעט ללא אובדן (איכות 80-100%) תוך שמירה על מראה ופרטים טבעיים.</string>
+    <string name="model_jpeg_0_20" formatted="false">מייעל תמונות עם חפצי דחיסה גבוהים מאוד (איכות 0-20%) לשיפור הבהירות.</string>
+    <string name="model_jpeg_20_40" formatted="false">משפר תמונות עם חפצי דחיסה גבוהים (איכות 20-40%), שחזור פרטים והפחתת רעש.</string>
+    <string name="model_jpeg_40_60" formatted="false">משפר תמונות עם דחיסה מתונה (איכות 40-60%), מאזן חדות וחלקות.</string>
+    <string name="model_jpeg_60_80" formatted="false">מחדד תמונות עם דחיסה קלה (איכות 60-80%) כדי לשפר פרטים ומרקמים עדינים.</string>
+    <string name="model_jpeg_80_100" formatted="false">משפר מעט תמונות כמעט ללא אובדן (איכות 80-100%) תוך שמירה על מראה ופרטים טבעיים.</string>
     <string name="model_spongecolor_lite">צביעה פשוטה ומהירה, קריקטורות, לא אידיאלי</string>
     <string name="model_deblr">מפחית מעט את טשטוש התמונה, משפר את החדות מבלי להכניס חפצים.</string>
     <string name="processing_channel">פעולות ארוכות טווח</string>
@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">המר את כל התמונות המוטבעות במסמכים לגווני אפור</string>
     <string name="compress_pdf">דחוס PDF</string>
     <string name="compress_pdf_sub">בצע אופטימיזציה של גודל קובץ המסמך שלך לשיתוף קל יותר</string>
-    <string name="repair_info">ImageToolbox בונה מחדש את טבלת ההפניות הפנימית ומחדשת את מבנה הקובץ מאפס. זה יכול לשחזר גישה לקבצים רבים ש\\\"לא ניתן לפתוח\\\"</string>
+    <string name="repair_info">ImageToolbox בונה מחדש את טבלת ההפניות הפנימית ומחדשת את מבנה הקובץ מאפס. זה יכול לשחזר גישה לקבצים רבים ש\"לא ניתן לפתוח\"</string>
     <string name="grayscale_info">כלי זה ממיר את כל תמונות המסמכים לגווני אפור. הטוב ביותר להדפסה ולהקטנת גודל הקובץ</string>
     <string name="metadata">מטא נתונים</string>
     <string name="metadata_pdf_sub">ערוך מאפייני מסמך לפרטיות טובה יותר</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">שם הצללה לא יכול להיות ריק.</string>
     <string name="shader_error_blank_source">מקור הצללה לא חייב להיות ריק.</string>
     <string name="shader_error_unsupported_characters">מקור Shader מכיל תווים שאינם נתמכים: %1$s. השתמש במקור ASCII GLSL בלבד.</string>
-    <string name="shader_error_duplicate_parameter">הפרמטר \\\"%1$s\\\" מוכרז יותר מפעם אחת.</string>
+    <string name="shader_error_duplicate_parameter">הפרמטר \"%1$s\" מוכרז יותר מפעם אחת.</string>
     <string name="shader_error_blank_parameter_name">שמות פרמטרים לא יכולים להיות ריקים.</string>
-    <string name="shader_error_reserved_parameter_name">הפרמטר \\\"%1$s\\\" משתמש בשם GPUIimage שמור.</string>
-    <string name="shader_error_invalid_parameter_name">הפרמטר \\\"%1$s\\\" חייב להיות מזהה GLSL חוקי.</string>
-    <string name="shader_error_invalid_value_type">לפרמטר \\\"%1$s\\\" יש %2$s סוג ערך \\\"%3$s\\\", צפוי \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">הפרמטר \\\"%1$s\\\" אינו יכול להגדיר מינימום או מקסימום עבור ערכי bool.</string>
-    <string name="shader_error_min_greater_than_max">לפרמטר \\\"%1$s\\\" יש דקות גדולות מהמקסימום.</string>
-    <string name="shader_error_default_lower_than_min">ברירת המחדל של הפרמטר \\\"%1$s\\\" נמוכה ממינימום.</string>
-    <string name="shader_error_default_greater_than_max">ברירת המחדל של הפרמטר \\\"%1$s\\\" גדולה מהמקסימום.</string>
-    <string name="shader_error_missing_input_texture">Shader חייב להכריז על \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader חייב להכריז על \\\"variing vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader חייב להגדיר \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">הפרמטר \"%1$s\" משתמש בשם GPUIimage שמור.</string>
+    <string name="shader_error_invalid_parameter_name">הפרמטר \"%1$s\" חייב להיות מזהה GLSL חוקי.</string>
+    <string name="shader_error_invalid_value_type">לפרמטר \"%1$s\" יש %2$s סוג ערך \"%3$s\", צפוי \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">הפרמטר \"%1$s\" אינו יכול להגדיר מינימום או מקסימום עבור ערכי bool.</string>
+    <string name="shader_error_min_greater_than_max">לפרמטר \"%1$s\" יש דקות גדולות מהמקסימום.</string>
+    <string name="shader_error_default_lower_than_min">ברירת המחדל של הפרמטר \"%1$s\" נמוכה ממינימום.</string>
+    <string name="shader_error_default_greater_than_max">ברירת המחדל של הפרמטר \"%1$s\" גדולה מהמקסימום.</string>
+    <string name="shader_error_missing_input_texture">Shader חייב להכריז על \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader חייב להכריז על \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader חייב להגדיר \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader חייב לכתוב צבע ל-gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">הצללות של ShaderToy mainImage אינן נתמכות. השתמש בחוזה main() void של GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">מדי ShaderToy מונפש \\\"iTime\\\" אינם נתמכים.</string>
-    <string name="shader_error_shadertoy_i_frame">המדים \\\"iFrame\\\" של ShaderToy מונפשים אינם נתמכים.</string>
-    <string name="shader_error_shadertoy_i_resolution">מדים של ShaderToy \\\"iResolution\\\" אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_main_image">הצללות של ShaderToy mainImage אינן נתמכות. השתמש בחוזה void main() של GPUImage.</string>
+    <string name="shader_error_shadertoy_i_time">מדי ShaderToy מונפש \"iTime\" אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_i_frame">המדים \"iFrame\" של ShaderToy מונפשים אינם נתמכים.</string>
+    <string name="shader_error_shadertoy_i_resolution">מדים של ShaderToy \"iResolution\" אינם נתמכים.</string>
     <string name="shader_error_shadertoy_i_channel">מרקמי iChannel של ShaderToy אינם נתמכים.</string>
     <string name="shader_error_external_textures">טקסטורות חיצוניות אינן נתמכות.</string>
     <string name="shader_error_external_texture_extensions">הרחבות מרקם חיצוני אינן נתמכות.</string>
     <string name="shader_error_libretro_parameters">פרמטרי הצללה של Libretro אינם נתמכים.</string>
-    <string name="shader_error_extra_input_texture">רק מרקם קלט אחד נתמך. הסר את \\\"מדים %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">יש להצהיר על הפרמטר \\\"%1$s\\\" כ\\\"אחיד %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">הפרמטר \\\"%1$s\\\" מוכרז כ\\\"אחיד %2$s %1$s;\\\", צפוי \\\"אחיד %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">רק מרקם קלט אחד נתמך. הסר את \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">יש להצהיר על הפרמטר \"%1$s\" כ\"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">הפרמטר \"%1$s\" מוכרז כ\"uniform %2$s %1$s;\", צפוי \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">קובץ Shader ריק.</string>
     <string name="shader_parse_error_not_itshader_json">קובץ Shader חייב להיות אובייקט ‎.itshader JSON עם שדות גרסה, שם ושדות הצללה.</string>
     <string name="shader_parse_error_invalid_json">קובץ Shader אינו JSON חוקי או אינו תואם לפורמט .itshader.</string>
-    <string name="shader_parse_error_missing_field">שדה \\\"%1$s\\\" נדרש.</string>
+    <string name="shader_parse_error_missing_field">שדה \"%1$s\" נדרש.</string>
     <string name="shader_parse_error_missing_param_field">%1$s נדרש.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" אינו נתמך. סוגים נתמכים: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s נדרש עבור פרמטרים של \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" אינו נתמך. סוגים נתמכים: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s נדרש עבור פרמטרים של \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s חייב להיות מספר סופי.</string>
     <string name="shader_parse_error_integer_expected">%1$s חייב להיות מספר שלם.</string>
     <string name="shader_parse_error_bool_expected">%1$s חייב להיות נכון או לא נכון.</string>
@@ -3277,7 +3277,7 @@
     <string name="export_profiles">ייצוא פרופילים</string>
     <string name="save_export_profile">שמור את הפרופיל הנוכחי</string>
     <string name="delete_export_profile">מחק את פרופיל הייצוא</string>
-    <string name="delete_export_profile_sub">האם ברצונך למחוק את פרופיל הייצוא \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">האם ברצונך למחוק את פרופיל הייצוא \"%1$s\"?</string>
     <string name="draw_bitmap_border">ציור גבול</string>
     <string name="draw_bitmap_border_sub">הצג גבול דק מסביב לקנבס הציור והמחק</string>
     <string name="wavy">גַלִי</string>

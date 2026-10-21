@@ -372,7 +372,7 @@
     <string name="donation">Donación</string>
     <string name="keep_exif_sub">Se conservarán los metadatos de la imagen original</string>
     <string name="restore_sub">Restaura las configuraciones de la app desde un archivo previamente generado</string>
-    <string name="presets_sub_bytes">El ajuste predeterminado aquí define el % de tamaño del archivo resultante. Es decir, seleccionando \"50\" para una imagen de 5 MB se guardará una imagen de 2.5 MB.</string>
+    <string name="presets_sub_bytes" formatted="false">El ajuste predeterminado aquí define el % de tamaño del archivo resultante. Es decir, seleccionando \"50\" para una imagen de 5 MB se guardará una imagen de 2.5 MB.</string>
     <string name="erase_mode">Modo de borrado</string>
     <string name="allow_betas_sub">La búsqueda de actualizaciones incluirá versiones beta de la app si está habilitado</string>
     <string name="travels_and_places">Viajes y Lugares</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Tono de ruido suave y uniforme para una textura sutil y una apariencia suave.</string>
     <string name="model_repainter">Repara áreas dañadas o irregulares repintando artefactos y mejorando la consistencia de la imagen.</string>
     <string name="model_debandurh_fs_ultra_lite">Modelo de eliminación de bandas liviano que elimina las bandas de color con un costo de rendimiento mínimo.</string>
-    <string name="model_jpeg_0_20">Optimiza imágenes con artefactos de compresión muy alta (calidad del 0 al 20 %) para mejorar la claridad.</string>
-    <string name="model_jpeg_20_40">Mejora las imágenes con artefactos de alta compresión (20-40% de calidad), restaurando detalles y reduciendo el ruido.</string>
-    <string name="model_jpeg_40_60">Mejora las imágenes con una compresión moderada (40-60% de calidad), equilibrando la nitidez y la suavidad.</string>
-    <string name="model_jpeg_60_80">Refina las imágenes con una ligera compresión (60-80 % de calidad) para mejorar los detalles y texturas sutiles.</string>
-    <string name="model_jpeg_80_100">Mejora ligeramente las imágenes casi sin pérdidas (80-100 % de calidad) y al mismo tiempo conserva el aspecto y los detalles naturales.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimiza imágenes con artefactos de compresión muy alta (calidad del 0 al 20 %) para mejorar la claridad.</string>
+    <string name="model_jpeg_20_40" formatted="false">Mejora las imágenes con artefactos de alta compresión (20-40% de calidad), restaurando detalles y reduciendo el ruido.</string>
+    <string name="model_jpeg_40_60" formatted="false">Mejora las imágenes con una compresión moderada (40-60% de calidad), equilibrando la nitidez y la suavidad.</string>
+    <string name="model_jpeg_60_80" formatted="false">Refina las imágenes con una ligera compresión (60-80 % de calidad) para mejorar los detalles y texturas sutiles.</string>
+    <string name="model_jpeg_80_100" formatted="false">Mejora ligeramente las imágenes casi sin pérdidas (80-100 % de calidad) y al mismo tiempo conserva el aspecto y los detalles naturales.</string>
     <string name="model_spongecolor_lite">Colorización simple y rápida, dibujos animados, no es ideal.</string>
     <string name="model_deblr">Reduce ligeramente el desenfoque de la imagen, mejorando la nitidez sin introducir artefactos.</string>
     <string name="processing_channel">Operaciones de larga duración</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Convierta todas las imágenes incrustadas en documentos a escala de grises</string>
     <string name="compress_pdf">Comprimir PDF</string>
     <string name="compress_pdf_sub">Optimice el tamaño del archivo de su documento para compartirlo más fácilmente</string>
-    <string name="repair_info">ImageToolbox reconstruye la tabla de referencias cruzadas interna y regenera la estructura del archivo desde cero. Esto puede restaurar el acceso a muchos archivos que \\\"no se pueden abrir\\\"</string>
+    <string name="repair_info">ImageToolbox reconstruye la tabla de referencias cruzadas interna y regenera la estructura del archivo desde cero. Esto puede restaurar el acceso a muchos archivos que \"no se pueden abrir\"</string>
     <string name="grayscale_info">Esta herramienta convierte todas las imágenes de documentos a escala de grises. Lo mejor para imprimir y reducir el tamaño del archivo</string>
     <string name="metadata">Metadatos</string>
     <string name="metadata_pdf_sub">Edite las propiedades del documento para una mayor privacidad</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parámetros</string>
     <string name="shader_source">Fuente de sombreado</string>
-    <string name="shader_main_body_info">Escriba solo el cuerpo de void main(). Utilice texturaCoordinate para las coordenadas UV y inputImageTexture como muestra de origen.</string>
+    <string name="shader_main_body_info">Escriba solo el cuerpo de void main(). Utilice textureCoordinate para las coordenadas UV y inputImageTexture como muestra de origen.</string>
     <string name="shader_helper_code">Funciones</string>
     <string name="shader_helper_code_info">Funciones auxiliares opcionales, constantes y estructuras insertadas antes de void main(). Los uniformes se generan a partir de parámetros.</string>
     <string name="shader_no_parameters">Agregue uniformes aquí cuando el sombreador necesite valores editables.</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">El nombre del sombreador no debe estar en blanco.</string>
     <string name="shader_error_blank_source">La fuente del sombreador no debe estar en blanco.</string>
     <string name="shader_error_unsupported_characters">La fuente del sombreador contiene caracteres no admitidos: %1$s. Utilice únicamente fuente ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">El parámetro \\\"%1$s\\\" se declara más de una vez.</string>
+    <string name="shader_error_duplicate_parameter">El parámetro \"%1$s\" se declara más de una vez.</string>
     <string name="shader_error_blank_parameter_name">Los nombres de los parámetros no deben estar en blanco.</string>
-    <string name="shader_error_reserved_parameter_name">El parámetro \\\"%1$s\\\" utiliza un nombre GPUImage reservado.</string>
-    <string name="shader_error_invalid_parameter_name">El parámetro \\\"%1$s\\\" debe ser un identificador GLSL válido.</string>
-    <string name="shader_error_invalid_value_type">El parámetro \\\"%1$s\\\" tiene %2$s tipo de valor \\\"%3$s\\\", esperado \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">El parámetro \\\"%1$s\\\" no puede definir el mínimo o el máximo para los valores booleanos.</string>
-    <string name="shader_error_min_greater_than_max">El parámetro \\\"%1$s\\\" tiene un mínimo mayor que un máximo.</string>
-    <string name="shader_error_default_lower_than_min">El parámetro predeterminado \\\"%1$s\\\" es inferior al mínimo.</string>
-    <string name="shader_error_default_greater_than_max">El parámetro predeterminado \\\"%1$s\\\" es mayor que el máximo.</string>
-    <string name="shader_error_missing_input_texture">El sombreador debe declarar \\\"muestra uniforme2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">El sombreador debe declarar \\\"varying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">El sombreador debe definir \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">El parámetro \"%1$s\" utiliza un nombre GPUImage reservado.</string>
+    <string name="shader_error_invalid_parameter_name">El parámetro \"%1$s\" debe ser un identificador GLSL válido.</string>
+    <string name="shader_error_invalid_value_type">El parámetro \"%1$s\" tiene %2$s tipo de valor \"%3$s\", esperado \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">El parámetro \"%1$s\" no puede definir el mínimo o el máximo para los valores booleanos.</string>
+    <string name="shader_error_min_greater_than_max">El parámetro \"%1$s\" tiene un mínimo mayor que un máximo.</string>
+    <string name="shader_error_default_lower_than_min">El parámetro predeterminado \"%1$s\" es inferior al mínimo.</string>
+    <string name="shader_error_default_greater_than_max">El parámetro predeterminado \"%1$s\" es mayor que el máximo.</string>
+    <string name="shader_error_missing_input_texture">El sombreador debe declarar \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">El sombreador debe declarar \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">El sombreador debe definir \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader debe escribir un color en gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">Los sombreadores de imagen principal de ShaderToy no son compatibles. Utilice el contrato void main() de GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">El uniforme animado de ShaderToy \\\"iTime\\\" no es compatible.</string>
-    <string name="shader_error_shadertoy_i_frame">El uniforme animado de ShaderToy \\\"iFrame\\\" no es compatible.</string>
-    <string name="shader_error_shadertoy_i_resolution">El uniforme \\\"iResolution\\\" de ShaderToy no es compatible.</string>
+    <string name="shader_error_shadertoy_main_image">Los sombreadores de mainImage de ShaderToy no son compatibles. Utilice el contrato void main() de GPUImage.</string>
+    <string name="shader_error_shadertoy_i_time">El uniforme animado de ShaderToy \"iTime\" no es compatible.</string>
+    <string name="shader_error_shadertoy_i_frame">El uniforme animado de ShaderToy \"iFrame\" no es compatible.</string>
+    <string name="shader_error_shadertoy_i_resolution">El uniforme \"iResolution\" de ShaderToy no es compatible.</string>
     <string name="shader_error_shadertoy_i_channel">Las texturas ShaderToy iChannel no son compatibles.</string>
     <string name="shader_error_external_textures">No se admiten texturas externas.</string>
     <string name="shader_error_external_texture_extensions">No se admiten extensiones de textura externas.</string>
     <string name="shader_error_libretro_parameters">Los parámetros del sombreador Libretro no son compatibles.</string>
-    <string name="shader_error_extra_input_texture">Sólo se admite una textura de entrada. Quitar \\\"uniforme %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">El parámetro \\\"%1$s\\\" debe declararse como \\\"uniforme %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">El parámetro \\\"%1$s\\\" se declara como \\\"uniforme %2$s %1$s;\\\", esperado \\\"uniforme %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Sólo se admite una textura de entrada. Quitar \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">El parámetro \"%1$s\" debe declararse como \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">El parámetro \"%1$s\" se declara como \"uniform %2$s %1$s;\", esperado \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">El archivo de sombreador está vacío.</string>
     <string name="shader_parse_error_not_itshader_json">El archivo de sombreado debe ser un objeto JSON .itshader con versión, nombre y campos de sombreado.</string>
     <string name="shader_parse_error_invalid_json">El archivo Shader no es JSON válido o no coincide con el formato .itshader.</string>
-    <string name="shader_parse_error_missing_field">El campo \\\"%1$s\\\" es obligatorio.</string>
+    <string name="shader_parse_error_missing_field">El campo \"%1$s\" es obligatorio.</string>
     <string name="shader_parse_error_missing_param_field">Se requiere %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" no es compatible. Tipos admitidos: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s es necesario para los parámetros \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" no es compatible. Tipos admitidos: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s es necesario para los parámetros \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s debe ser un número finito.</string>
     <string name="shader_parse_error_integer_expected">%1$s debe ser un número entero.</string>
     <string name="shader_parse_error_bool_expected">%1$s debe ser verdadero o falso.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Exportar perfiles</string>
     <string name="save_export_profile">Guardar perfil actual</string>
     <string name="delete_export_profile">Eliminar perfil de exportación</string>
-    <string name="delete_export_profile_sub">¿Quiere eliminar el perfil de exportación \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">¿Quiere eliminar el perfil de exportación \"%1$s\"?</string>
     <string name="draw_bitmap_border">Borde de dibujo</string>
     <string name="draw_bitmap_border_sub">Mostrar un borde fino alrededor del lienzo de dibujo y borrado.</string>
     <string name="wavy">Ondulado</string>

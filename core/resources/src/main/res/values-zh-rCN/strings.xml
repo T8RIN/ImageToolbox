@@ -328,7 +328,7 @@
     <string name="randomize_filename">随机文件名</string>
     <string name="randomize_filename_sub">如果启用，输出文件名将是完全随机的</string>
     <string name="presets_sub" formatted="false">如果选择预设值125，图片将保存为原始图片大小的125%。如果选择预设值50，图片将保存为原始图片大小的50%</string>
-    <string name="presets_sub_bytes">此处的预设决定输出文件的百分比，例如如果你在5MB的图片上选择预设50，则保存后将得到一张2.5MB的图片</string>
+    <string name="presets_sub_bytes" formatted="false">此处的预设决定输出文件的百分比，例如如果你在5MB的图片上选择预设50，则保存后将得到一张2.5MB的图片</string>
     <string name="saved_to">已使用名称%2$s保存到%1$s文件夹</string>
     <string name="saved_to_without_filename">已保存到%1$s文件夹</string>
     <string name="tg_chat">Telegram 聊天</string>
@@ -1956,11 +1956,11 @@
     <string name="model_noise_toner_uniform_soft">温和的均匀噪声调色，使纹理更细腻，外观更平滑。</string>
     <string name="model_repainter">通过重新绘制瑕疵并改善图像一致性来修复损坏或不均匀的区域。</string>
     <string name="model_debandurh_fs_ultra_lite">轻量级去色带模型，以最小的性能成本去除色带。</string>
-    <string name="model_jpeg_0_20">优化具有非常高的压缩伪影（0-20%质量）的图像，以提高清晰度。</string>
-    <string name="model_jpeg_20_40">优化具有较高压缩伪影（20-40%质量）的图像，恢复细节并减少噪声。</string>
-    <string name="model_jpeg_40_60">优化中等压缩（40-60%质量）的图像，平衡清晰度和平滑度。</string>
-    <string name="model_jpeg_60_80">优化轻度压缩（60-80%质量）的图像，以增强细微细节和纹理。</string>
-    <string name="model_jpeg_80_100">优化接近无损图像（质量 80-100%），同时保留自然外观和细节。</string>
+    <string name="model_jpeg_0_20" formatted="false">优化具有非常高的压缩伪影（0-20%质量）的图像，以提高清晰度。</string>
+    <string name="model_jpeg_20_40" formatted="false">优化具有较高压缩伪影（20-40%质量）的图像，恢复细节并减少噪声。</string>
+    <string name="model_jpeg_40_60" formatted="false">优化中等压缩（40-60%质量）的图像，平衡清晰度和平滑度。</string>
+    <string name="model_jpeg_60_80" formatted="false">优化轻度压缩（60-80%质量）的图像，以增强细微细节和纹理。</string>
+    <string name="model_jpeg_80_100" formatted="false">优化接近无损图像（质量 80-100%），同时保留自然外观和细节。</string>
     <string name="model_deblr">略微减少图像模糊，提高清晰度而不引入伪影。</string>
     <string name="processing_channel">长时间运行的操作</string>
     <string name="processing_image">处理图像</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d 参数</string>
     <string name="shader_source">着色器源码</string>
-    <string name="shader_main_body_info">只写 void main() 的主体。使用纹理坐标作为 UV 坐标，使用 inputImageTexture 作为源采样器。</string>
+    <string name="shader_main_body_info">只写 void main() 的主体。使用textureCoordinate作为 UV 坐标，使用 inputImageTexture 作为源采样器。</string>
     <string name="shader_helper_code">功能</string>
     <string name="shader_helper_code_info">在 void main() 之前插入可选的辅助函数、常量和结构。制服是从参数生成的。</string>
     <string name="shader_no_parameters">当着色器需要可编辑值时，在此处添加制服。</string>
@@ -2362,8 +2362,8 @@
     <string name="shader_error_min_greater_than_max">参数“%1$s”的最小值大于最大值。</string>
     <string name="shader_error_default_lower_than_min">参数“%1$s”默认低于最小值。</string>
     <string name="shader_error_default_greater_than_max">参数“%1$s”默认大于最大值。</string>
-    <string name="shader_error_missing_input_texture">着色器必须声明“uniform Sampler2D %1$s;”。</string>
-    <string name="shader_error_missing_texture_coordinate">着色器必须声明“variing vec2 %1$s;”。</string>
+    <string name="shader_error_missing_input_texture">着色器必须声明“uniform sampler2D %1$s;”。</string>
+    <string name="shader_error_missing_texture_coordinate">着色器必须声明“varying vec2 %1$s;”。</string>
     <string name="shader_error_missing_main_function">着色器必须定义“void main()”。</string>
     <string name="shader_error_missing_fragment_color">着色器必须将颜色写入gl_FragColor。</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 着色器不受支持。使用 GPUImage 的 void main() 合约。</string>
@@ -2382,7 +2382,7 @@
     <string name="shader_parse_error_invalid_json">着色器文件不是有效的 JSON 或与 .itshader 格式不匹配。</string>
     <string name="shader_parse_error_missing_field">字段“%1$s”为必填项。</string>
     <string name="shader_parse_error_missing_param_field">%1$s 为必填项。</string>
-    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \\\"%2$s\\\"。支持的类型：%3$s。</string>
+    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \"%2$s\"。支持的类型：%3$s。</string>
     <string name="shader_parse_error_missing_value">“%2$s”参数需要 %1$s。</string>
     <string name="shader_parse_error_finite_number_expected">%1$s 必须是有限数。</string>
     <string name="shader_parse_error_integer_expected">%1$s 必须是整数。</string>

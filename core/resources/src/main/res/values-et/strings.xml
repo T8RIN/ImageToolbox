@@ -306,8 +306,8 @@
     <string name="skip">Jäta vahele</string>
     <string name="copy">Kopeeri</string>
     <string name="warning_bytes">Režiimis %1$s salvestamine võib olla ebastabiilne, kuna tegemist on kadudeta vorminguga</string>
-    <string name="presets_sub">Kui olete valinud eelseadistuse 125, salvestatakse pilt 125% suurusena originaalpildist. Kui valite eelseadistuse 50, salvestatakse pilt 50% suuruses</string>
-    <string name="presets_sub_bytes">Siinne eelseadistus määrab väljundfaili %, st kui valite 5 MB pildil eelseadistuse 50, saate pärast salvestamist 2,5 MB pildi</string>
+    <string name="presets_sub" formatted="false">Kui olete valinud eelseadistuse 125, salvestatakse pilt 125% suurusena originaalpildist. Kui valite eelseadistuse 50, salvestatakse pilt 50% suuruses</string>
+    <string name="presets_sub_bytes" formatted="false">Siinne eelseadistus määrab väljundfaili %, st kui valite 5 MB pildil eelseadistuse 50, saate pärast salvestamist 2,5 MB pildi</string>
     <string name="randomize_filename">Muutke failinimi juhuslikult</string>
     <string name="randomize_filename_sub">Kui see on lubatud, on väljundfaili nimi täiesti juhuslik</string>
     <string name="saved_to">Salvestatud %1$s kausta nimega %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Õrn ühtlane müra toniseerimine peene tekstuuri ja sileda välimuse jaoks.</string>
     <string name="model_repainter">Parandab kahjustatud või ebatasased alad, värvides uuesti esemeid ja parandades kujutise ühtlust.</string>
     <string name="model_debandurh_fs_ultra_lite">Kerge eraldusmudel, mis eemaldab värviribad minimaalse jõudluskuluga.</string>
-    <string name="model_jpeg_0_20">Optimeerib väga suure tihendusartefaktidega pilte (0–20% kvaliteet), et parandada selgust.</string>
-    <string name="model_jpeg_20_40">Täiustab pilte suure tihendusartefaktidega (20–40% kvaliteet), taastades detailid ja vähendades müra.</string>
-    <string name="model_jpeg_40_60">Parandab mõõduka tihendusega pilte (40-60% kvaliteet), tasakaalustades teravust ja sujuvust.</string>
-    <string name="model_jpeg_60_80">Täiustab pilte kerge tihendusega (60–80% kvaliteet), et täiustada peeneid detaile ja tekstuure.</string>
-    <string name="model_jpeg_80_100">Parandab veidi peaaegu kadudeta pilte (80-100% kvaliteet), säilitades samal ajal loomuliku välimuse ja detailid.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimeerib väga suure tihendusartefaktidega pilte (0–20% kvaliteet), et parandada selgust.</string>
+    <string name="model_jpeg_20_40" formatted="false">Täiustab pilte suure tihendusartefaktidega (20–40% kvaliteet), taastades detailid ja vähendades müra.</string>
+    <string name="model_jpeg_40_60" formatted="false">Parandab mõõduka tihendusega pilte (40-60% kvaliteet), tasakaalustades teravust ja sujuvust.</string>
+    <string name="model_jpeg_60_80" formatted="false">Täiustab pilte kerge tihendusega (60–80% kvaliteet), et täiustada peeneid detaile ja tekstuure.</string>
+    <string name="model_jpeg_80_100" formatted="false">Parandab veidi peaaegu kadudeta pilte (80-100% kvaliteet), säilitades samal ajal loomuliku välimuse ja detailid.</string>
     <string name="model_spongecolor_lite">Lihtne ja kiire värvimine, multikad, pole ideaalne</string>
     <string name="model_deblr">Vähendab veidi pildi hägusust, parandades teravust ilma artefakte lisamata.</string>
     <string name="processing_channel">Pikaajalised operatsioonid</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Teisendage kõik dokumendi manustatud pildid halltoonides</string>
     <string name="compress_pdf">Tihendage PDF</string>
     <string name="compress_pdf_sub">Lihtsamaks jagamiseks optimeerige oma dokumendi faili suurust</string>
-    <string name="repair_info">ImageToolbox taastab sisemise ristviidetabeli ja taastab failistruktuuri nullist. See võib taastada juurdepääsu paljudele failidele, mida \\\"ei saa avada\\\"</string>
+    <string name="repair_info">ImageToolbox taastab sisemise ristviidetabeli ja taastab failistruktuuri nullist. See võib taastada juurdepääsu paljudele failidele, mida \"ei saa avada\"</string>
     <string name="grayscale_info">See tööriist teisendab kõik dokumendipildid halltoonides. Parim printimiseks ja faili suuruse vähendamiseks</string>
     <string name="metadata">Metaandmed</string>
     <string name="metadata_pdf_sub">Parema privaatsuse tagamiseks muutke dokumendi atribuute</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Varjundi nime väli ei tohi olla tühi.</string>
     <string name="shader_error_blank_source">Varjundi allika väli ei tohi olla tühi.</string>
     <string name="shader_error_unsupported_characters">Varjutuse allikas sisaldab toetamata märke: %1$s. Kasutage ainult ASCII GLSL-i allikat.</string>
-    <string name="shader_error_duplicate_parameter">Parameeter \\\"%1$s\\\" deklareeritakse rohkem kui üks kord.</string>
+    <string name="shader_error_duplicate_parameter">Parameeter \"%1$s\" deklareeritakse rohkem kui üks kord.</string>
     <string name="shader_error_blank_parameter_name">Parameetrite nimed ei tohi olla tühjad.</string>
-    <string name="shader_error_reserved_parameter_name">Parameeter \\\"%1$s\\\" kasutab reserveeritud GPUI-pildi nime.</string>
-    <string name="shader_error_invalid_parameter_name">Parameeter \\\"%1$s\\\" peab olema kehtiv GLSL-i identifikaator.</string>
-    <string name="shader_error_invalid_value_type">Parameetril \\\"%1$s\\\" on %2$s väärtuse tüüp \\\"%3$s\\\", eeldatav \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parameeter \\\"%1$s\\\" ei saa määratleda tõeväärtuste miinimum- või maksimumväärtust.</string>
-    <string name="shader_error_min_greater_than_max">Parameetri \\\"%1$s\\\" min on suurem kui max.</string>
-    <string name="shader_error_default_lower_than_min">Vaikimisi parameetri \\\"%1$s\\\" väärtus on väiksem kui min.</string>
-    <string name="shader_error_default_greater_than_max">Parameeter \\\"%1$s\\\" on vaikimisi suurem kui max.</string>
-    <string name="shader_error_missing_input_texture">Shader peab deklareerima \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader peab deklareerima \\\"muutuv vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Varjutaja peab defineerima \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parameeter \"%1$s\" kasutab reserveeritud GPUI-pildi nime.</string>
+    <string name="shader_error_invalid_parameter_name">Parameeter \"%1$s\" peab olema kehtiv GLSL-i identifikaator.</string>
+    <string name="shader_error_invalid_value_type">Parameetril \"%1$s\" on %2$s väärtuse tüüp \"%3$s\", eeldatav \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parameeter \"%1$s\" ei saa määratleda tõeväärtuste miinimum- või maksimumväärtust.</string>
+    <string name="shader_error_min_greater_than_max">Parameetri \"%1$s\" min on suurem kui max.</string>
+    <string name="shader_error_default_lower_than_min">Vaikimisi parameetri \"%1$s\" väärtus on väiksem kui min.</string>
+    <string name="shader_error_default_greater_than_max">Parameeter \"%1$s\" on vaikimisi suurem kui max.</string>
+    <string name="shader_error_missing_input_texture">Shader peab deklareerima \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader peab deklareerima \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Varjutaja peab defineerima \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader peab kirjutama gl_FragColorile värvi.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage varjutajaid ei toetata. Kasutage GPUImage\'i tühist main() lepingut.</string>
-    <string name="shader_error_shadertoy_i_time">Animeeritud ShaderToy vormiriietust \\\"iTime\\\" ei toetata.</string>
-    <string name="shader_error_shadertoy_i_frame">Animeeritud ShaderToy vormiriietust \\\"iFrame\\\" ei toetata.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy vormiriietust \\\"iResolution\\\" ei toetata.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage varjutajaid ei toetata. Kasutage GPUImage\'i void main() lepingut.</string>
+    <string name="shader_error_shadertoy_i_time">Animeeritud ShaderToy vormiriietust \"iTime\" ei toetata.</string>
+    <string name="shader_error_shadertoy_i_frame">Animeeritud ShaderToy vormiriietust \"iFrame\" ei toetata.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy vormiriietust \"iResolution\" ei toetata.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChanneli tekstuure ei toetata.</string>
     <string name="shader_error_external_textures">Väliseid tekstuure ei toetata.</string>
     <string name="shader_error_external_texture_extensions">Väliseid tekstuurilaiendeid ei toetata.</string>
     <string name="shader_error_libretro_parameters">Libretro varjutaja parameetreid ei toetata.</string>
-    <string name="shader_error_extra_input_texture">Toetatud on ainult üks sisendtekstuur. Eemalda \\\"ühine %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parameeter \\\"%1$s\\\" tuleb deklareerida kui \\\"ühtne %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameeter \\\"%1$s\\\" on deklareeritud kui \\\"ühtne %2$s %1$s;\\\", eeldatav \\\"ühtne %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Toetatud on ainult üks sisendtekstuur. Eemalda \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parameeter \"%1$s\" tuleb deklareerida kui \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameeter \"%1$s\" on deklareeritud kui \"uniform %2$s %1$s;\", eeldatav \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shaderi fail on tühi.</string>
     <string name="shader_parse_error_not_itshader_json">Shaderi fail peab olema .itshader JSON-objekt, millel on versiooni, nime ja varjundi väljad.</string>
     <string name="shader_parse_error_invalid_json">Shaderi fail ei ole kehtiv JSON või ei ühti .itshaderi vorminguga.</string>
-    <string name="shader_parse_error_missing_field">Väli \\\"%1$s\\\" on kohustuslik.</string>
+    <string name="shader_parse_error_missing_field">Väli \"%1$s\" on kohustuslik.</string>
     <string name="shader_parse_error_missing_param_field">%1$s on nõutav.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ei toetata. Toetatud tüübid: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s on vajalik \\\"%2$s\\\" parameetrite jaoks.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" ei toetata. Toetatud tüübid: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s on vajalik \"%2$s\" parameetrite jaoks.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s peab olema lõplik arv.</string>
     <string name="shader_parse_error_integer_expected">%1$s peab olema täisarv.</string>
     <string name="shader_parse_error_bool_expected">%1$s peab olema tõene või väär.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Ekspordi profiilid</string>
     <string name="save_export_profile">Salvesta praegune profiil</string>
     <string name="delete_export_profile">Kustuta ekspordiprofiil</string>
-    <string name="delete_export_profile_sub">Kas soovite kustutada ekspordiprofiili \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Kas soovite kustutada ekspordiprofiili \"%1$s\"?</string>
     <string name="draw_bitmap_border">Piiri joonistamine</string>
     <string name="draw_bitmap_border_sub">Näidake joonistus- ja kustutamislõuendi ümber õhukest äärist</string>
     <string name="wavy">Laineline</string>

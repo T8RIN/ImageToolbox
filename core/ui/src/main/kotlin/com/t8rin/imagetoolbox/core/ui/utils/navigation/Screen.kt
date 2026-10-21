@@ -98,6 +98,18 @@ sealed class Screen(
     )
 
     @Serializable
+    data class Assistant(
+        val source: Screen? = null,
+        val settingKey: String? = null,
+        val parameters: Map<String, String> = emptyMap(),
+        val selectedUris: List<Uri> = emptyList()
+    ) : Screen(
+        id = -10,
+        title = R.string.ai_assistant,
+        subtitle = R.string.ai_assistant_subtitle
+    )
+
+    @Serializable
     data object UsageStatistics : Screen(
         id = -8,
         title = 0,
@@ -203,7 +215,8 @@ sealed class Screen(
 
             @Serializable
             data class Basic(
-                val uris: List<Uri>? = null
+                val uris: List<Uri>? = null,
+                val filterKey: String? = null
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub

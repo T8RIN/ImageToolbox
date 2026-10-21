@@ -367,7 +367,7 @@
     <string name="randomize_filename_sub">सक्षम होने पर आउटपुट फाइल नाम पूरी तरह से यादृच्छिक होगा</string>
     <string name="keep_exif_sub">मूल छवि का मेटाडेटा रखा जाएगा</string>
     <string name="restore_sub">पहले से बनाई गई फाइल से ऐप सेटिंग पुनर्स्थापित करें</string>
-    <string name="presets_sub_bytes">प्रीसेट यहाँ प्राप्त होने वाली फोटो का % निर्धारित करता है,जैसे कि अगर आपने प्रीसेट में 50 चुना हैं तो आपको 5mb की फोटो सेव होने के बाद 2.5mb की प्राप्त होगी</string>
+    <string name="presets_sub_bytes" formatted="false">प्रीसेट यहाँ प्राप्त होने वाली फोटो का % निर्धारित करता है,जैसे कि अगर आपने प्रीसेट में 50 चुना हैं तो आपको 5mb की फोटो सेव होने के बाद 2.5mb की प्राप्त होगी</string>
     <string name="erase_mode">मिटाएं मोड</string>
     <string name="allow_betas_sub">सक्षम होने पर अपडेट जाँच में बीटा ऐप संस्करण शामिल होंगे</string>
     <string name="travels_and_places">यात्राएं और स्थान</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">सूक्ष्म बनावट और चिकनी उपस्थिति के लिए सौम्य समान शोर टोनिंग।</string>
     <string name="model_repainter">कलाकृतियों को दोबारा रंगकर और छवि स्थिरता में सुधार करके क्षतिग्रस्त या असमान क्षेत्रों की मरम्मत करता है।</string>
     <string name="model_debandurh_fs_ultra_lite">हल्के डिबैंडिंग मॉडल जो न्यूनतम प्रदर्शन लागत के साथ रंग बैंडिंग को हटा देता है।</string>
-    <string name="model_jpeg_0_20">बेहतर स्पष्टता के लिए छवियों को बहुत उच्च संपीड़न कलाकृतियों (0-20% गुणवत्ता) के साथ अनुकूलित करता है।</string>
-    <string name="model_jpeg_20_40">उच्च संपीड़न कलाकृतियों (20-40% गुणवत्ता) के साथ छवियों को बढ़ाता है, विवरण बहाल करता है और शोर को कम करता है।</string>
-    <string name="model_jpeg_40_60">मध्यम संपीड़न (40-60% गुणवत्ता) के साथ छवियों को बेहतर बनाता है, तीक्ष्णता और चिकनाई को संतुलित करता है।</string>
-    <string name="model_jpeg_60_80">सूक्ष्म विवरण और बनावट को बढ़ाने के लिए छवियों को हल्के संपीड़न (60-80% गुणवत्ता) के साथ परिष्कृत करता है।</string>
-    <string name="model_jpeg_80_100">प्राकृतिक लुक और विवरण को संरक्षित करते हुए लगभग दोषरहित छवियों (80-100% गुणवत्ता) को थोड़ा बढ़ाता है।</string>
+    <string name="model_jpeg_0_20" formatted="false">बेहतर स्पष्टता के लिए छवियों को बहुत उच्च संपीड़न कलाकृतियों (0-20% गुणवत्ता) के साथ अनुकूलित करता है।</string>
+    <string name="model_jpeg_20_40" formatted="false">उच्च संपीड़न कलाकृतियों (20-40% गुणवत्ता) के साथ छवियों को बढ़ाता है, विवरण बहाल करता है और शोर को कम करता है।</string>
+    <string name="model_jpeg_40_60" formatted="false">मध्यम संपीड़न (40-60% गुणवत्ता) के साथ छवियों को बेहतर बनाता है, तीक्ष्णता और चिकनाई को संतुलित करता है।</string>
+    <string name="model_jpeg_60_80" formatted="false">सूक्ष्म विवरण और बनावट को बढ़ाने के लिए छवियों को हल्के संपीड़न (60-80% गुणवत्ता) के साथ परिष्कृत करता है।</string>
+    <string name="model_jpeg_80_100" formatted="false">प्राकृतिक लुक और विवरण को संरक्षित करते हुए लगभग दोषरहित छवियों (80-100% गुणवत्ता) को थोड़ा बढ़ाता है।</string>
     <string name="model_spongecolor_lite">सरल और तेज़ रंगीकरण, कार्टून, आदर्श नहीं</string>
     <string name="model_deblr">कलाकृतियों को पेश किए बिना छवि के धुंधलेपन को थोड़ा कम करता है, तीक्ष्णता में सुधार करता है।</string>
     <string name="processing_channel">लंबे समय तक चलने वाले ऑपरेशन</string>
@@ -2342,9 +2342,9 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d पैरामीटर</string>
     <string name="shader_source">शेडर स्रोत</string>
-    <string name="shader_main_body_info">केवल शून्य मुख्य() का मुख्य भाग लिखें। स्रोत नमूने के रूप में यूवी निर्देशांक और इनपुटइमेजटेक्स्चर के लिए टेक्सचरकोऑर्डिनेट का उपयोग करें।</string>
+    <string name="shader_main_body_info">केवल void main() का मुख्य भाग लिखें। स्रोत नमूने के रूप में यूवी निर्देशांक और inputImageTexture के लिए textureCoordinate का उपयोग करें।</string>
     <string name="shader_helper_code">कार्य</string>
-    <string name="shader_helper_code_info">शून्य मुख्य() से पहले वैकल्पिक सहायक फ़ंक्शन, स्थिरांक और संरचनाएं डाली गईं। वर्दी पैराम से उत्पन्न होती है।</string>
+    <string name="shader_helper_code_info">void main() से पहले वैकल्पिक सहायक फ़ंक्शन, स्थिरांक और संरचनाएं डाली गईं। वर्दी पैराम से उत्पन्न होती है।</string>
     <string name="shader_no_parameters">जब शेडर को संपादन योग्य मानों की आवश्यकता हो तो यहां वर्दी जोड़ें।</string>
     <string name="reset_shader">शेडर रीसेट करें</string>
     <string name="reset_shader_sub">वर्तमान शेडर ड्राफ्ट साफ़ कर दिया जाएगा</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">शेडर नाम रिक्त नहीं होना चाहिए.</string>
     <string name="shader_error_blank_source">शेडर स्रोत रिक्त नहीं होना चाहिए.</string>
     <string name="shader_error_unsupported_characters">शेडर स्रोत में असमर्थित वर्ण हैं: %1$s। केवल ASCII GLSL स्रोत का उपयोग करें।</string>
-    <string name="shader_error_duplicate_parameter">पैरामीटर \\\"%1$s\\\" एक से अधिक बार घोषित किया गया है।</string>
+    <string name="shader_error_duplicate_parameter">पैरामीटर \"%1$s\" एक से अधिक बार घोषित किया गया है।</string>
     <string name="shader_error_blank_parameter_name">पैरामीटर नाम रिक्त नहीं होने चाहिए.</string>
-    <string name="shader_error_reserved_parameter_name">पैरामीटर \\\"%1$s\\\" एक आरक्षित GPUImage नाम का उपयोग करता है।</string>
-    <string name="shader_error_invalid_parameter_name">पैरामीटर \\\"%1$s\\\" एक वैध GLSL पहचानकर्ता होना चाहिए.</string>
-    <string name="shader_error_invalid_value_type">पैरामीटर \"%1$s\\\" में %2$s मान प्रकार \"%3$s\\\" है, अपेक्षित \"%4$s\\\"।</string>
-    <string name="shader_error_bool_bounds">पैरामीटर \\\"%1$s\\\" बूल मानों के लिए न्यूनतम या अधिकतम परिभाषित नहीं कर सकता।</string>
-    <string name="shader_error_min_greater_than_max">पैरामीटर \\\"%1$s\\\" में न्यूनतम अधिकतम से अधिक है।</string>
-    <string name="shader_error_default_lower_than_min">पैरामीटर \\\"%1$s\\\" डिफ़ॉल्ट न्यूनतम से कम है।</string>
-    <string name="shader_error_default_greater_than_max">पैरामीटर \\\"%1$s\\\" डिफ़ॉल्ट अधिकतम से अधिक है।</string>
-    <string name="shader_error_missing_input_texture">शेडर को \\\"यूनिफ़ॉर्म सैम्पलर2D %1$s;\\\" घोषित करना होगा।</string>
-    <string name="shader_error_missing_texture_coordinate">शेडर को \\\"विभिन्न vec2 %1$s;\\\" घोषित करना होगा।</string>
-    <string name="shader_error_missing_main_function">शेडर को \\\"void main()\\\" परिभाषित करना होगा।</string>
+    <string name="shader_error_reserved_parameter_name">पैरामीटर \"%1$s\" एक आरक्षित GPUImage नाम का उपयोग करता है।</string>
+    <string name="shader_error_invalid_parameter_name">पैरामीटर \"%1$s\" एक वैध GLSL पहचानकर्ता होना चाहिए.</string>
+    <string name="shader_error_invalid_value_type">पैरामीटर \"%1$s\" में %2$s मान प्रकार \"%3$s\" है, अपेक्षित \"%4$s\"।</string>
+    <string name="shader_error_bool_bounds">पैरामीटर \"%1$s\" बूल मानों के लिए न्यूनतम या अधिकतम परिभाषित नहीं कर सकता।</string>
+    <string name="shader_error_min_greater_than_max">पैरामीटर \"%1$s\" में न्यूनतम अधिकतम से अधिक है।</string>
+    <string name="shader_error_default_lower_than_min">पैरामीटर \"%1$s\" डिफ़ॉल्ट न्यूनतम से कम है।</string>
+    <string name="shader_error_default_greater_than_max">पैरामीटर \"%1$s\" डिफ़ॉल्ट अधिकतम से अधिक है।</string>
+    <string name="shader_error_missing_input_texture">शेडर को \"uniform sampler2D %1$s;\" घोषित करना होगा।</string>
+    <string name="shader_error_missing_texture_coordinate">शेडर को \"varying vec2 %1$s;\" घोषित करना होगा।</string>
+    <string name="shader_error_missing_main_function">शेडर को \"void main()\" परिभाषित करना होगा।</string>
     <string name="shader_error_missing_fragment_color">शेडर को gl_FragColor पर एक रंग लिखना होगा।</string>
-    <string name="shader_error_shadertoy_main_image">शेडरटॉय मेनइमेज शेडर्स समर्थित नहीं हैं। GPUImage के शून्य मुख्य() अनुबंध का उपयोग करें।</string>
-    <string name="shader_error_shadertoy_i_time">एनिमेटेड शेडरटॉय वर्दी \\\"iTime\\\" समर्थित नहीं है।</string>
-    <string name="shader_error_shadertoy_i_frame">एनिमेटेड शेडरटॉय वर्दी \\\"iFrame\\\" समर्थित नहीं है।</string>
-    <string name="shader_error_shadertoy_i_resolution">शेडरटॉय वर्दी \\\"iResolution\\\" समर्थित नहीं है।</string>
-    <string name="shader_error_shadertoy_i_channel">शेडरटॉय आईचैनल बनावट समर्थित नहीं हैं।</string>
+    <string name="shader_error_shadertoy_main_image">शेडरटॉय mainImage शेडर्स समर्थित नहीं हैं। GPUImage के void main() अनुबंध का उपयोग करें।</string>
+    <string name="shader_error_shadertoy_i_time">एनिमेटेड शेडरटॉय वर्दी \"iTime\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_i_frame">एनिमेटेड शेडरटॉय वर्दी \"iFrame\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_i_resolution">शेडरटॉय वर्दी \"iResolution\" समर्थित नहीं है।</string>
+    <string name="shader_error_shadertoy_i_channel">शेडरटॉय iChannel बनावट समर्थित नहीं हैं।</string>
     <string name="shader_error_external_textures">बाहरी बनावट समर्थित नहीं हैं.</string>
     <string name="shader_error_external_texture_extensions">बाहरी बनावट एक्सटेंशन समर्थित नहीं हैं.</string>
     <string name="shader_error_libretro_parameters">लिब्रेट्रो शेडर पैरामीटर समर्थित नहीं हैं।</string>
-    <string name="shader_error_extra_input_texture">केवल एक इनपुट बनावट समर्थित है. \\\"वर्दी %1$s %2$s;\\\" हटाएं।</string>
-    <string name="shader_error_missing_uniform">पैरामीटर \\\"%1$s\\\" को \\\"यूनिफ़ॉर्म %2$s %1$s;\\\" घोषित किया जाना चाहिए।</string>
-    <string name="shader_error_wrong_uniform_type">पैरामीटर \"%1$s\\\" को \"यूनिफ़ॉर्म %2$s %1$s;\\\" घोषित किया गया है, अपेक्षित \"यूनिफ़ॉर्म %3$s %1$s;\\\"।</string>
+    <string name="shader_error_extra_input_texture">केवल एक इनपुट बनावट समर्थित है. \"uniform %1$s %2$s;\" हटाएं।</string>
+    <string name="shader_error_missing_uniform">पैरामीटर \"%1$s\" को \"uniform %2$s %1$s;\" घोषित किया जाना चाहिए।</string>
+    <string name="shader_error_wrong_uniform_type">पैरामीटर \"%1$s\" को \"uniform %2$s %1$s;\" घोषित किया गया है, अपेक्षित \"uniform %3$s %1$s;\"।</string>
     <string name="shader_parse_error_empty_file">शेडर फ़ाइल खाली है.</string>
     <string name="shader_parse_error_not_itshader_json">शेडर फ़ाइल संस्करण, नाम और शेडर फ़ील्ड के साथ एक .itshader JSON ऑब्जेक्ट होनी चाहिए।</string>
     <string name="shader_parse_error_invalid_json">शेडर फ़ाइल वैध JSON नहीं है या .itshader प्रारूप से मेल नहीं खाती है।</string>
-    <string name="shader_parse_error_missing_field">फ़ील्ड \\\"%1$s\\\" आवश्यक है.</string>
+    <string name="shader_parse_error_missing_field">फ़ील्ड \"%1$s\" आवश्यक है.</string>
     <string name="shader_parse_error_missing_param_field">%1$s आवश्यक है.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" समर्थित नहीं है. समर्थित प्रकार: %3$s।</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" पैरामीटर के लिए %1$s आवश्यक है।</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" समर्थित नहीं है. समर्थित प्रकार: %3$s।</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" पैरामीटर के लिए %1$s आवश्यक है।</string>
     <string name="shader_parse_error_finite_number_expected">%1$s एक सीमित संख्या होनी चाहिए.</string>
     <string name="shader_parse_error_integer_expected">%1$s एक पूर्णांक होना चाहिए.</string>
     <string name="shader_parse_error_bool_expected">%1$s सत्य या असत्य होना चाहिए।</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">प्रोफ़ाइल निर्यात करें</string>
     <string name="save_export_profile">वर्तमान प्रोफ़ाइल सहेजें</string>
     <string name="delete_export_profile">निर्यात प्रोफ़ाइल हटाएँ</string>
-    <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \\\"%1$s\\\" को हटाना चाहते हैं?</string>
+    <string name="delete_export_profile_sub">क्या आप निर्यात प्रोफ़ाइल \"%1$s\" को हटाना चाहते हैं?</string>
     <string name="draw_bitmap_border">सीमा रेखा खींचना</string>
     <string name="draw_bitmap_border_sub">ड्राइंग और मिटाए गए कैनवास के चारों ओर एक पतली सीमा दिखाएं</string>
     <string name="wavy">लहरदार</string>
@@ -5560,7 +5560,7 @@
     <string name="gallery_search_category_remove_reference">संदर्भ फ़ोटो हटाएँ</string>
     <string name="gallery_search_category_text_threshold">वर्णन से समानता</string>
     <string name="gallery_search_category_image_threshold">संदर्भ फ़ोटो से समानता</string>
-    <string name="gallery_search_category_thresholds">विवरण: %1$d_PH_1__ · तस्वीरें: %2$d%%</string>
+    <string name="gallery_search_category_thresholds">विवरण: %1$d%% · तस्वीरें: %2$d%%</string>
     <string name="gallery_search_category_preview">पूर्व दर्शन</string>
     <string name="gallery_search_category_preview_count">मिलान तस्वीरें: %1$d</string>
     <string name="gallery_search_category_preview_no_matches">कोई मेल नहीं। निचली सीमा का प्रयास करें.</string>

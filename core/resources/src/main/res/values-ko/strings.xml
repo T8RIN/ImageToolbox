@@ -337,7 +337,7 @@
     <string name="empty">비어 있는</string>
     <string name="free">무료</string>
     <string name="presets_sub" formatted="false">사전 설정에서 125를 선택한 경우 이미지가 원본 이미지의 125% 크기로 저장됩니다. 사전 설정에서 50을 선택하면 이미지가 50% 크기로 저장됩니다.</string>
-    <string name="presets_sub_bytes">여기 사전 설정은 출력 파일의 %를 결정합니다. 즉, 5MB 이미지에서 사전 설정 50을 선택하면 저장 후 2.5MB 이미지를 얻게 됩니다.</string>
+    <string name="presets_sub_bytes" formatted="false">여기 사전 설정은 출력 파일의 %를 결정합니다. 즉, 5MB 이미지에서 사전 설정 50을 선택하면 저장 후 2.5MB 이미지를 얻게 됩니다.</string>
     <string name="randomize_filename_sub">활성화하면 출력 파일 이름이 완전히 무작위가 됩니다.</string>
     <string name="saved_to_without_filename">%1$s 폴더에 저장됨</string>
     <string name="tg_chat">텔레그램 채팅</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">미묘한 질감과 부드러운 외관을 위한 부드럽고 균일한 노이즈 토닝.</string>
     <string name="model_repainter">아티팩트를 다시 칠하고 이미지 일관성을 개선하여 손상되거나 고르지 않은 영역을 복구합니다.</string>
     <string name="model_debandurh_fs_ultra_lite">최소한의 성능 비용으로 컬러 밴딩을 제거하는 경량 디밴딩 모델입니다.</string>
-    <string name="model_jpeg_0_20">선명도 향상을 위해 매우 높은 압축 아티팩트(0-20% 품질)로 이미지를 최적화합니다.</string>
-    <string name="model_jpeg_20_40">고압축 아티팩트(20-40% 품질)로 이미지를 향상하여 세부 사항을 복원하고 노이즈를 줄입니다.</string>
-    <string name="model_jpeg_40_60">선명도와 부드러움의 균형을 유지하면서 적당한 압축(40-60% 품질)으로 이미지를 개선합니다.</string>
-    <string name="model_jpeg_60_80">가벼운 압축(60-80% 품질)으로 이미지를 개선하여 미묘한 디테일과 질감을 향상합니다.</string>
-    <string name="model_jpeg_80_100">자연스러운 모양과 디테일을 유지하면서 거의 무손실 이미지(80-100% 품질)를 약간 향상시킵니다.</string>
+    <string name="model_jpeg_0_20" formatted="false">선명도 향상을 위해 매우 높은 압축 아티팩트(0-20% 품질)로 이미지를 최적화합니다.</string>
+    <string name="model_jpeg_20_40" formatted="false">고압축 아티팩트(20-40% 품질)로 이미지를 향상하여 세부 사항을 복원하고 노이즈를 줄입니다.</string>
+    <string name="model_jpeg_40_60" formatted="false">선명도와 부드러움의 균형을 유지하면서 적당한 압축(40-60% 품질)으로 이미지를 개선합니다.</string>
+    <string name="model_jpeg_60_80" formatted="false">가벼운 압축(60-80% 품질)으로 이미지를 개선하여 미묘한 디테일과 질감을 향상합니다.</string>
+    <string name="model_jpeg_80_100" formatted="false">자연스러운 모양과 디테일을 유지하면서 거의 무손실 이미지(80-100% 품질)를 약간 향상시킵니다.</string>
     <string name="model_spongecolor_lite">간단하고 빠른 채색, 만화, 이상적이지 않음</string>
     <string name="model_deblr">이미지 흐림을 약간 줄여 아티팩트 없이 선명도를 향상시킵니다.</string>
     <string name="processing_channel">장기 실행 작업</string>
@@ -2134,7 +2134,7 @@
     <string name="grayscale_pdf_sub">문서에 포함된 모든 이미지를 회색조로 변환</string>
     <string name="compress_pdf">PDF 압축</string>
     <string name="compress_pdf_sub">더 쉽게 공유할 수 있도록 문서 파일 크기를 최적화하세요.</string>
-    <string name="repair_info">ImageToolbox는 내부 상호 참조 테이블을 다시 작성하고 파일 구조를 처음부터 다시 생성합니다. 이렇게 하면 \\\"열 수 없는\\\" 많은 파일에 대한 액세스를 복원할 수 있습니다.</string>
+    <string name="repair_info">ImageToolbox는 내부 상호 참조 테이블을 다시 작성하고 파일 구조를 처음부터 다시 생성합니다. 이렇게 하면 \"열 수 없는\" 많은 파일에 대한 액세스를 복원할 수 있습니다.</string>
     <string name="grayscale_info">이 도구는 모든 문서 이미지를 회색조로 변환합니다. 인쇄 및 파일 크기 축소에 가장 적합</string>
     <string name="metadata">메타데이터</string>
     <string name="metadata_pdf_sub">더 나은 개인 정보 보호를 위해 문서 속성 편집</string>
@@ -2341,7 +2341,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d 매개변수</string>
     <string name="shader_source">셰이더 소스</string>
-    <string name="shader_main_body_info">void main()의 본문만 작성합니다. UV 좌표에는 TextureCoordinate를 사용하고 소스 샘플러로는 inputImageTexture를 사용합니다.</string>
+    <string name="shader_main_body_info">void main()의 본문만 작성합니다. UV 좌표에는 textureCoordinate를 사용하고 소스 샘플러로는 inputImageTexture를 사용합니다.</string>
     <string name="shader_helper_code">기능</string>
     <string name="shader_helper_code_info">void main() 앞에 삽입된 선택적 도우미 함수, 상수 및 구조체입니다. 유니폼은 매개변수에서 생성됩니다.</string>
     <string name="shader_no_parameters">셰이더에 편집 가능한 값이 필요한 경우 여기에 유니폼을 추가하세요.</string>
@@ -2352,37 +2352,37 @@
     <string name="shader_error_blank_name">셰이더 이름은 비워둘 수 없습니다.</string>
     <string name="shader_error_blank_source">셰이더 소스는 비워둘 수 없습니다.</string>
     <string name="shader_error_unsupported_characters">셰이더 소스에 지원되지 않는 문자(%1$s)가 포함되어 있습니다. ASCII GLSL 소스만 사용하세요.</string>
-    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" 매개변수가 두 번 이상 선언되었습니다.</string>
+    <string name="shader_error_duplicate_parameter">\"%1$s\" 매개변수가 두 번 이상 선언되었습니다.</string>
     <string name="shader_error_blank_parameter_name">매개변수 이름은 비워둘 수 없습니다.</string>
-    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" 매개변수는 예약된 GPUImage 이름을 사용합니다.</string>
-    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" 매개변수는 유효한 GLSL 식별자여야 합니다.</string>
-    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" 매개변수에는 %2$s 값 유형 \\\"%3$s\\\"이 있습니다. 예상되는 \\\"%4$s\\\"입니다.</string>
-    <string name="shader_error_bool_bounds">\\\"%1$s\\\" 매개변수는 bool 값의 최소 또는 최대를 정의할 수 없습니다.</string>
-    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" 매개변수의 최소값이 최대값보다 큽니다.</string>
-    <string name="shader_error_default_lower_than_min">매개변수 \\\"%1$s\\\" 기본값은 최소값보다 낮습니다.</string>
-    <string name="shader_error_default_greater_than_max">매개변수 \\\"%1$s\\\" 기본값은 최대값보다 큽니다.</string>
-    <string name="shader_error_missing_input_texture">셰이더는 \\\"uniform Sampler2D %1$s;\\\"을 선언해야 합니다.</string>
-    <string name="shader_error_missing_texture_coordinate">셰이더는 \\\"Varying vec2 %1$s;\\\"을 선언해야 합니다.</string>
-    <string name="shader_error_missing_main_function">셰이더는 \\\"void main()\\\"을 정의해야 합니다.</string>
+    <string name="shader_error_reserved_parameter_name">\"%1$s\" 매개변수는 예약된 GPUImage 이름을 사용합니다.</string>
+    <string name="shader_error_invalid_parameter_name">\"%1$s\" 매개변수는 유효한 GLSL 식별자여야 합니다.</string>
+    <string name="shader_error_invalid_value_type">\"%1$s\" 매개변수에는 %2$s 값 유형 \"%3$s\"이 있습니다. 예상되는 \"%4$s\"입니다.</string>
+    <string name="shader_error_bool_bounds">\"%1$s\" 매개변수는 bool 값의 최소 또는 최대를 정의할 수 없습니다.</string>
+    <string name="shader_error_min_greater_than_max">\"%1$s\" 매개변수의 최소값이 최대값보다 큽니다.</string>
+    <string name="shader_error_default_lower_than_min">매개변수 \"%1$s\" 기본값은 최소값보다 낮습니다.</string>
+    <string name="shader_error_default_greater_than_max">매개변수 \"%1$s\" 기본값은 최대값보다 큽니다.</string>
+    <string name="shader_error_missing_input_texture">셰이더는 \"uniform sampler2D %1$s;\"을 선언해야 합니다.</string>
+    <string name="shader_error_missing_texture_coordinate">셰이더는 \"varying vec2 %1$s;\"을 선언해야 합니다.</string>
+    <string name="shader_error_missing_main_function">셰이더는 \"void main()\"을 정의해야 합니다.</string>
     <string name="shader_error_missing_fragment_color">셰이더는 gl_FragColor에 색상을 써야 합니다.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 셰이더는 지원되지 않습니다. GPUImage void main() 계약을 사용하세요.</string>
-    <string name="shader_error_shadertoy_i_time">애니메이션 ShaderToy 유니폼 \\\"iTime\\\"은 지원되지 않습니다.</string>
-    <string name="shader_error_shadertoy_i_frame">애니메이션 ShaderToy 유니폼 \\\"iFrame\\\"은 지원되지 않습니다.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy 유니폼 \\\"iResolution\\\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_i_time">애니메이션 ShaderToy 유니폼 \"iTime\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_i_frame">애니메이션 ShaderToy 유니폼 \"iFrame\"은 지원되지 않습니다.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy 유니폼 \"iResolution\"은 지원되지 않습니다.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel 텍스처는 지원되지 않습니다.</string>
     <string name="shader_error_external_textures">외부 텍스처는 지원되지 않습니다.</string>
     <string name="shader_error_external_texture_extensions">외부 텍스처 확장은 지원되지 않습니다.</string>
     <string name="shader_error_libretro_parameters">Libretro 셰이더 매개변수는 지원되지 않습니다.</string>
-    <string name="shader_error_extra_input_texture">입력 텍스처는 하나만 지원됩니다. \\\"유니폼 %1$s %2$s;\\\"을 제거합니다.</string>
-    <string name="shader_error_missing_uniform">\\\"%1$s\\\" 매개변수는 \\\"uniform %2$s %1$s;\\\"로 선언되어야 합니다.</string>
-    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" 매개변수는 \\\"uniform %2$s %1$s;\\\"로 선언됩니다. 예상되는 \\\"uniform %3$s %1$s;\\\"입니다.</string>
+    <string name="shader_error_extra_input_texture">입력 텍스처는 하나만 지원됩니다. \"uniform %1$s %2$s;\"을 제거합니다.</string>
+    <string name="shader_error_missing_uniform">\"%1$s\" 매개변수는 \"uniform %2$s %1$s;\"로 선언되어야 합니다.</string>
+    <string name="shader_error_wrong_uniform_type">\"%1$s\" 매개변수는 \"uniform %2$s %1$s;\"로 선언됩니다. 예상되는 \"uniform %3$s %1$s;\"입니다.</string>
     <string name="shader_parse_error_empty_file">셰이더 파일이 비어 있습니다.</string>
     <string name="shader_parse_error_not_itshader_json">셰이더 파일은 버전, 이름 및 셰이더 필드가 포함된 .itshader JSON 객체여야 합니다.</string>
     <string name="shader_parse_error_invalid_json">셰이더 파일이 유효한 JSON이 아니거나 .itshader 형식과 일치하지 않습니다.</string>
-    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" 필드가 필요합니다.</string>
+    <string name="shader_parse_error_missing_field">\"%1$s\" 필드가 필요합니다.</string>
     <string name="shader_parse_error_missing_param_field">%1$s이(가) 필요합니다.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\"은(는) 지원되지 않습니다. 지원되는 유형: %3$s.</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" 매개변수에는 %1$s이(가) 필요합니다.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\"은(는) 지원되지 않습니다. 지원되는 유형: %3$s.</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" 매개변수에는 %1$s이(가) 필요합니다.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s은(는) 유한 숫자여야 합니다.</string>
     <string name="shader_parse_error_integer_expected">%1$s은(는) 정수여야 합니다.</string>
     <string name="shader_parse_error_bool_expected">%1$s은(는) 참이거나 거짓이어야 합니다.</string>
@@ -3274,7 +3274,7 @@
     <string name="export_profiles">프로필 내보내기</string>
     <string name="save_export_profile">현재 프로필 저장</string>
     <string name="delete_export_profile">내보내기 프로필 삭제</string>
-    <string name="delete_export_profile_sub">내보내기 프로필 \\\"%1$s\\\"을(를) 삭제하시겠습니까?</string>
+    <string name="delete_export_profile_sub">내보내기 프로필 \"%1$s\"을(를) 삭제하시겠습니까?</string>
     <string name="draw_bitmap_border">도면 경계</string>
     <string name="draw_bitmap_border_sub">그리기 및 지우기 캔버스 주위에 얇은 테두리를 표시합니다</string>
     <string name="wavy">떨리는</string>

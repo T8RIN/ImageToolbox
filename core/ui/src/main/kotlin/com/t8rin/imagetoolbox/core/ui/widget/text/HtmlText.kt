@@ -54,7 +54,7 @@ fun HtmlText(
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     BasicText(
-        text = remember(html) {
+        text = remember(html, hyperlinkStyle) {
             val linkStyle = TextLinkStyles(
                 style = hyperlinkStyle.toSpanStyle()
             )

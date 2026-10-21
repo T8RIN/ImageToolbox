@@ -306,8 +306,8 @@
     <string name="skip">এড়িয়ে যান</string>
     <string name="copy">কপি</string>
     <string name="warning_bytes">%1$s মোডে সংরক্ষণ করা অস্থির হতে পারে, কারণ এটি একটি ক্ষতিহীন বিন্যাস</string>
-    <string name="presets_sub">আপনি যদি প্রিসেট 125 নির্বাচন করে থাকেন, তাহলে ছবিটি মূল ছবির 125% আকার হিসাবে সংরক্ষণ করা হবে। আপনি যদি প্রিসেট 50 নির্বাচন করেন, তাহলে ছবি 50% আকারের সাথে সংরক্ষণ করা হবে</string>
-    <string name="presets_sub_bytes">এখানে প্রিসেট আউটপুট ফাইলের % নির্ধারণ করে, অর্থাৎ আপনি যদি 5 এমবি ইমেজে প্রিসেট 50 নির্বাচন করেন তাহলে সেভ করার পর আপনি একটি 2,5 এমবি ইমেজ পাবেন।</string>
+    <string name="presets_sub" formatted="false">আপনি যদি প্রিসেট 125 নির্বাচন করে থাকেন, তাহলে ছবিটি মূল ছবির 125% আকার হিসাবে সংরক্ষণ করা হবে। আপনি যদি প্রিসেট 50 নির্বাচন করেন, তাহলে ছবি 50% আকারের সাথে সংরক্ষণ করা হবে</string>
+    <string name="presets_sub_bytes" formatted="false">এখানে প্রিসেট আউটপুট ফাইলের % নির্ধারণ করে, অর্থাৎ আপনি যদি 5 এমবি ইমেজে প্রিসেট 50 নির্বাচন করেন তাহলে সেভ করার পর আপনি একটি 2,5 এমবি ইমেজ পাবেন।</string>
     <string name="randomize_filename">ফাইলের নাম র্যান্ডমাইজ করুন</string>
     <string name="randomize_filename_sub">যদি সক্রিয় আউটপুট ফাইলের নাম সম্পূর্ণরূপে র্যান্ডম হবে</string>
     <string name="saved_to">%2$s নামের সাথে %1$s ফোল্ডারে সংরক্ষিত</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">সূক্ষ্ম টেক্সচার এবং মসৃণ চেহারা জন্য মৃদু অভিন্ন শব্দ টোনিং।</string>
     <string name="model_repainter">আর্টিফ্যাক্ট পুনরায় রং করে এবং চিত্রের সামঞ্জস্য উন্নত করে ক্ষতিগ্রস্ত বা অসম এলাকা মেরামত করে।</string>
     <string name="model_debandurh_fs_ultra_lite">লাইটওয়েট ডিব্যান্ডিং মডেল যা ন্যূনতম পারফরম্যান্স খরচের সাথে রঙের ব্যান্ডিং সরিয়ে দেয়।</string>
-    <string name="model_jpeg_0_20">উন্নত স্বচ্ছতার জন্য খুব উচ্চ কম্প্রেশন আর্টিফ্যাক্ট (0-20% গুণমান) সহ ছবিগুলিকে অপ্টিমাইজ করে৷</string>
-    <string name="model_jpeg_20_40">উচ্চ কম্প্রেশন আর্টিফ্যাক্ট (20-40% গুণমান) সহ চিত্রগুলিকে উন্নত করে, বিবরণ পুনরুদ্ধার করে এবং শব্দ কমায়।</string>
-    <string name="model_jpeg_40_60">মাঝারি কম্প্রেশন (40-60% গুণমান), তীক্ষ্ণতা এবং মসৃণতা ভারসাম্য সহ চিত্রগুলিকে উন্নত করে।</string>
-    <string name="model_jpeg_60_80">সূক্ষ্ম বিবরণ এবং টেক্সচার উন্নত করতে হালকা কম্প্রেশন (60-80% গুণমান) সহ চিত্রগুলিকে পরিমার্জিত করে।</string>
-    <string name="model_jpeg_80_100">প্রাকৃতিক চেহারা এবং বিশদ বিবরণ সংরক্ষণ করার সময় কাছাকাছি-ক্ষতিহীন চিত্রগুলিকে (80-100% গুণমান) সামান্য উন্নত করে।</string>
+    <string name="model_jpeg_0_20" formatted="false">উন্নত স্বচ্ছতার জন্য খুব উচ্চ কম্প্রেশন আর্টিফ্যাক্ট (0-20% গুণমান) সহ ছবিগুলিকে অপ্টিমাইজ করে৷</string>
+    <string name="model_jpeg_20_40" formatted="false">উচ্চ কম্প্রেশন আর্টিফ্যাক্ট (20-40% গুণমান) সহ চিত্রগুলিকে উন্নত করে, বিবরণ পুনরুদ্ধার করে এবং শব্দ কমায়।</string>
+    <string name="model_jpeg_40_60" formatted="false">মাঝারি কম্প্রেশন (40-60% গুণমান), তীক্ষ্ণতা এবং মসৃণতা ভারসাম্য সহ চিত্রগুলিকে উন্নত করে।</string>
+    <string name="model_jpeg_60_80" formatted="false">সূক্ষ্ম বিবরণ এবং টেক্সচার উন্নত করতে হালকা কম্প্রেশন (60-80% গুণমান) সহ চিত্রগুলিকে পরিমার্জিত করে।</string>
+    <string name="model_jpeg_80_100" formatted="false">প্রাকৃতিক চেহারা এবং বিশদ বিবরণ সংরক্ষণ করার সময় কাছাকাছি-ক্ষতিহীন চিত্রগুলিকে (80-100% গুণমান) সামান্য উন্নত করে।</string>
     <string name="model_spongecolor_lite">সহজ এবং দ্রুত কালারাইজেশন, কার্টুন, আদর্শ নয়</string>
     <string name="model_deblr">চিত্রের অস্পষ্টতাকে সামান্য কমিয়ে দেয়, শিল্পকর্মের পরিচয় না দিয়ে তীক্ষ্ণতা উন্নত করে।</string>
     <string name="processing_channel">দীর্ঘ চলমান অপারেশন</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">সমস্ত নথি এমবেড করা ছবিকে গ্রেস্কেলে রূপান্তর করুন</string>
     <string name="compress_pdf">পিডিএফ কম্প্রেস করুন</string>
     <string name="compress_pdf_sub">সহজে ভাগ করার জন্য আপনার নথি ফাইলের আকার অপ্টিমাইজ করুন</string>
-    <string name="repair_info">ImageToolbox অভ্যন্তরীণ ক্রস-রেফারেন্স টেবিল পুনর্নির্মাণ করে এবং স্ক্র্যাচ থেকে ফাইল গঠন পুনরুত্পাদন করে। এটি অনেক ফাইলের অ্যাক্সেস পুনরুদ্ধার করতে পারে যা \\\"খোলা যাবে না\\\"</string>
+    <string name="repair_info">ImageToolbox অভ্যন্তরীণ ক্রস-রেফারেন্স টেবিল পুনর্নির্মাণ করে এবং স্ক্র্যাচ থেকে ফাইল গঠন পুনরুত্পাদন করে। এটি অনেক ফাইলের অ্যাক্সেস পুনরুদ্ধার করতে পারে যা \"খোলা যাবে না\"</string>
     <string name="grayscale_info">এই টুলটি সমস্ত নথির ছবিকে গ্রেস্কেলে রূপান্তর করে। ফাইলের আকার মুদ্রণ এবং হ্রাস করার জন্য সেরা</string>
     <string name="metadata">মেটাডেটা</string>
     <string name="metadata_pdf_sub">ভাল গোপনীয়তার জন্য নথি বৈশিষ্ট্য সম্পাদনা করুন</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d প্যারামস</string>
     <string name="shader_source">শেডের উৎস</string>
-    <string name="shader_main_body_info">শুধুমাত্র void main() এর বডি লিখুন। ইউভি স্থানাঙ্কের জন্য টেক্সচার কোঅর্ডিনেট ব্যবহার করুন এবং উৎস নমুনা হিসাবে ইনপুট ইমেজ টেক্সচার।</string>
+    <string name="shader_main_body_info">শুধুমাত্র void main() এর বডি লিখুন। ইউভি স্থানাঙ্কের জন্য textureCoordinate ব্যবহার করুন এবং উৎস নমুনা হিসাবে inputImageTexture।</string>
     <string name="shader_helper_code">ফাংশন</string>
     <string name="shader_helper_code_info">ঐচ্ছিক সাহায্যকারী ফাংশন, ধ্রুবক, এবং স্ট্রাকস void main() এর আগে ঢোকানো হয়। ইউনিফর্ম params থেকে উত্পন্ন হয়.</string>
     <string name="shader_no_parameters">শেডারের সম্পাদনাযোগ্য মান প্রয়োজন হলে এখানে ইউনিফর্ম যোগ করুন।</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">শেডারের নাম খালি হওয়া উচিত নয়।</string>
     <string name="shader_error_blank_source">শেডারের উৎস অবশ্যই খালি থাকবে না।</string>
     <string name="shader_error_unsupported_characters">Shader উৎসে অসমর্থিত অক্ষর রয়েছে: %1$s। শুধুমাত্র ASCII GLSL উৎস ব্যবহার করুন।</string>
-    <string name="shader_error_duplicate_parameter">প্যারামিটার \\\"%1$s\\\" একাধিকবার ঘোষণা করা হয়েছে।</string>
+    <string name="shader_error_duplicate_parameter">প্যারামিটার \"%1$s\" একাধিকবার ঘোষণা করা হয়েছে।</string>
     <string name="shader_error_blank_parameter_name">পরামিতি নাম খালি হতে হবে না.</string>
-    <string name="shader_error_reserved_parameter_name">প্যারামিটার \\\"%1$s\\\" একটি সংরক্ষিত GPUI চিত্র নাম ব্যবহার করে।</string>
-    <string name="shader_error_invalid_parameter_name">প্যারামিটার \\\"%1$s\\\" অবশ্যই একটি বৈধ GLSL শনাক্তকারী হতে হবে।</string>
-    <string name="shader_error_invalid_value_type">প্যারামিটার \\\"%1$s\\\" এর %2$s মান প্রকার \\\"%3$s\\\" আছে, প্রত্যাশিত \\\"%4$s\\\"।</string>
-    <string name="shader_error_bool_bounds">প্যারামিটার \\\"%1$s\\\" বুলের মানের জন্য সর্বনিম্ন বা সর্বোচ্চ নির্ধারণ করতে পারে না।</string>
-    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" প্যারামিটারে সর্বোচ্চ থেকে মিনিমাম বেশি।</string>
-    <string name="shader_error_default_lower_than_min">প্যারামিটার \\\"%1$s\\\" ডিফল্ট মিনিমাম থেকে কম।</string>
-    <string name="shader_error_default_greater_than_max">প্যারামিটার \\\"%1$s\\\" ডিফল্ট সর্বোচ্চ থেকে বড়।</string>
-    <string name="shader_error_missing_input_texture">শেডারকে অবশ্যই \\\"ইউনিফর্ম স্যাম্পলার2D %1$s;\\\" ঘোষণা করতে হবে।</string>
-    <string name="shader_error_missing_texture_coordinate">শেডারকে অবশ্যই \\\"পরিবর্তিত vec2 %1$s;\\\" ঘোষণা করতে হবে।</string>
-    <string name="shader_error_missing_main_function">Shader অবশ্যই \\\"void main()\\\" সংজ্ঞায়িত করবে।</string>
+    <string name="shader_error_reserved_parameter_name">প্যারামিটার \"%1$s\" একটি সংরক্ষিত GPUI চিত্র নাম ব্যবহার করে।</string>
+    <string name="shader_error_invalid_parameter_name">প্যারামিটার \"%1$s\" অবশ্যই একটি বৈধ GLSL শনাক্তকারী হতে হবে।</string>
+    <string name="shader_error_invalid_value_type">প্যারামিটার \"%1$s\" এর %2$s মান প্রকার \"%3$s\" আছে, প্রত্যাশিত \"%4$s\"।</string>
+    <string name="shader_error_bool_bounds">প্যারামিটার \"%1$s\" বুলের মানের জন্য সর্বনিম্ন বা সর্বোচ্চ নির্ধারণ করতে পারে না।</string>
+    <string name="shader_error_min_greater_than_max">\"%1$s\" প্যারামিটারে সর্বোচ্চ থেকে মিনিমাম বেশি।</string>
+    <string name="shader_error_default_lower_than_min">প্যারামিটার \"%1$s\" ডিফল্ট মিনিমাম থেকে কম।</string>
+    <string name="shader_error_default_greater_than_max">প্যারামিটার \"%1$s\" ডিফল্ট সর্বোচ্চ থেকে বড়।</string>
+    <string name="shader_error_missing_input_texture">শেডারকে অবশ্যই \"uniform sampler2D %1$s;\" ঘোষণা করতে হবে।</string>
+    <string name="shader_error_missing_texture_coordinate">শেডারকে অবশ্যই \"varying vec2 %1$s;\" ঘোষণা করতে হবে।</string>
+    <string name="shader_error_missing_main_function">Shader অবশ্যই \"void main()\" সংজ্ঞায়িত করবে।</string>
     <string name="shader_error_missing_fragment_color">Shader অবশ্যই gl_FragColor এ একটি রঙ লিখতে হবে।</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders সমর্থিত নয়। GPUImage এর void main() চুক্তি ব্যবহার করুন।</string>
-    <string name="shader_error_shadertoy_i_time">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\\"iTime\\\" সমর্থিত নয়।</string>
-    <string name="shader_error_shadertoy_i_frame">অ্যানিমেটেড ShaderToy ইউনিফর্ম \\\"iFrame\\\" সমর্থিত নয়।</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy ইউনিফর্ম \\\"iResolution\\\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_time">অ্যানিমেটেড ShaderToy ইউনিফর্ম \"iTime\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_frame">অ্যানিমেটেড ShaderToy ইউনিফর্ম \"iFrame\" সমর্থিত নয়।</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy ইউনিফর্ম \"iResolution\" সমর্থিত নয়।</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel টেক্সচার সমর্থিত নয়।</string>
     <string name="shader_error_external_textures">বাহ্যিক টেক্সচার সমর্থিত নয়।</string>
     <string name="shader_error_external_texture_extensions">বাহ্যিক টেক্সচার এক্সটেনশন সমর্থিত নয়।</string>
     <string name="shader_error_libretro_parameters">Libretro shader পরামিতি সমর্থিত নয়।</string>
-    <string name="shader_error_extra_input_texture">শুধুমাত্র একটি ইনপুট টেক্সচার সমর্থিত। \\\"ইউনিফর্ম %1$s %2$s;\\\" সরান।</string>
-    <string name="shader_error_missing_uniform">প্যারামিটার \\\"%1$s\\\" অবশ্যই \\\"ইনিফর্ম %2$s %1$s;\\\" হিসেবে ঘোষণা করতে হবে।</string>
-    <string name="shader_error_wrong_uniform_type">প্যারামিটার \\\"%1$s\\\" কে \\\"ইউনিফর্ম %2$s %1$s;\\\" হিসেবে ঘোষণা করা হয়েছে, প্রত্যাশিত \\\"ইউনিফর্ম %3$s %1$s;\\\"।</string>
+    <string name="shader_error_extra_input_texture">শুধুমাত্র একটি ইনপুট টেক্সচার সমর্থিত। \"uniform %1$s %2$s;\" সরান।</string>
+    <string name="shader_error_missing_uniform">প্যারামিটার \"%1$s\" অবশ্যই \"uniform %2$s %1$s;\" হিসেবে ঘোষণা করতে হবে।</string>
+    <string name="shader_error_wrong_uniform_type">প্যারামিটার \"%1$s\" কে \"uniform %2$s %1$s;\" হিসেবে ঘোষণা করা হয়েছে, প্রত্যাশিত \"uniform %3$s %1$s;\"।</string>
     <string name="shader_parse_error_empty_file">Shader ফাইলটি খালি।</string>
     <string name="shader_parse_error_not_itshader_json">Shader ফাইল সংস্করণ, নাম, এবং shader ক্ষেত্র সহ একটি .itshader JSON অবজেক্ট হতে হবে।</string>
     <string name="shader_parse_error_invalid_json">Shader ফাইলটি বৈধ JSON নয় বা .itshader ফর্ম্যাটের সাথে মেলে না।</string>
-    <string name="shader_parse_error_missing_field">ক্ষেত্র \\\"%1$s\\\" প্রয়োজন।</string>
+    <string name="shader_parse_error_missing_field">ক্ষেত্র \"%1$s\" প্রয়োজন।</string>
     <string name="shader_parse_error_missing_param_field">%1$s প্রয়োজন।</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" সমর্থিত নয়। সমর্থিত প্রকার: %3$s।</string>
-    <string name="shader_parse_error_missing_value">\\\"%2$s\\\" প্যারামিটারের জন্য %1$s প্রয়োজন।</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" সমর্থিত নয়। সমর্থিত প্রকার: %3$s।</string>
+    <string name="shader_parse_error_missing_value">\"%2$s\" প্যারামিটারের জন্য %1$s প্রয়োজন।</string>
     <string name="shader_parse_error_finite_number_expected">%1$s একটি সসীম সংখ্যা হতে হবে।</string>
     <string name="shader_parse_error_integer_expected">%1$s একটি পূর্ণসংখ্যা হতে হবে।</string>
     <string name="shader_parse_error_bool_expected">%1$s সত্য বা মিথ্যা হতে হবে।</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">প্রোফাইল রপ্তানি করুন</string>
     <string name="save_export_profile">বর্তমান প্রোফাইল সংরক্ষণ করুন</string>
     <string name="delete_export_profile">এক্সপোর্ট প্রোফাইল মুছুন</string>
-    <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \\\"%1$s\\\" মুছতে চান?</string>
+    <string name="delete_export_profile_sub">আপনি কি রপ্তানি প্রোফাইল \"%1$s\" মুছতে চান?</string>
     <string name="draw_bitmap_border">সীমানা অঙ্কন</string>
     <string name="draw_bitmap_border_sub">অঙ্কন এবং ক্যানভাস মুছে ফেলার চারপাশে একটি পাতলা সীমানা দেখান</string>
     <string name="wavy">তরঙ্গায়িত</string>
@@ -5467,7 +5467,7 @@
     <string name="lama_model_link">লামা মডেল ডাউনলোড করুন</string>
     <string name="only_lama_onnx_model">শুধুমাত্র .onnx LaMa মডেলগুলি আমদানি করা যেতে পারে৷</string>
     <string name="delete_lama_model_sub">LaMa মডেল মুছে ফেলবেন? আপনি পরে আবার ডাউনলোড বা আমদানি করতে পারেন</string>
-    <string name="crop_preset_summary">মার্জিন: বাম %1$d_%%, উপরে %2$d_PH_3__, ডান %3$d_PH_5__, নীচে %4$d_%%</string>
+    <string name="crop_preset_summary">মার্জিন: বাম %1$d%%, উপরে %2$d%%, ডান %3$d%%, নীচে %4$d%%</string>
     <string name="crop_presets">ক্রপ প্রিসেট</string>
     <string name="crop_presets_sub">ফসলের সীমানা সংরক্ষণ বা পুনরায় ব্যবহার করুন</string>
     <string name="save_crop_preset">বর্তমান ক্রপ প্রিসেট সংরক্ষণ করুন</string>
@@ -5560,7 +5560,7 @@
     <string name="gallery_search_category_remove_reference">রেফারেন্স ফটো সরান</string>
     <string name="gallery_search_category_text_threshold">বর্ণনার সাথে সাদৃশ্য</string>
     <string name="gallery_search_category_image_threshold">রেফারেন্স ফটোর সাদৃশ্য</string>
-    <string name="gallery_search_category_thresholds">বর্ণনা: %1$d_%% · ফটো: %2$d_PH_3__</string>
+    <string name="gallery_search_category_thresholds">বর্ণনা: %1$d%% · ফটো: %2$d%%</string>
     <string name="gallery_search_category_preview">পূর্বরূপ</string>
     <string name="gallery_search_category_preview_count">মিলে যাওয়া ফটো: %1$d</string>
     <string name="gallery_search_category_preview_no_matches">কোন মিল নেই। একটি নিম্ন থ্রেশহোল্ড চেষ্টা করুন.</string>
@@ -5576,7 +5576,7 @@
     <string name="gallery_search_category_name_exists">এই নামের একটি বিভাগ ইতিমধ্যেই বিদ্যমান৷</string>
     <string name="gallery_search_builtin_category_description">এই বিভাগে কোন ফটোগুলি উপস্থিত হবে তা সামঞ্জস্য করুন৷</string>
     <string name="gallery_search_threshold">সাদৃশ্য থ্রেশহোল্ড</string>
-    <string name="gallery_search_threshold_value">মিল থ্রেশহোল্ড: %1$d_%%</string>
+    <string name="gallery_search_threshold_value">মিল থ্রেশহোল্ড: %1$d%%</string>
     <string name="gallery_search_text_threshold">বর্ণনা দ্বারা অনুসন্ধান করুন</string>
     <string name="gallery_search_image_threshold">ফটো দ্বারা অনুসন্ধান করুন</string>
     <string name="gallery_search_threshold_description">যদি অনেকগুলি সম্পর্কহীন ফটো প্রদর্শিত হয় তাহলে থ্রেশহোল্ড বাড়ান৷ প্রাসঙ্গিক ফটো অনুপস্থিত থাকলে এটি কম করুন। পরিবর্তন প্রস্তুত ফটো প্রযোজ্য; ফাইলের নাম অনুসন্ধান অপরিবর্তিত।</string>

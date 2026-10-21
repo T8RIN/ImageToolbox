@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.filters.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.Texture
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
@@ -136,7 +136,11 @@ internal fun FiltersContentActionButtons(
         } else {
             Picker.Single
         },
-        imagePicker = selectionFilterPicker,
+        imagePicker = when (filterType) {
+            is Screen.Filter.Type.Basic -> imagePicker
+            is Screen.Filter.Type.Masking -> pickSingleImagePicker
+            null -> selectionFilterPicker
+        },
         visible = showOneTimeImagePickingDialog
     )
 }

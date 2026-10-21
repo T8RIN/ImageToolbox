@@ -307,7 +307,7 @@
     <string name="copy">Copiar</string>
     <string name="warning_bytes">Salvar no modo %1$s pode ser instável, pois é um formato sem perdas</string>
     <string name="presets_sub" formatted="false">Se você selecionou a predefinição 125, a imagem será salva com tamanho de 125% da imagem original. Se você escolher a predefinição 50, a imagem será salva com 50% tamanho</string>
-    <string name="presets_sub_bytes">A predefinição aqui determina a % do arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, obterá uma imagem de 2,5 MB após salvar</string>
+    <string name="presets_sub_bytes" formatted="false">A predefinição aqui determina a % do arquivo de saída, ou seja, se você selecionar a predefinição 50 em uma imagem de 5 MB, obterá uma imagem de 2,5 MB após salvar</string>
     <string name="randomize_filename">Nome do arquivo aleatório</string>
     <string name="randomize_filename_sub">Se ativado, o nome do arquivo de saída será totalmente aleatório</string>
     <string name="saved_to">Salvo na pasta %1$s com o nome %2$s</string>
@@ -1958,11 +1958,11 @@
     <string name="model_noise_toner_uniform_soft">Tom suave e uniforme para uma textura sutil e aparência suave.</string>
     <string name="model_repainter">Repara áreas danificadas ou irregulares repintando artefatos e melhorando a consistência da imagem.</string>
     <string name="model_debandurh_fs_ultra_lite">Modelo leve de remoção de faixas que elimina as faixas de cor com um custo mínimo de desempenho.</string>
-    <string name="model_jpeg_0_20">Otimiza imagens com artefatos de compressão muito elevados (qualidade de 0 a 20%) para melhorar a nitidez.</string>
-    <string name="model_jpeg_20_40">Melhora imagens com artefatos de alta compressão (20-40% de qualidade), restaurando detalhes e reduzindo o ruído.</string>
-    <string name="model_jpeg_40_60">Melhora as imagens com compressão moderada (40-60% de qualidade), equilibrando nitidez e suavidade.</string>
-    <string name="model_jpeg_60_80">Refina imagens com compressão leve (60-80% de qualidade) para realçar detalhes e texturas sutis.</string>
-    <string name="model_jpeg_80_100">Melhora ligeiramente imagens quase sem perdas (80-100% de qualidade), preservando a aparência natural e os detalhes.</string>
+    <string name="model_jpeg_0_20" formatted="false">Otimiza imagens com artefatos de compressão muito elevados (qualidade de 0 a 20%) para melhorar a nitidez.</string>
+    <string name="model_jpeg_20_40" formatted="false">Melhora imagens com artefatos de alta compressão (20-40% de qualidade), restaurando detalhes e reduzindo o ruído.</string>
+    <string name="model_jpeg_40_60" formatted="false">Melhora as imagens com compressão moderada (40-60% de qualidade), equilibrando nitidez e suavidade.</string>
+    <string name="model_jpeg_60_80" formatted="false">Refina imagens com compressão leve (60-80% de qualidade) para realçar detalhes e texturas sutis.</string>
+    <string name="model_jpeg_80_100" formatted="false">Melhora ligeiramente imagens quase sem perdas (80-100% de qualidade), preservando a aparência natural e os detalhes.</string>
     <string name="model_deblr">Reduz ligeiramente o desfoque da imagem, melhorando a nitidez sem introduzir artefatos.</string>
     <string name="processing_channel">Operações de longa duração</string>
     <string name="processing_image">Processando imagem</string>
@@ -2343,7 +2343,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parâmetros</string>
     <string name="shader_source">Fonte do sombreador</string>
-    <string name="shader_main_body_info">Escreva apenas o corpo de void main(). Use TextureCoorden para coordenadas UV e inputImageTexture como amostrador de origem.</string>
+    <string name="shader_main_body_info">Escreva apenas o corpo de void main(). Use textureCoordinate para coordenadas UV e inputImageTexture como amostrador de origem.</string>
     <string name="shader_helper_code">Funções</string>
     <string name="shader_helper_code_info">Funções auxiliares opcionais, constantes e estruturas inseridas antes de void main(). Uniformes são gerados a partir de parâmetros.</string>
     <string name="shader_no_parameters">Adicione uniformes aqui quando o shader precisar de valores editáveis.</string>
@@ -2354,17 +2354,17 @@
     <string name="shader_error_blank_name">O nome do shader não deve ficar em branco.</string>
     <string name="shader_error_blank_source">A origem do sombreador não deve estar em branco.</string>
     <string name="shader_error_unsupported_characters">A origem do shader contém caracteres não suportados: %1$s. Use apenas fonte ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">O parâmetro \\\"%1$s\\\" é declarado mais de uma vez.</string>
+    <string name="shader_error_duplicate_parameter">O parâmetro \"%1$s\" é declarado mais de uma vez.</string>
     <string name="shader_error_blank_parameter_name">Os nomes dos parâmetros não devem ficar em branco.</string>
-    <string name="shader_error_reserved_parameter_name">O parâmetro \\\"%1$s\\\" usa um nome GPUImage reservado.</string>
-    <string name="shader_error_invalid_parameter_name">O parâmetro \\\"%1$s\\\" deve ser um identificador GLSL válido.</string>
-    <string name="shader_error_invalid_value_type">O parâmetro \\\"%1$s\\\" tem o tipo de valor %2$s \\\"%3$s\\\", esperado \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">O parâmetro \\\"%1$s\\\" não pode definir mínimo ou máximo para valores bool.</string>
-    <string name="shader_error_min_greater_than_max">O parâmetro \\\"%1$s\\\" tem min maior que max.</string>
-    <string name="shader_error_default_lower_than_min">O padrão do parâmetro \\\"%1$s\\\" é menor que min.</string>
-    <string name="shader_error_default_greater_than_max">O padrão do parâmetro \\\"%1$s\\\" é maior que o máximo.</string>
-    <string name="shader_error_missing_input_texture">O shader deve declarar \"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">O shader deve declarar \"vec2 variável %1$s;\\\".</string>
+    <string name="shader_error_reserved_parameter_name">O parâmetro \"%1$s\" usa um nome GPUImage reservado.</string>
+    <string name="shader_error_invalid_parameter_name">O parâmetro \"%1$s\" deve ser um identificador GLSL válido.</string>
+    <string name="shader_error_invalid_value_type">O parâmetro \"%1$s\" tem o tipo de valor %2$s \"%3$s\", esperado \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">O parâmetro \"%1$s\" não pode definir mínimo ou máximo para valores bool.</string>
+    <string name="shader_error_min_greater_than_max">O parâmetro \"%1$s\" tem min maior que max.</string>
+    <string name="shader_error_default_lower_than_min">O padrão do parâmetro \"%1$s\" é menor que min.</string>
+    <string name="shader_error_default_greater_than_max">O padrão do parâmetro \"%1$s\" é maior que o máximo.</string>
+    <string name="shader_error_missing_input_texture">O shader deve declarar \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">O shader deve declarar \"varying vec2 %1$s;\".</string>
     <string name="shader_error_missing_main_function">O shader deve definir \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">O shader deve escrever uma cor em gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Os shaders ShaderToy mainImage não são suportados. Use o contrato void main() do GPUImage.</string>
@@ -2375,16 +2375,16 @@
     <string name="shader_error_external_textures">Texturas externas não são suportadas.</string>
     <string name="shader_error_external_texture_extensions">Extensões de textura externas não são suportadas.</string>
     <string name="shader_error_libretro_parameters">Os parâmetros do shader Libretro não são suportados.</string>
-    <string name="shader_error_extra_input_texture">Apenas uma textura de entrada é suportada. Remova \\\"uniforme %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">O parâmetro \\\"%1$s\\\" deve ser declarado como \\\"uniforme %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">O parâmetro \\\"%1$s\\\" é declarado como \\\"uniforme %2$s %1$s;\\\", esperado \\\"uniforme %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Apenas uma textura de entrada é suportada. Remova \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">O parâmetro \"%1$s\" deve ser declarado como \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">O parâmetro \"%1$s\" é declarado como \"uniform %2$s %1$s;\", esperado \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">O arquivo do shader está vazio.</string>
     <string name="shader_parse_error_not_itshader_json">O arquivo shader deve ser um objeto JSON .itshader com versão, nome e campos de shader.</string>
     <string name="shader_parse_error_invalid_json">O arquivo Shader não é JSON válido ou não corresponde ao formato .itshader.</string>
-    <string name="shader_parse_error_missing_field">O campo \\\"%1$s\\\" é obrigatório.</string>
+    <string name="shader_parse_error_missing_field">O campo \"%1$s\" é obrigatório.</string>
     <string name="shader_parse_error_missing_param_field">%1$s é obrigatório.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" não é compatível. Tipos suportados: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s é necessário para parâmetros \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" não é compatível. Tipos suportados: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s é necessário para parâmetros \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s deve ser um número finito.</string>
     <string name="shader_parse_error_integer_expected">%1$s deve ser um número inteiro.</string>
     <string name="shader_parse_error_bool_expected">%1$s deve ser verdadeiro ou falso.</string>
@@ -3276,7 +3276,7 @@
     <string name="export_profiles">Exportar perfis</string>
     <string name="save_export_profile">Salvar perfil atual</string>
     <string name="delete_export_profile">Excluir perfil de exportação</string>
-    <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Deseja excluir o perfil de exportação \"%1$s\"?</string>
     <string name="draw_bitmap_border">Desenho de borda</string>
     <string name="draw_bitmap_border_sub">Mostrar uma borda fina ao redor da tela de desenho e apagamento</string>
     <string name="wavy">Ondulado</string>

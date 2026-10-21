@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogi
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
+import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
@@ -311,6 +312,7 @@ internal class ChildProvider @Inject constructor(
     private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
     private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
     private val helpComponentFactory: HelpComponent.Factory,
+    private val assistantComponentFactory: AssistantComponent.Factory,
     private val batchRenameComponentFactory: BatchRenameComponent.Factory,
 ) {
     fun RootComponent.createChild(
@@ -711,6 +713,15 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialCategory = config.categoryName,
                 initialTipId = config.tipId,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.Assistant -> NavigationChild.Assistant(
+            assistantComponentFactory(
+                componentContext = componentContext,
+                route = config,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

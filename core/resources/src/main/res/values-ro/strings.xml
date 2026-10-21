@@ -356,7 +356,7 @@
     <string name="create_issue">Creați o problemă</string>
     <string name="something_went_wrong_emphasis">Oops… Ceva nu a mers bine. Îmi puteți scrie folosind opțiunile de mai jos și voi încerca să găsesc o soluție</string>
     <string name="resize_and_convert_sub">Modificați dimensiunea imaginilor date sau convertiți-le în alte formate, de asemenea, acolo puteți edita metadatele EXIF dacă alegeți o singură imagine</string>
-    <string name="presets_sub_bytes">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
+    <string name="presets_sub_bytes" formatted="false">Pre-setarea aici determină % din fișierul de ieșire, de exemplu, dacă selectați pre-setarea 50 pe o imagine de 5 mb, atunci veți obține o imagine de 2,5 mb după salvare</string>
     <string name="crashlytics_sub">Acest lucru permite aplicației să colecteze rapoarte de crash-uri manual</string>
     <string name="analytics_sub">Permite colectarea de statistici anonime privind utilizarea aplicației</string>
     <string name="image_exif_warning">În prezent, formatul %1$s permite doar citirea metadatelor EXIF pe Android. Imaginea de ieșire nu va avea metadate deloc, atunci când este salvată.</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Tonifiere uniformă de zgomot blând pentru o textură subtilă și un aspect neted.</string>
     <string name="model_repainter">Repara zonele deteriorate sau neuniforme prin revopsirea artefactelor și îmbunătățirea consistenței imaginii.</string>
     <string name="model_debandurh_fs_ultra_lite">Model ușor de debandare care elimină benzile de culoare cu costuri minime de performanță.</string>
-    <string name="model_jpeg_0_20">Optimizează imaginile cu artefacte de compresie foarte ridicate (calitate 0-20%) pentru o claritate îmbunătățită.</string>
-    <string name="model_jpeg_20_40">Îmbunătățește imaginile cu artefacte de compresie ridicată (20-40% calitate), restabilind detaliile și reducând zgomotul.</string>
-    <string name="model_jpeg_40_60">Îmbunătățește imaginile cu compresie moderată (40-60% calitate), echilibrând claritatea și netezimea.</string>
-    <string name="model_jpeg_60_80">Rafinează imaginile cu compresie ușoară (60-80% calitate) pentru a îmbunătăți detaliile și texturile subtile.</string>
-    <string name="model_jpeg_80_100">Îmbunătățește ușor imaginile aproape fără pierderi (calitate 80-100%), păstrând în același timp aspectul și detaliile naturale.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimizează imaginile cu artefacte de compresie foarte ridicate (calitate 0-20%) pentru o claritate îmbunătățită.</string>
+    <string name="model_jpeg_20_40" formatted="false">Îmbunătățește imaginile cu artefacte de compresie ridicată (20-40% calitate), restabilind detaliile și reducând zgomotul.</string>
+    <string name="model_jpeg_40_60" formatted="false">Îmbunătățește imaginile cu compresie moderată (40-60% calitate), echilibrând claritatea și netezimea.</string>
+    <string name="model_jpeg_60_80" formatted="false">Rafinează imaginile cu compresie ușoară (60-80% calitate) pentru a îmbunătăți detaliile și texturile subtile.</string>
+    <string name="model_jpeg_80_100" formatted="false">Îmbunătățește ușor imaginile aproape fără pierderi (calitate 80-100%), păstrând în același timp aspectul și detaliile naturale.</string>
     <string name="model_spongecolor_lite">Colorare simpla si rapida, desene animate, nu ideala</string>
     <string name="model_deblr">Reduce ușor neclaritatea imaginii, îmbunătățind claritatea fără a introduce artefacte.</string>
     <string name="processing_channel">Operațiuni de lungă durată</string>
@@ -2354,37 +2354,37 @@
     <string name="shader_error_blank_name">Numele shaderului nu trebuie să fie necompletat.</string>
     <string name="shader_error_blank_source">Sursa shader nu trebuie să fie goală.</string>
     <string name="shader_error_unsupported_characters">Sursa shader conține caractere neacceptate: %1$s. Utilizați numai sursa ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Parametrul \\\"%1$s\\\" este declarat de mai multe ori.</string>
+    <string name="shader_error_duplicate_parameter">Parametrul \"%1$s\" este declarat de mai multe ori.</string>
     <string name="shader_error_blank_parameter_name">Numele parametrilor nu trebuie să fie necompletate.</string>
     <string name="shader_error_reserved_parameter_name">Parametrul „%1$s” folosește un nume GPUImage rezervat.</string>
     <string name="shader_error_invalid_parameter_name">Parametrul „%1$s” trebuie să fie un identificator GLSL valid.</string>
-    <string name="shader_error_invalid_value_type">Parametrul \\\"%1$s\\\" are %2$s tip de valoare \\\"%3$s\\\", așteptat \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parametrul \\\"%1$s\\\" nu poate defini min sau maxim pentru valorile bool.</string>
+    <string name="shader_error_invalid_value_type">Parametrul \"%1$s\" are %2$s tip de valoare \"%3$s\", așteptat \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parametrul \"%1$s\" nu poate defini min sau maxim pentru valorile bool.</string>
     <string name="shader_error_min_greater_than_max">Parametrul „%1$s” are min mai mare decât max.</string>
     <string name="shader_error_default_lower_than_min">Parametrul „%1$s” prestabilit este mai mic decât min.</string>
     <string name="shader_error_default_greater_than_max">Parametrul „%1$s” prestabilit este mai mare decât max.</string>
     <string name="shader_error_missing_input_texture">Shader trebuie să declare „uniform sampler2D %1$s;.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader trebuie să declare „Vec2 variabil %1$s;.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader trebuie să declare „varying vec2 %1$s;.</string>
     <string name="shader_error_missing_main_function">Shader trebuie să definească „void main()”.</string>
     <string name="shader_error_missing_fragment_color">Shader trebuie să scrie o culoare în gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage nu sunt acceptate. Utilizați contractul principal () nul al lui GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Uniforma animată ShaderToy \\\"iTime\\\" nu este acceptată.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage nu sunt acceptate. Utilizați contractul void main() al lui GPUImage.</string>
+    <string name="shader_error_shadertoy_i_time">Uniforma animată ShaderToy \"iTime\" nu este acceptată.</string>
     <string name="shader_error_shadertoy_i_frame">Uniforma animată ShaderToy „iFrame” nu este acceptată.</string>
-    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\\"iResolution\\\" nu este acceptată.</string>
+    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \"iResolution\" nu este acceptată.</string>
     <string name="shader_error_shadertoy_i_channel">Texturile ShaderToy iChannel nu sunt acceptate.</string>
     <string name="shader_error_external_textures">Texturile externe nu sunt acceptate.</string>
     <string name="shader_error_external_texture_extensions">Extensiile de texturi externe nu sunt acceptate.</string>
     <string name="shader_error_libretro_parameters">Parametrii de shader Libretro nu sunt acceptați.</string>
-    <string name="shader_error_extra_input_texture">Este acceptată o singură textură de intrare. Eliminați „uniforma %1$s %2$s;.</string>
-    <string name="shader_error_missing_uniform">Parametrul \\\"%1$s\\\" trebuie declarat ca \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametrul \\\"%1$s\\\" este declarat ca \\\"uniform %2$s %1$s;\\\", așteptat \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Este acceptată o singură textură de intrare. Eliminați „uniform %1$s %2$s;.</string>
+    <string name="shader_error_missing_uniform">Parametrul \"%1$s\" trebuie declarat ca \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametrul \"%1$s\" este declarat ca \"uniform %2$s %1$s;\", așteptat \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Fișierul Shader este gol.</string>
     <string name="shader_parse_error_not_itshader_json">Fișierul Shader trebuie să fie un obiect JSON .itshader cu câmpuri versiune, nume și shader.</string>
     <string name="shader_parse_error_invalid_json">Fișierul Shader nu este JSON valid sau nu se potrivește cu formatul .itshader.</string>
-    <string name="shader_parse_error_missing_field">Câmpul \\\"%1$s\\\" este obligatoriu.</string>
+    <string name="shader_parse_error_missing_field">Câmpul \"%1$s\" este obligatoriu.</string>
     <string name="shader_parse_error_missing_param_field">%1$s este obligatoriu.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" nu este acceptat. Tipuri acceptate: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s este necesar pentru parametrii \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" nu este acceptat. Tipuri acceptate: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s este necesar pentru parametrii \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s trebuie să fie un număr finit.</string>
     <string name="shader_parse_error_integer_expected">%1$s trebuie să fie un număr întreg.</string>
     <string name="shader_parse_error_bool_expected">%1$s trebuie să fie adevărat sau fals.</string>
@@ -3276,7 +3276,7 @@
     <string name="export_profiles">Exportați profiluri</string>
     <string name="save_export_profile">Salvați profilul curent</string>
     <string name="delete_export_profile">Ștergeți profilul de export</string>
-    <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Doriți să ștergeți profilul de export \"%1$s\"?</string>
     <string name="draw_bitmap_border">Chenar de desen</string>
     <string name="draw_bitmap_border_sub">Afișați un chenar subțire în jurul desenului și ștergeți pânza</string>
     <string name="wavy">Ondulat</string>

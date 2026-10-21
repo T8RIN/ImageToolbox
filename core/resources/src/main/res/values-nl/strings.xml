@@ -353,7 +353,7 @@
     <string name="copy">Kopiëren</string>
     <string name="warning_bytes">Opslaan in de modus %1$s kan onstabiel zijn, omdat het een verliesvrij formaat is</string>
     <string name="presets_sub" formatted="false">Bij voorinstelling 125, wordt de afbeelding opgeslagen als 125% van de originele afbeelding. Bij voorinstelling 50, wordt de afbeelding opgeslagen met 50% grootte.</string>
-    <string name="presets_sub_bytes">De voorinstelling hier bepaalt het percentage van het uitvoerbestand, d.w.z. bij voorinstelling 50 op een afbeelding van 5 MB, krijg je na het opslaan een afbeelding van 2,5 MB</string>
+    <string name="presets_sub_bytes" formatted="false">De voorinstelling hier bepaalt het percentage van het uitvoerbestand, d.w.z. bij voorinstelling 50 op een afbeelding van 5 MB, krijg je na het opslaan een afbeelding van 2,5 MB</string>
     <string name="randomize_filename">Willekeurige bestandsnaam</string>
     <string name="randomize_filename_sub">Indien ingeschakeld zal de uitvoerbestandsnaam volledig willekeurig zijn</string>
     <string name="saved_to">Opgeslagen in map %1$s met naam %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Zachte uniforme ruistoning voor subtiele textuur en een glad uiterlijk.</string>
     <string name="model_repainter">Repareert beschadigde of oneffen gebieden door artefacten opnieuw te schilderen en de beeldconsistentie te verbeteren.</string>
     <string name="model_debandurh_fs_ultra_lite">Lichtgewicht ontbandingsmodel dat kleurbanden verwijdert met minimale prestatiekosten.</string>
-    <string name="model_jpeg_0_20">Optimaliseert afbeeldingen met zeer hoge compressieartefacten (0-20% kwaliteit) voor verbeterde helderheid.</string>
-    <string name="model_jpeg_20_40">Verbetert afbeeldingen met hoge compressieartefacten (20-40% kwaliteit), waardoor details worden hersteld en ruis wordt verminderd.</string>
-    <string name="model_jpeg_40_60">Verbetert afbeeldingen met gematigde compressie (40-60% kwaliteit), waarbij scherpte en vloeiendheid in evenwicht worden gebracht.</string>
-    <string name="model_jpeg_60_80">Verfijnt afbeeldingen met lichte compressie (60-80% kwaliteit) om subtiele details en texturen te verbeteren.</string>
-    <string name="model_jpeg_80_100">Verbetert vrijwel verliesvrije beelden enigszins (80-100% kwaliteit) terwijl de natuurlijke uitstraling en details behouden blijven.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimaliseert afbeeldingen met zeer hoge compressieartefacten (0-20% kwaliteit) voor verbeterde helderheid.</string>
+    <string name="model_jpeg_20_40" formatted="false">Verbetert afbeeldingen met hoge compressieartefacten (20-40% kwaliteit), waardoor details worden hersteld en ruis wordt verminderd.</string>
+    <string name="model_jpeg_40_60" formatted="false">Verbetert afbeeldingen met gematigde compressie (40-60% kwaliteit), waarbij scherpte en vloeiendheid in evenwicht worden gebracht.</string>
+    <string name="model_jpeg_60_80" formatted="false">Verfijnt afbeeldingen met lichte compressie (60-80% kwaliteit) om subtiele details en texturen te verbeteren.</string>
+    <string name="model_jpeg_80_100" formatted="false">Verbetert vrijwel verliesvrije beelden enigszins (80-100% kwaliteit) terwijl de natuurlijke uitstraling en details behouden blijven.</string>
     <string name="model_spongecolor_lite">Eenvoudige en snelle inkleuring, tekenfilms, niet ideaal</string>
     <string name="model_deblr">Vermindert beeldonscherpte enigszins, waardoor de scherpte wordt verbeterd zonder artefacten te introduceren.</string>
     <string name="processing_channel">Langlopende operaties</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Converteer alle in het document ingebedde afbeeldingen naar grijswaarden</string>
     <string name="compress_pdf">PDF comprimeren</string>
     <string name="compress_pdf_sub">Optimaliseer de bestandsgrootte van uw document om gemakkelijker te kunnen delen</string>
-    <string name="repair_info">ImageToolbox bouwt de interne kruisverwijzingstabel opnieuw op en genereert de bestandsstructuur helemaal opnieuw. Hierdoor kan de toegang tot veel bestanden worden hersteld die \\\"niet kunnen worden geopend\\\"</string>
+    <string name="repair_info">ImageToolbox bouwt de interne kruisverwijzingstabel opnieuw op en genereert de bestandsstructuur helemaal opnieuw. Hierdoor kan de toegang tot veel bestanden worden hersteld die \"niet kunnen worden geopend\"</string>
     <string name="grayscale_info">Deze tool converteert alle documentafbeeldingen naar grijswaarden. Beste voor afdrukken en verkleinen van de bestandsgrootte</string>
     <string name="metadata">Metagegevens</string>
     <string name="metadata_pdf_sub">Bewerk documenteigenschappen voor betere privacy</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parameters</string>
     <string name="shader_source">Shader-bron</string>
-    <string name="shader_main_body_info">Schrijf alleen de hoofdtekst van void main(). Gebruik textureCominate voor UV-coördinaten en voerImageTexture in als bronsampler.</string>
+    <string name="shader_main_body_info">Schrijf alleen de hoofdtekst van void main(). Gebruik textureCoordinate voor UV-coördinaten en inputImageTexture als bronsampler.</string>
     <string name="shader_helper_code">Functies</string>
     <string name="shader_helper_code_info">Optionele helperfuncties, constanten en structuren ingevoegd vóór void main(). Uniformen worden gegenereerd op basis van params.</string>
     <string name="shader_no_parameters">Voeg hier uniformen toe als de arcering bewerkbare waarden nodig heeft.</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">De naam van de shader mag niet leeg zijn.</string>
     <string name="shader_error_blank_source">De arceringsbron mag niet leeg zijn.</string>
     <string name="shader_error_unsupported_characters">De arceringsbron bevat niet-ondersteunde tekens: %1$s. Gebruik alleen ASCII GLSL-bron.</string>
-    <string name="shader_error_duplicate_parameter">Parameter \\\"%1$s\\\" wordt meer dan één keer gedeclareerd.</string>
+    <string name="shader_error_duplicate_parameter">Parameter \"%1$s\" wordt meer dan één keer gedeclareerd.</string>
     <string name="shader_error_blank_parameter_name">Parameternamen mogen niet leeg zijn.</string>
-    <string name="shader_error_reserved_parameter_name">Parameter \\\"%1$s\\\" gebruikt een gereserveerde GPUImage-naam.</string>
-    <string name="shader_error_invalid_parameter_name">Parameter \\\"%1$s\\\" moet een geldige GLSL-identificatie zijn.</string>
-    <string name="shader_error_invalid_value_type">Parameter \\\"%1$s\\\" heeft %2$s waardetype \\\"%3$s\\\", verwacht \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parameter \\\"%1$s\\\" kan min of max voor boolwaarden niet definiëren.</string>
-    <string name="shader_error_min_greater_than_max">Parameter \\\"%1$s\\\" heeft min groter dan max.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standaard is lager dan min.</string>
-    <string name="shader_error_default_greater_than_max">Parameter \\\"%1$s\\\" standaard is groter dan max.</string>
-    <string name="shader_error_missing_input_texture">Shader moet \\\"uniforme sampler2D %1$s;\\\" declareren.</string>
-    <string name="shader_error_missing_texture_coordinate">Shader moet \\\"variërende vec2 %1$s;\\\" declareren.</string>
-    <string name="shader_error_missing_main_function">Shader moet \\\"void main()\\\" definiëren.</string>
+    <string name="shader_error_reserved_parameter_name">Parameter \"%1$s\" gebruikt een gereserveerde GPUImage-naam.</string>
+    <string name="shader_error_invalid_parameter_name">Parameter \"%1$s\" moet een geldige GLSL-identificatie zijn.</string>
+    <string name="shader_error_invalid_value_type">Parameter \"%1$s\" heeft %2$s waardetype \"%3$s\", verwacht \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parameter \"%1$s\" kan min of max voor boolwaarden niet definiëren.</string>
+    <string name="shader_error_min_greater_than_max">Parameter \"%1$s\" heeft min groter dan max.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \"%1$s\" standaard is lager dan min.</string>
+    <string name="shader_error_default_greater_than_max">Parameter \"%1$s\" standaard is groter dan max.</string>
+    <string name="shader_error_missing_input_texture">Shader moet \"uniform sampler2D %1$s;\" declareren.</string>
+    <string name="shader_error_missing_texture_coordinate">Shader moet \"varying vec2 %1$s;\" declareren.</string>
+    <string name="shader_error_missing_main_function">Shader moet \"void main()\" definiëren.</string>
     <string name="shader_error_missing_fragment_color">Shader moet een kleur naar gl_FragColor schrijven.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage-shaders worden niet ondersteund. Gebruik het void main()-contract van GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Geanimeerd ShaderToy-uniform \\\"iTime\\\" wordt niet ondersteund.</string>
-    <string name="shader_error_shadertoy_i_frame">Geanimeerd ShaderToy-uniform \\\"iFrame\\\" wordt niet ondersteund.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy-uniform \\\"iResolution\\\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_time">Geanimeerd ShaderToy-uniform \"iTime\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_frame">Geanimeerd ShaderToy-uniform \"iFrame\" wordt niet ondersteund.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy-uniform \"iResolution\" wordt niet ondersteund.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-texturen worden niet ondersteund.</string>
     <string name="shader_error_external_textures">Externe texturen worden niet ondersteund.</string>
     <string name="shader_error_external_texture_extensions">Externe textuurextensies worden niet ondersteund.</string>
     <string name="shader_error_libretro_parameters">Libretro-shaderparameters worden niet ondersteund.</string>
-    <string name="shader_error_extra_input_texture">Er wordt slechts één invoertextuur ondersteund. Verwijder \\\"uniform %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" moet worden gedeclareerd als \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" wordt gedeclareerd als \\\"uniform %2$s %1$s;\\\", verwacht \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Er wordt slechts één invoertextuur ondersteund. Verwijder \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parameter \"%1$s\" moet worden gedeclareerd als \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \"%1$s\" wordt gedeclareerd als \"uniform %2$s %1$s;\", verwacht \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shader-bestand is leeg.</string>
     <string name="shader_parse_error_not_itshader_json">Het arceringsbestand moet een .itshader JSON-object zijn met versie-, naam- en arceringsvelden.</string>
     <string name="shader_parse_error_invalid_json">Het Shader-bestand is geen geldige JSON of komt niet overeen met de .itshader-indeling.</string>
-    <string name="shader_parse_error_missing_field">Veld \\\"%1$s\\\" is verplicht.</string>
+    <string name="shader_parse_error_missing_field">Veld \"%1$s\" is verplicht.</string>
     <string name="shader_parse_error_missing_param_field">%1$s is vereist.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" wordt niet ondersteund. Ondersteunde typen: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s is vereist voor \\\"%2$s\\\" parameters.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" wordt niet ondersteund. Ondersteunde typen: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s is vereist voor \"%2$s\" parameters.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s moet een eindig getal zijn.</string>
     <string name="shader_parse_error_integer_expected">%1$s moet een geheel getal zijn.</string>
     <string name="shader_parse_error_bool_expected">%1$s moet waar of onwaar zijn.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Profielen exporteren</string>
     <string name="save_export_profile">Huidig ​​profiel opslaan</string>
     <string name="delete_export_profile">Exportprofiel verwijderen</string>
-    <string name="delete_export_profile_sub">Wilt u het exportprofiel \\\"%1$s\\\" verwijderen?</string>
+    <string name="delete_export_profile_sub">Wilt u het exportprofiel \"%1$s\" verwijderen?</string>
     <string name="draw_bitmap_border">Rand tekenen</string>
     <string name="draw_bitmap_border_sub">Toon een dunne rand rond het teken- en wisdoek</string>
     <string name="wavy">Golvend</string>

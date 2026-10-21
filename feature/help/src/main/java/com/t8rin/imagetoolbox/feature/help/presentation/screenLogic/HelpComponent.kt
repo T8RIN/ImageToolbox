@@ -23,11 +23,12 @@ import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.searchText
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
-import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 import com.t8rin.imagetoolbox.feature.help.presentation.components.HelpState
 import dagger.assisted.Assisted
@@ -115,44 +116,36 @@ class HelpComponent @AssistedInject internal constructor(
     }
 
     private fun updateFilteredTips() {
-        val keyword = searchKeyword
+        val keyword = searchKeyword.trim()
 
         _filteredTips.value = if (keyword.isBlank()) {
             baseTips
         } else {
-            baseTips.filter { it.matchesSearch(keyword) }
+            val words = keyword.split(Regex("\\s+"))
+            baseTips.filter { it.matchesSearch(words) }
         }
     }
 
-    private fun HelpTip.matchesSearch(keyword: String): Boolean {
-        return title.matchesSearch(keyword) ||
-                subtitle.matchesSearch(keyword) ||
-                category.matchesSearch(keyword) ||
-                pages.any { it.matchesSearch(keyword) }
-    }
+    private fun HelpTip.matchesSearch(words: List<String>): Boolean {
+        val resources = buildList {
+            addAll(listOf(title, subtitle, category.title, category.subtitle))
+            pages.forEach { page ->
+                addAll(listOf(page.title, page.description) + page.steps)
+            }
+            (deepLink as? Screen.Settings)?.targetSetting?.let { setting ->
+                add(setting.title)
+                setting.subtitle?.let(::add)
+                SettingsGroup.entries.firstOrNull { setting in it.settingsList }?.let {
+                    add(it.titleId)
+                }
+            }
+        }
+        val text = resources.distinct().joinToString(" ") {
+            getString(it) + " " + getStringLocalized(it, Locale.ENGLISH.language)
+        } + " " + deepLink?.searchText(::getString).orEmpty() + " " +
+                deepLink?.searchText { getStringLocalized(it, Locale.ENGLISH.language) }.orEmpty()
 
-    private fun HelpCategory.matchesSearch(keyword: String): Boolean {
-        return title.matchesSearch(keyword) ||
-                subtitle.matchesSearch(keyword)
-    }
-
-    private fun HelpPage.matchesSearch(keyword: String): Boolean {
-        return title.matchesSearch(keyword) ||
-                description.matchesSearch(keyword) ||
-                steps.any { it.matchesSearch(keyword) }
-    }
-
-    private fun Int.matchesSearch(keyword: String): Boolean {
-        return getString(this).contains(
-            other = keyword,
-            ignoreCase = true
-        ) || getStringLocalized(
-            resId = this,
-            language = Locale.ENGLISH.language
-        ).contains(
-            other = keyword,
-            ignoreCase = true
-        )
+        return words.all { text.contains(it, ignoreCase = true) }
     }
 
     @AssistedFactory

@@ -306,7 +306,7 @@
     <string name="skip">Überspringen</string>
     <string name="copy">Kopieren</string>
     <string name="presets_sub" formatted="false">Wenn du die Voreinstellung 125 gewählt hast, wird das Bild in einer Größe von 125% des Originalbildes gespeichert. Wenn du Voreinstellung 50 wählst, wird das Bild mit 50 % Größe gespeichert</string>
-    <string name="presets_sub_bytes">Die Voreinstellung legt hier den % der Ausgabedatei fest, d. h. wenn du die Voreinstellung 50 für ein 5 MB Bild wählst, erhältst du nach dem Speichern ein 2,5 MB Bild.</string>
+    <string name="presets_sub_bytes" formatted="false">Die Voreinstellung legt hier den % der Ausgabedatei fest, d. h. wenn du die Voreinstellung 50 für ein 5 MB Bild wählst, erhältst du nach dem Speichern ein 2,5 MB Bild.</string>
     <string name="randomize_filename">Zufälligen Dateinamen erzeugen</string>
     <string name="randomize_filename_sub">Wenn aktiviert, wird der Dateiname völlig zufällig gewählt.</string>
     <string name="saved_to">Gespeichert im Ordner „%1$s“ als „%2$s“</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Sanfte, gleichmäßige Rauschtönung für eine subtile Textur und ein glattes Erscheinungsbild.</string>
     <string name="model_repainter">Repariert beschädigte oder unebene Bereiche durch Neulackierung von Artefakten und verbessert die Bildkonsistenz.</string>
     <string name="model_debandurh_fs_ultra_lite">Leichtes Debanding-Modell, das Farbstreifen mit minimalen Leistungseinbußen entfernt.</string>
-    <string name="model_jpeg_0_20">Optimiert Bilder mit sehr hohen Komprimierungsartefakten (0–20 % Qualität) für verbesserte Klarheit.</string>
-    <string name="model_jpeg_20_40">Verbessert Bilder mit hohen Komprimierungsartefakten (20–40 % Qualität), stellt Details wieder her und reduziert Rauschen.</string>
-    <string name="model_jpeg_40_60">Verbessert Bilder mit mäßiger Komprimierung (40-60 % Qualität) und gleicht Schärfe und Glätte aus.</string>
-    <string name="model_jpeg_60_80">Verfeinert Bilder mit leichter Komprimierung (60–80 % Qualität), um subtile Details und Texturen hervorzuheben.</string>
-    <string name="model_jpeg_80_100">Verbessert nahezu verlustfreie Bilder leicht (80–100 % Qualität) und behält gleichzeitig das natürliche Aussehen und die Details bei.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimiert Bilder mit sehr hohen Komprimierungsartefakten (0–20 % Qualität) für verbesserte Klarheit.</string>
+    <string name="model_jpeg_20_40" formatted="false">Verbessert Bilder mit hohen Komprimierungsartefakten (20–40 % Qualität), stellt Details wieder her und reduziert Rauschen.</string>
+    <string name="model_jpeg_40_60" formatted="false">Verbessert Bilder mit mäßiger Komprimierung (40-60 % Qualität) und gleicht Schärfe und Glätte aus.</string>
+    <string name="model_jpeg_60_80" formatted="false">Verfeinert Bilder mit leichter Komprimierung (60–80 % Qualität), um subtile Details und Texturen hervorzuheben.</string>
+    <string name="model_jpeg_80_100" formatted="false">Verbessert nahezu verlustfreie Bilder leicht (80–100 % Qualität) und behält gleichzeitig das natürliche Aussehen und die Details bei.</string>
     <string name="model_spongecolor_lite">Einfache und schnelle Kolorierung, Cartoons, nicht ideal</string>
     <string name="model_deblr">Reduziert die Bildunschärfe leicht und verbessert die Schärfe, ohne dass Artefakte entstehen.</string>
     <string name="processing_channel">Lang andauernde Vorgänge</string>
@@ -2374,7 +2374,7 @@
     <string name="shader_error_external_textures">Externe Texturen werden nicht unterstützt.</string>
     <string name="shader_error_external_texture_extensions">Externe Texturerweiterungen werden nicht unterstützt.</string>
     <string name="shader_error_libretro_parameters">Libretro-Shader-Parameter werden nicht unterstützt.</string>
-    <string name="shader_error_extra_input_texture">Es wird nur eine Eingabetextur unterstützt. Entfernen Sie \\\"einheitlich %1$s %2$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Es wird nur eine Eingabetextur unterstützt. Entfernen Sie \"uniform %1$s %2$s;\".</string>
     <string name="shader_error_missing_uniform">Der Parameter „%1$s“ muss als „uniform %2$s %1$s;“ deklariert werden.</string>
     <string name="shader_error_wrong_uniform_type">Parameter „%1$s“ wird als „uniform %2$s %1$s; deklariert, erwartet als „uniform %3$s %1$s;.</string>
     <string name="shader_parse_error_empty_file">Shader-Datei ist leer.</string>
@@ -2382,7 +2382,7 @@
     <string name="shader_parse_error_invalid_json">Die Shader-Datei ist kein gültiges JSON oder entspricht nicht dem .itshader-Format.</string>
     <string name="shader_parse_error_missing_field">Das Feld „%1$s“ ist erforderlich.</string>
     <string name="shader_parse_error_missing_param_field">%1$s ist erforderlich.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" wird nicht unterstützt. Unterstützte Typen: %3$s.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" wird nicht unterstützt. Unterstützte Typen: %3$s.</string>
     <string name="shader_parse_error_missing_value">%1$s ist für die Parameter „%2$s“ erforderlich.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s muss eine endliche Zahl sein.</string>
     <string name="shader_parse_error_integer_expected">%1$s muss eine Ganzzahl sein.</string>

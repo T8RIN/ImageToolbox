@@ -323,7 +323,7 @@
     <string name="text">テキスト</string>
     <string name="defaultt">デフォルト</string>
     <string name="font">フォント</string>
-    <string name="presets_sub_bytes">ここでの設定値は出力ファイルの容量の%を決定します。つまり5MBの画像で50を選択すると、2.5MBの画像として保存されます。</string>
+    <string name="presets_sub_bytes" formatted="false">ここでの設定値は出力ファイルの容量の%を決定します。つまり5MBの画像で50を選択すると、2.5MBの画像として保存されます。</string>
     <string name="erase_mode">消去モード</string>
     <string name="updates">更新</string>
     <string name="segmentation_mode_auto_osd">自動方向とスクリプト検出</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">穏やかで均一なノイズ調色により、繊細な質感と滑らかな外観を実現します。</string>
     <string name="model_repainter">アーティファクトを再描画し、画像の一貫性を向上させることで、損傷した領域や不均一な領域を修復します。</string>
     <string name="model_debandurh_fs_ultra_lite">最小限のパフォーマンスコストでカラーバンディングを除去する軽量デバンディングモデル。</string>
-    <string name="model_jpeg_0_20">非常に高圧縮アーティファクト (品質 0 ～ 20%) を含む画像を最適化し、鮮明さを向上させます。</string>
-    <string name="model_jpeg_20_40">高圧縮アーティファクト (品質 20 ～ 40%) で画像を強化し、詳細を復元し、ノイズを低減します。</string>
-    <string name="model_jpeg_40_60">適度な圧縮 (品質 40 ～ 60%) で画像を改善し、鮮明さと滑らかさのバランスをとります。</string>
-    <string name="model_jpeg_60_80">軽い圧縮 (60 ～ 80% の品質) で画像を洗練し、微妙なディテールやテクスチャを強調します。</string>
-    <string name="model_jpeg_80_100">自然な外観と詳細を維持しながら、ほぼ損失のない画像 (80 ～ 100% の品質) をわずかに向上させます。</string>
+    <string name="model_jpeg_0_20" formatted="false">非常に高圧縮アーティファクト (品質 0 ～ 20%) を含む画像を最適化し、鮮明さを向上させます。</string>
+    <string name="model_jpeg_20_40" formatted="false">高圧縮アーティファクト (品質 20 ～ 40%) で画像を強化し、詳細を復元し、ノイズを低減します。</string>
+    <string name="model_jpeg_40_60" formatted="false">適度な圧縮 (品質 40 ～ 60%) で画像を改善し、鮮明さと滑らかさのバランスをとります。</string>
+    <string name="model_jpeg_60_80" formatted="false">軽い圧縮 (60 ～ 80% の品質) で画像を洗練し、微妙なディテールやテクスチャを強調します。</string>
+    <string name="model_jpeg_80_100" formatted="false">自然な外観と詳細を維持しながら、ほぼ損失のない画像 (80 ～ 100% の品質) をわずかに向上させます。</string>
     <string name="model_spongecolor_lite">シンプルで素早いカラー化、漫画、理想的ではない</string>
     <string name="model_deblr">画像のぼやけをわずかに軽減し、アーティファクトを発生させることなくシャープネスを向上させます。</string>
     <string name="processing_channel">長時間実行される操作</string>
@@ -2341,7 +2341,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d パラメータ</string>
     <string name="shader_source">シェーダソース</string>
-    <string name="shader_main_body_info">void main()の本体のみを記述します。 UV 座標には textureCoowned を使用し、ソース サンプラーとして inputImageTexture を使用します。</string>
+    <string name="shader_main_body_info">void main()の本体のみを記述します。 UV 座標には textureCoordinate を使用し、ソース サンプラーとして inputImageTexture を使用します。</string>
     <string name="shader_helper_code">機能</string>
     <string name="shader_helper_code_info">オプションのヘルパー関数、定数、および構造体が void main() の前に挿入されます。ユニフォームはparamsから生成されます。</string>
     <string name="shader_no_parameters">シェーダに編集可能な値が必要な場合は、ここにユニフォームを追加します。</string>
@@ -2352,17 +2352,17 @@
     <string name="shader_error_blank_name">シェーダ名を空白にすることはできません。</string>
     <string name="shader_error_blank_source">シェーダ ソースを空白にすることはできません。</string>
     <string name="shader_error_unsupported_characters">シェーダー ソースにサポートされていない文字 %1$s が含まれています。 ASCII GLSL ソースのみを使用してください。</string>
-    <string name="shader_error_duplicate_parameter">パラメータ \\\"%1$s\\\" が複数回宣言されています。</string>
+    <string name="shader_error_duplicate_parameter">パラメータ \"%1$s\" が複数回宣言されています。</string>
     <string name="shader_error_blank_parameter_name">パラメータ名を空白にすることはできません。</string>
-    <string name="shader_error_reserved_parameter_name">パラメータ \\\"%1$s\\\" は予約された GPUImage 名を使用します。</string>
-    <string name="shader_error_invalid_parameter_name">パラメータ \\\"%1$s\\\" は有効な GLSL 識別子である必要があります。</string>
-    <string name="shader_error_invalid_value_type">パラメータ \\\"%1$s\\\" の %2$s 値タイプは \\\"%3$s\\\" ですが、予期される値は \\\"%4$s\\\" です。</string>
-    <string name="shader_error_bool_bounds">パラメータ \\\"%1$s\\\" はブール値の最小値または最大値を定義できません。</string>
-    <string name="shader_error_min_greater_than_max">パラメータ \\\"%1$s\\\" の最小値が最大値より大きくなっています。</string>
-    <string name="shader_error_default_lower_than_min">パラメータ \\\"%1$s\\\" のデフォルトは最小値よりも小さいです。</string>
-    <string name="shader_error_default_greater_than_max">パラメータ \\\"%1$s\\\" のデフォルトは最大値より大きくなります。</string>
-    <string name="shader_error_missing_input_texture">シェーダーは「uniform Sampler2D %1$s;」を宣言する必要があります。</string>
-    <string name="shader_error_missing_texture_coordinate">シェーダーは「variing vec2 %1$s;」を宣言する必要があります。</string>
+    <string name="shader_error_reserved_parameter_name">パラメータ \"%1$s\" は予約された GPUImage 名を使用します。</string>
+    <string name="shader_error_invalid_parameter_name">パラメータ \"%1$s\" は有効な GLSL 識別子である必要があります。</string>
+    <string name="shader_error_invalid_value_type">パラメータ \"%1$s\" の %2$s 値タイプは \"%3$s\" ですが、予期される値は \"%4$s\" です。</string>
+    <string name="shader_error_bool_bounds">パラメータ \"%1$s\" はブール値の最小値または最大値を定義できません。</string>
+    <string name="shader_error_min_greater_than_max">パラメータ \"%1$s\" の最小値が最大値より大きくなっています。</string>
+    <string name="shader_error_default_lower_than_min">パラメータ \"%1$s\" のデフォルトは最小値よりも小さいです。</string>
+    <string name="shader_error_default_greater_than_max">パラメータ \"%1$s\" のデフォルトは最大値より大きくなります。</string>
+    <string name="shader_error_missing_input_texture">シェーダーは「uniform sampler2D %1$s;」を宣言する必要があります。</string>
+    <string name="shader_error_missing_texture_coordinate">シェーダーは「varying vec2 %1$s;」を宣言する必要があります。</string>
     <string name="shader_error_missing_main_function">シェーダーは「void main()」を定義する必要があります。</string>
     <string name="shader_error_missing_fragment_color">シェーダーはカラーを gl_FragColor に書き込む必要があります。</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage シェーダはサポートされていません。 GPUImage の void main() コントラクトを使用します。</string>
@@ -2373,9 +2373,9 @@
     <string name="shader_error_external_textures">外部テクスチャはサポートされていません。</string>
     <string name="shader_error_external_texture_extensions">外部テクスチャ拡張機能はサポートされていません。</string>
     <string name="shader_error_libretro_parameters">Libretro シェーダ パラメータはサポートされていません。</string>
-    <string name="shader_error_extra_input_texture">サポートされる入力テクスチャは 1 つだけです。 「ユニフォーム %1$s %2$s;」を削除します。</string>
-    <string name="shader_error_missing_uniform">パラメータ \\\"%1$s\\\" は、\\\"uniform %2$s %1$s;\\\" として宣言する必要があります。</string>
-    <string name="shader_error_wrong_uniform_type">パラメータ \\\"%1$s\\\" は \\\"uniform %2$s %1$s;\\\" として宣言されていますが、予期された \\\"uniform %3$s %1$s;\\\" です。</string>
+    <string name="shader_error_extra_input_texture">サポートされる入力テクスチャは 1 つだけです。 「uniform %1$s %2$s;」を削除します。</string>
+    <string name="shader_error_missing_uniform">パラメータ \"%1$s\" は、\"uniform %2$s %1$s;\" として宣言する必要があります。</string>
+    <string name="shader_error_wrong_uniform_type">パラメータ \"%1$s\" は \"uniform %2$s %1$s;\" として宣言されていますが、予期された \"uniform %3$s %1$s;\" です。</string>
     <string name="shader_parse_error_empty_file">シェーダーファイルが空です。</string>
     <string name="shader_parse_error_not_itshader_json">シェーダー ファイルは、バージョン、名前、およびシェーダー フィールドを含む .itshader JSON オブジェクトである必要があります。</string>
     <string name="shader_parse_error_invalid_json">シェーダー ファイルが有効な JSON でないか、.itshader 形式と一致しません。</string>

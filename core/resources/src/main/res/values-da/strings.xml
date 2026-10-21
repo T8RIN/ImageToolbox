@@ -337,7 +337,7 @@
     <string name="suffix">Suffiks</string>
     <string name="free">Gratis</string>
     <string name="presets_sub" formatted="false">Hvis du har valgt forudindstilling 125, vil billedet blive gemt som 125 % størrelse af det originale billede. Hvis du vælger forudindstilling 50, vil billedet blive gemt med 50 % størrelse</string>
-    <string name="presets_sub_bytes">Forudindstilling her bestemmer % af filstørrelsen. Hvis du vælger 50% på 5mb billede, vil du få 2,5mb billede efter lagring</string>
+    <string name="presets_sub_bytes" formatted="false">Forudindstilling her bestemmer % af filstørrelsen. Hvis du vælger 50% på 5mb billede, vil du få 2,5mb billede efter lagring</string>
     <string name="randomize_filename_sub">Hvis det er aktiveret, vil outputfilnavnet være helt tilfældigt</string>
     <string name="tg_chat_sub">Diskuter appen og få feedback fra andre brugere. Du kan også få betaopdateringer og indsigt her.</string>
     <string name="restore">Gendan</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Blid ensartet støjtoning for subtil tekstur og glat udseende.</string>
     <string name="model_repainter">Reparerer beskadigede eller ujævne områder ved at male artefakter igen og forbedre billedkonsistensen.</string>
     <string name="model_debandurh_fs_ultra_lite">Letvægts debanding-model, der fjerner farvestriber med minimal ydeevne.</string>
-    <string name="model_jpeg_0_20">Optimerer billeder med meget høje kompressionsartefakter (0-20 % kvalitet) for forbedret klarhed.</string>
-    <string name="model_jpeg_20_40">Forbedrer billeder med høje kompressionsartefakter (20-40 % kvalitet), genskaber detaljer og reducerer støj.</string>
-    <string name="model_jpeg_40_60">Forbedrer billeder med moderat komprimering (40-60% kvalitet), balancerer skarphed og glathed.</string>
-    <string name="model_jpeg_60_80">Forfiner billeder med let komprimering (60-80 % kvalitet) for at forbedre subtile detaljer og teksturer.</string>
-    <string name="model_jpeg_80_100">Forbedrer næsten tabsfrie billeder en smule (80-100 % kvalitet), samtidig med at det naturlige udseende og detaljer bevares.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimerer billeder med meget høje kompressionsartefakter (0-20 % kvalitet) for forbedret klarhed.</string>
+    <string name="model_jpeg_20_40" formatted="false">Forbedrer billeder med høje kompressionsartefakter (20-40 % kvalitet), genskaber detaljer og reducerer støj.</string>
+    <string name="model_jpeg_40_60" formatted="false">Forbedrer billeder med moderat komprimering (40-60% kvalitet), balancerer skarphed og glathed.</string>
+    <string name="model_jpeg_60_80" formatted="false">Forfiner billeder med let komprimering (60-80 % kvalitet) for at forbedre subtile detaljer og teksturer.</string>
+    <string name="model_jpeg_80_100" formatted="false">Forbedrer næsten tabsfrie billeder en smule (80-100 % kvalitet), samtidig med at det naturlige udseende og detaljer bevares.</string>
     <string name="model_spongecolor_lite">Enkel og hurtig farvelægning, tegnefilm, ikke ideelt</string>
     <string name="model_deblr">Reducerer billedsløring en smule og forbedrer skarpheden uden at introducere artefakter.</string>
     <string name="processing_channel">Langvarige operationer</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Konverter alle dokumentindlejrede billeder til gråtoner</string>
     <string name="compress_pdf">Komprimer PDF</string>
     <string name="compress_pdf_sub">Optimer din dokumentfilstørrelse for nemmere deling</string>
-    <string name="repair_info">ImageToolbox genopbygger den interne krydsreferencetabel og regenererer filstrukturen fra bunden. Dette kan gendanne adgangen til mange filer, der \\\"ikke kan åbnes\\\"</string>
+    <string name="repair_info">ImageToolbox genopbygger den interne krydsreferencetabel og regenererer filstrukturen fra bunden. Dette kan gendanne adgangen til mange filer, der \"ikke kan åbnes\"</string>
     <string name="grayscale_info">Dette værktøj konverterer alle dokumentbilleder til gråtoner. Bedst til udskrivning og reduktion af filstørrelse</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Rediger dokumentegenskaber for bedre privatliv</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Shader-navnet må ikke være tomt.</string>
     <string name="shader_error_blank_source">Shader-kilde må ikke være tom.</string>
     <string name="shader_error_unsupported_characters">Shader-kilden indeholder ikke-understøttede tegn: %1$s. Brug kun ASCII GLSL-kilde.</string>
-    <string name="shader_error_duplicate_parameter">Parameteren \\\"%1$s\\\" erklæres mere end én gang.</string>
+    <string name="shader_error_duplicate_parameter">Parameteren \"%1$s\" erklæres mere end én gang.</string>
     <string name="shader_error_blank_parameter_name">Parameternavne må ikke være tomme.</string>
-    <string name="shader_error_reserved_parameter_name">Parameteren \\\"%1$s\\\" bruger et reserveret GPUIimage-navn.</string>
-    <string name="shader_error_invalid_parameter_name">Parameteren \\\"%1$s\\\" skal være et gyldigt GLSL-id.</string>
-    <string name="shader_error_invalid_value_type">Parameteren \\\"%1$s\\\" har %2$s værditypen \\\"%3$s\\\", forventet \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parameteren \\\"%1$s\\\" kan ikke definere min eller max for bool-værdier.</string>
-    <string name="shader_error_min_greater_than_max">Parameteren \\\"%1$s\\\" har min. større end maks.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standard er lavere end min.</string>
-    <string name="shader_error_default_greater_than_max">Parameter \\\"%1$s\\\" standard er større end max.</string>
-    <string name="shader_error_missing_input_texture">Shader skal erklære \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader skal erklære \\\"varierende vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader skal definere \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parameteren \"%1$s\" bruger et reserveret GPUIimage-navn.</string>
+    <string name="shader_error_invalid_parameter_name">Parameteren \"%1$s\" skal være et gyldigt GLSL-id.</string>
+    <string name="shader_error_invalid_value_type">Parameteren \"%1$s\" har %2$s værditypen \"%3$s\", forventet \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parameteren \"%1$s\" kan ikke definere min eller max for bool-værdier.</string>
+    <string name="shader_error_min_greater_than_max">Parameteren \"%1$s\" har min. større end maks.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \"%1$s\" standard er lavere end min.</string>
+    <string name="shader_error_default_greater_than_max">Parameter \"%1$s\" standard er større end max.</string>
+    <string name="shader_error_missing_input_texture">Shader skal erklære \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader skal erklære \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader skal definere \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader skal skrive en farve til gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders understøttes ikke. Brug GPUImage\'s void main()-kontrakt.</string>
-    <string name="shader_error_shadertoy_i_time">Animeret ShaderToy-uniform \\\"iTime\\\" understøttes ikke.</string>
-    <string name="shader_error_shadertoy_i_frame">Animeret ShaderToy-uniform \\\"iFrame\\\" understøttes ikke.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\\"iResolution\\\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_time">Animeret ShaderToy-uniform \"iTime\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_frame">Animeret ShaderToy-uniform \"iFrame\" understøttes ikke.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \"iResolution\" understøttes ikke.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-teksturer understøttes ikke.</string>
     <string name="shader_error_external_textures">Eksterne teksturer understøttes ikke.</string>
     <string name="shader_error_external_texture_extensions">Eksterne teksturudvidelser understøttes ikke.</string>
     <string name="shader_error_libretro_parameters">Libretro shader-parametre understøttes ikke.</string>
-    <string name="shader_error_extra_input_texture">Kun én inputtekstur understøttes. Fjern \\\"uniform %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parameter \\\"%1$s\\\" skal erklæres som \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parameter \\\"%1$s\\\" er erklæret som \\\"uniform %2$s %1$s;\\\", forventet \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Kun én inputtekstur understøttes. Fjern \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parameter \"%1$s\" skal erklæres som \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parameter \"%1$s\" er erklæret som \"uniform %2$s %1$s;\", forventet \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shader-filen er tom.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-fil skal være et .itshader JSON-objekt med version, navn og shader-felter.</string>
     <string name="shader_parse_error_invalid_json">Shader-filen er ikke gyldig JSON eller matcher ikke .itshader-formatet.</string>
-    <string name="shader_parse_error_missing_field">Feltet \\\"%1$s\\\" er påkrævet.</string>
+    <string name="shader_parse_error_missing_field">Feltet \"%1$s\" er påkrævet.</string>
     <string name="shader_parse_error_missing_param_field">%1$s er påkrævet.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" understøttes ikke. Understøttede typer: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s er påkrævet for \\\"%2$s\\\" parametre.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" understøttes ikke. Understøttede typer: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s er påkrævet for \"%2$s\" parametre.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s skal være et endeligt tal.</string>
     <string name="shader_parse_error_integer_expected">%1$s skal være et heltal.</string>
     <string name="shader_parse_error_bool_expected">%1$s skal være sand eller falsk.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Eksporter profiler</string>
     <string name="save_export_profile">Gem den aktuelle profil</string>
     <string name="delete_export_profile">Slet eksportprofil</string>
-    <string name="delete_export_profile_sub">Vil du slette eksportprofilen \\"%1$s\\"?</string>
+    <string name="delete_export_profile_sub">Vil du slette eksportprofilen \"%1$s\"?</string>
     <string name="draw_bitmap_border">Tegning kant</string>
     <string name="draw_bitmap_border_sub">Vis en tynd kant rundt om tegne- og viskelærredet</string>
     <string name="wavy">Bølget</string>

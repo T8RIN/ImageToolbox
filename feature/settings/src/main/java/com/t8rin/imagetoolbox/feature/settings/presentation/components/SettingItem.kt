@@ -285,6 +285,12 @@ internal fun SettingItem(
                 )
             }
 
+            Setting.AiAssistant -> {
+                AiAssistantSettingItem(
+                    onValueChange = component::setAiAssistantEnabled
+                )
+            }
+
             Setting.ImagePickerMode -> {
                 ImagePickerModeSettingItemGroup(
                     onValueChange = component::setImagePickerMode,
