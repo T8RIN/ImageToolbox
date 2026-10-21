@@ -6060,6 +6060,9 @@
     <string name="assistant_history_save_error">Could not save conversation</string>
     <string name="assistant_latest_message">Latest message</string>
     <string name="assistant_empty_chat">How can I help?</string>
+    <string name="assistant_setup_description">Download a model to get help with ImageToolbox tools and settings. You can turn Assistant off if you do not need it.</string>
+    <string name="assistant_download_model">Download a model</string>
+    <string name="assistant_disable">Turn off Assistant</string>
     <string name="assistant_input_too_long">The conversation is too long. Start a new conversation or shorten your question.</string>
     <string name="assistant_clear_conversation">Clear conversation</string>
     <string name="assistant_clear_conversation_question">Delete all messages in this conversation?</string>
@@ -6572,7 +6575,7 @@
     <string name="help_tip_setting_fast_settings_side_step_1">Enable Side Button and choose Start or End to place it at the corresponding side of the interface.</string>
     <string name="help_tip_setting_fast_settings_side_step_2">Open a tool and tap the edge control. Disable the setting to hide quick settings; Assistant has its own enable switch.</string>
     <string name="help_tip_setting_ai_assistant_description">Assistant answers questions using a downloaded local model and can link to documented tools and settings.</string>
-    <string name="help_tip_setting_ai_assistant_step_1">Enable Assistant, open it from the main screen or a tool, then select Lite, Advanced or Max and download the model before the first use.</string>
+    <string name="help_tip_setting_ai_assistant_step_1">Open Assistant from the main screen or a tool, choose Lite, Advanced or Max and download a model. If you turned Assistant off, enable it again in settings.</string>
     <string name="help_tip_setting_ai_assistant_step_2">Ask how to complete a task. Open suggested tool or setting links yourself; attaching a file provides its metadata, not visual recognition of its contents.</string>
     <string name="help_tip_setting_ai_assistant_step_3">After the model download, conversations can run offline. Use the model selector to switch models, manage downloads or remove installed files.</string>
     <string name="help_tip_setting_snowfall_mode_description">Snowfall adds an interface decoration according to the selected mode.</string>

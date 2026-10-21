@@ -449,9 +449,16 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 type = if (showClipButton) {
                                     EnhancedFloatingActionButtonType.SecondaryHorizontal
                                 } else EnhancedFloatingActionButtonType.Primary,
-                                containerColor = if (showClipButton) {
-                                    MaterialTheme.colorScheme.secondaryContainer
-                                } else MaterialTheme.colorScheme.tertiaryContainer
+                                containerColor = when {
+                                    showClipButton && showSearchButton -> MaterialTheme.colorScheme.primaryContainer
+                                    showClipButton -> MaterialTheme.colorScheme.secondaryContainer
+                                    else -> MaterialTheme.colorScheme.tertiaryContainer
+                                },
+                                contentColor = when {
+                                    showClipButton && showSearchButton -> MaterialTheme.colorScheme.onPrimaryContainer
+                                    showClipButton -> MaterialTheme.colorScheme.onSecondaryContainer
+                                    else -> MaterialTheme.colorScheme.onTertiaryContainer
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Neurology,

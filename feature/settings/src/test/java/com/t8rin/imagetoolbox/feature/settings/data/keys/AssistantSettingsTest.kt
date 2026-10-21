@@ -32,30 +32,34 @@ import java.lang.reflect.Type
 class AssistantSettingsTest {
 
     @Test
-    fun missingPreferencesKeepAssistantDisabledAndSelectLite() {
+    fun missingPreferencesEnableAssistantWithIncompleteSetupAndSelectLite() {
         val settings = emptyPreferences().settings()
 
-        assertFalse(settings.isAiAssistantEnabled)
+        assertTrue(settings.isAiAssistantEnabled)
+        assertFalse(settings.isAiAssistantSetupComplete)
         assertEquals(AssistantModel.Lite, settings.aiAssistantModel)
     }
 
     @Test
-    fun storedModelsAndEnabledStateAreRestored() {
+    fun storedModelsAndCompletedSetupAreRestored() {
         AssistantModel.entries.forEach { model ->
             val settings = mutablePreferencesOf(
                 AI_ASSISTANT_ENABLED to true,
+                AI_ASSISTANT_SETUP_COMPLETE to true,
                 AI_ASSISTANT_MODEL_TYPE to model.ordinal
             ).settings()
 
             assertTrue(settings.isAiAssistantEnabled)
+            assertTrue(settings.isAiAssistantSetupComplete)
             assertEquals(model, settings.aiAssistantModel)
         }
     }
 
     @Test
-    fun disablingAssistantPreservesModelSelection() {
+    fun disabledAssistantPreservesCompletedSetupAndModelSelection() {
         val preferences = mutablePreferencesOf(
             AI_ASSISTANT_ENABLED to true,
+            AI_ASSISTANT_SETUP_COMPLETE to true,
             AI_ASSISTANT_MODEL_TYPE to AssistantModel.Advanced.ordinal
         )
         preferences[AI_ASSISTANT_ENABLED] = false
@@ -63,7 +67,18 @@ class AssistantSettingsTest {
         val settings = preferences.settings()
 
         assertFalse(settings.isAiAssistantEnabled)
+        assertTrue(settings.isAiAssistantSetupComplete)
         assertEquals(AssistantModel.Advanced, settings.aiAssistantModel)
+    }
+
+    @Test
+    fun storedIncompleteSetupIsRestored() {
+        val settings = mutablePreferencesOf(
+            AI_ASSISTANT_SETUP_COMPLETE to false
+        ).settings()
+
+        assertTrue(settings.isAiAssistantEnabled)
+        assertFalse(settings.isAiAssistantSetupComplete)
     }
 
     private fun Preferences.settings() = toSettingsState(

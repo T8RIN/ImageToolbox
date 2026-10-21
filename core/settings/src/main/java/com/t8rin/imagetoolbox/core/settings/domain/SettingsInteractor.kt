@@ -56,6 +56,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun setAiAssistantEnabled(enabled: Boolean)
 
+    suspend fun setAiAssistantSetupComplete()
+
     suspend fun setAiAssistantModel(model: AssistantModel)
 
     suspend fun toggleAddFileSize()

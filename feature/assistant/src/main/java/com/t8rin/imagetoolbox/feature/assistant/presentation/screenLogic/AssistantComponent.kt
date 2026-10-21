@@ -138,7 +138,14 @@ class AssistantComponent @AssistedInject internal constructor(
             refreshModels()
         }
         componentScope.launchImmediate {
-            models.states.collect { _installations.value = it }
+            models.states.collect {
+                _installations.value = it
+                if (it.any { state -> state.installed } &&
+                    !settings.settingsState.value.isAiAssistantSetupComplete
+                ) {
+                    settings.setAiAssistantSetupComplete()
+                }
+            }
         }
         componentScope.launchImmediate {
             settings.settingsState.map { it.isAiAssistantEnabled to it.aiAssistantModel }
@@ -370,10 +377,21 @@ class AssistantComponent @AssistedInject internal constructor(
         componentScope.launchImmediate { settings.setAiAssistantModel(model) }
     }
 
+    fun disable() {
+        componentScope.launchImmediate {
+            settings.setAiAssistantEnabled(false)
+            AssistantModel.entries.forEach(models::cancelDownload)
+            onGoBack()
+        }
+    }
+
     fun downloadModel(variant: AssistantModel) {
         if (!componentScope.isActive || !enabled || isDownloading(variant)) return
         componentScope.launchImmediate {
             try {
+                if (!settings.settingsState.value.isAiAssistantSetupComplete) {
+                    settings.setAiAssistantModel(variant)
+                }
                 models.download(variant) {}
             } catch (cancelled: CancellationException) {
                 throw cancelled

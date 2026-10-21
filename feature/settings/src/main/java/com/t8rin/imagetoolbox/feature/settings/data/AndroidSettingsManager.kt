@@ -82,6 +82,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SIZE_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_MODEL_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_SETUP_COMPLETE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_ANALYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_AUTO_PASTE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
@@ -224,10 +225,10 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_CONTRAST_LEVEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_STYLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_ANIMATED_EMOJIS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_CATEGORIZED_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
-import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_CATEGORIZED_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
@@ -378,6 +379,11 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setAiAssistantEnabled(enabled: Boolean) = edit {
         it[AI_ASSISTANT_ENABLED] = enabled
+        if (!enabled) it[AI_ASSISTANT_SETUP_COMPLETE] = true
+    }
+
+    override suspend fun setAiAssistantSetupComplete() = edit {
+        it[AI_ASSISTANT_SETUP_COMPLETE] = true
     }
 
     override suspend fun setAiAssistantModel(model: AssistantModel) = edit {

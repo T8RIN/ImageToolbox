@@ -44,6 +44,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -94,6 +95,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.DeleteSweep
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Square
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -130,10 +132,13 @@ fun AssistantContent(component: AssistantComponent) {
     val busy = component.isGenerating
     val landscape = LocalScreenSize.current.run { width > height }
     val keyboardVisible by isKeyboardVisibleAsState()
-    val hideTopBar = landscape && keyboardVisible
     val modelReady = AssistantModels.isSupported() && component.installations.any {
         it.variant == component.selectedModel && it.installed
     }
+    val showSetup = component.enabled && component.messages.isEmpty() &&
+            !LocalSettingsState.current.isAiAssistantSetupComplete &&
+            component.installations.none { it.installed }
+    val hideTopBar = !showSetup && landscape && keyboardVisible
     val window = LocalActivity.current?.window
     DisposableEffect(window) {
         val previousMode = window?.attributes?.softInputMode
@@ -184,7 +189,10 @@ fun AssistantContent(component: AssistantComponent) {
                     Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top))
                 } else Modifier
             ),
-        contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
+        contentWindowInsets = WindowInsets.safeDrawing.only(
+            if (showSetup) WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom
+            else WindowInsetsSides.Horizontal
+        ),
         topBar = {
             if (!hideTopBar) {
                 AssistantTopBar(
@@ -194,15 +202,17 @@ fun AssistantContent(component: AssistantComponent) {
             }
         },
         bottomBar = {
-            AssistantComposer(
-                component = component,
-                input = input,
-                onInputChange = { input = it },
-                onSend = { send(input) },
-                onPickImages = picker::pickImage,
-                onShowModels = { showModels = true },
-                compact = landscape
-            )
+            if (!showSetup) {
+                AssistantComposer(
+                    component = component,
+                    input = input,
+                    onInputChange = { input = it },
+                    onSend = { send(input) },
+                    onPickImages = picker::pickImage,
+                    onShowModels = { showModels = true },
+                    compact = landscape
+                )
+            }
         }
     ) { padding ->
         AssistantConversation(
@@ -213,6 +223,7 @@ fun AssistantContent(component: AssistantComponent) {
                 .padding(padding)
                 .consumeWindowInsets(padding),
             modelReady = modelReady,
+            showSetup = showSetup,
             onShowModels = { showModels = true },
             onLatest = {
                 scope.launch {
@@ -450,6 +461,7 @@ private fun AssistantConversation(
     listState: LazyListState,
     modifier: Modifier,
     modelReady: Boolean,
+    showSetup: Boolean,
     onShowModels: () -> Unit,
     onLatest: () -> Unit
 ) {
@@ -478,7 +490,9 @@ private fun AssistantConversation(
             AssistantPlaceholder(
                 enabled = component.enabled,
                 modelReady = modelReady,
+                showSetup = showSetup,
                 onShowModels = onShowModels,
+                onDisable = component::disable,
                 modifier = Modifier.align(Alignment.Center)
             )
         } else {
@@ -562,7 +576,9 @@ private fun AssistantConversation(
 private fun AssistantPlaceholder(
     enabled: Boolean,
     modelReady: Boolean,
+    showSetup: Boolean,
     onShowModels: () -> Unit,
+    onDisable: () -> Unit,
     modifier: Modifier
 ) {
     val supported = AssistantModels.isSupported()
@@ -585,6 +601,7 @@ private fun AssistantPlaceholder(
                     !enabled -> R.string.assistant_enabled_required
                     modelReady -> R.string.assistant_empty_chat
                     !supported -> R.string.assistant_model_unavailable
+                    showSetup -> R.string.ai_assistant
                     else -> R.string.assistant_model_not_installed
                 }
             ),
@@ -592,7 +609,38 @@ private fun AssistantPlaceholder(
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center
         )
-        if (enabled && !modelReady) {
+        if (showSetup) {
+            if (supported) {
+                Text(
+                    text = stringResource(R.string.assistant_setup_description),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .widthIn(max = 360.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (supported) {
+                    EnhancedButton(
+                        onClick = onShowModels,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(stringResource(R.string.assistant_download_model))
+                    }
+                }
+                EnhancedButton(
+                    onClick = onDisable,
+                    modifier = Modifier.fillMaxWidth(),
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ) {
+                    Text(stringResource(R.string.assistant_disable))
+                }
+            }
+        } else if (enabled && !modelReady) {
             EnhancedButton(onClick = onShowModels) {
                 Text(stringResource(R.string.models))
             }

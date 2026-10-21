@@ -6032,6 +6032,9 @@
     <string name="assistant_history_save_error">Не удалось сохранить диалог</string>
     <string name="assistant_latest_message">Последнее сообщение</string>
     <string name="assistant_empty_chat">Чем помочь?</string>
+    <string name="assistant_setup_description">Скачайте модель, чтобы получать помощь с инструментами и настройками ImageToolbox. Если ассистент не нужен, его можно отключить.</string>
+    <string name="assistant_download_model">Скачать модель</string>
+    <string name="assistant_disable">Отключить ассистента</string>
     <string name="assistant_input_too_long">Переписка слишком длинная. Начните новую или сократите вопрос.</string>
     <string name="assistant_clear_conversation">Очистить диалог</string>
     <string name="assistant_clear_conversation_question">Удалить все сообщения в этом диалоге?</string>
@@ -6544,7 +6547,7 @@
     <string name="help_tip_setting_fast_settings_side_step_1">Включите Боковую кнопку и выберите Начало или Конец для нужной стороны интерфейса.</string>
     <string name="help_tip_setting_fast_settings_side_step_2">Откройте инструмент и нажмите элемент у края. Отключение скрывает быстрые настройки; у Ассистента отдельный переключатель.</string>
     <string name="help_tip_setting_ai_assistant_description">Ассистент отвечает с помощью загруженной локальной модели и предлагает переходы к описанным инструментам и настройкам.</string>
-    <string name="help_tip_setting_ai_assistant_step_1">Включите Ассистент, откройте его с главного экрана или из инструмента, выберите Lite, Advanced или Max и загрузите модель перед первым использованием.</string>
+    <string name="help_tip_setting_ai_assistant_step_1">Откройте ассистента с главного экрана или из инструмента, выберите Lite, Advanced или Max и скачайте модель. Если вы отключили ассистента, включите его снова в настройках.</string>
     <string name="help_tip_setting_ai_assistant_step_2">Спросите, как выполнить задачу. Откройте предложенную ссылку на инструмент или настройку самостоятельно. Вложение передаёт сведения о файле, а не распознавание его содержимого.</string>
     <string name="help_tip_setting_ai_assistant_step_3">После загрузки модели диалоги работают без сети. Через выбор модели можно переключать модели, управлять загрузкой и удалять установленные файлы.</string>
     <string name="help_tip_setting_snowfall_mode_description">Снегопад добавляет украшение интерфейса в соответствии с выбранным режимом.</string>
