@@ -222,7 +222,11 @@ fun AssistantContent(component: AssistantComponent) {
             }
         )
     }
-    AssistantModelSheet(component, showModels) { showModels = it }
+    AssistantModelSheet(
+        component = component,
+        visible = showModels,
+        onDismiss = { showModels = it }
+    )
     ResetDialog(
         visible = showClearConversation,
         onDismiss = { showClearConversation = false },
