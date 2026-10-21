@@ -491,7 +491,11 @@ private fun AssistantConversation(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 flingBehavior = enhancedFlingBehavior()
             ) {
-                items(component.messages, key = { it.id }, contentType = { "message" }) { message ->
+                items(
+                    items = component.messages,
+                    key = { it.id },
+                    contentType = { "message" }
+                ) { message ->
                     AssistantMessageContent(
                         message = message,
                         component = component,
@@ -566,13 +570,13 @@ private fun AssistantPlaceholder(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Icon(
-            Icons.Outlined.Neurology,
+            imageVector = Icons.Outlined.Neurology,
             contentDescription = null,
             modifier = Modifier.size(48.dp),
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            stringResource(
+            text = stringResource(
                 when {
                     !enabled -> R.string.assistant_enabled_required
                     modelReady -> R.string.assistant_empty_chat
