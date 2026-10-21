@@ -27,4 +27,5 @@ android.namespace = "com.t8rin.imagetoolbox.feature.ai_tools"
 dependencies {
     implementation(projects.feature.compare)
     implementation(projects.lib.neuralTools)
+    implementation(projects.lib.opencvTools)
 }

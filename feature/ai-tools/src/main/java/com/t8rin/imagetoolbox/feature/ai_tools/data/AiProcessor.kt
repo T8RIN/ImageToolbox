@@ -63,6 +63,7 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 internal class AiProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -468,7 +469,7 @@ internal class AiProcessor @Inject constructor(
                     .coerceIn(0, sourceSize.height - 1)
                 val sourceX = ((index % outputSize.width) / scaleFactor)
                     .coerceIn(0, sourceSize.width - 1)
-                clamp255(it[sourceY * sourceSize.width + sourceX] * OPAQUE)
+                (it[sourceY * sourceSize.width + sourceX] * OPAQUE).roundToInt().coerceIn(0, OPAQUE)
             } ?: OPAQUE
 
             pixels[index] = if (channels == 1) {

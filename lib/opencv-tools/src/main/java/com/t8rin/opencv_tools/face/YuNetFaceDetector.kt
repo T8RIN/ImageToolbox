@@ -18,6 +18,7 @@
 package com.t8rin.opencv_tools.face
 
 import android.graphics.Bitmap
+import android.graphics.PointF
 import android.graphics.RectF
 import androidx.core.graphics.scale
 import com.t8rin.opencv_tools.utils.OpenCV
@@ -35,7 +36,9 @@ object YuNetFaceDetector : OpenCV() {
     private val mutex = Mutex()
     private var detector: FaceDetectorYN? = null
 
-    suspend fun detect(image: Bitmap): List<RectF> = mutex.withLock {
+    suspend fun detect(image: Bitmap): List<RectF> = detectWithLandmarks(image).map { it.bounds }
+
+    suspend fun detectWithLandmarks(image: Bitmap): List<Face> = mutex.withLock {
         val scale = minOf(1f, 960f / maxOf(image.width, image.height))
         val resized = image.scale(
             (image.width * scale).roundToInt().coerceAtLeast(1),
@@ -74,7 +77,19 @@ object YuNetFaceDetector : OpenCV() {
                         (x + width).coerceIn(0f, 1f),
                         (y + height).coerceIn(0f, 1f)
                     )
-                    if (box.width() > 0f && box.height() > 0f) add(box)
+                    if (box.width() > 0f && box.height() > 0f) {
+                        add(
+                            Face(
+                                bounds = box,
+                                landmarks = List(5) { index ->
+                                    PointF(
+                                        faces.get(row, 4 + index * 2)[0].toFloat() / source.cols(),
+                                        faces.get(row, 5 + index * 2)[0].toFloat() / source.rows()
+                                    )
+                                }
+                            )
+                        )
+                    }
                 }
             }
         } finally {
@@ -82,4 +97,9 @@ object YuNetFaceDetector : OpenCV() {
             faces.release()
         }
     }
+
+    data class Face(
+        val bounds: RectF,
+        val landmarks: List<PointF>
+    )
 }

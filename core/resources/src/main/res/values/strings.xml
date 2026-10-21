@@ -7176,4 +7176,6 @@
     <string name="filter_help_winter">Maps image brightness to blue to green. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
     <string name="filter_help_yililoma_dithering">Approximates tones with ordered pixel mixtures using the Yliluoma dithering method. The grayscale switch produces a monochrome pattern; this variant has no threshold slider.</string>
     <string name="filter_help_zoom_blur">Blurs detail outward from a selected center to imitate zooming during exposure. Center X/Y place the origin and blur size sets the strength.</string>
+    <string name="model_gfpgan">Automatically detects and restores faces with GFPGAN v1.4, blending them into the original image. Strength controls the restoration amount.</string>
+    <string name="model_dehazeformer">Removes atmospheric haze with DehazeFormer-T. Best suited to outdoor photos.</string>
 </resources>
