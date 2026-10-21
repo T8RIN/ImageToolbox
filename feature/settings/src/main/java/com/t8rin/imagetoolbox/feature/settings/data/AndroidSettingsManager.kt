@@ -213,6 +213,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_TH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHEET_NESTED_SCROLL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_HELP_TIPS_BUTTON
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_TOOLS_HISTORY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
@@ -629,6 +630,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleScreensSearchEnabled() = toggle(
         key = SCREEN_SEARCH_ENABLED,
         defaultValue = default.screensSearchEnabled
+    )
+
+    override suspend fun toggleHelpTipsButton() = toggle(
+        key = SHOW_HELP_TIPS_BUTTON,
+        defaultValue = default.showHelpTipsButton
     )
 
     override suspend fun toggleDrawAppBarShadows() = toggle(

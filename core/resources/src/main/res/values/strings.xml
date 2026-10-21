@@ -144,6 +144,8 @@
     <string name="tutorials_count">%1$d tutorials</string>
     <string name="open_tool">Open tool</string>
     <string name="help_tips_settings_sub">Learn the main tools, export options, PDF flows, color utilities, and fixes for common problems</string>
+    <string name="show_help_tips_button">Help &amp; Tips button</string>
+    <string name="show_help_tips_button_sub">Show Help &amp; Tips in the main screen toolbar</string>
     <string name="help_category_getting_started">Getting started</string>
     <string name="help_category_getting_started_sub">Choose tools, import files, save results, and reuse settings faster</string>
     <string name="help_category_image_editing">Image editing</string>
@@ -6382,6 +6384,9 @@
     <string name="help_tip_setting_screen_search_description">Tool search helps find a screen by its name without changing the home-screen order.</string>
     <string name="help_tip_setting_screen_search_step_1">Enable Search in Tools arrangement, then return to the main screen and enter a tool name.</string>
     <string name="help_tip_setting_screen_search_step_2">Disable it if you prefer browsing the list or category tabs; the tools remain available.</string>
+    <string name="help_tip_setting_show_help_tips_button_description">The Help &amp; Tips button opens help from the main screen toolbar. It is shown by default.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_1">Open Settings → Tools arrangement and turn Help &amp; Tips button off to hide it, or on to show it again.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_2">When the button is hidden, you can still open Help &amp; Tips from settings.</string>
     <string name="help_tip_setting_group_options_description">Grouped mode organizes tools into type-based tabs instead of a custom order.</string>
     <string name="help_tip_setting_group_options_step_1">Enable Group tools by type and browse the main-screen tabs.</string>
     <string name="help_tip_setting_group_options_step_2">Disable grouping before editing Order; the order editor is unavailable while grouping is active.</string>

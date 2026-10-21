@@ -164,6 +164,7 @@ sealed class SettingsGroup(
             Setting.ScreenOrder,
             Setting.ShowToolsHistory,
             Setting.ScreenSearch,
+            Setting.ShowHelpTipsButton,
             Setting.EnableLauncherMode,
             Setting.GroupOptions,
             Setting.FavoriteToolsInGroupedMode,

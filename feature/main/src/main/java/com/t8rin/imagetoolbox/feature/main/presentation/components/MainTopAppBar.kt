@@ -21,6 +21,7 @@ package com.t8rin.imagetoolbox.feature.main.presentation.components
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +40,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -65,8 +65,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BugReport
+import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.resources.icons.MobileArrowUpRight
 import com.t8rin.imagetoolbox.core.resources.icons.PhotoPrints
 import com.t8rin.imagetoolbox.core.resources.icons.PushPin
@@ -97,6 +99,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.pulsate
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.rotateAnimation
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
+import com.t8rin.imagetoolbox.core.ui.widget.other.HelpTipsGradient
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.saver.ColorSaver
@@ -104,9 +107,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import kotlinx.coroutines.launch
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 @Composable
 internal fun MainTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
@@ -123,6 +124,10 @@ internal fun MainTopAppBar(
             MainTitle(onShowSnowfall = onShowFeaturesFall)
         },
         actions = {
+            HelpTipsButton(
+                onNavigate = onNavigate
+            )
+
             PinShortcutButton()
 
             EmbeddedPickerButton(
@@ -138,6 +143,23 @@ internal fun MainTopAppBar(
         scrollBehavior = scrollBehavior,
         modifier = modifier
     )
+}
+
+@Composable
+private fun HelpTipsButton(onNavigate: (Screen) -> Unit) {
+    AnimatedVisibility(LocalSettingsState.current.showHelpTipsButton) {
+        HelpTipsGradient(scaleToSize = true) { contentColor ->
+            EnhancedIconButton(
+                onClick = { onNavigate(Screen.Help()) },
+                contentColor = contentColor
+            ) {
+                Icon(
+                    imageVector = Icons.TwoTone.Lightbulb,
+                    contentDescription = stringResource(R.string.help_tips)
+                )
+            }
+        }
+    }
 }
 
 @Composable

@@ -395,6 +395,10 @@ internal fun SettingItem(
                 ScreenOrderSettingItem(onValueChange = component::setScreenOrder)
             }
 
+            Setting.ShowHelpTipsButton -> {
+                ShowHelpTipsButtonSettingItem(onClick = component::toggleHelpTipsButton)
+            }
+
             Setting.ScreenSearch -> {
                 ScreenSearchSettingItem(onClick = component::toggleScreenSearchEnabled)
             }

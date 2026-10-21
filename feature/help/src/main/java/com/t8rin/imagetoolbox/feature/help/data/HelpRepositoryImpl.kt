@@ -4361,6 +4361,20 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = "setting-show-help-tips-button",
+            title = R.string.show_help_tips_button,
+            subtitle = R.string.show_help_tips_button_sub,
+            icon = Icons.Outlined.Lightbulb,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.ShowHelpTipsButton),
+            pageTitle = R.string.show_help_tips_button,
+            description = R.string.help_tip_setting_show_help_tips_button_description,
+            steps = listOf(
+                R.string.help_tip_setting_show_help_tips_button_step_1,
+                R.string.help_tip_setting_show_help_tips_button_step_2
+            )
+        ),
+        tip(
             id = "setting-group-options",
             title = R.string.group_tools_by_type,
             subtitle = R.string.group_tools_by_type_sub,

@@ -338,6 +338,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object ShowHelpTipsButton : Setting(
+        title = R.string.show_help_tips_button,
+        subtitle = R.string.show_help_tips_button_sub
+    )
+
+    @Serializable
     data object ScreenSearch : Setting(
         title = R.string.search_option,
         subtitle = R.string.search_option_sub

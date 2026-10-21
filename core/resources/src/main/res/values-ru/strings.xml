@@ -2530,6 +2530,8 @@
     <string name="tutorials_count">%1$d учебных пособий</string>
     <string name="open_tool">Открыть инструмент</string>
     <string name="help_tips_settings_sub">Изучите основные инструменты, параметры экспорта, PDF-сценарии, цветовые утилиты и решения частых проблем.</string>
+    <string name="show_help_tips_button">Кнопка «Помощь и советы»</string>
+    <string name="show_help_tips_button_sub">Показывать кнопку справки в верхней панели главного экрана</string>
     <string name="help_category_getting_started">С чего начать</string>
     <string name="help_category_getting_started_sub">Выбирайте нужные инструменты, импортируйте файлы, сохраняйте результаты и быстрее настраивайте рабочий процесс.</string>
     <string name="help_category_image_editing">Редактирование изображений</string>
@@ -6354,6 +6356,9 @@
     <string name="help_tip_setting_screen_search_description">Поиск инструментов помогает найти экран по названию без изменения порядка на главном экране.</string>
     <string name="help_tip_setting_screen_search_step_1">Включите Поиск в группе расположения инструментов, вернитесь на главный экран и введите название.</string>
     <string name="help_tip_setting_screen_search_step_2">Отключите поиск, если удобнее список или вкладки категорий. Сами инструменты остаются доступны.</string>
+    <string name="help_tip_setting_show_help_tips_button_description">Кнопка «Помощь и советы» открывает справку из верхней панели главного экрана. По умолчанию она включена.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_1">Откройте «Настройки» → «Расположение инструментов» и выключите показ кнопки «Помощь и советы», чтобы скрыть её, или включите, чтобы вернуть.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_2">Если кнопка скрыта, справку по-прежнему можно открыть через пункт «Помощь и советы» в настройках.</string>
     <string name="help_tip_setting_group_options_description">Режим группировки раскладывает инструменты по вкладкам типов вместо пользовательского порядка.</string>
     <string name="help_tip_setting_group_options_step_1">Включите Группировать инструменты по типу и откройте вкладки главного экрана.</string>
     <string name="help_tip_setting_group_options_step_2">Перед редактированием Порядка отключите группировку: при ней редактор порядка недоступен.</string>

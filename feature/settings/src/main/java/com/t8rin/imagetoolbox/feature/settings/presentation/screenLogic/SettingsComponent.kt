@@ -394,6 +394,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleScreenSearchEnabled() = settingsScope { toggleScreensSearchEnabled() }
 
+    fun toggleHelpTipsButton() = settingsScope { toggleHelpTipsButton() }
+
     fun toggleDrawAppBarShadows() = settingsScope { toggleDrawAppBarShadows() }
 
     private fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) =

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.core.ui.widget.enhanced
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.material.minimumInteractiveComponentSize
@@ -47,6 +48,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalContainerBrush
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.materialShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
@@ -69,12 +71,13 @@ fun EnhancedIconButton(
     pressedShape: Shape = IconButtonDefaults.smallPressedShape,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     forceMinimumInteractiveComponentSize: Boolean = true,
-    enableAutoShadowAndBorder: Boolean = containerColor != Color.Transparent,
+    enableAutoShadowAndBorder: Boolean = containerColor != Color.Transparent || LocalContainerBrush.current != null,
     isShadowClip: Boolean = containerColor.alpha != 1f || !enabled,
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
     val haptics = LocalHapticFeedback.current
+    val brush = LocalContainerBrush.current.takeIf { enabled }
     val currentOnClick = rememberUpdatedState(onClick)
     val currentOnLongClick = rememberUpdatedState(onLongClick)
     val currentOnHoldStep = rememberUpdatedState(onHoldStep)
@@ -142,6 +145,10 @@ fun EnhancedIconButton(
                     isClipped = isShadowClip,
                     enabled = LocalSettingsState.current.drawButtonShadows,
                     elevation = if (settingsState.borderWidth > 0.dp || !enableAutoShadowAndBorder) 0.dp else 0.7.dp
+                )
+                .then(
+                    if (brush != null) Modifier.background(brush, animatedShape)
+                    else Modifier
                 ),
             shape = animatedShape,
             colors = IconButtonDefaults.iconButtonColors(
@@ -150,7 +157,11 @@ fun EnhancedIconButton(
                     else disabledContentColor
                 ).value,
                 containerColor = animateColorAsState(
-                    if (enabled) containerColor else disabledContainerColor
+                    when {
+                        !enabled -> disabledContainerColor
+                        brush != null -> Color.Transparent
+                        else -> containerColor
+                    }
                 ).value,
                 disabledContentColor = disabledContentColor,
                 disabledContainerColor = disabledContainerColor

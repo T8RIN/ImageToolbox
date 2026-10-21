@@ -148,6 +148,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleScreensSearchEnabled()
 
+    suspend fun toggleHelpTipsButton()
+
     suspend fun toggleDrawAppBarShadows()
 
     suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)

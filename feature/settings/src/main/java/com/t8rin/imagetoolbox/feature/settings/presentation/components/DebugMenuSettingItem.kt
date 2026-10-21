@@ -48,8 +48,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedGradientBox
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
-import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.AnimatedGradientBox
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.FullscreenDebugMenu
 import io.ktor.client.call.HttpClientCall
 import io.ktor.client.plugins.ResponseException
