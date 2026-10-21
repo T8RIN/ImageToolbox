@@ -108,6 +108,7 @@ internal fun SettingsBackdropWrapper(
     }
 
     val isTargetRevealed = scaffoldState.targetValue == BackdropValue.Revealed
+    val noAnimations = settingsComponent.settingsState.motionDurationScale == 0f
     val gridState = rememberLazyStaggeredGridState()
 
     BackdropScaffold(
@@ -180,7 +181,7 @@ internal fun SettingsBackdropWrapper(
             }
         },
         backLayerContent = {
-            if (canExpandSettings && (scaffoldState.isRevealed || isTargetRevealed)) {
+            if (canExpandSettings && (noAnimations || scaffoldState.isRevealed || isTargetRevealed)) {
                 PredictiveBackObserver(
                     onProgress = {
                         predictiveBackProgress = it * 1.3f
