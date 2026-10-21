@@ -123,10 +123,10 @@ private fun FiltersMainContent(component: FiltersComponent) {
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
-    val onBack = {
-        val hasImages = !component.basicFilterState.uris.isNullOrEmpty() ||
-                component.maskingFilterState.uri != null
+    val hasImages = !component.basicFilterState.uris.isNullOrEmpty() ||
+            component.maskingFilterState.uri != null
 
+    val onBack = {
         if (hasImages && component.haveChanges) showExitDialog = true
         else if (component.filterType != null) {
             component.clearType()
@@ -288,7 +288,8 @@ private fun FiltersMainContent(component: FiltersComponent) {
         },
         actions = actions,
         showActionsInTopAppBar = false,
-        canShowScreenData = component.filterType != null && component.bitmap != null,
+        canShowScreenData = component.filterType != null &&
+                (component.initialType == null || hasImages),
         imagePreview = {
             ImageContainer(
                 modifier = Modifier
@@ -320,7 +321,7 @@ private fun FiltersMainContent(component: FiltersComponent) {
         },
         insetsForNoData = WindowInsets(0),
         noDataControls = {
-            when (component.filterType) {
+            when (component.initialType?.let { component.filterType }) {
                 is Screen.Filter.Type.Basic -> ImageNotPickedWidget(
                     onPickImage = imagePicker::pickImage
                 )

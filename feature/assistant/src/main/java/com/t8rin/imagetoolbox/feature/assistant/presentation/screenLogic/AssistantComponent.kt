@@ -24,6 +24,7 @@ import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.lifecycle.doOnStop
+import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
@@ -75,6 +76,7 @@ class AssistantComponent @AssistedInject internal constructor(
     private val store: AssistantConversationStore,
     private val settings: SettingsManager,
     private val resources: ResourceManager,
+    private val appScope: AppScope,
     dispatchers: DispatchersHolder
 ) : BaseComponent(dispatchers, componentContext) {
     private val models = AssistantModels()
@@ -387,12 +389,15 @@ class AssistantComponent @AssistedInject internal constructor(
 
     fun downloadModel(variant: AssistantModel) {
         if (!componentScope.isActive || !enabled || isDownloading(variant)) return
-        componentScope.launchImmediate {
+        val models = models
+        val settings = settings
+        appScope.launchImmediate {
             try {
                 if (!settings.settingsState.value.isAiAssistantSetupComplete) {
                     settings.setAiAssistantModel(variant)
                 }
                 models.download(variant) {}
+                settings.setAiAssistantSetupComplete()
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (failure: Exception) {
