@@ -108,6 +108,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
+import net.engawapg.lib.zoomable.ScrollGesturePropagation
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
@@ -255,6 +256,7 @@ fun ImagePager(
                                 .zoomable(
                                     zoomEnabled = !imageErrorPages.contains(page),
                                     zoomState = zoomState,
+                                    scrollGesturePropagation = ScrollGesturePropagation.NotZoomed,
                                     onTap = {
                                         hideControls = !hideControls
                                     },
