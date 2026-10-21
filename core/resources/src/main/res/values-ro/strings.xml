@@ -7147,4 +7147,6 @@
     <string name="filter_help_winter">Mapează luminozitatea imaginii de la albastru la verde. Această paletă de culori false înlocuiește culorile originale; util pentru a face vizibile diferențele de ton sau pentru a crea un efect grafic.</string>
     <string name="filter_help_yililoma_dithering">Aproximează tonurile cu amestecuri ordonate de pixeli folosind metoda de dithering Yliluoma. Comutatorul în tonuri de gri produce un model monocrom; această variantă nu are niciun cursor de prag.</string>
     <string name="filter_help_zoom_blur">Estompează detaliile spre exterior dintr-un centru selectat pentru a imita mărirea în timpul expunerii. Centrul X/Y plasează originea și dimensiunea estomparii stabilește puterea.</string>
+    <string name="model_gfpgan">Detectează și restaurează automat fețele cu GFPGAN v1.4, îmbinându-le în imaginea originală. Forța controlează cantitatea de restaurare.</string>
+    <string name="model_dehazeformer">Îndepărtează ceața atmosferică cu DehazeFormer-T. Cel mai potrivit pentru fotografiile în aer liber.</string>
 </resources>

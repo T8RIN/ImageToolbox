@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Asigna el brillo de la imagen de azul a verde. Esta paleta de colores falsos reemplaza los colores originales; útil para hacer visibles las diferencias tonales o crear un efecto gráfico.</string>
     <string name="filter_help_yililoma_dithering">Aproxima tonos con mezclas ordenadas de píxeles utilizando el método de difuminado Yliluoma. El interruptor de escala de grises produce un patrón monocromático; esta variante no tiene control deslizante de umbral.</string>
     <string name="filter_help_zoom_blur">Desenfoca los detalles hacia afuera desde un centro seleccionado para imitar el zoom durante la exposición. El centro X/Y coloca el origen y el tamaño del desenfoque establece la fuerza.</string>
+    <string name="model_gfpgan">Detecta y restaura rostros automáticamente con GFPGAN v1.4, combinándolos con la imagen original. La fuerza controla la cantidad de restauración.</string>
+    <string name="model_dehazeformer">Elimina la neblina atmosférica con DehazeFormer-T. Ideal para fotografías al aire libre.</string>
 </resources>

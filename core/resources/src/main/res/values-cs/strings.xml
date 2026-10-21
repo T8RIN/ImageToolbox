@@ -7148,4 +7148,6 @@
     <string name="filter_help_winter">Mapuje jas obrazu na modrou až zelenou. Tato paleta falešných barev nahrazuje původní barvy; užitečné pro zviditelnění tonálních rozdílů nebo vytvoření grafického efektu.</string>
     <string name="filter_help_yililoma_dithering">Přibližuje tóny uspořádaným směsím pixelů pomocí metody rozkladu Yliluoma. Přepínač stupňů šedi vytváří monochromatický vzor; tato varianta nemá žádný jezdec prahu.</string>
     <string name="filter_help_zoom_blur">Rozostří detaily směrem ven z vybraného středu a napodobí zoomování během expozice. Střed X/Y umístí počátek a velikost rozostření nastaví sílu.</string>
+    <string name="model_gfpgan">Automaticky detekuje a obnovuje tváře pomocí GFPGAN v1.4 a spojuje je do původního obrazu. Síla řídí množství obnovy.</string>
+    <string name="model_dehazeformer">Odstraňuje atmosférický opar s DehazeFormer-T. Nejlépe se hodí pro venkovní fotografie.</string>
 </resources>

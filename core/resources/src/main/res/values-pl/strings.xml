@@ -7148,4 +7148,6 @@
     <string name="filter_help_winter">Mapuje jasność obrazu z niebieskiego na zielony. Ta paleta fałszywych kolorów zastępuje oryginalne kolory; przydatne do uwidocznienia różnic tonalnych lub stworzenia efektu graficznego.</string>
     <string name="filter_help_yililoma_dithering">Przybliża tony z uporządkowaną mieszaniną pikseli przy użyciu metody ditheringu Yliluoma. Przełącznik skali szarości tworzy monochromatyczny wzór; ten wariant nie posiada suwaka progu.</string>
     <string name="filter_help_zoom_blur">Rozmywa szczegóły na zewnątrz od wybranego środka, imitując powiększanie podczas ekspozycji. Wyśrodkuj X/Y, umieść początek, a rozmiar rozmycia określa siłę.</string>
+    <string name="model_gfpgan">Automatycznie wykrywa i przywraca twarze za pomocą GFPGAN v1.4, łącząc je z oryginalnym obrazem. Siła kontroluje ilość przywracania.</string>
+    <string name="model_dehazeformer">Usuwa zamglenie atmosferyczne za pomocą DehazeFormer-T. Najlepiej nadaje się do zdjęć plenerowych.</string>
 </resources>

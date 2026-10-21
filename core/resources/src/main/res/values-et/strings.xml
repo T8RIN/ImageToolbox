@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Kaardistab pildi heleduse sinisest roheliseks. See valevärvide palett asendab algsed värvid; kasulik toonierinevuste nähtavaks tegemiseks või graafilise efekti loomiseks.</string>
     <string name="filter_help_yililoma_dithering">Lähendab toone järjestatud pikslisegudega Yliluoma dithering-meetodil. Halltoonide lüliti loob ühevärvilise mustri; sellel variandil pole läve liugurit.</string>
     <string name="filter_help_zoom_blur">Hägustab detailid valitud keskelt väljapoole, et imiteerida särituse ajal suumimist. Keskele X/Y asetage päritolu ja hägususe suurus määrab tugevuse.</string>
+    <string name="model_gfpgan">Tuvastab ja taastab automaatselt näod GFPGAN v1.4 abil, segades need algse pildiga. Tugevus kontrollib taastamise mahtu.</string>
+    <string name="model_dehazeformer">Eemaldab DehazeFormer-T abil atmosfääri udu. Sobib kõige paremini väljas pildistamiseks.</string>
 </resources>

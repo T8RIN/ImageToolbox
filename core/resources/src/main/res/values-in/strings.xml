@@ -7145,4 +7145,6 @@
     <string name="filter_help_winter">Memetakan kecerahan gambar dari biru ke hijau. Palet warna palsu ini menggantikan warna asli; berguna untuk membuat perbedaan nada terlihat atau menciptakan efek grafis.</string>
     <string name="filter_help_yililoma_dithering">Perkiraan nada dengan campuran piksel terurut menggunakan metode dithering Yliluoma. Sakelar skala abu-abu menghasilkan pola monokrom; varian ini tidak memiliki penggeser ambang batas.</string>
     <string name="filter_help_zoom_blur">Mengaburkan detail ke arah luar dari pusat yang dipilih untuk meniru zoom selama pencahayaan. Pusat X/Y menempatkan asal dan ukuran blur mengatur kekuatannya.</string>
+    <string name="model_gfpgan">Secara otomatis mendeteksi dan memulihkan wajah dengan GFPGAN v1.4, memadukannya ke dalam gambar asli. Kekuatan mengontrol jumlah pemulihan.</string>
+    <string name="model_dehazeformer">Menghilangkan kabut atmosfer dengan DehazeFormer-T. Paling cocok untuk foto luar ruangan.</string>
 </resources>

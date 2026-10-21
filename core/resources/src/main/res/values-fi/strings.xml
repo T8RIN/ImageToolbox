@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Yhdistä kuvan kirkkauden sinisestä vihreään. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_yililoma_dithering">Arvioi sävyjä järjestetyillä pikseliseoksilla Yliluoman diterointimenetelmällä. Harmaasävykytkin tuottaa yksivärisen kuvion; tässä versiossa ei ole kynnyksen liukusäädintä.</string>
     <string name="filter_help_zoom_blur">Sumentaa yksityiskohdat ulospäin valitusta keskustasta jäljittelemään zoomausta valotuksen aikana. Keskitä X/Y paikka ja sumennuksen koko määrittää voimakkuuden.</string>
+    <string name="model_gfpgan">Tunnistaa ja palauttaa kasvot automaattisesti GFPGAN v1.4:n avulla ja sekoittaa ne alkuperäiseen kuvaan. Vahvuus säätelee palautuksen määrää.</string>
+    <string name="model_dehazeformer">Poistaa ilmakehän sameutta DehazeFormer-T:llä. Sopii parhaiten ulkokuviin.</string>
 </resources>

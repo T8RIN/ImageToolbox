@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Ordnet die Bildhelligkeit Blau und Grün zu. Diese Falschfarbenpalette ersetzt die Originalfarben; nützlich, um Tonunterschiede sichtbar zu machen oder einen grafischen Effekt zu erzeugen.</string>
     <string name="filter_help_yililoma_dithering">Nähert Töne mit geordneten Pixelmischungen mithilfe der Yliluoma-Dithering-Methode an. Der Graustufenschalter erzeugt ein monochromes Muster; Diese Variante verfügt über keinen Schwellenwertregler.</string>
     <string name="filter_help_zoom_blur">Verwischt Details von einer ausgewählten Mitte nach außen, um das Zoomen während der Belichtung zu imitieren. Mittig X/Y wird der Ursprung platziert und die Unschärfegröße legt die Stärke fest.</string>
+    <string name="model_gfpgan">Erkennt und stellt Gesichter automatisch mit GFPGAN v1.4 wieder her und fügt sie in das Originalbild ein. Die Stärke steuert den Wiederherstellungsbetrag.</string>
+    <string name="model_dehazeformer">Entfernt atmosphärischen Dunst mit DehazeFormer-T. Am besten geeignet für Außenfotos.</string>
 </resources>

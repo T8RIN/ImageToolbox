@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Görüntü parlaklığını maviden yeşile eşler. Bu sahte renk paleti orijinal renklerin yerini alır; Ton farklılıklarını görünür kılmak veya grafik efekti oluşturmak için kullanışlıdır.</string>
     <string name="filter_help_yililoma_dithering">Yliluoma renk taklidi yöntemini kullanarak sıralı piksel karışımlarıyla tonları yaklaşıklaştırır. Gri tonlama anahtarı tek renkli bir desen üretir; bu varyantta eşik kaydırıcısı yoktur.</string>
     <string name="filter_help_zoom_blur">Pozlama sırasında yakınlaştırmayı taklit etmek için ayrıntıları seçilen merkezden dışarıya doğru bulanıklaştırır. Merkez X/Y, başlangıç ​​noktasını yerleştirir ve bulanıklık boyutu, gücü ayarlar.</string>
+    <string name="model_gfpgan">GFPGAN v1.4 ile yüzleri otomatik olarak algılayıp geri yükleyerek bunları orijinal görüntüyle birleştirir. Mukavemet restorasyon miktarını kontrol eder.</string>
+    <string name="model_dehazeformer">DehazeFormer-T ile atmosferik bulanıklığı ortadan kaldırır. Dış mekan fotoğraflarına en uygunudur.</string>
 </resources>

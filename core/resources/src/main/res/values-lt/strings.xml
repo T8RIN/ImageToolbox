@@ -7148,4 +7148,6 @@
     <string name="filter_help_winter">Vaizdo ryškumas priskiriamas nuo mėlynos iki žalios spalvos. Ši klaidingų spalvų paletė pakeičia originalias spalvas; naudinga norint padaryti matomus tonų skirtumus arba sukurti grafinį efektą.</string>
     <string name="filter_help_yililoma_dithering">Apytiksliai tonai su užsakytais pikselių mišiniais, naudojant Yliluomos diteravimo metodą. Pilkos spalvos jungiklis sukuria vienspalvį raštą; šis variantas neturi slenksčio slankiklio.</string>
     <string name="filter_help_zoom_blur">Sulieja detales į išorę nuo pasirinkto centro, kad imituotų mastelio keitimą ekspozicijos metu. Centrinė X/Y vieta, o suliejimo dydis nustato stiprumą.</string>
+    <string name="model_gfpgan">Naudodamas GFPGAN v1.4 automatiškai aptinka ir atkuria veidus, suliedamas juos į pradinį vaizdą. Stiprumas kontroliuoja atkūrimo kiekį.</string>
+    <string name="model_dehazeformer">Pašalina atmosferos miglą su DehazeFormer-T. Geriausiai tinka lauko nuotraukoms.</string>
 </resources>

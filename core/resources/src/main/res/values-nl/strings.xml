@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Wijst de helderheid van het beeld toe aan blauw naar groen. Dit valse kleurenpalet vervangt de originele kleuren; handig om toonverschillen zichtbaar te maken of een grafisch effect te creëren.</string>
     <string name="filter_help_yililoma_dithering">Benadert tinten met geordende pixelmengsels met behulp van de Yliluoma-ditheringmethode. De grijswaardenschakelaar produceert een monochroom patroon; deze variant heeft geen drempelschuif.</string>
     <string name="filter_help_zoom_blur">Vervaagt details naar buiten vanaf een geselecteerd centrum om zoomen tijdens de belichting te imiteren. Centrum X/Y plaatst de oorsprong en de vervagingsgrootte bepaalt de sterkte.</string>
+    <string name="model_gfpgan">Detecteert en herstelt gezichten automatisch met GFPGAN v1.4, en voegt ze samen in de originele afbeelding. Kracht bepaalt de herstelhoeveelheid.</string>
+    <string name="model_dehazeformer">Verwijdert atmosferische nevel met DehazeFormer-T. Meest geschikt voor buitenfoto\'s.</string>
 </resources>

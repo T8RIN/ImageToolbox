@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Mappa la luminosità dell\'immagine dal blu al verde. Questa tavolozza di falsi colori sostituisce i colori originali; utile per rendere visibili le differenze tonali o creare un effetto grafico.</string>
     <string name="filter_help_yililoma_dithering">Approssima i toni con miscele di pixel ordinate utilizzando il metodo dithering Yliluoma. L\'interruttore della scala di grigi produce un motivo monocromatico; questa variante non ha un cursore di soglia.</string>
     <string name="filter_help_zoom_blur">Sfoca i dettagli verso l\'esterno da un centro selezionato per imitare lo zoom durante l\'esposizione. Centro X/Y posiziona l\'origine e la dimensione della sfocatura imposta l\'intensità.</string>
+    <string name="model_gfpgan">Rileva e ripristina automaticamente i volti con GFPGAN v1.4, fondendoli nell\'immagine originale. La forza controlla la quantità di ripristino.</string>
+    <string name="model_dehazeformer">Rimuove la foschia atmosferica con DehazeFormer-T. Più adatto per le foto all\'aperto.</string>
 </resources>

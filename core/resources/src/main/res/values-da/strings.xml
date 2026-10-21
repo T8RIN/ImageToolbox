@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Korter billedets lysstyrke til blå til grøn. Denne palette med falske farver erstatter de originale farver; nyttig til at synliggøre tonale forskelle eller skabe en grafisk effekt.</string>
     <string name="filter_help_yililoma_dithering">Tilnærmer toner med ordnede pixelblandinger ved hjælp af Yliluoma-dithering-metoden. Gråtonekontakten producerer et monokromt mønster; denne variant har ingen tærskelskyder.</string>
     <string name="filter_help_zoom_blur">Slører detaljer udad fra et valgt center for at efterligne zoom under eksponering. Center X/Y placer oprindelsen og sløringsstørrelsen indstiller styrken.</string>
+    <string name="model_gfpgan">Registrerer og gendanner automatisk ansigter med GFPGAN v1.4 og blander dem i det originale billede. Styrke styrer restaureringsmængden.</string>
+    <string name="model_dehazeformer">Fjerner atmosfærisk uklarhed med DehazeFormer-T. Velegnet til udendørs fotos.</string>
 </resources>

@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Assigna la brillantor de la imatge al blau al verd. Aquesta paleta de colors falsos substitueix els colors originals; útil per fer visibles les diferències tonals o crear un efecte gràfic.</string>
     <string name="filter_help_yililoma_dithering">Aproxima els tons amb barreges ordenades de píxels mitjançant el mètode de tramado Yliluoma. L\'interruptor en escala de grisos produeix un patró monocrom; aquesta variant no té control lliscant de llindar.</string>
     <string name="filter_help_zoom_blur">Desenfoca els detalls cap a l\'exterior des d\'un centre seleccionat per imitar el zoom durant l\'exposició. Centre X/Y col·loca l\'origen i la mida del desenfocament estableix la força.</string>
+    <string name="model_gfpgan">Detecta i restaura les cares automàticament amb GFPGAN v1.4, combinant-les amb la imatge original. La força controla la quantitat de restauració.</string>
+    <string name="model_dehazeformer">Elimina la boira atmosfèrica amb DehazeFormer-T. El més adequat per a fotos a l\'aire lliure.</string>
 </resources>

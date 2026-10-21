@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Kartlägger bildens ljusstyrka till blått till grönt. Denna palett med falska färger ersätter de ursprungliga färgerna; användbar för att göra tonala skillnader synliga eller skapa en grafisk effekt.</string>
     <string name="filter_help_yililoma_dithering">Uppskattar toner med ordnade pixelblandningar med hjälp av Yliluoma-disteringsmetoden. Gråskalebrytaren producerar ett monokromt mönster; denna variant har inget tröskelreglage.</string>
     <string name="filter_help_zoom_blur">Gör detaljerna suddiga utåt från en vald mittpunkt för att imitera zoomning under exponering. Center X/Y placera origo och oskärpa storlek anger styrkan.</string>
+    <string name="model_gfpgan">Upptäcker och återställer ansikten automatiskt med GFPGAN v1.4 och blandas in i originalbilden. Styrka styr mängden restaurering.</string>
+    <string name="model_dehazeformer">Tar bort atmosfäriskt dis med DehazeFormer-T. Passar bäst för utomhusfoton.</string>
 </resources>

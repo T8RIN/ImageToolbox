@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Mappe la luminosité de l’image du bleu au vert. Cette palette de fausses couleurs remplace les couleurs d\'origine ; utile pour rendre visibles les différences de tons ou créer un effet graphique.</string>
     <string name="filter_help_yililoma_dithering">Rapproche les tons avec des mélanges de pixels ordonnés à l\'aide de la méthode de tramage Yliluoma. Le commutateur d\'échelle de gris produit un motif monochrome ; cette variante n\'a pas de curseur de seuil.</string>
     <string name="filter_help_zoom_blur">Floue les détails vers l\'extérieur à partir d\'un centre sélectionné pour imiter le zoom pendant l\'exposition. Le centre X/Y place l\'origine et la taille du flou définit la force.</string>
+    <string name="model_gfpgan">Détecte et restaure automatiquement les visages avec GFPGAN v1.4, en les fusionnant dans l\'image originale. La force contrôle le montant de la restauration.</string>
+    <string name="model_dehazeformer">Supprime la brume atmosphérique avec DehazeFormer-T. Idéal pour les photos en extérieur.</string>
 </resources>

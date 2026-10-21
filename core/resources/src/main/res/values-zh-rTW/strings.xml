@@ -7145,4 +7145,6 @@
     <string name="filter_help_winter">將影像亮度映射為藍色到綠色。這個假調色板取代了原始的顏色；對於使色調差異可見或創建圖形效果非常有用。</string>
     <string name="filter_help_yililoma_dithering">使用 Yliluoma 抖動方法透過有序像素混合來近似色調。灰階開關產生單色圖案；此變體沒有閾值滑桿。</string>
     <string name="filter_help_zoom_blur">從選定的中心向外模糊細節以模仿曝光期間的縮放。 X/Y 中心放置原點，模糊大小設定強度。</string>
+    <string name="model_gfpgan">使用 GFPGAN v1.4 自動偵測並還原人臉，將其混合到原始影像中。強度控制恢復量。</string>
+    <string name="model_dehazeformer">使用 DehazeFormer-T 消除大氣霧霾。最適合戶外照片。</string>
 </resources>

@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">Ang liwanag ng larawan sa mapa sa asul hanggang berde. Pinapalitan ng false-color palette na ito ang mga orihinal na kulay; kapaki-pakinabang para sa paggawa ng mga pagkakaiba sa tonal na nakikita o paglikha ng isang graphic na epekto.</string>
     <string name="filter_help_yililoma_dithering">Tinatantya ang mga tono na may nakaayos na mga pixel mixture gamit ang Yliluoma dithering method. Ang grayscale switch ay gumagawa ng monochrome pattern; ang variant na ito ay walang threshold slider.</string>
     <string name="filter_help_zoom_blur">I-blurs ang mga detalye palabas mula sa isang napiling center upang gayahin ang pag-zoom sa panahon ng pagkakalantad. Gitnang X/Y ilagay ang pinanggalingan at ang laki ng blur ay nagtatakda ng lakas.</string>
+    <string name="model_gfpgan">Awtomatikong nakikita at nire-restore ang mga mukha gamit ang GFPGAN v1.4, na pinagsasama ang mga ito sa orihinal na larawan. Kinokontrol ng lakas ang halaga ng pagpapanumbalik.</string>
+    <string name="model_dehazeformer">Tinatanggal ang atmospheric haze gamit ang DehazeFormer-T. Pinakamahusay na angkop sa mga panlabas na larawan.</string>
 </resources>

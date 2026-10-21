@@ -7145,4 +7145,6 @@
     <string name="filter_help_winter">画像の明るさを青から緑にマッピングします。この疑似カラー パレットは、元の色を置き換えます。色調の違いを視覚的に示したり、グラフィック効果を作成したりする場合に便利です。</string>
     <string name="filter_help_yililoma_dithering">Yliluoma ディザリング法を使用して、順序付けられたピクセル混合でトーンを近似します。グレースケール スイッチはモノクロ パターンを生成します。このバリアントにはしきい値スライダーがありません。</string>
     <string name="filter_help_zoom_blur">選択した中心から外側に向かってディテールをぼかし、露光中のズームを模倣します。中心 X/Y は原点を配置し、ぼかしサイズは強度を設定します。</string>
+    <string name="model_gfpgan">GFPGAN v1.4 で顔を自動的に検出して復元し、元の画像にブレンドします。強さは回復量を制御します。</string>
+    <string name="model_dehazeformer">DehazeFormer-T で大気のヘイズを除去します。屋外での撮影に最適です。</string>
 </resources>

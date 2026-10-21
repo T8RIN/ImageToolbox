@@ -7145,4 +7145,6 @@
     <string name="filter_help_winter">이미지 밝기를 파란색에서 녹색으로 매핑합니다. 이 가색상 팔레트는 원래 색상을 대체합니다. 색조 차이를 눈에 띄게 하거나 그래픽 효과를 만드는 데 유용합니다.</string>
     <string name="filter_help_yililoma_dithering">Yliluoma 디더링 방법을 사용하여 정렬된 픽셀 혼합으로 톤을 근사화합니다. 그레이스케일 스위치는 단색 패턴을 생성합니다. 이 변형에는 임계값 슬라이더가 없습니다.</string>
     <string name="filter_help_zoom_blur">노출 중에 확대/축소를 모방하기 위해 선택한 중심에서 바깥쪽으로 세부 사항을 흐리게 합니다. 중앙 X/Y는 원점을 지정하고 흐림 크기는 강도를 설정합니다.</string>
+    <string name="model_gfpgan">GFPGAN v1.4를 사용하여 얼굴을 자동으로 감지하고 복원하여 원본 이미지에 혼합합니다. 강도는 복원량을 제어합니다.</string>
+    <string name="model_dehazeformer">DehazeFormer-T로 대기 안개를 제거합니다. 야외 사진에 가장 적합합니다.</string>
 </resources>

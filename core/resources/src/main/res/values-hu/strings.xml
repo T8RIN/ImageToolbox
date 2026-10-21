@@ -7146,4 +7146,6 @@
     <string name="filter_help_winter">A kép fényerejét kékről zöldre rendeli. Ez a hamis színpaletta helyettesíti az eredeti színeket; hasznos a tónusbeli különbségek láthatóvá tételéhez vagy grafikai hatás létrehozásához.</string>
     <string name="filter_help_yililoma_dithering">A hangokat az Yliluoma dithering módszerrel rendezett pixelkeverékekkel közelíti meg. A szürkeárnyalatos kapcsoló monokróm mintát hoz létre; ennek a változatnak nincs küszöbcsúszkája.</string>
     <string name="filter_help_zoom_blur">Elmosja a részleteket a kiválasztott közepétől kifelé, hogy utánozza a zoomolást expozíció közben. Az X/Y középre helyezze az origót, az elmosódás mérete pedig beállítja az erősséget.</string>
+    <string name="model_gfpgan">Automatikusan felismeri és visszaállítja az arcokat a GFPGAN v1.4 segítségével, és beleolvasztja őket az eredeti képbe. Az erő szabályozza a helyreállítás mennyiségét.</string>
+    <string name="model_dehazeformer">Eltávolítja a légköri ködöt a DehazeFormer-T-vel. A legalkalmasabb kültéri fotókhoz.</string>
 </resources>

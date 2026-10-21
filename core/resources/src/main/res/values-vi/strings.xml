@@ -7145,4 +7145,6 @@
     <string name="filter_help_winter">Bản đồ độ sáng của hình ảnh từ xanh lam sang xanh lục. Bảng màu giả này thay thế các màu gốc; hữu ích để hiển thị sự khác biệt về tông màu hoặc tạo hiệu ứng đồ họa.</string>
     <string name="filter_help_yililoma_dithering">Tông màu gần đúng với hỗn hợp pixel được sắp xếp bằng phương pháp phối màu Yliluoma. Công tắc thang độ xám tạo ra mẫu đơn sắc; biến thể này không có thanh trượt ngưỡng.</string>
     <string name="filter_help_zoom_blur">Làm mờ chi tiết ra bên ngoài từ trung tâm đã chọn để bắt chước thu phóng trong khi phơi sáng. Trung tâm X/Y đặt điểm gốc và kích thước mờ đặt cường độ.</string>
+    <string name="model_gfpgan">Tự động phát hiện và khôi phục khuôn mặt bằng GFPGAN v1.4, trộn chúng vào ảnh gốc. Sức mạnh kiểm soát lượng phục hồi.</string>
+    <string name="model_dehazeformer">Loại bỏ khói mù trong khí quyển bằng DehazeFormer-T. Phù hợp nhất với ảnh ngoài trời.</string>
 </resources>
