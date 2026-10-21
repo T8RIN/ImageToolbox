@@ -432,6 +432,7 @@ class FiltersComponent @AssistedInject internal constructor(
                 _basicFilterState.update {
                     it.copy(selectedUri = uri)
                 }
+                _canSave.value = calculateCanSave()
                 updatePreview()
                 if (resetHistoryAfterLoad) {
                     resetHistory()

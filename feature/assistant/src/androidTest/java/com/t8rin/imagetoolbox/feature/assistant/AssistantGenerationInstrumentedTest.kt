@@ -184,7 +184,6 @@ class AssistantGenerationInstrumentedTest {
     @Test
     fun modelsExplainExpandedHelp() = runBlocking {
         val models = AssistantModels()
-        assumeTrue(models.installations().all { it.installed })
         val selectedCases = InstrumentationRegistry.getArguments()
             .getString("assistantCases")?.split(',')
         val selectedModels = InstrumentationRegistry.getArguments()
@@ -192,13 +191,28 @@ class AssistantGenerationInstrumentedTest {
         val variants =
             AssistantModel.entries.filter { selectedModels == null || it.id in selectedModels }
         assertTrue("No requested models were found", variants.isNotEmpty())
+        val installationStarted = System.nanoTime()
+        assumeTrue(models.installations().filter { it.variant in variants }.all { it.installed })
+        val installationSeconds = secondsSince(installationStarted)
         val requests = listOf(
             "gif_frames" to AssistantRequest("Как собрать GIF из нескольких фотографий и настроить задержку кадров?"),
             "flatten_pdf" to AssistantRequest("What does Flatten PDF change? Will the text stay selectable?"),
             "exif_date" to AssistantRequest("Почему при очистке EXIF нельзя сохранить дату?"),
             "cache_limit" to AssistantRequest("How do I clear the cache automatically when it gets too large?"),
             "photo_opacity" to AssistantRequest("как изменить прозрачность у фото?"),
-            "interface_shadows" to AssistantRequest("как выключить тени")
+            "interface_shadows" to AssistantRequest("как выключить тени"),
+            "vignette" to AssistantRequest("Как затемнить края фото и оставить центр светлым?"),
+            "gaussian_blur" to AssistantRequest("What do radius and sigma do in Gaussian blur?"),
+            "selected_filter" to AssistantRequest(
+                "Что делает этот фильтр?",
+                AssistantScreenContext(
+                    toolId = Screen.Filter().id,
+                    parameters = mapOf(
+                        "toolKey" to Screen.Filter().simpleName,
+                        "filterKey" to "white_balance"
+                    )
+                )
+            )
         ).filter { selectedCases == null || it.first in selectedCases }
         assertTrue("No requested generation cases were found", requests.isNotEmpty())
         val report = JSONArray()
@@ -207,9 +221,15 @@ class AssistantGenerationInstrumentedTest {
                 requests.forEach { fixture ->
                     val record = JSONObject().put("variant", variant.id).put("case", fixture.first)
                     report.put(record)
+                    println("AssistantHelp ${variant.id}/${fixture.first} started")
+                    record.put("installationSeconds", installationSeconds)
                     val started = System.nanoTime()
                     val answer = knowledge.retrieve(fixture.second)
                     record.put("retrievalSeconds", secondsSince(started))
+                        .put(
+                            "retrieved",
+                            JSONObject(Json.encodeToString(AssistantAnswer.serializer(), answer))
+                        )
                     assertTrue(
                         "The answer has no supporting documentation",
                         answer.references.isNotEmpty()
@@ -241,12 +261,25 @@ class AssistantGenerationInstrumentedTest {
                         "interface_shadows" -> assertTrue(answer.settings.any {
                             it.key.endsWith("Shadows")
                         })
+
+                        "vignette", "gaussian_blur", "selected_filter" -> {
+                            val key = when (fixture.first) {
+                                "selected_filter" -> "white_balance"
+                                else -> fixture.first
+                            }
+                            assertTrue(answer.tools.any {
+                                ((knowledge.resolveTool(it) as? Screen.Filter)?.type
+                                        as? Screen.Filter.Type.Basic)?.filterKey == key
+                            })
+                            assertTrue(answer.settings.isEmpty())
+                        }
                     }
                     val prompt = AssistantApplicationFixtures.prompt(
                         knowledge.grounding(fixture.second, answer, variant),
                         knowledge.userPrompt(fixture.second, answer)
                     )
                     verifyGeneration(models, variant, prompt, fixture, answer, record)
+                    println("AssistantHelp ${variant.id}/${fixture.first} passed")
                 }
             }
         } finally {

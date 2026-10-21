@@ -307,7 +307,7 @@
     <string name="copy">Kopioi</string>
     <string name="warning_bytes">Tallennetaan %1$s sisällä. Tila voi olla epävakaa, koska se on häviötön formaatti</string>
     <string name="presets_sub" formatted="false">Jos olet valinnut esiasetuksen 125, kuva tallennetaan 125% koossa alkuperäisestä kuvasta. Jos valitset esiasetuksen 50, sitten kuva tallentuu 50% kossa</string>
-    <string name="presets_sub_bytes">Esiasetus täällä päättää tulostiedoston %, esim. jos valitset 50 5 megabitin kuvaan sitten siihen tulee 2,5 megabittiä lisää tallennuksen jälkeen</string>
+    <string name="presets_sub_bytes" formatted="false">Esiasetus täällä päättää tulostiedoston %, esim. jos valitset 50 5 megabitin kuvaan sitten siihen tulee 2,5 megabittiä lisää tallennuksen jälkeen</string>
     <string name="randomize_filename">Satunnaista tiedostonimi</string>
     <string name="randomize_filename_sub">Jos käytössä tulostiedoston tiedostonimi tulee olemaan täysin satunnainen</string>
     <string name="saved_to">Tallennettu %1$s kansioon nimellä %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Hellävarainen tasainen kohinan sävytys hienovaraisen koostumuksen ja sileän ulkonäön saavuttamiseksi.</string>
     <string name="model_repainter">Korjaa vaurioituneet tai epätasaiset alueet maalaamalla esineitä uudelleen ja parantamalla kuvan yhtenäisyyttä.</string>
     <string name="model_debandurh_fs_ultra_lite">Kevyt kaistanpoistomalli, joka poistaa värijuovat minimaalisilla suorituskustannuksilla.</string>
-    <string name="model_jpeg_0_20">Optimoi kuvat, joissa on erittäin korkea pakkausvirhe (0-20 % laatu) selkeyden parantamiseksi.</string>
-    <string name="model_jpeg_20_40">Parantaa kuvia korkean pakkauksen artefakteilla (20-40 % laatu), palauttaa yksityiskohtia ja vähentää kohinaa.</string>
-    <string name="model_jpeg_40_60">Parantaa kuvia kohtuullisella pakkauksella (laatu 40-60 %) ja tasapainottaa terävyyttä ja tasaisuutta.</string>
-    <string name="model_jpeg_60_80">Tarkoittaa kuvia kevyellä pakkauksella (60-80 % laatu) parantaakseen hienovaraisia ​​yksityiskohtia ja tekstuureja.</string>
-    <string name="model_jpeg_80_100">Parantaa hieman lähes häviöttömiä kuvia (80-100 % laatu) säilyttäen samalla luonnollisen ilmeen ja yksityiskohdat.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimoi kuvat, joissa on erittäin korkea pakkausvirhe (0-20 % laatu) selkeyden parantamiseksi.</string>
+    <string name="model_jpeg_20_40" formatted="false">Parantaa kuvia korkean pakkauksen artefakteilla (20-40 % laatu), palauttaa yksityiskohtia ja vähentää kohinaa.</string>
+    <string name="model_jpeg_40_60" formatted="false">Parantaa kuvia kohtuullisella pakkauksella (laatu 40-60 %) ja tasapainottaa terävyyttä ja tasaisuutta.</string>
+    <string name="model_jpeg_60_80" formatted="false">Tarkoittaa kuvia kevyellä pakkauksella (60-80 % laatu) parantaakseen hienovaraisia ​​yksityiskohtia ja tekstuureja.</string>
+    <string name="model_jpeg_80_100" formatted="false">Parantaa hieman lähes häviöttömiä kuvia (80-100 % laatu) säilyttäen samalla luonnollisen ilmeen ja yksityiskohdat.</string>
     <string name="model_spongecolor_lite">Yksinkertainen ja nopea väritys, sarjakuvia, ei ihanteellinen</string>
     <string name="model_deblr">Vähentää hieman kuvan epäterävyyttä ja parantaa terävyyttä ilman artefakteja.</string>
     <string name="processing_channel">Pitkät toiminnot</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Muunna kaikki asiakirjan upotetut kuvat harmaasävyiksi</string>
     <string name="compress_pdf">Pakkaa PDF</string>
     <string name="compress_pdf_sub">Optimoi asiakirjatiedoston koko helpottamaan jakamista</string>
-    <string name="repair_info">ImageToolbox rakentaa sisäisen ristiviittaustaulukon uudelleen ja luo tiedostorakenteen uudelleen tyhjästä. Tämä voi palauttaa pääsyn moniin tiedostoihin, joita \\\"ei voi avata\\\"</string>
+    <string name="repair_info">ImageToolbox rakentaa sisäisen ristiviittaustaulukon uudelleen ja luo tiedostorakenteen uudelleen tyhjästä. Tämä voi palauttaa pääsyn moniin tiedostoihin, joita \"ei voi avata\"</string>
     <string name="grayscale_info">Tämä työkalu muuntaa kaikki asiakirjan kuvat harmaasävyiksi. Paras tulostukseen ja tiedostokoon pienentämiseen</string>
     <string name="metadata">Metatiedot</string>
     <string name="metadata_pdf_sub">Muokkaa asiakirjan ominaisuuksia parantaaksesi yksityisyyttä</string>
@@ -2344,7 +2344,7 @@
     <string name="shader_source">Varjostimen lähde</string>
     <string name="shader_main_body_info">Kirjoita vain void main() -teksti. Käytä textureCoordinatea UV-koordinaateille ja inputImageTexture lähdenäytteenottimena.</string>
     <string name="shader_helper_code">Toiminnot</string>
-    <string name="shader_helper_code_info">Valinnaiset apufunktiot, vakiot ja rakenteet lisätään ennen void main(a). Univormut luodaan parametreista.</string>
+    <string name="shader_helper_code_info">Valinnaiset apufunktiot, vakiot ja rakenteet lisätään ennen void main(). Univormut luodaan parametreista.</string>
     <string name="shader_no_parameters">Lisää univormut tähän, kun varjostin tarvitsee muokattavia arvoja.</string>
     <string name="reset_shader">Palauta varjostin</string>
     <string name="reset_shader_sub">Nykyinen varjostimen luonnos tyhjennetään</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Varjostimen nimi ei saa olla tyhjä.</string>
     <string name="shader_error_blank_source">Varjostimen lähde ei saa olla tyhjä.</string>
     <string name="shader_error_unsupported_characters">Shader-lähde sisältää merkkejä, joita ei tueta: %1$s. Käytä vain ASCII GLSL -lähdettä.</string>
-    <string name="shader_error_duplicate_parameter">Parametri \\\"%1$s\\\" ilmoitetaan useammin kuin kerran.</string>
+    <string name="shader_error_duplicate_parameter">Parametri \"%1$s\" ilmoitetaan useammin kuin kerran.</string>
     <string name="shader_error_blank_parameter_name">Parametrien nimet eivät saa olla tyhjiä.</string>
-    <string name="shader_error_reserved_parameter_name">Parametri \\\"%1$s\\\" käyttää varattua GPUI-kuvan nimeä.</string>
-    <string name="shader_error_invalid_parameter_name">Parametrin \\\"%1$s\\\" on oltava kelvollinen GLSL-tunniste.</string>
-    <string name="shader_error_invalid_value_type">Parametrilla \\\"%1$s\\\" on %2$s-arvotyyppi \\\"%3$s\\\", odotusarvo \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parametri \\\"%1$s\\\" ei voi määrittää vähimmäis- tai enimmäisarvoa loogisille arvoille.</string>
-    <string name="shader_error_min_greater_than_max">Parametrin \\\"%1$s\\\" min on suurempi kuin max.</string>
-    <string name="shader_error_default_lower_than_min">Parametrin \\\"%1$s\\\" oletusarvo on pienempi kuin min.</string>
-    <string name="shader_error_default_greater_than_max">Parametrin \\\"%1$s\\\" oletusarvo on suurempi kuin max.</string>
-    <string name="shader_error_missing_input_texture">Shaderin on ilmoitettava \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shaderin täytyy ilmoittaa \\\"varying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shaderin on määritettävä \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametri \"%1$s\" käyttää varattua GPUI-kuvan nimeä.</string>
+    <string name="shader_error_invalid_parameter_name">Parametrin \"%1$s\" on oltava kelvollinen GLSL-tunniste.</string>
+    <string name="shader_error_invalid_value_type">Parametrilla \"%1$s\" on %2$s-arvotyyppi \"%3$s\", odotusarvo \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parametri \"%1$s\" ei voi määrittää vähimmäis- tai enimmäisarvoa loogisille arvoille.</string>
+    <string name="shader_error_min_greater_than_max">Parametrin \"%1$s\" min on suurempi kuin max.</string>
+    <string name="shader_error_default_lower_than_min">Parametrin \"%1$s\" oletusarvo on pienempi kuin min.</string>
+    <string name="shader_error_default_greater_than_max">Parametrin \"%1$s\" oletusarvo on suurempi kuin max.</string>
+    <string name="shader_error_missing_input_texture">Shaderin on ilmoitettava \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shaderin täytyy ilmoittaa \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shaderin on määritettävä \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shaderin on kirjoitettava väri kohtaan gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage -varjostimia ei tueta. Käytä GPUImagen mitätöntä main() -sopimusta.</string>
-    <string name="shader_error_shadertoy_i_time">Animoitua ShaderToy-pukua \\\"iTime\\\" ei tueta.</string>
-    <string name="shader_error_shadertoy_i_frame">Animoitua ShaderToy-pukua \\\"iFrame\\\" ei tueta.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy univormua \\\"iResolution\\\" ei tueta.</string>
+    <string name="shader_error_shadertoy_main_image">ShaderToy mainImage -varjostimia ei tueta. Käytä GPUImagen void main() -sopimusta.</string>
+    <string name="shader_error_shadertoy_i_time">Animoitua ShaderToy-pukua \"iTime\" ei tueta.</string>
+    <string name="shader_error_shadertoy_i_frame">Animoitua ShaderToy-pukua \"iFrame\" ei tueta.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy univormua \"iResolution\" ei tueta.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel -kuvioita ei tueta.</string>
     <string name="shader_error_external_textures">Ulkoisia pintakuvioita ei tueta.</string>
     <string name="shader_error_external_texture_extensions">Ulkoisia pintakuviolaajennuksia ei tueta.</string>
     <string name="shader_error_libretro_parameters">Libretro Shader -parametreja ei tueta.</string>
-    <string name="shader_error_extra_input_texture">Vain yhtä syöttötekstuuria tuetaan. Poista \\\"uniform %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parametri \\\"%1$s\\\" on ilmoitettava muodossa \\\"yhdenmukainen %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametri \\\"%1$s\\\" on ilmoitettu \\\"yhtenäinen %2$s %1$s;\\\", odotettu \\\"yhtenäinen %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Vain yhtä syöttötekstuuria tuetaan. Poista \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parametri \"%1$s\" on ilmoitettava muodossa \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametri \"%1$s\" on ilmoitettu \"uniform %2$s %1$s;\", odotettu \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shader-tiedosto on tyhjä.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-tiedoston on oltava .itshader JSON-objekti, jossa on versio-, nimi- ja shader-kentät.</string>
     <string name="shader_parse_error_invalid_json">Shader-tiedosto ei ole kelvollinen JSON tai se ei vastaa .itshader-muotoa.</string>
-    <string name="shader_parse_error_missing_field">Kenttä \\\"%1$s\\\" on pakollinen.</string>
+    <string name="shader_parse_error_missing_field">Kenttä \"%1$s\" on pakollinen.</string>
     <string name="shader_parse_error_missing_param_field">%1$s vaaditaan.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" ei ole tuettu. Tuetut tyypit: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s vaaditaan \\\"%2$s\\\" parametreille.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" ei ole tuettu. Tuetut tyypit: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s vaaditaan \"%2$s\" parametreille.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s on oltava äärellinen luku.</string>
     <string name="shader_parse_error_integer_expected">%1$s on oltava kokonaisluku.</string>
     <string name="shader_parse_error_bool_expected">%1$s on oltava tosi tai epätosi.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Vie profiilit</string>
     <string name="save_export_profile">Tallenna nykyinen profiili</string>
     <string name="delete_export_profile">Poista vientiprofiili</string>
-    <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Haluatko poistaa vientiprofiilin \"%1$s\"?</string>
     <string name="draw_bitmap_border">Piirrä reunus</string>
     <string name="draw_bitmap_border_sub">Näytä ohut reunus piirustus- ja pyyhkimiskankaan ympärillä</string>
     <string name="wavy">Aaltoileva</string>

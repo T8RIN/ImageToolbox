@@ -21,6 +21,8 @@ package com.t8rin.imagetoolbox.feature.help.data
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.core.filters.presentation.model.helpDescription
 import com.t8rin.imagetoolbox.core.resources.Book2
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -240,6 +242,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ZoomIn
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpCategory
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
@@ -408,6 +411,13 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         icon = Icons.Outlined.MultipleImageEdit
     )
 
+    private val filters = HelpCategory(
+        key = "filters",
+        title = R.string.filters,
+        subtitle = R.string.help_category_filters_subtitle,
+        icon = Icons.Outlined.AutoFixHigh
+    )
+
     private val filesAndMetadata = HelpCategory(
         key = "files-metadata",
         title = R.string.help_category_files_metadata,
@@ -460,6 +470,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
     override val categories: List<HelpCategory> = listOf(
         gettingStarted,
         imageEditing,
+        filters,
         filesAndMetadata,
         pdfAndDocuments,
         textAndData,
@@ -5472,6 +5483,23 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_interface_shadows_step_3
             )
         )
+    ).plus(
+        UiFilter.groups.flatMap { group ->
+            group.filters(canAddTemplates = true).map { filter ->
+                val key = appContext.resources.getResourceEntryName(filter.title)
+                tip(
+                    id = "filter-$key",
+                    title = filter.title,
+                    subtitle = group.title,
+                    icon = group.icon,
+                    category = filters,
+                    deepLink = Screen.Filter(Screen.Filter.Type.Basic(filterKey = key)),
+                    pageTitle = filter.title,
+                    description = filter.helpDescription,
+                    steps = emptyList()
+                )
+            }
+        }
     ).filter { tip ->
         val setting = (tip.deepLink as? Screen.Settings)?.targetSetting
         setting == null || SettingsGroup.entries.any { setting in it.settingsList }

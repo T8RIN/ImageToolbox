@@ -407,7 +407,7 @@
     <string name="randomize_filename">Losuj nazwę pliku</string>
     <string name="randomize_filename_sub">Jeśli włączone, nazwa pliku wyjściowego będzie w pełni losowa</string>
     <string name="saved_to">Zapisano w folderze %1$s z nazwą %2$s</string>
-    <string name="presets_sub_bytes">Preset określa % rozmiaru pliku wyjściowego, tj. jeśli wybierzesz ustawienie wstępne 50 na obrazie o rozmiarze 5 MB, po zapisaniu otrzymasz obraz o rozmiarze 2,5 MB</string>
+    <string name="presets_sub_bytes" formatted="false">Preset określa % rozmiaru pliku wyjściowego, tj. jeśli wybierzesz ustawienie wstępne 50 na obrazie o rozmiarze 5 MB, po zapisaniu otrzymasz obraz o rozmiarze 2,5 MB</string>
     <string name="presets_sub" formatted="false">Jeśli wybrano ustawienie 125, obraz zostanie zapisany w rozmiarze 125% oryginalnego obrazu. W przypadku wybrania ustawienia 50 obraz zostanie zapisany w rozmiarze 50%.</string>
     <string name="text">Tekst</string>
     <string name="font_scale">Skala czcionki</string>
@@ -1958,11 +1958,11 @@
     <string name="model_noise_toner_uniform_soft">Delikatne, jednolite tonowanie szumów zapewnia subtelną teksturę i gładki wygląd.</string>
     <string name="model_repainter">Naprawia uszkodzone lub nierówne obszary, odmalowując artefakty i poprawiając spójność obrazu.</string>
     <string name="model_debandurh_fs_ultra_lite">Lekki model usuwający paski, który usuwa kolorowe pasy przy minimalnych kosztach wydajności.</string>
-    <string name="model_jpeg_0_20">Optymalizuje obrazy z artefaktami o bardzo wysokim stopniu kompresji (jakość 0–20%) w celu poprawy przejrzystości.</string>
-    <string name="model_jpeg_20_40">Poprawia obrazy o artefakty o wysokiej kompresji (jakość 20–40%), przywracając szczegóły i redukując szumy.</string>
-    <string name="model_jpeg_40_60">Poprawia obrazy przy umiarkowanej kompresji (jakość 40–60%), równoważąc ostrość i gładkość.</string>
-    <string name="model_jpeg_60_80">Poprawia obrazy za pomocą lekkiej kompresji (jakość 60–80%), aby uwydatnić subtelne szczegóły i tekstury.</string>
-    <string name="model_jpeg_80_100">Nieznacznie poprawia niemal bezstratne obrazy (jakość 80–100%), zachowując jednocześnie naturalny wygląd i szczegóły.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optymalizuje obrazy z artefaktami o bardzo wysokim stopniu kompresji (jakość 0–20%) w celu poprawy przejrzystości.</string>
+    <string name="model_jpeg_20_40" formatted="false">Poprawia obrazy o artefakty o wysokiej kompresji (jakość 20–40%), przywracając szczegóły i redukując szumy.</string>
+    <string name="model_jpeg_40_60" formatted="false">Poprawia obrazy przy umiarkowanej kompresji (jakość 40–60%), równoważąc ostrość i gładkość.</string>
+    <string name="model_jpeg_60_80" formatted="false">Poprawia obrazy za pomocą lekkiej kompresji (jakość 60–80%), aby uwydatnić subtelne szczegóły i tekstury.</string>
+    <string name="model_jpeg_80_100" formatted="false">Nieznacznie poprawia niemal bezstratne obrazy (jakość 80–100%), zachowując jednocześnie naturalny wygląd i szczegóły.</string>
     <string name="model_spongecolor_lite">Prosta i szybka koloryzacja, kreskówki, nie idealna</string>
     <string name="model_deblr">Nieznacznie zmniejsza rozmycie obrazu, poprawiając ostrość bez wprowadzania artefaktów.</string>
     <string name="processing_channel">Długotrwałe operacje</string>
@@ -2344,7 +2344,7 @@
     <string name="itshader_json">.itsshader JSON</string>
     <string name="shader_params_count">%1$d parametry</string>
     <string name="shader_source">Źródło shaderów</string>
-    <string name="shader_main_body_info">Zapisz tylko treść void main(). Użyj teksturyKoordynator dla współrzędnych UV i inputImageTexture jako próbnika źródłowego.</string>
+    <string name="shader_main_body_info">Zapisz tylko treść void main(). Użyj textureCoordinate dla współrzędnych UV i inputImageTexture jako próbnika źródłowego.</string>
     <string name="shader_helper_code">Funkcje</string>
     <string name="shader_helper_code_info">Opcjonalne funkcje pomocnicze, stałe i struktury wstawione przed void main(). Mundury są generowane z parametrów.</string>
     <string name="shader_no_parameters">Dodaj uniformy tutaj, gdy moduł cieniujący potrzebuje edytowalnych wartości.</string>
@@ -2364,9 +2364,9 @@
     <string name="shader_error_min_greater_than_max">Parametr „%1$s” ma wartość minimalną większą niż maks.</string>
     <string name="shader_error_default_lower_than_min">Parametr „%1$s” domyślnie jest niższy niż min.</string>
     <string name="shader_error_default_greater_than_max">Parametr „%1$s” domyślnie jest większy niż maks.</string>
-    <string name="shader_error_missing_input_texture">Moduł cieniujący musi zadeklarować „jednolity próbnik2D %1$s;”.</string>
-    <string name="shader_error_missing_texture_coordinate">Moduł cieniujący musi zadeklarować „zmienny vec2 %1$s;”.</string>
-    <string name="shader_error_missing_main_function">Shader musi zdefiniować `void main()\\\".</string>
+    <string name="shader_error_missing_input_texture">Moduł cieniujący musi zadeklarować „uniform sampler2D %1$s;”.</string>
+    <string name="shader_error_missing_texture_coordinate">Moduł cieniujący musi zadeklarować „varying vec2 %1$s;”.</string>
+    <string name="shader_error_missing_main_function">Shader musi zdefiniować `void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader musi zapisać kolor do gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shadery nie są obsługiwane. Użyj umowy void main() GPUImage.</string>
     <string name="shader_error_shadertoy_i_time">Animowany uniform ShaderToy „iTime” nie jest obsługiwany.</string>
@@ -2376,9 +2376,9 @@
     <string name="shader_error_external_textures">Tekstury zewnętrzne nie są obsługiwane.</string>
     <string name="shader_error_external_texture_extensions">Zewnętrzne rozszerzenia tekstur nie są obsługiwane.</string>
     <string name="shader_error_libretro_parameters">Parametry modułu cieniującego Libretro nie są obsługiwane.</string>
-    <string name="shader_error_extra_input_texture">Obsługiwana jest tylko jedna tekstura wejściowa. Usuń „mundur %1$s %2$s;”.</string>
-    <string name="shader_error_missing_uniform">Parametr „%1$s” musi być zadeklarowany jako „jednolity %2$s %1$s;”.</string>
-    <string name="shader_error_wrong_uniform_type">Parametr „%1$s” jest zadeklarowany jako „jednolity %2$s %1$s;”, oczekiwany jako „jednolity %3$s %1$s;”.</string>
+    <string name="shader_error_extra_input_texture">Obsługiwana jest tylko jedna tekstura wejściowa. Usuń „uniform %1$s %2$s;”.</string>
+    <string name="shader_error_missing_uniform">Parametr „%1$s” musi być zadeklarowany jako „uniform %2$s %1$s;”.</string>
+    <string name="shader_error_wrong_uniform_type">Parametr „%1$s” jest zadeklarowany jako „uniform %2$s %1$s;”, oczekiwany jako „uniform %3$s %1$s;”.</string>
     <string name="shader_parse_error_empty_file">Plik modułu cieniującego jest pusty.</string>
     <string name="shader_parse_error_not_itshader_json">Plik modułu cieniującego musi być obiektem JSON .itshader z polami wersji, nazwy i modułu cieniującego.</string>
     <string name="shader_parse_error_invalid_json">Plik modułu cieniującego nie jest prawidłowym formatem JSON lub nie pasuje do formatu .itshader.</string>

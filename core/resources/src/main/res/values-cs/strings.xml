@@ -694,7 +694,7 @@
     <string name="effort">Snaha</string>
     <string name="effort_sub">Hodnota %1$s znamená rychlou kompresi, která má za následek relativně velkou velikost souboru. %2$s znamená pomalejší kompresi, výsledkem je menší soubor.</string>
     <string name="saving_almost_complete">Ukládání téměř dokončeno. Zrušení nyní bude vyžadovat opětovné uložení.</string>
-    <string name="presets_sub_bytes">Předvolba zde určuje % výstupního souboru, tj. pokud zvolíte předvolbu 50 na 5mb obrázku, získáte po uložení obrázek 2,5mb</string>
+    <string name="presets_sub_bytes" formatted="false">Předvolba zde určuje % výstupního souboru, tj. pokud zvolíte předvolbu 50 na 5mb obrázku, získáte po uložení obrázek 2,5mb</string>
     <string name="presets_sub" formatted="false">Pokud jste vybrali předvolbu 125, obrázek se uloží jako velikost 125 % původního obrázku se 100% kvalitou. Pokud zvolíte předvolbu 50, obrázek se uloží s 50% velikostí a 50% kvalitou.</string>
     <string name="aspect_ratio">Poměr stran</string>
     <string name="backup">Záloha</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Jemné jednotné tónování šumu pro jemnou texturu a hladký vzhled.</string>
     <string name="model_repainter">Opravuje poškozené nebo nerovné oblasti překreslením artefaktů a zlepšením konzistence obrazu.</string>
     <string name="model_debandurh_fs_ultra_lite">Lehký model pro odstraňování pásů, který odstraňuje barevné pruhy s minimálními náklady na výkon.</string>
-    <string name="model_jpeg_0_20">Optimalizuje obrazy s velmi vysokou kompresí artefaktů (0-20% kvalita) pro lepší jasnost.</string>
-    <string name="model_jpeg_20_40">Vylepšuje obrázky pomocí artefaktů s vysokou kompresí (20-40% kvalita), obnovuje detaily a snižuje šum.</string>
-    <string name="model_jpeg_40_60">Zlepšuje snímky s mírnou kompresí (40-60% kvalita), vyvážením ostrosti a plynulosti.</string>
-    <string name="model_jpeg_60_80">Upřesňuje obrázky pomocí lehké komprese (60-80% kvalita) pro vylepšení jemných detailů a textur.</string>
-    <string name="model_jpeg_80_100">Mírně vylepšuje téměř bezeztrátový obraz (80-100% kvalita) při zachování přirozeného vzhledu a detailů.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimalizuje obrazy s velmi vysokou kompresí artefaktů (0-20% kvalita) pro lepší jasnost.</string>
+    <string name="model_jpeg_20_40" formatted="false">Vylepšuje obrázky pomocí artefaktů s vysokou kompresí (20-40% kvalita), obnovuje detaily a snižuje šum.</string>
+    <string name="model_jpeg_40_60" formatted="false">Zlepšuje snímky s mírnou kompresí (40-60% kvalita), vyvážením ostrosti a plynulosti.</string>
+    <string name="model_jpeg_60_80" formatted="false">Upřesňuje obrázky pomocí lehké komprese (60-80% kvalita) pro vylepšení jemných detailů a textur.</string>
+    <string name="model_jpeg_80_100" formatted="false">Mírně vylepšuje téměř bezeztrátový obraz (80-100% kvalita) při zachování přirozeného vzhledu a detailů.</string>
     <string name="model_spongecolor_lite">Jednoduché a rychlé kolorování, kreslené, není ideální</string>
     <string name="model_deblr">Mírně snižuje rozmazání obrazu a zlepšuje ostrost bez vnášení artefaktů.</string>
     <string name="processing_channel">Dlouho běžící operace</string>
@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">Převeďte všechny vložené obrázky dokumentu do stupňů šedi</string>
     <string name="compress_pdf">Komprimovat PDF</string>
     <string name="compress_pdf_sub">Optimalizujte velikost souboru dokumentu pro snazší sdílení</string>
-    <string name="repair_info">ImageToolbox znovu sestaví vnitřní tabulku křížových odkazů a regeneruje strukturu souborů od začátku. To může obnovit přístup k mnoha souborům, které \\\"nelze otevřít\\\"</string>
+    <string name="repair_info">ImageToolbox znovu sestaví vnitřní tabulku křížových odkazů a regeneruje strukturu souborů od začátku. To může obnovit přístup k mnoha souborům, které \"nelze otevřít\"</string>
     <string name="grayscale_info">Tento nástroj převede všechny obrázky dokumentů do stupňů šedi. Nejlepší pro tisk a zmenšení velikosti souboru</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Upravte vlastnosti dokumentu pro lepší soukromí</string>
@@ -2344,7 +2344,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d parametry</string>
     <string name="shader_source">Shader zdroj</string>
-    <string name="shader_main_body_info">Zapište pouze tělo void main(). Použijte textureCoordinate pro UV souřadnice a zadejteImageTexture jako zdrojový vzorkovač.</string>
+    <string name="shader_main_body_info">Zapište pouze tělo void main(). Použijte textureCoordinate pro UV souřadnice a inputImageTexture jako zdrojový vzorkovač.</string>
     <string name="shader_helper_code">Funkce</string>
     <string name="shader_helper_code_info">Volitelné pomocné funkce, konstanty a struktury vložené před void main(). Uniformy jsou generovány z parametrů.</string>
     <string name="shader_no_parameters">Zde přidejte uniformy, když shader potřebuje upravitelné hodnoty.</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">Název shaderu nesmí být prázdný.</string>
     <string name="shader_error_blank_source">Zdroj stínování nesmí být prázdný.</string>
     <string name="shader_error_unsupported_characters">Zdroj shaderu obsahuje nepodporované znaky: %1$s. Používejte pouze zdroj ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Parametr \\\"%1$s\\\" je deklarován více než jednou.</string>
+    <string name="shader_error_duplicate_parameter">Parametr \"%1$s\" je deklarován více než jednou.</string>
     <string name="shader_error_blank_parameter_name">Názvy parametrů nesmí být prázdné.</string>
-    <string name="shader_error_reserved_parameter_name">Parametr \\\"%1$s\\\" používá vyhrazený název GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">Parametr \\\"%1$s\\\" musí být platný identifikátor GLSL.</string>
-    <string name="shader_error_invalid_value_type">Parametr \\\"%1$s\\\" má %2$s typ hodnoty \\\"%3$s\\\", očekáváno \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parametr \\\"%1$s\\\" nemůže definovat minimální nebo maximální hodnoty bool.</string>
-    <string name="shader_error_min_greater_than_max">Parametr \\\"%1$s\\\" má min větší než max.</string>
-    <string name="shader_error_default_lower_than_min">Výchozí parametr \\\"%1$s\\\" je nižší než min.</string>
-    <string name="shader_error_default_greater_than_max">Výchozí parametr \\\"%1$s\\\" je větší než max.</string>
-    <string name="shader_error_missing_input_texture">Shader musí deklarovat \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader musí deklarovat \\\"proměnlivé vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader musí definovat \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametr \"%1$s\" používá vyhrazený název GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">Parametr \"%1$s\" musí být platný identifikátor GLSL.</string>
+    <string name="shader_error_invalid_value_type">Parametr \"%1$s\" má %2$s typ hodnoty \"%3$s\", očekáváno \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parametr \"%1$s\" nemůže definovat minimální nebo maximální hodnoty bool.</string>
+    <string name="shader_error_min_greater_than_max">Parametr \"%1$s\" má min větší než max.</string>
+    <string name="shader_error_default_lower_than_min">Výchozí parametr \"%1$s\" je nižší než min.</string>
+    <string name="shader_error_default_greater_than_max">Výchozí parametr \"%1$s\" je větší než max.</string>
+    <string name="shader_error_missing_input_texture">Shader musí deklarovat \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader musí deklarovat \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader musí definovat \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader musí zapsat barvu do gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shadery nejsou podporovány. Použijte void main() kontrakt GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Animovaná uniforma ShaderToy \\\"iTime\\\" není podporována.</string>
-    <string name="shader_error_shadertoy_i_frame">Animovaná uniforma ShaderToy \\\"iFrame\\\" není podporována.</string>
-    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \\\"iResolution\\\" není podporována.</string>
+    <string name="shader_error_shadertoy_i_time">Animovaná uniforma ShaderToy \"iTime\" není podporována.</string>
+    <string name="shader_error_shadertoy_i_frame">Animovaná uniforma ShaderToy \"iFrame\" není podporována.</string>
+    <string name="shader_error_shadertoy_i_resolution">Uniforma ShaderToy \"iResolution\" není podporována.</string>
     <string name="shader_error_shadertoy_i_channel">Textury ShaderToy iChannel nejsou podporovány.</string>
     <string name="shader_error_external_textures">Externí textury nejsou podporovány.</string>
     <string name="shader_error_external_texture_extensions">Externí rozšíření textur nejsou podporována.</string>
     <string name="shader_error_libretro_parameters">Parametry shaderu Libretro nejsou podporovány.</string>
-    <string name="shader_error_extra_input_texture">Je podporována pouze jedna vstupní textura. Odebrat \\\"uniform %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parametr \\\"%1$s\\\" musí být deklarován jako \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametr \\\"%1$s\\\" je deklarován jako \\\"jednotný %2$s %1$s;\\\", očekáván \\\"jednotný %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Je podporována pouze jedna vstupní textura. Odebrat \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parametr \"%1$s\" musí být deklarován jako \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametr \"%1$s\" je deklarován jako \"uniform %2$s %1$s;\", očekáván \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Soubor shaderu je prázdný.</string>
     <string name="shader_parse_error_not_itshader_json">Shader soubor musí být objekt .itshader JSON s poli verze, název a shader.</string>
     <string name="shader_parse_error_invalid_json">Shader soubor není platný JSON nebo neodpovídá formátu .itshader.</string>
-    <string name="shader_parse_error_missing_field">Pole \\\"%1$s\\\" je povinné.</string>
+    <string name="shader_parse_error_missing_field">Pole \"%1$s\" je povinné.</string>
     <string name="shader_parse_error_missing_param_field">Je vyžadováno %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" není podporováno. Podporované typy: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s je vyžadováno pro parametry \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" není podporováno. Podporované typy: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s je vyžadováno pro parametry \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s musí být konečné číslo.</string>
     <string name="shader_parse_error_integer_expected">%1$s musí být celé číslo.</string>
     <string name="shader_parse_error_bool_expected">%1$s musí být pravdivé nebo nepravdivé.</string>
@@ -3277,7 +3277,7 @@
     <string name="export_profiles">Export profilů</string>
     <string name="save_export_profile">Uložit aktuální profil</string>
     <string name="delete_export_profile">Smazat exportní profil</string>
-    <string name="delete_export_profile_sub">Chcete smazat exportní profil \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Chcete smazat exportní profil \"%1$s\"?</string>
     <string name="draw_bitmap_border">Hranice kreslení</string>
     <string name="draw_bitmap_border_sub">Ukažte tenký okraj kolem kreslicího a mazacího plátna</string>
     <string name="wavy">Zvlněný</string>

@@ -34,6 +34,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -74,6 +75,8 @@ fun EnhancedFloatingActionButton(
     val height by animateDpAsState(type.height)
     val haptics = LocalHapticFeedback.current
     val focus = LocalFocusManager.current
+    val currentOnClick = rememberUpdatedState(onClick)
+    val currentOnLongClick = rememberUpdatedState(onLongClick)
 
     val shape = shapeByInteraction(
         shape = type.shape(),
@@ -96,14 +99,14 @@ fun EnhancedFloatingActionButton(
                             isLongClick = false
                             delay(viewConfiguration.longPressTimeoutMillis)
                             isLongClick = true
-                            onLongClick()
+                            currentOnLongClick.value?.invoke()
                             focus.clearFocus()
                             haptics.longPress()
                         }
 
                         is PressInteraction.Release -> {
-                            if (!isLongClick && onClick != null) {
-                                onClick()
+                            if (!isLongClick && currentOnClick.value != null) {
+                                currentOnClick.value?.invoke()
                                 focus.clearFocus()
                                 haptics.press()
                             }

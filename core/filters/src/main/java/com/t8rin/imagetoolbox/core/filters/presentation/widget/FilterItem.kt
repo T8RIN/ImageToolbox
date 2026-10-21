@@ -65,6 +65,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
@@ -104,6 +105,13 @@ fun <T : Any> FilterItem(
     onImportShaderPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     additionalContent: @Composable (() -> Unit)? = null
 ) {
+    var showHelp by rememberSaveable(filter.title) { mutableStateOf(false) }
+    FilterHelpDialog(
+        filter = filter,
+        visible = showHelp,
+        onDismiss = { showHelp = false }
+    )
+
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
@@ -197,10 +205,27 @@ fun <T : Any> FilterItem(
                                         EnhancedButton(
                                             modifier = Modifier.fillMaxWidth(),
                                             onClick = {
+                                                showPopup = false
+                                                showHelp = true
+                                            },
+                                            shape = ShapeDefaults.top,
+                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Info,
+                                                contentDescription = null
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.help_tips))
+                                        }
+                                        Spacer(Modifier.height(4.dp))
+                                        EnhancedButton(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onClick = {
                                                 onRemove()
                                                 showPopup = false
                                             },
-                                            shape = ShapeDefaults.top,
+                                            shape = ShapeDefaults.center,
                                             containerColor = MaterialTheme.colorScheme.secondary
                                         ) {
                                             Icon(
@@ -286,6 +311,12 @@ fun <T : Any> FilterItem(
                                 }
                             }
                         } else {
+                            EnhancedIconButton(onClick = { showHelp = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(R.string.help_tips)
+                                )
+                            }
                             EnhancedIconButton(
                                 onClick = onRemove
                             ) {

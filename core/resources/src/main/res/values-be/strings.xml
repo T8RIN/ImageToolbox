@@ -608,7 +608,7 @@
     <string name="copy">Копія</string>
     <string name="warning_bytes">Захаванне ў рэжыме %1$s можа быць нестабільным, таму што гэта фармат без страт</string>
     <string name="presets_sub" formatted="false">Калі вы абралі папярэднюю ўстаноўку 125, выява будзе захавана ў памеры 125% ад арыгінальнай выявы. Калі вы выбіраеце значэнне 50, то выява будзе захавана з памерам 50%</string>
-    <string name="presets_sub_bytes">Прадусталяванне тут вызначае % выхаднога файла, г. зн., калі вы выбіраеце заданне 50 для выявы памерам 5 МБ, пасля захавання вы атрымаеце выяву памерам 2,5 МБ</string>
+    <string name="presets_sub_bytes" formatted="false">Прадусталяванне тут вызначае % выхаднога файла, г. зн., калі вы выбіраеце заданне 50 для выявы памерам 5 МБ, пасля захавання вы атрымаеце выяву памерам 2,5 МБ</string>
     <string name="tg_chat">Тэлеграм чат</string>
     <string name="crop_mask">Кроп-маска</string>
     <string name="aspect_ratio">Суадносіны бакоў</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Мяккае аднастайнае шумавое таніраванне для тонкай тэкстуры і гладкага выгляду.</string>
     <string name="model_repainter">Аднаўляе пашкоджаныя або няроўныя ўчасткі, перафарбоўваючы артэфакты і паляпшаючы кансістэнцыю выявы.</string>
     <string name="model_debandurh_fs_ultra_lite">Лёгкая мадэль дэбандынгу, якая выдаляе каляровыя палосы з мінімальнымі выдаткамі.</string>
-    <string name="model_jpeg_0_20">Аптымізуе выявы з вельмі высокімі артэфактамі сціску (якасць 0-20%) для павышэння выразнасці.</string>
-    <string name="model_jpeg_20_40">Паляпшае выявы з высокімі артэфактамі сціску (якасць 20-40%), аднаўляючы дэталі і памяншаючы шум.</string>
-    <string name="model_jpeg_40_60">Паляпшае выявы з умераным сцісканнем (якасць 40-60%), балансуючы рэзкасць і гладкасць.</string>
-    <string name="model_jpeg_60_80">Удасканальвае выявы з лёгкім сцісканнем (якасць 60-80%) для паляпшэння тонкіх дэталяў і тэкстур.</string>
-    <string name="model_jpeg_80_100">Нязначна паляпшае выявы амаль без страт (якасць 80-100%), захоўваючы натуральны выгляд і дэталі.</string>
+    <string name="model_jpeg_0_20" formatted="false">Аптымізуе выявы з вельмі высокімі артэфактамі сціску (якасць 0-20%) для павышэння выразнасці.</string>
+    <string name="model_jpeg_20_40" formatted="false">Паляпшае выявы з высокімі артэфактамі сціску (якасць 20-40%), аднаўляючы дэталі і памяншаючы шум.</string>
+    <string name="model_jpeg_40_60" formatted="false">Паляпшае выявы з умераным сцісканнем (якасць 40-60%), балансуючы рэзкасць і гладкасць.</string>
+    <string name="model_jpeg_60_80" formatted="false">Удасканальвае выявы з лёгкім сцісканнем (якасць 60-80%) для паляпшэння тонкіх дэталяў і тэкстур.</string>
+    <string name="model_jpeg_80_100" formatted="false">Нязначна паляпшае выявы амаль без страт (якасць 80-100%), захоўваючы натуральны выгляд і дэталі.</string>
     <string name="model_spongecolor_lite">Простая і хуткая размалёўка, мультфільмы, не ідэальна</string>
     <string name="model_deblr">Злёгку памяншае размытасць выявы, паляпшаючы рэзкасць без увядзення артэфактаў.</string>
     <string name="processing_channel">Працяглыя аперацыі</string>
@@ -2137,7 +2137,7 @@
     <string name="grayscale_pdf_sub">Пераўтварыце ўсе выявы, убудаваныя ў дакумент, у адценні шэрага</string>
     <string name="compress_pdf">Сціснуць PDF</string>
     <string name="compress_pdf_sub">Аптымізуйце памер файла дакумента для палягчэння абмену</string>
-    <string name="repair_info">ImageToolbox аднаўляе ўнутраную табліцу крыжаваных спасылак і аднаўляе структуру файла з нуля. Гэта можа аднавіць доступ да многіх файлаў, якія \\\"немагчыма адкрыць\\\"</string>
+    <string name="repair_info">ImageToolbox аднаўляе ўнутраную табліцу крыжаваных спасылак і аднаўляе структуру файла з нуля. Гэта можа аднавіць доступ да многіх файлаў, якія \"немагчыма адкрыць\"</string>
     <string name="grayscale_info">Гэты інструмент пераўтворыць усе выявы дакументаў у адценні шэрага. Лепшы для друку і памяншэння памеру файла</string>
     <string name="metadata">Метададзеныя</string>
     <string name="metadata_pdf_sub">Рэдагуйце ўласцівасці дакумента для лепшай прыватнасці</string>
@@ -2355,37 +2355,37 @@
     <string name="shader_error_blank_name">Поле для назвы шэйдара не павінна быць пустым.</string>
     <string name="shader_error_blank_source">Крыніца шэдэра не павінна быць пустой.</string>
     <string name="shader_error_unsupported_characters">Крыніца шэйдара змяшчае сімвалы, якія не падтрымліваюцца: %1$s. Выкарыстоўвайце толькі крыніцу ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Параметр \\\"%1$s\\\" аб\'яўлены больш за адзін раз.</string>
+    <string name="shader_error_duplicate_parameter">Параметр \"%1$s\" аб\'яўлены больш за адзін раз.</string>
     <string name="shader_error_blank_parameter_name">Імёны параметраў не павінны быць пустымі.</string>
-    <string name="shader_error_reserved_parameter_name">Параметр \\\"%1$s\\\" выкарыстоўвае зарэзерваванае імя GPUImage.</string>
-    <string name="shader_error_invalid_parameter_name">Параметр \\\"%1$s\\\" павінен быць сапраўдным ідэнтыфікатарам GLSL.</string>
-    <string name="shader_error_invalid_value_type">Параметр \\\"%1$s\\\" мае %2$s тып значэння \\\"%3$s\\\", чакаецца \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Параметр \\\"%1$s\\\" не можа вызначыць мінімальнае або максімальнае для лагічных значэнняў.</string>
-    <string name="shader_error_min_greater_than_max">Параметр \\\"%1$s\\\" мае мін. большы за макс.</string>
-    <string name="shader_error_default_lower_than_min">Параметр \\\"%1$s\\\" па змаўчанні меншы за мін.</string>
-    <string name="shader_error_default_greater_than_max">Параметр \\\"%1$s\\\" па змаўчанні большы за макс.</string>
-    <string name="shader_error_missing_input_texture">Шэйдэр павінен дэклараваць \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Шэйдар павінен дэклараваць \\\"variying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Шэйдар павінен вызначаць \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Параметр \"%1$s\" выкарыстоўвае зарэзерваванае імя GPUImage.</string>
+    <string name="shader_error_invalid_parameter_name">Параметр \"%1$s\" павінен быць сапраўдным ідэнтыфікатарам GLSL.</string>
+    <string name="shader_error_invalid_value_type">Параметр \"%1$s\" мае %2$s тып значэння \"%3$s\", чакаецца \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Параметр \"%1$s\" не можа вызначыць мінімальнае або максімальнае для лагічных значэнняў.</string>
+    <string name="shader_error_min_greater_than_max">Параметр \"%1$s\" мае мін. большы за макс.</string>
+    <string name="shader_error_default_lower_than_min">Параметр \"%1$s\" па змаўчанні меншы за мін.</string>
+    <string name="shader_error_default_greater_than_max">Параметр \"%1$s\" па змаўчанні большы за макс.</string>
+    <string name="shader_error_missing_input_texture">Шэйдэр павінен дэклараваць \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Шэйдар павінен дэклараваць \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Шэйдар павінен вызначаць \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Шэйдэр павінен запісаць колер у gl_FragColor.</string>
-    <string name="shader_error_shadertoy_main_image">Шэйдары ShaderToy mainImage не падтрымліваюцца. Выкарыстоўвайце несапраўдны кантракт main() GPUImage.</string>
-    <string name="shader_error_shadertoy_i_time">Аніміраваная форма ShaderToy \\\"iTime\\\" не падтрымліваецца.</string>
-    <string name="shader_error_shadertoy_i_frame">Аніміраваны ўніформа ShaderToy \\\"iFrame\\\" не падтрымліваецца.</string>
-    <string name="shader_error_shadertoy_i_resolution">Універсальны \\\"iResolution\\\" ShaderToy не падтрымліваецца.</string>
+    <string name="shader_error_shadertoy_main_image">Шэйдары ShaderToy mainImage не падтрымліваюцца. Выкарыстоўвайце кантракт void main() GPUImage.</string>
+    <string name="shader_error_shadertoy_i_time">Аніміраваная форма ShaderToy \"iTime\" не падтрымліваецца.</string>
+    <string name="shader_error_shadertoy_i_frame">Аніміраваны ўніформа ShaderToy \"iFrame\" не падтрымліваецца.</string>
+    <string name="shader_error_shadertoy_i_resolution">Універсальны \"iResolution\" ShaderToy не падтрымліваецца.</string>
     <string name="shader_error_shadertoy_i_channel">Тэкстуры ShaderToy iChannel не падтрымліваюцца.</string>
     <string name="shader_error_external_textures">Знешнія тэкстуры не падтрымліваюцца.</string>
     <string name="shader_error_external_texture_extensions">Знешнія пашырэнні тэкстур не падтрымліваюцца.</string>
     <string name="shader_error_libretro_parameters">Параметры шэйдара Libretro не падтрымліваюцца.</string>
-    <string name="shader_error_extra_input_texture">Падтрымліваецца толькі адна ўваходная тэкстура. Выдаліць \\\"уніформа %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Параметр \\\"%1$s\\\" павінен быць аб\'яўлены як \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Параметр \\\"%1$s\\\" заяўлены як \\\"аднастайны %2$s %1$s;\\\", чакаецца \\\"аднастайны %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Падтрымліваецца толькі адна ўваходная тэкстура. Выдаліць \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Параметр \"%1$s\" павінен быць аб\'яўлены як \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Параметр \"%1$s\" заяўлены як \"uniform %2$s %1$s;\", чакаецца \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Файл шэйдара пусты.</string>
     <string name="shader_parse_error_not_itshader_json">Файл шэйдара павінен быць аб\'ектам .itshader JSON з версіяй, назвай і палямі шэйдара.</string>
     <string name="shader_parse_error_invalid_json">Файл шэдэра не з\'яўляецца сапраўдным JSON або не адпавядае фармату .itshader.</string>
-    <string name="shader_parse_error_missing_field">Поле \\\"%1$s\\\" абавязковае.</string>
+    <string name="shader_parse_error_missing_field">Поле \"%1$s\" абавязковае.</string>
     <string name="shader_parse_error_missing_param_field">Патрабуецца %1$s.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" не падтрымліваецца. Падтрымліваюцца тыпы: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s патрабуецца для параметраў \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" не падтрымліваецца. Падтрымліваюцца тыпы: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s патрабуецца для параметраў \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s павінна быць канечным лікам.</string>
     <string name="shader_parse_error_integer_expected">%1$s павінна быць цэлым лікам.</string>
     <string name="shader_parse_error_bool_expected">%1$s павінна быць праўдай або ілжывым.</string>
@@ -3277,7 +3277,7 @@
     <string name="export_profiles">Экспарт профіляў</string>
     <string name="save_export_profile">Захаваць бягучы профіль</string>
     <string name="delete_export_profile">Выдаліць профіль экспарту</string>
-    <string name="delete_export_profile_sub">Вы хочаце выдаліць профіль экспарту \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Вы хочаце выдаліць профіль экспарту \"%1$s\"?</string>
     <string name="draw_bitmap_border">Малюнак мяжы</string>
     <string name="draw_bitmap_border_sub">Пакажыце тонкую рамку вакол малюнка і палатна для сцірання</string>
     <string name="wavy">Хвалісты</string>

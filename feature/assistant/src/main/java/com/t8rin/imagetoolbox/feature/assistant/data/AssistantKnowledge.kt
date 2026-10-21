@@ -48,7 +48,6 @@ class AssistantKnowledge @Inject constructor(
         val help: AssistantSearchIndex<AssistantReference>,
         val tools: AssistantSearchIndex<Screen>,
         val settings: AssistantSearchIndex<String>,
-        val filters: AssistantSearchIndex<String>,
         val references: Map<String, AssistantReference>
     )
 
@@ -73,8 +72,13 @@ class AssistantKnowledge @Inject constructor(
             val index = index(language)
             val contextSetting = request.context.settingKey?.let(settings::get)
             val contextTool =
-                catalog.firstOrNull { it.simpleName == request.context.parameters["toolKey"] }
-                    ?: catalog.firstOrNull { it.id == request.context.toolId }
+                (catalog.firstOrNull { it.simpleName == request.context.parameters["toolKey"] }
+                    ?: catalog.firstOrNull { it.id == request.context.toolId })?.let { screen ->
+                    val filterKey = request.context.parameters["filterKey"]
+                    if (screen is Screen.Filter && filterKey in filters) {
+                        Screen.Filter(Screen.Filter.Type.Basic(filterKey = filterKey))
+                    } else screen
+                }
             val contextual = contextQuestion.containsMatchIn(request.query)
             val discoveredTools = mutableListOf<Screen>()
             val discoveredSettings = mutableListOf<String>()
@@ -98,14 +102,26 @@ class AssistantKnowledge @Inject constructor(
                     if (filterQuestion.containsMatchIn(topic)) {
                         filters.filterValues { matchesTitle(normalizedTopic, it.title, language) }
                             .keys.ifEmpty {
-                                index.filters.search(filterQuestion.replace(topic, " "), 2)
-                                    .map { it.value }.toSet()
+                                if (contextual && ((contextTool as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey != null) {
+                                    emptySet()
+                                } else index.help.search(filterQuestion.replace(topic, " "), 2) {
+                                    ((helpRepository.getTip(it.tipId)?.deepLink as? Screen.Filter)
+                                        ?.type as? Screen.Filter.Type.Basic)?.filterKey in filters
+                                }.mapNotNull {
+                                    ((helpRepository.getTip(it.value.tipId)?.deepLink as? Screen.Filter)
+                                        ?.type as? Screen.Filter.Type.Basic)?.filterKey
+                                }.toSet()
                             }
                     } else emptySet()
                 }
                 if (filterKeys.isNotEmpty()) {
                     discoveredFilters.addAll(filterKeys)
-                    return@map findReferences(index, topic, listOf(Screen.Filter()), language)
+                    return@map findReferences(
+                        index,
+                        topic,
+                        filterKeys.map { Screen.Filter(Screen.Filter.Type.Basic(filterKey = it)) },
+                        language
+                    )
                 }
                 val settingIntent = settingQuestion.containsMatchIn(topic) ||
                         settingToggle.containsMatchIn(topic) || settingLocation.containsMatchIn(
@@ -191,7 +207,8 @@ class AssistantKnowledge @Inject constructor(
                         tools = listOf(it),
                         language = language,
                         mode = request.context.parameters["mode"],
-                        fallback = false
+                        fallback = contextual && filterQuestion.containsMatchIn(topic) &&
+                                ((it as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey != null
                     ).firstOrNull()
                 }
                 val reference = if (exactTools.none {
@@ -521,13 +538,6 @@ class AssistantKnowledge @Inject constructor(
                         ).joinToString(" ") { bilingual(it, language) }
                     )
                 }),
-                AssistantSearchIndex(filters.map { (key, filter) ->
-                    AssistantSearchIndex.Document(
-                        value = key,
-                        title = bilingual(filter.title, language),
-                        text = bilingual(filter.title, language)
-                    )
-                }),
                 references = help.map { it.value }.distinctBy { it.tipId }.associateBy { it.tipId }
             )
         }
@@ -536,7 +546,8 @@ class AssistantKnowledge @Inject constructor(
     private fun toolTitle(screen: Screen, language: String): String = string(
         when (screen) {
             is Screen.RecognizeText -> screen.type?.title ?: screen.title
-            is Screen.Filter -> screen.type?.title ?: screen.title
+            is Screen.Filter -> filters[(screen.type as? Screen.Filter.Type.Basic)?.filterKey]?.title
+                ?: screen.type?.title ?: screen.title
             is Screen.GifTools -> screen.type?.title ?: screen.title
             is Screen.ApngTools -> screen.type?.title ?: screen.title
             is Screen.WebpTools -> screen.type?.title ?: screen.title
@@ -562,8 +573,21 @@ class AssistantKnowledge @Inject constructor(
         fallback: Boolean = true
     ): List<AssistantReference> {
         val anchors = tools.mapNotNull { screen ->
+            val filterKey =
+                ((screen as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey
+            val genericTool = matchesTitle(
+                AssistantSearchIndex.normalize(query), screen.title, language, exact = true
+            )
             val relatedTips =
-                helpRepository.tips.filter { it.deepLink?.simpleName == screen.simpleName }
+                helpRepository.tips.filter {
+                    val documentedFilter = ((it.deepLink as? Screen.Filter)
+                        ?.type as? Screen.Filter.Type.Basic)?.filterKey
+                    it.deepLink?.simpleName == screen.simpleName && when {
+                        filterKey != null -> documentedFilter == filterKey
+                        genericTool -> documentedFilter == null
+                        else -> true
+                    }
+                }
             val modeTips = if (mode == null) emptyList() else relatedTips.filter { tip ->
                 val destination = checkNotNull(tip.deepLink)
                 listOf(language, "ru", "en").distinct().any {
@@ -579,7 +603,7 @@ class AssistantKnowledge @Inject constructor(
             } else null
         }.distinctBy { it.tipId }
         return (if (tools.isEmpty()) index.help.search(query, 1)
-            .map { it.value } else anchors).take(1)
+            .map { it.value } else anchors).take(MAX_REFERENCES)
     }
 
     private fun StringBuilder.appendDocuments(
@@ -636,7 +660,11 @@ class AssistantKnowledge @Inject constructor(
                             RegexOption.IGNORE_CASE
                         ).containsMatchIn(value)
             }.entries.take(MAX_CONTEXT_PARAMETERS).forEach { (key, value) ->
-                val limit = if (key == "selectedImageInfo") 400 else MAX_CONTEXT_VALUE_LENGTH
+                val limit = when (key) {
+                    "selectedImageInfo" -> 400
+                    "filterNames" -> 160
+                    else -> MAX_CONTEXT_VALUE_LENGTH
+                }
                 add("$key: ${value.take(limit)}")
             }
         }
@@ -671,7 +699,7 @@ private val contextQuestion =
     )
 private val settingQuestion =
     Regex("настрой|setting|preference|параметр|по умолчанию|default", RegexOption.IGNORE_CASE)
-private val filterQuestion = Regex("фильтр|\\bfilter", RegexOption.IGNORE_CASE)
+private val filterQuestion = Regex("\\b(?:фильтр[а-я]*|filters?)\\b", RegexOption.IGNORE_CASE)
 private val settingToggle = Regex(
     "\\b(?:(?:turn|switch)\\s+(?:on|off)|enable|disable|(?:включ|выключ|отключ)[а-я]*)\\b",
     RegexOption.IGNORE_CASE

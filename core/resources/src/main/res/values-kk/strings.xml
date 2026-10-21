@@ -698,7 +698,7 @@
     <string name="secondary_customization">Қосымша теңшеу</string>
     <string name="fallback_option">Кері опция</string>
     <string name="presets_sub" formatted="false">Алдын ала орнатылған 125 параметрін таңдасаңыз, сурет 100% сапасымен түпнұсқа кескіннің 125% өлшемі ретінде сақталады. Алдын ала орнатылған 50 параметрін таңдасаңыз, сурет 50% өлшеммен және 50% сапамен сақталады.</string>
-    <string name="presets_sub_bytes">Мұнда алдын ала орнату шығыс файлының % анықтайды, яғни 5 мб суретте алдын ала орнатылған 50 параметрін таңдасаңыз, сақталғаннан кейін 2,5 мб кескінді аласыз.</string>
+    <string name="presets_sub_bytes" formatted="false">Мұнда алдын ала орнату шығыс файлының % анықтайды, яғни 5 мб суретте алдын ала орнатылған 50 параметрін таңдасаңыз, сақталғаннан кейін 2,5 мб кескінді аласыз.</string>
     <string name="tg_chat">Telegram чаты</string>
     <string name="tg_chat_sub">Қолданбаны талқылаңыз және басқа пайдаланушылардан пікір алыңыз. Сондай-ақ, бета жаңартулары мен түсініктерін осы жерден ала аласыз.</string>
     <string name="crop_mask">Кептірілген маска</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Нәзік текстура мен тегіс көрініс үшін жұмсақ біркелкі шуды сергітеді.</string>
     <string name="model_repainter">Артефактілерді қайта бояу және кескіннің үйлесімділігін жақсарту арқылы зақымдалған немесе тегіс емес жерлерді жөндейді.</string>
     <string name="model_debandurh_fs_ultra_lite">Ең аз өнімділік құнымен түс жолағын жоятын жеңіл жолақты жою үлгісі.</string>
-    <string name="model_jpeg_0_20">Жақсартылған айқындық үшін өте жоғары қысу артефактілері (0-20% сапа) бар кескіндерді оңтайландырады.</string>
-    <string name="model_jpeg_20_40">Суреттерді жоғары қысу артефактілерімен жақсартады (20-40% сапа), мәліметтерді қалпына келтіреді және шуды азайтады.</string>
-    <string name="model_jpeg_40_60">Орташа қысумен (40-60% сапа) кескіндерді жақсартады, айқындық пен тегістікті теңестіреді.</string>
-    <string name="model_jpeg_60_80">Нәзік бөлшектер мен текстураларды жақсарту үшін жеңіл қысумен (60-80% сапа) кескіндерді нақтылайды.</string>
-    <string name="model_jpeg_80_100">Табиғи көрініс пен бөлшектерді сақтай отырып, жоғалмайтын кескіндерді (80-100% сапа) аздап жақсартады.</string>
+    <string name="model_jpeg_0_20" formatted="false">Жақсартылған айқындық үшін өте жоғары қысу артефактілері (0-20% сапа) бар кескіндерді оңтайландырады.</string>
+    <string name="model_jpeg_20_40" formatted="false">Суреттерді жоғары қысу артефактілерімен жақсартады (20-40% сапа), мәліметтерді қалпына келтіреді және шуды азайтады.</string>
+    <string name="model_jpeg_40_60" formatted="false">Орташа қысумен (40-60% сапа) кескіндерді жақсартады, айқындық пен тегістікті теңестіреді.</string>
+    <string name="model_jpeg_60_80" formatted="false">Нәзік бөлшектер мен текстураларды жақсарту үшін жеңіл қысумен (60-80% сапа) кескіндерді нақтылайды.</string>
+    <string name="model_jpeg_80_100" formatted="false">Табиғи көрініс пен бөлшектерді сақтай отырып, жоғалмайтын кескіндерді (80-100% сапа) аздап жақсартады.</string>
     <string name="model_spongecolor_lite">Қарапайым және жылдам бояу, мультфильмдер, идеалды емес</string>
     <string name="model_deblr">Кескіннің бұлыңғырлығын аздап азайтады, артефактілерді енгізбестен айқындықты жақсартады.</string>
     <string name="processing_channel">Ұзақ мерзімді операциялар</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Барлық ендірілген құжат кескіндерін сұр реңкке түрлендіріңіз</string>
     <string name="compress_pdf">PDF файлын қысыңыз</string>
     <string name="compress_pdf_sub">Бөлісуді жеңілдету үшін құжат файлының өлшемін оңтайландырыңыз</string>
-    <string name="repair_info">ImageToolbox ішкі айқас сілтеме кестесін қайта құрады және файл құрылымын нөлден бастап қайта жасайды. Бұл \\\"ашу мүмкін емес\\\" көптеген файлдарға кіру рұқсатын қалпына келтіре алады.</string>
+    <string name="repair_info">ImageToolbox ішкі айқас сілтеме кестесін қайта құрады және файл құрылымын нөлден бастап қайта жасайды. Бұл \"ашу мүмкін емес\" көптеген файлдарға кіру рұқсатын қалпына келтіре алады.</string>
     <string name="grayscale_info">Бұл құрал барлық құжат кескіндерін сұр реңкке түрлендіреді. Басып шығару және файл өлшемін азайту үшін ең жақсы</string>
     <string name="metadata">Метадеректер</string>
     <string name="metadata_pdf_sub">Құпиялықты жақсарту үшін құжат сипаттарын өңдеңіз</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Шейдер атауы бос болмауы керек.</string>
     <string name="shader_error_blank_source">Шейдер көзі бос болмауы керек.</string>
     <string name="shader_error_unsupported_characters">Шейдер көзінде қолдау көрсетілмейтін таңбалар бар: %1$s. Тек ASCII GLSL көзін пайдаланыңыз.</string>
-    <string name="shader_error_duplicate_parameter">\\\"%1$s\\\" параметрі бірнеше рет жарияланған.</string>
+    <string name="shader_error_duplicate_parameter">\"%1$s\" параметрі бірнеше рет жарияланған.</string>
     <string name="shader_error_blank_parameter_name">Параметр атаулары бос болмауы керек.</string>
-    <string name="shader_error_reserved_parameter_name">\\\"%1$s\\\" параметрі сақталған GPUImage атауын пайдаланады.</string>
-    <string name="shader_error_invalid_parameter_name">\\\"%1$s\\\" параметрі жарамды GLSL идентификаторы болуы керек.</string>
-    <string name="shader_error_invalid_value_type">\\\"%1$s\\\" параметрінде \\\"%3$s\\\" %2$s мәні бар, күтілетін \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">\\\"%1$s\\\" параметрі bool мәндері үшін min немесе max мәндерін анықтай алмайды.</string>
-    <string name="shader_error_min_greater_than_max">\\\"%1$s\\\" параметрінде min мәні максимумнан үлкен.</string>
-    <string name="shader_error_default_lower_than_min">\\\"%1$s\\\" әдепкі параметрі мин. мәнінен төмен.</string>
-    <string name="shader_error_default_greater_than_max">Параметр \\\"%1$s\\\" әдепкі мәннен үлкен.</string>
-    <string name="shader_error_missing_input_texture">Шейдер \\\"uniform sampler2D %1$s;\\\" жариялауы керек.</string>
-    <string name="shader_error_missing_texture_coordinate">Шейдер \\\"өзгермелі vec2 %1$s;\\\" жариялауы керек.</string>
-    <string name="shader_error_missing_main_function">Шейдер \\\"void main()\\\" анықтауы керек.</string>
+    <string name="shader_error_reserved_parameter_name">\"%1$s\" параметрі сақталған GPUImage атауын пайдаланады.</string>
+    <string name="shader_error_invalid_parameter_name">\"%1$s\" параметрі жарамды GLSL идентификаторы болуы керек.</string>
+    <string name="shader_error_invalid_value_type">\"%1$s\" параметрінде \"%3$s\" %2$s мәні бар, күтілетін \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">\"%1$s\" параметрі bool мәндері үшін min немесе max мәндерін анықтай алмайды.</string>
+    <string name="shader_error_min_greater_than_max">\"%1$s\" параметрінде min мәні максимумнан үлкен.</string>
+    <string name="shader_error_default_lower_than_min">\"%1$s\" әдепкі параметрі мин. мәнінен төмен.</string>
+    <string name="shader_error_default_greater_than_max">Параметр \"%1$s\" әдепкі мәннен үлкен.</string>
+    <string name="shader_error_missing_input_texture">Шейдер \"uniform sampler2D %1$s;\" жариялауы керек.</string>
+    <string name="shader_error_missing_texture_coordinate">Шейдер \"varying vec2 %1$s;\" жариялауы керек.</string>
+    <string name="shader_error_missing_main_function">Шейдер \"void main()\" анықтауы керек.</string>
     <string name="shader_error_missing_fragment_color">Шейдер gl_FragColor үшін түсті жазуы керек.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage шейдерлеріне қолдау көрсетілмейді. GPUImage\'s void main() келісімін пайдаланыңыз.</string>
-    <string name="shader_error_shadertoy_i_time">\\\"iTime\\\" анимациялық ShaderToy формасына қолдау көрсетілмейді.</string>
-    <string name="shader_error_shadertoy_i_frame">Анимациялық ShaderToy формасына \\\"iFrame\\\" қолдау көрсетілмейді.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy формасына \\\"iResolution\\\" қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_time">\"iTime\" анимациялық ShaderToy формасына қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_frame">Анимациялық ShaderToy формасына \"iFrame\" қолдау көрсетілмейді.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy формасына \"iResolution\" қолдау көрсетілмейді.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel текстураларына қолдау көрсетілмейді.</string>
     <string name="shader_error_external_textures">Сыртқы текстураларға қолдау көрсетілмейді.</string>
     <string name="shader_error_external_texture_extensions">Сыртқы текстура кеңейтіміне қолдау көрсетілмейді.</string>
     <string name="shader_error_libretro_parameters">Libretro шейдер параметрлеріне қолдау көрсетілмейді.</string>
-    <string name="shader_error_extra_input_texture">Тек бір енгізу текстурасына қолдау көрсетіледі. \\\"униформа %1$s %2$s;\\\" алып тастаңыз.</string>
-    <string name="shader_error_missing_uniform">\\\"%1$s\\\" параметрі \\\"uniform %2$s %1$s;\\\" ретінде жариялануы керек.</string>
-    <string name="shader_error_wrong_uniform_type">\\\"%1$s\\\" параметрі \\\"uniform %2$s %1$s;\\\" деп жарияланды, күтілетін \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Тек бір енгізу текстурасына қолдау көрсетіледі. \"uniform %1$s %2$s;\" алып тастаңыз.</string>
+    <string name="shader_error_missing_uniform">\"%1$s\" параметрі \"uniform %2$s %1$s;\" ретінде жариялануы керек.</string>
+    <string name="shader_error_wrong_uniform_type">\"%1$s\" параметрі \"uniform %2$s %1$s;\" деп жарияланды, күтілетін \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Шейдер файлы бос.</string>
     <string name="shader_parse_error_not_itshader_json">Шейдер файлы нұсқасы, аты және шейдер өрістері бар .itshader JSON нысаны болуы керек.</string>
     <string name="shader_parse_error_invalid_json">Шейдер файлы JSON жарамсыз немесе .itshader пішіміне сәйкес келмейді.</string>
-    <string name="shader_parse_error_missing_field">\\\"%1$s\\\" өрісі қажет.</string>
+    <string name="shader_parse_error_missing_field">\"%1$s\" өрісі қажет.</string>
     <string name="shader_parse_error_missing_param_field">%1$s қажет.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" қолданылмайды. Қолдау көрсетілетін түрлер: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s \\\"%2$s\\\" параметрлері үшін қажет.</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" қолданылмайды. Қолдау көрсетілетін түрлер: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s \"%2$s\" параметрлері үшін қажет.</string>
     <string name="shader_parse_error_finite_number_expected">%1$s шекті сан болуы керек.</string>
     <string name="shader_parse_error_integer_expected">%1$s бүтін сан болуы керек.</string>
     <string name="shader_parse_error_bool_expected">%1$s шын немесе жалған болуы керек.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Профильдерді экспорттау</string>
     <string name="save_export_profile">Ағымдағы профильді сақтаңыз</string>
     <string name="delete_export_profile">Экспорттау профилін жою</string>
-    <string name="delete_export_profile_sub">\\\"%1$s\\\" экспорттау профилін жойғыңыз келе ме?</string>
+    <string name="delete_export_profile_sub">\"%1$s\" экспорттау профилін жойғыңыз келе ме?</string>
     <string name="draw_bitmap_border">Жиек сызу</string>
     <string name="draw_bitmap_border_sub">Суреттің айналасында жіңішке жиекті көрсетіңіз және кенепті өшіріңіз</string>
     <string name="wavy">Толқынды</string>

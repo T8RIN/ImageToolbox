@@ -318,7 +318,7 @@
     <string name="backup_sub">備份您的應用程式設定為檔案</string>
     <string name="randomize_filename">隨機化檔案名稱</string>
     <string name="presets_sub" formatted="false">如果您選擇了預設值 125，影像會儲存為原始影像的 125%。如果您選擇預設值 50，則影像會儲存為原始影像的 50% 大小。</string>
-    <string name="presets_sub_bytes">這裡的預設決定了輸出檔案的百分比，如果您選擇了預設 50 於 5MB 圖片，則在儲存後您將會獲得 2.5MB 的圖片</string>
+    <string name="presets_sub_bytes" formatted="false">這裡的預設決定了輸出檔案的百分比，如果您選擇了預設 50 於 5MB 圖片，則在儲存後您將會獲得 2.5MB 的圖片</string>
     <string name="randomize_filename_sub">如果您啟用了，則輸出檔名將會是完全隨機的</string>
     <string name="saved_to">已儲存名為 %2$s 至 %1$s 資料夾</string>
     <string name="saved_to_without_filename">已儲存至 %1$s 資料夾</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">柔和均勻的噪音色調，帶來微妙的紋理和光滑的外觀。</string>
     <string name="model_repainter">通過重新繪製偽影並提高圖像一致性來修復損壞或不均勻的區域。</string>
     <string name="model_debandurh_fs_ultra_lite">輕量級去帶模型，以最小的性能成本消除色帶。</string>
-    <string name="model_jpeg_0_20">最佳化具有非常高壓縮偽影（0-20% 品質）的圖像，以提高清晰度。</string>
-    <string name="model_jpeg_20_40">增強具有高壓縮偽影（20-40% 品質）的圖像，恢復細節並減少噪點。</string>
-    <string name="model_jpeg_40_60">通過適度壓縮（40-60% 品質）改進圖像，平衡清晰度和平滑度。</string>
-    <string name="model_jpeg_60_80">通過輕度壓縮（60-80% 品質）細化圖像，以增強微妙的細節和紋理。</string>
-    <string name="model_jpeg_80_100">稍微增強近乎無損的圖像（80-100% 品質），同時保留自然的外觀和細節。</string>
+    <string name="model_jpeg_0_20" formatted="false">最佳化具有非常高壓縮偽影（0-20% 品質）的圖像，以提高清晰度。</string>
+    <string name="model_jpeg_20_40" formatted="false">增強具有高壓縮偽影（20-40% 品質）的圖像，恢復細節並減少噪點。</string>
+    <string name="model_jpeg_40_60" formatted="false">通過適度壓縮（40-60% 品質）改進圖像，平衡清晰度和平滑度。</string>
+    <string name="model_jpeg_60_80" formatted="false">通過輕度壓縮（60-80% 品質）細化圖像，以增強微妙的細節和紋理。</string>
+    <string name="model_jpeg_80_100" formatted="false">稍微增強近乎無損的圖像（80-100% 品質），同時保留自然的外觀和細節。</string>
     <string name="model_spongecolor_lite">著色簡單快速，卡通，不理想</string>
     <string name="model_deblr">稍微減少圖像模糊，提高清晰度，而不會引入偽影。</string>
     <string name="processing_channel">長時間運行的操作</string>
@@ -2341,7 +2341,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d 参数</string>
     <string name="shader_source">著色器來源碼</string>
-    <string name="shader_main_body_info">只写 void main() 的主体。使用纹理坐标作为 UV 坐标，使用 inputImageTexture 作为源采样器。</string>
+    <string name="shader_main_body_info">只写 void main() 的主体。使用textureCoordinate作为 UV 坐标，使用 inputImageTexture 作为源采样器。</string>
     <string name="shader_helper_code">功能</string>
     <string name="shader_helper_code_info">在 void main() 之前插入可选的辅助函数、常量和结构。制服是从参数生成的。</string>
     <string name="shader_no_parameters">当著色器需要可编辑值时，在此处添加制服。</string>
@@ -2361,8 +2361,8 @@
     <string name="shader_error_min_greater_than_max">参数“%1$s”的最小值大于最大值。</string>
     <string name="shader_error_default_lower_than_min">参数“%1$s”默认低于最小值。</string>
     <string name="shader_error_default_greater_than_max">参数“%1$s”默认大于最大值。</string>
-    <string name="shader_error_missing_input_texture">著色器必须声明“uniform Sampler2D %1$s;”。</string>
-    <string name="shader_error_missing_texture_coordinate">著色器必须声明“variing vec2 %1$s;”。</string>
+    <string name="shader_error_missing_input_texture">著色器必须声明“uniform sampler2D %1$s;”。</string>
+    <string name="shader_error_missing_texture_coordinate">著色器必须声明“varying vec2 %1$s;”。</string>
     <string name="shader_error_missing_main_function">著色器必须定义“void main()”。</string>
     <string name="shader_error_missing_fragment_color">著色器必须将颜色写入gl_FragColor。</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage 著色器不受支持。使用 GPUImage 的 void main() 合约。</string>
@@ -2381,7 +2381,7 @@
     <string name="shader_parse_error_invalid_json">著色器文件不是有效的 JSON 或与 .itshader 格式不匹配。</string>
     <string name="shader_parse_error_missing_field">字段“%1$s”为必填项。</string>
     <string name="shader_parse_error_missing_param_field">%1$s 为必填项。</string>
-    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \\\"%2$s\\\"。支持的类型：%3$s。</string>
+    <string name="shader_parse_error_unsupported_param_type">不支持 %1$s \"%2$s\"。支持的类型：%3$s。</string>
     <string name="shader_parse_error_missing_value">“%2$s”参数需要 %1$s。</string>
     <string name="shader_parse_error_finite_number_expected">%1$s 必须是有限数。</string>
     <string name="shader_parse_error_integer_expected">%1$s 必须是整数。</string>

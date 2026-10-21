@@ -306,7 +306,7 @@
     <string name="skip">Passer</string>
     <string name="warning_bytes">L’enregistrement en mode %1$s peut être instable, car c\'est un format sans perte</string>
     <string name="presets_sub" formatted="false">Si vous avez sélectionné le préréglage 125, l\'image sera enregistrée avec une taille de 125% de l\'image originale. Si vous sélectionnez le préréglage 50, l\'image sera enregistrée avec une taille de 50%</string>
-    <string name="presets_sub_bytes">Le préréglage ici détermine le % du fichier de sortie, c\'est-à-dire que si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement</string>
+    <string name="presets_sub_bytes" formatted="false">Le préréglage ici détermine le % du fichier de sortie, c\'est-à-dire que si vous sélectionnez le préréglage 50 sur une image de 5 Mo, vous obtiendrez une image de 2,5 Mo après l\'enregistrement</string>
     <string name="saved_to">Enregistré dans le dossier %1$s avec le nom %2$s</string>
     <string name="randomize_filename">Nom de fichier aléatoire</string>
     <string name="randomize_filename_sub">Si activé, le nom du fichier de sortie sera entièrement aléatoire</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Tonification sonore douce et uniforme pour une texture subtile et un aspect lisse.</string>
     <string name="model_repainter">Répare les zones endommagées ou inégales en repeignant les artefacts et en améliorant la cohérence de l\'image.</string>
     <string name="model_debandurh_fs_ultra_lite">Modèle de débandage léger qui supprime les bandes de couleur avec un coût de performance minimal.</string>
-    <string name="model_jpeg_0_20">Optimise les images avec des artefacts de compression très élevés (qualité 0-20 %) pour une clarté améliorée.</string>
-    <string name="model_jpeg_20_40">Améliore les images avec des artefacts de compression élevés (qualité de 20 à 40 %), en restaurant les détails et en réduisant le bruit.</string>
-    <string name="model_jpeg_40_60">Améliore les images avec une compression modérée (qualité de 40 à 60 %), en équilibrant la netteté et la douceur.</string>
-    <string name="model_jpeg_60_80">Affine les images avec une légère compression (qualité de 60 à 80 %) pour améliorer les détails et les textures subtiles.</string>
-    <string name="model_jpeg_80_100">Améliore légèrement les images presque sans perte (qualité de 80 à 100 %) tout en préservant l\'aspect et les détails naturels.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimise les images avec des artefacts de compression très élevés (qualité 0-20 %) pour une clarté améliorée.</string>
+    <string name="model_jpeg_20_40" formatted="false">Améliore les images avec des artefacts de compression élevés (qualité de 20 à 40 %), en restaurant les détails et en réduisant le bruit.</string>
+    <string name="model_jpeg_40_60" formatted="false">Améliore les images avec une compression modérée (qualité de 40 à 60 %), en équilibrant la netteté et la douceur.</string>
+    <string name="model_jpeg_60_80" formatted="false">Affine les images avec une légère compression (qualité de 60 à 80 %) pour améliorer les détails et les textures subtiles.</string>
+    <string name="model_jpeg_80_100" formatted="false">Améliore légèrement les images presque sans perte (qualité de 80 à 100 %) tout en préservant l\'aspect et les détails naturels.</string>
     <string name="model_spongecolor_lite">Colorisation simple et rapide, dessins animés, pas idéal</string>
     <string name="model_deblr">Réduit légèrement le flou de l\'image, améliorant ainsi la netteté sans introduire d\'artefacts.</string>
     <string name="processing_channel">Opérations de longue durée</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Convertir toutes les images intégrées au document en niveaux de gris</string>
     <string name="compress_pdf">Compresser un PDF</string>
     <string name="compress_pdf_sub">Optimisez la taille de votre fichier de document pour un partage plus facile</string>
-    <string name="repair_info">ImageToolbox reconstruit la table de références croisées interne et régénère la structure des fichiers à partir de zéro. Cela peut restaurer l\'accès à de nombreux fichiers qui \\\"ne peuvent pas être ouverts\\\"</string>
+    <string name="repair_info">ImageToolbox reconstruit la table de références croisées interne et régénère la structure des fichiers à partir de zéro. Cela peut restaurer l\'accès à de nombreux fichiers qui \"ne peuvent pas être ouverts\"</string>
     <string name="grayscale_info">Cet outil convertit toutes les images du document en niveaux de gris. Idéal pour imprimer et réduire la taille des fichiers</string>
     <string name="metadata">Métadonnées</string>
     <string name="metadata_pdf_sub">Modifier les propriétés du document pour une meilleure confidentialité</string>
@@ -2342,7 +2342,7 @@
     <string name="itshader_json">.itshaderJSON</string>
     <string name="shader_params_count">Paramètres %1$d</string>
     <string name="shader_source">Source du shader</string>
-    <string name="shader_main_body_info">Écrivez uniquement le corps de void main(). Utilisez textureCoordonnée pour les coordonnées UV et inputImageTexture comme échantillonneur source.</string>
+    <string name="shader_main_body_info">Écrivez uniquement le corps de void main(). Utilisez textureCoordinate pour les coordonnées UV et inputImageTexture comme échantillonneur source.</string>
     <string name="shader_helper_code">Fonctions</string>
     <string name="shader_helper_code_info">Fonctions d\'assistance, constantes et structures facultatives insérées avant void main(). Les uniformes sont générés à partir des paramètres.</string>
     <string name="shader_no_parameters">Ajoutez des uniformes ici lorsque le shader a besoin de valeurs modifiables.</string>
@@ -2353,18 +2353,18 @@
     <string name="shader_error_blank_name">Le nom du shader ne doit pas être vide.</string>
     <string name="shader_error_blank_source">La source du shader ne doit pas être vide.</string>
     <string name="shader_error_unsupported_characters">La source du shader contient des caractères non pris en charge : %1$s. Utilisez uniquement la source ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Le paramètre \\\"%1$s\\\" est déclaré plusieurs fois.</string>
+    <string name="shader_error_duplicate_parameter">Le paramètre \"%1$s\" est déclaré plusieurs fois.</string>
     <string name="shader_error_blank_parameter_name">Les noms de paramètres ne doivent pas être vides.</string>
-    <string name="shader_error_reserved_parameter_name">Le paramètre \\\"%1$s\\\" utilise un nom GPUImage réservé.</string>
-    <string name="shader_error_invalid_parameter_name">Le paramètre \\\"%1$s\\\" doit être un identifiant GLSL valide.</string>
-    <string name="shader_error_invalid_value_type">Le paramètre \\\"%1$s\\\" a le type de valeur %2$s \\\"%3$s\\\", attendu \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Le paramètre \\\"%1$s\\\" ne peut pas définir min ou max pour les valeurs booléennes.</string>
-    <string name="shader_error_min_greater_than_max">Le paramètre \\\"%1$s\\\" a un minimum supérieur au maximum.</string>
-    <string name="shader_error_default_lower_than_min">Le paramètre \\\"%1$s\\\" par défaut est inférieur au min.</string>
-    <string name="shader_error_default_greater_than_max">Le paramètre \\\"%1$s\\\" par défaut est supérieur au maximum.</string>
-    <string name="shader_error_missing_input_texture">Le shader doit déclarer \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Le shader doit déclarer \\\"varying vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Le shader doit définir \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Le paramètre \"%1$s\" utilise un nom GPUImage réservé.</string>
+    <string name="shader_error_invalid_parameter_name">Le paramètre \"%1$s\" doit être un identifiant GLSL valide.</string>
+    <string name="shader_error_invalid_value_type">Le paramètre \"%1$s\" a le type de valeur %2$s \"%3$s\", attendu \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Le paramètre \"%1$s\" ne peut pas définir min ou max pour les valeurs booléennes.</string>
+    <string name="shader_error_min_greater_than_max">Le paramètre \"%1$s\" a un minimum supérieur au maximum.</string>
+    <string name="shader_error_default_lower_than_min">Le paramètre \"%1$s\" par défaut est inférieur au min.</string>
+    <string name="shader_error_default_greater_than_max">Le paramètre \"%1$s\" par défaut est supérieur au maximum.</string>
+    <string name="shader_error_missing_input_texture">Le shader doit déclarer \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Le shader doit déclarer \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Le shader doit définir \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Le shader doit écrire une couleur dans gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">Les shaders ShaderToy mainImage ne sont pas pris en charge. Utilisez le contrat void main() de GPUImage.</string>
     <string name="shader_error_shadertoy_i_time">L\'uniforme ShaderToy animé « iTime » n\'est pas pris en charge.</string>
@@ -2374,16 +2374,16 @@
     <string name="shader_error_external_textures">Les textures externes ne sont pas prises en charge.</string>
     <string name="shader_error_external_texture_extensions">Les extensions de texture externes ne sont pas prises en charge.</string>
     <string name="shader_error_libretro_parameters">Les paramètres du shader Libretro ne sont pas pris en charge.</string>
-    <string name="shader_error_extra_input_texture">Une seule texture d’entrée est prise en charge. Supprimez \\\"uniforme %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Le paramètre \\\"%1$s\\\" doit être déclaré comme \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Le paramètre \\\"%1$s\\\" est déclaré comme \\\"uniform %2$s %1$s;\\\", attendu \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Une seule texture d’entrée est prise en charge. Supprimez \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Le paramètre \"%1$s\" doit être déclaré comme \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Le paramètre \"%1$s\" est déclaré comme \"uniform %2$s %1$s;\", attendu \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Le fichier shader est vide.</string>
     <string name="shader_parse_error_not_itshader_json">Le fichier shader doit être un objet JSON .itshader avec des champs de version, de nom et de shader.</string>
     <string name="shader_parse_error_invalid_json">Le fichier Shader n\'est pas un JSON valide ou ne correspond pas au format .itshader.</string>
-    <string name="shader_parse_error_missing_field">Le champ \\\"%1$s\\\" est obligatoire.</string>
+    <string name="shader_parse_error_missing_field">Le champ \"%1$s\" est obligatoire.</string>
     <string name="shader_parse_error_missing_param_field">%1$s est requis.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" n\'est pas pris en charge. Types pris en charge : %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s est requis pour les paramètres \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" n\'est pas pris en charge. Types pris en charge : %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s est requis pour les paramètres \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s doit être un nombre fini.</string>
     <string name="shader_parse_error_integer_expected">%1$s doit être un entier.</string>
     <string name="shader_parse_error_bool_expected">%1$s doit être vrai ou faux.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Exporter des profils</string>
     <string name="save_export_profile">Enregistrer le profil actuel</string>
     <string name="delete_export_profile">Supprimer le profil d\'exportation</string>
-    <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \\\"%1$s\\\" ?</string>
+    <string name="delete_export_profile_sub">Voulez-vous supprimer le profil d\'exportation \"%1$s\" ?</string>
     <string name="draw_bitmap_border">Bordure de dessin</string>
     <string name="draw_bitmap_border_sub">Afficher une fine bordure autour de la toile de dessin et d\'effacement</string>
     <string name="wavy">Ondulé</string>

@@ -100,7 +100,7 @@ class AssistantSearchIndex<T>(
 
         private val wordSeparator = Regex("[^\\p{L}\\p{N}]+")
         private val russianEnding =
-            Regex("(?:яйте|айте|ить|ять|ать|иями|ями|ами|ого|ему|ому|ими|ыми|ая|яя|ое|ее|ые|ие|ую|юю|ой|ей|ам|ям|ах|ях|ом|ем|а|я|ы|и|у|ю|е)$")
+            Regex("(?:яйте|айте|ить|ять|ать|иями|ями|ами|ого|ему|ому|ими|ыми|ая|яя|ое|ее|ые|ие|ую|юю|ой|ей|ам|ям|ах|ях|ом|ем|ов|ев|их|ых|а|я|ы|и|у|ю|е)$")
 
         fun normalize(text: String): String = text.lowercase(Locale.ROOT)
             .replace('ё', 'е')
@@ -183,6 +183,7 @@ class AssistantSearchIndex<T>(
             "my",
             "your",
             "please",
+            "several",
             "open",
             "image",
             "images",
@@ -211,6 +212,8 @@ class AssistantSearchIndex<T>(
             "мой",
             "моих",
             "надо",
+            "несколько",
+            "нескольких",
             "где",
             "почему",
             "зачем",

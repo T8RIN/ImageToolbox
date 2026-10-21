@@ -198,6 +198,28 @@ class AssistantSearchIndexTest {
     }
 
     @Test
+    fun pluralFrameQuestionsMatchTimingRatherThanUnrelatedConversionControls() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "create", "Изображения в GIF",
+                    "Измените FPS, чтобы поменять задержку между кадрами. GIF использует ограниченную палитру."
+                ),
+                AssistantSearchIndex.Document(
+                    "convert", "GIF в WebP",
+                    "Настройте качество конвертации GIF в WebP. Проверьте несколько кадров."
+                )
+            )
+        )
+        assertEquals(
+            "create",
+            index.search("Задержка кадров GIF")
+                .first().value
+        )
+        assertEquals(AssistantSearchIndex.tokens("кадры"), AssistantSearchIndex.tokens("кадров"))
+    }
+
+    @Test
     fun ranksTheRequestedSubsetBeforeApplyingTheResultLimit() {
         val documents = listOf(
             AssistantSearchIndex.Document("general", "Remove background", "Remove background"),

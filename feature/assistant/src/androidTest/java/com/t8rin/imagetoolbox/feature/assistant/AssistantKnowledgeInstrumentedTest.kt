@@ -756,7 +756,10 @@ class AssistantKnowledgeInstrumentedTest {
             val request = AssistantRequest(query, language = language)
             val answer = knowledge.retrieve(request)
             assertTrue("$query: $answer", answer.settings.isEmpty())
-            assertTrue("$query: $answer", answer.references.any { it.tipId == "image-opacity" })
+            assertTrue("$query: $answer", answer.references.any {
+                services.helpRepository.getTip(it.tipId)?.deepLink ==
+                        Screen.Filter(Screen.Filter.Type.Basic(filterKey = "opacity"))
+            })
             assertTrue("$query: $answer", answer.tools.any {
                 knowledge.resolveTool(it) == Screen.Filter(Screen.Filter.Type.Basic(filterKey = "opacity"))
             })
@@ -793,10 +796,15 @@ class AssistantKnowledgeInstrumentedTest {
                     Screen.Filter(Screen.Filter.Type.Basic(filterKey = key)),
                     knowledge.resolveTool(checkNotNull(tool))
                 )
+                assertTrue("$query: $answer", answer.references.isNotEmpty())
+                assertTrue("$query: $answer", answer.references.all {
+                    services.helpRepository.getTip(it.tipId)?.deepLink ==
+                            Screen.Filter(Screen.Filter.Type.Basic(filterKey = key))
+                })
                 assertTrue(
                     query,
                     knowledge.grounding(AssistantRequest(query, language = language), answer)
-                        .contains(title)
+                        .contains("Help:\n$title\n")
                 )
             }
         }
@@ -811,6 +819,145 @@ class AssistantKnowledgeInstrumentedTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun everyFilterHasLocalizedHelpForItsConfiguredDestination() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val filters = UiFilter.groups.flatMap { it.filters(canAddTemplates = true) }
+            .associateBy { context.resources.getResourceEntryName(it.title) }
+        filters.forEach { (key, filter) ->
+            val tip = services.helpRepository.getTip("filter-$key")
+            assertTrue("Missing filter help: $key", tip != null)
+            assertEquals(
+                key,
+                Screen.Filter(Screen.Filter.Type.Basic(filterKey = key)),
+                checkNotNull(tip).deepLink
+            )
+            listOf("ru", "en").forEach { language ->
+                val title = services.resources.getStringLocalized(filter.title, language)
+                assertTrue("$key/$language", tip.pages.any { page ->
+                    val description =
+                        services.resources.getStringLocalized(page.description, language)
+                    description.isNotBlank() && description != title
+                })
+            }
+        }
+    }
+
+    @Test
+    fun exactToolAndSettingTitlesDoNotSelectAFilter() = runBlocking {
+        listOf("ru", "en").forEach { language ->
+            val filterToolTitle =
+                services.resources.getStringLocalized(Screen.Filter().title, language)
+            val toolAnswer =
+                knowledge.retrieve(AssistantRequest(filterToolTitle, language = language))
+            assertTrue(
+                toolAnswer.toString(),
+                toolAnswer.tools.any { it.key == Screen.Filter().simpleName })
+            assertTrue(toolAnswer.toString(), toolAnswer.tools.all { it.filterKey == null })
+            listOf(Setting.ContainerShadows, Setting.ColorBlindScheme).forEach { setting ->
+                val title = services.resources.getStringLocalized(setting.title, language)
+                val answer = knowledge.retrieve(AssistantRequest(title, language = language))
+                assertTrue("$title: $answer", answer.settings.any { it.key == setting.key() })
+                assertTrue("$title: $answer", answer.tools.isEmpty())
+            }
+        }
+    }
+
+    @Test
+    fun aFollowUpAboutTheSelectedFilterUsesItsOwnDescription() = runBlocking {
+        listOf(
+            "ru" to "Что делает этот фильтр?",
+            "en" to "What does this filter do?"
+        ).forEach { (language, query) ->
+            val request = AssistantRequest(
+                query,
+                AssistantScreenContext(
+                    toolId = Screen.Filter().id,
+                    parameters = mapOf(
+                        "toolKey" to Screen.Filter().simpleName,
+                        "mode" to services.resources.getStringLocalized(
+                            R.string.full_filter,
+                            language
+                        ),
+                        "filterKey" to "contrast"
+                    )
+                ),
+                language
+            )
+            val answer = knowledge.retrieve(request)
+            assertTrue("$query: $answer", answer.tools.any { it.filterKey == "contrast" })
+            assertTrue("$query: $answer", answer.references.isNotEmpty())
+            assertTrue("$query: $answer", answer.references.all {
+                services.helpRepository.getTip(it.tipId)?.deepLink ==
+                        Screen.Filter(Screen.Filter.Type.Basic(filterKey = "contrast"))
+            })
+            assertTrue("$query: $answer", answer.settings.isEmpty())
+        }
+    }
+
+    @Test
+    fun describedEffectsFindFiltersWithoutKnowingTheirNames() = runBlocking {
+        listOf(
+            "Как убрать пурпурные ореолы?" to setOf("gmic_filter_unpurple"),
+            "How can I remove purple fringes?" to setOf("gmic_filter_unpurple"),
+            "Какой из фильтров убирает пурпурные ореолы?" to setOf("gmic_filter_unpurple"),
+            "Which filters reduce purple fringes?" to setOf("gmic_filter_unpurple"),
+            "Как перенести цвета с другого фото?" to setOf(
+                "palette_transfer",
+                "palette_transfer_variant"
+            ),
+            "How can I transfer colors from another photo?" to setOf(
+                "palette_transfer",
+                "palette_transfer_variant"
+            )
+        ).forEach { (query, expectedKeys) ->
+            val request = AssistantRequest(query)
+            val answer = knowledge.retrieve(request)
+            val tool = answer.tools.firstOrNull { it.filterKey in expectedKeys }
+            assertTrue("$query: $answer", tool != null)
+            val destination = knowledge.resolveTool(checkNotNull(tool))
+            assertEquals(
+                query,
+                Screen.Filter(Screen.Filter.Type.Basic(filterKey = tool.filterKey)),
+                destination
+            )
+            assertTrue("$query: $answer", answer.settings.isEmpty())
+            val reference = answer.references.firstOrNull {
+                services.helpRepository.getTip(it.tipId)?.deepLink == destination
+            }
+            assertTrue("$query: $answer", reference != null)
+            assertTrue(
+                query,
+                knowledge.grounding(request, answer).contains("Help:\n${tool.title}\n")
+            )
+        }
+    }
+
+    @Test
+    fun practicalGenerationQuestionsRetrieveTheExactDocumentedModeAndFilters() = runBlocking {
+        listOf(
+            "Как собрать GIF из нескольких фотографий и настроить задержку кадров?" to
+                    Screen.GifTools(Screen.GifTools.Type.ImageToGif()),
+            "Как затемнить края фото и оставить центр светлым?" to
+                    Screen.Filter(Screen.Filter.Type.Basic(filterKey = "vignette")),
+            "What do radius and sigma do in Gaussian blur?" to
+                    Screen.Filter(Screen.Filter.Type.Basic(filterKey = "gaussian_blur"))
+        ).forEach { (query, destination) ->
+            val request = AssistantRequest(query)
+            val answer = knowledge.retrieve(request)
+            assertTrue(
+                "$query: $answer",
+                answer.tools.any { knowledge.resolveTool(it) == destination })
+            assertTrue("$query: $answer", answer.references.any {
+                services.helpRepository.getTip(it.tipId)?.deepLink == destination
+            })
+            assertTrue("$query: $answer", answer.settings.isEmpty())
+            if (destination is Screen.GifTools) {
+                assertTrue(query, knowledge.grounding(request, answer).contains("FPS"))
+            }
+        }
     }
 
 }

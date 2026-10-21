@@ -361,8 +361,8 @@
     <string name="skip">Hoppa</string>
     <string name="copy">Kopiera</string>
     <string name="warning_bytes">Att spara i läget %1$s kan vara instabilt eftersom det är ett förlustfritt format</string>
-    <string name="presets_sub">Om du har valt förinställning 125, kommer bilden att sparas som 125 % av originalbilden. Om du väljer förinställning 50, kommer bilden att sparas med 50 % storlek</string>
-    <string name="presets_sub_bytes">Förinställning här bestämmer % av utdatafilen, d.v.s. om du väljer förinställning 50 på 5 MB bild så får du en 2,5 MB bild efter att du har sparat</string>
+    <string name="presets_sub" formatted="false">Om du har valt förinställning 125, kommer bilden att sparas som 125 % av originalbilden. Om du väljer förinställning 50, kommer bilden att sparas med 50 % storlek</string>
+    <string name="presets_sub_bytes" formatted="false">Förinställning här bestämmer % av utdatafilen, d.v.s. om du väljer förinställning 50 på 5 MB bild så får du en 2,5 MB bild efter att du har sparat</string>
     <string name="randomize_filename">Randomisera filnamn</string>
     <string name="randomize_filename_sub">Om det är aktiverat kommer filnamnet att vara helt slumpmässigt</string>
     <string name="saved_to">Sparad i mappen %1$s med namnet %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Mild enhetlig brustoning för subtil textur och mjukt utseende.</string>
     <string name="model_repainter">Reparerar skadade eller ojämna områden genom att måla om artefakter och förbättra bildens konsistens.</string>
     <string name="model_debandurh_fs_ultra_lite">Lättviktsmodell som tar bort färgband med minimal prestandakostnad.</string>
-    <string name="model_jpeg_0_20">Optimerar bilder med mycket höga komprimeringsartefakter (0-20 % kvalitet) för förbättrad skärpa.</string>
-    <string name="model_jpeg_20_40">Förbättrar bilder med artefakter med hög komprimering (20-40 % kvalitet), återställer detaljer och minskar brus.</string>
-    <string name="model_jpeg_40_60">Förbättrar bilder med måttlig komprimering (40-60 % kvalitet), balanserar skärpa och jämnhet.</string>
-    <string name="model_jpeg_60_80">Förfinar bilder med lätt komprimering (60-80 % kvalitet) för att förbättra subtila detaljer och texturer.</string>
-    <string name="model_jpeg_80_100">Förbättrar nästan förlustfria bilder något (80-100 % kvalitet) samtidigt som det naturliga utseendet och detaljerna bevaras.</string>
+    <string name="model_jpeg_0_20" formatted="false">Optimerar bilder med mycket höga komprimeringsartefakter (0-20 % kvalitet) för förbättrad skärpa.</string>
+    <string name="model_jpeg_20_40" formatted="false">Förbättrar bilder med artefakter med hög komprimering (20-40 % kvalitet), återställer detaljer och minskar brus.</string>
+    <string name="model_jpeg_40_60" formatted="false">Förbättrar bilder med måttlig komprimering (40-60 % kvalitet), balanserar skärpa och jämnhet.</string>
+    <string name="model_jpeg_60_80" formatted="false">Förfinar bilder med lätt komprimering (60-80 % kvalitet) för att förbättra subtila detaljer och texturer.</string>
+    <string name="model_jpeg_80_100" formatted="false">Förbättrar nästan förlustfria bilder något (80-100 % kvalitet) samtidigt som det naturliga utseendet och detaljerna bevaras.</string>
     <string name="model_spongecolor_lite">Enkel och snabb färgsättning, tecknade serier, inte idealiskt</string>
     <string name="model_deblr">Reducerar bildens oskärpa något, förbättrar skärpan utan att introducera artefakter.</string>
     <string name="processing_channel">Långa operationer</string>
@@ -2135,7 +2135,7 @@
     <string name="grayscale_pdf_sub">Konvertera alla dokumentinbäddade bilder till gråskala</string>
     <string name="compress_pdf">Komprimera PDF</string>
     <string name="compress_pdf_sub">Optimera din dokumentfilstorlek för enklare delning</string>
-    <string name="repair_info">ImageToolbox bygger om den interna korsreferenstabellen och regenererar filstrukturen från början. Detta kan återställa åtkomst till många filer som \\\"inte kan öppnas\\\"</string>
+    <string name="repair_info">ImageToolbox bygger om den interna korsreferenstabellen och regenererar filstrukturen från början. Detta kan återställa åtkomst till många filer som \"inte kan öppnas\"</string>
     <string name="grayscale_info">Detta verktyg konverterar alla dokumentbilder till gråskala. Bäst för att skriva ut och minska filstorleken</string>
     <string name="metadata">Metadata</string>
     <string name="metadata_pdf_sub">Redigera dokumentegenskaper för bättre sekretess</string>
@@ -2353,37 +2353,37 @@
     <string name="shader_error_blank_name">Shadernamn får inte vara tomt.</string>
     <string name="shader_error_blank_source">Shader-källa får inte vara tom.</string>
     <string name="shader_error_unsupported_characters">Shader-källan innehåller tecken som inte stöds: %1$s. Använd endast ASCII GLSL-källa.</string>
-    <string name="shader_error_duplicate_parameter">Parametern \\\"%1$s\\\" deklareras mer än en gång.</string>
+    <string name="shader_error_duplicate_parameter">Parametern \"%1$s\" deklareras mer än en gång.</string>
     <string name="shader_error_blank_parameter_name">Parameternamn får inte vara tomma.</string>
-    <string name="shader_error_reserved_parameter_name">Parametern \\\"%1$s\\\" använder ett reserverat GPUIimage-namn.</string>
-    <string name="shader_error_invalid_parameter_name">Parametern \\\"%1$s\\\" måste vara en giltig GLSL-identifierare.</string>
-    <string name="shader_error_invalid_value_type">Parametern \\\"%1$s\\\" har %2$s värdetypen \\\"%3$s\\\", förväntad \\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Parametern \\\"%1$s\\\" kan inte definiera min eller max för boolvärden.</string>
-    <string name="shader_error_min_greater_than_max">Parametern \\\"%1$s\\\" har min större än max.</string>
-    <string name="shader_error_default_lower_than_min">Parameter \\\"%1$s\\\" standard är lägre än min.</string>
-    <string name="shader_error_default_greater_than_max">Parametern \\\"%1$s\\\" standard är större än max.</string>
-    <string name="shader_error_missing_input_texture">Shader måste deklarera \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader måste deklarera \\\"varierande vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Shader måste definiera \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Parametern \"%1$s\" använder ett reserverat GPUIimage-namn.</string>
+    <string name="shader_error_invalid_parameter_name">Parametern \"%1$s\" måste vara en giltig GLSL-identifierare.</string>
+    <string name="shader_error_invalid_value_type">Parametern \"%1$s\" har %2$s värdetypen \"%3$s\", förväntad \"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Parametern \"%1$s\" kan inte definiera min eller max för boolvärden.</string>
+    <string name="shader_error_min_greater_than_max">Parametern \"%1$s\" har min större än max.</string>
+    <string name="shader_error_default_lower_than_min">Parameter \"%1$s\" standard är lägre än min.</string>
+    <string name="shader_error_default_greater_than_max">Parametern \"%1$s\" standard är större än max.</string>
+    <string name="shader_error_missing_input_texture">Shader måste deklarera \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader måste deklarera \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Shader måste definiera \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader måste skriva en färg till gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shaders stöds inte. Använd GPUImages void main()-kontrakt.</string>
-    <string name="shader_error_shadertoy_i_time">Animerad ShaderToy-uniform \\\"iTime\\\" stöds inte.</string>
-    <string name="shader_error_shadertoy_i_frame">Animerad ShaderToy-uniform \\\"iFrame\\\" stöds inte.</string>
-    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \\\"iResolution\\\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_time">Animerad ShaderToy-uniform \"iTime\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_frame">Animerad ShaderToy-uniform \"iFrame\" stöds inte.</string>
+    <string name="shader_error_shadertoy_i_resolution">ShaderToy uniform \"iResolution\" stöds inte.</string>
     <string name="shader_error_shadertoy_i_channel">ShaderToy iChannel-texturer stöds inte.</string>
     <string name="shader_error_external_textures">Externa texturer stöds inte.</string>
     <string name="shader_error_external_texture_extensions">Externa texturtillägg stöds inte.</string>
     <string name="shader_error_libretro_parameters">Libretro-skuggningsparametrar stöds inte.</string>
-    <string name="shader_error_extra_input_texture">Endast en inmatningstextur stöds. Ta bort \\\"uniform %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Parametern \\\"%1$s\\\" måste deklareras som \\\"uniform %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Parametern \\\"%1$s\\\" deklareras som \\\"uniform %2$s %1$s;\\\", förväntad \\\"uniform %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Endast en inmatningstextur stöds. Ta bort \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Parametern \"%1$s\" måste deklareras som \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Parametern \"%1$s\" deklareras som \"uniform %2$s %1$s;\", förväntad \"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Shader-filen är tom.</string>
     <string name="shader_parse_error_not_itshader_json">Shader-filen måste vara ett .itshader JSON-objekt med version, namn och shader-fält.</string>
     <string name="shader_parse_error_invalid_json">Shader-filen är inte giltig JSON eller matchar inte .itshader-formatet.</string>
-    <string name="shader_parse_error_missing_field">Fält \\\"%1$s\\\" är obligatoriskt.</string>
+    <string name="shader_parse_error_missing_field">Fält \"%1$s\" är obligatoriskt.</string>
     <string name="shader_parse_error_missing_param_field">%1$s krävs.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" stöds inte. Typer som stöds: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s krävs för parametrarna \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" stöds inte. Typer som stöds: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s krävs för parametrarna \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s måste vara ett ändligt tal.</string>
     <string name="shader_parse_error_integer_expected">%1$s måste vara ett heltal.</string>
     <string name="shader_parse_error_bool_expected">%1$s måste vara sant eller falskt.</string>
@@ -3275,7 +3275,7 @@
     <string name="export_profiles">Exportera profiler</string>
     <string name="save_export_profile">Spara aktuell profil</string>
     <string name="delete_export_profile">Ta bort exportprofil</string>
-    <string name="delete_export_profile_sub">Vill du ta bort exportprofilen \\\"%1$s\\\"?</string>
+    <string name="delete_export_profile_sub">Vill du ta bort exportprofilen \"%1$s\"?</string>
     <string name="draw_bitmap_border">Rita kant</string>
     <string name="draw_bitmap_border_sub">Visa en tunn ram runt ritnings- och raderingsduken</string>
     <string name="wavy">Vågig</string>

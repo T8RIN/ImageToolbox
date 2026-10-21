@@ -307,7 +307,7 @@
     <string name="copy">Sao chép</string>
     <string name="warning_bytes">Việc lưu ở chế độ %1$s có thể không ổn định vì đây là định dạng không mất dữ liệu</string>
     <string name="presets_sub" formatted="false">Nếu bạn đã chọn thiết đặt trước 125, ảnh sẽ được lưu ở kích thước 125% của ảnh gốc với chất lượng 100%. Nếu bạn chọn thiết đặt trước 50 thì ảnh sẽ được lưu với kích thước 50% và chất lượng 50%.</string>
-    <string name="presets_sub_bytes">Thiết đặt trước ở đây xác định % của file đầu ra, tức là nếu bạn chọn thiết đặt trước 50 trên ảnh 5mb thì sau khi lưu bạn sẽ nhận được ảnh 2,5mb</string>
+    <string name="presets_sub_bytes" formatted="false">Thiết đặt trước ở đây xác định % của file đầu ra, tức là nếu bạn chọn thiết đặt trước 50 trên ảnh 5mb thì sau khi lưu bạn sẽ nhận được ảnh 2,5mb</string>
     <string name="randomize_filename">Chọn ngẫu nhiên tên tệp</string>
     <string name="randomize_filename_sub">Nếu được bật, tên tệp đầu ra sẽ hoàn toàn ngẫu nhiên</string>
     <string name="saved_to">Đã lưu vào thư mục %1$s có tên %2$s</string>
@@ -1952,11 +1952,11 @@
     <string name="model_noise_toner_uniform_soft">Giảm tiếng ồn đồng đều nhẹ nhàng cho kết cấu tinh tế và vẻ ngoài mịn màng.</string>
     <string name="model_repainter">Sửa chữa các khu vực bị hư hỏng hoặc không bằng phẳng bằng cách sơn lại các đồ tạo tác và cải thiện tính nhất quán của hình ảnh.</string>
     <string name="model_debandurh_fs_ultra_lite">Mô hình tháo gỡ nhẹ giúp loại bỏ dải màu với chi phí hiệu suất tối thiểu.</string>
-    <string name="model_jpeg_0_20">Tối ưu hóa hình ảnh có độ nén rất cao (chất lượng 0-20%) để cải thiện độ rõ nét.</string>
-    <string name="model_jpeg_20_40">Nâng cao hình ảnh với các tạo tác nén cao (chất lượng 20-40%), khôi phục chi tiết và giảm nhiễu.</string>
-    <string name="model_jpeg_40_60">Cải thiện hình ảnh với độ nén vừa phải (chất lượng 40-60%), cân bằng độ sắc nét và mượt mà.</string>
-    <string name="model_jpeg_60_80">Tinh chỉnh hình ảnh bằng cách nén nhẹ (chất lượng 60-80%) để nâng cao các chi tiết và kết cấu tinh tế.</string>
-    <string name="model_jpeg_80_100">Tăng cường một chút hình ảnh gần như không bị mất chất lượng (chất lượng 80-100%) trong khi vẫn giữ được vẻ tự nhiên và chi tiết.</string>
+    <string name="model_jpeg_0_20" formatted="false">Tối ưu hóa hình ảnh có độ nén rất cao (chất lượng 0-20%) để cải thiện độ rõ nét.</string>
+    <string name="model_jpeg_20_40" formatted="false">Nâng cao hình ảnh với các tạo tác nén cao (chất lượng 20-40%), khôi phục chi tiết và giảm nhiễu.</string>
+    <string name="model_jpeg_40_60" formatted="false">Cải thiện hình ảnh với độ nén vừa phải (chất lượng 40-60%), cân bằng độ sắc nét và mượt mà.</string>
+    <string name="model_jpeg_60_80" formatted="false">Tinh chỉnh hình ảnh bằng cách nén nhẹ (chất lượng 60-80%) để nâng cao các chi tiết và kết cấu tinh tế.</string>
+    <string name="model_jpeg_80_100" formatted="false">Tăng cường một chút hình ảnh gần như không bị mất chất lượng (chất lượng 80-100%) trong khi vẫn giữ được vẻ tự nhiên và chi tiết.</string>
     <string name="model_spongecolor_lite">Tô màu đơn giản và nhanh chóng, phim hoạt hình, không lý tưởng</string>
     <string name="model_deblr">Giảm nhẹ độ mờ của hình ảnh, cải thiện độ sắc nét mà không gây hiện tượng giả tạo.</string>
     <string name="processing_channel">Hoạt động chạy dài</string>
@@ -2134,7 +2134,7 @@
     <string name="grayscale_pdf_sub">Chuyển đổi tất cả các hình ảnh được nhúng trong tài liệu sang thang độ xám</string>
     <string name="compress_pdf">Nén PDF</string>
     <string name="compress_pdf_sub">Tối ưu hóa kích thước tệp tài liệu của bạn để chia sẻ dễ dàng hơn</string>
-    <string name="repair_info">ImageToolbox xây dựng lại bảng tham chiếu chéo nội bộ và tạo lại cấu trúc tệp từ đầu. Điều này có thể khôi phục quyền truy cập vào nhiều tệp \\\"không thể mở được\\\"</string>
+    <string name="repair_info">ImageToolbox xây dựng lại bảng tham chiếu chéo nội bộ và tạo lại cấu trúc tệp từ đầu. Điều này có thể khôi phục quyền truy cập vào nhiều tệp \"không thể mở được\"</string>
     <string name="grayscale_info">Công cụ này chuyển đổi tất cả hình ảnh tài liệu sang thang độ xám. Tốt nhất để in và giảm kích thước tập tin</string>
     <string name="metadata">Siêu dữ liệu</string>
     <string name="metadata_pdf_sub">Chỉnh sửa thuộc tính tài liệu để bảo mật tốt hơn</string>
@@ -2341,7 +2341,7 @@
     <string name="itshader_json">.itshader JSON</string>
     <string name="shader_params_count">%1$d thông số</string>
     <string name="shader_source">Nguồn đổ bóng</string>
-    <string name="shader_main_body_info">Chỉ viết phần thân của void main(). Sử dụng textCoordine cho tọa độ UV và inputImageTexture làm bộ lấy mẫu nguồn.</string>
+    <string name="shader_main_body_info">Chỉ viết phần thân của void main(). Sử dụng textureCoordinate cho tọa độ UV và inputImageTexture làm bộ lấy mẫu nguồn.</string>
     <string name="shader_helper_code">Chức năng</string>
     <string name="shader_helper_code_info">Các hàm trợ giúp, hằng số và cấu trúc tùy chọn được chèn trước void main(). Đồng phục được tạo từ params.</string>
     <string name="shader_no_parameters">Thêm đồng phục vào đây khi trình đổ bóng cần các giá trị có thể chỉnh sửa.</string>
@@ -2352,37 +2352,37 @@
     <string name="shader_error_blank_name">Tên shader không được để trống.</string>
     <string name="shader_error_blank_source">Nguồn Shader không được để trống.</string>
     <string name="shader_error_unsupported_characters">Nguồn trình đổ bóng chứa các ký tự không được hỗ trợ: %1$s. Chỉ sử dụng nguồn ASCII GLSL.</string>
-    <string name="shader_error_duplicate_parameter">Tham số \\\"%1$s\\\" được khai báo nhiều lần.</string>
+    <string name="shader_error_duplicate_parameter">Tham số \"%1$s\" được khai báo nhiều lần.</string>
     <string name="shader_error_blank_parameter_name">Tên thông số không được để trống.</string>
-    <string name="shader_error_reserved_parameter_name">Tham số \\\"%1$s\\\" sử dụng tên GPUImage dành riêng.</string>
-    <string name="shader_error_invalid_parameter_name">Tham số \\\"%1$s\\\" phải là mã định danh GLSL hợp lệ.</string>
-    <string name="shader_error_invalid_value_type">Tham số \\\"%1$s\\\" có loại giá trị %2$s \\\"%3$s\\\", dự kiến ​​\\\"%4$s\\\".</string>
-    <string name="shader_error_bool_bounds">Tham số \\\"%1$s\\\" không thể xác định giá trị tối thiểu hoặc tối đa cho các giá trị bool.</string>
-    <string name="shader_error_min_greater_than_max">Tham số \\\"%1$s\\\" có giá trị tối thiểu lớn hơn tối đa.</string>
-    <string name="shader_error_default_lower_than_min">Thông số \\\"%1$s\\\" mặc định thấp hơn giá trị tối thiểu.</string>
-    <string name="shader_error_default_greater_than_max">Thông số \\\"%1$s\\\" mặc định lớn hơn giá trị tối đa.</string>
-    <string name="shader_error_missing_input_texture">Shader phải khai báo \\\"uniform sampler2D %1$s;\\\".</string>
-    <string name="shader_error_missing_texture_coordinate">Shader phải khai báo \\\"thay đổi vec2 %1$s;\\\".</string>
-    <string name="shader_error_missing_main_function">Trình đổ bóng phải xác định \\\"void main()\\\".</string>
+    <string name="shader_error_reserved_parameter_name">Tham số \"%1$s\" sử dụng tên GPUImage dành riêng.</string>
+    <string name="shader_error_invalid_parameter_name">Tham số \"%1$s\" phải là mã định danh GLSL hợp lệ.</string>
+    <string name="shader_error_invalid_value_type">Tham số \"%1$s\" có loại giá trị %2$s \"%3$s\", dự kiến ​​\"%4$s\".</string>
+    <string name="shader_error_bool_bounds">Tham số \"%1$s\" không thể xác định giá trị tối thiểu hoặc tối đa cho các giá trị bool.</string>
+    <string name="shader_error_min_greater_than_max">Tham số \"%1$s\" có giá trị tối thiểu lớn hơn tối đa.</string>
+    <string name="shader_error_default_lower_than_min">Thông số \"%1$s\" mặc định thấp hơn giá trị tối thiểu.</string>
+    <string name="shader_error_default_greater_than_max">Thông số \"%1$s\" mặc định lớn hơn giá trị tối đa.</string>
+    <string name="shader_error_missing_input_texture">Shader phải khai báo \"uniform sampler2D %1$s;\".</string>
+    <string name="shader_error_missing_texture_coordinate">Shader phải khai báo \"varying vec2 %1$s;\".</string>
+    <string name="shader_error_missing_main_function">Trình đổ bóng phải xác định \"void main()\".</string>
     <string name="shader_error_missing_fragment_color">Shader phải ghi màu vào gl_FragColor.</string>
     <string name="shader_error_shadertoy_main_image">ShaderToy mainImage shader không được hỗ trợ. Sử dụng hợp đồng void main() của GPUImage</string>
-    <string name="shader_error_shadertoy_i_time">Đồng phục ShaderToy hoạt hình \\\"iTime\\\" không được hỗ trợ.</string>
-    <string name="shader_error_shadertoy_i_frame">Đồng phục ShaderToy hoạt hình \\\"iFrame\\\" không được hỗ trợ.</string>
-    <string name="shader_error_shadertoy_i_resolution">Đồng phục ShaderToy \\\"iResolution\\\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_i_time">Đồng phục ShaderToy hoạt hình \"iTime\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_i_frame">Đồng phục ShaderToy hoạt hình \"iFrame\" không được hỗ trợ.</string>
+    <string name="shader_error_shadertoy_i_resolution">Đồng phục ShaderToy \"iResolution\" không được hỗ trợ.</string>
     <string name="shader_error_shadertoy_i_channel">Kết cấu ShaderToy iChannel không được hỗ trợ.</string>
     <string name="shader_error_external_textures">Kết cấu bên ngoài không được hỗ trợ.</string>
     <string name="shader_error_external_texture_extensions">Phần mở rộng kết cấu bên ngoài không được hỗ trợ.</string>
     <string name="shader_error_libretro_parameters">Các tham số của trình đổ bóng Libretro không được hỗ trợ.</string>
-    <string name="shader_error_extra_input_texture">Chỉ có một kết cấu đầu vào được hỗ trợ. Xóa \\\"đồng phục %1$s %2$s;\\\".</string>
-    <string name="shader_error_missing_uniform">Tham số \\\"%1$s\\\" phải được khai báo là \\\"đồng nhất %2$s %1$s;\\\".</string>
-    <string name="shader_error_wrong_uniform_type">Tham số \\\"%1$s\\\" được khai báo là \\\"đồng nhất %2$s %1$s;\\\", dự kiến ​​\\\"đồng nhất %3$s %1$s;\\\".</string>
+    <string name="shader_error_extra_input_texture">Chỉ có một kết cấu đầu vào được hỗ trợ. Xóa \"uniform %1$s %2$s;\".</string>
+    <string name="shader_error_missing_uniform">Tham số \"%1$s\" phải được khai báo là \"uniform %2$s %1$s;\".</string>
+    <string name="shader_error_wrong_uniform_type">Tham số \"%1$s\" được khai báo là \"uniform %2$s %1$s;\", dự kiến ​​\"uniform %3$s %1$s;\".</string>
     <string name="shader_parse_error_empty_file">Tệp Shader trống.</string>
     <string name="shader_parse_error_not_itshader_json">Tệp Shader phải là đối tượng JSON .itshader có các trường phiên bản, tên và shader.</string>
     <string name="shader_parse_error_invalid_json">Tệp Shader không phải là JSON hợp lệ hoặc không khớp với định dạng .itshader.</string>
-    <string name="shader_parse_error_missing_field">Trường \\\"%1$s\\\" là bắt buộc.</string>
+    <string name="shader_parse_error_missing_field">Trường \"%1$s\" là bắt buộc.</string>
     <string name="shader_parse_error_missing_param_field">%1$s là bắt buộc.</string>
-    <string name="shader_parse_error_unsupported_param_type">%1$s \\\"%2$s\\\" không được hỗ trợ. Các loại được hỗ trợ: %3$s.</string>
-    <string name="shader_parse_error_missing_value">%1$s là bắt buộc đối với tham số \\\"%2$s\\\".</string>
+    <string name="shader_parse_error_unsupported_param_type">%1$s \"%2$s\" không được hỗ trợ. Các loại được hỗ trợ: %3$s.</string>
+    <string name="shader_parse_error_missing_value">%1$s là bắt buộc đối với tham số \"%2$s\".</string>
     <string name="shader_parse_error_finite_number_expected">%1$s phải là số hữu hạn.</string>
     <string name="shader_parse_error_integer_expected">%1$s phải là số nguyên.</string>
     <string name="shader_parse_error_bool_expected">%1$s phải đúng hoặc sai.</string>
@@ -3274,7 +3274,7 @@
     <string name="export_profiles">Xuất hồ sơ</string>
     <string name="save_export_profile">Lưu hồ sơ hiện tại</string>
     <string name="delete_export_profile">Xóa hồ sơ xuất</string>
-    <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \\\"%1$s\\\" không?</string>
+    <string name="delete_export_profile_sub">Bạn có muốn xóa hồ sơ xuất \"%1$s\" không?</string>
     <string name="draw_bitmap_border">Vẽ đường viền</string>
     <string name="draw_bitmap_border_sub">Hiển thị đường viền mỏng xung quanh bản vẽ và xóa canvas</string>
     <string name="wavy">Lượn sóng</string>
@@ -5466,7 +5466,7 @@
     <string name="lama_model_link">Tải xuống mô hình LaMa</string>
     <string name="only_lama_onnx_model">Chỉ có thể nhập các mô hình .onnx LaMa</string>
     <string name="delete_lama_model_sub">Xóa mô hình LaMa? Bạn có thể tải xuống hoặc nhập lại sau</string>
-    <string name="crop_preset_summary">Lề: trái %1$d%%, trên cùng %2$d_%%, phải %3$dPH_5__, dưới %4$d%%</string>
+    <string name="crop_preset_summary">Lề: trái %1$d%%, trên cùng %2$d%%, phải %3$d%%, dưới %4$d%%</string>
     <string name="crop_presets">Cắt cài đặt trước</string>
     <string name="crop_presets_sub">Lưu hoặc sử dụng lại giới hạn cắt</string>
     <string name="save_crop_preset">Lưu cài đặt trước cắt xén hiện tại</string>
@@ -5559,7 +5559,7 @@
     <string name="gallery_search_category_remove_reference">Xóa ảnh tham chiếu</string>
     <string name="gallery_search_category_text_threshold">Sự tương đồng với mô tả</string>
     <string name="gallery_search_category_image_threshold">Sự tương đồng với hình ảnh tham khảo</string>
-    <string name="gallery_search_category_thresholds">Mô tả: %1$d%% · Ảnh: %2$d_PH_3__</string>
+    <string name="gallery_search_category_thresholds">Mô tả: %1$d%% · Ảnh: %2$d%%</string>
     <string name="gallery_search_category_preview">Xem trước</string>
     <string name="gallery_search_category_preview_count">Các ảnh phù hợp: %1$d</string>
     <string name="gallery_search_category_preview_no_matches">Không có trận đấu nào. Hãy thử một ngưỡng thấp hơn.</string>
@@ -5575,7 +5575,7 @@
     <string name="gallery_search_category_name_exists">Một danh mục có tên này đã tồn tại</string>
     <string name="gallery_search_builtin_category_description">Điều chỉnh ảnh nào sẽ xuất hiện trong danh mục này.</string>
     <string name="gallery_search_threshold">Ngưỡng tương tự</string>
-    <string name="gallery_search_threshold_value">Ngưỡng tương tự: %1$d_PH_1__</string>
+    <string name="gallery_search_threshold_value">Ngưỡng tương tự: %1$d%%</string>
     <string name="gallery_search_text_threshold">Tìm kiếm theo mô tả</string>
     <string name="gallery_search_image_threshold">Tìm kiếm bằng ảnh</string>
     <string name="gallery_search_threshold_description">Hãy nâng ngưỡng nếu xuất hiện quá nhiều ảnh không liên quan. Hạ thấp nó nếu thiếu ảnh liên quan. Những thay đổi áp dụng cho ảnh đã chuẩn bị; tìm kiếm tên tập tin không thay đổi.</string>

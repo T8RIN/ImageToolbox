@@ -381,14 +381,20 @@ internal sealed interface NavigationChild {
 
     class Filter(private val component: FiltersComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = when (val type = component.filterType) {
-            is Screen.Filter.Type.Basic -> Screen.Assistant(
-                source = Screen.Filter(Screen.Filter.Type.Basic(component.basicFilterState.uris)),
-                parameters = mapOf(
+            is Screen.Filter.Type.Basic -> {
+                val state = component.basicFilterState
+                val filterKey = state.filters.singleOrNull()?.let {
+                    appContext.resources.getResourceEntryName(it.title)
+                }
+                Screen.Filter(Screen.Filter.Type.Basic(state.uris, filterKey)).assistantScreen(
+                    state.uris,
                     "mode" to appContext.getString(type.title),
-                    "filterCount" to component.basicFilterState.filters.size.toString()
-                ),
-                selectedUris = component.basicFilterState.uris.orEmpty()
-            )
+                    "filterCount" to state.filters.size,
+                    "filterNames" to state.filters.take(3)
+                        .joinToString { appContext.getString(it.title) },
+                    "filterKey" to filterKey
+                )
+            }
 
             is Screen.Filter.Type.Masking -> Screen.Assistant(
                 source = Screen.Filter(Screen.Filter.Type.Masking(component.maskingFilterState.uri)),
