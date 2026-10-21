@@ -63,6 +63,12 @@ class AssistantNavigationInstrumentedTest {
             Screen.Filter(Screen.Filter.Type.Masking(images.first())),
             Screen.Filter(Screen.Filter.Type.Masking()).withSelectedUris(images, null)
         )
+        val opacity = Screen.Filter(Screen.Filter.Type.Basic(filterKey = "opacity"))
+        assertEquals(
+            Screen.Filter(Screen.Filter.Type.Basic(images, filterKey = "opacity")),
+            opacity.withSelectedUris(images, null)
+        )
+        assertEquals(opacity, opacity.withSelectedUris(emptyList(), null))
         assertFalse(single.screensFor(null).any {
             it is Screen.RecognizeText && it.type is Screen.RecognizeText.Type.WriteToSearchablePdf
         })

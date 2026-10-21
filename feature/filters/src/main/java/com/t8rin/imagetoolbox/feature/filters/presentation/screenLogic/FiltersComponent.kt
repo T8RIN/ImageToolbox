@@ -80,6 +80,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.scaleToFitCanvas
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.filters.domain.FilterMaskApplier
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.BasicFilterState
@@ -128,6 +129,12 @@ class FiltersComponent @AssistedInject internal constructor(
     init {
         debounce {
             initialType?.let(::setType)
+            (initialType as? Screen.Filter.Type.Basic)?.filterKey?.let { key ->
+                UiFilter.groups.asSequence()
+                    .flatMap { it.filters(canAddTemplates = true).asSequence() }
+                    .firstOrNull { appContext.resources.getResourceEntryName(it.title) == key }
+                    ?.let(::addFilterNewInstance)
+            }
         }
     }
 

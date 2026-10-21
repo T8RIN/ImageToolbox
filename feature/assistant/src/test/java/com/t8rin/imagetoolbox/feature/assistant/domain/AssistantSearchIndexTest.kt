@@ -126,6 +126,78 @@ class AssistantSearchIndexTest {
     }
 
     @Test
+    fun matchesRussianCasesWithoutDroppingTheSubjectOfAQuestion() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "dates", "Сохраняйте дату и время", "Очистка EXIF позволяет сохранять даты"
+                ),
+                AssistantSearchIndex.Document(
+                    "hash", "Контрольная сумма", "Рассчитать хэш файла"
+                )
+            )
+        )
+        assertEquals("dates", index.search("Можно сохранить дату при очистке EXIF?").first().value)
+        assertEquals("hash", index.search("Как рассчитать контрольную сумму файла?").first().value)
+    }
+
+    @Test
+    fun englishWordPrefixesDoNotTurnChecksumsIntoChecks() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "pdf",
+                    "Compare PDF",
+                    "Check the pages and compare versions"
+                ),
+                AssistantSearchIndex.Document(
+                    "hash",
+                    "Checksum tools",
+                    "Compare a checksum to a known value"
+                ),
+                AssistantSearchIndex.Document("compress", "Compression", "Compress photos")
+            )
+        )
+        assertEquals("hash", index.search("How do I compare checksums?").first().value)
+        assertTrue(index.search("checksums") { it == "pdf" }.isEmpty())
+        assertEquals("compress", index.search("compressed").first().value)
+        assertTrue(index.search("Why are there ions?").isEmpty())
+    }
+
+    @Test
+    fun matchesCommonEnglishEditingForms() {
+        listOf(
+            "crop" to "cropping",
+            "resize" to "resizing",
+            "rotate" to "rotation",
+            "rotate" to "rotating",
+            "convert" to "conversion",
+            "date" to "dates",
+            "save" to "saving"
+        ).forEach { (title, query) ->
+            val index =
+                AssistantSearchIndex(listOf(AssistantSearchIndex.Document(title, title, title)))
+            assertEquals(query, title, index.search(query).single().value)
+        }
+    }
+
+    @Test
+    fun aLongerRussianWordDoesNotMatchAnUnrelatedShorterRoot() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "search", "Поиск по фото", "Подготовка модели занимает время. Выберите язык."
+                )
+            )
+        )
+        assertTrue(
+            index.search("От чего зависит время до первого токена языковой модели?").isEmpty()
+        )
+        assertTrue(index.search("языковой").isEmpty())
+        assertEquals("search", index.search("язык").single().value)
+    }
+
+    @Test
     fun ranksTheRequestedSubsetBeforeApplyingTheResultLimit() {
         val documents = listOf(
             AssistantSearchIndex.Document("general", "Remove background", "Remove background"),

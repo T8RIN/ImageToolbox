@@ -99,6 +99,8 @@ class AssistantSearchIndex<T>(
         private const val MIN_PREFIX_LENGTH = 4
 
         private val wordSeparator = Regex("[^\\p{L}\\p{N}]+")
+        private val russianEnding =
+            Regex("(?:яйте|айте|ить|ять|ать|иями|ями|ами|ого|ему|ому|ими|ыми|ая|яя|ое|ее|ые|ие|ую|юю|ой|ей|ам|ям|ах|ях|ом|ем|а|я|ы|и|у|ю|е)$")
 
         fun normalize(text: String): String = text.lowercase(Locale.ROOT)
             .replace('ё', 'е')
@@ -107,10 +109,37 @@ class AssistantSearchIndex<T>(
 
         fun tokens(text: String): List<String> = normalize(text).split(' ')
             .filter { it.length > 1 && it !in stopWords }
+            .map { word ->
+                if (word.all { it in 'а'..'я' }) {
+                    word.replace(russianEnding, "").takeIf { it.length >= 3 } ?: word
+                } else if (word.all { it in 'a'..'z' }) englishRoot(word) else word
+            }
+
+        private fun englishRoot(word: String): String {
+            var root = when {
+                word.endsWith("ies") -> word.dropLast(3) + "y"
+                listOf("ches", "shes", "xes", "zes", "sses").any(word::endsWith) -> word.dropLast(2)
+                word.endsWith('s') && !word.endsWith("ss") -> word.dropLast(1)
+                else -> word
+            }
+            root = when {
+                root == "conversion" -> "convert"
+                root.endsWith("ion") -> root.dropLast(3)
+                root.endsWith("ing") || root.endsWith("ed") -> {
+                    val base = root.dropLast(if (root.endsWith("ing")) 3 else 2)
+                    if (base.length > 2 && base.last() in "bdfgmnpt" && base.last() == base[base.lastIndex - 1]) {
+                        base.dropLast(1)
+                    } else base
+                }
+
+                else -> root
+            }
+            return root.removeSuffix("e").takeIf { it.length >= 3 } ?: word
+        }
 
         private fun matches(query: String, word: String): Boolean =
             query == word || minOf(query.length, word.length) >= MIN_PREFIX_LENGTH &&
-                    (word.startsWith(query) || query.startsWith(word))
+                    (query.any { it !in 'a'..'z' } || word.any { it !in 'a'..'z' }) && word.startsWith(query)
 
         private val stopWords = setOf(
             "the",
@@ -130,6 +159,8 @@ class AssistantSearchIndex<T>(
             "tell",
             "about",
             "where",
+            "why",
+            "when",
             "show",
             "find",
             "want",
@@ -181,6 +212,8 @@ class AssistantSearchIndex<T>(
             "моих",
             "надо",
             "где",
+            "почему",
+            "зачем",
             "чтобы",
             "какой",
             "какая",

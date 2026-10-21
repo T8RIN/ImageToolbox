@@ -28,5 +28,6 @@ dependencies {
     implementation(libs.commonmark)
     implementation(libs.kotlinx.serialization.json)
     implementation(projects.feature.help)
+    implementation(projects.core.filters)
     implementation(projects.lib.neuralTools)
 }

@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.assistant.presentation
 
 import android.view.WindowManager
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +41,7 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -463,7 +465,11 @@ private fun AssistantConversation(
     }
     Box(modifier) {
         if (loading && component.messages.isEmpty()) {
-            EnhancedLoadingIndicator(Modifier.align(Alignment.Center))
+            EnhancedLoadingIndicator(
+                Modifier
+                    .align(Alignment.Center)
+                    .sizeIn(maxWidth = 76.dp, maxHeight = 76.dp)
+            )
         } else if (component.messages.isEmpty()) {
             AssistantPlaceholder(
                 enabled = component.enabled,
@@ -517,12 +523,14 @@ private fun AssistantConversation(
                 )
             }
         }
-        if (component.messages.isNotEmpty() && showLatest) {
+        AnimatedVisibility(
+            visible = component.messages.isNotEmpty() && showLatest,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(12.dp),
+        ) {
             EnhancedFloatingActionButton(
                 onClick = onLatest,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(12.dp),
                 type = EnhancedFloatingActionButtonType.Small,
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer
             ) {

@@ -380,11 +380,11 @@ internal sealed interface NavigationChild {
     }
 
     class Filter(private val component: FiltersComponent) : NavigationChild {
-        override fun assistantScreen(source: Screen?) = when (component.filterType) {
+        override fun assistantScreen(source: Screen?) = when (val type = component.filterType) {
             is Screen.Filter.Type.Basic -> Screen.Assistant(
                 source = Screen.Filter(Screen.Filter.Type.Basic(component.basicFilterState.uris)),
                 parameters = mapOf(
-                    "mode" to "basic",
+                    "mode" to appContext.getString(type.title),
                     "filterCount" to component.basicFilterState.filters.size.toString()
                 ),
                 selectedUris = component.basicFilterState.uris.orEmpty()
@@ -393,7 +393,7 @@ internal sealed interface NavigationChild {
             is Screen.Filter.Type.Masking -> Screen.Assistant(
                 source = Screen.Filter(Screen.Filter.Type.Masking(component.maskingFilterState.uri)),
                 parameters = mapOf(
-                    "mode" to "masking",
+                    "mode" to appContext.getString(type.title),
                     "filterCount" to component.maskingFilterState.masks.size.toString()
                 ),
                 selectedUris = listOfNotNull(component.maskingFilterState.uri)
@@ -686,16 +686,10 @@ internal sealed interface NavigationChild {
     }
 
     class RecognizeText(private val component: RecognizeTextComponent) : NavigationChild {
-        override fun assistantScreen(source: Screen?) = Screen.Assistant(
-            source = Screen.RecognizeText(component.type),
-            parameters = when (component.type) {
-                is Screen.RecognizeText.Type.Extraction -> mapOf("mode" to "extract")
-                is Screen.RecognizeText.Type.WriteToFile -> mapOf("mode" to "text_file")
-                is Screen.RecognizeText.Type.WriteToMetadata -> mapOf("mode" to "metadata")
-                is Screen.RecognizeText.Type.WriteToSearchablePdf -> mapOf("mode" to "searchable_pdf")
-                null -> emptyMap()
-            },
-            selectedUris = component.uris.ifEmpty { listOfNotNull(component.currentImageUri) }
+        override fun assistantScreen(source: Screen?) =
+            Screen.RecognizeText(component.type).assistantScreen(
+                component.uris.ifEmpty { listOfNotNull(component.currentImageUri) },
+                "mode" to component.type?.title?.let(appContext::getString)
         )
 
         @Composable

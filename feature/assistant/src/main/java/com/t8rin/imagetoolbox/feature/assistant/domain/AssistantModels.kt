@@ -47,7 +47,8 @@ data class AssistantTool(
     val key: String,
     val title: String,
     val subtitle: String,
-    val helpTipId: String? = null
+    val helpTipId: String? = null,
+    val filterKey: String? = null
 )
 
 @Serializable

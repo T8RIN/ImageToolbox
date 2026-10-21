@@ -182,6 +182,80 @@ class AssistantGenerationInstrumentedTest {
     }
 
     @Test
+    fun modelsExplainExpandedHelp() = runBlocking {
+        val models = AssistantModels()
+        assumeTrue(models.installations().all { it.installed })
+        val selectedCases = InstrumentationRegistry.getArguments()
+            .getString("assistantCases")?.split(',')
+        val selectedModels = InstrumentationRegistry.getArguments()
+            .getString("assistantModels")?.split(',')
+        val variants =
+            AssistantModel.entries.filter { selectedModels == null || it.id in selectedModels }
+        assertTrue("No requested models were found", variants.isNotEmpty())
+        val requests = listOf(
+            "gif_frames" to AssistantRequest("Как собрать GIF из нескольких фотографий и настроить задержку кадров?"),
+            "flatten_pdf" to AssistantRequest("What does Flatten PDF change? Will the text stay selectable?"),
+            "exif_date" to AssistantRequest("Почему при очистке EXIF нельзя сохранить дату?"),
+            "cache_limit" to AssistantRequest("How do I clear the cache automatically when it gets too large?"),
+            "photo_opacity" to AssistantRequest("как изменить прозрачность у фото?"),
+            "interface_shadows" to AssistantRequest("как выключить тени")
+        ).filter { selectedCases == null || it.first in selectedCases }
+        assertTrue("No requested generation cases were found", requests.isNotEmpty())
+        val report = JSONArray()
+        try {
+            variants.forEach { variant ->
+                requests.forEach { fixture ->
+                    val record = JSONObject().put("variant", variant.id).put("case", fixture.first)
+                    report.put(record)
+                    val started = System.nanoTime()
+                    val answer = knowledge.retrieve(fixture.second)
+                    record.put("retrievalSeconds", secondsSince(started))
+                    assertTrue(
+                        "The answer has no supporting documentation",
+                        answer.references.isNotEmpty()
+                    )
+                    when (fixture.first) {
+                        "gif_frames" -> assertTrue(answer.tools.any {
+                            (knowledge.resolveTool(it) as? Screen.GifTools)?.type is Screen.GifTools.Type.ImageToGif
+                        })
+
+                        "flatten_pdf" -> assertTrue(answer.tools.any {
+                            knowledge.resolveTool(it) is Screen.PdfTools.Flatten
+                        })
+
+                        "exif_date" -> assertTrue(answer.settings.any {
+                            it.key == Setting.AlwaysClearExif.key() || it.key == Setting.KeepDateTime.key()
+                        })
+
+                        "cache_limit" -> assertTrue(answer.settings.any {
+                            it.key == Setting.CacheAutoClearLimit.key() || it.key == Setting.AutoCacheClear.key()
+                        })
+
+                        "photo_opacity" -> {
+                            assertTrue(answer.tools.any {
+                                knowledge.resolveTool(it) is Screen.Filter
+                            })
+                            assertTrue(answer.settings.isEmpty())
+                        }
+
+                        "interface_shadows" -> assertTrue(answer.settings.any {
+                            it.key.endsWith("Shadows")
+                        })
+                    }
+                    val prompt = AssistantApplicationFixtures.prompt(
+                        knowledge.grounding(fixture.second, answer, variant),
+                        knowledge.userPrompt(fixture.second, answer)
+                    )
+                    verifyGeneration(models, variant, prompt, fixture, answer, record)
+                }
+            }
+        } finally {
+            models.release()
+            File(app.cacheDir, "assistant-expanded-help-quality.json").writeText(report.toString(2))
+        }
+    }
+
+    @Test
     fun rejectsLossyPngClaimsAcrossGeneratedWordingAndMarkdown() {
         listOf(
             "Prefer lossy formats like PNG.",

@@ -34,12 +34,27 @@ class AssistantAnswerTextTest {
     }
 
     @Test
-    fun rendersLinksAndCodeWithoutTreatingHtmlAsMarkup() {
+    fun preservesLinkLabelsAndCodeWithoutTreatingHtmlAsMarkup() {
         val html = assistantMarkdownHtml("[Help](https://example.org/help) `EXIF` <b>text</b>")
 
-        assertTrue(html.contains("href=\"https://example.org/help\""))
+        assertTrue(html.contains("Help"))
+        assertFalse(html.contains("href="))
         assertTrue(html.contains("<tt>EXIF</tt>"))
         assertTrue(html.contains("&lt;b&gt;text&lt;/b&gt;"))
+    }
+
+    @Test
+    fun generatedNavigationAndImagesAreRenderedAsText() {
+        val html = assistantMarkdownHtml(
+            "[**Настройка**](imagetoolbox://settings/unknown) " +
+                    "![Пример](https://example.org/invented.png) <https://example.org/help>"
+        )
+
+        assertTrue(html.contains("<strong>Настройка</strong>"))
+        assertTrue(html.contains("Пример"))
+        assertFalse(html.contains("<a "))
+        assertFalse(html.contains("<img"))
+        assertFalse(html.contains("imagetoolbox://"))
     }
 
     @Test

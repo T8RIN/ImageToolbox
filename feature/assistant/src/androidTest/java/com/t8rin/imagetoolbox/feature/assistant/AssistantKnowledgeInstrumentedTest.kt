@@ -21,6 +21,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
@@ -31,14 +32,17 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.json.JSONObject
 import java.io.File
+import kotlin.system.measureNanoTime
 
 @RunWith(AndroidJUnit4::class)
 class AssistantKnowledgeInstrumentedTest {
@@ -544,14 +548,269 @@ class AssistantKnowledgeInstrumentedTest {
         listOf(
             "How do I create a depth mask?" to "depth-effects",
             "How do I remove links from a PDF?" to "pdf-annotation-cleanup",
-            "Как изменить отдельный тег EXIF?" to "metadata-editing",
-            "Почему неактивен лимит кэша?" to "cache-cleanup"
+            "Как изменить отдельный тег EXIF?" to "metadata-editing"
         ).forEach { (query, tipId) ->
             val answer = knowledge.retrieve(AssistantRequest(query))
             assertTrue(
                 "$query: ${answer.references.map { it.tipId }}",
                 answer.references.any { it.tipId == tipId })
         }
+    }
+
+    @Test
+    fun everyToolModeAndSettingHasSubstantiveLinkedHelp() {
+        val catalog = (Screen.typedEntries.flatMap { it.entries } + Screen.PdfTools.options)
+            .distinctBy { it.simpleName }
+        val modes = Screen.Filter.Type.entries.map { Screen.Filter(it) } +
+                Screen.RecognizeText.Type.entries.map { Screen.RecognizeText(it) } +
+                Screen.GifTools.Type.entries.map { Screen.GifTools(it) } +
+                Screen.ApngTools.Type.entries.map { Screen.ApngTools(it) } +
+                Screen.WebpTools.Type.entries.map { Screen.WebpTools(it) } +
+                Screen.JxlTools.Type.entries.map { Screen.JxlTools(it) }
+        val settings = SettingsGroup.entries.flatMap { it.settingsList }.distinct()
+        val tips = services.helpRepository.tips.filter { tip ->
+            tip.pages.any { page ->
+                page.steps.isNotEmpty() &&
+                        listOf("ru", "en").all { language ->
+                            (listOf(page.description) + page.steps).all {
+                                services.resources.getStringLocalized(it, language).isNotBlank()
+                            }
+                        }
+            }
+        }
+        val missingTools = catalog.filter { screen ->
+            tips.none { it.deepLink?.simpleName == screen.simpleName }
+        }.map { it.simpleName }
+        val missingModes = modes.filter { screen -> tips.none { it.deepLink == screen } }
+            .map { it.toString() }
+        val missingSettings = settings.filter { setting ->
+            tips.none { (it.deepLink as? Screen.Settings)?.targetSetting == setting }
+        }.map { it.key() }
+        val report = JSONObject()
+            .put("detailedTips", tips.size)
+            .put("catalogTools", catalog.size)
+            .put("toolModes", modes.size)
+            .put("settings", settings.size)
+            .put("missingTools", JSONArray(missingTools))
+            .put("missingModes", JSONArray(missingModes))
+            .put("missingSettings", JSONArray(missingSettings))
+        File(
+            InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+            "assistant-linked-help-coverage.json"
+        ).writeText(report.toString(2))
+        assertTrue(
+            report.toString(2),
+            missingTools.isEmpty() && missingModes.isEmpty() && missingSettings.isEmpty()
+        )
+    }
+
+    @Test
+    fun practicalQuestionsRetrieveDocumentedToolsAndSettings() = runBlocking {
+        val toolQuestions = listOf(
+            "Как сделать GIF из фото?" to Screen.GifTools(),
+            "How do I make a GIF from photos?" to Screen.GifTools(),
+            "Зачем Flatten PDF?" to Screen.PdfTools.Flatten(),
+            "Why should I flatten a PDF?" to Screen.PdfTools.Flatten(),
+            "Как рассчитать контрольную сумму файла?" to Screen.ChecksumTools(),
+            "How do I compare file checksums?" to Screen.ChecksumTools()
+        )
+        val settingQuestions = listOf(
+            "Можно сохранить дату при очистке EXIF?" to Setting.KeepDateTime,
+            "Can I keep dates when clearing EXIF?" to Setting.KeepDateTime,
+            "Почему неактивен лимит кэша?" to Setting.CacheAutoClearLimit,
+            "Why is the cache limit disabled?" to Setting.CacheAutoClearLimit
+        )
+        val failures = mutableListOf<String>()
+        toolQuestions.forEach { (query, screen) ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            if (answer.tools.none { it.key == screen.simpleName } || answer.references.none {
+                    services.helpRepository.getTip(it.tipId)?.deepLink?.simpleName == screen.simpleName
+                }) {
+                failures.add("$query: ${answer.tools}, ${answer.references.map { it.tipId }}")
+            }
+        }
+        settingQuestions.forEach { (query, setting) ->
+            val request = AssistantRequest(query)
+            val answer = knowledge.retrieve(request)
+            if (answer.settings.none { it.key == setting.key() } || answer.references.none {
+                    (services.helpRepository.getTip(it.tipId)?.deepLink as? Screen.Settings)?.targetSetting == setting
+                }) {
+                failures.add("$query: ${answer.settings}, ${answer.references.map { it.tipId }}")
+            }
+            val prompt = knowledge.grounding(request, answer)
+            if ("Help:" !in prompt) failures.add("$query: no documented instructions in grounding")
+        }
+        assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
+    fun followUpQuestionsStayInTheCurrentDocumentedMode() = runBlocking {
+        listOf("ru", "en").forEach { language ->
+            listOf(
+                Triple(
+                    Screen.GifTools(Screen.GifTools.Type.ImageToGif()),
+                    Screen.GifTools.Type.ImageToGif().title,
+                    if (language == "ru") "Как поменять задержку между кадрами?" else "How do I change the delay between frames?"
+                ),
+                Triple(
+                    Screen.RecognizeText(Screen.RecognizeText.Type.WriteToSearchablePdf()),
+                    Screen.RecognizeText.Type.WriteToSearchablePdf().title,
+                    if (language == "ru") "Как выбрать язык распознавания?" else "How do I choose the recognition language?"
+                )
+            ).forEach { (screen, modeTitle, query) ->
+                val mode = services.resources.getStringLocalized(modeTitle, language)
+                val request = AssistantRequest(
+                    query,
+                    AssistantScreenContext(
+                        toolId = screen.id,
+                        parameters = mapOf("toolKey" to screen.simpleName, "mode" to mode)
+                    ),
+                    language
+                )
+                val answer = knowledge.retrieve(request)
+                val linkedModes =
+                    answer.references.map { services.helpRepository.getTip(it.tipId)?.deepLink }
+                assertTrue("$query: $linkedModes", linkedModes.any { it == screen })
+                assertTrue(query, answer.settings.isEmpty())
+                assertTrue(query, answer.tools.all { it.key == screen.simpleName })
+                assertTrue(query, knowledge.grounding(request, answer).contains(mode))
+            }
+        }
+    }
+
+    @Test
+    fun aCurrentToolDoesNotHideExplicitApplicationSettings() = runBlocking {
+        val screen = Screen.GifTools(Screen.GifTools.Type.ImageToGif())
+        val context = AssistantScreenContext(
+            toolId = screen.id,
+            parameters = mapOf(
+                "toolKey" to screen.simpleName,
+                "mode" to services.resources.getStringLocalized(
+                    Screen.GifTools.Type.ImageToGif().title,
+                    "en"
+                )
+            )
+        )
+        listOf(
+            "Где выключить удаление оригиналов после сохранения?" to Setting.DeleteOriginalsAfterSave,
+            "How do I clear cache automatically when too large?" to Setting.AutoCacheClear
+        ).forEach { (query, setting) ->
+            val answer = knowledge.retrieve(AssistantRequest(query, context))
+            assertTrue("$query: $answer", answer.settings.any { it.key == setting.key() })
+            assertTrue("$query: $answer", answer.tools.none { it.key == screen.simpleName })
+            if (setting == Setting.AutoCacheClear) {
+                assertTrue(query, answer.references.any { it.text.contains("Cache limit") })
+            }
+        }
+    }
+
+    @Test
+    fun recordsColdAndWarmRetrievalForTheInstalledHelpCorpus() = runBlocking {
+        val report = JSONArray()
+        listOf("ru", "en").forEach { language ->
+            val instance = services.knowledge
+            val request = AssistantRequest(
+                if (language == "ru") "Как сделать GIF из фото?" else "How do I make a GIF from photos?",
+                language = language
+            )
+            val cold = measureNanoTime { instance.retrieve(request) } / 1_000_000.0
+            val warm = List(5) { measureNanoTime { instance.retrieve(request) } / 1_000_000.0 }
+            val answer = instance.retrieve(request)
+            assertTrue(answer.toString(), answer.references.isNotEmpty())
+            report.put(
+                JSONObject()
+                    .put("language", language)
+                    .put("tips", services.helpRepository.tips.size)
+                    .put("coldMs", cold)
+                    .put("warmMs", JSONArray(warm))
+                    .put("promptCharacters", knowledge.grounding(request, answer).length)
+            )
+        }
+        File(
+            InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+            "assistant-help-retrieval-timing.json"
+        ).writeText(report.toString(2))
+    }
+
+    @Test
+    fun disablingShadowsFindsTheActualAppearanceSwitches() = runBlocking {
+        val shadows = setOf(
+            Setting.ContainerShadows, Setting.AppBarShadows, Setting.SliderShadows,
+            Setting.SwitchShadows, Setting.FABShadows, Setting.ButtonShadows
+        ).map { it.key() }
+        listOf("Как выключить тени?", "How do I turn off shadows?").forEach { query ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            assertTrue("$query: $answer", answer.settings.isNotEmpty())
+            assertTrue("$query: $answer", answer.settings.all { it.key in shadows })
+            assertTrue("$query: $answer", answer.references.isNotEmpty())
+            assertTrue("$query: $answer", answer.tools.isEmpty())
+        }
+    }
+
+    @Test
+    fun photoOpacityUsesTheDocumentedFilterInsteadOfAnApplicationSetting() = runBlocking {
+        listOf(
+            "ru" to "Как изменить прозрачность у фото?",
+            "en" to "How do I change a photo's opacity?"
+        ).forEach { (language, query) ->
+            val request = AssistantRequest(query, language = language)
+            val answer = knowledge.retrieve(request)
+            assertTrue("$query: $answer", answer.settings.isEmpty())
+            assertTrue("$query: $answer", answer.references.any { it.tipId == "image-opacity" })
+            assertTrue("$query: $answer", answer.tools.any {
+                knowledge.resolveTool(it) == Screen.Filter(Screen.Filter.Type.Basic(filterKey = "opacity"))
+            })
+            val prompt = knowledge.grounding(request, answer)
+            assertTrue(
+                query,
+                prompt.contains(services.resources.getStringLocalized(R.string.opacity, language))
+            )
+        }
+    }
+
+    @Test
+    fun namedFiltersResolveToValidatedConfiguredTools() = runBlocking {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val filters = UiFilter.groups.flatMap { it.filters(canAddTemplates = true) }
+            .filter {
+                context.resources.getResourceEntryName(it.title) in setOf(
+                    "opacity",
+                    "contrast",
+                    "brightness"
+                )
+            }
+        assertTrue(filters.toString(), filters.size >= 3)
+        listOf("ru", "en").forEach { language ->
+            filters.forEach { filter ->
+                val title = services.resources.getStringLocalized(filter.title, language)
+                val key = context.resources.getResourceEntryName(filter.title)
+                val query =
+                    if (language == "ru") "Добавить фильтр $title" else "Add the $title filter"
+                val answer = knowledge.retrieve(AssistantRequest(query, language = language))
+                val tool = answer.tools.firstOrNull { it.filterKey == key }
+                assertTrue("$query: $answer", tool != null)
+                assertEquals(
+                    Screen.Filter(Screen.Filter.Type.Basic(filterKey = key)),
+                    knowledge.resolveTool(checkNotNull(tool))
+                )
+                assertTrue(
+                    query,
+                    knowledge.grounding(AssistantRequest(query, language = language), answer)
+                        .contains(title)
+                )
+            }
+        }
+        assertEquals(
+            null,
+            knowledge.resolveTool(
+                AssistantTool(
+                    "Filter",
+                    "Unknown",
+                    "",
+                    filterKey = "made_up_filter"
+                )
+            )
+        )
     }
 
 }

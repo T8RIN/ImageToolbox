@@ -37,11 +37,11 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class AssistantScopeInstrumentedTest {
     @Test
-    fun liteAndAdvancedAskAboutTheAppInsteadOfWritingRecipesOrPoems() = runBlocking {
+    fun modelsAskAboutTheAppInsteadOfWritingRecipesOrPoems() = runBlocking {
         val app = InstrumentationRegistry.getInstrumentation().targetContext
         val knowledge = app.entryPoint<AssistantEntryPoint>().knowledge
         val models = AssistantModels()
-        val variants = listOf(AssistantModel.Lite, AssistantModel.Advanced)
+        val variants = AssistantModel.entries
         assumeTrue(models.installations().filter { it.variant in variants }.all { it.installed })
         val report = JSONArray()
         val failures = mutableListOf<String>()

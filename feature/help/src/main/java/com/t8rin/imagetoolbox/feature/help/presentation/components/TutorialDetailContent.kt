@@ -74,7 +74,11 @@ internal fun TutorialDetailContent(
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(R.string.open_tool))
+                        Text(
+                            text = stringResource(
+                                if (screen is Screen.Settings) R.string.settings else R.string.open_tool
+                            )
+                        )
                     }
                 }
             }

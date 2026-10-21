@@ -215,7 +215,8 @@ sealed class Screen(
 
             @Serializable
             data class Basic(
-                val uris: List<Uri>? = null
+                val uris: List<Uri>? = null,
+                val filterKey: String? = null
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub

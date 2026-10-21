@@ -18,14 +18,18 @@
 package com.t8rin.imagetoolbox.feature.assistant.presentation.components
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextOverflow
-import com.t8rin.imagetoolbox.core.ui.widget.text.HtmlText
 import org.commonmark.node.Code
 import org.commonmark.node.FencedCodeBlock
+import org.commonmark.node.Image
 import org.commonmark.node.IndentedCodeBlock
+import org.commonmark.node.Link
 import org.commonmark.node.ListItem
 import org.commonmark.node.OrderedList
 import org.commonmark.node.Paragraph
@@ -40,6 +44,11 @@ private val markdownRenderer = HtmlRenderer.builder()
     .nodeRendererFactory { context ->
         // Android's HTML text supports tt and br, but not code, pre or ordered lists.
         object : CoreHtmlNodeRenderer(context) {
+            // Navigation uses validated destinations below the answer, not generated URLs.
+            override fun visit(link: Link) = visitChildren(link)
+
+            override fun visit(image: Image) = visitChildren(image)
+
             override fun visit(code: Code) = writeCode(code.literal)
 
             override fun visit(code: FencedCodeBlock) = writeCodeBlock(code.literal)
@@ -88,8 +97,8 @@ private val markdownRenderer = HtmlRenderer.builder()
 
 @Composable
 internal fun AssistantAnswerText(text: String, modifier: Modifier = Modifier) {
-    HtmlText(
-        html = remember(text) { assistantMarkdownHtml(text) },
+    Text(
+        text = remember(text) { AnnotatedString.fromHtml(assistantMarkdownHtml(text)) },
         modifier = modifier,
         style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
         overflow = TextOverflow.Clip

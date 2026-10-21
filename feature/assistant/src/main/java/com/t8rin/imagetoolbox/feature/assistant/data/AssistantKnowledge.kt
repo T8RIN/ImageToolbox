@@ -20,17 +20,19 @@ package com.t8rin.imagetoolbox.feature.assistant.data
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.searchText
+import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import kotlinx.coroutines.withContext
@@ -46,6 +48,7 @@ class AssistantKnowledge @Inject constructor(
         val help: AssistantSearchIndex<AssistantReference>,
         val tools: AssistantSearchIndex<Screen>,
         val settings: AssistantSearchIndex<String>,
+        val filters: AssistantSearchIndex<String>,
         val references: Map<String, AssistantReference>
     )
 
@@ -57,6 +60,10 @@ class AssistantKnowledge @Inject constructor(
         .distinctBy { it.simpleName }
     private val settings by lazy {
         SettingsGroup.entries.flatMap { it.settingsList }.distinct().associateBy { it.key() }
+    }
+    private val filters by lazy {
+        UiFilter.groups.flatMap { it.filters(canAddTemplates = true) }
+            .associateBy { appContext.resources.getResourceEntryName(it.title) }
     }
 
     suspend fun retrieve(request: AssistantRequest): AssistantAnswer =
@@ -71,6 +78,7 @@ class AssistantKnowledge @Inject constructor(
             val contextual = contextQuestion.containsMatchIn(request.query)
             val discoveredTools = mutableListOf<Screen>()
             val discoveredSettings = mutableListOf<String>()
+            val discoveredFilters = mutableListOf<String>()
             val fileSuggestion = request.context.selectedUris.isNotEmpty() &&
                     listOf(
                         "en",
@@ -79,11 +87,31 @@ class AssistantKnowledge @Inject constructor(
             val topics = if (fileSuggestion) emptyList() else request.query.split(topicSeparator)
             val matches = topics.filter(String::isNotBlank).map { topic ->
                 val normalizedTopic = AssistantSearchIndex.normalize(topic)
+                val exactDestination = settings.values.any {
+                    matchesTitle(normalizedTopic, it.title, language, exact = true)
+                } || catalog.any {
+                    matchesTitle(normalizedTopic, it.title, language, exact = true)
+                }
+                val filterKeys = if (exactDestination) emptySet() else filters.filterValues {
+                    matchesTitle(normalizedTopic, it.title, language, exact = true)
+                }.keys.ifEmpty {
+                    if (filterQuestion.containsMatchIn(topic)) {
+                        filters.filterValues { matchesTitle(normalizedTopic, it.title, language) }
+                            .keys.ifEmpty {
+                                index.filters.search(filterQuestion.replace(topic, " "), 2)
+                                    .map { it.value }.toSet()
+                            }
+                    } else emptySet()
+                }
+                if (filterKeys.isNotEmpty()) {
+                    discoveredFilters.addAll(filterKeys)
+                    return@map findReferences(index, topic, listOf(Screen.Filter()), language)
+                }
                 val settingIntent = settingQuestion.containsMatchIn(topic) ||
                         settingToggle.containsMatchIn(topic) || settingLocation.containsMatchIn(
                     topic
                 )
-                val exactSettings = settings.values.filter {
+                val exactSettingNames = settings.values.filter {
                     matchesTitle(
                         normalizedTopic,
                         it.title,
@@ -91,18 +119,18 @@ class AssistantKnowledge @Inject constructor(
                         exact = true
                     )
                 }
-                    .ifEmpty {
-                        settings.values.filter {
-                            matchesTitle(
-                                normalizedTopic,
-                                it.title,
-                                language,
-                                requireMultipleWords = !settingIntent
-                            )
-                        }
+                val exactSettings = exactSettingNames.ifEmpty {
+                    settings.values.filter {
+                        matchesTitle(
+                            normalizedTopic,
+                            it.title,
+                            language,
+                            requireMultipleWords = !settingIntent || contextTool != null
+                        )
                     }
+                }
                     .sortedByDescending { string(it.title, language).length }.map { it.key() }
-                val exactTools = catalog.filter {
+                val exactToolNames = catalog.filter {
                     matchesTitle(
                         normalizedTopic,
                         it.title,
@@ -110,33 +138,61 @@ class AssistantKnowledge @Inject constructor(
                         exact = true
                     )
                 }
-                    .ifEmpty {
-                        catalog.filter {
-                            matchesTitle(
-                                normalizedTopic,
-                                it.title,
-                                language
-                            )
-                        }
+                val exactTools = exactToolNames.ifEmpty {
+                    catalog.filter {
+                        matchesTitle(
+                            normalizedTopic,
+                            it.title,
+                            language
+                        )
                     }
+                }
                     .sortedByDescending { string(it.title, language).length }
                 val query = searchQuery(topic)
+                val matchingHelp = if (exactToolNames.isEmpty() && exactSettingNames.isEmpty()) {
+                    index.help.search(query, 1).firstOrNull()?.value
+                } else null
+                val documentedSetting = matchingHelp?.let {
+                    (helpRepository.getTip(it.tipId)?.deepLink as? Screen.Settings)?.targetSetting?.key()
+                }
+                val matchingSettings = if (documentedSetting == null) emptyList() else {
+                    index.settings.search(settingToggle.replace(query, " "), MAX_SETTINGS)
+                        .map { it.value }
+                }
                 val settingKeys = when {
+                    exactSettingNames.isNotEmpty() -> exactSettingNames.map { it.key() }
+                    documentedSetting != null && (settingIntent || matchingSettings.isNotEmpty()) ->
+                        matchingSettings.ifEmpty { listOf(documentedSetting) }
                     exactSettings.isNotEmpty() -> exactSettings.toList()
                     contextSetting != null && contextual -> listOf(contextSetting.key())
-                    settingQuestion.containsMatchIn(topic) || settingToggle.containsMatchIn(topic) ->
+                    settingToggle.containsMatchIn(topic) || contextTool == null && settingQuestion.containsMatchIn(
+                        topic
+                    ) ->
                         index.settings.search(settingToggle.replace(query, " "), MAX_SETTINGS)
                             .map { it.value }
 
                     else -> emptyList()
                 }
                 discoveredSettings.addAll(settingKeys)
-                if (settingKeys.isNotEmpty() && exactTools.isEmpty()) {
+                if (settingKeys.isNotEmpty() && exactToolNames.isEmpty()) {
                     return@map settingKeys.mapNotNull { key ->
-                        helpRepository.tips.firstOrNull {
+                        val relatedIds = helpRepository.tips.filter {
                             (it.deepLink as? Screen.Settings)?.targetSetting?.key() == key
-                        }?.id?.let(index.references::get)
+                        }.map { it.id }.toSet()
+                        index.help.search(query, 1) { it.tipId in relatedIds }
+                            .firstOrNull()?.value
+                            ?: relatedIds.firstNotNullOfOrNull(index.references::get)
                     }
+                }
+                val contextReference = contextTool?.takeIf { exactToolNames.isEmpty() }?.let {
+                    findReferences(
+                        index = index,
+                        query = query,
+                        tools = listOf(it),
+                        language = language,
+                        mode = request.context.parameters["mode"],
+                        fallback = false
+                    ).firstOrNull()
                 }
                 val reference = if (exactTools.none {
                         matchesTitle(
@@ -148,9 +204,8 @@ class AssistantKnowledge @Inject constructor(
                     }) {
                     helpAliases.firstOrNull { (_, pattern) -> pattern.containsMatchIn(query) }
                         ?.first?.let(index.references::get)
-                        ?: if (exactTools.isEmpty() && (contextTool == null || !contextual)) {
-                            index.help.search(query, 1).firstOrNull()?.value
-                        } else null
+                        ?: contextReference
+                        ?: matchingHelp
                 } else null
                 if (reference != null) {
                     when (val destination = helpRepository.getTip(reference.tipId)?.deepLink) {
@@ -163,12 +218,20 @@ class AssistantKnowledge @Inject constructor(
                     return@map listOf(reference)
                 }
                 val tools = when {
+                    exactToolNames.isEmpty() && contextTool != null && contextual -> listOf(
+                        contextTool
+                    )
                     exactTools.isNotEmpty() -> exactTools
-                    contextTool != null && contextual -> listOf(contextTool)
                     else -> index.tools.search(query, 1).map { it.value }
                 }
                 discoveredTools.addAll(tools)
-                findReferences(index, query, tools, language)
+                findReferences(
+                    index,
+                    query,
+                    tools,
+                    language,
+                    mode = request.context.parameters["mode"].takeIf { contextTool in tools }
+                )
             }.flatten().toMutableList()
             if (discoveredTools.isEmpty() && discoveredSettings.isEmpty() && matches.isEmpty() &&
                 request.context.selectedUris.isNotEmpty()
@@ -194,14 +257,23 @@ class AssistantKnowledge @Inject constructor(
                     screen.simpleName,
                     toolTitle(screen, language),
                     string(screen.subtitle, language),
-                    reference.tipId
+                    reference.tipId,
+                    ((screen as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey
                 )
             }
             val documentedKeys =
                 references.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink?.simpleName }
                     .toSet()
+            val filterTools = discoveredFilters.distinct().map { key ->
+                AssistantTool(
+                    key = Screen.Filter().simpleName,
+                    title = string(filters.getValue(key).title, language),
+                    subtitle = string(R.string.full_filter, language),
+                    filterKey = key
+                )
+            }
             val tools =
-                (documentedTools + discoveredTools.filter { it.simpleName !in documentedKeys }
+                (filterTools + documentedTools.filter { filterTools.isEmpty() || it.key != Screen.Filter().simpleName } + discoveredTools.filter { it.simpleName !in documentedKeys }
                     .mapNotNull { screen ->
                         catalog.firstOrNull { it.simpleName == screen.simpleName }?.let {
                             val tip =
@@ -237,9 +309,16 @@ class AssistantKnowledge @Inject constructor(
             )
         }
 
-    fun resolveTool(tool: AssistantTool): Screen? = tool.helpTipId?.let(helpRepository::getTip)
-        ?.deepLink?.takeIf { it.simpleName == tool.key }
-        ?: catalog.firstOrNull { it.simpleName == tool.key }
+    fun resolveTool(tool: AssistantTool): Screen? {
+        tool.filterKey?.let { key ->
+            return if (tool.key == Screen.Filter().simpleName && key in filters) {
+                Screen.Filter(Screen.Filter.Type.Basic(filterKey = key))
+            } else null
+        }
+        return tool.helpTipId?.let(helpRepository::getTip)
+            ?.deepLink?.takeIf { it.simpleName == tool.key }
+            ?: catalog.firstOrNull { it.simpleName == tool.key }
+    }
 
     fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String {
         val russian = language(request) == "ru"
@@ -307,7 +386,7 @@ class AssistantKnowledge @Inject constructor(
             appendLine("You receive file metadata, not image pixels or file contents. Suggest useful edits with the listed tools; do not invent visible subjects, text, defects or colors.")
         }
         if (answer.references.isNotEmpty()) {
-            appendLine("Use the documented ImageToolbox tools instead of other apps. Keep tool names, modes and values exact. Do not invent settings.")
+            appendLine("Use the documented ImageToolbox tools instead of other apps. Keep tool names, modes and values exact. Do not invent settings. Navigation is provided by the app; do not generate URLs.")
             appendDocuments(answer.references, language, model)
         }
         if (answer.tools.isNotEmpty()) {
@@ -394,6 +473,8 @@ class AssistantKnowledge @Inject constructor(
                     } else {
                         listOfNotNull(destination?.title, destination?.subtitle).filter { it != 0 }
                     }
+                    val destinationTitle = setting?.let { string(it.title, language) }
+                        ?: destination?.takeIf { it.title != 0 }?.let { toolTitle(it, language) }
                     val reference = AssistantReference(
                         title = string(tip.title, language),
                         text = (listOf(page.title, page.description) + page.steps)
@@ -403,12 +484,16 @@ class AssistantKnowledge @Inject constructor(
                     )
                     AssistantSearchIndex.Document(
                         value = reference,
-                        title = reference.title + " " + string(page.title, language),
+                        title = listOfNotNull(
+                            reference.title,
+                            string(page.title, language),
+                            destinationTitle
+                        )
+                            .joinToString(" "),
                         text = (
                                 listOf(
                                     tip.title,
                                     tip.subtitle,
-                                    tip.category.title,
                                     page.title,
                                     page.description
                                 ) + page.steps + destinationResources
@@ -436,6 +521,13 @@ class AssistantKnowledge @Inject constructor(
                         ).joinToString(" ") { bilingual(it, language) }
                     )
                 }),
+                AssistantSearchIndex(filters.map { (key, filter) ->
+                    AssistantSearchIndex.Document(
+                        value = key,
+                        title = bilingual(filter.title, language),
+                        text = bilingual(filter.title, language)
+                    )
+                }),
                 references = help.map { it.value }.distinctBy { it.tipId }.associateBy { it.tipId }
             )
         }
@@ -445,6 +537,10 @@ class AssistantKnowledge @Inject constructor(
         when (screen) {
             is Screen.RecognizeText -> screen.type?.title ?: screen.title
             is Screen.Filter -> screen.type?.title ?: screen.title
+            is Screen.GifTools -> screen.type?.title ?: screen.title
+            is Screen.ApngTools -> screen.type?.title ?: screen.title
+            is Screen.WebpTools -> screen.type?.title ?: screen.title
+            is Screen.JxlTools -> screen.type?.title ?: screen.title
             else -> screen.title
         },
         language
@@ -461,15 +557,26 @@ class AssistantKnowledge @Inject constructor(
         index: Index,
         query: String,
         tools: List<Screen>,
-        language: String
+        language: String,
+        mode: String? = null,
+        fallback: Boolean = true
     ): List<AssistantReference> {
         val anchors = tools.mapNotNull { screen ->
-            val relatedIds =
+            val relatedTips =
                 helpRepository.tips.filter { it.deepLink?.simpleName == screen.simpleName }
-                .map { it.id }.toSet()
-            index.help.search(query + " " + toolTitle(screen, language), 1) {
+            val modeTips = if (mode == null) emptyList() else relatedTips.filter { tip ->
+                val destination = checkNotNull(tip.deepLink)
+                listOf(language, "ru", "en").distinct().any {
+                    AssistantSearchIndex.normalize(toolTitle(destination, it)) ==
+                            AssistantSearchIndex.normalize(mode)
+                }
+            }
+            val relatedIds = modeTips.ifEmpty { relatedTips }.map { it.id }.toSet()
+            index.help.search(query, 1) {
                 it.tipId in relatedIds
-            }.firstOrNull()?.value ?: relatedIds.firstNotNullOfOrNull(index.references::get)
+            }.firstOrNull()?.value ?: if (fallback) {
+                relatedIds.firstNotNullOfOrNull(index.references::get)
+            } else null
         }.distinctBy { it.tipId }
         return (if (tools.isEmpty()) index.help.search(query, 1)
             .map { it.value } else anchors).take(1)
@@ -559,11 +666,12 @@ private const val MAX_DOCUMENT_LENGTH = 800
 
 private val contextQuestion =
     Regex(
-        "настрой|setting|параметр|эт[аоуи]|текущ|this|these|current|where|где|улучш|improv|suggest|посовет",
+        "настрой|setting|параметр|эт[аоуи]|текущ|this|these|current|where|где|улучш|improv|suggest|посовет|поменя|измен|change|adjust",
         RegexOption.IGNORE_CASE
     )
 private val settingQuestion =
     Regex("настрой|setting|preference|параметр|по умолчанию|default", RegexOption.IGNORE_CASE)
+private val filterQuestion = Regex("фильтр|\\bfilter", RegexOption.IGNORE_CASE)
 private val settingToggle = Regex(
     "\\b(?:(?:turn|switch)\\s+(?:on|off)|enable|disable|(?:включ|выключ|отключ)[а-я]*)\\b",
     RegexOption.IGNORE_CASE
@@ -577,5 +685,5 @@ private val helpAliases = listOf(
     "background-remover" to Regex("(?:удал|убра|стер).*фон|фон.*(?:удал|убра)|(?:remov|eras).*background|background.*(?:remov|eras)"),
     "searchable-pdf" to Regex("(?:pdf|пдф).*(?:ocr|распозн|текст|поиск|searchable)|(?:ocr|распозн|текст|поиск|searchable).*(?:pdf|пдф)"),
     "resize-by-file-size" to Regex("^(?!.*\\b(?:pdf|пдф)\\b).*(?:\\bсжать\\b|\\bcompress(?:ing|ed)?\\b|уменьш[а-я]*\\s+(?:вес|размер\\s+файл)|reduce\\s+(?:file\\s+size|size\\s+of))"),
-    "exif-removal" to Regex("(?:удал|убра|очист|стер|remove|strip|clear|delete).*(?:exif|эксиф|метадан|metadata)|(?:exif|эксиф|метадан|metadata).*(?:удал|убра|очист|стер|remove|strip|clear|delete)")
+    "exif-removal" to Regex("(?:удал|убра|очисти|стер|remove|strip|clear\\b|delete).*(?:exif|эксиф|метадан|metadata)|(?:exif|эксиф|метадан|metadata).*(?:удал|убра|очисти|стер|remove|strip|clear\\b|delete)")
 )

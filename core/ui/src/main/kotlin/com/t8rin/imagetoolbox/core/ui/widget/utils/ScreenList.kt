@@ -414,8 +414,7 @@ fun List<Uri>.screensFor(
 fun Screen.withSelectedUris(uris: List<Uri>, extraDataType: ExtraDataType?): Screen {
     if (uris.isEmpty()) return this
     fun matches(candidate: Screen): Boolean {
-        if (candidate.id != id || candidate::class != this::class) return false
-        return when (this) {
+        return !(candidate.id != id || candidate::class != this::class) && when (this) {
             is Screen.Filter -> type == null ||
                     (candidate as? Screen.Filter)?.type?.javaClass == type.javaClass
 
@@ -437,9 +436,14 @@ fun Screen.withSelectedUris(uris: List<Uri>, extraDataType: ExtraDataType?): Scr
             else -> true
         }
     }
-    return uris.screensFor(extraDataType, includeAllModes = true).firstOrNull(::matches)
+    val target = uris.screensFor(extraDataType, includeAllModes = true).firstOrNull(::matches)
         ?: uris.take(1).screensFor(extraDataType, includeAllModes = true).firstOrNull(::matches)
-        ?: this
+        ?: return this
+    return if (this is Screen.Filter && type is Screen.Filter.Type.Basic &&
+        target is Screen.Filter && target.type is Screen.Filter.Type.Basic
+    ) {
+        target.copy(type = target.type.copy(filterKey = type.filterKey))
+    } else target
 }
 
 @Composable
