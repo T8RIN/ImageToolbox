@@ -47,7 +47,7 @@ data class NeuralModel(
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
                 isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector ||
-                isDocShadow || isFaceRestoration
+                isDocShadow || isFaceRestoration || name == "dehazeformer_t.onnx"
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 

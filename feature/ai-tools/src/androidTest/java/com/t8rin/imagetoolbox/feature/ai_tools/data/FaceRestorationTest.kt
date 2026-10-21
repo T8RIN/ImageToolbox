@@ -164,7 +164,7 @@ class FaceRestorationTest {
     }
 
     @Test
-    fun dehazeUsesRegularProcessorWithOddSizesAndTiles() = runBlocking {
+    fun dehazeProcessesWholeImageRegardlessOfChunking() = runBlocking {
         val processor = AiProcessor(
             context,
             KeepAliveService.EMPTY,
@@ -184,7 +184,7 @@ class FaceRestorationTest {
             }
         }
         val model = NeuralModel.find("dehazeformer_t.onnx")!!
-        assertFalse(model.isNonChunkable)
+        assertTrue(model.isNonChunkable)
         session(model.name).use { session ->
             for (chunked in listOf(false, true)) {
                 val started = SystemClock.elapsedRealtime()
