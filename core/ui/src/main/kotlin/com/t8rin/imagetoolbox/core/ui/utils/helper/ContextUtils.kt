@@ -35,8 +35,8 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.key
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.takeOrElse
@@ -148,8 +148,7 @@ object ContextUtils {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
-        val show = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) false
-        else !permissions.all { (this as Activity).hasPermissionAllowed(it) }
+        val show = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU && !permissions.all { (this as Activity).hasPermissionAllowed(it) }
 
         if (!show) setPermissionsAllowed(permissions)
 
@@ -172,11 +171,7 @@ object ContextUtils {
     )
 
     fun Context.isExternalStorageManagerUnavailable(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            isInstalledFromPlayStore() || !isPermissionDeclared(Manifest.permission.MANAGE_EXTERNAL_STORAGE)
-        } else {
-            false
-        }
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && (isInstalledFromPlayStore() || !isPermissionDeclared(Manifest.permission.MANAGE_EXTERNAL_STORAGE))
 
     fun Context.isPermissionDeclared(permission: String): Boolean = runCatching {
         packageManager.getPackageInfo(
@@ -200,18 +195,18 @@ object ContextUtils {
     }
 
     @Composable
-    fun rememberFilename(uri: Uri): String? {
-        return remember(uri) {
-            derivedStateOf {
+    fun rememberFilename(uri: Uri): String? = key(uri) {
+        produceState<String?>(null) {
+            value = withContext(Dispatchers.IO) {
                 uri.filename()
             }
         }.value
     }
 
     @Composable
-    fun rememberFileExtension(uri: Uri): String? {
-        return remember(uri) {
-            derivedStateOf {
+    fun rememberFileExtension(uri: Uri): String? = key(uri) {
+        produceState<String?>(null) {
+            value = withContext(Dispatchers.IO) {
                 uri.getExtension()
             }
         }.value

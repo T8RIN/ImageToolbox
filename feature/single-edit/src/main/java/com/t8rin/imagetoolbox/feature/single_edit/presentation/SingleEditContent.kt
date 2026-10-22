@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.BottomButtonsBlock
@@ -79,7 +80,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
-import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.RawDevelopSettingsCard
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.components.CropEditOption
@@ -152,7 +152,7 @@ fun SingleEditContent(
         isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
-            val originalSize = component.uri.fileSize() ?: 0
+            val originalSize = rememberFileSize(component.uri)
             val compressedSize = component.imageInfo.sizeInBytes.toLong()
             TopAppBarTitle(
                 title = stringResource(R.string.single_edit),

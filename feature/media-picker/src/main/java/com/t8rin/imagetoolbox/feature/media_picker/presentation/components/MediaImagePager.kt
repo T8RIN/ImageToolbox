@@ -216,7 +216,7 @@ internal fun MediaImagePager(
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
-                    beyondViewportPageCount = 5,
+                    beyondViewportPageCount = 1,
                     pageSpacing = if (pagerState.pageCount > 1) 16.dp
                     else 0.dp
                 ) { page ->
