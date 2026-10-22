@@ -7301,4 +7301,5 @@
     <string name="help_tip_ai_ocr_step_1">Для Tesseract выберите языки страницы и скачайте недостающие языковые данные. Его языки, разбиение страницы и параметры движка относятся только к Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Для PaddleOCR v5 выберите модель для нужной письменности, например Latin, Cyrillic или East Slavic, и скачайте её. Выбор языков Tesseract не настраивает PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 автоматически использует Universal V6 вместо выбора модели v5. Скачайте её файлы перед работой без интернета, затем сравните движки на одном читаемом изображении и проверьте распознанный текст.</string>
+    <string name="disable">Запрещать</string>
 </resources>

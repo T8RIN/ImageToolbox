@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">A Tesseract esetében válassza ki a nyelveket az oldalon, és töltse le a hiányzó nyelvi adatokat. Nyelvi, oldalszegmentálási és motorbeállítások csak a Tesseractra vonatkoznak.</string>
     <string name="help_tip_ai_ocr_step_2">A PaddleOCR v5 esetében válassza ki a szkriptnek megfelelő modellt, például latin, cirill vagy keleti szláv, és töltse le. A Tesseract nyelvválasztása nem konfigurálja a PaddleOCR-t.</string>
     <string name="help_tip_ai_ocr_step_3">A PaddleOCR v6 automatikusan az Universal V6 modelljét használja a v5 modellválasztó helyett. Töltse le a fájlokat, mielőtt offline dolgozna, majd hasonlítsa össze ugyanazt az olvasható képet a motorok között, és ellenőrizze a kimenetet.</string>
+    <string name="help_tips_button_hint">A főképernyőn elrejtheti a Súgó és tippek gombot. A súgó mindig elérhető a Beállítások → Az alkalmazás névjegye menüpontban.</string>
+    <string name="disable">Letiltás</string>
 </resources>

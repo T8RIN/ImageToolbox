@@ -7300,4 +7300,6 @@
     <string name="help_tip_ai_ocr_step_1">עבור Tesseract, בחר את השפות בדף והורד את נתוני השפה החסרים. השפה, פילוח העמודים ואפשרויות המנוע שלו חלות רק על Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">עבור PaddleOCR v5, בחר דגם התואם לסקריפט, כגון לטינית, קירילית או מזרח סלאבית, והורד אותו. בחירת שפת Tesseract אינה מגדירה את PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 משתמש בדגם Universal V6 שלו באופן אוטומטי במקום בבורר הדגם v5. הורד את הקבצים שלו לפני עבודה במצב לא מקוון, ואז השווה את אותה תמונה קריא בין מנועים והגהה את הפלט.</string>
+    <string name="help_tips_button_hint">אתה יכול להסתיר את כפתור העזרה והטיפים במסך הראשי. העזרה זמינה תמיד בהגדרות ← מידע על האפליקציה.</string>
+    <string name="disable">השבת</string>
 </resources>

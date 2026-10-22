@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Per a Tesseract, trieu els idiomes de la pàgina i descarregueu les dades d\'idiomes que falten. El seu idioma, segmentació de pàgines i opcions de motor només s\'apliquen a Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Per a PaddleOCR v5, seleccioneu un model que coincideixi amb l\'escriptura, com ara llatí, ciríl·lic o eslau oriental, i descarregueu-lo. La selecció d\'idioma Tesseract no configura PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 utilitza el seu model Universal V6 automàticament en lloc del selector de models v5. Baixeu els seus fitxers abans de treballar fora de línia, després compareu la mateixa imatge llegible entre els motors i reviseu la sortida.</string>
+    <string name="help_tips_button_hint">Podeu amagar el botó Ajuda i consells a la pantalla principal. L\'ajuda sempre està disponible a Configuració → Quant a l\'aplicació.</string>
+    <string name="disable">Desactivar</string>
 </resources>

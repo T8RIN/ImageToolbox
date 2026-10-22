@@ -7297,4 +7297,6 @@
     <string name="help_tip_ai_ocr_step_1">Untuk Tesseract, pilih bahasa di halaman dan unduh data bahasa yang hilang. Bahasa, segmentasi halaman, dan opsi mesinnya hanya berlaku untuk Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Untuk PaddleOCR v5, pilih model yang cocok dengan skrip, seperti Latin, Sirilik, atau Slavia Timur, lalu unduh. Pemilihan bahasa Tesseract tidak mengonfigurasi PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 menggunakan model Universal V6 secara otomatis, bukan pemilih model v5. Unduh filenya sebelum bekerja offline, lalu bandingkan gambar sama yang dapat dibaca di seluruh mesin dan koreksi hasilnya.</string>
+    <string name="help_tips_button_hint">Anda dapat menyembunyikan tombol Bantuan &amp;amp; Tip di layar utama. Bantuan selalu tersedia di Pengaturan → Tentang aplikasi.</string>
+    <string name="disable">Cacat</string>
 </resources>

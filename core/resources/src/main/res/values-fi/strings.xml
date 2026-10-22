@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Valitse Tesseractille kielet sivulla ja lataa puuttuvat kielitiedot. Sen kieli, sivun segmentointi ja moottoriasetukset koskevat vain Tesseractia.</string>
     <string name="help_tip_ai_ocr_step_2">Valitse PaddleOCR v5:lle malli, joka vastaa kirjoitusta, kuten latina, kyrillinen tai itäslaavi, ja lataa se. Tesseract-kielen valinta ei määritä PaddleOCR:ää.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 käyttää Universal V6 -malliaan automaattisesti v5-mallin valitsimen sijaan. Lataa sen tiedostot ennen offline-tilassa työskentelemistä, vertaa sitten samaa luettavaa kuvaa eri moottoreissa ja tarkista tuloste.</string>
+    <string name="help_tips_button_hint">Voit piilottaa Ohjeet ja vihjeet -painikkeen päänäytöstä. Ohje on aina saatavilla kohdasta Asetukset → Tietoja sovelluksesta.</string>
+    <string name="disable">Poista käytöstä</string>
 </resources>

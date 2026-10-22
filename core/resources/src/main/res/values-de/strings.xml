@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Wählen Sie für Tesseract die Sprachen auf der Seite aus und laden Sie die fehlenden Sprachdaten herunter. Seine Sprach-, Seitensegmentierungs- und Engine-Optionen gelten nur für Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Wählen Sie für PaddleOCR v5 ein zur Schrift passendes Modell aus, z. B. Latein, Kyrillisch oder Ostslawisch, und laden Sie es herunter. Durch die Tesseract-Sprachauswahl wird PaddleOCR nicht konfiguriert.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 verwendet automatisch sein Universal V6-Modell anstelle der v5-Modellauswahl. Laden Sie die Dateien herunter, bevor Sie offline arbeiten, vergleichen Sie dann dasselbe lesbare Bild mit allen Engines und lesen Sie die Ausgabe Korrektur.</string>
+    <string name="help_tips_button_hint">Sie können die Schaltfläche „Hilfe und Tipps“ auf dem Hauptbildschirm ausblenden. Hilfe ist immer unter Einstellungen → Über die App verfügbar.</string>
+    <string name="disable">Deaktivieren</string>
 </resources>

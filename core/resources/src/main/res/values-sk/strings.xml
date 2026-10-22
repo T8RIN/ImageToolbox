@@ -7300,4 +7300,6 @@
     <string name="help_tip_ai_ocr_step_1">Pre Tesseract vyberte jazyky na stránke a stiahnite si chýbajúce jazykové údaje. Jeho jazyk, segmentácia stránok a možnosti enginu sa vzťahujú iba na Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Pre PaddleOCR v5 vyberte model zodpovedajúci písmu, napríklad latinku, cyriliku alebo východoslovanské písmo, a stiahnite si ho. Výber jazyka Tesseract nenakonfiguruje PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 používa svoj model Universal V6 automaticky namiesto voliča modelu v5. Pred prácou v režime offline si stiahnite jeho súbory, potom porovnajte rovnaký čitateľný obrázok medzi nástrojmi a skontrolujte výstup.</string>
+    <string name="help_tips_button_hint">Tlačidlo Pomocník a tipy na hlavnej obrazovke môžete skryť. Pomocník je vždy dostupný v časti Nastavenia → O aplikácii.</string>
+    <string name="disable">Zakázať</string>
 </resources>

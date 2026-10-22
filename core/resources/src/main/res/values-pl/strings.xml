@@ -7300,4 +7300,6 @@
     <string name="help_tip_ai_ocr_step_1">W przypadku Tesseract wybierz języki na stronie i pobierz brakujące dane językowe. Jego język, segmentacja stron i opcje silnika dotyczą tylko Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">W przypadku PaddleOCR v5 wybierz model pasujący do pisma, na przykład łaciński, cyrylica lub wschodniosłowiański, i pobierz go. Wybór języka Tesseract nie konfiguruje PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 automatycznie używa swojego uniwersalnego modelu V6 zamiast selektora modelu v5. Pobierz pliki przed pracą w trybie offline, następnie porównaj ten sam czytelny obraz w różnych silnikach i sprawdź wynik.</string>
+    <string name="help_tips_button_hint">Możesz ukryć przycisk Pomoc i porady na ekranie głównym. Pomoc jest zawsze dostępna w Ustawieniach → Informacje o aplikacji.</string>
+    <string name="disable">Wyłączyć</string>
 </resources>

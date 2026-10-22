@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">För Tesseract väljer du språken på sidan och laddar ner språkdata som saknas. Dess språk, sidsegmentering och motoralternativ gäller endast för Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">För PaddleOCR v5, välj en modell som matchar skriptet, till exempel latin, kyrillisk eller östslavisk, och ladda ner den. Tesseract-språkval konfigurerar inte PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 använder sin Universal V6-modell automatiskt istället för v5-modellväljaren. Ladda ner dess filer innan du arbetar offline, jämför sedan samma läsbara bild mellan olika motorer och korrekturläs resultatet.</string>
+    <string name="help_tips_button_hint">Du kan dölja knappen Hjälp och tips på huvudskärmen. Hjälp är alltid tillgänglig i Inställningar → Om appen.</string>
+    <string name="disable">Inaktivera</string>
 </resources>

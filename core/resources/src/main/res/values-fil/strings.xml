@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Para sa Tesseract, piliin ang mga wika sa page at i-download ang nawawalang data ng wika. Ang wika, pagse-segment ng page at mga opsyon sa engine nito ay nalalapat lamang sa Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Para sa PaddleOCR v5, pumili ng modelong tumutugma sa script, gaya ng Latin, Cyrillic o East Slavic, at i-download ito. Ang pagpili ng wika ng Tesseract ay hindi nagko-configure ng PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">Awtomatikong ginagamit ng PaddleOCR v6 ang modelong Universal V6 nito sa halip na ang v5 model selector. I-download ang mga file nito bago magtrabaho offline, pagkatapos ay ihambing ang parehong nababasang larawan sa mga engine at i-proofread ang output.</string>
+    <string name="help_tips_button_hint">Maaari mong itago ang Help &amp;amp; Tips na button sa pangunahing screen. Palaging available ang tulong sa Mga Setting → Tungkol sa app.</string>
+    <string name="disable">Huwag paganahin</string>
 </resources>

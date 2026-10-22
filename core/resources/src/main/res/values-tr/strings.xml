@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Tesseract için sayfadaki dilleri seçin ve eksik dil verilerini indirin. Dili, sayfa segmentasyonu ve motor seçenekleri yalnızca Tesseract için geçerlidir.</string>
     <string name="help_tip_ai_ocr_step_2">PaddleOCR v5 için Latin, Kiril veya Doğu Slav gibi alfabeyle eşleşen bir model seçin ve indirin. Tesseract dil seçimi PaddleOCR\'yi yapılandırmaz.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6, v5 model seçici yerine otomatik olarak Universal V6 modelini kullanır. Çevrimdışı çalışmadan önce dosyalarını indirin, ardından aynı okunabilir görüntüyü motorlar arasında karşılaştırın ve çıktının düzeltmelerini yapın.</string>
+    <string name="help_tips_button_hint">Ana ekrandaki Yardım ve İpuçları düğmesini gizleyebilirsiniz. Yardıma her zaman Ayarlar → Uygulama hakkında bölümünden ulaşabilirsiniz.</string>
+    <string name="disable">Devre dışı bırakmak</string>
 </resources>

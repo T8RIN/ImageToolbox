@@ -7297,4 +7297,6 @@
     <string name="help_tip_ai_ocr_step_1">对于 Tesseract，选择页面上的语言并下载缺少的语言数据。它的语言、页面分割和引擎选项仅适用于 Tesseract。</string>
     <string name="help_tip_ai_ocr_step_2">对于PaddleOCR v5，选择与脚本匹配的模型，例如拉丁语、西里尔语或东斯拉夫语，然后下载。 Tesseract 语言选择不会配置 PaddleOCR。</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 自动使用其通用 V6 模型，而不是 v5 模型选择器。在离线工作之前下载其文件，然后比较跨引擎的相同可读图像并校对输出。</string>
+    <string name="help_tips_button_hint">您可以隐藏主屏幕上的“帮助和提示”按钮。帮助始终可以在“设置”→“关于应用程序”中找到。</string>
+    <string name="disable">禁用</string>
 </resources>

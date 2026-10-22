@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">برای Tesseract، زبان‌های موجود در صفحه را انتخاب کنید و داده‌های زبان از دست رفته را دانلود کنید. زبان، بخش بندی صفحه و گزینه های موتور آن فقط برای Tesseract اعمال می شود.</string>
     <string name="help_tip_ai_ocr_step_2">برای PaddleOCR v5، یک مدل مطابق با اسکریپت، مانند لاتین، سیریلیک یا اسلاوی شرقی انتخاب کنید و آن را دانلود کنید. انتخاب زبان Tesseract PaddleOCR را پیکربندی نمی کند.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 از مدل Universal V6 خود به طور خودکار به جای انتخابگر مدل v5 استفاده می کند. فایل‌های آن را قبل از کار آفلاین دانلود کنید، سپس همان تصویر قابل خواندن را در موتورها مقایسه کنید و خروجی را تصحیح کنید.</string>
+    <string name="help_tips_button_hint">می توانید دکمه Help &amp;amp; Tips را در صفحه اصلی پنهان کنید. راهنما همیشه در تنظیمات → درباره برنامه موجود است.</string>
+    <string name="disable">غیر فعال کردن</string>
 </resources>

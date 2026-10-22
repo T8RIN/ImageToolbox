@@ -7297,4 +7297,6 @@
     <string name="help_tip_ai_ocr_step_1">Đối với Tesseract, hãy chọn ngôn ngữ trên trang và tải xuống dữ liệu ngôn ngữ còn thiếu. Tùy chọn ngôn ngữ, phân đoạn trang và công cụ của nó chỉ áp dụng cho Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Đối với PaddleOCR v5, hãy chọn một mô hình phù hợp với tập lệnh, chẳng hạn như tiếng Latin, Cyrillic hoặc East Slavic và tải xuống. Lựa chọn ngôn ngữ Tesseract không cấu hình PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 tự động sử dụng mẫu Universal V6 thay vì bộ chọn mẫu v5. Tải xuống các tệp của nó trước khi làm việc ngoại tuyến, sau đó so sánh cùng một hình ảnh có thể đọc được trên các công cụ và đọc lại kết quả đầu ra.</string>
+    <string name="help_tips_button_hint">Bạn có thể ẩn nút Trợ giúp &amp;amp; Mẹo trên màn hình chính. Trợ giúp luôn có sẵn trong Cài đặt → Giới thiệu về ứng dụng.</string>
+    <string name="disable">Vô hiệu hóa</string>
 </resources>

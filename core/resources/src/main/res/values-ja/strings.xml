@@ -7297,4 +7297,6 @@
     <string name="help_tip_ai_ocr_step_1">Tesseract の場合は、ページで言語を選択し、不足している言語データをダウンロードします。言語、ページ セグメンテーション、エンジン オプションは Tesseract にのみ適用されます。</string>
     <string name="help_tip_ai_ocr_step_2">PaddleOCR v5 の場合は、ラテン文字、キリル文字、東スラブ文字などの文字に一致するモデルを選択してダウンロードします。 Tesseract の言語選択では PaddleOCR が構成されません。</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 は、v5 モデル セレクターの代わりに、Universal V6 モデルを自動的に使用します。オフラインで作業する前にファイルをダウンロードし、エンジン間で同じ読み取り可能な画像を比較し、出力を校正します。</string>
+    <string name="help_tips_button_hint">メイン画面の「ヘルプとヒント」ボタンを非表示にすることができます。ヘルプは、[設定] → [アプリについて] でいつでも利用できます。</string>
+    <string name="disable">無効にする</string>
 </resources>

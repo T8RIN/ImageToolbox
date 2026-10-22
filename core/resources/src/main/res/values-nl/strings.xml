@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Voor Tesseract kiest u de talen op de pagina en downloadt u de ontbrekende taalgegevens. De taal, paginasegmentatie en engine-opties zijn alleen van toepassing op Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">Voor PaddleOCR v5 selecteert u een model dat overeenkomt met het script, zoals Latijn, Cyrillisch of Oost-Slavisch, en downloadt u het. Tesseract-taalselectie configureert PaddleOCR niet.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 gebruikt automatisch het Universal V6-model in plaats van de v5-modelselector. Download de bestanden voordat u offline gaat werken, vergelijk vervolgens dezelfde leesbare afbeelding tussen verschillende zoekmachines en proeflees de uitvoer.</string>
+    <string name="help_tips_button_hint">U kunt de Help &amp;amp; Tips-knop op het hoofdscherm verbergen. Hulp is altijd beschikbaar via Instellingen → Over app.</string>
+    <string name="disable">Uitzetten</string>
 </resources>

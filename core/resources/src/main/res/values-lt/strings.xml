@@ -7300,4 +7300,6 @@
     <string name="help_tip_ai_ocr_step_1">Tesseract atveju pasirinkite kalbas puslapyje ir atsisiųskite trūkstamus kalbos duomenis. Jo kalba, puslapių segmentavimas ir variklio parinktys taikomos tik „Tesseract“.</string>
     <string name="help_tip_ai_ocr_step_2">Jei naudojate PaddleOCR v5, pasirinkite modelį, atitinkantį scenarijų, pvz., lotynų, kirilicos arba rytų slavų, ir atsisiųskite jį. Tesseract kalbos pasirinkimas nesukonfigūruoja PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 automatiškai naudoja universalųjį V6 modelį, o ne v5 modelio parinkiklį. Atsisiųskite jo failus prieš dirbdami neprisijungę, tada palyginkite tą patį skaitomą vaizdą visuose varikliuose ir patikrinkite išvestį.</string>
+    <string name="help_tips_button_hint">Pagrindiniame ekrane galite paslėpti mygtuką Pagalba ir patarimai. Pagalba visada pasiekiama nustatymuose → Apie programą.</string>
+    <string name="disable">Išjungti</string>
 </resources>

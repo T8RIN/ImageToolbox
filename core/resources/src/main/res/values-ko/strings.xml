@@ -7297,4 +7297,6 @@
     <string name="help_tip_ai_ocr_step_1">Tesseract의 경우 페이지에서 언어를 선택하고 누락된 언어 데이터를 다운로드하세요. 언어, 페이지 분할 및 엔진 옵션은 Tesseract에만 적용됩니다.</string>
     <string name="help_tip_ai_ocr_step_2">PaddleOCR v5의 경우 라틴어, 키릴어, 동슬라브어 등 스크립트와 일치하는 모델을 선택하고 다운로드하세요. Tesseract 언어 선택은 PaddleOCR을 구성하지 않습니다.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6은 v5 모델 선택기 대신 Universal V6 모델을 자동으로 사용합니다. 오프라인으로 작업하기 전에 해당 파일을 다운로드한 다음, 읽을 수 있는 동일한 이미지를 여러 엔진에서 비교하고 출력을 교정하세요.</string>
+    <string name="help_tips_button_hint">메인 화면에서 도움말 및 팁 버튼을 숨길 수 있습니다. 도움말은 설정 → 앱 정보에서 언제든지 확인할 수 있습니다.</string>
+    <string name="disable">장애를 입히다</string>
 </resources>

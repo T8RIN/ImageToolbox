@@ -7298,4 +7298,6 @@
     <string name="help_tip_ai_ocr_step_1">Tesseracti jaoks valige lehel olevad keeled ja laadige alla puuduvad keeleandmed. Selle keel, lehtede segmenteerimine ja mootori valikud kehtivad ainult Tesseracti puhul.</string>
     <string name="help_tip_ai_ocr_step_2">PaddleOCR v5 jaoks valige skriptile vastav mudel (nt ladina, kirillitsa või idaslaavi) ja laadige see alla. Tesseracti keelevalik ei konfigureeri PaddleOCR-i.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 kasutab oma Universal V6 mudelit automaatselt v5 mudelivalija asemel. Laadige selle failid alla enne võrguühenduseta töötamist, seejärel võrrelge sama loetavat pilti kõigis mootorites ja lugege väljundit korrektuuri.</string>
+    <string name="help_tips_button_hint">Saate põhikuval peita nupu Spikker ja nõuanded. Abi on alati saadaval menüüs Seaded → Teave rakenduse kohta.</string>
+    <string name="disable">Keela</string>
 </resources>
