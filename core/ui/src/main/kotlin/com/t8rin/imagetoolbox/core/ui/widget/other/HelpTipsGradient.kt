@@ -34,29 +34,64 @@ fun HelpTipsGradient(
         scaleToSize = scaleToSize,
         colors = {
             if (isNightMode) {
-                listOf(
-                    primaryContainer.blend(
-                        color = primary,
-                        fraction = 0.8f
-                    ),
-                    secondaryContainer.blend(
-                        color = primary,
-                        fraction = 0.65f
-                    ),
-                    tertiary,
-                )
+                if (scaleToSize) {
+                    listOf(
+                        secondaryContainer.blend(
+                            color = secondary,
+                            fraction = 0.8f
+                        ),
+                        primary.blend(
+                            color = tertiary,
+                            fraction = 0.33f
+                        ),
+                        primaryContainer.blend(
+                            color = secondary,
+                            fraction = 0.65f
+                        ),
+
+                        )
+                } else {
+                    listOf(
+                        primaryContainer.blend(
+                            color = primary,
+                            fraction = 0.8f
+                        ),
+                        secondaryContainer.blend(
+                            color = primary,
+                            fraction = 0.65f
+                        ),
+                        tertiary,
+                    )
+                }
             } else {
-                listOf(
-                    primary.blend(
-                        color = primaryContainer,
-                        fraction = 0.8f
-                    ),
-                    secondary.blend(
-                        color = primaryContainer,
-                        fraction = 0.65f
-                    ),
-                    tertiaryContainer,
-                )
+                if (scaleToSize) {
+                    listOf(
+                        secondary.blend(
+                            color = secondaryContainer,
+                            fraction = 0.8f
+                        ),
+                        primaryContainer.blend(
+                            color = tertiaryContainer,
+                            fraction = 0.33f
+                        ),
+                        primary.blend(
+                            color = secondaryContainer,
+                            fraction = 0.65f
+                        )
+                    )
+                } else {
+                    listOf(
+                        primary.blend(
+                            color = primaryContainer,
+                            fraction = 0.8f
+                        ),
+                        secondary.blend(
+                            color = primaryContainer,
+                            fraction = 0.65f
+                        ),
+                        tertiaryContainer,
+                    )
+                }
             }
         }
     ) {
