@@ -659,5 +659,6 @@ internal fun assistantModelTitle(model: AssistantModel): String = stringResource
         AssistantModel.Lite -> R.string.assistant_lite
         AssistantModel.VisionLite -> R.string.assistant_vision_lite
         AssistantModel.VisionAdvanced -> R.string.assistant_vision_advanced
+        AssistantModel.VisionMax -> R.string.assistant_vision_max
     }
 )

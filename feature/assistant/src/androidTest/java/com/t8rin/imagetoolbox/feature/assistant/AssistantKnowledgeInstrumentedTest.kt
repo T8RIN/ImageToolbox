@@ -588,6 +588,62 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
+    fun aiHelpDescribesAllAssistantModelsAndRecentFunctions() {
+        val models = checkNotNull(services.helpRepository.getTip("assistant-models"))
+        val guides = listOf(
+            "assistant-workflow", "assistant-models", "assistant-images", "assistant-downloads",
+            "ai-upscaling", "ai-cleanup", "ai-colorization", "ai-face-restoration", "ai-dehaze",
+            "ai-document-cleanup", "ai-style-transfer", "ai-detection", "ai-background-models",
+            "ai-inpainting", "ai-ocr", "ai-gallery", "depth-effects", "ai-parameters"
+        ).map { checkNotNull(services.helpRepository.getTip(it)) }
+        listOf("en", "ru").forEach { language ->
+            fun text(ids: List<Int>) = ids.joinToString(" ") {
+                services.resources.getStringLocalized(it, language)
+            }
+
+            val modelText = text(models.pages.flatMap { listOf(it.description) + it.steps })
+            AssistantModel.entries.forEach { model ->
+                assertTrue("$language: ${model.displayName}", modelText.contains(model.displayName))
+            }
+            val content =
+                text(guides.flatMap { it.pages }.flatMap { listOf(it.description) + it.steps })
+            listOf(
+                "GFPGAN", "DehazeFormer-T", "DocShadow", "UVDOC", "LaMa", "DDColor",
+                "SCUNet", "FBCNN", "MicroAST", "AesFA", "VGG19", "Depth Anything 3", "Mirage",
+                "PaddleOCR v6"
+            ).forEach { name -> assertTrue("$language: $name", content.contains(name)) }
+            guides.forEach { guide ->
+                assertEquals(guide.id, "ai-tools", guide.category.key)
+                assertTrue(guide.id, guide.deepLink != null)
+                guide.pages.forEach { page ->
+                    assertTrue(guide.id, page.steps.isNotEmpty())
+                    assertTrue(
+                        guide.id,
+                        text(listOf(page.title, page.description) + page.steps).isNotBlank()
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun assistantFindsGuidesForItsModelsAndRecentAiTools() = runBlocking {
+        listOf(
+            "Which Assistant model uses Qwen3.5 9B?" to "assistant-models",
+            "Как восстановить лицо через GFPGAN?" to "ai-face-restoration",
+            "How do I remove haze with DehazeFormer-T?" to "ai-dehaze",
+            "Как убрать тени с документа через DocShadow?" to "ai-document-cleanup",
+            "How do I use VGG19 style transfer?" to "ai-style-transfer"
+        ).forEach { (query, tipId) ->
+            val answer = knowledge.retrieve(AssistantRequest(query))
+            assertTrue(
+                "$query: ${answer.references.map { it.tipId }}",
+                answer.references.any { it.tipId == tipId }
+            )
+        }
+    }
+
+    @Test
     fun newerToolsRetrieveTheirDocumentedControls() = runBlocking {
         listOf(
             "How do I create a depth mask?" to "depth-effects",
@@ -603,7 +659,8 @@ class AssistantKnowledgeInstrumentedTest {
 
     @Test
     fun everyToolModeAndSettingHasSubstantiveLinkedHelp() {
-        val catalog = (Screen.typedEntries.flatMap { it.entries } + Screen.PdfTools.options)
+        val catalog = (Screen.typedEntries.flatMap { it.entries } + Screen.PdfTools.options +
+                listOf(Screen.Assistant(), Screen.UsageStatistics, Screen.LibrariesInfo))
             .distinctBy { it.simpleName }
         val modes = Screen.Filter.Type.entries.map { Screen.Filter(it) } +
                 Screen.RecognizeText.Type.entries.map { Screen.RecognizeText(it) } +

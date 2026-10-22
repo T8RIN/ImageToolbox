@@ -57,7 +57,13 @@ class AssistantSettingsTest {
 
     @Test
     fun existingModelOrdinalsRemainCompatible() {
-        listOf(AssistantModel.Lite, AssistantModel.Advanced, AssistantModel.Max)
+        listOf(
+            AssistantModel.Lite,
+            AssistantModel.Advanced,
+            AssistantModel.Max,
+            AssistantModel.VisionLite,
+            AssistantModel.VisionAdvanced
+        )
             .forEachIndexed { ordinal, model ->
                 assertEquals(
                     model,

@@ -58,7 +58,7 @@ class AssistantVisionInstrumentedTest {
         )
         val models = AssistantModels()
         try {
-            listOf(AssistantModel.VisionLite, AssistantModel.VisionAdvanced).forEach { variant ->
+            AssistantModel.entries.filter { it.supportsVision }.forEach { variant ->
                 var progress = 0f
                 withTimeout(30 * 60_000L) {
                     models.download(variant) { progress = it.currentPercent }
@@ -85,6 +85,11 @@ class AssistantVisionInstrumentedTest {
     @Test
     fun visionAdvancedReadsPixelsAndRecoversAfterCancellation() = runBlocking {
         verify(AssistantModel.VisionAdvanced)
+    }
+
+    @Test
+    fun visionMaxReadsPixelsAndRecoversAfterCancellation() = runBlocking {
+        verify(AssistantModel.VisionMax)
     }
 
     private suspend fun verify(variant: AssistantModel) = coroutineScope {

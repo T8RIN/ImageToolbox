@@ -27,7 +27,8 @@ enum class AssistantModel(
     Advanced("advanced", "Qwen3 1.7B", "https://huggingface.co/Qwen/Qwen3-1.7B"),
     Max("max", "Qwen3 8B", "https://huggingface.co/Qwen/Qwen3-8B"),
     VisionLite("vision_lite", "Qwen3.5 0.8B", "https://huggingface.co/Qwen/Qwen3.5-0.8B", true),
-    VisionAdvanced("vision_advanced", "Qwen3.5 2B", "https://huggingface.co/Qwen/Qwen3.5-2B", true);
+    VisionAdvanced("vision_advanced", "Qwen3.5 2B", "https://huggingface.co/Qwen/Qwen3.5-2B", true),
+    VisionMax("vision_max", "Qwen3.5 9B", "https://huggingface.co/Qwen/Qwen3.5-9B", true);
 
     companion object {
         fun fromOrdinal(ordinal: Int?): AssistantModel? = ordinal?.let(entries::getOrNull)

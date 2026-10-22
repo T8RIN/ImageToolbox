@@ -414,7 +414,7 @@ class AssistantKnowledge @Inject constructor(
                         "For descriptions and captions, provide the requested text without unrelated editing steps."
 
                 model == AssistantModel.Advanced || model == AssistantModel.VisionAdvanced -> "Name the matching ImageToolbox tool or setting first. Give 2–4 short steps and at most one relevant tradeoff, using the supplied facts."
-                model == AssistantModel.Max -> "Name the matching ImageToolbox tool or setting first. Give 3–5 short steps, using the supplied facts. Keep comparisons brief."
+                model == AssistantModel.Max || model == AssistantModel.VisionMax -> "Name the matching ImageToolbox tool or setting first. Give 3–5 short steps, using the supplied facts. Keep comparisons brief."
                 else -> "Name the matching ImageToolbox tool or setting first, then give 1–3 brief steps using the supplied facts."
             }
         )
@@ -634,7 +634,7 @@ class AssistantKnowledge @Inject constructor(
         if (references.isEmpty()) return
         appendLine("Help:")
         val documentLimit = when (model) {
-            AssistantModel.Max -> 1600
+            AssistantModel.Max, AssistantModel.VisionMax -> 1600
             AssistantModel.Advanced, AssistantModel.VisionAdvanced -> 1200
             AssistantModel.Lite, AssistantModel.VisionLite -> MAX_DOCUMENT_LENGTH
         }

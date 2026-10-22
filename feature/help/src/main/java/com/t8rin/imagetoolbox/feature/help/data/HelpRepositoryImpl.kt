@@ -446,6 +446,13 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         icon = Icons.Outlined.Palette
     )
 
+    private val aiTools = HelpCategory(
+        key = "ai-tools",
+        title = R.string.help_category_ai_tools,
+        subtitle = R.string.help_category_ai_tools_sub,
+        icon = Icons.Outlined.Neurology
+    )
+
     private val creativeTools = HelpCategory(
         key = "creative-tools",
         title = R.string.help_category_creative_tools,
@@ -475,25 +482,48 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         pdfAndDocuments,
         textAndData,
         colorTools,
+        aiTools,
         creativeTools,
         customization,
         troubleshooting
     )
 
     override val tips: List<HelpTip> = listOf(
-        tip(
+        pagesTip(
             id = "depth-effects",
             title = R.string.help_tip_depth_effects_title,
             subtitle = R.string.help_tip_depth_effects_subtitle,
             icon = Icons.Outlined.Neurology,
-            category = creativeTools,
+            category = aiTools,
             deepLink = Screen.AiTools(),
-            pageTitle = R.string.help_tip_depth_effects_title,
-            description = R.string.help_tip_depth_effects_description,
-            steps = listOf(
-                R.string.help_tip_depth_effects_step_1,
-                R.string.help_tip_depth_effects_step_2,
-                R.string.help_tip_depth_effects_step_3
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_depth_effects_title,
+                    description = R.string.help_tip_depth_effects_description,
+                    steps = listOf(
+                        R.string.help_tip_depth_effects_step_1,
+                        R.string.help_tip_depth_effects_step_2,
+                        R.string.help_tip_depth_effects_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_depth_effects_page_2_title,
+                    description = R.string.help_tip_depth_effects_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_depth_effects_page_2_step_1,
+                        R.string.help_tip_depth_effects_page_2_step_2,
+                        R.string.help_tip_depth_effects_page_2_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_depth_effects_page_3_title,
+                    description = R.string.help_tip_depth_effects_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_depth_effects_page_3_step_1,
+                        R.string.help_tip_depth_effects_page_3_step_2,
+                        R.string.help_tip_depth_effects_page_3_step_3
+                    )
+                )
             )
         ),
         tip(
@@ -2279,7 +2309,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             title = R.string.help_tip_ai_models_title,
             subtitle = R.string.help_tip_ai_models_subtitle,
             icon = Icons.Outlined.Neurology,
-            category = creativeTools,
+            category = aiTools,
             deepLink = Screen.AiTools(),
             pages = listOf(
                 page(
@@ -2307,7 +2337,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             title = R.string.help_tip_ai_parameters_title,
             subtitle = R.string.help_tip_ai_parameters_subtitle,
             icon = Icons.Outlined.Neurology,
-            category = creativeTools,
+            category = aiTools,
             deepLink = Screen.AiTools(),
             pages = listOf(
                 page(
@@ -2327,7 +2357,334 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                         R.string.help_tip_ai_parameters_page_2_step_2,
                         R.string.help_tip_ai_parameters_page_2_step_3
                     )
+                ),
+                page(
+                    title = R.string.help_tip_ai_parameters_page_3_title,
+                    description = R.string.help_tip_ai_parameters_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_ai_parameters_page_3_step_1,
+                        R.string.help_tip_ai_parameters_page_3_step_2,
+                        R.string.help_tip_ai_parameters_page_3_step_3
+                    )
                 )
+            )
+        ),
+        pagesTip(
+            id = "assistant-workflow",
+            title = R.string.help_tip_assistant_workflow_title,
+            subtitle = R.string.help_tip_assistant_workflow_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Assistant(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_assistant_workflow_title,
+                    description = R.string.help_tip_assistant_workflow_description,
+                    steps = listOf(
+                        R.string.help_tip_assistant_workflow_step_1,
+                        R.string.help_tip_assistant_workflow_step_2,
+                        R.string.help_tip_assistant_workflow_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_assistant_workflow_page_2_title,
+                    description = R.string.help_tip_assistant_workflow_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_assistant_workflow_page_2_step_1,
+                        R.string.help_tip_assistant_workflow_page_2_step_2,
+                        R.string.help_tip_assistant_workflow_page_2_step_3
+                    )
+                )
+            )
+        ),
+        pagesTip(
+            id = "assistant-models",
+            title = R.string.help_tip_assistant_models_title,
+            subtitle = R.string.help_tip_assistant_models_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Assistant(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_assistant_models_title,
+                    description = R.string.help_tip_assistant_models_description,
+                    steps = listOf(
+                        R.string.help_tip_assistant_models_step_1,
+                        R.string.help_tip_assistant_models_step_2,
+                        R.string.help_tip_assistant_models_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_assistant_models_page_2_title,
+                    description = R.string.help_tip_assistant_models_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_assistant_models_page_2_step_1,
+                        R.string.help_tip_assistant_models_page_2_step_2,
+                        R.string.help_tip_assistant_models_page_2_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_assistant_models_page_3_title,
+                    description = R.string.help_tip_assistant_models_page_3_description,
+                    steps = listOf(
+                        R.string.help_tip_assistant_models_page_3_step_1,
+                        R.string.help_tip_assistant_models_page_3_step_2,
+                        R.string.help_tip_assistant_models_page_3_step_3
+                    )
+                )
+            )
+        ),
+        tip(
+            id = "assistant-images",
+            title = R.string.help_tip_assistant_images_title,
+            subtitle = R.string.help_tip_assistant_images_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Assistant(),
+            pageTitle = R.string.help_tip_assistant_images_title,
+            description = R.string.help_tip_assistant_images_description,
+            steps = listOf(
+                R.string.help_tip_assistant_images_step_1,
+                R.string.help_tip_assistant_images_step_2,
+                R.string.help_tip_assistant_images_step_3
+            )
+        ),
+        tip(
+            id = "assistant-downloads",
+            title = R.string.help_tip_assistant_downloads_title,
+            subtitle = R.string.help_tip_assistant_downloads_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Assistant(),
+            pageTitle = R.string.help_tip_assistant_downloads_title,
+            description = R.string.help_tip_assistant_downloads_description,
+            steps = listOf(
+                R.string.help_tip_assistant_downloads_step_1,
+                R.string.help_tip_assistant_downloads_step_2,
+                R.string.help_tip_assistant_downloads_step_3
+            )
+        ),
+        tip(
+            id = "ai-upscaling",
+            title = R.string.help_tip_ai_upscaling_title,
+            subtitle = R.string.help_tip_ai_upscaling_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_upscaling_title,
+            description = R.string.help_tip_ai_upscaling_description,
+            steps = listOf(
+                R.string.help_tip_ai_upscaling_step_1,
+                R.string.help_tip_ai_upscaling_step_2,
+                R.string.help_tip_ai_upscaling_step_3
+            )
+        ),
+        tip(
+            id = "ai-cleanup",
+            title = R.string.help_tip_ai_cleanup_title,
+            subtitle = R.string.help_tip_ai_cleanup_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_cleanup_title,
+            description = R.string.help_tip_ai_cleanup_description,
+            steps = listOf(
+                R.string.help_tip_ai_cleanup_step_1,
+                R.string.help_tip_ai_cleanup_step_2,
+                R.string.help_tip_ai_cleanup_step_3
+            )
+        ),
+        tip(
+            id = "ai-colorization",
+            title = R.string.help_tip_ai_colorization_title,
+            subtitle = R.string.help_tip_ai_colorization_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_colorization_title,
+            description = R.string.help_tip_ai_colorization_description,
+            steps = listOf(
+                R.string.help_tip_ai_colorization_step_1,
+                R.string.help_tip_ai_colorization_step_2,
+                R.string.help_tip_ai_colorization_step_3
+            )
+        ),
+        tip(
+            id = "ai-face-restoration",
+            title = R.string.help_tip_ai_face_restoration_title,
+            subtitle = R.string.help_tip_ai_face_restoration_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_face_restoration_title,
+            description = R.string.help_tip_ai_face_restoration_description,
+            steps = listOf(
+                R.string.help_tip_ai_face_restoration_step_1,
+                R.string.help_tip_ai_face_restoration_step_2,
+                R.string.help_tip_ai_face_restoration_step_3
+            )
+        ),
+        tip(
+            id = "ai-dehaze",
+            title = R.string.help_tip_ai_dehaze_title,
+            subtitle = R.string.help_tip_ai_dehaze_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_dehaze_title,
+            description = R.string.help_tip_ai_dehaze_description,
+            steps = listOf(
+                R.string.help_tip_ai_dehaze_step_1,
+                R.string.help_tip_ai_dehaze_step_2,
+                R.string.help_tip_ai_dehaze_step_3
+            )
+        ),
+        tip(
+            id = "ai-document-cleanup",
+            title = R.string.help_tip_ai_document_cleanup_title,
+            subtitle = R.string.help_tip_ai_document_cleanup_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_document_cleanup_title,
+            description = R.string.help_tip_ai_document_cleanup_description,
+            steps = listOf(
+                R.string.help_tip_ai_document_cleanup_step_1,
+                R.string.help_tip_ai_document_cleanup_step_2,
+                R.string.help_tip_ai_document_cleanup_step_3
+            )
+        ),
+        tip(
+            id = "ai-style-transfer",
+            title = R.string.help_tip_ai_style_transfer_title,
+            subtitle = R.string.help_tip_ai_style_transfer_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pageTitle = R.string.help_tip_ai_style_transfer_title,
+            description = R.string.help_tip_ai_style_transfer_description,
+            steps = listOf(
+                R.string.help_tip_ai_style_transfer_step_1,
+                R.string.help_tip_ai_style_transfer_step_2,
+                R.string.help_tip_ai_style_transfer_step_3
+            )
+        ),
+        pagesTip(
+            id = "ai-detection",
+            title = R.string.help_tip_ai_detection_title,
+            subtitle = R.string.help_tip_ai_detection_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.AiTools(),
+            pages = listOf(
+                page(
+                    title = R.string.help_tip_ai_detection_title,
+                    description = R.string.help_tip_ai_detection_description,
+                    steps = listOf(
+                        R.string.help_tip_ai_detection_step_1,
+                        R.string.help_tip_ai_detection_step_2,
+                        R.string.help_tip_ai_detection_step_3
+                    )
+                ),
+                page(
+                    title = R.string.help_tip_ai_detection_page_2_title,
+                    description = R.string.help_tip_ai_detection_page_2_description,
+                    steps = listOf(
+                        R.string.help_tip_ai_detection_page_2_step_1,
+                        R.string.help_tip_ai_detection_page_2_step_2,
+                        R.string.help_tip_ai_detection_page_2_step_3
+                    )
+                )
+            )
+        ),
+        tip(
+            id = "ai-background-models",
+            title = R.string.help_tip_ai_background_models_title,
+            subtitle = R.string.help_tip_ai_background_models_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.EraseBackground(),
+            pageTitle = R.string.help_tip_ai_background_models_title,
+            description = R.string.help_tip_ai_background_models_description,
+            steps = listOf(
+                R.string.help_tip_ai_background_models_step_1,
+                R.string.help_tip_ai_background_models_step_2,
+                R.string.help_tip_ai_background_models_step_3
+            )
+        ),
+        tip(
+            id = "ai-inpainting",
+            title = R.string.help_tip_ai_inpainting_title,
+            subtitle = R.string.help_tip_ai_inpainting_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Draw(),
+            pageTitle = R.string.help_tip_ai_inpainting_title,
+            description = R.string.help_tip_ai_inpainting_description,
+            steps = listOf(
+                R.string.help_tip_ai_inpainting_step_1,
+                R.string.help_tip_ai_inpainting_step_2,
+                R.string.help_tip_ai_inpainting_step_3
+            )
+        ),
+        tip(
+            id = "ai-ocr",
+            title = R.string.help_tip_ai_ocr_title,
+            subtitle = R.string.help_tip_ai_ocr_subtitle,
+            icon = Icons.Outlined.TextSearch,
+            category = aiTools,
+            deepLink = Screen.RecognizeText(),
+            pageTitle = R.string.help_tip_ai_ocr_title,
+            description = R.string.help_tip_ai_ocr_description,
+            steps = listOf(
+                R.string.help_tip_ai_ocr_step_1,
+                R.string.help_tip_ai_ocr_step_2,
+                R.string.help_tip_ai_ocr_step_3
+            )
+        ),
+        tip(
+            id = "ai-gallery",
+            title = R.string.help_tip_ai_gallery_title,
+            subtitle = R.string.help_tip_ai_gallery_subtitle,
+            icon = Icons.Outlined.Neurology,
+            category = aiTools,
+            deepLink = Screen.Gallery,
+            pageTitle = R.string.help_tip_ai_gallery_title,
+            description = R.string.help_tip_ai_gallery_description,
+            steps = listOf(
+                R.string.help_tip_ai_gallery_step_1,
+                R.string.help_tip_ai_gallery_step_2,
+                R.string.help_tip_ai_gallery_step_3
+            )
+        ),
+        tip(
+            id = "usage-statistics",
+            title = R.string.help_tip_usage_statistics_title,
+            subtitle = R.string.help_tip_usage_statistics_subtitle,
+            icon = Icons.Outlined.Help,
+            category = gettingStarted,
+            deepLink = Screen.UsageStatistics,
+            pageTitle = R.string.help_tip_usage_statistics_title,
+            description = R.string.help_tip_usage_statistics_description,
+            steps = listOf(
+                R.string.help_tip_usage_statistics_step_1,
+                R.string.help_tip_usage_statistics_step_2,
+                R.string.help_tip_usage_statistics_step_3
+            )
+        ),
+        tip(
+            id = "libraries-licenses",
+            title = R.string.help_tip_libraries_licenses_title,
+            subtitle = R.string.help_tip_libraries_licenses_subtitle,
+            icon = Icons.Outlined.Help,
+            category = gettingStarted,
+            deepLink = Screen.LibrariesInfo,
+            pageTitle = R.string.help_tip_libraries_licenses_title,
+            description = R.string.help_tip_libraries_licenses_description,
+            steps = listOf(
+                R.string.help_tip_libraries_licenses_step_1,
+                R.string.help_tip_libraries_licenses_step_2,
+                R.string.help_tip_libraries_licenses_step_3
             )
         ),
         pagesTip(

@@ -239,12 +239,68 @@ internal class AssistantModelFiles private constructor(
             )
         )
 
+        private val visionMax = AssistantModelFiles(
+            files = listOf(
+                ModelFiles.Model(
+                    name = "genai_config.json",
+                    size = 2_867L,
+                    sha256 = "3973fc78773a6a00e00dd4c9d3acab5b4601d2da78e6231597af3d78a6a329fa"
+                ),
+                ModelFiles.Model(
+                    name = "processor_config.json",
+                    size = 1_528L,
+                    sha256 = "ceb4f9c08b4fb66a7dbba921d2da1074f57ddf58f12ccaa2052b0f0cf2f27caa"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer.json",
+                    size = 19_989_339L,
+                    sha256 = "a5cd9732badce41de57e6efce8302930ded1c1188c5f81feb2bd6c24c4a1941f"
+                ),
+                ModelFiles.Model(
+                    name = "tokenizer_config.json",
+                    size = 1_462L,
+                    sha256 = "6bcfdefdea3da31bacc5741005cd5523a6a5bffcb5af4596f6b4641643450ee1"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx",
+                    size = 2_921L,
+                    sha256 = "f37fdf74f2d6bb7e6ac570200a1fc85159a9cd419a22183801180df61af51257"
+                ),
+                ModelFiles.Model(
+                    name = "embedding.onnx.data",
+                    size = 635_699_200L,
+                    sha256 = "a3b3ad6274bba3cd2ca25d8702a846debcf78cb54febd62c0ee7fa0dfe278c5b"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx",
+                    size = 486_267L,
+                    sha256 = "e3e30d4da301e7460947cc3d242b109f315795ff0d50572a2a37a9a8d6fd4051"
+                ),
+                ModelFiles.Model(
+                    name = "text.onnx.data",
+                    size = 4_987_078_656L,
+                    sha256 = "1f0a4c30cfaf76df520922b813e6074f007885dcb1c2926bff1a9c3c4edf6002"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx",
+                    size = 3_531_711L,
+                    sha256 = "b70ad50cd254716c4be11f754b6ddb2ff2aab8a3d221866584ef1abc34469feb"
+                ),
+                ModelFiles.Model(
+                    name = "vision.onnx.data",
+                    size = 522_387_456L,
+                    sha256 = "a528f6b0cbd0143b237669de93defb92845f51332506de907e14123f14b31128"
+                )
+            )
+        )
+
         operator fun get(variant: AssistantModel): AssistantModelFiles = when (variant) {
             AssistantModel.Lite -> lite
             AssistantModel.Advanced -> advanced
             AssistantModel.Max -> max
             AssistantModel.VisionLite -> visionLite
             AssistantModel.VisionAdvanced -> visionAdvanced
+            AssistantModel.VisionMax -> visionMax
         }
     }
 }
