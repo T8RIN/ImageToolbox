@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.helpStringResource
 import com.t8rin.imagetoolbox.core.resources.icons.OpenInNew
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -46,7 +47,7 @@ internal fun TutorialDetailContent(
     onNavigate: (Screen) -> Unit
 ) {
     HelpScaffold(
-        title = stringResource(tip.title),
+        title = helpStringResource(tip.title),
         onGoBack = onGoBack
     ) { contentPadding ->
         LazyColumn(

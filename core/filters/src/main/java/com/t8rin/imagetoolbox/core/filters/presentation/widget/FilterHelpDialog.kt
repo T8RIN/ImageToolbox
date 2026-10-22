@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.helpDescription
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.helpStringResource
 import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -50,7 +51,7 @@ internal fun FilterHelpDialog(
         text = {
             val scrollState = rememberScrollState()
             Text(
-                text = stringResource(filter.helpDescription),
+                text = helpStringResource(filter.helpDescription),
                 modifier = Modifier
                     .fillMaxWidth()
                     .fadingEdges(

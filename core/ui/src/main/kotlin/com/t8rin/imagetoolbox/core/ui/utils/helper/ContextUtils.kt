@@ -51,6 +51,7 @@ import androidx.core.net.toUri
 import androidx.core.os.LocaleListCompat
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.getHelpString
 import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.ui.utils.helper.image_vector.toImageBitmap
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -226,7 +227,7 @@ object ContextUtils {
         locale: Locale,
     ): String = createConfigurationContext(
         Configuration(resources.configuration).apply { setLocale(locale) }
-    ).getText(resId).toString()
+    ).getHelpString(resId)
 
     fun Context.getStringEnglish(
         @StringRes

@@ -37,6 +37,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 dependencies {
+    implementation("com.android.tools.build:aaptcompiler:${libs.versions.agp.get()}")
     compileOnly(libs.agp.gradle)
     compileOnly(libs.kotlin.gradle)
     compileOnly(libs.detekt.gradle)

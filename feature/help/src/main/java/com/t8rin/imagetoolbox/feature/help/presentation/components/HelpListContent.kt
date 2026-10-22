@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.helpStringResource
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -153,8 +154,8 @@ internal fun HelpListContent(
                         key = { _, tip -> tip.id }
                     ) { index, tip ->
                         PreferenceItem(
-                            title = stringResource(tip.title),
-                            subtitle = stringResource(tip.subtitle),
+                            title = helpStringResource(tip.title),
+                            subtitle = helpStringResource(tip.subtitle),
                             startIcon = tip.icon as? ImageVector,
                             shape = ShapeDefaults.byIndex(index, filteredTips.size),
                             onClick = { onOpenTip(tip) },

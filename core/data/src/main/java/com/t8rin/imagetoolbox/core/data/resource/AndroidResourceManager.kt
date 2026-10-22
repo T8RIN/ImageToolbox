@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.res.Configuration
 import androidx.annotation.StringRes
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.resources.getHelpString
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Locale
 import javax.inject.Inject
@@ -31,12 +32,12 @@ internal class AndroidResourceManager @Inject constructor(
 
     override fun getString(
         resId: Int
-    ): String = context.getString(resId)
+    ): String = context.getHelpString(resId)
 
     override fun getString(
         resId: Int,
         vararg formatArgs: Any
-    ): String = context.getString(resId, *formatArgs)
+    ): String = context.getHelpString(resId, *formatArgs)
 
     override fun getStringLocalized(
         resId: Int,
@@ -62,7 +63,7 @@ internal class AndroidResourceManager @Inject constructor(
         locale: Locale,
     ): String = createConfigurationContext(
         Configuration(resources.configuration).apply { setLocale(locale) }
-    ).getText(resId).toString()
+    ).getHelpString(resId)
 
     private fun Context.getStringLocalized(
         @StringRes
@@ -71,5 +72,5 @@ internal class AndroidResourceManager @Inject constructor(
         vararg formatArgs: Any
     ): String = createConfigurationContext(
         Configuration(resources.configuration).apply { setLocale(locale) }
-    ).getString(resId, *formatArgs)
+    ).getHelpString(resId, *formatArgs)
 }
