@@ -101,6 +101,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
@@ -261,7 +262,26 @@ private fun AssistantTopBar(
 ) {
     val busy = component.isGenerating
     EnhancedTopAppBar(
-        title = { Text(stringResource(R.string.ai_assistant), modifier = Modifier.marquee()) },
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.marquee()
+            ) {
+                Text(
+                    text = stringResource(R.string.ai_assistant),
+                )
+                EnhancedBadge(
+                    content = {
+                        Text(stringResource(R.string.beta))
+                    },
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .padding(bottom = 12.dp)
+                )
+            }
+        },
         navigationIcon = {
             EnhancedIconButton(onClick = component.onGoBack) {
                 Icon(Icons.Rounded.ArrowBack, stringResource(R.string.exit))
