@@ -7183,7 +7183,6 @@
     <string name="filter_help_zoom_blur">Blurs detail outward from a selected center to imitate zooming during exposure. Center X/Y place the origin and blur size sets the strength.</string>
     <string name="model_gfpgan">Automatically detects and restores faces with GFPGAN v1.4, blending them into the original image. Strength controls the restoration amount.</string>
     <string name="model_dehazeformer">Removes atmospheric haze with DehazeFormer-T. Best suited to outdoor photos.</string>
-
     <string name="help_tip_assistant_workflow_title">Ask Assistant about ImageToolbox</string>
     <string name="help_tip_assistant_workflow_subtitle">Get instructions for a task and open the matching tools</string>
     <string name="help_tip_assistant_workflow_description">Assistant uses a downloaded model to explain tools and settings. Open it from the main screen or the Assistant tab in a tool’s settings panel. Starting from a tool can include its selected files and current parameters in your question.</string>
@@ -7308,7 +7307,6 @@
     <string name="help_tip_libraries_licenses_step_3">For AI models, also open the model’s source link from its selector. A library entry does not replace the model’s own documentation.</string>
     <string name="help_category_ai_tools">AI and Assistant</string>
     <string name="help_category_ai_tools_sub">Local models, image understanding, restoration, style, depth and detection</string>
-
     <string name="help_tip_depth_effects_page_2_title">Depth models and custom maps</string>
     <string name="help_tip_depth_effects_page_2_description">Depth Anything V2 offers Small, Base and Large models in Q4 and FP32. Depth Anything 3 also offers several sizes and precisions, including Mono Large. The app uses normalized relative depth for effects, not a calibrated distance measurement in meters.</string>
     <string name="help_tip_depth_effects_page_2_step_1">Start with a Small or quantized model, then compare a larger version on the same photo if boundaries or thin objects are missed.</string>
@@ -7324,7 +7322,6 @@
     <string name="help_tip_ai_parameters_page_3_step_1">Strength is available for FBCNN, style transfer and GFPGAN. Style transfer also needs a style image; depth models have their own effect controls and optional depth map.</string>
     <string name="help_tip_ai_parameters_page_3_step_2">Chunking is unavailable for tasks such as background removal, DDColor, face restoration, document correction, dehazing, depth, style transfer and AI detection. For them, reduce source dimensions or choose a smaller model if memory runs out.</string>
     <string name="help_tip_ai_parameters_page_3_step_3">Generate a preview before saving or sharing. AI detection returns a score and verdict instead of an image, so image effect controls do not apply there.</string>
-
     <string name="help_tip_ai_ocr_title">Choose an OCR engine</string>
     <string name="help_tip_ai_ocr_subtitle">Tesseract, PaddleOCR v5 and PaddleOCR v6</string>
     <string name="help_tip_ai_ocr_description">Recognize Text offers Tesseract and two PaddleOCR providers. Their downloaded data and controls are different. The selected engine is also used when writing recognized text to a file, image metadata or a searchable PDF.</string>
