@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.t8rin.imagetoolbox.feature.shader_studio.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +41,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.filters.presentation.utils.localizedMessage
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -173,7 +176,6 @@ private fun GlslCodeField(
     )
 }
 
-@Suppress("DEPRECATION")
 private class GlslHighlightVisualTransformation(
     private val highlightedCode: AnnotatedString?
 ) : VisualTransformation {

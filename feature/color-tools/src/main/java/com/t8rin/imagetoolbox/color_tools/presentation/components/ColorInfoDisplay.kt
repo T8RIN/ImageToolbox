@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.t8rin.imagetoolbox.color_tools.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.t8rin.colors.parser.ColorNameParser
@@ -194,7 +197,6 @@ internal fun getFormattedColor(color: Color): String {
     }.uppercase()
 }
 
-@Suppress("DEPRECATION")
 @Composable
 private fun ColorEditableField(
     label: String,

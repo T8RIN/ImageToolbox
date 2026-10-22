@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf
 
 import androidx.compose.foundation.layout.Spacer
@@ -56,7 +58,6 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageSize
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 
-@Suppress("DEPRECATION")
 @Composable
 fun ComicToPdfToolContent(
     component: ComicToPdfToolComponent
