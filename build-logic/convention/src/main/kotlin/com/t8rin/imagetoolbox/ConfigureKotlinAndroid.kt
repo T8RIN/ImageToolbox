@@ -20,16 +20,12 @@ package com.t8rin.imagetoolbox
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.provideDelegate
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension,
@@ -104,40 +100,21 @@ val Project.javaVersion: JavaVersion
  * Configure base Kotlin options
  */
 private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() = configure<T> {
-    val args = listOf(
-        "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-        "-opt-in=androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
-        "-opt-in=androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi",
-        "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
-        "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-        "-opt-in=androidx.compose.foundation.layout.ExperimentalLayoutApi",
-        "-opt-in=androidx.compose.ui.unit.ExperimentalUnitApi",
-        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-        "-opt-in=kotlinx.coroutines.FlowPreview",
-        "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
-        "-opt-in=com.arkivanov.decompose.ExperimentalDecomposeApi",
-        "-opt-in=coil3.annotation.ExperimentalCoilApi",
-        "-opt-in=coil3.annotation.DelicateCoilApi",
-        "-opt-in=kotlin.contracts.ExperimentalContracts",
-        "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-        "-opt-in=androidx.compose.ui.text.ExperimentalTextApi",
-        "-opt-in=kotlinx.coroutines.DelicateCoroutinesApi",
-        "-Xannotation-default-target=param-property",
-        "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
-    )
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
-    @Suppress("DEPRECATION") val warningsAsErrors: String? by project
+    val warningsAsErrors = findProperty("warningsAsErrors")?.toString().toBoolean()
     when (this) {
         is KotlinAndroidProjectExtension -> compilerOptions
         is KotlinJvmProjectExtension -> compilerOptions
         else -> error("Unsupported project extension $this ${T::class}")
     }.apply {
-        jvmTarget = JvmTarget.fromTarget(libs.versions.jvmTarget.get())
-        allWarningsAsErrors = warningsAsErrors.toBoolean()
-        freeCompilerArgs.addAll(args)
-    }
-    tasks.withType<KotlinCompile>().configureEach {
-        compilerOptions.freeCompilerArgs.addAll(args)
+        jvmTarget.set(JvmTarget.fromTarget(libs.versions.jvmTarget.get()))
+        allWarningsAsErrors.set(warningsAsErrors)
+        optIn.addAll(
+            "kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "kotlinx.coroutines.FlowPreview",
+            "kotlinx.coroutines.DelicateCoroutinesApi",
+            "kotlin.contracts.ExperimentalContracts"
+        )
     }
 }

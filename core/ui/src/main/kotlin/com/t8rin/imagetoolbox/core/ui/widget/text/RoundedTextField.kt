@@ -60,7 +60,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,6 +71,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+// Material3 value-based text fields still require VisualTransformation.
+@Suppress("DEPRECATION")
 @Composable
 fun RoundedTextField(
     modifier: Modifier = Modifier,
@@ -150,6 +151,7 @@ fun RoundedTextField(
     )
 }
 
+@Suppress("DEPRECATION")
 @Composable
 fun RoundedTextField(
     modifier: Modifier = Modifier,

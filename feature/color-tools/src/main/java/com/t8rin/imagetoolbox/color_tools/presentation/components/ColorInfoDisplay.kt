@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import com.t8rin.colors.parser.ColorNameParser
@@ -44,6 +42,7 @@ import com.t8rin.colors.util.ColorUtil
 import com.t8rin.colors.util.HexUtil
 import com.t8rin.colors.util.HexVisualTransformation
 import com.t8rin.colors.util.hexRegexSingleChar
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
@@ -195,6 +194,7 @@ internal fun getFormattedColor(color: Color): String {
     }.uppercase()
 }
 
+@Suppress("DEPRECATION")
 @Composable
 private fun ColorEditableField(
     label: String,

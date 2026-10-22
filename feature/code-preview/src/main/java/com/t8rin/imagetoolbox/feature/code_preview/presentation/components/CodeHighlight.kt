@@ -26,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
 import dev.hossain.highlight.ui.rememberHighlightedCode
@@ -59,6 +58,7 @@ internal fun rememberCodeHighlight(
     }
 }
 
+@Suppress("DEPRECATION")
 internal class CodeHighlightVisualTransformation(
     private val highlightedCode: AnnotatedString
 ) : VisualTransformation {

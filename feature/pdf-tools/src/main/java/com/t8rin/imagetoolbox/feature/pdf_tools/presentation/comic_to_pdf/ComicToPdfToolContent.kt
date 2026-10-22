@@ -56,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PageSize
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.comic_to_pdf.screenLogic.ComicToPdfToolComponent
 import com.t8rin.imagetoolbox.feature.pdf_tools.presentation.common.BasePdfToolContent
 
+@Suppress("DEPRECATION")
 @Composable
 fun ComicToPdfToolContent(
     component: ComicToPdfToolComponent

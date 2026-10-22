@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
+import coil3.annotation.ExperimentalCoilApi
 import coil3.asImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.AsyncImagePreviewHandler
@@ -140,6 +141,7 @@ fun ImageToolboxThemeForPreview(
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun FakeLoader(
     isImageError: Boolean,

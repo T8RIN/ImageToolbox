@@ -41,7 +41,7 @@ private class FilterInjectProcessorImpl(
     private val codegen = environment.codeGenerator
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        logger.warn("START generation of filter map")
+        logger.info("START generation of filter map")
         val annotationFqn = "$PACKAGE.core.ksp.annotations.FilterInject"
 
         val annotated = resolver.getSymbolsWithAnnotation(annotationFqn)
@@ -50,7 +50,7 @@ private class FilterInjectProcessorImpl(
             .toList()
 
         if (annotated.isEmpty()) {
-            logger.warn("No annotated classes found")
+            logger.info("No annotated classes found")
             return emptyList()
         }
 

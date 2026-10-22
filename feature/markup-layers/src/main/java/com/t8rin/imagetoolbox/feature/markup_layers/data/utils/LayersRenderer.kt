@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.createFontFamilyResolver
+import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -115,6 +116,7 @@ internal class LayersRenderer @Inject constructor(
         )
         val textMeasurer = TextMeasurer(
             defaultFontFamilyResolver = createFontFamilyResolver(context),
+            defaultLocaleList = LocaleList(context.resources.configuration.locales.toLanguageTags()),
             defaultDensity = textDensity,
             defaultLayoutDirection = LayoutDirection.Ltr,
             cacheSize = 0

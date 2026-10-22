@@ -20,8 +20,8 @@ package com.t8rin.colors.util
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 
+@Suppress("DEPRECATION")
 class HexVisualTransformation(private val useAlpha: Boolean) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
