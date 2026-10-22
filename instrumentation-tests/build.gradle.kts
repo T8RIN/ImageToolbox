@@ -34,6 +34,7 @@ val testedProjects = listOf(
     "feature/code-preview",
     "feature/compare",
     "feature/draw",
+    "feature/edit-exif",
     "feature/filters",
     "feature/fractal-generation",
     "feature/gradient-maker",

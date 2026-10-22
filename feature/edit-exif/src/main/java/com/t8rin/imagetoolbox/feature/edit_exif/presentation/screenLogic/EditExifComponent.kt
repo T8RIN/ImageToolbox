@@ -31,20 +31,23 @@ import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
 import com.t8rin.imagetoolbox.core.domain.image.clearAllAttributes
 import com.t8rin.imagetoolbox.core.domain.image.clearAttribute
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
+import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.core.utils.imageSize
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.withContext
 
 
 class EditExifComponent @AssistedInject internal constructor(
@@ -68,8 +71,8 @@ class EditExifComponent @AssistedInject internal constructor(
     private val _exif: MutableState<Metadata?> = mutableStateOf(null)
     val exif by _exif
 
-    private val _imageFormat: MutableState<ImageFormat> = mutableStateOf(ImageFormat.Default)
-    val imageFormat by _imageFormat
+    private val _imageInfo: MutableState<ImageInfo> = mutableStateOf(ImageInfo())
+    val imageFormat get() = _imageInfo.value.imageFormat
 
     private val _uri: MutableState<Uri> = mutableStateOf(Uri.EMPTY)
     val uri: Uri by _uri
@@ -84,14 +87,14 @@ class EditExifComponent @AssistedInject internal constructor(
     fun saveBitmap(
         oneTimeSaveLocationUri: String?
     ) {
+        if (isImageLoading || uri == Uri.EMPTY) return
+
         savingJob = trackProgress {
             _isSaving.update { true }
-            runSuspendCatching {
-                imageGetter.getImage(uri.toString())
-            }.getOrNull()?.let {
+            try {
                 val result = fileController.save(
                     ImageSaveTarget(
-                        imageInfo = it.imageInfo,
+                        imageInfo = _imageInfo.value,
                         originalUri = uri.toString(),
                         sequenceNumber = null,
                         metadata = exif,
@@ -103,19 +106,30 @@ class EditExifComponent @AssistedInject internal constructor(
                 )
 
                 parseSaveResult(result.onSuccess(::registerSave))
+            } finally {
+                _isSaving.update { false }
             }
-            _isSaving.update { false }
         }
     }
 
     fun setUri(uri: Uri) {
         _uri.update { uri }
-        componentScope.launch {
-            imageGetter.getImage(uri.toString())?.let {
-                _exif.value = it.metadata
-                _imageFormat.value = it.imageInfo.imageFormat
+        _exif.update { null }
+        debouncedImageCalculation(delay = 0) {
+            val (metadata, imageInfo) = withContext(ioDispatcher) {
+                val size = uri.imageSize()
+                fileController.readMetadata(uri.toString()) to ImageInfo(
+                    width = size?.width ?: 0,
+                    height = size?.height ?: 0,
+                    imageFormat = ImageFormat[imageGetter.getExtension(uri.toString())],
+                    originalUri = uri.toString()
+                )
             }
+            _exif.update { metadata }
+            _imageInfo.update { imageInfo }
+            registerChangesCleared()
         }
+        _isImageLoading.update { true }
     }
 
     fun shareBitmap() {
@@ -128,20 +142,19 @@ class EditExifComponent @AssistedInject internal constructor(
     }
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {
+        if (isImageLoading || uri == Uri.EMPTY) return
+
         savingJob = trackProgress {
             _isSaving.update { true }
-            imageGetter.getImage(
-                uri.toString()
-            )?.let {
+            try {
                 shareProvider.cacheData(
                     writeData = { w ->
-                        w.writeBytes(
-                            fileController.readBytes(uri.toString())
-                        )
+                        val result = fileController.transferBytes(uri.toString(), w)
+                        if (result is SaveResult.Error) throw result.throwable
                     },
                     filename = filenameCreator.constructImageFilename(
                         saveTarget = ImageSaveTarget(
-                            imageInfo = it.imageInfo.copy(originalUri = uri.toString()),
+                            imageInfo = _imageInfo.value,
                             originalUri = uri.toString(),
                             metadata = exif,
                             sequenceNumber = null,
@@ -149,14 +162,17 @@ class EditExifComponent @AssistedInject internal constructor(
                         )
                     )
                 )?.let { uri ->
-                    fileController.writeMetadata(
-                        imageUri = uri,
-                        metadata = exif
-                    )
+                    withContext(ioDispatcher) {
+                        fileController.writeMetadata(
+                            imageUri = uri,
+                            metadata = exif
+                        )
+                    }
                     onComplete(uri.toUri())
                 }
+            } finally {
+                _isSaving.update { false }
             }
-            _isSaving.update { false }
         }
     }
 
