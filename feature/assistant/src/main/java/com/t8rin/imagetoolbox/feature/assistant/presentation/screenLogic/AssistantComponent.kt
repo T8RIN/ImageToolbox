@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.takePersistablePermission
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.utils.withSelectedUris
@@ -429,6 +430,7 @@ class AssistantComponent @AssistedInject internal constructor(
                 throw cancelled
             } catch (failure: Exception) {
                 failure.makeLog()
+                AppToastHost.showFailureToast(failure)
             }
         }
     }

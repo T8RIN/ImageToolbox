@@ -142,7 +142,12 @@ fun AssistantContent(component: AssistantComponent) {
     val hideTopBar = !showSetup && landscape && keyboardVisible
     val window = LocalActivity.current?.window
     DisposableEffect(window) {
-        val previousMode = window?.attributes?.softInputMode
+        val previousMode = window?.attributes?.softInputMode?.let {
+            // Android keeps the current adjustment when restoring an unspecified mode.
+            if (it and WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST == 0) {
+                it or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+            } else it
+        }
         window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         onDispose {
             previousMode?.let { window.setSoftInputMode(it) }
