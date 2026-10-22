@@ -22,6 +22,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
+import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.os.SystemClock
 import android.provider.DocumentsContract
@@ -30,6 +32,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.documentfile.provider.DocumentFile
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SdkSuppress
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleCallback
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
@@ -63,9 +66,9 @@ class OriginalFolderSavingInstrumentedTest {
     private val context = instrumentation.targetContext
 
     @Test
+    @SdkSuppress(minSdkVersion = 26)
     fun savesNestedImagesAndDeletesOriginalsOnlyAfterSuccessfulSave() {
         val folderName = "!ImageToolbox-saving-${System.nanoTime()}"
-        shell("mkdir /sdcard/$folderName")
         val treeUri = DocumentsContract.buildTreeDocumentUri(
             "com.android.externalstorage.documents",
             "primary:$folderName"
@@ -73,7 +76,13 @@ class OriginalFolderSavingInstrumentedTest {
         val activity = startActivity()
         val settings = context.entryPoint<SettingsStateEntryPoint>().settingsManager
         val originalSettings = runBlocking { settings.getSettingsState() }
+        val hadAllFilesAccess = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                Environment.isExternalStorageManager()
         try {
+            if (hadAllFilesAccess) {
+                shell("appops set --uid ${context.packageName} MANAGE_EXTERNAL_STORAGE deny")
+            }
+            shell("mkdir /sdcard/$folderName")
             selectFolder(activity, treeUri)
             val root = checkNotNull(DocumentFile.fromTreeUri(context, treeUri))
             val bytes = ByteArrayOutputStream().use { stream ->
@@ -180,6 +189,9 @@ class OriginalFolderSavingInstrumentedTest {
                 settings.setSaveFolderUri(originalSettings.saveFolderUri)
             }
             shell("rm -r /sdcard/$folderName")
+            if (hadAllFilesAccess) {
+                shell("appops set --uid ${context.packageName} MANAGE_EXTERNAL_STORAGE allow")
+            }
             context.revokeUriPermission(
                 treeUri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION

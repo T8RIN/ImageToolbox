@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.UriReplacements
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.path
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
@@ -57,7 +58,10 @@ internal data class SavingFolder private constructor(
         ): SavingFolder? = coroutineScope {
             val originalFolder = if (saveToOriginalFolder) {
                 runCatching {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val documentFolder = saveTarget.originalDocumentFolder(context)
+                    if (documentFolder != null) {
+                        context.createViaDocumentFile(saveTarget, documentFolder)
+                    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         saveTarget.originalRelativePath(context)?.let {
                             context.createViaMediaStore(
                                 saveTarget = saveTarget,
@@ -98,35 +102,67 @@ internal data class SavingFolder private constructor(
                 )
             } else {
                 val documentFile = DocumentFile.fromTreeUri(context, treeUri)
+                    ?: return@coroutineScope null
 
-                if (documentFile == null || !documentFile.exists()) {
-                    return@coroutineScope null
-                }
-
-                val filename = saveTarget.filename ?: return@coroutineScope null
-
-                if (documentFile.findFile(filename) != null) {
-                    throw context.filenameCollision(filename)
-                }
-
-                val file = documentFile.createFile(
-                    saveTarget.mimeType.entry,
-                    filename
-                )
-
-                val imageUri = file?.uri ?: return@coroutineScope null
-                if (file.name != filename) {
-                    file.delete()
-                    throw context.filenameCollision(filename)
-                }
-
-                SavingFolder(
-                    outputStream = context.contentResolver.openOutputStream(imageUri)
-                        ?: return@coroutineScope null,
-                    fileUri = imageUri,
-                    savingPath = documentFile.uri.path()
-                )
+                context.createViaDocumentFile(saveTarget, documentFile)
             }
+        }
+
+        private fun Context.createViaDocumentFile(
+            saveTarget: SaveTarget,
+            documentFile: DocumentFile
+        ): SavingFolder? {
+            if (!documentFile.exists()) return null
+
+            val filename = saveTarget.filename ?: return null
+            if (documentFile.findFile(filename) != null) {
+                throw filenameCollision(filename)
+            }
+
+            val file = documentFile.createFile(saveTarget.mimeType.entry, filename) ?: return null
+            if (file.name != filename) {
+                file.delete()
+                throw filenameCollision(filename)
+            }
+
+            return SavingFolder(
+                outputStream = contentResolver.openOutputStream(file.uri) ?: return null,
+                fileUri = file.uri,
+                savingPath = documentFile.uri.path()
+            )
+        }
+
+        private fun SaveTarget.originalDocumentFolder(context: Context): DocumentFile? {
+            val uri = UriReplacements.resolve(originalUri.toUri())
+            if (!DocumentsContract.isTreeUri(uri) || !DocumentsContract.isDocumentUri(
+                    context,
+                    uri
+                )
+            ) {
+                return null
+            }
+
+            val parentId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                runCatching {
+                    DocumentsContract.findDocumentPath(context.contentResolver, uri)
+                        ?.path
+                        ?.dropLast(1)
+                        ?.lastOrNull()
+                }.onFailure { it.makeLog("originalDocumentFolder") }.getOrNull()
+            } else null
+
+            val documentId =
+                parentId ?: if (uri.authority == "com.android.externalstorage.documents") {
+                    val originalId = DocumentsContract.getDocumentId(uri)
+                    if (originalId == DocumentsContract.getTreeDocumentId(uri)) return null
+
+                    originalId.substringBeforeLast('/', originalId.substringBefore(':') + ':')
+                } else return null
+
+            return DocumentFile.fromTreeUri(
+                context,
+                DocumentsContract.buildDocumentUriUsingTree(uri, documentId)
+            )?.takeIf { it.isDirectory && it.canWrite() }
         }
 
         @RequiresApi(Build.VERSION_CODES.Q)
