@@ -27,6 +27,7 @@ plugins {
 
 val testedProjects = listOf(
     "core/data",
+    "core/utils",
     "feature/ai-tools",
     "feature/assistant",
     "feature/apng-tools",
