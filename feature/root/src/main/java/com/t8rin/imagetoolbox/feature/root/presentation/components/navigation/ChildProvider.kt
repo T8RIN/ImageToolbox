@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsC
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
+import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import com.t8rin.imagetoolbox.feature.batchrename.presentation.screenLogic.BatchRenameComponent
@@ -49,7 +50,6 @@ import com.t8rin.imagetoolbox.feature.fractal_generation.presentation.screenLogi
 import com.t8rin.imagetoolbox.feature.gif_tools.presentation.screenLogic.GifToolsComponent
 import com.t8rin.imagetoolbox.feature.gradient_maker.presentation.screenLogic.GradientMakerComponent
 import com.t8rin.imagetoolbox.feature.help.presentation.screenLogic.HelpComponent
-import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.image_preview.presentation.screenLogic.ImagePreviewComponent
 import com.t8rin.imagetoolbox.feature.image_stacking.presentation.screenLogic.ImageStackingComponent
 import com.t8rin.imagetoolbox.feature.image_stitch.presentation.screenLogic.ImageStitchingComponent
@@ -713,6 +713,7 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialCategory = config.categoryName,
                 initialTipId = config.tipId,
+                showButtonHint = config.showButtonHint,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

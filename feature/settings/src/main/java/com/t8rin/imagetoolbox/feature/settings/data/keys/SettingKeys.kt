@@ -77,6 +77,8 @@ internal val THEME_STYLE = intPreferencesKey("THEME_STYLE")
 internal val INVERT_THEME = booleanPreferencesKey("INVERT_THEME")
 internal val SCREEN_SEARCH_ENABLED = booleanPreferencesKey("SCREEN_SEARCH_ENABLED")
 internal val SHOW_HELP_TIPS_BUTTON = booleanPreferencesKey("SHOW_HELP_TIPS_BUTTON")
+internal val HELP_TIPS_BUTTON_HINT_DISMISSED =
+    booleanPreferencesKey("HELP_TIPS_BUTTON_HINT_DISMISSED")
 internal val DRAW_BUTTON_SHADOWS = booleanPreferencesKey("DRAW_BUTTON_SHADOWS")
 internal val DRAW_FAB_SHADOWS = booleanPreferencesKey("DRAW_FAB_SHADOWS")
 internal val DRAW_SWITCH_SHADOWS = booleanPreferencesKey("DRAW_SWITCH_SHADOWS")

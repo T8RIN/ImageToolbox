@@ -150,7 +150,7 @@ private fun HelpTipsButton(onNavigate: (Screen) -> Unit) {
     AnimatedVisibility(LocalSettingsState.current.showHelpTipsButton) {
         HelpTipsGradient(scaleToSize = true) { contentColor ->
             EnhancedIconButton(
-                onClick = { onNavigate(Screen.Help()) },
+                onClick = { onNavigate(Screen.Help(showButtonHint = true)) },
                 contentColor = contentColor
             ) {
                 Icon(

@@ -146,6 +146,7 @@
     <string name="help_tips_settings_sub">Learn the main tools, export options, PDF flows, color utilities, and fixes for common problems</string>
     <string name="show_help_tips_button">Help &amp; Tips button</string>
     <string name="show_help_tips_button_sub">Show Help &amp; Tips in the main screen toolbar</string>
+    <string name="help_tips_button_hint">You can hide the Help &amp; Tips button on the main screen. Help is always available in Settings → About app.</string>
     <string name="help_category_getting_started">Getting started</string>
     <string name="help_category_getting_started_sub">Choose tools, import files, save results, and reuse settings faster</string>
     <string name="help_category_image_editing">Image editing</string>
@@ -7328,4 +7329,5 @@
     <string name="help_tip_ai_ocr_step_1">For Tesseract, choose the languages on the page and download the missing language data. Its language, page segmentation and engine options apply only to Tesseract.</string>
     <string name="help_tip_ai_ocr_step_2">For PaddleOCR v5, select a model matching the script, such as Latin, Cyrillic or East Slavic, and download it. Tesseract language selection does not configure PaddleOCR.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 uses its Universal V6 model automatically instead of the v5 model selector. Download its files before working offline, then compare the same readable image across engines and proofread the output.</string>
+    <string name="disable">Disable</string>
 </resources>

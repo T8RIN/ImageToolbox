@@ -150,6 +150,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleHelpTipsButton()
 
+    suspend fun dismissHelpTipsButtonHint(hideButton: Boolean)
+
     suspend fun toggleDrawAppBarShadows()
 
     suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)

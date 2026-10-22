@@ -2532,6 +2532,7 @@
     <string name="help_tips_settings_sub">Изучите основные инструменты, параметры экспорта, PDF-сценарии, цветовые утилиты и решения частых проблем.</string>
     <string name="show_help_tips_button">Кнопка «Помощь и советы»</string>
     <string name="show_help_tips_button_sub">Показывать кнопку справки в верхней панели главного экрана</string>
+    <string name="help_tips_button_hint">Кнопку «Помощь и советы» на главном экране можно отключить. Справка всегда доступна в «Настройки» → «О приложении».</string>
     <string name="help_category_getting_started">С чего начать</string>
     <string name="help_category_getting_started_sub">Выбирайте нужные инструменты, импортируйте файлы, сохраняйте результаты и быстрее настраивайте рабочий процесс.</string>
     <string name="help_category_image_editing">Редактирование изображений</string>

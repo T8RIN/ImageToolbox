@@ -149,6 +149,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HIDDEN_FOR_SHARE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ICON_SHAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
@@ -636,6 +637,11 @@ internal class AndroidSettingsManager @Inject constructor(
         key = SHOW_HELP_TIPS_BUTTON,
         defaultValue = default.showHelpTipsButton
     )
+
+    override suspend fun dismissHelpTipsButtonHint(hideButton: Boolean) = edit {
+        it[HELP_TIPS_BUTTON_HINT_DISMISSED] = true
+        if (hideButton) it[SHOW_HELP_TIPS_BUTTON] = false
+    }
 
     override suspend fun toggleDrawAppBarShadows() = toggle(
         key = DRAW_APPBAR_SHADOWS,

@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.settings.domain.SettingsInteractor
 import com.t8rin.imagetoolbox.core.settings.presentation.model.SettingsGroup
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
@@ -40,10 +41,12 @@ class HelpComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted("categoryName") initialCategory: String?,
     @Assisted("tipId") initialTipId: String?,
+    @Assisted val showButtonHint: Boolean,
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     helpRepository: HelpRepository,
     resourceManager: ResourceManager,
+    private val settingsInteractor: SettingsInteractor,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext), ResourceManager by resourceManager {
 
@@ -88,6 +91,12 @@ class HelpComponent @AssistedInject internal constructor(
                 tipId = tip.id
             )
         )
+    }
+
+    fun dismissHelpTipsButtonHint(hideButton: Boolean) {
+        componentScope.launch {
+            settingsInteractor.dismissHelpTipsButtonHint(hideButton)
+        }
     }
 
     fun updateIsSearching(isSearching: Boolean) {
@@ -156,6 +165,7 @@ class HelpComponent @AssistedInject internal constructor(
             initialCategory: String?,
             @Assisted("tipId")
             initialTipId: String?,
+            showButtonHint: Boolean,
             onGoBack: () -> Unit,
             onNavigate: (Screen) -> Unit
         ): HelpComponent

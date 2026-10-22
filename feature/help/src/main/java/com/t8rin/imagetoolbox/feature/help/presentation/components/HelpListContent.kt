@@ -19,16 +19,27 @@ package com.t8rin.imagetoolbox.feature.help.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
@@ -38,6 +49,8 @@ import com.t8rin.imagetoolbox.feature.help.domain.model.HelpTip
 @Composable
 internal fun HelpListContent(
     categories: List<HelpCategory>,
+    showButtonHint: Boolean,
+    onDismissButtonHint: (Boolean) -> Unit,
     filteredTips: List<HelpTip>,
     isSearching: Boolean,
     searchKeyword: String,
@@ -47,6 +60,10 @@ internal fun HelpListContent(
     onSearchKeywordChange: (String) -> Unit,
     onGoBack: () -> Unit
 ) {
+    val settingsState = LocalSettingsState.current
+    val showHelpTipsButtonHint = showButtonHint && settingsState.showHelpTipsButton &&
+            !settingsState.isHelpTipsButtonHintDismissed
+
     HelpScaffold(
         title = stringResource(R.string.help_tips),
         onGoBack = onGoBack,
@@ -66,6 +83,48 @@ internal fun HelpListContent(
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     flingBehavior = enhancedFlingBehavior()
                 ) {
+                    if (showHelpTipsButtonHint) {
+                        item(key = "help_tips_button_hint") {
+                            PreferenceItem(
+                                title = stringResource(R.string.show_help_tips_button),
+                                subtitle = stringResource(R.string.help_tips_button_hint),
+                                startIcon = Icons.TwoTone.Lightbulb,
+                                bottomContent = {
+                                    BoxWithConstraints {
+                                        val width = maxWidth
+
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp),
+                                            horizontalArrangement = Arrangement.spacedBy(
+                                                space = 8.dp,
+                                                alignment = Alignment.End
+                                            )
+                                        ) {
+                                            EnhancedButton(
+                                                onClick = { onDismissButtonHint(true) },
+                                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                                modifier = Modifier.width(width / 2)
+                                            ) {
+                                                Text(stringResource(R.string.disable))
+                                            }
+                                            EnhancedButton(
+                                                onClick = { onDismissButtonHint(false) },
+                                                modifier = Modifier.width(width / 2)
+                                            ) {
+                                                Text(stringResource(R.string.understood))
+                                            }
+                                        }
+                                    }
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItem()
+                                    .padding(bottom = 8.dp)
+                            )
+                        }
+                    }
                     itemsIndexed(
                         items = categories,
                         key = { _, category -> category.key }

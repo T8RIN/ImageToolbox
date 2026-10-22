@@ -90,7 +90,8 @@ sealed class Screen(
     @Serializable
     data class Help(
         val categoryName: String? = null,
-        val tipId: String? = null
+        val tipId: String? = null,
+        val showButtonHint: Boolean = false
     ) : Screen(
         id = -7,
         title = 0,

@@ -133,6 +133,8 @@ internal fun Preferences.toSettingsState(
     isInvertThemeColors = this[INVERT_THEME] ?: default.isInvertThemeColors,
     screensSearchEnabled = this[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
     showHelpTipsButton = this[SHOW_HELP_TIPS_BUTTON] ?: default.showHelpTipsButton,
+    isHelpTipsButtonHintDismissed = this[HELP_TIPS_BUTTON_HINT_DISMISSED]
+        ?: default.isHelpTipsButtonHintDismissed,
     copyToClipboardMode = this[COPY_TO_CLIPBOARD_MODE]?.let {
         CopyToClipboardMode.fromInt(it)
     } ?: default.copyToClipboardMode,
