@@ -150,7 +150,7 @@ internal fun MediaPeopleSuggestionsSheet(
                                 )
                                 if (loading) {
                                     EnhancedCircularProgressIndicator(
-                                        modifier = Modifier.size(20.dp),
+                                        modifier = Modifier.size(16.dp),
                                         strokeWidth = 2.dp
                                     )
                                 }
@@ -175,7 +175,7 @@ internal fun MediaPeopleSuggestionsSheet(
                                 )
                                 if (loading) {
                                     EnhancedCircularProgressIndicator(
-                                        modifier = Modifier.size(20.dp),
+                                        modifier = Modifier.size(16.dp),
                                         strokeWidth = 2.dp
                                     )
                                 }

@@ -428,7 +428,7 @@ internal fun PeopleGroupSettings(
                     )
                     if (saving) {
                         EnhancedCircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
+                            modifier = Modifier.size(16.dp),
                             strokeWidth = 2.dp
                         )
                     }
@@ -701,7 +701,7 @@ private fun PeopleMergeSheet(
                     )
                     if (!enabled) {
                         EnhancedCircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
+                            modifier = Modifier.size(16.dp),
                             strokeWidth = 2.dp
                         )
                     }

@@ -72,7 +72,9 @@ internal fun AssistantMessageContent(
     ) {
         if (message.question.isNotEmpty() || message.context.selectedUris.isNotEmpty()) {
             Surface(
-                modifier = Modifier.align(Alignment.End).widthIn(max = 560.dp),
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .widthIn(max = 560.dp),
                 shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.secondaryContainer
             ) {
@@ -108,16 +110,24 @@ internal fun AssistantMessageContent(
             }
             message.error?.let {
                 Text(
-                    it,
+                    text = it,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error
                 )
             }
             if (message.answer.text.isNotBlank() && !isGenerating) {
-                AssistantLinks(message, component)
+                AssistantLinks(
+                    message = message,
+                    component = component
+                )
             }
             if (message.answer.text.isNotBlank() || isGenerating || canRegenerate) {
-                AssistantMessageControls(message, component, isGenerating, canRegenerate)
+                AssistantMessageControls(
+                    message = message,
+                    component = component,
+                    isGenerating = isGenerating,
+                    canRegenerate = canRegenerate
+                )
             }
         }
     }
@@ -144,9 +154,9 @@ private fun AssistantLinks(message: AssistantMessage, component: AssistantCompon
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        Icons.Rounded.OpenInNew,
-                        stringResource(R.string.open_tool),
-                        Modifier.size(16.dp)
+                        imageVector = Icons.Rounded.OpenInNew,
+                        contentDescription = stringResource(R.string.open_tool),
+                        modifier = Modifier.size(16.dp)
                     )
                     Text(tool.title)
                 }
@@ -164,9 +174,9 @@ private fun AssistantLinks(message: AssistantMessage, component: AssistantCompon
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        Icons.Rounded.Settings,
-                        stringResource(R.string.settings),
-                        Modifier.size(16.dp)
+                        imageVector = Icons.Rounded.Settings,
+                        contentDescription = stringResource(R.string.settings),
+                        modifier = Modifier.size(16.dp)
                     )
                     Text(setting.title)
                 }
@@ -185,9 +195,9 @@ private fun AssistantLinks(message: AssistantMessage, component: AssistantCompon
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Icon(
-                        Icons.Outlined.Help,
-                        stringResource(R.string.help_tips),
-                        Modifier.size(16.dp)
+                        imageVector = Icons.Outlined.Help,
+                        contentDescription = stringResource(R.string.help_tips),
+                        modifier = Modifier.size(16.dp)
                     )
                     Text(reference.title, style = MaterialTheme.typography.labelMedium)
                 }
@@ -242,8 +252,10 @@ private fun AssistantMessageControls(
         }
         if (isGenerating) {
             EnhancedCircularProgressIndicator(
-                modifier = Modifier.padding(12.dp).size(20.dp),
-                strokeWidth = 2.dp
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(24.dp),
+                strokeWidth = 3.dp
             )
         }
     }
