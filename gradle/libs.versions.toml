@@ -94,7 +94,7 @@ opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
 palette = "1.1.0-rc01"
-kotlinxSerializationJson = "1.11.0"
+kotlinxSerializationJson = "1.12.0"
 
 firebaseBom = "35.0.2"
 firebaseCrashlyticsGradle = "3.0.8"
