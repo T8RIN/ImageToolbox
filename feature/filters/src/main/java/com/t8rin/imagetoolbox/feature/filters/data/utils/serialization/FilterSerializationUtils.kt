@@ -19,12 +19,15 @@ package com.t8rin.imagetoolbox.feature.filters.data.utils.serialization
 
 import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.core.filters.domain.model.TemplateFilter
-import kotlin.reflect.full.primaryConstructor
+import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
+import com.t8rin.imagetoolbox.generated.createTransformationFilterFromKey
+import com.t8rin.imagetoolbox.generated.transformationFilterSerializationKey
 
 internal fun List<Filter<*>>.toDatastoreString(
     includeValue: Boolean = false
 ): String = joinToString(separator = FILTERS_SEPARATOR) { filter ->
-    filter::class.qualifiedName!!.replace(
+    ((filter as? UiFilter<*>)?.serializationKey
+        ?: requireNotNull(transformationFilterSerializationKey(filter))).replace(
         REAL_PACKAGE,
         PACKAGE_ALIAS
     ) + if (includeValue) {
@@ -34,7 +37,6 @@ internal fun List<Filter<*>>.toDatastoreString(
 }.trim()
 
 
-@Suppress("UNCHECKED_CAST")
 internal fun String.toFiltersList(
     includeValue: Boolean
 ): List<Filter<*>> = split(FILTERS_SEPARATOR).mapNotNull { line ->
@@ -49,23 +51,10 @@ internal fun String.toFiltersList(
             splitData[0].trim() to (className to valueString).fromPair()
         }.getOrElse { line.trim() to Unit }
     } else line.trim() to Unit
-    runCatching {
-        val filterClass = Class.forName(
-            name.replace(
-                PACKAGE_ALIAS,
-                REAL_PACKAGE
-            )
-        ) as Class<Filter<*>>
-        filterClass.kotlin.primaryConstructor?.run {
-            try {
-                if (includeValue && value != null) {
-                    callBy(mapOf(parameters[0] to value))
-                } else callBy(emptyMap())
-            } catch (_: Throwable) {
-                callBy(emptyMap())
-            }
-        }
-    }.getOrNull()
+    val key = name.replace(PACKAGE_ALIAS, REAL_PACKAGE)
+    val parameter = value.takeIf { includeValue }
+    UiFilter.fromSerializationKey(key, parameter)
+        ?: createTransformationFilterFromKey(key, parameter)
 }
 
 internal fun String.toTemplateFiltersList(): List<TemplateFilter> =

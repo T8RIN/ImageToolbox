@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import com.t8rin.imagetoolbox.core.resources.utils.openDecodedRawResource
 import org.json.JSONObject
 
 private val helpStrings = LruCache<String, JSONObject>(4)
@@ -38,7 +39,8 @@ fun Context.getHelpString(
     val resource = TypedValue().also { resources.getValue(R.raw.help_texts, it, true) }
     val path = "${resource.assetCookie}:${resource.string}"
     val strings =
-        helpStrings[path] ?: resources.openRawResource(R.raw.help_texts).bufferedReader().use {
+        helpStrings[path] ?: resources.openDecodedRawResource(R.raw.help_texts).bufferedReader()
+            .use {
             JSONObject(it.readText())
         }.also { helpStrings.put(path, it) }
 

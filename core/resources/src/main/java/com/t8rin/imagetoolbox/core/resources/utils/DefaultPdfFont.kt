@@ -20,7 +20,6 @@ package com.t8rin.imagetoolbox.core.resources.utils
 import android.content.Context
 import com.t8rin.imagetoolbox.core.resources.R
 import java.io.File
-import java.util.zip.GZIPInputStream
 
 val DefaultPdfFont get() = R.raw.image_toolbox_universal_bold
 
@@ -58,11 +57,9 @@ private object FontCache {
         val temporary = File.createTempFile(NAME, ".tmp", directory)
 
         try {
-            context.resources.openRawResource(DefaultPdfFont).use { compressed ->
-                GZIPInputStream(compressed.buffered()).use { input ->
-                    temporary.outputStream().buffered().use { output ->
-                        input.copyTo(output)
-                    }
+            context.resources.openDecodedRawResource(DefaultPdfFont).use { input ->
+                temporary.outputStream().buffered().use { output ->
+                    input.copyTo(output)
                 }
             }
 
@@ -92,8 +89,8 @@ private object FontCache {
 
     private fun File.isValidFont(): Boolean = isFile && length() == FILE_SIZE
 
-    private const val CACHE_KEY = "5299e3b5fc3352dd"
-    private const val FILE_SIZE = 5_359_124L
+    private const val CACHE_KEY = "f172046126b0a4fc"
+    private const val FILE_SIZE = 5_515_924L
     private const val NAME = "image_toolbox_universal_bold"
 
 }

@@ -135,7 +135,7 @@ fun AddFiltersSheet(
         }
     }
     val favoriteFilterKeys = remember(favoriteFilters) {
-        favoriteFilters.mapTo(HashSet()) { it::class.java.name }
+        favoriteFilters.mapTo(HashSet()) { it.serializationKey }
     }
 
     val haptics = LocalHapticFeedback.current
@@ -300,7 +300,7 @@ fun AddFiltersSheet(
                                         isFavoritePage = false,
                                         canOpenPreview = previewBitmap != null,
                                         showPreviewImage = true,
-                                        isInFavorite = filter::class.java.name in favoriteFilterKeys,
+                                        isInFavorite = filter.serializationKey in favoriteFilterKeys,
                                         onLongClick = {
                                             component.setPreviewData(filter)
                                         },

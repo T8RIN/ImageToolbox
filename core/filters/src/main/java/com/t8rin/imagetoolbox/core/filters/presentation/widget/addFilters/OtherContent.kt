@@ -117,7 +117,7 @@ internal fun OtherContent(
                 filter = filter,
                 canOpenPreview = previewBitmap != null,
                 showPreviewImage = showPreviewImages,
-                isInFavorite = filter::class.java.name in favoriteFilterKeys,
+                isInFavorite = filter.serializationKey in favoriteFilterKeys,
                 onLongClick = {
                     component.setPreviewData(filter)
                 },

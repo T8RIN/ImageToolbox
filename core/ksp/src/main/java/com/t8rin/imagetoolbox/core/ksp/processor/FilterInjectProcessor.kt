@@ -96,12 +96,45 @@ private class FilterInjectProcessorImpl(
                 appendLine("        else -> throw IllegalArgumentException(\"No filter implementation for interface \${this::class.simpleName}\")")
                 appendLine("    }")
                 appendLine("}")
+                appendLine()
+                appendSerializationMappings(annotated)
             }
         }
 
         logger.info("FilterMappings generated successfully")
 
         return emptyList()
+    }
+
+    private fun Appendable.appendSerializationMappings(filters: List<KSClassDeclaration>) {
+        appendLine("internal fun transformationFilterSerializationKey(filter: Filter<*>): String? = when (filter) {")
+        filters.forEach { filter ->
+            appendLine("    is ${filter.simpleName.asString()} -> \"${filter.qualifiedName!!.asString()}\"")
+        }
+        appendLine("    else -> null")
+        appendLine("}")
+        appendLine()
+        appendLine("@Suppress(\"UNCHECKED_CAST\")")
+        appendLine("internal fun createTransformationFilterFromKey(key: String, value: Any?): Filter<*>? = when (key) {")
+        filters.forEach { filter ->
+            val parameters = filter.primaryConstructor?.parameters.orEmpty()
+            val valueParameter = parameters.firstOrNull { it.name?.asString() == "value" }
+            val className = filter.simpleName.asString()
+            val fallback = if (parameters.all { it.hasDefault }) "$className()" else "null"
+            val constructor = if (valueParameter != null && parameters.all {
+                    it == valueParameter || it.hasDefault
+                }) {
+                "if (value == null) $fallback else $className(value = value as ${
+                    valueParameter.type.resolve().renderType()
+                })"
+            } else {
+                fallback
+            }
+            appendLine("    \"${filter.qualifiedName!!.asString()}\" ->")
+            appendLine("        runCatching { $constructor }.getOrElse { $fallback }")
+        }
+        appendLine("    else -> null")
+        appendLine("}")
     }
 
     companion object {

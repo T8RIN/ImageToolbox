@@ -16,6 +16,7 @@
  */
 
 import com.android.build.api.dsl.LibraryExtension
+import com.t8rin.imagetoolbox.CompressReleaseResourcesTask
 import com.t8rin.imagetoolbox.GenerateHelpResourcesTask
 
 plugins {
@@ -25,8 +26,23 @@ plugins {
 
 val helpResourcesDirectory = layout.buildDirectory.dir("generated/helpResources/res")
 val generateHelpResources = tasks.register<GenerateHelpResourcesTask>("generateHelpResources") {
+    description = "Generates localized help resources from Weblate strings."
     sourceDirectory.set(layout.projectDirectory.dir("src/main/res"))
     outputDirectory.set(helpResourcesDirectory)
+}
+
+androidComponents.onVariants(androidComponents.selector().withBuildType("release")) { variant ->
+    val compressResources = tasks.register<CompressReleaseResourcesTask>(
+        "compress${variant.name.replaceFirstChar(Char::uppercase)}Resources"
+    ) {
+        description = "Compresses help texts and the PDF font for ${variant.name}."
+        sourceDirectory.set(generateHelpResources.flatMap { it.outputDirectory })
+        outputDirectory.set(layout.buildDirectory.dir("generated/compressedResources/${variant.name}"))
+    }
+    variant.sources.res?.addGeneratedSourceDirectory(
+        compressResources,
+        CompressReleaseResourcesTask::outputDirectory
+    )
 }
 
 extensions.configure<LibraryExtension> {
@@ -63,6 +79,7 @@ tasks.named("preBuild") {
 }
 
 dependencies {
+    implementation(libs.xz)
     implementation(libs.material)
     implementation(libs.androidxCore)
     implementation(libs.appCompat)

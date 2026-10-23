@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.artistic
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.blurGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.colorGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.copyUiFilterInstance
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.createUiFilterFromKey
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.distortionGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.ditheringGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.effectsGroupFilters
@@ -42,6 +43,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.mapFilte
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.newUiFilterInstance
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.pixelationGroupFilters
 import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.simpleGroupFilters
+import com.t8rin.imagetoolbox.core.filters.presentation.model.generated.uiFilterSerializationKey
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Animation
@@ -68,6 +70,8 @@ sealed class UiFilter<T : Any>(
     val paramsInfo: List<FilterParam> = listOf(),
     override val value: T,
 ) : Filter<T> {
+
+    val serializationKey: String get() = uiFilterSerializationKey(this)
 
     override var isVisible: Boolean by mutableStateOf(true)
 
@@ -237,6 +241,11 @@ sealed class UiFilter<T : Any>(
     }
 
     companion object {
+        fun fromSerializationKey(
+            key: String,
+            value: Any? = null
+        ): UiFilter<*>? = createUiFilterFromKey(key, value)
+
         internal fun <T : Filter<*>> List<T>.filterCanUseTemplate() = filterIsNotInstance(
             Filter.PaletteTransfer::class,
             Filter.LUT512x512::class,
