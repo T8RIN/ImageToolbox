@@ -51,6 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkStar
 import com.t8rin.imagetoolbox.core.resources.icons.DataThresholding
 import com.t8rin.imagetoolbox.core.resources.icons.FolderMatch
@@ -113,7 +114,7 @@ internal fun DuplicateFinderControls(
                     subtitle = stringResource(R.string.duplicate_auto_analyze_sub),
                     checked = component.autoAnalyze,
                     onClick = component::updateAutoAnalyze,
-                    startIcon = Icons.Outlined.ImageSearch,
+                    startIcon = Icons.Outlined.AutoFixHigh,
                     modifier = Modifier.fillMaxWidth(),
                     shape = ShapeDefaults.large
                 )

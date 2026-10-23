@@ -25,13 +25,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.DuplicateFinder
@@ -54,6 +57,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val duplicateFinder: DuplicateFinder,
+    fileController: FileController,
     private val fileControllerEventEmitter: FileControllerEventEmitter,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -76,7 +80,11 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     private val _scanMode = mutableStateOf(DuplicateScanMode.ExactAndSimilar)
     val scanMode by _scanMode
 
-    private val _autoAnalyze = mutableStateOf(false)
+    private val _autoAnalyze = fileController.savable(
+        scope = componentScope,
+        initial = true,
+        key = "DuplicateFinderComponentAutoAnalyze"
+    )
     val autoAnalyze by _autoAnalyze
 
     private val _selectedUris: MutableState<Set<String>> = mutableStateOf(emptySet())
@@ -176,7 +184,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     fun updateAutoAnalyze(value: Boolean) {
         if (autoAnalyze == value) return
 
-        _autoAnalyze.value = value
+        _autoAnalyze.update { value }
         if (value) {
             if (analysisResult == null) analyze()
         } else {
