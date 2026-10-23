@@ -67,6 +67,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.helper.DuplicateGrouping
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.model.DuplicateGroup
@@ -107,6 +108,16 @@ internal fun DuplicateFinderControls(
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
+                PreferenceRowSwitch(
+                    title = stringResource(R.string.duplicate_auto_analyze),
+                    subtitle = stringResource(R.string.duplicate_auto_analyze_sub),
+                    checked = component.autoAnalyze,
+                    onClick = component::updateAutoAnalyze,
+                    startIcon = Icons.Outlined.ImageSearch,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = ShapeDefaults.large
+                )
+
                 EnhancedButtonGroup(
                     enabled = true,
                     items = listOf(

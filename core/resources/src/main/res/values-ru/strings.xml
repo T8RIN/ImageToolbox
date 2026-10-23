@@ -3866,6 +3866,9 @@
     <string name="duplicate_scan_mode">Режим поиска</string>
     <string name="duplicate_scan_exact_only">Только точные копии</string>
     <string name="duplicate_scan_exact_and_similar">Точные и похожие</string>
+    <string name="duplicate_auto_analyze">Автоматический анализ</string>
+    <string name="duplicate_auto_analyze_sub">Начинать поиск дубликатов при добавлении изображений или смене режима поиска</string>
+    <string name="duplicate_start_analysis">Найти дубликаты</string>
     <string name="exact_copies">Точные копии</string>
     <string name="similar_images">Похожие изображения</string>
     <string name="select_all_duplicates">Выбрать все точные дубликаты</string>

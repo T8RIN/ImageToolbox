@@ -76,6 +76,9 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     private val _scanMode = mutableStateOf(DuplicateScanMode.ExactAndSimilar)
     val scanMode by _scanMode
 
+    private val _autoAnalyze = mutableStateOf(false)
+    val autoAnalyze by _autoAnalyze
+
     private val _selectedUris: MutableState<Set<String>> = mutableStateOf(emptySet())
     val selectedUris by _selectedUris
 
@@ -113,17 +116,12 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun setUris(uris: List<Uri>) {
         componentScope.launch {
-            _isAnalyzing.value = true
             val distinctUris = uris.distinctUris()
+            if (sourceUris == distinctUris) return@launch
+
             _sourceUris.value = distinctUris
-            _selectedUris.value = emptySet()
-            if (distinctUris.isEmpty()) {
-                cancelAnalysis()
-                _analysisResult.value = null
-                _groups.value = emptyList()
-            } else {
-                analyze()
-            }
+            resetAnalysis()
+            if (autoAnalyze) analyze()
         }
     }
 
@@ -132,7 +130,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     }
 
     fun analyze() {
-        if (sourceUris.isEmpty()) return
+        if (sourceUris.isEmpty() || isDeleting) return
 
         val requestedUris = sourceUris.map(Uri::toString)
         analysisJob = trackProgress {
@@ -171,7 +169,26 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun cancelAnalysis() {
         analysisJob = null
+        _isAnalyzing.value = false
         _progress.value = null
+    }
+
+    fun updateAutoAnalyze(value: Boolean) {
+        if (autoAnalyze == value) return
+
+        _autoAnalyze.value = value
+        if (value) {
+            if (analysisResult == null) analyze()
+        } else {
+            cancelAnalysis()
+        }
+    }
+
+    private fun resetAnalysis() {
+        cancelAnalysis()
+        _analysisResult.value = null
+        _groups.value = emptyList()
+        _selectedUris.value = emptySet()
     }
 
     fun updateSensitivity(value: Int) {
@@ -212,8 +229,8 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         if (scanMode == value) return
 
         _scanMode.value = value
-        _selectedUris.value = emptySet()
-        analyze()
+        resetAnalysis()
+        if (autoAnalyze) analyze()
     }
 
     fun toggleSelection(uri: String) {

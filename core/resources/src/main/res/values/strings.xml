@@ -4301,6 +4301,9 @@
     <string name="duplicate_scan_mode">Scan mode</string>
     <string name="duplicate_scan_exact_only">Exact copies only</string>
     <string name="duplicate_scan_exact_and_similar">Exact and similar</string>
+    <string name="duplicate_auto_analyze">Automatic analysis</string>
+    <string name="duplicate_auto_analyze_sub">Start searching for duplicates when images are added or the scan mode changes</string>
+    <string name="duplicate_start_analysis">Find duplicates</string>
     <string name="exact_copies">Exact copies</string>
     <string name="similar_images">Similar images</string>
     <string name="select_all_duplicates">Select all exact duplicates</string>
