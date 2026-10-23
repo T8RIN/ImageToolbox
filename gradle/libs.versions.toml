@@ -5,8 +5,8 @@ androidCompileSdk = "37"
 androidCompileSdkMinor = "2"
 androidCompileSdkExtension = "-"
 
-versionName = "4.3.0-beta02"
-versionCode = "273"
+versionName = "4.3.0-beta03"
+versionCode = "274"
 
 jvmTarget = "21"
 
