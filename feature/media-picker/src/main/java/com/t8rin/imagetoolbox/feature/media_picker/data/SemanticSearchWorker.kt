@@ -250,7 +250,7 @@ internal interface SemanticSearchWorkerEntryPoint {
 private fun Context.semanticSearchDependencies(): SemanticSearchWorkerEntryPoint =
     EntryPointAccessors.fromApplication(this, SemanticSearchWorkerEntryPoint::class.java)
 
-internal fun Context.hasSemanticSearchPermission(): Boolean {
+fun Context.hasSemanticSearchPermission(): Boolean {
     fun hasPermission(permission: String) =
         ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 

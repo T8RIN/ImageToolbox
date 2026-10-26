@@ -81,6 +81,8 @@ interface SemanticSearchRepository {
         categories: List<SemanticSearchCategoryResult>
     )
 
+    suspend fun people(media: List<Media>): List<SemanticSearchCategoryResult>
+
     suspend fun categories(
         media: List<Media>,
         settings: SemanticSearchSettings = SemanticSearchSettings()

@@ -27,6 +27,7 @@ android.namespace = "com.t8rin.imagetoolbox.feature.assistant"
 dependencies {
     implementation(libs.commonmark)
     implementation(libs.kotlinx.serialization.json)
+    implementation(projects.feature.mediaPicker)
     implementation(projects.feature.help)
     implementation(projects.core.filters)
     implementation(projects.lib.neuralTools)

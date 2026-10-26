@@ -108,6 +108,10 @@ internal fun AssistantMessageContent(
             if (message.answer.text.isNotBlank()) {
                 SelectionContainer { AssistantAnswerText(message.answer.text) }
             }
+            AssistantGalleryContent(
+                message = message,
+                component = component
+            )
             message.error?.let {
                 Text(
                     text = it,

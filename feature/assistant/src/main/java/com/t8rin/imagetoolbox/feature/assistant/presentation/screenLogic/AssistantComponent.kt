@@ -47,12 +47,17 @@ import com.t8rin.imagetoolbox.core.utils.mimeType
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantGalleryPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import dagger.assisted.Assisted
@@ -68,8 +73,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.launch as launchImmediate
+import kotlinx.coroutines.withContext
 
 class AssistantComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -78,6 +83,7 @@ class AssistantComponent @AssistedInject internal constructor(
     @Assisted private val onNavigate: (Screen) -> Unit,
     private val knowledge: AssistantKnowledge,
     private val store: AssistantConversationStore,
+    private val gallerySearch: AssistantGallerySearch,
     private val settings: SettingsManager,
     private val resources: ResourceManager,
     private val imageGetter: ImageGetter<Bitmap>,
@@ -108,6 +114,11 @@ class AssistantComponent @AssistedInject internal constructor(
     private val _selectedUris =
         mutableStateOf(route.selectedUris.map { it.toString() }.distinct().take(maxSelectedImages))
     val selectedUris by _selectedUris
+
+    private val _galleryPreviewUris = mutableStateOf<List<String>>(emptyList())
+    val galleryPreviewUris by _galleryPreviewUris
+    private val _galleryPreviewUri = mutableStateOf<String?>(null)
+    val galleryPreviewUri by _galleryPreviewUri
 
     private val maxSelectedImages: Int
         get() = if (selectedModel.supportsVision) AssistantModels.MAX_IMAGES else MAX_SELECTED_IMAGES
@@ -193,7 +204,11 @@ class AssistantComponent @AssistedInject internal constructor(
         return accepted
     }
 
-    private fun send(request: AssistantRequest, replaceMessageId: Long? = null): Boolean {
+    private fun send(
+        request: AssistantRequest,
+        replaceMessageId: Long? = null,
+        galleryAction: (suspend () -> AssistantAnswer)? = null
+    ): Boolean {
         if (!componentScope.isActive || isBusy) return false
         if (request.query.isBlank() && request.context.selectedUris.isEmpty()) return false
         if (request.query.length > MAX_QUERY_LENGTH) return false
@@ -207,7 +222,7 @@ class AssistantComponent @AssistedInject internal constructor(
         )
         val model = variant.id
         val installed = installations.any { it.variant == variant && it.installed }
-        if (!AssistantModels.isSupported() || !installed) {
+        if (galleryAction == null && (!AssistantModels.isSupported() || !installed)) {
             _error.value = resources.getString(R.string.assistant_model_not_installed)
             return false
         }
@@ -227,7 +242,8 @@ class AssistantComponent @AssistedInject internal constructor(
                 }
                 persistConversation()
                 releaseJob?.join()
-                val answer = generateAnswer(variant, id, request.copy(context = context))
+                val answer = galleryAction?.invoke()
+                    ?: generateAnswer(variant, id, request.copy(context = context))
                 updateMessage(id) { it.copy(answer = answer, error = null) }
             } catch (cancelled: CancellationException) {
                 models.release()
@@ -260,6 +276,44 @@ class AssistantComponent @AssistedInject internal constructor(
         id: Long,
         originalRequest: AssistantRequest
     ): AssistantAnswer {
+        if (originalRequest.query.isNotBlank()) {
+            val capabilities = try {
+                gallerySearch.capabilities()
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                "Photo library status unavailable; validate all capabilities before searching."
+            }
+            val output = StringBuilder()
+            models.generate(
+                variant = variant,
+                prompt = assistantGalleryPrompt(
+                    question = originalRequest.query,
+                    capabilities = capabilities,
+                    current = gallerySearch.currentQuery(),
+                    hasAttachments = originalRequest.context.selectedUris.isNotEmpty()
+                ),
+                maxOutputTokens = 256
+            ) { output.append(it) }
+            val command =
+                runCatching { AssistantGalleryCommand.parse(output.toString()) }.getOrElse {
+                    return AssistantAnswer(resources.getString(R.string.assistant_gallery_parse_error))
+                }
+            when (command.action) {
+                Action.Search, Action.Refine -> return gallerySearch.search(
+                    query = checkNotNull(command.query),
+                    refine = command.isRefinement(originalRequest.query),
+                    sessionId = id
+                )
+
+                Action.More -> return messages.dropLast(1).lastOrNull { it.answer.gallery != null }
+                    ?.answer?.gallery?.let { gallerySearch.more(it.sessionId) }
+                    ?: AssistantAnswer(resources.getString(R.string.assistant_gallery_no_search))
+
+                Action.Clarify -> return AssistantAnswer(resources.getString(R.string.assistant_gallery_parse_error))
+                Action.Help -> Unit
+            }
+        }
         val metadataStarted = System.nanoTime()
         val images = loadImages(variant, originalRequest.context)
         if (variant.supportsVision && selectedUris == originalRequest.context.selectedUris) {
@@ -376,6 +430,10 @@ class AssistantComponent @AssistedInject internal constructor(
     fun regenerate() {
         if (!componentScope.isActive || !enabled || isBusy) return
         val last = store.messages.value.lastOrNull() ?: return
+        if (last.answer.gallery != null && canContinueGallery(last)) {
+            retryGallery(last)
+            return
+        }
         send(
             request = AssistantRequest(last.question, last.context),
             replaceMessageId = last.id
@@ -384,6 +442,9 @@ class AssistantComponent @AssistedInject internal constructor(
 
     fun newConversation() {
         if (!componentScope.isActive || isBusy) return
+        gallerySearch.clear()
+        _galleryPreviewUri.value = null
+        _galleryPreviewUris.value = emptyList()
         store.update { emptyList() }
         _error.value = null
         componentScope.launchImmediate { persistConversation() }
@@ -473,6 +534,43 @@ class AssistantComponent @AssistedInject internal constructor(
         } finally {
             _isCheckingModels.value = false
         }
+    }
+
+    fun canContinueGallery(message: AssistantMessage): Boolean =
+        message.answer.gallery?.let { gallerySearch.isCurrent(it.sessionId) } == true &&
+                messages.lastOrNull { it.answer.gallery != null }?.id == message.id
+
+    private fun retryGallery(message: AssistantMessage) {
+        val result = message.answer.gallery ?: return
+        if (!canContinueGallery(message)) return
+        send(AssistantRequest(message.question, message.context), message.id) {
+            gallerySearch.retry(result.sessionId)
+        }
+    }
+
+    fun chooseGalleryPerson(message: AssistantMessage, personId: Long) {
+        val result = message.answer.gallery ?: return
+        if (!canContinueGallery(message)) return
+        send(AssistantRequest(message.question, message.context), message.id) {
+            gallerySearch.choosePerson(result.sessionId, personId)
+        }
+    }
+
+    fun openGalleryPhoto(uri: String, photos: List<AssistantGalleryPhoto>) {
+        if (!enabled || photos.none { it.uri == uri }) return
+        _galleryPreviewUris.value = photos.map { it.uri }
+        _galleryPreviewUri.value = uri
+    }
+
+    fun updateGalleryPreviewUri(uri: String?) {
+        _galleryPreviewUri.value = uri
+    }
+
+    fun openGalleryTool(screen: Screen) {
+        if (!enabled) return
+        _galleryPreviewUri.value = null
+        release()
+        onNavigate(screen)
     }
 
     fun openTool(tool: AssistantTool, messageContext: AssistantScreenContext) {

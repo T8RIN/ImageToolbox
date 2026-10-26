@@ -63,5 +63,6 @@ data class AssistantAnswer(
     val text: String,
     val references: List<AssistantReference> = emptyList(),
     val tools: List<AssistantTool> = emptyList(),
-    val settings: List<AssistantSetting> = emptyList()
+    val settings: List<AssistantSetting> = emptyList(),
+    val gallery: AssistantGalleryResult? = null
 )

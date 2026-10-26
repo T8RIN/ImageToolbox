@@ -7469,4 +7469,20 @@
     <string name="help_tip_format_djvu_step_3">Храните исходный DjVu и перед сохранением статичной картинки проверьте, какая страница преобразуется.</string>
     <string name="help_category_image_formats">Форматы изображений</string>
     <string name="help_category_image_formats_sub">Сжатие, прозрачность, совместимость и настройки каждого поддерживаемого формата</string>
+    <string name="assistant_gallery_disabled">Поиск по фото выключен. Откройте настройку, включите его, затем вернитесь сюда и повторите поиск.</string>
+    <string name="assistant_gallery_disabled_people">Поиск по фото выключен. Сначала включите его, затем откройте галерею и включите «Группировать людей» в настройках поиска. Вернитесь сюда и повторите поиск.</string>
+    <string name="assistant_gallery_people_disabled">Группировка людей выключена. Откройте галерею и включите «Группировать людей» в настройках поиска, затем вернитесь сюда и повторите поиск.</string>
+    <string name="assistant_gallery_downloading">Модели поиска ещё загружаются. Дождитесь окончания загрузки в галерее, затем повторите поиск.</string>
+    <string name="assistant_gallery_models_missing">Модели для этого поиска не установлены. Откройте галерею и загрузите их в настройках поиска, затем повторите поиск.</string>
+    <string name="assistant_gallery_permission">Нет доступа к фотографиям. Откройте галерею, предоставьте доступ к фото, затем вернитесь сюда и повторите поиск.</string>
+    <string name="assistant_gallery_index_pending">Индексация фотографий ещё не завершена. Проверьте её состояние в галерее, затем повторите поиск.</string>
+    <string name="assistant_gallery_person_missing">Не найдена доступная группа с таким именем. Откройте галерею, задайте или проверьте имя человека и повторите поиск. Если лица ещё индексируются, дождитесь завершения.</string>
+    <string name="assistant_gallery_search_error">Не удалось завершить поиск фотографий. Проверьте состояние поиска в галерее и повторите запрос.</string>
+    <string name="assistant_gallery_choose_person">Какого человека с именем %1$s вы имели в виду?</string>
+    <string name="assistant_gallery_empty">Среди доступных приложению фотографий нет снимков с такими условиями.</string>
+    <string name="assistant_gallery_found">Найдено фотографий: %1$d. Можно уточнить условия следующим сообщением.</string>
+    <string name="assistant_gallery_no_search">Сначала найдите фотографии, затем уточняйте поиск или просите показать ещё.</string>
+    <string name="assistant_gallery_parse_error">Уточните, какие фото найти: опишите содержимое, укажите людей, даты, альбом или имя файла. Я также могу помочь с инструментами и настройками ImageToolbox.</string>
+    <string name="assistant_gallery_open">Открыть галерею</string>
+    <string name="assistant_gallery_more">Показать ещё</string>
 </resources>

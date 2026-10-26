@@ -360,16 +360,19 @@ internal class AndroidSemanticSearchRepository @Inject constructor(
     ): List<SemanticSearchCategoryResult> {
         val categories = withFaceReferences(classifyCategories(media, settings), media, settings)
         return if (settings.groupPeople && _state.value.faceModelsReady) {
-            categories + withContext(ioDispatcher) {
-                SemanticFaceIndex(context).use { index ->
-                    _state.update { it.copy(hiddenPeopleCount = index.hiddenCount()) }
-                    index.people(media)
-                }
-            }
+            categories + people(media)
         } else {
             categories
         }
     }
+
+    override suspend fun people(media: List<Media>): List<SemanticSearchCategoryResult> =
+        withContext(ioDispatcher) {
+            SemanticFaceIndex(context).use { index ->
+                _state.update { it.copy(hiddenPeopleCount = index.hiddenCount()) }
+                index.people(media)
+            }
+        }
 
     override suspend fun previewCategory(
         media: List<Media>,

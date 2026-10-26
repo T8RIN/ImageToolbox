@@ -7497,4 +7497,20 @@
     <string name="help_tip_format_djvu_step_3">Keep the original DjVu and verify which page is being converted before saving a static image.</string>
     <string name="help_category_image_formats">Image formats</string>
     <string name="help_category_image_formats_sub">Compression, transparency, compatibility, and settings for every supported image format</string>
+    <string name="assistant_gallery_disabled">Photo search is disabled. Open its setting, enable it, then return here and repeat the search.</string>
+    <string name="assistant_gallery_disabled_people">Photo search is disabled. Enable it first. Then open the gallery and enable “Group people” in search settings. Return here and repeat the search.</string>
+    <string name="assistant_gallery_people_disabled">People grouping is disabled. Open the gallery and enable “Group people” in search settings, then return here and repeat the search.</string>
+    <string name="assistant_gallery_downloading">Search models are still downloading. Wait for the download to finish in the gallery, then repeat the search.</string>
+    <string name="assistant_gallery_models_missing">The models needed for this search are not installed. Open the gallery and download them in search settings, then repeat the search.</string>
+    <string name="assistant_gallery_permission">Photo access is unavailable. Open the gallery, grant photo access, then return here and repeat the search.</string>
+    <string name="assistant_gallery_index_pending">Photo indexing has not finished yet. Check its progress in the gallery, then repeat the search.</string>
+    <string name="assistant_gallery_person_missing">No available people group matches this name. Open the gallery to name or check the person’s group, then repeat the search. If people are still being indexed, wait for indexing to finish.</string>
+    <string name="assistant_gallery_search_error">The photo search could not finish. Check its status in the gallery and repeat the search.</string>
+    <string name="assistant_gallery_choose_person">Which person named %1$s did you mean?</string>
+    <string name="assistant_gallery_empty">No photos matched these conditions among the photos available to the app.</string>
+    <string name="assistant_gallery_found">Matching photos: %1$d. You can narrow the search in your next message.</string>
+    <string name="assistant_gallery_no_search">Start a photo search before narrowing it or asking for more results.</string>
+    <string name="assistant_gallery_parse_error">Please clarify what photos to find: describe the content, name people, dates, an album or a filename. I can also help with ImageToolbox tools and settings.</string>
+    <string name="assistant_gallery_open">Open gallery</string>
+    <string name="assistant_gallery_more">Show more</string>
 </resources>

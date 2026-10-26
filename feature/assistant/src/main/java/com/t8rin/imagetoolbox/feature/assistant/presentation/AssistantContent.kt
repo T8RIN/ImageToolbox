@@ -78,12 +78,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.gigamole.composefadingedges.FadingEdgesGravity
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -99,6 +101,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.theme.DisabledAlpha
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ResetDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
@@ -109,6 +112,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImagePager
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -239,6 +243,21 @@ fun AssistantContent(component: AssistantComponent) {
                     followLatest = true
                 }
             }
+        )
+    }
+    if (component.galleryPreviewUris.isNotEmpty()) {
+        val context = LocalContext.current
+        val uris = remember(component.galleryPreviewUris) {
+            component.galleryPreviewUris.map { it.toUri() }
+        }
+        ImagePager(
+            visible = component.galleryPreviewUri != null,
+            selectedUri = component.galleryPreviewUri?.toUri(),
+            uris = uris,
+            onUriSelected = { component.updateGalleryPreviewUri(it?.toString()) },
+            onDismiss = { component.updateGalleryPreviewUri(null) },
+            onShare = { context.shareUris(listOf(it)) },
+            onNavigate = component::openGalleryTool
         )
     }
     AssistantModelSheet(

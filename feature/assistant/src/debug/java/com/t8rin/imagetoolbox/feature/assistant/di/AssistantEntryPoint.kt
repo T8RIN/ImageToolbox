@@ -18,8 +18,13 @@
 package com.t8rin.imagetoolbox.feature.assistant.di
 
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
+import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -27,6 +32,11 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface AssistantEntryPoint {
+    val assistantStore: AssistantConversationStore
+    val gallerySearch: AssistantGallerySearch
+    val assistantFactory: AssistantComponent.Factory
+    val mediaRetriever: MediaRetriever
+    val semanticSearch: SemanticSearchRepository
     val knowledge: AssistantKnowledge
     val resources: ResourceManager
     val helpRepository: HelpRepository

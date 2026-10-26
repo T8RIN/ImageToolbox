@@ -24,7 +24,8 @@ internal fun assistantPrompt(
     hasImage: Boolean
 ): String = buildString {
     append("<|im_start|>system\n${grounding.escapeTemplate()}<|im_end|>\n")
-    history.filter { it.error == null && it.answer.text.isNotBlank() }.takeLast(2)
+    history.filter { it.error == null && it.answer.text.isNotBlank() && it.answer.gallery == null }
+        .takeLast(2)
         .forEach { message ->
             append("<|im_start|>user\n")
             if (message.context.selectedUris.isNotEmpty()) {
