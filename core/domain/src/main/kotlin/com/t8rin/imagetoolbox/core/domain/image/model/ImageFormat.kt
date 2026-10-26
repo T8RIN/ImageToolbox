@@ -261,7 +261,7 @@ sealed class ImageFormat(
         data object JixelLossless : Jxl(
             title = "Jixel Lossless",
             compressionTypes = listOf(
-                CompressionType.Effort(1..2)
+                CompressionType.Effort(1..6)
             )
         ), LosslessMarker
 
@@ -269,7 +269,7 @@ sealed class ImageFormat(
             title = "Jixel Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(1..100),
-                CompressionType.Effort(1..2)
+                CompressionType.Effort(1..6)
             )
         )
     }

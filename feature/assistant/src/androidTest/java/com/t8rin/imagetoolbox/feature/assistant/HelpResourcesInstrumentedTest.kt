@@ -22,8 +22,11 @@ import android.content.res.Configuration
 import android.util.TypedValue
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.t8rin.imagetoolbox.core.di.entryPoint
+import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.getHelpString
+import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -114,6 +117,56 @@ class HelpResourcesInstrumentedTest {
                 val entry = checkNotNull(apk.getEntry(value.string.toString()))
                 assertEquals(language, ZipEntry.DEFLATED, entry.method)
                 assertTrue(language, entry.compressedSize < entry.size)
+            }
+        }
+    }
+
+    @Test
+    fun formatHelpCoversEveryExportFormatAndResolvesBothLanguages() {
+        val repository = context.entryPoint<AssistantEntryPoint>().helpRepository
+        val formats = mapOf(
+            "jpeg" to listOf(ImageFormat.Jpg, ImageFormat.Jpeg),
+            "mozjpeg" to listOf(ImageFormat.MozJpeg),
+            "jpegli" to listOf(ImageFormat.Jpegli),
+            "png" to listOf(ImageFormat.Png.Lossless),
+            "png-lossy" to listOf(ImageFormat.Png.Lossy),
+            "oxipng" to listOf(ImageFormat.Png.OxiPNG),
+            "imagequant" to listOf(ImageFormat.Png.ImageQuant),
+            "webp" to listOf(ImageFormat.Webp.Lossless, ImageFormat.Webp.Lossy),
+            "avif" to listOf(ImageFormat.Avif.LosslessAv1, ImageFormat.Avif.LossyAv1),
+            "av2" to listOf(ImageFormat.Avif.LosslessAv2, ImageFormat.Avif.LossyAv2),
+            "heic" to listOf(
+                ImageFormat.Heic.Lossless, ImageFormat.Heic.Lossy,
+                ImageFormat.Heic.HeifLossless, ImageFormat.Heic.HeifLossy
+            ),
+            "vvc" to listOf(ImageFormat.Heic.VvcLossless, ImageFormat.Heic.VvcLossy),
+            "jxl" to listOf(ImageFormat.Jxl.Lossless, ImageFormat.Jxl.Lossy),
+            "jixel" to listOf(ImageFormat.Jxl.JixelLossless, ImageFormat.Jxl.JixelLossy),
+            "jp2" to listOf(ImageFormat.Jpeg2000.Jp2),
+            "j2k" to listOf(ImageFormat.Jpeg2000.J2k),
+            "tiff" to listOf(ImageFormat.Tiff, ImageFormat.Tif),
+            "bmp" to listOf(ImageFormat.Bmp),
+            "qoi" to listOf(ImageFormat.Qoi),
+            "ico" to listOf(ImageFormat.Ico),
+            "gif" to listOf(ImageFormat.Gif)
+        )
+        assertEquals(ImageFormat.entries.toSet(), formats.values.flatten().toSet())
+        val ids = formats.keys + listOf("apng", "svg", "pdf", "raw", "psd", "djvu")
+        ids.forEach { id ->
+            val tip = requireNotNull(repository.getTip("format-$id"))
+            assertEquals("image-formats", tip.category.key)
+            assertTrue(id, tip.deepLink != null)
+            assertEquals(3, tip.pages.single().steps.size)
+            listOf("en", "ru").forEach { language ->
+                val localized = localizedContext(language)
+                val resources = listOf(tip.title, tip.subtitle) + tip.pages.flatMap {
+                    listOf(it.title, it.description) + it.steps
+                }
+                resources.forEach { resource ->
+                    val text = localized.getHelpString(resource)
+                    assertTrue("$language: $id", text.isNotBlank())
+                    assertTrue("$language: $id: $text", !text.startsWith("help_tip_"))
+                }
             }
         }
     }

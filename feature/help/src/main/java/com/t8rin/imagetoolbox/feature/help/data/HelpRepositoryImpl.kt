@@ -418,6 +418,13 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         icon = Icons.Outlined.AutoFixHigh
     )
 
+    private val imageFormats = HelpCategory(
+        key = "image-formats",
+        title = R.string.help_category_image_formats,
+        subtitle = R.string.help_category_image_formats_sub,
+        icon = Icons.Outlined.ImageConvert
+    )
+
     private val filesAndMetadata = HelpCategory(
         key = "files-metadata",
         title = R.string.help_category_files_metadata,
@@ -479,6 +486,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         imageEditing,
         filters,
         filesAndMetadata,
+        imageFormats,
         pdfAndDocuments,
         textAndData,
         colorTools,
@@ -5854,6 +5862,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_interface_shadows_step_3
             )
         )
+    ).plus(
+        imageFormatTips(imageFormats)
     ).plus(
         UiFilter.groups.flatMap { group ->
             group.filters(canAddTemplates = true).map { filter ->
