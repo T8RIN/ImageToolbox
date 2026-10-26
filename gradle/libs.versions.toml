@@ -89,7 +89,7 @@ xz = "1.12"
 
 onnx = "1.31.0"
 onnx-genai = "0.17.0"
-commonmark = "0.30.1"
+commonmark = "0.31.0"
 opencv = "5.0.0.1"
 
 materialKolor = "5.0.1"
