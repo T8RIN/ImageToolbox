@@ -35,8 +35,10 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.key
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.takeOrElse
@@ -196,9 +198,9 @@ object ContextUtils {
     }
 
     @Composable
-    fun rememberFilename(uri: Uri): String? = key(uri) {
-        produceState<String?>(null) {
-            value = withContext(Dispatchers.IO) {
+    fun rememberFilename(uri: Uri): String? {
+        return remember(uri) {
+            derivedStateOf {
                 uri.filename()
             }
         }.value

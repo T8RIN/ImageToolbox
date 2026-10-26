@@ -219,7 +219,7 @@ fun ImagePager(
                 HorizontalPager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
-                    beyondViewportPageCount = 1,
+                    beyondViewportPageCount = 5,
                     pageSpacing = if (pagerState.pageCount > 1) 16.dp
                     else 0.dp
                 ) { page ->

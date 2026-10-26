@@ -258,9 +258,9 @@ object ImageUtils {
     } ?: Bitmap.Config.ARGB_8888
 
     @Composable
-    fun rememberFileSize(uri: Uri?): Long = key(uri) {
-        produceState(0L) {
-            value = withContext(Dispatchers.IO) {
+    fun rememberFileSize(uri: Uri?): Long {
+        return remember(uri) {
+            derivedStateOf {
                 uri?.fileSize() ?: 0L
             }
         }.value
