@@ -44,13 +44,13 @@ import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.mimeType
-import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
-import com.t8rin.imagetoolbox.feature.assistant.data.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
@@ -73,8 +73,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch as launchImmediate
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch as launchImmediate
 
 class AssistantComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,

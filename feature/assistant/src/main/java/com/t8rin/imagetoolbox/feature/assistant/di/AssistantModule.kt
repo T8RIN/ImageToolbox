@@ -17,16 +17,28 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.di
 
+import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface AssistantModule {
+    @Binds
+    fun knowledge(impl: AndroidAssistantKnowledge): AssistantKnowledge
+
+    @Binds
+    @Singleton
+    fun conversationStore(impl: AndroidAssistantConversationStore): AssistantConversationStore
+
     @Binds
     fun gallerySearch(impl: AndroidAssistantGallerySearch): AssistantGallerySearch
 }

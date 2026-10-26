@@ -21,7 +21,7 @@ import android.content.ContextWrapper
 import android.util.AtomicFile
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.t8rin.imagetoolbox.feature.assistant.data.AssistantConversationStore
+import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
@@ -41,7 +40,7 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class AssistantConversationStoreInstrumentedTest {
+class AssistantAssistantConversationStoreInstrumentedTest {
     private val app = InstrumentationRegistry.getInstrumentation().targetContext
     private val directory = File(app.cacheDir, "assistant_store_${System.nanoTime()}")
         .apply { check(mkdirs()) }
@@ -86,57 +85,57 @@ class AssistantConversationStoreInstrumentedTest {
                 )
             )
         )
-        val store = AssistantConversationStore(context)
+        val store = AndroidAssistantConversationStore(context)
         store.load()
         store.update { listOf(sent) }
         store.save()
         assertTrue(file.readFully().decodeToString().contains("content://private/selected/image"))
-        val restored = AssistantConversationStore(context).load().single()
+        val restored = AndroidAssistantConversationStore(context).load().single()
         assertEquals(sent, restored)
     }
 
     @Test
     fun preservesLastCommittedMessagesAfterInterruptedAtomicWrite() = runBlocking {
-        val store = AssistantConversationStore(context)
+        val store = AndroidAssistantConversationStore(context)
         store.load()
         store.update { listOf(fixture) }
         store.save()
         val interrupted = file.startWrite()
         interrupted.write("incomplete JSON".encodeToByteArray())
         file.failWrite(interrupted)
-        val restored = AssistantConversationStore(context).load()
+        val restored = AndroidAssistantConversationStore(context).load()
         assertEquals(1, restored.size)
         assertEquals(fixture.question, restored.single().question)
         store.update { List(100) { fixture.copy(id = it.toLong()) } }
         store.save()
-        val bounded = AssistantConversationStore(context).load()
+        val bounded = AndroidAssistantConversationStore(context).load()
         assertEquals(80, bounded.size)
         assertEquals(20L, bounded.first().id)
         file.baseFile.writeText("invalid conversation")
         assertEquals(80, store.load().size)
-        assertTrue(AssistantConversationStore(context).load().isEmpty())
+        assertTrue(AndroidAssistantConversationStore(context).load().isEmpty())
     }
 
     @Test
     fun commitsClearedHistoryEvenWhenItsCallerIsCancelled() = runBlocking {
-        val store = AssistantConversationStore(context)
+        val store = AndroidAssistantConversationStore(context)
         store.load()
         store.update { listOf(fixture) }
         store.save()
         store.update { emptyList() }
         val saving = launch(start = CoroutineStart.UNDISPATCHED) { store.save() }
         saving.cancelAndJoin()
-        assertTrue(AssistantConversationStore(context).load().isEmpty())
+        assertTrue(AndroidAssistantConversationStore(context).load().isEmpty())
     }
 
     @Test
     fun allocatesUniqueMessageIdsAfterRestoringAFutureTimestamp() = runBlocking {
         val future = System.currentTimeMillis() + 60_000
-        val store = AssistantConversationStore(context)
+        val store = AndroidAssistantConversationStore(context)
         store.load()
         store.update { listOf(fixture.copy(id = future)) }
         store.save()
-        val restored = AssistantConversationStore(context)
+        val restored = AndroidAssistantConversationStore(context)
         restored.load()
         val ids = List(100) { restored.nextMessageId() }
         assertTrue(ids.first() > future)
@@ -146,7 +145,7 @@ class AssistantConversationStoreInstrumentedTest {
 
     @Test
     fun sharedConsumersCannotOverwriteNewMessagesOrRestoreClearedOnes() = runBlocking {
-        val store = AssistantConversationStore(context)
+        val store = AndroidAssistantConversationStore(context)
         store.load()
         var olderConsumer = emptyList<AssistantMessage>()
         var newerConsumer = emptyList<AssistantMessage>()
@@ -167,7 +166,9 @@ class AssistantConversationStoreInstrumentedTest {
             assertEquals(listOf(1L), obsoleteSnapshot.map { it.id })
             assertEquals(listOf(1L, 2L), olderConsumer.map { it.id })
             assertEquals(olderConsumer, newerConsumer)
-            assertEquals(listOf(1L, 2L), AssistantConversationStore(context).load().map { it.id })
+            assertEquals(
+                listOf(1L, 2L),
+                AndroidAssistantConversationStore(context).load().map { it.id })
 
             val oldUpdateAndSave = launch(start = CoroutineStart.LAZY) {
                 store.update { messages ->
@@ -180,7 +181,7 @@ class AssistantConversationStoreInstrumentedTest {
             oldUpdateAndSave.join()
             assertTrue(olderConsumer.isEmpty())
             assertTrue(newerConsumer.isEmpty())
-            assertTrue(AssistantConversationStore(context).load().isEmpty())
+            assertTrue(AndroidAssistantConversationStore(context).load().isEmpty())
         } finally {
             olderObserver.cancelAndJoin()
             newerObserver.cancelAndJoin()

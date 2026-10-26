@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.assistant.data
 
 import android.content.Context
 import android.util.AtomicFile
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -33,23 +34,21 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import java.util.concurrent.atomic.AtomicLong
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AssistantConversationStore @Inject constructor(
+internal class AndroidAssistantConversationStore @Inject constructor(
     @ApplicationContext context: Context
-) {
+) : AssistantConversationStore {
     private val file = AtomicFile(File(context.filesDir, "assistant/conversation.json"))
     private val mutex = Mutex()
     private val json = Json { ignoreUnknownKeys = true }
     private val messageId = AtomicLong(System.currentTimeMillis())
     private val _messages = MutableStateFlow<List<AssistantMessage>>(emptyList())
-    val messages = _messages.asStateFlow()
+    override val messages = _messages.asStateFlow()
 
     @Volatile
     private var loaded = false
 
-    suspend fun load(): List<AssistantMessage> = withContext(Dispatchers.IO) {
+    override suspend fun load(): List<AssistantMessage> = withContext(Dispatchers.IO) {
         mutex.withLock {
             if (!loaded) {
                 _messages.value = runCatching {
@@ -73,14 +72,15 @@ class AssistantConversationStore @Inject constructor(
         }
     }
 
-    fun update(transform: (List<AssistantMessage>) -> List<AssistantMessage>) {
+    override fun update(transform: (List<AssistantMessage>) -> List<AssistantMessage>) {
         check(loaded) { "Load the conversation before updating it" }
         _messages.update { transform(it).takeLast(MAX_MESSAGES) }
     }
 
-    fun nextMessageId(): Long = messageId.updateAndGet { maxOf(it + 1, System.currentTimeMillis()) }
+    override fun nextMessageId(): Long =
+        messageId.updateAndGet { maxOf(it + 1, System.currentTimeMillis()) }
 
-    suspend fun save() = withContext(NonCancellable + Dispatchers.IO) {
+    override suspend fun save() = withContext(NonCancellable + Dispatchers.IO) {
         mutex.withLock {
             check(loaded) { "Load the conversation before saving it" }
             check(file.baseFile.parentFile!!.mkdirs() || file.baseFile.parentFile!!.isDirectory)

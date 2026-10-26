@@ -28,6 +28,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.searchText
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
@@ -39,11 +40,11 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
-class AssistantKnowledge @Inject constructor(
+internal class AndroidAssistantKnowledge @Inject constructor(
     private val helpRepository: HelpRepository,
     private val resources: ResourceManager,
     private val dispatchers: DispatchersHolder
-) {
+) : AssistantKnowledge {
     private data class Index(
         val help: AssistantSearchIndex<AssistantReference>,
         val tools: AssistantSearchIndex<Screen>,
@@ -65,7 +66,7 @@ class AssistantKnowledge @Inject constructor(
             .associateBy { appContext.resources.getResourceEntryName(it.title) }
     }
 
-    suspend fun retrieve(request: AssistantRequest): AssistantAnswer =
+    override suspend fun retrieve(request: AssistantRequest): AssistantAnswer =
         withContext(dispatchers.defaultDispatcher) {
             require(request.query.length <= MAX_QUESTION_LENGTH) { "Question is too long" }
             val language = language(request)
@@ -185,6 +186,7 @@ class AssistantKnowledge @Inject constructor(
                     exactSettingNames.isNotEmpty() -> exactSettingNames.map { it.key() }
                     documentedSetting != null && (settingIntent || matchingSettings.isNotEmpty()) ->
                         matchingSettings.ifEmpty { listOf(documentedSetting) }
+
                     exactSettings.isNotEmpty() -> exactSettings.toList()
                     contextSetting != null && contextual -> listOf(contextSetting.key())
                     settingToggle.containsMatchIn(topic) || contextTool == null && settingQuestion.containsMatchIn(
@@ -244,6 +246,7 @@ class AssistantKnowledge @Inject constructor(
                     exactToolNames.isEmpty() && contextTool != null && contextual -> listOf(
                         contextTool
                     )
+
                     exactTools.isNotEmpty() -> exactTools
                     else -> index.tools.search(query, 1).map { it.value }
                 }
@@ -307,7 +310,7 @@ class AssistantKnowledge @Inject constructor(
                                 string(it.subtitle, language),
                                 tip?.id
                             )
-                }
+                        }
                     }).distinctBy { tool ->
                     helpRepository.getTip(tool.helpTipId.orEmpty())?.deepLink?.let {
                         it.simpleName to toolTitle(
@@ -332,7 +335,7 @@ class AssistantKnowledge @Inject constructor(
             )
         }
 
-    fun resolveTool(tool: AssistantTool): Screen? {
+    override fun resolveTool(tool: AssistantTool): Screen? {
         tool.filterKey?.let { key ->
             return if (tool.key == Screen.Filter().simpleName && key in filters) {
                 Screen.Filter(Screen.Filter.Type.Basic(filterKey = key))
@@ -343,7 +346,7 @@ class AssistantKnowledge @Inject constructor(
             ?: catalog.firstOrNull { it.simpleName == tool.key }
     }
 
-    fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String {
+    override fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String {
         val russian = language(request) == "ru"
         return when {
             needsClarification(request, answer) -> if (russian) {
@@ -370,11 +373,11 @@ class AssistantKnowledge @Inject constructor(
         }
     }
 
-    fun grounding(
+    override fun grounding(
         request: AssistantRequest,
         answer: AssistantAnswer,
-        model: AssistantModel = AssistantModel.Lite,
-        hasImage: Boolean = false
+        model: AssistantModel,
+        hasImage: Boolean
     ): String = buildString {
         val language = language(request)
         val vision = model.supportsVision && hasImage
@@ -568,6 +571,7 @@ class AssistantKnowledge @Inject constructor(
             is Screen.RecognizeText -> screen.type?.title ?: screen.title
             is Screen.Filter -> filters[(screen.type as? Screen.Filter.Type.Basic)?.filterKey]?.title
                 ?: screen.type?.title ?: screen.title
+
             is Screen.GifTools -> screen.type?.title ?: screen.title
             is Screen.ApngTools -> screen.type?.title ?: screen.title
             is Screen.WebpTools -> screen.type?.title ?: screen.title
