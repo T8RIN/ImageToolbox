@@ -68,7 +68,7 @@ abstract class OptimizeReleaseApksTask : DefaultTask() {
                 input.copyTo(output, overwrite = true)
             } else {
                 execOperations.exec {
-                    commandLine(zipalign.get().asFile, "-P", "16", "-f", "-z", "4", input, output)
+                    commandLine(zipalign.get().asFile, "-P", "16", "-f", "4", input, output)
                 }
                 logger.lifecycle("${input.name}: saved ${(input.length() - output.length()) / 1024} KiB")
             }
