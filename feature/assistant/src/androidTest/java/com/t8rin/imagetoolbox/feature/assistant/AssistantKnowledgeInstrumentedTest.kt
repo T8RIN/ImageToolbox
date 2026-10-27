@@ -51,6 +51,21 @@ class AssistantKnowledgeInstrumentedTest {
     private val knowledge = services.knowledge
 
     @Test
+    fun introductoryVerbsDoNotHideAnExplicitAppTopic() = runBlocking {
+        listOf(
+            "Расскажи про EXIF" to setOf(
+                Screen.DeleteExif().simpleName,
+                Screen.EditExif().simpleName
+            ),
+            "Explain checksums" to setOf(Screen.ChecksumTools().simpleName)
+        ).forEach { (question, tools) ->
+            val answer = knowledge.retrieve(AssistantRequest(question))
+            assertTrue("$question: $answer", answer.tools.any { it.key in tools })
+            assertTrue(question, answer.references.isNotEmpty())
+        }
+    }
+
+    @Test
     fun retrievesInstalledHelpInRussianAndEnglish() = runBlocking {
         listOf(
             "Как удалить фон изображения?",
@@ -227,11 +242,11 @@ class AssistantKnowledgeInstrumentedTest {
             val prompt = knowledge.grounding(request, retrieved)
             assertFalse(prompt, prompt.contains("DOCS"))
             assertFalse(prompt, prompt.contains("JSON"))
-            assertTrue(prompt, prompt.contains("Available ImageToolbox tools"))
+            assertTrue(prompt, prompt.length < 1400)
             val russian = request.query.any { it in 'А'..'я' }
             assertTrue(
                 prompt,
-                prompt.contains("A missing search result does not mean the task is unrelated or unsupported")
+                prompt.contains("If a detail is unknown, say so")
             )
             assertTrue(
                 prompt,
@@ -533,7 +548,7 @@ class AssistantKnowledgeInstrumentedTest {
         val answer = knowledge.retrieve(request)
         AssistantModel.entries.filter { it.supportsVision }.forEach { model ->
             val prompt = knowledge.grounding(request, answer, model, hasImage = true)
-            assertTrue(prompt, prompt.contains("предлагай подписи"))
+            assertTrue(prompt, prompt.contains("предложи подпись"))
             assertTrue(prompt, prompt.contains("visible details"))
             assertTrue(prompt, prompt.contains("Earlier attachments are not available"))
             assertTrue(prompt, prompt.contains("Отвечай по-русски"))

@@ -293,6 +293,8 @@ class AssistantModels : NeuralTool() {
         prompt: String,
         images: List<Bitmap> = emptyList(),
         maxOutputTokens: Int = MAX_OUTPUT_TOKENS,
+        repetitionPenalty: Double = if (variant.supportsVision) 1.1 else 1.0,
+        stopOnRepetition: Boolean = true,
         onToken: suspend (String) -> Unit
     ) = withContext(Dispatchers.Default) {
         check(isSupported()) { unsupportedReason.orEmpty() }
@@ -317,10 +319,18 @@ class AssistantModels : NeuralTool() {
                                 Normalizer.normalize(prompt, Normalizer.Form.NFC),
                                 images.singleOrNull(),
                                 maxOutputTokens,
+                                repetitionPenalty,
+                                stopOnRepetition,
                                 onToken
                             )
                         } else {
-                            generateTokens(prompt, maxOutputTokens, onToken)
+                            generateTokens(
+                                prompt,
+                                maxOutputTokens,
+                                repetitionPenalty,
+                                stopOnRepetition,
+                                onToken
+                            )
                         }
                     } catch (error: Throwable) {
                         if (error !is InputTooLongException) closeModel()
@@ -336,12 +346,20 @@ class AssistantModels : NeuralTool() {
     private suspend fun generateTokens(
         prompt: String,
         maxOutputTokens: Int,
+        repetitionPenalty: Double,
+        stopOnRepetition: Boolean,
         onToken: suspend (String) -> Unit
-    ) {
+    ): String {
         val tokenizer = checkNotNull(activeTokenizer)
-        tokenizer.encode(prompt).use { tokens ->
+        return tokenizer.encode(prompt).use { tokens ->
             val inputSize = tokens.getSequence(0).size
-            generateTokens(inputSize, maxOutputTokens, onToken) { generator ->
+            generateTokens(
+                inputSize,
+                maxOutputTokens,
+                repetitionPenalty,
+                stopOnRepetition,
+                onToken
+            ) { generator ->
                 generator.appendTokenSequences(tokens)
             }
         }
@@ -351,18 +369,26 @@ class AssistantModels : NeuralTool() {
         prompt: String,
         image: Bitmap?,
         maxOutputTokens: Int,
+        repetitionPenalty: Double,
+        stopOnRepetition: Boolean,
         onToken: suspend (String) -> Unit
-    ) {
+    ): String {
         val inputSize = checkNotNull(activeTokenizer).encode(prompt).use { tokens ->
             tokens.getSequence(0).size + if (image != null) MAX_IMAGE_TOKENS - 1 else 0
         }
         if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
-        MultiModalProcessor(checkNotNull(activeModel)).use { processor ->
+        return MultiModalProcessor(checkNotNull(activeModel)).use { processor ->
             withPreparedImage(image) { file ->
                 file?.let { Images(it.absolutePath) }.use { images ->
                     processor.processImages(prompt, images).use { inputs ->
                         currentCoroutineContext().ensureActive()
-                        generateTokens(inputSize, maxOutputTokens, onToken) { generator ->
+                        generateTokens(
+                            inputSize,
+                            maxOutputTokens,
+                            repetitionPenalty,
+                            stopOnRepetition,
+                            onToken
+                        ) { generator ->
                             generator.setInputs(inputs)
                             val actualSize = generator.tokenCount().toInt()
                             if (actualSize > MAX_PROMPT_TOKENS) {
@@ -378,21 +404,27 @@ class AssistantModels : NeuralTool() {
     private suspend fun generateTokens(
         inputSize: Int,
         maxOutputTokens: Int,
+        repetitionPenalty: Double,
+        stopOnRepetition: Boolean,
         onToken: suspend (String) -> Unit,
         prepare: (Generator) -> Unit
-    ) {
+    ): String {
         if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
         GeneratorParams(checkNotNull(activeModel)).use { params ->
             params.setSearchOption("max_length", (inputSize + maxOutputTokens).toDouble())
             params.setSearchOption("do_sample", false)
-            if (activeVariant?.supportsVision == true) {
-                params.setSearchOption("repetition_penalty", 1.1)
-            }
+            params.setSearchOption("repetition_penalty", repetitionPenalty)
             Generator(checkNotNull(activeModel), params).use { generator ->
                 synchronized(nativeLock) { activeGenerator = generator }
                 try {
                     runCancellable { prepare(generator) }
-                    streamTokens(generator, checkNotNull(activeTokenizer), maxOutputTokens, onToken)
+                    return streamTokens(
+                        generator,
+                        checkNotNull(activeTokenizer),
+                        maxOutputTokens,
+                        stopOnRepetition,
+                        onToken
+                    )
                 } finally {
                     synchronized(nativeLock) { activeGenerator = null }
                 }
@@ -402,10 +434,10 @@ class AssistantModels : NeuralTool() {
 
     private suspend fun withPreparedImage(
         image: Bitmap?,
-        action: suspend (File?) -> Unit
-    ) {
+        action: suspend (File?) -> String
+    ): String {
         if (image == null) return action(null)
-        withContext(Dispatchers.IO) {
+        return withContext(Dispatchers.IO) {
             val file = File.createTempFile("assistant-vision-", ".png", context.cacheDir)
             var scaled = image
             try {
@@ -436,26 +468,34 @@ class AssistantModels : NeuralTool() {
         generator: Generator,
         tokenizer: Tokenizer,
         maxOutputTokens: Int,
+        stopOnRepetition: Boolean,
         onToken: suspend (String) -> Unit
-    ) {
+    ): String {
+        val output = StringBuilder()
         tokenizer.createStream().use { stream ->
             val eos = tokenizer.eosTokenIds.toSet()
-            var emittedTokens = generator.tokenCount()
-            val maxTokens = emittedTokens + maxOutputTokens
-            while (emittedTokens < maxTokens) {
+            var emittedTokens = generator.tokenCount().toInt()
+            val limit = emittedTokens + maxOutputTokens
+            while (emittedTokens < limit) {
                 currentCoroutineContext().ensureActive()
                 if (generator.isDone) break
                 runCancellable { generator.generateNextToken() }
-                val count = generator.tokenCount()
-                if (count == emittedTokens) continue
+                val count = generator.tokenCount().toInt()
+                if (count <= emittedTokens) break
                 emittedTokens = count
                 val token = generator.getLastTokenInSequence(0)
-                if (token !in eos) {
-                    val delta = stream.decode(token)
-                    if (delta.isNotEmpty()) onToken(delta)
+                if (token in eos) break
+                val delta = stream.decode(token)
+                if (delta.isNotEmpty()) {
+                    output.append(delta)
+                    if (stopOnRepetition) repeatedAssistantSuffix(output)?.let { end ->
+                        return output.substring(0, end).trimEnd()
+                    }
+                    onToken(delta)
                 }
             }
         }
+        return output.toString()
     }
 
     fun cancel() {

@@ -24,6 +24,7 @@ import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
 class AssistantSearchIndexTest {
+
     @Test
     fun searchesRealEnglishAndRussianHelpResources() {
         listOf(

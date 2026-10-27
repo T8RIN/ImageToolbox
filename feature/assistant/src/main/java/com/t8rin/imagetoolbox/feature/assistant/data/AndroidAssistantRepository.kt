@@ -37,20 +37,20 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStor
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantHelpPlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantGalleryPrompt
-import com.t8rin.imagetoolbox.feature.assistant.domain.assistantHelpPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
+import com.t8rin.imagetoolbox.feature.assistant.domain.needsGalleryRouting
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -58,6 +58,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 internal class AndroidAssistantRepository @Inject constructor(
@@ -186,10 +187,18 @@ internal class AndroidAssistantRepository @Inject constructor(
                 val answer = if (galleryAction != null) {
                     galleryAction()
                 } else {
-                    models.prepare(variant)
-                    generateAnswer(variant, id, request.copy(context = context))
+                    withTimeout(REPLY_TIMEOUT_MS) {
+                        generateAnswer(variant, id, request.copy(context = context))
+                    }
                 }
                 updateMessage(id) { it.copy(answer = answer, error = null) }
+            } catch (_: TimeoutCancellationException) {
+                releaseModel = true
+                updateMessage(id) {
+                    if (it.answer.text.isBlank()) {
+                        it.copy(error = resources.getString(R.string.assistant_generation_timeout))
+                    } else it
+                }
             } catch (cancelled: CancellationException) {
                 releaseModel = true
                 throw cancelled
@@ -228,7 +237,12 @@ internal class AndroidAssistantRepository @Inject constructor(
         id: Long,
         originalRequest: AssistantRequest
     ): AssistantAnswer {
-        if (originalRequest.query.isNotBlank()) {
+        val images = loadImages(variant, originalRequest.context)
+        if (images.isEmpty() && needsGalleryRouting(
+                originalRequest.query,
+                gallerySearch.currentQuery()
+            )
+        ) {
             val capabilities = try {
                 gallerySearch.capabilities()
             } catch (cancelled: CancellationException) {
@@ -236,8 +250,7 @@ internal class AndroidAssistantRepository @Inject constructor(
             } catch (_: Exception) {
                 "Photo library status unavailable; validate all capabilities before searching."
             }
-            val output = StringBuilder()
-            models.generate(
+            val output = models.generate(
                 variant = variant,
                 prompt = assistantGalleryPrompt(
                     question = originalRequest.query,
@@ -245,10 +258,12 @@ internal class AndroidAssistantRepository @Inject constructor(
                     current = gallerySearch.currentQuery(),
                     hasAttachments = originalRequest.context.selectedUris.isNotEmpty()
                 ),
-                maxOutputTokens = 256
-            ) { output.append(it) }
-            val command = runCatching { AssistantGalleryCommand.parse(output.toString()) }
+                maxOutputTokens = 256,
+                stopOnRepetition = false
+            ) {}
+            val command = runCatching { AssistantGalleryCommand.parse(output) }
                 .onFailure { it.makeLog() }.getOrNull()
+            makeLog("action=${command?.action}", tag = "AssistantRouting")
             when (command?.action) {
                 Action.Search, Action.Refine -> return gallerySearch.search(
                     query = checkNotNull(command.query),
@@ -267,7 +282,6 @@ internal class AndroidAssistantRepository @Inject constructor(
             }
         }
         val metadataStarted = System.nanoTime()
-        val images = loadImages(variant, originalRequest.context)
         val request = originalRequest.copy(
             query = originalRequest.query.ifBlank {
                 resources.getString(
@@ -279,34 +293,38 @@ internal class AndroidAssistantRepository @Inject constructor(
         )
         updateMessage(id) { it.copy(context = request.context) }
         val retrievalStarted = System.nanoTime()
-        val retrieved = if (originalRequest.query.isNotBlank() && images.isEmpty()) {
-            val candidates = knowledge.searchSources(request)
-            val output = StringBuilder()
-            models.generate(
-                variant = variant,
-                prompt = assistantHelpPrompt(
-                    question = request.query,
-                    tools = knowledge.searchCatalog(),
-                    sources = candidates,
-                    context = knowledge.searchContext(request.context),
-                    previous = messages.value.dropLast(1).lastOrNull()?.takeIf {
-                        it.error == null && it.answer.gallery == null
-                    }
-                ),
-                maxOutputTokens = 256
-            ) { output.append(it) }
-            val plan = runCatching { AssistantHelpPlan.parse(output.toString()) }
-                .onFailure { it.makeLog() }.getOrNull()
-            if (plan == null) {
-                knowledge.retrieve(request)
-            } else {
-                val sources =
-                    plan.sources.filter { source -> candidates.any { it.tipId == source } }
-                if (sources.isEmpty() && plan.queries.isEmpty()) AssistantAnswer("")
-                else knowledge.retrieve(request, plan.queries, sources)
-            }
-        } else {
-            knowledge.retrieve(request)
+        val previousAnswer = messages.value.dropLast(1).lastOrNull()?.takeIf {
+            it.error == null && request.context.toolId == null && request.context.settingKey == null &&
+                    followUpQuestion.containsMatchIn(request.query)
+        }?.answer
+        val previousTool = previousAnswer?.tools?.singleOrNull()
+        val previousScreen = previousTool?.let(knowledge::resolveTool)
+        val retrievalRequest = if (
+            request.context.toolId == null && previousScreen != null &&
+            followUpQuestion.containsMatchIn(request.query)
+        ) {
+            request.copy(
+                context = request.context.copy(
+                    toolId = previousScreen.id,
+                    parameters = request.context.parameters + mapOf(
+                        "toolKey" to previousScreen.simpleName,
+                        "mode" to previousTool.title
+                    )
+                )
+            )
+        } else request
+        val retrieved = knowledge.retrieve(
+            retrievalRequest,
+            sources = previousAnswer?.references?.map { it.tipId }.orEmpty()
+        )
+        if (images.isEmpty() && retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
+            return AssistantAnswer(
+                resources.getStringLocalized(
+                    R.string.assistant_scope,
+                    request.language
+                        ?: if (request.query.any { it in 'А'..'я' || it == 'ё' || it == 'Ё' }) "ru" else "en"
+                )
+            )
         }
         val promptStarted = System.nanoTime()
         val prompt = buildPrompt(request, retrieved, variant, images.isNotEmpty())
@@ -321,7 +339,17 @@ internal class AndroidAssistantRepository @Inject constructor(
         var lastUpdate = 0L
         updateMessage(id) { it.copy(answer = retrieved) }
         try {
-            models.generate(variant, prompt, images) { token ->
+            val completed = models.generate(
+                variant = variant,
+                prompt = prompt,
+                images = images,
+                maxOutputTokens = when (variant) {
+                    AssistantModel.Lite -> 160
+                    AssistantModel.Advanced -> 224
+                    else -> 288
+                },
+                repetitionPenalty = 1.1
+            ) { token ->
                 output.append(token)
                 val now = System.nanoTime()
                 if (now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
@@ -332,6 +360,7 @@ internal class AndroidAssistantRepository @Inject constructor(
                     }
                 }
             }
+            output.clear().append(completed)
             check(output.isNotBlank()) { "The model returned an empty answer" }
             return retrieved.copy(text = output.toString().trim())
         } finally {
@@ -397,7 +426,10 @@ internal class AndroidAssistantRepository @Inject constructor(
         hasImage: Boolean
     ): String = assistantPrompt(
         grounding = knowledge.grounding(request, retrieved, variant, hasImage),
-        history = store.messages.value.dropLast(1),
+        history = store.messages.value.dropLast(1).filter {
+            it.answer.references.isNotEmpty() || it.answer.tools.isNotEmpty() || it.answer.settings.isNotEmpty() ||
+                    it.context.selectedUris.isNotEmpty() || it.context.toolId != null || it.context.settingKey != null
+        },
         question = knowledge.userPrompt(request, retrieved),
         hasImage = hasImage
     )
@@ -525,6 +557,11 @@ internal class AndroidAssistantRepository @Inject constructor(
     }
 
     private companion object {
+        const val REPLY_TIMEOUT_MS = 120_000L
         const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
+        val followUpQuestion = Regex(
+            """(?<!\p{L})(?:это|этим|этого|эти|ними|его|неё|ней|них|так|this|that|these|those|it|them|same)(?!\p{L})""",
+            RegexOption.IGNORE_CASE
+        )
     }
 }
