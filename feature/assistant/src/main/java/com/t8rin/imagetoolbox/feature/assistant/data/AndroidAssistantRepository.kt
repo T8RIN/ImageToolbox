@@ -18,10 +18,7 @@
 package com.t8rin.imagetoolbox.feature.assistant.data
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
-import android.os.PowerManager
-import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
@@ -48,7 +45,6 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantGalleryPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Job
@@ -63,7 +59,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class AndroidAssistantRepository @Inject constructor(
-    @ApplicationContext context: Context,
     private val knowledge: AssistantKnowledge,
     private val store: AssistantConversationStore,
     private val gallerySearch: AssistantGallerySearch,
@@ -75,8 +70,6 @@ internal class AndroidAssistantRepository @Inject constructor(
     dispatchers: DispatchersHolder
 ) : AssistantRepository, DispatchersHolder by dispatchers {
     private val models = AssistantModels()
-    private val wakeLock = checkNotNull(context.getSystemService<PowerManager>())
-        .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ImageToolbox:Assistant")
     private var generation: Job? = null
     private var releaseJob: Job? = null
     private var releaseRequested = false
@@ -161,7 +154,13 @@ internal class AndroidAssistantRepository @Inject constructor(
             _error.value = resources.getString(R.string.assistant_model_not_installed)
             return false
         }
-        if (!_isGenerating.compareAndSet(false, true)) return false
+
+        if (!_isGenerating.compareAndSet(
+                expect = false,
+                update = true
+            )
+        ) return false
+
         _error.value = null
         releaseRequested = false
         generation = appScope.launch(uiDispatcher, start = CoroutineStart.LAZY) {
@@ -181,7 +180,6 @@ internal class AndroidAssistantRepository @Inject constructor(
                     title = resources.getString(R.string.ai_assistant),
                     description = resources.getString(R.string.assistant_thinking)
                 )
-                wakeLock.acquire()
                 persistConversation()
                 releaseJob?.join()
                 val answer = galleryAction?.invoke()
@@ -210,7 +208,6 @@ internal class AndroidAssistantRepository @Inject constructor(
                         try {
                             if (releaseRequested || releaseModel) models.release()
                         } finally {
-                            if (wakeLock.isHeld) wakeLock.release()
                             keepAliveService.stop()
                         }
                     }

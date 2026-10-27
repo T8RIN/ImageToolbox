@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.assistant.presentation.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,14 +34,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
@@ -73,17 +70,17 @@ internal fun AssistantGalleryContent(
                             .weight(1f)
                             .aspectRatio(1f)
                             .clip(ShapeDefaults.small)
-                            .clickable { component.openGalleryPhoto(photo.uri, result.photos) },
+                            .hapticsClickable {
+                                component.openGalleryPhoto(
+                                    photo.uri,
+                                    result.photos
+                                )
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                         Picture(
                             model = photo.uri,
-                            contentDescription = if (overflow) {
-                                stringResource(R.string.assistant_gallery_more)
-                            } else photo.name,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .then(if (overflow) Modifier.blur(4.dp) else Modifier)
+                            modifier = Modifier.fillMaxSize()
                         )
                         if (overflow) {
                             Box(
