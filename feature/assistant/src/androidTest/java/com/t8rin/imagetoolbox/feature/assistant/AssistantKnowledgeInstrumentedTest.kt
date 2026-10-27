@@ -75,6 +75,37 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
+    fun facePrivacyQuestionsFindDrawingAndInstructionsForEveryModel() = runBlocking {
+        listOf(
+            "как мне замазать лица",
+            "Как скрыть лицо на фотографии?",
+            "Как размыть лица?",
+            "Как запикселить лица?",
+            "Как закрыть номер машины?",
+            "Как закрасить текст?",
+            "How do I blur faces?",
+            "How can I hide a face?",
+            "Pixelate faces in a photo",
+            "How do I redact a license plate?"
+        ).forEach { query ->
+            val request = AssistantRequest(query)
+            val answer = knowledge.retrieve(request)
+            assertEquals(query, "face-privacy", answer.references.firstOrNull()?.tipId)
+            assertTrue("$query: $answer", answer.tools.any {
+                knowledge.resolveTool(it) == Screen.Draw()
+            })
+            assertTrue("$query: $answer", answer.settings.isEmpty())
+            AssistantModel.entries.forEach { model ->
+                val grounding = knowledge.grounding(request, answer, model)
+                assertTrue("$query/$model: $grounding", grounding.contains("YuNet"))
+                assertTrue("$query/$model: $grounding", grounding.contains("UltraFace"))
+                assertFalse("$query/$model: $grounding", grounding.contains("Задай только"))
+                assertFalse("$query/$model: $grounding", grounding.contains("Ask only"))
+            }
+        }
+    }
+
+    @Test
     fun retrievesRelevantDocumentationForMultipleTopics() = runBlocking {
         val pdf = knowledge.retrieve(AssistantRequest("Как сделать PDF с OCR?"))
         assertEquals("searchable-pdf", pdf.references.first().tipId)

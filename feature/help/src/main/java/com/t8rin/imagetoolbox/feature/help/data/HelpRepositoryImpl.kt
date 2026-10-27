@@ -3214,6 +3214,22 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 )
             )
         ),
+        tip(
+            id = "face-privacy",
+            title = R.string.help_tip_face_privacy_title,
+            subtitle = R.string.help_tip_face_privacy_subtitle,
+            icon = Icons.Outlined.Draw,
+            category = imageEditing,
+            deepLink = Screen.Draw(),
+            pageTitle = R.string.help_tip_face_privacy_title,
+            description = R.string.help_tip_face_privacy_description,
+            steps = listOf(
+                R.string.help_tip_face_privacy_step_1,
+                R.string.help_tip_face_privacy_step_2,
+                R.string.help_tip_face_privacy_step_3,
+                R.string.help_tip_face_privacy_step_4
+            )
+        ),
         pagesTip(
             id = TipIds.DrawingWorkflow,
             title = R.string.help_tip_drawing_workflow_title,

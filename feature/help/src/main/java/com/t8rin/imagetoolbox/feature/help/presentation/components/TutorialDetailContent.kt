@@ -46,8 +46,9 @@ internal fun TutorialDetailContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
+    val title = helpStringResource(tip.title)
     HelpScaffold(
-        title = helpStringResource(tip.title),
+        title = title,
         onGoBack = onGoBack
     ) { contentPadding ->
         LazyColumn(
@@ -60,7 +61,10 @@ internal fun TutorialDetailContent(
                 items = tip.pages,
                 key = { it.title }
             ) { page ->
-                TutorialPageItem(page)
+                TutorialPageItem(
+                    page = page,
+                    showTitle = !helpStringResource(page.title).equals(title, ignoreCase = true)
+                )
             }
             tip.deepLink?.let { screen ->
                 item {

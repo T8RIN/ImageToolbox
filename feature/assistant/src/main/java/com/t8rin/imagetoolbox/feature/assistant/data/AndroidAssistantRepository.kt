@@ -102,10 +102,10 @@ internal class AndroidAssistantRepository @Inject constructor(
         appScope.launch(uiDispatcher) {
             try {
                 store.load()
+                refreshModels()
             } finally {
                 _isLoading.value = false
             }
-            refreshModels()
         }
         appScope.launch(uiDispatcher) {
             models.states.collect {
@@ -149,9 +149,8 @@ internal class AndroidAssistantRepository @Inject constructor(
         val context = request.context.copy(
             selectedUris = request.context.selectedUris.distinct().take(maxSelectedImages)
         )
-        val installed = installations.value.any { it.variant == variant && it.installed }
-        if (galleryAction == null && (!AssistantModels.isSupported() || !installed)) {
-            _error.value = resources.getString(R.string.assistant_model_not_installed)
+        if (galleryAction == null && !AssistantModels.isSupported()) {
+            _error.value = resources.getString(R.string.assistant_model_unavailable)
             return false
         }
 
@@ -182,12 +181,15 @@ internal class AndroidAssistantRepository @Inject constructor(
                 )
                 persistConversation()
                 releaseJob?.join()
-                val answer = galleryAction?.invoke()
-                    ?: generateAnswer(variant, id, request.copy(context = context))
+                val answer = if (galleryAction != null) {
+                    galleryAction()
+                } else {
+                    models.prepare(variant)
+                    generateAnswer(variant, id, request.copy(context = context))
+                }
                 updateMessage(id) { it.copy(answer = answer, error = null) }
             } catch (cancelled: CancellationException) {
                 releaseModel = true
-                updateMessage(id) { it.copy(error = resources.getString(R.string.assistant_cancelled)) }
                 throw cancelled
             } catch (failure: Exception) {
                 failure.makeLog()
@@ -421,6 +423,19 @@ internal class AndroidAssistantRepository @Inject constructor(
         }
     }
 
+    override suspend fun prepareModel(model: AssistantModel) {
+        releaseJob?.join()
+        if (!enabled || selectedModel != model) return
+        releaseRequested = false
+        try {
+            models.prepare(model)
+        } finally {
+            if (!isGenerating.value && (releaseRequested || !enabled || selectedModel != model)) {
+                models.release()
+            }
+        }
+    }
+
     override suspend fun downloadModel(model: AssistantModel) {
         models.download(model) {}
     }
@@ -454,7 +469,7 @@ internal class AndroidAssistantRepository @Inject constructor(
     private suspend fun refreshModels() {
         _isCheckingModels.value = true
         try {
-            models.installations()
+            models.installations(verifyFiles = false)
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (failure: Exception) {

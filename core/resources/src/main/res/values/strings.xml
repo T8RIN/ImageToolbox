@@ -5905,6 +5905,13 @@
     <string name="help_tip_ascii_workflow_step_1">Choose an image with a clear silhouette or contrast. Tiny textures and busy backgrounds are harder to recognize as text.</string>
     <string name="help_tip_ascii_workflow_step_2">Edit the character gradient and font size, then try inversion if light and dark areas appear reversed for your target background.</string>
     <string name="help_tip_ascii_workflow_step_3">Copy or export the resulting text and use a monospaced font in the destination. Proportional fonts and changed line spacing can distort the picture.</string>
+    <string name="help_tip_face_privacy_title">Hide faces and personal details</string>
+    <string name="help_tip_face_privacy_subtitle">Blur, pixelate, or paint over faces, license plates, text, and private information</string>
+    <string name="help_tip_face_privacy_description">Use Drawing to hide selected areas without blurring the whole photo. Privacy Blur and Pixelation work on the areas you draw over and support automatic face detection. To fully cover sensitive text or numbers, paint over them with an opaque brush.</string>
+    <string name="help_tip_face_privacy_step_1">Open Drawing and select the photo. Choose Privacy Blur or Pixelation in the drawing mode selector.</string>
+    <string name="help_tip_face_privacy_step_2">Tap Detect faces to mark faces automatically. Choose YuNet or UltraFace; the detector may need to download its model on first use. Check the result because detection can miss faces.</string>
+    <string name="help_tip_face_privacy_step_3">Draw over any missed faces or other areas manually. Adjust blur radius or pixel size, and undo incorrect marks. For text and license plates, use an opaque brush to cover the entire detail.</string>
+    <string name="help_tip_face_privacy_step_4">Inspect every covered area at full size, then save and share the edited copy. Keep the original separate if it still contains private information.</string>
     <string name="help_tip_drawing_workflow_title">Drawing and annotation tools</string>
     <string name="help_tip_drawing_workflow_subtitle">Choose brush behavior, line width, colors, and readable marks</string>
     <string name="help_tip_drawing_workflow_page_title">Make useful annotations</string>
@@ -6184,7 +6191,7 @@
     <string name="help_tip_gif_extract_frames_step_1">Open the GIF file and select all frames or only the required frame positions.</string>
     <string name="help_tip_gif_extract_frames_step_2">Choose the image format and its available quality options. Use a format with alpha, such as PNG, when transparent edges matter.</string>
     <string name="help_tip_gif_extract_frames_step_3">Save or share the selected frames and check their order. To keep motion in one file, use animated-format conversion instead.</string>
-    <string name="help_tip_gif_from_images_description">GIF uses a limited color palette. Change FPS (frames per second) to change the delay between frames: higher FPS means a shorter delay. Extra crossfade frames smooth transitions and increase the frame count.</string>
+    <string name="help_tip_gif_from_images_description">To build a GIF from several photos, choose Images to GIF. GIF uses a limited color palette. Change FPS (frames per second) to change the delay between frames: higher FPS means a shorter delay. Extra crossfade frames smooth transitions and increase the frame count.</string>
     <string name="help_tip_gif_from_images_step_1">Select images, then reorder, add or remove them in the frame carousel.</string>
     <string name="help_tip_gif_from_images_step_2">Set output dimensions or use the first frame’s size. Set FPS, repeat count and quality. If earlier images remain visible behind later ones, enable Don’t stack frames; add crossfade frames only when a blended transition is wanted.</string>
     <string name="help_tip_gif_from_images_step_3">Save and play the result in its destination app; large dimensions and many frames increase memory use.</string>

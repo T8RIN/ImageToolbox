@@ -514,12 +514,7 @@ private fun AssistantConversation(
 ) {
     val busy = component.isGenerating
     val latestId = component.messages.lastOrNull()?.id
-    val selectedModel = component.installations.firstOrNull {
-        it.variant == component.selectedModel
-    }
-    val checkingModel = (!modelReady && component.isCheckingModels) ||
-            (selectedModel?.phase == AssistantModels.Phase.Verifying && selectedModel.progress == null)
-    val loading = component.isLoading || checkingModel
+    val loading = component.isLoading
     val latestButtonHeight = with(LocalDensity.current) { 72.dp.roundToPx() }
     val showLatest by remember(listState, latestButtonHeight) {
         derivedStateOf {

@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
+import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -62,6 +63,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
@@ -131,7 +133,6 @@ class AssistantRepositoryInstrumentedTest {
         }
         return withContext(Dispatchers.Main) {
             AndroidAssistantRepository(
-                context = context,
                 knowledge = services.knowledge,
                 store = store,
                 gallerySearch = object : AssistantGallerySearch by services.gallerySearch {
@@ -199,7 +200,6 @@ class AssistantRepositoryInstrumentedTest {
         waitUntil("Emulator screen did not turn off") { !power.isInteractive }
         assertTrue(repository.isGenerating.value)
         assertTrue(active)
-        assertTrue(holdsAssistantWakeLock())
         val reopened = component(repository)
         assertTrue(reopened.isGenerating)
         withContext(Dispatchers.Main) {
@@ -222,20 +222,50 @@ class AssistantRepositoryInstrumentedTest {
                 it.notification.extras.getString(Notification.EXTRA_TITLE) == title
             }
         }
-        assertFalse(holdsAssistantWakeLock())
     }
 
     @Test
-    fun stopSavesCancellationAndReleasesTheService() = runBlocking {
+    fun firstQuestionPreparesTheSelectedModelWithinTheReply() = runBlocking {
+        val installed = AssistantModels().installations(verifyFiles = false)
+            .filter { it.installed && !it.variant.supportsVision }
+        assumeTrue("Install a text model before testing face privacy", installed.isNotEmpty())
+        installed.forEach { state ->
+            settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+            val repository = create()
+            val component = component(repository)
+            withContext(Dispatchers.Main) {
+                component.newConversation()
+                assertTrue(component.send("как мне замазать лица"))
+                assertTrue(repository.isGenerating.value)
+                assertEquals(null, repository.error.value)
+            }
+            withTimeout(120_000) { repository.isGenerating.first { busy -> !busy } }
+            val message = repository.messages.value.single()
+            val text = message.answer.text.lowercase()
+            assertEquals(message.toString(), null, message.error)
+            assertTrue("${state.variant}: $text", text.contains("рисован"))
+            assertTrue(
+                "${state.variant}: $text",
+                text.contains("размыт") || text.contains("пиксел")
+            )
+            assertFalse("${state.variant}: $text", text.contains("что вы хотите сделать"))
+            assertTrue(
+                message.toString(),
+                message.answer.references.any { it.tipId == "face-privacy" })
+            File(app.cacheDir, "assistant-face-privacy-${state.variant.id}.txt")
+                .writeText(message.answer.text)
+            withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+        }
+    }
+
+    @Test
+    fun stopKeepsTheMessageWithoutAnErrorAndReleasesTheService() = runBlocking {
         val repository = create()
         withContext(Dispatchers.Main) { repository.regenerate() }
         withTimeout(5_000) { started.await() }
         withContext(Dispatchers.Main) { repository.stop() }
         withTimeout(10_000) { repository.isGenerating.first { busy -> !busy } }
-        assertEquals(
-            services.resources.getString(R.string.assistant_cancelled),
-            repository.messages.value.single().error
-        )
+        assertEquals(null, repository.messages.value.single().error)
         assertEquals(repository.messages.value, AndroidAssistantConversationStore(context).load())
         assertFalse(active)
         assertEquals(1, serviceStops)
@@ -252,10 +282,7 @@ class AssistantRepositoryInstrumentedTest {
             settingsState.value = settingsState.value.copy(isAiAssistantEnabled = false)
         }
         withTimeout(10_000) { repository.isGenerating.first { busy -> !busy } }
-        assertEquals(
-            services.resources.getString(R.string.assistant_cancelled),
-            repository.messages.value.single().error
-        )
+        assertEquals(null, repository.messages.value.single().error)
         assertFalse(active)
     }
 
@@ -281,10 +308,6 @@ class AssistantRepositoryInstrumentedTest {
             true
         } == true)
     }
-
-    private fun holdsAssistantWakeLock(): Boolean = shell("dumpsys power")
-        .lineSequence()
-        .any { it.contains("PARTIAL_WAKE_LOCK") && it.contains("ImageToolbox:Assistant") }
 
     private fun shell(command: String): String =
         android.os.ParcelFileDescriptor.AutoCloseInputStream(

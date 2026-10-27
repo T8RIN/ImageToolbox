@@ -43,6 +43,8 @@ interface AssistantRepository {
 
     fun chooseGalleryPerson(message: AssistantMessage, personId: Long)
 
+    suspend fun prepareModel(model: AssistantModel)
+
     suspend fun downloadModel(model: AssistantModel)
 
     fun cancelDownload(model: AssistantModel)

@@ -93,10 +93,13 @@ class AssistantModels : NeuralTool() {
     private val directory: File
         get() = File(context.filesDir, "ai_models/assistant")
 
-    suspend fun installations(): List<ModelState> = withContext(Dispatchers.IO) {
+    suspend fun installations(
+        verifyFiles: Boolean = true
+    ): List<ModelState> = withContext(Dispatchers.IO) {
         AssistantModel.entries.forEach { variant ->
             val lock = packageLocks.getValue(variant)
             while (!lock.tryLock()) {
+                if (!verifyFiles) return@forEach
                 val state = states.value.single { it.variant == variant }
                 if (state.phase != Phase.Verifying || state.progress != null) return@forEach
                 states.first { items ->
@@ -108,8 +111,21 @@ class AssistantModels : NeuralTool() {
             var result = states.value.single { it.variant == variant }
             try {
                 val modelPackage = AssistantModelFiles[variant]
-                updateState(variant) { it.copy(phase = Phase.Verifying) }
-                val installed = recover(variant, modelPackage)
+                val installed = if (verifyFiles) {
+                    updateState(variant) { it.copy(phase = Phase.Verifying) }
+                    recover(variant, modelPackage)
+                } else {
+                    listOf(
+                        directory.resolve(variant.id),
+                        directory.resolve(".${variant.id}.previous")
+                    )
+                        .any { folder ->
+                            modelPackage.files.all {
+                                val file = folder.resolve(it.name)
+                                file.isFile && file.length() == it.size
+                            }
+                        }
+                }
                 result = ModelState(
                     variant,
                     installed,
@@ -240,6 +256,38 @@ class AssistantModels : NeuralTool() {
         }
     }
 
+    suspend fun prepare(variant: AssistantModel) = withContext(Dispatchers.Default) {
+        check(isSupported()) { unsupportedReason.orEmpty() }
+        packageLocks.getValue(variant).withLock {
+            check(withContext(Dispatchers.IO) { recover(variant, AssistantModelFiles[variant]) }) {
+                "Assistant model files are missing or invalid"
+            }
+            runtimeLock.withLock { loadModel(variant) }
+        }
+    }
+
+    private suspend fun loadModel(variant: AssistantModel) {
+        withContext(Dispatchers.IO) {
+            verify(directory.resolve(variant.id), AssistantModelFiles[variant])
+        }
+        currentCoroutineContext().ensureActive()
+        if (activeVariant != variant) {
+            closeModel()
+            OrtEnvironment.getEnvironment().setTelemetry(false)
+            GenAI.setTelemetry(false)
+            val model = Model(directory.resolve(variant.id).absolutePath)
+            try {
+                currentCoroutineContext().ensureActive()
+                activeTokenizer = Tokenizer(model)
+                activeModel = model
+                activeVariant = variant
+            } catch (error: Throwable) {
+                model.close()
+                throw error
+            }
+        }
+    }
+
     suspend fun generate(
         variant: AssistantModel,
         prompt: String,
@@ -262,25 +310,7 @@ class AssistantModels : NeuralTool() {
             packageLocks.getValue(variant).withLock {
                 runtimeLock.withLock {
                     try {
-                        withContext(Dispatchers.IO) {
-                            verify(directory.resolve(variant.id), AssistantModelFiles[variant])
-                        }
-                        currentCoroutineContext().ensureActive()
-                        if (activeVariant != variant) {
-                            closeModel()
-                            OrtEnvironment.getEnvironment().setTelemetry(false)
-                            GenAI.setTelemetry(false)
-                            val model = Model(directory.resolve(variant.id).absolutePath)
-                            try {
-                                currentCoroutineContext().ensureActive()
-                                activeTokenizer = Tokenizer(model)
-                                activeModel = model
-                                activeVariant = variant
-                            } catch (error: Throwable) {
-                                model.close()
-                                throw error
-                            }
-                        }
+                        loadModel(variant)
                         currentCoroutineContext().ensureActive()
                         if (variant.supportsVision) {
                             generateVisionTokens(

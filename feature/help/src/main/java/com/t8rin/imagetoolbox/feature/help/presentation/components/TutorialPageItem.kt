@@ -42,17 +42,20 @@ import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
 
 @Composable
 internal fun TutorialPageItem(
-    page: HelpPage
+    page: HelpPage,
+    showTitle: Boolean = true
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        Text(
-            text = helpStringResource(page.title),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (showTitle) {
+            Text(
+                text = helpStringResource(page.title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         Text(
             text = helpStringResource(page.description),
             style = MaterialTheme.typography.bodyLarge,

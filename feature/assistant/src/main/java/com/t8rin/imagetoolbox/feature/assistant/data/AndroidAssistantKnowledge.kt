@@ -734,6 +734,7 @@ private val settingLocation = Regex(
 )
 private val topicSeparator = Regex("[.!?;]|\\b(?:затем|потом|then)\\b", RegexOption.IGNORE_CASE)
 private val helpAliases = listOf(
+    "face-privacy" to Regex("(?:замаз|скры|скрой|размы|размой|запиксел|пиксел|закрас|закры|закрой|blur|pixelat|censor|redact|hide|mask|obscur).*(?:лиц|номер|текст|face|plate|text)|(?:лиц|номер|текст|face|plate|text).*(?:замаз|скры|скрой|размы|размой|запиксел|пиксел|закрас|закры|закрой|blur|pixelat|censor|redact|hide|mask|obscur)"),
     "background-remover" to Regex("(?:удал|убра|стер).*фон|фон.*(?:удал|убра)|(?:remov|eras).*background|background.*(?:remov|eras)"),
     "searchable-pdf" to Regex("(?:pdf|пдф).*(?:ocr|распозн|текст|поиск|searchable)|(?:ocr|распозн|текст|поиск|searchable).*(?:pdf|пдф)"),
     "resize-by-file-size" to Regex("^(?!.*\\b(?:pdf|пдф)\\b).*(?:\\bсжать\\b|\\bcompress(?:ing|ed)?\\b|уменьш[а-я]*\\s+(?:вес|размер\\s+файл)|reduce\\s+(?:file\\s+size|size\\s+of))"),

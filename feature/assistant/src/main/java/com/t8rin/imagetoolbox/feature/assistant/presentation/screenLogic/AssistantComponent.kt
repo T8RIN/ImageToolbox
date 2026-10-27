@@ -52,11 +52,11 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.launch as launchImmediate
 
 class AssistantComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
@@ -113,25 +113,25 @@ class AssistantComponent @AssistedInject internal constructor(
     init {
         lifecycle.doOnStop { repository.releaseWhenIdle() }
         lifecycle.doOnDestroy { repository.releaseWhenIdle() }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.messages.collect { _messages.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.isLoading.collect { _isLoading.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.isCheckingModels.collect { _isCheckingModels.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.isGenerating.collect { _isGenerating.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.error.collect { _error.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             repository.installations.collect { _installations.value = it }
         }
-        componentScope.launchImmediate {
+        componentScope.launch {
             settings.settingsState.map { it.isAiAssistantEnabled to it.aiAssistantModel }
                 .distinctUntilChanged().collect { (isEnabled, model) ->
                     val changedModel = selectedModel != model
@@ -181,11 +181,21 @@ class AssistantComponent @AssistedInject internal constructor(
     }
 
     fun selectModel(model: AssistantModel) {
-        componentScope.launchImmediate { settings.setAiAssistantModel(model) }
+        if (!componentScope.isActive || !enabled || isBusy) return
+        componentScope.launch {
+            settings.setAiAssistantModel(model)
+            try {
+                repository.prepareModel(model)
+            } catch (failure: Exception) {
+                ensureActive()
+                failure.makeLog()
+                AppToastHost.showFailureToast(failure)
+            }
+        }
     }
 
     fun disable() {
-        componentScope.launchImmediate {
+        componentScope.launch {
             settings.setAiAssistantEnabled(false)
             AssistantModel.entries.forEach(repository::cancelDownload)
             onGoBack()
@@ -196,7 +206,7 @@ class AssistantComponent @AssistedInject internal constructor(
         if (!componentScope.isActive || !enabled || isDownloading(variant)) return
         val repository = repository
         val settings = settings
-        appScope.launchImmediate {
+        appScope.launch {
             try {
                 if (!settings.settingsState.value.isAiAssistantSetupComplete) {
                     settings.setAiAssistantModel(variant)
@@ -254,7 +264,7 @@ class AssistantComponent @AssistedInject internal constructor(
     fun openTool(tool: AssistantTool, messageContext: AssistantScreenContext) {
         if (!enabled) return
         val screen = knowledge.resolveTool(tool) ?: return
-        componentScope.launchImmediate {
+        componentScope.launch {
             val destination = withContext(ioDispatcher) {
                 runCatching {
                     val uris = messageContext.selectedUris.map { it.toUri() }
