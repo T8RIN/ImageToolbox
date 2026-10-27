@@ -75,6 +75,23 @@ class AssistantSearchIndexTest {
     }
 
     @Test
+    fun preservesTheRequestedMediaTypeAndIgnoresNumericTargets() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("pdf", "Compress PDF", "Compress PDF documents"),
+                AssistantSearchIndex.Document(
+                    "photo",
+                    "Resize photos",
+                    "Compress a photo to a file size limit"
+                )
+            )
+        )
+        assertEquals("photo", index.search("compress photo to 500").first().value)
+        assertEquals("pdf", index.search("compress PDF").first().value)
+        assertTrue(AssistantSearchIndex.tokens("500 1200").isEmpty())
+    }
+
+    @Test
     fun normalizesRussianYoAndMatchesWordPrefixes() {
         val index = AssistantSearchIndex(
             listOf(
@@ -237,6 +254,22 @@ class AssistantSearchIndexTest {
         assertEquals(
             AssistantSearchIndex(documents.filter { it.value != "general" }).search(query),
             index.search(query) { it != "general" }
+        )
+    }
+
+    @Test
+    fun preservesActionWordsAndFindsCandidatesForConversationalQuestions() {
+        listOf(
+            "расскажи", "объясни", "открой", "найди", "сделать", "несколько", "фото", "файл",
+            "explain", "tell", "open", "find", "create", "several", "photos", "files"
+        ).forEach { assertTrue(it, AssistantSearchIndex.tokens(it).isNotEmpty()) }
+        val index = AssistantSearchIndex(
+            listOf(AssistantSearchIndex.Document("resize", "Photo file size", "Compress images"))
+        )
+        assertEquals(
+            "resize",
+            index.candidates("Could you explain how to reduce a photograph file size before sending it?")
+                .first().value
         )
     }
 }

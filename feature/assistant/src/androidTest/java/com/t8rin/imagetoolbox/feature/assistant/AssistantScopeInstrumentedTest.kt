@@ -17,10 +17,10 @@
 
 package com.t8rin.imagetoolbox.feature.assistant
 
+import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
-import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.neural_tools.assistant.AssistantModels
@@ -37,12 +37,18 @@ import java.io.File
 @RunWith(AndroidJUnit4::class)
 class AssistantScopeInstrumentedTest {
     @Test
-    fun modelsAskAboutTheAppInsteadOfWritingRecipesOrPoems() = runBlocking {
+    fun modelsExplainTheirScopeInsteadOfWritingRecipesOrPoems() = runBlocking {
         val app = InstrumentationRegistry.getInstrumentation().targetContext
+        app.startActivity(
+            checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         val knowledge = app.entryPoint<AssistantEntryPoint>().knowledge
         val models = AssistantModels()
-        val variants = AssistantModel.entries.filterNot { it.supportsVision }
-        assumeTrue(models.installations().filter { it.variant in variants }.all { it.installed })
+        val variants = models.installations(verifyFiles = false)
+            .filter { it.installed && !it.variant.supportsVision }.map { it.variant }
+        assumeTrue("Install a text model before testing scope", variants.isNotEmpty())
         val report = JSONArray()
         val failures = mutableListOf<String>()
         try {
@@ -77,26 +83,20 @@ class AssistantScopeInstrumentedTest {
                             .put("totalMs", (System.nanoTime() - started) / 1e6)
                     )
                     val plain = reply.replace(Regex("[*_`#]"), "").trim()
-                    val clarification = if (request.language == "ru") {
-                        Regex(
-                            "(?:какую|какой|какая|какие|что|чем|как).*(?:ImageToolbox|задач|помоч|инструмент|настрой|файл|фото|изображ)",
-                            setOf(RegexOption.IGNORE_CASE, RegexOption.DOT_MATCHES_ALL)
-                        )
-                    } else {
-                        Regex(
-                            "(?:what|which|how).*(?:ImageToolbox|tool|setting|file|photo|image|help)",
-                            setOf(RegexOption.IGNORE_CASE, RegexOption.DOT_MATCHES_ALL)
-                        )
-                    }
                     val recipe = Regex(
                         "\\b(?:ingredients?|preheat|bake|oven|flour|cocoa|butter|sugar|eggs?|tbsp|tsp)\\b",
                         RegexOption.IGNORE_CASE
                     )
-                    val appQuestion = plain.contains("ImageToolbox", ignoreCase = true) &&
-                            clarification.containsMatchIn(plain) && plain.endsWith('?') &&
-                            plain.count { it == '?' } == 1 && plain.lines()
-                        .count { it.isNotBlank() } <= 2
-                    if (!appQuestion || recipe.containsMatchIn(plain)) {
+                    val explainsScope = Regex(
+                        "ImageToolbox|image|photo|изображ|фото|обработк|настройк",
+                        RegexOption.IGNORE_CASE
+                    ).containsMatchIn(plain) &&
+                            !plain.contains(
+                                "Что вы хотите сделать с изображением",
+                                ignoreCase = true
+                            ) &&
+                            plain.lines().count { it.isNotBlank() } <= 6
+                    if (!explainsScope || recipe.containsMatchIn(plain)) {
                         failures.add("${variant.id}/${request.language}: $reply")
                     }
                 }

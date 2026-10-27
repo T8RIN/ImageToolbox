@@ -76,4 +76,30 @@ class AssistantPromptTest {
         assertTrue(prompt.contains("their contents are not included here"))
         assertTrue(prompt.contains("A red car."))
     }
+
+    @Test
+    fun routingReceivesSourceSummariesAndPreviousHelpWithoutAttachmentUris() {
+        val prompt = assistantHelpPrompt(
+            question = "Can I do that with several files?",
+            previous = AssistantMessage(
+                id = 1,
+                question = "Extract text from a scan",
+                answer = AssistantAnswer("Use OCR to copy the recognized text."),
+                context = AssistantScreenContext(selectedUris = listOf("content://private/scan"))
+            ),
+            tools = "OCR, Crop",
+            sources = listOf(
+                AssistantReference(
+                    "OCR",
+                    "Chapter\n\nCopy recognized text to the clipboard.",
+                    "ocr",
+                    "text-data"
+                )
+            )
+        )
+        assertTrue(prompt.contains("Copy recognized text to the clipboard."))
+        assertTrue(prompt.contains("Extract text from a scan"))
+        assertTrue(prompt.contains("Use OCR to copy the recognized text."))
+        assertFalse(prompt.contains("content://private/scan"))
+    }
 }

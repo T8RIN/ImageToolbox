@@ -36,6 +36,8 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.presentation.model.Setting
+import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantRepository
@@ -44,7 +46,9 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.neural_tools.assistant.AssistantModels
@@ -59,6 +63,8 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
+import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -101,6 +107,7 @@ class AssistantRepositoryInstrumentedTest {
         override val decodingDispatcher = Dispatchers.Default
         override val encodingDispatcher = Dispatchers.Default
     }
+    private val retrievedQueries = mutableListOf<List<String>>()
     private val started = CompletableDeferred<Unit>()
     private val reply = CompletableDeferred<AssistantAnswer>()
     private val gallery = AssistantGalleryResult(1, AssistantGalleryQuery(filename = "photo.png"))
@@ -133,7 +140,16 @@ class AssistantRepositoryInstrumentedTest {
         }
         return withContext(Dispatchers.Main) {
             AndroidAssistantRepository(
-                knowledge = services.knowledge,
+                knowledge = object : AssistantKnowledge by services.knowledge {
+                    override suspend fun retrieve(
+                        request: AssistantRequest,
+                        queries: List<String>,
+                        sources: List<String>
+                    ): AssistantAnswer {
+                        retrievedQueries.add(queries)
+                        return services.knowledge.retrieve(request, queries, sources)
+                    }
+                },
                 store = store,
                 gallerySearch = object : AssistantGallerySearch by services.gallerySearch {
                     override fun isCurrent(sessionId: Long) = true
@@ -225,36 +241,100 @@ class AssistantRepositoryInstrumentedTest {
     }
 
     @Test
-    fun firstQuestionPreparesTheSelectedModelWithinTheReply() = runBlocking {
+    fun understandsEditingRequestsAndFollowUpsWithoutTopicAliases() = runBlocking {
+        app.startActivity(
+            checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+        instrumentation.waitForIdleSync()
         val installed = AssistantModels().installations(verifyFiles = false)
-            .filter { it.installed && !it.variant.supportsVision }
-        assumeTrue("Install a text model before testing face privacy", installed.isNotEmpty())
-        installed.forEach { state ->
-            settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
-            val repository = create()
-            val component = component(repository)
-            withContext(Dispatchers.Main) {
-                component.newConversation()
-                assertTrue(component.send("как мне замазать лица"))
-                assertTrue(repository.isGenerating.value)
-                assertEquals(null, repository.error.value)
+            .filter {
+                it.installed && it.variant in setOf(
+                    AssistantModel.Advanced,
+                    AssistantModel.Max
+                )
             }
-            withTimeout(120_000) { repository.isGenerating.first { busy -> !busy } }
-            val message = repository.messages.value.single()
-            val text = message.answer.text.lowercase()
-            assertEquals(message.toString(), null, message.error)
-            assertTrue("${state.variant}: $text", text.contains("рисован"))
-            assertTrue(
-                "${state.variant}: $text",
-                text.contains("размыт") || text.contains("пиксел")
+        assumeTrue("Install a text model before testing help replies", installed.isNotEmpty())
+        val requests = listOf(
+            "Хочу скрыть лица на снимке" to setOf(Screen.Draw().simpleName),
+            "Подскажи, фотка слишком тяжёлая для отправки, что сделать?" to setOf(
+                Screen.WeightResize().simpleName, Screen.CompressionLab().simpleName
+            ),
+            "Нужно скопировать текст со скана в заметки" to setOf(Screen.RecognizeText().simpleName),
+            "Как сделать PDF с поиском по тексту из сканов?" to setOf("searchable-pdf"),
+            "Хочу чтобы фон стал прозрачным" to setOf(Screen.EraseBackground().simpleName),
+            "Из фоток сделать анимашку" to setOf(
+                Screen.GifTools().simpleName,
+                Screen.ApngTools().simpleName,
+                Screen.WebpTools().simpleName
+            ),
+            "Как настроить автоматическую очистку кэша?" to setOf(Setting.AutoCacheClear.key()),
+            "Надо стереть из фотки данные о месте съёмки" to setOf(
+                Screen.DeleteExif().simpleName,
+                Screen.EditExif().simpleName
+            ),
+            "А это можно сделать с несколькими файлами сразу?" to setOf(
+                Screen.DeleteExif().simpleName,
+                Screen.EditExif().simpleName
             )
-            assertFalse("${state.variant}: $text", text.contains("что вы хотите сделать"))
-            assertTrue(
-                message.toString(),
-                message.answer.references.any { it.tipId == "face-privacy" })
-            File(app.cacheDir, "assistant-face-privacy-${state.variant.id}.txt")
-                .writeText(message.answer.text)
-            withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+        )
+        val brief = InstrumentationRegistry.getArguments().getString("helpBrief") == "true"
+        val selectedCases = InstrumentationRegistry.getArguments().getString("helpCases")
+            ?.split(',')?.map { it.toInt() }?.toSet()
+        require(selectedCases == null || selectedCases.any { it in requests.indices })
+        val report = JSONArray()
+        val failures = mutableListOf<String>()
+        try {
+            installed.forEach { state ->
+                settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+                val repository = create()
+                val component = component(repository)
+                requests.forEachIndexed { index, (question, tools) ->
+                    if (selectedCases != null && index !in selectedCases) return@forEachIndexed
+                    withContext(Dispatchers.Main) {
+                        if (index != requests.lastIndex) component.newConversation()
+                        assertTrue(
+                            question,
+                            component.send(if (brief) "$question Ответь кратко, до трёх предложений." else question)
+                        )
+                        assertTrue(repository.isGenerating.value)
+                        assertEquals(null, repository.error.value)
+                    }
+                    withTimeout(240_000) { repository.isGenerating.first { busy -> !busy } }
+                    val message = repository.messages.value.last()
+                    report.put(
+                        JSONObject().put("model", state.variant.id).put("question", question)
+                            .put("answer", message.answer.text).put("error", message.error)
+                            .put("queries", JSONArray(retrievedQueries.lastOrNull().orEmpty()))
+                            .put("sources", JSONArray(message.answer.references.map { it.tipId }))
+                    )
+                    File(
+                        app.cacheDir,
+                        "assistant-help-usability.json"
+                    ).writeText(report.toString(2))
+                    val plainTextRecognition = index != 2 ||
+                            message.answer.tools.mapNotNull(services.knowledge::resolveTool).any {
+                                it is Screen.RecognizeText && it.type !is Screen.RecognizeText.Type.WriteToSearchablePdf &&
+                                        it.type !is Screen.RecognizeText.Type.WriteToMetadata
+                            } && Regex("OCR|распозн", RegexOption.IGNORE_CASE).containsMatchIn(
+                        message.answer.text
+                    )
+                    if (!plainTextRecognition || message.error != null || message.answer.text.isBlank() ||
+                        message.answer.text.contains(
+                            "Что вы хотите сделать с изображением",
+                            true
+                        ) ||
+                        (message.answer.tools.map { it.key } + message.answer.settings.map { it.key } +
+                                message.answer.references.map { it.tipId }).none { it in tools }
+                    ) {
+                        failures.add(message.toString())
+                    }
+                }
+                withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+            }
+            assertTrue(failures.joinToString("\n"), failures.isEmpty())
+        } finally {
+            File(app.cacheDir, "assistant-help-usability.json").writeText(report.toString(2))
         }
     }
 

@@ -89,7 +89,7 @@ class AssistantKnowledgeInstrumentedTest {
             "How do I redact a license plate?"
         ).forEach { query ->
             val request = AssistantRequest(query)
-            val answer = knowledge.retrieve(request)
+            val answer = knowledge.retrieve(request, listOf("hide faces privacy blur pixelation"))
             assertEquals(query, "face-privacy", answer.references.firstOrNull()?.tipId)
             assertTrue("$query: $answer", answer.tools.any {
                 knowledge.resolveTool(it) == Screen.Draw()
@@ -107,14 +107,24 @@ class AssistantKnowledgeInstrumentedTest {
 
     @Test
     fun retrievesRelevantDocumentationForMultipleTopics() = runBlocking {
-        val pdf = knowledge.retrieve(AssistantRequest("Как сделать PDF с OCR?"))
+        val pdf = knowledge.retrieve(
+            AssistantRequest("Как сделать PDF с OCR?"),
+            sources = listOf("searchable-pdf")
+        )
         assertEquals("searchable-pdf", pdf.references.first().tipId)
-        val compression = knowledge.retrieve(AssistantRequest("Сожми фотографии до 500 КБ"))
+        val compression = knowledge.retrieve(
+            AssistantRequest("Сожми фотографии до 500 КБ"),
+            listOf("image file size compression")
+        )
         assertEquals("resize-by-file-size", compression.references.first().tipId)
-        val exif = knowledge.retrieve(AssistantRequest("Удали EXIF из выбранных фотографий"))
+        val exif = knowledge.retrieve(
+            AssistantRequest("Удали EXIF из выбранных фотографий"),
+            listOf("remove image EXIF metadata")
+        )
         assertTrue(exif.references.toString(), exif.references.any { it.tipId == "exif-removal" })
         val combined = knowledge.retrieve(
-            AssistantRequest("Удали фон, затем сожми фотографии до 500 КБ.")
+            AssistantRequest("Удали фон, затем сожми фотографии до 500 КБ."),
+            listOf("remove restore background", "image file size compression")
         )
         assertTrue(
             combined.references.toString(),
@@ -138,7 +148,7 @@ class AssistantKnowledgeInstrumentedTest {
             "How can I compress a photo?"
         ).forEach { query ->
             val request = AssistantRequest(query, context)
-            val answer = knowledge.retrieve(request)
+            val answer = knowledge.retrieve(request, listOf("image file size compression"))
             assertEquals(query, "resize-by-file-size", answer.references.first().tipId)
             assertEquals(query, listOf("resize-by-file-size"), answer.references.map { it.tipId })
             assertEquals(
@@ -160,7 +170,7 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
-    fun specificCompressionToolsAreNotReplacedByPhotoCompressionAliases() = runBlocking {
+    fun specificCompressionToolsKeepTheirDocumentedDestination() = runBlocking {
         val lab = knowledge.retrieve(AssistantRequest("Compression Lab"))
         assertTrue(lab.tools.any { it.key == Screen.CompressionLab().simpleName })
         listOf("Compression Lab", "Compress PDF", "Сжать PDF").forEach { query ->
@@ -217,22 +227,20 @@ class AssistantKnowledgeInstrumentedTest {
             val prompt = knowledge.grounding(request, retrieved)
             assertFalse(prompt, prompt.contains("DOCS"))
             assertFalse(prompt, prompt.contains("JSON"))
-            assertTrue(prompt, prompt.length < 450)
+            assertTrue(prompt, prompt.contains("Available ImageToolbox tools"))
             val russian = request.query.any { it in 'А'..'я' }
             assertTrue(
                 prompt,
-                prompt.contains(if (russian) "Задай только короткий вопрос" else "Ask only a short question")
+                prompt.contains("A missing search result does not mean the task is unrelated or unsupported")
             )
             assertTrue(
                 prompt,
                 prompt.contains(if (russian) "Отвечай по-русски" else "Reply in English")
             )
             val userPrompt = knowledge.userPrompt(request, retrieved)
-            assertTrue(userPrompt, userPrompt.contains(request.query))
-            assertTrue(
-                userPrompt,
-                userPrompt.contains(if (russian) "Пример подходящего вопроса" else "An appropriate question")
-            )
+            assertEquals(request.query, userPrompt)
+            assertFalse(prompt, prompt.contains("Что вы хотите сделать с изображением"))
+            assertFalse(prompt, prompt.contains("What would you like to do with an image"))
         }
     }
 
@@ -249,7 +257,7 @@ class AssistantKnowledgeInstrumentedTest {
             )
             assertFalse(prompt, prompt.contains("No matching app information"))
             assertTrue(prompt, prompt.contains("CONTEXT:"))
-            assertTrue(prompt, prompt.contains("using the supplied facts"))
+            assertFalse(prompt, prompt.contains("Что вы хотите сделать с изображением"))
         }
     }
 
@@ -299,7 +307,21 @@ class AssistantKnowledgeInstrumentedTest {
                 else -> error("Unknown generation fixture")
             }
             val language = if (name.startsWith("ru_")) "ru" else "en"
-            val grounding = knowledge.grounding(request, knowledge.retrieve(request))
+            val queries = when (name) {
+                "ru_open_background", "en_open_background" -> listOf("remove restore background")
+                "ru_compress_500kb", "ru_compress_question", "en_compress_question" -> listOf("image file size compression")
+                "en_searchable_pdf" -> listOf("create searchable PDF OCR")
+                "en_remove_exif" -> listOf("remove image EXIF metadata")
+                "ru_background_then_compress" -> listOf(
+                    "remove restore background",
+                    "image file size compression"
+                )
+
+                else -> error("Unknown generation fixture")
+            }
+            val sources = if (name == "en_searchable_pdf") listOf("searchable-pdf") else emptyList()
+            val grounding =
+                knowledge.grounding(request, knowledge.retrieve(request, queries, sources))
             facts.forEach { resource ->
                 val text = services.resources.getStringLocalized(resource, language)
                 assertTrue("$name omitted source facts: $text", grounding.contains(text))
@@ -310,11 +332,11 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun groundingDoesNotPrefillEveryRelatedTipForASingleTool() = runBlocking {
         val request = AssistantRequest("Открой удаление фона.")
-        val retrieved = knowledge.retrieve(request)
+        val retrieved = knowledge.retrieve(request, listOf("remove restore background"))
         val grounding = knowledge.grounding(request, retrieved)
         assertEquals(listOf("background-remover"), retrieved.references.map { it.tipId })
         assertEquals(listOf(Screen.EraseBackground().simpleName), retrieved.tools.map { it.key })
-        assertTrue(grounding, grounding.length < 1500)
+        assertTrue(grounding, grounding.length < 2500)
         assertTrue(
             grounding,
             grounding.contains(
@@ -336,7 +358,7 @@ class AssistantKnowledgeInstrumentedTest {
             "How can I compress a photo?" to "en"
         ).forEach { (query, language) ->
             val request = AssistantRequest(query)
-            val answer = knowledge.retrieve(request)
+            val answer = knowledge.retrieve(request, listOf("image file size compression"))
             val grounding = knowledge.grounding(request, answer)
             val title = services.resources.getStringLocalized(R.string.by_bytes_resize, language)
             assertEquals(query, knowledge.userPrompt(request, answer))
@@ -435,7 +457,7 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun documentedModesRetainTheirActualDestinationAndTitle() = runBlocking {
         val request = AssistantRequest("Create a searchable PDF with OCR")
-        val answer = knowledge.retrieve(request)
+        val answer = knowledge.retrieve(request, sources = listOf("searchable-pdf"))
         val tool = answer.tools.first { it.key == Screen.RecognizeText().simpleName }
         val destination =
             services.helpRepository.getTip(checkNotNull(tool.helpTipId))?.deepLink as Screen.RecognizeText
@@ -763,7 +785,10 @@ class AssistantKnowledgeInstrumentedTest {
         }
         settingQuestions.forEach { (query, setting) ->
             val request = AssistantRequest(query)
-            val answer = knowledge.retrieve(request)
+            val sources = services.helpRepository.tips.filter {
+                (it.deepLink as? Screen.Settings)?.targetSetting == setting
+            }.take(1).map { it.id }
+            val answer = knowledge.retrieve(request, sources = sources)
             if (answer.settings.none { it.key == setting.key() } || answer.references.none {
                     (services.helpRepository.getTip(it.tipId)?.deepLink as? Screen.Settings)?.targetSetting == setting
                 }) {
