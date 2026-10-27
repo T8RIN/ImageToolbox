@@ -51,6 +51,21 @@ class AssistantKnowledgeInstrumentedTest {
     private val knowledge = services.knowledge
 
     @Test
+    fun selectedFileModifiersDoNotHideTheRequestedSizeLimit() = runBlocking {
+        val request = AssistantRequest(
+            "Как сжать выбранное фото до 500 КБ?",
+            AssistantScreenContext(
+                selectedUris = listOf("content://assistant-test/photo"),
+                parameters = mapOf("selectedImageInfo" to "image/jpeg, 4032x3024, 5000000 bytes")
+            )
+        )
+        val answer = knowledge.retrieve(request)
+        assertTrue(
+            answer.toString(),
+            answer.tools.any { knowledge.resolveTool(it) == Screen.WeightResize() })
+    }
+
+    @Test
     fun introductoryVerbsDoNotHideAnExplicitAppTopic() = runBlocking {
         listOf(
             "Расскажи про EXIF" to setOf(
@@ -112,8 +127,18 @@ class AssistantKnowledgeInstrumentedTest {
             assertTrue("$query: $answer", answer.settings.isEmpty())
             AssistantModel.entries.forEach { model ->
                 val grounding = knowledge.grounding(request, answer, model)
-                assertTrue("$query/$model: $grounding", grounding.contains("YuNet"))
-                assertTrue("$query/$model: $grounding", grounding.contains("UltraFace"))
+                if (model == AssistantModel.Max) {
+                    assertTrue(
+                        "$query/$model: $grounding",
+                        Regex(
+                            "размыт|пиксел|непрозрач|blur|pixel|opaque",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(grounding)
+                    )
+                } else {
+                    assertTrue("$query/$model: $grounding", grounding.contains("YuNet"))
+                    assertTrue("$query/$model: $grounding", grounding.contains("UltraFace"))
+                }
                 assertFalse("$query/$model: $grounding", grounding.contains("Задай только"))
                 assertFalse("$query/$model: $grounding", grounding.contains("Ask only"))
             }
@@ -219,6 +244,18 @@ class AssistantKnowledgeInstrumentedTest {
         assertFalse(grounding.contains("known-tip-id"))
         assertFalse(grounding.contains("\"text\":\"answer\""))
         assertTrue(grounding.contains("512000"))
+    }
+
+    @Test
+    fun formatFactsRemainAvailableWithRetrievedHelp() = runBlocking {
+        val request = AssistantRequest("А какие из них сохраняют прозрачность?")
+        val answer = knowledge.retrieve(request, sources = listOf("format-qoi"))
+        assertTrue(answer.references.isNotEmpty())
+        listOf(AssistantModel.Lite, AssistantModel.Advanced, AssistantModel.Max).forEach { model ->
+            val grounding = knowledge.grounding(request, answer, model)
+            assertTrue(grounding, grounding.contains("JPEG/JPG не поддерживает прозрачность"))
+            assertTrue(grounding, grounding.contains("PNG"))
+        }
     }
 
     @Test

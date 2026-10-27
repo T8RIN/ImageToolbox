@@ -17,9 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import java.time.LocalDate
 
 @Serializable
@@ -65,75 +63,21 @@ data class AssistantGalleryQuery(
     ).normalized()
 }
 
-@Serializable
 internal data class AssistantGalleryCommand(
     val action: Action,
-    val semantic: String? = null,
-    val people: List<String> = emptyList(),
-    val from: String? = null,
-    val to: String? = null,
-    val album: String? = null,
-    val filename: String? = null
+    val query: AssistantGalleryQuery? = null,
+    val mode: AssistantGallerySearch.Mode = AssistantGallerySearch.Mode.New,
+    val clarification: Clarification = Clarification.Conditions
 ) {
-    val query: AssistantGalleryQuery?
-        get() = if (action == Action.Search || action == Action.Refine) {
-            AssistantGalleryQuery(semantic, people, from, to, album, filename).normalized()
-        } else null
+    enum class Action { Search, Refine, More, Help, Clarify }
+    enum class Clarification { Conditions, Date, Literal, Unsupported, Person, NoSearch }
 
-    fun isRefinement(question: String): Boolean {
-        if (action == Action.Refine) return true
-        if (action != Action.Search) return false
-        val text = question.trimStart()
-        return refinementPrefixes.any { text.startsWith(it, ignoreCase = true) }
-    }
-
-    @Serializable
-    enum class Action {
-        @SerialName("help")
-        Help,
-
-        @SerialName("search")
-        Search,
-
-        @SerialName("refine")
-        Refine,
-
-        @SerialName("more")
-        More,
-
-        @SerialName("clarify")
-        Clarify
-    }
-
-    companion object {
-        private val refinementPrefixes = listOf(
-            "из этих", "из них", "среди найденных",
-            "а где он", "а где она", "а где они",
-            "of these", "from these", "among these",
-            "and where is he", "and where is she", "and where are they"
-        )
-
-        fun parse(output: String): AssistantGalleryCommand {
-            require(output.length <= 4_000)
-            val text = output.trim().removePrefix("```json").removePrefix("```")
-                .removeSuffix("```").trim()
-            return Json.decodeFromString<AssistantGalleryCommand>(text).also {
-                val query = it.query
-                if (query == null) {
-                    require(
-                        it.semantic == null && it.people.isEmpty() && it.from == null &&
-                                it.to == null && it.album == null && it.filename == null
-                    )
-                } else {
-                    require(
-                        query.semantic != null || query.people.isNotEmpty() || query.from != null ||
-                                query.to != null || query.album != null || query.filename != null
-                    )
-                }
-            }
-        }
-    }
 }
+
+data class AssistantGalleryCatalog(
+    val people: List<String> = emptyList(),
+    val albums: List<String> = emptyList()
+)
 
 @Serializable
 data class AssistantGalleryPhoto(val uri: String, val name: String)
@@ -142,12 +86,22 @@ data class AssistantGalleryPhoto(val uri: String, val name: String)
 data class AssistantGalleryPerson(val id: Long, val name: String, val thumbnail: String)
 
 @Serializable
+data class AssistantGalleryState(
+    val sourceUris: List<String>? = null,
+    val chosenPeople: Map<String, Long> = emptyMap(),
+    val ambiguousName: String? = null,
+    val choices: Set<Long> = emptySet(),
+    val complete: Boolean = false
+)
+
+@Serializable
 data class AssistantGalleryResult(
     val sessionId: Long,
     val query: AssistantGalleryQuery,
     val photos: List<AssistantGalleryPhoto> = emptyList(),
     val total: Int = 0,
-    val people: List<AssistantGalleryPerson> = emptyList()
+    val people: List<AssistantGalleryPerson> = emptyList(),
+    val state: AssistantGalleryState = AssistantGalleryState()
 ) {
     companion object {
         const val PREVIEW_COUNT = 5
@@ -155,10 +109,13 @@ data class AssistantGalleryResult(
 }
 
 interface AssistantGallerySearch {
-    suspend fun capabilities(): String
+    enum class Mode { New, Narrow, Update }
+
+    fun restore(results: List<AssistantGalleryResult>)
+    suspend fun catalog(): AssistantGalleryCatalog
     suspend fun search(
         query: AssistantGalleryQuery,
-        refine: Boolean,
+        mode: Mode,
         sessionId: Long
     ): AssistantAnswer
 

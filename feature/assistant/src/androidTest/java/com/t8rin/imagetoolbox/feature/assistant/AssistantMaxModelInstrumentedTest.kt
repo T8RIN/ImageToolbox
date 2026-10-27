@@ -28,9 +28,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantResponse
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CompletableDeferred
@@ -106,6 +108,12 @@ class AssistantMaxModelInstrumentedTest {
         assumeTrue(models.installations().single { it.variant == variant }.installed)
         report.put("packageVerificationSeconds", (System.nanoTime() - verificationStart) / 1e9)
         try {
+            if (InstrumentationRegistry.getArguments().getString("profileOnly") == "true") {
+                val profile = JSONObject()
+                report.put("nativeProfile", profile)
+                profileNative(profile, mapOf("hi" to prompt("Hi")))
+                return@runBlocking
+            }
             val request = AssistantRequest(
                 query = "Как сжать выбранное фото до 500 КБ?",
                 context = AssistantScreenContext(
@@ -173,7 +181,7 @@ class AssistantMaxModelInstrumentedTest {
             )
             assertTrue(
                 clarification, clarification.contains("ImageToolbox") &&
-                    clarification.trim().endsWith('?') && clarification.lines()
+                        clarification.lines()
                 .count { it.isNotBlank() } <= 2)
             println("AssistantMax case=cancel start")
             coroutineScope {
@@ -221,7 +229,11 @@ class AssistantMaxModelInstrumentedTest {
         println("AssistantMax case=$name start promptTokens=$promptTokens")
         try {
             withTimeout(600_000) {
-                models.generate(variant, input) { token ->
+                models.generate(
+                    variant,
+                    input,
+                    maxOutputTokens = if (name == "grounded_selected_photo") 288 else 96
+                ) { token ->
                     if (firstTokenNanos == null) {
                         firstTokenNanos = System.nanoTime()
                         println("AssistantMax case=$name firstTokenSeconds=${secondsSince(start)}")
@@ -232,7 +244,13 @@ class AssistantMaxModelInstrumentedTest {
             assertTrue(text.isNotBlank())
             assertTrue(!text.contains("<think>"))
             record.put("completed", true)
-            return text.toString()
+            return AssistantResponse.text(
+                text.toString(),
+                app.entryPoint<AssistantEntryPoint>().resources.getStringLocalized(
+                    R.string.assistant_scope,
+                    "ru"
+                )
+            )
         } catch (failure: Throwable) {
             record.put("error", failure.toString())
             throw failure

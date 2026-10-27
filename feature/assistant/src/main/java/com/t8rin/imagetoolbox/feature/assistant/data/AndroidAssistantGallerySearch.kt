@@ -29,10 +29,12 @@ import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPerson
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryState
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
 import com.t8rin.imagetoolbox.feature.assistant.domain.filterGalleryMedia
@@ -48,7 +50,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -83,39 +84,55 @@ class AndroidAssistantGallerySearch @Inject constructor(
         session = null
     }
 
-    override suspend fun capabilities(): String = withContext(dispatchers.ioDispatcher) {
-        val settings = settings.getSettingsState()
-        val state = semantic.state.value
-        val permission = context.hasSemanticSearchPermission()
-        val names = if (permission && settings.isSemanticSearchEnabled &&
-            settings.semanticSearchSettings.groupPeople && state.faceModelsReady
-        ) {
-            visiblePeople(media()).asSequence().map { (person, _) -> person.name }
-                .filter { it.length <= 80 }.distinct().take(30).toList()
-        } else emptyList()
-        "photoAccess=$permission; filename/date/album=$permission; " +
-                "semanticEnabled=${settings.isSemanticSearchEnabled}; " +
-                "groupPeople=${settings.semanticSearchSettings.groupPeople}; " +
-                "modelsReady=${state.modelsReady}; faceModelsReady=${state.faceModelsReady}; " +
-                "downloading=${state.isDownloading}; facesDownloading=${state.isFacesDownloading}; " +
-                "indexed=${state.indexedImages}; indexing=${state.isIndexing}; " +
-                "facesIndexing=${state.isFacesIndexing}; queued=${state.isQueued}; " +
-                "waitingForPermission=${state.isWaitingForPermission}; " +
-                "knownPeople=${Json.encodeToString(names)}"
+    override fun restore(results: List<AssistantGalleryResult>) {
+        if (session != null) return
+        val last = results.lastOrNull() ?: return
+        val first = results.lastOrNull {
+            it.sessionId == last.sessionId && it.photos.size == it.total && (it.state.complete || it.total > 0)
+        } ?: last
+        val matches = first.photos.takeIf {
+            (first.state.complete || first.total > 0) && it.size == first.total
+        }?.map { it.uri }
+        session = Session(
+            id = last.sessionId,
+            query = last.query,
+            source = last.state.sourceUris?.toSet(),
+            chosenPeople = last.state.chosenPeople,
+            ambiguousName = last.state.ambiguousName ?: last.query.people.firstOrNull { name ->
+                last.people.any { it.name.contains(name, ignoreCase = true) }
+            },
+            choices = last.state.choices.ifEmpty { last.people.map { it.id }.toSet() },
+            matches = matches,
+            offset = (last.total - last.photos.size + minOf(
+                PREVIEW_COUNT,
+                last.photos.size
+            )).coerceAtLeast(0)
+        )
+    }
+
+    override suspend fun catalog(): AssistantGalleryCatalog =
+        withContext(dispatchers.ioDispatcher) {
+            if (!context.hasSemanticSearchPermission()) return@withContext AssistantGalleryCatalog()
+            val albums =
+                mediaRetriever.getAlbumsWithType(AllowedMedia.Photos(null)).first().getOrThrow()
+                    .map { it.label }
+            val names = visiblePeople(media()).map { (person, _) -> person.name }.distinct()
+            AssistantGalleryCatalog(names, albums)
     }
 
     override suspend fun search(
         query: AssistantGalleryQuery,
-        refine: Boolean,
+        mode: AssistantGallerySearch.Mode,
         sessionId: Long
     ): AssistantAnswer {
-        val previous = if (refine) {
+        val previous = if (mode != AssistantGallerySearch.Mode.New) {
             session ?: return AssistantAnswer(text(R.string.assistant_gallery_no_search))
         } else null
         session = Session(
             id = sessionId,
-            query = previous?.let { query.refine(it.query) } ?: query.normalized(),
-            source = previous?.matches?.toSet() ?: previous?.source,
+            query = query.normalized(),
+            source = if (mode == AssistantGallerySearch.Mode.Narrow) previous?.matches?.toSet()
+                ?: previous?.source else null,
             chosenPeople = previous?.chosenPeople.orEmpty()
         )
         return findPhotos()
@@ -157,8 +174,19 @@ class AndroidAssistantGallerySearch @Inject constructor(
             try {
                 val query = current.query
                 val needsAi = query.semantic != null || query.people.isNotEmpty()
-                if (needsAi) semantic.refresh()
                 val settings = settings.getSettingsState()
+                val snapshot = semantic.state.value
+                gallerySearchBlocker(
+                    query,
+                    settings.isSemanticSearchEnabled,
+                    settings.semanticSearchSettings.groupPeople,
+                    snapshot
+                )
+                    ?.takeIf { it != R.string.assistant_gallery_models_missing }
+                    ?.let { return@withContext blocked(current, it) }
+                if (needsAi && (!snapshot.modelsReady || query.people.isNotEmpty() && !snapshot.faceModelsReady || snapshot.indexedImages == 0)) {
+                    semantic.refresh()
+                }
                 gallerySearchBlocker(
                     query = query,
                     enabled = settings.isSemanticSearchEnabled,
@@ -196,16 +224,17 @@ class AndroidAssistantGallerySearch @Inject constructor(
                                     person.thumbnail
                                 )
                             }
-                            session = current.copy(
+                            val selecting = current.copy(
                                 ambiguousName = name,
                                 choices = choices.map { it.id }.toSet()
                             )
+                            session = selecting
                             return@withContext AssistantAnswer(
                                 text = resources.getString(
                                     R.string.assistant_gallery_choose_person,
                                     name
                                 ),
-                                gallery = result(current).copy(people = choices)
+                                gallery = result(selecting).copy(people = choices)
                             )
                         }
                         val state = semantic.state.value
@@ -272,7 +301,17 @@ class AndroidAssistantGallerySearch @Inject constructor(
             }
         }
 
-    private fun result(current: Session) = AssistantGalleryResult(current.id, current.query)
+    private fun result(current: Session) = AssistantGalleryResult(
+        sessionId = current.id,
+        query = current.query,
+        state = AssistantGalleryState(
+            sourceUris = current.source?.toList(),
+            chosenPeople = current.chosenPeople,
+            ambiguousName = current.ambiguousName,
+            choices = current.choices,
+            complete = current.matches != null
+        )
+    )
 
     private fun blocked(current: Session, reason: Int): AssistantAnswer {
         if (reason == R.string.assistant_gallery_index_pending) scheduler.refresh()

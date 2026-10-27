@@ -43,6 +43,9 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryInterpreter
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
@@ -50,7 +53,6 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Co
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
-import com.t8rin.imagetoolbox.feature.assistant.domain.assistantGalleryPrompt
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
@@ -78,7 +80,6 @@ import org.junit.Assume.assumeFalse
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
 import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
@@ -98,6 +99,7 @@ class AssistantGalleryInstrumentedTest {
     private var groups = emptyList<SemanticSearchCategoryResult>()
     private var ranked = emptyList<Media>()
     private var searches = 0
+    private var searchedQuery: String? = null
     private var afterSearch: () -> Unit = {}
     private var refresh: suspend () -> Unit = {}
 
@@ -132,6 +134,7 @@ class AssistantGalleryInstrumentedTest {
                 minimumSimilarity: Float
             ): List<Media> {
                 searches++
+                searchedQuery = query
                 ranked = media
                 afterSearch()
                 return media
@@ -155,15 +158,15 @@ class AssistantGalleryInstrumentedTest {
     @Test
     fun capabilitySnapshotDoesNotWaitForBackgroundIndexing() = runBlocking {
         refresh = { awaitCancellation() }
-        val capabilities = withTimeout(1_000) { search().capabilities() }
-        assertTrue(capabilities, capabilities.contains("indexed=30"))
+        val capabilities = withTimeout(1_000) { search().catalog() }
+        assertTrue(capabilities.people.isEmpty())
     }
 
     @Test
     fun disabledSearchKeepsOriginalConditionsAndRetryReadsChangedSettings() = runBlocking {
         val search = search()
         val query = AssistantGalleryQuery(semantic = "a beach", people = listOf("Саша"))
-        val disabled = search.search(query, false, 1)
+        val disabled = search.search(query, Mode.New, 1)
         assertEquals(Setting.SemanticSearch.key(), disabled.settings.single().key)
         assertTrue(disabled.gallery!!.photos.isEmpty())
         assertEquals(query, search.currentQuery())
@@ -194,12 +197,12 @@ class AssistantGalleryInstrumentedTest {
                 AssistantGalleryQuery(
                     semantic = "a beach", people = listOf("Саша", "Маша"),
                     from = "2026-07-01", to = "2026-07-31", album = "Vacation", filename = "IMG*"
-                ), false, 1
+                ), Mode.New, 1
             )
             assertEquals(photos.subList(15, 20), ranked)
             assertEquals(5, result.gallery!!.total)
             assertTrue(result.gallery.people.isEmpty())
-            assertFalse(search.capabilities().contains("hidden"))
+            assertFalse(search.catalog().people.any { it == "hidden" })
         }
 
     @Test
@@ -211,7 +214,7 @@ class AssistantGalleryInstrumentedTest {
         )
         val search = search()
         val result =
-            search.search(AssistantGalleryQuery(people = listOf("Саша")), false, 1).gallery!!
+            search.search(AssistantGalleryQuery(people = listOf("Саша")), Mode.New, 1).gallery!!
         assertEquals(listOf(1L, 2L), result.people.map { it.id })
         assertEquals(0, searches)
         assertTrue(runCatching { search.choosePerson(1, 3) }.isFailure)
@@ -221,19 +224,98 @@ class AssistantGalleryInstrumentedTest {
     @Test
     fun nextPageUsesAllResultsAndRefinementIncludesPhotosOutsideShownPage() = runBlocking {
         val search = search()
-        val first = search.search(AssistantGalleryQuery(album = "Vacation"), false, 1).gallery!!
+        val first = search.search(AssistantGalleryQuery(album = "Vacation"), Mode.New, 1).gallery!!
         assertEquals(30, first.total)
         assertEquals(30, first.photos.size)
         val second = search.more(1).gallery!!
         assertEquals(first.photos.drop(PREVIEW_COUNT), second.photos)
         val refined =
-            search.search(AssistantGalleryQuery(filename = "IMG_1.jpg"), true, 2).gallery!!
+            search.search(first.query.copy(filename = "IMG_1.jpg"), Mode.Narrow, 2).gallery!!
         assertEquals(1, refined.total)
         assertEquals(photos.first().uri, refined.photos.single().uri)
         assertFalse(search.isCurrent(1))
         assertEquals(0, searches)
-        val fresh = search.search(AssistantGalleryQuery(), false, 3).gallery!!
+        val fresh = search.search(AssistantGalleryQuery(), Mode.New, 3).gallery!!
         assertEquals(30, fresh.total)
+    }
+
+    @Test
+    fun restoredSearchKeepsPaginationAndTheWholePreviousSelection() = runBlocking {
+        val firstSearch = search()
+        val first =
+            firstSearch.search(AssistantGalleryQuery(album = "Vacation"), Mode.New, 1).gallery!!
+        val second = firstSearch.more(1).gallery!!
+        val restored = search()
+        restored.restore(listOf(first, second))
+        assertTrue(restored.isCurrent(1))
+        assertEquals(first.query, restored.currentQuery())
+        val lastPage = restored.more(1).gallery!!
+        assertEquals(photos.drop(PREVIEW_COUNT * 2).map { it.uri }, lastPage.photos.map { it.uri })
+        val narrowed = restored.search(
+            checkNotNull(restored.currentQuery()).copy(filename = photos.first().label),
+            Mode.Narrow,
+            2
+        ).gallery!!
+        assertEquals(listOf(photos.first().uri), narrowed.photos.map { it.uri })
+    }
+
+    @Test
+    fun restoredRefinementKeepsItsOriginalResultSubsetOnRetry() = runBlocking {
+        val initial = search()
+        val first = initial.search(
+            AssistantGalleryQuery(filename = photos.first().label),
+            Mode.New,
+            1
+        ).gallery!!
+        val narrowed =
+            initial.search(AssistantGalleryQuery(filename = "*"), Mode.Narrow, 2).gallery!!
+        val restored = search()
+        restored.restore(listOf(first, narrowed))
+        assertEquals(listOf(photos.first().uri), restored.retry(2).gallery!!.photos.map { it.uri })
+    }
+
+    @Test
+    fun restoredPersonClarificationCanBeAnsweredAndTheChoiceSurvivesRetry() = runBlocking {
+        enablePeople()
+        groups =
+            listOf(person(1, "Саша", photos.take(3)), person(2, "Саша", photos.drop(3).take(4)))
+        val choices =
+            search().search(AssistantGalleryQuery(people = listOf("Саша")), Mode.New, 1).gallery!!
+        val reopened = search()
+        reopened.restore(listOf(choices))
+        val selected = reopened.choosePerson(1, 2).gallery!!
+        assertEquals(4, selected.total)
+        val restored = search()
+        restored.restore(listOf(selected))
+        assertEquals(selected.photos, restored.retry(1).gallery!!.photos)
+    }
+
+    @Test
+    fun changingDateFiltersSearchesTheWholeLibraryAndDoesNotWaitForIndexing() = runBlocking {
+        enablePeople()
+        val august =
+            LocalDate.of(2026, 8, 15).atStartOfDay(java.time.ZoneId.systemDefault()).toEpochSecond()
+        photos =
+            photos.mapIndexed { index, media -> if (index >= 15) media.copy(timestamp = august) else media }
+        groups = listOf(person(1, "Саша", photos))
+        refresh = { awaitCancellation() }
+        val search = search()
+        val july =
+            AssistantGalleryQuery(people = listOf("Саша"), from = "2026-07-01", to = "2026-07-31")
+        assertEquals(15, withTimeout(2_000) { search.search(july, Mode.New, 1) }.gallery!!.total)
+        val updated = withTimeout(2_000) {
+            search.search(
+                july.copy(from = "2026-08-01", to = "2026-08-31"),
+                Mode.Update,
+                2
+            )
+        }
+        assertEquals(15, updated.gallery!!.total)
+        assertEquals(
+            photos.drop(15).map { it.uri }.toSet(),
+            updated.gallery.photos.map { it.uri }.toSet()
+        )
+        assertEquals(listOf("Саша"), updated.gallery.query.people)
     }
 
     @Test
@@ -241,7 +323,7 @@ class AssistantGalleryInstrumentedTest {
         enablePeople()
         val search = search()
         afterSearch = { settings.value = settings.value.copy(isSemanticSearchEnabled = false) }
-        val disabled = search.search(AssistantGalleryQuery(semantic = "a cat"), false, 1)
+        val disabled = search.search(AssistantGalleryQuery(semantic = "a cat"), Mode.New, 1)
         assertEquals(resources.getString(R.string.assistant_gallery_disabled), disabled.text)
         assertTrue(disabled.gallery!!.photos.isEmpty())
     }
@@ -251,7 +333,7 @@ class AssistantGalleryInstrumentedTest {
         assumeFalse(Environment.isExternalStorageManager())
         val search = search()
         permission = false
-        val denied = search.search(AssistantGalleryQuery(filename = "IMG"), false, 2)
+        val denied = search.search(AssistantGalleryQuery(filename = "IMG"), Mode.New, 2)
         assertEquals(resources.getString(R.string.assistant_gallery_permission), denied.text)
         assertTrue(denied.gallery!!.photos.isEmpty())
     }
@@ -261,7 +343,7 @@ class AssistantGalleryInstrumentedTest {
         enablePeople()
         groups = listOf(person(1, "Саша", photos.take(2)))
         state.value = state.value.copy(error = "indexing failed")
-        val result = search().search(AssistantGalleryQuery(people = listOf("Саша")), false, 1)
+        val result = search().search(AssistantGalleryQuery(people = listOf("Саша")), Mode.New, 1)
         assertEquals(2, result.gallery!!.total)
         assertEquals(resources.getString(R.string.assistant_gallery_found, 2), result.text)
     }
@@ -271,7 +353,7 @@ class AssistantGalleryInstrumentedTest {
         enablePeople()
         state.value = state.value.copy(indexedImages = 0)
         val search = search()
-        val pending = search.search(AssistantGalleryQuery(semantic = "a cat"), false, 1)
+        val pending = search.search(AssistantGalleryQuery(semantic = "a cat"), Mode.New, 1)
         assertEquals(resources.getString(R.string.assistant_gallery_index_pending), pending.text)
         photos = emptyList()
         assertEquals(resources.getString(R.string.assistant_gallery_empty), search.retry(1).text)
@@ -282,7 +364,7 @@ class AssistantGalleryInstrumentedTest {
         enablePeople()
         state.value = state.value.copy(isIndexing = true)
         val search = search()
-        val result = search.search(AssistantGalleryQuery(semantic = "a cat"), false, 1)
+        val result = search.search(AssistantGalleryQuery(semantic = "a cat"), Mode.New, 1)
         assertEquals(30, result.gallery!!.photos.size)
         assertEquals(resources.getString(R.string.assistant_gallery_found, 30), result.text)
     }
@@ -309,7 +391,7 @@ class AssistantGalleryInstrumentedTest {
                 bitmap.recycle()
             }
             val result = search(services.mediaRetriever).search(
-                AssistantGalleryQuery(filename = name, album = "AssistantGalleryTest"), false, 1
+                AssistantGalleryQuery(filename = name, album = "AssistantGalleryTest"), Mode.New, 1
             ).gallery!!
             assertEquals(1, result.total)
             assertEquals(name, result.photos.single().name)
@@ -450,74 +532,65 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
-    fun advancedInterpretsGalleryQueriesAndRetainsHelp() = runBlocking {
-        val models = AssistantModels()
-        assumeTrue(
-            models.installations().any { it.variant == AssistantModel.Advanced && it.installed })
-        val report = StringBuilder()
+    fun galleryQueriesPreserveTheirOriginalMeaningWithoutTextGeneration() = runBlocking {
         val current = AssistantGalleryQuery(people = listOf("Саша"))
-        suspend fun interpret(
-            question: String,
-            previous: AssistantGalleryQuery? = null
-        ): AssistantGalleryCommand {
-            val output = StringBuilder()
-            withTimeout(90_000) {
-                models.generate(
-                    AssistantModel.Advanced,
-                    assistantGalleryPrompt(
-                        question,
-                        "photoAccess=true; semanticEnabled=false; groupPeople=false; knownPeople=[\"Саша\",\"Маша\"]",
-                        previous
-                    ), maxOutputTokens = 256, stopOnRepetition = false
-                ) { output.append(it) }
-            }
-            report.appendLine("$question: $output")
-            File(app.cacheDir, "assistant-gallery-planning.txt").writeText(report.toString())
-            return AssistantGalleryCommand.parse(output.toString())
-        }
-        try {
-            val cat = interpret("Найди фотографии кота")
-            val person = interpret("Покажи Сашу на пляже")
-            val together = interpret("Где Саша и Маша вместе?")
-            val august = interpret("Найди закаты за август 2026 года")
-            val album = interpret("Покажи фото из альбома Vacation")
-            val july = interpret("Из этих только за июль", current)
-            val outdoors = interpret("А где он на улице?", current)
-            val more = interpret("Покажи ещё", current)
-            val fresh = interpret("Найди фотографии кота", current)
-            val help = interpret("Как сжать фото?")
-            val dog = interpret("Find photos of a dog")
-            val mixed = interpret("Покажи Сашу и Машу на пляже за август 2026 из альбома Vacation")
-            assertEquals(report.toString(), Action.Search, cat.action)
-            assertTrue(report.toString(), cat.query?.semantic?.contains("cat", true) == true)
-            assertTrue(report.toString(), cat.query!!.people.isEmpty())
-            assertEquals(report.toString(), listOf("Саша"), person.query!!.people)
-            assertTrue(report.toString(), person.query!!.semantic!!.contains("beach", true))
-            assertEquals(report.toString(), setOf("Саша", "Маша"), together.query!!.people.toSet())
-            assertTrue(report.toString(), august.query!!.semantic!!.contains("sunset", true))
-            assertEquals(report.toString(), "2026-08-01", august.query!!.from)
-            assertEquals(report.toString(), "2026-08-31", august.query!!.to)
-            assertEquals(report.toString(), "Vacation", album.query!!.album)
-            assertEquals(report.toString(), null, album.query!!.semantic)
-            assertEquals(report.toString(), Action.Refine, july.action)
-            assertEquals(report.toString(), listOf("Саша"), july.query!!.refine(current).people)
-            assertEquals(report.toString(), "${LocalDate.now().year}-07-01", july.query!!.from)
-            assertEquals(report.toString(), Action.Refine, outdoors.action)
-            assertEquals(report.toString(), listOf("Саша"), outdoors.query!!.refine(current).people)
-            assertEquals(report.toString(), Action.More, more.action)
-            assertEquals(report.toString(), Action.Search, fresh.action)
-            assertTrue(report.toString(), fresh.query!!.people.isEmpty())
-            assertEquals(report.toString(), Action.Help, help.action)
-            assertTrue(report.toString(), dog.query!!.semantic!!.contains("dog", true))
-            assertEquals(report.toString(), setOf("Саша", "Маша"), mixed.query!!.people.toSet())
-            assertEquals(report.toString(), "2026-08-01", mixed.query!!.from)
-            assertEquals(report.toString(), "2026-08-31", mixed.query!!.to)
-            assertEquals(report.toString(), "Vacation", mixed.query!!.album)
-            assertTrue(report.toString(), mixed.query!!.semantic!!.contains("beach", true))
-        } finally {
-            models.release()
-            File(app.cacheDir, "assistant-gallery-planning.txt").writeText(report.toString())
-        }
+        fun interpret(question: String, previous: AssistantGalleryQuery? = null) =
+            AssistantGalleryInterpreter().interpret(
+                question,
+                AssistantGalleryCatalog(listOf("Саша", "Маша"), listOf("Vacation")),
+                previous
+            )
+
+        val cat = interpret("Найди фотографии кота")
+        assertEquals(Action.Search, cat.action)
+        assertEquals(AssistantGalleryQuery(semantic = "кота"), cat.query)
+        assertEquals(
+            AssistantGalleryQuery(semantic = "пляже", people = listOf("Саша")),
+            interpret("Покажи Сашу на пляже").query
+        )
+        assertEquals(
+            listOf("Саша", "Маша"),
+            interpret("Где Саша и Маша вместе?").query!!.people
+        )
+        assertEquals(
+            AssistantGalleryQuery(semantic = "закаты", from = "2026-08-01", to = "2026-08-31"),
+            interpret("Найди закаты за август 2026 года").query
+        )
+        assertEquals(
+            AssistantGalleryQuery(album = "Vacation"),
+            interpret("Покажи фото из альбома Vacation").query
+        )
+        val july = interpret("Из этих только за июль", current)
+        assertEquals(Action.Refine, july.action)
+        assertEquals(Mode.Narrow, july.mode)
+        assertEquals(
+            current.copy(
+                from = "${LocalDate.now().year}-07-01",
+                to = "${LocalDate.now().year}-07-31"
+            ),
+            july.query
+        )
+        assertEquals(
+            current.copy(semantic = "улице"),
+            interpret("А где он на улице?", current).query
+        )
+        assertEquals(Action.More, interpret("Покажи ещё", current).action)
+        assertEquals(cat.query, interpret("Найди фотографии кота", current).query)
+        assertEquals(Action.Help, interpret("Как сжать фото?").action)
+        assertEquals(
+            AssistantGalleryQuery(semantic = "dog"),
+            interpret("Find photos of a dog").query
+        )
+        val mixed = interpret("Покажи Сашу и Машу на пляже за август 2026 из альбома Vacation")
+        val expected = AssistantGalleryQuery(
+            semantic = "пляже", people = listOf("Саша", "Маша"),
+            from = "2026-08-01", to = "2026-08-31", album = "Vacation"
+        )
+        assertEquals(expected, mixed.query)
+        enablePeople()
+        val backend = search()
+        backend.search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)
+        assertEquals("закаты", searchedQuery)
     }
 
     private fun enablePeople() {

@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.neural_tools.assistant.AssistantModels
@@ -59,6 +60,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
@@ -263,11 +265,12 @@ class AssistantRepositoryInstrumentedTest {
                 val selectedCases =
                     InstrumentationRegistry.getArguments().getString("recoveryCases")?.split(',')
                         ?.map(String::toInt)
-                listOf(
+                val questions = listOf(
                     "Напиши стихотворение про осень.",
                     "Write a recipe for chocolate cake.",
                     "как мне замазать лица"
-                ).forEachIndexed { index, question ->
+                )
+                questions.forEachIndexed { index, question ->
                     if (selectedCases != null && index !in selectedCases) return@forEachIndexed
                     val started = System.nanoTime()
                     withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
@@ -297,8 +300,8 @@ class AssistantRepositoryInstrumentedTest {
                     val text = message.answer.text
                     val valid = message.error == null && text.isNotBlank() && text.length < 1600 &&
                             !Regex("(.{8,80})\\1{3,}").containsMatchIn(text) &&
-                            if (index < 3) {
-                                text.contains("ImageToolbox", true) && text.length < 450 &&
+                            if (index != questions.lastIndex) {
+                                text.length < 450 &&
                                         totalMs < if (state.variant == AssistantModel.Max) 120_000 else 60_000
                             } else {
                                 message.answer.references.any { it.tipId == "face-privacy" } &&
@@ -320,6 +323,115 @@ class AssistantRepositoryInstrumentedTest {
     }
 
     @Test
+    fun generalAppQuestionsAndFollowUpsDoNotBecomeScopeNotices() = runBlocking {
+        app.startActivity(
+            checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName)).addFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK
+            )
+        )
+        instrumentation.waitForIdleSync()
+        val modelFilter = InstrumentationRegistry.getArguments().getString("helpModels")?.split(',')
+        val installed = AssistantModels().installations(verifyFiles = false).filter {
+            it.installed && !it.variant.supportsVision && (modelFilter == null || it.variant.id in modelFilter)
+        }
+        assumeTrue("Install a text model before testing replies", installed.isNotEmpty())
+        val report = JSONArray()
+        val failures = mutableListOf<String>()
+        try {
+            installed.forEach { state ->
+                settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+                val repository = create()
+                val component = component(repository)
+                withContext(Dispatchers.Main) {
+                    store.update {
+                        listOf(
+                            AssistantMessage(
+                                1, "Какие форматы поддерживает приложение?",
+                                AssistantAnswer(
+                                    services.resources.getStringLocalized(
+                                        R.string.assistant_scope,
+                                        "ru"
+                                    )
+                                ), AssistantScreenContext()
+                            )
+                        )
+                    }
+                }
+                val questions = listOf(
+                    "А какие форматы поддерживает тулбокс?",
+                    "А какие из них сохраняют прозрачность?",
+                    "А что ещё умеет это приложение?"
+                )
+                val selected =
+                    InstrumentationRegistry.getArguments().getString("capabilityCases")?.split(',')
+                        ?.map(String::toInt)
+                questions.forEachIndexed { index, question ->
+                    if (selected != null && index !in selected) return@forEachIndexed
+                    val started = System.nanoTime()
+                    withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
+                    var firstVisibleMs: Long? = null
+                    val visibility = launch {
+                        repository.messages.first { it.lastOrNull()?.answer?.text?.isNotBlank() == true }
+                        firstVisibleMs = (System.nanoTime() - started) / 1_000_000
+                    }
+                    withTimeout(125_000) { repository.isGenerating.first { !it } }
+                    visibility.cancel()
+                    val message = repository.messages.value.last()
+                    val record =
+                        JSONObject().put("model", state.variant.id).put("question", question)
+                            .put("answer", message.answer.text).put("error", message.error)
+                            .put("sources", JSONArray(message.answer.references.map { it.tipId }))
+                            .put("scopeNotice", message.answer.isScopeNotice)
+                            .put("firstVisibleMs", firstVisibleMs)
+                            .put("totalMs", (System.nanoTime() - started) / 1_000_000)
+                    report.put(record)
+                    File(
+                        app.cacheDir,
+                        "assistant-capabilities-quality.json"
+                    ).writeText(report.toString(2))
+                    val text = message.answer.text
+                    val terms = AssistantSearchIndex.tokens(text).toSet()
+                    val documentedFeature =
+                        (message.answer.tools.map { it.title } + message.answer.references.map { it.title })
+                            .any {
+                                AssistantSearchIndex.tokens(it).distinct()
+                                    .count(terms::contains) >= 2
+                            }
+                    val useful = when (index) {
+                        0 -> listOf("PNG", "JPEG|JPG", "WebP").count {
+                            Regex(
+                                it,
+                                RegexOption.IGNORE_CASE
+                            ).containsMatchIn(text)
+                        } >= 2
+
+                        1 -> Regex(
+                            "PNG|WebP|AVIF",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(text) && Regex(
+                            "прозрач|alpha",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(text)
+
+                        else -> Regex(
+                            "обрез|размер|фильтр|конвер|формат|сжат|resize|crop|convert",
+                            RegexOption.IGNORE_CASE
+                        ).containsMatchIn(text) ||
+                                documentedFeature
+                    }
+                    if (message.error != null || message.answer.isScopeNotice || !useful || text.isBlank()) failures.add(
+                        record.toString()
+                    )
+                }
+                withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+            }
+            assertTrue(failures.joinToString("\n"), failures.isEmpty())
+        } finally {
+            File(app.cacheDir, "assistant-capabilities-quality.json").writeText(report.toString(2))
+        }
+    }
+
+    @Test
     fun understandsEditingRequestsAndFollowUpsWithoutTopicAliases() = runBlocking {
         app.startActivity(
             checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
@@ -330,6 +442,7 @@ class AssistantRepositoryInstrumentedTest {
         val installed = AssistantModels().installations(verifyFiles = false)
             .filter {
                 it.installed && it.variant in setOf(
+                    AssistantModel.Lite,
                     AssistantModel.Advanced,
                     AssistantModel.Max
                 ) && (modelFilter == null || it.variant.id in modelFilter)
@@ -371,6 +484,7 @@ class AssistantRepositoryInstrumentedTest {
                 val component = component(repository)
                 requests.forEachIndexed { index, (question, tools) ->
                     if (selectedCases != null && index !in selectedCases) return@forEachIndexed
+                    val started = System.nanoTime()
                     withContext(Dispatchers.Main) {
                         if (index != requests.lastIndex) component.newConversation()
                         assertTrue(
@@ -384,6 +498,7 @@ class AssistantRepositoryInstrumentedTest {
                     val message = repository.messages.value.last()
                     report.put(
                         JSONObject().put("model", state.variant.id).put("question", question)
+                            .put("totalMs", (System.nanoTime() - started) / 1_000_000)
                             .put("answer", message.answer.text).put("error", message.error)
                             .put("queries", JSONArray(retrievedQueries.lastOrNull().orEmpty()))
                             .put("sources", JSONArray(message.answer.references.map { it.tipId }))

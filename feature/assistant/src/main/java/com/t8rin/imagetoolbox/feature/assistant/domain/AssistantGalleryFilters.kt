@@ -50,6 +50,15 @@ internal fun filterGalleryMedia(
 ): List<Media> {
     val from = query.from?.let(LocalDate::parse)
     val to = query.to?.let(LocalDate::parse)
+    val filenamePattern = query.filename?.takeIf { '*' in it || '?' in it }?.let { pattern ->
+        Regex(pattern.map { character ->
+            when (character) {
+                '*' -> ".*"
+                '?' -> "."
+                else -> Regex.escape(character.toString())
+            }
+        }.joinToString(""), RegexOption.IGNORE_CASE)
+    }
     return media.filter { photo ->
         val date = Instant.ofEpochMilli(photo.takenTimestamp?.takeIf { it > 0 }
             ?: (photo.timestamp * 1000))
@@ -57,18 +66,8 @@ internal fun filterGalleryMedia(
         (source == null || photo.uri in source) &&
                 (from == null || date >= from) && (to == null || date <= to) &&
                 (query.album == null || photo.albumLabel.equals(query.album, true)) &&
-                (query.filename == null || when {
-                    query.filename.startsWith("*") -> photo.label.endsWith(
-                        query.filename.drop(1),
-                        true
-                    )
-
-                    query.filename.endsWith("*") -> photo.label.startsWith(
-                        query.filename.dropLast(1),
-                        true
-                    )
-
-                    else -> photo.label.contains(query.filename, true)
-                })
+                (query.filename == null || if (filenamePattern != null) filenamePattern.matches(
+                    photo.label
+                ) else photo.label.contains(query.filename, true))
     }
 }

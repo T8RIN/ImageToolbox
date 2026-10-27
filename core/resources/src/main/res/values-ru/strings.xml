@@ -2719,7 +2719,7 @@
     <string name="help_tip_format_conversion_title">Конвертируйте форматы изображений</string>
     <string name="help_tip_format_conversion_subtitle">Создавайте копии JPEG, PNG, WebP, AVIF, JXL и других файлов без редактирования пикселей вручную.</string>
     <string name="help_tip_format_conversion_page_title">Выберите формат работы</string>
-    <string name="help_tip_format_conversion_description">Разные форматы лучше подходят для фотографий, снимков экрана, прозрачности, сжатия или совместимости. Преобразование будет наиболее безопасным, если вы понимаете, что поддерживает целевое приложение и содержит ли источник альфа-версию, анимацию или метаданные, которые вы хотите сохранить.</string>
+    <string name="help_tip_format_conversion_description">ImageToolbox поддерживает форматы JPEG/JPG, PNG, WebP, AVIF, HEIC/HEIF, JPEG XL, JPEG 2000, TIFF, BMP, QOI, ICO и GIF для сохранения изображений. Приложение также открывает SVG, PSD, DjVu, страницы PDF и поддерживаемые RAW-файлы камер. Форматы чтения и записи различаются: например, открытие PSD не означает сохранение многослойного PSD. PNG и WebP сохраняют прозрачность, а JPEG/JPG её не поддерживает. Выбирайте выходной формат с учётом совместимости, анимации и метаданных.</string>
     <string name="help_tip_format_conversion_step_1">Используйте JPEG для совместимых фотографий, PNG для изображений без потерь и альфа-версий, а также WebP для компактного обмена.</string>
     <string name="help_tip_format_conversion_step_2">Отрегулируйте качество, если формат поддерживает это; более низкие значения уменьшают размер, но могут добавить артефакты.</string>
     <string name="help_tip_format_conversion_step_3">Сохраняйте оригиналы до тех пор, пока не убедитесь, что преобразованные файлы правильно открываются в целевом приложении.</string>
@@ -7495,4 +7495,8 @@
     <string name="assistant_gallery_parse_error">Уточните, какие фото найти: опишите содержимое, укажите людей, даты, альбом или имя файла. Я также могу помочь с инструментами и настройками ImageToolbox.</string>
     <string name="assistant_gallery_open">Открыть галерею</string>
     <string name="assistant_gallery_more">Показать ещё</string>
+    <string name="assistant_gallery_invalid_date">Уточните дату или диапазон, например «июль 2026» или «с 2026-07-01 по 2026-07-31». Проверьте, что даты существуют, а конец диапазона не раньше начала.</string>
+    <string name="assistant_gallery_missing_literal">Укажите альбом или имя файла после названия фильтра. Названия с пробелами можно заключить в кавычки.</string>
+    <string name="assistant_gallery_unsupported_condition">Поиск поддерживает содержимое фото, имена людей, даты, один альбом и имя файла. Исключения, точный текст или GPS, несколько форматов файлов и заданное число результатов пока не поддерживаются. Уточните эти условия.</string>
+    <string name="assistant_gallery_ambiguous_name">Под это написание подходят несколько имён. Укажите полное имя из галереи.</string>
 </resources>

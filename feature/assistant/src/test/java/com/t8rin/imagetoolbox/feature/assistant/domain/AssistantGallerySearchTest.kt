@@ -30,33 +30,6 @@ import java.time.ZoneId
 
 class AssistantGallerySearchTest {
     @Test
-    fun parsesCombinedConditionsAndRejectsInventedFields() {
-        val command = AssistantGalleryCommand.parse(
-            """
-            {"action":"search","semantic":"a beach","people":["Саша","Маша"],
-            "from":"2026-08-01","to":"2026-08-31","album":"Vacation","filename":"IMG*"}
-        """.trimIndent()
-        )
-        assertEquals(listOf("Саша", "Маша"), command.query!!.people)
-        assertEquals("Vacation", command.query!!.album)
-        listOf(
-            """{"action":"search","uri":"content://invented"}""",
-            """{"action":"search","from":"2026-02-30"}""",
-            """{"action":"search","from":"2026-09-01","to":"2026-08-01"}""",
-            """{"action":"search","semantic":""}""",
-            """{}""",
-            """{"action":"search"}""",
-            """Some prose {"action":"more"}"""
-        ).forEach { assertTrue(it, runCatching { AssistantGalleryCommand.parse(it) }.isFailure) }
-        assertEquals(
-            AssistantGalleryCommand.Action.More,
-            AssistantGalleryCommand.parse("```json\n{\"action\":\"more\"}\n```").action
-        )
-        assertTrue(runCatching { AssistantGalleryCommand.parse("{\"action\":\"delete\"}") }.isFailure)
-        assertTrue(runCatching { AssistantGalleryCommand.parse("{\"action\":\"help\",\"people\":[\"Саша\"]}") }.isFailure)
-    }
-
-    @Test
     fun routesOnlySearchRequestsAndGalleryFollowUpsThroughTheGalleryInterpreter() {
         listOf(
             "Как замазать лица?",
@@ -76,33 +49,6 @@ class AssistantGallerySearchTest {
             )
         )
         assertTrue(needsGalleryRouting("Ещё", AssistantGalleryQuery(semantic = "a cat")))
-    }
-
-    @Test
-    fun explicitReferencesCannotStartANewSearch() {
-        val command =
-            AssistantGalleryCommand(AssistantGalleryCommand.Action.Search, album = "Vacation")
-        assertTrue(command.isRefinement("Из этих только из альбома Vacation"))
-        assertTrue(command.isRefinement("А где он на улице?"))
-        assertTrue(command.isRefinement("Of these, only July"))
-        assertFalse(command.isRefinement("Покажи фото из альбома Vacation"))
-        assertFalse(
-            command.copy(action = AssistantGalleryCommand.Action.Help).isRefinement("Из этих")
-        )
-    }
-
-    @Test
-    fun trimsFiltersAndDeduplicatesPeople() {
-        val query = AssistantGalleryCommand.parse(
-            """
-            {"action":"search","semantic":" a beach ","people":[" Саша ","Саша"],
-            "album":" Vacation ","from":" 2026-07-01 "}
-        """.trimIndent()
-        ).query!!
-        assertEquals("a beach", query.semantic)
-        assertEquals(listOf("Саша"), query.people)
-        assertEquals("Vacation", query.album)
-        assertEquals("2026-07-01", query.from)
     }
 
     @Test
@@ -219,7 +165,7 @@ class AssistantGallerySearchTest {
     }
 
     @Test
-    fun refinementRetainsPeopleAndOtherConditionsAndPromptDoesNotIncludePhotoUris() {
+    fun refinementRetainsPeopleAndOtherConditions() {
         val previous = AssistantGalleryQuery(
             semantic = "a beach", people = listOf("Саша"),
             from = "2026-07-01", to = "2026-07-31", album = "Vacation", filename = "IMG*"
@@ -230,10 +176,6 @@ class AssistantGallerySearchTest {
         assertEquals(previous.album, refined.album)
         assertEquals(previous.from, refined.from)
         assertEquals(previous.filename, refined.filename)
-        val prompt = assistantGalleryPrompt("А где он на улице?", "semanticEnabled=false", previous)
-        assertTrue(prompt.contains("semanticEnabled=false"))
-        assertTrue(prompt.contains("Саша"))
-        assertFalse(prompt.contains("content://"))
     }
 
     private fun photo(id: Int) = Media(

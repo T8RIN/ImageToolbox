@@ -29,7 +29,7 @@ class AssistantSearchIndex<T>(
         val text: String
     )
 
-    data class Match<T>(val value: T, val score: Double)
+    data class Match<T>(val value: T, val score: Double, val matchedTerms: Int)
 
     private data class Indexed<T>(
         val value: T,
@@ -61,8 +61,12 @@ class AssistantSearchIndex<T>(
         predicate: ((T) -> Boolean)? = null
     ): List<Match<T>> = rank(query, limit, predicate, requireCoverage = true)
 
-    fun candidates(query: String, limit: Int = 6): List<Match<T>> =
-        rank(query, limit, predicate = null, requireCoverage = false)
+    fun candidates(
+        query: String,
+        limit: Int = 6,
+        predicate: ((T) -> Boolean)? = null
+    ): List<Match<T>> =
+        rank(query, limit, predicate, requireCoverage = false)
 
     private fun rank(
         query: String,
@@ -107,7 +111,7 @@ class AssistantSearchIndex<T>(
             score *= matched.toDouble() / terms.size
             if (phrase.length >= MIN_PHRASE_LENGTH && document.title.contains(phrase)) score += TITLE_PHRASE_BONUS
             if (phrase.length >= MIN_PHRASE_LENGTH && document.text.contains(phrase)) score += TEXT_PHRASE_BONUS
-            Match(document.value, score)
+            Match(document.value, score, matched)
         }.sortedByDescending { it.score }.take(limit.coerceIn(1, MAX_RESULTS))
     }
 

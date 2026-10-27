@@ -493,7 +493,7 @@
     <string name="help_tip_format_conversion_title">Convert image formats</string>
     <string name="help_tip_format_conversion_subtitle">Create JPEG, PNG, WebP, AVIF, JXL, and other copies without editing pixels manually</string>
     <string name="help_tip_format_conversion_page_title">Pick the format for the job</string>
-    <string name="help_tip_format_conversion_description">Different formats are better for photos, screenshots, transparency, compression, or compatibility. Conversion is safest when you understand what the destination app supports and whether the source contains alpha, animation, or metadata you want to keep.</string>
+    <string name="help_tip_format_conversion_description">ImageToolbox supports JPEG/JPG, PNG, WebP, AVIF, HEIC/HEIF, JPEG XL, JPEG 2000, TIFF, BMP, QOI, ICO and GIF for image export. Dedicated decoders also open SVG, PSD, DjVu, PDF pages and supported camera RAW files. Input and output formats differ: for example, opening a PSD does not mean saving layered PSD files. PNG and WebP preserve transparency; JPEG/JPG does not support it. Choose the output format for compatibility, animation and metadata you need to keep.</string>
     <string name="help_tip_format_conversion_step_1">Use JPEG for compatible photos, PNG for lossless images and alpha, and WebP for compact sharing.</string>
     <string name="help_tip_format_conversion_step_2">Adjust quality when the format supports it; lower values reduce size but can add artifacts.</string>
     <string name="help_tip_format_conversion_step_3">Keep originals until you verify the converted files open correctly in the target app.</string>
@@ -7523,4 +7523,8 @@
     <string name="assistant_gallery_parse_error">Please clarify what photos to find: describe the content, name people, dates, an album or a filename. I can also help with ImageToolbox tools and settings.</string>
     <string name="assistant_gallery_open">Open gallery</string>
     <string name="assistant_gallery_more">Show more</string>
+    <string name="assistant_gallery_invalid_date">Please clarify the date or range, for example “July 2026” or “2026-07-01 to 2026-07-31”. Check that the dates exist and the range ends after it starts.</string>
+    <string name="assistant_gallery_missing_literal">Specify an album or filename after the filter name. Put names containing spaces in quotes.</string>
+    <string name="assistant_gallery_unsupported_condition">This search supports visible content, named people, dates, one album and a filename. Exclusions, exact text or GPS matching, multiple file formats and a requested result count are not supported yet. Please adjust these conditions.</string>
+    <string name="assistant_gallery_ambiguous_name">Several named people match this wording. Please use the full name shown in the gallery.</string>
 </resources>

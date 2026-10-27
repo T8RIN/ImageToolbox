@@ -35,6 +35,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantResponse
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
@@ -827,7 +828,7 @@ class AssistantGenerationInstrumentedTest {
             )
             assertTrue(
                 "The assistant did not redirect an unrelated request in Russian",
-                russian.getString("rawOutput").any { it in 'А'..'я' }
+                russian.getJSONObject("reply").getString("text").any { it in 'А'..'я' }
             )
             report.put("generationPssKb", Debug.getPss())
             report.put("androidRuntimeVerified", true)
@@ -868,7 +869,15 @@ class AssistantGenerationInstrumentedTest {
                 .put("firstTokenSeconds", firstTokenNanos / 1_000_000_000.0)
                 .put("firstVisibleTextSeconds", firstTokenNanos / 1_000_000_000.0)
                 .put("generationSeconds", (System.nanoTime() - started) / 1_000_000_000.0)
-            val reply = retrieved.copy(text = output.toString().trim())
+            val reply = retrieved.copy(
+                text = AssistantResponse.text(
+                    output.toString().trim(),
+                    services.resources.getStringLocalized(
+                        R.string.assistant_scope,
+                        if (fixture.second.query.any { it in 'А'..'я' }) "ru" else "en"
+                    )
+                )
+            )
             record.put(
                 "reply",
                 JSONObject(Json.encodeToString(AssistantAnswer.serializer(), reply))
