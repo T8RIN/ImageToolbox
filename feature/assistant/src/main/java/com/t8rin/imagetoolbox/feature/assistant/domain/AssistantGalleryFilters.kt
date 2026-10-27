@@ -30,7 +30,7 @@ internal fun gallerySearchBlocker(
     groupPeople: Boolean,
     state: SemanticSearchState
 ): Int? {
-    val people = query.people.isNotEmpty()
+    val people = query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()
     if (query.semantic == null && !people) return null
     return when {
         !enabled -> if (people) R.string.assistant_gallery_disabled_people else R.string.assistant_gallery_disabled

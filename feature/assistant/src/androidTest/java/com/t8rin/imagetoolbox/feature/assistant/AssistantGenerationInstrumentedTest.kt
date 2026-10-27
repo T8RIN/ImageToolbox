@@ -35,7 +35,6 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantResponse
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
@@ -869,15 +868,7 @@ class AssistantGenerationInstrumentedTest {
                 .put("firstTokenSeconds", firstTokenNanos / 1_000_000_000.0)
                 .put("firstVisibleTextSeconds", firstTokenNanos / 1_000_000_000.0)
                 .put("generationSeconds", (System.nanoTime() - started) / 1_000_000_000.0)
-            val reply = retrieved.copy(
-                text = AssistantResponse.text(
-                    output.toString().trim(),
-                    services.resources.getStringLocalized(
-                        R.string.assistant_scope,
-                        if (fixture.second.query.any { it in 'А'..'я' }) "ru" else "en"
-                    )
-                )
-            )
+            val reply = retrieved.copy(text = output.toString().trim())
             record.put(
                 "reply",
                 JSONObject(Json.encodeToString(AssistantAnswer.serializer(), reply))

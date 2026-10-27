@@ -42,11 +42,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryInterpreter
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantPhotoPlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
@@ -100,6 +97,8 @@ class AssistantGalleryInstrumentedTest {
     private var ranked = emptyList<Media>()
     private var searches = 0
     private var searchedQuery: String? = null
+    private var noExactMatches = false
+    private val thresholds = mutableListOf<Float>()
     private var afterSearch: () -> Unit = {}
     private var refresh: suspend () -> Unit = {}
 
@@ -135,9 +134,10 @@ class AssistantGalleryInstrumentedTest {
             ): List<Media> {
                 searches++
                 searchedQuery = query
+                thresholds.add(minimumSimilarity)
                 ranked = media
                 afterSearch()
-                return media
+                return if (noExactMatches && minimumSimilarity > 0f) emptyList() else media
             }
         },
         scheduler = object : SemanticSearchScheduler {
@@ -532,65 +532,87 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
-    fun galleryQueriesPreserveTheirOriginalMeaningWithoutTextGeneration() = runBlocking {
-        val current = AssistantGalleryQuery(people = listOf("Саша"))
-        fun interpret(question: String, previous: AssistantGalleryQuery? = null) =
-            AssistantGalleryInterpreter().interpret(
-                question,
-                AssistantGalleryCatalog(listOf("Саша", "Маша"), listOf("Vacation")),
-                previous
-            )
-
-        val cat = interpret("Найди фотографии кота")
-        assertEquals(Action.Search, cat.action)
-        assertEquals(AssistantGalleryQuery(semantic = "кота"), cat.query)
-        assertEquals(
-            AssistantGalleryQuery(semantic = "пляже", people = listOf("Саша")),
-            interpret("Покажи Сашу на пляже").query
+    fun structuredGalleryCommandsPreserveOriginalTextAndAllOtherConditions() = runBlocking {
+        val previous = AssistantGalleryQuery(
+            "закаты",
+            listOf("Alex"),
+            "2026-07-01",
+            "2026-07-31",
+            "Vacation",
+            "IMG*"
         )
-        assertEquals(
-            listOf("Саша", "Маша"),
-            interpret("Где Саша и Маша вместе?").query!!.people
-        )
-        assertEquals(
-            AssistantGalleryQuery(semantic = "закаты", from = "2026-08-01", to = "2026-08-31"),
-            interpret("Найди закаты за август 2026 года").query
-        )
-        assertEquals(
-            AssistantGalleryQuery(album = "Vacation"),
-            interpret("Покажи фото из альбома Vacation").query
-        )
-        val july = interpret("Из этих только за июль", current)
-        assertEquals(Action.Refine, july.action)
-        assertEquals(Mode.Narrow, july.mode)
-        assertEquals(
-            current.copy(
-                from = "${LocalDate.now().year}-07-01",
-                to = "${LocalDate.now().year}-07-31"
-            ),
-            july.query
-        )
-        assertEquals(
-            current.copy(semantic = "улице"),
-            interpret("А где он на улице?", current).query
-        )
-        assertEquals(Action.More, interpret("Покажи ещё", current).action)
-        assertEquals(cat.query, interpret("Найди фотографии кота", current).query)
-        assertEquals(Action.Help, interpret("Как сжать фото?").action)
-        assertEquals(
-            AssistantGalleryQuery(semantic = "dog"),
-            interpret("Find photos of a dog").query
-        )
-        val mixed = interpret("Покажи Сашу и Машу на пляже за август 2026 из альбома Vacation")
-        val expected = AssistantGalleryQuery(
-            semantic = "пляже", people = listOf("Саша", "Маша"),
-            from = "2026-08-01", to = "2026-08-31", album = "Vacation"
-        )
-        assertEquals(expected, mixed.query)
+        val plan =
+            AssistantPhotoPlan.parse("""{"supported":true,"withinResults":true,"sceneChanged":true}""")
+        assertEquals(previous.copy(semantic = "en la playa"), plan.gallery(previous, "en la playa"))
         enablePeople()
-        val backend = search()
-        backend.search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)
+        search().search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)
         assertEquals("закаты", searchedQuery)
+    }
+
+    @Test
+    fun closestMatchesKeepMetadataFiltersAndAreClearlyMarked() = runBlocking {
+        enablePeople()
+        noExactMatches = true
+        val backend = search()
+        val query = AssistantGalleryQuery("кот на пляже", album = "Vacation", filename = "IMG_1*")
+        val answer = backend.search(query, Mode.New, 1)
+        assertEquals(
+            listOf(
+                1L,
+                10L,
+                11L,
+                12L,
+                13L,
+                14L,
+                15L,
+                16L,
+                17L,
+                18L,
+                19L
+            ).map { "content://media/$it" }.toSet(), ranked.map { it.uri }.toSet()
+        )
+        assertTrue(checkNotNull(answer.gallery).state.approximate)
+        assertEquals(query, answer.gallery!!.query)
+        assertEquals(resources.getString(R.string.assistant_gallery_closest), answer.text)
+        assertEquals(2, thresholds.size)
+        assertEquals(0f, thresholds.last())
+        val reopened = search()
+        reopened.restore(listOf(answer.gallery!!))
+        assertEquals(query, reopened.currentQuery())
+    }
+
+    @Test
+    fun emptyMatchesDuringIndexingDoNotPretendThePhotosAreMissing() = runBlocking {
+        enablePeople()
+        noExactMatches = true
+        refresh = { state.value = state.value.copy(isIndexing = true) }
+        val answer = search().search(AssistantGalleryQuery("кот"), Mode.New, 1)
+        assertEquals(resources.getString(R.string.assistant_gallery_index_pending), answer.text)
+        assertEquals(1, searches)
+    }
+
+    @Test
+    fun emptyMatchesRecheckStaleModelReadinessBeforeReportingNoPhotos() = runBlocking {
+        enablePeople()
+        noExactMatches = true
+        refresh = { state.value = state.value.copy(modelsReady = false) }
+        val answer = search().search(AssistantGalleryQuery("кот"), Mode.New, 1)
+        assertEquals(resources.getString(R.string.assistant_gallery_models_missing), answer.text)
+        assertEquals(1, searches)
+    }
+
+    @Test
+    fun excludingNamedPeopleKeepsAllOtherFiltersWithoutSemanticRanking() = runBlocking {
+        enablePeople()
+        groups = listOf(person(1, "Alex", photos.take(10)))
+        val query = AssistantGalleryQuery(album = "Vacation", excludedPeople = listOf("Alex"))
+        val answer = search().search(query, Mode.New, 1)
+        assertEquals(20, answer.gallery!!.total)
+        assertTrue(answer.gallery!!.photos.none { photo ->
+            photos.take(10).any { it.uri == photo.uri }
+        })
+        assertEquals(query, answer.gallery!!.query)
+        assertEquals(0, searches)
     }
 
     private fun enablePeople() {

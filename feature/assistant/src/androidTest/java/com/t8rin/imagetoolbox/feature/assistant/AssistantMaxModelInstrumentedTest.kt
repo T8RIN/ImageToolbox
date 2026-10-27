@@ -32,7 +32,6 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantResponse
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CompletableDeferred
@@ -244,13 +243,7 @@ class AssistantMaxModelInstrumentedTest {
             assertTrue(text.isNotBlank())
             assertTrue(!text.contains("<think>"))
             record.put("completed", true)
-            return AssistantResponse.text(
-                text.toString(),
-                app.entryPoint<AssistantEntryPoint>().resources.getStringLocalized(
-                    R.string.assistant_scope,
-                    "ru"
-                )
-            )
+            return text.toString()
         } catch (failure: Throwable) {
             record.put("error", failure.toString())
             throw failure

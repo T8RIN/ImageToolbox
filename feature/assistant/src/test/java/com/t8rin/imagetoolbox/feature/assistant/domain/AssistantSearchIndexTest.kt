@@ -17,260 +17,69 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
-import java.io.File
-import javax.xml.parsers.DocumentBuilderFactory
 
 class AssistantSearchIndexTest {
-
     @Test
-    fun searchesRealEnglishAndRussianHelpResources() {
-        listOf(
-            "values" to "remove background",
-            "values-ru" to "удаление фона"
-        ).forEach { (directory, query) ->
-            val root =
-                generateSequence(File(checkNotNull(System.getProperty("user.dir")))) { it.parentFile }
-                    .first { File(it, "core/resources/src/main/res").isDirectory }
-            val xml = File(root, "core/resources/src/main/res/$directory/strings.xml")
-            val nodes = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xml)
-                .getElementsByTagName("string")
-            val documents = (0 until nodes.length).map { nodes.item(it) }
-                .filter { it.attributes.getNamedItem("name").nodeValue.startsWith("help_tip_") }
-                .map { node ->
-                    val key = node.attributes.getNamedItem("name").nodeValue
-                    AssistantSearchIndex.Document(key, node.textContent, node.textContent)
-                }
-            val index = AssistantSearchIndex(documents)
-            val matches = index.search(query)
-            assertTrue("No help results in $directory", matches.isNotEmpty())
-            assertTrue(matches.any { it.value.contains("background") })
-            assertTrue("Greeting matched help in $directory", index.search("Привет").isEmpty())
-        }
-    }
-
-    @Test
-    fun ranksTitleAndCombinedTermCoverageAboveIncidentalMentions() {
+    fun ranksTitlesAndTheRequestedSubjectAheadOfIncidentalWords() {
         val index = AssistantSearchIndex(
             listOf(
-                AssistantSearchIndex.Document(
-                    "resize",
-                    "Resize by file size",
-                    "Compress photos to a target file size"
-                ),
-                AssistantSearchIndex.Document("font", "Font size", "Change text size"),
-                AssistantSearchIndex.Document(
-                    "save",
-                    "Save files",
-                    "Select an image and save the file"
-                )
-            )
-        )
-        assertEquals("resize", index.search("target file size").first().value)
-        assertTrue(index.search("neuralgalaxyfoobar").isEmpty())
-        assertTrue(index.search("teleport photos").isEmpty())
-        assertTrue(index.search("как это сделать").isEmpty())
-        assertTrue(index.search("How does file teleportation between galaxies work?").isEmpty())
-    }
-
-    @Test
-    fun preservesTheRequestedMediaTypeAndIgnoresNumericTargets() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document("pdf", "Compress PDF", "Compress PDF documents"),
                 AssistantSearchIndex.Document(
                     "photo",
-                    "Resize photos",
-                    "Compress a photo to a file size limit"
-                )
+                    "Compress photos",
+                    "Resize a photo to a target file size"
+                ),
+                AssistantSearchIndex.Document(
+                    "pdf",
+                    "Compress PDF",
+                    "Reduce PDF document file size"
+                ),
+                AssistantSearchIndex.Document("font", "Font size", "Change text size")
             )
         )
-        assertEquals("photo", index.search("compress photo to 500").first().value)
+        assertEquals("photo", index.search("compress photos").first().value)
         assertEquals("pdf", index.search("compress PDF").first().value)
-        assertTrue(AssistantSearchIndex.tokens("500 1200").isEmpty())
+        assertTrue(index.search("qzxxvkyy").isEmpty())
     }
 
     @Test
-    fun normalizesRussianYoAndMatchesWordPrefixes() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "colour",
-                    "Цвет фотографии",
-                    "Сохранение фотографий и цвета"
-                )
-            )
-        )
-        assertEquals("елка", AssistantSearchIndex.normalize("ЁЛКА!"))
-        assertEquals("colour", index.search("сохран").single().value)
-    }
-
-    @Test
-    fun commonTermsDoNotOutweighAnUnmatchedSpecificTerm() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "scan",
-                    "Document scanner",
-                    "The first scan can take time"
-                ),
-                AssistantSearchIndex.Document("preview", "Preview", "The first preview takes time")
-            )
-        )
-        assertTrue(index.search("time-to-first-token").isEmpty())
-        assertEquals("scan", index.search("document scanner").single().value)
-    }
-
-    @Test
-    fun russianGreetingDoesNotMatchWordsWithDifferentEndings() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "pdf",
-                    "Приведение страниц PDF к формату бумаги",
-                    "Размер страниц"
-                ),
-                AssistantSearchIndex.Document(
-                    "resize",
-                    "Сжатие по весу",
-                    "Может привести к появлению артефактов"
-                )
-            )
-        )
-        assertTrue(index.search("Привет").isEmpty())
-        assertEquals("pdf", index.search("приведение").single().value)
-    }
-
-    @Test
-    fun matchesRussianCasesWithoutDroppingTheSubjectOfAQuestion() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "dates", "Сохраняйте дату и время", "Очистка EXIF позволяет сохранять даты"
-                ),
-                AssistantSearchIndex.Document(
-                    "hash", "Контрольная сумма", "Рассчитать хэш файла"
-                )
-            )
-        )
-        assertEquals("dates", index.search("Можно сохранить дату при очистке EXIF?").first().value)
-        assertEquals("hash", index.search("Как рассчитать контрольную сумму файла?").first().value)
-    }
-
-    @Test
-    fun englishWordPrefixesDoNotTurnChecksumsIntoChecks() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "pdf",
-                    "Compare PDF",
-                    "Check the pages and compare versions"
-                ),
-                AssistantSearchIndex.Document(
-                    "hash",
-                    "Checksum tools",
-                    "Compare a checksum to a known value"
-                ),
-                AssistantSearchIndex.Document("compress", "Compression", "Compress photos")
-            )
-        )
-        assertEquals("hash", index.search("How do I compare checksums?").first().value)
-        assertTrue(index.search("checksums") { it == "pdf" }.isEmpty())
-        assertEquals("compress", index.search("compressed").first().value)
-        assertTrue(index.search("Why are there ions?").isEmpty())
-    }
-
-    @Test
-    fun matchesCommonEnglishEditingForms() {
-        listOf(
-            "crop" to "cropping",
-            "resize" to "resizing",
-            "rotate" to "rotation",
-            "rotate" to "rotating",
-            "convert" to "conversion",
-            "date" to "dates",
-            "save" to "saving"
-        ).forEach { (title, query) ->
-            val index =
-                AssistantSearchIndex(listOf(AssistantSearchIndex.Document(title, title, title)))
-            assertEquals(query, title, index.search(query).single().value)
+    fun normalizationIsUnicodeBasedAndHasNoStopWordOrLanguageLists() {
+        assertEquals("cafe", AssistantSearchIndex.normalize("CAFÉ!"))
+        listOf("расскажи", "explain", "cómo", "warum", "写真", "صور", "तस्वीर").forEach {
+            assertTrue(it, AssistantSearchIndex.tokens(it).isNotEmpty())
         }
     }
 
     @Test
-    fun aLongerRussianWordDoesNotMatchAnUnrelatedShorterRoot() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "search", "Поиск по фото", "Подготовка модели занимает время. Выберите язык."
+    fun findsLocalizedTitlesWithoutChoosingAnApplicationLanguage() {
+        listOf(
+            "Удалить фон",
+            "Fondo transparente",
+            "Hintergrund entfernen",
+            "إزالة الخلفية",
+            "背景を削除"
+        ).forEach { title ->
+            val index = AssistantSearchIndex(
+                listOf(
+                    AssistantSearchIndex.Document("target", title, title),
+                    AssistantSearchIndex.Document("other", "Checksum", "File integrity")
                 )
             )
-        )
-        assertTrue(
-            index.search("От чего зависит время до первого токена языковой модели?").isEmpty()
-        )
-        assertTrue(index.search("языковой").isEmpty())
-        assertEquals("search", index.search("язык").single().value)
+            assertEquals(title, "target", index.search(title).first().value)
+        }
     }
 
     @Test
-    fun pluralFrameQuestionsMatchTimingRatherThanUnrelatedConversionControls() {
-        val index = AssistantSearchIndex(
-            listOf(
-                AssistantSearchIndex.Document(
-                    "create", "Изображения в GIF",
-                    "Измените FPS, чтобы поменять задержку между кадрами. GIF использует ограниченную палитру."
-                ),
-                AssistantSearchIndex.Document(
-                    "convert", "GIF в WebP",
-                    "Настройте качество конвертации GIF в WebP. Проверьте несколько кадров."
-                )
-            )
-        )
-        assertEquals(
-            "create",
-            index.search("Задержка кадров GIF")
-                .first().value
-        )
-        assertEquals(AssistantSearchIndex.tokens("кадры"), AssistantSearchIndex.tokens("кадров"))
-    }
-
-    @Test
-    fun ranksTheRequestedSubsetBeforeApplyingTheResultLimit() {
+    fun appliesRestrictionsBeforeRankingAndLimiting() {
         val documents = listOf(
-            AssistantSearchIndex.Document("general", "Remove background", "Remove background"),
-            AssistantSearchIndex.Document(
-                "related",
-                "Background settings",
-                "Configure how to remove background"
-            ),
-            AssistantSearchIndex.Document("other", "Background colour", "Change background colour")
+            AssistantSearchIndex.Document("photo", "Compress photos", "Reduce file size"),
+            AssistantSearchIndex.Document("pdf", "Compress PDF", "Reduce file size")
         )
         val index = AssistantSearchIndex(documents)
-        val query = "remove background"
-        assertEquals("general", index.search(query, 1).single().value)
-        assertEquals("related", index.search(query, 1) { it == "related" }.single().value)
+        assertEquals("photo", index.search("compress", 1) { it == "photo" }.single().value)
         assertEquals(
-            AssistantSearchIndex(documents.filter { it.value != "general" }).search(query),
-            index.search(query) { it != "general" }
-        )
-    }
-
-    @Test
-    fun preservesActionWordsAndFindsCandidatesForConversationalQuestions() {
-        listOf(
-            "расскажи", "объясни", "открой", "найди", "сделать", "несколько", "фото", "файл",
-            "explain", "tell", "open", "find", "create", "several", "photos", "files"
-        ).forEach { assertTrue(it, AssistantSearchIndex.tokens(it).isNotEmpty()) }
-        val index = AssistantSearchIndex(
-            listOf(AssistantSearchIndex.Document("resize", "Photo file size", "Compress images"))
-        )
-        assertEquals(
-            "resize",
-            index.candidates("Could you explain how to reduce a photograph file size before sending it?")
-                .first().value
-        )
+            AssistantSearchIndex(documents.take(1)).search("compress"),
+            index.search("compress") { it == "photo" })
     }
 }

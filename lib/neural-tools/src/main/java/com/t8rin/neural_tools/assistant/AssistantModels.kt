@@ -86,6 +86,11 @@ class AssistantModels : NeuralTool() {
     private var activeGenerator: Generator? = null
     private var activeModel: Model? = null
     private var activeTokenizer: Tokenizer? = null
+    private var cachedGenerator: Generator? = null
+    private var cachedParams: GeneratorParams? = null
+    private var cachedPrompt = intArrayOf()
+    private var cachedPenalty: Double? = null
+
 
     @Volatile
     private var activeVariant: AssistantModel? = null
@@ -352,15 +357,50 @@ class AssistantModels : NeuralTool() {
     ): String {
         val tokenizer = checkNotNull(activeTokenizer)
         return tokenizer.encode(prompt).use { tokens ->
-            val inputSize = tokens.getSequence(0).size
-            generateTokens(
-                inputSize,
-                maxOutputTokens,
-                repetitionPenalty,
-                stopOnRepetition,
-                onToken
-            ) { generator ->
-                generator.appendTokenSequences(tokens)
+            val input = tokens.getSequence(0)
+            if (input.size > MAX_PROMPT_TOKENS) throw InputTooLongException(input.size)
+            if (cachedGenerator == null || cachedPenalty != repetitionPenalty) {
+                closeGenerator()
+                val params = GeneratorParams(checkNotNull(activeModel))
+                params.setSearchOption(
+                    "max_length",
+                    (MAX_PROMPT_TOKENS + MAX_OUTPUT_TOKENS).toDouble()
+                )
+                params.setSearchOption("do_sample", false)
+                params.setSearchOption("repetition_penalty", repetitionPenalty)
+                cachedParams = params
+                cachedGenerator = Generator(checkNotNull(activeModel), params)
+                cachedPenalty = repetitionPenalty
+            }
+            val generator = checkNotNull(cachedGenerator)
+            var shared = 0
+            while (shared < minOf(
+                    input.size,
+                    cachedPrompt.size
+                ) && input[shared] == cachedPrompt[shared]
+            ) shared++
+            synchronized(nativeLock) { activeGenerator = generator }
+            try {
+                runCancellable {
+                    if (generator.tokenCount() > 0) generator.rewindTo(shared.toLong())
+                    if (shared < input.size) generator.appendTokens(
+                        input.copyOfRange(
+                            shared,
+                            input.size
+                        )
+                    )
+                }
+                cachedPrompt = input
+                android.util.Log.d(
+                    "AssistantInference",
+                    "prefillTokens=${input.size - shared} reusedTokens=$shared"
+                )
+                val output =
+                    streamTokens(generator, tokenizer, maxOutputTokens, stopOnRepetition, onToken)
+                cachedPrompt = generator.getSequence(0)
+                output
+            } finally {
+                synchronized(nativeLock) { activeGenerator = null }
             }
         }
     }
@@ -512,7 +552,17 @@ class AssistantModels : NeuralTool() {
         }
     }
 
+    private fun closeGenerator() {
+        cachedGenerator?.close()
+        cachedGenerator = null
+        cachedParams?.close()
+        cachedParams = null
+        cachedPrompt = intArrayOf()
+        cachedPenalty = null
+    }
+
     private fun closeModel() {
+        closeGenerator()
         val tokenizer = activeTokenizer
         val model = activeModel
         activeTokenizer = null

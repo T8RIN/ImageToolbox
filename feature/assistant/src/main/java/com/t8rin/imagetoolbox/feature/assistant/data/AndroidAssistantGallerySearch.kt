@@ -71,7 +71,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
         val matches: List<String>? = null,
         val offset: Int = 0,
         val ambiguousName: String? = null,
-        val choices: Set<Long> = emptySet()
+        val choices: Set<Long> = emptySet(),
+        val approximate: Boolean = false
     )
 
     private var session: Session? = null
@@ -98,6 +99,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
             query = last.query,
             source = last.state.sourceUris?.toSet(),
             chosenPeople = last.state.chosenPeople,
+            approximate = last.state.approximate,
             ambiguousName = last.state.ambiguousName ?: last.query.people.firstOrNull { name ->
                 last.people.any { it.name.contains(name, ignoreCase = true) }
             },
@@ -173,7 +175,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
             val current = checkNotNull(session)
             try {
                 val query = current.query
-                val needsAi = query.semantic != null || query.people.isNotEmpty()
+                val needsAi =
+                    query.semantic != null || query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()
                 val settings = settings.getSettingsState()
                 val snapshot = semantic.state.value
                 gallerySearchBlocker(
@@ -184,7 +187,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
                 )
                     ?.takeIf { it != R.string.assistant_gallery_models_missing }
                     ?.let { return@withContext blocked(current, it) }
-                if (needsAi && (!snapshot.modelsReady || query.people.isNotEmpty() && !snapshot.faceModelsReady || snapshot.indexedImages == 0)) {
+                if (needsAi && (!snapshot.modelsReady || (query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()) && !snapshot.faceModelsReady || snapshot.indexedImages == 0)) {
                     semantic.refresh()
                 }
                 gallerySearchBlocker(
@@ -203,10 +206,10 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     return@withContext blocked(current, R.string.assistant_gallery_index_pending)
                 }
                 var candidates = filterGalleryMedia(available, query, current.source)
-                val groups = if (query.people.isNotEmpty()) {
+                val groups = if (query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()) {
                     visiblePeople(available)
                 } else emptyList()
-                for (name in query.people) {
+                for (name in (query.people + query.excludedPeople).distinct()) {
                     val exact = groups.filter { (person, _) -> person.name.equals(name, true) }
                     val matching = exact.ifEmpty {
                         groups.filter { (person, _) -> person.name.contains(name, true) }
@@ -246,9 +249,11 @@ class AndroidAssistantGallerySearch @Inject constructor(
                         return@withContext blocked(current, reason)
                     }
                     val uris = resolved.second.mapTo(hashSetOf(), Media::uri)
-                    candidates = candidates.filter { it.uri in uris }
+                    candidates =
+                        candidates.filter { if (name in query.excludedPeople) it.uri !in uris else it.uri in uris }
                 }
-                val matches = if (nextPage && current.matches != null) {
+                var approximate = nextPage && current.approximate
+                var matches = if (nextPage && current.matches != null) {
                     val byUri = candidates.associateBy(Media::uri)
                     current.matches.mapNotNull(byUri::get)
                 } else if (query.semantic != null) {
@@ -259,6 +264,30 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     )
                 } else candidates.sortedByDescending {
                     it.takenTimestamp?.takeIf { date -> date > 0 } ?: (it.timestamp * 1000)
+                }
+                if (query.semantic != null && matches.isEmpty() && candidates.isNotEmpty()) {
+                    semantic.refresh()
+                    val refreshed = semantic.state.value
+                    gallerySearchBlocker(
+                        query, settings.isSemanticSearchEnabled,
+                        settings.semanticSearchSettings.groupPeople, refreshed
+                    )?.let {
+                        return@withContext blocked(current, it)
+                    }
+                    if (refreshed.error != null) return@withContext blocked(
+                        current,
+                        R.string.assistant_gallery_search_error
+                    )
+                    if (refreshed.indexedImages == 0 || refreshed.isIndexing || refreshed.isQueued ||
+                        (query.people.isNotEmpty() || query.excludedPeople.isNotEmpty()) && refreshed.isFacesIndexing
+                    ) {
+                        return@withContext blocked(
+                            current,
+                            R.string.assistant_gallery_index_pending
+                        )
+                    }
+                    matches = semantic.search(query.semantic, candidates, 0f).take(PREVIEW_COUNT)
+                    approximate = matches.isNotEmpty()
                 }
                 val latest = this@AndroidAssistantGallerySearch.settings.getSettingsState()
                 gallerySearchBlocker(
@@ -278,11 +307,15 @@ class AndroidAssistantGallerySearch @Inject constructor(
                     matches = matches.map(Media::uri),
                     offset = end,
                     ambiguousName = null,
-                    choices = emptySet()
+                    choices = emptySet(),
+                    approximate = approximate
                 )
                 session = updated
-                val summary = if (matches.isEmpty()) text(R.string.assistant_gallery_empty)
-                else resources.getString(R.string.assistant_gallery_found, matches.size)
+                val summary = when {
+                    matches.isEmpty() -> text(R.string.assistant_gallery_empty)
+                    approximate -> text(R.string.assistant_gallery_closest)
+                    else -> resources.getString(R.string.assistant_gallery_found, matches.size)
+                }
                 AssistantAnswer(
                     text = summary,
                     gallery = result(updated).copy(
@@ -309,6 +342,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
             chosenPeople = current.chosenPeople,
             ambiguousName = current.ambiguousName,
             choices = current.choices,
+            approximate = current.approximate,
             complete = current.matches != null
         )
     )

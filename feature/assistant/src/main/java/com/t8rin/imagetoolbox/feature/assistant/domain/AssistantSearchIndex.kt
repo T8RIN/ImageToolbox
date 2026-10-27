@@ -74,9 +74,18 @@ class AssistantSearchIndex<T>(
         predicate: ((T) -> Boolean)?,
         requireCoverage: Boolean
     ): List<Match<T>> {
-        val terms = tokens(query).distinct().take(MAX_QUERY_TERMS)
-        if (terms.isEmpty()) return emptyList()
         val candidates = if (predicate == null) indexed else indexed.filter { predicate(it.value) }
+        val terms = tokens(query).distinct().take(MAX_QUERY_TERMS).filter { term ->
+            candidates.any { document ->
+                document.frequencies.keys.any {
+                    matches(
+                        term,
+                        it
+                    )
+                } || document.titleTokens.any { matches(term, it) }
+            }
+        }
+        if (terms.isEmpty()) return emptyList()
         val averageLength = if (predicate == null) averageLength else {
             candidates.map { it.length }.average().takeIf { it > 0.0 } ?: 1.0
         }
@@ -126,143 +135,44 @@ class AssistantSearchIndex<T>(
         private const val TEXT_PHRASE_BONUS = 2.0
         private const val MIN_PREFIX_LENGTH = 4
 
-        private val wordSeparator = Regex("[^\\p{L}\\p{N}]+")
-        private val russianEnding =
-            Regex("(?:яйте|айте|ить|ять|ать|иями|ями|ами|ого|ему|ому|ими|ыми|ая|яя|ое|ее|ые|ие|ую|юю|ой|ей|ам|ям|ах|ях|ом|ем|ов|ев|их|ых|а|я|ы|и|у|ю|е)$")
-
-        fun normalize(text: String): String = text.lowercase(Locale.ROOT)
-            .replace('ё', 'е')
-            .replace(wordSeparator, " ")
-            .trim()
-
-        fun tokens(text: String): List<String> = normalize(text).split(' ')
-            .filter { it.length > 1 && it.any(Char::isLetter) && it !in stopWords }
-            .map { word ->
-                if (word.all { it in 'а'..'я' }) {
-                    word.replace(russianEnding, "").takeIf { it.length >= 3 } ?: word
-                } else if (word.all { it in 'a'..'z' }) englishRoot(word) else word
-            }.filter { it !in stopWords }
-
-        private fun englishRoot(word: String): String {
-            var root = when {
-                word.endsWith("ies") -> word.dropLast(3) + "y"
-                listOf("ches", "shes", "xes", "zes", "sses").any(word::endsWith) -> word.dropLast(2)
-                word.endsWith('s') && !word.endsWith("ss") -> word.dropLast(1)
-                else -> word
-            }
-            root = when {
-                root == "conversion" -> "convert"
-                root.endsWith("ion") -> root.dropLast(3)
-                root.endsWith("ing") || root.endsWith("ed") -> {
-                    val base = root.dropLast(if (root.endsWith("ing")) 3 else 2)
-                    if (base.length > 2 && base.last() in "bdfgmnpt" && base.last() == base[base.lastIndex - 1]) {
-                        base.dropLast(1)
-                    } else base
+        fun normalize(text: String): String = buildString {
+            java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFKD)
+                .lowercase(Locale.ROOT).forEach { character ->
+                    when {
+                        character.isLetterOrDigit() -> append(character)
+                        Character.getType(character) == Character.NON_SPACING_MARK.toInt() -> Unit
+                        isNotEmpty() && last() != ' ' -> append(' ')
+                    }
                 }
+        }.trim()
 
-                else -> root
+        fun tokens(text: String): List<String> {
+            val normalized = normalize(text)
+            val words =
+                java.text.BreakIterator.getWordInstance(Locale.ROOT).apply { setText(normalized) }
+            val result = mutableListOf<String>()
+            var start = words.first()
+            var end = words.next()
+            while (end != java.text.BreakIterator.DONE) {
+                normalized.substring(start, end).takeIf { it.any(Char::isLetter) }?.let(result::add)
+                start = end
+                end = words.next()
             }
-            return root.removeSuffix("e").takeIf { it.length >= 3 } ?: word
+            return result
         }
 
-        private fun matches(query: String, word: String): Boolean =
-            query == word || minOf(query.length, word.length) >= MIN_PREFIX_LENGTH &&
-                    (query.any { it !in 'a'..'z' } || word.any { it !in 'a'..'z' }) && word.startsWith(query)
-
-        private val stopWords = setOf(
-            "a",
-            "an",
-            "the",
-            "and",
-            "or",
-            "but",
-            "for",
-            "with",
-            "from",
-            "into",
-            "of",
-            "about",
-            "to",
-            "in",
-            "on",
-            "at",
-            "by",
-            "as",
-            "is",
-            "are",
-            "was",
-            "were",
-            "be",
-            "been",
-            "do",
-            "does",
-            "did",
-            "can",
-            "could",
-            "will",
-            "would",
-            "should",
-            "me",
-            "my",
-            "our",
-            "you",
-            "your",
-            "it",
-            "its",
-            "this",
-            "that",
-            "these",
-            "those",
-            "how",
-            "what",
-            "which",
-            "where",
-            "why",
-            "when",
-            "и",
-            "или",
-            "но",
-            "для",
-            "со",
-            "из",
-            "во",
-            "на",
-            "по",
-            "про",
-            "до",
-            "за",
-            "при",
-            "под",
-            "над",
-            "ли",
-            "не",
-            "об",
-            "от",
-            "что",
-            "как",
-            "где",
-            "почему",
-            "зачем",
-            "чтобы",
-            "это",
-            "этот",
-            "эта",
-            "эту",
-            "этим",
-            "этом",
-            "эти",
-            "те",
-            "мы",
-            "вы",
-            "ты",
-            "мне",
-            "мой",
-            "моих",
-            "наш",
-            "ваш",
-            "его",
-            "ее",
-            "их"
-        )
+        private fun matches(query: String, word: String): Boolean {
+            if (query == word) return true
+            var prefix = 0
+            while (prefix < minOf(
+                    query.length,
+                    word.length
+                ) && query[prefix] == word[prefix]
+            ) prefix++
+            return prefix >= MIN_PREFIX_LENGTH && prefix.toDouble() / maxOf(
+                query.length,
+                word.length
+            ) >= 0.7
+        }
     }
 }

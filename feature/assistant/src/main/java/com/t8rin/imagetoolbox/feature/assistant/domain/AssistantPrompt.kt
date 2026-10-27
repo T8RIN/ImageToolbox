@@ -24,16 +24,16 @@ internal fun assistantPrompt(
     hasImage: Boolean
 ): String = buildString {
     append("<|im_start|>system\n${grounding.escapeTemplate()}<|im_end|>\n")
-    history.filter { it.error == null && it.answer.text.isNotBlank() && it.answer.gallery == null }
+    history.filter { it.error == null && it.answer.text.isNotBlank() }
         .takeLast(2)
         .forEach { message ->
             append("<|im_start|>user\n")
             if (message.context.selectedUris.isNotEmpty()) {
                 append("Files were attached to this earlier message; their contents are not included here.\n")
             }
-            append(message.question.take(300).escapeTemplate())
+            append(message.question.take(200).escapeTemplate())
             append("<|im_end|>\n<|im_start|>assistant\n")
-            append(message.answer.text.take(400).escapeTemplate())
+            append(message.answer.text.take(240).escapeTemplate())
             append("<|im_end|>\n")
         }
     append("<|im_start|>user\n")
@@ -43,3 +43,13 @@ internal fun assistantPrompt(
 }
 
 private fun String.escapeTemplate(): String = replace("<|", "＜|")
+
+internal fun assistantToolResult(prompt: String, call: String, facts: String): String =
+    buildString {
+        append(prompt)
+        append(call)
+        append("<|im_end|>\n<|im_start|>tool\n")
+        append(facts.escapeTemplate())
+        append("\nAnswer the user's latest question using these ImageToolbox facts. Do not call another tool.\n")
+        append("<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n")
+    }

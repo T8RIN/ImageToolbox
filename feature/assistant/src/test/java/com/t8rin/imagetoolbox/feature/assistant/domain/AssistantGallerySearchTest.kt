@@ -30,28 +30,6 @@ import java.time.ZoneId
 
 class AssistantGallerySearchTest {
     @Test
-    fun routesOnlySearchRequestsAndGalleryFollowUpsThroughTheGalleryInterpreter() {
-        listOf(
-            "Как замазать лица?",
-            "Хочу прозрачный фон",
-            "Напиши стих",
-            "Из фото сделать GIF"
-        ).forEach {
-            assertFalse(it, needsGalleryRouting(it, null))
-        }
-        listOf("Найди фото кота", "Покажи Сашу", "Where is Sasha?").forEach {
-            assertTrue(it, needsGalleryRouting(it, null))
-        }
-        assertTrue(
-            needsGalleryRouting(
-                "Из этих только за июль",
-                AssistantGalleryQuery(semantic = "a cat")
-            )
-        )
-        assertTrue(needsGalleryRouting("Ещё", AssistantGalleryQuery(semantic = "a cat")))
-    }
-
-    @Test
     fun metadataFiltersWorkWithEveryAiCapabilityDisabled() {
         val query =
             AssistantGalleryQuery(from = "2026-07-01", album = "Vacation", filename = "*.jpg")
@@ -162,20 +140,6 @@ class AssistantGallerySearchTest {
                 zone = zone
             ).isEmpty()
         )
-    }
-
-    @Test
-    fun refinementRetainsPeopleAndOtherConditions() {
-        val previous = AssistantGalleryQuery(
-            semantic = "a beach", people = listOf("Саша"),
-            from = "2026-07-01", to = "2026-07-31", album = "Vacation", filename = "IMG*"
-        )
-        val refined =
-            AssistantGalleryQuery(semantic = "outdoors", people = listOf("Маша")).refine(previous)
-        assertEquals(listOf("Саша", "Маша"), refined.people)
-        assertEquals(previous.album, refined.album)
-        assertEquals(previous.from, refined.from)
-        assertEquals(previous.filename, refined.filename)
     }
 
     private fun photo(id: Int) = Media(

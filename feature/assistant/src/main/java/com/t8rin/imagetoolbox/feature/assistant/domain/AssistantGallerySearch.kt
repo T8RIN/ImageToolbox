@@ -27,50 +27,41 @@ data class AssistantGalleryQuery(
     val from: String? = null,
     val to: String? = null,
     val album: String? = null,
-    val filename: String? = null
+    val filename: String? = null,
+    val excludedPeople: List<String> = emptyList()
 ) {
     fun normalized(): AssistantGalleryQuery {
         val query = copy(
             semantic = semantic?.trim(),
             people = people.map(String::trim).distinct(),
+            excludedPeople = excludedPeople.map(String::trim).distinct(),
             from = from?.trim(),
             to = to?.trim(),
             album = album?.trim(),
             filename = filename?.trim()
         )
         val strings = listOfNotNull(
-            query.semantic,
             query.from,
             query.to,
             query.album,
             query.filename
-        ) + query.people
+        ) + query.people + query.excludedPeople
         require(strings.all { it.length <= 300 && it.isNotBlank() })
-        require(query.people.size <= 10)
+        require(query.semantic == null || query.semantic.isNotBlank() && query.semantic.length <= 4000)
+        require(query.people.size + query.excludedPeople.size <= 10)
+        require(query.people.none { person ->
+            query.excludedPeople.any {
+                it.equals(
+                    person,
+                    true
+                )
+            }
+        })
         val start = query.from?.let(LocalDate::parse)
         val end = query.to?.let(LocalDate::parse)
         require(start == null || end == null || start <= end)
         return query
     }
-
-    fun refine(previous: AssistantGalleryQuery): AssistantGalleryQuery = copy(
-        people = (previous.people + people).distinct(),
-        from = from ?: previous.from,
-        to = to ?: previous.to,
-        album = album ?: previous.album,
-        filename = filename ?: previous.filename,
-        semantic = semantic ?: previous.semantic
-    ).normalized()
-}
-
-internal data class AssistantGalleryCommand(
-    val action: Action,
-    val query: AssistantGalleryQuery? = null,
-    val mode: AssistantGallerySearch.Mode = AssistantGallerySearch.Mode.New,
-    val clarification: Clarification = Clarification.Conditions
-) {
-    enum class Action { Search, Refine, More, Help, Clarify }
-    enum class Clarification { Conditions, Date, Literal, Unsupported, Person, NoSearch }
 
 }
 
@@ -91,6 +82,7 @@ data class AssistantGalleryState(
     val chosenPeople: Map<String, Long> = emptyMap(),
     val ambiguousName: String? = null,
     val choices: Set<Long> = emptySet(),
+    val approximate: Boolean = false,
     val complete: Boolean = false
 )
 
@@ -109,6 +101,7 @@ data class AssistantGalleryResult(
 }
 
 interface AssistantGallerySearch {
+    @Serializable
     enum class Mode { New, Narrow, Update }
 
     fun restore(results: List<AssistantGalleryResult>)

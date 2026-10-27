@@ -534,6 +534,86 @@ class AssistantRepositoryInstrumentedTest {
     }
 
     @Test
+    fun multilingualAnswersUseTheRightToolsAndKeepFollowUps() = runBlocking {
+        val args = InstrumentationRegistry.getArguments()
+        val selected = args.getString("helpModels")?.split(',')
+        val cases = args.getString("multilingualCases")?.split(',')?.map(String::toInt)
+        val installed = AssistantModels().installations(verifyFiles = false).filter {
+            it.installed && !it.variant.supportsVision && (selected == null || it.variant.id in selected)
+        }
+        assumeTrue(installed.isNotEmpty())
+        val questions = listOf(
+            "¿Cómo puedo ocultar las caras en una foto?",
+            "Wie verkleinere ich ein Foto auf 500 KB?",
+            "画像の背景を透明にするには？",
+            "¿Qué formatos de imagen admite ImageToolbox?",
+            "¿Y cuáles de ellos conservan la transparencia?",
+            "كيف أحول الصورة إلى PNG؟"
+        )
+        val report = JSONArray()
+        val failures = mutableListOf<String>()
+        try {
+            installed.forEach { state ->
+                settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+                val repository = create()
+                val component = component(repository)
+                repository.prepareModel(state.variant)
+                questions.forEachIndexed { index, question ->
+                    if (cases != null && index !in cases) return@forEachIndexed
+                    if (index != 4) withContext(Dispatchers.Main) { component.newConversation() }
+                    val startedAt = System.nanoTime()
+                    withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
+                    withTimeout(125_000) { repository.isGenerating.first { !it } }
+                    val message = repository.messages.value.last()
+                    val text = message.answer.text
+                    val ids = message.answer.references.map { it.tipId }
+                    val useful = when (index) {
+                        0 -> "face-privacy" in ids
+                        1 -> "resize-by-file-size" in ids && "500" in text
+                        2 -> "background-remover" in ids && text.any {
+                            Character.UnicodeScript.of(it.code) in setOf(
+                                Character.UnicodeScript.HIRAGANA,
+                                Character.UnicodeScript.KATAKANA,
+                                Character.UnicodeScript.HAN
+                            )
+                        }
+
+                        3 -> listOf("PNG", "JPEG", "JPG", "WebP").count {
+                            text.contains(
+                                it,
+                                true
+                            )
+                        } >= 2
+
+                        4 -> text.contains("PNG", true) || text.contains("WebP", true)
+                        else -> text.contains("PNG", true) && text.any {
+                            Character.UnicodeScript.of(
+                                it.code
+                            ) == Character.UnicodeScript.ARABIC
+                        }
+                    }
+                    val record =
+                        JSONObject().put("model", state.variant.id).put("question", question)
+                            .put("answer", text).put("error", message.error)
+                            .put("references", JSONArray(ids))
+                            .put("totalMs", (System.nanoTime() - startedAt) / 1_000_000)
+                            .put("passed", useful && message.error == null && text.isNotBlank())
+                    report.put(record)
+                    File(
+                        app.cacheDir,
+                        "assistant-multilingual-answers.json"
+                    ).writeText(report.toString(2))
+                    if (!record.getBoolean("passed")) failures.add(record.toString())
+                }
+                withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+            }
+        } finally {
+            File(app.cacheDir, "assistant-multilingual-answers.json").writeText(report.toString(2))
+        }
+        assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
     fun stopKeepsTheMessageWithoutAnErrorAndReleasesTheService() = runBlocking {
         val repository = create()
         withContext(Dispatchers.Main) { repository.regenerate() }
