@@ -137,7 +137,7 @@ class AssistantSearchIndex<T>(
                 if (word.all { it in 'а'..'я' }) {
                     word.replace(russianEnding, "").takeIf { it.length >= 3 } ?: word
                 } else if (word.all { it in 'a'..'z' }) englishRoot(word) else word
-            }
+            }.filter { it !in stopWords }
 
         private fun englishRoot(word: String): String {
             var root = when {
@@ -177,6 +177,7 @@ class AssistantSearchIndex<T>(
             "from",
             "into",
             "of",
+            "about",
             "to",
             "in",
             "on",
@@ -223,6 +224,7 @@ class AssistantSearchIndex<T>(
             "во",
             "на",
             "по",
+            "про",
             "до",
             "за",
             "при",

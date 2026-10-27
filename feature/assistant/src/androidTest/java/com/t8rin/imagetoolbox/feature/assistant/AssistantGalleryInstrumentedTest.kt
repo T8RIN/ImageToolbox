@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCa
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchState
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,6 +99,7 @@ class AssistantGalleryInstrumentedTest {
     private var ranked = emptyList<Media>()
     private var searches = 0
     private var afterSearch: () -> Unit = {}
+    private var refresh: suspend () -> Unit = {}
 
     private fun search(retriever: MediaRetriever? = null) = AndroidAssistantGallerySearch(
         context = object : ContextWrapper(app) {
@@ -122,7 +124,7 @@ class AssistantGalleryInstrumentedTest {
         },
         semantic = object : SemanticSearchRepository by services.semanticSearch {
             override val state = this@AssistantGalleryInstrumentedTest.state
-            override suspend fun refresh() = Unit
+            override suspend fun refresh() = refresh.invoke()
             override suspend fun people(media: List<Media>) = groups
             override suspend fun search(
                 query: String,
@@ -149,6 +151,13 @@ class AssistantGalleryInstrumentedTest {
             override val encodingDispatcher = Dispatchers.Default
         }
     )
+
+    @Test
+    fun capabilitySnapshotDoesNotWaitForBackgroundIndexing() = runBlocking {
+        refresh = { awaitCancellation() }
+        val capabilities = withTimeout(1_000) { search().capabilities() }
+        assertTrue(capabilities, capabilities.contains("indexed=30"))
+    }
 
     @Test
     fun disabledSearchKeepsOriginalConditionsAndRetryReadsChangedSettings() = runBlocking {
@@ -459,7 +468,7 @@ class AssistantGalleryInstrumentedTest {
                         question,
                         "photoAccess=true; semanticEnabled=false; groupPeople=false; knownPeople=[\"Саша\",\"Маша\"]",
                         previous
-                    ), maxOutputTokens = 256
+                    ), maxOutputTokens = 256, stopOnRepetition = false
                 ) { output.append(it) }
             }
             report.appendLine("$question: $output")

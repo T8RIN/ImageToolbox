@@ -241,18 +241,99 @@ class AssistantRepositoryInstrumentedTest {
     }
 
     @Test
+    fun unrelatedQuestionsFinishQuicklyAndDoNotBreakTheNextAppQuestion() = runBlocking {
+        app.startActivity(
+            checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
+        instrumentation.waitForIdleSync()
+        val modelFilter = InstrumentationRegistry.getArguments().getString("helpModels")?.split(',')
+        val installed = AssistantModels().installations(verifyFiles = false).filter {
+            it.installed && !it.variant.supportsVision && (modelFilter == null || it.variant.id in modelFilter)
+        }
+        assumeTrue("Install a text model before testing replies", installed.isNotEmpty())
+        val report = JSONArray()
+        val failures = mutableListOf<String>()
+        try {
+            installed.forEach { state ->
+                settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+                val repository = create()
+                val component = component(repository)
+                withContext(Dispatchers.Main) { component.newConversation() }
+                val selectedCases =
+                    InstrumentationRegistry.getArguments().getString("recoveryCases")?.split(',')
+                        ?.map(String::toInt)
+                listOf(
+                    "как какать",
+                    "Напиши стихотворение про осень.",
+                    "Write a recipe for chocolate cake.",
+                    "как мне замазать лица"
+                ).forEachIndexed { index, question ->
+                    if (selectedCases != null && index !in selectedCases) return@forEachIndexed
+                    val started = System.nanoTime()
+                    withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
+                    withTimeout(125_000) {
+                        repository.messages.first { messages ->
+                            messages.lastOrNull()?.let {
+                                it.answer.text.isNotBlank() || it.error != null
+                            } == true
+                        }
+                    }
+                    val firstTextMs = (System.nanoTime() - started) / 1_000_000
+                    withTimeout(125_000) { repository.isGenerating.first { !it } }
+                    val message = repository.messages.value.last()
+                    val totalMs = (System.nanoTime() - started) / 1_000_000
+                    val record =
+                        JSONObject().put("model", state.variant.id).put("question", question)
+                            .put("firstTextMs", firstTextMs).put("totalMs", totalMs)
+                            .put("answer", message.answer.text).put("error", message.error)
+                            .put("sources", JSONArray(message.answer.references.map { it.tipId }))
+                    report.put(record)
+                    println("AssistantRecovery $record")
+                    File(app.cacheDir, "assistant-recovery-quality.json").writeText(
+                        report.toString(
+                            2
+                        )
+                    )
+                    val text = message.answer.text
+                    val valid = message.error == null && text.isNotBlank() && text.length < 1600 &&
+                            !Regex("(.{8,80})\\1{3,}").containsMatchIn(text) &&
+                            if (index < 3) {
+                                text.contains("ImageToolbox", true) && text.length < 450 &&
+                                        totalMs < if (state.variant == AssistantModel.Max) 120_000 else 60_000
+                            } else {
+                                message.answer.references.any { it.tipId == "face-privacy" } &&
+                                        Regex(
+                                            "рисован|размыт|пиксел",
+                                            RegexOption.IGNORE_CASE
+                                        ).containsMatchIn(text) &&
+                                        !text.contains("Что вы хотите сделать", true) &&
+                                        totalMs < if (state.variant == AssistantModel.Max) 120_000 else 90_000
+                            }
+                    if (!valid) failures.add(record.toString())
+                }
+                withContext(Dispatchers.Main) { lifecycles.last().destroy() }
+            }
+            assertTrue(failures.joinToString("\n"), failures.isEmpty())
+        } finally {
+            File(app.cacheDir, "assistant-recovery-quality.json").writeText(report.toString(2))
+        }
+    }
+
+    @Test
     fun understandsEditingRequestsAndFollowUpsWithoutTopicAliases() = runBlocking {
         app.startActivity(
             checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
         instrumentation.waitForIdleSync()
+        val modelFilter = InstrumentationRegistry.getArguments().getString("helpModels")?.split(',')
         val installed = AssistantModels().installations(verifyFiles = false)
             .filter {
                 it.installed && it.variant in setOf(
                     AssistantModel.Advanced,
                     AssistantModel.Max
-                )
+                ) && (modelFilter == null || it.variant.id in modelFilter)
             }
         assumeTrue("Install a text model before testing help replies", installed.isNotEmpty())
         val requests = listOf(

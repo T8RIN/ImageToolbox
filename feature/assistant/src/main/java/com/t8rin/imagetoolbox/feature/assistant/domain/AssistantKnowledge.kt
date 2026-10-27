@@ -27,12 +27,6 @@ interface AssistantKnowledge {
         sources: List<String> = emptyList()
     ): AssistantAnswer
 
-    suspend fun searchSources(request: AssistantRequest): List<AssistantReference>
-
-    fun searchContext(context: AssistantScreenContext): String
-
-    fun searchCatalog(): String
-
     fun resolveTool(tool: AssistantTool): Screen?
 
     fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String

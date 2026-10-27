@@ -84,7 +84,6 @@ class AndroidAssistantGallerySearch @Inject constructor(
     }
 
     override suspend fun capabilities(): String = withContext(dispatchers.ioDispatcher) {
-        semantic.refresh()
         val settings = settings.getSettingsState()
         val state = semantic.state.value
         val permission = context.hasSemanticSearchPermission()

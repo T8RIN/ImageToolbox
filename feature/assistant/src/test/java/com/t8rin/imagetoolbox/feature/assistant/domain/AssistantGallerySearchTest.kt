@@ -57,6 +57,28 @@ class AssistantGallerySearchTest {
     }
 
     @Test
+    fun routesOnlySearchRequestsAndGalleryFollowUpsThroughTheGalleryInterpreter() {
+        listOf(
+            "Как замазать лица?",
+            "Хочу прозрачный фон",
+            "Напиши стих",
+            "Из фото сделать GIF"
+        ).forEach {
+            assertFalse(it, needsGalleryRouting(it, null))
+        }
+        listOf("Найди фото кота", "Покажи Сашу", "Where is Sasha?").forEach {
+            assertTrue(it, needsGalleryRouting(it, null))
+        }
+        assertTrue(
+            needsGalleryRouting(
+                "Из этих только за июль",
+                AssistantGalleryQuery(semantic = "a cat")
+            )
+        )
+        assertTrue(needsGalleryRouting("Ещё", AssistantGalleryQuery(semantic = "a cat")))
+    }
+
+    @Test
     fun explicitReferencesCannotStartANewSearch() {
         val command =
             AssistantGalleryCommand(AssistantGalleryCommand.Action.Search, album = "Vacation")

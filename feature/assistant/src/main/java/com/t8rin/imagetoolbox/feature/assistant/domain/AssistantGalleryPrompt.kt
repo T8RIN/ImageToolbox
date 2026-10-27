@@ -67,3 +67,19 @@ internal fun assistantGalleryPrompt(
     question = question,
     hasImage = false
 )
+
+internal fun needsGalleryRouting(question: String, current: AssistantGalleryQuery?): Boolean =
+    galleryRequest.containsMatchIn(question) || current != null &&
+            (galleryFollowUp.containsMatchIn(question) ||
+                    AssistantGalleryCommand(AssistantGalleryCommand.Action.Search).isRefinement(
+                        question
+                    ))
+
+private val galleryRequest = Regex(
+    """(?<!\p{L})(?:най[дт][а-я]*|ищ[а-я]*|покаж[а-я]*|где|find|search|show|where|look\s+for)(?!\p{L})""",
+    RegexOption.IGNORE_CASE
+)
+private val galleryFollowUp = Regex(
+    """^(?:а\s+)?(?:ещ[её]|далее|дальше|только|more|next|only)(?!\p{L})""",
+    RegexOption.IGNORE_CASE
+)

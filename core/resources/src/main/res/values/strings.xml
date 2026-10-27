@@ -298,7 +298,7 @@
     <string name="help_tip_resize_by_file_size_title">Resize by file size</string>
     <string name="help_tip_resize_by_file_size_subtitle">Target a size limit when a website, messenger, or form rejects heavy images</string>
     <string name="help_tip_resize_by_file_size_page_title">Fit strict upload limits</string>
-    <string name="help_tip_resize_by_file_size_description">Resize by file size is better than guessing quality values when the destination accepts only files below a specific limit. The tool may adjust compression and dimensions to reach the target while trying to keep the result usable.</string>
+    <string name="help_tip_resize_by_file_size_description">If a photo is too heavy or too large to send, reduce its file size with Resize by Weight. Set the maximum size accepted by the recipient instead of guessing quality. The tool adjusts compression and dimensions; inspect the saved result.</string>
     <string name="help_tip_resize_by_file_size_step_1">Enter the maximum output file size in the “Max size in KB” field. Use a value slightly below the upload limit.</string>
     <string name="help_tip_resize_by_file_size_step_2">For small photo files, use JPEG or lossy WebP. PNG is lossless and may remain large even after resizing.</string>
     <string name="help_tip_resize_by_file_size_step_3">Inspect faces, text, and edges after export because aggressive size targets can introduce visible artifacts.</string>
@@ -437,7 +437,7 @@
     <string name="help_tip_background_remover_title">Remove or restore a background</string>
     <string name="help_tip_background_remover_subtitle">Erase backgrounds automatically or refine edges manually with restore tools</string>
     <string name="help_tip_background_remover_page_title">Keep the subject, remove the rest</string>
-    <string name="help_tip_background_remover_description">Background removal works best when you combine automatic selection with careful manual cleanup. The final export format matters as much as the mask, because JPEG will flatten transparent areas even if the preview looks correct.</string>
+    <string name="help_tip_background_remover_description">To make the background transparent, open Background Remover. Background removal works best when you combine automatic selection with careful manual cleanup. The final export format matters as much as the mask, because JPEG will flatten transparent areas even if the preview looks correct.</string>
     <string name="help_tip_background_remover_step_1">Start with automatic removal if the subject is separated clearly from the background.</string>
     <string name="help_tip_background_remover_step_2">Zoom in and switch between erase and restore to fix hair, corners, shadows, and small details.</string>
     <string name="help_tip_background_remover_step_3">Save as PNG or WebP when you need transparency in the final file.</string>
@@ -605,7 +605,7 @@
     <string name="help_tip_animated_formats_title">Work with animated formats</string>
     <string name="help_tip_animated_formats_subtitle">Use GIF, APNG, WebP, and JXL tools when a file has frames instead of one bitmap</string>
     <string name="help_tip_animated_formats_page_title">Do not treat every image as still</string>
-    <string name="help_tip_animated_formats_description">Animated formats need tools that understand frames, duration, and compatibility.</string>
+    <string name="help_tip_animated_formats_description">To make an animation from photos, add the images as frames in GIF, APNG or WebP tools. Set the frame order and duration, create the animated file and preview it before sharing.</string>
     <string name="help_tip_animated_formats_step_1">Use GIF or APNG tools when you need frame-level operations for those formats.</string>
     <string name="help_tip_animated_formats_step_2">Use WebP tools when you need modern compression or animated WebP output.</string>
     <string name="help_tip_animated_formats_step_3">Preview animation timing before sharing because some platforms convert or flatten animated images.</string>
@@ -5907,7 +5907,7 @@
     <string name="help_tip_ascii_workflow_step_3">Copy or export the resulting text and use a monospaced font in the destination. Proportional fonts and changed line spacing can distort the picture.</string>
     <string name="help_tip_face_privacy_title">Hide faces and personal details</string>
     <string name="help_tip_face_privacy_subtitle">Blur, pixelate, or paint over faces, license plates, text, and private information</string>
-    <string name="help_tip_face_privacy_description">Use Drawing to hide selected areas without blurring the whole photo. Privacy Blur and Pixelation work on the areas you draw over and support automatic face detection. To fully cover sensitive text or numbers, paint over them with an opaque brush.</string>
+    <string name="help_tip_face_privacy_description">To hide, blur or mask faces in a photo, use Drawing. Privacy Blur and Pixelation hide selected areas and support automatic face detection. Cover sensitive text or license plates completely with an opaque brush, then save a separate edited copy.</string>
     <string name="help_tip_face_privacy_step_1">Open Drawing and select the photo. Choose Privacy Blur or Pixelation in the drawing mode selector.</string>
     <string name="help_tip_face_privacy_step_2">Tap Detect faces to mark faces automatically. Choose YuNet or UltraFace; the detector may need to download its model on first use. Check the result because detection can miss faces.</string>
     <string name="help_tip_face_privacy_step_3">Draw over any missed faces or other areas manually. Adjust blur radius or pixel size, and undo incorrect marks. For text and license plates, use an opaque brush to cover the entire detail.</string>
@@ -5923,7 +5923,7 @@
     <string name="help_tip_exif_removal_title">Remove image metadata in a batch</string>
     <string name="help_tip_exif_removal_subtitle">Clean embedded image information and verify the exported copies</string>
     <string name="help_tip_exif_removal_page_title">Metadata cleanup and its limits</string>
-    <string name="help_tip_exif_removal_description">Delete EXIF is intended for removing embedded metadata from selected images. Metadata cleanup is different from hiding visible information: a face, address, screenshot label, or filename can still reveal details.</string>
+    <string name="help_tip_exif_removal_description">Delete EXIF removes embedded metadata, including shooting location and GPS information, from one or multiple image files at once. Select the files and save cleaned copies. Use Edit EXIF to inspect or remove individual fields. Metadata removal does not hide visible faces, addresses or filenames.</string>
     <string name="help_tip_exif_removal_step_1">Select the images to clean and review the batch before saving. Use Edit EXIF when you need to inspect or change particular fields instead.</string>
     <string name="help_tip_exif_removal_step_2">Save cleaned copies and inspect an exported file in the metadata viewer. Supported metadata and container behavior differ between formats.</string>
     <string name="help_tip_exif_removal_step_3">Check file names and visible content separately. Do not overwrite the only original if you may need its camera information later.</string>
@@ -6075,6 +6075,8 @@
     <string name="assistant_send">Send</string>
     <string name="assistant_model_unavailable">Model unavailable on this device</string>
     <string name="assistant_generation_error">Could not generate an answer</string>
+    <string name="assistant_generation_timeout">The answer took too long. Try a smaller model or a shorter question.</string>
+    <string name="assistant_scope">I help with ImageToolbox: editing images and files, choosing tools and changing app settings.</string>
     <string name="assistant_enabled_required">Enable Assistant in settings</string>
     <string name="assistant_history_save_error">Could not save conversation</string>
     <string name="assistant_latest_message">Latest message</string>
@@ -6299,7 +6301,7 @@
     <string name="help_tip_filters_local_masks_step_1">Open an image, add a mask and draw the area that needs adjustment. Undo or redo strokes when correcting the boundary.</string>
     <string name="help_tip_filters_local_masks_step_2">Add filters to the mask and adjust their order and values. Switch the mask preview to inspect coverage; invert the mask if the surrounding area should be affected.</string>
     <string name="help_tip_filters_local_masks_step_3">Check edges at a useful zoom before confirming the mask. Save the finished image after checking how multiple masks combine.</string>
-    <string name="help_tip_ocr_extract_preview_description">Text extraction shows recognition results for an image. Tesseract and PaddleOCR use different models; selecting the right language or model and preparing readable pixels matters more than using every option at once.</string>
+    <string name="help_tip_ocr_extract_preview_description">To copy text from a scan or photo into notes, use OCR (recognize text) in extraction mode. Recognize the image, check the text and copy it to the clipboard. A searchable PDF is a different output and is not needed for copying plain text. Choose the appropriate Tesseract or PaddleOCR language model.</string>
     <string name="help_tip_ocr_extract_preview_step_1">Choose an image or use the camera, then crop unnecessary background and straighten the text.</string>
     <string name="help_tip_ocr_extract_preview_step_2">Select the recognition provider and its language data or model. Download missing data before working offline; use the available recognition settings for that provider.</string>
     <string name="help_tip_ocr_extract_preview_step_3">Run recognition and proofread numbers, names and line breaks before copying or sharing the text.</string>
