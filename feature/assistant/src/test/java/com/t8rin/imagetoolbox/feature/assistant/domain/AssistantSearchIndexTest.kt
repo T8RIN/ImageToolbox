@@ -26,6 +26,11 @@ import javax.xml.parsers.DocumentBuilderFactory
 class AssistantSearchIndexTest {
 
     @Test
+    fun stemmingCannotTurnAnUnrelatedWordIntoAQuestionStopWord() {
+        assertTrue(AssistantSearchIndex.tokens("как какать").isEmpty())
+    }
+
+    @Test
     fun searchesRealEnglishAndRussianHelpResources() {
         listOf(
             "values" to "remove background",
