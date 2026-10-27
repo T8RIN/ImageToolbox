@@ -66,11 +66,60 @@ internal class AndroidAssistantKnowledge @Inject constructor(
             .associateBy { appContext.resources.getResourceEntryName(it.title) }
     }
 
-    override suspend fun retrieve(request: AssistantRequest): AssistantAnswer =
+    override suspend fun retrieve(
+        request: AssistantRequest,
+        queries: List<String>,
+        sources: List<String>
+    ): AssistantAnswer =
         withContext(dispatchers.defaultDispatcher) {
             require(request.query.length <= MAX_QUESTION_LENGTH) { "Question is too long" }
             val language = language(request)
             val index = index(language)
+            val exactTitle = settings.values.any {
+                matchesTitle(
+                    AssistantSearchIndex.normalize(request.query),
+                    it.title,
+                    language,
+                    exact = true
+                )
+            } || catalog.any {
+                matchesTitle(
+                    AssistantSearchIndex.normalize(request.query),
+                    it.title,
+                    language,
+                    exact = true
+                )
+            }
+            val selected = sources.mapNotNull(index.references::get).distinctBy { it.tipId }
+                .take(MAX_REFERENCES)
+            val namedSetting =
+                selected.any { helpRepository.getTip(it.tipId)?.deepLink is Screen.Settings } &&
+                        settings.values.any {
+                            matchesTitle(
+                                AssistantSearchIndex.normalize(request.query),
+                                it.title,
+                                language
+                            )
+                        }
+            if (selected.isNotEmpty() && !exactTitle && !namedSetting) {
+                val documentedKeys =
+                    selected.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink?.simpleName }
+                        .toSet()
+                val relatedTools =
+                    if (selected.all { helpRepository.getTip(it.tipId)?.deepLink is Screen.Settings }) {
+                        emptyList()
+                    } else queries.flatMap { index.tools.candidates(it, 2).map { it.value } }
+                        .distinctBy { it.simpleName }.filter { it.simpleName !in documentedKeys }
+                        .take(1)
+                val relatedReferences = relatedTools.flatMap {
+                    findReferences(index, toolTitle(it, language), listOf(it), language)
+                }
+                return@withContext answer(
+                    (selected + relatedReferences).distinctBy { it.tipId }.take(MAX_REFERENCES),
+                    language,
+                    discoveredTools = relatedTools
+                )
+            }
             val contextSetting = request.context.settingKey?.let(settings::get)
             val contextTool =
                 (catalog.firstOrNull { it.simpleName == request.context.parameters["toolKey"] }
@@ -95,7 +144,11 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                         )
                             .any { request.query == string(it, language) }
                     }
-            val topics = if (fileSuggestion) emptyList() else request.query.split(topicSeparator)
+            val topics = when {
+                fileSuggestion -> emptyList()
+                queries.isNotEmpty() && !exactTitle && !namedSetting -> queries.take(MAX_REFERENCES)
+                else -> request.query.split(topicSeparator)
+            }
             val matches = topics.filter(String::isNotBlank).map { topic ->
                 val normalizedTopic = AssistantSearchIndex.normalize(topic)
                 val exactDestination = settings.values.any {
@@ -171,23 +224,20 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                     }
                 }
                     .sortedByDescending { string(it.title, language).length }
-                val query = searchQuery(topic)
+                val query = AssistantSearchIndex.normalize(topic)
                 val matchingHelp = if (exactToolNames.isEmpty() && exactSettingNames.isEmpty()) {
-                    index.help.search(query, 1).firstOrNull()?.value
+                    index.help.search(query, 1) {
+                        settingIntent || exactSettings.isNotEmpty() || contextSetting != null ||
+                                helpRepository.getTip(it.tipId)?.deepLink !is Screen.Settings
+                    }.firstOrNull()?.value
                 } else null
                 val documentedSetting = matchingHelp?.let {
                     (helpRepository.getTip(it.tipId)?.deepLink as? Screen.Settings)?.targetSetting?.key()
                 }
-                val matchingSettings = if (documentedSetting == null) emptyList() else {
-                    index.settings.search(settingToggle.replace(query, " "), MAX_SETTINGS)
-                        .map { it.value }
-                }
                 val settingKeys = when {
                     exactSettingNames.isNotEmpty() -> exactSettingNames.map { it.key() }
-                    documentedSetting != null && (settingIntent || matchingSettings.isNotEmpty()) ->
-                        matchingSettings.ifEmpty { listOf(documentedSetting) }
-
                     exactSettings.isNotEmpty() -> exactSettings.toList()
+                    documentedSetting != null && settingIntent -> listOf(documentedSetting)
                     contextSetting != null && contextual -> listOf(contextSetting.key())
                     settingToggle.containsMatchIn(topic) || contextTool == null && settingQuestion.containsMatchIn(
                         topic
@@ -227,10 +277,7 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                             exact = true
                         )
                     }) {
-                    helpAliases.firstOrNull { (_, pattern) -> pattern.containsMatchIn(query) }
-                        ?.first?.let(index.references::get)
-                        ?: contextReference
-                        ?: matchingHelp
+                    contextReference ?: matchingHelp
                 } else null
                 if (reference != null) {
                     when (val destination = helpRepository.getTip(reference.tipId)?.deepLink) {
@@ -275,65 +322,90 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                 }
             }
             val references = matches.distinctBy { it.tipId }.take(MAX_REFERENCES)
-            val documentedTools = references.mapNotNull { reference ->
-                val screen =
-                    helpRepository.getTip(reference.tipId)?.deepLink ?: return@mapNotNull null
-                if (catalog.none { it.simpleName == screen.simpleName }) return@mapNotNull null
-                AssistantTool(
-                    screen.simpleName,
-                    toolTitle(screen, language),
-                    string(screen.subtitle, language),
-                    reference.tipId,
-                    ((screen as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey
-                )
-            }
-            val documentedKeys =
-                references.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink?.simpleName }
-                    .toSet()
-            val filterTools = discoveredFilters.distinct().map { key ->
-                AssistantTool(
-                    key = Screen.Filter().simpleName,
-                    title = string(filters.getValue(key).title, language),
-                    subtitle = string(R.string.full_filter, language),
-                    filterKey = key
-                )
-            }
-            val tools =
-                (filterTools + documentedTools.filter { filterTools.isEmpty() || it.key != Screen.Filter().simpleName } + discoveredTools.filter { it.simpleName !in documentedKeys }
-                    .mapNotNull { screen ->
-                        catalog.firstOrNull { it.simpleName == screen.simpleName }?.let {
-                            val tip =
-                                helpRepository.tips.firstOrNull { tip -> tip.deepLink?.simpleName == it.simpleName }
-                            AssistantTool(
-                                it.simpleName,
-                                toolTitle(it, language),
-                                string(it.subtitle, language),
-                                tip?.id
-                            )
-                        }
-                    }).distinctBy { tool ->
-                    helpRepository.getTip(tool.helpTipId.orEmpty())?.deepLink?.let {
-                        it.simpleName to toolTitle(
-                            it,
-                            language
-                        )
-                    }
-                        ?: (tool.key to tool.title)
-                }.take(MAX_TOOLS)
-            AssistantAnswer(
-                text = "",
-                references = references,
-                tools = tools,
-                settings = discoveredSettings.distinct().take(MAX_SETTINGS).map { key ->
-                    val setting = settings.getValue(key)
-                    AssistantSetting(
-                        key,
-                        string(setting.title, language),
-                        setting.subtitle?.let { string(it, language) }.orEmpty()
-                    )
-                }
+            answer(references, language, discoveredTools, discoveredFilters, discoveredSettings)
+        }
+
+    override suspend fun searchSources(request: AssistantRequest): List<AssistantReference> =
+        withContext(dispatchers.defaultDispatcher) {
+            index("en").help.candidates(request.query, 12).map { it.value }.distinctBy { it.tipId }
+                .take(6)
+        }
+
+    private fun answer(
+        references: List<AssistantReference>,
+        language: String,
+        discoveredTools: List<Screen> = emptyList(),
+        discoveredFilters: List<String> = emptyList(),
+        discoveredSettings: List<String> = emptyList()
+    ): AssistantAnswer {
+        val settingKeys = discoveredSettings + references.mapNotNull {
+            (helpRepository.getTip(it.tipId)?.deepLink as? Screen.Settings)?.targetSetting?.key()
+        }
+        val documentedTools = references.mapNotNull { reference ->
+            val screen =
+                helpRepository.getTip(reference.tipId)?.deepLink ?: return@mapNotNull null
+            if (catalog.none { it.simpleName == screen.simpleName }) return@mapNotNull null
+            AssistantTool(
+                screen.simpleName,
+                toolTitle(screen, language),
+                string(screen.subtitle, language),
+                reference.tipId,
+                ((screen as? Screen.Filter)?.type as? Screen.Filter.Type.Basic)?.filterKey
             )
         }
+        val documentedKeys =
+            references.mapNotNull { helpRepository.getTip(it.tipId)?.deepLink?.simpleName }
+                .toSet()
+        val filterTools = discoveredFilters.distinct().map { key ->
+            AssistantTool(
+                key = Screen.Filter().simpleName,
+                title = string(filters.getValue(key).title, language),
+                subtitle = string(R.string.full_filter, language),
+                filterKey = key
+            )
+        }
+        val tools =
+            (filterTools + documentedTools.filter { filterTools.isEmpty() || it.key != Screen.Filter().simpleName } + discoveredTools.filter { it.simpleName !in documentedKeys }
+                .mapNotNull { screen ->
+                    catalog.firstOrNull { it.simpleName == screen.simpleName }?.let {
+                        val tip =
+                            helpRepository.tips.firstOrNull { tip -> tip.deepLink?.simpleName == it.simpleName }
+                        AssistantTool(
+                            it.simpleName,
+                            toolTitle(it, language),
+                            string(it.subtitle, language),
+                            tip?.id
+                        )
+                    }
+                }).distinctBy { tool ->
+                helpRepository.getTip(tool.helpTipId.orEmpty())?.deepLink?.let {
+                    it.simpleName to toolTitle(
+                        it,
+                        language
+                    )
+                }
+                    ?: (tool.key to tool.title)
+            }.take(MAX_TOOLS)
+        return AssistantAnswer(
+            text = "",
+            references = references,
+            tools = tools,
+            settings = settingKeys.distinct().take(MAX_SETTINGS).map { key ->
+                val setting = settings.getValue(key)
+                AssistantSetting(
+                    key,
+                    string(setting.title, language),
+                    setting.subtitle?.let { string(it, language) }.orEmpty()
+                )
+            }
+        )
+    }
+
+    override fun searchContext(context: AssistantScreenContext): String = buildString {
+        appendContext(context, "en")
+    }
+
+    override fun searchCatalog(): String = catalog.joinToString(", ") { toolTitle(it, "en") }
 
     override fun resolveTool(tool: AssistantTool): Screen? {
         tool.filterKey?.let { key ->
@@ -346,32 +418,8 @@ internal class AndroidAssistantKnowledge @Inject constructor(
             ?: catalog.firstOrNull { it.simpleName == tool.key }
     }
 
-    override fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String {
-        val russian = language(request) == "ru"
-        return when {
-            needsClarification(request, answer) -> if (russian) {
-                "Сообщение пользователя: «${request.query}»\n\n" +
-                        "Это не задача ImageToolbox. Напиши только уточняющий вопрос об обработке изображений в приложении. " +
-                        "Пример подходящего вопроса: «Что вы хотите сделать с изображением в ImageToolbox?» " +
-                        "Не выполняй постороннюю просьбу."
-            } else {
-                "User message: \"${request.query}\"\n\n" +
-                        "This is not an ImageToolbox task. Write only a clarification question about image editing in the app. " +
-                        "An appropriate question would be: \"What would you like to do with an image in ImageToolbox?\" " +
-                        "Do not fulfill the unrelated request."
-            }
-
-            answer.settings.isNotEmpty() || request.context.settingKey != null -> request.query + "\n\n" + if (russian) {
-                "Ответь кратко о показанной настройке ImageToolbox. Предложи открыть ссылку на настройку под ответом. " +
-                        "Используй указанный путь; не придумывай разделы, текущее значение или значение по умолчанию."
-            } else {
-                "Reply briefly about the listed ImageToolbox setting. Suggest opening its setting link below the answer. " +
-                        "Use the supplied path; do not invent sections, the current value or the default value."
-            }
-
-            else -> request.query
-        }
-    }
+    override fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String =
+        request.query
 
     override fun grounding(
         request: AssistantRequest,
@@ -381,6 +429,8 @@ internal class AndroidAssistantKnowledge @Inject constructor(
     ): String = buildString {
         val language = language(request)
         val vision = model.supportsVision && hasImage
+        val hasSources =
+            answer.references.isNotEmpty() || answer.tools.isNotEmpty() || answer.settings.isNotEmpty()
         appendLine(
             if (vision && language == "ru") {
                 "Ты — помощник ImageToolbox, понимающий изображения. Отвечай на вопросы по приложенному изображению, " +
@@ -396,18 +446,20 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                         "Do not fulfill unrelated requests or claim you performed operations. Reply in English."
             }
         )
-        if (!vision && needsClarification(request, answer)) {
-            appendLine(
-                if (language == "ru") {
-                    "Подходящая функция приложения для запроса не найдена. Задай только короткий вопрос: какую задачу пользователь хочет решить в ImageToolbox. " +
-                            "Не выполняй постороннюю просьбу и не выдавай инструкции или творческий текст по ней."
-                } else {
-                    "No matching app information or editing context was found. Ask only a short question about what the user wants to do in ImageToolbox. " +
-                            "Do not provide the unrelated task's instructions or creative content."
-                }
-            )
-            return@buildString
+        appendLine(
+            "For app and file editing questions, preserve the requested result and format; do not add conversions or setup steps unless needed. " +
+                    "Answer the user's actual question. A missing search result does not mean the task is unrelated or unsupported. " +
+                    "Use relevant documentation and the conversation context. If a detail is not documented, say which detail is uncertain. " +
+                    "Do not infer supported input counts or modes from a tool name; if documentation does not confirm a capability, say so and offer verified alternatives. " +
+                    "Ask one specific follow-up only when missing information changes the answer; do not ask the user to repeat an already stated task. " +
+                    "For unrelated requests, briefly explain your app scope and offer a relevant capability."
+        )
+        if (!vision && !hasSources) {
+            appendLine("Available ImageToolbox tools (names only; detailed controls are not documented here):")
+            catalog.forEach { appendLine(toolTitle(it, language)) }
+            appendLine("Use this catalog for high-level guidance. Do not invent controls or claim a feature is unavailable just because search found no article.")
         }
+        appendLine("Match the answer to the question: explain when asked why or how something works, compare when asked to compare, and give steps for a how-to task.")
         appendLine(
             when {
                 vision -> "Answer the image question directly and briefly. Base descriptions on visible details; say when a detail is unclear. " +
@@ -416,9 +468,12 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                         "For editing advice, use the documented ImageToolbox tools and explain how they would help this image. " +
                         "For descriptions and captions, provide the requested text without unrelated editing steps."
 
-                model == AssistantModel.Advanced || model == AssistantModel.VisionAdvanced -> "Name the matching ImageToolbox tool or setting first. Give 2–4 short steps and at most one relevant tradeoff, using the supplied facts."
-                model == AssistantModel.Max || model == AssistantModel.VisionMax -> "Name the matching ImageToolbox tool or setting first. Give 3–5 short steps, using the supplied facts. Keep comparisons brief."
-                else -> "Name the matching ImageToolbox tool or setting first, then give 1–3 brief steps using the supplied facts."
+                !hasSources -> "For a clear editing task, suggest a suitable catalog tool and the next step. " +
+                        "For a greeting, briefly introduce useful capabilities. Keep uncertain details explicit and do not invent controls."
+
+                model == AssistantModel.Advanced || model == AssistantModel.VisionAdvanced -> "For a how-to task, name the matching ImageToolbox tool or setting first and give 2–4 short steps and at most one relevant tradeoff, using the supplied facts."
+                model == AssistantModel.Max || model == AssistantModel.VisionMax -> "For a how-to task, name the matching ImageToolbox tool or setting first and give 3–5 short steps, using the supplied facts. Keep comparisons brief."
+                else -> "For a how-to task, name the matching ImageToolbox tool or setting first, then give 1–3 brief steps using the supplied facts."
             }
         )
         appendContext(request.context, language)
@@ -448,11 +503,6 @@ internal class AndroidAssistantKnowledge @Inject constructor(
             appendLine("The setting links below open these exact settings. Current and default values are unknown unless supplied in CONTEXT; do not guess them.")
         }
     }
-
-    private fun needsClarification(request: AssistantRequest, answer: AssistantAnswer): Boolean =
-        answer.references.isEmpty() && answer.tools.isEmpty() && answer.settings.isEmpty() &&
-                request.context.toolId == null && request.context.parameters["toolKey"] == null &&
-                request.context.settingKey == null && request.context.selectedUris.isEmpty()
 
     private fun settingPath(key: String, language: String): String? {
         val setting = settings[key] ?: return null
@@ -513,8 +563,12 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                     } else {
                         listOfNotNull(destination?.title, destination?.subtitle).filter { it != 0 }
                     }
-                    val destinationTitle = setting?.let { string(it.title, language) }
-                        ?: destination?.takeIf { it.title != 0 }?.let { toolTitle(it, language) }
+                    val destinationTitle =
+                        listOf(language, "ru", "en").distinct().mapNotNull { language ->
+                            setting?.let { string(it.title, language) }
+                                ?: destination?.takeIf { it.title != 0 }
+                                    ?.let { toolTitle(it, language) }
+                        }.distinct().joinToString(" ")
                     val reference = AssistantReference(
                         title = string(tip.title, language),
                         text = (listOf(page.title, page.description) + page.steps)
@@ -525,8 +579,8 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                     AssistantSearchIndex.Document(
                         value = reference,
                         title = listOfNotNull(
-                            reference.title,
-                            string(page.title, language),
+                            bilingual(tip.title, language),
+                            bilingual(page.title, language),
                             destinationTitle
                         )
                             .joinToString(" "),
@@ -544,7 +598,7 @@ internal class AndroidAssistantKnowledge @Inject constructor(
             val tools = catalog.map { screen ->
                 AssistantSearchIndex.Document(
                     value = screen,
-                    title = string(screen.title, language),
+                    title = bilingual(screen.title, language),
                     text = screen.searchText { bilingual(it, language) }
                 )
             }
@@ -703,11 +757,6 @@ private fun language(request: AssistantRequest): String = request.language
     ?.takeIf { it in setOf("ru", "en") }
     ?: if (request.query.any { it in 'А'..'я' || it == 'ё' || it == 'Ё' }) "ru" else "en"
 
-private fun searchQuery(query: String): String = AssistantSearchIndex.normalize(query)
-    .replace(Regex("\\b(?:сжат|сжим|сожм|сжми|ужат|ужим|ужм)[а-я]*"), "сжать")
-    .replace(Regex("\\bудал[а-я]*"), "удал")
-    .replace(Regex("\\b[0-9]+\\b"), "")
-
 private const val MAX_QUESTION_LENGTH = 8000
 private const val MAX_REFERENCES = 3
 private const val MAX_TOOLS = 4
@@ -733,10 +782,3 @@ private val settingLocation = Regex(
     RegexOption.IGNORE_CASE
 )
 private val topicSeparator = Regex("[.!?;]|\\b(?:затем|потом|then)\\b", RegexOption.IGNORE_CASE)
-private val helpAliases = listOf(
-    "face-privacy" to Regex("(?:замаз|скры|скрой|размы|размой|запиксел|пиксел|закрас|закры|закрой|blur|pixelat|censor|redact|hide|mask|obscur).*(?:лиц|номер|текст|face|plate|text)|(?:лиц|номер|текст|face|plate|text).*(?:замаз|скры|скрой|размы|размой|запиксел|пиксел|закрас|закры|закрой|blur|pixelat|censor|redact|hide|mask|obscur)"),
-    "background-remover" to Regex("(?:удал|убра|стер).*фон|фон.*(?:удал|убра)|(?:remov|eras).*background|background.*(?:remov|eras)"),
-    "searchable-pdf" to Regex("(?:pdf|пдф).*(?:ocr|распозн|текст|поиск|searchable)|(?:ocr|распозн|текст|поиск|searchable).*(?:pdf|пдф)"),
-    "resize-by-file-size" to Regex("^(?!.*\\b(?:pdf|пдф)\\b).*(?:\\bсжать\\b|\\bcompress(?:ing|ed)?\\b|уменьш[а-я]*\\s+(?:вес|размер\\s+файл)|reduce\\s+(?:file\\s+size|size\\s+of))"),
-    "exif-removal" to Regex("(?:удал|убра|очисти|стер|remove|strip|clear\\b|delete).*(?:exif|эксиф|метадан|metadata)|(?:exif|эксиф|метадан|metadata).*(?:удал|убра|очисти|стер|remove|strip|clear\\b|delete)")
-)

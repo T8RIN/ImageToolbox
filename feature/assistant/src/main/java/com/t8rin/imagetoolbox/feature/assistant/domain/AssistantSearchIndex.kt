@@ -36,34 +36,53 @@ class AssistantSearchIndex<T>(
         val title: String,
         val text: String,
         val titleTokens: Set<String>,
-        val frequencies: Map<String, Int>
+        val frequencies: Map<String, Int>,
+        val length: Int
     )
 
     private val indexed = documents.map { document ->
+        val frequencies = tokens(document.text).groupingBy { it }.eachCount()
         Indexed(
             value = document.value,
             title = normalize(document.title),
             text = normalize(document.text),
             titleTokens = tokens(document.title).toSet(),
-            frequencies = tokens(document.text).groupingBy { it }.eachCount()
+            frequencies = frequencies,
+            length = frequencies.values.sum()
         )
     }
+
+    private val averageLength = indexed.map { it.length }.average()
+        .takeIf { it > 0.0 } ?: 1.0
 
     fun search(
         query: String,
         limit: Int = 5,
         predicate: ((T) -> Boolean)? = null
+    ): List<Match<T>> = rank(query, limit, predicate, requireCoverage = true)
+
+    fun candidates(query: String, limit: Int = 6): List<Match<T>> =
+        rank(query, limit, predicate = null, requireCoverage = false)
+
+    private fun rank(
+        query: String,
+        limit: Int,
+        predicate: ((T) -> Boolean)?,
+        requireCoverage: Boolean
     ): List<Match<T>> {
         val terms = tokens(query).distinct().take(MAX_QUERY_TERMS)
         if (terms.isEmpty()) return emptyList()
         val candidates = if (predicate == null) indexed else indexed.filter { predicate(it.value) }
+        val averageLength = if (predicate == null) averageLength else {
+            candidates.map { it.length }.average().takeIf { it > 0.0 } ?: 1.0
+        }
         val phrase = normalize(query)
         val inverseFrequencies = terms.associateWith { term ->
             val frequency = candidates.count { document ->
                 document.frequencies.keys.any { matches(term, it) } ||
                         document.titleTokens.any { matches(term, it) }
             }
-            ln(1.0 + candidates.size.toDouble() / (1 + frequency))
+            ln(1.0 + (candidates.size - frequency + 0.5) / (frequency + 0.5))
         }
         val queryWeight = inverseFrequencies.values.sum()
         return candidates.mapNotNull { document ->
@@ -77,11 +96,14 @@ class AssistantSearchIndex<T>(
                     matched++
                     val inverseFrequency = inverseFrequencies.getValue(term)
                     matchedWeight += inverseFrequency
-                    score += inverseFrequency * (if (titleHit) TITLE_WEIGHT else 1.0) *
-                            (1.0 + ln(1.0 + hits.sumOf { it.value }))
+                    val frequency = hits.sumOf { it.value }.coerceAtLeast(1).toDouble()
+                    val length = document.length / averageLength
+                    val saturation = frequency * (TERM_SATURATION + 1) /
+                            (frequency + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * length))
+                    score += inverseFrequency * (if (titleHit) TITLE_WEIGHT else 1.0) * saturation
                 }
             }
-            if (matched == 0 || matched * 2 < terms.size || matchedWeight * 2 < queryWeight) return@mapNotNull null
+            if (matched == 0 || requireCoverage && (matched * 2 < terms.size || matchedWeight * 2 < queryWeight)) return@mapNotNull null
             score *= matched.toDouble() / terms.size
             if (phrase.length >= MIN_PHRASE_LENGTH && document.title.contains(phrase)) score += TITLE_PHRASE_BONUS
             if (phrase.length >= MIN_PHRASE_LENGTH && document.text.contains(phrase)) score += TEXT_PHRASE_BONUS
@@ -93,6 +115,8 @@ class AssistantSearchIndex<T>(
         private const val MAX_QUERY_TERMS = 24
         private const val MAX_RESULTS = 20
         private const val TITLE_WEIGHT = 4.0
+        private const val TERM_SATURATION = 1.2
+        private const val LENGTH_WEIGHT = 0.75
         private const val MIN_PHRASE_LENGTH = 3
         private const val TITLE_PHRASE_BONUS = 8.0
         private const val TEXT_PHRASE_BONUS = 2.0
@@ -108,7 +132,7 @@ class AssistantSearchIndex<T>(
             .trim()
 
         fun tokens(text: String): List<String> = normalize(text).split(' ')
-            .filter { it.length > 1 && it !in stopWords }
+            .filter { it.length > 1 && it.any(Char::isLetter) && it !in stopWords }
             .map { word ->
                 if (word.all { it in 'а'..'я' }) {
                     word.replace(russianEnding, "").takeIf { it.length >= 3 } ?: word
@@ -142,116 +166,97 @@ class AssistantSearchIndex<T>(
                     (query.any { it !in 'a'..'z' } || word.any { it !in 'a'..'z' }) && word.startsWith(query)
 
         private val stopWords = setOf(
-            "the",
-            "and",
-            "how",
-            "can",
-            "for",
-            "with",
-            "this",
-            "that",
-            "from",
-            "into",
-            "what",
-            "do",
-            "does",
-            "me",
-            "tell",
-            "about",
-            "where",
-            "why",
-            "when",
-            "show",
-            "find",
-            "want",
-            "would",
-            "like",
-            "could",
-            "should",
-            "which",
-            "help",
             "a",
             "an",
+            "the",
+            "and",
+            "or",
+            "but",
+            "for",
+            "with",
+            "from",
+            "into",
             "of",
             "to",
             "in",
-            "is",
-            "it",
             "on",
             "at",
             "by",
+            "as",
+            "is",
+            "are",
+            "was",
+            "were",
+            "be",
+            "been",
+            "do",
+            "does",
+            "did",
+            "can",
+            "could",
+            "will",
+            "would",
+            "should",
+            "me",
             "my",
+            "our",
+            "you",
             "your",
-            "please",
-            "several",
-            "open",
-            "image",
-            "images",
-            "photo",
-            "photos",
-            "picture",
-            "pictures",
-            "file",
-            "files",
-            "как",
-            "что",
-            "расскажи",
-            "объясни",
-            "хочу",
-            "можно",
-            "нужно",
-            "нужен",
-            "этим",
-            "этом",
-            "это",
-            "эту",
-            "этот",
-            "для",
+            "it",
+            "its",
+            "this",
+            "that",
+            "these",
+            "those",
+            "how",
+            "what",
+            "which",
+            "where",
+            "why",
+            "when",
+            "и",
             "или",
-            "мне",
-            "мой",
-            "моих",
-            "надо",
-            "несколько",
-            "нескольких",
-            "где",
-            "почему",
-            "зачем",
-            "чтобы",
-            "какой",
-            "какая",
-            "сделать",
-            "открыть",
-            "открой",
-            "покажи",
-            "найди",
-            "эта",
+            "но",
+            "для",
             "со",
             "из",
-            "до",
+            "во",
             "на",
             "по",
+            "до",
             "за",
             "при",
             "под",
             "над",
             "ли",
+            "не",
             "об",
             "от",
-            "во",
-            "фото",
-            "фотографии",
-            "фотографий",
-            "фотографию",
-            "изображение",
-            "изображения",
-            "изображений",
-            "картинка",
-            "картинки",
-            "картинок",
-            "файл",
-            "файла",
-            "файлы"
+            "что",
+            "как",
+            "где",
+            "почему",
+            "зачем",
+            "чтобы",
+            "это",
+            "этот",
+            "эта",
+            "эту",
+            "этим",
+            "этом",
+            "эти",
+            "те",
+            "мы",
+            "вы",
+            "ты",
+            "мне",
+            "мой",
+            "моих",
+            "наш",
+            "ваш",
+            "его",
+            "ее",
+            "их"
         )
     }
 }

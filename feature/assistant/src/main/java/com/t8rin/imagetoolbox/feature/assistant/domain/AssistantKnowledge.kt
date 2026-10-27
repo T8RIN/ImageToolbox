@@ -21,7 +21,17 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
 interface AssistantKnowledge {
-    suspend fun retrieve(request: AssistantRequest): AssistantAnswer
+    suspend fun retrieve(
+        request: AssistantRequest,
+        queries: List<String> = emptyList(),
+        sources: List<String> = emptyList()
+    ): AssistantAnswer
+
+    suspend fun searchSources(request: AssistantRequest): List<AssistantReference>
+
+    fun searchContext(context: AssistantScreenContext): String
+
+    fun searchCatalog(): String
 
     fun resolveTool(tool: AssistantTool): Screen?
 

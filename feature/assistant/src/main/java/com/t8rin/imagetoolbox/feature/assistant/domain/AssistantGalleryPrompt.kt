@@ -31,6 +31,9 @@ internal fun assistantGalleryPrompt(
         Allowed keys: action, semantic, people, from, to, album, filename.
         action: search (new gallery search), refine (narrow current search), more (next page),
         help (app tools, settings, editing or unrelated tasks), clarify (unsupported search conditions).
+        Choose search/refine/more only to locate existing photos or continue an active gallery search.
+        Editing, converting, hiding, removing, creating or changing image content are help.
+        If the user has not asked to locate photos or continue a search, choose help.
         For help/more/clarify output only action. Gallery search is supported even when a capability is disabled.
         Files attached: $hasAttachments. Questions about attached files and editing them are help.
         For search/refine combine ALL requested conditions; never silently drop an unavailable condition.

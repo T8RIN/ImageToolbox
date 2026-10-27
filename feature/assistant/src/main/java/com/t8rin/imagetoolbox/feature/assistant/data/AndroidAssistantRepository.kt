@@ -37,12 +37,14 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStor
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCommand.Action
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantHelpPlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantGalleryPrompt
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantHelpPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
@@ -245,11 +247,9 @@ internal class AndroidAssistantRepository @Inject constructor(
                 ),
                 maxOutputTokens = 256
             ) { output.append(it) }
-            val command =
-                runCatching { AssistantGalleryCommand.parse(output.toString()) }.getOrElse {
-                    return AssistantAnswer(resources.getString(R.string.assistant_gallery_parse_error))
-                }
-            when (command.action) {
+            val command = runCatching { AssistantGalleryCommand.parse(output.toString()) }
+                .onFailure { it.makeLog() }.getOrNull()
+            when (command?.action) {
                 Action.Search, Action.Refine -> return gallerySearch.search(
                     query = checkNotNull(command.query),
                     refine = command.isRefinement(originalRequest.query),
@@ -263,6 +263,7 @@ internal class AndroidAssistantRepository @Inject constructor(
 
                 Action.Clarify -> return AssistantAnswer(resources.getString(R.string.assistant_gallery_parse_error))
                 Action.Help -> Unit
+                null -> Unit
             }
         }
         val metadataStarted = System.nanoTime()
@@ -278,7 +279,35 @@ internal class AndroidAssistantRepository @Inject constructor(
         )
         updateMessage(id) { it.copy(context = request.context) }
         val retrievalStarted = System.nanoTime()
-        val retrieved = knowledge.retrieve(request)
+        val retrieved = if (originalRequest.query.isNotBlank() && images.isEmpty()) {
+            val candidates = knowledge.searchSources(request)
+            val output = StringBuilder()
+            models.generate(
+                variant = variant,
+                prompt = assistantHelpPrompt(
+                    question = request.query,
+                    tools = knowledge.searchCatalog(),
+                    sources = candidates,
+                    context = knowledge.searchContext(request.context),
+                    previous = messages.value.dropLast(1).lastOrNull()?.takeIf {
+                        it.error == null && it.answer.gallery == null
+                    }
+                ),
+                maxOutputTokens = 256
+            ) { output.append(it) }
+            val plan = runCatching { AssistantHelpPlan.parse(output.toString()) }
+                .onFailure { it.makeLog() }.getOrNull()
+            if (plan == null) {
+                knowledge.retrieve(request)
+            } else {
+                val sources =
+                    plan.sources.filter { source -> candidates.any { it.tipId == source } }
+                if (sources.isEmpty() && plan.queries.isEmpty()) AssistantAnswer("")
+                else knowledge.retrieve(request, plan.queries, sources)
+            }
+        } else {
+            knowledge.retrieve(request)
+        }
         val promptStarted = System.nanoTime()
         val prompt = buildPrompt(request, retrieved, variant, images.isNotEmpty())
         val promptFinished = System.nanoTime()
