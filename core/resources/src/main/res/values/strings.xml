@@ -6062,6 +6062,7 @@
     <string name="assistant_prompt_placeholder">Ask a question</string>
     <string name="assistant_model_not_installed">Model not installed</string>
     <string name="assistant_stop">Stop</string>
+    <string name="assistant_thinking">Preparing an answer…</string>
     <string name="assistant_regenerate">Regenerate</string>
     <string name="assistant_cancelled">Cancelled</string>
     <string name="assistant_send">Send</string>

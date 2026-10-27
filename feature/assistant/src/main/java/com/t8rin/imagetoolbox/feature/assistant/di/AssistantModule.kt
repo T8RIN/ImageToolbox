@@ -20,9 +20,11 @@ package com.t8rin.imagetoolbox.feature.assistant.di
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,6 +34,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface AssistantModule {
+    @Binds
+    @Singleton
+    fun repository(impl: AndroidAssistantRepository): AssistantRepository
+
     @Binds
     fun knowledge(impl: AndroidAssistantKnowledge): AssistantKnowledge
 

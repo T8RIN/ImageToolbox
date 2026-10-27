@@ -17,10 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.di
 
+import android.graphics.Bitmap
+import com.t8rin.imagetoolbox.core.domain.image.ImageGetter
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.help.domain.HelpRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
@@ -32,6 +36,9 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface AssistantEntryPoint {
+    val assistantRepository: AssistantRepository
+    val assistantImageGetter: ImageGetter<Bitmap>
+    val keepAliveService: KeepAliveService
     val assistantStore: AssistantConversationStore
     val gallerySearch: AssistantGallerySearch
     val assistantFactory: AssistantComponent.Factory

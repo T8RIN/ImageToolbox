@@ -6034,6 +6034,7 @@
     <string name="assistant_prompt_placeholder">Ваш вопрос</string>
     <string name="assistant_model_not_installed">Модель не установлена</string>
     <string name="assistant_stop">Остановить</string>
+    <string name="assistant_thinking">Готовлю ответ…</string>
     <string name="assistant_regenerate">Повторить</string>
     <string name="assistant_cancelled">Отменено</string>
     <string name="assistant_send">Отправить</string>

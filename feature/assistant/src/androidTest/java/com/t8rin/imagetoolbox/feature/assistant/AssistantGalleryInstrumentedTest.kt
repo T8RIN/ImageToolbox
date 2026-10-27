@@ -61,8 +61,6 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCa
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchState
 import com.t8rin.neural_tools.assistant.AssistantModels
-import java.io.File
-import java.time.LocalDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -79,6 +77,8 @@ import org.junit.Assume.assumeFalse
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
+import java.time.LocalDate
 
 @RunWith(AndroidJUnit4::class)
 class AssistantGalleryInstrumentedTest {
@@ -364,7 +364,7 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
-    fun assistantFindsAndRefinesARealPhotoThenOpensTheViewer() = runBlocking {
+    fun assistantFindsAndRefinesARealPhotoAfterReopeningTheChat() = runBlocking {
         assumeTrue(
             AssistantModels().installations()
                 .any { it.variant == AssistantModel.Advanced && it.installed })
@@ -372,7 +372,7 @@ class AssistantGalleryInstrumentedTest {
         val previousSettings = appSettings.getSettingsState()
         val store = services.assistantStore
         val previousMessages = store.load()
-        val lifecycle = LifecycleRegistry()
+        var lifecycle = LifecycleRegistry()
         val destinations = Channel<Screen>(Channel.UNLIMITED)
         val name = "assistant_gallery_${System.nanoTime()}.png"
         val resolver = app.contentResolver
@@ -397,7 +397,7 @@ class AssistantGalleryInstrumentedTest {
             appSettings.setAiAssistantModel(AssistantModel.Advanced)
             appSettings.settingsState.first { it.isAiAssistantEnabled && it.aiAssistantModel == AssistantModel.Advanced }
             services.gallerySearch.clear()
-            val component = withContext(Dispatchers.Main) {
+            var component = withContext(Dispatchers.Main) {
                 services.assistantFactory(
                     DefaultComponentContext(lifecycle), Screen.Assistant(), {},
                     { destinations.trySend(it) })
@@ -407,6 +407,12 @@ class AssistantGalleryInstrumentedTest {
                     while (component.isLoading || component.isCheckingModels) delay(20)
                 }
                 assertTrue(component.send("Найди файл $name"))
+                lifecycle.destroy()
+                lifecycle = LifecycleRegistry()
+                component = services.assistantFactory(
+                    DefaultComponentContext(lifecycle), Screen.Assistant(), {},
+                    { destinations.trySend(it) })
+                assertTrue(component.isGenerating)
                 withTimeout(60_000) { while (component.isGenerating) delay(20) }
                 val first = component.messages.last()
                 assertEquals(first.toString(), 1, first.answer.gallery?.total)
