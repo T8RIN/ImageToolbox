@@ -396,6 +396,8 @@ private val ResizeAnchor.title: String
         ResizeAnchor.Width -> stringResource(R.string.width, "")
         ResizeAnchor.Height -> stringResource(R.string.height, "")
         ResizeAnchor.Default -> stringResource(R.string.basic, "")
+        ResizeAnchor.ShortSide -> stringResource(R.string.short_side)
+        ResizeAnchor.LongSide -> stringResource(R.string.long_side)
     }
 
 private fun ResizeType.getTitle(): Int = when (this) {

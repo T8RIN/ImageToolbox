@@ -521,6 +521,18 @@ internal class AndroidImageScaler @Inject constructor(
 
             ResizeAnchor.Height -> scaleByHeight()
 
+            ResizeAnchor.ShortSide -> {
+                if (image.width <= image.height) {
+                    scaleByWidth()
+                } else scaleByHeight()
+            }
+
+            ResizeAnchor.LongSide -> {
+                if (image.width >= image.height) {
+                    scaleByWidth()
+                } else scaleByHeight()
+            }
+
             ResizeAnchor.Default -> {
                 runSuspendCatching {
                     if (image.height >= image.width) {
