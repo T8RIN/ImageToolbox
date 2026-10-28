@@ -29,7 +29,6 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
@@ -84,7 +83,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted val onGoBack: (() -> Unit)?,
     @Assisted val onPicked: (List<Uri>) -> Unit,
-    @Assisted val onNavigate: ((Screen) -> Unit)?,
     @Assisted val isGalleryMode: Boolean,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,
@@ -862,7 +860,6 @@ class MediaPickerComponent @AssistedInject internal constructor(
             componentContext: ComponentContext,
             onGoBack: (() -> Unit)? = null,
             onPicked: (List<Uri>) -> Unit = {},
-            onNavigate: ((Screen) -> Unit)? = null,
             isGalleryMode: Boolean = false
         ): MediaPickerComponent
     }

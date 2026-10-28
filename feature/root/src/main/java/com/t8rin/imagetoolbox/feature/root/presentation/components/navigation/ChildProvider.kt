@@ -573,7 +573,6 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 onGoBack = ::navigateBack,
                 onPicked = ::updateUris,
-                onNavigate = ::navigateTo,
                 isGalleryMode = true
             )
         )
