@@ -7512,4 +7512,6 @@
     <string name="help_tip_partial_blur_step_1">Откройте Рисование, выберите изображение и включите Приватное Размытие или Пикселизацию в списке режимов.</string>
     <string name="help_tip_partial_blur_step_2">Проведите кистью по нужному участку. Настройте радиус размытия или размер пикселя и отмените лишние пометки.</string>
     <string name="help_tip_partial_blur_step_3">Проверьте результат в полном размере и сохраните отдельную копию. Текст и номера, которые нельзя прочитать, закрасьте непрозрачной кистью.</string>
+    <string name="opaque_image_viewer_background">Непрозрачный фон просмотрщика</string>
+    <string name="opaque_image_viewer_background_sub">Использовать сплошной чёрный фон при просмотре фотографий</string>
 </resources>

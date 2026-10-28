@@ -7540,4 +7540,6 @@
     <string name="help_tip_partial_blur_step_1">Open Draw, select the image and choose Private blur or Pixelation from the drawing modes.</string>
     <string name="help_tip_partial_blur_step_2">Paint over the area you want to hide. Adjust the blur radius or pixel size and undo strokes that cover too much.</string>
     <string name="help_tip_partial_blur_step_3">Inspect the result at full size and save a separate copy. Use an opaque brush for text or numbers that must be unreadable.</string>
+    <string name="opaque_image_viewer_background">Opaque image viewer background</string>
+    <string name="opaque_image_viewer_background_sub">Use a solid black background when viewing photos</string>
 </resources>

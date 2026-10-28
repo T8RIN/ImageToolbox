@@ -214,6 +214,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleOpenEditInsteadOfPreview()
 
+    suspend fun toggleUseOpaqueImageViewerBackground()
+
     suspend fun toggleCanEnterPresetsByTextField()
 
     suspend fun adjustPerformance()

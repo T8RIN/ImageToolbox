@@ -232,6 +232,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_L
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FULLSCREEN_SETTINGS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_OPAQUE_IMAGE_VIEWER_BACKGROUND
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_RANDOM_EMOJIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.VIBRATION_STRENGTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.WEBLATE_INFO_DIALOG_OPEN_COUNT
@@ -918,6 +919,11 @@ internal class AndroidSettingsManager @Inject constructor(
 
         preferences[FAVORITE_COLORS] = newColors.joinToString("/") { it.colorInt.toString() }
     }
+
+    override suspend fun toggleUseOpaqueImageViewerBackground() = toggle(
+        key = USE_OPAQUE_IMAGE_VIEWER_BACKGROUND,
+        defaultValue = default.useOpaqueImageViewerBackground
+    )
 
     override suspend fun toggleOpenEditInsteadOfPreview() = toggle(
         key = OPEN_EDIT_INSTEAD_OF_PREVIEW,

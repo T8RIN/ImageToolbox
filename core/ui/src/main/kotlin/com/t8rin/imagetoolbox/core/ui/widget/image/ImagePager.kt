@@ -70,6 +70,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
@@ -86,6 +87,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
@@ -125,6 +127,8 @@ fun ImagePager(
     onShare: (Uri) -> Unit,
     onDismiss: () -> Unit
 ) {
+    val useOpaqueBackground = LocalSettingsState.current.useOpaqueImageViewerBackground
+
     FullscreenPopup {
         var predictiveBackProgress by remember {
             mutableFloatStateOf(0f)
@@ -207,7 +211,8 @@ fun ImagePager(
                         }
                     }
                     .background(
-                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
+                        if (useOpaqueBackground) Color.Black.copy(alpha = progress)
+                        else MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
             ) {
                 val imageErrorPages = remember {
@@ -415,14 +420,12 @@ fun ImagePager(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             selectedUriFilename?.let {
-                                Text(
-                                    text = it,
+                                ImageViewerTitle(
+                                    uri = selectedUri,
+                                    name = it,
                                     modifier = Modifier
                                         .animateContentSizeNoClip()
-                                        .weight(1f, false),
-                                    color = White,
-                                    style = MaterialTheme.typography.labelLarge,
-                                    fontSize = 14.sp
+                                        .weight(1f, false)
                                 )
                             }
                             selectedUriFileSize
@@ -454,7 +457,7 @@ fun ImagePager(
                             model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
                             modifier = Modifier
                                 .height(50.dp)
-                                .width(90.dp),
+                                .width(80.dp),
                             bordersColor = MaterialTheme.colorScheme.primaryFixed.blend(White, 0.5f)
                         )
                     }

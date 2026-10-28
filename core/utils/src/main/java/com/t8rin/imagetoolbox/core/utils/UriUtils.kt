@@ -91,15 +91,16 @@ fun Uri.lastModified(): Long? = tryExtractOriginal().run {
 
             query?.use { cursor ->
                 if (cursor.moveToFirst()) {
-                    val columnNames = listOf(
-                        DocumentsContract.Document.COLUMN_LAST_MODIFIED,
-                        "datetaken", // When sharing an Image from Google Photos into the app.
+                    val columns = listOf(
+                        DocumentsContract.Document.COLUMN_LAST_MODIFIED to 1L,
+                        MediaStore.MediaColumns.DATE_TAKEN to 1L,
+                        MediaStore.MediaColumns.DATE_MODIFIED to 1000L
                     )
 
-                    val millis = columnNames.firstNotNullOfOrNull {
-                        val index = cursor.getColumnIndex(it)
-                        if (!cursor.isNull(index)) {
-                            cursor.getLong(index)
+                    val millis = columns.firstNotNullOfOrNull { (column, multiplier) ->
+                        val index = cursor.getColumnIndex(column)
+                        if (index >= 0 && !cursor.isNull(index)) {
+                            cursor.getLong(index).takeIf { it > 0 }?.times(multiplier)
                         } else {
                             null
                         }

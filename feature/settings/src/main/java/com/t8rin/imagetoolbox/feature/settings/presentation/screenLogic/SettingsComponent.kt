@@ -495,6 +495,10 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleOpenEditInsteadOfPreview() = settingsScope { toggleOpenEditInsteadOfPreview() }
 
+    fun toggleUseOpaqueImageViewerBackground() = settingsScope {
+        toggleUseOpaqueImageViewerBackground()
+    }
+
     fun toggleCanEnterPresetsByTextField() = settingsScope { toggleCanEnterPresetsByTextField() }
 
     fun setColorBlindScheme(value: Int?) = settingsScope { setColorBlindType(value) }

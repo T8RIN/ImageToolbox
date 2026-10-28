@@ -119,6 +119,8 @@ internal val SWITCH_TYPE = intPreferencesKey("SWITCH_TYPE")
 internal val DEFAULT_DRAW_LINE_WIDTH = floatPreferencesKey("DEFAULT_DRAW_LINE_WIDTH")
 internal val ONE_TIME_SAVE_LOCATIONS = stringPreferencesKey("ONE_TIME_SAVE_LOCATIONS")
 internal val OPEN_EDIT_INSTEAD_OF_PREVIEW = booleanPreferencesKey("OPEN_EDIT_INSTEAD_OF_PREVIEW")
+internal val USE_OPAQUE_IMAGE_VIEWER_BACKGROUND =
+    booleanPreferencesKey("USE_OPAQUE_IMAGE_VIEWER_BACKGROUND")
 internal val CAN_ENTER_PRESETS_BY_TEXT_FIELD =
     booleanPreferencesKey("CAN_ENTER_PRESETS_BY_TEXT_FIELD")
 internal val DONATE_DIALOG_OPEN_COUNT = intPreferencesKey("DONATE_DIALOG_OPEN_COUNT")

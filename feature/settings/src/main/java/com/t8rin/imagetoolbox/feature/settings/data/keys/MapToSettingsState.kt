@@ -199,6 +199,8 @@ internal fun Preferences.toSettingsState(
         ?: default.oneTimeSaveLocations,
     openEditInsteadOfPreview = this[OPEN_EDIT_INSTEAD_OF_PREVIEW]
         ?: default.openEditInsteadOfPreview,
+    useOpaqueImageViewerBackground = this[USE_OPAQUE_IMAGE_VIEWER_BACKGROUND]
+        ?: default.useOpaqueImageViewerBackground,
     canEnterPresetsByTextField = this[CAN_ENTER_PRESETS_BY_TEXT_FIELD]
         ?: default.canEnterPresetsByTextField,
     donateDialogOpenCount = this[DONATE_DIALOG_OPEN_COUNT]

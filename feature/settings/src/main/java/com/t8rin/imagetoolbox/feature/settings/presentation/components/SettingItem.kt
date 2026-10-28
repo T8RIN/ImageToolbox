@@ -585,6 +585,12 @@ internal fun SettingItem(
                 DefaultDrawLineWidthSettingItem(onValueChange = component::setDefaultDrawLineWidth)
             }
 
+            Setting.OpaqueImageViewerBackground -> {
+                OpaqueImageViewerBackgroundSettingItem(
+                    onClick = component::toggleUseOpaqueImageViewerBackground
+                )
+            }
+
             Setting.OpenEditInsteadOfPreview -> {
                 OpenEditInsteadOfPreviewSettingItem(onClick = component::toggleOpenEditInsteadOfPreview)
             }

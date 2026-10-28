@@ -554,6 +554,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object OpaqueImageViewerBackground : Setting(
+        title = R.string.opaque_image_viewer_background,
+        subtitle = R.string.opaque_image_viewer_background_sub
+    )
+
+    @Serializable
     data object OpenEditInsteadOfPreview : Setting(
         title = R.string.open_edit_instead_of_preview,
         subtitle = R.string.open_edit_instead_of_preview_sub

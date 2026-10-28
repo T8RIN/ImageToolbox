@@ -421,6 +421,7 @@ sealed class SettingsGroup(
             Setting.FastSettingsSide,
             Setting.AiAssistant,
             Setting.OpenEditInsteadOfPreview,
+            Setting.OpaqueImageViewerBackground,
             Setting.SnowfallMode,
             Setting.EnableLinksPreview,
             Setting.GeneratePreviews,
