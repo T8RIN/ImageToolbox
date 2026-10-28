@@ -21,6 +21,13 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 
 interface AssistantKnowledge {
+    suspend fun detectLanguage(request: AssistantRequest): String? = request.language
+
+    suspend fun linkTools(request: AssistantRequest, answer: AssistantAnswer): AssistantAnswer =
+        answer
+
+    suspend fun documentedAnswer(request: AssistantRequest, answer: AssistantAnswer): String? = null
+
     suspend fun retrieve(
         request: AssistantRequest,
         queries: List<String> = emptyList(),

@@ -28,7 +28,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.core.di.entryPoint
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
-import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
@@ -45,6 +44,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import org.json.JSONArray
 import org.json.JSONObject
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
@@ -178,10 +178,11 @@ class AssistantMaxModelInstrumentedTest {
                 input = clarificationPrompt,
                 promptTokens = counts.getValue("out_of_domain")
             )
-            assertTrue(
-                clarification, clarification.contains("ImageToolbox") &&
-                        clarification.lines()
-                .count { it.isNotBlank() } <= 2)
+            assertTrue(clarification, clarification.isNotBlank())
+            assertTrue(clarification, clarification.any {
+                Character.UnicodeScript.of(it.code) == Character.UnicodeScript.CYRILLIC
+            })
+            assertFalse(clarification, clarification.contains("ImageToolbox"))
             println("AssistantMax case=cancel start")
             coroutineScope {
                 val firstToken = CompletableDeferred<Unit>()

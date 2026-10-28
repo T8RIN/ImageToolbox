@@ -826,7 +826,7 @@ class AssistantGenerationInstrumentedTest {
                 russian
             )
             assertTrue(
-                "The assistant did not redirect an unrelated request in Russian",
+                "The assistant did not answer the general question in Russian",
                 russian.getJSONObject("reply").getString("text").any { it in 'А'..'я' }
             )
             report.put("generationPssKb", Debug.getPss())

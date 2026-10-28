@@ -27,11 +27,13 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.mimeType
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
@@ -39,10 +41,10 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTools
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
-import com.t8rin.imagetoolbox.feature.assistant.domain.assistantToolResult
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantReplyPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
@@ -185,7 +187,7 @@ internal class AndroidAssistantRepository @Inject constructor(
                 val answer = if (galleryAction != null) {
                     galleryAction()
                 } else {
-                    withTimeout(REPLY_TIMEOUT_MS) {
+                    withTimeout(if (variant == AssistantModel.Max || variant == AssistantModel.VisionMax) MAX_REPLY_TIMEOUT_MS else REPLY_TIMEOUT_MS) {
                         generateAnswer(variant, id, request.copy(context = context))
                     }
                 }
@@ -244,108 +246,220 @@ internal class AndroidAssistantRepository @Inject constructor(
         )
         updateMessage(id) { it.copy(context = request.context) }
         val history = messages.value.dropLast(1)
-            .filter { it.error == null && !it.answer.isScopeNotice }.takeLast(1)
-        var retrieved =
-            if (images.isNotEmpty()) knowledge.retrieve(request) else AssistantAnswer("")
-        val tools = images.isEmpty()
-        val catalog = if (tools) try {
-            gallerySearch.catalog()
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (failure: Exception) {
-            failure.makeLog(); AssistantGalleryCatalog()
-        } else AssistantGalleryCatalog()
-        val grounding = knowledge.grounding(request, retrieved, variant, images.isNotEmpty())
-        val prompt = if (tools) AssistantTools.prompt(
-            grounding,
-            request,
-            history,
-            catalog,
-            gallerySearch.currentQuery()
-        )
-        else assistantPrompt(grounding, history, request.query, images.isNotEmpty())
+            .filter {
+                it.error == null && !it.answer.isScopeNotice && !AssistantCommand.isInternalReply(
+                    it.answer.text
+                )
+            }.takeLast(2)
+        var retrieved = AssistantAnswer("")
         val output = StringBuilder()
+        var visible = false
         var lastUpdate = 0L
-        fun answer(text: String) =
-            retrieved.copy(text = if (tools) AssistantTools.replyText(text) else text.trim())
-        updateMessage(id) { it.copy(answer = retrieved) }
-        try {
-            suspend fun generate(nextPrompt: String) = models.generate(
-                variant = variant,
-                prompt = nextPrompt,
-                images = images,
-                maxOutputTokens = when (variant) {
-                    AssistantModel.Lite -> 160
-                    AssistantModel.Advanced -> 224
-                    else -> 288
-                },
-                repetitionPenalty = 1.1
-            ) { token ->
+        val answerTokens = when (variant) {
+            AssistantModel.Lite -> 224
+            AssistantModel.Advanced, AssistantModel.Max -> 384
+            else -> 256
+        }
+
+        suspend fun generate(
+            prompt: String,
+            tokens: Int = answerTokens,
+            withImage: Boolean = false,
+            command: Boolean = false,
+            grammar: String? = null
+        ): String = models.generate(
+            variant = variant,
+            prompt = prompt,
+            images = if (withImage) images else emptyList(),
+            maxOutputTokens = tokens,
+            repetitionPenalty = if (withImage) 1.1 else 1.0,
+            stopOnRepetition = !command,
+            kind = if (command) AssistantModels.GenerationKind.Command else AssistantModels.GenerationKind.Reply,
+            responseGrammar = grammar
+        ) { token ->
+            if (visible) {
                 output.append(token)
                 val now = System.nanoTime()
                 if (now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
                     lastUpdate = now
-                    val partial = answer(output.toString())
                     withContext(uiDispatcher) {
-                        updateMessage(id) { it.copy(answer = partial) }
+                        updateMessage(id) {
+                            it.copy(
+                                answer = retrieved.copy(
+                                    text = AssistantCommand.visibleText(
+                                        output.toString()
+                                    )
+                                )
+                            )
+                        }
                     }
                 }
             }
+        }
+        try {
+            val language = knowledge.detectLanguage(request)
+            val localized = request.copy(language = language)
+            val interpretation = if (images.isEmpty()) {
+                val prompt = assistantInterpretationPrompt(
+                    request.query,
+                    history,
+                    simple = variant == AssistantModel.Lite
+                )
+                models.generate(
+                    variant,
+                    prompt,
+                    maxOutputTokens = 128,
+                    repetitionPenalty = 1.0,
+                    kind = AssistantModels.GenerationKind.SearchQuery
+                ) {}.trim()
+            } else null
 
-            var completed = generate(prompt)
-            if (tools) {
-                val call = AssistantTools.parse(completed)
-                if (call is AssistantTools.Result.Help) {
-                    require(call.query.isNotBlank() && call.query.length <= 2000)
-                    retrieved = knowledge.retrieve(request, queries = listOf(call.query))
-                    output.clear()
-                    updateMessage(id) { it.copy(answer = retrieved) }
-                    completed = generate(
-                        assistantToolResult(
-                            prompt,
-                            completed,
-                            knowledge.grounding(request, retrieved, variant)
+            suspend fun reply(): AssistantAnswer {
+                output.clear()
+                visible = true
+                updateMessage(id) { it.copy(answer = retrieved) }
+                val grounding = buildString {
+                    append(
+                        knowledge.grounding(
+                            localized.copy(
+                                query = interpretation ?: request.query
+                            ), retrieved, variant, images.isNotEmpty()
                         )
                     )
+                    interpretation?.let { appendLine("\nEnglish interpretation of the request: $it") }
                 }
+                val prompt = assistantReplyPrompt(
+                    request = localized,
+                    grounding = grounding,
+                    history = history,
+                    hasImage = images.isNotEmpty()
+                )
+                val text = generate(prompt, withImage = images.isNotEmpty()).trim()
+                return knowledge.linkTools(localized, retrieved.copy(text = text))
             }
-            output.clear().append(completed)
-            if (!tools) return answer(completed)
-            val result = runCatching { AssistantTools.parse(completed) }.getOrElse {
-                if (AssistantTools.replyText(completed).isNotBlank()) return answer(completed)
-                throw it
+
+            val initialHelp = knowledge.retrieve(
+                localized, queries = listOfNotNull(interpretation, request.query).distinct()
+            )
+            val hasAppHelp = initialHelp.references.isNotEmpty() && initialHelp.tools.none {
+                knowledge.resolveTool(it) is Screen.Gallery
             }
-            return when (result) {
-                is AssistantTools.Result.Answer -> retrieved.copy(text = result.text)
-                is AssistantTools.Result.Help -> error("Assistant requested help repeatedly")
-                is AssistantTools.Result.Photos -> {
-                    if (!result.plan.supported) AssistantAnswer(result.plan.clarification)
-                    else if (result.plan.withinResults && gallerySearch.currentQuery() == null) AssistantAnswer(
-                        resources.getString(R.string.assistant_gallery_no_search)
+            val catalog = try {
+                gallerySearch.catalog(request.query)
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (failure: Exception) {
+                failure.makeLog()
+                AssistantGalleryCatalog()
+            }
+            if (images.isNotEmpty() && !AssistantCommand.hasNamedRequest(catalog, request.query)) {
+                retrieved = initialHelp
+                return reply()
+            }
+            val scope = when {
+                variant == AssistantModel.Lite && hasAppHelp -> AssistantCommand.Scope.Help
+                !hasAppHelp && AssistantCommand.hasNamedRequest(
+                    catalog,
+                    request.query
+                ) -> AssistantCommand.Scope.Photos
+
+                else -> AssistantCommand.Scope.Auto
+            }
+            val grounding = buildString {
+                appendLine(
+                    AssistantCommand.instructions(
+                        gallerySearch.currentQuery(),
+                        catalog,
+                        request.query,
+                        language,
+                        scope
+                    )
+                )
+                interpretation?.let { appendLine("Request meaning in English: $it") }
+                appendLine("Select the function for this request. Image/file workflows and app settings require search_help. Return only its JSON call.")
+            }
+            val current = gallerySearch.currentQuery()
+            val reasoning =
+                !hasAppHelp && variant != AssistantModel.Lite && (scope != AssistantCommand.Scope.Photos || variant == AssistantModel.Max)
+            val prompt =
+                assistantPrompt(grounding, history, request.query, false, thinking = reasoning)
+            val completed = generate(
+                prompt = prompt,
+                tokens = 512,
+                command = true,
+                grammar = AssistantCommand.grammar(
+                    current,
+                    catalog,
+                    request.query,
+                    reasoning,
+                    scope
+                )
+            )
+            output.clear()
+            when (val command = AssistantCommand.parse(completed)) {
+                is AssistantCommand.Action.SearchHelp -> {
+                    visible = false
+                    retrieved = knowledge.retrieve(
+                        localized,
+                        queries = listOf(interpretation ?: command.query)
+                    )
+                    if (retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
+                        retrieved = knowledge.retrieve(localized, queries = listOf(command.query))
+                    }
+                    if (retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
+                        retrieved = initialHelp
+                    }
+                    if (variant == AssistantModel.Lite) {
+                        knowledge.documentedAnswer(
+                            localized.copy(
+                                query = interpretation ?: request.query
+                            ), retrieved
+                        )?.let {
+                            return retrieved.copy(text = it)
+                        }
+                    }
+                    return reply()
+                }
+
+                AssistantCommand.Action.MorePhotos -> return moreGalleryPhotos()
+                is AssistantCommand.Action.SearchPhotos -> {
+                    visible = false
+                    val current = gallerySearch.currentQuery()
+                    val plan = command.plan
+                    return if (plan.withinResults && current == null) AssistantAnswer(
+                        resources.getString(
+                            R.string.assistant_gallery_no_search
+                        )
                     )
                     else gallerySearch.search(
-                        result.plan.gallery(
-                            gallerySearch.currentQuery(),
-                            request.query
-                        ), result.plan.mode(gallerySearch.currentQuery()), id
+                        plan.gallery(current, request.query),
+                        plan.mode(current),
+                        id
                     )
                 }
 
-                AssistantTools.Result.More -> messages.value.dropLast(1)
-                    .lastOrNull { it.answer.gallery != null }
-                    ?.answer?.gallery?.let { gallerySearch.more(it.sessionId) }
-                    ?: AssistantAnswer(resources.getString(R.string.assistant_gallery_no_search))
+                AssistantCommand.Action.Answer -> return reply()
+                null -> error("Assistant did not select an action")
             }
         } finally {
-            withContext(NonCancellable + uiDispatcher) {
+            if (visible) withContext(NonCancellable + uiDispatcher) {
                 updateMessage(id) {
                     it.copy(
-                        answer = if (it.answer.gallery != null) it.answer else answer(output.toString())
+                        answer = retrieved.copy(
+                            text = AssistantCommand.visibleText(
+                                output.toString()
+                            ).trim()
+                        )
                     )
                 }
             }
         }
     }
+
+    private suspend fun moreGalleryPhotos(): AssistantAnswer = messages.value.dropLast(1)
+        .lastOrNull { it.answer.gallery != null }?.answer?.gallery
+        ?.let { gallerySearch.more(it.sessionId) }
+        ?: AssistantAnswer(resources.getString(R.string.assistant_gallery_no_search))
 
     private suspend fun withFileInfo(context: AssistantScreenContext): AssistantScreenContext =
         withContext(ioDispatcher) {
@@ -514,6 +628,7 @@ internal class AndroidAssistantRepository @Inject constructor(
 
     private companion object {
         const val REPLY_TIMEOUT_MS = 120_000L
+        const val MAX_REPLY_TIMEOUT_MS = 180_000L
         const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
 
     }

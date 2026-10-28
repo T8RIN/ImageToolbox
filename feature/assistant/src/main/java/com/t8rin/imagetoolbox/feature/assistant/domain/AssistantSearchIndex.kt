@@ -36,6 +36,7 @@ class AssistantSearchIndex<T>(
         val title: String,
         val text: String,
         val titleTokens: Set<String>,
+        val titleFields: List<Set<String>>,
         val frequencies: Map<String, Int>,
         val length: Int
     )
@@ -47,6 +48,8 @@ class AssistantSearchIndex<T>(
             title = normalize(document.title),
             text = normalize(document.text),
             titleTokens = tokens(document.title).toSet(),
+            titleFields = document.title.lineSequence().map { tokens(it).toSet() }
+                .filter { it.isNotEmpty() }.toList(),
             frequencies = frequencies,
             length = frequencies.values.sum()
         )
@@ -75,16 +78,7 @@ class AssistantSearchIndex<T>(
         requireCoverage: Boolean
     ): List<Match<T>> {
         val candidates = if (predicate == null) indexed else indexed.filter { predicate(it.value) }
-        val terms = tokens(query).distinct().take(MAX_QUERY_TERMS).filter { term ->
-            candidates.any { document ->
-                document.frequencies.keys.any {
-                    matches(
-                        term,
-                        it
-                    )
-                } || document.titleTokens.any { matches(term, it) }
-            }
-        }
+        val terms = tokens(query).distinct().take(MAX_QUERY_TERMS)
         if (terms.isEmpty()) return emptyList()
         val averageLength = if (predicate == null) averageLength else {
             candidates.map { it.length }.average().takeIf { it > 0.0 } ?: 1.0
@@ -95,13 +89,18 @@ class AssistantSearchIndex<T>(
                 document.frequencies.keys.any { matches(term, it) } ||
                         document.titleTokens.any { matches(term, it) }
             }
-            ln(1.0 + (candidates.size - frequency + 0.5) / (frequency + 0.5))
+            if (term.all(Char::isDigit)) 0.0
+            else ln(1.0 + (candidates.size - frequency + 0.5) / (frequency + 0.5))
         }
         val queryWeight = inverseFrequencies.values.sum()
+        if (queryWeight == 0.0) return emptyList()
         return candidates.mapNotNull { document ->
             var matched = 0
             var matchedWeight = 0.0
             var score = 0.0
+            val titleCoverage = document.titleFields.maxOfOrNull { field ->
+                field.count { title -> terms.any { matches(it, title) } }.toDouble() / field.size
+            } ?: 0.0
             terms.forEach { term ->
                 val hits = document.frequencies.entries.filter { matches(term, it.key) }
                 val titleHit = document.titleTokens.any { matches(term, it) }
@@ -113,12 +112,22 @@ class AssistantSearchIndex<T>(
                     val length = document.length / averageLength
                     val saturation = frequency * (TERM_SATURATION + 1) /
                             (frequency + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * length))
-                    score += inverseFrequency * (if (titleHit) TITLE_WEIGHT else 1.0) * saturation
+                    score += inverseFrequency * (if (titleHit) 1.0 + (TITLE_WEIGHT - 1.0) * titleCoverage else 1.0) * saturation
                 }
             }
             if (matched == 0 || requireCoverage && (matched * 2 < terms.size || matchedWeight * 2 < queryWeight)) return@mapNotNull null
             score *= matched.toDouble() / terms.size
-            if (phrase.length >= MIN_PHRASE_LENGTH && document.title.contains(phrase)) score += TITLE_PHRASE_BONUS
+            terms.zipWithNext().forEach { (first, second) ->
+                val pair = "$first $second"
+                val weight =
+                    inverseFrequencies.getValue(first) + inverseFrequencies.getValue(second)
+                if (document.title.contains(pair)) score += weight
+                else if (document.text.contains(pair)) score += weight * 0.5
+            }
+            if (phrase.length >= MIN_PHRASE_LENGTH && (terms.size > 1 && document.title.contains(
+                    phrase
+                ) || document.titleFields.any { it == terms.toSet() })
+            ) score += TITLE_PHRASE_BONUS
             if (phrase.length >= MIN_PHRASE_LENGTH && document.text.contains(phrase)) score += TEXT_PHRASE_BONUS
             Match(document.value, score, matched)
         }.sortedByDescending { it.score }.take(limit.coerceIn(1, MAX_RESULTS))
@@ -133,7 +142,7 @@ class AssistantSearchIndex<T>(
         private const val MIN_PHRASE_LENGTH = 3
         private const val TITLE_PHRASE_BONUS = 8.0
         private const val TEXT_PHRASE_BONUS = 2.0
-        private const val MIN_PREFIX_LENGTH = 4
+        private const val MIN_PREFIX_LENGTH = 3
 
         fun normalize(text: String): String = buildString {
             java.text.Normalizer.normalize(text, java.text.Normalizer.Form.NFKD)
@@ -154,25 +163,40 @@ class AssistantSearchIndex<T>(
             var start = words.first()
             var end = words.next()
             while (end != java.text.BreakIterator.DONE) {
-                normalized.substring(start, end).takeIf { it.any(Char::isLetter) }?.let(result::add)
+                normalized.substring(start, end).takeIf { it.any(Char::isLetterOrDigit) }
+                    ?.let { word ->
+                        var part = 0
+                        for (index in 1..word.length) {
+                            if (index == word.length || word[index].isDigit() != word[index - 1].isDigit()) {
+                                result.add(word.substring(part, index))
+                                part = index
+                            }
+                        }
+                    }
                 start = end
                 end = words.next()
             }
             return result
         }
 
-        private fun matches(query: String, word: String): Boolean {
+        internal fun matches(
+            query: String,
+            word: String,
+            minimumPrefix: Int = MIN_PREFIX_LENGTH,
+            minimumCoverage: Double = 0.6
+        ): Boolean {
             if (query == word) return true
+            if (query.all(Char::isDigit) || word.all(Char::isDigit)) return false
             var prefix = 0
             while (prefix < minOf(
                     query.length,
                     word.length
                 ) && query[prefix] == word[prefix]
             ) prefix++
-            return prefix >= MIN_PREFIX_LENGTH && prefix.toDouble() / maxOf(
+            return prefix >= minimumPrefix && prefix.toDouble() / maxOf(
                 query.length,
                 word.length
-            ) >= 0.7
+            ) >= minimumCoverage
         }
     }
 }

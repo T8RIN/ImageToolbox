@@ -42,11 +42,10 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantPhotoPlan
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
@@ -542,7 +541,7 @@ class AssistantGalleryInstrumentedTest {
             "IMG*"
         )
         val plan =
-            AssistantPhotoPlan.parse("""{"supported":true,"withinResults":true,"sceneChanged":true}""")
+            AssistantPhotoPlan.parse("""{"withinResults":true,"scene":"visual contents"}""")
         assertEquals(previous.copy(semantic = "en la playa"), plan.gallery(previous, "en la playa"))
         enablePeople()
         search().search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)

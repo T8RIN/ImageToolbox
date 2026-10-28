@@ -17,7 +17,8 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AssistantSearchIndexTest {
@@ -82,4 +83,54 @@ class AssistantSearchIndexTest {
             AssistantSearchIndex(documents.take(1)).search("compress"),
             index.search("compress") { it == "photo" })
     }
+
+    @Test
+    fun anUnknownSubjectCannotMatchOnlyTheQuestionIntroducer() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "crop",
+                    "Crop",
+                    "What is cropping? Cropping removes image edges."
+                ),
+                AssistantSearchIndex.Document(
+                    "resize",
+                    "Resize",
+                    "What is resizing? Change image dimensions."
+                )
+            )
+        )
+        assertTrue(index.search("What is xyzzqx?").isEmpty())
+        assertEquals("crop", index.search("What is cropping?").first().value)
+    }
+
+    @Test
+    fun variableFileSizeDoesNotHideTheRelevantInstructions() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "weight",
+                    "Resize by file size",
+                    "Reduce an image to a target file size in KB or MB"
+                ),
+                AssistantSearchIndex.Document("font", "Font size", "Change the size of letters")
+            )
+        )
+        assertEquals("weight", index.search("reduce image to 900KB").first().value)
+        assertTrue(index.search("17 times 6").isEmpty())
+    }
+
+    @Test
+    fun conversionDirectionIsPreservedWhenDocumentsShareTheSameWords() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("extract", "PDF to images", "Convert PDF to images"),
+                AssistantSearchIndex.Document("create", "Images to PDF", "Convert images to PDF"),
+                AssistantSearchIndex.Document("colors", "Colors", "Combine and render colors")
+            )
+        )
+        assertEquals("create", index.search("combine images to PDF").first().value)
+        assertEquals("extract", index.search("render PDF to images").first().value)
+    }
+
 }

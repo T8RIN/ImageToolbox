@@ -67,7 +67,8 @@ data class AssistantGalleryQuery(
 
 data class AssistantGalleryCatalog(
     val people: List<String> = emptyList(),
-    val albums: List<String> = emptyList()
+    val albums: List<String> = emptyList(),
+    val files: List<String> = emptyList()
 )
 
 @Serializable
@@ -105,7 +106,7 @@ interface AssistantGallerySearch {
     enum class Mode { New, Narrow, Update }
 
     fun restore(results: List<AssistantGalleryResult>)
-    suspend fun catalog(): AssistantGalleryCatalog
+    suspend fun catalog(question: String = ""): AssistantGalleryCatalog
     suspend fun search(
         query: AssistantGalleryQuery,
         mode: Mode,

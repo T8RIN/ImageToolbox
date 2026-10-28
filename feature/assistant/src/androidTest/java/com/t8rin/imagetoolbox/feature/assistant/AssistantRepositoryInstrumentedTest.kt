@@ -49,8 +49,8 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CompletableDeferred
@@ -155,7 +155,6 @@ class AssistantRepositoryInstrumentedTest {
                 store = store,
                 gallerySearch = object : AssistantGallerySearch by services.gallerySearch {
                     override fun isCurrent(sessionId: Long) = true
-                    override fun clear() = Unit
                     override suspend fun retry(sessionId: Long): AssistantAnswer {
                         started.complete(Unit)
                         return reply.await()
@@ -539,16 +538,24 @@ class AssistantRepositoryInstrumentedTest {
         val selected = args.getString("helpModels")?.split(',')
         val cases = args.getString("multilingualCases")?.split(',')?.map(String::toInt)
         val installed = AssistantModels().installations(verifyFiles = false).filter {
-            it.installed && !it.variant.supportsVision && (selected == null || it.variant.id in selected)
+            it.installed && (args.getString("includeVision") == "true" || !it.variant.supportsVision) && (selected == null || it.variant.id in selected)
         }
         assumeTrue(installed.isNotEmpty())
-        val questions = listOf(
+        val manual =
+            args.getString("manualCases")?.let { JSONArray(File(app.cacheDir, it).readText()) }
+        val questions = manual?.let { values ->
+            List(values.length()) {
+                values.getJSONObject(it).getString("question")
+            }
+        } ?: listOf(
             "¿Cómo puedo ocultar las caras en una foto?",
             "Wie verkleinere ich ein Foto auf 500 KB?",
             "画像の背景を透明にするには？",
             "¿Qué formatos de imagen admite ImageToolbox?",
             "¿Y cuáles de ellos conservan la transparencia?",
-            "كيف أحول الصورة إلى PNG؟"
+            "كيف أحول الصورة إلى PNG؟",
+            "Pourquoi le ciel est-il bleu ?",
+            "¿Cuánto es 17 por 6?"
         )
         val report = JSONArray()
         val failures = mutableListOf<String>()
@@ -557,20 +564,87 @@ class AssistantRepositoryInstrumentedTest {
                 settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
                 val repository = create()
                 val component = component(repository)
-                repository.prepareModel(state.variant)
+                val preparationStarted = System.nanoTime()
+                if (args.getString("coldStart") != "true") repository.prepareModel(state.variant)
+                val preparationMs = (System.nanoTime() - preparationStarted) / 1_000_000
                 questions.forEachIndexed { index, question ->
                     if (cases != null && index !in cases) return@forEachIndexed
-                    if (index != 4) withContext(Dispatchers.Main) { component.newConversation() }
+                    if (if (manual != null) !manual.getJSONObject(index)
+                            .optBoolean("continue") else index != 4
+                    ) withContext(Dispatchers.Main) { component.newConversation() }
+                    manual?.getJSONObject(index)?.optString("image")?.takeIf { it.isNotBlank() }
+                        ?.let { fixture ->
+                            val bitmap = android.graphics.Bitmap.createBitmap(
+                                384,
+                                384,
+                                android.graphics.Bitmap.Config.ARGB_8888
+                            )
+                            android.graphics.Canvas(bitmap).apply {
+                                drawColor(android.graphics.Color.WHITE)
+                                val paint = android.graphics.Paint().apply {
+                                    color =
+                                        if (fixture == "red-circle") android.graphics.Color.RED else android.graphics.Color.BLUE
+                                }
+                                if (fixture == "red-circle") drawCircle(
+                                    192f,
+                                    192f,
+                                    128f,
+                                    paint
+                                ) else drawRect(64f, 64f, 320f, 320f, paint)
+                            }
+                            val file = File(app.cacheDir, "assistant-probe-image-$index.png")
+                            file.outputStream().use {
+                                bitmap.compress(
+                                    android.graphics.Bitmap.CompressFormat.PNG,
+                                    100,
+                                    it
+                                )
+                            }
+                            bitmap.recycle()
+                            withContext(Dispatchers.Main) {
+                                component.updateSelectedUris(
+                                    listOf(
+                                        file.toURI().toString()
+                                    )
+                                )
+                            }
+                        }
                     val startedAt = System.nanoTime()
+                    val retrievalStart = retrievedQueries.size
                     withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
-                    withTimeout(125_000) { repository.isGenerating.first { !it } }
+                    withTimeout(185_000) {
+                        repository.messages.first { messages ->
+                            messages.lastOrNull()
+                                ?.let { it.answer.text.isNotBlank() || it.error != null } == true
+                        }
+                    }
+                    val firstTextMs = (System.nanoTime() - startedAt) / 1_000_000
+                    withTimeout(185_000) { repository.isGenerating.first { !it } }
                     val message = repository.messages.value.last()
                     val text = message.answer.text
                     val ids = message.answer.references.map { it.tipId }
-                    val useful = when (index) {
+                    val useful = if (manual != null) {
+                        val expected = manual.getJSONObject(index)
+                        (!expected.has("reference") || expected.getString("reference") in ids) &&
+                                (!expected.has("tool") || message.answer.tools.any {
+                                    services.knowledge.resolveTool(
+                                        it
+                                    )?.simpleName == expected.getString("tool")
+                                }) &&
+                                (!expected.has("contains") || text.contains(
+                                    expected.getString("contains"),
+                                    true
+                                )) &&
+                                (!expected.optBoolean("noSources") || ids.isEmpty()) &&
+                                (!expected.optBoolean("cyrillic") || text.any {
+                                    Character.UnicodeScript.of(
+                                        it.code
+                                    ) == Character.UnicodeScript.CYRILLIC
+                                })
+                    } else when (index) {
                         0 -> "face-privacy" in ids
                         1 -> "resize-by-file-size" in ids && "500" in text
-                        2 -> "background-remover" in ids && text.any {
+                        2 -> message.answer.tools.any { services.knowledge.resolveTool(it) is Screen.EraseBackground } && text.any {
                             Character.UnicodeScript.of(it.code) in setOf(
                                 Character.UnicodeScript.HIRAGANA,
                                 Character.UnicodeScript.KATAKANA,
@@ -586,6 +660,8 @@ class AssistantRepositoryInstrumentedTest {
                         } >= 2
 
                         4 -> text.contains("PNG", true) || text.contains("WebP", true)
+                        6 -> text.contains("bleu", true) && ids.isEmpty()
+                        7 -> text.contains("102") && ids.isEmpty()
                         else -> text.contains("PNG", true) && text.any {
                             Character.UnicodeScript.of(
                                 it.code
@@ -596,8 +672,20 @@ class AssistantRepositoryInstrumentedTest {
                         JSONObject().put("model", state.variant.id).put("question", question)
                             .put("answer", text).put("error", message.error)
                             .put("references", JSONArray(ids))
+                            .put("tools", JSONArray(message.answer.tools.map { it.key }))
+                            .put(
+                                "helpQueries",
+                                JSONArray(retrievedQueries.drop(retrievalStart).flatten())
+                            )
                             .put("totalMs", (System.nanoTime() - startedAt) / 1_000_000)
-                            .put("passed", useful && message.error == null && text.isNotBlank())
+                            .put("firstTextMs", firstTextMs)
+                            .put("preparationMs", preparationMs)
+                            .put(
+                                "passed",
+                                useful && message.error == null && text.isNotBlank() && !com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand.isInternalReply(
+                                    text
+                                )
+                            )
                     report.put(record)
                     File(
                         app.cacheDir,

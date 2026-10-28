@@ -27,9 +27,9 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.key
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPerson
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
@@ -112,14 +112,18 @@ class AndroidAssistantGallerySearch @Inject constructor(
         )
     }
 
-    override suspend fun catalog(): AssistantGalleryCatalog =
+    override suspend fun catalog(question: String): AssistantGalleryCatalog =
         withContext(dispatchers.ioDispatcher) {
             if (!context.hasSemanticSearchPermission()) return@withContext AssistantGalleryCatalog()
             val albums =
                 mediaRetriever.getAlbumsWithType(AllowedMedia.Photos(null)).first().getOrThrow()
                     .map { it.label }
-            val names = visiblePeople(media()).map { (person, _) -> person.name }.distinct()
-            AssistantGalleryCatalog(names, albums)
+            val photos = media()
+            val names = visiblePeople(photos).map { (person, _) -> person.name }.distinct()
+            val files = if (question.isBlank()) emptyList() else photos.asSequence()
+                .map { it.label }
+                .filter { question.contains(it, ignoreCase = true) }.take(10).toList()
+            AssistantGalleryCatalog(names, albums, files)
     }
 
     override suspend fun search(

@@ -5775,7 +5775,7 @@
     <string name="help_tip_stitching_modes_title">Stitch images and screenshots</string>
     <string name="help_tip_stitching_modes_subtitle">Choose strips, grids, panorama, or screenshot stitching and control overlaps</string>
     <string name="help_tip_stitching_modes_page_title">Choose how images join</string>
-    <string name="help_tip_stitching_modes_description">Horizontal and vertical modes place images in a strip; grid modes make rows or columns. Panorama and Screenshot modes try to match overlapping content. Automatic matching needs shared detail between neighboring images.</string>
+    <string name="help_tip_stitching_modes_description">Use Image Stitching to combine photos side by side horizontally or place them one below another vertically. Manual horizontal, vertical and grid layouts do not require overlap or shared detail. Only Panorama and Screenshot matching modes need overlapping content between neighboring images.</string>
     <string name="help_tip_stitching_modes_step_1">Choose images in reading order and reorder them before fine tuning. For screenshots, keep a recognizable overlap between captures.</string>
     <string name="help_tip_stitching_modes_step_2">Use a strip or grid when exact order matters more than automatic alignment. Choose the scale direction and alignment to handle different sizes.</string>
     <string name="help_tip_stitching_modes_step_3">If automatic joining fails, remove an unrelated frame or choose a manual layout. Repeated patterns and moving subjects can confuse matching.</string>
@@ -5915,8 +5915,8 @@
     <string name="help_tip_drawing_workflow_title">Drawing and annotation tools</string>
     <string name="help_tip_drawing_workflow_subtitle">Choose brush behavior, line width, colors, and readable marks</string>
     <string name="help_tip_drawing_workflow_page_title">Make useful annotations</string>
-    <string name="help_tip_drawing_workflow_description">Drawing is useful for handwritten notes, marks, and highlighting image details. Brush mode, width, color, and zoom affect precision. The interface font setting does not control text rendered into an image.</string>
-    <string name="help_tip_drawing_workflow_step_1">Choose the drawing mode and start with a line width appropriate for the original image dimensions. Inspect the mark after zooming back out.</string>
+    <string name="help_tip_drawing_workflow_description">Use Draw to annotate a screenshot or photo. Choose an arrow path to point at a detail, or Text mode to add a caption. Set the text and its font in the drawing controls; the interface font setting does not change text rendered into an image.</string>
+    <string name="help_tip_drawing_workflow_step_1">Open Draw and select the image. Choose an arrow in the path controls for a pointer, or Text in the drawing modes for a caption. Set a readable line width, text and font before placing the marks.</string>
     <string name="help_tip_drawing_workflow_step_2">Use a color that remains distinguishable over both light and dark parts of the image. Avoid hiding the detail you are explaining.</string>
     <string name="help_tip_drawing_workflow_step_3">Use undo while refining individual marks. For a reusable composition with editable text and layers, choose Markup Layers instead.</string>
     <string name="help_tip_drawing_workflow_step_4">Choose output format and quality after editing. Default line width, color, path mode, magnifier, and orientation lock are available in drawing settings.</string>
@@ -6104,7 +6104,7 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">Select the annotation types to remove. At least one type must be selected to save.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Check the preview and save a copy. Verify links or form fields you intended to keep in the saved document.</string>
     <string name="help_tip_metadata_editing_subtitle">Inspect, change or remove individual metadata tags</string>
-    <string name="help_tip_metadata_editing_description">Edit EXIF opens the selected image metadata for individual changes. Editing is available only when the image format supports writing metadata; the screen shows a warning for unsupported formats.</string>
+    <string name="help_tip_metadata_editing_description">Edit EXIF lets you inspect, change or remove image metadata, including GPS coordinates (geolocation), camera information and capture dates. Editing is available only when the image format supports writing metadata; the screen shows a warning for unsupported formats.</string>
     <string name="help_tip_metadata_editing_step_1">Select an image and open Edit EXIF to view its tags.</string>
     <string name="help_tip_metadata_editing_step_2">Update or remove individual tags in the metadata sheet. Clear all metadata only if you intend to remove every tag.</string>
     <string name="help_tip_metadata_editing_step_3">Close the sheet and save the result. Reopen the saved image to check the tags you changed.</string>
@@ -7528,4 +7528,16 @@
     <string name="assistant_gallery_unsupported_condition">This search supports visible content, named people, dates, one album and a filename. Exclusions, exact text or GPS matching, multiple file formats and a requested result count are not supported yet. Please adjust these conditions.</string>
     <string name="assistant_gallery_ambiguous_name">Several named people match this wording. Please use the full name shown in the gallery.</string>
     <string name="assistant_gallery_closest">No exact matches. Here are the closest available photos; your people, date, album and filename filters are still applied.</string>
+    <string name="help_tip_crop_shape_title">Circular avatars and shape cropping</string>
+    <string name="help_tip_crop_shape_description">Create a circular avatar or cut an image to another shape with the crop mask. The area outside the shape becomes transparent.</string>
+    <string name="help_tip_crop_shape_step_1">Open Crop, choose the image and use the regular crop mode rather than free corners.</string>
+    <string name="help_tip_crop_shape_step_2">Choose the oval mask and a 1:1 aspect ratio for a circle. Position the crop around the subject.</string>
+    <string name="help_tip_crop_shape_step_3">Save in PNG or another offered format with transparency. A rectangular viewer may still show transparent corners around the circle.</string>
+    <string name="help_tip_partial_blur_title">Blur or pixelate part of an image</string>
+    <string name="help_tip_partial_blur_subtitle">Hide a selected area while leaving the rest of the photo unchanged</string>
+    <string name="help_tip_partial_blur_page_title">Paint only the area to hide</string>
+    <string name="help_tip_partial_blur_description">Use Private blur or Pixelation in Draw to blur only part of a photo. These brush modes process painted areas; an ordinary whole-image blur filter is not a substitute for selecting an area.</string>
+    <string name="help_tip_partial_blur_step_1">Open Draw, select the image and choose Private blur or Pixelation from the drawing modes.</string>
+    <string name="help_tip_partial_blur_step_2">Paint over the area you want to hide. Adjust the blur radius or pixel size and undo strokes that cover too much.</string>
+    <string name="help_tip_partial_blur_step_3">Inspect the result at full size and save a separate copy. Use an opaque brush for text or numbers that must be unreadable.</string>
 </resources>

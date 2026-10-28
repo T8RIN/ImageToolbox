@@ -41,6 +41,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.AvTimer
 import com.t8rin.imagetoolbox.core.resources.icons.Base64
 import com.t8rin.imagetoolbox.core.resources.icons.BatchPrediction
 import com.t8rin.imagetoolbox.core.resources.icons.Beta
+import com.t8rin.imagetoolbox.core.resources.icons.BlurCircular
 import com.t8rin.imagetoolbox.core.resources.icons.Bolt
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BorderStyle
@@ -1186,6 +1187,15 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                         R.string.help_tip_crop_straighten_page_2_step_2,
                         R.string.help_tip_crop_straighten_page_2_step_3
                     )
+                ),
+                page(
+                    title = R.string.help_tip_crop_shape_title,
+                    description = R.string.help_tip_crop_shape_description,
+                    steps = listOf(
+                        R.string.help_tip_crop_shape_step_1,
+                        R.string.help_tip_crop_shape_step_2,
+                        R.string.help_tip_crop_shape_step_3
+                    )
                 )
             )
         ),
@@ -1407,6 +1417,21 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 R.string.help_tip_background_edges_step_1,
                 R.string.help_tip_background_edges_step_2,
                 R.string.help_tip_background_edges_step_3
+            )
+        ),
+        tip(
+            id = "partial-blur",
+            title = R.string.help_tip_partial_blur_title,
+            subtitle = R.string.help_tip_partial_blur_subtitle,
+            icon = Icons.Outlined.BlurCircular,
+            category = imageEditing,
+            deepLink = Screen.Draw(),
+            pageTitle = R.string.help_tip_partial_blur_page_title,
+            description = R.string.help_tip_partial_blur_description,
+            steps = listOf(
+                R.string.help_tip_partial_blur_step_1,
+                R.string.help_tip_partial_blur_step_2,
+                R.string.help_tip_partial_blur_step_3
             )
         ),
         tip(

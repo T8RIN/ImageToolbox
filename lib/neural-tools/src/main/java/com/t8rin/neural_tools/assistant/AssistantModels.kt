@@ -61,6 +61,24 @@ class AssistantModels : NeuralTool() {
         "Assistant input exceeds $MAX_PROMPT_TOKENS tokens: $tokenCount"
     )
 
+    enum class GenerationKind { Reply, Command, SearchQuery }
+
+    private class CachedGeneration(
+        val params: GeneratorParams,
+        val generator: Generator,
+        val penalty: Double,
+        val grammar: String?,
+        var prompt: IntArray = intArrayOf()
+    ) : AutoCloseable {
+        override fun close() {
+            try {
+                generator.close()
+            } finally {
+                params.close()
+            }
+        }
+    }
+
     enum class Phase {
         Missing, Downloading, Verifying, Installed, Error
     }
@@ -86,10 +104,7 @@ class AssistantModels : NeuralTool() {
     private var activeGenerator: Generator? = null
     private var activeModel: Model? = null
     private var activeTokenizer: Tokenizer? = null
-    private var cachedGenerator: Generator? = null
-    private var cachedParams: GeneratorParams? = null
-    private var cachedPrompt = intArrayOf()
-    private var cachedPenalty: Double? = null
+    private val cachedGenerations = mutableMapOf<GenerationKind, CachedGeneration>()
 
 
     @Volatile
@@ -300,6 +315,8 @@ class AssistantModels : NeuralTool() {
         maxOutputTokens: Int = MAX_OUTPUT_TOKENS,
         repetitionPenalty: Double = if (variant.supportsVision) 1.1 else 1.0,
         stopOnRepetition: Boolean = true,
+        kind: GenerationKind = GenerationKind.Reply,
+        responseGrammar: String? = null,
         onToken: suspend (String) -> Unit
     ) = withContext(Dispatchers.Default) {
         check(isSupported()) { unsupportedReason.orEmpty() }
@@ -326,6 +343,7 @@ class AssistantModels : NeuralTool() {
                                 maxOutputTokens,
                                 repetitionPenalty,
                                 stopOnRepetition,
+                                responseGrammar,
                                 onToken
                             )
                         } else {
@@ -334,6 +352,8 @@ class AssistantModels : NeuralTool() {
                                 maxOutputTokens,
                                 repetitionPenalty,
                                 stopOnRepetition,
+                                kind,
+                                responseGrammar,
                                 onToken
                             )
                         }
@@ -353,14 +373,16 @@ class AssistantModels : NeuralTool() {
         maxOutputTokens: Int,
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
+        kind: GenerationKind,
+        responseGrammar: String?,
         onToken: suspend (String) -> Unit
     ): String {
         val tokenizer = checkNotNull(activeTokenizer)
         return tokenizer.encode(prompt).use { tokens ->
             val input = tokens.getSequence(0)
             if (input.size > MAX_PROMPT_TOKENS) throw InputTooLongException(input.size)
-            if (cachedGenerator == null || cachedPenalty != repetitionPenalty) {
-                closeGenerator()
+            if (cachedGenerations[kind]?.penalty != repetitionPenalty || cachedGenerations[kind]?.grammar != responseGrammar) {
+                cachedGenerations.remove(kind)?.close()
                 val params = GeneratorParams(checkNotNull(activeModel))
                 params.setSearchOption(
                     "max_length",
@@ -368,16 +390,21 @@ class AssistantModels : NeuralTool() {
                 )
                 params.setSearchOption("do_sample", false)
                 params.setSearchOption("repetition_penalty", repetitionPenalty)
-                cachedParams = params
-                cachedGenerator = Generator(checkNotNull(activeModel), params)
-                cachedPenalty = repetitionPenalty
+                responseGrammar?.let { params.setGuidance("lark_grammar", it, false) }
+                cachedGenerations[kind] = CachedGeneration(
+                    params,
+                    Generator(checkNotNull(activeModel), params),
+                    repetitionPenalty,
+                    responseGrammar
+                )
             }
-            val generator = checkNotNull(cachedGenerator)
+            val cached = checkNotNull(cachedGenerations[kind])
+            val generator = cached.generator
             var shared = 0
             while (shared < minOf(
                     input.size,
-                    cachedPrompt.size
-                ) && input[shared] == cachedPrompt[shared]
+                    cached.prompt.size
+                ) && input[shared] == cached.prompt[shared]
             ) shared++
             synchronized(nativeLock) { activeGenerator = generator }
             try {
@@ -390,14 +417,14 @@ class AssistantModels : NeuralTool() {
                         )
                     )
                 }
-                cachedPrompt = input
+                cached.prompt = input
                 android.util.Log.d(
                     "AssistantInference",
-                    "prefillTokens=${input.size - shared} reusedTokens=$shared"
+                    "kind=$kind prefillTokens=${input.size - shared} reusedTokens=$shared"
                 )
                 val output =
                     streamTokens(generator, tokenizer, maxOutputTokens, stopOnRepetition, onToken)
-                cachedPrompt = generator.getSequence(0)
+                cached.prompt = generator.getSequence(0)
                 output
             } finally {
                 synchronized(nativeLock) { activeGenerator = null }
@@ -411,6 +438,7 @@ class AssistantModels : NeuralTool() {
         maxOutputTokens: Int,
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
+        responseGrammar: String?,
         onToken: suspend (String) -> Unit
     ): String {
         val inputSize = checkNotNull(activeTokenizer).encode(prompt).use { tokens ->
@@ -427,6 +455,7 @@ class AssistantModels : NeuralTool() {
                             maxOutputTokens,
                             repetitionPenalty,
                             stopOnRepetition,
+                            responseGrammar,
                             onToken
                         ) { generator ->
                             generator.setInputs(inputs)
@@ -446,6 +475,7 @@ class AssistantModels : NeuralTool() {
         maxOutputTokens: Int,
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
+        responseGrammar: String?,
         onToken: suspend (String) -> Unit,
         prepare: (Generator) -> Unit
     ): String {
@@ -454,6 +484,7 @@ class AssistantModels : NeuralTool() {
             params.setSearchOption("max_length", (inputSize + maxOutputTokens).toDouble())
             params.setSearchOption("do_sample", false)
             params.setSearchOption("repetition_penalty", repetitionPenalty)
+            responseGrammar?.let { params.setGuidance("lark_grammar", it, false) }
             Generator(checkNotNull(activeModel), params).use { generator ->
                 synchronized(nativeLock) { activeGenerator = generator }
                 try {
@@ -553,12 +584,9 @@ class AssistantModels : NeuralTool() {
     }
 
     private fun closeGenerator() {
-        cachedGenerator?.close()
-        cachedGenerator = null
-        cachedParams?.close()
-        cachedParams = null
-        cachedPrompt = intArrayOf()
-        cachedPenalty = null
+        val entries = cachedGenerations.values.toList()
+        cachedGenerations.clear()
+        entries.forEach(CachedGeneration::close)
     }
 
     private fun closeModel() {
@@ -651,6 +679,17 @@ class AssistantModels : NeuralTool() {
             file.length() to file.lastModified()
         }
         if (verified[key] == signature) return
+        val marker = directory.resolve(".verified")
+        val stamp = modelPackage.files.mapIndexed { index, file ->
+            "${file.name}:${file.sha256}:${signature[index].first}:${signature[index].second}"
+        }.joinToString("\n")
+        if (signature.map { it.first } == modelPackage.files.map { it.size } &&
+            marker.isFile && marker.length() == stamp.toByteArray().size.toLong() &&
+            runCatching { marker.readText() == stamp }.getOrDefault(false)
+        ) {
+            verified[key] = signature
+            return
+        }
         modelPackage.files.forEach { item ->
             currentCoroutineContext().ensureActive()
             val file = directory.resolve(item.name)
@@ -670,6 +709,15 @@ class AssistantModels : NeuralTool() {
             }
         }
         verified[key] = signature
+        runCatching {
+            val temporary = File.createTempFile(".verified-", ".tmp", directory)
+            try {
+                temporary.writeText(stamp)
+                check(temporary.renameTo(marker))
+            } finally {
+                temporary.delete()
+            }
+        }
     }
 
     private fun updateState(variant: AssistantModel, update: (ModelState) -> ModelState) {

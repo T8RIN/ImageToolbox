@@ -17,27 +17,35 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.Year
+import java.time.YearMonth
 
 @Serializable
 internal data class AssistantPhotoPlan(
-    val supported: Boolean,
-    val clarification: String = "",
     val resetFilters: Boolean = false,
     val withinResults: Boolean = false,
-    val sceneChanged: Boolean = false,
-    val people: List<String> = emptyList(),
-    val excludedPeople: List<String> = emptyList(),
+    val scene: String? = null,
+    val people: Map<String, PersonRole> = emptyMap(),
     val from: String? = null,
     val to: String? = null,
     val album: String? = null,
     val filename: String? = null,
     val clear: Set<Filter> = emptySet()
 ) {
+    @Serializable
+    enum class PersonRole {
+        @SerialName("include")
+        Include,
+        @SerialName("exclude")
+        Exclude,
+        @SerialName("remove")
+        Remove
+    }
+
     @Serializable
     enum class Filter { Scene, People, Date, Album, Filename }
 
@@ -48,39 +56,65 @@ internal data class AssistantPhotoPlan(
     }
 
     fun gallery(current: AssistantGalleryQuery?, originalQuestion: String): AssistantGalleryQuery {
-        require(supported)
+        val included = people.filterValues { it == PersonRole.Include }.keys.toList()
+        val excluded = people.filterValues { it == PersonRole.Exclude }.keys.toList()
+        val removed = people.filterValues { it == PersonRole.Remove }.keys
         val changes = AssistantGalleryQuery(
-            people = people,
+            people = included,
             from = from,
             to = to,
             album = album,
             filename = filename,
-            excludedPeople = excludedPeople
+            excludedPeople = excluded
         ).normalized()
-        val scene = if (sceneChanged) originalQuestion.trim().takeIf(String::isNotEmpty) else null
+        val scene = scene?.takeIf(String::isNotBlank)
+            ?.let { originalQuestion.trim().takeIf(String::isNotEmpty) }
         if (mode(current) == AssistantGallerySearch.Mode.New) return changes.copy(semantic = scene)
             .normalized()
         val previous = requireNotNull(current)
         val datesChanged = from != null || to != null || Filter.Date in clear
+        fun identities(
+            old: List<String>,
+            supplied: List<String>,
+            opposite: List<String>
+        ): List<String> {
+            val base = old.takeUnless { Filter.People in clear }.orEmpty().filterNot { name ->
+                removed.any { it.equals(name, true) }
+            }
+            val combined = (base + supplied).distinct()
+            return combined.filterNot { name -> opposite.any { it.equals(name, true) } }
+        }
         return previous.copy(
-            semantic = if (Filter.Scene in clear) null else scene ?: previous.semantic,
-            people = when {
-                Filter.People in clear -> emptyList()
-                people.isEmpty() -> previous.people
-                mode(current) == AssistantGallerySearch.Mode.Narrow -> (previous.people + people).distinct()
-                else -> people
-            },
-            excludedPeople = when {
-                Filter.People in clear -> emptyList()
-                excludedPeople.isEmpty() -> previous.excludedPeople
-                mode(current) == AssistantGallerySearch.Mode.Narrow -> (previous.excludedPeople + excludedPeople).distinct()
-                else -> excludedPeople
-            },
+            semantic = scene ?: previous.semantic.takeUnless { Filter.Scene in clear },
+            people = identities(previous.people, included, excluded),
+            excludedPeople = identities(previous.excludedPeople, excluded, included),
             from = if (datesChanged) from else previous.from,
             to = if (datesChanged) to else previous.to,
-            album = if (Filter.Album in clear) null else album ?: previous.album,
-            filename = if (Filter.Filename in clear) null else filename ?: previous.filename
+            album = album ?: previous.album.takeUnless { Filter.Album in clear },
+            filename = filename ?: previous.filename.takeUnless { Filter.Filename in clear }
         ).normalized()
+    }
+
+    fun normalized(): AssistantPhotoPlan {
+        fun date(value: String?, upper: Boolean): String? = value?.takeIf(String::isNotBlank)?.let {
+            runCatching { LocalDate.parse(it) }.getOrElse {
+                val month = runCatching { YearMonth.parse(value) }.getOrElse {
+                    Year.parse(value).atMonth(if (upper) 12 else 1)
+                }
+                if (upper) month.atEndOfMonth() else month.atDay(1)
+            }.toString()
+        }
+        return copy(from = date(from, false), to = date(to, true)).also {
+            AssistantGalleryQuery(
+                people = it.people.filterValues { role -> role == PersonRole.Include }.keys.toList(),
+                from = it.from,
+                to = it.to,
+                album = it.album,
+                filename = it.filename,
+                excludedPeople = it.people.filterValues { role -> role == PersonRole.Exclude }.keys.toList()
+            ).normalized()
+            require(!it.resetFilters || !it.withinResults)
+        }
     }
 
     companion object {
@@ -88,29 +122,7 @@ internal data class AssistantPhotoPlan(
             require(output.length <= 6000)
             return Json.decodeFromString<AssistantPhotoPlan>(
                 output.trim().removePrefix("```json").removeSuffix("```").trim()
-            ).let { plan ->
-                fun date(value: String?, upper: Boolean): String? = value?.let {
-                    runCatching { LocalDate.parse(it) }.getOrElse {
-                        val month = runCatching { YearMonth.parse(value) }.getOrElse {
-                            Year.parse(value).atMonth(if (upper) 12 else 1)
-                        }
-                        if (upper) month.atEndOfMonth() else month.atDay(1)
-                    }.toString()
-                }
-                plan.copy(from = date(plan.from, false), to = date(plan.to, true))
-            }.also {
-                if (it.supported) AssistantGalleryQuery(
-                    people = it.people,
-                    from = it.from,
-                    to = it.to,
-                    album = it.album,
-                    filename = it.filename,
-                    excludedPeople = it.excludedPeople
-                ).normalized()
-                else require(it.clarification.isNotBlank())
-                require(!it.resetFilters || !it.withinResults)
-            }
+            ).normalized()
         }
-
     }
 }

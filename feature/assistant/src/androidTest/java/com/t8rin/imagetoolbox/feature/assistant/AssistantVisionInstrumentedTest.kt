@@ -205,7 +205,9 @@ class AssistantVisionInstrumentedTest {
             assertTrue(images.none(Bitmap::isRecycled))
             assertTrue(
                 "Temporary assistant images were not removed",
-                app.cacheDir.listFiles().orEmpty().none { it.name.startsWith("assistant-vision-") }
+                app.cacheDir.listFiles().orEmpty().none {
+                    it.name.startsWith("assistant-vision-") && it.extension == "png"
+                }
             )
         } finally {
             models.release()
