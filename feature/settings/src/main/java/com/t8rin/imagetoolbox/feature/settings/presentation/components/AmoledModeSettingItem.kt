@@ -17,35 +17,68 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Brightness4
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 
 @Composable
 fun AmoledModeSettingItem(
     onClick: () -> Unit,
+    onModeChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.center
 ) {
     val settingsState = LocalSettingsState.current
-    PreferenceRowSwitch(
-        modifier = modifier,
-        shape = shape,
-        startIcon = Icons.Outlined.Brightness4,
-        title = stringResource(R.string.amoled_mode),
-        subtitle = stringResource(R.string.amoled_mode_sub),
-        checked = settingsState.isAmoledMode,
-        onClick = {
-            onClick()
+    Column(
+        modifier = modifier.container(
+            shape = shape,
+            resultPadding = 0.dp
+        )
+    ) {
+        PreferenceRowSwitch(
+            modifier = Modifier.fillMaxWidth(),
+            startIcon = Icons.Outlined.Brightness4,
+            title = stringResource(R.string.amoled_mode),
+            subtitle = stringResource(
+                if (settingsState.isAmoledModeExtended) R.string.amoled_mode_extended_sub
+                else R.string.amoled_mode_sub
+            ),
+            checked = settingsState.isAmoledMode,
+            onClick = { onClick() },
+            drawContainer = false
+        )
+
+        AnimatedVisibility(visible = settingsState.isAmoledMode) {
+            EnhancedButtonGroup(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .padding(bottom = 8.dp),
+                items = listOf(
+                    stringResource(R.string.standard),
+                    stringResource(R.string.amoled_mode_extended)
+                ),
+                selectedIndex = if (settingsState.isAmoledModeExtended) 1 else 0,
+                onIndexChange = { onModeChange(it == 1) },
+                isScrollable = false,
+                inactiveButtonColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                activeButtonColor = MaterialTheme.colorScheme.secondaryContainer
+            )
         }
-    )
+    }
 }

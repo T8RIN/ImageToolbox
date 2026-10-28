@@ -71,6 +71,7 @@ internal fun Preferences.toSettingsState(
     nightMode = NightMode.fromOrdinal(this[NIGHT_MODE]) ?: default.nightMode,
     isDynamicColors = this[DYNAMIC_COLORS] ?: default.isDynamicColors,
     isAmoledMode = this[AMOLED_MODE] ?: default.isAmoledMode,
+    isAmoledModeExtended = this[AMOLED_MODE_EXTENDED] ?: default.isAmoledModeExtended,
     appColorTuple = this[APP_COLOR_TUPLE] ?: default.appColorTuple,
     borderWidth = this[BORDER_WIDTH] ?: default.borderWidth,
     showUpdateDialogOnStartup = this[SHOW_UPDATE_DIALOG]

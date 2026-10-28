@@ -24,6 +24,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,6 +34,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.ServiceToolbox
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationBarItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
@@ -45,6 +47,7 @@ internal fun MainNavigationBarForFavorites(
     onValueChange: (Int) -> Unit
 ) {
     NavigationBar(
+        containerColor = NavigationBarDefaults.containerColor.toAmoled(),
         modifier = Modifier.drawHorizontalStroke(top = true)
     ) {
         val favoriteIndex = if (showFavoriteAsLast) 1 else 0

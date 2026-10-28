@@ -80,6 +80,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleAmoledMode()
 
+    suspend fun setAmoledModeExtended(enabled: Boolean)
+
     suspend fun setNightMode(nightMode: NightMode)
 
     suspend fun setSaveFolderUri(uri: String?)

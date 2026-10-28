@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
 
 @Composable
 fun EnhancedDropdownMenu(
@@ -61,7 +62,7 @@ fun EnhancedDropdownMenu(
             scrollState = scrollState,
             properties = properties,
             content = content,
-            containerColor = containerColor,
+            containerColor = containerColor.toAmoled(),
             tonalElevation = 0.dp,
             shadowElevation = if (settings.drawContainerShadows && enableAutoShadows) 1.dp else 0.dp,
             border = if (settings.borderWidth > 0.dp) {

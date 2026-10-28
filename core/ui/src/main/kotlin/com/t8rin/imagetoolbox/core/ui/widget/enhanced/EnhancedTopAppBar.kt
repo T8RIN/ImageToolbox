@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 
 @Composable
@@ -134,8 +135,8 @@ object EnhancedTopAppBarDefaults {
         titleContentColor: Color = Color.Unspecified,
         actionIconContentColor: Color = Color.Unspecified,
     ): TopAppBarColors = TopAppBarDefaults.topAppBarColors(
-        containerColor = containerColor,
-        scrolledContainerColor = scrolledContainerColor,
+        containerColor = containerColor.toAmoled(),
+        scrolledContainerColor = scrolledContainerColor.toAmoled(),
         navigationIconContentColor = navigationIconContentColor,
         titleContentColor = titleContentColor,
         actionIconContentColor = actionIconContentColor

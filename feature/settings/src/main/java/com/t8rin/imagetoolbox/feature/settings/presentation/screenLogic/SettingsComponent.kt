@@ -266,6 +266,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleAmoledMode() = settingsScope { toggleAmoledMode() }
 
+    fun setAmoledModeExtended(enabled: Boolean) = settingsScope { setAmoledModeExtended(enabled) }
+
     fun setNightMode(nightMode: NightMode) = settingsScope { setNightMode(nightMode) }
 
     fun setSaveFolderUri(uri: Uri?) = settingsScope { setSaveFolderUri(uri?.toString()) }

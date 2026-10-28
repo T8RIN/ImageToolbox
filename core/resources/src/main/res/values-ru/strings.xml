@@ -116,6 +116,8 @@
     <string name="language">Язык</string>
     <string name="amoled_mode">Amoled режим</string>
     <string name="amoled_mode_sub">Если включено, то цвет поверхностей будет установлен на абсолютно тёмный в ночном режиме</string>
+    <string name="amoled_mode_extended">Расширенный</string>
+    <string name="amoled_mode_extended_sub">Дополнительно делает панели приложения, шторки и меню полностью чёрными в ночном режиме</string>
     <string name="color_scheme">Цветовая палитра</string>
     <string name="color_red">Красный</string>
     <string name="color_green">Зеленый</string>

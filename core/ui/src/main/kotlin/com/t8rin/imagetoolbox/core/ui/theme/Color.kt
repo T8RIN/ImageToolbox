@@ -43,6 +43,14 @@ fun ColorScheme.outlineVariant(
     .compositeOverSafe(onTopOf.takeOrElse { surface })
 
 @Composable
+fun Color.toAmoled(): Color {
+    val settingsState = LocalSettingsState.current
+    return if (settingsState.isAmoledMode && settingsState.isAmoledModeExtended && settingsState.isNightMode) {
+        Color.Black
+    } else this
+}
+
+@Composable
 inline fun takeColorFromScheme(
     action: @Composable ColorScheme.(isNightMode: Boolean) -> Color
 ) = animateColorAsState(

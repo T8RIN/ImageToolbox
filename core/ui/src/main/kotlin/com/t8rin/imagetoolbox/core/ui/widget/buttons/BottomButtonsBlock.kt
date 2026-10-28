@@ -52,6 +52,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -72,6 +73,7 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AddPhotoAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
@@ -169,7 +171,7 @@ fun BottomButtonsBlock(
                         modifier = Modifier
                             .fillMaxHeight()
                             .background(
-                                MaterialTheme.colorScheme.surfaceContainerLow
+                                MaterialTheme.colorScheme.surfaceContainerLow.toAmoled()
                             )
                             .consumeWindowInsets(cutout.only(WindowInsetsSides.Start)),
                         verticalArrangement = Arrangement.Center,
@@ -190,7 +192,7 @@ fun BottomButtonsBlock(
                                 enabled = drawBothStrokes && enableHorizontalStroke
                             )
                             .background(
-                                MaterialTheme.colorScheme.surfaceContainer
+                                MaterialTheme.colorScheme.surfaceContainer.toAmoled()
                             ),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
@@ -203,6 +205,7 @@ fun BottomButtonsBlock(
             }
         } else if (portrait) {
             BottomAppBar(
+                containerColor = BottomAppBarDefaults.containerColor.toAmoled(),
                 modifier = Modifier
                     .drawHorizontalStroke(
                         top = true,
@@ -307,7 +310,7 @@ fun BottomButtonsBlock(
                     .fillMaxHeight()
                     .container(
                         shape = RectangleShape,
-                        color = MaterialTheme.colorScheme.surfaceContainerLow
+                        color = MaterialTheme.colorScheme.surfaceContainerLow.toAmoled()
                     )
                     .enhancedVerticalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp)
@@ -513,7 +516,7 @@ fun FloatingButtonsBlock(
                 if (showContainer) {
                     Modifier.container(
                         shape = ShapeDefaults.extraLarge,
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        color = MaterialTheme.colorScheme.surfaceContainerHigh.toAmoled(),
                         resultPadding = 8.dp,
                         autoShadowElevation = 1.5.dp
                     )

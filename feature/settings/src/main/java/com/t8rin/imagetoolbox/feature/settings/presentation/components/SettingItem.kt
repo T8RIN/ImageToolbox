@@ -92,7 +92,10 @@ internal fun SettingItem(
             }
 
             Setting.AmoledMode -> {
-                AmoledModeSettingItem(onClick = component::toggleAmoledMode)
+                AmoledModeSettingItem(
+                    onClick = component::toggleAmoledMode,
+                    onModeChange = component::setAmoledModeExtended
+                )
             }
 
             Setting.Analytics -> {

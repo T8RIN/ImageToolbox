@@ -23,12 +23,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.LocalTonalElevationEnabled
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -80,11 +82,16 @@ fun ImageToolboxTheme(
             easing = FancyTransitionEasing
         ),
         content = {
-            MaterialExpressiveTheme(
-                motionScheme = CustomMotionScheme,
-                shapes = modifiedShapes(),
-                content = content
-            )
+            CompositionLocalProvider(
+                LocalTonalElevationEnabled provides !(settingsState.isAmoledMode &&
+                        settingsState.isAmoledModeExtended && settingsState.isNightMode)
+            ) {
+                MaterialExpressiveTheme(
+                    motionScheme = CustomMotionScheme,
+                    shapes = modifiedShapes(),
+                    content = content
+                )
+            }
         }
     )
 }

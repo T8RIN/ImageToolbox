@@ -56,6 +56,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
+import com.t8rin.imagetoolbox.core.ui.theme.toAmoled
+import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedNavigationRailItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -78,6 +80,7 @@ internal fun MainNavigationRail(
                 .widthIn(min = 80.dp)
                 .container(
                     shape = RectangleShape,
+                    color = SafeLocalContainerColor.toAmoled(),
                     autoShadowElevation = 10.dp,
                     resultPadding = 0.dp
                 )

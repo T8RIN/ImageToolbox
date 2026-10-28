@@ -92,6 +92,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALWAYS_CLEAR_EXIF
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE_EXTENDED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APPLY_SPOT_HEAL_MANUALLY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
@@ -472,6 +473,10 @@ internal class AndroidSettingsManager @Inject constructor(
         key = AMOLED_MODE,
         defaultValue = default.isAmoledMode
     )
+
+    override suspend fun setAmoledModeExtended(enabled: Boolean) = edit {
+        it[AMOLED_MODE_EXTENDED] = enabled
+    }
 
     override suspend fun setNightMode(nightMode: NightMode) = edit {
         it[NIGHT_MODE] = nightMode.ordinal
