@@ -87,6 +87,7 @@ class SettingsComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: (() -> Unit)?,
     @Assisted("search") initialSearchQuery: String,
     @Assisted("setting") val targetSetting: Setting?,
+    @Assisted val categoryId: Int?,
     private val imageGetter: ImageGetter<Bitmap>,
     private val fileController: FileController,
     private val settingsManager: SettingsManager,
@@ -642,7 +643,8 @@ class SettingsComponent @AssistedInject internal constructor(
             isUpdateAvailable: Value<Boolean>,
             onGoBack: (() -> Unit)?,
             @Assisted("search") initialSearchQuery: String,
-            @Assisted("setting") targetSetting: Setting? = null
+            @Assisted("setting") targetSetting: Setting? = null,
+            categoryId: Int? = null
         ): SettingsComponent
     }
 }

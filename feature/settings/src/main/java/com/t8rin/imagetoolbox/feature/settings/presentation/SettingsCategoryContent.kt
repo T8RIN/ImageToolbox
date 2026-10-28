@@ -24,7 +24,7 @@ import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.Settings
 @Composable
 fun SettingsCategoryContent(
     component: SettingsComponent,
-    categoryId: Int
+    categoryId: Int? = component.categoryId
 ) {
     SettingsContent(
         component = component,

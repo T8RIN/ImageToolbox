@@ -82,12 +82,12 @@ import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.Medi
 @Composable
 fun MediaPickerRootContentEmbeddable(
     component: MediaPickerComponent,
-    onPicked: (List<Uri>) -> Unit,
+    onPicked: (List<Uri>) -> Unit = component.onPicked,
     modifier: Modifier = Modifier,
     allowedMedia: AllowedMedia = AllowedMedia.Photos(null),
     allowMultiple: Boolean = true,
-    onBack: (() -> Unit)? = null,
-    isGalleryMode: Boolean = false
+    onBack: (() -> Unit)? = component.onGoBack,
+    isGalleryMode: Boolean = component.isGalleryMode
 ) {
     val context = LocalComponentActivity.current
     val mediaPermissions = remember {

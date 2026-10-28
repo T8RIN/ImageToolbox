@@ -571,18 +571,9 @@ internal sealed interface NavigationChild {
         override fun Content() = ScreenshotFramingContent(component)
     }
 
-    class Gallery(
-        private val component: MediaPickerComponent,
-        private val onGoBack: () -> Unit,
-        private val onPicked: (List<Uri>) -> Unit
-    ) : NavigationChild {
+    class Gallery(private val component: MediaPickerComponent) : NavigationChild {
         @Composable
-        override fun Content() = MediaPickerRootContentEmbeddable(
-            component = component,
-            onPicked = onPicked,
-            isGalleryMode = true,
-            onBack = onGoBack
-        )
+        override fun Content() = MediaPickerRootContentEmbeddable(component)
     }
 
     class ImageStitching(private val component: ImageStitchingComponent) : NavigationChild {
@@ -745,10 +736,7 @@ internal sealed interface NavigationChild {
         }
     }
 
-    class SettingsCategory(
-        private val component: SettingsComponent,
-        private val categoryId: Int
-    ) : NavigationChild {
+    class SettingsCategory(private val component: SettingsComponent) : NavigationChild {
         override fun assistantScreen(source: Screen?) = Screen.Assistant(
             source = Screen.Settings(component.searchKeyword, component.targetSetting),
             settingKey = (component.filteredSettings?.singleOrNull()?.second
@@ -756,7 +744,7 @@ internal sealed interface NavigationChild {
         )
 
         @Composable
-        override fun Content() = SettingsCategoryContent(component, categoryId)
+        override fun Content() = SettingsCategoryContent(component)
     }
 
     class ShaderStudio(private val component: ShaderStudioComponent) : NavigationChild {

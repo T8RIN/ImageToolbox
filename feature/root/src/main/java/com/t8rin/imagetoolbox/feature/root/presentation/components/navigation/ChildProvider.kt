@@ -569,9 +569,13 @@ internal class ChildProvider @Inject constructor(
         )
 
         Screen.Gallery -> Gallery(
-            component = mediaPickerComponentFactory(componentContext),
-            onGoBack = ::navigateBack,
-            onPicked = ::updateUris
+            mediaPickerComponentFactory(
+                componentContext = componentContext,
+                onGoBack = ::navigateBack,
+                onPicked = ::updateUris,
+                onNavigate = ::navigateTo,
+                isGalleryMode = true
+            )
         )
 
         is Screen.ImageStitching -> ImageStitching(
@@ -684,9 +688,9 @@ internal class ChildProvider @Inject constructor(
                 isUpdateAvailable = isUpdateAvailable,
                 onGoBack = ::navigateBack,
                 initialSearchQuery = "",
-                targetSetting = null
-            ),
-            categoryId = config.categoryId
+                targetSetting = null,
+                categoryId = config.categoryId
+            )
         )
 
         is Screen.Settings -> Settings(
