@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="app_closing">การปิดแอป</string>
     <string name="stay">อยู่</string>
     <string name="close">ปิด</string>
@@ -6894,13 +6893,11 @@
     <string name="filter_help_gmic_filter_richardson_lucy_sharpen">Uses Richardson–Lucy deconvolution to reduce an assumed blur. ประเภทเบลอและซิกมาอธิบายความเบลอนั้น more iterations may increase detail but also ringing and noise.</string>
     <string name="filter_help_gmic_filter_rodilius">สร้างพื้นผิวที่ประดับและเปล่งประกายจากรายละเอียดของภาพ ความกว้าง ความหนา ความคมชัด และจำนวนทิศทางจะควบคุมลายเส้นที่มีสไตล์ โหมดสีและช่องจะเปลี่ยนรูปลักษณ์</string>
     <string name="filter_help_gmic_filter_rounded_frame">เพิ่มกรอบสีที่มีมุมโค้งมน Horizontal and vertical sizes set its extent, radius sets corner curvature and smoothing/antialiasing soften the edges.</string>
-    <string name="filter_help_gmic_filter_row_shifter" />
     <string name="filter_help_gmic_filter_saturation_equalizer">Adjusts saturation separately across brightness zones and hue bands. ใช้ตัวควบคุมโทนสีสำหรับเงาหรือไฮไลท์ แล้วหมุนแถบสีเพื่อกำหนดเป้าหมายช่วงสีอื่น</string>
     <string name="filter_help_gmic_filter_selective_desaturation">ลบสีที่เลือกโดยสัมพันธ์กับสีอ้างอิง Mode, strength and regularization control the retained range; this can keep a color accent while desaturating the surrounding palette.</string>
     <string name="filter_help_gmic_filter_shadow_patch">ใช้โปรแกรมแก้ไขเงากับช่องที่เลือก ความทึบจะควบคุมว่าเอฟเฟ็กต์แพตช์จะเปลี่ยนโทนสีดั้งเดิมมากน้อยเพียงใด</string>
     <string name="filter_help_gmic_filter_shapeism">สร้างภาพใหม่ด้วยรูปทรงเรขาคณิตซ้ำๆ รูปร่าง ช่วงขนาด มุม และระยะห่างเป็นตัวกำหนดเครื่องหมาย ความแข็งแรงของขอบ การปรับให้เรียบ และสีพื้นหลังจะควบคุมการรวมเข้าด้วยกัน</string>
     <string name="filter_help_gmic_filter_sharp_abstract">ลดความซับซ้อนของภาพในบริเวณที่แยกจากกันอย่างชัดเจน สเกลเชิงพื้นที่และโทนสีจะควบคุมรายละเอียดที่จะรวมเข้าด้วยกัน ในขณะที่ความแม่นยำและการเลือกช่องสัญญาณจะช่วยปรับแต่งผลลัพธ์</string>
-    <string name="filter_help_gmic_filter_shock_waves" />
     <string name="filter_help_gmic_filter_shuffle_patches">Rearranges image patches to create a fragmented mosaic. Patch size, overlap and reconstruction mode control joins; เมล็ดพืชจะเปลี่ยนการจัดเรียง</string>
     <string name="filter_help_gmic_filter_sixties_cinema">ใช้การบำบัดที่ได้รับแรงบันดาลใจจากภาพยนตร์ในช่วงปี 1960 รวมสวิตช์สไตล์ที่มีชื่อเข้ากับเกรน ตัวเลือกแบบวันต่อคืนจะเปลี่ยนความรู้สึกของแสงมากกว่าตัวฉาก</string>
     <string name="filter_help_gmic_filter_skeleton">ลดรูปร่างให้โครงสร้างโครงกระดูกบางลง วิธีการเลือกอัลกอริธึมการทำให้ผอมบางและการเตรียมการควบคุมการทำให้เรียบ ใช้รูปทรงที่มีคอนทราสต์สูงเพื่อให้ได้ผลลัพธ์เชิงโครงสร้างที่ชัดเจนยิ่งขึ้น</string>
@@ -6914,7 +6911,6 @@
     <string name="filter_help_gmic_filter_stringify">สร้างโครงสร้างภาพใหม่ด้วยเส้นคล้ายเชือกที่เชื่อมต่อกัน ระดับ อัตราการสุ่มตัวอย่าง และโหมดลิงก์ควบคุมเครือข่าย เกณฑ์ ความทึบ และการเติมรูจะกำหนดความครอบคลุม</string>
     <string name="filter_help_gmic_filter_super_pixels">Groups neighboring pixels into coherent regions. ขนาด ความสม่ำเสมอ และการวนซ้ำของการควบคุมการแบ่งส่วน color mode and adjustable borders turn those regions into a visible mosaic.</string>
     <string name="filter_help_gmic_filter_taquin">นำเสนอภาพเป็นปริศนาเลื่อนกระเบื้อง จำนวนกระเบื้อง กระเบื้องที่ถูกลบออก การตั้งค่าการนูนและเส้นขอบจะกำหนดชิ้นส่วน เมล็ดสุ่มจะเปลี่ยนการจัดเรียง</string>
-    <string name="filter_help_gmic_filter_target_color_spot" />
     <string name="filter_help_gmic_filter_temperature_balance">ปรับสมดุลรูปลักษณ์ที่อบอุ่นและเย็นของภาพด้วยโหมดแสงที่เลือก การควบคุมความอิ่มตัว ระดับ และสีจะปรับแต่งการแก้ไขโดยไม่ต้องเปลี่ยนรูปทรงของภาพ</string>
     <string name="filter_help_gmic_filter_texture_sharpen">ทำให้พื้นผิวคมชัดขึ้นภายในรัศมีและช่องที่เลือก ความแข็งแกร่งเพิ่มเอฟเฟกต์ ค่าที่สูงอาจทำให้สัญญาณรบกวนละเอียดดูเหมือนรายละเอียดพื้นผิวจริงได้</string>
     <string name="filter_help_gmic_filter_tileable_rotation">หมุนพื้นผิวในขณะที่จัดเรียงเนื้อหาซ้ำเพื่อรักษาการเรียงต่อกัน มุม ตัวประกอบขนาดสูงสุด และโหมดอาเรย์จะควบคุมผลลัพธ์ ตรวจสอบสำเนาที่อยู่ติดกันก่อนที่จะใช้เป็นพื้นหลังซ้ำ</string>
@@ -6926,7 +6922,6 @@
     <string name="filter_help_gmic_filter_vector_painting">ลดความซับซ้อนของภาพให้เป็นรูปทรงที่ทาสีเหมือนเวกเตอร์อย่างราบรื่น รายละเอียดควบคุมความซับซ้อน ผลลัพธ์ยังคงเป็นภาพแรสเตอร์ ไม่ใช่เส้นทางเวกเตอร์ที่แก้ไขได้</string>
     <string name="filter_help_gmic_filter_warhol">สร้างตารางของรูปภาพสไตล์ป๊อปอาร์ตซ้ำๆ Horizontal and vertical tile counts set the layout; การตั้งค่าการปรับให้เรียบและสีจะควบคุมสไตล์</string>
     <string name="filter_help_gmic_filter_warp_by_intensity">ใช้ความเข้มของช่องสัญญาณเพื่อแทนที่พิกัดภาพ ปัจจัยแนวนอน/แนวตั้งและการเคลื่อนไหวควบคุมการชดเชย ช่องที่สัมพันธ์กันจะเก็บส่วนประกอบของสีไว้ด้วยกันแทนที่จะขยับแยกกันอย่างอิสระ</string>
-    <string name="filter_help_gmic_filter_water_reflection" />
     <string name="filter_help_gmic_filter_whiten_sharpen">ปรับปรุงรายละเอียดโดยใช้การเหลาแบบไวท์เทนนิ่ง Alpha controls the response and clipping limits extreme values; เปรียบเทียบจุดรบกวนและพื้นผิวที่ละเอียดก่อนใช้การตั้งค่าที่เข้ม</string>
     <string name="filter_help_gmic_filter_zone_system">กระจายโทนสีอีกครั้งโดยใช้โซนเงาและไฮไลท์ที่เลือก Gamma, contrast and black/white points control the final range; จุดสิ้นสุดที่รุนแรงสามารถละทิ้งรายละเอียดผ่านการตัด</string>
     <string name="filter_help_golden_forest">ใช้ LUT ในตัวพร้อมโทนสีกลางสีทองอบอุ่น ความแข็งแกร่งผสมผสานระหว่างสีดั้งเดิมที่ศูนย์และระดับสีเต็มในที่เดียว</string>
@@ -6983,44 +6978,29 @@
     <string name="filter_help_linear_tilt_shift">ช่วยให้แถบของภาพชัดเจนขึ้นในขณะที่เบลอด้านนอก ทำให้เกิดเอฟเฟ็กต์ที่เหมือนภาพขนาดจิ๋ว ศูนย์กลาง ขนาด และมุมของสายรัด รัศมีความเบลอและซิกมาจะควบคุมความเบลอโดยรอบ</string>
     <string name="filter_help_logarithmic_spiral">Wraps repeated image content into a logarithmic spiral that becomes denser near the centre. การนับจะควบคุมการทำซ้ำเชิงมุมและความเข้มจะเปลี่ยนการพันเกลียวและทิศทางของมัน</string>
     <string name="filter_help_logarithmic_tone_mapping">Compresses the tonal range with the logarithmic curve. การเปิดรับแสงจะควบคุมความสว่างที่เข้าสู่เส้นโค้ง เปรียบเทียบรายละเอียดไฮไลท์และเงา สิ่งนี้ไม่สามารถกู้คืนข้อมูลต้นฉบับที่ถูกตัดออกได้</string>
-    <string name="filter_help_lookup" />
     <string name="filter_help_low_poly">ลดความซับซ้อนของรูปภาพให้เป็นตาข่ายรูปหลายเหลี่ยม Point count controls geometric detail, and the fill option switches between filled polygons and a line-based appearance.</string>
     <string name="filter_help_luminance_gradient">Visualizes the strength and direction of brightness changes as colors. มีประโยชน์สำหรับการศึกษาขอบและการเปลี่ยนแสง เป็นมุมมองการวิเคราะห์มากกว่าการแก้ไขแสง</string>
     <string name="filter_help_luminance_threshold">Separates pixels into two tonal classes at the chosen brightness level. Adjust the threshold to isolate dark marks or bright areas; การแรเงาแบบค่อยเป็นค่อยไปจะถูกละทิ้ง</string>
     <string name="filter_help_lut512x512">Applies a color lookup table stored as a square LUT image, using the 512 × 512 layout. เลือกอิมเมจ LUT ที่เข้ากันได้และปรับความแรง an ordinary photo is not a suitable lookup table.</string>
     <string name="filter_help_magma">Maps image brightness to dark purple through red to pale yellow. จานสีเท็จนี้จะแทนที่สีดั้งเดิม มีประโยชน์สำหรับการมองเห็นความแตกต่างของโทนสีหรือการสร้างเอฟเฟกต์กราฟิก</string>
-    <string name="filter_help_marble" />
     <string name="filter_help_median_blur">Replaces each pixel with the median of its neighborhood, reducing isolated bright or dark specks. รัศมีควบคุมพื้นที่ใกล้เคียง ค่าขนาดใหญ่สามารถลบรายละเอียดเล็กๆ ได้</string>
-    <string name="filter_help_micro_macro_pixelization" />
     <string name="filter_help_miss_etikate">Applies a built-in LUT with colored purple shadows and cool blue middle tones. ความแข็งแกร่งผสมผสานระหว่างสีดั้งเดิมที่ศูนย์และระดับสีเต็มในที่เดียว</string>
-    <string name="filter_help_mobius" />
     <string name="filter_help_moire">Attempts to reduce the repetitive interference pattern seen in photos of screens or printed images. การแก้ไขจะเป็นไปโดยอัตโนมัติ ตรวจสอบพื้นผิวที่ละเอียดเพราะอาจได้รับผลกระทบเช่นกัน</string>
-    <string name="filter_help_monochrome" />
     <string name="filter_help_morphological_gradient">Shows the difference between dilated and eroded regions, emphasizing boundaries. ขนาดเคอร์เนลจะควบคุมความกว้างของขอบ และเคอร์เนลแบบวงกลมหรือสี่เหลี่ยมจะเปลี่ยนรูปร่างบริเวณใกล้เคียง</string>
-    <string name="filter_help_motion_blur" />
     <string name="filter_help_native_stack_blur">Applies stack blur directly through the native implementation. แถบเลื่อนจะกำหนดรัศมี use it for smooth overall softening without a separate scale control.</string>
-    <string name="filter_help_negative" />
-    <string name="filter_help_neon" />
-    <string name="filter_help_night_magic" />
     <string name="filter_help_night_vision">เน้นสีเขียวเพื่อให้ได้ภาพสไตล์การมองเห็นตอนกลางคืน เป็นเอฟเฟ็กต์สีและไม่สามารถเปิดเผยข้อมูลที่ไม่ถูกบันทึกได้</string>
     <string name="filter_help_noise">เพิ่มสัญญาณรบกวนให้กับภาพ พารามิเตอร์ขีดจำกัดจะเปลี่ยนการรักษาสัญญาณรบกวน เปรียบเทียบพื้นที่เรียบในขนาดเต็มก่อนใช้เป็นเอฟเฟกต์พื้นผิว</string>
     <string name="filter_help_non_maximum_suppression">รักษาระดับความเข้มข้นสูงสุดในพื้นที่และปราบปรามเพื่อนบ้านที่อ่อนแอกว่า และทำให้แผนที่ขอบบางลง มีประโยชน์มากที่สุดหลังจากการตรวจจับขอบ แทนที่จะเป็นการปรับปรุงภาพถ่ายทั่วไป</string>
-    <string name="filter_help_nucleus_pixelization" />
     <string name="filter_help_ocean">Maps image brightness to dark blue through cyan to light tones. จานสีเท็จนี้จะแทนที่สีดั้งเดิม มีประโยชน์สำหรับการมองเห็นความแตกต่างของโทนสีหรือการสร้างเอฟเฟกต์กราฟิก</string>
     <string name="filter_help_offset">เลื่อนรูปภาพในแนวนอนและแนวตั้งตามเสี้ยวหนึ่งของความกว้างและความสูง Use the two offsets to reposition the repeated image and inspect where its edges meet.</string>
     <string name="filter_help_oil">เปลี่ยนโทนสีใกล้เคียงให้กลายเป็นสีคล้ายสีน้ำมัน Radius controls the neighborhood and levels control tonal grouping; พื้นที่ขนาดใหญ่สามารถผสานวัตถุขนาดเล็กและเนื้อละเอียดได้</string>
     <string name="filter_help_old_tv">รวมเกรน การไล่ระดับสีของหมอกควัน และการปรับโทนขาวดำสีเขียวเข้มเพื่อสร้างเอฟเฟกต์หน้าจอเก่า ค่าที่ตั้งล่วงหน้านี้จะเปลี่ยนภาพนิ่งและไม่มีการควบคุมภาพเคลื่อนไหว</string>
     <string name="filter_help_opacity">ปรับความโปร่งใสอัลฟ่าของรูปภาพ Lower values make the whole image more transparent; เก็บผลลัพธ์ในรูปแบบเช่น PNG หรือ WebP ที่รองรับอัลฟ่า</string>
     <string name="filter_help_opening">Erodes then dilates the image to remove small bright structures. ชุดขนาดและรูปร่างเคอร์เนลซึ่งรายละเอียดหายไป thin lines may be removed along with noise.</string>
-    <string name="filter_help_orange_haze" />
     <string name="filter_help_orbital_pixelization">Arranges pixelated detail into an orbital-style pattern. Size controls the pattern scale; ค่าที่มากกว่าจะสนับสนุนการจัดเรียงการตกแต่งเหนือพื้นผิวแหล่งที่มา</string>
-    <string name="filter_help_palette_transfer" />
-    <string name="filter_help_palette_transfer_variant" />
     <string name="filter_help_parula">จับคู่ความสว่างของภาพเป็นสีน้ำเงินผ่านสีเขียวเป็นสีเหลือง จานสีเท็จนี้จะแทนที่สีดั้งเดิม มีประโยชน์สำหรับการมองเห็นความแตกต่างของโทนสีหรือการสร้างเอฟเฟกต์กราฟิก</string>
-    <string name="filter_help_pastel" />
     <string name="filter_help_perlin_distortion">Warps the image using smooth Perlin-noise variations for an irregular flowing effect. ความแรงจะควบคุมการบิดเบือนโดยรวม ความปั่นป่วนจะเปลี่ยนโครงสร้างเสียง และแอมพลิจูดจะกำหนดการเคลื่อนที่</string>
     <string name="filter_help_pink">จับคู่ความสว่างของภาพเป็นโทนสีแดงเข้มเป็นสีชมพูอ่อนและสีขาว จานสีเท็จนี้จะแทนที่สีดั้งเดิม มีประโยชน์สำหรับการมองเห็นความแตกต่างของโทนสีหรือการสร้างเอฟเฟกต์กราฟิก</string>
-    <string name="filter_help_pink_dream" />
     <string name="filter_help_pixel_melt">Pulls pixels downward into melting streaks. การดรอปสูงสุดจะจำกัดการเคลื่อนที่ในแนวตั้ง และความแรงของภาพจะควบคุมความรุนแรงของภาพที่จะละลาย</string>
     <string name="filter_help_pixel_sort">Reorders pixels along a chosen axis according to a sorting criterion. มาสก์เกณฑ์จะจำกัดภูมิภาคที่ได้รับผลกระทบ sort order, mask smoothing and inversion control the resulting streaks.</string>
     <string name="filter_help_pixelation">แทนที่รายละเอียดด้วยตารางปกติของบล็อกสีสี่เหลี่ยมจัตุรัส ขนาดบล็อกควบคุมความหยาบ พิกเซลเป็นเอฟเฟ็กต์ภาพและไม่ควรใช้เพื่อปกปิดข้อความที่ละเอียดอ่อนอย่างปลอดภัย</string>
@@ -7030,28 +7010,17 @@
     <string name="filter_help_polar_coordinates">Converts between rectangular and polar image coordinates, wrapping a panorama into a circle or unwrapping a circular pattern into a strip. เลือกทิศทางการแปลงที่ตรงกับเค้าโครงแหล่งที่มา</string>
     <string name="filter_help_polaroid">Boosts and cross-mixes color channels for a bright instant-photo-inspired palette. มันไม่ได้เพิ่มกรอบ</string>
     <string name="filter_help_polka_dot">Shows image colors through regularly spaced dots. ความครอบคลุมการควบคุมรัศมีและระยะห่างของจุด use a transparent or colored background for the gaps.</string>
-    <string name="filter_help_pop_art" />
-    <string name="filter_help_posterize" />
-    <string name="filter_help_progressive_scaling" />
     <string name="filter_help_protanopia">Approximates the color appearance of absence of red-color discrimination using a fixed color matrix. มีประโยชน์เมื่อตรวจสอบว่าการออกแบบใช้เฉพาะสีหรือไม่ ไม่ใช่การประเมินการมองเห็นรายบุคคล</string>
     <string name="filter_help_protonomaly">ประมาณลักษณะสีของการแบ่งแยกสีแดงที่ลดลงโดยใช้เมทริกซ์สีคงที่ มีประโยชน์เมื่อตรวจสอบว่าการออกแบบใช้เฉพาะสีหรือไม่ ไม่ใช่การประเมินการมองเห็นรายบุคคล</string>
     <string name="filter_help_pulse_grid_pixelization">Applies a pulse-grid mosaic instead of ordinary square blocks. ขนาดจะควบคุมระยะห่างและขนาดของเซลล์ตกแต่งและปริมาณรายละเอียดที่จะแทนที่</string>
     <string name="filter_help_purple_mist">ผสมสีน้ำเงินเข้ากับสีแดงอย่างรุนแรงเพื่อให้ได้โทนสีม่วงโดยไม่ต้องเพิ่มหมอกจริงๆ</string>
     <string name="filter_help_quantizier">Reduces the image to a palette with the selected maximum number of colors. สีที่น้อยลงจะสร้างบริเวณที่เรียบขึ้นและมีแถบที่มองเห็นได้ชัดเจนยิ่งขึ้น this changes pixels, not the output file format.</string>
     <string name="filter_help_quicksilver">สร้างความบิดเบี้ยวของโลหะเหลวที่เกิดจากความสว่างและขอบของภาพถ่าย Displacement moves details along brightness changes, while intensity and frequency control the additional rippling.</string>
-    <string name="filter_help_radial_interpolate" />
-    <string name="filter_help_radial_shimmer" />
-    <string name="filter_help_radial_streak" />
-    <string name="filter_help_radial_weave_pixelization" />
     <string name="filter_help_rainbow">Maps image brightness to a rainbow sequence. จานสีเท็จนี้จะแทนที่สีดั้งเดิม มีประโยชน์สำหรับการมองเห็นความแตกต่างของโทนสีหรือการสร้างเอฟเฟกต์กราฟิก</string>
     <string name="filter_help_rainbow_world">ผสมสีแดงเป็นสีเขียวโดยยังคงสีแดงและสีน้ำเงินไว้ ความสัมพันธ์ของสีที่เปลี่ยนแปลงไปอย่างมาก It does not draw a rainbow.</string>
     <string name="filter_help_random_color_dispersion">เลื่อนช่องสีแดงและสีน้ำเงินไปในทิศทางที่แตกต่างกันภายในพื้นที่สุ่มเล็กๆ โดยปล่อยให้สีเขียวอยู่กับที่ ความเข้มจะควบคุมการแยกสีและเมล็ดจะเปลี่ยนรูปแบบที่ทำซ้ำได้</string>
     <string name="filter_help_random_dithering">Represents intermediate tones using randomly distributed pixels instead of a regular grid. Threshold changes the tonal balance; ระดับสีเทาจะสร้างลวดลายเกรนขาวดำ</string>
-    <string name="filter_help_random_kaleidoscope_grid" />
     <string name="filter_help_rays">สร้างรังสีแสงจากบริเวณภาพที่สว่าง เกณฑ์จะเลือกแหล่งที่มา ความแรงจะควบคุมเอฟเฟกต์ และความทึบจะผสมผสานรังสีเข้ากับภาพถ่าย</string>
-    <string name="filter_help_red_swirl" />
-    <string name="filter_help_reduce_noise" />
-    <string name="filter_help_remove_color" />
     <string name="filter_help_replace_color">แทนที่สีต้นฉบับที่เลือกด้วยสีอื่น ความคลาดเคลื่อนจะขยายการจับคู่สีข้างเคียง ตรวจสอบขอบและสีซ้ำในส่วนอื่นๆ ของภาพ</string>
     <string name="filter_help_retro_yellow">Applies a built-in LUT with cool shadows and yellow highlights. ความแข็งแกร่งผสมผสานระหว่างสีดั้งเดิมที่ศูนย์และระดับสีเต็มในที่เดียว</string>
     <string name="filter_help_rgb_filter">ปรับขนาดช่องสีแดง เขียว และน้ำเงินโดยใช้ส่วนประกอบสีที่เลือก White retains all channels; lowering a component reduces that color throughout the image.</string>

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -5947,7 +5946,6 @@
     <string name="help_tip_pdf_image_extraction_step_1">Välj sidintervall och utdataupplösning. Högre upplösning hjälper liten text men ökar minnesanvändningen och filstorleken.</string>
     <string name="help_tip_pdf_image_extraction_step_2">Välj ett bildformat för den avsedda användningen. PNG passar skarpa diagram och text; ett förlustformat kan vara mindre för fototunga sidor.</string>
     <string name="help_tip_pdf_image_extraction_step_3">Inspektera en renderad sida i verklig storlek innan du bearbetar ett stort dokument. Återgivna bilder har inte längre valbar PDF-text.</string>
-    <string name="help_tip_resize_convert_page_2_title" />
     <string name="help_tip_resize_convert_page_2_description">Pixelmåtten avgör den faktiska bildstorleken. En procentandel skalar källdimensionerna; ett DPI-värde beskriver utskriftstätheten och är inte en ersättning för att lägga till bilddetaljer.</string>
     <string name="help_tip_resize_convert_page_2_step_1">Håll proportioner när ett utsträckt resultat skulle förvränga ansikten eller föremål. Använd ett beskärnings- eller passningsläge när båda måldimensionerna måste vara exakta.</string>
     <string name="help_tip_resize_convert_page_2_step_2">Förhandsgranska den minsta texten och de finaste kanterna. Skärpning kan inte helt återställa information som tagits bort genom en stor minskning.</string>
@@ -5977,17 +5975,14 @@
     <string name="help_tip_markup_projects_page_2_step_1">Ordna lager avsiktligt och kontrollera det valda lagret innan du ändrar position, storlek eller text. Högre lager kan dölja innehåll nedan.</string>
     <string name="help_tip_markup_projects_page_2_step_2">Håll nödvändiga källtillgångar tillgängliga och spara det redigerbara projektet innan du gör en tillplattad export.</string>
     <string name="help_tip_markup_projects_page_2_step_3">Inspect the exported image at the intended size. En skärmdump av redigeraren motsvarar inte att rendera kompositionen.</string>
-    <string name="help_tip_ocr_page_2_title" />
     <string name="help_tip_ocr_page_2_description">OCR converts visible letter shapes into text. Det kan förväxla liknande symboler, tappa skiljetecken eller slå samman kolumner. Valda språkdata och bildförberedelser påverkar resultatet.</string>
     <string name="help_tip_ocr_page_2_step_1">Choose the languages present on the page. Extra orelaterade språkdata förbättrar inte automatiskt igenkänningen.</string>
     <string name="help_tip_ocr_page_2_step_2">Beskär orelaterade områden, räta ut sidan och undvik klippta högdagrar. Kraftig skärpa eller tröskelvärde kan radera tunna bokstavsdrag.</string>
     <string name="help_tip_ocr_page_2_step_3">Korrekturläs namn, nummer och radbrytningar innan du kopierar eller exporterar. En sökbar PDF kan innehålla igenkänningsfel även när dess synliga sida ser korrekt ut.</string>
-    <string name="help_tip_svg_ascii_page_2_title" />
     <string name="help_tip_svg_ascii_page_2_description">SVG beskriver former snarare än ett fast pixelrutnät. Att konvertera ett fotografi till vektorer approximerar dess utseende; den återställer inte en original vektorritning eller garanterar en mindre fil.</string>
     <string name="help_tip_svg_ascii_page_2_step_1">Börja med en tydlig siluett, logotyp eller grafik i begränsad färg när du vill ha rena former. Fotografisk struktur kan generera många små banor.</string>
     <string name="help_tip_svg_ascii_page_2_step_2">Balansera detalj mot enkelhet i de tillgängliga konverteringskontrollerna. Inspektera tunna linjer och små hål på flera zoomnivåer.</string>
     <string name="help_tip_svg_ascii_page_2_step_3">Öppna den exporterade SVG:en i dess avsedda visningsprogram eller redigerare. Jämför transparens, gradienter och övergripande proportioner före återanvändning.</string>
-    <string name="help_tip_images_to_pdf_page_2_title" />
     <string name="help_tip_images_to_pdf_page_2_description">The image sequence becomes document order. Sidstorlek, marginaler och bildanpassning avgör hur mycket utrymme varje bild tar upp; de lägger inte till detaljer till en lågupplöst källa.</string>
     <string name="help_tip_images_to_pdf_page_2_step_1">Reorder and rotate sources before exporting. Kontrollera blandade stående och liggande sidor för oväntad skalning eller tomma marginaler.</string>
     <string name="help_tip_images_to_pdf_page_2_step_2">Använd en förlustfri eller högkvalitativ källa för liten text och diagram. Aggressiv bildkomprimering kan göra en PDF kompakt men svår att läsa.</string>

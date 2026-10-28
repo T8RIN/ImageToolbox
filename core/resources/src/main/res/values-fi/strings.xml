@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -7214,51 +7213,37 @@
     <string name="help_tip_ai_face_restoration_subtitle">Korjaa havaitut kasvot ja hallitse kuinka paljon sulautuu takaisin</string>
     <string name="help_tip_ai_face_restoration_description">GFPGAN v1.4 tunnistaa kasvot, kohdistaa ne palautusta varten ja yhdistää tuloksen lähdekuvaan. Restaurointi voi muuttaa kasvojen piirteitä, varsinkin kun lähdekasvot ovat pienet tai pahasti vaurioituneet.</string>
     <string name="help_tip_ai_face_restoration_step_1">Choose GFPGAN v1.4 in AI Tools and generate a preview. Sovellus käsittelee havaitut kasvot; it does not need you to crop every face manually.</string>
-    <string name="help_tip_ai_face_restoration_step_2" />
     <string name="help_tip_ai_face_restoration_step_3">If the photo does not change, the face may not have been detected or Strength may be zero. Kokeile selkeämpää lähdettä; keep the original when the restored identity looks wrong.</string>
     <string name="help_tip_ai_dehaze_title">Poista ilmakehän sumu</string>
     <string name="help_tip_ai_dehaze_subtitle">DehazeFormer-T matalakontrastisiin ulkokuvauksiin</string>
     <string name="help_tip_ai_dehaze_description">DehazeFormer-T vähentää ilmakehän sameutta ja voi palauttaa kontrastin ulkovalokuviin. Haze is different from motion blur, defocus and digital noise, so this model should not be used as a universal sharpener.</string>
-    <string name="help_tip_ai_dehaze_step_1" />
     <string name="help_tip_ai_dehaze_step_2">Tarkista esikatselussa taivas, tummat alueet ja väritasapaino. Stronger contrast can also emphasize noise and make an already clear photo look harsh.</string>
     <string name="help_tip_ai_dehaze_step_3">Tallenna vasta verrattuasi alkuperäiseen. Use Curves or exposure filters afterward if the overall tone still needs adjustment.</string>
     <string name="help_tip_ai_document_cleanup_title">Suorista sivut ja poista asiakirjan varjot</string>
     <string name="help_tip_ai_document_cleanup_subtitle">UVDOC Grid ja DocShadow SD7K</string>
     <string name="help_tip_ai_document_cleanup_description">UVDOC Grid arvioi sivun muodonmuutoksen ja suoristaa valokuvatun asiakirjan. DocShadow SD7K korjaa epätasaisen valaistuksen ja varjot. Nämä toiminnot valmistelevat sivukuvan; he eivät tunnista tekstiä tai luo haettavissa olevaa PDF-tiedostoa itse.</string>
-    <string name="help_tip_ai_document_cleanup_step_1" />
     <string name="help_tip_ai_document_cleanup_step_2">Kokeile DocShadow SD7K:ta tekstin ylittäviin varjoihin tai epätasaiseen valaistukseen. Tarkista hienot kirjaimet, taulukot ja vaaleat merkinnät esikatselusta ennen tallentamista.</string>
-    <string name="help_tip_ai_document_cleanup_step_3" />
     <string name="help_tip_ai_style_transfer_title">Hermoston tyylin siirto</string>
-    <string name="help_tip_ai_style_transfer_subtitle" />
     <string name="help_tip_ai_style_transfer_description">Erillinen tyyliviittaus ohjaa kunkin valitun lähdekuvan tekstuureja ja maalauksellista ulkoasua. Valitse tyylinsiirtomalli ja viitekuva ennen tuloksen esikatselua. Kirjallisia kuvanluontikehotteita ei käytetä.</string>
     <string name="help_tip_ai_style_transfer_step_1">Select a Style Transfer model, then choose the Style image. Lähdekuvilla ja tyyliviitteellä on erilliset valitsimet.</string>
     <string name="help_tip_ai_style_transfer_step_2">Vertaa Arbitrary Style Transferia, MicroAST:ta tai AesFA:ta, kun tarvitset nopean tyylitellyn tuloksen. VGG19-optimointi mukauttaa iteratiivisesti jokaista kuvaa ja voi kestää huomattavasti kauemmin.</string>
     <string name="help_tip_ai_style_transfer_step_3">Säädä vahvuutta ja luo esikatselu. Tarkista tunnistettavat aiheet ja kirjaimet, ennen kuin tallennat erän samalla tyylillä.</string>
     <string name="help_tip_ai_detection_title">Tarkista, voiko kuva olla tekoälyn luoma</string>
     <string name="help_tip_ai_detection_subtitle">Vertaa ilmaisimien arvioita käsittelemättä niitä todisteina</string>
-    <string name="help_tip_ai_detection_description" />
-    <string name="help_tip_ai_detection_step_1" />
-    <string name="help_tip_ai_detection_step_2" />
     <string name="help_tip_ai_detection_step_3">Compare a different detector when a result matters. Compression, resizing and screenshots can change its estimate; käytä alkuperäistä tiedostoa, jos mahdollista.</string>
     <string name="help_tip_ai_detection_page_2_title">Ilmaisinmallit ja tarkkuus</string>
     <string name="help_tip_ai_detection_page_2_description">Luettelo sisältää Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics ja SMOGY. They use different training data and can disagree.</string>
-    <string name="help_tip_ai_detection_page_2_step_1" />
     <string name="help_tip_ai_detection_page_2_step_2">FP16- ja FP32-versiot kuvaavat numeroiden tarkkuutta ja tiedostokokoa, eivät lupausta luotettavammasta tekoälytunnistuksesta. Vertaa niiden tuloksia kuviisi.</string>
     <string name="help_tip_ai_detection_page_2_step_3">The app presents an overall AI score, including for models trained with several generated-image classes. Se ei varmenna tiedoston alkuperää.</string>
     <string name="help_tip_ai_background_models_title">Valitse taustan poistomalli</string>
-    <string name="help_tip_ai_background_models_subtitle" />
     <string name="help_tip_ai_background_models_description">Taustamallit erottavat etualalla olevan kohteen ympäristöstään. Saatavilla olevia vaihtoehtoja ovat BiRefNet, RMBG, InSPyReNet, U2Net/U2NetP, ISNet ja MODNet. Paras maski riippuu kohteesta, reunoista ja taustasta; Suurin malli ei aina sovi parhaiten.</string>
     <string name="help_tip_ai_background_models_step_1">Avaa taustan poisto ja valitse automaattinen malli. Vertaa malleja hiuksista, läpinäkyvistä esineistä ja kiireisistä taustoista sen sijaan, että arvioisit vain kohteen keskustaa.</string>
-    <string name="help_tip_ai_background_models_step_2" />
     <string name="help_tip_ai_background_models_step_3">Tarkenna tulosta poistamalla ja palauttamalla. Tallenna läpinäkyvään muotoon, kuten PNG; removing a background is different from filling an unwanted object with plausible content.</string>
     <string name="help_tip_ai_inpainting_title">Poista esineet LaMalla</string>
     <string name="help_tip_ai_inpainting_subtitle">Maalaa täytettävä alue ja vertaa sitä ympäröivään kuvaan</string>
     <string name="help_tip_ai_inpainting_description">In Draw, Spot Heal can use downloaded LaMa inpainting instead of the OpenCV method. Se täyttää maalatun alueen ympäristöään käyttämällä. Tuloksena on luotua sisältöä, joka ei voi paljastaa, mitä kohteen takana oli alun perin.</string>
-    <string name="help_tip_ai_inpainting_step_1" />
-    <string name="help_tip_ai_inpainting_step_2" />
     <string name="help_tip_ai_inpainting_step_3">LaMa settings let you limit processing resolution and choose worker threads. In AI Tools, Watermark Remover combines automatic mark detection with LaMa; Tarkasta aina, mitä sen maski on poistanut.</string>
     <string name="help_tip_ai_gallery_title">Etsi kuvia tekoälyllä</string>
-    <string name="help_tip_ai_gallery_subtitle" />
     <string name="help_tip_ai_gallery_description">Semanttinen valokuvahaku Galleriassa ja Embedded Pickerissa käyttää omia hakumallejaan, jotka ovat erillään Assistant-malleista ja AI-työkaluista. It finds matching contents and organizes the library; se ei muuta alkuperäisiä kuvia.</string>
     <string name="help_tip_ai_gallery_step_1">Ota semanttinen valokuvahaku käyttöön hakuasetuksissa ja anna sovelluksen ladata tiedostot ja valmistella saatavilla olevia kuvia. File name search works while preparation continues.</string>
     <string name="help_tip_ai_gallery_step_2">Hae kuvauksen perusteella tai valitse Etsi samanlaisia ​​kuvia. Use categories and the current album to narrow the results, or create a category from a description and reference photos.</string>
@@ -7266,14 +7251,10 @@
     <string name="help_tip_usage_statistics_title">Näytä työkalun käyttötilastot</string>
     <string name="help_tip_usage_statistics_subtitle">Tarkista paikallinen käyttö ja nollaa laskurit</string>
     <string name="help_tip_usage_statistics_description">Käyttötilastot sisältävät yhteenvedon tallennetusta työkalun käytöstä. Sen avulla näet, mitä ImageToolboxin osia käytät eniten. These counters describe app usage, not the contents or quality of your photos.</string>
-    <string name="help_tip_usage_statistics_step_1" />
-    <string name="help_tip_usage_statistics_step_2" />
     <string name="help_tip_usage_statistics_step_3">Reset usage statistics clears tool opens, save statistics, streak, saved data and top format. Sovelluksen auki oleva laskuri pysyy ennallaan.</string>
     <string name="help_tip_libraries_licenses_title">Kirjastot ja lisenssit</string>
     <string name="help_tip_libraries_licenses_subtitle">Etsi sovelluksen käyttämät komponentit ja niiden ilmoitukset</string>
-    <string name="help_tip_libraries_licenses_description" />
     <string name="help_tip_libraries_licenses_step_1">Avaa Kirjastot ja etsi tarvitsemasi komponentti.</string>
-    <string name="help_tip_libraries_licenses_step_2" />
     <string name="help_tip_libraries_licenses_step_3">AI-malleissa avaa myös mallin lähdelinkki sen valitsimesta. Kirjastomerkintä ei korvaa mallin omaa dokumentaatiota.</string>
     <string name="help_category_ai_tools">AI ja Assistant</string>
     <string name="help_category_ai_tools_sub">Paikalliset mallit, kuvan ymmärtäminen, restaurointi, tyyli, syvyys ja havaitseminen</string>

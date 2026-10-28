@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -6627,9 +6626,7 @@
     <string name="filter_help_autumn_tones">Змешвае колеру ў прыглушаныя цёплыя восеньскія тоны.</string>
     <string name="filter_help_average_distance">Паказвае розніцу паміж кожным пікселем і сярэднім яго чатырох суседніх. Карысна для праверкі дробных дэталяў і шуму; яркія вобласці самі па сабе не даказваюць, што фатаграфія была адрэдагавана.</string>
     <string name="filter_help_bayer_eight_dithering">Выкарыстоўвае паўтаральную парогавую матрыцу Баера 8 × 8 для фарміравання ўпарадкаваных шаблонаў пікселяў. Threshold кіруе танальным падзелам і адценнямі шэрага пераключаецца на манахромны выхад.</string>
-    <string name="filter_help_bayer_four_dithering" />
     <string name="filter_help_bayer_three_dithering">Выкарыстоўвае паўтаральную парогавую матрыцу Баера 3 × 3 для фарміравання ўпарадкаваных шаблонаў пікселяў. Threshold кіруе танальным падзелам і адценнямі шэрага пераключаецца на манахромны выхад.</string>
-    <string name="filter_help_bayer_two_dithering" />
     <string name="filter_help_bilaterial_blur">Згладжвае шум, захоўваючы каляровыя межы. Radius sets the neighborhood, sigma controls the allowed color difference, and spatial sigma controls the influence of distant pixels. Вялікія значэння могуць сцерці тонкую тэкстуру.</string>
     <string name="filter_help_black_and_white">Converts colors to shades of gray according to their brightness. Выкарыстоўвайце яго для манахромнага фота; ён захоўвае прамежкавыя шэрыя тоны, а не стварае двухколерны трафарэт.</string>
     <string name="filter_help_black_hat">Вылучае цёмныя дэталі, меншыя за абранае наваколле, адымаючы малюнак ад яго марфалагічнага закрыцця. Памер ядра і круглая або квадратная форма вызначаюць, якія структуры вылучаюцца.</string>
@@ -7498,6 +7495,5 @@
     <string name="assistant_gallery_invalid_date">Калі ласка, удакладніце дату або дыяпазон, напрыклад, «ліпень 2026» або «2026-07-01 да 2026-07-31». Праверце, ці існуюць даты і што дыяпазон заканчваецца пасля яго пачатку.</string>
     <string name="assistant_gallery_missing_literal">Укажыце назву альбома або файла пасля назвы фільтра. Put names containing spaces in quotes.</string>
     <string name="assistant_gallery_unsupported_condition">Гэты пошук падтрымлівае бачны кантэнт, імёны людзей, даты, адзін альбом і назву файла. Выключэнні, дакладнае супадзенне тэксту або GPS, некалькі фарматаў файлаў і колькасць запытаных вынікаў пакуль не падтрымліваюцца. Please adjust these conditions.</string>
-    <string name="assistant_gallery_ambiguous_name" />
     <string name="assistant_gallery_closest">Няма дакладных супадзенняў. Here are the closest available photos; вашы людзі, дата, альбом і фільтры імён файлаў па-ранейшаму прымяняюцца.</string>
 </resources>
