@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -4901,7 +4900,7 @@
     <string name="focus_strength">Odak ayrımı</string>
     <string name="source_frames">Kaynak çerçeveleri</string>
     <string name="fusion_image_limit">Tek seferde en fazla %1$d kare birleştirilebilir</string>
-    <string name="search_keywords_multi_frame_fusion">çoklu çerçeve füzyon pozlama hdr odak istifleme medyan gürültü insanları kaldırma braketi</string>
+    <string name="search_keywords_multi_frame_fusion">çoklu çerçeve füzyon pozlama hdr odak istifleme medyan gürültü insanları kaldırma braketi uzun pozlama ışık hareketi yıldız izleri</string>
     <string name="long_exposure">Uzun pozlama</string>
     <string name="long_exposure_sub">Statik ayrıntıları korurken doğrusal ışıktaki sekansın ortalamasını alarak yumuşak hareket</string>
     <string name="light_trails">Hafif yollar</string>
@@ -4965,7 +4964,7 @@
     <string name="compression_lab_mode_manual">Sabit kalite</string>
     <string name="compression_lab_mode_target_quality">Kalitede en küçük</string>
     <string name="compression_lab_mode_target_size">En iyi boyut altı</string>
-    <string name="compression_lab_target_quality">Görsel kaliteyi hedefleyin</string>
+    <string name="compression_lab_target_quality">Görsel benzerlik skoru hedefi</string>
     <string name="compression_lab_target_size">Hedef dosya boyutu</string>
     <string name="compression_lab_run">Karşılaştırmayı çalıştır</string>
     <string name="compression_lab_result_details">Kodlayıcı: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
@@ -5159,7 +5158,7 @@
     <string name="delete_templates_warning">Seçilen %1$d şablon silinsin mi? Bu geri alınamaz.</string>
     <string name="fractal_generation">Fraktallar</string>
     <string name="fractal_generation_sub">Fraktal görüntüler oluşturun ve kaydedin</string>
-    <string name="search_keywords_fractal_generation">fraktal Mandelbrot Julia Yanan Gemi Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Mıknatıs Lyapunov Sierpinski Mandelbulb Mandelbox Menger Quaternion 3D sonsuz derin yakınlaştırma üreteci</string>
+    <string name="search_keywords_fractal_generation">fractal Mandelbrot Julia Burning Ship Tricorn Multibrot Multicorn Celtic Buffalo Phoenix Nova Newton Magnet Lyapunov Sierpinski Clifford De Jong Ikeda Tinkerbell Gumowski Mira Barnsley Alpha sine cosine sinh Spider Man-o-War Lambda Thorn Feather Cactus Zubieta Tetration fern dragon twig Christmas tree Vicsek Pythagoras H-Tree Koch Hilbert Mandelbulb Mandelbox Menger Quaternion 3D RGB CMYK sonsuz derinlikli yakınlaştırma oluşturucu</string>
     <string name="fractal_power">Güç</string>
     <string name="fractal_iteration_policy">Yineleme politikası</string>
     <string name="fractal_bailout">Kaçış yarıçapı</string>
