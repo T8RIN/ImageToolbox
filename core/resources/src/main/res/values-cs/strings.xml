@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -7150,9 +7149,6 @@
     <string name="filter_help_zoom_blur">Rozostří detaily směrem ven z vybraného středu a napodobí zoomování během expozice. Střed X/Y umístí počátek a velikost rozostření nastaví sílu.</string>
     <string name="model_gfpgan">Automaticky detekuje a obnovuje tváře pomocí GFPGAN v1.4 a spojuje je do původního obrazu. Síla řídí množství obnovy.</string>
     <string name="model_dehazeformer">Odstraňuje atmosférický opar s DehazeFormer-T. Nejlépe se hodí pro venkovní fotografie.</string>
-    <string name="assistant_vision_lite" />
-    <string name="assistant_vision_advanced" />
-    <string name="assistant_vision_max" />
     <string name="assistant_vision_photo_prompt">Popište tento obrázek a navrhněte užitečné úpravy v ImageToolbox.</string>
     <string name="assistant_image_load_error">Obrázek nelze přečíst. Znovu jej připojte nebo vyberte jiný obrázek.</string>
     <string name="help_tip_assistant_workflow_title">Zeptejte se asistenta na ImageToolbox</string>
@@ -7161,28 +7157,23 @@
     <string name="help_tip_assistant_workflow_step_1">Vyberte si model v chatu a stáhněte si ho. Pokud je tlačítko Asistent skryté, povolte Asistenta v Nastavení.</string>
     <string name="help_tip_assistant_workflow_step_2">Popište výsledek, který potřebujete, a případné limity, například „Komprimujte tyto fotografie pod 500 kB každá“ nebo „Jak udržím průhledné pozadí?“.</string>
     <string name="help_tip_assistant_workflow_step_3">Přečtěte si odpověď a otevřete navrhovaný nástroj nebo nastavení. Asistent vysvětluje akce; použijete je v nástroji a před uložením zkontrolujete náhled.</string>
-    <string name="help_tip_assistant_workflow_page_2_title" />
     <string name="help_tip_assistant_workflow_page_2_description">Pokračování může odkazovat na nedávný rozhovor. V každém požadavku je zahrnuta pouze krátká část posledních zpráv; kompletní chat není neomezená paměť. Obrázky z dřívějších zpráv se do modelu znovu nepředávají.</string>
     <string name="help_tip_assistant_workflow_page_2_step_1">Pokud odpověď ztratí kontext, uveďte nástroj, formát nebo parametr, který máte na mysli.</string>
     <string name="help_tip_assistant_workflow_page_2_step_2">Pro přerušení generování použijte Stop. Můžete změnit modely pro další požadavek bez smazání konverzace.</string>
     <string name="help_tip_assistant_workflow_page_2_step_3">Při přechodu na jiný úkol začněte novou konverzaci. Při nové otázce ohledně jeho obsahu obrázek znovu připojte.</string>
-    <string name="help_tip_assistant_models_title" />
     <string name="help_tip_assistant_models_subtitle">Lite, Advanced, Max a tři modely Vision</string>
     <string name="help_tip_assistant_models_description">Běžné modely odpovídají na otázky o ImageToolbox pomocí zdokumentovaných nástrojů, nastavení a metadat souborů. Nevidí připojené obrazové body. Stažené modely a instalované velikosti jsou zobrazeny ve výběru modelu.</string>
     <string name="help_tip_assistant_models_step_1">Lite používá Qwen3 0.6B: začněte zde pro krátké pokyny a zařízení s omezenou pamětí.</string>
     <string name="help_tip_assistant_models_step_2">Advanced používá Qwen3 1.7B: větší textový model pro podrobnější vysvětlení a srovnání.</string>
     <string name="help_tip_assistant_models_step_3">Max používá Qwen3 8B: největší obyčejný textový model. Vyžaduje více úložiště a paměti RAM a může trvat déle, než bude odpovídat.</string>
-    <string name="help_tip_assistant_models_page_2_title" />
     <string name="help_tip_assistant_models_page_2_description">Modely vidění přidávají porozumění obrazu: popisy, popisky, otázky týkající se viditelného obsahu a návrhy na úpravu konkrétní fotografie. Odpovídají také pouze textové otázky týkající se aplikace. Větší model zvládne náročnější požadavky, ale přesto dělá chyby.</string>
     <string name="help_tip_assistant_models_page_2_step_1">Vision Lite používá Qwen3.5 0,8B. Vyberte si ji pro jednoduché otázky týkající se obrázků a nejlehčí stahování Vision.</string>
     <string name="help_tip_assistant_models_page_2_step_2">Vision Advanced používá Qwen3.5 2B. Zkuste to, když Vision Lite postrádá detaily nebo poskytuje neúplné vysvětlení.</string>
     <string name="help_tip_assistant_models_page_2_step_3">Vision Max používá Qwen3.5 9B. Je to nejtěžší varianta Vision určená pro zařízení s dostatkem volné paměti RAM a úložiště. Jeho větší kapacita nezaručuje správnost každého detailu.</string>
-    <string name="help_tip_assistant_models_page_3_title" />
     <string name="help_tip_assistant_models_page_3_description">Velikost staženého souboru neodpovídá množství paměti RAM potřebné během konverzace. Paměť využívá i načítání modelu, zpracování fotografie a generování odpovědi. Rychlost odezvy závisí na modelu, zařízení a délce požadavku.</string>
     <string name="help_tip_assistant_models_page_3_step_1">Nejprve použijte Lite nebo Vision Lite ke kontrole odezvy na vašem zařízení a poté porovnejte stejný požadavek s větším modelem.</string>
     <string name="help_tip_assistant_models_page_3_step_2">Vyberte si ten nejmenší model, který dobře splní váš úkol. Odstraňte nepoužívané stažené soubory z výběru modelu a uvolněte úložiště.</string>
     <string name="help_tip_assistant_models_page_3_step_3">Pokud je generování přerušeno nebo se aplikace zavře pod tlakem paměti, použijte menší model, zavřete ostatní náročné aplikace a zkraťte otázku.</string>
-    <string name="help_tip_assistant_images_title" />
     <string name="help_tip_assistant_images_subtitle">Popisy, popisky, viditelné detaily a návrhy úprav</string>
     <string name="help_tip_assistant_images_description">Před připojením fotografie vyberte model Vision. Nástroj pro výběr obrázku přijme jednu fotografii a tlačítko plus zůstane po připojení nedostupné. Aplikace připraví menší kopii pro analýzu; původní soubor není upravován.</string>
     <string name="help_tip_assistant_images_step_1">Klepněte na plus, vyberte fotografii a položte konkrétní otázku: „Napište krátký popisek“, „Co je na tomto obrázku?“ nebo „Jaké úpravy by tuto fotku vylepšily?“.</string>
@@ -7220,24 +7211,18 @@
     <string name="help_tip_ai_face_restoration_step_3">If the photo does not change, the face may not have been detected or Strength may be zero. Zkuste přehlednější zdroj; keep the original when the restored identity looks wrong.</string>
     <string name="help_tip_ai_dehaze_title">Odstraňte atmosférický opar</string>
     <string name="help_tip_ai_dehaze_subtitle">DehazeFormer-T pro venkovní scény s nízkým kontrastem</string>
-    <string name="help_tip_ai_dehaze_description" />
-    <string name="help_tip_ai_dehaze_step_1" />
-    <string name="help_tip_ai_dehaze_step_2" />
     <string name="help_tip_ai_dehaze_step_3">Uložte až po porovnání s originálem. Use Curves or exposure filters afterward if the overall tone still needs adjustment.</string>
     <string name="help_tip_ai_document_cleanup_title">Narovnejte stránky a odstraňte stíny dokumentu</string>
     <string name="help_tip_ai_document_cleanup_subtitle">UVDOC Grid a DocShadow SD7K</string>
     <string name="help_tip_ai_document_cleanup_description">UVDOC Grid estimates page deformation and straightens a photographed document. DocShadow SD7K koriguje nerovnoměrné osvětlení a stíny. Tyto operace připraví obraz stránky; nerozpoznají text nebo samy vytvoří PDF s možností vyhledávání.</string>
     <string name="help_tip_ai_document_cleanup_step_1">Stránku izolujte pomocí skeneru dokumentů nebo oříznutí. Vyzkoušejte UVDOC Grid, když je papír zakřivený, nikoli jednoduše otočený.</string>
     <string name="help_tip_ai_document_cleanup_step_2">Try DocShadow SD7K for shadows crossing text or uneven lighting. Před uložením zkontrolujte v náhledu jemná písmena, tabulky a světlé značky.</string>
-    <string name="help_tip_ai_document_cleanup_step_3" />
     <string name="help_tip_ai_style_transfer_title">Přenos neurálního stylu</string>
-    <string name="help_tip_ai_style_transfer_subtitle" />
     <string name="help_tip_ai_style_transfer_description">Samostatná reference stylu řídí textury a malířský vzhled každého vybraného zdrojového obrázku. Před zobrazením náhledu výsledku vyberte model pro přenos stylu a referenční obrázek. Písemné výzvy ke generování obrázků se nepoužívají.</string>
     <string name="help_tip_ai_style_transfer_step_1">Vyberte model přenosu stylu a poté vyberte obrázek stylu. Source photos and the style reference have separate selectors.</string>
     <string name="help_tip_ai_style_transfer_step_2">Porovnejte přenos libovolného stylu, MicroAST nebo AesFA, když potřebujete rychlý stylizovaný výsledek. Optimalizace VGG19 iterativně přizpůsobuje každý obrázek a může to trvat podstatně déle.</string>
     <string name="help_tip_ai_style_transfer_step_3">Upravte sílu a vygenerujte náhled. Před uložením dávky s obrázkem stejného stylu zkontrolujte rozpoznatelné předměty a nápisy.</string>
     <string name="help_tip_ai_detection_title">Zkontrolujte, zda může být obrázek generován AI</string>
-    <string name="help_tip_ai_detection_subtitle" />
     <string name="help_tip_ai_detection_description">AI detectors estimate how closely an image resembles their training examples of generated or real images. Výsledek není důkazem o autorství nebo historii úprav. A real photo can be flagged as AI, and a generated image can be missed.</string>
     <string name="help_tip_ai_detection_step_1">Vyberte model detekce AI, vyberte obrázky a spusťte kontrolu. Tento režim vrací odhady namísto upravených fotografií.</string>
     <string name="help_tip_ai_detection_step_2">Přečtěte si skóre spolu s verdiktem: 70 % a více je Pravděpodobná umělá inteligence, 30 % a méně je Pravděpodobná lidská a střední rozsah je Nejistý.</string>
@@ -7257,13 +7242,11 @@
     <string name="help_tip_ai_inpainting_subtitle">Natřete oblast, kterou chcete vyplnit, a porovnejte ji s okolním obrázkem</string>
     <string name="help_tip_ai_inpainting_description">In Draw, Spot Heal can use downloaded LaMa inpainting instead of the OpenCV method. Vyplňuje malovanou plochu pomocí svého okolí. The result is generated content and cannot reveal what was originally behind an object.</string>
     <string name="help_tip_ai_inpainting_step_1">Open Draw → Spot Heal, enable generative inpainting and download LaMa if prompted. Nechtěný předmět natřete s malým okrajem kolem jeho okraje.</string>
-    <string name="help_tip_ai_inpainting_step_2" />
     <string name="help_tip_ai_inpainting_step_3">LaMa settings let you limit processing resolution and choose worker threads. V AI Tools kombinuje Watermark Remover automatickou detekci značek s LaMa; vždy zkontrolujte, co jeho maska ​​​​sejmula.</string>
     <string name="help_tip_ai_gallery_title">Najděte fotografie pomocí AI</string>
     <string name="help_tip_ai_gallery_subtitle">Popisy, fotky odkazu, zakázkové kategorie a skupiny lidí</string>
     <string name="help_tip_ai_gallery_description">Sémantické vyhledávání fotografií v Galerii a Embedded Picker používá vlastní modely vyhledávání, oddělené od modelů asistenta a nástrojů AI. Vyhledá odpovídající obsah a uspořádá knihovnu; nemění to původní fotografie.</string>
     <string name="help_tip_ai_gallery_step_1">Zapněte sémantické vyhledávání fotografií v nastavení vyhledávání a nechte aplikaci stáhnout soubory a připravit dostupné fotografie. Vyhledávání podle názvu souboru funguje, zatímco příprava pokračuje.</string>
-    <string name="help_tip_ai_gallery_step_2" />
     <string name="help_tip_ai_gallery_step_3">Povolte seskupování lidí pro skupiny obličejů, jména a návrhy sloučení. Použijte podrobného průvodce sémantickým vyhledáváním fotografií pro prahové hodnoty, skryté skupiny a mazání dat místního vyhledávání.</string>
     <string name="help_tip_usage_statistics_title">Zobrazení statistik používání nástroje</string>
     <string name="help_tip_usage_statistics_subtitle">Zkontrolujte místní použití a vynulujte počítadla</string>
@@ -7272,29 +7255,19 @@
     <string name="help_tip_usage_statistics_step_2">Otevřete informační dialog a přečtěte si, jak počítadla fungují, než je porovnáte.</string>
     <string name="help_tip_usage_statistics_step_3">Obnovit statistiku využití vymaže otevření nástroje, uloží statistiku, pruh, uložená data a nejvyšší formát. Počítadlo otevření aplikace zůstává nezměněno.</string>
     <string name="help_tip_libraries_licenses_title">Knihovny a licence</string>
-    <string name="help_tip_libraries_licenses_subtitle" />
     <string name="help_tip_libraries_licenses_description">Na obrazovce knihoven jsou uvedeny součásti třetích stran používané programem ImageToolbox. Licence knihovny a licence staženého modelu se mohou lišit; konzultujte příslušný zdroj, když potřebujete jeho přesné podmínky.</string>
     <string name="help_tip_libraries_licenses_step_1">Otevřete knihovny a najděte komponentu, kterou potřebujete.</string>
     <string name="help_tip_libraries_licenses_step_2">Otevřete jeho podrobnosti a přečtěte si dostupný popis a informace o licenci.</string>
-    <string name="help_tip_libraries_licenses_step_3" />
     <string name="help_category_ai_tools">AI a asistent</string>
     <string name="help_category_ai_tools_sub">Lokální modely, porozumění obrazu, restaurování, styl, hloubka a detekce</string>
     <string name="help_tip_depth_effects_page_2_title">Hloubkové modely a vlastní mapy</string>
-    <string name="help_tip_depth_effects_page_2_description" />
-    <string name="help_tip_depth_effects_page_2_step_1" />
-    <string name="help_tip_depth_effects_page_2_step_2" />
-    <string name="help_tip_depth_effects_page_2_step_3" />
-    <string name="help_tip_depth_effects_page_3_title" />
     <string name="help_tip_depth_effects_page_3_description">Dostupné výsledky zahrnují mapu hloubky, rozostření objektivu, rozostření pozadí, portrét, odstupňování barev, okraje hloubky, normální mapu, stereo, masku hloubky, výřez, barvu zaostření, mlhu a přesvětlení. Ovládací prvky se mění s vybraným efektem.</string>
-    <string name="help_tip_depth_effects_page_3_step_1" />
-    <string name="help_tip_depth_effects_page_3_step_2" />
     <string name="help_tip_depth_effects_page_3_step_3">Zkontrolujte vlasy, sklo, oblohu a předměty v podobné hloubce. Pokud je odhad hloubky nesprávný, před uložením porovnejte jiný model nebo poskytněte opravenou vlastní mapu.</string>
     <string name="help_tip_ai_parameters_page_3_title">Ovládání závisí na modelu</string>
     <string name="help_tip_ai_parameters_page_3_description">Panel zobrazuje ovládací prvky podporované vybraným modelem. A missing slider does not mean the model is broken. Some tasks require the whole image or have a separate result panel.</string>
     <string name="help_tip_ai_parameters_page_3_step_1">Síla je k dispozici pro FBCNN, přenos stylu a GFPGAN. Přenos stylu také potřebuje obrázek stylu; hloubkové modely mají vlastní ovládací prvky efektů a volitelnou hloubkovou mapu.</string>
     <string name="help_tip_ai_parameters_page_3_step_2">Chunking není k dispozici pro úkoly, jako je odstranění pozadí, DDColor, obnova obličeje, korekce dokumentu, odstranění otřepů, hloubka, přenos stylu a detekce AI. U nich zmenšete rozměry zdroje nebo zvolte menší model, pokud dojde paměť.</string>
     <string name="help_tip_ai_parameters_page_3_step_3">Před uložením nebo sdílením vygenerujte náhled. AI detection returns a score and verdict instead of an image, so image effect controls do not apply there.</string>
-    <string name="help_tip_ai_ocr_title" />
     <string name="help_tip_ai_ocr_subtitle">Tesseract, PaddleOCR v5 a PaddleOCR v6</string>
     <string name="help_tip_ai_ocr_description">Recognize Text nabízí Tesseract a dva poskytovatele PaddleOCR. Jejich stažená data a ovládací prvky se liší. Vybraný stroj se také používá při zápisu rozpoznaného textu do souboru, metadat obrázku nebo prohledávatelného PDF.</string>
     <string name="help_tip_ai_ocr_step_1">Pro Tesseract vyberte jazyky na stránce a stáhněte chybějící jazyková data. Jeho jazyk, segmentace stránky a možnosti enginu platí pouze pro Tesseract.</string>

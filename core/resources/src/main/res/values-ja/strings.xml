@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -6014,21 +6013,15 @@
     <string name="show_help_tips_button">「ヘルプとヒント」ボタン</string>
     <string name="show_help_tips_button_sub">メイン画面のツールバーにヘルプとヒントを表示する</string>
     <string name="ai_assistant">アシスタント</string>
-    <string name="ai_assistant_subtitle" />
     <string name="assistant_lite">ライト</string>
     <string name="assistant_advanced">高度な</string>
     <string name="assistant_max">マックス</string>
-    <string name="assistant_photo_prompt" />
     <string name="assistant_prompt_placeholder">質問する</string>
     <string name="assistant_model_not_installed">モデルがインストールされていません</string>
     <string name="assistant_stop">停止</string>
     <string name="assistant_regenerate">再生する</string>
     <string name="assistant_cancelled">キャンセル</string>
     <string name="assistant_send">送信</string>
-    <string name="assistant_model_unavailable" />
-    <string name="assistant_generation_error" />
-    <string name="assistant_enabled_required" />
-    <string name="assistant_history_save_error" />
     <string name="assistant_latest_message">最新のメッセージ</string>
     <string name="assistant_empty_chat">どうすれば助けられますか?</string>
     <string name="assistant_setup_description">モデルをダウンロードして、ImageToolbox のツールと設定に関するヘルプを取得します。アシスタントが必要ない場合は、アシスタントをオフにすることができます。</string>
@@ -6036,9 +6029,7 @@
     <string name="assistant_disable">アシスタントをオフにする</string>
     <string name="assistant_input_too_long">The conversation is too long.新しい会話を始めるか、質問を短くしてください。</string>
     <string name="assistant_clear_conversation">明確な会話</string>
-    <string name="assistant_clear_conversation_question" />
     <string name="help_tip_depth_effects_title">奥行き効果</string>
-    <string name="help_tip_depth_effects_subtitle" />
     <string name="help_tip_depth_effects_description">AI ツールは、ダウンロードした深度モデルを使用して深度を推定したり、カスタムの深度マップを使用したりできます。深度は、名前付きオブジェクトの選択範囲ではなく、距離を表します。異なる結果モードでは、異なるコントロールが公開されます。</string>
     <string name="help_tip_depth_effects_step_1">AI Tools で画像と深度モデルを選択します。 Download the model if needed;必要に応じて、カスタム深度マップを選択します。</string>
     <string name="help_tip_depth_effects_step_2">深さの結果を選択します。深度ブラーは、ブラー強度、焦点深度、焦点範囲を提供します。深度マスクまたはカットアウトは、焦点と焦点範囲を提供します。</string>
@@ -6050,7 +6041,6 @@
     <string name="help_tip_pdf_compression_step_3">処理された PDF を保存または共有し、小さなテキストや詳細な画像が含まれるページを検査します。</string>
     <string name="help_tip_pdf_annotation_cleanup_subtitle">選択したページから選択した注釈タイプを削除します</string>
     <string name="help_tip_pdf_annotation_cleanup_description">注釈の削除では、リンク、コメント、ハイライト、図形、フォーム フィールドを削除できます。ページの選択と注釈の種類によって、削除される内容が決まります。任意の印刷テキストは消去されません。</string>
-    <string name="help_tip_pdf_annotation_cleanup_step_1" />
     <string name="help_tip_pdf_annotation_cleanup_step_2">削除する注釈の種類を選択します。保存するには少なくとも 1 つのタイプを選択する必要があります。</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">プレビューを確認してコピーを保存します。保存したドキュメントに保持する予定だったリンクまたはフォーム フィールドを確認します。</string>
     <string name="help_tip_metadata_editing_subtitle">個々のメタデータ タグを検査、変更、削除する</string>
@@ -6058,7 +6048,6 @@
     <string name="help_tip_metadata_editing_step_1">画像を選択し、EXIF の編集を開いてタグを表示します。</string>
     <string name="help_tip_metadata_editing_step_2">メタデータ シート内の個々のタグを更新または削除します。すべてのタグを削除する場合にのみ、すべてのメタデータをクリアします。</string>
     <string name="help_tip_metadata_editing_step_3">Close the sheet and save the result.保存した画像を再度開いて、変更したタグを確認します。</string>
-    <string name="help_tip_cache_cleanup_subtitle" />
     <string name="help_tip_cache_cleanup_description">自動キャッシュ クリーンアップでは、サイズ制限と間隔の両方が使用されます。制限と間隔の制御は、自動キャッシュクリアが有効な場合にのみ有効になります。</string>
     <string name="help_tip_cache_cleanup_step_1">[設定] で、キャッシュ制限またはクリーンアップ間隔を変更する前に、自動キャッシュクリアを有効にします。</string>
     <string name="help_tip_cache_cleanup_step_2">提供されたサイズ (20 MB ～ 2 GB) からキャッシュ制限を選択します。</string>
@@ -6509,8 +6498,6 @@
     <string name="help_tip_setting_brightness_enforcement_description">明るさの強制は、グローバルな明るさスライダーではなく、ツールごとに選択されます。</string>
     <string name="help_tip_setting_brightness_enforcement_step_1">「明るさの強制」を開き、明るさの強制を使用するツールを選択します。</string>
     <string name="help_tip_setting_brightness_enforcement_step_2">ツールの選択を解除すると、通常の明るさの動作に戻ります。空の選択をすると、すべてのツールの適用が無効になります。</string>
-    <string name="help_tip_setting_system_bars_visibility_description" />
-    <string name="help_tip_setting_system_bars_visibility_step_1" />
     <string name="help_tip_setting_system_bars_visibility_step_2">バーを非表示にする場合は、「スワイプでシステム バーを表示」を個別に構成し、通常のナビゲーション ジェスチャが引き続き使用できることを確認してください。</string>
     <string name="help_tip_setting_show_system_bars_by_swipe_description">このスイッチは、Android のデフォルトのバー動作の代わりに、エッジ スワイプによって表示される一時的なシステム バーを選択します。</string>
     <string name="help_tip_setting_show_system_bars_by_swipe_step_1">システム バーを非表示にするモードを選択し、[スワイプでシステム バーを表示] を有効にします。</string>
@@ -6530,20 +6517,16 @@
     <string name="help_tip_setting_confetti_description">Confetti は、アプリのお祝いパーティクル アニメーションを制御します。</string>
     <string name="help_tip_setting_confetti_step_1">Confetti でアニメーションを使用できるようにし、そのタイプとカラー コントロールのロックを解除します。</string>
     <string name="help_tip_setting_confetti_step_2">この装飾を削除するには無効にします。スイッチは処理された画像を変更しません。</string>
-    <string name="help_tip_setting_confetti_harmonizer_description" />
     <string name="help_tip_setting_confetti_harmonizer_step_1">Confetti を有効にして、リストにある調和色を選択するか、カスタム カラー ピッカーを使用します。</string>
     <string name="help_tip_setting_confetti_harmonizer_step_2">調和レベルを個別に調整して、その色がパーティクルに与える影響の強さを制御します。</string>
-    <string name="help_tip_setting_confetti_harmonization_level_description" />
     <string name="help_tip_setting_confetti_harmonization_level_step_1">紙吹雪を有効にして、最初にその調和色を選択します。</string>
     <string name="help_tip_setting_confetti_harmonization_level_step_2">レベルを 0 から 1 に移動します。値が低いほど、元のパーティクル パレットがより多く保持され、値が高いほど、より多くの調和が適用されます。</string>
-    <string name="help_tip_setting_confetti_type_description" />
     <string name="help_tip_setting_confetti_type_step_1">Confetti を有効にして、タイプ セレクターを使用できるようにします。</string>
     <string name="help_tip_setting_confetti_type_step_2">Confetti Type を開き、表示されたパーティクル セットの 1 つを選択します。 color and harmonization remain separate settings.</string>
     <string name="help_tip_setting_return_to_external_app_after_save_description">ImageToolbox が別のアプリによって開かれた場合、この設定により、保存が成功した後にそのアプリに戻ることができます。</string>
     <string name="help_tip_setting_return_to_external_app_after_save_step_1">別のアプリから開始した編集を完了するときに、「保存後に戻る」を有効にします。</string>
     <string name="help_tip_setting_return_to_external_app_after_save_step_2">ImageToolbox に留まり、保存後に作業を続けたい場合は、これを無効にします。 ordinary launches have no external app to return to.</string>
     <string name="help_tip_setting_show_settings_in_landscape_description">横向き設定の表示/非表示は、横向きレイアウトで使用される設定パネルを制御します。</string>
-    <string name="help_tip_setting_show_settings_in_landscape_step_1" />
     <string name="help_tip_setting_show_settings_in_landscape_step_2">[設定を横向きに表示] を有効または無効にし、デバイスを回転して結果のレイアウトを確認します。</string>
     <string name="help_tip_setting_fast_settings_side_description">サイド ボタンを使用すると、現在の画面を離れることなくツールからクイック設定を開きます。</string>
     <string name="help_tip_setting_fast_settings_side_step_1">サイド ボタンを有効にし、[開始] または [終了] を選択して、インターフェイスの対応する側に配置します。</string>
@@ -6551,20 +6534,14 @@
     <string name="help_tip_setting_ai_assistant_description">アシスタントは、ダウンロードされたローカル モデルを使用して質問に回答し、文書化されたツールや設定にリンクできます。</string>
     <string name="help_tip_setting_ai_assistant_step_1">メイン画面またはツールからアシスタントを開き、Lite、Advanced、または Max を選択してモデルをダウンロードします。アシスタントをオフにした場合は、設定で再度有効にします。</string>
     <string name="help_tip_setting_ai_assistant_step_2">タスクを完了する方法を尋ねます。提案されたツールを開くか、自分でリンクを設定します。 attaching a file provides its metadata, not visual recognition of its contents.</string>
-    <string name="help_tip_setting_ai_assistant_step_3" />
-    <string name="help_tip_setting_snowfall_mode_description" />
-    <string name="help_tip_setting_snowfall_mode_step_1" />
     <string name="help_tip_setting_snowfall_mode_step_2">アプリのインターフェースに戻って効果を確認します。 snowfall does not become part of exported images.</string>
     <string name="help_tip_setting_enable_links_preview_description">リンク プレビューでは、検出された Web リンクの追加情報を表示できます。</string>
-    <string name="help_tip_setting_enable_links_preview_step_1" />
     <string name="help_tip_setting_enable_links_preview_step_2">プレビュー コンテンツの取得を避けるには、これを無効にします。 the detected link text remains available for normal actions.</string>
     <string name="help_tip_setting_enable_sheet_gestures_description">シート ジェスチャを使用すると、下部シートをドラッグして、表示状態を変更または解除できます。</string>
     <string name="help_tip_setting_enable_sheet_gestures_step_1">シート ジェスチャを有効にし、下部シートのハンドルをドラッグして、サポートされているジェスチャを使用します。</string>
     <string name="help_tip_setting_enable_sheet_gestures_step_2">誤ってドラッグして選択が中断された場合は、スイッチを無効にします。シートの明示的なボタンは引き続き使用できます。</string>
     <string name="help_tip_setting_sheet_nested_scroll_description">ネストされたスクロールにより、スクロール コンテンツがそのコンテンツを含むボトム シートの移動に参加できるようになります。</string>
-    <string name="help_tip_setting_sheet_nested_scroll_step_1" />
     <string name="help_tip_setting_sheet_nested_scroll_step_2">転送せずにコンテンツをスクロールしたい場合は、ネストされたスクロールを無効にします。他のアクションにはシート ハンドルまたはボタンを使用します。</string>
-    <string name="help_tip_setting_raw_use_embedded_preview_description" />
     <string name="help_tip_setting_raw_use_embedded_preview_step_1">カメラでレンダリングされたプレビューで十分な場合は、埋め込みプレビューを有効にします。寸法や外観は完全な RAW 現像とは異なる場合があります。</string>
     <string name="help_tip_setting_raw_use_embedded_preview_step_2">ホワイトバランス、色空間、露出、デモザイク、およびプレビューモードでは使用できないその他の RAW 現像設定を使用するには、これを無効にします。</string>
     <string name="help_tip_setting_raw_output_color_space_description">RAW 出力色空間では、センサー データの現像時に使用される色空間を選択します。</string>
@@ -6573,12 +6550,10 @@
     <string name="help_tip_setting_raw_highlight_recovery_description">ハイライトリカバリーは、RAW 現像でクリッピングに近い明るい領域を処理する方法を選択します。</string>
     <string name="help_tip_setting_raw_highlight_recovery_step_1">埋め込みプレビューを無効にして、ディテールが明るい RAW でクリップ、クリップ解除、ブレンド、再構築を比較します。</string>
     <string name="help_tip_setting_raw_highlight_recovery_step_2">再構築の場合、レベルを 3 から 9 に調整します。ハイライトの詳細と色の両方を検査します。この設定では、失われたセンサー情報の回復を保証することはできません。</string>
-    <string name="help_tip_setting_raw_exposure_compensation_description" />
     <string name="help_tip_setting_raw_exposure_compensation_step_1">埋め込みプレビューを無効にし、露出補正を -2 ～ +3 EV に設定します。ゼロを指定すると、この調整はニュートラルになります。</string>
     <string name="help_tip_setting_raw_exposure_compensation_step_2">変更後のシャドウとハイライトを比較します。明るいディテールを個別に処理する必要がある場合は、ハイライト回復またはハイライト保存を使用します。</string>
     <string name="help_tip_setting_raw_highlight_preservation_description">ハイライト保存は、RAW 露出調整中の明るいトーンの保護を制御します。</string>
     <string name="help_tip_setting_raw_highlight_preservation_step_1">埋め込みプレビューを無効にし、ハイライトの保持を 0 から 1 に調整します。</string>
-    <string name="help_tip_setting_raw_highlight_preservation_step_2" />
     <string name="help_tip_setting_raw_auto_brightness_description">自動輝度により、RAW 現像で輝度を選択できます。これをオフにすると、手動乗算器が公開されます。</string>
     <string name="help_tip_setting_raw_auto_brightness_step_1">埋め込みプレビューを無効にし、自動調整のために自動明るさを有効にします。</string>
     <string name="help_tip_setting_raw_auto_brightness_step_2">オフにすると、明るさを 0.1 ～ 4 に設定します。 compare the result before applying further exposure corrections.</string>
@@ -6591,19 +6566,16 @@
     <string name="help_tip_setting_raw_apply_orientation_description">RAW 方向は、現像中にカメラによって記録された回転またはミラー情報を適用します。</string>
     <string name="help_tip_setting_raw_apply_orientation_step_1">埋め込みプレビューを無効にし、カメラの記録された方向に対して [方向の適用] を有効にします。</string>
     <string name="help_tip_setting_raw_apply_orientation_step_2">意図的にその調整を行わずにデコードされた方向が必要な場合は、これを無効にします。さらに回転が必要な場合は、編集ツールを使用してください。</string>
-    <string name="help_tip_image_opacity_title" />
     <string name="help_tip_image_opacity_subtitle">不透明度フィルターで画像全体を半透明にします</string>
     <string name="help_tip_image_opacity_description">写真の透明度を変更するには、フィルターを開き、フルフィルターモードで不透明度を追加します。不透明度を低くすると、画像全体がより透明になります。</string>
     <string name="help_tip_image_opacity_step_1">このページのツール リンクを開いて、不透明度を選択した状態で開始します。 Choose a photo, then adjust the filter.フィルターを手動で開く場合は、「完全フィルター」→「フィルターを追加」→「不透明度」を使用します。</string>
     <string name="help_tip_image_opacity_step_2">不透明度を 0 から 1 まで調整します。1 では元の不透明度が維持され、0.5 では半分不透明になり、0 では非表示になります。</string>
     <string name="help_tip_image_opacity_step_3">透明度を保つために PNG として保存します。アルファ形式の背景色が有効になっている場合は、完全に透明な背景を選択するか、エクスポートする前にその設定を無効にしてください。 JPEG では透明度を保存できません。</string>
-    <string name="help_tip_interface_shadows_title" />
     <string name="help_tip_interface_shadows_subtitle">カード、バー、ボタン、スイッチ、スライダーのシャドウを無効にする</string>
     <string name="help_tip_interface_shadows_description">Interface shadows have six independent switches in Settings → Shadows.インターフェイス全体で構成されたシャドウを無効にするには、6 つすべてをオフにします。 there is no single master shadow switch.</string>
     <string name="help_tip_interface_shadows_step_1">Open Settings → Shadows.このページのリンクをクリックすると、そのセクションの [コンテナ] スイッチが開きます。</string>
     <string name="help_tip_interface_shadows_step_2">コンテナ、アプリバー、ボタン、FAB、スイッチ、スライダーをオフにします。 1 種類の影だけを削除するには、対応するスイッチをオフにします。</string>
     <string name="help_tip_interface_shadows_step_3">シャドウが非表示になっている場合、またはスイッチが使用できない場合は、セカンダリ カスタマイズを開き、境界線の太さを 0 に設定してこれらのコントロールにアクセスします。変更は、写真内の影ではなく、アプリのインターフェイスに影響します。</string>
-    <string name="help_category_filters_subtitle" />
     <string name="filter_help_aces_filmic_tone_mapping">Compresses the tonal range with the ACES filmic curve.露出はカーブに入る明るさを制御します。ハイライトとシャドウのディテールを比較します。これではクリップされたソース データを復元できません。</string>
     <string name="filter_help_aces_hill_tone_mapping">Compresses the tonal range with the ACES Hill curve. Exposure controls the brightness entering the curve; compare highlights and shadow detail.これではクリップされたソース データを復元できません。</string>
     <string name="filter_help_achromatomaly">固定カラー マトリックスを使用して、スペクトル全体で色の識別が低下した場合の色の外観を近似します。デザインが色のみに依存しているかどうかを確認する場合に役立ちます。個人の視力評価ではありません。</string>
@@ -6624,7 +6596,6 @@
     <string name="filter_help_autumn_tones">落ち着いた温かみのある秋色に向けて色をミックスします。</string>
     <string name="filter_help_average_distance">Shows the difference between each pixel and the average of its four neighbors.細かい部分やノイズを検査するのに役立ちます。明るい領域だけでは、写真が編集されたことを証明することはできません。</string>
     <string name="filter_help_bayer_eight_dithering">繰り返しの 8 × 8 ベイヤーしきい値マトリックスを使用して、順序付けられたピクセル パターンを形成します。しきい値は色調分割を制御し、グレースケールはモノクロ出力に切り替わります。</string>
-    <string name="filter_help_bayer_four_dithering" />
     <string name="filter_help_bayer_three_dithering">繰り返しの 3 × 3 ベイヤーしきい値マトリックスを使用して、順序付けられたピクセル パターンを形成します。しきい値は色調分割を制御し、グレースケールはモノクロ出力に切り替わります。</string>
     <string name="filter_help_bayer_two_dithering">繰り返しの 2 × 2 ベイヤーしきい値マトリックスを使用して、順序付けられたピクセル パターンを形成します。 Threshold controls the tonal split and grayscale switches to monochrome output.</string>
     <string name="filter_help_bilaterial_blur">色の境界を維持しながらノイズを滑らかにします。半径は近傍を設定し、シグマは許容される色差を制御し、空間シグマは離れたピクセルの影響を制御します。値を大きくすると、細かいテクスチャが消去される可能性があります。</string>

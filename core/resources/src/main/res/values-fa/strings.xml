@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه %1$s</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -7176,10 +7175,8 @@
     <string name="help_tip_assistant_models_page_2_step_2">Vision Advanced از Qwen3.5 2B استفاده می کند. زمانی که Vision Lite جزئیات را از دست داد یا توضیح ناقصی ارائه کرد، آن را امتحان کنید.</string>
     <string name="help_tip_assistant_models_page_2_step_3">ویژن مکس از Qwen3.5 9B استفاده می کند. این سنگین‌ترین گزینه Vision است که برای دستگاه‌هایی با رم و فضای ذخیره‌سازی رایگان در نظر گرفته شده است. ظرفیت بزرگتر آن تضمین نمی کند که همه جزئیات درست باشد.</string>
     <string name="help_tip_assistant_models_page_3_title">اندازه، سرعت و حافظه</string>
-    <string name="help_tip_assistant_models_page_3_description" />
     <string name="help_tip_assistant_models_page_3_step_1">ابتدا از Lite یا Vision Lite برای بررسی پاسخگویی دستگاه خود استفاده کنید، سپس همان درخواست را با یک مدل بزرگتر مقایسه کنید.</string>
     <string name="help_tip_assistant_models_page_3_step_2">Choose the smallest model that answers your task well. دانلودهای استفاده نشده را از انتخابگر مدل به فضای ذخیره سازی رایگان حذف کنید.</string>
-    <string name="help_tip_assistant_models_page_3_step_3" />
     <string name="help_tip_assistant_images_title">در مورد یک عکس بپرسید</string>
     <string name="help_tip_assistant_images_subtitle">توضیحات، شرح‌ها، جزئیات قابل مشاهده و پیشنهادهای ویرایش</string>
     <string name="help_tip_assistant_images_description">قبل از پیوست کردن عکس، مدل ویژن را انتخاب کنید. انتخابگر تصویر یک عکس را می‌پذیرد و دکمه بعلاوه تا زمانی که پیوست است در دسترس نمی‌ماند. برنامه یک نسخه کوچکتر را برای تجزیه و تحلیل آماده می کند. فایل اصلی ویرایش نشده است</string>
@@ -7193,7 +7190,6 @@
     <string name="help_tip_assistant_downloads_step_2">دانلود ناخواسته را در لیست مدل لغو کنید. To free space after installation, delete that model there; switching models alone does not delete downloaded files.</string>
     <string name="help_tip_assistant_downloads_step_3">تاریخچه چت به صورت محلی ذخیره می شود. مکالمه را با دکمه حذف چت پاک کنید. اگر ورودی خیلی طولانی است، درخواست را کوتاه کنید یا مکالمه جدیدی را شروع کنید.</string>
     <string name="help_tip_ai_upscaling_title">عکس ها و تصاویر را با هوش مصنوعی بزرگ کنید</string>
-    <string name="help_tip_ai_upscaling_subtitle" />
     <string name="help_tip_ai_upscaling_description">Upscaler جزئیات تصویر اضافی را در عین افزایش وضوح ایجاد می کند. Their x2, x3 or x4 scale comes from the chosen model. این با تغییر اندازه معمولی متفاوت است و نمی تواند به طور قابل اعتماد جزئیاتی را که هرگز ثبت نشده اند بازسازی کند.</string>
     <string name="help_tip_ai_upscaling_step_1">لیست مدل ها را بر اساس Upscale فیلتر کنید. Try a photo model such as RealESRGAN, RealESRNet or RealWebPhoto for photos; از یک نوع انیمه برای لاین آرت و انیمیشن استفاده کنید.</string>
     <string name="help_tip_ai_upscaling_step_2">پیش نمایش را با بزرگنمایی مفید مقایسه کنید. قبل از پردازش دسته ای به دنبال بافت اختراع شده، هاله ها، حروف تغییر یافته و چهره های بیش از حد صاف باشید.</string>
