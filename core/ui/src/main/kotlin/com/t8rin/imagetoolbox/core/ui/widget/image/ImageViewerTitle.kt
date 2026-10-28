@@ -19,7 +19,10 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,7 +44,9 @@ fun ImageViewerTitle(
     uri: Uri?,
     name: String,
     modifier: Modifier = Modifier,
-    dateMillis: Long? = null
+    dateMillis: Long? = null,
+    page: Int = 0,
+    pageCount: Int = 1
 ) {
     val date by produceState(dateMillis, uri, dateMillis) {
         value = dateMillis
@@ -58,20 +63,35 @@ fun ImageViewerTitle(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        date?.takeIf { it > 0 }?.let {
-            Text(
-                text = timestamp(
-                    format = "d MMMM, yyyy • HH:mm",
-                    date = it
-                ),
-                modifier = Modifier.padding(top = 2.dp),
-                color = White.copy(alpha = 0.7f),
-                style = MaterialTheme.typography.labelMedium,
-                fontSize = 11.sp,
-                lineHeight = 14.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+        if (date?.let { it > 0 } == true || pageCount > 1) {
+            Row(modifier = Modifier.padding(top = 2.dp)) {
+                date?.takeIf { it > 0 }?.let {
+                    Text(
+                        text = timestamp(
+                            format = "d MMMM, yyyy • HH:mm",
+                            date = it
+                        ),
+                        modifier = Modifier.weight(1f, false),
+                        color = White.copy(alpha = 0.7f),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 11.sp,
+                        lineHeight = 14.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    if (pageCount > 1) Spacer(Modifier.width(8.dp))
+                }
+                if (pageCount > 1) {
+                    Text(
+                        text = "${page + 1} / $pageCount",
+                        color = White.copy(alpha = 0.55f),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 11.sp,
+                        lineHeight = 14.sp,
+                        maxLines = 1
+                    )
+                }
+            }
         }
     }
 }

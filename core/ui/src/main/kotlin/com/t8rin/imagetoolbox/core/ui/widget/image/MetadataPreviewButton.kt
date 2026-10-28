@@ -22,11 +22,14 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,11 +39,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.image.Metadata
 import com.t8rin.imagetoolbox.core.domain.image.model.MetadataTag
 import com.t8rin.imagetoolbox.core.domain.image.toMap
@@ -56,16 +61,21 @@ import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.icons.Straighten
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
+import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onSecondaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.secondaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.tertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.localizedName
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberImageMetadataAsState
-import com.t8rin.imagetoolbox.core.ui.widget.buttons.SupportingButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -85,6 +95,7 @@ import java.util.Locale
 @Composable
 fun MetadataPreviewButton(
     uri: Uri?,
+    onShare: (Uri) -> Unit,
     dateModified: (Uri) -> Long? = { it.lastModified() },
     dateAdded: (Uri) -> Long? = { it.dateAdded() },
     path: (Uri) -> String? = { it.path() },
@@ -137,16 +148,57 @@ fun MetadataPreviewButton(
             var showExif by rememberSaveable {
                 mutableStateOf(false)
             }
-            SupportingButton(
-                onClick = { showExif = true },
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainerFixed,
-                containerColor = MaterialTheme.colorScheme.secondaryContainerFixed,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier
-                    .padding(start = 4.dp)
-                    .size(24.dp),
-                iconPadding = 3.dp
-            )
+            val size = info.fileSize?.takeIf { it.isNotBlank() }
+            Row(
+                modifier = Modifier.height(32.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                size?.let {
+                    EnhancedButton(
+                        onClick = { showExif = true },
+                        modifier = Modifier.height(32.dp),
+                        shape = ShapeDefaults.smallStart,
+                        containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                        contentPadding = PaddingValues(horizontal = 10.dp)
+                    ) {
+                        Text(
+                            text = size,
+                            style = MaterialTheme.typography.labelMedium,
+                            fontSize = 13.sp
+                        )
+                    }
+                }
+                EnhancedIconButton(
+                    onClick = { showExif = true },
+                    modifier = Modifier.size(32.dp),
+                    shape = if (size == null) ShapeDefaults.smallStart else ShapeDefaults.center,
+                    forceMinimumInteractiveComponentSize = false,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainerFixed,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainerFixed
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = stringResource(R.string.image_info),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+                EnhancedIconButton(
+                    onClick = { onShare(uri) },
+                    modifier = Modifier.size(32.dp),
+                    shape = ShapeDefaults.smallEnd,
+                    forceMinimumInteractiveComponentSize = false,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainerFixed,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainerFixed
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Share,
+                        contentDescription = stringResource(R.string.share),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
             EnhancedModalBottomSheet(
                 visible = showExif,
                 onDismiss = { showExif = false },

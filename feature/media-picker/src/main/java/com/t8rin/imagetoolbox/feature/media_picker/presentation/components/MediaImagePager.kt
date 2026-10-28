@@ -56,7 +56,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -70,14 +69,15 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
@@ -86,11 +86,11 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Error
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
-import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.shareUris
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.MediaCheckBox
@@ -99,10 +99,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageViewerTitle
 import com.t8rin.imagetoolbox.core.ui.widget.image.MetadataPreviewButton
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
@@ -122,7 +121,10 @@ internal fun MediaImagePager(
     selectedMedia: SnapshotStateList<Media>,
     onMediaClick: (Media) -> Unit
 ) {
+    val context = LocalContext.current
     val visible = imagePreviewUri != null
+
+    val useOpaqueBackground = LocalSettingsState.current.useOpaqueImageViewerBackground
 
     FullscreenPopup {
         var predictiveBackProgress by remember {
@@ -203,7 +205,8 @@ internal fun MediaImagePager(
                         }
                     }
                     .background(
-                        MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
+                        if (useOpaqueBackground) Color.Black.copy(alpha = progress)
+                        else MaterialTheme.colorScheme.scrim.copy(alpha = 0.6f * progress)
                     )
             ) {
                 val currentMedia = media.getOrNull(pagerState.currentPage)
@@ -324,14 +327,16 @@ internal fun MediaImagePager(
                         type = EnhancedTopAppBarType.Center,
                         drawHorizontalStroke = false,
                         title = {
-                            media.size.takeIf { it > 1 }?.let {
-                                Text(
-                                    text = "${pagerState.currentPage + 1}/$it",
-                                    modifier = Modifier
-                                        .padding(vertical = 4.dp, horizontal = 12.dp),
-                                    color = White
-                                )
-                            }
+                            MetadataPreviewButton(
+                                uri = currentMedia?.uri?.toUri(),
+                                onShare = { context.shareUris(listOf(it)) },
+                                dateModified = { currentMedia?.timestamp?.times(1000) },
+                                path = { currentMedia?.path },
+                                name = { currentMedia?.label },
+                                fileSize = { currentMedia?.humanFileSize?.takeIf { currentMedia.fileSize > 0 } },
+                                imageSize = { currentMedia?.imageSize },
+                                mimeType = { currentMedia?.mimeType }
+                            )
                         },
                         actions = {
                             val isImageError = imageErrorPages.contains(pagerState.currentPage)
@@ -396,49 +401,15 @@ internal fun MediaImagePager(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            modifier = Modifier.weight(1f),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            currentMedia?.label?.let {
-                                Text(
-                                    text = it,
-                                    modifier = Modifier
-                                        .animateContentSizeNoClip()
-                                        .weight(1f, false),
-                                    color = White,
-                                    style = MaterialTheme.typography.labelLarge,
-                                    fontSize = 14.sp
-                                )
-                            }
-                            currentMedia?.humanFileSize
-                                ?.takeIf { currentMedia.fileSize > 0 }
-                                ?.let { size ->
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(
-                                        text = size,
-                                        modifier = Modifier
-                                            .animateContentSizeNoClip()
-                                            .background(
-                                                color = MaterialTheme.colorScheme.primaryContainerFixed,
-                                                shape = ShapeDefaults.circle
-                                            )
-                                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                                        color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        fontSize = 12.5.sp,
-                                    )
-                                }
-                            MetadataPreviewButton(
-                                uri = currentMedia?.uri?.toUri(),
-                                dateModified = { currentMedia?.timestamp?.times(1000) },
-                                path = { currentMedia?.path },
-                                name = { currentMedia?.label },
-                                fileSize = { currentMedia?.humanFileSize },
-                                imageSize = { currentMedia?.imageSize },
-                                mimeType = { currentMedia?.mimeType }
-                            )
-                        }
+                        ImageViewerTitle(
+                            uri = currentMedia?.uri?.toUri(),
+                            name = currentMedia?.label ?: stringResource(R.string.image),
+                            dateMillis = currentMedia?.takenTimestamp?.takeIf { it > 0 }
+                                ?: currentMedia?.timestamp?.takeIf { it > 0 }?.times(1000),
+                            page = pagerState.currentPage,
+                            pageCount = pagerState.pageCount,
+                            modifier = Modifier.weight(1f)
+                        )
                         Spacer(Modifier.width(16.dp))
                         HistogramChart(
                             model = currentMedia?.uri ?: Uri.EMPTY,

@@ -56,7 +56,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -78,24 +77,19 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
-import com.t8rin.imagetoolbox.core.resources.icons.Share
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
-import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
-import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberHumanFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -103,8 +97,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
@@ -334,14 +326,15 @@ fun ImagePager(
                         type = EnhancedTopAppBarType.Center,
                         drawHorizontalStroke = false,
                         title = {
-                            uris?.size?.takeIf { it > 1 }?.let {
-                                Text(
-                                    text = "${pagerState.currentPage + 1}/$it",
-                                    modifier = Modifier
-                                        .padding(vertical = 4.dp, horizontal = 12.dp),
-                                    color = White
-                                )
-                            }
+                            MetadataPreviewButton(
+                                uri = selectedUri,
+                                onShare = onShare,
+                                name = { selectedUriFilename },
+                                fileSize = {
+                                    selectedUriFileSize?.takeIf { it > 0 }
+                                        ?.let { humanFileSize(it) }
+                                }
+                            )
                         },
                         actions = {
                             AnimatedVisibility(
@@ -349,29 +342,16 @@ fun ImagePager(
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            selectedUri?.let { onShare(it) }
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Share,
-                                            contentDescription = stringResource(R.string.share),
-                                            tint = White
-                                        )
+                                EnhancedIconButton(
+                                    onClick = {
+                                        wantToEdit = true
                                     }
-                                    EnhancedIconButton(
-                                        onClick = {
-                                            wantToEdit = true
-                                        }
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.EditAlt,
-                                            contentDescription = stringResource(R.string.edit),
-                                            tint = White
-                                        )
-                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.EditAlt,
+                                        contentDescription = stringResource(R.string.edit),
+                                        tint = White
+                                    )
                                 }
                             }
                         },
@@ -419,37 +399,12 @@ fun ImagePager(
                             modifier = Modifier.weight(1f),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            selectedUriFilename?.let {
-                                ImageViewerTitle(
-                                    uri = selectedUri,
-                                    name = it,
-                                    modifier = Modifier
-                                        .animateContentSizeNoClip()
-                                        .weight(1f, false)
-                                )
-                            }
-                            selectedUriFileSize
-                                ?.takeIf { it > 0 }
-                                ?.let { size ->
-                                    Spacer(Modifier.width(8.dp))
-                                    Text(
-                                        text = rememberHumanFileSize(size),
-                                        modifier = Modifier
-                                            .animateContentSizeNoClip()
-                                            .background(
-                                                color = MaterialTheme.colorScheme.primaryContainerFixed,
-                                                shape = ShapeDefaults.circle
-                                            )
-                                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                                        color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        fontSize = 12.5.sp,
-                                    )
-                                }
-                            MetadataPreviewButton(
+                            ImageViewerTitle(
                                 uri = selectedUri,
-                                name = { selectedUriFilename },
-                                fileSize = { selectedUriFileSize?.let { humanFileSize(it) } }
+                                name = selectedUriFilename ?: stringResource(R.string.image),
+                                page = pagerState.currentPage,
+                                pageCount = pagerState.pageCount,
+                                modifier = Modifier.weight(1f, false)
                             )
                         }
                         Spacer(Modifier.width(16.dp))
@@ -457,7 +412,7 @@ fun ImagePager(
                             model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
                             modifier = Modifier
                                 .height(50.dp)
-                                .width(80.dp),
+                                .width(90.dp),
                             bordersColor = MaterialTheme.colorScheme.primaryFixed.blend(White, 0.5f)
                         )
                     }
