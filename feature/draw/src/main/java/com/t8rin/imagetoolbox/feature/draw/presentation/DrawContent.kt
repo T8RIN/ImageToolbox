@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation
 
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -31,6 +32,7 @@ import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,11 +57,14 @@ import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.Healing
+import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.rememberAppColorTuple
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -83,6 +88,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentControls
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentNoDataControls
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.controls.DrawContentSecondaryControls
@@ -167,6 +173,17 @@ fun DrawContent(
     var showLineAngle by rememberSaveable(component.drawBehavior) { mutableStateOf(false) }
 
     val drawMode = component.drawMode
+    val paths = component.paths
+    val appliedPaths = component.appliedPaths
+    val pendingSpotHealPaths = component.pendingSpotHealPaths
+    val hasPendingSpotHeal = pendingSpotHealPaths.isNotEmpty()
+    var renderedPaths by remember(component.imageBitmap, component.drawBehavior) {
+        mutableStateOf<List<UiPathPaint>?>(null)
+    }
+    var drawingBitmap by remember(component.imageBitmap, component.drawBehavior) {
+        mutableStateOf<Bitmap?>(null)
+    }
+    val isRenderReady = renderedPaths == paths
 
     var alpha by rememberSaveable(component.drawBehavior, drawMode) {
         mutableFloatStateOf(if (drawMode is DrawMode.Highlighter) 0.4f else 1f)
@@ -223,7 +240,10 @@ fun DrawContent(
     var showOneTimeImagePickingDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val canShowScreenData = component.drawBehavior !is DrawBehavior.None
+
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.draw),
@@ -263,7 +283,7 @@ fun DrawContent(
                     mutableStateOf(listOf<Uri>())
                 }
                 ShareButton(
-                    enabled = component.drawBehavior !is DrawBehavior.None,
+                    enabled = component.drawBehavior !is DrawBehavior.None && !hasPendingSpotHeal && isRenderReady,
                     onShare = component::shareBitmap,
                     onCopy = {
                         component.cacheCurrentImage(Clipboard::copy)
@@ -284,7 +304,10 @@ fun DrawContent(
                 )
                 EnhancedIconButton(
                     onClick = component::clearDrawing,
-                    enabled = component.drawBehavior !is DrawBehavior.None && component.havePaths
+                    enabled = component.drawBehavior !is DrawBehavior.None &&
+                            if (settingsState.applySpotHealManually && drawMode is DrawMode.SpotHeal) {
+                                hasPendingSpotHeal
+                            } else component.havePaths
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Delete,
@@ -304,7 +327,11 @@ fun DrawContent(
                     imageBitmap = imageBitmap,
                     renderCache = component.renderCache,
                     sourceKey = component.imageBitmap?.asAndroidBitmap() ?: component.drawBehavior,
-                    paths = component.paths,
+                    paths = appliedPaths,
+                    pendingSpotHealPaths = pendingSpotHealPaths,
+                    applySpotHealManually = settingsState.applySpotHealManually,
+                    onDraw = { drawingBitmap = it },
+                    onRenderReady = { renderedPaths = paths.takeIf { _ -> it } },
                     strokeWidth = strokeWidth,
                     brushSoftness = brushSoftness,
                     drawColor = drawColor.copy(alpha),
@@ -337,9 +364,18 @@ fun DrawContent(
                 )
             }
         },
-        controls = {
+        controls = { scaffoldState ->
             DrawContentControls(
                 component = component,
+                isFaceDetectionEnabled = isRenderReady && !hasPendingSpotHeal,
+                onDetectFaces = { useYuNet ->
+                    drawingBitmap?.takeIf { isRenderReady && !hasPendingSpotHeal }?.let { bitmap ->
+                        component.detectFaces(bitmap, useYuNet) {
+                            AppToastHost.showToast(R.string.faces_not_found)
+                        }
+                        scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                    }
+                },
                 secondaryControls = secondaryControls,
                 drawColor = drawColor,
                 onDrawColorChange = { drawColor = it },
@@ -376,11 +412,18 @@ fun DrawContent(
                 },
                 isSecondaryButtonVisible = component.drawBehavior !is DrawBehavior.Background,
                 onPrimaryButtonClick = {
-                    saveBitmap(null)
+                    if (hasPendingSpotHeal) component.applySpotHeal()
+                    else saveBitmap(null)
                 },
+                primaryButtonIcon = if (hasPendingSpotHeal) Icons.Outlined.Healing else Icons.Rounded.Save,
+                primaryButtonText = if (hasPendingSpotHeal) stringResource(R.string.apply) else "",
+                primaryButtonContainerColor = if (hasPendingSpotHeal) {
+                    MaterialTheme.colorScheme.primary
+                } else MaterialTheme.colorScheme.primaryContainer,
                 isPrimaryButtonVisible = component.drawBehavior !is DrawBehavior.None,
-                onPrimaryButtonLongClick = {
-                    showFolderSelectionDialog = true
+                isPrimaryButtonEnabled = isRenderReady,
+                onPrimaryButtonLongClick = if (hasPendingSpotHeal) null else {
+                    { showFolderSelectionDialog = true }
                 },
                 actions = {
                     if (isPortrait) it()
@@ -409,13 +452,13 @@ fun DrawContent(
                 onPickImage = pickImage
             )
         },
-        canShowScreenData = component.drawBehavior !is DrawBehavior.None,
+        canShowScreenData = canShowScreenData,
         showActionsInTopAppBar = false,
         mainContentWeight = 0.65f
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )

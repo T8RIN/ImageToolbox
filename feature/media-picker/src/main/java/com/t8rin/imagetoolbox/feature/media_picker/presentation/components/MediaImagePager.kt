@@ -108,6 +108,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
+import net.engawapg.lib.zoomable.ScrollGesturePropagation
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
@@ -252,6 +253,7 @@ internal fun MediaImagePager(
                                 .zoomable(
                                     zoomEnabled = !imageErrorPages.contains(page),
                                     zoomState = zoomState,
+                                    scrollGesturePropagation = ScrollGesturePropagation.NotZoomed,
                                     onTap = {
                                         hideControls = !hideControls
                                     },

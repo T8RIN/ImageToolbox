@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.core.filters.presentation.widget
 
 import android.net.Uri
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -59,17 +58,20 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.utils.roundTo
 import com.t8rin.imagetoolbox.core.filters.domain.model.shader.ShaderPreset
+import com.t8rin.imagetoolbox.core.filters.presentation.model.GmicUiFilter
 import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ContentCopy
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.resources.icons.MoreVert
 import com.t8rin.imagetoolbox.core.resources.icons.RemoveCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Visibility
 import com.t8rin.imagetoolbox.core.resources.icons.VisibilityOff
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
@@ -81,6 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueDialog
 import com.t8rin.imagetoolbox.core.ui.widget.value.ValueText
 
@@ -102,9 +105,24 @@ fun <T : Any> FilterItem(
     onImportShaderPreset: (suspend (Uri) -> ShaderPreset?)? = null,
     additionalContent: @Composable (() -> Unit)? = null
 ) {
+    var showHelp by rememberSaveable(filter.title) { mutableStateOf(false) }
+    FilterHelpDialog(
+        filter = filter,
+        visible = showHelp,
+        onDismiss = { showHelp = false }
+    )
+
     var isControlsExpanded by rememberSaveable {
         mutableStateOf(true)
     }
+
+    val hasSeedSelector = remember(filter) {
+        filter.paramsInfo.any {
+            it.title == R.string.seed || it.title == R.string.procedural_seed
+        } || (filter as? GmicUiFilter)?.gmicParamsInfo?.any { it.title == R.string.seed } == true
+    }
+    val keepSeedSelector =
+        !previewOnly && LocalSettingsState.current.randomizeSeedAfterSave && hasSeedSelector
 
     val onCreateTemplateSafe = onCreateTemplate?.takeIf { filter.canUseTemplate }
 
@@ -187,10 +205,27 @@ fun <T : Any> FilterItem(
                                         EnhancedButton(
                                             modifier = Modifier.fillMaxWidth(),
                                             onClick = {
+                                                showPopup = false
+                                                showHelp = true
+                                            },
+                                            shape = ShapeDefaults.top,
+                                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Info,
+                                                contentDescription = null
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.help_tips))
+                                        }
+                                        Spacer(Modifier.height(4.dp))
+                                        EnhancedButton(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            onClick = {
                                                 onRemove()
                                                 showPopup = false
                                             },
-                                            shape = ShapeDefaults.top,
+                                            shape = ShapeDefaults.center,
                                             containerColor = MaterialTheme.colorScheme.secondary
                                         ) {
                                             Icon(
@@ -276,6 +311,12 @@ fun <T : Any> FilterItem(
                                 }
                             }
                         } else {
+                            EnhancedIconButton(onClick = { showHelp = true }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = stringResource(R.string.help_tips)
+                                )
+                            }
                             EnhancedIconButton(
                                 onClick = onRemove
                             ) {
@@ -355,8 +396,9 @@ fun <T : Any> FilterItem(
                         )
                     }
                 }
-                AnimatedVisibility(
-                    visible = isControlsExpanded || filter.value.isSingle() || previewOnly
+                BoxAnimatedVisibility(
+                    visible = isControlsExpanded || filter.value.isSingle() || previewOnly,
+                    keepContentOnCollapse = keepSeedSelector
                 ) {
                     Column {
                         FilterItemContent(

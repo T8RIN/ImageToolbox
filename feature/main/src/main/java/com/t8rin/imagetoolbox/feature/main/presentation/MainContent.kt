@@ -109,6 +109,7 @@ fun MainContent(
                 settingsBlockContent = {
                     SettingsContent(
                         component = component.settingsComponent,
+                        isActive = !isSheetSlideable || sideSheetState.isOpen,
                         appBarNavigationIcon = { showSettingsSearch, onCloseSearch ->
                             AnimatedContent(
                                 targetState = !isSheetSlideable to showSettingsSearch,

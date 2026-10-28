@@ -28,6 +28,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -45,6 +47,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.BackdropScaffoldState
 import androidx.compose.material.Icon
 import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -57,9 +60,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Neurology
 import com.t8rin.imagetoolbox.core.resources.icons.Settings
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
@@ -67,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.animation.springySpec
 import com.t8rin.imagetoolbox.core.ui.utils.helper.rememberRipple
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
@@ -78,10 +86,13 @@ internal fun BoxScope.SettingsOpenButton(
     isWantOpenSettings: Boolean,
     onStateChange: (Boolean) -> Unit,
     scaffoldState: BackdropScaffoldState,
-    canExpandSettings: Boolean
+    canExpandSettings: Boolean,
+    onOpenAssistant: (() -> Unit)?
 ) {
     val scope = rememberCoroutineScope()
     val fastSettingsSide = LocalSettingsState.current.fastSettingsSide
+    val isAssistantTab = fastSettingsSide == FastSettingsSide.None
+    val canExpandButton = canExpandSettings || (isAssistantTab && onOpenAssistant != null)
     val alignment = if (fastSettingsSide == FastSettingsSide.CenterStart) {
         Alignment.CenterStart
     } else {
@@ -137,7 +148,7 @@ internal fun BoxScope.SettingsOpenButton(
         animationSpec = springySpec()
     )
     val xOffset by animateDpAsState(
-        targetValue = if (!canExpandSettings) {
+        targetValue = if (!canExpandButton) {
             if (fastSettingsSide == FastSettingsSide.CenterStart) {
                 -width
             } else {
@@ -153,7 +164,7 @@ internal fun BoxScope.SettingsOpenButton(
         )
     )
     val alpha by animateFloatAsState(
-        targetValue = if (canExpandSettings) 1f else 0f,
+        targetValue = if (canExpandButton) 1f else 0f,
         animationSpec = tween(650)
     )
     val interactionSource = remember { MutableInteractionSource() }
@@ -171,14 +182,19 @@ internal fun BoxScope.SettingsOpenButton(
                 width = width
             )
             .hapticsClickable(
-                enabled = canExpandSettings,
+                enabled = canExpandButton,
                 indication = null,
                 interactionSource = interactionSource
             ) {
                 if (isWantOpenSettings) {
-                    scope.launch {
-                        scaffoldState.reveal()
+                    if (isAssistantTab) {
                         onStateChange(false)
+                        onOpenAssistant?.invoke()
+                    } else {
+                        scope.launch {
+                            scaffoldState.reveal()
+                            onStateChange(false)
+                        }
                     }
                 } else {
                     onStateChange(true)
@@ -236,12 +252,49 @@ internal fun BoxScope.SettingsOpenButton(
                     exit = fadeOut() + scaleOut()
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.Settings,
-                        contentDescription = null,
+                        imageVector = if (isAssistantTab) {
+                            Icons.Outlined.Neurology
+                        } else {
+                            Icons.Rounded.Settings
+                        },
+                        contentDescription = if (isAssistantTab) {
+                            stringResource(R.string.ai_assistant)
+                        } else null,
                         tint = contentColor
                     )
                 }
             }
+        }
+    }
+
+    val isStart = fastSettingsSide == FastSettingsSide.CenterStart
+    val isLeft = isStart != (direction == LayoutDirection.Rtl)
+
+    AnimatedVisibility(
+        visible = onOpenAssistant != null && !isAssistantTab && isWantOpenSettings,
+        modifier = Modifier
+            .align(alignment)
+            .padding(start = startPadding, end = endPadding)
+            .offset(x = if (isStart) 56.dp else -56.dp),
+        enter = fadeIn() + slideInHorizontally(
+            animationSpec = springySpec(),
+            initialOffsetX = { if (isLeft) -it * 2 else it * 2 }
+        ),
+        exit = fadeOut() + slideOutHorizontally(
+            animationSpec = springySpec(),
+            targetOffsetX = { if (isLeft) -it * 2 else it * 2 }
+        )
+    ) {
+        EnhancedIconButton(
+            onClick = { onOpenAssistant?.invoke() },
+            modifier = Modifier.size(48.dp),
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Neurology,
+                contentDescription = stringResource(R.string.ai_assistant),
+                tint = MaterialTheme.colorScheme.onTertiaryContainer
+            )
         }
     }
 }

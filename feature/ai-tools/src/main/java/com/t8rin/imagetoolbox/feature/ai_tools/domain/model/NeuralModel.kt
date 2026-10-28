@@ -35,16 +35,19 @@ data class NeuralModel(
 ) {
     val isStyleTransfer = type == Type.STYLE_TRANSFER
     val isOptimizationStyleTransfer = name == OPTIMIZATION_STYLE_TRANSFER_MODEL_NAME
-    val supportsStrength = name.contains("fbcnn_", true) || isStyleTransfer
+    val isFaceRestoration = name == "gfpgan_v1.4.onnx"
+    val supportsStrength = name.contains("fbcnn_", true) || isStyleTransfer || isFaceRestoration
     val isImported = downloadLink == "imported"
 
     val isWatermarkRemover = name == WATERMARK_REMOVER_MODEL_NAME
     val isUvDocUnwarper = name == "uvdoc_grid.onnx"
+    val isDocShadow = name == "docshadow_sd7k.onnx"
     val isAiDetector = type == Type.AI_DETECTION && aiDetectionContract != null
 
     val isNonChunkable =
         name.contains("ddcolor") || type == Type.REMOVE_BG || isWatermarkRemover ||
-                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector
+                isUvDocUnwarper || isStyleTransfer || type == Type.DEPTH || isAiDetector ||
+                isDocShadow || isFaceRestoration || name == "dehazeformer_t.onnx"
 
     val pointerLink: String = downloadLink.replace("/resolve/", "/blob/")
 
@@ -90,6 +93,33 @@ data class NeuralModel(
 
         val entries: List<NeuralModel> by lazy {
             listOf(
+                NeuralModel(
+                    downloadLink = res("gfpgan_v1.4.onnx"),
+                    title = "GFPGAN v1.4",
+                    description = R.string.model_gfpgan,
+                    type = Type.ENHANCE,
+                    downloadSize = 340_358_310,
+                    speed = Speed.Normal(2.252f),
+                    checksum = "45e9e0e4ec9cdf15e8649b6cfc6a18d7253df5059c87e002a6a0b76dee782b79"
+                ),
+                NeuralModel(
+                    downloadLink = res("dehazeformer_t.onnx"),
+                    title = "DehazeFormer-T",
+                    description = R.string.model_dehazeformer,
+                    type = Type.ENHANCE,
+                    downloadSize = 3_125_722,
+                    speed = Speed.VeryFast(0.833f),
+                    checksum = "bba9008d0d5cd82b41125fce5b55a388d4a135eac61afd62ff36772e328306f2"
+                ),
+                NeuralModel(
+                    downloadLink = res("scans/docshadow_sd7k.onnx"),
+                    title = "DocShadow SD7K",
+                    description = R.string.model_docshadow,
+                    type = Type.SCANS,
+                    downloadSize = 120_041_674,
+                    speed = Speed.VeryFast(0.604f),
+                    checksum = "8c09b9320a0fb3c53806cdf9cb8410b3706c77caed81f4ec1cb0bf2cbd14b049"
+                ),
                 NeuralModel(
                     downloadLink = res("detectors/ai_detector_mirage_siglip2_base_fp16.onnx"),
                     title = "Mirage SigLIP2 Base (FP16)",

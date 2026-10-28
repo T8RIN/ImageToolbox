@@ -35,5 +35,5 @@ interface FileControllerEventEmitter {
         granted: Boolean
     )
 
-    fun onSuccessfulSave()
+    suspend fun onSuccessfulSave()
 }

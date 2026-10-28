@@ -22,11 +22,14 @@ import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateTo
 import androidx.compose.animation.core.tween
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.MotionDurationScale
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.node.DrawModifierNode
 import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.ObserverModifierNode
 import androidx.compose.ui.node.invalidateDraw
+import androidx.compose.ui.node.observeReads
 import androidx.compose.ui.platform.InspectorInfo
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -73,12 +76,16 @@ private class PulsateNode(
     private var range: ClosedFloatingPointRange<Float>,
     private var duration: Int,
     private var enabled: Boolean
-) : Modifier.Node(), DrawModifierNode {
+) : Modifier.Node(), DrawModifierNode, ObserverModifierNode {
 
     private var scale = range.start
     private var job: Job? = null
 
     override fun onAttach() {
+        start()
+    }
+
+    override fun onObservedReadsChanged() {
         start()
     }
 
@@ -105,13 +112,15 @@ private class PulsateNode(
         }
     }
 
-    private fun start() {
+    private fun start() = observeReads {
         job?.cancel()
 
-        if (!enabled) {
+        val durationScale = coroutineScope.coroutineContext[MotionDurationScale]?.scaleFactor ?: 1f
+
+        if (!enabled || durationScale <= 0f) {
             scale = 1f
             invalidateDraw()
-            return
+            return@observeReads
         }
 
         job = coroutineScope.launch {

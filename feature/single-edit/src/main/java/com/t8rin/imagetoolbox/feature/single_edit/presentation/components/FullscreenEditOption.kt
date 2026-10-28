@@ -18,10 +18,15 @@
 package com.t8rin.imagetoolbox.feature.single_edit.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +34,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.displayCutout
@@ -37,7 +43,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
@@ -65,6 +74,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -74,8 +85,10 @@ import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.buttons.FloatingButtonsBlock
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -101,6 +114,7 @@ fun FullscreenEditOption(
     showControls: Boolean = true,
     controls: @Composable (BottomSheetScaffoldState?) -> Unit,
     fabButtons: (@Composable () -> Unit)?,
+    fabButtonsVisible: Boolean = true,
     actions: @Composable RowScope.() -> Unit,
     topAppBar: @Composable (closeButton: @Composable () -> Unit) -> Unit,
     scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -122,6 +136,13 @@ fun FullscreenEditOption(
     content: @Composable () -> Unit
 ) {
     val settingsState = LocalSettingsState.current
+    val useFloatingButtons = shouldUseFloatingButtons()
+    val fabVisibility = remember(visible) {
+        MutableTransitionState(fabButtons != null && fabButtonsVisible)
+    }.apply {
+        targetState = fabButtons != null && fabButtonsVisible
+    }
+    val haveFabButtons = fabVisibility.currentState || fabVisibility.targetState
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -146,6 +167,8 @@ fun FullscreenEditOption(
             else onDismiss()
         }
         val direction = LocalLayoutDirection.current
+        val density = LocalDensity.current
+        var buttonsHeight by remember { mutableStateOf(0.dp) }
         val bottomSheetScope = rememberCoroutineScope()
         val isExpanded by remember {
             derivedStateOf {
@@ -292,15 +315,21 @@ fun FullscreenEditOption(
                                                 }
                                             },
                                             floatingActionButton = {
-                                                Row(
-                                                    horizontalArrangement = Arrangement.spacedBy(
-                                                        8.dp,
-                                                        Alignment.CenterHorizontally
-                                                    ),
-                                                    verticalAlignment = Alignment.CenterVertically
+                                                androidx.compose.animation.AnimatedVisibility(
+                                                    visibleState = fabVisibility,
+                                                    enter = fadeIn() + expandHorizontally(expandFrom = Alignment.End),
+                                                    exit = fadeOut() + shrinkHorizontally(
+                                                        shrinkTowards = Alignment.End
+                                                    )
                                                 ) {
-                                                    if (fabButtons != null) {
-                                                        fabButtons()
+                                                    Row(
+                                                        horizontalArrangement = Arrangement.spacedBy(
+                                                            8.dp,
+                                                            Alignment.CenterHorizontally
+                                                        ),
+                                                        verticalAlignment = Alignment.CenterVertically
+                                                    ) {
+                                                        fabButtons?.invoke()
                                                     }
                                                 }
                                             }
@@ -347,69 +376,106 @@ fun FullscreenEditOption(
                         },
                         contentWindowInsets = WindowInsets()
                     ) { contentPadding ->
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(contentPadding)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(contentPadding)
                         ) {
-                            Box(
-                                Modifier
-                                    .container(
-                                        shape = RectangleShape,
-                                        resultPadding = 0.dp
-                                    )
-                                    .weight(0.8f)
-                                    .fillMaxHeight()
-                                    .clipToBounds()
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.then(
+                                    if (haveFabButtons && showControls && useFloatingButtons) {
+                                        Modifier.windowInsetsPadding(
+                                            WindowInsets.navigationBars.union(WindowInsets.displayCutout)
+                                                .only(WindowInsetsSides.End)
+                                        )
+                                    } else Modifier
+                                )
                             ) {
-                                content()
-                            }
-
-                            if (showControls) {
-                                Column(
-                                    modifier = Modifier
-                                        .weight(0.7f)
-                                        .clearFocusOnTap()
-                                        .enhancedVerticalScroll(rememberScrollState())
-                                        .then(
-                                            if (fabButtons == null) {
-                                                Modifier.padding(
-                                                    end = WindowInsets.displayCutout
-                                                        .asPaddingValues()
-                                                        .calculateEndPadding(direction)
-                                                )
-                                            } else Modifier
-                                        ),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    ProvideContainerDefaults(
-                                        color = MaterialTheme.colorScheme.surfaceContainerLowest
-                                    ) {
-                                        controls(null)
-                                    }
-                                }
-                            }
-                            fabButtons?.let {
-                                Column(
+                                Box(
                                     Modifier
                                         .container(
                                             shape = RectangleShape,
                                             resultPadding = 0.dp
                                         )
-                                        .padding(horizontal = 20.dp)
-                                        .padding(
-                                            end = WindowInsets.displayCutout
-                                                .asPaddingValues()
-                                                .calculateEndPadding(direction)
-                                        )
+                                        .weight(0.8f)
                                         .fillMaxHeight()
-                                        .navigationBarsPadding(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.spacedBy(
-                                        8.dp,
-                                        Alignment.CenterVertically
-                                    )
+                                        .clipToBounds()
                                 ) {
-                                    it()
+                                    content()
+                                }
+
+                                if (showControls) {
+                                    Column(
+                                        modifier = Modifier
+                                            .weight(0.7f)
+                                            .clearFocusOnTap()
+                                            .enhancedVerticalScroll(rememberScrollState())
+                                            .padding(bottom = if (haveFabButtons && useFloatingButtons) buttonsHeight else 0.dp)
+                                            .then(
+                                                if (!haveFabButtons) {
+                                                    Modifier.padding(
+                                                        end = WindowInsets.displayCutout
+                                                            .asPaddingValues()
+                                                            .calculateEndPadding(direction)
+                                                    )
+                                                } else Modifier
+                                            ),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        ProvideContainerDefaults(
+                                            color = MaterialTheme.colorScheme.surfaceContainerLowest
+                                        ) {
+                                            controls(null)
+                                        }
+                                    }
+                                }
+                                if (!showControls || !useFloatingButtons) {
+                                    AnimatedVisibility(
+                                        visibleState = fabVisibility,
+                                        enter = fadeIn() + expandHorizontally(expandFrom = Alignment.End),
+                                        exit = fadeOut() + shrinkHorizontally(shrinkTowards = Alignment.End)
+                                    ) {
+                                        Column(
+                                            Modifier
+                                                .container(
+                                                    shape = RectangleShape,
+                                                    resultPadding = 0.dp
+                                                )
+                                                .padding(horizontal = 20.dp)
+                                                .padding(
+                                                    end = WindowInsets.displayCutout
+                                                        .asPaddingValues()
+                                                        .calculateEndPadding(direction)
+                                                )
+                                                .fillMaxHeight()
+                                                .navigationBarsPadding(),
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                            verticalArrangement = Arrangement.spacedBy(
+                                                8.dp,
+                                                Alignment.CenterVertically
+                                            )
+                                        ) {
+                                            fabButtons?.invoke()
+                                        }
+                                    }
+                                }
+                            }
+                            if (showControls && useFloatingButtons) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visibleState = fabVisibility,
+                                    modifier = Modifier.align(Alignment.BottomEnd),
+                                    enter = fadeIn() + scaleIn(initialScale = 0.8f),
+                                    exit = fadeOut() + scaleOut(targetScale = 0.8f)
+                                ) {
+                                    FloatingButtonsBlock(
+                                        showContainer = false,
+                                        modifier = Modifier.onSizeChanged {
+                                            buttonsHeight = with(density) { it.height.toDp() }
+                                        }
+                                    ) {
+                                        fabButtons?.invoke()
+                                    }
                                 }
                             }
                         }

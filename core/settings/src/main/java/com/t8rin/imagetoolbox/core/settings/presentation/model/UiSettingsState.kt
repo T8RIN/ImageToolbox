@@ -47,6 +47,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Preset
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
@@ -57,6 +58,7 @@ import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
@@ -64,6 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -86,6 +89,11 @@ data class UiSettingsState(
     val showUpdateDialogOnStartup: Boolean,
     val selectedEmoji: Uri?,
     val picturePickerMode: PicturePickerMode,
+    val isSemanticSearchEnabled: Boolean,
+    val semanticSearchSettings: SemanticSearchSettings,
+    val isAiAssistantEnabled: Boolean,
+    val isAiAssistantSetupComplete: Boolean,
+    val aiAssistantModel: AssistantModel,
     val clearCacheOnLaunch: Boolean,
     val cacheAutoClearLimitBytes: Long,
     val cacheAutoClearInterval: CacheAutoClearInterval,
@@ -99,6 +107,7 @@ data class UiSettingsState(
     val saveFolderUri: Uri?,
     val saveToOriginalFolder: Boolean,
     val deleteOriginalsAfterSave: Boolean,
+    val randomizeSeedAfterSave: Boolean,
     val returnToExternalAppAfterSave: Boolean,
     val filenamePrefix: String,
     val addSizeInFilename: Boolean,
@@ -121,6 +130,8 @@ data class UiSettingsState(
     val themeStyle: PaletteStyle,
     val isInvertThemeColors: Boolean,
     val screensSearchEnabled: Boolean,
+    val showHelpTipsButton: Boolean,
+    val isHelpTipsButtonHintDismissed: Boolean,
     val copyToClipboardMode: CopyToClipboardMode,
     val hapticsStrength: Int,
     val filenameSuffix: String,
@@ -148,6 +159,7 @@ data class UiSettingsState(
     val showSettingsInLandscape: Boolean,
     val useFullscreenSettings: Boolean,
     val allowCollapsingSettingsGroups: Boolean,
+    val useCategorizedSettings: Boolean,
     val switchType: SwitchType,
     val defaultDrawLineWidth: Float,
     val oneTimeSaveLocations: List<OneTimeSaveLocation>,
@@ -172,6 +184,7 @@ data class UiSettingsState(
     val mainScreenTitle: String,
     val sliderType: SliderType,
     val isCenterAlignDialogButtons: Boolean,
+    val dialogPosition: DialogPosition,
     val fastSettingsSide: FastSettingsSide,
     val settingGroupsInitialVisibility: Map<Int, Boolean>,
     val customFonts: List<UiFontFamily.Custom>,
@@ -184,6 +197,9 @@ data class UiSettingsState(
     val customAsciiGradients: Set<String>,
     val isScreenSelectionLauncherMode: Boolean,
     val spotHealMode: Int,
+    val lamaThreads: Int,
+    val lamaLimitResolution: Boolean,
+    val applySpotHealManually: Boolean,
     val snowfallMode: SnowfallMode,
     val defaultImageFormat: ImageFormat?,
     val defaultQuality: Quality,
@@ -363,6 +379,11 @@ fun SettingsState.toUiState(
                 showUpdateDialogOnStartup = showUpdateDialogOnStartup,
                 selectedEmoji = selectedEmoji,
                 picturePickerMode = PicturePickerMode.fromInt(picturePickerModeInt),
+                isSemanticSearchEnabled = isSemanticSearchEnabled,
+                semanticSearchSettings = semanticSearchSettings,
+                isAiAssistantEnabled = isAiAssistantEnabled,
+                isAiAssistantSetupComplete = isAiAssistantSetupComplete,
+                aiAssistantModel = aiAssistantModel,
                 clearCacheOnLaunch = clearCacheOnLaunch,
                 cacheAutoClearLimitBytes = cacheAutoClearLimitBytes,
                 cacheAutoClearInterval = cacheAutoClearInterval,
@@ -376,6 +397,7 @@ fun SettingsState.toUiState(
                 saveFolderUri = saveFolderUri,
                 saveToOriginalFolder = saveToOriginalFolder,
                 deleteOriginalsAfterSave = deleteOriginalsAfterSave,
+                randomizeSeedAfterSave = randomizeSeedAfterSave,
                 returnToExternalAppAfterSave = returnToExternalAppAfterSave,
                 filenamePrefix = filenamePrefix,
                 addSizeInFilename = addSizeInFilename,
@@ -398,6 +420,8 @@ fun SettingsState.toUiState(
                 themeStyle = themeStyle,
                 isInvertThemeColors = isInvertThemeColors,
                 screensSearchEnabled = screensSearchEnabled,
+                showHelpTipsButton = showHelpTipsButton,
+                isHelpTipsButtonHintDismissed = isHelpTipsButtonHintDismissed,
                 copyToClipboardMode = copyToClipboardMode,
                 hapticsStrength = hapticsStrength,
                 filenameSuffix = filenameSuffix,
@@ -425,6 +449,7 @@ fun SettingsState.toUiState(
                 showSettingsInLandscape = showSettingsInLandscape,
                 useFullscreenSettings = useFullscreenSettings,
                 allowCollapsingSettingsGroups = allowCollapsingSettingsGroups,
+                useCategorizedSettings = useCategorizedSettings,
                 switchType = switchType,
                 defaultDrawLineWidth = defaultDrawLineWidth,
                 oneTimeSaveLocations = oneTimeSaveLocations,
@@ -449,6 +474,7 @@ fun SettingsState.toUiState(
                 mainScreenTitle = mainScreenTitle,
                 sliderType = sliderType,
                 isCenterAlignDialogButtons = isCenterAlignDialogButtons,
+                dialogPosition = dialogPosition,
                 fastSettingsSide = fastSettingsSide,
                 settingGroupsInitialVisibility = settingGroupsInitialVisibility,
                 customFonts = customFonts,
@@ -461,6 +487,9 @@ fun SettingsState.toUiState(
                 customAsciiGradients = customAsciiGradients,
                 isScreenSelectionLauncherMode = isScreenSelectionLauncherMode,
                 spotHealMode = spotHealMode,
+                lamaThreads = lamaThreads,
+                lamaLimitResolution = lamaLimitResolution,
+                applySpotHealManually = applySpotHealManually,
                 snowfallMode = snowfallMode,
                 defaultImageFormat = defaultImageFormat,
                 defaultQuality = defaultQuality,

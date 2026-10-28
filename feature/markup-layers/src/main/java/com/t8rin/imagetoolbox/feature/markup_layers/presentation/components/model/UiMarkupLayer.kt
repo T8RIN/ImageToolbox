@@ -17,16 +17,16 @@
 
 package com.t8rin.imagetoolbox.feature.markup_layers.presentation.components.model
 
-import com.t8rin.imagetoolbox.core.resources.Icons
-import com.t8rin.imagetoolbox.core.resources.icons.FormatBold
-import com.t8rin.imagetoolbox.core.resources.icons.FormatItalic
-import com.t8rin.imagetoolbox.core.resources.icons.FormatStrikethrough
-import com.t8rin.imagetoolbox.core.resources.icons.FormatUnderlined
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.IntSize
 import com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.FormatBold
+import com.t8rin.imagetoolbox.core.resources.icons.FormatItalic
+import com.t8rin.imagetoolbox.core.resources.icons.FormatStrikethrough
+import com.t8rin.imagetoolbox.core.resources.icons.FormatUnderlined
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.DomainTextDecoration
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerPosition
 import com.t8rin.imagetoolbox.feature.markup_layers.domain.LayerType
@@ -42,6 +42,7 @@ data class UiMarkupLayer(
     val cornerRadiusPercent: Int = 0,
     val blendingMode: BlendingMode = BlendingMode.SrcOver,
     val isLocked: Boolean = false,
+    val isBackground: Boolean = false,
     val groupedLayers: List<UiMarkupLayer> = emptyList(),
     val state: EditBoxState = EditBoxState(isActive = true)
 ) {
@@ -58,6 +59,7 @@ data class UiMarkupLayer(
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
         isLocked = isLocked,
+        isBackground = isBackground,
         groupedLayers = groupedLayers,
         state = state.copy(
             isActive = isActive,
@@ -83,17 +85,20 @@ fun UiMarkupLayer.asDomain(): MarkupLayer = MarkupLayer(
     contentSize = state.contentSize.toIntegerSize(),
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
-    isLocked = isLocked,
+    isLocked = isLocked || isBackground,
+    isBackground = isBackground,
     blendingMode = blendingMode,
     groupedLayers = groupedLayers.map(UiMarkupLayer::asDomain)
 )
 
 fun MarkupLayer.asUi(): UiMarkupLayer = UiMarkupLayer(
+    id = if (isBackground) 0L else nextUiLayerId(),
     type = type,
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = type.layerCornerRadiusPercent(cornerRadiusPercent),
     blendingMode = blendingMode,
-    isLocked = isLocked,
+    isLocked = isLocked || isBackground,
+    isBackground = isBackground,
     groupedLayers = groupedLayers.map(MarkupLayer::asUi),
     state = EditBoxState(
         scale = position.scale,

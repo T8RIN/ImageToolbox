@@ -15,8 +15,6 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-@file:Suppress("KotlinConstantConditions")
-
 package com.t8rin.imagetoolbox.feature.erase_background.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
@@ -36,85 +34,48 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.retain.RetainedEffect
 import androidx.compose.runtime.retain.retain
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.t8rin.imagetoolbox.core.domain.utils.Flavor
-import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
-import com.t8rin.imagetoolbox.core.domain.utils.throttleLatest
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadForOffline
 import com.t8rin.imagetoolbox.core.resources.icons.SettingsBackupRestore
+import com.t8rin.imagetoolbox.core.resources.icons.TouchApp
 import com.t8rin.imagetoolbox.core.ui.theme.mixedContainer
 import com.t8rin.imagetoolbox.core.ui.theme.onMixedContainer
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.erase_background.domain.model.BgModelType
-import com.t8rin.neural_tools.DownloadProgress
-import com.t8rin.neural_tools.bgremover.BgRemover
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 
 @Composable
 fun AutoEraseBackgroundCard(
     modifier: Modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
     onClick: (BgModelType) -> Unit,
-    onReset: () -> Unit
+    onReset: () -> Unit,
+    onSelectSubject: (() -> Unit)? = null,
+    isSelectingSubject: Boolean = false,
+    state: AutoEraseBackgroundCardState? = null
 ) {
-    var selectedModel by rememberSaveable {
-        mutableStateOf(flavoredEntries.first())
-    }
+    val cardState = state ?: rememberAutoEraseBackgroundCardState()
+    val selectedModel = cardState.selectedModel
+    val downloadedModels = cardState.downloadedModels
 
-    val downloadedModelsRaw by BgRemover.downloadedModels.collectAsStateWithLifecycle()
-    val downloadedModels by remember(downloadedModelsRaw) {
-        derivedStateOf {
-            downloadedModelsRaw.mapNotNull { it.toDomain() }
-        }
-    }
-
-    val downloadProgresses = remember(downloadedModels) {
-        mutableStateMapOf<BgModelType, DownloadProgress>()
-    }
-
-    LaunchedEffect(Unit) {
-        flavoredEntries.forEach {
-            BgRemover.getRemover(it.toLib()).checkModel()
-            delay(100)
-        }
-    }
-
-    LaunchedEffect(downloadedModels) {
-        if (!downloadedModels.contains(selectedModel)) {
-            selectedModel = BgModelType.Default
-        }
-    }
-
-    val scope = retain { CoroutineScope(Dispatchers.IO) }
-    var downloadJob by retain {
-        mutableStateOf<Job?>(null)
+    LaunchedEffect(cardState) {
+        cardState.checkModels()
     }
 
     Column(
@@ -125,52 +86,15 @@ fun AutoEraseBackgroundCard(
                 shape = ShapeDefaults.extraLarge
             )
     ) {
-        if (flavoredEntries.size > 1) {
+        if (cardState.models.size > 1) {
             EnhancedButtonGroup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min),
-                entries = flavoredEntries,
+                entries = cardState.models,
                 value = selectedModel,
                 title = null,
-                onValueChange = { type ->
-                    if (downloadJob == null) {
-                        if (selectedModel != type) {
-                            BgRemover.getRemover(selectedModel.toLib()).close()
-                        }
-
-                        selectedModel = type
-
-                        if (type in downloadedModels) return@EnhancedButtonGroup
-
-                        downloadJob?.cancel()
-                        downloadJob = scope.launch {
-                            BgRemover.downloadModel(type.toLib())
-                                .onStart {
-                                    downloadProgresses[type] = DownloadProgress(
-                                        currentPercent = 0f,
-                                        currentTotalSize = 0
-                                    )
-                                }
-                                .onCompletion {
-                                    downloadProgresses.remove(type)
-                                    downloadJob = null
-                                    delay(100)
-                                    BgRemover.getRemover(type.toLib()).checkModel()
-                                }
-                                .catch {
-                                    selectedModel = BgModelType.Default
-                                    downloadProgresses.remove(type)
-                                    downloadJob = null
-                                }
-                                .onEach {
-                                    downloadProgresses[type] = it
-                                }
-                                .throttleLatest(50)
-                                .collect {}
-                        }
-                    }
-                },
+                onValueChange = cardState::selectModel,
                 itemContent = { type ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -182,7 +106,7 @@ fun AutoEraseBackgroundCard(
 
                         if (type != BgModelType.MlKit) {
                             AnimatedVisibility(type !in downloadedModels) {
-                                downloadProgresses[type]?.let { progress ->
+                                cardState.downloadProgresses[type]?.let { progress ->
                                     EnhancedCancellableCircularProgressIndicator(
                                         progress = { progress.currentPercent },
                                         modifier = Modifier
@@ -190,12 +114,7 @@ fun AutoEraseBackgroundCard(
                                             .size(24.dp),
                                         trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
                                         strokeWidth = 3.dp,
-                                        onCancel = {
-                                            downloadJob?.cancel()
-                                            selectedModel = BgModelType.Default
-                                            downloadProgresses.remove(type)
-                                            downloadJob = null
-                                        }
+                                        onCancel = cardState::cancelDownload
                                     )
                                 } ?: Icon(
                                     imageVector = Icons.Rounded.DownloadForOffline,
@@ -219,6 +138,8 @@ fun AutoEraseBackgroundCard(
                     color = MaterialTheme.colorScheme.mixedContainer.copy(0.7f)
                 )
                 .hapticsClickable(
+                    enabled = !cardState.isDownloading && !isSelectingSubject &&
+                            selectedModel in downloadedModels,
                     onClick = { onClick(selectedModel) }
                 )
                 .padding(16.dp),
@@ -235,13 +156,43 @@ fun AutoEraseBackgroundCard(
                 tint = MaterialTheme.colorScheme.onMixedContainer
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(Modifier.height(4.dp))
+        val showPointsButton = selectedModel == BgModelType.MobileSAM &&
+                selectedModel in downloadedModels &&
+                onSelectSubject != null
+
+        AnimatedVisibility(showPointsButton) {
+            EnhancedButton(
+                onClick = onSelectSubject ?: {},
+                enabled = !isSelectingSubject,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                shape = ShapeDefaults.top,
+            ) {
+                if (isSelectingSubject) {
+                    EnhancedCircularProgressIndicator(
+                        modifier = Modifier.size(16.dp),
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.TouchApp,
+                        contentDescription = null
+                    )
+                }
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.sam_select_subject))
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
         EnhancedButton(
-            containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.2f),
+            containerColor = MaterialTheme.colorScheme.errorContainer.copy(0.3f),
             contentColor = MaterialTheme.colorScheme.onErrorContainer,
             onClick = onReset,
             modifier = Modifier.fillMaxWidth(),
-            shape = ShapeDefaults.default,
+            shape = if (showPointsButton) ShapeDefaults.bottom else ShapeDefaults.default,
             isShadowClip = true
         ) {
             Icon(
@@ -254,32 +205,11 @@ fun AutoEraseBackgroundCard(
     }
 }
 
-private val flavoredEntries: List<BgModelType> = BgModelType.entries.let {
-    if (Flavor.isFoss()) it.toggle(BgModelType.MlKit)
-    else it
-}
-
-private fun BgModelType.toLib(): BgRemover.Type = when (this) {
-    BgModelType.MlKit,
-    BgModelType.U2NetP -> BgRemover.Type.U2NetP
-
-    BgModelType.U2Net -> BgRemover.Type.U2Net
-    BgModelType.RMBG -> BgRemover.Type.RMBG1_4
-    BgModelType.InSPyReNet -> BgRemover.Type.InSPyReNet
-    BgModelType.BiRefNetTiny -> BgRemover.Type.BiRefNetTiny
-    BgModelType.ISNet -> BgRemover.Type.ISNet
-    BgModelType.YOLO -> BgRemover.Type.YOLO
-    BgModelType.MODNet -> BgRemover.Type.MODNet
-}
-
-private fun BgRemover.Type.toDomain(): BgModelType? = when (this) {
-    BgRemover.Type.U2NetP -> BgModelType.U2NetP
-    BgRemover.Type.U2Net -> BgModelType.U2Net
-    BgRemover.Type.RMBG1_4 -> BgModelType.RMBG
-    BgRemover.Type.InSPyReNet -> BgModelType.InSPyReNet
-    BgRemover.Type.BiRefNetTiny -> BgModelType.BiRefNetTiny
-    BgRemover.Type.BiRefNet -> null
-    BgRemover.Type.ISNet -> BgModelType.ISNet
-    BgRemover.Type.YOLO -> BgModelType.YOLO
-    BgRemover.Type.MODNet -> BgModelType.MODNet
+@Composable
+private fun rememberAutoEraseBackgroundCardState(): AutoEraseBackgroundCardState {
+    val scope = retain { CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate) }
+    RetainedEffect(scope) {
+        onRetire { scope.cancel() }
+    }
+    return retain(scope) { AutoEraseBackgroundCardState(scope) }
 }

@@ -90,11 +90,24 @@ sealed class Screen(
     @Serializable
     data class Help(
         val categoryName: String? = null,
-        val tipId: String? = null
+        val tipId: String? = null,
+        val showButtonHint: Boolean = false
     ) : Screen(
         id = -7,
         title = 0,
         subtitle = 0
+    )
+
+    @Serializable
+    data class Assistant(
+        val source: Screen? = null,
+        val settingKey: String? = null,
+        val parameters: Map<String, String> = emptyMap(),
+        val selectedUris: List<Uri> = emptyList()
+    ) : Screen(
+        id = -10,
+        title = R.string.ai_assistant,
+        subtitle = R.string.ai_assistant_subtitle
     )
 
     @Serializable
@@ -110,6 +123,15 @@ sealed class Screen(
         val targetSetting: Setting? = null
     ) : Screen(
         id = -3,
+        title = 0,
+        subtitle = 0
+    )
+
+    @Serializable
+    data class SettingsCategory(
+        val categoryId: Int
+    ) : Screen(
+        id = -9,
         title = 0,
         subtitle = 0
     )
@@ -194,7 +216,8 @@ sealed class Screen(
 
             @Serializable
             data class Basic(
-                val uris: List<Uri>? = null
+                val uris: List<Uri>? = null,
+                val filterKey: String? = null
             ) : Type(
                 title = R.string.full_filter,
                 subtitle = R.string.full_filter_sub

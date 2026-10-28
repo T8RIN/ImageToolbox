@@ -64,6 +64,7 @@ internal fun SettingsBackdropWrapper(
     currentScreen: Screen?,
     concealBackdropFlow: Flow<Boolean>,
     settingsComponent: SettingsComponent,
+    onOpenAssistant: () -> Unit,
     children: @Composable () -> Unit
 ) {
     val scaffoldState = rememberBackdropScaffoldState(
@@ -75,6 +76,9 @@ internal fun SettingsBackdropWrapper(
     )
     val canExpandSettings = (currentScreen?.canExpandSettings == true)
         .and(settingsComponent.settingsState.fastSettingsSide != FastSettingsSide.None)
+    val canOpenAssistant = currentScreen?.canExpandSettings == true &&
+            settingsComponent.settingsState.isAiAssistantEnabled &&
+            !scaffoldState.isRevealed && scaffoldState.targetValue != BackdropValue.Revealed
 
     var predictiveBackProgress by remember {
         mutableFloatStateOf(0f)
@@ -104,6 +108,7 @@ internal fun SettingsBackdropWrapper(
     }
 
     val isTargetRevealed = scaffoldState.targetValue == BackdropValue.Revealed
+    val noAnimations = settingsComponent.settingsState.motionDurationScale == 0f
     val gridState = rememberLazyStaggeredGridState()
 
     BackdropScaffold(
@@ -153,7 +158,13 @@ internal fun SettingsBackdropWrapper(
                     isWantOpenSettings = isWantOpenSettings,
                     onStateChange = { isWantOpenSettings = it },
                     scaffoldState = scaffoldState,
-                    canExpandSettings = canExpandSettings
+                    canExpandSettings = canExpandSettings,
+                    onOpenAssistant = if (canOpenAssistant) {
+                        {
+                            isWantOpenSettings = false
+                            onOpenAssistant()
+                        }
+                    } else null
                 )
 
                 val progress = scaffoldState.progress(
@@ -170,7 +181,7 @@ internal fun SettingsBackdropWrapper(
             }
         },
         backLayerContent = {
-            if (canExpandSettings && (scaffoldState.isRevealed || isTargetRevealed)) {
+            if (canExpandSettings && (noAnimations || scaffoldState.isRevealed || isTargetRevealed)) {
                 PredictiveBackObserver(
                     onProgress = {
                         predictiveBackProgress = it * 1.3f

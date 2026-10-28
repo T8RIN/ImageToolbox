@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.resources.emoji.Emoji.initEmoji
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeApplication
 import com.t8rin.imagetoolbox.core.utils.initAppContext
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -54,6 +55,9 @@ class ImageToolboxApplication : ComposeApplication() {
 
     @Inject
     lateinit var analyticsManager: AnalyticsManager
+
+    @Inject
+    lateinit var semanticSearchScheduler: SemanticSearchScheduler
 
     private var isSetupCompleted: Boolean = false
 
@@ -79,6 +83,7 @@ class ImageToolboxApplication : ComposeApplication() {
             initPdfBox()
             injectBaseComponent()
             initCollages()
+            semanticSearchScheduler.start()
 
             isSetupCompleted = true
         }

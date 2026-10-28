@@ -25,12 +25,14 @@ import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.image.model.ScaleColorSpace
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
@@ -43,6 +45,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawDevelopSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -53,6 +56,18 @@ internal fun Preferences.toSettingsState(
     default: SettingsState,
     jsonParser: JsonParser
 ): SettingsState = SettingsState(
+    isAiAssistantEnabled = this[AI_ASSISTANT_ENABLED] ?: default.isAiAssistantEnabled,
+    isAiAssistantSetupComplete = this[AI_ASSISTANT_SETUP_COMPLETE]
+        ?: default.isAiAssistantSetupComplete,
+    aiAssistantModel = AssistantModel.fromOrdinal(this[AI_ASSISTANT_MODEL_TYPE])
+        ?: default.aiAssistantModel,
+    isSemanticSearchEnabled = this[SEMANTIC_SEARCH_ENABLED] ?: default.isSemanticSearchEnabled,
+    semanticSearchSettings = this[SEMANTIC_SEARCH_SETTINGS]?.let {
+        jsonParser.fromJson<SemanticSearchSettings>(
+            json = it,
+            type = SemanticSearchSettings::class.java
+        )?.normalized()
+    } ?: default.semanticSearchSettings,
     nightMode = NightMode.fromOrdinal(this[NIGHT_MODE]) ?: default.nightMode,
     isDynamicColors = this[DYNAMIC_COLORS] ?: default.isDynamicColors,
     isAmoledMode = this[AMOLED_MODE] ?: default.isAmoledMode,
@@ -81,6 +96,7 @@ internal fun Preferences.toSettingsState(
     saveToOriginalFolder = this[SAVE_TO_ORIGINAL_FOLDER] ?: default.saveToOriginalFolder,
     deleteOriginalsAfterSave = this[DELETE_ORIGINALS_AFTER_SAVE]
         ?: default.deleteOriginalsAfterSave,
+    randomizeSeedAfterSave = this[RANDOMIZE_SEED_AFTER_SAVE] ?: default.randomizeSeedAfterSave,
     returnToExternalAppAfterSave = this[RETURN_TO_EXTERNAL_APP_AFTER_SAVE]
         ?: default.returnToExternalAppAfterSave,
     presets = Preset.createListFromInts(this[PRESETS]) ?: default.presets,
@@ -116,6 +132,9 @@ internal fun Preferences.toSettingsState(
     themeStyle = this[THEME_STYLE] ?: default.themeStyle,
     isInvertThemeColors = this[INVERT_THEME] ?: default.isInvertThemeColors,
     screensSearchEnabled = this[SCREEN_SEARCH_ENABLED] ?: default.screensSearchEnabled,
+    showHelpTipsButton = this[SHOW_HELP_TIPS_BUTTON] ?: default.showHelpTipsButton,
+    isHelpTipsButtonHintDismissed = this[HELP_TIPS_BUTTON_HINT_DISMISSED]
+        ?: default.isHelpTipsButtonHintDismissed,
     copyToClipboardMode = this[COPY_TO_CLIPBOARD_MODE]?.let {
         CopyToClipboardMode.fromInt(it)
     } ?: default.copyToClipboardMode,
@@ -160,6 +179,8 @@ internal fun Preferences.toSettingsState(
         ?: default.showSettingsInLandscape,
     useFullscreenSettings = this[USE_FULLSCREEN_SETTINGS]
         ?: default.useFullscreenSettings,
+    useCategorizedSettings = this[USE_CATEGORIZED_SETTINGS]
+        ?: default.useCategorizedSettings,
     allowCollapsingSettingsGroups = this[ALLOW_COLLAPSING_SETTINGS_GROUPS]
         ?: default.allowCollapsingSettingsGroups,
     switchType = this[SWITCH_TYPE]?.let {
@@ -219,6 +240,7 @@ internal fun Preferences.toSettingsState(
     } ?: default.sliderType,
     isCenterAlignDialogButtons = this[CENTER_ALIGN_DIALOG_BUTTONS]
         ?: default.isCenterAlignDialogButtons,
+    dialogPosition = DialogPosition.fromOrdinal(this[DIALOG_POSITION]) ?: default.dialogPosition,
     fastSettingsSide = this[FAST_SETTINGS_SIDE]?.let {
         FastSettingsSide.fromOrdinal(it)
     } ?: default.fastSettingsSide,
@@ -246,6 +268,9 @@ internal fun Preferences.toSettingsState(
     initialOcrEngine = this[INITIAL_OCR_ENGINE] ?: default.initialOcrEngine,
     initialPaddleOcrModel = this[INITIAL_PADDLE_OCR_MODEL] ?: default.initialPaddleOcrModel,
     spotHealMode = this[SPOT_HEAL_MODE] ?: default.spotHealMode,
+    lamaThreads = this[LAMA_THREADS] ?: default.lamaThreads,
+    lamaLimitResolution = this[LAMA_LIMIT_RESOLUTION] ?: default.lamaLimitResolution,
+    applySpotHealManually = this[APPLY_SPOT_HEAL_MANUALLY] ?: default.applySpotHealManually,
     snowfallMode = this[SNOWFALL_MODE]?.let { SnowfallMode.entries[it] } ?: default.snowfallMode,
     defaultImageFormat = this[DEFAULT_IMAGE_FORMAT].let { title ->
         if (title.isNullOrBlank()) {

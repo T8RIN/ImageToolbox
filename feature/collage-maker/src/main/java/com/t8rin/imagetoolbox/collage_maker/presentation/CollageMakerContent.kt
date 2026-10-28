@@ -223,7 +223,10 @@ fun CollageMakerContent(
 
     val scope = rememberCoroutineScope()
 
+    val canShowScreenData = !component.uris.isNullOrEmpty()
+
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             AnimatedContent(
                 targetState = component.uris.isNullOrEmpty()
@@ -764,7 +767,7 @@ fun CollageMakerContent(
                 ImageNotPickedWidget(onPickImage = pickImage)
             }
         },
-        canShowScreenData = !component.uris.isNullOrEmpty()
+        canShowScreenData = canShowScreenData
     )
 
     ExitWithoutSavingDialog(
@@ -774,7 +777,7 @@ fun CollageMakerContent(
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading,
+        visible = component.isSaving || (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving
     )
 }

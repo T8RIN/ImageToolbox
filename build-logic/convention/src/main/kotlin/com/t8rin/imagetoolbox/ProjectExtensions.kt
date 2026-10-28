@@ -20,6 +20,7 @@ package com.t8rin.imagetoolbox
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
+import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.the
@@ -29,7 +30,8 @@ val Project.libs
 
 val Project.projects
     get(): Projects = object : Projects, ProjectHolder {
-        override fun project(path: String): Project = this@projects.project(path)
+        override fun project(path: String): ProjectLibrary =
+            dependencyFactory.createProjectDependency(path)
     }
 
 val Projects.core
@@ -85,12 +87,12 @@ fun DependencyHandlerScope.detektPlugins(
 
 typealias Library = Provider<MinimalExternalModuleDependency>
 
-typealias ProjectLibrary = Project
+typealias ProjectLibrary = ProjectDependency
 
 interface Projects : ProjectHolder
 
 interface CoreProjects : ProjectHolder
 
 interface ProjectHolder {
-    fun project(path: String): Project
+    fun project(path: String): ProjectLibrary
 }

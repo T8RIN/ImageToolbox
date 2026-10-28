@@ -18,34 +18,32 @@
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
 import android.net.Uri
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.FolderShared
 import com.t8rin.imagetoolbox.core.resources.icons.FolderSpecial
-import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberFolderPicker
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.utils.uiPath
 
 @Composable
 fun SavingFolderSettingItemGroup(
     modifier: Modifier = Modifier,
+    shape: Shape? = null,
     onValueChange: (Uri?) -> Unit
 ) {
     Column(modifier) {
@@ -57,7 +55,7 @@ fun SavingFolderSettingItemGroup(
         )
 
         PreferenceItem(
-            shape = ShapeDefaults.top,
+            shape = settingsGroupItemShape(index = 0, size = 2, shape = shape),
             onClick = { onValueChange(null) },
             title = stringResource(R.string.def),
             subtitle = stringResource(R.string.default_folder),
@@ -70,19 +68,10 @@ fun SavingFolderSettingItemGroup(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
-                .border(
-                    width = settingsState.borderWidth,
-                    color = animateColorAsState(
-                        if (currentFolderUri == null) {
-                            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
-                        } else Color.Transparent
-                    ).value,
-                    shape = ShapeDefaults.top
-                )
         )
         Spacer(modifier = Modifier.height(4.dp))
         PreferenceItem(
-            shape = ShapeDefaults.bottom,
+            shape = settingsGroupItemShape(index = 1, size = 2, shape = shape),
             onClick = {
                 launcher.pickFolder(currentFolderUri)
             },
@@ -99,15 +88,6 @@ fun SavingFolderSettingItemGroup(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
-                .border(
-                    width = settingsState.borderWidth,
-                    color = animateColorAsState(
-                        if (currentFolderUri != null) {
-                            MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
-                        } else Color.Transparent
-                    ).value,
-                    shape = ShapeDefaults.bottom
-                )
         )
     }
 }

@@ -40,6 +40,7 @@ import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageInfo
 import com.t8rin.imagetoolbox.core.domain.model.GradientFill
+import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
@@ -63,10 +64,15 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.domain.ImageDrawApplier
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.detectFaceRegions
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class DrawComponent @AssistedInject internal constructor(
@@ -87,6 +93,8 @@ class DrawComponent @AssistedInject internal constructor(
     addFiltersSheetComponentFactory: AddFiltersSheetComponent.Factory,
     filterTemplateCreationSheetComponentFactory: FilterTemplateCreationSheetComponent.Factory
 ) : BaseComponent(dispatchersHolder, componentContext) {
+
+    private val applySpotHealManually get() = settingsProvider.settingsState.value.applySpotHealManually
 
     init {
         debounce {
@@ -148,6 +156,29 @@ class DrawComponent @AssistedInject internal constructor(
 
     private val _undonePaths = mutableStateOf(listOf<UiPathPaint>())
     val undonePaths: List<UiPathPaint> by _undonePaths
+
+    val appliedPaths: List<UiPathPaint>
+        get() = paths.filterNot { it.isPendingSpotHeal }
+
+    val pendingSpotHealPaths: List<UiPathPaint>
+        get() = paths.filter { it.isPendingSpotHeal }
+
+    init {
+        componentScope.launch {
+            settingsProvider.settingsState.map { it.applySpotHealManually }
+                .distinctUntilChanged()
+                .collect { manual ->
+                    if (!manual) {
+                        _paths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _lastPaths.update { history ->
+                            history.filterNot { it.isPendingSpotHeal }
+                                .takeUnless { it == paths }.orEmpty()
+                        }
+                        _undonePaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                    }
+                }
+        }
+    }
 
     val renderCache = DrawRenderCache()
 
@@ -252,6 +283,7 @@ class DrawComponent @AssistedInject internal constructor(
     fun setUri(
         uri: Uri
     ) {
+        faceDetectionJob?.cancel()
         renderCache.clear()
         componentScope.launch {
             _paths.value = listOf()
@@ -286,7 +318,7 @@ class DrawComponent @AssistedInject internal constructor(
                     it.copy(color = backgroundColor.toArgb(), gradient = backgroundGradient)
                 } else it
             },
-            pathPaints = paths,
+            pathPaints = appliedPaths,
             imageUri = _uri.value.toString()
         )
     }
@@ -298,6 +330,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun resetDrawBehavior() {
+        faceDetectionJob?.cancel()
         renderCache.clear()
         _paths.value = listOf()
         _lastPaths.value = listOf()
@@ -382,16 +415,25 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun clearDrawing() {
+        faceDetectionJob?.cancel()
+        val remaining = if (applySpotHealManually && drawMode is DrawMode.SpotHeal) {
+            appliedPaths
+        } else listOf()
+        if (remaining == paths) return
         if (paths.isNotEmpty()) {
             _lastPaths.value = paths
-            _paths.value = listOf()
+            _paths.value = remaining
             _undonePaths.value = listOf()
             registerChanges()
         }
     }
 
     fun undo() {
-        if (paths.isEmpty() && lastPaths.isNotEmpty()) {
+        faceDetectionJob?.cancel()
+        if (lastPaths.isNotEmpty() && (paths.isEmpty() ||
+                    lastPaths.any { it.isPendingSpotHeal } &&
+                    paths == lastPaths.filterNot { it.isPendingSpotHeal })
+        ) {
             _paths.value = lastPaths
             _lastPaths.value = listOf()
             return
@@ -406,6 +448,7 @@ class DrawComponent @AssistedInject internal constructor(
     }
 
     fun redo() {
+        faceDetectionJob?.cancel()
         if (undonePaths.isEmpty()) return
 
         val lastPath = undonePaths.last()
@@ -414,8 +457,60 @@ class DrawComponent @AssistedInject internal constructor(
         registerChanges()
     }
 
+    private var faceDetectionJob: Job? by smartJob()
+
+    private val _isDetectingFaces = mutableStateOf(false)
+    val isDetectingFaces by _isDetectingFaces
+
+    fun detectFaces(bitmap: Bitmap, useYuNet: Boolean, onNothingFound: () -> Unit) {
+        val source = imageBitmap ?: return
+        val mode = drawMode
+        val currentPaths = paths
+        if (isDetectingFaces || mode !is DrawMode.PathEffect.PrivacyBlur &&
+            mode !is DrawMode.PathEffect.Pixelation
+        ) {
+            return
+        }
+
+        _isDetectingFaces.value = true
+        faceDetectionJob = componentScope.launch {
+            try {
+                val entry = withContext(defaultDispatcher) {
+                    bitmap.detectFaceRegions(mode, useYuNet)
+                }
+                if (source !== imageBitmap || currentPaths != paths ||
+                    mode::class != drawMode::class
+                ) return@launch
+
+                if (entry == null) {
+                    onNothingFound()
+                } else {
+                    addPath(entry.copy(drawMode = drawMode))
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppToastHost.showFailureToast(e)
+            } finally {
+                _isDetectingFaces.value = false
+            }
+        }
+    }
+
     fun addPath(pathPaint: UiPathPaint) {
-        _paths.update { it + pathPaint }
+        val entry =
+            if (applySpotHealManually && pathPaint.drawMode is DrawMode.SpotHeal) {
+                pathPaint.copy(isPendingSpotHeal = true)
+            } else pathPaint
+        _paths.update { it + entry }
+        _undonePaths.value = listOf()
+        registerChanges()
+    }
+
+    fun applySpotHeal() {
+        val applied = paths.applySpotHeal(drawMode)
+        if (applied == paths) return
+        _paths.value = applied
         _undonePaths.value = listOf()
         registerChanges()
     }
@@ -436,7 +531,8 @@ class DrawComponent @AssistedInject internal constructor(
         filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
-        transformations = filters.map { filterProvider.filterToTransformation(it) }
+        transformations = filters.map { filterProvider.filterToTransformation(it) },
+        size = IntegerSize(bitmap.width, bitmap.height)
     )
 
     fun cacheCurrentImage(onComplete: (Uri) -> Unit) {

@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
 import com.t8rin.imagetoolbox.core.domain.utils.trimTrailingZero
@@ -47,13 +48,14 @@ fun ZoomBadge(
     showAfter: Float = 1f,
     containerColor: Color = MaterialTheme.colorScheme.primaryContainerFixed.blend(Color.Black),
     contentColor: Color = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-    shape: Shape = ShapeDefaults.extraSmall
+    shape: Shape = ShapeDefaults.extraSmall,
+    horizontalPadding: Dp = 24.dp
 ) {
     BoxAnimatedVisibility(
         visible = zoomLevel > showAfter,
         modifier = modifier
             .padding(
-                horizontal = 24.dp,
+                horizontal = horizontalPadding,
                 vertical = 8.dp
             ),
         enter = scaleIn() + fadeIn(),

@@ -77,6 +77,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SettingsCategory
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
@@ -93,17 +94,9 @@ fun Screen.matchesSearchQuery(query: String): Boolean {
 
     if (trimmedQuery.isEmpty()) return true
 
-    val keywordsRes = searchKeywordsRes()
-
     val searchableText = listOf(
-        searchableTextFor(
-            title = title,
-            subtitle = subtitle
-        ),
-        keywordsRes?.let(appContext::getString).orEmpty(),
-        keywordsRes?.let { appContext.getStringEnglish(it) }.orEmpty(),
-        simpleName.replace("_", " "),
-        typeSearchableText()
+        searchText(appContext::getString),
+        searchText { appContext.getStringEnglish(it) }
     ).joinToString(separator = " ")
 
     return searchableText.contains(
@@ -117,25 +110,22 @@ fun Screen.matchesSearchQuery(query: String): Boolean {
     }
 }
 
-private fun Screen.typeSearchableText(): String = when (this) {
-    is ApngTools -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    is Filter -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    is GifTools -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    is JxlTools -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    is RecognizeText -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    is WebpTools -> type?.let { searchableTextFor(it.title, it.subtitle) }
-    else -> null
-}.orEmpty()
-
-private fun searchableTextFor(
-    @StringRes title: Int,
-    @StringRes subtitle: Int
-): String = listOf(
-    appContext.getString(title),
-    appContext.getString(subtitle),
-    appContext.getStringEnglish(title),
-    appContext.getStringEnglish(subtitle)
-).joinToString(separator = " ")
+fun Screen.searchText(resolveString: (Int) -> String): String {
+    val typeStrings = when (this) {
+        is ApngTools -> type?.let { listOf(it.title, it.subtitle) }
+        is Filter -> type?.let { listOf(it.title, it.subtitle) }
+        is GifTools -> type?.let { listOf(it.title, it.subtitle) }
+        is JxlTools -> type?.let { listOf(it.title, it.subtitle) }
+        is RecognizeText -> type?.let { listOf(it.title, it.subtitle) }
+        is WebpTools -> type?.let { listOf(it.title, it.subtitle) }
+        else -> null
+    }.orEmpty()
+    return (listOfNotNull(title, subtitle, searchKeywordsRes()) + typeStrings)
+        .filter { it != 0 }
+        .map(resolveString)
+        .plus(simpleName.replace("_", " "))
+        .joinToString(separator = " ")
+}
 
 @StringRes
 private fun Screen.searchKeywordsRes(): Int? = when (this) {
@@ -230,9 +220,11 @@ private fun Screen.searchKeywordsRes(): Int? = when (this) {
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is LibraryDetails,
+    is Screen.Assistant,
     is Help,
     is UsageStatistics -> null
 }

@@ -19,6 +19,7 @@
 
 package com.t8rin.imagetoolbox.core.settings.presentation.model
 
+import android.os.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.t8rin.imagetoolbox.core.domain.utils.Flavor
 import com.t8rin.imagetoolbox.core.resources.BuildConfig
@@ -111,6 +112,7 @@ sealed class SettingsGroup(
             Setting.MotionDurationScale,
             Setting.UseCompactSelectors,
             Setting.DragHandleWidth,
+            Setting.DialogPosition,
             Setting.CenterAlignDialogButtons,
             Setting.FabAlignment
         ),
@@ -162,6 +164,7 @@ sealed class SettingsGroup(
             Setting.ScreenOrder,
             Setting.ShowToolsHistory,
             Setting.ScreenSearch,
+            Setting.ShowHelpTipsButton,
             Setting.EnableLauncherMode,
             Setting.GroupOptions,
             Setting.FavoriteToolsInGroupedMode,
@@ -276,8 +279,9 @@ sealed class SettingsGroup(
         id = 15,
         icon = Icons.Rounded.ImageSearch,
         titleId = R.string.image_source,
-        settingsList = listOf(
-            Setting.ImagePickerMode
+        settingsList = listOfNotNull(
+            Setting.ImagePickerMode,
+            Setting.SemanticSearch.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O }
         ),
         initialState = false
     )
@@ -412,8 +416,10 @@ sealed class SettingsGroup(
             Setting.EnableBackgroundColorForAlphaFormats,
             Setting.ShowSettingsInLandscape,
             Setting.UseFullscreenSettings,
+            Setting.UseCategorizedSettings,
             Setting.AllowCollapsingSettingsGroups,
             Setting.FastSettingsSide,
+            Setting.AiAssistant,
             Setting.OpenEditInsteadOfPreview,
             Setting.SnowfallMode,
             Setting.EnableLinksPreview,

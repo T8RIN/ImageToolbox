@@ -22,6 +22,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal fun Project.configureCompose(
     commonExtension: CommonExtension
@@ -38,6 +39,21 @@ internal fun Project.configureCompose(
             implementation(libs.compose.preview)
             debugImplementation(libs.compose.tooling)
         }
+    }
+
+    extensions.configure<KotlinAndroidProjectExtension> {
+        compilerOptions.optIn.addAll(
+            "androidx.compose.material3.ExperimentalMaterial3Api",
+            "androidx.compose.material3.ExperimentalMaterial3ExpressiveApi",
+            "androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi",
+            "androidx.compose.animation.ExperimentalAnimationApi",
+            "androidx.compose.foundation.ExperimentalFoundationApi",
+            "androidx.compose.foundation.layout.ExperimentalLayoutApi",
+            "androidx.compose.ui.unit.ExperimentalUnitApi",
+            "androidx.compose.material.ExperimentalMaterialApi",
+            "androidx.compose.ui.ExperimentalComposeUiApi",
+            "androidx.compose.ui.text.ExperimentalTextApi"
+        )
     }
 
     extensions.configure<ComposeCompilerGradlePluginExtension> {

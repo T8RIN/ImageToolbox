@@ -429,7 +429,8 @@ class RootComponent @AssistedInject internal constructor(
     }
 
     fun navigateToNew(screen: Screen) {
-        if (childStack.items.lastOrNull()?.configuration != Screen.Main) {
+        val currentScreen = childStack.items.lastOrNull()?.configuration
+        if (currentScreen != Screen.Main && currentScreen !is Screen.Settings && currentScreen !is Screen.SettingsCategory) {
             navigateBack()
         }
         screen.saveToHistory().simpleName.makeLog("Navigator")

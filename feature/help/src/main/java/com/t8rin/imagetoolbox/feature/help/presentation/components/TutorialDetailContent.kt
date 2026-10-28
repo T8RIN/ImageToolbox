@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.helpStringResource
 import com.t8rin.imagetoolbox.core.resources.icons.OpenInNew
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
@@ -45,8 +46,9 @@ internal fun TutorialDetailContent(
     onGoBack: () -> Unit,
     onNavigate: (Screen) -> Unit
 ) {
+    val title = helpStringResource(tip.title)
     HelpScaffold(
-        title = stringResource(tip.title),
+        title = title,
         onGoBack = onGoBack
     ) { contentPadding ->
         LazyColumn(
@@ -59,7 +61,10 @@ internal fun TutorialDetailContent(
                 items = tip.pages,
                 key = { it.title }
             ) { page ->
-                TutorialPageItem(page)
+                TutorialPageItem(
+                    page = page,
+                    showTitle = !helpStringResource(page.title).equals(title, ignoreCase = true)
+                )
             }
             tip.deepLink?.let { screen ->
                 item {
@@ -74,7 +79,11 @@ internal fun TutorialDetailContent(
                             contentDescription = null
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(R.string.open_tool))
+                        Text(
+                            text = stringResource(
+                                if (screen is Screen.Settings) R.string.settings else R.string.open_tool
+                            )
+                        )
                     }
                 }
             }

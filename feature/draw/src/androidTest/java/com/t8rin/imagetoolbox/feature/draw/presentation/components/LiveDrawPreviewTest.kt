@@ -17,11 +17,14 @@
 
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.os.SystemClock
+import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -31,12 +34,16 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientFill
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.pt
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.combineSpotHealPaths
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
 class LiveDrawPreviewTest {
@@ -72,6 +79,120 @@ class LiveDrawPreviewTest {
         event.recycle()
         SystemClock.sleep(40)
     }
+
+    private fun cancelHealing(manual: Boolean) = withDrawer { activity ->
+        fun stroke(y: Float) {
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .2f, y, down)
+            for (step in 1..8) {
+                event(activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, y, down)
+            }
+            event(activity, MotionEvent.ACTION_UP, .8f, y, down)
+        }
+
+        stroke(.3f)
+        await("Initial drawing did not finish") { activity.ready && activity.readyPaths?.size == 1 }
+        val original = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        val prefix = activity.paths
+        val entered = CountDownLatch(1)
+        val release = CountDownLatch(1)
+        val finished = CountDownLatch(1)
+        activity.beforeFiltering = {
+            entered.countDown()
+            try {
+                check(release.await(60, TimeUnit.SECONDS))
+            } finally {
+                finished.countDown()
+            }
+        }
+        try {
+            instrumentation.runOnMainSync {
+                activity.mode = DrawMode.SpotHeal()
+                activity.manualHealing = manual
+            }
+            instrumentation.waitForIdleSync()
+            stroke(.7f)
+            if (manual) {
+                await("Manual mask did not finish") {
+                    activity.ready && activity.paths.lastOrNull()?.isPendingSpotHeal == true
+                }
+                instrumentation.runOnMainSync {
+                    activity.paths = activity.paths.applySpotHeal(DrawMode.SpotHeal())
+                }
+            }
+            assertTrue("Healing did not start", entered.await(5, TimeUnit.SECONDS))
+            SystemClock.sleep(300)
+            instrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK)
+            val cancel = activity.getString(com.t8rin.imagetoolbox.core.resources.R.string.cancel)
+            val automation = instrumentation.uiAutomation
+            automation.serviceInfo = automation.serviceInfo.apply {
+                flags = flags or AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+            }
+            fun findCancel(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
+                node ?: return null
+                if (node.isVisibleToUser && node.text?.toString() == cancel) return node
+                for (index in 0 until node.childCount) {
+                    findCancel(node.getChild(index))?.let { return it }
+                }
+                return null
+            }
+
+            fun cancelButton() = automation.windows.firstNotNullOfOrNull { findCancel(it.root) }
+            await("Cancel confirmation did not appear") { cancelButton() != null }
+            var button = checkNotNull(cancelButton())
+            while (!button.isClickable && button.parent != null) button = button.parent
+            assertTrue(
+                "Cancel button did not respond",
+                button.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            )
+            await("Cancel did not remove the active heal") { activity.paths == prefix }
+            await("Cancel did not restore the drawing while healing was still running") {
+                activity.ready && activity.readyPaths == prefix && original.sameAs(activity.frame)
+            }
+            SystemClock.sleep(600)
+            assertEquals(
+                "The native operation finished before cancellation was checked",
+                1L,
+                release.count
+            )
+            activity.beforeFiltering = null
+            assertEquals(prefix, activity.paths)
+            stroke(.5f)
+            if (manual) {
+                await("New mask did not finish") {
+                    activity.ready && activity.paths.lastOrNull()?.isPendingSpotHeal == true
+                }
+                instrumentation.runOnMainSync {
+                    activity.paths = activity.paths.applySpotHeal(DrawMode.SpotHeal())
+                }
+            }
+            await("A new heal could not be applied after cancellation") {
+                activity.ready && activity.readyPaths?.size == 2 && activity.frame!!.let {
+                    it.getPixel(it.width / 2, it.height / 2) == android.graphics.Color.CYAN
+                }
+            }
+            val healed = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+            release.countDown()
+            assertTrue("Cancelled operation did not finish", finished.await(5, TimeUnit.SECONDS))
+            SystemClock.sleep(300)
+            assertTrue(
+                "Cancelled healing appeared after it finished",
+                healed.sameAs(activity.frame)
+            )
+            assertEquals(2, activity.filterCalls)
+            healed.recycle()
+        } finally {
+            activity.beforeFiltering = null
+            release.countDown()
+            original.recycle()
+        }
+    }
+
+    @Test
+    fun cancellingHealingRestoresTheDrawingBeforeNativeWorkFinishes() = cancelHealing(false)
+
+    @Test
+    fun cancellingManualHealingRestoresTheDrawingBeforeNativeWorkFinishes() = cancelHealing(true)
 
     @Test
     fun highlighterSelfCrossingKeepsUntouchedInkDuringAndAfterTheGesture() =
@@ -379,6 +500,169 @@ class LiveDrawPreviewTest {
     }
 
     @Test
+    fun manualHealingKeepsMarksUntilOneCombinedApply() = withDrawer { activity ->
+        instrumentation.runOnMainSync {
+            activity.mode = DrawMode.SpotHeal()
+            activity.manualHealing = true
+        }
+        instrumentation.waitForIdleSync()
+        for ((index, y) in listOf(.3f, .7f).withIndex()) {
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .2f, y, down)
+            for (step in 1..8) {
+                event(activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, y, down)
+            }
+            event(activity, MotionEvent.ACTION_UP, .8f, y, down)
+            await("Manual mark did not finish") {
+                activity.ready && activity.paths.size == index + 1 &&
+                        activity.frame!!.getPixel(
+                            activity.frame!!.width / 2,
+                            (activity.frame!!.height * y).toInt()
+                        ) != android.graphics.Color.WHITE
+            }
+            assertEquals("Marking ran the healing filter", 0, activity.filterCalls)
+        }
+        val marked = activity.paths
+        assertTrue(marked.all { it.isPendingSpotHeal })
+        instrumentation.runOnMainSync { activity.paths = marked.take(1) }
+        await("Undo did not remove the second mask") {
+            val frame = activity.frame!!
+            activity.ready && frame.getPixel(
+                frame.width / 2,
+                (frame.height * .7f).toInt()
+            ) == android.graphics.Color.WHITE
+        }
+        val previousWidth = activity.frame!!.width
+        instrumentation.runOnMainSync { activity.paths = marked; activity.viewport = 208.dp }
+        await("Resized mask was lost") {
+            val frame = activity.frame!!
+            activity.ready && frame.width != previousWidth && frame.getPixel(
+                frame.width / 2,
+                (frame.height * .7f).toInt()
+            ) != android.graphics.Color.WHITE
+        }
+        assertEquals("Undo, redo or resizing ran healing", 0, activity.filterCalls)
+        val batch = checkNotNull(marked.combineSpotHealPaths(DrawMode.SpotHeal()))
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
+        await("Combined healing did not finish") {
+            activity.ready && activity.readyPaths == listOf(
+                batch
+            )
+        }
+        assertEquals("The batch was processed more than once", 1, activity.filterCalls)
+        val healed = activity.frame!!.copy(Bitmap.Config.ARGB_8888, false)
+        for (y in listOf(.3f, .7f)) {
+            assertEquals(
+                android.graphics.Color.CYAN,
+                healed.getPixel(healed.width / 2, (healed.height * y).toInt())
+            )
+        }
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = emptyList() }
+        await("Undo did not finish") { activity.ready && activity.readyPaths?.isEmpty() == true }
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = listOf(batch) }
+        await("Redo did not finish") { activity.ready && activity.readyPaths == listOf(batch) }
+        assertEquals("Redo recalculated the batch", 1, activity.filterCalls)
+        assertTrue("Redo changed the healed image", healed.sameAs(activity.frame))
+        healed.recycle()
+    }
+
+    @Test
+    fun manualEraserOnlyCutsTheMaskDuringAndAfterDrawing() = withDrawer { activity ->
+        fun pixel(x: Float, y: Float = .5f) = activity.frame!!.let {
+            it.getPixel((it.width * x).toInt(), (it.height * y).toInt())
+        }
+
+        fun stroke() {
+            val count = activity.paths.size
+            val down = SystemClock.uptimeMillis()
+            event(activity, MotionEvent.ACTION_DOWN, .2f, .5f, down)
+            for (step in 1..8) event(
+                activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, .5f, down
+            )
+            event(activity, MotionEvent.ACTION_UP, .8f, .5f, down)
+            await("Stroke did not finish") { activity.ready && activity.paths.size == count + 1 }
+        }
+        instrumentation.runOnMainSync { activity.alpha = .4f }
+        instrumentation.waitForIdleSync()
+        stroke()
+        val original = pixel(.5f)
+        instrumentation.runOnMainSync {
+            activity.mode = DrawMode.SpotHeal()
+            activity.manualHealing = true
+            activity.width = 140.pt
+        }
+        instrumentation.waitForIdleSync()
+        stroke()
+        await("Mask did not cover the drawing") { pixel(.5f) != original }
+        val marked = activity.paths
+        val maskColor = pixel(.3f)
+        instrumentation.runOnMainSync {
+            activity.erasing = true
+            activity.width = 40.pt
+        }
+        instrumentation.waitForIdleSync()
+        val down = SystemClock.uptimeMillis()
+        event(activity, MotionEvent.ACTION_DOWN, .4f, .5f, down)
+        for (step in 1..8) event(
+            activity, MotionEvent.ACTION_MOVE, .4f + step * .025f, .5f, down
+        )
+        await("Live eraser did not reveal the original drawing") { pixel(.5f) == original }
+        assertEquals(maskColor, pixel(.3f))
+        event(activity, MotionEvent.ACTION_UP, .6f, .5f, down)
+        await("Mask eraser did not commit") {
+            activity.ready && activity.paths.size == 3 && pixel(.5f) == original
+        }
+        val erased = activity.paths
+        assertTrue(erased.last().isPendingSpotHeal && erased.last().isErasing)
+        assertEquals("Erasing invoked healing", 0, activity.filterCalls)
+        instrumentation.runOnMainSync { activity.paths = marked }
+        await("Undo did not restore the mask") { pixel(.5f) == maskColor }
+        instrumentation.runOnMainSync { activity.paths = erased }
+        await("Redo erased the drawing or left the mask") { pixel(.5f) == original }
+        val applied = erased.applySpotHeal(DrawMode.SpotHeal())
+        instrumentation.runOnMainSync { activity.ready = false; activity.paths = applied }
+        await("Healing did not apply") { activity.ready && activity.readyPaths == applied }
+        assertEquals(original, pixel(.5f))
+        assertEquals(android.graphics.Color.CYAN, pixel(.3f))
+        assertEquals(1, activity.filterCalls)
+    }
+
+    @Test
+    fun disablingManualHealingCancelsTheActiveMaskStroke() = withDrawer { activity ->
+        instrumentation.runOnMainSync {
+            activity.mode = DrawMode.SpotHeal()
+            activity.manualHealing = true
+        }
+        instrumentation.waitForIdleSync()
+        val down = SystemClock.uptimeMillis()
+        event(activity, MotionEvent.ACTION_DOWN, .2f, .5f, down)
+        for (step in 1..8) event(
+            activity, MotionEvent.ACTION_MOVE, .2f + step * .075f, .5f, down
+        )
+        await("Live mask did not appear") {
+            activity.frame!!.let {
+                it.getPixel(
+                    it.width / 2,
+                    it.height / 2
+                )
+            } != android.graphics.Color.WHITE
+        }
+        instrumentation.runOnMainSync { activity.manualHealing = false }
+        instrumentation.waitForIdleSync()
+        event(activity, MotionEvent.ACTION_UP, .8f, .5f, down)
+        await("Discarded mask remained on screen") {
+            activity.frame!!.let {
+                it.getPixel(
+                    it.width / 2,
+                    it.height / 2
+                )
+            } == android.graphics.Color.WHITE
+        }
+        assertTrue(activity.paths.isEmpty())
+        assertEquals("Disabling manual mode processed the active mask", 0, activity.filterCalls)
+    }
+
+    @Test
     fun rotationRetainsHealingAndUndoRedoHistory() = withDrawer { initial ->
         var activity = initial
         fun stroke(mode: DrawMode, y: Float) {
@@ -398,7 +682,7 @@ class LiveDrawPreviewTest {
                 down
             )
             event(activity, MotionEvent.ACTION_UP, .8f, y, down)
-            await("Stroke did not commit") { activity.ready && activity.paths.size == count + 1 }
+            await("Stroke did not commit") { activity.ready && activity.readyPaths?.size == count + 1 }
         }
         stroke(DrawMode.Pen, .45f)
         stroke(DrawMode.SpotHeal(), .5f)
@@ -430,7 +714,9 @@ class LiveDrawPreviewTest {
                 )
             }
             instrumentation.runOnMainSync { activity.ready = false; activity.paths = paths }
-            await("Redo after rotation did not finish") { activity.ready && activity.readyPaths == paths }
+            await("Redo after rotation did not finish") {
+                activity.ready && activity.readyPaths == paths && rotated.sameAs(activity.frame)
+            }
             assertEquals("Undo/redo recalculated SpotHeal", calls, activity.filterCalls)
             if (!rotated.sameAs(activity.frame)) {
                 for ((name, frame) in listOf("rotated" to rotated, "redo" to activity.frame!!)) {

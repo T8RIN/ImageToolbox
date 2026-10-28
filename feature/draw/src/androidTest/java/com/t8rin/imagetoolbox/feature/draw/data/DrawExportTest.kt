@@ -23,15 +23,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.t8rin.imagetoolbox.core.domain.image.ImageTransformer
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.IntegerSize
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.domain.transformation.Transformation
+import com.t8rin.imagetoolbox.core.filters.domain.FilterProvider
+import com.t8rin.imagetoolbox.core.filters.domain.model.Filter
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawBehavior
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.drawCommittedPath
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.combineSpotHealPaths
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -113,6 +119,56 @@ class DrawExportTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun combinedHealingExportsAllSpotsInOnePassAtOriginalResolution() = runBlocking {
+        val size = IntegerSize(200, 200)
+        val spots = listOf(.25f, .75f).map { y ->
+            UiPathPaint(
+                path = Path().apply { moveTo(40f, 200f * y); lineTo(160f, 200f * y) },
+                strokeWidth = 50.pt, brushSoftness = 0.pt,
+                isErasing = false, drawMode = DrawMode.SpotHeal(), canvasSize = size
+            )
+        }
+        val combined = checkNotNull(spots.combineSpotHealPaths(DrawMode.SpotHeal()))
+        var calls = 0
+        val transformer = Proxy.newProxyInstance(
+            ImageTransformer::class.java.classLoader, arrayOf(ImageTransformer::class.java)
+        ) { _, method, args ->
+            assertEquals("transform", method.name)
+            calls++
+            val input = args!![0] as Bitmap
+            Bitmap.createBitmap(input.width, input.height, Bitmap.Config.ARGB_8888)
+                .apply { eraseColor(android.graphics.Color.CYAN) }
+        } as ImageTransformer<Bitmap>
+        val provider = Proxy.newProxyInstance(
+            FilterProvider::class.java.classLoader, arrayOf(FilterProvider::class.java)
+        ) { _, method, args ->
+            assertEquals("filterToTransformation", method.name)
+            val filter = args!![0] as Filter.SpotHeal
+            val mask = filter.value.first.data as Bitmap
+            assertEquals(400, mask.width)
+            assertEquals(android.graphics.Color.WHITE, mask.getPixel(200, 100))
+            assertEquals(android.graphics.Color.WHITE, mask.getPixel(200, 300))
+            assertEquals(android.graphics.Color.BLACK, mask.getPixel(200, 200))
+            unusedDependency<Transformation<Bitmap>>()
+        } as FilterProvider<Bitmap>
+        val applier = AndroidImageDrawApplier(
+            InstrumentationRegistry.getInstrumentation().targetContext,
+            transformer, unusedDependency(), provider
+        )
+        val result = checkNotNull(
+            applier.applyDrawToImage(
+                DrawBehavior.Background(0, 400, 400, android.graphics.Color.WHITE),
+                listOf(combined), ""
+            )
+        )
+        assertEquals(1, calls)
+        assertEquals(android.graphics.Color.CYAN, result.getPixel(200, 100))
+        assertEquals(android.graphics.Color.CYAN, result.getPixel(200, 300))
+        assertEquals(android.graphics.Color.WHITE, result.getPixel(200, 200))
+        result.recycle()
     }
 
     @Test

@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
 import com.t8rin.imagetoolbox.core.domain.json.JsonParser
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
@@ -49,6 +50,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
@@ -60,6 +62,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawOutputColorSpace
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawWhiteBalance
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
@@ -77,6 +80,9 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SCALE_MODE_TO_FILEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SEQ_NUM_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_SIZE_TO_FILENAME
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ADD_TIMESTAMP_TO_FILENAME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_ENABLED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_MODEL_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.AI_ASSISTANT_SETUP_COMPLETE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_ANALYTICS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_AUTO_PASTE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_BETAS
@@ -86,6 +92,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_IMAGE_MONET
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALLOW_SKIP_IF_LARGER
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ALWAYS_CLEAR_EXIF
 import com.t8rin.imagetoolbox.feature.settings.data.keys.AMOLED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.APPLY_SPOT_HEAL_MANUALLY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_COLOR_TUPLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.APP_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ASCII_CUSTOM_GRADIENTS
@@ -113,6 +120,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_IMAGE_FORMAT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_QUALITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DEFAULT_RESIZE_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DELETE_ORIGINALS_AFTER_SAVE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.DIALOG_POSITION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DONATE_DIALOG_OPEN_COUNT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAG_HANDLE_WIDTH
 import com.t8rin.imagetoolbox.feature.settings.data.keys.DRAW_APPBAR_SHADOWS
@@ -141,6 +149,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.FLING_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.FONT_SCALE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GENERATE_PREVIEWS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HIDDEN_FOR_SHARE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ICON_SHAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
@@ -156,6 +165,8 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_LINK_PREVIEW_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_SYSTEM_BARS_VISIBLE_BY_SWIPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IS_TELEGRAM_GROUP_OPENED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.KEEP_DATE_TIME
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_LIMIT_RESOLUTION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.LAMA_THREADS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LAST_CACHE_AUTO_CLEAR_TIMESTAMP_MILLIS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.LOCK_DRAW_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.MAGNIFIER_ENABLED
@@ -167,6 +178,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.ONE_TIME_SAVE_LOCATIONS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.OPEN_EDIT_INSTEAD_OF_PREVIEW
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PERFORMANCE_VERSION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.PRESETS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.RANDOMIZE_SEED_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_APPLY_ORIENTATION
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_AUTO_BRIGHTNESS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_BRIGHTNESS
@@ -194,12 +206,15 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SCREEN_SEARCH_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SECURE_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_EMOJI_INDEX
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SELECTED_FONT
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SEMANTIC_SEARCH_ENABLED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SEMANTIC_SEARCH_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SETTINGS_GROUP_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPES_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHAPE_BY_INTERACTION_THROTTLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHEET_NESTED_SCROLL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_AS_LAST
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_FAVORITE_TOOLS_IN_GROUPED_MODE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_HELP_TIPS_BUTTON
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_SETTINGS_IN_LANDSCAPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_TOOLS_HISTORY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SHOW_UPDATE_DIALOG
@@ -212,6 +227,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.SYSTEM_BARS_VISIBILITY
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_CONTRAST_LEVEL
 import com.t8rin.imagetoolbox.feature.settings.data.keys.THEME_STYLE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_ANIMATED_EMOJIS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_CATEGORIZED_SETTINGS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_COMPACT_SELECTORS_LAYOUT
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_EMOJI_AS_PRIMARY_COLOR
 import com.t8rin.imagetoolbox.feature.settings.data.keys.USE_FORMATTED_TIMESTAMP
@@ -357,6 +373,29 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setEmojisCount(count: Int) = edit {
         it[EMOJI_COUNT] = count
+    }
+
+    override suspend fun setSemanticSearchEnabled(enabled: Boolean) = edit {
+        it[SEMANTIC_SEARCH_ENABLED] = enabled
+    }
+
+    override suspend fun setAiAssistantEnabled(enabled: Boolean) = edit {
+        it[AI_ASSISTANT_ENABLED] = enabled
+        if (!enabled) it[AI_ASSISTANT_SETUP_COMPLETE] = true
+    }
+
+    override suspend fun setAiAssistantSetupComplete() = edit {
+        it[AI_ASSISTANT_SETUP_COMPLETE] = true
+    }
+
+    override suspend fun setAiAssistantModel(model: AssistantModel) = edit {
+        it[AI_ASSISTANT_MODEL_TYPE] = model.ordinal
+    }
+
+    override suspend fun setSemanticSearchSettings(value: SemanticSearchSettings) = edit {
+        jsonParser.toJson(value.normalized(), SemanticSearchSettings::class.java)?.apply {
+            it[SEMANTIC_SEARCH_SETTINGS] = this
+        }
     }
 
     override suspend fun setImagePickerMode(mode: Int) = edit {
@@ -594,6 +633,16 @@ internal class AndroidSettingsManager @Inject constructor(
         defaultValue = default.screensSearchEnabled
     )
 
+    override suspend fun toggleHelpTipsButton() = toggle(
+        key = SHOW_HELP_TIPS_BUTTON,
+        defaultValue = default.showHelpTipsButton
+    )
+
+    override suspend fun dismissHelpTipsButtonHint(hideButton: Boolean) = edit {
+        it[HELP_TIPS_BUTTON_HINT_DISMISSED] = true
+        if (hideButton) it[SHOW_HELP_TIPS_BUTTON] = false
+    }
+
     override suspend fun toggleDrawAppBarShadows() = toggle(
         key = DRAW_APPBAR_SHADOWS,
         defaultValue = default.drawAppBarShadows
@@ -625,8 +674,25 @@ internal class AndroidSettingsManager @Inject constructor(
         predicate = { it.filenameBehavior !is FilenameBehavior.Overwrite }
     )
 
+    override suspend fun toggleRandomizeSeedAfterSave() = toggle(
+        key = RANDOMIZE_SEED_AFTER_SAVE,
+        defaultValue = default.randomizeSeedAfterSave
+    )
+
+    override suspend fun setApplySpotHealManually(value: Boolean) = edit {
+        it[APPLY_SPOT_HEAL_MANUALLY] = value
+    }
+
     override suspend fun setSpotHealMode(mode: Int) = edit {
         it[SPOT_HEAL_MODE] = mode
+    }
+
+    override suspend fun setLamaThreads(value: Int) = edit {
+        it[LAMA_THREADS] = value.coerceIn(0, 8)
+    }
+
+    override suspend fun setLamaLimitResolution(value: Boolean) = edit {
+        it[LAMA_LIMIT_RESOLUTION] = value
     }
 
     override suspend fun setFilenameSuffix(name: String) = edit {
@@ -789,6 +855,11 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun toggleUseFullscreenSettings() = toggle(
         key = USE_FULLSCREEN_SETTINGS,
         defaultValue = default.useFullscreenSettings
+    )
+
+    override suspend fun toggleUseCategorizedSettings() = toggle(
+        key = USE_CATEGORIZED_SETTINGS,
+        defaultValue = default.useCategorizedSettings
     )
 
     override suspend fun toggleAllowCollapsingSettingsGroups() = toggle(
@@ -1014,6 +1085,10 @@ internal class AndroidSettingsManager @Inject constructor(
         key = CENTER_ALIGN_DIALOG_BUTTONS,
         defaultValue = default.isCenterAlignDialogButtons
     )
+
+    override suspend fun setDialogPosition(position: DialogPosition) = edit {
+        it[DIALOG_POSITION] = position.ordinal
+    }
 
     override fun isInstalledFromPlayStore(): Boolean = context.isInstalledFromPlayStore()
 

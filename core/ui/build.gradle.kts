@@ -78,6 +78,7 @@ dependencies {
     api(projects.lib.zoomable)
     api(projects.lib.snowfall)
     implementation(projects.lib.cropper)
+    implementation(projects.lib.palette)
     implementation(libs.toolbox.histogram)
 
     api(libs.reorderable)

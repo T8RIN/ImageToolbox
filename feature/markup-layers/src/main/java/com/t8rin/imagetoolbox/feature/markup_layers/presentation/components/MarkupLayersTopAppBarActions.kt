@@ -75,7 +75,7 @@ internal fun MarkupLayersTopAppBarActions(
 
         EnhancedIconButton(
             onClick = component::clearLayers,
-            enabled = component.layers.isNotEmpty()
+            enabled = component.layers.any { !it.isBackground }
         ) {
             Icon(
                 imageVector = Icons.Outlined.DeleteSweep,

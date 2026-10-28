@@ -30,7 +30,7 @@ sealed interface Quality {
                 val value = this as? Jxl ?: return Jxl()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(if (imageFormat.isJixel) 1..2 else 1..10),
+                    effort = effort.coerceIn(if (imageFormat.isJixel) 1..6 else 1..10),
                     speed = speed.coerceIn(0..4)
                 )
             }
@@ -59,7 +59,7 @@ sealed interface Quality {
                     ?: return Avif()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(0..2)
+                    effort = effort.coerceIn(0..3)
                 )
             }
 
@@ -97,9 +97,7 @@ sealed interface Quality {
         }
     }
 
-    fun isNonAlpha(): Boolean = if (this is Jxl) {
-        channels == Channels.RGB || channels == Channels.Monochrome
-    } else false
+    fun isNonAlpha(): Boolean = this is Jxl && (channels == Channels.RGB || channels == Channels.Monochrome)
 
     fun isDefault(): Boolean = when (this) {
         is Base -> this == Base()
@@ -125,7 +123,7 @@ sealed interface Quality {
     data class Avif(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
-        @IntRange(from = 0, to = 2)
+        @IntRange(from = 0, to = 3)
         val effort: Int = 0,
         val chromaSubsampling: AvifChromaSubsampling = AvifChromaSubsampling.Auto,
         val screenContentCoding: Boolean = false

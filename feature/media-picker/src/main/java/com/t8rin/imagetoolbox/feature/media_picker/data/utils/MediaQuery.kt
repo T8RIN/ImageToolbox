@@ -76,7 +76,7 @@ sealed class Query(
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
-        bundle = defaultBundle.apply {
+        bundle = defaultBundle.deepCopy().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
                 MediaStore.MediaColumns.MIME_TYPE + " like ?"
@@ -108,7 +108,7 @@ sealed class Query(
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
         ).toTypedArray(),
-        bundle = defaultBundle.apply {
+        bundle = defaultBundle.deepCopy().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
                 MediaStore.MediaColumns.MIME_TYPE + " LIKE ?"

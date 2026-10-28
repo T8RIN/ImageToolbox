@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.stack.animation.StackAnimation
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.plus
@@ -70,6 +71,7 @@ fun fancySlideTransition(
     )
 }
 
+@OptIn(ExperimentalDecomposeApi::class)
 fun <Configuration : Any, NavigationChild : Any> toolboxPredictiveBackAnimation(
     backHandler: BackHandler,
     onBack: () -> Unit

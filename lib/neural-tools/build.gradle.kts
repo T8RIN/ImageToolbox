@@ -20,11 +20,11 @@ plugins {
     alias(libs.plugins.image.toolbox.compose)
 }
 
-android {
-    namespace = "com.t8rin.neural_tools"
-}
+android.namespace = "com.t8rin.neural_tools"
 
 dependencies {
+    api(projects.core.domain)
     api(libs.onnx.runtime)
+    implementation(libs.onnx.genai)
     implementation(libs.aire)
 }

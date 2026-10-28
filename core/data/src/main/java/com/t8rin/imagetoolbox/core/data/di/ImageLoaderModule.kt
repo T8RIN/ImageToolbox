@@ -22,6 +22,8 @@ import android.os.Build
 import coil3.ComponentRegistry
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
+import coil3.annotation.DelicateCoilApi
+import coil3.annotation.ExperimentalCoilApi
 import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.gif.AnimatedImageDecoder
@@ -64,6 +66,7 @@ import oupson.apng.coil.AnimatedPngDecoder
 import java.io.File
 import javax.inject.Singleton
 
+@OptIn(DelicateCoilApi::class, ExperimentalCoilApi::class)
 @Module
 @InstallIn(SingletonComponent::class)
 internal object ImageLoaderModule {

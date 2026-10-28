@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.settings.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import com.t8rin.imagetoolbox.core.resources.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -109,16 +111,26 @@ fun FastSettingsSideSettingItem(
                                     vertical = false
                                 ),
                                 titleFontStyle = PreferenceItemDefaults.TitleFontStyleCenteredSmall,
-                                startIcon = if (selected) {
-                                    Icons.Rounded.RadioButtonChecked
-                                } else {
-                                    Icons.Rounded.RadioButtonUnchecked
+                                applyHorizontalPadding = false,
+                                resultModifier = Modifier.padding(12.dp),
+                                startContent = {
+                                    AnimatedContent(selected) { selected ->
+                                        Icon(
+                                            imageVector = if (selected) {
+                                                Icons.Rounded.RadioButtonChecked
+                                            } else {
+                                                Icons.Rounded.RadioButtonUnchecked
+                                            },
+                                            contentDescription = null,
+                                            modifier = Modifier.padding(end = 8.dp)
+                                        )
+                                    }
                                 },
                                 drawStartIconContainer = false,
                                 modifier = Modifier
                                     .weight(1f)
                                     .fillMaxHeight(),
-                                color = takeColorFromScheme {
+                                containerColor = takeColorFromScheme {
                                     if (selected) tertiaryContainer.copy(0.5f)
                                     else surfaceContainer
                                 },

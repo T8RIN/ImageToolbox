@@ -82,6 +82,11 @@ internal fun GradientPaletteSheet(
                     .enhancedVerticalScroll(rememberScrollState(), reverseScrolling = true)
                     .padding(24.dp),
             ) {
+                GradientPaletteImportExport(
+                    value = draft,
+                    onValueChange = { draft = it },
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
                 GradientPaletteSelector(
                     value = draft,
                     onValueChange = { draft = it },

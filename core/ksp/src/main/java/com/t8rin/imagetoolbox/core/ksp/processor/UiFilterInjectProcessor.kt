@@ -100,6 +100,8 @@ private class UiFilterInjectProcessorImpl(
                 appendLine()
                 appendToUiMapping(entries)
                 appendLine()
+                appendSerializationMappings(entries)
+                appendLine()
                 appendGroupFactories(entries)
             }
         }
@@ -192,6 +194,33 @@ private class UiFilterInjectProcessorImpl(
         }
     }
 
+    private fun Appendable.appendSerializationMappings(entries: List<UiFilterEntry>) {
+        appendLine("internal fun uiFilterSerializationKey(filter: UiFilter<*>): String = when (filter) {")
+        entries.forEach { entry ->
+            appendLine("    is ${entry.uiClassName} -> \"$PACKAGE.core.filters.presentation.model.${entry.uiClassName}\"")
+        }
+        appendLine("}")
+        appendLine()
+        appendLine("@Suppress(\"UNCHECKED_CAST\")")
+        appendLine("internal fun createUiFilterFromKey(key: String, value: Any?): UiFilter<*>? = when (key) {")
+        entries.forEach { entry ->
+            val fallback = if (entry.valueType == null || entry.valueParamHasDefault) {
+                "${entry.uiClassName}()"
+            } else {
+                "null"
+            }
+            val constructor = if (entry.valueType != null) {
+                "if (value == null) $fallback else ${entry.uiClassName}(value as ${entry.valueType})"
+            } else {
+                fallback
+            }
+            appendLine("    \"$PACKAGE.core.filters.presentation.model.${entry.uiClassName}\" ->")
+            appendLine("        runCatching { $constructor }.getOrElse { $fallback }")
+        }
+        appendLine("    else -> null")
+        appendLine("}")
+    }
+
     private fun KSClassDeclaration.toUiFilterEntry(
         annotationFqn: String,
         logger: KSPLogger
@@ -241,32 +270,6 @@ private class UiFilterInjectProcessorImpl(
             valueParamHasDefault = hasDefaultValue,
             group = group
         )
-    }
-
-    private fun KSType.renderType(): String {
-        val declarationName = declaration.qualifiedName?.asString()
-            ?: declaration.simpleName.asString()
-
-        val argumentsRendered = arguments.takeIf { it.isNotEmpty() }
-            ?.joinToString(", ") { argument ->
-                val type = argument.type?.resolve()
-                if (type == null || argument.variance == Variance.STAR) {
-                    "*"
-                } else {
-                    val rendered = type.renderType()
-                    when (argument.variance) {
-                        Variance.COVARIANT -> "out $rendered"
-                        Variance.CONTRAVARIANT -> "in $rendered"
-                        else -> rendered
-                    }
-                }
-            }
-            ?.let { "<$it>" }
-            ?: ""
-
-        val nullable = if (isMarkedNullable) "?" else ""
-
-        return declarationName + argumentsRendered + nullable
     }
 
     private fun UiFilterEntry.defaultConstructorCall(receiverName: String): String = when {
@@ -324,4 +327,30 @@ private class UiFilterInjectProcessorImpl(
             UiFilterInject.Groups.DITHERING
         )
     }
+}
+
+internal fun KSType.renderType(): String {
+    val declarationName = declaration.qualifiedName?.asString()
+        ?: declaration.simpleName.asString()
+
+    val argumentsRendered = arguments.takeIf { it.isNotEmpty() }
+        ?.joinToString(", ") { argument ->
+            val type = argument.type?.resolve()
+            if (type == null || argument.variance == Variance.STAR) {
+                "*"
+            } else {
+                val rendered = type.renderType()
+                when (argument.variance) {
+                    Variance.COVARIANT -> "out $rendered"
+                    Variance.CONTRAVARIANT -> "in $rendered"
+                    else -> rendered
+                }
+            }
+        }
+        ?.let { "<$it>" }
+        ?: ""
+
+    val nullable = if (isMarkedNullable) "?" else ""
+
+    return declarationName + argumentsRendered + nullable
 }

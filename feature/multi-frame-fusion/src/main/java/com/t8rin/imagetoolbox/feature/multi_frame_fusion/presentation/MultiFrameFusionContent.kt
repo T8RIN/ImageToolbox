@@ -108,6 +108,7 @@ fun MultiFrameFusionContent(component: MultiFrameFusionComponent) {
     }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

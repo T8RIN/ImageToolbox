@@ -23,7 +23,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -61,6 +63,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCancellableCircularProgressIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedCircularProgressIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -71,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.other.rememberRevealState
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
+import kotlinx.collections.immutable.toPersistentMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -78,6 +82,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @Composable
 internal fun SpotHealParamsSelector(
@@ -185,144 +190,216 @@ internal fun SpotHealParamsSelector(
             }
         )
 
-        SwipeToReveal(
-            state = revealState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            directions = setOf(
-                RevealDirection.StartToEnd,
-                RevealDirection.EndToStart
-            ),
-            revealedContentStart = {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .container(
-                            color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
-                            shape = ShapeDefaults.default,
-                            autoShadowElevation = 0.dp,
-                            resultPadding = 0.dp
-                        )
-                        .hapticsClickable {
-                            uiScope.launch { revealState.animateTo(RevealValue.Default) }
-                            uriHandler.openUri(LamaLoader.modelPointerLink)
-                        }
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Link,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .padding(start = 8.dp)
-                            .align(Alignment.CenterStart),
-                        tint = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                }
-            },
-            revealedContentEnd = {
-                val isDownloaded = LamaLoader.isDownloaded
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .container(
-                            color = if (isDownloaded) MaterialTheme.colorScheme.errorContainer
-                            else MaterialTheme.colorScheme.primaryContainer,
-                            shape = ShapeDefaults.default,
-                            autoShadowElevation = 0.dp,
-                            resultPadding = 0.dp
-                        )
-                        .hapticsClickable {
-                            uiScope.launch { revealState.animateTo(RevealValue.Default) }
-                            if (modelJob == null && downloadJob == null) {
-                                if (isDownloaded) showDeleteDialog = true
-                                else filePicker.pickFile()
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            SwipeToReveal(
+                state = revealState,
+                modifier = Modifier.fillMaxWidth(),
+                directions = setOf(
+                    RevealDirection.StartToEnd,
+                    RevealDirection.EndToStart
+                ),
+                revealedContentStart = {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
+                                shape = ShapeDefaults.top,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                uiScope.launch { revealState.animateTo(RevealValue.Default) }
+                                uriHandler.openUri(LamaLoader.modelPointerLink)
                             }
-                        }
-                ) {
-                    Icon(
-                        imageVector = if (isDownloaded) Icons.Outlined.Delete else Icons.Outlined.FileImport,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .padding(end = 8.dp)
-                            .align(Alignment.CenterEnd),
-                        tint = if (isDownloaded) MaterialTheme.colorScheme.onErrorContainer
-                        else MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-            },
-            swipeableContent = {
-                PreferenceRowSwitch(
-                    title = stringResource(R.string.generative_inpaint),
-                    subtitle = stringResource(
-                        if (LamaLoader.isDownloaded) R.string.generative_inpaint_ready_sub
-                        else R.string.generative_inpaint_sub
-                    ),
-                    checked = useLama,
-                    onClick = { new ->
-                        if (downloadJob == null && modelJob == null) {
-                            useLama = new
-
-                            scope.launch { simpleSettingsInteractor.setSpotHealMode(if (useLama) 1 else 0) }
-
-                            if (useLama && !LamaLoader.isDownloaded) {
-                                downloadJob?.cancel()
-                                downloadJob = scope.launch {
-                                    LamaLoader.download()
-                                        .onStart {
-                                            downloadProgress = DownloadProgress(
-                                                currentPercent = 0f,
-                                                currentTotalSize = 0
-                                            )
-                                        }
-                                        .onCompletion {
-                                            downloadProgress = null
-                                            downloadJob = null
-                                        }
-                                        .catch {
-                                            simpleSettingsInteractor.setSpotHealMode(0)
-                                            useLama = false
-                                            downloadProgress = null
-                                            downloadJob = null
-                                        }
-                                        .collect {
-                                            downloadProgress = it
-                                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Link,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(start = 8.dp)
+                                .align(Alignment.CenterStart),
+                            tint = MaterialTheme.colorScheme.onTertiaryContainer
+                        )
+                    }
+                },
+                revealedContentEnd = {
+                    val isDownloaded = LamaLoader.isDownloaded
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .container(
+                                color = if (isDownloaded) MaterialTheme.colorScheme.errorContainer
+                                else MaterialTheme.colorScheme.primaryContainer,
+                                shape = ShapeDefaults.top,
+                                autoShadowElevation = 0.dp,
+                                resultPadding = 0.dp
+                            )
+                            .hapticsClickable {
+                                uiScope.launch { revealState.animateTo(RevealValue.Default) }
+                                if (modelJob == null && downloadJob == null) {
+                                    if (isDownloaded) showDeleteDialog = true
+                                    else filePicker.pickFile()
                                 }
                             }
-                        }
-                    },
-                    contentInsteadOfSwitch = if (modelJob != null) {
-                        {
-                            EnhancedCircularProgressIndicator(modifier = Modifier.size(24.dp))
-                        }
-                    } else downloadProgress?.let { progress ->
-                        {
-                            EnhancedCancellableCircularProgressIndicator(
-                                progress = { progress.currentPercent },
-                                modifier = Modifier.size(24.dp),
-                                trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
-                                strokeWidth = 3.dp,
-                                onCancel = {
+                    ) {
+                        Icon(
+                            imageVector = if (isDownloaded) Icons.Outlined.Delete else Icons.Outlined.FileImport,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .padding(end = 8.dp)
+                                .align(Alignment.CenterEnd),
+                            tint = if (isDownloaded) MaterialTheme.colorScheme.onErrorContainer
+                            else MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                },
+                swipeableContent = {
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.generative_inpaint),
+                        subtitle = stringResource(
+                            if (LamaLoader.isDownloaded) R.string.generative_inpaint_ready_sub
+                            else R.string.generative_inpaint_sub
+                        ),
+                        checked = useLama,
+                        onClick = { new ->
+                            if (downloadJob == null && modelJob == null) {
+                                useLama = new
+
+                                scope.launch { simpleSettingsInteractor.setSpotHealMode(if (useLama) 1 else 0) }
+
+                                if (useLama && !LamaLoader.isDownloaded) {
                                     downloadJob?.cancel()
-                                    downloadProgress = null
-                                    downloadJob = null
-                                    useLama = false
-                                    scope.launch {
-                                        simpleSettingsInteractor.setSpotHealMode(0)
+                                    downloadJob = scope.launch {
+                                        LamaLoader.download()
+                                            .onStart {
+                                                downloadProgress = DownloadProgress(
+                                                    currentPercent = 0f,
+                                                    currentTotalSize = 0
+                                                )
+                                            }
+                                            .onCompletion {
+                                                downloadProgress = null
+                                                downloadJob = null
+                                            }
+                                            .catch {
+                                                simpleSettingsInteractor.setSpotHealMode(0)
+                                                useLama = false
+                                                downloadProgress = null
+                                                downloadJob = null
+                                            }
+                                            .collect {
+                                                downloadProgress = it
+                                            }
                                     }
                                 }
-                            )
-                        }
-                    },
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    shape = ShapeDefaults.default,
-                    modifier = Modifier.fillMaxWidth(),
-                    resultModifier = Modifier.padding(16.dp),
-                    applyHorizontalPadding = false
-                )
+                            }
+                        },
+                        contentInsteadOfSwitch = if (modelJob != null) {
+                            {
+                                EnhancedCircularProgressIndicator(modifier = Modifier.size(24.dp))
+                            }
+                        } else downloadProgress?.let { progress ->
+                            {
+                                EnhancedCancellableCircularProgressIndicator(
+                                    progress = { progress.currentPercent },
+                                    modifier = Modifier.size(24.dp),
+                                    trackColor = MaterialTheme.colorScheme.primary.copy(0.2f),
+                                    strokeWidth = 3.dp,
+                                    onCancel = {
+                                        downloadJob?.cancel()
+                                        downloadProgress = null
+                                        downloadJob = null
+                                        useLama = false
+                                        scope.launch {
+                                            simpleSettingsInteractor.setSpotHealMode(0)
+                                        }
+                                    }
+                                )
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        shape = ShapeDefaults.top,
+                        modifier = Modifier.fillMaxWidth(),
+                        resultModifier = Modifier.padding(16.dp),
+                        applyHorizontalPadding = false
+                    )
+                }
+            )
+            AnimatedVisibility(visible = useLama) {
+                val workerOptions = remember {
+                    listOf(0) + (1..8)
+                }
+                val workerIndex = workerOptions.indexOf(
+                    settingsState.lamaThreads.coerceIn(workerOptions.first(), workerOptions.last())
+                ).coerceAtLeast(0)
+
+                val auto = stringResource(R.string.auto)
+
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    EnhancedSliderItem(
+                        value = workerIndex,
+                        internalStateTransformation = { it.roundToInt() },
+                        onValueChange = {},
+                        onValueChangeFinished = {
+                            val index = it.roundToInt().coerceIn(workerOptions.indices)
+                            uiScope.launch {
+                                simpleSettingsInteractor.setLamaThreads(workerOptions[index])
+                            }
+                        },
+                        valueRange = 0f..workerOptions.lastIndex.toFloat(),
+                        steps = (workerOptions.size - 2).coerceAtLeast(0),
+                        title = stringResource(R.string.parallel_workers),
+                        valuesPreviewMapping = remember(workerOptions, auto) {
+                            buildMap {
+                                workerOptions.forEachIndexed { index, workers ->
+                                    put(
+                                        key = index.toFloat(),
+                                        value = if (workers == 0) auto else workers.toString()
+                                    )
+                                }
+                            }.toPersistentMap()
+                        },
+                        isAnimated = false,
+                        canInputValue = false,
+                        shape = ShapeDefaults.center,
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    )
+                    PreferenceRowSwitch(
+                        title = stringResource(R.string.lama_limit_resolution),
+                        subtitle = stringResource(R.string.lama_limit_resolution_sub),
+                        checked = settingsState.lamaLimitResolution,
+                        onClick = {
+                            uiScope.launch {
+                                simpleSettingsInteractor.setLamaLimitResolution(
+                                    it
+                                )
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        shape = ShapeDefaults.center,
+                        modifier = Modifier.fillMaxWidth(),
+                        resultModifier = Modifier.padding(16.dp),
+                        applyHorizontalPadding = false
+                    )
+                }
             }
-        )
+            PreferenceRowSwitch(
+                title = stringResource(R.string.apply_spot_heal_manually),
+                subtitle = stringResource(R.string.apply_spot_heal_manually_sub),
+                checked = settingsState.applySpotHealManually,
+                onClick = { uiScope.launch { simpleSettingsInteractor.setApplySpotHealManually(it) } },
+                containerColor = MaterialTheme.colorScheme.surface,
+                shape = ShapeDefaults.bottom,
+                modifier = Modifier.fillMaxWidth(),
+                resultModifier = Modifier.padding(16.dp),
+                applyHorizontalPadding = false
+            )
+        }
     }
 }

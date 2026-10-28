@@ -23,3 +23,7 @@ plugins {
 }
 
 android.namespace = "com.t8rin.imagetoolbox.feature.help"
+
+dependencies {
+    implementation(projects.core.filters)
+}

@@ -39,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
@@ -87,6 +90,20 @@ fun MediaPickerRootContentEmbeddable(
     isGalleryMode: Boolean = false
 ) {
     val context = LocalComponentActivity.current
+    val mediaPermissions = remember {
+        buildList {
+            add(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    Manifest.permission.READ_MEDIA_IMAGES
+                } else {
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                }
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                add(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
+            }
+        }
+    }
 
     var isPermissionAllowed by remember {
         mutableStateOf(true)
@@ -118,29 +135,66 @@ fun MediaPickerRootContentEmbeddable(
     LaunchedEffect(lifecycleEvent, invalidator) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
+            val status = context.checkPermissions(listOf(permission)).finalStatus
+            val hasSelectedPhotos = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE &&
+                    context.checkPermissions(
+                        listOf(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED)
+                    ).finalStatus == PermissionStatus.ALLOWED
             isManagePermissionAllowed =
                 Environment.isExternalStorageManager() || context.isExternalStorageManagerUnavailable()
-            when (context.checkPermissions(listOf(permission)).finalStatus) {
-                PermissionStatus.ALLOWED -> {
-                    isPermissionAllowed = true
+            isPermissionAllowed = status == PermissionStatus.ALLOWED || hasSelectedPhotos
+            when {
+                isPermissionAllowed -> {
                     component.init(allowedMedia)
                 }
 
-                PermissionStatus.NOT_GIVEN -> {
+                status == PermissionStatus.NOT_GIVEN -> {
                     ActivityCompat.requestPermissions(
                         context,
-                        arrayOf(permission),
+                        mediaPermissions.toTypedArray(),
                         0
                     )
                 }
-
-                PermissionStatus.DENIED_PERMANENTLY -> Unit
             }
         }
     }
 
     val albumsState by component.albumsState.collectAsStateWithLifecycle()
     val mediaState by component.mediaState.collectAsStateWithLifecycle()
+    val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
+    val categoriesLoading by component.isSemanticSearchCategoriesLoading.collectAsStateWithLifecycle()
+    val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
+
+    val currentCategories = remember(categories, selectedCategory) {
+        categories.filter {
+            it.category !is SemanticSearchCategory.Person &&
+                    (it.media.isNotEmpty() || it.category.id == selectedCategory)
+        }.sortedBy { it.category !is SemanticSearchCategory.Custom }
+    }
+    var previousCategories by remember { mutableStateOf(currentCategories) }
+    SideEffect {
+        if (!categoriesLoading) previousCategories = currentCategories
+    }
+    val visibleCategories = if (categoriesLoading) {
+        previousCategories.ifEmpty {
+            val customCategories = component.settingsState.semanticSearchSettings.customCategories
+            remember(customCategories) {
+                customCategories.map {
+                    SemanticSearchCategoryResult(
+                        category = SemanticSearchCategory.Custom(it.id, it.name, it.description),
+                        media = emptyList()
+                    )
+                } + SemanticSearchCategory.BuiltIn.entries.map {
+                    SemanticSearchCategoryResult(category = it, media = emptyList())
+                }
+            }
+        }
+    } else currentCategories
+
+    val showCategories = allowedMedia != AllowedMedia.Videos &&
+            component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
+            (visibleCategories.isNotEmpty() || component.settingsState.semanticSearchSettings.groupPeople)
 
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
@@ -162,7 +216,11 @@ fun MediaPickerRootContentEmbeddable(
                         onRequestManagePermission = requestManagePermission,
                         onPicked = onPicked,
                         albumsState = albumsState,
-                        mediaState = mediaState
+                        mediaState = mediaState,
+                        showCategories = showCategories,
+                        visibleCategories = visibleCategories,
+                        selectedCategory = selectedCategory,
+                        categoriesLoading = categoriesLoading
                     )
                     LaunchedEffect(Unit) {
                         component.init(allowedMedia = allowedMedia)
@@ -192,13 +250,7 @@ fun MediaPickerRootContentEmbeddable(
                     Spacer(modifier = Modifier.height(16.dp))
                     EnhancedButton(
                         onClick = {
-                            val permission =
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                                    Manifest.permission.READ_MEDIA_IMAGES
-                                } else {
-                                    Manifest.permission.READ_EXTERNAL_STORAGE
-                                }
-                            context.requestPermissions(listOf(permission))
+                            context.requestPermissions(mediaPermissions)
                         }
                     ) {
                         Text(stringResource(id = R.string.request))
@@ -239,7 +291,7 @@ fun MediaPickerRootContentEmbeddable(
                         actions = {
                             TopAppBarEmoji()
                         },
-                        drawHorizontalStroke = albumsState.albums.size <= 1 && !(mediaState.isLoading && mediaState.media.isNotEmpty())
+                        drawHorizontalStroke = !showCategories && albumsState.albums.size <= 1 && !(mediaState.isLoading && mediaState.media.isNotEmpty())
                     )
                 },
                 content = content

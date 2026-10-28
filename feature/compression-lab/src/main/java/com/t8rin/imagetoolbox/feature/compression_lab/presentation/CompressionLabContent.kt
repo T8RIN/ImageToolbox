@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Labs
 import com.t8rin.imagetoolbox.core.resources.icons.Save
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
+import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
@@ -60,7 +61,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.sheets.ProcessImagesPreferenceSheet
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.ZoomModalSheet
 import com.t8rin.imagetoolbox.core.ui.widget.text.TopAppBarTitle
 import com.t8rin.imagetoolbox.core.ui.widget.utils.AutoContentBasedColors
-import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.CompareSheet
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.components.CompressionLabControls
 import com.t8rin.imagetoolbox.feature.compression_lab.presentation.screenLogic.CompressionLabComponent
@@ -112,6 +112,7 @@ fun CompressionLabContent(
     val isPortrait by isPortraitOrientationAsState()
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(
@@ -119,7 +120,7 @@ fun CompressionLabContent(
                 input = component.sourceBitmap,
                 isLoading = component.isImageLoading,
                 size = component.selectedResult?.sizeBytes,
-                originalSize = component.benchmarkUri?.fileSize()
+                originalSize = rememberFileSize(component.benchmarkUri).takeIf { it > 0 }
             )
         },
         onGoBack = onBack,

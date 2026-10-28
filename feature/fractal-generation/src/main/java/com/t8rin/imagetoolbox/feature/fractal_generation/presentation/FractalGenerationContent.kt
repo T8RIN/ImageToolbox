@@ -179,6 +179,7 @@ fun FractalGenerationContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.fractal_generation),

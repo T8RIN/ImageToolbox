@@ -81,7 +81,10 @@ internal fun NumberPairItem(
                     title = stringResource(title!!),
                     valueRange = valueRange,
                     roundTo = roundTo,
-                    onValueChange = { state.value = it },
+                    onValueChange = {
+                        state.value = it
+                        onFilterChange(sliderState1.value to sliderState2.value)
+                    },
                     icon = null,
                     behaveAsContainer = false
                 )

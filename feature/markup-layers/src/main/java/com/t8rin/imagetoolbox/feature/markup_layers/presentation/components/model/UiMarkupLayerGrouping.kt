@@ -43,6 +43,7 @@ internal fun UiMarkupLayer.deepDuplicate(): UiMarkupLayer = UiMarkupLayer(
     cornerRadiusPercent = cornerRadiusPercent,
     blendingMode = blendingMode,
     isLocked = isLocked,
+    isBackground = isBackground,
     groupedLayers = groupedLayers.map(UiMarkupLayer::deepDuplicate),
     state = state.copy(
         isActive = false,
@@ -56,7 +57,8 @@ internal fun UiMarkupLayer.renderCopy(): UiMarkupLayer = UiMarkupLayer(
     visibleLineCount = visibleLineCount,
     cornerRadiusPercent = cornerRadiusPercent,
     blendingMode = blendingMode,
-    isLocked = false,
+    isLocked = isBackground,
+    isBackground = isBackground,
     groupedLayers = groupedLayers.map(UiMarkupLayer::renderCopy),
     state = state.copy(
         isActive = false,
@@ -298,6 +300,7 @@ internal data class UiMarkupLayerSnapshot(
     val cornerRadiusPercent: Int,
     val blendingMode: com.t8rin.imagetoolbox.core.domain.image.model.BlendingMode,
     val isLocked: Boolean,
+    val isBackground: Boolean,
     val groupedLayers: List<UiMarkupLayerSnapshot>,
     val state: EditBoxStateSnapshot
 )
@@ -326,6 +329,7 @@ internal fun UiMarkupLayer.toSnapshot(): UiMarkupLayerSnapshot = UiMarkupLayerSn
     cornerRadiusPercent = cornerRadiusPercent,
     blendingMode = blendingMode,
     isLocked = isLocked,
+    isBackground = isBackground,
     groupedLayers = groupedLayers.map(UiMarkupLayer::toSnapshot),
     state = state.toSnapshot()
 )
@@ -338,7 +342,8 @@ internal fun UiMarkupLayerSnapshot.toUi(): UiMarkupLayer {
         visibleLineCount = visibleLineCount,
         cornerRadiusPercent = cornerRadiusPercent,
         blendingMode = blendingMode,
-        isLocked = isLocked,
+        isLocked = isLocked || isBackground,
+        isBackground = isBackground,
         groupedLayers = groupedLayers.map(UiMarkupLayerSnapshot::toUi),
         state = state.toUi()
     )

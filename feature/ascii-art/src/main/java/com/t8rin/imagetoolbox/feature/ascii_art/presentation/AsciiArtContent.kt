@@ -103,6 +103,7 @@ fun AsciiArtContent(
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = true,
         title = {
             TopAppBarTitle(

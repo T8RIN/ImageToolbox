@@ -25,5 +25,6 @@ plugins {
 android.namespace = "com.t8rin.imagetoolbox.feature.settings"
 
 dependencies {
+    implementation(projects.feature.mediaPicker)
     implementation(libs.toolbox.rawCoder)
 }

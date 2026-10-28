@@ -50,6 +50,8 @@ import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.core.utils.fileSize
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 
@@ -282,14 +284,16 @@ object ImageUtils {
                 value = 0
                 return@produceState
             }
-            val pageCount = runCatching {
-                appContext
-                    .contentResolver
-                    .openFileDescriptor(uri, FileMode.Read.mode)
-                    ?.use { fd ->
-                        PdfRenderer(fd).use { it.pageCount }
-                    } ?: 0
-            }.getOrDefault(0)
+            val pageCount = withContext(Dispatchers.IO) {
+                runCatching {
+                    appContext
+                        .contentResolver
+                        .openFileDescriptor(uri, FileMode.Read.mode)
+                        ?.use { fd ->
+                            PdfRenderer(fd).use { it.pageCount }
+                        } ?: 0
+                }.getOrDefault(0)
+            }
 
             value = pageCount
         }
@@ -343,8 +347,7 @@ object ImageUtils {
     }
 
     fun ImageInfo.haveChanges(original: Bitmap?): Boolean {
-        if (original == null) return false
-        return quality.qualityValue != 100 || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height
+        return original != null && (quality.qualityValue != 100 || rotationDegrees != 0f || isFlipped || width != original.width || height != original.height)
     }
 
     val Bitmap.aspectRatio: Float get() = width / height.toFloat()

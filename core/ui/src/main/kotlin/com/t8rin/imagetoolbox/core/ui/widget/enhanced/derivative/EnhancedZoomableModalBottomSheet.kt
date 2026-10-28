@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.ZoomBadge
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import net.engawapg.lib.zoomable.ZoomState
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
 
@@ -53,6 +54,7 @@ import net.engawapg.lib.zoomable.zoomable
 fun EnhancedZoomableModalBottomSheet(
     visible: Boolean,
     onDismiss: () -> Unit,
+    zoomState: ZoomState? = null,
     containerColor: Color = EnhancedBottomSheetDefaults.barContainerColor,
     confirmButton: @Composable () -> Unit = {
         EnhancedButton(
@@ -75,7 +77,7 @@ fun EnhancedZoomableModalBottomSheet(
 ) {
     EnhancedModalBottomSheet(
         sheetContent = {
-            val zoomState = rememberZoomState(maxScale = 20f)
+            val currentZoomState = zoomState ?: rememberZoomState(maxScale = 20f)
 
             Column(
                 modifier = Modifier
@@ -93,13 +95,13 @@ fun EnhancedZoomableModalBottomSheet(
                             .transparencyChecker()
                             .clipToBounds()
                             .zoomable(
-                                zoomState = zoomState
+                                zoomState = currentZoomState
                             ),
                         contentAlignment = Alignment.Center,
                         content = content
                     )
                     ZoomBadge(
-                        zoomLevel = zoomState.scale,
+                        zoomLevel = currentZoomState.scale,
                         modifier = Modifier.align(Alignment.TopStart)
                     )
                 }

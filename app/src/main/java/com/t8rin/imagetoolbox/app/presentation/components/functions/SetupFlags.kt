@@ -24,8 +24,9 @@ import androidx.compose.runtime.Composer
 import androidx.compose.runtime.ExperimentalComposeApi
 import androidx.compose.runtime.tooling.ComposeStackTraceMode
 import com.arkivanov.decompose.DecomposeSettings
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 
-@OptIn(ExperimentalComposeApi::class)
+@OptIn(ExperimentalComposeApi::class, ExperimentalDecomposeApi::class)
 internal fun setupFlags() {
     ComposeRuntimeFlags.isLinkBufferComposerEnabled = true
     ComposeFoundationFlags.isPausableCompositionInPrefetchEnabled = true

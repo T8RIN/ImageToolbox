@@ -18,13 +18,14 @@
 package com.t8rin.imagetoolbox.feature.draw.presentation.components
 
 import androidx.compose.foundation.layout.padding
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.colors.util.roundToTwoDigits
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Cube
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -35,7 +36,8 @@ fun PixelSizeSelector(
     modifier: Modifier,
     value: Float,
     onValueChange: (Float) -> Unit,
-    color: Color = Color.Unspecified
+    color: Color = Color.Unspecified,
+    shape: Shape = ShapeDefaults.default
 ) {
     EnhancedSliderItem(
         modifier = modifier,
@@ -56,7 +58,7 @@ fun PixelSizeSelector(
         onValueChange = {
             onValueChange(it.roundToTwoDigits())
         },
-        shape = ShapeDefaults.default,
+        shape = shape,
         containerColor = color
     )
 }

@@ -119,11 +119,13 @@ class AnimatedJxlDecoder(
             firstFrameAsPlaceholder = true
         )
     } else {
-        getFrame(
-            frame = 0,
-            scaleWidth = dstWidth,
-            scaleHeight = dstHeight
-        ).toDrawable(options.context.resources)
+        use {
+            getFrame(
+                frame = 0,
+                scaleWidth = dstWidth,
+                scaleHeight = dstHeight
+            ).toDrawable(options.context.resources)
+        }
     }.asImage()
 
     /** Note: If you want to use this decoder in order to convert image into other format, then pass [enableJxlAnimation] with false to [ImageRequest] */
@@ -181,11 +183,11 @@ private fun Pair<Int, Int>.flexibleResize(
 
     return if (height >= width) {
         val aspectRatio = width.toDouble() / height.toDouble()
-        val targetWidth = (max * aspectRatio).toInt()
+        val targetWidth = (max * aspectRatio).toInt().coerceAtLeast(1)
         targetWidth to max
     } else {
         val aspectRatio = height.toDouble() / width.toDouble()
-        val targetHeight = (max * aspectRatio).toInt()
+        val targetHeight = (max * aspectRatio).toInt().coerceAtLeast(1)
         max to targetHeight
     }
 }

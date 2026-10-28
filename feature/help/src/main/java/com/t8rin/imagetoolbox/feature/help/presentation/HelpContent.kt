@@ -32,6 +32,8 @@ fun HelpContent(
         is HelpState.Categories -> {
             HelpListContent(
                 categories = state.categories,
+                showButtonHint = component.showButtonHint,
+                onDismissButtonHint = component::dismissHelpTipsButtonHint,
                 filteredTips = component.filteredTips,
                 isSearching = component.isSearching,
                 searchKeyword = component.searchKeyword,

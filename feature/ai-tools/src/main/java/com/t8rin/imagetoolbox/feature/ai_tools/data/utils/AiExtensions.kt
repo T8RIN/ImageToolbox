@@ -38,6 +38,7 @@ import java.lang.Float.intBitsToFloat
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
+import kotlin.math.roundToInt
 
 internal object AiExtensions {
     const val LOG_TAG = "AiProcessor"
@@ -84,7 +85,7 @@ internal fun mixColors(
 ): Int {
     val keep = 1f - amount
     return Color.argb(
-        (keep * Color.alpha(from) + amount * Color.alpha(to)).toInt(),
+        (keep * Color.alpha(from) + amount * Color.alpha(to)).roundToInt(),
         (keep * Color.red(from) + amount * Color.red(to)).toInt(),
         (keep * Color.green(from) + amount * Color.green(to)).toInt(),
         (keep * Color.blue(from) + amount * Color.blue(to)).toInt()
