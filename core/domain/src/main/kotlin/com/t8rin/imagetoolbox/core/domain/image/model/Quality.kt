@@ -59,7 +59,7 @@ sealed interface Quality {
                     ?: return Avif()
                 value.copy(
                     qualityValue = qualityValue.coerceIn(1..100),
-                    effort = effort.coerceIn(0..2)
+                    effort = effort.coerceIn(0..3)
                 )
             }
 
@@ -123,7 +123,7 @@ sealed interface Quality {
     data class Avif(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 50,
-        @IntRange(from = 0, to = 2)
+        @IntRange(from = 0, to = 3)
         val effort: Int = 0,
         val chromaSubsampling: AvifChromaSubsampling = AvifChromaSubsampling.Auto,
         val screenContentCoding: Boolean = false

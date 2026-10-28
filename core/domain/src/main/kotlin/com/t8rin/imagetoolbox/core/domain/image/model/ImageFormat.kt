@@ -146,7 +146,7 @@ sealed class ImageFormat(
         data object LosslessAv1 : Avif(
             title = "AV1 Lossless",
             compressionTypes = listOf(
-                CompressionType.Effort(0..2)
+                CompressionType.Effort(0..3)
             )
         ), LosslessMarker
 
@@ -154,14 +154,14 @@ sealed class ImageFormat(
             title = "AV1 Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(1..100),
-                CompressionType.Effort(0..2)
+                CompressionType.Effort(0..3)
             )
         )
 
         data object LosslessAv2 : Avif(
             title = "AV2 Lossless",
             compressionTypes = listOf(
-                CompressionType.Effort(0..2)
+                CompressionType.Effort(0..3)
             )
         ), LosslessMarker
 
@@ -169,7 +169,7 @@ sealed class ImageFormat(
             title = "AV2 Lossy",
             compressionTypes = listOf(
                 CompressionType.Quality(1..100),
-                CompressionType.Effort(0..2)
+                CompressionType.Effort(0..3)
             )
         )
     }

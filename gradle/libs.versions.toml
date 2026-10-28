@@ -17,9 +17,9 @@ quickie = "1.19.0"
 fadingEdges = "1.0.4"
 composeHighlight = "0.40.0"
 
-avifCoder = "3.0.0"
+avifCoder = "3.0.1"
 aire = "0.18.1"
-jixelCoder = "3.0.0-alpha07"
+jixelCoder = "3.0.0-alpha08"
 jxlCoder = "2.6.2"
 jpegliCoder = "1.0.2"
 
