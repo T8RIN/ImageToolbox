@@ -159,7 +159,9 @@ internal class AndroidFilenameCreator @Inject constructor(
             } else Date().time.toString()
         } else ""
 
-        val sequenceNumber = saveTarget.sequenceNumber?.toString() ?: ""
+        val sequenceNumber = if (settingsState.addSequenceNumber) {
+            saveTarget.sequenceNumber?.toString().orEmpty()
+        } else ""
 
         var result = pattern
 
@@ -197,6 +199,8 @@ internal class AndroidFilenameCreator @Inject constructor(
 
         runCatching {
             result = result.replace("""\\c\{([^}]*)\}""".toRegex()) { match ->
+                if (!settingsState.addSequenceNumber) return@replace ""
+
                 val params = match.groupValues[1].split(":")
                 val start = if (params.size == 1) 1 else params[0].toIntOrNull() ?: 1
                 val step = params.getOrNull(1)?.toIntOrNull() ?: 1

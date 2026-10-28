@@ -32,6 +32,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
+import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.path
 import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
@@ -39,42 +40,88 @@ import kotlinx.coroutines.coroutineScope
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import kotlin.uuid.Uuid
 
 @ConsistentCopyVisibility
 internal data class SavingFolder private constructor(
     val outputStream: OutputStream,
     val fileUri: Uri,
-    private val savingPath: String? = null
+    private val savingPath: String? = null,
+    private val originalFilename: String? = null
 ) : StreamWriteable by StreamWriteable(outputStream) {
 
     val normalizedSavingPath = savingPath?.removeSuffix("/")?.removePrefix("/storage/emulated/0/")
+
+    fun restoreOriginalFilename(context: Context): Uri {
+        val filename = originalFilename ?: return fileUri
+        return runCatching {
+            when {
+                fileUri.scheme == "file" -> {
+                    val file = File(checkNotNull(fileUri.path))
+                    val destination = File(file.parentFile, filename)
+                    check(!destination.exists() && file.renameTo(destination))
+                    destination.toUri()
+                }
+
+                DocumentsContract.isDocumentUri(context, fileUri) -> {
+                    checkNotNull(
+                        DocumentsContract.renameDocument(
+                            context.contentResolver,
+                            fileUri,
+                            filename
+                        )
+                    )
+                }
+
+                else -> {
+                    val values = ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                    }
+                    check(context.contentResolver.update(fileUri, values, null, null) > 0)
+                    fileUri
+                }
+            }
+        }.onFailure { it.makeLog("restoreOriginalFilename") }.getOrDefault(fileUri)
+    }
 
     companion object {
         suspend fun getInstance(
             context: Context,
             treeUri: Uri?,
             saveTarget: SaveTarget,
-            saveToOriginalFolder: Boolean
+            saveToOriginalFolder: Boolean,
+            deleteOriginalsAfterSave: Boolean = false
         ): SavingFolder? = coroutineScope {
             val originalFolder = if (saveToOriginalFolder) {
                 runCatching {
+                    val originalFilename = saveTarget.filename?.takeIf {
+                        deleteOriginalsAfterSave && it == UriReplacements
+                            .resolve(saveTarget.originalUri.toUri()).filename(context)
+                    }
+                    val target = if (originalFilename != null) {
+                        object : SaveTarget by saveTarget {
+                            override val filename =
+                                "ImageToolbox_${Uuid.random()}.${saveTarget.extension}"
+                        }
+                    } else saveTarget
                     val documentFolder = saveTarget.originalDocumentFolder(context)
-                    if (documentFolder != null) {
-                        context.createViaDocumentFile(saveTarget, documentFolder)
+                    val folder = if (documentFolder != null) {
+                        context.createViaDocumentFile(target, documentFolder)
                     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         saveTarget.originalRelativePath(context)?.let {
                             context.createViaMediaStore(
-                                saveTarget = saveTarget,
+                                saveTarget = target,
                                 relativePath = it
                             )
                         }
                     } else {
                         createLegacyFile(
                             context = context,
-                            saveTarget = saveTarget,
+                            saveTarget = target,
                             parent = saveTarget.originalParentFile(context)
                         )
                     }
+                    folder?.copy(originalFilename = originalFilename)
                 }.onFailure { it.makeLog("saveToOriginalFolder") }.getOrThrow()
             } else null
 

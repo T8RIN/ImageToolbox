@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.core.data.saving
 
 import android.accessibilityservice.AccessibilityServiceInfo
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -27,6 +28,7 @@ import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.os.SystemClock
 import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -46,6 +48,8 @@ import com.t8rin.imagetoolbox.core.settings.di.SettingsStateEntryPoint
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.ui.utils.ComposeActivity
+import com.t8rin.imagetoolbox.core.utils.UriReplacements
+import com.t8rin.imagetoolbox.core.utils.filename
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -159,12 +163,95 @@ class OriginalFolderSavingInstrumentedTest {
                     assertEquals(4, directory.listFiles().size)
                 }
                 assertEquals(3, root.listFiles().size)
+
+                settings.toggleAddSequenceNumber()
+                if (!settings.getSettingsState().addOriginalFilename) settings.toggleAddOriginalFilename()
+                settings.setFilenamePattern("\\o[\\c].\\e")
+                withTimeout(5_000) {
+                    settings.settingsState.first {
+                        !it.addSequenceNumber && it.addOriginalFilename && it.filenamePattern == "\\o[\\c].\\e"
+                    }
+                }
+                val directory = checkNotNull(root.createDirectory("same_name"))
+                val originals = (1..5).map { index ->
+                    val extension = if (index % 2 == 0) "jpg" else "webp"
+                    createImage(
+                        parent = directory,
+                        name = "Инструкция ($index).$extension",
+                        bytes = byteArrayOf(1, 2, 3),
+                        mimeType = if (extension == "jpg") "image/jpeg" else "image/webp"
+                    )
+                }
+                originals.forEachIndexed { index, original ->
+                    val result = activity.fileController.save(
+                        ImageSaveTarget(
+                            imageInfo = ImageInfo(
+                                width = 16,
+                                height = 12,
+                                imageFormat = ImageFormat.Jpg
+                            ),
+                            originalUri = original.uri.toString(),
+                            sequenceNumber = index + 1,
+                            data = bytes
+                        ),
+                        false,
+                        null
+                    )
+                    assertTrue(result.toString(), result is SaveResult.Success)
+                    val saved = checkNotNull(directory.findFile("Инструкция (${index + 1}).jpg"))
+                    assertArrayEquals(bytes, readBytes(saved.uri))
+                }
+                assertEquals(5, directory.listFiles().size)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val collection =
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                    val relativePath = "Pictures/ImageToolbox-saving-${System.nanoTime()}/"
+                    val resolver = context.contentResolver
+                    try {
+                        val name = "Инструкция (6).jpg"
+                        val original =
+                            checkNotNull(resolver.insert(collection, ContentValues().apply {
+                                put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+                                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                                put(MediaStore.MediaColumns.RELATIVE_PATH, relativePath)
+                            }))
+                        checkNotNull(resolver.openOutputStream(original)).use { it.write(bytes) }
+                        val result = activity.fileController.save(
+                            ImageSaveTarget(
+                                imageInfo = ImageInfo(
+                                    width = 16,
+                                    height = 12,
+                                    imageFormat = ImageFormat.Jpg
+                                ),
+                                originalUri = original.toString(),
+                                sequenceNumber = 6,
+                                data = bytes
+                            ),
+                            false,
+                            null
+                        )
+                        assertTrue(result.toString(), result is SaveResult.Success)
+                        val saved = UriReplacements.resolve(original)
+                        assertEquals(name, saved.filename(context))
+                        assertArrayEquals(bytes, readBytes(saved))
+                    } finally {
+                        resolver.delete(
+                            collection,
+                            "${MediaStore.MediaColumns.RELATIVE_PATH} = ?",
+                            arrayOf(relativePath)
+                        )
+                    }
+                }
             }
         } finally {
             runBlocking {
                 val current = settings.getSettingsState()
                 if (current.addSequenceNumber != originalSettings.addSequenceNumber) {
                     settings.toggleAddSequenceNumber()
+                }
+                if (current.addOriginalFilename != originalSettings.addOriginalFilename) {
+                    settings.toggleAddOriginalFilename()
                 }
                 if (current.saveToOriginalFolder != originalSettings.saveToOriginalFolder) {
                     settings.toggleSaveToOriginalFolder()
@@ -285,8 +372,13 @@ class OriginalFolderSavingInstrumentedTest {
         error("Could not click $text")
     }
 
-    private fun createImage(parent: DocumentFile, name: String, bytes: ByteArray): DocumentFile =
-        checkNotNull(parent.createFile("image/jpeg", name)).also { file ->
+    private fun createImage(
+        parent: DocumentFile,
+        name: String,
+        bytes: ByteArray,
+        mimeType: String = "image/jpeg"
+    ): DocumentFile =
+        checkNotNull(parent.createFile(mimeType, name)).also { file ->
             checkNotNull(context.contentResolver.openOutputStream(file.uri)).use { it.write(bytes) }
         }
 

@@ -185,6 +185,7 @@ internal class AndroidFileController @Inject constructor(
                             imageSaveTarget = saveTarget
                         )
                     }
+                    @Suppress("UsePropertyAccessSyntax")
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
                             context.contentResolver,
@@ -330,7 +331,9 @@ internal class AndroidFileController @Inject constructor(
                     context = context,
                     treeUri = treeUri?.toUri(),
                     saveTarget = newSaveTarget,
-                    saveToOriginalFolder = settingsState.saveToOriginalFolder
+                    saveToOriginalFolder = settingsState.saveToOriginalFolder,
+                    deleteOriginalsAfterSave = settingsState.deleteOriginalsAfterSave &&
+                            settingsState.filenameBehavior !is FilenameBehavior.Overwrite
                 ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
                 savingFolder.use {
@@ -348,13 +351,19 @@ internal class AndroidFileController @Inject constructor(
                 if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
                     originalFileDeletionHelper.deleteAfterSuccessfulSave(
                         originalUri = saveTarget.originalUri,
-                        outputUri = savingFolder.fileUri
+                        outputUri = savingFolder.fileUri,
+                        onDeleted = {
+                            restoreOriginalFilename(
+                                savingFolder,
+                                saveTarget.originalUri
+                            )
+                        }
                     )
                 }
 
-                savingFolder.fileUri.path?.takeIf {
-                    savingFolder.fileUri.scheme == "file"
-                }?.let { path ->
+                UriReplacements.resolve(savingFolder.fileUri).takeIf {
+                    it.scheme == "file"
+                }?.path?.let { path ->
                     MediaScannerConnection.scanFile(
                         context,
                         arrayOf(path),
@@ -511,6 +520,7 @@ internal class AndroidFileController @Inject constructor(
                             imageSaveTarget = saveTarget
                         )
                     }
+                    @Suppress("UsePropertyAccessSyntax")
                     clipboardManager?.setPrimaryClip(
                         ClipData.newUri(
                             context.contentResolver,
@@ -664,7 +674,9 @@ internal class AndroidFileController @Inject constructor(
                     context = context,
                     treeUri = treeUri?.toUri(),
                     saveTarget = newSaveTarget,
-                    saveToOriginalFolder = settingsState.saveToOriginalFolder
+                    saveToOriginalFolder = settingsState.saveToOriginalFolder,
+                    deleteOriginalsAfterSave = settingsState.deleteOriginalsAfterSave &&
+                            settingsState.filenameBehavior !is FilenameBehavior.Overwrite
                 ) ?: throw IllegalArgumentException(getString(R.string.error_while_saving))
 
                 savingFolder.use {
@@ -682,13 +694,19 @@ internal class AndroidFileController @Inject constructor(
                 if (settingsState.deleteOriginalsAfterSave && settingsState.filenameBehavior !is FilenameBehavior.Overwrite) {
                     originalFileDeletionHelper.deleteAfterSuccessfulSave(
                         originalUri = saveTarget.originalUri,
-                        outputUri = savingFolder.fileUri
+                        outputUri = savingFolder.fileUri,
+                        onDeleted = {
+                            restoreOriginalFilename(
+                                savingFolder,
+                                saveTarget.originalUri
+                            )
+                        }
                     )
                 }
 
-                savingFolder.fileUri.path?.takeIf {
-                    savingFolder.fileUri.scheme == "file"
-                }?.let { path ->
+                UriReplacements.resolve(savingFolder.fileUri).takeIf {
+                    it.scheme == "file"
+                }?.path?.let { path ->
                     MediaScannerConnection.scanFile(
                         context,
                         arrayOf(path),
@@ -1005,6 +1023,14 @@ internal class AndroidFileController @Inject constructor(
                 }
             }.makeLog("imageToolboxMetadataAdded")
         }
+    }
+
+    private fun restoreOriginalFilename(
+        savingFolder: SavingFolder,
+        originalUri: String
+    ): Uri = savingFolder.restoreOriginalFilename(context).also {
+        imageLoader.memoryCache?.remove(originalUri)
+        imageLoader.diskCache?.remove(originalUri)
     }
 
     private fun openFileDescriptor(

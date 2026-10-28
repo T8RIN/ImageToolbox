@@ -35,6 +35,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
+import com.t8rin.imagetoolbox.core.domain.saving.SaveBatch
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileControllerEvent
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
@@ -43,6 +44,7 @@ import com.t8rin.imagetoolbox.core.utils.tryExtractOriginal
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -81,6 +83,7 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val pendingFailedCount = AtomicInteger()
     private val deleteResultLock = Any()
     private var deleteResultJob: Job? = null
+    private val saveDeleteBatches = ConcurrentHashMap<Job, SaveDeleteBatch>()
 
     override suspend fun onSuccessfulSave() = withContext(uiDispatcher) {
         successfulSaveEventFlow.emit(Unit)
@@ -127,9 +130,10 @@ internal class OriginalFileDeletionHelper @Inject constructor(
         }
     }
 
-    fun deleteAfterSuccessfulSave(
+    suspend fun deleteAfterSuccessfulSave(
         originalUri: String,
-        outputUri: Uri
+        outputUri: Uri,
+        onDeleted: () -> Uri = { outputUri }
     ) {
         val sourceUri = originalUri
             .takeIf(String::isNotBlank)
@@ -158,15 +162,39 @@ internal class OriginalFileDeletionHelper @Inject constructor(
             originalUri = resolvedUri,
             outputUri = outputUri
         )
+        val savingJob = currentCoroutineContext()[SaveBatch]?.job
+        val batch = savingJob?.let {
+            saveDeleteBatches.getOrPut(it) {
+                SaveDeleteBatch { deleted, failed ->
+                    eventChannel.trySend(
+                        FileControllerEvent.OriginalFilesDeleteResult(deleted, failed)
+                    )
+                }
+            }
+        }
+        batch?.start()
+        savingJob?.invokeOnCompletion {
+            saveDeleteBatches.remove(savingJob, batch)
+            batch?.finish()
+        }
+
         deleteFile(
             DeleteOperation(
                 originalUri = resolvedUri,
                 onResult = { deleted ->
-                    if (deleted) registerUriReplacement(replacement)
-                    emitDeleteResult(
-                        deleted = if (deleted) 1 else 0,
-                        failed = if (deleted) 0 else 1
-                    )
+                    if (deleted) {
+                        val finalUri = onDeleted()
+                        registerUriReplacement(replacement.copy(outputUri = finalUri))
+                        UriReplacements.register(outputUri, finalUri)
+                    }
+                    if (batch != null) {
+                        batch.complete(deleted)
+                    } else {
+                        emitDeleteResult(
+                            deleted = if (deleted) 1 else 0,
+                            failed = if (deleted) 0 else 1
+                        )
+                    }
                 }
             )
         )
@@ -495,6 +523,44 @@ internal class OriginalFileDeletionHelper @Inject constructor(
         ContentResolver.SCHEME_CONTENT -> context.contentResolver.openFileDescriptor(this, "r")
         else -> null
     }
+}
+
+private class SaveDeleteBatch(
+    private val onResult: (deleted: Int, failed: Int) -> Unit
+) {
+    private var pending = 0
+    private var deleted = 0
+    private var failed = 0
+    private var finished = false
+
+    fun start() = synchronized(this) {
+        pending++
+    }
+
+    fun complete(success: Boolean) {
+        val result = synchronized(this) {
+            if (success) deleted++ else failed++
+            pending--
+            takeResult()
+        }
+        result?.let { (deleted, failed) -> onResult(deleted, failed) }
+    }
+
+    fun finish() {
+        val result = synchronized(this) {
+            finished = true
+            takeResult()
+        }
+        result?.let { (deleted, failed) -> onResult(deleted, failed) }
+    }
+
+    private fun takeResult(): Pair<Int, Int>? =
+        if (finished && pending == 0 && deleted + failed > 0) {
+            (deleted to failed).also {
+                deleted = 0
+                failed = 0
+            }
+        } else null
 }
 
 private class DeleteBatch(

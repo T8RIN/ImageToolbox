@@ -18,7 +18,9 @@
 package com.t8rin.imagetoolbox.core.domain.saving
 
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.job
 import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 
 interface KeepAliveService : FailureNotifier {
     fun updateOrStart(
@@ -69,21 +71,23 @@ suspend fun <R> KeepAliveService.track(
     onComplete: KeepAliveService.(isSuccess: Boolean) -> Unit = { stop(true) },
     action: suspend KeepAliveService.() -> R
 ): R? = supervisorScope {
-    var isSuccess = false
+    withContext(coroutineContext[SaveBatch] ?: SaveBatch(coroutineContext.job)) {
+        var isSuccess = false
 
-    try {
-        initial()
-        action().also {
-            isSuccess = true
+        try {
+            initial()
+            action().also {
+                isSuccess = true
+            }
+        } catch (e: CancellationException) {
+            onCancel()
+            throw e
+        } catch (e: Throwable) {
+            onFailure(e)
+            send(e)
+            null
+        } finally {
+            onComplete(isSuccess)
         }
-    } catch (e: CancellationException) {
-        onCancel()
-        throw e
-    } catch (e: Throwable) {
-        onFailure(e)
-        send(e)
-        null
-    } finally {
-        onComplete(isSuccess)
     }
 }
