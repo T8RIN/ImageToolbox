@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="something_went_wrong">发生错误</string>
     <string name="pick_image">选择图片以开始</string>
     <string name="close">关闭</string>
@@ -3125,7 +3124,7 @@
     <string name="help_tip_clipboard_privacy_description">剪贴板自动化很方便，但复制的文本可能包含密码、链接、地址、令牌或私人注释。将基于剪贴板的输入视为一种速度功能，应符合您的习惯和隐私期望。</string>
     <string name="help_tip_clipboard_privacy_step_1">如果工具中意外出现私有文本，请禁用自动剪贴板使用。</string>
     <string name="help_tip_clipboard_privacy_step_2">仅当您故意希望结果避免存储时才使用仅剪贴板保存。</string>
-    <string name="help_tip_clipboard_privacy_step_3">处理敏感文本、QR 数据或 Base64 有效负载后清除或替换剪贴板。</string>
+    <string name="help_tip_clipboard_privacy_step_3">禁用“自动固定”以停止复制后续结果。对于不需要的自动输入，请使用单独的“允许自动剪贴板粘贴”设置。</string>
     <string name="help_tip_color_formats_title">颜色格式</string>
     <string name="help_tip_color_formats_subtitle">在粘贴到其他地方之前了解 HEX、RGB、HSV、Alpha 和复制的颜色值</string>
     <string name="help_tip_color_formats_page_title">复制目标期望的格式</string>
@@ -4503,7 +4502,7 @@
     <string name="help_tip_raw_development_page_title">选择一个可靠的起点</string>
     <string name="help_tip_raw_development_description">RAW 文件包含传感器数据而不是完成的照片，因此第一次渲染取决于冲洗设置。相机白平衡、方向、亮度和嵌入预览可以使同一个文件显得截然不同。从忠实显示图像的设置开始，然后在转换后在编辑器中进行创造性的更正。</string>
     <string name="help_tip_raw_development_step_1">当您想要最接近相机预期渲染的起点时，请保持相机白平衡和自动方向启用。</string>
-    <string name="help_tip_raw_development_step_2">当快速浏览比检查完整的开发结果更重要时，请使用嵌入式预览；在评估实际 RAW 转换时禁用它。</string>
+    <string name="help_tip_raw_development_step_2">选择“自定义”可分别设置红、绿、蓝和第二个绿通道的乘数，每个乘数范围为 0.1 到 4。请进行小幅调整，并比较同一源文件。</string>
     <string name="help_tip_raw_development_step_3">为中性的第一遍保留自动亮度，然后在整个图像需要有意移动时使用曝光补偿。</string>
     <string name="help_tip_raw_development_page_2_title">保护明亮的细节和色彩</string>
     <string name="help_tip_raw_development_page_2_description">RAW 文件通常包含简单渲染过早剪辑的高光信息。高光恢复可以保留明亮的天空、窗户、金属和织物，而输出色彩空间决定这些颜色在转换后的图像中表示的范围。强大的恢复能力可能会改变颜色或产生伪影，因此请使用有用的变焦来检查重要的高光部分。</string>
@@ -5611,18 +5610,18 @@
     <string name="gallery_category_sunset">日落</string>
     <string name="gallery_search_auto">语义照片搜索</string>
     <string name="gallery_search_auto_sub">按照片中的内容查找照片，并浏览图库和嵌入式选取器中的自动类别。首次设置需要下载约 227 MB 的文件。</string>
-    <string name="gallery_search_queued">等待准备照片...</string>
-    <string name="gallery_search_update_queued">正在等待更新照片搜索...</string>
+    <string name="gallery_search_queued">正在等待准备照片…</string>
+    <string name="gallery_search_update_queued">正在等待更新照片搜索…</string>
     <string name="gallery_search_permission">允许访问照片以进行语义搜索</string>
     <string name="gallery_search_contents">语义照片搜索</string>
     <string name="gallery_search_settings">搜索设置</string>
     <string name="gallery_search_download_hint">搜索照片内容需要一次性下载约227 MB。</string>
     <string name="gallery_search_description">按照片中的内容查找照片并浏览自动类别。文件名搜索始终有效。</string>
     <string name="gallery_search_hint">文件名或描述</string>
-    <string name="gallery_search_downloading">正在下载文件进行照片分析...</string>
+    <string name="gallery_search_downloading">正在下载文件进行照片分析…</string>
     <string name="gallery_search_indexing">正在准备照片：%1$d（共 %2$d）</string>
     <string name="gallery_search_indexed">准备的照片：%1$d</string>
-    <string name="gallery_search_searching">正在搜索照片内容...</string>
+    <string name="gallery_search_searching">正在搜索照片内容…</string>
     <string name="gallery_search_clear">删除搜索数据</string>
     <string name="gallery_search_clear_description">关闭语义照片搜索并删除其下载的文件和保存的搜索数据？您的照片、类别和阈值设置将被保留。文件名搜索仍然有效。</string>
     <string name="snap_to_grid">对齐网格</string>
