@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="pick_image">Выберыце малюнак для пачатку</string>
     <string name="height">Вышыня %1$s</string>
     <string name="explicit">Спецыфічны</string>
@@ -7496,4 +7497,25 @@
     <string name="assistant_gallery_missing_literal">Укажыце назву альбома або файла пасля назвы фільтра. Put names containing spaces in quotes.</string>
     <string name="assistant_gallery_unsupported_condition">Гэты пошук падтрымлівае бачны кантэнт, імёны людзей, даты, адзін альбом і назву файла. Выключэнні, дакладнае супадзенне тэксту або GPS, некалькі фарматаў файлаў і колькасць запытаных вынікаў пакуль не падтрымліваюцца. Please adjust these conditions.</string>
     <string name="assistant_gallery_closest">Няма дакладных супадзенняў. Here are the closest available photos; вашы людзі, дата, альбом і фільтры імён файлаў па-ранейшаму прымяняюцца.</string>
+    <string name="short_side">Кароткі бок</string>
+    <string name="long_side">Доўгі бок</string>
+    <string name="amoled_mode_extended">Пашыраны</string>
+    <string name="amoled_mode_extended_sub">Таксама робіць панэлі праграм, аркушы і меню цалкам чорнымі ў начным рэжыме</string>
+    <string name="filter_help_bayer_four_dithering">Выкарыстоўвае паўтаральную парогавую матрыцу Баера 4 × 4 для фарміравання ўпарадкаваных шаблонаў пікселяў. Threshold кіруе танальным падзелам і адценнямі шэрага пераключаецца на манахромны выхад.</string>
+    <string name="filter_help_bayer_two_dithering">Выкарыстоўвае паўтаральную парогавую матрыцу Баера 2 × 2 для фарміравання ўпарадкаваных шаблонаў пікселяў. Threshold кіруе танальным падзелам і адценнямі шэрага пераключаецца на манахромны выхад.</string>
+    <string name="assistant_gallery_ambiguous_name">Некалькі названых людзей адпавядаюць гэтай фармулёўцы. Калі ласка, выкарыстоўвайце поўнае імя, паказанае ў галерэі.</string>
+    <string name="help_tip_crop_shape_title">Круглыя ​​аватары і кадраванне формы</string>
+    <string name="help_tip_crop_shape_description">Стварыце круглы аватар або выразайце выяву ў іншую форму з дапамогай маскі кадравання. Вобласць па-за фігурай становіцца празрыстай.</string>
+    <string name="help_tip_crop_shape_step_1">Адкрыйце Абрэзка, абярыце малюнак і выкарыстоўвайце звычайны рэжым абрэзкі, а не свабодныя куты.</string>
+    <string name="help_tip_crop_shape_step_2">Выберыце авальную маску і суадносіны бакоў 1:1 для круга. Размесціце кадраванне вакол аб\'екта.</string>
+    <string name="help_tip_crop_shape_step_3">Захаваць у фармаце PNG або іншым прапанаваным фармаце з празрыстасцю. Прамавугольны аглядальнік можа па-ранейшаму паказваць празрыстыя куты вакол круга.</string>
+    <string name="help_tip_partial_blur_title">Размыццё або пікселізацыя часткі выявы</string>
+    <string name="help_tip_partial_blur_subtitle">Схаваць выбраную вобласць, пакінуўшы астатнюю частку фота без зменаў</string>
+    <string name="help_tip_partial_blur_page_title">Зафарбуйце толькі вобласць, якую трэба схаваць</string>
+    <string name="help_tip_partial_blur_description">Выкарыстоўвайце прыватнае размыццё або пікселяцыю ў Draw, каб размыць толькі частку фатаграфіі. Гэтыя рэжымы пэндзля апрацоўваюць афарбаваныя вобласці; звычайны фільтр для размыцця ўсяго відарыса не заменіць выбару вобласці.</string>
+    <string name="help_tip_partial_blur_step_1">Адкрыйце Draw, абярыце малюнак і абярыце Private blur або Pixelation з рэжымаў малявання.</string>
+    <string name="help_tip_partial_blur_step_2">Зафарбуйце вобласць, якую хочаце схаваць. Адрэгулюйце радыус размыцця або памер пікселя і адмяніце рыскі, якія пакрываюць занадта шмат.</string>
+    <string name="help_tip_partial_blur_step_3">Праверце вынік у поўным памеры і захавайце асобную копію. Выкарыстоўвайце непразрысты пэндзаль для тэксту або лічбаў, якія павінны быць нечытэльнымі.</string>
+    <string name="opaque_image_viewer_background">Непразрысты фон праграмы прагляду малюнкаў</string>
+    <string name="opaque_image_viewer_background_sub">Выкарыстоўвайце суцэльны чорны фон пры праглядзе фатаграфій</string>
 </resources>

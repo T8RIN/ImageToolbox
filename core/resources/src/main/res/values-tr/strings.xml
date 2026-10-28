@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Bir şeyler ters gitti: %1$s</string>
     <string name="size">Boyut: %1$s</string>
     <string name="loading">Yükleniyor…</string>
@@ -7497,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Bu arama görünür içeriği, adlandırılmış kişileri, tarihleri, bir albümü ve bir dosya adını destekler. İstisnalar, tam metin veya GPS eşleştirme, birden fazla dosya formatı ve istenen sonuç sayısı henüz desteklenmemektedir. Lütfen bu koşulları ayarlayın.</string>
     <string name="assistant_gallery_ambiguous_name">Adı geçen birkaç kişi bu ifadeye uyuyor. Lütfen galeride gösterilen tam adı kullanın.</string>
     <string name="assistant_gallery_closest">Tam eşleşme yok. İşte en yakın mevcut fotoğraflar; kişiler, tarih, albüm ve dosya adı filtreleriniz hâlâ uygulanır.</string>
+    <string name="short_side">Kısa Taraf</string>
+    <string name="long_side">Uzun Taraf</string>
+    <string name="amoled_mode_extended">Uzatılmış</string>
+    <string name="amoled_mode_extended_sub">Ayrıca gece modunda uygulama çubuklarını, sayfaları ve menüleri tamamen siyah yapar</string>
+    <string name="help_tip_crop_shape_title">Dairesel avatarlar ve şekil kırpma</string>
+    <string name="help_tip_crop_shape_description">Kırpma maskesiyle dairesel bir avatar oluşturun veya bir görüntüyü başka bir şekle kesin. Şeklin dışındaki alan şeffaf hale gelir.</string>
+    <string name="help_tip_crop_shape_step_1">Kırp\'ı açın, görüntüyü seçin ve serbest köşeler yerine normal kırpma modunu kullanın.</string>
+    <string name="help_tip_crop_shape_step_2">Bir daire için oval maskeyi ve 1:1 en boy oranını seçin. Kırpmayı nesnenin çevresine konumlandırın.</string>
+    <string name="help_tip_crop_shape_step_3">PNG\'de veya şeffaflıkla sunulan başka bir formatta kaydedin. Dikdörtgen bir görüntüleyici yine de dairenin etrafında şeffaf köşeler gösterebilir.</string>
+    <string name="help_tip_partial_blur_title">Görüntünün bir kısmını bulanıklaştırma veya pikselleştirme</string>
+    <string name="help_tip_partial_blur_subtitle">Fotoğrafın geri kalanını değiştirmeden bırakarak seçilen alanı gizleyin</string>
+    <string name="help_tip_partial_blur_page_title">Yalnızca gizlenecek alanı boyayın</string>
+    <string name="help_tip_partial_blur_description">Fotoğrafın yalnızca bir kısmını bulanıklaştırmak için Çizim\'de Özel bulanıklaştırma veya Pikselleştirme\'yi kullanın. Bu fırça modları boyalı alanları işler; Sıradan bir tam görüntü bulanıklaştırma filtresi, bir alanın seçilmesinin yerine geçmez.</string>
+    <string name="help_tip_partial_blur_step_1">Çizim\'i açın, görüntüyü seçin ve çizim modlarından Özel bulanıklaştırma veya Pikselleştirme\'yi seçin.</string>
+    <string name="help_tip_partial_blur_step_2">Gizlemek istediğiniz alanın üzerini boyayın. Bulanıklaştırma yarıçapını veya piksel boyutunu ayarlayın ve çok fazla alanı kapsayan konturları geri alın.</string>
+    <string name="help_tip_partial_blur_step_3">Sonucu tam boyutta inceleyin ve ayrı bir kopya kaydedin. Okunamaması gereken metin veya sayılar için opak bir fırça kullanın.</string>
+    <string name="opaque_image_viewer_background">Opak resim görüntüleyici arka planı</string>
+    <string name="opaque_image_viewer_background_sub">Fotoğrafları görüntülerken düz siyah bir arka plan kullanın</string>
 </resources>

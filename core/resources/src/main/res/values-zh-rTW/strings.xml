@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -7474,4 +7475,44 @@
     <string name="assistant_gallery_unsupported_condition">此搜尋支援可見內容、命名人員、日期、一張專輯和檔案名稱。尚不支援排除、精確文字或 GPS 匹配、多種文件格式和請求的結果計數。請調整這些條件。</string>
     <string name="assistant_gallery_ambiguous_name">幾個有名字的人都符合這個措詞。請使用圖庫中顯示的全名。</string>
     <string name="assistant_gallery_closest">沒有精確匹配。以下是最接近的可用照片；您的人員、日期、相簿和檔案名稱篩選器仍然適用。</string>
+    <string name="short_side">短邊</string>
+    <string name="long_side">長邊</string>
+    <string name="amoled_mode_extended">擴充</string>
+    <string name="amoled_mode_extended_sub">也使應用程式列、工作表和選單在夜間模式下完全變黑</string>
+    <string name="help_tip_color_tools_step_2">使用相關或對比色的和諧和淺色或深色變體的色調。在預期的背景上一起判斷顏色。</string>
+    <string name="help_tip_palette_pdf_title">將調色板匯出為 PDF</string>
+    <string name="help_tip_palette_pdf_subtitle">從圖像或調色板檔案製作可列印的色表</string>
+    <string name="help_tip_palette_pdf_step_2">設定列數、邊距和間距，使樣本和標籤適合頁面。僅當來源圖像有助於解釋調色板時才啟用它。</string>
+    <string name="help_tip_gif_workflow_title">GIF 訊框、時序與轉換</string>
+    <string name="help_tip_gif_workflow_subtitle">創建動畫、提取幀、合併 GIF 或轉換為其他動畫格式</string>
+    <string name="help_tip_apng_workflow_subtitle">建立或分割動畫，同時保持平滑的透明度</string>
+    <string name="help_tip_webp_workflow_subtitle">選擇靜態轉換或幀感知工具並檢查 Alpha 和質量</string>
+    <string name="help_tip_webp_workflow_page_title">選擇正確的WebP路徑</string>
+    <string name="help_tip_jxl_workflow_title">JPEG XL 和可雙面 JPEG 包裝</string>
+    <string name="help_tip_jxl_workflow_subtitle">區分影像編碼與 JPEG 重建和動畫轉換</string>
+    <string name="help_tip_jxl_workflow_page_title">兩種不同的 JPEG XL 工作流程</string>
+    <string name="help_tip_jxl_workflow_step_2">使用 Images to JXL 進行普通編碼，並根據您的保真度和速度需求選擇可用的壓縮參數。</string>
+    <string name="help_tip_ascii_workflow_subtitle">將亮度對應到字元並控製字元密度</string>
+    <string name="help_tip_drawing_workflow_subtitle">選擇畫筆行為、線寬、顏色和可讀標記</string>
+    <string name="help_tip_exif_removal_subtitle">清理嵌入的圖像資訊並驗證匯出的副本</string>
+    <string name="help_tip_archive_workflow_subtitle">選擇容器、壓縮方法、密碼和提取選項</string>
+    <string name="help_tip_format_apng_title">澳洲巴布亞紐幾內亞</string>
+    <string name="help_tip_format_svg_title">靜止無功發生器</string>
+    <string name="help_tip_format_raw_title">相機 RAW/DNG</string>
+    <string name="help_tip_format_djvu_title">DJVu / DJV</string>
+    <string name="help_category_image_formats">圖片格式</string>
+    <string name="help_tip_crop_shape_title">圓形頭像和形狀裁剪</string>
+    <string name="help_tip_crop_shape_description">建立圓形頭像或使用裁切蒙版將影像剪下為其他形狀。形狀外部的區域變得透明。</string>
+    <string name="help_tip_crop_shape_step_1">開啟裁剪，選擇影像並使用常規裁切模式而不是自由角。</string>
+    <string name="help_tip_crop_shape_step_2">選擇橢圓形蒙版並選擇 1:1 長寬比的圓形。將作物放置在主題周圍。</string>
+    <string name="help_tip_crop_shape_step_3">以 PNG 或其他提供的透明格式儲存。矩形檢視器仍可能顯示圓形周圍的透明角。</string>
+    <string name="help_tip_partial_blur_title">模糊或像素化影像的一部分</string>
+    <string name="help_tip_partial_blur_subtitle">隱藏選定區域，同時保持照片的其餘部分不變</string>
+    <string name="help_tip_partial_blur_page_title">僅繪製要隱藏的區域</string>
+    <string name="help_tip_partial_blur_description">在 Draw 中使用私人模糊或像素化僅模糊照片的一部分。這些畫筆模式處理繪製的區域；普通的全影像模糊濾鏡不能取代選擇區域。</string>
+    <string name="help_tip_partial_blur_step_1">開啟“繪圖”，選擇影像，然後從繪圖模式中選擇“私人模糊”或“像素化”。</string>
+    <string name="help_tip_partial_blur_step_2">在您想要隱藏的區域上繪畫。調整模糊半徑或像素大小並撤銷覆蓋過多的筆觸。</string>
+    <string name="help_tip_partial_blur_step_3">以完整尺寸檢查結果並儲存單獨的副本。對於難以辨認的文字或數字，請使用不透明的畫筆。</string>
+    <string name="opaque_image_viewer_background">不透明影像檢視器背景</string>
+    <string name="opaque_image_viewer_background_sub">查看照片時使用純黑色背景</string>
 </resources>

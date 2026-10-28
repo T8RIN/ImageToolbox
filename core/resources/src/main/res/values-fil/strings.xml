@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Sinusuportahan ng paghahanap na ito ang nakikitang nilalaman, pinangalanang mga tao, mga petsa, isang album at isang filename. Hindi pa sinusuportahan ang mga pagbubukod, eksaktong teksto o pagtutugma ng GPS, maraming format ng file at isang hiniling na bilang ng resulta. Mangyaring ayusin ang mga kundisyong ito.</string>
     <string name="assistant_gallery_ambiguous_name">Ilang pinangalanang tao ang tumutugma sa salitang ito. Mangyaring gamitin ang buong pangalan na ipinapakita sa gallery.</string>
     <string name="assistant_gallery_closest">Walang eksaktong tugma. Narito ang pinakamalapit na magagamit na mga larawan; ang iyong mga tao, petsa, album at mga filter ng filename ay inilalapat pa rin.</string>
+    <string name="short_side">Maikling Gilid</string>
+    <string name="long_side">Mahabang Gilid</string>
+    <string name="amoled_mode_extended">Extended</string>
+    <string name="amoled_mode_extended_sub">Ginagawa ring ganap na itim ang mga app bar, sheet at menu sa night mode</string>
+    <string name="help_tip_crop_shape_title">Mga pabilog na avatar at pag-crop ng hugis</string>
+    <string name="help_tip_crop_shape_description">Gumawa ng pabilog na avatar o gupitin ang isang imahe sa ibang hugis gamit ang crop mask. Ang lugar sa labas ng hugis ay nagiging transparent.</string>
+    <string name="help_tip_crop_shape_step_1">Buksan ang I-crop, piliin ang larawan at gamitin ang regular na crop mode sa halip na mga libreng sulok.</string>
+    <string name="help_tip_crop_shape_step_2">Piliin ang oval mask at isang 1:1 aspect ratio para sa isang bilog. Iposisyon ang crop sa paligid ng paksa.</string>
+    <string name="help_tip_crop_shape_step_3">I-save sa PNG o ibang inaalok na format na may transparency. Ang isang parihabang viewer ay maaari pa ring magpakita ng mga transparent na sulok sa paligid ng bilog.</string>
+    <string name="help_tip_partial_blur_title">I-blur o i-pixelate ang bahagi ng isang larawan</string>
+    <string name="help_tip_partial_blur_subtitle">Magtago ng napiling lugar habang hindi nagbabago ang natitirang bahagi ng larawan</string>
+    <string name="help_tip_partial_blur_page_title">Kulayan lamang ang lugar na itatago</string>
+    <string name="help_tip_partial_blur_description">Gumamit ng Pribadong blur o Pixelation sa Draw para i-blur ang bahagi lang ng isang larawan. Pinoproseso ng mga brush mode na ito ang mga pininturahan na lugar; ang ordinaryong buong-image na blur na filter ay hindi isang kapalit para sa pagpili ng isang lugar.</string>
+    <string name="help_tip_partial_blur_step_1">Buksan ang Draw, piliin ang larawan at piliin ang Pribadong blur o Pixelation mula sa mga mode ng pagguhit.</string>
+    <string name="help_tip_partial_blur_step_2">Kulayan ang lugar na gusto mong itago. Isaayos ang blur radius o laki ng pixel at i-undo ang mga stroke na sumasaklaw nang labis.</string>
+    <string name="help_tip_partial_blur_step_3">Siyasatin ang resulta sa buong laki at mag-save ng hiwalay na kopya. Gumamit ng opaque na brush para sa text o mga numero na hindi dapat mabasa.</string>
+    <string name="opaque_image_viewer_background">Opaque na background ng viewer ng larawan</string>
+    <string name="opaque_image_viewer_background_sub">Gumamit ng solidong itim na background kapag tumitingin ng mga larawan</string>
 </resources>

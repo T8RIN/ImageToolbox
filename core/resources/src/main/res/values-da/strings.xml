@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Denne søgning understøtter synligt indhold, navngivne personer, datoer, et album og et filnavn. Ekskluderinger, nøjagtig tekst- eller GPS-matchning, flere filformater og en anmodet resultatoptælling understøttes endnu ikke. Juster venligst disse betingelser.</string>
     <string name="assistant_gallery_ambiguous_name">Flere navngivne personer matcher denne formulering. Brug venligst det fulde navn vist i galleriet.</string>
     <string name="assistant_gallery_closest">Ingen nøjagtige matcher. Her er de nærmeste tilgængelige billeder; dine person-, dato-, album- og filnavnfiltre anvendes stadig.</string>
+    <string name="short_side">Kortside</string>
+    <string name="long_side">Langside</string>
+    <string name="amoled_mode_extended">Udvidet</string>
+    <string name="amoled_mode_extended_sub">Gør også app-bjælker, ark og menuer helt sorte i nattilstand</string>
+    <string name="help_tip_crop_shape_title">Cirkulære avatarer og formbeskæring</string>
+    <string name="help_tip_crop_shape_description">Opret en cirkulær avatar eller klip et billede til en anden form med beskæringsmasken. Området uden for formen bliver gennemsigtigt.</string>
+    <string name="help_tip_crop_shape_step_1">Åbn Beskær, vælg billedet og brug den almindelige beskæringstilstand i stedet for frie hjørner.</string>
+    <string name="help_tip_crop_shape_step_2">Vælg den ovale maske og et billedformat på 1:1 for en cirkel. Placer beskæringen omkring motivet.</string>
+    <string name="help_tip_crop_shape_step_3">Gem i PNG eller et andet tilbudt format med gennemsigtighed. En rektangulær fremviser kan stadig vise gennemsigtige hjørner rundt om cirklen.</string>
+    <string name="help_tip_partial_blur_title">Slør eller pixel en del af et billede</string>
+    <string name="help_tip_partial_blur_subtitle">Skjul et valgt område, mens du forlader resten af ​​billedet uændret</string>
+    <string name="help_tip_partial_blur_page_title">Mal kun det område, der skal skjules</string>
+    <string name="help_tip_partial_blur_description">Brug Privat sløring eller Pixelering i Draw for kun at sløre en del af et billede. Disse penseltilstande behandler malede områder; et almindeligt helbilledslørfilter er ikke en erstatning for at vælge et område.</string>
+    <string name="help_tip_partial_blur_step_1">Åbn Draw, vælg billedet og vælg Privat sløring eller Pixelering fra tegnetilstandene.</string>
+    <string name="help_tip_partial_blur_step_2">Mal over det område, du vil skjule. Juster sløringsradius eller pixelstørrelse, og fortryd streger, der dækker for meget.</string>
+    <string name="help_tip_partial_blur_step_3">Undersøg resultatet i fuld størrelse og gem en separat kopi. Brug en uigennemsigtig pensel til tekst eller tal, der skal være ulæselige.</string>
+    <string name="opaque_image_viewer_background">Uigennemsigtig baggrund for billedfremviser</string>
+    <string name="opaque_image_viewer_background_sub">Brug en solid sort baggrund, når du ser billeder</string>
 </resources>

@@ -7500,4 +7500,22 @@
     <string name="assistant_gallery_unsupported_condition">Цей пошук підтримує видимий вміст, імена людей, дати, один альбом і назву файлу. Винятки, точний текст або відповідність GPS, кілька форматів файлів і необхідна кількість результатів ще не підтримуються. Будь ласка, скоригуйте ці умови.</string>
     <string name="assistant_gallery_ambiguous_name">Кілька названих осіб відповідають цьому формулюванню. Будь ласка, використовуйте повне ім\'я, яке показано в галереї.</string>
     <string name="assistant_gallery_closest">Немає точних збігів. Ось найближчі доступні фотографії; Ваші фільтри людей, дати, альбому та імені файлу все ще застосовуються.</string>
+    <string name="short_side">Коротка сторона</string>
+    <string name="long_side">Довга сторона</string>
+    <string name="amoled_mode_extended">Розширений</string>
+    <string name="amoled_mode_extended_sub">Також робить панелі програм, аркуші та меню повністю чорними в нічному режимі</string>
+    <string name="help_tip_crop_shape_title">Круглі аватари та кадрування фігур</string>
+    <string name="help_tip_crop_shape_description">Створіть круглий аватар або виріжте зображення в іншу форму за допомогою маски кадрування. Область поза формою стає прозорою.</string>
+    <string name="help_tip_crop_shape_step_1">Відкрийте «Обтинання», виберіть зображення та використовуйте звичайний режим кадрування, а не вільні кути.</string>
+    <string name="help_tip_crop_shape_step_2">Виберіть овальну маску та співвідношення сторін 1:1 для кола. Розмістіть кадрування навколо об’єкта.</string>
+    <string name="help_tip_crop_shape_step_3">Збережіть у PNG або іншому запропонованому форматі з прозорістю. У прямокутному оглядачі все ще можуть відображатися прозорі кути навколо кола.</string>
+    <string name="help_tip_partial_blur_title">Розмийте або піксельуйте частину зображення</string>
+    <string name="help_tip_partial_blur_subtitle">Приховати вибрану область, залишивши решту фотографії без змін</string>
+    <string name="help_tip_partial_blur_page_title">Зафарбуйте лише область, яку потрібно приховати</string>
+    <string name="help_tip_partial_blur_description">Використовуйте приватне розмиття або пікселізацію в Draw, щоб розмити лише частину фотографії. Ці режими пензля обробляють пофарбовані області; звичайний фільтр розмиття всього зображення не замінить виділення області.</string>
+    <string name="help_tip_partial_blur_step_1">Відкрийте Draw, виберіть зображення та виберіть Private blur або Pixelation з режимів малювання.</string>
+    <string name="help_tip_partial_blur_step_2">Зафарбуйте область, яку хочете приховати. Налаштуйте радіус розмиття або розмір пікселів і скасуйте штрихи, які покривають занадто багато.</string>
+    <string name="help_tip_partial_blur_step_3">Перегляньте результат у повному розмірі та збережіть окрему копію. Використовуйте непрозорий пензель для тексту або чисел, які повинні бути нечитабельними.</string>
+    <string name="opaque_image_viewer_background">Непрозорий фон переглядача зображень</string>
+    <string name="opaque_image_viewer_background_sub">Використовуйте однотонний чорний фон під час перегляду фотографій</string>
 </resources>

@@ -7499,4 +7499,22 @@
     <string name="assistant_gallery_unsupported_condition">Ова претрага подржава видљив садржај, именоване људе, датуме, један албум и назив датотеке. Изузимања, тачно подударање текста или ГПС-а, више формата датотека и тражени резултат још нису подржани. Молимо прилагодите ове услове.</string>
     <string name="assistant_gallery_ambiguous_name">Неколико именованих људи одговара овој формулацији. Молимо користите пуно име приказано у галерији.</string>
     <string name="assistant_gallery_closest">Нема тачних подударања. Ево најближих доступних фотографија; ваши филтери људи, датума, албума и имена датотеке се и даље примењују.</string>
+    <string name="short_side">Схорт Сиде</string>
+    <string name="long_side">Лонг Сиде</string>
+    <string name="amoled_mode_extended">Проширено</string>
+    <string name="amoled_mode_extended_sub">Такође чини траке апликација, листове и меније потпуно црним у ноћном режиму</string>
+    <string name="help_tip_crop_shape_title">Кружни аватари и обрезивање облика</string>
+    <string name="help_tip_crop_shape_description">Направите кружни аватар или исеците слику у други облик помоћу маске за исецање. Подручје изван облика постаје провидно.</string>
+    <string name="help_tip_crop_shape_step_1">Отворите Цроп, изаберите слику и користите уобичајени режим исецања уместо слободних углова.</string>
+    <string name="help_tip_crop_shape_step_2">Изаберите овалну маску и размеру 1:1 за круг. Поставите усев око субјекта.</string>
+    <string name="help_tip_crop_shape_step_3">Сачувајте у ПНГ или другом понуђеном формату са транспарентношћу. Правоугаони приказивач може и даље да приказује прозирне углове око круга.</string>
+    <string name="help_tip_partial_blur_title">Замутите или пикселизирајте део слике</string>
+    <string name="help_tip_partial_blur_subtitle">Сакријте изабрано подручје, а остатак фотографије оставите непромењеним</string>
+    <string name="help_tip_partial_blur_page_title">Обојите само подручје које желите сакрити</string>
+    <string name="help_tip_partial_blur_description">Користите Приватно замућење или Пикселацију у цртању да замутите само део фотографије. Ови режими четкице обрађују обојене површине; обичан филтер за замућење целе слике није замена за избор области.</string>
+    <string name="help_tip_partial_blur_step_1">Отворите Цртање, изаберите слику и изаберите Приватно замућење или Пикселација из режима цртања.</string>
+    <string name="help_tip_partial_blur_step_2">Обојите подручје које желите да сакријете. Подесите радијус замућења или величину пиксела и поништите потезе који покривају превише.</string>
+    <string name="help_tip_partial_blur_step_3">Прегледајте резултат у пуној величини и сачувајте посебну копију. Користите непрозирну четку за текст или бројеве који морају бити нечитљиви.</string>
+    <string name="opaque_image_viewer_background">Непровидна позадина прегледника слика</string>
+    <string name="opaque_image_viewer_background_sub">Користите чврсту црну позадину када гледате фотографије</string>
 </resources>

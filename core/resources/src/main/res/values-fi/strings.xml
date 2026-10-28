@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="width">Leveys %1$s</string>
     <string name="height">Korkeus %1$s</string>
     <string name="quality">Laatu</string>
@@ -7479,4 +7480,40 @@
     <string name="assistant_gallery_unsupported_condition">Tämä haku tukee näkyvää sisältöä, nimettyjä ihmisiä, päivämääriä, yhtä albumia ja tiedostonimeä. Poissulkemisia, tarkkaa teksti- tai GPS-vastaavuutta, useita tiedostomuotoja ja pyydettyä tulosten määrää ei vielä tueta. Muokkaa näitä ehtoja.</string>
     <string name="assistant_gallery_ambiguous_name">Useat nimetyt henkilöt vastaavat tätä sanamuotoa. Käytä galleriassa näkyvää koko nimeä.</string>
     <string name="assistant_gallery_closest">Ei tarkkoja osumia. Tässä ovat lähimmät saatavilla olevat kuvat; henkilö-, päivämäärä-, albumi- ja tiedostonimisuodattimet ovat edelleen käytössä.</string>
+    <string name="short_side">Lyhyt puoli</string>
+    <string name="long_side">Pitkä sivu</string>
+    <string name="amoled_mode_extended">Laajennettu</string>
+    <string name="amoled_mode_extended_sub">Tekee myös sovelluspalkit, arkit ja valikot täysin mustiksi yötilassa</string>
+    <string name="help_tip_ai_face_restoration_step_2">Vähennä voimaa, jos silmät, suu tai iho muuttuvat luonnottomaksi. Vertaa sekä palautettuja kasvoja että niiden siirtymää alkuperäiseen valokuvaan.</string>
+    <string name="help_tip_ai_dehaze_step_1">Valitse AI-työkaluista DehazeFormer-T ja aloita utuisesta maisemasta tai kaukaisesta kohteesta.</string>
+    <string name="help_tip_ai_document_cleanup_step_1">Käytä Asiakirjan skanneria tai Rajaa sivun eristämiseen. Kokeile UVDOC-ruudukkoa, kun paperi on kaareva eikä yksinkertaisesti pyöritetty.</string>
+    <string name="help_tip_ai_document_cleanup_step_3">Siirrä puhdistettu kuva tekstin tai kuvien tunnistamiseen PDF-tiedostoksi. Jos lähde on epäselvä tai rajattu, ota se uudelleen sen sijaan, että odottaisit siivouksen luovan puuttuvan tekstin uudelleen.</string>
+    <string name="help_tip_ai_style_transfer_subtitle">Mielivaltainen tyylinsiirto, MicroAST-, AesFA- ja VGG19-optimointi</string>
+    <string name="help_tip_ai_detection_description">Tekoälyilmaisimet arvioivat, kuinka paljon kuva muistuttaa heidän harjoitusesimerkkejä luoduista tai todellisista kuvista. Tulos ei ole todiste tekijästä tai muokkaushistoriasta. Todellinen valokuva voidaan merkitä tekoälyksi, ja luotu kuva voidaan jättää huomiotta.</string>
+    <string name="help_tip_ai_detection_step_1">Valitse AI-tunnistusmalli, valitse kuvat ja suorita tarkistus. Tämä tila palauttaa arvioita muokattujen valokuvien sijaan.</string>
+    <string name="help_tip_ai_detection_step_2">Lue pisteet yhdessä tuomion kanssa: 70 % ja enemmän on todennäköistä tekoälyä, 30 % ja alle on todennäköistä ihmistä ja keskialue on epävarma.</string>
+    <string name="help_tip_ai_detection_page_2_step_1">Aloita pienemmällä tunnistimella nopeuden tarkistamiseksi ja vertaa sitten suurempaa samaan alkuperäiseen tiedostoon.</string>
+    <string name="help_tip_ai_background_models_subtitle">Automaattiset maskit, muotokuvamallit ja MobileSAM-pisteet</string>
+    <string name="help_tip_ai_background_models_step_2">Käytä MobileSAM-pisteen valintaa, kun haluat määrittää aiheen: lisää pisteitä säilyttääksesi ja jättääksesi pois alueet, tarkasta maski ja käytä sitä.</string>
+    <string name="help_tip_ai_inpainting_step_1">Avaa Draw → Spot Heal, ota käyttöön generatiivinen maalaus ja lataa LaMa pyydettäessä. Maalaa ei-toivottu esine pienellä marginaalilla sen reunan ympärillä.</string>
+    <string name="help_tip_ai_inpainting_step_2">Tarkista toistuvat kuviot, viivat ja lähellä olevat kohteet. Kumoa ja tarkenna maski, jos täyttö vääristää niitä; pienempiä, erillisiä korjauksia on usein helpompi hallita.</string>
+    <string name="help_tip_ai_gallery_subtitle">Kuvaukset, viitekuvat, mukautetut luokat ja henkilöryhmät</string>
+    <string name="help_tip_usage_statistics_step_1">Avaa Käyttötilastot ja tarkista yhteenveto ja työkalukohtaiset merkinnät.</string>
+    <string name="help_tip_usage_statistics_step_2">Avaa tietoikkuna ja lue, miten laskurit toimivat, ennen kuin vertaat niitä.</string>
+    <string name="help_tip_libraries_licenses_description">Kirjastot-näytössä luetellaan ImageToolboxin käyttämät kolmannen osapuolen komponentit. Kirjaston lisenssi ja ladatun mallin lisenssi voivat olla erilaisia; ota yhteyttä asiaankuuluvaan lähteeseen, kun tarvitset sen tarkat ehdot.</string>
+    <string name="help_tip_libraries_licenses_step_2">Avaa sen tiedot lukeaksesi saatavilla olevat kuvaukset ja lisenssitiedot.</string>
+    <string name="help_tip_crop_shape_title">Pyöreät avatarit ja muodon rajaus</string>
+    <string name="help_tip_crop_shape_description">Luo pyöreä avatar tai leikkaa kuva toiseen muotoon rajausmaskin avulla. Muodon ulkopuolella oleva alue muuttuu läpinäkyväksi.</string>
+    <string name="help_tip_crop_shape_step_1">Avaa Rajaa, valitse kuva ja käytä tavallista rajaustilaa vapaiden kulmien sijaan.</string>
+    <string name="help_tip_crop_shape_step_2">Valitse ympyrän soikea maski ja 1:1-kuvasuhde. Sijoita rajaus kohteen ympärille.</string>
+    <string name="help_tip_crop_shape_step_3">Tallenna PNG-muodossa tai muussa tarjotussa muodossa läpinäkyvästi. Suorakaiteen muotoisessa katseluohjelmassa voi silti näkyä läpinäkyviä kulmia ympyrän ympärillä.</string>
+    <string name="help_tip_partial_blur_title">Sumenna tai pikseloi osa kuvasta</string>
+    <string name="help_tip_partial_blur_subtitle">Piilota valittu alue ja jätä loput valokuvasta ennalleen</string>
+    <string name="help_tip_partial_blur_page_title">Maalaa vain piilotettava alue</string>
+    <string name="help_tip_partial_blur_description">Käytä yksityistä sumennusta tai pikselöintiä Drawissa sumentaaksesi vain osa valokuvasta. Nämä sivellintilat käsittelevät maalattuja alueita; tavallinen koko kuvan sumennussuodatin ei korvaa alueen valintaa.</string>
+    <string name="help_tip_partial_blur_step_1">Avaa Draw, valitse kuva ja valitse piirustustiloista Yksityinen sumennus tai Pikselointi.</string>
+    <string name="help_tip_partial_blur_step_2">Maalaa alue, jonka haluat piilottaa. Säädä sumennuksen sädettä tai pikselikokoa ja kumoa liiallisia vedoksia.</string>
+    <string name="help_tip_partial_blur_step_3">Tarkista tulos täysikokoisena ja tallenna erillinen kopio. Käytä läpinäkymätöntä sivellintä tekstille tai numeroille, joiden täytyy olla lukukelvottomia.</string>
+    <string name="opaque_image_viewer_background">Läpinäkymätön kuvankatselun tausta</string>
+    <string name="opaque_image_viewer_background_sub">Käytä tasaista mustaa taustaa katsoessasi valokuvia</string>
 </resources>

@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">See otsing toetab nähtavat sisu, nimega inimesi, kuupäevi, ühte albumit ja failinime. Välistamist, täpset teksti või GPS-i sobitamist, mitut failivormingut ja soovitud tulemuste arvu veel ei toetata. Palun kohandage neid tingimusi.</string>
     <string name="assistant_gallery_ambiguous_name">Mitmed nimetatud isikud vastavad sellele sõnastusele. Palun kasutage galeriis näidatud täisnime.</string>
     <string name="assistant_gallery_closest">Täpseid vasteid pole. Siin on lähimad saadaolevad fotod; teie inimeste, kuupäeva, albumi ja failinime filtrid on endiselt rakendatud.</string>
+    <string name="short_side">Lühike külg</string>
+    <string name="long_side">Pikk külg</string>
+    <string name="amoled_mode_extended">Laiendatud</string>
+    <string name="amoled_mode_extended_sub">Samuti muudab rakenduste ribad, lehed ja menüüd öörežiimis täiesti mustaks</string>
+    <string name="help_tip_crop_shape_title">Ringikujulised avatarid ja kuju kärpimine</string>
+    <string name="help_tip_crop_shape_description">Looge ümmargune avatar või lõigake kärpimismaski abil pilt teise kujuga. Kujundist väljapoole jääv ala muutub läbipaistvaks.</string>
+    <string name="help_tip_crop_shape_step_1">Avage Kärbi, valige pilt ja kasutage vabade nurkade asemel tavalist kärpimisrežiimi.</string>
+    <string name="help_tip_crop_shape_step_2">Valige ringi jaoks ovaalne mask ja kuvasuhe 1:1. Asetage kärpimine objekti ümber.</string>
+    <string name="help_tip_crop_shape_step_3">Salvestage läbipaistvalt PNG-vormingus või muus pakutavas vormingus. Ristkülikukujuline vaataja võib siiski kuvada ringi ümber läbipaistvaid nurki.</string>
+    <string name="help_tip_partial_blur_title">Kujutise osa hägustamine või pikslitamine</string>
+    <string name="help_tip_partial_blur_subtitle">Peida valitud ala, jättes ülejäänud foto muutmata</string>
+    <string name="help_tip_partial_blur_page_title">Värvige ainult peitmiseks mõeldud ala</string>
+    <string name="help_tip_partial_blur_description">Kasutage rakenduses Draw privaatset hägusust või pikslimist, et hägustada ainult osa fotost. Need pintslirežiimid töötlevad värvitud alasid; tavaline kogu pildi hägususe filter ei asenda ala valimist.</string>
+    <string name="help_tip_partial_blur_step_1">Avage Draw, valige pilt ja valige joonistusrežiimidest Privaatne hägusus või Pikselatsioon.</string>
+    <string name="help_tip_partial_blur_step_2">Värvige üle ala, mida soovite peita. Reguleerige hägususe raadiust või piksli suurust ja tühistage liiga palju katvaid jooni.</string>
+    <string name="help_tip_partial_blur_step_3">Kontrollige tulemust täissuuruses ja salvestage eraldi koopia. Kasutage läbipaistmatut pintslit teksti või numbrite jaoks, mis peavad olema loetamatud.</string>
+    <string name="opaque_image_viewer_background">Läbipaistmatu pildivaaturi taust</string>
+    <string name="opaque_image_viewer_background_sub">Kasutage fotode vaatamisel ühtlast musta tausta</string>
 </resources>

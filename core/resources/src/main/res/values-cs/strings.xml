@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="prefix">Předpona</string>
     <string name="smth_went_wrong">Něco se pokazilo: %1$s</string>
     <string name="size">Velikost %1$s</string>
@@ -7473,4 +7474,48 @@
     <string name="assistant_gallery_unsupported_condition">Toto vyhledávání podporuje viditelný obsah, pojmenované osoby, data, jedno album a název souboru. Vyloučení, přesný text nebo shoda GPS, více formátů souborů a požadovaný počet výsledků zatím nejsou podporovány. Upravte prosím tyto podmínky.</string>
     <string name="assistant_gallery_ambiguous_name">Tomuto slovu odpovídá několik jmenovaných osob. Použijte prosím celé jméno uvedené v galerii.</string>
     <string name="assistant_gallery_closest">Žádné přesné shody. Zde jsou nejbližší dostupné fotografie; vaše filtry lidí, data, alba a názvu souboru jsou stále použity.</string>
+    <string name="short_side">Krátká strana</string>
+    <string name="long_side">Dlouhá strana</string>
+    <string name="amoled_mode_extended">Rozšířené</string>
+    <string name="amoled_mode_extended_sub">V nočním režimu jsou také lišty, listy a nabídky aplikací zcela černé</string>
+    <string name="assistant_vision_lite">Vision Lite</string>
+    <string name="assistant_vision_advanced">Vision Advanced</string>
+    <string name="assistant_vision_max">Vize Max</string>
+    <string name="help_tip_assistant_workflow_page_2_title">Zeptejte se užitečného sledování</string>
+    <string name="help_tip_assistant_models_title">Asistentské modely</string>
+    <string name="help_tip_assistant_models_page_2_title">Vyberte model Vision</string>
+    <string name="help_tip_assistant_models_page_3_title">Velikost, rychlost a paměť</string>
+    <string name="help_tip_assistant_images_title">Zeptejte se na fotku</string>
+    <string name="help_tip_ai_dehaze_description">DehazeFormer-T snižuje atmosférický zákal a dokáže obnovit kontrast na venkovních fotografiích. Haze se liší od rozmazání pohybu, rozostření a digitálního šumu, takže tento model by neměl být používán jako univerzální ořezávátko.</string>
+    <string name="help_tip_ai_dehaze_step_1">Vyberte DehazeFormer-T v nástrojích AI a začněte mlhavou krajinou nebo vzdáleným objektem.</string>
+    <string name="help_tip_ai_dehaze_step_2">V náhledu zkontrolujte oblohu, tmavé oblasti a vyvážení barev. Silnější kontrast může také zdůraznit šum a způsobit, že již tak jasná fotografie bude vypadat drsně.</string>
+    <string name="help_tip_ai_document_cleanup_step_3">Předejte vyčištěný obrázek k rozpoznání textu nebo obrázků do PDF. Pokud je zdroj rozmazaný nebo oříznutý, pořiďte jej znovu, než očekávejte vyčištění, aby se znovu vytvořil chybějící text.</string>
+    <string name="help_tip_ai_style_transfer_subtitle">Přenos libovolného stylu, MicroAST, AesFA a optimalizace VGG19</string>
+    <string name="help_tip_ai_detection_subtitle">Porovnejte odhady detektorů, aniž byste je považovali za důkaz</string>
+    <string name="help_tip_ai_inpainting_step_2">Zkontrolujte opakované vzory, čáry a blízké předměty. Zrušte a zpřesněte masku, pokud je výplň deformuje; menší, samostatné opravy jsou často snadněji kontrolovatelné.</string>
+    <string name="help_tip_ai_gallery_step_2">Hledejte podle popisu nebo zvolte Najít podobné fotky. Použijte kategorie a aktuální album k zúžení výsledků nebo vytvořte kategorii z popisu a referenčních fotografií.</string>
+    <string name="help_tip_libraries_licenses_subtitle">Najděte součásti používané aplikací a jejich upozornění</string>
+    <string name="help_tip_libraries_licenses_step_3">U modelů AI také otevřete zdrojový odkaz modelu z jeho selektoru. Záznam knihovny nenahrazuje vlastní dokumentaci modelu.</string>
+    <string name="help_tip_depth_effects_page_2_description">Depth Anything V2 nabízí modely Small, Base a Large v Q4 a FP32. Depth Anything 3 také nabízí několik velikostí a přesností, včetně Mono Large. Aplikace používá pro efekty normalizovanou relativní hloubku, nikoli kalibrované měření vzdálenosti v metrech.</string>
+    <string name="help_tip_depth_effects_page_2_step_1">Začněte s malým nebo kvantovaným modelem a poté porovnejte větší verzi na stejné fotografii, pokud chybí hranice nebo tenké objekty.</string>
+    <string name="help_tip_depth_effects_page_2_step_2">Pokud již máte odpovídající mapu, použijte vlastní mapu hloubky. Nahrazuje odhad hloubky modelu pro efekt; zarovnejte ji se zdrojovou fotografií a prohlédněte si náhled.</string>
+    <string name="help_tip_depth_effects_page_2_step_3">Odeberte vlastní mapu a vraťte se k odhadu modelu. Hloubkové modely fungují na celé scéně, takže pro ně nejsou nabízeny ovládací prvky chunk a overlap.</string>
+    <string name="help_tip_depth_effects_page_3_title">Vyberte hloubkový efekt</string>
+    <string name="help_tip_depth_effects_page_3_step_1">Pro rozmazání, portrét, masky a výřezy upravte zaostření a rozsah zaostření při sledování okrajů objektu. Focus vybírá pásmo hloubky, nikoli pojmenovanou osobu nebo objekt.</string>
+    <string name="help_tip_depth_effects_page_3_step_2">Použijte Síla pro množství vybraného efektu a úhel světla tam, kde to poskytuje přesvícení. Stereo a normální mapy jsou odvozené obrázky, nikoli obnovená geometrie kamery.</string>
+    <string name="help_tip_ai_ocr_title">Vyberte OCR engine</string>
+    <string name="help_tip_crop_shape_title">Kruhové avatary a oříznutí tvaru</string>
+    <string name="help_tip_crop_shape_description">Vytvořte kruhový avatar nebo ořízněte obrázek do jiného tvaru pomocí ořezové masky. Oblast mimo tvar se stane průhlednou.</string>
+    <string name="help_tip_crop_shape_step_1">Otevřete Oříznout, vyberte obrázek a místo volných rohů použijte běžný režim oříznutí.</string>
+    <string name="help_tip_crop_shape_step_2">Vyberte oválnou masku a poměr stran 1:1 pro kruh. Umístěte oříznutí kolem objektu.</string>
+    <string name="help_tip_crop_shape_step_3">Uložte do PNG nebo jiného nabízeného formátu s průhledností. Obdélníkový prohlížeč může stále zobrazovat průhledné rohy kolem kruhu.</string>
+    <string name="help_tip_partial_blur_title">Rozmazání nebo pixelování části obrázku</string>
+    <string name="help_tip_partial_blur_subtitle">Skrýt vybranou oblast a zbytek fotografie ponechat beze změny</string>
+    <string name="help_tip_partial_blur_page_title">Malujte pouze oblast, kterou chcete skrýt</string>
+    <string name="help_tip_partial_blur_description">Chcete-li rozmazat pouze část fotografie, použijte funkci Soukromé rozostření nebo Pixelaci v aplikaci Draw. Tyto režimy štětce zpracovávají malované oblasti; běžný filtr rozostření celého snímku nenahrazuje výběr oblasti.</string>
+    <string name="help_tip_partial_blur_step_1">Otevřete Draw, vyberte obrázek a z režimů kreslení vyberte Soukromé rozostření nebo Pixelace.</string>
+    <string name="help_tip_partial_blur_step_2">Malujte přes oblast, kterou chcete skrýt. Upravte poloměr rozostření nebo velikost pixelů a vraťte zpět tahy, které příliš zakrývají.</string>
+    <string name="help_tip_partial_blur_step_3">Zkontrolujte výsledek v plné velikosti a uložte samostatnou kopii. Na text nebo čísla, které musí být nečitelné, použijte neprůhledný štětec.</string>
+    <string name="opaque_image_viewer_background">Neprůhledné pozadí prohlížeče obrázků</string>
+    <string name="opaque_image_viewer_background_sub">Při prohlížení fotografií použijte jednolité černé pozadí</string>
 </resources>

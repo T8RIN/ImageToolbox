@@ -7500,4 +7500,22 @@
     <string name="assistant_gallery_unsupported_condition">To wyszukiwanie uwzględnia widoczną treść, nazwane osoby, daty, jeden album i nazwę pliku. Wykluczenia, dopasowanie dokładnego tekstu lub GPS, wiele formatów plików i żądana liczba wyników nie są jeszcze obsługiwane. Proszę dostosować te warunki.</string>
     <string name="assistant_gallery_ambiguous_name">Kilka wymienionych osób pasuje do tego sformułowania. Proszę używać pełnego imienia i nazwiska widocznego w galerii.</string>
     <string name="assistant_gallery_closest">Brak dokładnych dopasowań. Oto najbliższe dostępne zdjęcia; filtry osób, daty, albumu i nazwy pliku są nadal stosowane.</string>
+    <string name="short_side">Krótki bok</string>
+    <string name="long_side">Długi bok</string>
+    <string name="amoled_mode_extended">Rozszerzony</string>
+    <string name="amoled_mode_extended_sub">Sprawia również, że paski aplikacji, arkusze i menu są całkowicie czarne w trybie nocnym</string>
+    <string name="help_tip_crop_shape_title">Okrągłe awatary i kadrowanie kształtów</string>
+    <string name="help_tip_crop_shape_description">Utwórz okrągły awatar lub przytnij obraz do innego kształtu za pomocą maski przycinania. Obszar poza kształtem staje się przezroczysty.</string>
+    <string name="help_tip_crop_shape_step_1">Otwórz Przytnij, wybierz obraz i użyj zwykłego trybu przycinania zamiast wolnych rogów.</string>
+    <string name="help_tip_crop_shape_step_2">Wybierz maskę owalną i współczynnik proporcji 1:1 dla okręgu. Umieść kadr wokół obiektu.</string>
+    <string name="help_tip_crop_shape_step_3">Zapisz w formacie PNG lub innym oferowanym formacie z przezroczystością. Prostokątna przeglądarka może nadal pokazywać przezroczyste rogi wokół okręgu.</string>
+    <string name="help_tip_partial_blur_title">Rozmycie lub pikselowanie części obrazu</string>
+    <string name="help_tip_partial_blur_subtitle">Ukryj wybrany obszar, pozostawiając resztę zdjęcia bez zmian</string>
+    <string name="help_tip_partial_blur_page_title">Pomaluj tylko obszar, który chcesz ukryć</string>
+    <string name="help_tip_partial_blur_description">Użyj Rozmycia prywatnego lub Pikselacji w programie Draw, aby rozmyć tylko część zdjęcia. Te tryby pędzla przetwarzają pomalowane obszary; zwykły filtr rozmycia całego obrazu nie zastępuje zaznaczenia obszaru.</string>
+    <string name="help_tip_partial_blur_step_1">Otwórz Rysuj, wybierz obraz i wybierz Prywatne rozmycie lub Pikselację z trybów rysowania.</string>
+    <string name="help_tip_partial_blur_step_2">Zamaluj obszar, który chcesz ukryć. Dostosuj promień rozmycia lub rozmiar piksela i cofnij pociągnięcia, które za bardzo zakrywają.</string>
+    <string name="help_tip_partial_blur_step_3">Sprawdź wynik w pełnym rozmiarze i zapisz osobną kopię. W przypadku tekstu lub liczb, które muszą być nieczytelne, użyj nieprzezroczystego pędzla.</string>
+    <string name="opaque_image_viewer_background">Nieprzezroczyste tło przeglądarki obrazów</string>
+    <string name="opaque_image_viewer_background_sub">Podczas przeglądania zdjęć używaj jednolitego, czarnego tła</string>
 </resources>

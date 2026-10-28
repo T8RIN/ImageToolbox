@@ -7499,4 +7499,22 @@
     <string name="assistant_gallery_unsupported_condition">Această căutare acceptă conținut vizibil, persoane numite, date, un album și un nume de fișier. Excluderile, textul exact sau potrivirea GPS, formatele multiple de fișiere și numărul de rezultate solicitate nu sunt încă acceptate. Vă rugăm să ajustați aceste condiții.</string>
     <string name="assistant_gallery_ambiguous_name">Mai multe persoane numite se potrivesc cu această formulare. Vă rugăm să utilizați numele complet afișat în galerie.</string>
     <string name="assistant_gallery_closest">Fără potriviri exacte. Iată cele mai apropiate fotografii disponibile; Filtrele dvs. privind persoanele, data, albumul și numele fișierelor sunt încă aplicate.</string>
+    <string name="short_side">Latura Scurt</string>
+    <string name="long_side">Latura Lungă</string>
+    <string name="amoled_mode_extended">Extins</string>
+    <string name="amoled_mode_extended_sub">De asemenea, face barele de aplicații, foile și meniurile complet negre în modul de noapte</string>
+    <string name="help_tip_crop_shape_title">Avatare circulare și decuparea formei</string>
+    <string name="help_tip_crop_shape_description">Creați un avatar circular sau tăiați o imagine într-o altă formă cu masca de decupare. Zona din afara formei devine transparentă.</string>
+    <string name="help_tip_crop_shape_step_1">Deschideți Decupare, alegeți imaginea și utilizați modul de decupare obișnuit, mai degrabă decât colțurile libere.</string>
+    <string name="help_tip_crop_shape_step_2">Alegeți masca ovală și un raport de aspect 1:1 pentru un cerc. Poziționați decuparea în jurul subiectului.</string>
+    <string name="help_tip_crop_shape_step_3">Salvați în PNG sau alt format oferit cu transparență. Un vizualizator dreptunghiular poate afișa în continuare colțuri transparente în jurul cercului.</string>
+    <string name="help_tip_partial_blur_title">Încețoșează sau pixelează o parte a unei imagini</string>
+    <string name="help_tip_partial_blur_subtitle">Ascundeți o zonă selectată, lăsând restul fotografiei neschimbate</string>
+    <string name="help_tip_partial_blur_page_title">Pictează doar zona de ascunde</string>
+    <string name="help_tip_partial_blur_description">Folosiți estomparea privată sau Pixelation în Draw pentru a estompa doar o parte a unei fotografii. Aceste moduri de pensulă procesează zonele vopsite; un filtru de estompare obișnuit pentru întreaga imagine nu este un substitut pentru selectarea unei zone.</string>
+    <string name="help_tip_partial_blur_step_1">Deschideți Draw, selectați imaginea și alegeți Neclaritate privată sau Pixelare din modurile de desen.</string>
+    <string name="help_tip_partial_blur_step_2">Pictați peste zona pe care doriți să o ascundeți. Reglați raza de estompare sau dimensiunea pixelilor și anulați liniile care acoperă prea mult.</string>
+    <string name="help_tip_partial_blur_step_3">Inspectați rezultatul la dimensiunea maximă și salvați o copie separată. Utilizați o perie opacă pentru text sau numere care trebuie să fie ilizibile.</string>
+    <string name="opaque_image_viewer_background">Fundal opac pentru vizualizarea imaginilor</string>
+    <string name="opaque_image_viewer_background_sub">Utilizați un fundal negru solid când vizualizați fotografii</string>
 </resources>

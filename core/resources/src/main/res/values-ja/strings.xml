@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">問題が発生しました: %1$s</string>
     <string name="check_source_code_sub">最新のアップデートを入手し、問題を議論するなど</string>
     <string name="color_red">赤</string>
@@ -7468,4 +7469,50 @@
     <string name="assistant_gallery_unsupported_condition">この検索で​​は、表示されるコンテンツ、名前付き人物、日付、1 つのアルバム、およびファイル名がサポートされます。除外、正確なテキストまたは GPS の一致、複数のファイル形式、および要求された結果の数はまだサポートされていません。これらの条件を調整してください。</string>
     <string name="assistant_gallery_ambiguous_name">何人かの名前がこの文言と一致します。ギャラリーに表示されているフルネームを使用してください。</string>
     <string name="assistant_gallery_closest">完全に一致するものはありません。入手可能な最も近い写真は次のとおりです。人物、日付、アルバム、ファイル名のフィルターは引き続き適用されます。</string>
+    <string name="short_side">短辺</string>
+    <string name="long_side">長辺</string>
+    <string name="amoled_mode_extended">拡張された</string>
+    <string name="amoled_mode_extended_sub">夜間モードではアプリのバー、シート、メニューも完全に黒になります</string>
+    <string name="ai_assistant_subtitle">ツールや設定のサポート。チャットでモデルをダウンロードして開始してください。</string>
+    <string name="assistant_photo_prompt">これらのファイルを使って何ができるのでしょうか?</string>
+    <string name="assistant_model_unavailable">このデバイスでは利用できないモデル</string>
+    <string name="assistant_generation_error">回答を生成できませんでした</string>
+    <string name="assistant_enabled_required">設定でアシスタントを有効にする</string>
+    <string name="assistant_history_save_error">会話を保存できませんでした</string>
+    <string name="assistant_clear_conversation_question">この会話内のメッセージをすべて削除しますか?</string>
+    <string name="help_tip_depth_effects_subtitle">フォーカス、ブラー、深度マップ</string>
+    <string name="help_tip_pdf_annotation_cleanup_step_1">注釈の削除を開き、PDF を選択します。処理するページを選択します。</string>
+    <string name="help_tip_cache_cleanup_subtitle">キャッシュのしきい値とチェック間隔を設定する</string>
+    <string name="help_tip_setting_system_bars_visibility_description">システム バーは、ナビゲーション クロムを作業スペースと引き換えに表示または非表示にすることができます。</string>
+    <string name="help_tip_setting_system_bars_visibility_step_1">ステータス/ナビゲーション バーに表示される表示モードの 1 つを選択します。</string>
+    <string name="help_tip_setting_confetti_harmonizer_description">紙吹雪ハーモナイザーは、パーティクル パレットの色合いを変えるために使用される色を選択します。</string>
+    <string name="help_tip_setting_confetti_harmonization_level_description">調和レベルは、選択した紙吹雪の色の調整の強さを変更します。</string>
+    <string name="help_tip_setting_confetti_type_description">紙吹雪のタイプは、お祝いに使用するパーティクルの形状を選択します。</string>
+    <string name="help_tip_setting_show_settings_in_landscape_step_1">このオプションが使用できない場合は、全画面設定を無効にします。</string>
+    <string name="help_tip_setting_ai_assistant_step_3">モデルのダウンロード後、会話をオフラインで実行できます。モデル セレクターを使用して、モデルの切り替え、ダウンロードの管理、またはインストールされたファイルの削除を行います。</string>
+    <string name="help_tip_setting_snowfall_mode_description">Snowfall は、選択したモードに応じてインターフェイスの装飾を追加します。</string>
+    <string name="help_tip_setting_snowfall_mode_step_1">Snowfall を開き、雪が必要ない場合に無効になるモードを含む、表示されたモードの 1 つを選択します。</string>
+    <string name="help_tip_setting_enable_links_preview_step_1">サポートされているリンクのプレビュー カードが必要な場合は、リンク プレビューを有効にします。</string>
+    <string name="help_tip_setting_sheet_nested_scroll_step_1">シート ジェスチャを有効にしてから、ネストされたスクロールを有効にして、スクロール ジェスチャがコンテンツ境界でシートに転送されるようにします。</string>
+    <string name="help_tip_setting_raw_use_embedded_preview_description">埋め込みプレビューは、RAW センサー データを現像する代わりに、カメラの既製のプレビューを読み込みます。</string>
+    <string name="help_tip_setting_raw_exposure_compensation_description">露出補正は、RAW 現像の明るさを露出値ごとに調整します。</string>
+    <string name="help_tip_setting_raw_highlight_preservation_step_2">同じRAWの露出補正と比較してみましょう。このコントロールは、ハイライト リカバリ モードとは別のものです。</string>
+    <string name="help_tip_image_opacity_title">写真の透明度を変更する</string>
+    <string name="help_tip_interface_shadows_title">インターフェイスのシャドウをオフにする</string>
+    <string name="help_category_filters_subtitle">エフェクトとフィルターのコントロール</string>
+    <string name="filter_help_bayer_four_dithering">繰り返しの 4 × 4 ベイヤーしきい値マトリックスを使用して、順序付けられたピクセル パターンを形成します。しきい値は色調分割を制御し、グレースケールはモノクロ出力に切り替わります。</string>
+    <string name="help_tip_crop_shape_title">円形のアバターと形状のトリミング</string>
+    <string name="help_tip_crop_shape_description">円形のアバターを作成するか、クロップマスクを使用して画像を別の形状に切り取ります。図形の外側の領域が透明になります。</string>
+    <string name="help_tip_crop_shape_step_1">「トリミング」を開き、画像を選択し、フリーコーナーではなく通常のトリミングモードを使用します。</string>
+    <string name="help_tip_crop_shape_step_2">楕円形のマスクと円のアスペクト比 1:1 を選択します。被写体の周りにクロップを配置します。</string>
+    <string name="help_tip_crop_shape_step_3">PNG または透明度のある別の提供形式で保存します。長方形のビューアでも、円の周囲に透明な角が表示される場合があります。</string>
+    <string name="help_tip_partial_blur_title">画像の一部をぼかしたりピクセル化したりする</string>
+    <string name="help_tip_partial_blur_subtitle">写真の残りの部分は変更せずに、選択した領域を非表示にします</string>
+    <string name="help_tip_partial_blur_page_title">隠したい部分だけをペイントする</string>
+    <string name="help_tip_partial_blur_description">Draw のプライベートぼかしまたはピクセル化を使用して、写真の一部のみをぼかします。これらのブラシ モードはペイントされた領域を処理します。通常の画像全体ぼかしフィルターは、領域を選択する代わりにはなりません。</string>
+    <string name="help_tip_partial_blur_step_1">「描画」を開き、画像を選択し、描画モードから「プライベートブラー」または「ピクセル化」を選択します。</string>
+    <string name="help_tip_partial_blur_step_2">隠したい部分を塗りつぶします。ぼかしの半径またはピクセル サイズを調整し、カバーしすぎたストロークを元に戻します。</string>
+    <string name="help_tip_partial_blur_step_3">結果をフルサイズで検査し、別のコピーを保存します。判読できないテキストや数字には、不透明なブラシを使用します。</string>
+    <string name="opaque_image_viewer_background">不透明な画像ビューアの背景</string>
+    <string name="opaque_image_viewer_background_sub">写真を表示するときは黒一色の背景を使用してください</string>
 </resources>

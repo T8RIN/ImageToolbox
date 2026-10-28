@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="smth_went_wrong">Något gick fel: %1$s</string>
     <string name="size">Storlek %1$s</string>
     <string name="loading">Laddar…</string>
@@ -7493,4 +7494,26 @@
     <string name="assistant_gallery_unsupported_condition">Denna sökning stöder synligt innehåll, namngivna personer, datum, ett album och ett filnamn. Uteslutningar, exakt text- eller GPS-matchning, flera filformat och ett begärt resultaträkning stöds inte ännu. Justera dessa villkor.</string>
     <string name="assistant_gallery_ambiguous_name">Flera namngivna personer matchar denna formulering. Vänligen använd det fullständiga namnet som visas i galleriet.</string>
     <string name="assistant_gallery_closest">Inga exakta matchningar. Här är de närmast tillgängliga bilderna; filter för personer, datum, album och filnamn används fortfarande.</string>
+    <string name="short_side">Kortsida</string>
+    <string name="long_side">Långsida</string>
+    <string name="amoled_mode_extended">Förlängd</string>
+    <string name="amoled_mode_extended_sub">Gör även appstaplar, ark och menyer helt svarta i nattläge</string>
+    <string name="help_tip_resize_convert_page_2_title">Dimensioner, proportioner och upprepad export</string>
+    <string name="help_tip_ocr_page_2_title">Erkännande är en uppskattning</string>
+    <string name="help_tip_svg_ascii_page_2_title">Vad vektorkonvertering kan bevara</string>
+    <string name="help_tip_images_to_pdf_page_2_title">Planera sidlayouten före export</string>
+    <string name="help_tip_crop_shape_title">Cirkulära avatarer och formbeskärning</string>
+    <string name="help_tip_crop_shape_description">Skapa en cirkulär avatar eller klipp ut en bild till en annan form med beskärningsmasken. Området utanför formen blir genomskinligt.</string>
+    <string name="help_tip_crop_shape_step_1">Öppna Beskär, välj bilden och använd det vanliga beskärningsläget istället för fria hörn.</string>
+    <string name="help_tip_crop_shape_step_2">Välj den ovala masken och ett bildförhållande på 1:1 för en cirkel. Placera beskärningen runt motivet.</string>
+    <string name="help_tip_crop_shape_step_3">Spara i PNG eller annat erbjudet format med transparens. En rektangulär tittare kan fortfarande visa genomskinliga hörn runt cirkeln.</string>
+    <string name="help_tip_partial_blur_title">Skärpa eller pixla en del av en bild</string>
+    <string name="help_tip_partial_blur_subtitle">Dölj ett markerat område medan resten av fotot lämnas oförändrat</string>
+    <string name="help_tip_partial_blur_page_title">Måla endast området att dölja</string>
+    <string name="help_tip_partial_blur_description">Använd Privat oskärpa eller Pixelering i Draw för att bara göra en del av ett foto oskärpa. Dessa pensellägen bearbetar målade områden; ett vanligt filter för helbildsoskärpa är inte ett substitut för att välja ett område.</string>
+    <string name="help_tip_partial_blur_step_1">Öppna Draw, välj bilden och välj Privat oskärpa eller Pixelering från ritlägena.</string>
+    <string name="help_tip_partial_blur_step_2">Måla över området du vill dölja. Justera oskärpans radie eller pixelstorlek och ångra streck som täcker för mycket.</string>
+    <string name="help_tip_partial_blur_step_3">Inspektera resultatet i full storlek och spara en separat kopia. Använd en ogenomskinlig borste för text eller siffror som måste vara oläsliga.</string>
+    <string name="opaque_image_viewer_background">Ogenomskinlig bildvisarbakgrund</string>
+    <string name="opaque_image_viewer_background_sub">Använd en solid svart bakgrund när du tittar på foton</string>
 </resources>

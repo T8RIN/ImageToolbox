@@ -7497,4 +7497,22 @@
     <string name="assistant_gallery_unsupported_condition">Pencarian ini mendukung konten yang terlihat, nama orang, tanggal, satu album dan nama file. Pengecualian, pencocokan teks atau GPS, berbagai format file, dan jumlah hasil yang diminta belum didukung. Silakan sesuaikan kondisi ini.</string>
     <string name="assistant_gallery_ambiguous_name">Beberapa nama orang cocok dengan kata-kata ini. Silakan gunakan nama lengkap yang ditampilkan di galeri.</string>
     <string name="assistant_gallery_closest">Tidak ada yang sama persis. Berikut adalah foto terdekat yang tersedia; filter orang, tanggal, album, dan nama file Anda masih diterapkan.</string>
+    <string name="short_side">Sisi Pendek</string>
+    <string name="long_side">Sisi Panjang</string>
+    <string name="amoled_mode_extended">Diperpanjang</string>
+    <string name="amoled_mode_extended_sub">Juga membuat bilah aplikasi, lembar, dan menu menjadi hitam sepenuhnya dalam mode malam</string>
+    <string name="help_tip_crop_shape_title">Avatar melingkar dan pemangkasan bentuk</string>
+    <string name="help_tip_crop_shape_description">Buat avatar melingkar atau potong gambar ke bentuk lain dengan crop mask. Area di luar bentuk menjadi transparan.</string>
+    <string name="help_tip_crop_shape_step_1">Buka Pangkas, pilih gambar dan gunakan mode krop biasa, bukan sudut bebas.</string>
+    <string name="help_tip_crop_shape_step_2">Pilih topeng oval dan rasio aspek 1:1 untuk lingkaran. Posisikan potongan di sekitar subjek.</string>
+    <string name="help_tip_crop_shape_step_3">Simpan dalam PNG atau format lain yang ditawarkan dengan transparansi. Penampil persegi panjang mungkin masih menampilkan sudut transparan di sekeliling lingkaran.</string>
+    <string name="help_tip_partial_blur_title">Mengaburkan atau membuat piksel bagian gambar</string>
+    <string name="help_tip_partial_blur_subtitle">Sembunyikan area yang dipilih dan sisa foto tidak diubah</string>
+    <string name="help_tip_partial_blur_page_title">Cat hanya area yang ingin disembunyikan</string>
+    <string name="help_tip_partial_blur_description">Gunakan Blur pribadi atau Pikselasi dalam Gambar untuk memburamkan sebagian foto saja. Mode kuas ini memproses area yang dicat; filter blur keseluruhan gambar biasa bukanlah pengganti untuk memilih suatu area.</string>
+    <string name="help_tip_partial_blur_step_1">Buka Gambar, pilih gambar dan pilih Blur pribadi atau Pikselasi dari mode menggambar.</string>
+    <string name="help_tip_partial_blur_step_2">Warnai area yang ingin Anda sembunyikan. Sesuaikan radius blur atau ukuran piksel dan batalkan goresan yang menutupi terlalu banyak.</string>
+    <string name="help_tip_partial_blur_step_3">Periksa hasilnya dalam ukuran penuh dan simpan salinan terpisah. Gunakan kuas buram untuk teks atau angka yang tidak dapat dibaca.</string>
+    <string name="opaque_image_viewer_background">Latar belakang penampil gambar buram</string>
+    <string name="opaque_image_viewer_background_sub">Gunakan latar belakang hitam pekat saat melihat foto</string>
 </resources>

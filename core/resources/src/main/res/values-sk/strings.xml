@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="zoom">Priblíženie obrázka</string>
     <string name="smth_went_wrong">Niečo sa pokazilo: %1$s</string>
     <string name="size">Veľkosť %1$s</string>
@@ -7487,4 +7488,34 @@
     <string name="assistant_gallery_unsupported_condition">Toto vyhľadávanie podporuje viditeľný obsah, pomenované osoby, dátumy, jeden album a názov súboru. Vylúčenia, presné zhody textu alebo GPS, viaceré formáty súborov a požadovaný počet výsledkov zatiaľ nie sú podporované. Upravte tieto podmienky.</string>
     <string name="assistant_gallery_ambiguous_name">Viaceré menované osoby zodpovedajú tejto formulácii. Prosím, použite celé meno zobrazené v galérii.</string>
     <string name="assistant_gallery_closest">Žiadne presné zhody. Tu sú najbližšie dostupné fotografie; filtre ľudí, dátumu, albumov a súborov sú stále použité.</string>
+    <string name="short_side">Krátka strana</string>
+    <string name="long_side">Dlhá strana</string>
+    <string name="amoled_mode_extended">Rozšírené</string>
+    <string name="amoled_mode_extended_sub">V nočnom režime sú tiež pruhy aplikácií, listy a ponuky úplne čierne</string>
+    <string name="help_tip_ai_upscaling_title">Zväčšite fotografie a ilustrácie pomocou AI</string>
+    <string name="help_tip_ai_cleanup_title">Odstráňte šum a kompresné artefakty</string>
+    <string name="help_tip_ai_cleanup_subtitle">SCUNet, FBCNN a modely pre špecifické defekty</string>
+    <string name="help_tip_ai_colorization_subtitle">DDColor, DDColor Tiny a DDColor Artistic</string>
+    <string name="help_tip_ai_dehaze_subtitle">DehazeFormer-T pre vonkajšie scény s nízkym kontrastom</string>
+    <string name="help_tip_ai_document_cleanup_title">Vyrovnajte strany a odstráňte tiene dokumentu</string>
+    <string name="help_tip_ai_document_cleanup_subtitle">UVDOC Grid a DocShadow SD7K</string>
+    <string name="help_tip_ai_detection_title">Skontrolujte, či môže byť obrázok generovaný AI</string>
+    <string name="help_tip_ai_detection_page_2_title">Modely a presnosť detektorov</string>
+    <string name="help_tip_ai_background_models_title">Vyberte model odstránenia pozadia</string>
+    <string name="help_tip_usage_statistics_title">Zobrazenie štatistík používania nástroja</string>
+    <string name="help_tip_libraries_licenses_step_1">Otvorte knižnice a nájdite komponent, ktorý potrebujete.</string>
+    <string name="help_tip_crop_shape_title">Kruhové avatary a orezanie tvaru</string>
+    <string name="help_tip_crop_shape_description">Vytvorte kruhový avatar alebo vyrežte obrázok do iného tvaru pomocou orezávacej masky. Oblasť mimo tvaru sa stáva priehľadnou.</string>
+    <string name="help_tip_crop_shape_step_1">Otvorte Orezať, vyberte obrázok a namiesto voľných rohov použite bežný režim orezania.</string>
+    <string name="help_tip_crop_shape_step_2">Vyberte si oválnu masku a pomer strán 1:1 pre kruh. Umiestnite výrez okolo objektu.</string>
+    <string name="help_tip_crop_shape_step_3">Uložiť v PNG alebo inom ponúkanom formáte s priehľadnosťou. Obdĺžnikový prehliadač môže stále zobrazovať priehľadné rohy okolo kruhu.</string>
+    <string name="help_tip_partial_blur_title">Rozmazanie alebo pixelovanie časti obrázka</string>
+    <string name="help_tip_partial_blur_subtitle">Skryť vybranú oblasť a zvyšok fotografie ponechať nezmenený</string>
+    <string name="help_tip_partial_blur_page_title">Maľujte iba oblasť, ktorú chcete skryť</string>
+    <string name="help_tip_partial_blur_description">Ak chcete rozmazať iba časť fotografie, použite funkciu Súkromné ​​rozostrenie alebo Pixelácia v aplikácii Draw. Tieto režimy štetca spracovávajú maľované oblasti; obyčajný filter rozostrenia celého obrázka nenahrádza výber oblasti.</string>
+    <string name="help_tip_partial_blur_step_1">Otvorte aplikáciu Draw, vyberte obrázok a z režimov kreslenia vyberte možnosť Súkromné ​​rozostrenie alebo Pixelácia.</string>
+    <string name="help_tip_partial_blur_step_2">Namaľujte oblasť, ktorú chcete skryť. Upravte polomer rozostrenia alebo veľkosť pixelov a zrušte ťahy, ktoré príliš zakrývajú.</string>
+    <string name="help_tip_partial_blur_step_3">Skontrolujte výsledok v plnej veľkosti a uložte samostatnú kópiu. Na text alebo čísla, ktoré musia byť nečitateľné, použite nepriehľadný štetec.</string>
+    <string name="opaque_image_viewer_background">Nepriehľadné pozadie prehliadača obrázkov</string>
+    <string name="opaque_image_viewer_background_sub">Pri prezeraní fotografií použite jednoliate čierne pozadie</string>
 </resources>

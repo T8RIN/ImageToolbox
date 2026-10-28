@@ -7502,4 +7502,22 @@
     <string name="assistant_gallery_unsupported_condition">يدعم هذا البحث المحتوى المرئي والأشخاص المحددين والتواريخ وألبومًا واحدًا واسم ملف. الاستثناءات والنص الدقيق أو مطابقة نظام تحديد المواقع العالمي (GPS) وتنسيقات الملفات المتعددة وعدد النتائج المطلوبة غير مدعومة حتى الآن. يرجى تعديل هذه الشروط.</string>
     <string name="assistant_gallery_ambiguous_name">العديد من الأشخاص المذكورين يتطابقون مع هذه الصياغة. الرجاء استخدام الاسم الكامل الموضح في المعرض.</string>
     <string name="assistant_gallery_closest">لا توجد تطابقات تامة. إليكم أقرب الصور المتوفرة؛ لا تزال مرشحات الأشخاص والتاريخ والألبوم واسم الملف مطبقة.</string>
+    <string name="short_side">الجانب القصير</string>
+    <string name="long_side">الجانب الطويل</string>
+    <string name="amoled_mode_extended">ممتد</string>
+    <string name="amoled_mode_extended_sub">كما يجعل أشرطة التطبيقات والأوراق والقوائم سوداء بالكامل في الوضع الليلي</string>
+    <string name="help_tip_crop_shape_title">الصور الرمزية الدائرية واقتصاص الشكل</string>
+    <string name="help_tip_crop_shape_description">قم بإنشاء صورة رمزية دائرية أو قص صورة إلى شكل آخر باستخدام قناع الاقتصاص. تصبح المنطقة خارج الشكل شفافة.</string>
+    <string name="help_tip_crop_shape_step_1">افتح \"اقتصاص\"، واختر الصورة واستخدم وضع القص العادي بدلاً من الزوايا الحرة.</string>
+    <string name="help_tip_crop_shape_step_2">اختر القناع البيضاوي ونسبة العرض إلى الارتفاع 1:1 للدائرة. ضع المحصول حول الموضوع.</string>
+    <string name="help_tip_crop_shape_step_3">احفظه بتنسيق PNG أو أي تنسيق آخر معروض بشفافية. قد يستمر العارض المستطيل في إظهار زوايا شفافة حول الدائرة.</string>
+    <string name="help_tip_partial_blur_title">طمس أو بكسل جزء من الصورة</string>
+    <string name="help_tip_partial_blur_subtitle">إخفاء المنطقة المحددة مع ترك بقية الصورة دون تغيير</string>
+    <string name="help_tip_partial_blur_page_title">قم بطلاء المنطقة التي تريد إخفاءها فقط</string>
+    <string name="help_tip_partial_blur_description">استخدم التمويه الخاص أو Pixelation in Draw لتعتيم جزء فقط من الصورة. تقوم أوضاع الفرشاة هذه بمعالجة المناطق المطلية؛ لا يعد مرشح تمويه الصورة الكاملة العادي بديلاً عن تحديد المنطقة.</string>
+    <string name="help_tip_partial_blur_step_1">افتح رسم، وحدد الصورة واختر تمويه خاص أو بكسل من أوضاع الرسم.</string>
+    <string name="help_tip_partial_blur_step_2">قم بالطلاء على المنطقة التي تريد إخفاءها. اضبط نصف قطر التمويه أو حجم البكسل وتراجع عن الضربات التي تغطي مساحة أكبر من اللازم.</string>
+    <string name="help_tip_partial_blur_step_3">افحص النتيجة بالحجم الكامل واحفظ نسخة منفصلة. استخدم فرشاة غير شفافة للنص أو الأرقام التي يجب أن تكون غير قابلة للقراءة.</string>
+    <string name="opaque_image_viewer_background">خلفية عارض الصور غير شفافة</string>
+    <string name="opaque_image_viewer_background_sub">استخدم خلفية سوداء صلبة عند عرض الصور</string>
 </resources>

@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">यह खोज दृश्यमान सामग्री, नामित लोगों, तिथियों, एक एल्बम और एक फ़ाइल नाम का समर्थन करती है। बहिष्करण, सटीक पाठ या जीपीएस मिलान, एकाधिक फ़ाइल प्रारूप और अनुरोधित परिणाम गणना अभी तक समर्थित नहीं हैं। कृपया इन शर्तों को समायोजित करें.</string>
     <string name="assistant_gallery_ambiguous_name">कई नामित लोग इस शब्दांकन से मेल खाते हैं। कृपया गैलरी में दिखाए गए पूरे नाम का उपयोग करें।</string>
     <string name="assistant_gallery_closest">कोई सटीक मिलान नहीं. यहां निकटतम उपलब्ध तस्वीरें हैं; आपके लोग, दिनांक, एल्बम और फ़ाइल नाम फ़िल्टर अभी भी लागू हैं।</string>
+    <string name="short_side">लघु पक्ष</string>
+    <string name="long_side">लॉन्ग साइड</string>
+    <string name="amoled_mode_extended">विस्तारित</string>
+    <string name="amoled_mode_extended_sub">साथ ही नाइट मोड में ऐप बार, शीट और मेनू को पूरी तरह से काला कर देता है</string>
+    <string name="help_tip_crop_shape_title">वृत्ताकार अवतार और आकार काटना</string>
+    <string name="help_tip_crop_shape_description">एक गोलाकार अवतार बनाएं या क्रॉप मास्क के साथ एक छवि को दूसरे आकार में काटें। आकृति के बाहर का क्षेत्र पारदर्शी हो जाता है।</string>
+    <string name="help_tip_crop_shape_step_1">क्रॉप खोलें, छवि चुनें और फ्री कॉर्नर के बजाय नियमित क्रॉप मोड का उपयोग करें।</string>
+    <string name="help_tip_crop_shape_step_2">एक वृत्त के लिए अंडाकार मुखौटा और 1:1 पक्षानुपात चुनें। फसल को विषय के चारों ओर रखें।</string>
+    <string name="help_tip_crop_shape_step_3">पारदर्शिता के साथ पीएनजी या किसी अन्य प्रस्तावित प्रारूप में सहेजें। एक आयताकार दर्शक अभी भी वृत्त के चारों ओर पारदर्शी कोने दिखा सकता है।</string>
+    <string name="help_tip_partial_blur_title">किसी छवि का धुंधला या पिक्सेलयुक्त भाग</string>
+    <string name="help_tip_partial_blur_subtitle">शेष फ़ोटो को अपरिवर्तित छोड़ते हुए चयनित क्षेत्र को छिपाएँ</string>
+    <string name="help_tip_partial_blur_page_title">केवल छिपाने वाले क्षेत्र को ही पेंट करें</string>
+    <string name="help_tip_partial_blur_description">किसी फ़ोटो के केवल भाग को धुंधला करने के लिए ड्रा में प्राइवेट ब्लर या पिक्सेलेशन का उपयोग करें। ये ब्रश मोड चित्रित क्षेत्रों को संसाधित करते हैं; एक सामान्य संपूर्ण-छवि धुंधला फ़िल्टर किसी क्षेत्र का चयन करने का विकल्प नहीं है।</string>
+    <string name="help_tip_partial_blur_step_1">ड्रा खोलें, छवि का चयन करें और ड्राइंग मोड से प्राइवेट ब्लर या पिक्सेलेशन चुनें।</string>
+    <string name="help_tip_partial_blur_step_2">उस क्षेत्र पर पेंट करें जिसे आप छिपाना चाहते हैं। धुंधला त्रिज्या या पिक्सेल आकार समायोजित करें और बहुत अधिक कवर करने वाले स्ट्रोक को पूर्ववत करें।</string>
+    <string name="help_tip_partial_blur_step_3">परिणाम का पूर्ण आकार में निरीक्षण करें और एक अलग प्रति सहेजें। ऐसे पाठ या संख्याओं के लिए एक अपारदर्शी ब्रश का उपयोग करें जो अपठनीय हों।</string>
+    <string name="opaque_image_viewer_background">अपारदर्शी छवि दर्शक पृष्ठभूमि</string>
+    <string name="opaque_image_viewer_background_sub">फ़ोटो देखते समय ठोस काली पृष्ठभूमि का उपयोग करें</string>
 </resources>

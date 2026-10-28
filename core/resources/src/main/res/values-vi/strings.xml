@@ -7497,4 +7497,22 @@
     <string name="assistant_gallery_unsupported_condition">Tìm kiếm này hỗ trợ nội dung hiển thị, người được đặt tên, ngày tháng, một album và tên tệp. Các loại trừ, kết hợp văn bản hoặc GPS chính xác, nhiều định dạng tệp và số kết quả được yêu cầu chưa được hỗ trợ. Hãy điều chỉnh các điều kiện này.</string>
     <string name="assistant_gallery_ambiguous_name">Một số người được nêu tên phù hợp với từ ngữ này. Vui lòng sử dụng tên đầy đủ hiển thị trong thư viện.</string>
     <string name="assistant_gallery_closest">Không có kết quả trùng khớp chính xác. Dưới đây là những bức ảnh có sẵn gần nhất; các bộ lọc người, ngày, album và tên tệp của bạn vẫn được áp dụng.</string>
+    <string name="short_side">Bên ngắn</string>
+    <string name="long_side">cạnh dài</string>
+    <string name="amoled_mode_extended">Mở rộng</string>
+    <string name="amoled_mode_extended_sub">Đồng thời làm cho các thanh ứng dụng, trang tính và menu hoàn toàn màu đen ở chế độ ban đêm</string>
+    <string name="help_tip_crop_shape_title">Hình đại diện tròn và cắt xén hình dạng</string>
+    <string name="help_tip_crop_shape_description">Tạo hình đại diện hình tròn hoặc cắt hình ảnh thành hình khác bằng mặt nạ cắt. Khu vực bên ngoài hình dạng trở nên trong suốt.</string>
+    <string name="help_tip_crop_shape_step_1">Mở Cắt, chọn ảnh và sử dụng chế độ cắt xén thông thường thay vì cắt góc tự do.</string>
+    <string name="help_tip_crop_shape_step_2">Chọn mặt nạ hình bầu dục và tỷ lệ khung hình 1:1 cho hình tròn. Định vị vùng cắt xung quanh chủ thể.</string>
+    <string name="help_tip_crop_shape_step_3">Lưu ở định dạng PNG hoặc định dạng khác được cung cấp với độ trong suốt. Trình xem hình chữ nhật vẫn có thể hiển thị các góc trong suốt xung quanh hình tròn.</string>
+    <string name="help_tip_partial_blur_title">Làm mờ hoặc tạo pixel một phần của hình ảnh</string>
+    <string name="help_tip_partial_blur_subtitle">Ẩn vùng đã chọn trong khi giữ nguyên phần còn lại của ảnh</string>
+    <string name="help_tip_partial_blur_page_title">Chỉ vẽ vùng cần ẩn</string>
+    <string name="help_tip_partial_blur_description">Sử dụng Làm mờ riêng tư hoặc Pixelation trong Draw để chỉ làm mờ một phần ảnh. Các chế độ cọ vẽ này xử lý các vùng được sơn; bộ lọc làm mờ toàn bộ hình ảnh thông thường không thể thay thế cho việc chọn một khu vực.</string>
+    <string name="help_tip_partial_blur_step_1">Mở Draw, chọn hình ảnh và chọn Private Blur hoặc Pixelation từ các chế độ vẽ.</string>
+    <string name="help_tip_partial_blur_step_2">Sơn lên khu vực bạn muốn ẩn. Điều chỉnh bán kính mờ hoặc kích thước pixel và hoàn tác các nét che quá nhiều.</string>
+    <string name="help_tip_partial_blur_step_3">Kiểm tra kết quả ở kích thước đầy đủ và lưu một bản sao riêng. Sử dụng bút vẽ mờ cho văn bản hoặc số không thể đọc được.</string>
+    <string name="opaque_image_viewer_background">Nền xem ảnh mờ</string>
+    <string name="opaque_image_viewer_background_sub">Sử dụng nền đen đồng nhất khi xem ảnh</string>
 </resources>

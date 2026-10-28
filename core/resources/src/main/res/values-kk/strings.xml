@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Бұл іздеу көрінетін мазмұнды, аталған адамдарды, күндерді, бір альбом мен файл атауын қолдайды. Ерекшеліктер, нақты мәтін немесе GPS сәйкестігі, бірнеше файл пішімдері және сұралған нәтижелер санына әлі қолдау көрсетілмейді. Осы шарттарды реттеңіз.</string>
     <string name="assistant_gallery_ambiguous_name">Бұл сөзге бірнеше аты аталған адамдар сәйкес келеді. Галереяда көрсетілген толық атын пайдаланыңыз.</string>
     <string name="assistant_gallery_closest">Нақты сәйкестіктер жоқ. Мұнда қол жетімді ең жақын фотосуреттер берілген; адамдар, күн, альбом және файл атауы сүзгілері әлі де қолданылады.</string>
+    <string name="short_side">Қысқа жағы</string>
+    <string name="long_side">Ұзын жағы</string>
+    <string name="amoled_mode_extended">Ұзартылған</string>
+    <string name="amoled_mode_extended_sub">Сондай-ақ түнгі режимде қолданба жолақтарын, парақтар мен мәзірлерді толығымен қара етеді</string>
+    <string name="help_tip_crop_shape_title">Дөңгелек аватарлар және пішінді қию</string>
+    <string name="help_tip_crop_shape_description">Шеңбер аватар жасаңыз немесе кескінді қию маскасы арқылы басқа пішінге қиыңыз. Пішіннің сыртындағы аймақ мөлдір болады.</string>
+    <string name="help_tip_crop_shape_step_1">Кесуді ашыңыз, кескінді таңдаңыз және бос бұрыштарды емес, әдеттегі қию режимін пайдаланыңыз.</string>
+    <string name="help_tip_crop_shape_step_2">Сопақ масканы және шеңбер үшін 1:1 арақатынасын таңдаңыз. Кесуді нысанның айналасына орналастырыңыз.</string>
+    <string name="help_tip_crop_shape_step_3">PNG форматында немесе мөлдірлігі бар басқа ұсынылған форматта сақтаңыз. Тіктөртбұрышты қарау құралы әлі де шеңбердің айналасындағы мөлдір бұрыштарды көрсете алады.</string>
+    <string name="help_tip_partial_blur_title">Кескін бөлігін бұлыңғырлау немесе пиксельдеу</string>
+    <string name="help_tip_partial_blur_subtitle">Фотосуреттің қалған бөлігін өзгеріссіз қалдырып, таңдалған аумақты жасырыңыз</string>
+    <string name="help_tip_partial_blur_page_title">Жасыратын жерді ғана бояңыз</string>
+    <string name="help_tip_partial_blur_description">Фотосуреттің бір бөлігін ғана бұлыңғырлау үшін Draw қолданбасында Жеке бұлыңғыр немесе пиксельді пайдаланыңыз. Бұл қылқалам режимдері боялған аймақтарды өңдейді; кәдімгі толық кескінді бұлдыр сүзгісі аумақты таңдауды алмастырмайды.</string>
+    <string name="help_tip_partial_blur_step_1">Draw қолданбасын ашыңыз, суретті таңдаңыз және сурет режимдерінен Private Blur немесе Pixelation таңдаңыз.</string>
+    <string name="help_tip_partial_blur_step_2">Жасырғыңыз келетін аумақты бояңыз. Бұлыңғырлық радиусын немесе пиксель өлшемін реттеңіз және тым көп қамтитын штрихтарды болдырмаңыз.</string>
+    <string name="help_tip_partial_blur_step_3">Нәтижені толық көлемде тексеріп, бөлек көшірмені сақтаңыз. Мәтін немесе оқылмайтын сандар үшін мөлдір емес щетканы пайдаланыңыз.</string>
+    <string name="opaque_image_viewer_background">Мөлдір емес кескін қарау құралының фоны</string>
+    <string name="opaque_image_viewer_background_sub">Фотосуреттерді қараған кезде қатты қара фонды пайдаланыңыз</string>
 </resources>

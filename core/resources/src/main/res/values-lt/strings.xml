@@ -7500,4 +7500,22 @@
     <string name="assistant_gallery_unsupported_condition">Ši paieška palaiko matomą turinį, pavadintus žmones, datas, vieną albumą ir failo pavadinimą. Išskyrimai, tiksli teksto arba GPS atitiktis, keli failų formatai ir pageidaujamas rezultatų skaičius dar nepalaikomi. Pakoreguokite šias sąlygas.</string>
     <string name="assistant_gallery_ambiguous_name">Keletas įvardytų žmonių atitinka šią formuluotę. Prašome naudoti visą pavadinimą, pateiktą galerijoje.</string>
     <string name="assistant_gallery_closest">Tikslių atitikmenų nėra. Čia yra artimiausios turimos nuotraukos; jūsų žmonių, datos, albumo ir failo pavadinimų filtrai vis dar taikomi.</string>
+    <string name="short_side">Trumpoji pusė</string>
+    <string name="long_side">Ilgoji pusė</string>
+    <string name="amoled_mode_extended">Prailgintas</string>
+    <string name="amoled_mode_extended_sub">Be to, nakties režimu programų juostos, lapai ir meniu tampa visiškai juodi</string>
+    <string name="help_tip_crop_shape_title">Apvalūs avatarai ir formų apkarpymas</string>
+    <string name="help_tip_crop_shape_description">Sukurkite apskritą pseudoportretą arba supjaustykite vaizdą į kitą formą naudodami apkarpymo kaukę. Už formos ribų esanti sritis tampa skaidri.</string>
+    <string name="help_tip_crop_shape_step_1">Atidarykite Apkarpyti, pasirinkite vaizdą ir naudokite įprastą apkarpymo režimą, o ne laisvus kampus.</string>
+    <string name="help_tip_crop_shape_step_2">Pasirinkite ovalią kaukę ir 1:1 kraštinių santykį apskritimui. Padėkite apkarpymą aplink objektą.</string>
+    <string name="help_tip_crop_shape_step_3">Išsaugokite PNG arba kitu siūlomu formatu skaidriai. Stačiakampėje peržiūros priemonėje aplink apskritimą vis tiek gali būti rodomi skaidrūs kampai.</string>
+    <string name="help_tip_partial_blur_title">Suliekite arba padidinkite vaizdo dalį</string>
+    <string name="help_tip_partial_blur_subtitle">Slėpti pasirinktą sritį, o likusią nuotraukos dalį palikti nepakeistą</string>
+    <string name="help_tip_partial_blur_page_title">Dažykite tik tą vietą, kurią norite paslėpti</string>
+    <string name="help_tip_partial_blur_description">Norėdami sulieti tik dalį nuotraukos, naudokite privatų suliejimą arba pikseliavimą programoje Draw. Šie teptuko režimai apdoroja dažytas vietas; įprastas viso vaizdo suliejimo filtras nepakeičia srities pasirinkimo.</string>
+    <string name="help_tip_partial_blur_step_1">Atidarykite Draw, pasirinkite vaizdą ir piešimo režimuose pasirinkite Privatus suliejimas arba Pikseliavimas.</string>
+    <string name="help_tip_partial_blur_step_2">Dažykite vietą, kurią norite paslėpti. Sureguliuokite suliejimo spindulį arba pikselių dydį ir atšaukite potėpius, kurie apima per daug.</string>
+    <string name="help_tip_partial_blur_step_3">Patikrinkite rezultatą visu dydžiu ir išsaugokite atskirą kopiją. Tekstui arba skaičiams, kurie turi būti neįskaitomi, naudokite nepermatomą teptuką.</string>
+    <string name="opaque_image_viewer_background">Nepermatomas vaizdų peržiūros priemonės fonas</string>
+    <string name="opaque_image_viewer_background_sub">Žiūrėdami nuotraukas naudokite vientisą juodą foną</string>
 </resources>

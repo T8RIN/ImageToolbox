@@ -7497,4 +7497,22 @@
     <string name="assistant_gallery_unsupported_condition">此搜索支持可见内容、命名人员、日期、一张专辑和文件名。尚不支持排除、精确文本或 GPS 匹配、多种文件格式和请求的结果计数。请调整这些条件。</string>
     <string name="assistant_gallery_ambiguous_name">几个有名字的人都符合这个措辞。请使用图库中显示的全名。</string>
     <string name="assistant_gallery_closest">没有精确匹配。以下是最接近的可用照片；您的人员、日期、相册和文件名过滤器仍然适用。</string>
+    <string name="short_side">短边</string>
+    <string name="long_side">长边</string>
+    <string name="amoled_mode_extended">扩展</string>
+    <string name="amoled_mode_extended_sub">还使应用程序栏、工作表和菜单在夜间模式下完全变黑</string>
+    <string name="help_tip_crop_shape_title">圆形头像和形状裁剪</string>
+    <string name="help_tip_crop_shape_description">创建圆形头像或使用裁剪蒙版将图像剪切为其他形状。形状外部的区域变得透明。</string>
+    <string name="help_tip_crop_shape_step_1">打开裁剪，选择图像并使用常规裁剪模式而不是自由角。</string>
+    <string name="help_tip_crop_shape_step_2">选择椭圆形蒙版并选择 1:1 长宽比的圆形。将作物放置在主题周围。</string>
+    <string name="help_tip_crop_shape_step_3">以 PNG 或其他提供的透明格式保存。矩形查看器仍可能显示圆周围的透明角。</string>
+    <string name="help_tip_partial_blur_title">模糊或像素化图像的一部分</string>
+    <string name="help_tip_partial_blur_subtitle">隐藏选定区域，同时保持照片的其余部分不变</string>
+    <string name="help_tip_partial_blur_page_title">仅绘制要隐藏的区域</string>
+    <string name="help_tip_partial_blur_description">在 Draw 中使用私人模糊或像素化仅模糊照片的一部分。这些画笔模式处理绘制的区域；普通的全图像模糊滤镜不能替代选择区域。</string>
+    <string name="help_tip_partial_blur_step_1">打开“绘图”，选择图像，然后从绘图模式中选择“私人模糊”或“像素化”。</string>
+    <string name="help_tip_partial_blur_step_2">在您想要隐藏的区域上绘画。调整模糊半径或像素大小并撤消覆盖过多的笔触。</string>
+    <string name="help_tip_partial_blur_step_3">以完整尺寸检查结果并保存单独的副本。对于难以辨认的文本或数字，请使用不透明的画笔。</string>
+    <string name="opaque_image_viewer_background">不透明图像查看器背景</string>
+    <string name="opaque_image_viewer_background_sub">查看照片时使用纯黑色背景</string>
 </resources>

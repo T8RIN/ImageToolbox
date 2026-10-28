@@ -7500,4 +7500,22 @@
     <string name="assistant_gallery_unsupported_condition">חיפוש זה תומך בתוכן גלוי, אנשים עם שמות, תאריכים, אלבום אחד ושם קובץ. אי הכללות, התאמה מדויקת של טקסט או GPS, פורמטים מרובים של קבצים וספירת תוצאות מבוקשת אינם נתמכים עדיין. נא להתאים את התנאים הללו.</string>
     <string name="assistant_gallery_ambiguous_name">מספר אנשים בשם תואמים את הניסוח הזה. אנא השתמש בשם המלא המוצג בגלריה.</string>
     <string name="assistant_gallery_closest">אין התאמות מדויקות. להלן התמונות הזמינות הקרובות ביותר; מסנני האנשים, התאריך, האלבום ושם הקובץ שלך עדיין מיושמים.</string>
+    <string name="short_side">צד קצר</string>
+    <string name="long_side">צד ארוך</string>
+    <string name="amoled_mode_extended">מוּרחָב</string>
+    <string name="amoled_mode_extended_sub">גם הופך את פסי האפליקציות, גיליונות ותפריטים לשחורים לחלוטין במצב לילה</string>
+    <string name="help_tip_crop_shape_title">אווטרים מעגליים וחיתוך צורות</string>
+    <string name="help_tip_crop_shape_description">צור אווטאר עגול או חתוך תמונה לצורה אחרת עם מסכת החיתוך. האזור שמחוץ לצורה הופך שקוף.</string>
+    <string name="help_tip_crop_shape_step_1">פתח את Crop, בחר את התמונה והשתמש במצב חיתוך רגיל ולא בפינות פנויות.</string>
+    <string name="help_tip_crop_shape_step_2">בחר את המסכה הסגלגלה ויחס רוחב-גובה של 1:1 עבור עיגול. מקם את החיתוך סביב הנושא.</string>
+    <string name="help_tip_crop_shape_step_3">שמור ב-PNG או פורמט מוצע אחר עם שקיפות. צופה מלבני עשוי עדיין להציג פינות שקופות מסביב למעגל.</string>
+    <string name="help_tip_partial_blur_title">טשטוש או פיקסל חלק מתמונה</string>
+    <string name="help_tip_partial_blur_subtitle">הסתר אזור נבחר תוך השארת שאר התמונה ללא שינוי</string>
+    <string name="help_tip_partial_blur_page_title">צבע רק את האזור להסתרה</string>
+    <string name="help_tip_partial_blur_description">השתמש בטשטוש פרטי או בפיקסלציה ב-Draw כדי לטשטש רק חלק מתמונה. מצבי מברשת אלה מעבדים אזורים צבועים; מסנן טשטוש רגיל של תמונה שלמה אינו תחליף לבחירת אזור.</string>
+    <string name="help_tip_partial_blur_step_1">פתחו את Draw, בחרו בתמונה ובחרו בטשטוש פרטי או Pixelation ממצבי הציור.</string>
+    <string name="help_tip_partial_blur_step_2">צבע על האזור שאתה רוצה להסתיר. התאם את רדיוס הטשטוש או גודל הפיקסלים ובטל משיכות המכסות יותר מדי.</string>
+    <string name="help_tip_partial_blur_step_3">בדוק את התוצאה בגודל מלא ושמור עותק נפרד. השתמש במברשת אטומה עבור טקסט או מספרים שחייבים להיות בלתי קריאים.</string>
+    <string name="opaque_image_viewer_background">רקע מציג תמונות אטום</string>
+    <string name="opaque_image_viewer_background_sub">השתמש ברקע שחור מוצק בעת צפייה בתמונות</string>
 </resources>

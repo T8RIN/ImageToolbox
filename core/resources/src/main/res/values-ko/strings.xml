@@ -7497,4 +7497,22 @@
     <string name="assistant_gallery_unsupported_condition">이 검색은 표시되는 콘텐츠, 이름이 지정된 사람, 날짜, 앨범 1개 및 파일 이름을 지원합니다. 제외, 정확한 텍스트 또는 GPS 일치, 여러 파일 형식 및 요청된 결과 개수는 아직 지원되지 않습니다. 이러한 조건을 조정하십시오.</string>
     <string name="assistant_gallery_ambiguous_name">몇몇 지명된 사람들이 이 표현과 일치합니다. 갤러리에 표시된 전체 이름을 사용하세요.</string>
     <string name="assistant_gallery_closest">정확히 일치하는 항목이 없습니다. 다음은 사용 가능한 가장 가까운 사진입니다. 사용자, 날짜, 앨범 및 파일 이름 필터는 계속 적용됩니다.</string>
+    <string name="short_side">짧은 쪽</string>
+    <string name="long_side">긴 쪽</string>
+    <string name="amoled_mode_extended">펼친</string>
+    <string name="amoled_mode_extended_sub">또한 야간 모드에서는 앱 바, 시트 및 메뉴가 완전히 검은색으로 표시됩니다.</string>
+    <string name="help_tip_crop_shape_title">원형 아바타 및 모양 자르기</string>
+    <string name="help_tip_crop_shape_description">원형 아바타를 만들거나 자르기 마스크를 사용하여 이미지를 다른 모양으로 자릅니다. 모양 외부 영역이 투명해집니다.</string>
+    <string name="help_tip_crop_shape_step_1">자르기를 열고 이미지를 선택한 후 자유 모서리 대신 일반 자르기 모드를 사용하세요.</string>
+    <string name="help_tip_crop_shape_step_2">원의 경우 타원형 마스크와 1:1 종횡비를 선택합니다. 피사체 주위에 작물을 배치합니다.</string>
+    <string name="help_tip_crop_shape_step_3">PNG 또는 투명도가 있는 다른 제공 형식으로 저장합니다. 직사각형 뷰어에는 원 주위의 투명한 모서리가 계속 표시될 수 있습니다.</string>
+    <string name="help_tip_partial_blur_title">이미지의 일부를 흐리게 하거나 픽셀화함</string>
+    <string name="help_tip_partial_blur_subtitle">사진의 나머지 부분은 변경하지 않고 선택한 영역을 숨깁니다.</string>
+    <string name="help_tip_partial_blur_page_title">숨기고 싶은 부분만 칠하기</string>
+    <string name="help_tip_partial_blur_description">Draw에서 개인 흐림 또는 픽셀화를 사용하여 사진의 일부만 흐리게 처리합니다. 이러한 브러시 모드는 칠해진 영역을 처리합니다. 일반적인 전체 이미지 흐림 필터는 영역 선택을 대체할 수 없습니다.</string>
+    <string name="help_tip_partial_blur_step_1">Draw를 열고 이미지를 선택한 다음 그리기 모드에서 개인 흐림 또는 픽셀화를 선택합니다.</string>
+    <string name="help_tip_partial_blur_step_2">숨기고 싶은 부분을 칠해주세요. 흐림 반경이나 픽셀 크기를 조정하고 너무 많이 덮는 스트로크를 취소합니다.</string>
+    <string name="help_tip_partial_blur_step_3">결과를 전체 크기로 검사하고 별도의 복사본을 저장하세요. 읽을 수 없는 텍스트나 숫자에는 불투명 브러시를 사용하세요.</string>
+    <string name="opaque_image_viewer_background">불투명한 이미지 뷰어 배경</string>
+    <string name="opaque_image_viewer_background_sub">사진을 볼 때 단색 검정색 배경을 사용하세요.</string>
 </resources>

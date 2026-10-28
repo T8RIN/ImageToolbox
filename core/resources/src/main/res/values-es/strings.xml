@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Esta búsqueda admite contenido visible, personas nombradas, fechas, un álbum y un nombre de archivo. Aún no se admiten exclusiones, texto exacto o coincidencia de GPS, múltiples formatos de archivo y un recuento de resultados solicitado. Por favor ajuste estas condiciones.</string>
     <string name="assistant_gallery_ambiguous_name">Varias personas nombradas coinciden con esta redacción. Utilice el nombre completo que se muestra en la galería.</string>
     <string name="assistant_gallery_closest">No hay coincidencias exactas. Aquí están las fotos disponibles más cercanas; tus filtros de personas, fecha, álbum y nombre de archivo aún se aplican.</string>
+    <string name="short_side">Lado corto</string>
+    <string name="long_side">Lado largo</string>
+    <string name="amoled_mode_extended">Extendido</string>
+    <string name="amoled_mode_extended_sub">También hace que las barras, hojas y menús de aplicaciones sean completamente negros en el modo nocturno.</string>
+    <string name="help_tip_crop_shape_title">Avatares circulares y recorte de formas.</string>
+    <string name="help_tip_crop_shape_description">Crea un avatar circular o corta una imagen con otra forma con la máscara de recorte. El área fuera de la forma se vuelve transparente.</string>
+    <string name="help_tip_crop_shape_step_1">Abra Recortar, elija la imagen y use el modo de recorte normal en lugar de las esquinas libres.</string>
+    <string name="help_tip_crop_shape_step_2">Elige la máscara ovalada y una relación de aspecto de 1:1 para un círculo. Coloque el recorte alrededor del sujeto.</string>
+    <string name="help_tip_crop_shape_step_3">Guardar en PNG u otro formato ofrecido con transparencia. Un visor rectangular aún puede mostrar esquinas transparentes alrededor del círculo.</string>
+    <string name="help_tip_partial_blur_title">Desenfocar o pixelar parte de una imagen</string>
+    <string name="help_tip_partial_blur_subtitle">Ocultar un área seleccionada sin modificar el resto de la foto</string>
+    <string name="help_tip_partial_blur_page_title">Pinta solo el área a ocultar.</string>
+    <string name="help_tip_partial_blur_description">Utilice Desenfoque privado o Pixelación en Draw para desenfocar solo una parte de una foto. Estos modos de pincel procesan áreas pintadas; un filtro de desenfoque de imagen completa normal no sustituye a la selección de un área.</string>
+    <string name="help_tip_partial_blur_step_1">Abra Dibujar, seleccione la imagen y elija Desenfoque privado o Pixelación en los modos de dibujo.</string>
+    <string name="help_tip_partial_blur_step_2">Pinta sobre el área que deseas ocultar. Ajuste el radio de desenfoque o el tamaño de píxel y deshaga los trazos que cubran demasiado.</string>
+    <string name="help_tip_partial_blur_step_3">Inspeccione el resultado a tamaño completo y guarde una copia por separado. Utilice un pincel opaco para texto o números que deban ser ilegibles.</string>
+    <string name="opaque_image_viewer_background">Fondo del visor de imágenes opaco</string>
+    <string name="opaque_image_viewer_background_sub">Utilice un fondo negro sólido al ver fotografías</string>
 </resources>

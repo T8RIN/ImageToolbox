@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Diese Suche unterstützt sichtbare Inhalte, benannte Personen, Daten, ein Album und einen Dateinamen. Ausschlüsse, exakter Text- oder GPS-Abgleich, mehrere Dateiformate und eine angeforderte Ergebniszählung werden noch nicht unterstützt. Bitte passen Sie diese Bedingungen an.</string>
     <string name="assistant_gallery_ambiguous_name">Mehrere namentlich genannte Personen stimmen mit dieser Formulierung überein. Bitte verwenden Sie den vollständigen Namen, der in der Galerie angezeigt wird.</string>
     <string name="assistant_gallery_closest">Keine genauen Übereinstimmungen. Hier sind die nächstgelegenen verfügbaren Fotos; Ihre Personen-, Datums-, Album- und Dateinamenfilter werden weiterhin angewendet.</string>
+    <string name="short_side">Kurze Seite</string>
+    <string name="long_side">Längsseite</string>
+    <string name="amoled_mode_extended">Erweitert</string>
+    <string name="amoled_mode_extended_sub">Macht App-Leisten, Blätter und Menüs im Nachtmodus außerdem komplett schwarz</string>
+    <string name="help_tip_crop_shape_title">Kreisförmige Avatare und Formzuschnitt</string>
+    <string name="help_tip_crop_shape_description">Erstellen Sie einen kreisförmigen Avatar oder schneiden Sie ein Bild mit der Zuschneidemaske in eine andere Form. Der Bereich außerhalb der Form wird transparent.</string>
+    <string name="help_tip_crop_shape_step_1">Öffnen Sie Zuschneiden, wählen Sie das Bild aus und verwenden Sie den normalen Zuschneidemodus anstelle freier Ecken.</string>
+    <string name="help_tip_crop_shape_step_2">Wählen Sie die ovale Maske und ein Seitenverhältnis von 1:1 für einen Kreis. Positionieren Sie den Ausschnitt um das Motiv herum.</string>
+    <string name="help_tip_crop_shape_step_3">Speichern Sie in PNG oder einem anderen angebotenen Format mit Transparenz. Ein rechteckiger Betrachter zeigt möglicherweise immer noch transparente Ecken um den Kreis herum.</string>
+    <string name="help_tip_partial_blur_title">Einen Teil eines Bildes verwischen oder verpixeln</string>
+    <string name="help_tip_partial_blur_subtitle">Blenden Sie einen ausgewählten Bereich aus, während der Rest des Fotos unverändert bleibt</string>
+    <string name="help_tip_partial_blur_page_title">Malen Sie nur den zu verbergenden Bereich</string>
+    <string name="help_tip_partial_blur_description">Verwenden Sie „Private Unschärfe“ oder „Pixelierung“ in Draw, um nur einen Teil eines Fotos unscharf zu machen. Diese Pinselmodi bearbeiten bemalte Bereiche; Ein gewöhnlicher Ganzbild-Unschärfefilter ist kein Ersatz für die Auswahl eines Bereichs.</string>
+    <string name="help_tip_partial_blur_step_1">Öffnen Sie Draw, wählen Sie das Bild aus und wählen Sie aus den Zeichenmodi „Private Unschärfe“ oder „Pixelierung“.</string>
+    <string name="help_tip_partial_blur_step_2">Übermalen Sie den Bereich, den Sie verbergen möchten. Passen Sie den Unschärferadius oder die Pixelgröße an und machen Sie Striche rückgängig, die zu viel abdecken.</string>
+    <string name="help_tip_partial_blur_step_3">Überprüfen Sie das Ergebnis in voller Größe und speichern Sie eine separate Kopie. Verwenden Sie einen undurchsichtigen Pinsel für Texte oder Zahlen, die unleserlich sein müssen.</string>
+    <string name="opaque_image_viewer_background">Undurchsichtiger Bildbetrachter-Hintergrund</string>
+    <string name="opaque_image_viewer_background_sub">Verwenden Sie beim Betrachten von Fotos einen durchgehend schwarzen Hintergrund</string>
 </resources>

@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Deze zoekopdracht ondersteunt zichtbare inhoud, benoemde mensen, datums, één album en een bestandsnaam. Uitsluitingen, exacte tekst- of GPS-matching, meerdere bestandsformaten en een gevraagd resultaattelling worden nog niet ondersteund. Pas deze voorwaarden aan.</string>
     <string name="assistant_gallery_ambiguous_name">Verschillende genoemde mensen komen overeen met deze bewoording. Gebruik de volledige naam die in de galerij wordt weergegeven.</string>
     <string name="assistant_gallery_closest">Geen exacte overeenkomsten. Hier zijn de dichtstbijzijnde beschikbare foto\'s; uw filters voor mensen, datum, album en bestandsnaam worden nog steeds toegepast.</string>
+    <string name="short_side">Korte kant</string>
+    <string name="long_side">Lange zijde</string>
+    <string name="amoled_mode_extended">Verlengd</string>
+    <string name="amoled_mode_extended_sub">Maakt app-balken, werkbladen en menu\'s ook volledig zwart in de nachtmodus</string>
+    <string name="help_tip_crop_shape_title">Ronde avatars en vormbijsnijden</string>
+    <string name="help_tip_crop_shape_description">Maak een cirkelvormige avatar of knip een afbeelding in een andere vorm met het bijsnijdmasker. Het gebied buiten de vorm wordt transparant.</string>
+    <string name="help_tip_crop_shape_step_1">Open Bijsnijden, kies de afbeelding en gebruik de normale bijsnijdmodus in plaats van vrije hoeken.</string>
+    <string name="help_tip_crop_shape_step_2">Kies het ovale masker en een beeldverhouding van 1:1 voor een cirkel. Plaats de uitsnede rond het onderwerp.</string>
+    <string name="help_tip_crop_shape_step_3">Opslaan in PNG of een ander aangeboden formaat met transparantie. Een rechthoekige kijker kan nog steeds transparante hoeken rond de cirkel weergeven.</string>
+    <string name="help_tip_partial_blur_title">Een deel van een afbeelding vervagen of pixeleren</string>
+    <string name="help_tip_partial_blur_subtitle">Verberg een geselecteerd gebied terwijl de rest van de foto ongewijzigd blijft</string>
+    <string name="help_tip_partial_blur_page_title">Verf alleen het gebied dat je wilt verbergen</string>
+    <string name="help_tip_partial_blur_description">Gebruik Privévervaging of Pixelvorming in Draw om slechts een deel van een foto te vervagen. Deze penseelmodi verwerken geverfde gebieden; een gewoon vervagingsfilter voor het hele beeld is geen vervanging voor het selecteren van een gebied.</string>
+    <string name="help_tip_partial_blur_step_1">Open Draw, selecteer de afbeelding en kies Privévervaging of Pixelatie uit de tekenmodi.</string>
+    <string name="help_tip_partial_blur_step_2">Verf over het gebied dat je wilt verbergen. Pas de vervagingsradius of pixelgrootte aan en maak streken die te veel bedekken ongedaan.</string>
+    <string name="help_tip_partial_blur_step_3">Bekijk het resultaat op volledige grootte en bewaar een aparte kopie. Gebruik een dekkend penseel voor tekst of cijfers die onleesbaar moeten zijn.</string>
+    <string name="opaque_image_viewer_background">Ondoorzichtige achtergrond van de afbeeldingsviewer</string>
+    <string name="opaque_image_viewer_background_sub">Gebruik een effen zwarte achtergrond bij het bekijken van foto\'s</string>
 </resources>

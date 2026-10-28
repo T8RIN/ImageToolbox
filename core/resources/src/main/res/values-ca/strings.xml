@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Aquesta cerca admet contingut visible, persones amb nom, dates, un àlbum i un nom de fitxer. Encara no s\'admeten les exclusions, el text exacte o la concordança GPS, diversos formats de fitxer i un recompte de resultats sol·licitats. Si us plau, ajusteu aquestes condicions.</string>
     <string name="assistant_gallery_ambiguous_name">Diverses persones amb nom coincideixen amb aquesta redacció. Si us plau, utilitzeu el nom complet que es mostra a la galeria.</string>
     <string name="assistant_gallery_closest">Sense coincidències exactes. Aquí teniu les fotos disponibles més properes; els vostres filtres de persones, data, àlbum i nom de fitxer encara s\'apliquen.</string>
+    <string name="short_side">Cara curta</string>
+    <string name="long_side">Costat llarg</string>
+    <string name="amoled_mode_extended">Estesa</string>
+    <string name="amoled_mode_extended_sub">També fa que les barres d\'aplicacions, els fulls i els menús siguin completament negres en mode nocturn</string>
+    <string name="help_tip_crop_shape_title">Avatars circulars i retall de formes</string>
+    <string name="help_tip_crop_shape_description">Crea un avatar circular o retalla una imatge amb una altra forma amb la màscara de retall. L\'àrea fora de la forma es torna transparent.</string>
+    <string name="help_tip_crop_shape_step_1">Obriu Retall, trieu la imatge i utilitzeu el mode de retall normal en lloc de cantonades lliures.</string>
+    <string name="help_tip_crop_shape_step_2">Trieu la màscara ovalada i una relació d\'aspecte 1:1 per a un cercle. Col·loca el retall al voltant del tema.</string>
+    <string name="help_tip_crop_shape_step_3">Desa en PNG o en un altre format ofert amb transparència. Un visor rectangular encara pot mostrar cantonades transparents al voltant del cercle.</string>
+    <string name="help_tip_partial_blur_title">Desenfoca o pixela part d\'una imatge</string>
+    <string name="help_tip_partial_blur_subtitle">Amaga una àrea seleccionada sense canviar la resta de la foto</string>
+    <string name="help_tip_partial_blur_page_title">Pinta només la zona per amagar</string>
+    <string name="help_tip_partial_blur_description">Utilitzeu Desenfocament privat o Pixelació a Draw per desenfocar només una part d\'una foto. Aquests modes de pinzell processen àrees pintades; un filtre de desenfocament normal d\'imatge sencera no substitueix la selecció d\'una àrea.</string>
+    <string name="help_tip_partial_blur_step_1">Obriu Draw, seleccioneu la imatge i trieu Desenfocament privat o Pixelació dels modes de dibuix.</string>
+    <string name="help_tip_partial_blur_step_2">Pinteu sobre la zona que voleu amagar. Ajusteu el radi de desenfocament o la mida del píxel i desfeu els traços que cobreixen massa.</string>
+    <string name="help_tip_partial_blur_step_3">Inspeccioneu el resultat a mida completa i deseu una còpia per separat. Utilitzeu un pinzell opac per a text o números que han de ser il·legibles.</string>
+    <string name="opaque_image_viewer_background">Fons opac del visor d\'imatges</string>
+    <string name="opaque_image_viewer_background_sub">Utilitzeu un fons negre sòlid quan visualitzeu fotos</string>
 </resources>

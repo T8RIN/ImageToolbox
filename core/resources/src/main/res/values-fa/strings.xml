@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">اندازه %1$s</string>
     <string name="pick_image">تصویری برای شروع انتخاب کنید</string>
     <string name="smth_went_wrong">مشکلی رخ داد: %1$s</string>
@@ -7494,4 +7495,25 @@
     <string name="assistant_gallery_unsupported_condition">این جستجو از محتوای قابل مشاهده، افراد با نام، تاریخ ها، یک آلبوم و نام فایل پشتیبانی می کند. موارد استثنا، متن دقیق یا تطبیق GPS، فرمت‌های فایل متعدد و تعداد نتایج درخواستی هنوز پشتیبانی نمی‌شوند. لطفا این شرایط را تنظیم کنید.</string>
     <string name="assistant_gallery_ambiguous_name">چند نفر نامبرده با این عبارت مطابقت دارند. لطفا از نام کامل نشان داده شده در گالری استفاده کنید.</string>
     <string name="assistant_gallery_closest">هیچ تطابق دقیقی وجود ندارد. در اینجا نزدیکترین عکس های موجود است. فیلترهای افراد، تاریخ، آلبوم و نام فایل شما همچنان اعمال می شوند.</string>
+    <string name="short_side">سمت کوتاه</string>
+    <string name="long_side">لانگ ساید</string>
+    <string name="amoled_mode_extended">تمدید شد</string>
+    <string name="amoled_mode_extended_sub">همچنین نوارهای برنامه، برگه ها و منوها را در حالت شب کاملا سیاه می کند</string>
+    <string name="help_tip_assistant_models_page_3_description">اندازه فایل دانلود شده مقدار RAM مورد نیاز در طول مکالمه نیست. بارگذاری مدل، پردازش عکس و تولید پاسخ نیز از حافظه استفاده می کند. سرعت پاسخ به مدل، دستگاه و طول درخواست بستگی دارد.</string>
+    <string name="help_tip_assistant_models_page_3_step_3">اگر تولید قطع شد یا برنامه تحت فشار حافظه بسته شد، از یک مدل کوچکتر استفاده کنید، سایر برنامه های سنگین را ببندید و سؤال را کوتاه کنید.</string>
+    <string name="help_tip_ai_upscaling_subtitle">مدل های RealESRGAN، RealESRNet، SRFormer، DAT2 و انیمه</string>
+    <string name="help_tip_crop_shape_title">آواتارهای دایره ای و برش شکل</string>
+    <string name="help_tip_crop_shape_description">یک آواتار دایره‌ای ایجاد کنید یا با ماسک برش یک تصویر را به شکل دیگری برش دهید. ناحیه خارج از شکل شفاف می شود.</string>
+    <string name="help_tip_crop_shape_step_1">برش را باز کنید، تصویر را انتخاب کنید و از حالت برش معمولی به جای گوشه های آزاد استفاده کنید.</string>
+    <string name="help_tip_crop_shape_step_2">ماسک بیضی شکل و نسبت تصویر 1:1 را برای دایره انتخاب کنید. برش را در اطراف سوژه قرار دهید.</string>
+    <string name="help_tip_crop_shape_step_3">در PNG یا فرمت پیشنهادی دیگری با شفافیت ذخیره کنید. نمایشگر مستطیلی ممکن است همچنان گوشه های شفاف را در اطراف دایره نشان دهد.</string>
+    <string name="help_tip_partial_blur_title">قسمتی از یک تصویر را تار یا پیکسل کنید</string>
+    <string name="help_tip_partial_blur_subtitle">یک ناحیه انتخاب شده را پنهان کنید و بقیه عکس را بدون تغییر باقی بگذارید</string>
+    <string name="help_tip_partial_blur_page_title">فقط قسمتی را برای پنهان کردن رنگ کنید</string>
+    <string name="help_tip_partial_blur_description">از Private blur یا Pixelation در Draw برای محو کردن تنها بخشی از عکس استفاده کنید. این حالت های قلم مو مناطق رنگ شده را پردازش می کنند. یک فیلتر معمولی تاری کل تصویر جایگزینی برای انتخاب یک ناحیه نیست.</string>
+    <string name="help_tip_partial_blur_step_1">Draw را باز کنید، تصویر را انتخاب کنید و Private blur یا Pixelation را از حالت های طراحی انتخاب کنید.</string>
+    <string name="help_tip_partial_blur_step_2">روی ناحیه ای که می خواهید پنهان کنید نقاشی کنید. شعاع تاری یا اندازه پیکسل را تنظیم کنید و ضربه هایی را که بیش از حد را پوشش می دهند، لغو کنید.</string>
+    <string name="help_tip_partial_blur_step_3">نتیجه را در اندازه کامل بررسی کنید و یک کپی جداگانه ذخیره کنید. برای متن یا اعدادی که باید غیرقابل خواندن باشند از یک قلم مو مات استفاده کنید.</string>
+    <string name="opaque_image_viewer_background">پس زمینه نمایشگر تصویر مات</string>
+    <string name="opaque_image_viewer_background_sub">هنگام مشاهده عکس ها از پس زمینه سیاه و سفید استفاده کنید</string>
 </resources>

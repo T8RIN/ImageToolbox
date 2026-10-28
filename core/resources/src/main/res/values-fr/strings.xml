@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Cette recherche prend en charge le contenu visible, les personnes nommées, les dates, un album et un nom de fichier. Les exclusions, la correspondance exacte de texte ou GPS, les formats de fichiers multiples et le nombre de résultats demandé ne sont pas encore pris en charge. Veuillez ajuster ces conditions.</string>
     <string name="assistant_gallery_ambiguous_name">Plusieurs personnes nommées correspondent à cette formulation. Veuillez utiliser le nom complet affiché dans la galerie.</string>
     <string name="assistant_gallery_closest">Aucune correspondance exacte. Voici les photos disponibles les plus proches ; vos filtres de personnes, de dates, d\'albums et de noms de fichiers sont toujours appliqués.</string>
+    <string name="short_side">Côté court</string>
+    <string name="long_side">Côté long</string>
+    <string name="amoled_mode_extended">Étendu</string>
+    <string name="amoled_mode_extended_sub">Rend également les barres d\'applications, les feuilles et les menus complètement noirs en mode nuit.</string>
+    <string name="help_tip_crop_shape_title">Avatars circulaires et recadrage de forme</string>
+    <string name="help_tip_crop_shape_description">Créez un avatar circulaire ou coupez une image dans une autre forme avec le masque de recadrage. La zone située à l\'extérieur de la forme devient transparente.</string>
+    <string name="help_tip_crop_shape_step_1">Ouvrez Recadrage, choisissez l\'image et utilisez le mode de recadrage normal plutôt que les coins libres.</string>
+    <string name="help_tip_crop_shape_step_2">Choisissez le masque ovale et un rapport hauteur/largeur 1:1 pour un cercle. Positionnez le recadrage autour du sujet.</string>
+    <string name="help_tip_crop_shape_step_3">Enregistrez au format PNG ou dans un autre format proposé avec transparence. Une visionneuse rectangulaire peut toujours afficher des coins transparents autour du cercle.</string>
+    <string name="help_tip_partial_blur_title">Flou ou pixelliser une partie d\'une image</string>
+    <string name="help_tip_partial_blur_subtitle">Masquer une zone sélectionnée tout en laissant le reste de la photo inchangé</string>
+    <string name="help_tip_partial_blur_page_title">Peignez uniquement la zone à cacher</string>
+    <string name="help_tip_partial_blur_description">Utilisez le flou privé ou la pixellisation dans Draw pour flouter uniquement une partie d\'une photo. Ces modes de pinceau traitent les zones peintes ; un filtre de flou d\'image entier ordinaire ne remplace pas la sélection d\'une zone.</string>
+    <string name="help_tip_partial_blur_step_1">Ouvrez Draw, sélectionnez l\'image et choisissez Flou privé ou Pixelation dans les modes de dessin.</string>
+    <string name="help_tip_partial_blur_step_2">Peignez la zone que vous souhaitez masquer. Ajustez le rayon de flou ou la taille des pixels et annulez les traits qui couvrent trop.</string>
+    <string name="help_tip_partial_blur_step_3">Inspectez le résultat en taille réelle et enregistrez une copie séparée. Utilisez un pinceau opaque pour le texte ou les chiffres qui doivent être illisibles.</string>
+    <string name="opaque_image_viewer_background">Arrière-plan opaque de la visionneuse d\'images</string>
+    <string name="opaque_image_viewer_background_sub">Utilisez un arrière-plan noir uni lors de la visualisation de photos</string>
 </resources>

@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">Questa ricerca supporta contenuti visibili, persone nominate, date, un album e un nome file. Le esclusioni, la corrispondenza esatta del testo o del GPS, più formati di file e il conteggio dei risultati richiesti non sono ancora supportati. Si prega di modificare queste condizioni.</string>
     <string name="assistant_gallery_ambiguous_name">Diverse persone nominate corrispondono a questa dicitura. Si prega di utilizzare il nome completo mostrato nella gallery.</string>
     <string name="assistant_gallery_closest">Nessuna corrispondenza esatta. Ecco le foto disponibili più vicine; i filtri persone, data, album e nome file vengono ancora applicati.</string>
+    <string name="short_side">Lato corto</string>
+    <string name="long_side">Lato lungo</string>
+    <string name="amoled_mode_extended">Esteso</string>
+    <string name="amoled_mode_extended_sub">Inoltre, rende le barre, i fogli e i menu delle app completamente neri in modalità notturna</string>
+    <string name="help_tip_crop_shape_title">Avatar circolari e ritaglio di forme</string>
+    <string name="help_tip_crop_shape_description">Crea un avatar circolare o taglia un\'immagine in un\'altra forma con la maschera di ritaglio. L\'area esterna alla forma diventa trasparente.</string>
+    <string name="help_tip_crop_shape_step_1">Apri Ritaglia, scegli l\'immagine e utilizza la modalità di ritaglio normale anziché gli angoli liberi.</string>
+    <string name="help_tip_crop_shape_step_2">Scegli la maschera ovale e proporzioni 1:1 per un cerchio. Posiziona il ritaglio attorno al soggetto.</string>
+    <string name="help_tip_crop_shape_step_3">Salva in PNG o in un altro formato offerto con trasparenza. Un visualizzatore rettangolare potrebbe comunque mostrare angoli trasparenti attorno al cerchio.</string>
+    <string name="help_tip_partial_blur_title">Sfoca o pixela una parte di un\'immagine</string>
+    <string name="help_tip_partial_blur_subtitle">Nascondi un\'area selezionata lasciando invariato il resto della foto</string>
+    <string name="help_tip_partial_blur_page_title">Dipingi solo l\'area da nascondere</string>
+    <string name="help_tip_partial_blur_description">Utilizza Sfocatura privata o Pixelazione in Draw per sfocare solo una parte di una foto. Queste modalità pennello elaborano le aree dipinte; un normale filtro di sfocatura dell\'intera immagine non sostituisce la selezione di un\'area.</string>
+    <string name="help_tip_partial_blur_step_1">Apri Disegna, seleziona l\'immagine e scegli Sfocatura privata o Pixelazione dalle modalità di disegno.</string>
+    <string name="help_tip_partial_blur_step_2">Dipingi sull\'area che vuoi nascondere. Regola il raggio di sfocatura o la dimensione dei pixel e annulla i tratti che coprono troppo.</string>
+    <string name="help_tip_partial_blur_step_3">Esamina il risultato a grandezza naturale e salva una copia separata. Utilizza un pennello opaco per testo o numeri che devono essere illeggibili.</string>
+    <string name="opaque_image_viewer_background">Sfondo opaco del visualizzatore di immagini</string>
+    <string name="opaque_image_viewer_background_sub">Utilizzare uno sfondo nero uniforme durante la visualizzazione delle foto</string>
 </resources>

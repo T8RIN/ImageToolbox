@@ -7498,4 +7498,22 @@
     <string name="assistant_gallery_unsupported_condition">এই অনুসন্ধানটি দৃশ্যমান সামগ্রী, নামকৃত ব্যক্তি, তারিখ, একটি অ্যালবাম এবং একটি ফাইলের নাম সমর্থন করে৷ এক্সক্লুশন, সঠিক টেক্সট বা জিপিএস ম্যাচিং, একাধিক ফাইল ফরম্যাট এবং অনুরোধ করা ফলাফলের সংখ্যা এখনও সমর্থিত নয়। এই শর্তাবলী সামঞ্জস্য করুন.</string>
     <string name="assistant_gallery_ambiguous_name">বেশ কিছু নামধারী লোক এই শব্দের সাথে মিলে যায়। গ্যালারিতে দেখানো পুরো নাম ব্যবহার করুন.</string>
     <string name="assistant_gallery_closest">কোনো সঠিক মিল নেই। এখানে সবচেয়ে কাছাকাছি উপলব্ধ ফটো আছে; আপনার মানুষ, তারিখ, অ্যালবাম এবং ফাইলের নাম ফিল্টার এখনও প্রয়োগ করা হয়.</string>
+    <string name="short_side">শর্ট সাইড</string>
+    <string name="long_side">লং সাইড</string>
+    <string name="amoled_mode_extended">বর্ধিত</string>
+    <string name="amoled_mode_extended_sub">এছাড়াও নাইট মোডে অ্যাপ বার, শীট এবং মেনু সম্পূর্ণ কালো করে তোলে</string>
+    <string name="help_tip_crop_shape_title">বৃত্তাকার অবতার এবং আকৃতি ক্রপিং</string>
+    <string name="help_tip_crop_shape_description">একটি বৃত্তাকার অবতার তৈরি করুন বা ক্রপ মাস্ক দিয়ে একটি চিত্রকে অন্য আকারে কাটুন। আকৃতির বাইরের অংশটি স্বচ্ছ হয়ে যায়।</string>
+    <string name="help_tip_crop_shape_step_1">ক্রপ খুলুন, ইমেজ বেছে নিন এবং ফ্রি কোণার পরিবর্তে নিয়মিত ক্রপ মোড ব্যবহার করুন।</string>
+    <string name="help_tip_crop_shape_step_2">একটি বৃত্তের জন্য ডিম্বাকৃতির মুখোশ এবং 1:1 অনুপাত চয়ন করুন। বিষয়ের চারপাশে ফসলের অবস্থান করুন।</string>
+    <string name="help_tip_crop_shape_step_3">স্বচ্ছতার সাথে PNG বা অন্য প্রস্তাবিত বিন্যাসে সংরক্ষণ করুন। একটি আয়তক্ষেত্রাকার দর্শক এখনও বৃত্তের চারপাশে স্বচ্ছ কোণগুলি দেখাতে পারে৷</string>
+    <string name="help_tip_partial_blur_title">একটি ছবির অংশ ঝাপসা বা পিক্সেলেট করুন</string>
+    <string name="help_tip_partial_blur_subtitle">বাকি ফটো অপরিবর্তিত রেখে একটি নির্বাচিত এলাকা লুকান</string>
+    <string name="help_tip_partial_blur_page_title">আড়াল করার জন্য শুধুমাত্র এলাকা পেইন্ট করুন</string>
+    <string name="help_tip_partial_blur_description">একটি ছবির শুধুমাত্র অংশ অস্পষ্ট করতে ড্র-তে ব্যক্তিগত ব্লার বা পিক্সেলেশন ব্যবহার করুন। এই ব্রাশ মোডগুলি আঁকা অঞ্চলগুলিকে প্রক্রিয়া করে; একটি সাধারণ সম্পূর্ণ-ইমেজ ব্লার ফিল্টার একটি এলাকা নির্বাচন করার বিকল্প নয়।</string>
+    <string name="help_tip_partial_blur_step_1">ড্র ওপেন করুন, ইমেজ সিলেক্ট করুন এবং ড্রয়িং মোড থেকে প্রাইভেট ব্লার বা পিক্সেলেশন বেছে নিন।</string>
+    <string name="help_tip_partial_blur_step_2">আপনি যে অঞ্চলটি লুকাতে চান তার উপর রঙ করুন। অস্পষ্ট ব্যাসার্ধ বা পিক্সেলের আকার সামঞ্জস্য করুন এবং স্ট্রোকগুলিকে পূর্বাবস্থায় ফিরিয়ে আনুন যা খুব বেশি কভার করে।</string>
+    <string name="help_tip_partial_blur_step_3">পূর্ণ আকারে ফলাফল পরিদর্শন করুন এবং একটি পৃথক অনুলিপি সংরক্ষণ করুন। পাঠ্য বা সংখ্যার জন্য একটি অস্বচ্ছ ব্রাশ ব্যবহার করুন যা অবশ্যই পাঠযোগ্য নয়।</string>
+    <string name="opaque_image_viewer_background">অস্বচ্ছ ইমেজ ভিউয়ার ব্যাকগ্রাউন্ড</string>
+    <string name="opaque_image_viewer_background_sub">ছবি দেখার সময় একটি কঠিন কালো ব্যাকগ্রাউন্ড ব্যবহার করুন</string>
 </resources>
