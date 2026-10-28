@@ -4964,7 +4964,7 @@
     <string name="compression_lab_mode_manual">固定质量</string>
     <string name="compression_lab_mode_target_quality">质量最小</string>
     <string name="compression_lab_mode_target_size">最佳尺码偏小</string>
-    <string name="compression_lab_target_quality">目标视觉质量</string>
+    <string name="compression_lab_target_quality">目标视觉相似度分数</string>
     <string name="compression_lab_target_size">目标文件大小</string>
     <string name="compression_lab_run">运行比较</string>
     <string name="compression_lab_result_details">编码器：%1$s · %2$d ms\nSSIM：%3$s · PSNR：%4$s</string>

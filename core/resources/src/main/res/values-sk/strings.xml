@@ -4967,7 +4967,7 @@
     <string name="compression_lab_mode_manual">Pevná kvalita</string>
     <string name="compression_lab_mode_target_quality">Najmenší v kvalite</string>
     <string name="compression_lab_mode_target_size">Najlepšie pod veľkosť</string>
-    <string name="compression_lab_target_quality">Cieľová vizuálna kvalita</string>
+    <string name="compression_lab_target_quality">Cielené skóre vizuálnej podobnosti</string>
     <string name="compression_lab_target_size">Cieľová veľkosť súboru</string>
     <string name="compression_lab_run">Spustiť porovnanie</string>
     <string name="compression_lab_result_details">Kódovač: %1$s · %2$d ms\nSSIM: %3$s · PSNR: %4$s</string>
