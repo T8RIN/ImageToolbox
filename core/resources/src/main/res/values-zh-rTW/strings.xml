@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -5824,52 +5823,37 @@
     <string name="help_tip_color_tools_page_title">使用一種參考顏色進行工作</string>
     <string name="help_tip_color_tools_description">顏色工具收集所選顏色的多個視圖：數位資訊、混合、和諧、色調和直方圖工具。數字顏色需要其顏色模型才有意義； HEX 值不是 HSV 三元組。</string>
     <string name="help_tip_color_tools_step_1">選擇參考顏色並檢查其值。在其他地方複製值時，請檢查預期模型以及是否包含 alpha。</string>
-    <string name="help_tip_color_tools_step_2" />
     <string name="help_tip_color_tools_step_3">如果您想在捲動工具時保持所選顏色可見，請固定所選顏色。使用從影像中選取顏色作為從照片中採樣的參考。</string>
-    <string name="help_tip_palette_pdf_title" />
-    <string name="help_tip_palette_pdf_subtitle" />
     <string name="help_tip_palette_pdf_page_title">準備調色盤表</string>
     <string name="help_tip_palette_pdf_description">Palette PDF 將提取或匯入的顏色轉換為帶有色板和可選標籤的文件。它對於討論配色方案或保留可列印的參考很有用。螢幕和印表機輸出可能有所不同。</string>
     <string name="help_tip_palette_pdf_step_1">选择图像或支持的调色板文件。對於一張圖像，設定提取顏色的最大數量；小數量強調主色。</string>
-    <string name="help_tip_palette_pdf_step_2" />
     <string name="help_tip_palette_pdf_step_3">選擇是否顯示調色板名稱、顏色名稱、十六進位值和來源檔案名稱。保存或分享完成的 PDF。</string>
-    <string name="help_tip_gif_workflow_title" />
-    <string name="help_tip_gif_workflow_subtitle" />
     <string name="help_tip_gif_workflow_page_title">選擇GIF操作</string>
     <string name="help_tip_gif_workflow_description">GIF 工具將提取幀、從圖像創建 GIF、合併動畫以及轉換為 JXL、APNG 或 WebP 分開。 GIF 的调色板有限，因此照片和平滑渐变可能会丢失颜色或显示抖动。</string>
     <string name="help_tip_gif_workflow_step_1">首先選擇操作。建立 GIF 時，將影像排序為動畫影格並設定影格時序。</string>
     <string name="help_tip_gif_workflow_step_2">盡可能保持框架尺寸一致。大幀和許多幀會增加記憶體使用和輸出大小。</string>
     <string name="help_tip_gif_workflow_step_3">當需要靜止幀時使用提取；當您需要保持運動時，請使用動畫轉換。在目標應用程式中測試播放。</string>
     <string name="help_tip_apng_workflow_title">APNG 與全彩動畫</string>
-    <string name="help_tip_apng_workflow_subtitle" />
     <string name="help_tip_apng_workflow_page_title">APNG 何時有用</string>
     <string name="help_tip_apng_workflow_description">APNG 以 PNG 風格的顏色和透明度儲存動畫。它對於具有平滑 Alpha 邊緣或 GIF 無法很好再現的顏色的圖形很有用，但其檔案可能很大，並且支援因應用程式而異。</string>
     <string name="help_tip_apng_workflow_step_1">在 APNG 工具中選擇建立映像、提取、合併或轉換。在调整动画时间之前设置帧顺序。</string>
     <string name="help_tip_apng_workflow_step_2">当 Alpha 很重要时保留透明源帧。轉換已拼合的 JPEG 無法恢復其遺失的透明度。</string>
     <string name="help_tip_apng_workflow_step_3">在目標應用程式中預覽已儲存的動畫。不支援 APNG 的檢視器可能僅顯示靜止幀。</string>
     <string name="help_tip_webp_workflow_title">WebP 圖像和動畫</string>
-    <string name="help_tip_webp_workflow_subtitle" />
-    <string name="help_tip_webp_workflow_page_title" />
     <string name="help_tip_webp_workflow_description">對於單一靜止影像，普通的格式轉換通常就足夠了。 WebP 工具對於建立、擷取、合併或轉換動畫 WebP 非常有用。有損和無損壓縮解決了不同的大小和保真度目標。</string>
     <string name="help_tip_webp_workflow_step_1">使用动画操作来保留帧和时间。在靜態圖像工作流程中開啟動畫可能會留下一格。</string>
     <string name="help_tip_webp_workflow_step_2">檢查淺色和深色背景的透明邊框。即使有 Alpha，強有損壓縮也會影響精細的彩色細節。</string>
     <string name="help_tip_webp_workflow_step_3">在將要使用的地方測試結果。某些上傳服務會重新壓縮 WebP 或將動畫輸出轉換為靜態影像。</string>
-    <string name="help_tip_jxl_workflow_title" />
-    <string name="help_tip_jxl_workflow_subtitle" />
-    <string name="help_tip_jxl_workflow_page_title" />
     <string name="help_tip_jxl_workflow_description">將像素編碼為 JXL 和打包現有 JPEG 以供以後重建是不同的操作。使用 JPEG 到 JXL 和 JXL 到 JPEG 進行專用重建工作流程，而不是假設任何 JXL 都可以恢復原始 JPEG。</string>
     <string name="help_tip_jxl_workflow_step_1">對於要打包的相容原始 JPEG，選擇 JPEG 到 JXL。保留來源副本，直到檢查了反向操作。</string>
-    <string name="help_tip_jxl_workflow_step_2" />
     <string name="help_tip_jxl_workflow_step_3">對動畫內容使用影格擷取、合併或動畫格式轉換。在與其他應用程式共用 JXL 之前測試解碼器支援。</string>
     <string name="help_tip_ascii_workflow_title">ASCII 藝術作為文本</string>
-    <string name="help_tip_ascii_workflow_subtitle" />
     <string name="help_tip_ascii_workflow_page_title">選擇字元和比例</string>
     <string name="help_tip_ascii_workflow_description">ASCII Art 以亮度梯度的字元替換影像區域。符號順序和字體大小會影響結果：密集的符號代表空格和小標記的不同色調。</string>
     <string name="help_tip_ascii_workflow_step_1">選擇具有清晰輪廓或對比度的影像。微小的紋理和複雜的背景很難被識別為文字。</string>
     <string name="help_tip_ascii_workflow_step_2">編輯字元漸層和字體大小，如果目標背景的亮區和暗區出現反轉，則嘗試反轉。</string>
     <string name="help_tip_ascii_workflow_step_3">複製或匯出生成的文字並在目標中使用等寬字體。比例字體和改變的行間距可能會扭曲圖片。</string>
     <string name="help_tip_drawing_workflow_title">繪圖與註釋工具</string>
-    <string name="help_tip_drawing_workflow_subtitle" />
     <string name="help_tip_drawing_workflow_page_title">進行有用的註釋</string>
     <string name="help_tip_drawing_workflow_description">繪圖對於手寫筆記、標記和突出顯示圖像細節非常有用。畫筆模式、寬度、顏色和縮放會影響精確度。介面字體設定不控制渲染到圖像中的文字。</string>
     <string name="help_tip_drawing_workflow_step_1">選擇繪圖模式並從適合原始影像尺寸的線寬開始。縮小後檢查標記。</string>
@@ -5877,7 +5861,6 @@
     <string name="help_tip_drawing_workflow_step_3">在細化單一標記時使用撤銷。對於具有可編輯文字和圖層的可重複使用的合成，請選擇“標記圖層”。</string>
     <string name="help_tip_drawing_workflow_step_4">編輯後選擇輸出格式和品質。預設線寬、顏色、路徑模式、放大鏡和方向鎖定在繪圖設定中可用。</string>
     <string name="help_tip_exif_removal_title">批量刪除圖片元數據</string>
-    <string name="help_tip_exif_removal_subtitle" />
     <string name="help_tip_exif_removal_page_title">元資料清理及其局限性</string>
     <string name="help_tip_exif_removal_description">刪除 EXIF 旨在從所選影像中刪除嵌入的元資料。元資料清理與隱藏可見資訊不同：臉孔、地址、螢幕截圖標籤或檔案名稱仍然可以揭示詳細資訊。</string>
     <string name="help_tip_exif_removal_step_1">選擇要清理的圖像並在儲存之前檢查批次。當您需要檢查或變更特定欄位時，請使用編輯 EXIF。</string>
@@ -5891,7 +5874,6 @@
     <string name="help_tip_gallery_workflow_step_2">在預覽中檢查外觀相似的縮圖，以避免處理錯誤的版本。在將影像傳送到工具之前檢查所選計數。</string>
     <string name="help_tip_gallery_workflow_step_3">如果新檔案遺失，請檢查其資料夾、媒體權限以及來源應用程式是否已完成儲存。文件選擇器可以存取媒體庫中未顯示的來源。</string>
     <string name="help_tip_archive_workflow_title">建立和提取檔案</string>
-    <string name="help_tip_archive_workflow_subtitle" />
     <string name="help_tip_archive_workflow_page_title">存檔或提取</string>
     <string name="help_tip_archive_workflow_description">存檔工具支援打包選定的文件並提取支援的存檔。容器格式、壓縮方法和密碼保護是單獨的選擇。更強的壓縮等級不一定有助於已經壓縮的照片或影片。</string>
     <string name="help_tip_archive_workflow_step_1">首先選擇模式。創建時，選擇輸出格式和可用的壓縮方法；密碼支援取決於該組合。</string>
@@ -7428,13 +7410,11 @@
     <string name="help_tip_format_gif_step_1">使用 GIF 工具保留動作並檢查畫面順序、持續時間和重複計數。</string>
     <string name="help_tip_format_gif_step_2">比較 APNG 或動畫 WebP，以獲得更平滑的透明度和更豐富的色彩。</string>
     <string name="help_tip_format_gif_step_3">調色盤縮減後測試細邊緣和漸層；靜態 GIF 匯出不會保留匯入的動畫。</string>
-    <string name="help_tip_format_apng_title" />
     <string name="help_tip_format_apng_subtitle">全彩和 Alpha 的 PNG 動畫</string>
     <string name="help_tip_format_apng_description">APNG 透過動畫幀、持續時間和循環資訊擴展了 PNG。它可以保留豐富的色彩和部分透明度，而不受 GIF 調色板的限制，但對於攝影運動來說，輸出可能很大。檔案可能使用 .png 或 .apng，取決於來源和目標。使用 APNG 工具建立動畫、擷取影格、合併剪輯或轉換為其他動畫格式。不支援 APNG 動畫的應用程式可能僅顯示靜態圖像。</string>
     <string name="help_tip_format_apng_step_1">保存前檢查幀順序、延遲和循環計數，尤其是在合併剪輯時。</string>
     <string name="help_tip_format_apng_step_2">當檔案大小比廣泛的 PNG 熟悉程度更重要時，可以比較動畫 WebP 或 JXL。</string>
     <string name="help_tip_format_apng_step_3">使用動畫工具進行運動；普通的 PNG 轉換會建立靜態影像。</string>
-    <string name="help_tip_format_svg_title" />
     <string name="help_tip_format_svg_subtitle">選定尺寸的向量圖形和光柵化</string>
     <string name="help_tip_format_svg_description">SVG 使用形狀、路徑和文字而不是固定的像素網格來描述圖形。它對於可縮放的圖標和插圖很有用。 Image Toolbox 可以將導入的 SVG 渲染為光柵圖像，並在 SVG Maker 中建立追蹤向量圖形。光柵導出修復了分辨率，不再無限縮放。描畫照片可以近似形狀和顏色；它不會恢復原始的可編輯向量設計或保留任意嵌入行為。</string>
     <string name="help_tip_format_svg_step_1">將 SVG 匯出為 PNG 或 JPEG 之前，請選擇足夠的光柵尺寸。</string>
@@ -7446,7 +7426,6 @@
     <string name="help_tip_format_pdf_step_1">對於 PDF 影像，請在儲存前設定頁面大小、邊距、影像位置和壓縮。</string>
     <string name="help_tip_format_pdf_step_2">對於 PDF 到影像，根據所需的列印或螢幕尺寸選擇輸出解析度和格式。</string>
     <string name="help_tip_format_pdf_step_3">分別審核元資料、註解、密碼和 OCR；視覺上正確的頁面並不能確定保留哪些文件資料。</string>
-    <string name="help_tip_format_raw_title" />
     <string name="help_tip_format_raw_subtitle">在柵格導出之前開發感測器數據</string>
     <string name="help_tip_format_raw_description">RAW 是一系列相機格式，包括 DNG 和支援的製造商格式，而不是單一的通用編碼。文件可能包含感測器數據和嵌入式相機預覽。 Image Toolbox 可以使用該預覽或開發支援的 RAW 數據，包括白平衡、曝光、高光恢復、去馬賽克和輸出色彩設定。轉換產生渲染的光柵影像，而不是新的相機 RAW。支持取决于相机和解码器。</string>
     <string name="help_tip_format_raw_step_1">停用嵌入預覽以應用開發控制，並比較白平衡和明亮細節。</string>
@@ -7458,13 +7437,11 @@
     <string name="help_tip_format_psd_step_1">根據來源文件檢查預覽，尤其是蒙版、效果和透明度方面。</string>
     <string name="help_tip_format_psd_step_2">當透明渲染像素很重要時，匯出為 PNG；拼合的照片副本，匯出為 JPEG。</string>
     <string name="help_tip_format_psd_step_3">如果仍需要可編輯圖層或文本，請勿將 PSD 母版替換為柵格匯出。</string>
-    <string name="help_tip_format_djvu_title" />
     <string name="help_tip_format_djvu_subtitle">導入掃描的文件頁面</string>
     <string name="help_tip_format_djvu_description">DjVu 是一種常用於掃描書籍和頁面的文件格式。它可以將前景文本和背景分開，並且可以包含多個頁面。 Image Toolbox 的解碼器渲染支援的 DjVu 內容以進行預覽和圖像轉換；這不是導出回 DjVu 文件。光柵副本不保留可搜尋文字、頁面結構或來源的壓縮圖層。當這些功能很重要時，請保留原始文件。</string>
     <string name="help_tip_format_djvu_step_1">渲染後檢查小字母和頁面背景，為目標使用足夠的解析度。</string>
     <string name="help_tip_format_djvu_step_2">使用 PNG 來獲得清晰的頁面圖形，或使用 JPEG 來進行照片掃描。</string>
     <string name="help_tip_format_djvu_step_3">在儲存靜態影像之前，請保留原始 DjVu 並驗證正在轉換的頁面。</string>
-    <string name="help_category_image_formats" />
     <string name="help_category_image_formats_sub">每種支援的影像格式的壓縮、透明度、相容性和設置</string>
     <string name="help_tip_face_privacy_title">隱藏面孔和個人詳細信息</string>
     <string name="help_tip_face_privacy_subtitle">將臉部、車牌、文字和私人資訊進行模糊、像素化或繪製</string>
