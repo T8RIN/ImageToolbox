@@ -5719,7 +5719,7 @@
     <string name="help_tip_interface_motion_step_2">Experimente os comportamentos de rolagem disponíveis no Layout e escolha aquele que for confortável ao navegar em listas longas.</string>
     <string name="help_tip_interface_motion_step_3">Ajuste a intensidade da vibração em Vibração. Reduza-o ou defina-o como zero se o feedback do toque distrair.</string>
     <string name="help_tip_settings_group_visibility_title">Lembre-se de grupos de configurações expandidos</string>
-    <string name="help_tip_settings_group_visibility_subtitle">Mantenha os grupos usados ​​com frequência abertos no layout de configurações normais</string>
+    <string name="help_tip_settings_group_visibility_subtitle">Mantenha os grupos usados com frequência abertos no layout de configurações normais</string>
     <string name="help_tip_settings_group_visibility_page_title">Controlar a visibilidade do grupo</string>
     <string name="help_tip_settings_group_visibility_description">O layout de configurações regulares pode expandir vários grupos ao mesmo tempo. As categorias de configurações abrem uma seção por vez, portanto, o recolhimento de grupo não é usado nesse modo.</string>
     <string name="help_tip_settings_group_visibility_step_1">Para a lista de tela cheia, desative Categorias de configurações e ative Grupos de configurações recolhíveis em Comportamento. Use a seta ao lado do título de um grupo para expandi-lo ou recolhê-lo.</string>
@@ -5736,7 +5736,7 @@
     <string name="help_tip_tone_curves_page_2_description">Uma curva pode ser aplicada a várias imagens selecionadas. Uma curva compartilhada proporciona um processamento consistente, mas fotografias com exposições diferentes ainda podem precisar de correções individuais.</string>
     <string name="help_tip_tone_curves_page_2_step_1">Selecione várias imagens e alterne entre as visualizações para verificar o exemplo mais escuro e o mais claro.</string>
     <string name="help_tip_tone_curves_page_2_step_2">Exporte uma predefinição de curva como um arquivo .itcurve e importe-o posteriormente para reutilizar os mesmos pontos de controle.</string>
-    <string name="help_tip_tone_curves_page_2_step_3">Escolha o formato de saída e o comportamento EXIF ​​e salve as cópias. Redefina as curvas se quiser começar a partir de uma imagem inalterada.</string>
+    <string name="help_tip_tone_curves_page_2_step_3">Escolha o formato de saída e o comportamento EXIF e salve as cópias. Redefina as curvas se quiser começar a partir de uma imagem inalterada.</string>
     <string name="help_tip_stitching_modes_title">Costure imagens e capturas de tela</string>
     <string name="help_tip_stitching_modes_subtitle">Escolha faixas, grades, panoramas ou costuras de captura de tela e controle sobreposições</string>
     <string name="help_tip_stitching_modes_page_title">Escolha como as imagens se juntam</string>
@@ -5881,8 +5881,8 @@
     <string name="help_tip_exif_removal_title">Remover metadados de imagem em lote</string>
     <string name="help_tip_exif_removal_subtitle">Limpe as informações da imagem incorporada e verifique as cópias exportadas</string>
     <string name="help_tip_exif_removal_page_title">Limpeza de metadados e seus limites</string>
-    <string name="help_tip_exif_removal_description">Excluir EXIF ​​destina-se a remover metadados incorporados de imagens selecionadas. A limpeza de metadados é diferente de ocultar informações visíveis: um rosto, endereço, rótulo de captura de tela ou nome de arquivo ainda podem revelar detalhes.</string>
-    <string name="help_tip_exif_removal_step_1">Selecione as imagens a serem limpas e revise o lote antes de salvar. Use Editar EXIF ​​quando precisar inspecionar ou alterar campos específicos.</string>
+    <string name="help_tip_exif_removal_description">Excluir EXIF destina-se a remover metadados incorporados de imagens selecionadas. A limpeza de metadados é diferente de ocultar informações visíveis: um rosto, endereço, rótulo de captura de tela ou nome de arquivo ainda podem revelar detalhes.</string>
+    <string name="help_tip_exif_removal_step_1">Selecione as imagens a serem limpas e revise o lote antes de salvar. Use Editar EXIF quando precisar inspecionar ou alterar campos específicos.</string>
     <string name="help_tip_exif_removal_step_2">Salve cópias limpas e inspecione um arquivo exportado no visualizador de metadados. Os metadados suportados e o comportamento do contêiner diferem entre formatos.</string>
     <string name="help_tip_exif_removal_step_3">Verifique os nomes dos arquivos e o conteúdo visível separadamente. Não substitua o único original se precisar das informações da câmera posteriormente.</string>
     <string name="help_tip_gallery_workflow_title">Navegue e selecione na Galeria</string>
@@ -6056,8 +6056,8 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">Selecione os tipos de anotação a serem removidos. Pelo menos um tipo deve ser selecionado para salvar.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Verifique a visualização e salve uma cópia. Verifique links ou campos de formulário que você pretendia manter no documento salvo.</string>
     <string name="help_tip_metadata_editing_subtitle">Inspecione, altere ou remova tags de metadados individuais</string>
-    <string name="help_tip_metadata_editing_description">Editar EXIF ​​abre os metadados da imagem selecionada para alterações individuais. A edição está disponível somente quando o formato da imagem suporta a gravação de metadados; a tela mostra um aviso para formatos não suportados.</string>
-    <string name="help_tip_metadata_editing_step_1">Selecione uma imagem e abra Edit EXIF ​​para visualizar suas tags.</string>
+    <string name="help_tip_metadata_editing_description">Editar EXIF abre os metadados da imagem selecionada para alterações individuais. A edição está disponível somente quando o formato da imagem suporta a gravação de metadados; a tela mostra um aviso para formatos não suportados.</string>
+    <string name="help_tip_metadata_editing_step_1">Selecione uma imagem e abra Edit EXIF para visualizar suas tags.</string>
     <string name="help_tip_metadata_editing_step_2">Atualize ou remova tags individuais na planilha de metadados. Limpe todos os metadados somente se você pretende remover todas as tags.</string>
     <string name="help_tip_metadata_editing_step_3">Feche a planilha e salve o resultado. Reabra a imagem salva para verificar as tags que você alterou.</string>
     <string name="help_tip_cache_cleanup_subtitle">Defina o limite de cache e o intervalo de verificação</string>
@@ -6117,7 +6117,7 @@
     <string name="help_tip_pdf_repair_structure_step_1">Selecione o PDF danificado e trabalhe com uma cópia do original.</string>
     <string name="help_tip_pdf_repair_structure_step_2">Salve o resultado da reconstrução se o documento puder ser processado.</string>
     <string name="help_tip_pdf_repair_structure_step_3">Abra-o e inspecione todas as páginas importantes. Um arquivo gravado com sucesso não é prova de que todos os objetos originais sobreviveram.</string>
-    <string name="help_tip_pdf_flatten_pages_description">Flatten renderiza cada página PDF e cria um novo PDF baseado em imagem. Isto estabiliza a sua aparência visível, mas o texto selecionável, os objetos editáveis ​​e os elementos interativos não são mantidos como tais.</string>
+    <string name="help_tip_pdf_flatten_pages_description">Flatten renderiza cada página PDF e cria um novo PDF baseado em imagem. Isto estabiliza a sua aparência visível, mas o texto selecionável, os objetos editáveis e os elementos interativos não são mantidos como tais.</string>
     <string name="help_tip_pdf_flatten_pages_step_1">Mantenha o PDF original se precisar de texto pesquisável, formulários ou conteúdo editável posteriormente.</string>
     <string name="help_tip_pdf_flatten_pages_step_2">Ajuste a qualidade: um valor mais alto aumenta a resolução de renderização e pode produzir arquivos maiores.</string>
     <string name="help_tip_pdf_flatten_pages_step_3">Salve a cópia achatada e amplie textos e linhas pequenas. Use o OCR de PDF pesquisável separadamente se uma nova camada de texto for necessária.</string>
@@ -6319,7 +6319,7 @@
     <string name="help_tip_setting_center_align_dialog_buttons_description">Esta opção centraliza os botões de ação da caixa de diálogo onde o layout da caixa de diálogo os suporta.</string>
     <string name="help_tip_setting_center_align_dialog_buttons_step_1">Ative os botões da caixa de diálogo central e abra uma caixa de diálogo de confirmação para inspecionar o resultado.</string>
     <string name="help_tip_setting_center_align_dialog_buttons_step_2">Desative-o para restaurar o alinhamento normal; as próprias ações permanecem inalteradas.</string>
-    <string name="help_tip_setting_fab_alignment_description">Escolha o posicionamento horizontal dos botões de ação flutuantes usados ​​pelas telas de ferramentas.</string>
+    <string name="help_tip_setting_fab_alignment_description">Escolha o posicionamento horizontal dos botões de ação flutuantes usados pelas telas de ferramentas.</string>
     <string name="help_tip_setting_fab_alignment_step_1">Selecione um alinhamento no alinhamento FAB.</string>
     <string name="help_tip_setting_fab_alignment_step_2">Abra uma ferramenta com um botão flutuante para salvar ou ação e verifique se é confortável de alcançar.</string>
     <string name="help_tip_setting_night_mode_description">O Modo Noturno escolhe se a interface segue o Android ou usa um tema fixo claro/escuro.</string>
@@ -6392,15 +6392,15 @@
     <string name="help_tip_setting_draw_bitmap_border_step_1">Habilite Borda do desenho e inspecione a borda do desenho ou tela de apagamento.</string>
     <string name="help_tip_setting_draw_bitmap_border_step_2">Desligue-o para obter uma visualização desobstruída da tela; é um guia do editor, não um quadro adicionado à imagem salva.</string>
     <string name="help_tip_setting_exif_widget_initial_state_description">Isso define a escolha inicial de manter metadados em ferramentas que mostram o widget EXIF.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_1">Desative Sempre limpar EXIF ​​antes de alterar o valor inicial de Força.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_2">Habilite-o para iniciar com a preservação de metadados selecionada; verifique a escolha EXIF ​​novamente antes de exportar fotos confidenciais.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_1">Desative Sempre limpar EXIF antes de alterar o valor inicial de Força.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_2">Habilite-o para iniciar com a preservação de metadados selecionada; verifique a escolha EXIF novamente antes de exportar fotos confidenciais.</string>
     <string name="help_tip_setting_keep_date_time_description">A data/hora da captura pode ser preservada separadamente da escolha normal de manter-EXIF.</string>
-    <string name="help_tip_setting_keep_date_time_step_1">Desative Sempre limpar EXIF ​​e ative Manter data e hora quando as datas de captura devem sobreviver à exportação.</string>
-    <string name="help_tip_setting_keep_date_time_step_2">Para remover datas, desative esta opção e a preservação EXIF ​​​​na ferramenta ou ative Sempre limpar EXIF. Este último tem precedência e desativa este controle.</string>
+    <string name="help_tip_setting_keep_date_time_step_1">Desative Sempre limpar EXIF e ative Manter data e hora quando as datas de captura devem sobreviver à exportação.</string>
+    <string name="help_tip_setting_keep_date_time_step_2">Para remover datas, desative esta opção e a preservação EXIF na ferramenta ou ative Sempre limpar EXIF. Este último tem precedência e desativa este controle.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">Os metadados de exportação podem registrar a versão do aplicativo e os parâmetros de imagem configurados.</string>
-    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Desativar Sempre limpar EXIF ​​antes de ativar Adicionar metadados do ImageToolbox.</string>
-    <string name="help_tip_setting_add_image_toolbox_metadata_step_2">Ative-o para exportações rastreáveis ​​ou deixe-o desativado quando o arquivo salvo não identificar o aplicativo e os parâmetros de processamento.</string>
-    <string name="help_tip_setting_delete_originals_after_save_description">Esta opção remove arquivos de origem processados ​​com sucesso depois que seus resultados são salvos.</string>
+    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Desativar Sempre limpar EXIF antes de ativar Adicionar metadados do ImageToolbox.</string>
+    <string name="help_tip_setting_add_image_toolbox_metadata_step_2">Ative-o para exportações rastreáveis ou deixe-o desativado quando o arquivo salvo não identificar o aplicativo e os parâmetros de processamento.</string>
+    <string name="help_tip_setting_delete_originals_after_save_description">Esta opção remove arquivos de origem processados com sucesso depois que seus resultados são salvos.</string>
     <string name="help_tip_setting_delete_originals_after_save_step_1">Abra Configurações → Pasta e ative ou desative Excluir arquivos originais após salvar. Não está disponível enquanto Substituir arquivos estiver ativo.</string>
     <string name="help_tip_setting_delete_originals_after_save_step_2">Para cópias comuns, deixe-o desativado. Se ativado, verifique o resultado salvo e mantenha um backup separado dos originais que você precisa manter.</string>
     <string name="help_tip_setting_filename_prefix_description">Um prefixo ajuda a distinguir as cópias geradas dos originais em uma pasta.</string>
@@ -6780,7 +6780,7 @@
     <string name="filter_help_gmic_filter_brushify">Redesenha a imagem com marcas de pincel configuráveis. Forma, tamanho mínimo e máximo, densidade e opacidade determinam os traços; a coerência da orientação faz com que sigam a estrutura da imagem.</string>
     <string name="filter_help_gmic_filter_buffer_error">Simula um buffer de pixel danificado, deslocando e repetindo uma parte selecionada de seus dados. As dimensões do buffer e o início, comprimento e deslocamento da seleção produzem diferentes padrões de falhas.</string>
     <string name="filter_help_gmic_filter_channel_processing">Aplica operações de brilho, contraste, gama, suavização e valor aos canais e faixas tonais escolhidos. Selecione primeiro o canal de destino para evitar alterar informações não relacionadas de cor ou transparência.</string>
-    <string name="filter_help_gmic_filter_charcoal">Cria um desenho em estilo carvão com traços escuros configuráveis ​​e áreas claras de giz. Granularidade, pontos de cruzamento de tons e cores de primeiro plano/fundo controlam a textura e o contraste.</string>
+    <string name="filter_help_gmic_filter_charcoal">Cria um desenho em estilo carvão com traços escuros configuráveis e áreas claras de giz. Granularidade, pontos de cruzamento de tons e cores de primeiro plano/fundo controlam a textura e o contraste.</string>
     <string name="filter_help_gmic_filter_chessboard_overlay">Sobrepõe um tabuleiro de xadrez de duas cores. Defina as dimensões das células, deslocamentos, rotação e opacidade para criar uma grade que permaneça alinhada com sua composição.</string>
     <string name="filter_help_gmic_filter_chromatic_aberrations">Separa componentes coloridos para imitar as franjas coloridas das lentes. Duas aberrações coloridas independentes oferecem deslocamento horizontal e vertical, suavização e atenuação perto do centro.</string>
     <string name="filter_help_gmic_filter_cinematic_dream">Combina realces suavizados com detalhes locais e ajustes de sombra. Equilibre a suavidade da flor e destaque a intensidade com a força dos detalhes para evitar que a aparência sonhadora obscureça a textura.</string>
@@ -6914,7 +6914,7 @@
     <string name="filter_help_gmic_filter_stereographic_projection">Remapeia a imagem com uma projeção estereográfica, útil para layouts esféricos ou no estilo de pequenos planetas. Centro, ponto de raio e nivelamento do horizonte definem a projeção; as fronteiras dependem do panorama de origem.</string>
     <string name="filter_help_gmic_filter_streak">Propaga as cores da imagem em faixas direcionais usando uma cor de máscara selecionada. Passo, ângulo e modo de propagação controlam as trilhas.</string>
     <string name="filter_help_gmic_filter_stringify">Reconstrói a estrutura da imagem com linhas semelhantes a cordas conectadas. Níveis, taxa de amostragem e modo de link controlam a rede; limite, opacidade e preenchimento de buracos determinam a cobertura.</string>
-    <string name="filter_help_gmic_filter_super_pixels">Agrupa pixels vizinhos em regiões coerentes. Tamanho, regularidade e segmentação de controle de iterações; o modo de cor e as bordas ajustáveis ​​transformam essas regiões em um mosaico visível.</string>
+    <string name="filter_help_gmic_filter_super_pixels">Agrupa pixels vizinhos em regiões coerentes. Tamanho, regularidade e segmentação de controle de iterações; o modo de cor e as bordas ajustáveis transformam essas regiões em um mosaico visível.</string>
     <string name="filter_help_gmic_filter_taquin">Apresenta a imagem como um quebra-cabeça de peças deslizantes. A contagem de peças, as configurações de peças removidas, relevo e borda definem as peças; a semente aleatória muda seu arranjo.</string>
     <string name="filter_help_gmic_filter_target_color_spot">Usa um ponto de imagem e uma cor alvo para orientar uma correção de cor. A posição seleciona o ponto de referência e a faixa de cromaticidade controla quais relações de cores a correção afeta.</string>
     <string name="filter_help_gmic_filter_temperature_balance">Equilibra a aparência quente e fria da imagem com um modo de iluminação selecionado. Os controles de saturação, nível e cor ajustam a correção sem alterar a geometria da imagem.</string>
@@ -7180,7 +7180,7 @@
     <string name="help_tip_assistant_models_page_3_description">O tamanho do arquivo baixado não é a quantidade de RAM necessária durante uma conversa. Carregar o modelo, processar uma foto e gerar uma resposta também consome memória. A velocidade de resposta depende do modelo, dispositivo e duração da solicitação.</string>
     <string name="help_tip_assistant_models_page_3_step_1">Use Lite ou Vision Lite primeiro para verificar a capacidade de resposta do seu dispositivo e depois compare a mesma solicitação com um modelo maior.</string>
     <string name="help_tip_assistant_models_page_3_step_2">Escolha o menor modelo que atenda bem à sua tarefa. Exclua downloads não utilizados do seletor de modelo para liberar armazenamento.</string>
-    <string name="help_tip_assistant_models_page_3_step_3">Caso a geração seja interrompida ou o app feche por pressão de memória, use um modelo menor, feche outros apps pesados ​​e encurte a pergunta.</string>
+    <string name="help_tip_assistant_models_page_3_step_3">Caso a geração seja interrompida ou o app feche por pressão de memória, use um modelo menor, feche outros apps pesados e encurte a pergunta.</string>
     <string name="help_tip_assistant_images_title">Pergunte sobre uma foto</string>
     <string name="help_tip_assistant_images_subtitle">Descrições, legendas, detalhes visíveis e sugestões de edição</string>
     <string name="help_tip_assistant_images_description">Escolha um modelo Vision antes de anexar uma foto. O seletor de imagens aceita uma foto e o botão de adição permanece indisponível enquanto estiver anexado. O app prepara uma cópia menor para análise; o arquivo original não é editado.</string>
@@ -7272,7 +7272,7 @@
     <string name="help_tip_usage_statistics_step_3">Redefinir estatísticas de uso limpa aberturas de ferramentas, salva estatísticas, sequência, dados salvos e formato superior. O contador de abertura do aplicativo permanece inalterado.</string>
     <string name="help_tip_libraries_licenses_title">Bibliotecas e licenças</string>
     <string name="help_tip_libraries_licenses_subtitle">Encontre os componentes utilizados pelo aplicativo e seus avisos</string>
-    <string name="help_tip_libraries_licenses_description">A tela de bibliotecas lista componentes de terceiros usados ​​pelo ImageToolbox. Uma licença de biblioteca e uma licença de modelo baixado podem ser diferentes; consulte a fonte relevante quando precisar dos termos exatos.</string>
+    <string name="help_tip_libraries_licenses_description">A tela de bibliotecas lista componentes de terceiros usados pelo ImageToolbox. Uma licença de biblioteca e uma licença de modelo baixado podem ser diferentes; consulte a fonte relevante quando precisar dos termos exatos.</string>
     <string name="help_tip_libraries_licenses_step_1">Abra Bibliotecas e encontre o componente que você precisa.</string>
     <string name="help_tip_libraries_licenses_step_2">Abra seus detalhes para ler a descrição disponível e as informações de licença.</string>
     <string name="help_tip_libraries_licenses_step_3">Para modelos de IA, abra também o link de origem do modelo em seu seletor. Uma entrada de biblioteca não substitui a documentação do próprio modelo.</string>
@@ -7306,7 +7306,7 @@
     <string name="duplicate_start_analysis">Encontre duplicatas</string>
     <string name="help_tip_format_jpeg_title">JPEG/JPG</string>
     <string name="help_tip_format_jpeg_subtitle">Fotos compatíveis com compactação com perdas ajustável</string>
-    <string name="help_tip_format_jpeg_description">JPEG e JPG são duas extensões para o mesmo formato. É adequado para fotografias e transições suaves de cores, mas a compactação com perdas pode adicionar blocos e halos ao redor do texto e bordas nítidas. JPEG não possui canal alfa: as áreas transparentes recebem a cor de fundo configurada. O Image Toolbox pode copiar metadados EXIF ​​suportados quando a retenção de metadados está habilitada; o tamanho do arquivo também depende das dimensões e dos metadados, não apenas da qualidade.</string>
+    <string name="help_tip_format_jpeg_description">JPEG e JPG são duas extensões para o mesmo formato. É adequado para fotografias e transições suaves de cores, mas a compactação com perdas pode adicionar blocos e halos ao redor do texto e bordas nítidas. JPEG não possui canal alfa: as áreas transparentes recebem a cor de fundo configurada. O Image Toolbox pode copiar metadados EXIF suportados quando a retenção de metadados está habilitada; o tamanho do arquivo também depende das dimensões e dos metadados, não apenas da qualidade.</string>
     <string name="help_tip_format_jpeg_step_1">Use qualidade de 0 a 100 para equilibrar tamanho e artefatos visíveis. Um valor de 100 não restaura detalhes já perdidos no JPEG de origem.</string>
     <string name="help_tip_format_jpeg_step_2">Escolha a cor de fundo antes de exportar imagens transparentes. Use PNG ou WebP se a transparência precisar permanecer.</string>
     <string name="help_tip_format_jpeg_step_3">Evite salvamentos repetidos com perdas. Mantenha um original e compare a foto exportada com o tamanho de exibição pretendido.</string>
@@ -7324,7 +7324,7 @@
     <string name="help_tip_format_jpegli_step_3">Use um formato com alfa para arte transparente e mantenha um master sem perdas para edições posteriores.</string>
     <string name="help_tip_format_png_title">PNG sem perdas</string>
     <string name="help_tip_format_png_subtitle">Pixels raster exatos e transparência total</string>
-    <string name="help_tip_format_png_description">PNG Lossless preserva os pixels fornecidos ao codificador sem quantização com perdas. É uma boa escolha para capturas de tela, diagramas, texto e ativos transparentes, embora as fotos possam ser muito maiores que JPEG ou WebP. Alfa completo é suportado. A opção PNG Lossless do aplicativo não possui controle deslizante de qualidade e o EXIF ​​compatível pode ser mantido. A preservação de pixels se aplica após qualquer redimensionamento, filtros e composição de fundo.</string>
+    <string name="help_tip_format_png_description">PNG Lossless preserva os pixels fornecidos ao codificador sem quantização com perdas. É uma boa escolha para capturas de tela, diagramas, texto e ativos transparentes, embora as fotos possam ser muito maiores que JPEG ou WebP. Alfa completo é suportado. A opção PNG Lossless do aplicativo não possui controle deslizante de qualidade e o EXIF compatível pode ser mantido. A preservação de pixels se aplica após qualquer redimensionamento, filtros e composição de fundo.</string>
     <string name="help_tip_format_png_step_1">Use esta opção para bordas nítidas e gráficos parcialmente transparentes que serão editados novamente.</string>
     <string name="help_tip_format_png_step_2">Experimente o OxiPNG quando quiser otimizar a compactação PNG sem reduzir intencionalmente as cores da imagem.</string>
     <string name="help_tip_format_png_step_3">Utilizar ferramentas APNG para animação; a exportação PNG comum salva uma imagem estática.</string>
@@ -7336,7 +7336,7 @@
     <string name="help_tip_format_png_lossy_step_3">Escolha PNG Lossless quando as cores exatas são importantes ou compare o ImageQuant para outra abordagem de redução de cores.</string>
     <string name="help_tip_format_oxipng_title">Oxi PNG</string>
     <string name="help_tip_format_oxipng_subtitle">Otimize a compactação PNG sem redução de paleta</string>
-    <string name="help_tip_format_oxipng_description">OxiPNG grava PNG usando um otimizador sem perdas. É útil para capturas de tela, ícones e gráficos quando você deseja uma saída menor sem descartar deliberadamente as informações dos pixels. O esforço 0–6 controla o trabalho de otimização; configurações mais altas podem ser mais lentas e não garantem um arquivo menor para cada imagem. Alpha é compatível e EXIF ​​compatível pode ser retido. A saída ainda é um PNG padrão.</string>
+    <string name="help_tip_format_oxipng_description">OxiPNG grava PNG usando um otimizador sem perdas. É útil para capturas de tela, ícones e gráficos quando você deseja uma saída menor sem descartar deliberadamente as informações dos pixels. O esforço 0–6 controla o trabalho de otimização; configurações mais altas podem ser mais lentas e não garantem um arquivo menor para cada imagem. Alpha é compatível e EXIF compatível pode ser retido. A saída ainda é um PNG padrão.</string>
     <string name="help_tip_format_oxipng_step_1">Comece com um esforço moderado e compare o tamanho real do arquivo antes de escolher a configuração mais lenta.</string>
     <string name="help_tip_format_oxipng_step_2">Use PNG Lossy ou ImageQuant somente se a redução de cores for aceitável; OxiPNG tem um propósito diferente.</string>
     <string name="help_tip_format_oxipng_step_3">Verifique os metadados e as opções de plano de fundo do aplicativo, pois eles podem alterar o arquivo final independentemente da compactação.</string>
@@ -7366,7 +7366,7 @@
     <string name="help_tip_format_av2_step_3">Mantenha uma cópia AV1, JPEG ou PNG para destinatários cujo software não consegue decodificar AV2.</string>
     <string name="help_tip_format_heic_title">HEIC/HEIF</string>
     <string name="help_tip_format_heic_subtitle">Imagens HEVC com opções com e sem perdas</string>
-    <string name="help_tip_format_heic_description">HEIF é uma família de contêineres; as opções HEIC e HEIF do aplicativo usam codificação HEVC e diferem em extensão e tipo MIME. A qualidade com perdas é de 0 a 100. Chroma 4:2:0, 4:2:2 e 4:4:4, codificação de conteúdo de tela e uma opção GBR sem perdas estão disponíveis. Alpha e EXIF ​​suportado podem ser manipulados, mas a compatibilidade depende do decodificador e do perfil. A operação de codec sem perdas e a preservação de pixels RGB não são intercambiáveis ​​quando ocorre conversão de cores ou subamostragem.</string>
+    <string name="help_tip_format_heic_description">HEIF é uma família de contêineres; as opções HEIC e HEIF do aplicativo usam codificação HEVC e diferem em extensão e tipo MIME. A qualidade com perdas é de 0 a 100. Chroma 4:2:0, 4:2:2 e 4:4:4, codificação de conteúdo de tela e uma opção GBR sem perdas estão disponíveis. Alpha e EXIF suportado podem ser manipulados, mas a compatibilidade depende do decodificador e do perfil. A operação de codec sem perdas e a preservação de pixels RGB não são intercambiáveis quando ocorre conversão de cores ou subamostragem.</string>
     <string name="help_tip_format_heic_step_1">Use 4:4:4 para obter detalhes coloridos nítidos e compare o suporte do aplicativo de destino.</string>
     <string name="help_tip_format_heic_step_2">Para preservação de pixels RGB, revise a opção GBR sem perdas e verifique o resultado exportado em vez de confiar apenas no rótulo Lossless.</string>
     <string name="help_tip_format_heic_step_3">Use HEIC ou HEIF de acordo com os requisitos do aplicativo receptor; alterar a extensão do nome do arquivo não altera o codec.</string>
@@ -7396,7 +7396,7 @@
     <string name="help_tip_format_jp2_step_3">Use JP2 quando metadados forem necessários e retenha o original quando a reconstrução exata do arquivo for importante.</string>
     <string name="help_tip_format_j2k_title">JPEG 2000/J2K</string>
     <string name="help_tip_format_j2k_subtitle">Codestream Raw JPEG 2000 para fluxos de trabalho especializados</string>
-    <string name="help_tip_format_j2k_description">J2K armazena o codestream JPEG 2000 sem o contêiner JP2. Ele usa a faixa de qualidade do aplicativo de 20 a 100 e pode transportar componentes de imagem, incluindo alfa, mas muitos visualizadores de uso geral não o abrem. O suporte a metadados de contêiner difere do JP2; não presuma que EXIF ​​ou informações de cores sobrevivem em todos os consumidores. É útil principalmente quando outra ferramenta espera explicitamente um fluxo JPEG 2000 bruto.</string>
+    <string name="help_tip_format_j2k_description">J2K armazena o codestream JPEG 2000 sem o contêiner JP2. Ele usa a faixa de qualidade do aplicativo de 20 a 100 e pode transportar componentes de imagem, incluindo alfa, mas muitos visualizadores de uso geral não o abrem. O suporte a metadados de contêiner difere do JP2; não presuma que EXIF ou informações de cores sobrevivem em todos os consumidores. É útil principalmente quando outra ferramenta espera explicitamente um fluxo JPEG 2000 bruto.</string>
     <string name="help_tip_format_j2k_step_1">Escolha J2K somente quando o destino solicitar um codestream bruto; caso contrário, compare JP2.</string>
     <string name="help_tip_format_j2k_step_2">Valide a transparência e as cores no próprio programa de recebimento.</string>
     <string name="help_tip_format_j2k_step_3">Mantenha os metadados separadamente quando necessário e retenha a fonte até que o resultado importado seja verificado.</string>
@@ -7408,13 +7408,13 @@
     <string name="help_tip_format_tiff_step_3">Verifique o histórico antes de exportar. Use PNG ou outra saída compatível com alfa quando a transparência precisar permanecer.</string>
     <string name="help_tip_format_bmp_title">Veículo de combate de infantaria</string>
     <string name="help_tip_format_bmp_subtitle">Saída de bitmap simples para compatibilidade legada</string>
-    <string name="help_tip_format_bmp_description">BMP armazena dados de imagens raster com uma estrutura simples e geralmente arquivos grandes. Pode ser útil para softwares e fluxos de trabalho mais antigos que exigem explicitamente .bmp. O aplicativo não expõe controle de qualidade para BMP e compõe conteúdo transparente com o plano de fundo configurado. A exportação BMP é estática e não usa o caminho de retenção EXIF ​​do aplicativo. Para a maioria das tarefas de compartilhamento, PNG ou JPEG é mais econômico.</string>
+    <string name="help_tip_format_bmp_description">BMP armazena dados de imagens raster com uma estrutura simples e geralmente arquivos grandes. Pode ser útil para softwares e fluxos de trabalho mais antigos que exigem explicitamente .bmp. O aplicativo não expõe controle de qualidade para BMP e compõe conteúdo transparente com o plano de fundo configurado. A exportação BMP é estática e não usa o caminho de retenção EXIF do aplicativo. Para a maioria das tarefas de compartilhamento, PNG ou JPEG é mais econômico.</string>
     <string name="help_tip_format_bmp_step_1">Escolha BMP quando exigido pelo destino, em vez de uma forma geral de reduzir o tamanho do arquivo.</string>
     <string name="help_tip_format_bmp_step_2">Verifique as dimensões e a cor de fundo antes de salvar, pois afetam diretamente o resultado visível.</string>
-    <string name="help_tip_format_bmp_step_3">Mantenha o PNG para masters transparentes ou editáveis ​​e verifique o BMP no software mais antigo que precisa dele.</string>
+    <string name="help_tip_format_bmp_step_3">Mantenha o PNG para masters transparentes ou editáveis e verifique o BMP no software mais antigo que precisa dele.</string>
     <string name="help_tip_format_qoi_title">QI</string>
     <string name="help_tip_format_qoi_subtitle">Armazenamento RGB/RGBA rápido e sem perdas</string>
-    <string name="help_tip_format_qoi_description">QOI é um formato raster simples e sem perdas projetado para codificação e decodificação rápidas. Suporta RGB e RGBA, portanto, imagens transparentes podem permanecer transparentes. Não há controle deslizante de qualidade: a compactação preserva os pixels codificados. O QOI é útil para ferramentas compatíveis e ativos locais, mas é menos amplamente aceito que o PNG e pode ser maior. O aplicativo não fornece escrita EXIF ​​para QOI.</string>
+    <string name="help_tip_format_qoi_description">QOI é um formato raster simples e sem perdas projetado para codificação e decodificação rápidas. Suporta RGB e RGBA, portanto, imagens transparentes podem permanecer transparentes. Não há controle deslizante de qualidade: a compactação preserva os pixels codificados. O QOI é útil para ferramentas compatíveis e ativos locais, mas é menos amplamente aceito que o PNG e pode ser maior. O aplicativo não fornece escrita EXIF para QOI.</string>
     <string name="help_tip_format_qoi_step_1">Use QOI quando ambas as extremidades o apoiarem explicitamente e a conversão rápida for importante.</string>
     <string name="help_tip_format_qoi_step_2">Compare o tamanho com PNG ou OxiPNG; sem perdas não implica o menor arquivo possível.</string>
     <string name="help_tip_format_qoi_step_3">Mantenha os metadados separadamente, se necessário, e use PNG para destinatários sem suporte QOI.</string>
@@ -7459,7 +7459,7 @@
     <string name="help_tip_format_psd_description">PSD é um formato de documento de edição que pode conter camadas, máscaras, texto e efeitos. As importações do decodificador PSD do aplicativo suportam conteúdo de imagem renderizada para visualização e conversão. Isso não transforma o Image Toolbox em um editor de documentos do Photoshop nem preserva a estrutura da camada de origem em uma exportação PNG ou JPEG. A compatibilidade depende dos recursos do PSD e do conteúdo renderizado disponível. Mantenha o original para trabalhos posteriores em um editor com reconhecimento de camadas.</string>
     <string name="help_tip_format_psd_step_1">Compare a visualização com o documento de origem, especialmente em relação a máscaras, efeitos e transparência.</string>
     <string name="help_tip_format_psd_step_2">Exporte para PNG quando pixels renderizados transparentes forem importantes ou JPEG para uma cópia de foto achatada.</string>
-    <string name="help_tip_format_psd_step_3">Não substitua o PSD master por uma exportação raster se ainda forem necessárias camadas editáveis ​​ou texto.</string>
+    <string name="help_tip_format_psd_step_3">Não substitua o PSD master por uma exportação raster se ainda forem necessárias camadas editáveis ou texto.</string>
     <string name="help_tip_format_djvu_title">DjVu/DJV</string>
     <string name="help_tip_format_djvu_subtitle">Importar páginas de documentos digitalizados</string>
     <string name="help_tip_format_djvu_description">DjVu é um formato de documento frequentemente usado para livros e páginas digitalizados. Ele pode separar texto de primeiro plano e plano de fundo e pode conter várias páginas. O decodificador do Image Toolbox renderiza conteúdo DjVu compatível para visualização e conversão de imagem; esta não é uma exportação para um documento DjVu. Uma cópia raster não preserva o texto pesquisável, a estrutura da página ou as camadas de compactação da fonte. Mantenha o documento original quando esses recursos forem importantes.</string>

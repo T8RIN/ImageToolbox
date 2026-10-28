@@ -1017,8 +1017,8 @@
     <string name="tag_standard_output_sensitivity">Standardutgångskänslighet</string>
     <string name="tag_recommended_exposure_index">Rekommenderat exponeringsindex</string>
     <string name="tag_iso_speed">ISO-hastighet</string>
-    <string name="tag_iso_speed_latitude_yyy">ISO Speed ​​Latitude ååå</string>
-    <string name="tag_iso_speed_latitude_zzz">ISO Speed ​​Latitude zzz</string>
+    <string name="tag_iso_speed_latitude_yyy">ISO Speed Latitude ååå</string>
+    <string name="tag_iso_speed_latitude_zzz">ISO Speed Latitude zzz</string>
     <string name="tag_shutter_speed_value">Slutarhastighetsvärde</string>
     <string name="tag_aperture_value">Bländarvärde</string>
     <string name="tag_brightness_value">Ljusstyrka värde</string>
@@ -2528,7 +2528,7 @@
     <string name="help_tip_preview_before_editing_description">Bildförhandsgranskning är användbar när en fil kommer från chatt, molnlagring eller en annan app och du inte är säker på vad den innehåller. Att först kontrollera dimensioner, transparens, orientering och visuell kvalitet hjälper till att välja rätt uppföljningsverktyg.</string>
     <string name="help_tip_preview_before_editing_step_1">Öppna Bildförhandsgranskning när du behöver inspektera flera bilder innan du bestämmer dig för vad du ska göra med dem.</string>
     <string name="help_tip_preview_before_editing_step_2">Leta efter rotationsproblem, genomskinliga områden, kompressionsartefakter och oväntat stora dimensioner.</string>
-    <string name="help_tip_preview_before_editing_step_3">Flytta till Ändra storlek, Beskär, Jämför, EXIF ​​eller Background Remover först när du vet vad som behöver åtgärdas.</string>
+    <string name="help_tip_preview_before_editing_step_3">Flytta till Ändra storlek, Beskär, Jämför, EXIF eller Background Remover först när du vet vad som behöver åtgärdas.</string>
     <string name="help_tip_background_remover_title">Ta bort eller återställ en bakgrund</string>
     <string name="help_tip_background_remover_subtitle">Radera bakgrunder automatiskt eller förfina kanterna manuellt med återställningsverktyg</string>
     <string name="help_tip_background_remover_page_title">Behåll ämnet, ta bort resten</string>
@@ -2564,7 +2564,7 @@
     <string name="help_tip_format_conversion_step_1">Använd JPEG för kompatibla foton, PNG för förlustfria bilder och alfa och WebP för kompakt delning.</string>
     <string name="help_tip_format_conversion_step_2">Justera kvaliteten när formatet stöder det; lägre värden minskar storleken men kan lägga till artefakter.</string>
     <string name="help_tip_format_conversion_step_3">Behåll originalen tills du verifierar att de konverterade filerna öppnas korrekt i målappen.</string>
-    <string name="help_tip_exif_privacy_title">Kontrollera EXIF ​​och sekretess</string>
+    <string name="help_tip_exif_privacy_title">Kontrollera EXIF och sekretess</string>
     <string name="help_tip_exif_privacy_subtitle">Visa, redigera eller ta bort metadata innan du delar känsliga foton</string>
     <string name="help_tip_exif_privacy_page_title">Styr dolda bilddata</string>
     <string name="help_tip_exif_privacy_description">EXIF kan innehålla kameradata, datum, plats, orientering och andra detaljer som inte syns i bilden. Det är värt att kontrollera innan offentlig delning, supportrapporter, marknadsplatslistor eller andra bilder som kan avslöja en privat plats.</string>
@@ -2575,7 +2575,7 @@
     <string name="help_tip_automatic_exif_cleanup_subtitle">Ta bort metadata som standard medan du bestämmer om datum ska bevaras</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">Gör integritet till standard</string>
     <string name="help_tip_automatic_exif_cleanup_description">EXIF-inställningsgruppen är användbar när du vill att sekretessrensning ska ske automatiskt istället för att komma ihåg den för varje export. Behåll datum Tid är ett separat beslut eftersom datum kan vara användbara för sortering men känsliga för delning.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">Aktivera alltid rensa EXIF ​​när de flesta av dina exporter är avsedda för offentlig eller halvoffentlig delning.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">Aktivera alltid rensa EXIF när de flesta av dina exporter är avsedda för offentlig eller halvoffentlig delning.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">Aktivera Behåll datumtid endast när det är viktigare att bevara inspelningstiden än att ta bort varje tidsstämpel.</string>
     <string name="help_tip_automatic_exif_cleanup_step_3">Använd manuell EXIF-redigering för engångsfiler där du behöver behålla vissa fält och ta bort andra.</string>
     <string name="help_tip_filenames_title">Styr filnamn</string>
@@ -3042,7 +3042,7 @@
     <string name="help_tip_metadata_dates_location_description">Metadata är inte alla lika riskabla. Fångstdatum kan vara användbara för arkiv och sortering, medan GPS, enhetsserieliknande fält, programvarutaggar eller ägarfält kan avslöja mer än vad som är tänkt.</string>
     <string name="help_tip_metadata_dates_location_step_1">Behåll datum- och tidstaggar när kronologisk ordning är viktig för album, skanningar eller projekthistorik.</string>
     <string name="help_tip_metadata_dates_location_step_2">Ta bort GPS och enhetsidentifierande taggar innan du delar eller skickar bilder till främlingar offentligt.</string>
-    <string name="help_tip_metadata_dates_location_step_3">Exportera ett prov och inspektera EXIF ​​igen när integritetskraven är strikta.</string>
+    <string name="help_tip_metadata_dates_location_step_3">Exportera ett prov och inspektera EXIF igen när integritetskraven är strikta.</string>
     <string name="help_tip_filename_collision_safety_title">Undvik filnamnskollisioner</string>
     <string name="help_tip_filename_collision_safety_subtitle">Skydda batchutgångar när många filer delar namn som image.jpg eller screenshot.png</string>
     <string name="help_tip_filename_collision_safety_page_title">Gör varje utdatanamn unikt</string>
@@ -4443,7 +4443,7 @@
     <string name="return_to_external_app_after_save">Återgå efter att ha sparat externa redigeringar</string>
     <string name="return_to_external_app_after_save_sub">Stäng Image Toolbox efter att du har sparat en bild som öppnats för redigering från en annan app</string>
     <string name="add_imagetoolbox_metadata">Lägg till ImageToolbox-metadata</string>
-    <string name="add_imagetoolbox_metadata_sub">Skriv appversionen och konfigurerade bildparametrar till EXIF ​​när du sparar</string>
+    <string name="add_imagetoolbox_metadata_sub">Skriv appversionen och konfigurerade bildparametrar till EXIF när du sparar</string>
     <string name="read_only">Endast läs</string>
     <string name="tag_camera_firmware">Kamerans firmware</string>
     <string name="tag_chromatic_aberration_correction">Kromatisk aberrationskorrigering</string>
@@ -5880,8 +5880,8 @@
     <string name="help_tip_exif_removal_title">Ta bort bildmetadata i en batch</string>
     <string name="help_tip_exif_removal_subtitle">Rensa inbäddad bildinformation och verifiera de exporterade kopiorna</string>
     <string name="help_tip_exif_removal_page_title">Metadatarensning och dess gränser</string>
-    <string name="help_tip_exif_removal_description">Ta bort EXIF ​​är avsedd för att ta bort inbäddad metadata från valda bilder. Metadatarensning skiljer sig från att dölja synlig information: ett ansikte, adress, skärmbildsetikett eller filnamn kan fortfarande avslöja detaljer.</string>
-    <string name="help_tip_exif_removal_step_1">Välj bilderna att rengöra och granska partiet innan du sparar. Använd Edit EXIF ​​när du behöver inspektera eller ändra vissa fält istället.</string>
+    <string name="help_tip_exif_removal_description">Ta bort EXIF är avsedd för att ta bort inbäddad metadata från valda bilder. Metadatarensning skiljer sig från att dölja synlig information: ett ansikte, adress, skärmbildsetikett eller filnamn kan fortfarande avslöja detaljer.</string>
+    <string name="help_tip_exif_removal_step_1">Välj bilderna att rengöra och granska partiet innan du sparar. Använd Edit EXIF när du behöver inspektera eller ändra vissa fält istället.</string>
     <string name="help_tip_exif_removal_step_2">Spara rensade kopior och inspektera en exporterad fil i metadatavisaren. Metadata och behållarbeteende som stöds skiljer sig åt mellan formaten.</string>
     <string name="help_tip_exif_removal_step_3">Kontrollera filnamn och synligt innehåll separat. Skriv inte över det enda originalet om du kan behöva dess kamerainformation senare.</string>
     <string name="help_tip_gallery_workflow_title">Bläddra och välj i Galleri</string>
@@ -6008,7 +6008,7 @@
     <string name="help_tip_large_files_page_2_step_1">Börja med en mindre representativ batch och en blygsam utmatningsstorlek. Öka storleken efter att ha kontrollerat bearbetningen och resultatet.</string>
     <string name="help_tip_large_files_page_2_step_2">För en misslyckad operation, reducera dimensioner, bildruteantal eller lagerantal innan du bara sänker utskriftskvaliteten. Kvaliteten ändrar huvudsakligen kodningen, inte den avkodade bildstorleken.</string>
     <string name="help_tip_large_files_page_2_step_3">Håll tillräckligt med ledigt lagringsutrymme för temporära filer och utdatafiler. Om problemet upprepas på en liten ingång, rapportera verktyget, parametrarna, formatet och apploggarna.</string>
-    <string name="show_help_tips_button">Hjälp &amp;amp; tips-knapp</string>
+    <string name="show_help_tips_button">Hjälp &amp; tips-knapp</string>
     <string name="show_help_tips_button_sub">Visa hjälp och tips i huvudskärmens verktygsfält</string>
     <string name="ai_assistant">Assistent</string>
     <string name="ai_assistant_subtitle">Hjälp med verktyg och inställningar. Ladda ner en modell i chatten för att komma igång.</string>
@@ -6051,8 +6051,8 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">Välj de anteckningstyper som ska tas bort. Minst en typ måste väljas för att spara.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Kontrollera förhandsgranskningen och spara en kopia. Verifiera länkar eller formulärfält som du tänkt behålla i det sparade dokumentet.</string>
     <string name="help_tip_metadata_editing_subtitle">Inspektera, ändra eller ta bort enskilda metadatataggar</string>
-    <string name="help_tip_metadata_editing_description">Redigera EXIF ​​öppnar den valda bildens metadata för individuella ändringar. Redigering är endast tillgänglig när bildformatet stöder skrivning av metadata; skärmen visar en varning för format som inte stöds.</string>
-    <string name="help_tip_metadata_editing_step_1">Välj en bild och öppna Redigera EXIF ​​för att se dess taggar.</string>
+    <string name="help_tip_metadata_editing_description">Redigera EXIF öppnar den valda bildens metadata för individuella ändringar. Redigering är endast tillgänglig när bildformatet stöder skrivning av metadata; skärmen visar en varning för format som inte stöds.</string>
+    <string name="help_tip_metadata_editing_step_1">Välj en bild och öppna Redigera EXIF för att se dess taggar.</string>
     <string name="help_tip_metadata_editing_step_2">Uppdatera eller ta bort enskilda taggar i metadatabladet. Rensa alla metadata endast om du tänker ta bort varje tagg.</string>
     <string name="help_tip_metadata_editing_step_3">Stäng arket och spara resultatet. Öppna den sparade bilden igen för att kontrollera taggarna du ändrade.</string>
     <string name="help_tip_cache_cleanup_subtitle">Ställ in cache-tröskeln och kontrollintervall</string>
@@ -6387,13 +6387,13 @@
     <string name="help_tip_setting_draw_bitmap_border_step_1">Aktivera Drawing kantlinje och inspektera kanten på ritningen eller radera duken.</string>
     <string name="help_tip_setting_draw_bitmap_border_step_2">Stäng av den för en fri vy över arbetsytan; det är en redigeringsguide, inte en ram som lagts till i den sparade bilden.</string>
     <string name="help_tip_setting_exif_widget_initial_state_description">Detta ställer in det initiala valet av keep-metadata i verktyg som visar EXIF-widgeten.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_1">Stäng av Rensa alltid EXIF ​​innan du ändrar Force initialt värde.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_1">Stäng av Rensa alltid EXIF innan du ändrar Force initialt värde.</string>
     <string name="help_tip_setting_exif_widget_initial_state_step_2">Aktivera den för att börja med bevarande av metadata vald; kontrollera EXIF-valet igen innan du exporterar känsliga foton.</string>
     <string name="help_tip_setting_keep_date_time_description">Fångstdatum/-tid kan bevaras separat från det vanliga keep-EXIF-valet.</string>
-    <string name="help_tip_setting_keep_date_time_step_1">Inaktivera Rensa alltid EXIF ​​och aktivera sedan Behåll datumtid när fångstdatum måste överleva exporten.</string>
+    <string name="help_tip_setting_keep_date_time_step_1">Inaktivera Rensa alltid EXIF och aktivera sedan Behåll datumtid när fångstdatum måste överleva exporten.</string>
     <string name="help_tip_setting_keep_date_time_step_2">För att ta bort datum, inaktivera både detta alternativ och EXIF-bevarande i verktyget, eller aktivera Rensa alltid EXIF. Det senare har företräde och inaktiverar denna kontroll.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">Exportera metadata kan spela in appversionen och konfigurerade bildparametrar.</string>
-    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Inaktivera Rensa alltid EXIF ​​innan du aktiverar Lägg till ImageToolbox-metadata.</string>
+    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Inaktivera Rensa alltid EXIF innan du aktiverar Lägg till ImageToolbox-metadata.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_2">Aktivera det för spårbara exporter, eller lämna det avstängt när den sparade filen inte ska identifiera appen och bearbetningsparametrarna.</string>
     <string name="help_tip_setting_delete_originals_after_save_description">Det här alternativet tar bort framgångsrikt bearbetade källfiler efter att deras resultat har sparats.</string>
     <string name="help_tip_setting_delete_originals_after_save_step_1">Öppna Inställningar → Mapp och aktivera eller inaktivera Ta bort originalfiler efter sparande. Det är inte tillgängligt när Skriv över filer är aktivt.</string>
@@ -6491,7 +6491,7 @@
     <string name="help_tip_setting_source_code_description">Källkodsposten öppnar projektförrådet.</string>
     <string name="help_tip_setting_source_code_step_1">Öppna källkoden i Om-appen för att bläddra i arkivet i en webbläsare.</string>
     <string name="help_tip_setting_source_code_step_2">Använd förvarets kod och releaseinformation efter behov; den här åtgärden ändrar inte den installerade appen.</string>
-    <string name="help_tip_setting_help_tips_description">Hjälp &amp;amp; tips innehåller uppgiftsinstruktioner och direktlänkar till relevanta verktyg och inställningar.</string>
+    <string name="help_tip_setting_help_tips_description">Hjälp &amp; tips innehåller uppgiftsinstruktioner och direktlänkar till relevanta verktyg och inställningar.</string>
     <string name="help_tip_setting_help_tips_step_1">Öppna Hjälp och tips, välj en kategori eller sök efter en uppgift eller inställningsnamn.</string>
     <string name="help_tip_setting_help_tips_step_2">Läs stegen och använd sidans öppna åtgärd för att fortsätta i appen; att öppna ett verktyg utför inte operationen automatiskt.</string>
     <string name="help_tip_setting_debug_menu_description">Felsökningsmenyn avslöjar utvecklingsteståtgärder, inklusive avsiktliga felfall.</string>
@@ -7319,7 +7319,7 @@
     <string name="help_tip_format_jpegli_step_3">Använd ett format med alfa för genomskinliga konstverk och behåll en förlustfri master för ytterligare redigeringar.</string>
     <string name="help_tip_format_png_title">PNG förlustfri</string>
     <string name="help_tip_format_png_subtitle">Exakta rasterpixlar och full transparens</string>
-    <string name="help_tip_format_png_description">PNG Lossless bevarar pixlarna som levereras till kodaren utan förlustkvantisering. Det är ett bra val för skärmdumpar, diagram, text och transparenta tillgångar, även om foton kan vara mycket större än JPEG eller WebP. Full alfa stöds. Appens PNG Lossless-alternativ har inget kvalitetsreglage och EXIF ​​som stöds kan behållas. Pixelbevarande tillämpas efter alla ändringar av storlek, filter och bakgrundskompositering.</string>
+    <string name="help_tip_format_png_description">PNG Lossless bevarar pixlarna som levereras till kodaren utan förlustkvantisering. Det är ett bra val för skärmdumpar, diagram, text och transparenta tillgångar, även om foton kan vara mycket större än JPEG eller WebP. Full alfa stöds. Appens PNG Lossless-alternativ har inget kvalitetsreglage och EXIF som stöds kan behållas. Pixelbevarande tillämpas efter alla ändringar av storlek, filter och bakgrundskompositering.</string>
     <string name="help_tip_format_png_step_1">Använd det här alternativet för skarpa kanter och delvis genomskinlig grafik som kommer att redigeras igen.</string>
     <string name="help_tip_format_png_step_2">Prova OxiPNG när du vill optimera PNG-komprimering utan att avsiktligt minska bildfärgerna.</string>
     <string name="help_tip_format_png_step_3">Använd APNG-verktyg för animering; vanlig PNG-export sparar en statisk bild.</string>
@@ -7331,7 +7331,7 @@
     <string name="help_tip_format_png_lossy_step_3">Välj PNG Lossless när exakta färger spelar roll, eller jämför ImageQuant för en annan färgreducerande metod.</string>
     <string name="help_tip_format_oxipng_title">OxiPNG</string>
     <string name="help_tip_format_oxipng_subtitle">Optimera PNG-komprimering utan palettreduktion</string>
-    <string name="help_tip_format_oxipng_description">OxiPNG skriver PNG med en förlustfri optimerare. Det är användbart för skärmdumpar, ikoner och grafik när du vill ha mindre utdata utan att avsiktligt kassera pixelinformation. Insats 0–6 styr optimeringsarbetet; högre inställningar kan vara långsammare och garanterar inte en mindre fil för varje bild. Alpha stöds och stöds EXIF ​​kan behållas. Utdata är fortfarande en standard PNG.</string>
+    <string name="help_tip_format_oxipng_description">OxiPNG skriver PNG med en förlustfri optimerare. Det är användbart för skärmdumpar, ikoner och grafik när du vill ha mindre utdata utan att avsiktligt kassera pixelinformation. Insats 0–6 styr optimeringsarbetet; högre inställningar kan vara långsammare och garanterar inte en mindre fil för varje bild. Alpha stöds och stöds EXIF kan behållas. Utdata är fortfarande en standard PNG.</string>
     <string name="help_tip_format_oxipng_step_1">Börja med en måttlig ansträngning och jämför den faktiska filstorleken innan du väljer den långsammaste inställningen.</string>
     <string name="help_tip_format_oxipng_step_2">Använd endast PNG Lossy eller ImageQuant om reducering av färger är acceptabelt; OxiPNG tjänar ett annat syfte.</string>
     <string name="help_tip_format_oxipng_step_3">Kontrollera appens metadata och bakgrundsalternativ eftersom de kan ändra den slutliga filen oberoende av komprimering.</string>
@@ -7361,7 +7361,7 @@
     <string name="help_tip_format_av2_step_3">Spara en AV1-, JPEG- eller PNG-kopia för mottagare vars programvara inte kan avkoda AV2.</string>
     <string name="help_tip_format_heic_title">HEIC / HEIF</string>
     <string name="help_tip_format_heic_subtitle">HEVC-bilder med förlustfria och förlustfria val</string>
-    <string name="help_tip_format_heic_description">HEIF är en containerfamilj; appens HEIC- och HEIF-alternativ använder båda HEVC-kodning och skiljer sig i tillägg och MIME-typ. Förlustkvalitet är 0–100. Chroma 4:2:0, 4:2:2 och 4:4:4, skärminnehållskodning och ett GBR-förlustfritt alternativ är tillgängliga. Alfa och EXIF ​​som stöds kan hanteras, men kompatibiliteten beror på avkodaren och profilen. Förlustfri codec-drift och bevarande av RGB-pixlar är inte utbytbara när färgkonvertering eller subsampling sker.</string>
+    <string name="help_tip_format_heic_description">HEIF är en containerfamilj; appens HEIC- och HEIF-alternativ använder båda HEVC-kodning och skiljer sig i tillägg och MIME-typ. Förlustkvalitet är 0–100. Chroma 4:2:0, 4:2:2 och 4:4:4, skärminnehållskodning och ett GBR-förlustfritt alternativ är tillgängliga. Alfa och EXIF som stöds kan hanteras, men kompatibiliteten beror på avkodaren och profilen. Förlustfri codec-drift och bevarande av RGB-pixlar är inte utbytbara när färgkonvertering eller subsampling sker.</string>
     <string name="help_tip_format_heic_step_1">Använd 4:4:4 för skarpa färgade detaljer och jämför destinationsappens stöd.</string>
     <string name="help_tip_format_heic_step_2">För bevarande av RGB-pixlar, granska alternativet GBR förlustfri och verifiera det exporterade resultatet istället för att bara förlita sig på Lossless-etiketten.</string>
     <string name="help_tip_format_heic_step_3">Använd HEIC eller HEIF enligt den mottagande appens krav; att ändra filnamnstillägget ändrar inte codec.</string>
@@ -7391,7 +7391,7 @@
     <string name="help_tip_format_jp2_step_3">Använd JP2 när metadata behövs och behåll originalet när exakt arkivrekonstruktion är viktig.</string>
     <string name="help_tip_format_j2k_title">JPEG 2000 / J2K</string>
     <string name="help_tip_format_j2k_subtitle">Raw JPEG 2000-kodström för specialiserade arbetsflöden</string>
-    <string name="help_tip_format_j2k_description">J2K lagrar JPEG 2000-kodströmmen utan JP2-behållaren. Den använder appens kvalitetsintervall 20–100 och kan bära bildkomponenter inklusive alfa, men många generella tittare öppnar den inte. Stödet för containermetadata skiljer sig från JP2; anta inte att EXIF ​​eller färginformation överlever hos varje konsument. Det är främst användbart när ett annat verktyg uttryckligen förväntar sig en rå JPEG 2000-ström.</string>
+    <string name="help_tip_format_j2k_description">J2K lagrar JPEG 2000-kodströmmen utan JP2-behållaren. Den använder appens kvalitetsintervall 20–100 och kan bära bildkomponenter inklusive alfa, men många generella tittare öppnar den inte. Stödet för containermetadata skiljer sig från JP2; anta inte att EXIF eller färginformation överlever hos varje konsument. Det är främst användbart när ett annat verktyg uttryckligen förväntar sig en rå JPEG 2000-ström.</string>
     <string name="help_tip_format_j2k_step_1">Välj J2K endast när destinationen ber om en rå kodström; annars jämför JP2.</string>
     <string name="help_tip_format_j2k_step_2">Validera transparens och färger i själva mottagningsprogrammet.</string>
     <string name="help_tip_format_j2k_step_3">Behåll metadata separat när det behövs och behåll källan tills det importerade resultatet har verifierats.</string>

@@ -357,7 +357,7 @@
     <string name="restore_image">Bild wiederherstellen</string>
     <string name="create_issue">Fehlermeldung anlegen</string>
     <string name="resize_and_convert_sub">Ändere die Größe bestimmter Bilder oder konvertiere sie in andere Formate, außerdem kannst Du bei Auswahl eines einzelnen Bildes EXIF-Metadaten bearbeiten</string>
-    <string name="something_went_wrong_emphasis">­Ups… Irgendetwas ist schiefgelaufen. Du kannst mir mittels der nachfolgenden Optionen schreiben und ich werde versuchen, eine Lösung zu finden</string>
+    <string name="something_went_wrong_emphasis">Ups… Irgendetwas ist schiefgelaufen. Du kannst mir mittels der nachfolgenden Optionen schreiben und ich werde versuchen, eine Lösung zu finden</string>
     <string name="resize_and_convert">Größe ändern und konvertieren</string>
     <string name="max_colors_count">Höchstzahl an Farben</string>
     <string name="crashlytics_sub">Erlaubt der App, Absturzberichte automatisch zu sammeln</string>
@@ -1324,7 +1324,7 @@
     <string name="film_stock_50">Filmstock 50</string>
     <string name="foggy_night">Neblige Nacht</string>
     <string name="kodak">Kodak</string>
-    <string name="save_empty_lut">­Neutrales LUT Bild</string>
+    <string name="save_empty_lut">Neutrales LUT Bild</string>
     <string name="palette_transfer_variant">Palette Transfer Variante</string>
     <string name="cube_lut">3D LUT</string>
     <string name="target_cube_lut_file">Target 3D LUT File (.cube / .CUBE)</string>
@@ -1359,7 +1359,7 @@
     <string name="gif_type_to_webp">GIF zu WEBP</string>
     <string name="gif_type_to_webp_sub">GIF-Bilder in animierte WEBP-Bilder umwandeln</string>
     <string name="webp_type_to_image">WEBP zu Bildern</string>
-    <string name="webp_tools">­­WEBP Tools</string>
+    <string name="webp_tools">WEBP Tools</string>
     <string name="webp_tools_sub">Bilder in animierte WEBP-Bilder umwandeln oder Einzelbilder aus einer gegebenen WEBP-Animation extrahieren</string>
     <string name="webp_type_to_image_sub">WEBP-Datei in einen Stapel an Bildern umwandeln</string>
     <string name="webp_type_to_webp_sub">Stapel an Bildern in eine WEBP-Datei umwandeln</string>
@@ -6056,7 +6056,7 @@
     <string name="help_tip_pdf_annotation_cleanup_step_3">Überprüfen Sie die Vorschau und speichern Sie eine Kopie. Überprüfen Sie die Links oder Formularfelder, die Sie im gespeicherten Dokument behalten möchten.</string>
     <string name="help_tip_metadata_editing_subtitle">Überprüfen, ändern oder entfernen Sie einzelne Metadaten-Tags</string>
     <string name="help_tip_metadata_editing_description">EXIF bearbeiten öffnet die ausgewählten Bildmetadaten für individuelle Änderungen. Die Bearbeitung ist nur verfügbar, wenn das Bildformat das Schreiben von Metadaten unterstützt; Auf dem Bildschirm wird eine Warnung für nicht unterstützte Formate angezeigt.</string>
-    <string name="help_tip_metadata_editing_step_1">Wählen Sie ein Bild aus und öffnen Sie EXIF ​​bearbeiten, um seine Tags anzuzeigen.</string>
+    <string name="help_tip_metadata_editing_step_1">Wählen Sie ein Bild aus und öffnen Sie EXIF bearbeiten, um seine Tags anzuzeigen.</string>
     <string name="help_tip_metadata_editing_step_2">Aktualisieren oder entfernen Sie einzelne Tags im Metadatenblatt. Löschen Sie alle Metadaten nur, wenn Sie alle Tags entfernen möchten.</string>
     <string name="help_tip_metadata_editing_step_3">Schließen Sie das Blatt und speichern Sie das Ergebnis. Öffnen Sie das gespeicherte Bild erneut, um die geänderten Tags zu überprüfen.</string>
     <string name="help_tip_cache_cleanup_subtitle">Legen Sie den Cache-Schwellenwert und das Prüfintervall fest</string>
@@ -6084,7 +6084,7 @@
     <string name="help_tip_pdf_rotate_pages_step_1">Drehen Sie einzelne Miniaturansichten, wenn nur einige Scans seitlich sind. Verwenden Sie „Alle drehen“, wenn das gesamte Dokument dieselbe Drehung benötigt.</string>
     <string name="help_tip_pdf_rotate_pages_step_2">Versuchen Sie die automatische Drehung auf inkonsistente Metadaten zur Seitenausrichtung und überprüfen Sie dann Seiten, die Text oder Diagramme enthalten.</string>
     <string name="help_tip_pdf_rotate_pages_step_3">Setzen Sie die Drehungen zurück, wenn das Ergebnis falsch ist, und speichern Sie, nachdem Sie sowohl die Seiten im Hoch- als auch im Querformat überprüft haben.</string>
-    <string name="help_tip_pdf_crop_pages_description">Durch Zuschneiden wird das sichtbare Seitenrechteck verändert. Scanränder können ausgeblendet werden, Inhalte außerhalb dieses Rechtecks ​​werden jedoch nicht sicher aus der PDF-Datei gelöscht.</string>
+    <string name="help_tip_pdf_crop_pages_description">Durch Zuschneiden wird das sichtbare Seitenrechteck verändert. Scanränder können ausgeblendet werden, Inhalte außerhalb dieses Rechtecks werden jedoch nicht sicher aus der PDF-Datei gelöscht.</string>
     <string name="help_tip_pdf_crop_pages_step_1">Wählen Sie die zuzuschneidenden Seiten aus und passen Sie die horizontalen und vertikalen Bereiche in der Vorschau an.</string>
     <string name="help_tip_pdf_crop_pages_step_2">Überprüfen Sie Seiten mit unterschiedlichen Layouts, bevor Sie ein Rechteck auf eine Gruppe anwenden. Speichern Sie eine Beschnittvoreinstellung, wenn dieselben Ränder wiederkehren.</string>
     <string name="help_tip_pdf_crop_pages_step_3">Speichern Sie eine Kopie und prüfen Sie, ob Kopf- und Fußzeilen sowie Seitenzahlen sichtbar bleiben. Verwenden Sie das Zuschneiden nicht, um vertrauliche Informationen zu schwärzen.</string>
@@ -6394,10 +6394,10 @@
     <string name="help_tip_setting_exif_widget_initial_state_step_1">Deaktivieren Sie die Option „EXIF immer löschen, bevor Sie den Anfangswert erzwingen“ ändern.</string>
     <string name="help_tip_setting_exif_widget_initial_state_step_2">Aktivieren Sie es, um mit ausgewählter Metadatenerhaltung zu beginnen. Überprüfen Sie die EXIF-Auswahl erneut, bevor Sie sensible Fotos exportieren.</string>
     <string name="help_tip_setting_keep_date_time_description">Datum/Uhrzeit der Aufnahme können unabhängig von der normalen Option „Keep-EXIF“ gespeichert werden.</string>
-    <string name="help_tip_setting_keep_date_time_step_1">Deaktivieren Sie EXIF ​​immer löschen und aktivieren Sie dann Datum und Uhrzeit beibehalten, wenn die Aufnahmedaten den Export überdauern müssen.</string>
-    <string name="help_tip_setting_keep_date_time_step_2">Um Datumsangaben zu entfernen, deaktivieren Sie sowohl diese Option als auch die EXIF-Erhaltung im Tool oder aktivieren Sie EXIF ​​immer löschen. Letzteres hat Vorrang und deaktiviert diese Kontrolle.</string>
+    <string name="help_tip_setting_keep_date_time_step_1">Deaktivieren Sie EXIF immer löschen und aktivieren Sie dann Datum und Uhrzeit beibehalten, wenn die Aufnahmedaten den Export überdauern müssen.</string>
+    <string name="help_tip_setting_keep_date_time_step_2">Um Datumsangaben zu entfernen, deaktivieren Sie sowohl diese Option als auch die EXIF-Erhaltung im Tool oder aktivieren Sie EXIF immer löschen. Letzteres hat Vorrang und deaktiviert diese Kontrolle.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">Export-Metadaten können die App-Version und konfigurierte Bildparameter aufzeichnen.</string>
-    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Deaktivieren Sie EXIF ​​immer löschen, bevor Sie ImageToolbox-Metadaten hinzufügen aktivieren.</string>
+    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Deaktivieren Sie EXIF immer löschen, bevor Sie ImageToolbox-Metadaten hinzufügen aktivieren.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_2">Aktivieren Sie es für nachverfolgbare Exporte oder lassen Sie es deaktiviert, wenn die gespeicherte Datei die App und Verarbeitungsparameter nicht identifizieren soll.</string>
     <string name="help_tip_setting_delete_originals_after_save_description">Diese Option entfernt erfolgreich verarbeitete Quelldateien, nachdem ihre Ergebnisse gespeichert wurden.</string>
     <string name="help_tip_setting_delete_originals_after_save_step_1">Öffnen Sie Einstellungen → Ordner und aktivieren oder deaktivieren Sie Originaldateien nach dem Speichern löschen. Es ist nicht verfügbar, während „Dateien überschreiben“ aktiv ist.</string>
@@ -7323,7 +7323,7 @@
     <string name="help_tip_format_jpegli_step_3">Verwenden Sie ein Format mit Alpha für transparente Grafiken und bewahren Sie einen verlustfreien Master für weitere Bearbeitungen auf.</string>
     <string name="help_tip_format_png_title">PNG verlustfrei</string>
     <string name="help_tip_format_png_subtitle">Exakte Rasterpixel und volle Transparenz</string>
-    <string name="help_tip_format_png_description">PNG Lossless behält die dem Encoder zugeführten Pixel ohne verlustbehaftete Quantisierung bei. Es ist eine gute Wahl für Screenshots, Diagramme, Text und transparente Assets, obwohl Fotos viel größer als JPEG oder WebP sein können. Vollständiges Alpha wird unterstützt. Die PNG Lossless-Option der App verfügt über keinen Qualitätsregler und unterstütztes EXIF ​​kann beibehalten werden. Die Pixelerhaltung gilt nach allen Größenänderungen, Filtern und Hintergrundzusammenstellungen.</string>
+    <string name="help_tip_format_png_description">PNG Lossless behält die dem Encoder zugeführten Pixel ohne verlustbehaftete Quantisierung bei. Es ist eine gute Wahl für Screenshots, Diagramme, Text und transparente Assets, obwohl Fotos viel größer als JPEG oder WebP sein können. Vollständiges Alpha wird unterstützt. Die PNG Lossless-Option der App verfügt über keinen Qualitätsregler und unterstütztes EXIF kann beibehalten werden. Die Pixelerhaltung gilt nach allen Größenänderungen, Filtern und Hintergrundzusammenstellungen.</string>
     <string name="help_tip_format_png_step_1">Verwenden Sie diese Option für scharfe Kanten und teilweise transparente Grafiken, die erneut bearbeitet werden.</string>
     <string name="help_tip_format_png_step_2">Probieren Sie OxiPNG aus, wenn Sie die PNG-Komprimierung optimieren möchten, ohne die Bildfarben absichtlich zu reduzieren.</string>
     <string name="help_tip_format_png_step_3">Verwenden Sie APNG-Tools für Animationen. Beim normalen PNG-Export wird ein statisches Bild gespeichert.</string>
@@ -7335,7 +7335,7 @@
     <string name="help_tip_format_png_lossy_step_3">Wählen Sie PNG Lossless, wenn exakte Farben wichtig sind, oder vergleichen Sie ImageQuant für einen anderen Ansatz zur Farbreduzierung.</string>
     <string name="help_tip_format_oxipng_title">OxiPNG</string>
     <string name="help_tip_format_oxipng_subtitle">Optimieren Sie die PNG-Komprimierung ohne Reduzierung der Palette</string>
-    <string name="help_tip_format_oxipng_description">OxiPNG schreibt PNG mit einem verlustfreien Optimierer. Dies ist nützlich für Screenshots, Symbole und Grafiken, wenn Sie eine kleinere Ausgabe wünschen, ohne absichtlich Pixelinformationen zu verwerfen. Aufwand 0–6 steuert die Optimierungsarbeit; Höhere Einstellungen können langsamer sein und garantieren nicht, dass für jedes Bild eine kleinere Datei erstellt wird. Alpha wird unterstützt und unterstütztes EXIF ​​kann beibehalten werden. Die Ausgabe ist immer noch ein Standard-PNG.</string>
+    <string name="help_tip_format_oxipng_description">OxiPNG schreibt PNG mit einem verlustfreien Optimierer. Dies ist nützlich für Screenshots, Symbole und Grafiken, wenn Sie eine kleinere Ausgabe wünschen, ohne absichtlich Pixelinformationen zu verwerfen. Aufwand 0–6 steuert die Optimierungsarbeit; Höhere Einstellungen können langsamer sein und garantieren nicht, dass für jedes Bild eine kleinere Datei erstellt wird. Alpha wird unterstützt und unterstütztes EXIF kann beibehalten werden. Die Ausgabe ist immer noch ein Standard-PNG.</string>
     <string name="help_tip_format_oxipng_step_1">Beginnen Sie mit mäßigem Aufwand und vergleichen Sie die tatsächliche Dateigröße, bevor Sie die langsamste Einstellung wählen.</string>
     <string name="help_tip_format_oxipng_step_2">Verwenden Sie PNG Lossy oder ImageQuant nur, wenn eine Reduzierung der Farben akzeptabel ist. OxiPNG dient einem anderen Zweck.</string>
     <string name="help_tip_format_oxipng_step_3">Überprüfen Sie die Metadaten und Hintergrundoptionen der App, da diese die endgültige Datei unabhängig von der Komprimierung verändern können.</string>
@@ -7347,7 +7347,7 @@
     <string name="help_tip_format_imagequant_step_3">Wählen Sie PNG Lossless oder OxiPNG für eine pixelgenaue Ausgabe und behalten Sie das Original vor der Quantisierung bei.</string>
     <string name="help_tip_format_webp_title">WebP Verlustbehaftet/verlustfrei</string>
     <string name="help_tip_format_webp_subtitle">Kompakte statische Bilder, Alpha und ein separater Animationsworkflow</string>
-    <string name="help_tip_format_webp_description">WebP unterstützt sowohl verlustbehaftete als auch verlustfreie Bilder mit Transparenz. Verlustbehaftetes WebP verwendet Qualität 0–100, um Details gegen Größe einzutauschen. Im verlustfreien Modus stellt die Steuerung 0–100 den Komprimierungsaufwand dar: Pixel bleiben verlustfrei und durch mehr Arbeit kann sich die Größe verringern. Unterstütztes EXIF ​​kann beibehalten werden. Bei der Konvertierung in ein normales Format wird ein statisches WebP geschrieben. WebP-Tools erstellen, extrahieren, zusammenführen und konvertieren Animationen mit Frame-Timing und Schleifensteuerung.</string>
+    <string name="help_tip_format_webp_description">WebP unterstützt sowohl verlustbehaftete als auch verlustfreie Bilder mit Transparenz. Verlustbehaftetes WebP verwendet Qualität 0–100, um Details gegen Größe einzutauschen. Im verlustfreien Modus stellt die Steuerung 0–100 den Komprimierungsaufwand dar: Pixel bleiben verlustfrei und durch mehr Arbeit kann sich die Größe verringern. Unterstütztes EXIF kann beibehalten werden. Bei der Konvertierung in ein normales Format wird ein statisches WebP geschrieben. WebP-Tools erstellen, extrahieren, zusammenführen und konvertieren Animationen mit Frame-Timing und Schleifensteuerung.</string>
     <string name="help_tip_format_webp_step_1">Verwenden Sie Lossless für scharfe, transparente Assets und vergleichen Sie Lossy für Fotos oder kleinere Vorschauen.</string>
     <string name="help_tip_format_webp_step_2">Überprüfen Sie nach dem Export teilweise transparente Kanten und deaktivieren Sie die Hintergrundfüllung, wenn Alpha erhalten bleiben muss.</string>
     <string name="help_tip_format_webp_step_3">Verwenden Sie WebP-Tools zum Bewegtbild; Beim Konvertieren eines angezeigten Frames mit einem statischen Werkzeug bleibt nicht die vollständige Animation erhalten.</string>
@@ -7365,7 +7365,7 @@
     <string name="help_tip_format_av2_step_3">Bewahren Sie eine AV1-, JPEG- oder PNG-Kopie für Empfänger auf, deren Software AV2 nicht dekodieren kann.</string>
     <string name="help_tip_format_heic_title">HEIC / HEIF</string>
     <string name="help_tip_format_heic_subtitle">HEVC-Bilder mit verlustbehafteter und verlustfreier Auswahl</string>
-    <string name="help_tip_format_heic_description">HEIF ist eine Containerfamilie; Die HEIC- und HEIF-Optionen der App verwenden beide HEVC-Codierung und unterscheiden sich in der Erweiterung und dem MIME-Typ. Die verlustbehaftete Qualität liegt zwischen 0 und 100. Chroma 4:2:0, 4:2:2 und 4:4:4, Bildschirminhaltskodierung und eine verlustfreie GBR-Option sind verfügbar. Alpha und unterstütztes EXIF ​​können verarbeitet werden, die Kompatibilität hängt jedoch vom Decoder und Profil ab. Der verlustfreie Codec-Betrieb und die Erhaltung von RGB-Pixeln sind bei Farbkonvertierung oder Unterabtastung nicht austauschbar.</string>
+    <string name="help_tip_format_heic_description">HEIF ist eine Containerfamilie; Die HEIC- und HEIF-Optionen der App verwenden beide HEVC-Codierung und unterscheiden sich in der Erweiterung und dem MIME-Typ. Die verlustbehaftete Qualität liegt zwischen 0 und 100. Chroma 4:2:0, 4:2:2 und 4:4:4, Bildschirminhaltskodierung und eine verlustfreie GBR-Option sind verfügbar. Alpha und unterstütztes EXIF können verarbeitet werden, die Kompatibilität hängt jedoch vom Decoder und Profil ab. Der verlustfreie Codec-Betrieb und die Erhaltung von RGB-Pixeln sind bei Farbkonvertierung oder Unterabtastung nicht austauschbar.</string>
     <string name="help_tip_format_heic_step_1">Verwenden Sie 4:4:4 für scharfe Farbdetails und vergleichen Sie die Unterstützung der Ziel-App.</string>
     <string name="help_tip_format_heic_step_2">Überprüfen Sie zur Erhaltung von RGB-Pixeln die Option „GBR verlustfrei“ und überprüfen Sie das exportierte Ergebnis, anstatt sich nur auf die Bezeichnung „Verlustfrei“ zu verlassen.</string>
     <string name="help_tip_format_heic_step_3">Verwenden Sie HEIC oder HEIF entsprechend den Anforderungen der empfangenden App; Durch das Ändern der Dateinamenerweiterung wird der Codec nicht geändert.</string>
@@ -7401,7 +7401,7 @@
     <string name="help_tip_format_j2k_step_3">Bewahren Sie Metadaten bei Bedarf separat auf und behalten Sie die Quelle bei, bis das importierte Ergebnis überprüft wurde.</string>
     <string name="help_tip_format_tiff_title">TIFF / TIF</string>
     <string name="help_tip_format_tiff_subtitle">Rasteraustausch mit wählbaren Komprimierungsschemata</string>
-    <string name="help_tip_format_tiff_description">TIFF und TIF sind Erweiterungen desselben Containerformats. Mit der App können Sie Komprimierungsschemata wie LZW, Deflate, PackBits, JPEG und Faxvarianten auswählen. Diese sind nicht austauschbar: JPEG ist verlustbehaftet, die Faxkomprimierung ist für Schwarzweißdokumente gedacht und die Decoderunterstützung variiert. Unterstütztes EXIF ​​kann beibehalten werden. Beim normalen TIFF-Export von Image Toolbox wird ein statisches Bild gespeichert und die Transparenz mit dem konfigurierten Hintergrund zusammengesetzt.</string>
+    <string name="help_tip_format_tiff_description">TIFF und TIF sind Erweiterungen desselben Containerformats. Mit der App können Sie Komprimierungsschemata wie LZW, Deflate, PackBits, JPEG und Faxvarianten auswählen. Diese sind nicht austauschbar: JPEG ist verlustbehaftet, die Faxkomprimierung ist für Schwarzweißdokumente gedacht und die Decoderunterstützung variiert. Unterstütztes EXIF kann beibehalten werden. Beim normalen TIFF-Export von Image Toolbox wird ein statisches Bild gespeichert und die Transparenz mit dem konfigurierten Hintergrund zusammengesetzt.</string>
     <string name="help_tip_format_tiff_step_1">Bevorzugen Sie LZW oder Deflate für den allgemeinen verlustfreien Rasteraustausch und testen Sie den empfangenden Editor.</string>
     <string name="help_tip_format_tiff_step_2">Verwenden Sie Faxschemata nur für geeignete Schwarzweißdokumente. Wählen Sie die JPEG-Komprimierung nur, wenn der Verlust akzeptabel ist.</string>
     <string name="help_tip_format_tiff_step_3">Überprüfen Sie vor dem Export den Hintergrund. Verwenden Sie PNG oder eine andere alpha-fähige Ausgabe, wenn die Transparenz erhalten bleiben muss.</string>

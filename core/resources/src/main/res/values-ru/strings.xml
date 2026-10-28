@@ -2727,7 +2727,7 @@
     <string name="help_tip_format_conversion_step_1">Используйте JPEG для совместимых фотографий, PNG для изображений без потерь и альфа-версий, а также WebP для компактного обмена.</string>
     <string name="help_tip_format_conversion_step_2">Отрегулируйте качество, если формат поддерживает это; более низкие значения уменьшают размер, но могут добавить артефакты.</string>
     <string name="help_tip_format_conversion_step_3">Сохраняйте оригиналы до тех пор, пока не убедитесь, что преобразованные файлы правильно открываются в целевом приложении.</string>
-    <string name="help_tip_exif_privacy_title">Проверьте EXIF ​​и конфиденциальность</string>
+    <string name="help_tip_exif_privacy_title">Проверьте EXIF и конфиденциальность</string>
     <string name="help_tip_exif_privacy_subtitle">Просматривайте, редактируйте или удаляйте метаданные, прежде чем делиться конфиденциальными фотографиями.</string>
     <string name="help_tip_exif_privacy_page_title">Управление скрытыми данными изображения</string>
     <string name="help_tip_exif_privacy_description">EXIF может содержать данные камеры, даты, местоположение, ориентацию и другие детали, не видимые на изображении. Это стоит проверить, прежде чем публиковать в открытом доступе, отчеты о поддержке, списки на торговых площадках или любые фотографии, которые могут указывать на частное место.</string>
@@ -4574,9 +4574,9 @@
     <string name="sheet_nested_scroll_sub">Разрешить жесты в содержимом листа для перетаскивания и закрытия листа</string>
     <string name="magic_kernel">Волшебное ядро</string>
     <string name="magic_kernel_sub">Плавный фильтр передискретизации без звона с сильным сглаживанием, но более мягким результатом.</string>
-    <string name="magic_kernel_sharp_2013">Волшебное ядро ​​Sharp 2013</string>
+    <string name="magic_kernel_sharp_2013">Волшебное ядро Sharp 2013</string>
     <string name="magic_kernel_sharp_2013_sub">Оригинальный эффективный вариант Magic Kernel Sharp с чуть более резким результатом и сильным сглаживанием.</string>
-    <string name="magic_kernel_sharp_2021">Волшебное ядро ​​Sharp 2021</string>
+    <string name="magic_kernel_sharp_2021">Волшебное ядро Sharp 2021</string>
     <string name="magic_kernel_sharp_2021_sub">Спектрально плоская обработка, позволяющая избежать заметного повышения резкости за счет увеличения звона вокруг острых краев.</string>
     <string name="raw_use_embedded_preview">Использовать встроенный предварительный просмотр</string>
     <string name="raw_use_embedded_preview_sub">Используйте предварительный просмотр, встроенный в изображение RAW, вместо его обработки.</string>

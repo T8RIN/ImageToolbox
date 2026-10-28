@@ -1123,7 +1123,7 @@
     <string name="deuteranopia_sub">無法感知綠色色調</string>
     <string name="tritanopia_sub">無法感知藍色調</string>
     <string name="achromatopsia_sub">完全色盲，只能看到灰色陰影</string>
-    <string name="not_use_color_blind_scheme">­不要使用色盲方案</string>
+    <string name="not_use_color_blind_scheme">不要使用色盲方案</string>
     <string name="pick_filter_info">選擇以下的濾鏡以將其作為繪畫中用的筆刷</string>
     <string name="bottom_left">左下</string>
     <string name="bottom_right">右下</string>
@@ -5524,7 +5524,7 @@
     <string name="help_tip_gallery_search_page_3_step_3">當電池或儲存空間不足時，Android 可能會延遲準備。如果發生錯誤，請檢查照片存取和可用空間。下載檔案時也需要網路連線。然後點選重試；保留已準備好的照片的資料。</string>
     <string name="help_tip_gallery_search_page_4_title">瀏覽自動類別</string>
     <string name="help_tip_gallery_search_page_4_description">語義照片搜尋組將照片按內容分為 16 個內建類別：人物、動物、自然、食物、文件、螢幕截圖、車輛、旅行、建築、藝術、體育、活動、夜晚、海灘、山脈和日落。類別可能會出錯或丟失一些照片。</string>
-    <string name="help_tip_gallery_search_page_4_step_1">類別出現在相簿下方、大腦圖示旁邊，並且在搜尋時保持可見。噹噹前專輯中有匹配項或被選中時，會顯示內建類別。即使沒有匹配項，您自己的類別仍然可見。無論您的搜尋查詢是什麼，計數都會顯示類別和目前相簿中的照​​片。</string>
+    <string name="help_tip_gallery_search_page_4_step_1">類別出現在相簿下方、大腦圖示旁邊，並且在搜尋時保持可見。噹噹前專輯中有匹配項或被選中時，會顯示內建類別。即使沒有匹配項，您自己的類別仍然可見。無論您的搜尋查詢是什麼，計數都會顯示類別和目前相簿中的照片。</string>
     <string name="help_tip_gallery_search_page_4_step_2">選擇要在其中搜尋的類別。再次點擊活動類別即可刪除該篩選器，而不清除您的查詢。選擇相簿行中的全部以清除類別並搜尋所有可用照片。關閉搜尋會清除查詢並保留所選類別。</string>
     <string name="help_tip_gallery_search_page_4_step_3">一張照片可以屬於多個類別。像往常一樣選擇照片進行編輯；瀏覽類別不會選擇它們或更改原始文件。</string>
     <string name="help_tip_gallery_search_page_5_title">關閉語義搜尋或刪除其數據</string>
@@ -5956,7 +5956,7 @@
     <string name="help_tip_background_remover_page_2_step_3">重新開啟已儲存的文件以確認透明度。如果不透明格式或 Alpha 背景設定填滿了它，則再次匯出相同檔案無法復原蒙版。</string>
     <string name="help_tip_markup_projects_page_2_title">可編輯項目與最終影像</string>
     <string name="help_tip_markup_projects_page_2_description">標記項目保留合成以供以後編輯，而渲染影像則記錄可見結果。保留兩者可以使以後的文字或佈局變更變得更加容易。</string>
-    <string name="help_tip_markup_projects_page_2_step_1">在更改位置、大小或文字之前，有意排列圖層並​​檢查所選圖層。較高的層可以隱藏下面的內容。</string>
+    <string name="help_tip_markup_projects_page_2_step_1">在更改位置、大小或文字之前，有意排列圖層並檢查所選圖層。較高的層可以隱藏下面的內容。</string>
     <string name="help_tip_markup_projects_page_2_step_2">在進行拼合導出之前，請保持所需的來源資源可用並儲存可編輯項目。</string>
     <string name="help_tip_markup_projects_page_2_step_3">檢查導出的影像是否達到預期大小。編輯器的螢幕截圖並不等於渲染合成。</string>
     <string name="help_tip_ocr_page_2_title">認可是一種估計</string>
@@ -6017,7 +6017,7 @@
     <string name="assistant_setup_description">下載模型以獲得有關 ImageToolbox 工具和設定的協助。如果不需要，您可以將助理關閉。</string>
     <string name="assistant_download_model">下載模型</string>
     <string name="assistant_disable">關閉助理</string>
-    <string name="assistant_input_too_long">談話時間太長。開始新的對話​​或縮短您的問題。</string>
+    <string name="assistant_input_too_long">談話時間太長。開始新的對話或縮短您的問題。</string>
     <string name="assistant_clear_conversation">清晰的對話</string>
     <string name="assistant_clear_conversation_question">刪除此對話中的所有訊息嗎？</string>
     <string name="help_tip_depth_effects_title">深度效果</string>
@@ -6596,7 +6596,7 @@
     <string name="filter_help_amatorka">應用具有深冷陰影和微綠色中間色調的內建 LUT。原始顏色的混合強度為 0，全色等級為 1。</string>
     <string name="filter_help_anaglyph">水平分離影像的紅色和青色副本，以獲得浮雕式彩色條紋。力量控制它們的偏移；這是一種色彩效果，而不是單張照片的深度重建。</string>
     <string name="filter_help_anisotropic_diffusion">平滑微小的變化，同時以不同於平坦區域的方式處理強邊界。更多迭代會增加平滑度；傳導和擴散控制相鄰音調混合的程度。</string>
-    <string name="filter_help_arc">將影像彎曲成弧形。半徑和尺寸定義了彎曲條帶，展開角度決定了​​它纏繞的距離，角度和中心位置將其放置在框架中。</string>
+    <string name="filter_help_arc">將影像彎曲成弧形。半徑和尺寸定義了彎曲條帶，展開角度決定了它纏繞的距離，角度和中心位置將其放置在框架中。</string>
     <string name="filter_help_ascii">從人物重建圖片。字體大小決定細節，字元漸層映射亮度，背景和灰階選項控制外觀；結果仍然是圖像。</string>
     <string name="filter_help_atkinson_dithering">使用阿特金森誤差擴散來表示具有像素圖案的中間色調。閾值改變音調分割；灰階在抖動之前去除顏色。比較全尺寸的紋理圖案。</string>
     <string name="filter_help_auto_crop">尋找水平影像邊界並自動裁切頂部和底部，保留完整寬度。公差會改變邊緣偵測靈敏度；當偵測到的區域與主體不匹配時，使用手動裁切。</string>
@@ -6828,7 +6828,7 @@
     <string name="filter_help_gmic_filter_jpeg_artifacts">故意引入 JPEG 壓縮偽影。較低的品質會產生更強的塊、振鈴和顏色損失；該過濾器只會增加損壞而不是修復損壞。</string>
     <string name="filter_help_gmic_filter_lens_distortion">在選定的中心周圍應用類似透鏡的徑向畸變。振幅、縱橫比和變焦控製曲率和取景；邊界處理決定了源之外出現的內容。</string>
     <string name="filter_help_gmic_filter_light_glow">透過可選擇的混合模式添加柔和的光芒。密度和幅度設定發光，而不透明度和通道選擇控制它與影像的結合方式。</string>
-    <string name="filter_help_gmic_filter_light_patch">建立改變照明的補​​丁。密度設定它們的頻率，單獨的暗和亮值控制色調變化，通道選擇限制受影響的成分。</string>
+    <string name="filter_help_gmic_filter_light_patch">建立改變照明的補丁。密度設定它們的頻率，單獨的暗和亮值控制色調變化，通道選擇限制受影響的成分。</string>
     <string name="filter_help_gmic_filter_linify">用線條重構畫面。密度、分佈和分辨率決定了結構；線條不透明度、精度和顏色模式控制其清晰度和顏色。</string>
     <string name="filter_help_gmic_filter_local_contrast_enhancement">增強所選空間半徑內的對比。數量設定強度，而單獨的黑暗和亮度等級可讓您平衡局部過渡的兩側。</string>
     <string name="filter_help_gmic_filter_local_orientation">可視化局部影像結構中的方向。平滑和最小/最大閾值控制梯度的貢獻；負色反轉視覺效果。</string>
@@ -6896,7 +6896,7 @@
     <string name="filter_help_gmic_filter_streak">使用選定的遮罩顏色將影像顏色傳播到定向條紋中。步長、角度和傳播模式控制軌跡。</string>
     <string name="filter_help_gmic_filter_stringify">用連接的弦狀線條重建影像結構。等級、取樣率和連結模式控製網路；閾值、不透明度和孔填充決定覆蓋範圍。</string>
     <string name="filter_help_gmic_filter_super_pixels">將相鄰像素分組為相干區域。大小、規律性和迭代控制分割；顏色模式和可調節邊框將這些區域變成可見的馬賽克。</string>
-    <string name="filter_help_gmic_filter_taquin">將影像呈現為滑動拼圖。瓷磚數量、移除的瓷磚、浮雕和​​邊框設置定義了作品；隨機種子改變了它們的排列。</string>
+    <string name="filter_help_gmic_filter_taquin">將影像呈現為滑動拼圖。瓷磚數量、移除的瓷磚、浮雕和邊框設置定義了作品；隨機種子改變了它們的排列。</string>
     <string name="filter_help_gmic_filter_target_color_spot">使用影像點和目標顏色來指導顏色校正。位置選擇參考點，色度範圍控制校正影響的顏色關係。</string>
     <string name="filter_help_gmic_filter_temperature_balance">透過選定的照明模式平衡圖片的暖色和冷色外觀。飽和度、等級和色彩控制可在不改變影像幾何形狀的情況下調整校正。</string>
     <string name="filter_help_gmic_filter_texture_sharpen">銳化選定半徑和通道內的紋理。力量增加效果；大值可以使精細雜訊看起來像真實的表面細節。</string>
@@ -7059,7 +7059,7 @@
     <string name="filter_help_simple_threshold_dithering">根據單一閾值轉換像素，而不會將誤差傳播到鄰居。灰階創建黑白模板；如果沒有它，顏色通道就會被閾值化。</string>
     <string name="filter_help_simple_weave_pixelization">將細節變成簡單的編織馬賽克。大小決定了交替圖案的比例；較大的值會合併更多的來源紋理。</string>
     <string name="filter_help_sketch">抑制廣泛的陰影以產生更平坦、類似草圖的結果。內核大小設定用於去除陰影的鄰域；它不是徒手繪圖工具。</string>
-    <string name="filter_help_smear">將採樣的顏色傳播到標記或條紋。形狀、距離和角度決定了​​標記，而密度和混合決定了它們覆蓋影像的強度。</string>
+    <string name="filter_help_smear">將採樣的顏色傳播到標記或條紋。形狀、距離和角度決定了標記，而密度和混合決定了它們覆蓋影像的強度。</string>
     <string name="filter_help_smooth_kaleidoscope">使用旋轉影像部分之間的混合過渡建立重複的萬花筒網格。頻率設定網格密度，偏移改變取樣區域，混合控制連接的柔軟度。</string>
     <string name="filter_help_smooth_toon">結合模糊、邊緣輪廓和降低的色彩級別，打造更柔和的卡通外觀。模糊大小消除紋理，閾值控制輪廓，量化設定色調步驟。</string>
     <string name="filter_help_sobel_edge">使用 Sobel 算子突出顯示影像梯度。線寬控制邊緣取樣；輸出強調輪廓而不是保留正常的攝影色彩。</string>
@@ -7169,11 +7169,11 @@
     <string name="help_tip_assistant_images_step_2">刪除附加的照片以選擇另一張。對於同一張照片的其他問題，請再次附上；早期的附件不會重新用作視覺輸入。</string>
     <string name="help_tip_assistant_images_step_3">親自檢查小文本、計數、名稱和其他精確細節。使用 OCR 提取可讀文本，然後開啟建議的編輯工具以套用變更。</string>
     <string name="help_tip_assistant_downloads_title">助手下載和離線使用</string>
-    <string name="help_tip_assistant_downloads_subtitle">安裝、取消、切換和刪除​​本機模型</string>
+    <string name="help_tip_assistant_downloads_subtitle">安裝、取消、切換和刪除本機模型</string>
     <string name="help_tip_assistant_downloads_description">Assistant 在支援的 64 位元裝置上本地運行。下載模型需要網路；然後，問題和附加照片將在裝置上處理。下載的模型在應用程式啟動之間仍然可用。</string>
     <string name="help_tip_assistant_downloads_step_1">開啟模型選擇器，檢查下載大小和可用儲存空間，然後下載模型。等待驗證完成後再使用。</string>
     <string name="help_tip_assistant_downloads_step_2">取消模型清單中不需要的下載。若要在安裝後釋放空間，請刪除該模型；單獨切換模型不會刪除下載的檔案。</string>
-    <string name="help_tip_assistant_downloads_step_3">聊天記錄儲存在本機。使用聊天室的刪除按鈕清除對話。如果輸入太長，請縮短請求或開始新的對話​​。</string>
+    <string name="help_tip_assistant_downloads_step_3">聊天記錄儲存在本機。使用聊天室的刪除按鈕清除對話。如果輸入太長，請縮短請求或開始新的對話。</string>
     <string name="help_tip_ai_upscaling_title">使用 AI 放大照片和插圖</string>
     <string name="help_tip_ai_upscaling_subtitle">RealESRGAN、RealESRNet、SRFormer、DAT2 和動畫模型</string>
     <string name="help_tip_ai_upscaling_description">放大器在提高解析度的同時產生額外的影像細節。它們的 x2、x3 或 x4 比例來自所選型號。這與普通的調整大小不同，無法可靠地重建從未捕捉的細節。</string>

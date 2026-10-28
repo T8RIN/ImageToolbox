@@ -541,7 +541,7 @@
     <string name="basic_sub">Yksinkertaisin Android-skaalaustila, jota käytetään melkein kaikissa sovelluksissa</string>
     <string name="catmull_sub">Menetelmä ohjauspisteiden joukon sujuvaan interpoloimiseen ja uudelleennäytteenottoon, jota käytetään yleisesti tietokonegrafiikassa tasaisten käyrien luomiseen</string>
     <string name="hann_sub">Ikkunatoiminto, jota käytetään usein signaalinkäsittelyssä spektrivuodon minimoimiseksi ja taajuusanalyysin tarkkuuden parantamiseksi kapenemalla signaalin reunoja</string>
-    <string name="hermite_sub">Matemaattinen interpolointitekniikka, joka käyttää arvoja ja johdannaisia ​​käyräsegmentin päätepisteissä luomaan tasaisen ja jatkuvan käyrän</string>
+    <string name="hermite_sub">Matemaattinen interpolointitekniikka, joka käyttää arvoja ja johdannaisia käyräsegmentin päätepisteissä luomaan tasaisen ja jatkuvan käyrän</string>
     <string name="lanczos_sub">Uudelleennäytteistysmenetelmä, joka ylläpitää korkealaatuista interpolaatiota käyttämällä painotettua sinc-funktiota pikseliarvoihin</string>
     <string name="mitchell_sub">Uudelleennäytteenottomenetelmä, joka käyttää konvoluutiosuodatinta säädettävillä parametreilla saavuttaakseen tasapainon terävyyden ja anti-aliasoinnin välillä skaalatussa kuvassa</string>
     <string name="spline_sub">Käyttää paloittain määriteltyjä polynomifunktioita käyrän tai pinnan sujuvaan interpoloimiseen ja approksimoimiseen, mikä tarjoaa joustavan ja jatkuvan muodon esityksen</string>
@@ -772,7 +772,7 @@
     <string name="bokeh">Bokeh</string>
     <string name="random_emojis_sub">Sovelluspalkin emoji muuttuu satunnaisesti</string>
     <string name="random_emojis">Satunnaiset emojit</string>
-    <string name="random_emojis_error">Et voi käyttää satunnaisia ​​hymiöitä, kun emojit on poistettu käytöstä</string>
+    <string name="random_emojis_error">Et voi käyttää satunnaisia hymiöitä, kun emojit on poistettu käytöstä</string>
     <string name="emoji_selection_error">Et voi valita emojia, kun satunnaiset emojit ovat käytössä</string>
     <string name="old_tv">Vanha tv</string>
     <string name="shuffle_blur">Sekoita sumennus</string>
@@ -1015,7 +1015,7 @@
     <string name="tag_gps_status">GPS-tila</string>
     <string name="tag_gps_measure_mode">GPS-mittaustila</string>
     <string name="tag_gps_dop">GPS DOP</string>
-    <string name="tag_gps_speed_ref">GPS Speed ​​Ref</string>
+    <string name="tag_gps_speed_ref">GPS Speed Ref</string>
     <string name="tag_gps_speed">GPS nopeus</string>
     <string name="tag_gps_track_ref">GPS Track Ref</string>
     <string name="tag_gps_track">GPS-jälki</string>
@@ -1159,7 +1159,7 @@
     <string name="hanning_sub">Hann-ikkunan muunnos, jota käytetään yleisesti vähentämään spektrivuotoa signaalinkäsittelysovelluksissa</string>
     <string name="blackman_sub">Ikkunatoiminto, joka tarjoaa hyvän taajuusresoluution minimoimalla spektrivuodon, jota käytetään usein signaalinkäsittelyssä</string>
     <string name="welch_sub">Ikkunatoiminto, joka on suunniteltu antamaan hyvä taajuusresoluutio pienemmällä spektrivuodolla, jota käytetään usein signaalinkäsittelysovelluksissa</string>
-    <string name="quadric_sub">Menetelmä, joka käyttää toisen asteen funktiota interpoloinnissa ja tarjoaa tasaisia ​​ja jatkuvia tuloksia</string>
+    <string name="quadric_sub">Menetelmä, joka käyttää toisen asteen funktiota interpoloinnissa ja tarjoaa tasaisia ja jatkuvia tuloksia</string>
     <string name="gaussian_sub">Gaussin funktiota käyttävä interpolointimenetelmä, joka on hyödyllinen kuvien tasoittamiseen ja kohinan vähentämiseen</string>
     <string name="sphinx_sub">Kehittynyt uudelleennäytteenottomenetelmä, joka tarjoaa korkealaatuisen interpoloinnin minimaalisilla artefakteilla</string>
     <string name="bartlett_sub">Kolmioikkunatoiminto, jota käytetään signaalinkäsittelyssä spektrivuodon vähentämiseksi</string>
@@ -1221,7 +1221,7 @@
     <string name="protanomaly_sub">Punaisen ja vihreän sävyn erottaminen on vaikeaa</string>
     <string name="deuteranomaly_sub">Vihreän ja punaisen sävyn erottaminen on vaikeaa</string>
     <string name="tritanomaly_sub">Vaikeus erottaa siniset ja keltaiset sävyt</string>
-    <string name="protanopia_sub">Kyvyttömyys havaita punaisia ​​sävyjä</string>
+    <string name="protanopia_sub">Kyvyttömyys havaita punaisia sävyjä</string>
     <string name="deuteranopia_sub">Kyvyttömyys havaita vihreitä sävyjä</string>
     <string name="tritanopia_sub">Kyvyttömyys havaita sinisiä sävyjä</string>
     <string name="achromatomaly_sub">Vähentynyt herkkyys kaikille väreille</string>
@@ -1366,7 +1366,7 @@
     <string name="image_toolbox_in_telegram">Kuvatyökalut Telegramissa 🎉</string>
     <string name="image_toolbox_in_telegram_sub">Liity chattiin, jossa voit keskustella mistä haluat ja katsoa myös CI-kanavaa, jonne julkaisen betaversioita ja ilmoituksia</string>
     <string name="ci_channel_sub">Saat ilmoituksia sovelluksen uusista versioista ja lue ilmoituksia</string>
-    <string name="fit_description">Sovita kuva annettuihin mittoihin ja lisää taustaan ​​sumennus tai väri</string>
+    <string name="fit_description">Sovita kuva annettuihin mittoihin ja lisää taustaan sumennus tai väri</string>
     <string name="tools_arrangement">Työkalujen järjestely</string>
     <string name="group_tools_by_type">Ryhmittele työkalut tyypin mukaan</string>
     <string name="group_tools_by_type_sub">Ryhmittelee päänäytön työkalut niiden tyypin mukaan mukautetun luettelojärjestelyn sijaan</string>
@@ -1380,7 +1380,7 @@
     <string name="hide_nav_bar">Piilota navigointipalkki</string>
     <string name="hide_status_bar">Piilota tilapalkki</string>
     <string name="noise_generation">Melun tuottaminen</string>
-    <string name="noise_generation_sub">Luo erilaisia ​​ääniä, kuten Perlin tai muita ääniä</string>
+    <string name="noise_generation_sub">Luo erilaisia ääniä, kuten Perlin tai muita ääniä</string>
     <string name="frequency">Taajuus</string>
     <string name="noise_type">Melun tyyppi</string>
     <string name="rotation_type">Kiertotyyppi</string>
@@ -1496,7 +1496,7 @@
     <string name="markup_layers_sub">Tasot-tila, jossa on mahdollisuus sijoittaa vapaasti kuvia, tekstiä ja muuta</string>
     <string name="edit_layer">Muokkaa tasoa</string>
     <string name="layers_on_image">Kerrokset kuvassa</string>
-    <string name="layers_on_image_sub">Käytä kuvaa taustana ja lisää sen päälle erilaisia ​​kerroksia</string>
+    <string name="layers_on_image_sub">Käytä kuvaa taustana ja lisää sen päälle erilaisia kerroksia</string>
     <string name="layers_on_background">Tasot taustalla</string>
     <string name="layers_on_background_sub">Sama kuin ensimmäinen vaihtoehto, mutta värillä kuvan sijaan</string>
     <string name="beta">Beeta</string>
@@ -1530,7 +1530,7 @@
     <string name="free_software_partner_sub">Lisää hyödyllisiä ohjelmistoja Android-sovellusten kumppanikanavassa</string>
     <string name="algorithms">Algoritmi</string>
     <string name="checksum_tools">Tarkistussummatyökalut</string>
-    <string name="checksum_tools_sub">Vertaile tarkistussummia, laske tiivisteitä tai luo heksadesimaattisia merkkijonoja tiedostoista käyttämällä erilaisia ​​hajautusalgoritmeja</string>
+    <string name="checksum_tools_sub">Vertaile tarkistussummia, laske tiivisteitä tai luo heksadesimaattisia merkkijonoja tiedostoista käyttämällä erilaisia hajautusalgoritmeja</string>
     <string name="calculate">Laskea</string>
     <string name="text_hash">Teksti Hash</string>
     <string name="checksum">Tarkistussumma</string>
@@ -1878,7 +1878,7 @@
     <string name="pixel_melt">Pikselin sulaminen</string>
     <string name="max_drop">Max Drop</string>
     <string name="ai_tools">AI-työkalut</string>
-    <string name="ai_tools_sub">Erilaisia ​​työkaluja kuvien käsittelyyn AI-mallien avulla, kuten artefaktien poistaminen tai kohinan poistaminen</string>
+    <string name="ai_tools_sub">Erilaisia työkaluja kuvien käsittelyyn AI-mallien avulla, kuten artefaktien poistaminen tai kohinan poistaminen</string>
     <string name="model_anime_undeint">Puristus, rosoiset linjat</string>
     <string name="model_broadcast">Sarjakuvat, lähetyspakkaus</string>
     <string name="model_rgb_max_denoise_fp16">Yleinen puristus, yleinen melu</string>
@@ -1942,7 +1942,7 @@
     <string name="model_scunet_color_15_fp16">Yleinen kohina, värilliset kuvat</string>
     <string name="model_scunet_color_25_fp16">Yleinen kohina, värilliset kuvat, vahvempi</string>
     <string name="model_scunet_color_50_fp16">Yleinen kohina, värilliset kuvat, voimakkain</string>
-    <string name="model_artifacts_dithering_alsa">Vähentää haalistuvia artefakteja ja värijuovia parantaen tasaisia ​​liukuvärejä ja tasaisia ​​värialueita.</string>
+    <string name="model_artifacts_dithering_alsa">Vähentää haalistuvia artefakteja ja värijuovia parantaen tasaisia liukuvärejä ja tasaisia värialueita.</string>
     <string name="model_nmkd_brighten_redux">Parantaa kuvan kirkkautta ja kontrastia tasapainoisilla kohokohdilla säilyttäen samalla luonnolliset värit.</string>
     <string name="model_nmkd_brighten">Kirkastaa tummia kuvia säilyttäen samalla yksityiskohdat ja välttäen ylivalotusta.</string>
     <string name="model_nmkd_detoon">Poistaa liiallisen värisävytyksen ja palauttaa neutraalimman ja luonnollisemman väritasapainon.</string>
@@ -1955,7 +1955,7 @@
     <string name="model_jpeg_0_20" formatted="false">Optimoi kuvat, joissa on erittäin korkea pakkausvirhe (0-20 % laatu) selkeyden parantamiseksi.</string>
     <string name="model_jpeg_20_40" formatted="false">Parantaa kuvia korkean pakkauksen artefakteilla (20-40 % laatu), palauttaa yksityiskohtia ja vähentää kohinaa.</string>
     <string name="model_jpeg_40_60" formatted="false">Parantaa kuvia kohtuullisella pakkauksella (laatu 40-60 %) ja tasapainottaa terävyyttä ja tasaisuutta.</string>
-    <string name="model_jpeg_60_80" formatted="false">Tarkoittaa kuvia kevyellä pakkauksella (60-80 % laatu) parantaakseen hienovaraisia ​​yksityiskohtia ja tekstuureja.</string>
+    <string name="model_jpeg_60_80" formatted="false">Tarkoittaa kuvia kevyellä pakkauksella (60-80 % laatu) parantaakseen hienovaraisia yksityiskohtia ja tekstuureja.</string>
     <string name="model_jpeg_80_100" formatted="false">Parantaa hieman lähes häviöttömiä kuvia (80-100 % laatu) säilyttäen samalla luonnollisen ilmeen ja yksityiskohdat.</string>
     <string name="model_spongecolor_lite">Yksinkertainen ja nopea väritys, sarjakuvia, ei ihanteellinen</string>
     <string name="model_deblr">Vähentää hieman kuvan epäterävyyttä ja parantaa terävyyttä ilman artefakteja.</string>
@@ -2050,7 +2050,7 @@
     <string name="prefix_pattern_description">Muokattu teksti sijoitetaan aivan tiedostonimen alkuun, täydellinen projektinimille, tuotemerkeille tai henkilökohtaisille tunnisteille.</string>
     <string name="width_pattern_description">Kuvan leveys pikseleinä, hyödyllinen tarkkuuden muutosten seurannassa tai tulosten skaalaus.</string>
     <string name="height_pattern_description">Kuvan korkeus pikseleinä, hyödyllinen kuvasuhteita tai vientiä käytettäessä.</string>
-    <string name="random_numbers_pattern_description">Luo satunnaisia ​​numeroita ainutlaatuisten tiedostonimien takaamiseksi; lisää numeroita lisäturvaaksesi kaksoiskappaleita vastaan.</string>
+    <string name="random_numbers_pattern_description">Luo satunnaisia numeroita ainutlaatuisten tiedostonimien takaamiseksi; lisää numeroita lisäturvaaksesi kaksoiskappaleita vastaan.</string>
     <string name="preset_info_pattern_description">Lisää käytetyn esiasetuksen nimen tiedostonimeen, jotta voit helposti muistaa, kuinka kuvaa käsiteltiin.</string>
     <string name="scale_mode_pattern_description">Näyttää käsittelyn aikana käytetyn kuvan skaalaustilan, mikä auttaa erottamaan muutetut, rajatut tai sovitetut kuvat.</string>
     <string name="suffix_pattern_description">Muokattu teksti, joka on sijoitettu tiedostonimen loppuun, hyödyllinen versioinnissa, kuten _v2, _edited tai _final.</string>
@@ -2439,7 +2439,7 @@
     <string name="help_tip_batch_workflow_step_2">Aseta koko-, muoto-, laatu-, metatieto- ja tiedostonimisäännöt kerran ennen viennin aloittamista.</string>
     <string name="help_tip_batch_workflow_step_3">Suorita ensin pieni testierä, kun lähdetiedostot ovat suuria tai kun kohdemuoto on sinulle uusi.</string>
     <string name="help_tip_single_edit_title">Nopea yksittäinen muokkaus</string>
-    <string name="help_tip_single_edit_subtitle">Käytä all-in-one-editoria, kun tarvitset useita yksinkertaisia ​​muutoksia yhteen kuvaan</string>
+    <string name="help_tip_single_edit_subtitle">Käytä all-in-one-editoria, kun tarvitset useita yksinkertaisia muutoksia yhteen kuvaan</string>
     <string name="help_tip_single_edit_page_title">Viimeistele yksi kuva ilman työkaluhyppelyä</string>
     <string name="help_tip_single_edit_description">Yksittäinen muokkaus on hyödyllinen, kun kuva tarvitsee pienen muutosketjun yhden erikoistoimenpiteen sijaan. Se on yleensä nopeampi nopeaan siivoukseen, esikatseluun ja yhden lopullisen kopion viemiseen ilman erätyönkulkua.</string>
     <string name="help_tip_single_edit_step_1">Avaa Yksi muokkaus yhdelle kuvalle, joka vaatii yleisiä säätöjä, merkintöjä, rajausta, kiertoa tai vientimuutoksia.</string>
@@ -2528,7 +2528,7 @@
     <string name="help_tip_preview_before_editing_description">Kuvan esikatselu on hyödyllinen, kun tiedosto tulee chatista, pilvitallennustilasta tai muusta sovelluksesta etkä ole varma, mitä se sisältää. Mittojen, läpinäkyvyyden, suunnan ja visuaalisen laadun tarkistaminen auttaa ensin valitsemaan oikean seurantatyökalun.</string>
     <string name="help_tip_preview_before_editing_step_1">Avaa kuvan esikatselu, kun sinun on tarkastettava useita kuvia ennen kuin päätät, mitä niille tehdä.</string>
     <string name="help_tip_preview_before_editing_step_2">Etsi kiertoongelmia, läpinäkyviä alueita, pakkausartefakteja ja odottamattoman suuria mittoja.</string>
-    <string name="help_tip_preview_before_editing_step_3">Siirry kohtaan Resize, Crop, Compare, EXIF ​​tai Background Remover vasta, kun tiedät, mikä vaatii korjausta.</string>
+    <string name="help_tip_preview_before_editing_step_3">Siirry kohtaan Resize, Crop, Compare, EXIF tai Background Remover vasta, kun tiedät, mikä vaatii korjausta.</string>
     <string name="help_tip_background_remover_title">Poista tai palauta tausta</string>
     <string name="help_tip_background_remover_subtitle">Poista taustat automaattisesti tai tarkenna reunoja manuaalisesti palautustyökaluilla</string>
     <string name="help_tip_background_remover_page_title">Pidä aihe, poista loput</string>
@@ -2548,7 +2548,7 @@
     <string name="help_tip_draw_defaults_page_title">Tee piirtämisestä ennustettavan tuntua</string>
     <string name="help_tip_draw_defaults_description">Piirustusasetukset ovat hyödyllisiä, kun kirjoitat kuvakaappauksia, merkitset asiakirjoja tai allekirjoitat kuvia usein. Oletusasetukset lyhentävät asetusaikaa, kun taas suurennuslasi ja suunnan lukitus helpottavat tarkat muokkaukset pienillä näytöillä.</string>
     <string name="help_tip_draw_defaults_step_1">Aseta oletusviivan leveys ja piirrä värit arvoihin, joita käytät eniten nuolille, korostuksille tai allekirjoituksille.</string>
-    <string name="help_tip_draw_defaults_step_2">Käytä oletuspolkutilaa, kun yleensä piirrät samanlaisia ​​viivoja, muotoja tai merkintöjä.</string>
+    <string name="help_tip_draw_defaults_step_2">Käytä oletuspolkutilaa, kun yleensä piirrät samanlaisia viivoja, muotoja tai merkintöjä.</string>
     <string name="help_tip_draw_defaults_step_3">Ota suurennus tai suunnan lukitus käyttöön, kun sormisyöttö vaikeuttaa pienten yksityiskohtien sijoittamista tarkasti.</string>
     <string name="help_tip_collage_stitch_stack_title">Usean kuvan asettelut</string>
     <string name="help_tip_collage_stitch_stack_subtitle">Valitse oikea monikuvatyökalu, ennen kuin järjestät kuvakaappauksia, skannauksia tai vertailuliuskoja</string>
@@ -2564,7 +2564,7 @@
     <string name="help_tip_format_conversion_step_1">Käytä JPEG-tiedostoa yhteensopiviin kuviin, PNG-tiedosto häviöttömään kuviin ja alfa-tiedostoon ja WebP-tiedosto kompaktiin jakamiseen.</string>
     <string name="help_tip_format_conversion_step_2">Säädä laatua, kun muoto tukee sitä; pienemmät arvot pienentävät kokoa, mutta voivat lisätä artefakteja.</string>
     <string name="help_tip_format_conversion_step_3">Säilytä alkuperäiset, kunnes varmistat, että muunnetut tiedostot ovat auki oikein kohdesovelluksessa.</string>
-    <string name="help_tip_exif_privacy_title">Tarkista EXIF ​​ja yksityisyys</string>
+    <string name="help_tip_exif_privacy_title">Tarkista EXIF ja yksityisyys</string>
     <string name="help_tip_exif_privacy_subtitle">Tarkastele, muokkaa tai poista metatietoja ennen arkaluonteisten valokuvien jakamista</string>
     <string name="help_tip_exif_privacy_page_title">Hallitse piilotettuja kuvatietoja</string>
     <string name="help_tip_exif_privacy_description">EXIF voi sisältää kameratietoja, päivämääriä, sijaintia, suuntaa ja muita yksityiskohtia, jotka eivät näy kuvassa. Se kannattaa tarkistaa ennen julkista jakamista, tukiraportteja, markkinapaikkaluetteloita tai kaikkia valokuvia, jotka saattavat paljastaa yksityisen paikan.</string>
@@ -2575,7 +2575,7 @@
     <string name="help_tip_automatic_exif_cleanup_subtitle">Poista metatiedot oletuksena, kun päätät, säilytetäänkö päivämäärät</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">Tee yksityisyydestä oletusarvo</string>
     <string name="help_tip_automatic_exif_cleanup_description">EXIF-asetusryhmä on hyödyllinen, kun haluat yksityisyyden puhdistamisen tapahtuvan automaattisesti sen sijaan, että muistaisit sen jokaisen viennin yhteydessä. Säilytä päivämäärä Aika on erillinen päätös, koska päivämäärät voivat olla hyödyllisiä lajittelussa, mutta herkkiä jakamiseen.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">Ota aina selkeä EXIF ​​käyttöön, kun suurin osa viennistäsi on tarkoitettu julkiseen tai puolijulkiseen jakamiseen.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">Ota aina selkeä EXIF käyttöön, kun suurin osa viennistäsi on tarkoitettu julkiseen tai puolijulkiseen jakamiseen.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">Ota päivämäärän säilytysaika käyttöön vain, kun sieppausajan säilyttäminen on tärkeämpää kuin jokaisen aikaleiman poistaminen.</string>
     <string name="help_tip_automatic_exif_cleanup_step_3">Käytä manuaalista EXIF-muokkausta kertaluonteisille tiedostoille, joissa sinun on säilytettävä jotkin kentät ja poistettava toiset.</string>
     <string name="help_tip_filenames_title">Hallitse tiedostonimiä</string>
@@ -2598,7 +2598,7 @@
     <string name="help_tip_filename_patterns_description">Tiedostonimimalliasetukset voivat muuttaa viedyt tiedostot hyödylliseksi historiaksi siitä, mitä niille on tapahtunut. Tällä on merkitystä erissä, koska kansionäkymä saattaa olla ainoa paikka, jossa voit erottaa alkuperäisen koon, esiasetuksen, muodon ja käsittelyjärjestyksen.</string>
     <string name="help_tip_filename_patterns_step_1">Käytä alkuperäistä tiedostonimeä, etuliitettä, päätettä ja aikaleimaa, kun tarvitset luettavia nimiä manuaalista lajittelua varten.</string>
     <string name="help_tip_filename_patterns_step_2">Lisää esiasetus, skaalaustila, tiedostokoko tai tarkistussummatiedot, kun tulosteiden on dokumentoitava, miten ne on tuotettu.</string>
-    <string name="help_tip_filename_patterns_step_3">Vältä satunnaisia ​​nimiä työnkuluissa, joissa tiedostojen on pysyttävä pariksi alkuperäisten tai sivujärjestyksen kanssa.</string>
+    <string name="help_tip_filename_patterns_step_3">Vältä satunnaisia nimiä työnkuluissa, joissa tiedostojen on pysyttävä pariksi alkuperäisten tai sivujärjestyksen kanssa.</string>
     <string name="help_tip_save_location_title">Valitse, mihin tiedostot tallennetaan</string>
     <string name="help_tip_save_location_subtitle">Vältä viennin häviäminen asettamalla kansioita, tallentamalla alkuperäiseen kansioon ja tallentamalla kertaluonteisia paikkoja</string>
     <string name="help_tip_save_location_page_title">Pidä tuotokset ennustettavissa</string>
@@ -2719,7 +2719,7 @@
     <string name="help_tip_cipher_zip_step_2">Käytä salaustyökaluja vain, kun ymmärrät valitun menetelmän ja pystyt tallentamaan tarvittavat avaimet turvallisesti.</string>
     <string name="help_tip_cipher_zip_step_3">Testaa luotua arkistoa tai muunnettua tekstiä ennen lähdetiedostojen poistamista.</string>
     <string name="help_tip_checksums_for_names_title">Tarkistussummat nimissä</string>
-    <string name="help_tip_checksums_for_names_subtitle">Käytä tarkistussummapohjaisia ​​tiedostonimiä, kun ainutlaatuisuus ja eheys ovat tärkeämpiä kuin luettavuus</string>
+    <string name="help_tip_checksums_for_names_subtitle">Käytä tarkistussummapohjaisia tiedostonimiä, kun ainutlaatuisuus ja eheys ovat tärkeämpiä kuin luettavuus</string>
     <string name="help_tip_checksums_for_names_page_title">Nimeä tiedostot sisällön mukaan</string>
     <string name="help_tip_checksums_for_names_description">Tarkistussummatiedostojen nimet ovat hyödyllisiä, kun viennillä voi olla päällekkäisiä näkyviä nimiä tai kun sinun on todistettava, että kaksi tiedostoa ovat identtisiä. Ne eivät sovellu manuaaliseen selaamiseen, joten käytä niitä teknisiin arkistoihin ja varmistustyönkulkuihin.</string>
     <string name="help_tip_checksums_for_names_step_1">Ota tarkistussumma käyttöön tiedostonimenä, kun sisällön identiteetti on tärkeämpi kuin ihmisen luettava otsikko.</string>
@@ -2728,7 +2728,7 @@
     <string name="help_tip_pick_color_title">Valitse kuvista värit</string>
     <string name="help_tip_pick_color_subtitle">Ota näytteitä pikseleistä, kopioi värikoodeja ja käytä värejä uudelleen paleteissa tai malleissa</string>
     <string name="help_tip_pick_color_page_title">Kokeile tarkkaa väriä</string>
-    <string name="help_tip_pick_color_description">Värien poiminta on hyödyllistä mallin sovittamiseksi, merkkivärien poimimiseen tai kuvan arvojen tarkistamiseen. Zoomauksella on merkitystä, koska antialiasing, varjot ja pakkaus voivat tehdä viereisistä pikseleistä hieman erilaisia ​​kuin odotat.</string>
+    <string name="help_tip_pick_color_description">Värien poiminta on hyödyllistä mallin sovittamiseksi, merkkivärien poimimiseen tai kuvan arvojen tarkistamiseen. Zoomauksella on merkitystä, koska antialiasing, varjot ja pakkaus voivat tehdä viereisistä pikseleistä hieman erilaisia kuin odotat.</string>
     <string name="help_tip_pick_color_step_1">Avaa Valitse väri kuvasta ja valitse haluamasi värinen lähdekuva.</string>
     <string name="help_tip_pick_color_step_2">Zoomaa ennen kuin otat näytteitä pienistä yksityiskohdista, jotta lähellä olevat pikselit eivät vaikuta tulokseen.</string>
     <string name="help_tip_pick_color_step_3">Kopioi väri kohteen vaatimassa muodossa, kuten HEX, RGB tai HSV.</string>
@@ -2742,7 +2742,7 @@
     <string name="help_tip_gradients_title">Luo kaltevuudet</string>
     <string name="help_tip_gradients_subtitle">Luo gradienttikuvia taustoja, paikkamerkkejä ja visuaalisia kokeiluja varten</string>
     <string name="help_tip_gradients_page_title">Hallitse värien siirtymiä</string>
-    <string name="help_tip_gradients_description">Gradienttityökalut ovat hyödyllisiä, kun tarvitset luodun kuvan olemassa olevan kuvan muokkaamisen sijaan. Niistä voi tulla puhtaita taustoja, paikkamerkkejä, taustakuvia, naamioita tai yksinkertaisia ​​ulkoisia suunnittelutyökaluja.</string>
+    <string name="help_tip_gradients_description">Gradienttityökalut ovat hyödyllisiä, kun tarvitset luodun kuvan olemassa olevan kuvan muokkaamisen sijaan. Niistä voi tulla puhtaita taustoja, paikkamerkkejä, taustakuvia, naamioita tai yksinkertaisia ulkoisia suunnittelutyökaluja.</string>
     <string name="help_tip_gradients_step_1">Valitse liukuvärityyppi ja aseta ensin tärkeät värit.</string>
     <string name="help_tip_gradients_step_2">Säädä suunta, pysähdykset, tasaisuus ja tulosteen koko käyttötarkoituksen mukaan.</string>
     <string name="help_tip_gradients_step_3">Vie muotoa, joka vastaa kohdetta, yleensä PNG puhdasta luotua grafiikkaa varten.</string>
@@ -2763,7 +2763,7 @@
     <string name="help_tip_ai_models_title">AI-mallin valinta</string>
     <string name="help_tip_ai_models_subtitle">Valitse malli kuvatyypin ja vian mukaan sen sijaan, että valitset ensin suurimman</string>
     <string name="help_tip_ai_models_page_title">Yhdistä malli vaurioon</string>
-    <string name="help_tip_ai_models_description">AI Tools voi ladata tai tuoda erilaisia ​​ONNX/ORT-malleja, ja jokainen malli on koulutettu tietyntyyppiseen ongelmaan. Malli JPEG-lohkoille, animelinjan puhdistukselle, kohinan poistolle, taustan poistamiselle, väritykselle tai skaalauslle voi tuottaa huonompia tuloksia, kun sitä käytetään väärälle kuvatyypille.</string>
+    <string name="help_tip_ai_models_description">AI Tools voi ladata tai tuoda erilaisia ONNX/ORT-malleja, ja jokainen malli on koulutettu tietyntyyppiseen ongelmaan. Malli JPEG-lohkoille, animelinjan puhdistukselle, kohinan poistolle, taustan poistamiselle, väritykselle tai skaalauslle voi tuottaa huonompia tuloksia, kun sitä käytetään väärälle kuvatyypille.</string>
     <string name="help_tip_ai_models_step_1">Lue mallin kuvaus ennen lataamista; Valitse malli, joka nimeää todellisen ongelmasi, kuten pakkaus, kohina, rasteri, sumeus tai taustan poisto.</string>
     <string name="help_tip_ai_models_step_2">Aloita pienemmällä tai tarkemmalla mallilla, kun testaat uutta kuvatyyppiä, ja vertaa sitten raskaampiin malleihin vain, jos tulos ei ole tarpeeksi hyvä.</string>
     <string name="help_tip_ai_models_step_3">Säilytä vain todella käyttämäsi mallit, koska ladatut ja tuodut mallit voivat viedä huomattavan paljon tallennustilaa.</string>
@@ -2773,14 +2773,14 @@
     <string name="help_tip_ai_models_page_2_step_2">Käytä taustamalleja vain kohteiden erottamiseen; ne eivät ole samoja kuin yleinen objektin poisto tai kuvan parantaminen.</string>
     <string name="help_tip_ai_models_page_2_step_3">Tuo mukautettuja malleja vain luotettavista lähteistä ja testaa niitä pienellä kuvalla ennen tärkeiden tiedostojen käyttöä.</string>
     <string name="help_tip_ai_parameters_title">AI-parametrit</string>
-    <string name="help_tip_ai_parameters_subtitle">Säädä kappaleen kokoa, päällekkäisyyttä ja rinnakkaisia ​​työntekijöitä tasapainottaaksesi laatua, nopeutta ja muistia</string>
+    <string name="help_tip_ai_parameters_subtitle">Säädä kappaleen kokoa, päällekkäisyyttä ja rinnakkaisia työntekijöitä tasapainottaaksesi laatua, nopeutta ja muistia</string>
     <string name="help_tip_ai_parameters_page_title">Tasapainottaa vakauden ja vakauden</string>
     <string name="help_tip_ai_parameters_description">Palakoko määrittää, kuinka suuria kuvakappaleet ovat ennen kuin malli käsittelee ne. Päällekkäisyys yhdistää viereiset palat piilottaakseen reunat. Rinnakkaistyöntekijät voivat nopeuttaa käsittelyä, mutta jokainen työntekijä tarvitsee muistia, joten suuret arvot voivat tehdä suurista kuvista epävakaita puhelimissa, joissa on rajoitettu RAM-muisti.</string>
     <string name="help_tip_ai_parameters_step_1">Käytä suurempia paloja tasaisemman kontekstin saamiseksi, kun laitteesi käsittelee mallia luotettavasti ja kuva ei ole valtava.</string>
     <string name="help_tip_ai_parameters_step_2">Lisää päällekkäisyyttä, kun osien reunat tulevat näkyviin, mutta muista, että enemmän päällekkäisyyksiä tarkoittaa enemmän toistuvaa työtä.</string>
     <string name="help_tip_ai_parameters_step_3">Nosta rinnakkaiset työntekijät vasta vakaan testin jälkeen; Jos käsittely hidastuu, lämmittää laitetta tai kaatuu, vähennä ensin työntekijöitä.</string>
     <string name="help_tip_ai_parameters_page_2_title">Vältä palasia esineitä</string>
-    <string name="help_tip_ai_parameters_page_2_description">Chunking antaa sovelluksen käsitellä kuvia, jotka ovat suurempia kuin malli pystyy mukavasti käsittelemään kerralla. Kompromissi on, että jokaisella laatalla on vähemmän ympäröivää kontekstia, joten pieni päällekkäisyys tai liian pienet palat voivat luoda näkyviä reunoja, tekstuurimuutoksia tai epäjohdonmukaisia ​​yksityiskohtia viereisten alueiden välille.</string>
+    <string name="help_tip_ai_parameters_page_2_description">Chunking antaa sovelluksen käsitellä kuvia, jotka ovat suurempia kuin malli pystyy mukavasti käsittelemään kerralla. Kompromissi on, että jokaisella laatalla on vähemmän ympäröivää kontekstia, joten pieni päällekkäisyys tai liian pienet palat voivat luoda näkyviä reunoja, tekstuurimuutoksia tai epäjohdonmukaisia yksityiskohtia viereisten alueiden välille.</string>
     <string name="help_tip_ai_parameters_page_2_step_1">Lisää päällekkäisyyttä, jos näet suorakaiteen muotoisia reunuksia, toistuvia tekstuurimuutoksia tai yksityiskohtien hyppyjä käsiteltyjen alueiden välillä.</string>
     <string name="help_tip_ai_parameters_page_2_step_2">Pienennä kappaleen kokoa, jos prosessi epäonnistuu ennen tulosteen tuottamista, erityisesti suurissa kuvissa tai painavissa malleissa.</string>
     <string name="help_tip_ai_parameters_page_2_step_3">Tallenna pieni rajaustesti ennen koko kuvan käsittelyä, jotta voit verrata parametreja nopeasti.</string>
@@ -2788,7 +2788,7 @@
     <string name="help_tip_ai_stability_subtitle">Pienennä kappalekokoa, työntekijöitä ja lähteen resoluutiota, kun tekoälyn käsittely kaatuu tai jumiutuu</string>
     <string name="help_tip_ai_stability_page_title">Toivu raskaista tekoälytöistä</string>
     <string name="help_tip_ai_stability_description">AI-käsittely on yksi sovelluksen raskaimmista työnkulkuista. Kaatumiset, epäonnistuneet istunnot, jumiutuminen tai äkilliset sovelluksen uudelleenkäynnistykset tarkoittavat yleensä sitä, että malli, lähteen tarkkuus, kappaleen koko tai rinnakkaisten työntekijöiden määrä on liian vaativa laitteen nykyiseen tilaan.</string>
-    <string name="help_tip_ai_stability_step_1">Jos sovellus kaatuu tai ei avaa malliistuntoa, pienennä rinnakkaisia ​​työntekijöitä ja osan kokoa ja yritä sitten samaa kuvaa uudelleen.</string>
+    <string name="help_tip_ai_stability_step_1">Jos sovellus kaatuu tai ei avaa malliistuntoa, pienennä rinnakkaisia työntekijöitä ja osan kokoa ja yritä sitten samaa kuvaa uudelleen.</string>
     <string name="help_tip_ai_stability_step_2">Muuta erittäin suurten kuvien kokoa ennen tekoälyn käsittelyä, kun tavoite ei vaadi alkuperäistä resoluutiota.</string>
     <string name="help_tip_ai_stability_step_3">Sulje muut raskaat sovellukset, käytä pienempää mallia tai käsittele vähemmän tiedostoja kerralla, kun muistin paine palaa jatkuvasti.</string>
     <string name="help_tip_ai_stability_page_2_title">Diagnosoi mallin viat</string>
@@ -2804,16 +2804,16 @@
     <string name="help_tip_shader_studio_step_2">Muuta yksi parametri tai koodilohko kerrallaan ja tarkista esikatselu virheiden varalta.</string>
     <string name="help_tip_shader_studio_step_3">Vie esiasetukset vasta testattuasi niitä muutamalla eri kuvakoolla.</string>
     <string name="help_tip_svg_ascii_title">Tee SVG- tai ASCII-taide</string>
-    <string name="help_tip_svg_ascii_subtitle">Luo vektorimaista sisältöä tai tekstipohjaisia ​​kuvia luovaa tulosta varten</string>
+    <string name="help_tip_svg_ascii_subtitle">Luo vektorimaista sisältöä tai tekstipohjaisia kuvia luovaa tulosta varten</string>
     <string name="help_tip_svg_ascii_page_title">Valitse mainoksen tulostyyppi</string>
-    <string name="help_tip_svg_ascii_description">SVG- ja ASCII-työkalut palvelevat erilaisia ​​kohteita: skaalautuvaa grafiikkaa tai tekstityylistä renderöintiä. Molemmat ovat luovia tuloksia, joten esikatselu lopullisessa koossa on tärkeämpää kuin tuloksen päättäminen pienestä pikkukuvasta.</string>
+    <string name="help_tip_svg_ascii_description">SVG- ja ASCII-työkalut palvelevat erilaisia kohteita: skaalautuvaa grafiikkaa tai tekstityylistä renderöintiä. Molemmat ovat luovia tuloksia, joten esikatselu lopullisessa koossa on tärkeämpää kuin tuloksen päättäminen pienestä pikkukuvasta.</string>
     <string name="help_tip_svg_ascii_step_1">Käytä SVG Makeria, kun tuloksen pitäisi skaalata puhtaasti tai käyttää uudelleen suunnittelutyönkuluissa.</string>
     <string name="help_tip_svg_ascii_step_2">Käytä ASCII-taidetta, kun haluat tyylitellyn tekstiesityksen kuvasta.</string>
     <string name="help_tip_svg_ascii_step_3">Esikatsele lopullisessa koossa, koska pienet yksityiskohdat voivat kadota tuotetussa tulosteessa.</string>
     <string name="help_tip_noise_generation_title">Luo kohinakuvioita</string>
     <string name="help_tip_noise_generation_subtitle">Luo menettelyllisiä pintakuvioita taustoja, maskeja, peittokuvia tai kokeiluja varten</string>
     <string name="help_tip_noise_generation_page_title">Viritä prosessitulostus</string>
-    <string name="help_tip_noise_generation_description">Kohinan tuottaminen luo uusia kuvia parametreista, joten pienet muutokset voivat tuottaa hyvin erilaisia ​​tuloksia. Se on hyödyllinen pintakuvioissa, maskeissa, peittokuvissa, paikkamerkeissä tai pakkauksen testaamisessa yksityiskohtaisilla kuvioilla.</string>
+    <string name="help_tip_noise_generation_description">Kohinan tuottaminen luo uusia kuvia parametreista, joten pienet muutokset voivat tuottaa hyvin erilaisia tuloksia. Se on hyödyllinen pintakuvioissa, maskeissa, peittokuvissa, paikkamerkeissä tai pakkauksen testaamisessa yksityiskohtaisilla kuvioilla.</string>
     <string name="help_tip_noise_generation_step_1">Valitse kohinan tyyppi ja lähtökoko ennen hienojen yksityiskohtien viritystä.</string>
     <string name="help_tip_noise_generation_step_2">Säädä mittakaavaa, voimakkuutta, värejä tai siemeniä, kunnes kuvio sopii käyttötarkoitukseen.</string>
     <string name="help_tip_noise_generation_step_3">Tallenna hyödyllisiä tuloksia ja kirjoita parametrit muistiin, jos haluat luoda tekstuurin uudelleen myöhemmin.</string>
@@ -2848,7 +2848,7 @@
     <string name="help_tip_cache_and_previews_title">Välimuisti ja esikatselut</string>
     <string name="help_tip_cache_and_previews_subtitle">Ymmärrä luodut esikatselut, välimuistin puhdistaminen ja tallennustilan käyttö raskaiden istuntojen jälkeen</string>
     <string name="help_tip_cache_and_previews_page_title">Pidä varastointi ja nopeus tasapainossa</string>
-    <string name="help_tip_cache_and_previews_description">Esikatselun luominen ja välimuisti voivat nopeuttaa toistuvaa selaamista, mutta raskaat muokkausistunnot voivat jättää väliaikaisia ​​tietoja taakse. Välimuistiasetukset auttavat, kun sovellus tuntuu hitaalta, tallennustila on tiukka tai esikatselut näyttävät vanhentuneilta monien kokeilujen jälkeen.</string>
+    <string name="help_tip_cache_and_previews_description">Esikatselun luominen ja välimuisti voivat nopeuttaa toistuvaa selaamista, mutta raskaat muokkausistunnot voivat jättää väliaikaisia tietoja taakse. Välimuistiasetukset auttavat, kun sovellus tuntuu hitaalta, tallennustila on tiukka tai esikatselut näyttävät vanhentuneilta monien kokeilujen jälkeen.</string>
     <string name="help_tip_cache_and_previews_step_1">Esikatselun pitäminen käytössä, kun selaat monia kuvia, on tärkeämpää kuin tilapäisen tallennustilan minimointi.</string>
     <string name="help_tip_cache_and_previews_step_2">Tyhjennä välimuisti suurten erien, epäonnistuneiden kokeilujen tai pitkien istuntojen jälkeen monien korkearesoluutioisten tiedostojen kanssa.</string>
     <string name="help_tip_cache_and_previews_step_3">Käytä automaattista välimuistin tyhjennystä, jos haluat mieluummin tallennustilan puhdistamisen kuin esikatselun pitämisen lämpimänä käynnistysten välillä.</string>
@@ -2886,7 +2886,7 @@
     <string name="help_tip_logs_feedback_description">Selkeä raportti, jossa on vaiheet, sovellusversio, syöttötyyppi ja lokit, on paljon helpompi diagnosoida. Lokit ovat hyödyllisimpiä heti ongelman toistamisen jälkeen, koska ne pitävät ympäröivän kontekstin tuoreena.</string>
     <string name="help_tip_logs_feedback_step_1">Huomaa työkalun nimi, tarkka toiminto ja tapahtuuko se yhdelle tiedostolle vai jokaiselle tiedostolle.</string>
     <string name="help_tip_logs_feedback_step_2">Avaa sovelluslokit ongelman toistamisen jälkeen ja jaa asiaankuuluva lokitulos, jos mahdollista.</string>
-    <string name="help_tip_logs_feedback_step_3">Liitä kuvakaappauksia tai esimerkkitiedostoja vain, jos ne eivät sisällä henkilökohtaisia ​​tietoja.</string>
+    <string name="help_tip_logs_feedback_step_3">Liitä kuvakaappauksia tai esimerkkitiedostoja vain, jos ne eivät sisällä henkilökohtaisia tietoja.</string>
     <string name="crash_foreground_service_timeout_title">Taustakäsittely lopetettiin</string>
     <string name="crash_foreground_service_timeout_description">Android ei antanut taustakäsittelyilmoituksen käynnistyä ajoissa. Tämä on järjestelmän ajoitusrajoitus, jota ei voida luotettavasti korjata. Käynnistä sovellus uudelleen ja yritä uudelleen; sovelluksen pitäminen auki ja ilmoitusten tai taustatyön salliminen voi auttaa.</string>
     <string name="help_tip_skip_file_picking_title">Ohita tiedostojen poiminta</string>
@@ -2925,7 +2925,7 @@
     <string name="help_tip_skip_larger_outputs_step_2">Tarkista ohitetut tiedostot erän jälkeen; ne voivat olla jo optimoituja tai ne saattavat tarvita eri muotoa.</string>
     <string name="help_tip_skip_larger_outputs_step_3">Poista se käytöstä, kun laatu, läpinäkyvyys tai muodon yhteensopivuus ovat tärkeämpiä kuin lopullinen tiedostokoko.</string>
     <string name="help_tip_clipboard_and_links_title">Leikepöytä ja linkit</string>
-    <string name="help_tip_clipboard_and_links_subtitle">Ohjaa automaattista leikepöydän syöttöä ja linkkien esikatselua nopeampia tekstipohjaisia ​​työkaluja varten</string>
+    <string name="help_tip_clipboard_and_links_subtitle">Ohjaa automaattista leikepöydän syöttöä ja linkkien esikatselua nopeampia tekstipohjaisia työkaluja varten</string>
     <string name="help_tip_clipboard_and_links_page_title">Tee automaattisesta syötöstä ennustettavaa</string>
     <string name="help_tip_clipboard_and_links_description">Leikepöytä- ja linkkiasetukset ovat käteviä QR-, Base64-, URL- ja paljon tekstiä sisältäviin työnkulkuihin, mutta automaattisen syöttämisen tulisi pysyä tarkoituksella. Jos sovellus näyttää täyttävän kentät itsestään, tarkista leikepöydän liittämistoiminta. Jos linkkikortit tuntuvat äänekkäiltä tai hitailta, säädä linkin esikatselun toimintaa.</string>
     <string name="help_tip_clipboard_and_links_step_1">Salli automaattinen leikepöydälle liittäminen, kun kopioit usein tekstiä ja avaat heti hakutyökalun.</string>
@@ -2934,7 +2934,7 @@
     <string name="help_tip_compact_controls_title">Kompaktit säätimet</string>
     <string name="help_tip_compact_controls_subtitle">Käytä tiheämpiä valitsimia ja nopeaa asetusten sijoittelua, kun näyttötilaa on vähän</string>
     <string name="help_tip_compact_controls_page_title">Sovita enemmän säätimiä pienille näytöille</string>
-    <string name="help_tip_compact_controls_description">Kompaktit valitsimet ja nopeat asetusten sijoittelut auttavat pienissä puhelimissa, vaakamuokkauksessa ja työkaluissa, joissa on monia parametreja. Kompromissi on, että säätimet voivat tuntua tiheämmiltä, ​​joten tämä on parasta, kun olet jo tunnistanut yleiset vaihtoehdot.</string>
+    <string name="help_tip_compact_controls_description">Kompaktit valitsimet ja nopeat asetusten sijoittelut auttavat pienissä puhelimissa, vaakamuokkauksessa ja työkaluissa, joissa on monia parametreja. Kompromissi on, että säätimet voivat tuntua tiheämmiltä, joten tämä on parasta, kun olet jo tunnistanut yleiset vaihtoehdot.</string>
     <string name="help_tip_compact_controls_step_1">Ota käyttöön kompaktit valitsimet, kun valintaikkunat tai vaihtoehtoluettelot tuntuvat liian korkeilta näytölle.</string>
     <string name="help_tip_compact_controls_step_2">Säädä pika-asetuspuolta, jos työkalun säätimet on helpompi saavuttaa näytön toiselta puolelta.</string>
     <string name="help_tip_compact_controls_step_3">Palaa tilavampiin säätimiin, jos opettelet edelleen sovellusta tai napautat usein tiheitä vaihtoehtoja.</string>
@@ -2965,7 +2965,7 @@
     <string name="help_tip_scale_color_space_description">Skaalausväriavaruus muuttaa kokoa muuttaessa käytettyä matematiikkaa. Useimmat kuvat ovat kunnossa oletusasetuksen kanssa, mutta lineaariset tai havainnolliset tilat voivat saada kaltevuudet, tummat reunat ja kylläiset värit näyttämään puhtaammilta voimakkaan skaalan jälkeen.</string>
     <string name="help_tip_scale_color_space_step_1">Jätä oletusasetus, kun nopeus ja yhteensopivuus ovat tärkeämpiä kuin pienet värierot.</string>
     <string name="help_tip_scale_color_space_step_2">Kokeile lineaarista tai havaintotilaa, kun tummat ääriviivat, käyttöliittymän kuvakaappaukset, liukuvärit tai värinauhat näyttävät vääriltä koon muuttamisen jälkeen.</string>
-    <string name="help_tip_scale_color_space_step_3">Vertaa ennen ja jälkeen todellisen kohdenäytön, koska väriavaruuden muutokset voivat olla hienovaraisia ​​ja sisällöstä riippuvia.</string>
+    <string name="help_tip_scale_color_space_step_3">Vertaa ennen ja jälkeen todellisen kohdenäytön, koska väriavaruuden muutokset voivat olla hienovaraisia ja sisällöstä riippuvia.</string>
     <string name="help_tip_limit_resize_modes_title">Rajoita koonmuutostiloja</string>
     <string name="help_tip_limit_resize_modes_subtitle">Tiedä, milloin ylimääräiset kuvat tulee ohittaa, koodata uudelleen tai pienentää sopimaan</string>
     <string name="help_tip_limit_resize_modes_page_title">Valitse, mitä rajalla tapahtuu</string>
@@ -2990,7 +2990,7 @@
     <string name="help_tip_filter_order_title">Suodatinjärjestyksellä on väliä</string>
     <string name="help_tip_filter_order_subtitle">Käytä puhdistusta, väriä, terävyyttä ja lopullista pakkausta tarkoituksellisessa järjestyksessä</string>
     <string name="help_tip_filter_order_page_title">Rakenna puhtaampi suodatinpino</string>
-    <string name="help_tip_filter_order_description">Suodattimet eivät aina ole vaihdettavissa. Sumeus ennen terävöitystä, kontrastin lisääminen ennen OCR:ää tai värin muutos ennen pakkausta voivat tuottaa hyvin erilaisia ​​tuloksia samoista säätimistä.</string>
+    <string name="help_tip_filter_order_description">Suodattimet eivät aina ole vaihdettavissa. Sumeus ennen terävöitystä, kontrastin lisääminen ennen OCR:ää tai värin muutos ennen pakkausta voivat tuottaa hyvin erilaisia tuloksia samoista säätimistä.</string>
     <string name="help_tip_filter_order_step_1">Rajaa ja kierrä ensin, jotta myöhemmin suodattimet toimivat vain jäljellä olevissa pikseleissä.</string>
     <string name="help_tip_filter_order_step_2">Käytä valotusta, valkotasapainoa ja kontrastia ennen terävöittämistä tai tyyliteltyjä tehosteita.</string>
     <string name="help_tip_filter_order_step_3">Pidä lopullinen koko ja pakkaus lähellä loppua, jotta esikatsellut tiedot säilyvät viennissä ennustettavasti.</string>
@@ -3042,7 +3042,7 @@
     <string name="help_tip_metadata_dates_location_description">Kaikki metatiedot eivät ole yhtä riskialttiita. Tallennuspäivämäärät voivat olla hyödyllisiä arkistointia ja lajittelua varten, kun taas GPS, laitteen sarjatyyppiset kentät, ohjelmistotunnisteet tai omistajakentät voivat paljastaa enemmän kuin on tarkoitettu.</string>
     <string name="help_tip_metadata_dates_location_step_1">Säilytä päivämäärä- ja aikatunnisteet, kun kronologisella järjestyksellä on merkitystä albumien, skannausten tai projektihistorian kannalta.</string>
     <string name="help_tip_metadata_dates_location_step_2">Poista GPS- ja laitetunnisteet ennen kuvien julkista jakamista tai lähettämistä tuntemattomille.</string>
-    <string name="help_tip_metadata_dates_location_step_3">Vie näyte ja tarkista EXIF ​​uudelleen, kun tietosuojavaatimukset ovat tiukat.</string>
+    <string name="help_tip_metadata_dates_location_step_3">Vie näyte ja tarkista EXIF uudelleen, kun tietosuojavaatimukset ovat tiukat.</string>
     <string name="help_tip_filename_collision_safety_title">Vältä tiedostonimien törmäyksiä</string>
     <string name="help_tip_filename_collision_safety_subtitle">Suojaa erätulosteet, kun monet tiedostot jakavat nimet, kuten image.jpg tai screenshot.png</string>
     <string name="help_tip_filename_collision_safety_page_title">Tee jokaisesta tulostenimestä yksilöllinen</string>
@@ -3053,7 +3053,7 @@
     <string name="help_tip_save_vs_share_title">Tallenna tai jaa</string>
     <string name="help_tip_save_vs_share_subtitle">Valitse pysyvän tiedoston tai väliaikaisen kanavanvaihdon välillä toiseen sovellukseen</string>
     <string name="help_tip_save_vs_share_page_title">Vie oikealla tarkoituksella</string>
-    <string name="help_tip_save_vs_share_description">Tallenna ja jaa voivat tuntua samanlaisilta, mutta ne ratkaisevat erilaisia ​​ongelmia. Tallentaminen luo tiedoston, jonka löydät myöhemmin. jakaminen lähettää luodun tuloksen Androidin kautta toiseen sovellukseen, eikä se välttämättä jätä kestävää paikallista kopiota.</string>
+    <string name="help_tip_save_vs_share_description">Tallenna ja jaa voivat tuntua samanlaisilta, mutta ne ratkaisevat erilaisia ongelmia. Tallentaminen luo tiedoston, jonka löydät myöhemmin. jakaminen lähettää luodun tuloksen Androidin kautta toiseen sovellukseen, eikä se välttämättä jätä kestävää paikallista kopiota.</string>
     <string name="help_tip_save_vs_share_step_1">Käytä Tallenna, kun tulosteen on pysyttävä tunnetussa kansiossa, varmuuskopioitava tai käytettävä myöhemmin uudelleen.</string>
     <string name="help_tip_save_vs_share_step_2">Käytä Jaa-toimintoa nopeisiin viesteihin, sähköpostin liitteisiin, julkaisemiseen sosiaalisessa mediassa tai tulosten lähettämiseen toiselle editorille.</string>
     <string name="help_tip_save_vs_share_step_3">Tallenna ensin, kun vastaanottava sovellus on epäluotettava tai kun epäonnistunut jako olisi ärsyttävää luoda uudelleen.</string>
@@ -3063,7 +3063,7 @@
     <string name="help_tip_pdf_page_size_margins_description">Kuvista voi tulla hankalia PDF-sivuja, jos niiden muoto ei vastaa valittua paperikokoa. Marginaalit, sovitustila ja sivun suunta päättävät, onko sisältö rajattu, pieni, venytetty vai mukava lukea.</string>
     <string name="help_tip_pdf_page_size_margins_step_1">Käytä oikeaa paperikokoa, kun PDF voidaan tulostaa tai lähettää lomakkeelle.</string>
     <string name="help_tip_pdf_page_size_margins_step_2">Käytä marginaaleja skannauksissa ja kuvakaappauksissa, jotta teksti ei jää sivun reunaan.</string>
-    <string name="help_tip_pdf_page_size_margins_step_3">Esikatsele pysty- ja vaakasuuntaisia ​​sivuja yhdessä, kun lähdekuvien suunta on sekoitettu.</string>
+    <string name="help_tip_pdf_page_size_margins_step_3">Esikatsele pysty- ja vaakasuuntaisia sivuja yhdessä, kun lähdekuvien suunta on sekoitettu.</string>
     <string name="help_tip_scan_cleanup_title">Puhdista skannaukset</string>
     <string name="help_tip_scan_cleanup_subtitle">Paranna paperin reunoja, varjoja, kontrastia, kiertoa ja luettavuutta ennen PDF- tai tekstintunnistusta</string>
     <string name="help_tip_scan_cleanup_page_title">Valmistele sivut ennen arkistointia</string>
@@ -3083,12 +3083,12 @@
     <string name="help_tip_pdf_extract_images_page_title">Tallenna lähdekuvia asiakirjoista</string>
     <string name="help_tip_pdf_extract_images_description">Extract Images etsii PDF-tiedostosta upotettuja kuvaobjekteja, ohittaa kaksoiskappaleet mahdollisuuksien mukaan ja tallentaa palautetut kuvat luotuun ZIP-arkistoon. Se poimii vain kuvat, jotka on todella upotettu PDF-tiedostoon, ei tekstiä, vektoripiirroksia tai jokaista näkyvää sivua kuvakaappauksena.</string>
     <string name="help_tip_pdf_extract_images_step_1">Käytä Pura kuvat, kun tarvitset PDF-tiedostoon tallennettuja kuvia, kuten kuvia luettelosta tai skannattuista resursseista.</string>
-    <string name="help_tip_pdf_extract_images_step_2">Käytä sen sijaan PDF-tiedostoa kuviksi tai sivujen purkamista, kun tarvitset kokonaisia ​​sivuja, mukaan lukien tekstin ja asettelun.</string>
+    <string name="help_tip_pdf_extract_images_step_2">Käytä sen sijaan PDF-tiedostoa kuviksi tai sivujen purkamista, kun tarvitset kokonaisia sivuja, mukaan lukien tekstin ja asettelun.</string>
     <string name="help_tip_pdf_extract_images_step_3">Jos työkalu ei ilmoita upotettuja kuvia, sivu voi olla teksti-/vektorisisältöä tai kuvia ei ehkä tallenneta poimittavissa olevina objekteina.</string>
     <string name="help_tip_pdf_metadata_flatten_print_title">Metatiedot, litistys ja tulostus</string>
     <string name="help_tip_pdf_metadata_flatten_print_subtitle">Muokkaa asiakirjan ominaisuuksia, rasteroi sivuja tai valmistele mukautettuja tulostusasetteluja tarkoituksella</string>
     <string name="help_tip_pdf_metadata_flatten_print_page_title">Valitse lopullisen asiakirjan toiminto</string>
-    <string name="help_tip_pdf_metadata_flatten_print_description">PDF-metatiedot, tasoitus ja tulostuksen valmistelu ratkaisevat erilaisia ​​loppuvaiheen ongelmia. Metadata hallitsee asiakirjan ominaisuuksia, Flatten PDF rasteroi sivut vähemmän muokattavaksi tulosteiksi ja Print PDF valmistelee uuden asettelun sivun koon, suunnan, marginaalin ja sivuja arkilta -säätimillä.</string>
+    <string name="help_tip_pdf_metadata_flatten_print_description">PDF-metatiedot, tasoitus ja tulostuksen valmistelu ratkaisevat erilaisia loppuvaiheen ongelmia. Metadata hallitsee asiakirjan ominaisuuksia, Flatten PDF rasteroi sivut vähemmän muokattavaksi tulosteiksi ja Print PDF valmistelee uuden asettelun sivun koon, suunnan, marginaalin ja sivuja arkilta -säätimillä.</string>
     <string name="help_tip_pdf_metadata_flatten_print_step_1">Käytä metatietoja, kun tekijällä, otsikolla, avainsanoilla, tuottajalla tai yksityisyyden puhdistamisella on merkitystä.</string>
     <string name="help_tip_pdf_metadata_flatten_print_step_2">Käytä Flatten PDF -toimintoa, kun näkyvän sivun sisällön pitäisi olla vaikeampaa muokata erillisinä PDF-objekteina.</string>
     <string name="help_tip_pdf_metadata_flatten_print_step_3">Käytä Tulosta PDF -toimintoa, kun tarvitset mukautetun sivukoon, suunnan, marginaalit tai useita sivuja arkille.</string>
@@ -3110,9 +3110,9 @@
     <string name="help_tip_qr_generation_subtitle">Luo koodeja pelkästä tekstistä, URL-osoitteista, Wi-Fi-verkosta, yhteystiedoista, sähköpostista, puhelimesta, tekstiviestistä ja sijaintitiedoista</string>
     <string name="help_tip_qr_generation_page_title">Rakenna oikea QR-hyötykuorma</string>
     <string name="help_tip_qr_generation_description">QR-näyttö voi luoda koodeja syötetystä sisällöstä sekä skannata olemassa olevia. Strukturoidut QR-tyypit auttavat koodaamaan tietoja muiden sovellusten ymmärtämään muotoon, kuten Wi-Fi-kirjautumistiedot, yhteystiedot, sähköpostikentät, puhelinnumerot, tekstiviestien sisältö, URL-osoitteet tai maantieteelliset koordinaatit.</string>
-    <string name="help_tip_qr_generation_step_1">Valitse pelkkä teksti yksinkertaisia ​​muistiinpanoja varten tai käytä jäsenneltyä tyyppiä, kun koodin pitäisi avautua Wi-Fi-, yhteystieto-, URL-, sähköposti-, puhelin-, tekstiviesti- tai sijaintitietona.</string>
+    <string name="help_tip_qr_generation_step_1">Valitse pelkkä teksti yksinkertaisia muistiinpanoja varten tai käytä jäsenneltyä tyyppiä, kun koodin pitäisi avautua Wi-Fi-, yhteystieto-, URL-, sähköposti-, puhelin-, tekstiviesti- tai sijaintitietona.</string>
     <string name="help_tip_qr_generation_step_2">Tarkista jokainen kenttä ennen luodun koodin jakamista, koska näkyvä esikatselu heijastaa vain syöttämääsi hyötykuormaa.</string>
-    <string name="help_tip_qr_generation_step_3">Testaa tallennettu QR-koodi skannerilla, kun se tulostetaan, julkaistaan ​​tai kun muut ihmiset käyttävät sitä.</string>
+    <string name="help_tip_qr_generation_step_3">Testaa tallennettu QR-koodi skannerilla, kun se tulostetaan, julkaistaan tai kun muut ihmiset käyttävät sitä.</string>
     <string name="help_tip_checksum_tool_tabs_title">Valitse tarkistussummatila</string>
     <string name="help_tip_checksum_tool_tabs_subtitle">Laske hajautusarvot tiedostoista tai tekstistä, vertaa yhtä tiedostoa tai tarkista useita tiedostoja erässä</string>
     <string name="help_tip_checksum_tool_tabs_page_title">Tarkista sisältö, älä ulkonäkö</string>
@@ -3321,7 +3321,7 @@
     <string name="y_wavelength">Y aallonpituus</string>
     <string name="adaptive_blur">Mukautuva sumennus</string>
     <string name="texture_generation">Tekstuurien luominen</string>
-    <string name="texture_generation_sub">Luo erilaisia ​​proseduureja ja tallenna ne kuvina</string>
+    <string name="texture_generation_sub">Luo erilaisia proseduureja ja tallenna ne kuvina</string>
     <string name="texture_type">Tekstuurityyppi</string>
     <string name="bias">Bias</string>
     <string name="time">Aika</string>
@@ -3683,7 +3683,7 @@
     <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri. Tukee mukautettua muotoilua: \\c{padding} (esim. \\c{3} -&gt; 001), \\c{aloitus:vaihe} tai \\c{aloitus:vaihe:padding}.</string>
     <string name="parent_folder_pattern_description">Pääkansion nimi, jossa alkuperäinen tiedosto sijaitsi.</string>
     <string name="file_size_pattern_description">Alkuperäisen tiedoston koko. Tukee yksiköitä: \\z{b}, \\z{kb}, \\z{mb} tai vain \\z ihmisen luettavassa muodossa.</string>
-    <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) ​​varmistaakseen tiedostonimen ainutlaatuisuuden.</string>
+    <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) varmistaakseen tiedostonimen ainutlaatuisuuden.</string>
     <string name="rename_cannot_undone">Tiedostojen uudelleennimeämistä ei voi kumota. Varmista, että uudet nimet ovat oikein ennen kuin jatkat.</string>
     <string name="confirm_rename_title">Vahvista uudelleennimeäminen</string>
     <string name="markup_layers_side_menu_settings">Sivuvalikon asetukset</string>
@@ -3718,11 +3718,11 @@
     <string name="folder_picker_sub">Valitse kaikki kuvat kansiosta ja sen alikansioista</string>
     <string name="duplicate_finder">Kaksoiskappaleetsin</string>
     <string name="duplicate_finder_sub">Etsi tarkat kopiot ja visuaalisesti samankaltaiset kuvat</string>
-    <string name="search_keywords_duplicate_finder">kaksoiskappaleet etsivät samanlaisia ​​kuvia tarkat kopiot valokuvat puhdistus tallennustila dHash SHA-256</string>
+    <string name="search_keywords_duplicate_finder">kaksoiskappaleet etsivät samanlaisia kuvia tarkat kopiot valokuvat puhdistus tallennustila dHash SHA-256</string>
     <string name="pick_images_for_duplicates">Valitse kuvat löytääksesi kaksoiskappaleet</string>
     <string name="duplicate_finder_sensitivity">Samankaltaisuusherkkyys</string>
     <string name="exact_copies">Tarkat kopiot</string>
-    <string name="similar_images">Samanlaisia ​​kuvia</string>
+    <string name="similar_images">Samanlaisia kuvia</string>
     <string name="select_all_duplicates">Valitse kaikki tarkat kaksoiskappaleet</string>
     <string name="select_all_except_best">Valitse kaikki paitsi suositellut</string>
     <string name="no_duplicates_found">Kopioita ei löytynyt</string>
@@ -3959,7 +3959,7 @@
     <string name="duplicate_scan_mode">Skannaustila</string>
     <string name="duplicate_scan_exact_only">Vain tarkat kopiot</string>
     <string name="duplicate_scan_exact_and_similar">Tarkkaa ja vastaavaa</string>
-    <string name="no_exact_duplicates_found_sub">Yritä lisätä kuvia tai sisällyttää visuaalisesti samankaltaisia ​​kuvia</string>
+    <string name="no_exact_duplicates_found_sub">Yritä lisätä kuvia tai sisällyttää visuaalisesti samankaltaisia kuvia</string>
     <string name="unable_to_decode_image">Ei voida purkaa %1$s</string>
     <string name="implementation_sub_v2">AES-256-GCM, jossa on satunnainen 12-tavuinen nonce, käytetään oletuksena. Jokaisella salatulla tiedostolla on versioitu otsikko, ainutlaatuinen satunnainen suola ja avain, joka on johdettu salasanasta käyttämällä PBKDF2-HMAC-SHA256:ta ja 210 000 iteraatiota. Voit myös valita toisen käytettävissä olevan algoritmin.</string>
     <string name="encrypted_file_detected">Salattu tiedosto havaittu</string>
@@ -4516,7 +4516,7 @@
     <string name="help_tip_raw_development_page_3_step_1">Käytä laadukkaampaa demosaiikkiasetusta yksityiskohtaisille maisemille, lehdille, kankaille tai kuville, joita voidaan rajata myöhemmin.</string>
     <string name="help_tip_raw_development_page_3_step_2">Käytä puolikokoista tulostetta nopeaan jakamiseen, esikatseluun tai pieniin sosiaalisiin julkaisuihin, kun täyden resoluution käsittely ei tuota näkyvää hyötyä.</string>
     <string name="help_tip_raw_development_page_3_step_3">Muunna ensin yksi edustava RAW-tiedosto, tarkasta se aiotussa koossa ja käytä onnistuneita asetuksia uudelleen loppukuvauksen aikana.</string>
-    <string name="tone_curves_sub">Käytä ammattimaisia ​​värikäyriä yhteen tai useisiin kuviin</string>
+    <string name="tone_curves_sub">Käytä ammattimaisia värikäyriä yhteen tai useisiin kuviin</string>
     <string name="search_keywords_tone_curves">sävykäyrät rgb cmyk lab sävy kylläisyys luma värin korjaus erä</string>
     <string name="screen_content_coding">Näytön sisällön koodaus</string>
     <string name="screen_content_coding_sub">Optimoi kuvakaappausten, tekstin ja grafiikan koodauksen</string>
@@ -5535,26 +5535,26 @@
     <string name="help_tip_gallery_search_page_5_step_3">Vapauta tallennustilaa avaamalla Hakuasetukset, napauttamalla Poista hakutiedot ja vahvistamalla. Semanttinen valokuvahaku kytkeytyy pois päältä. Kun seuraavan kerran kytket sen päälle, sovellus lataa tarvittavat tiedostot ja valmistelee valokuvasi uudelleen.</string>
     <string name="apply_spot_heal_manually">Käytä manuaalisesti</string>
     <string name="apply_spot_heal_manually_sub">Merkitse useita alueita ja korjaa ne yhdessä napauttamalla Käytä</string>
-    <string name="gallery_search_similar">Etsi samanlaisia ​​kuvia</string>
+    <string name="gallery_search_similar">Etsi samanlaisia kuvia</string>
     <string name="gallery_search_similar_description">Valitse valokuva löytääksesi muita samansisältöisiä kuvia.</string>
     <string name="gallery_search_similar_enable">Ota ensin käyttöön semanttinen valokuvahaku.</string>
     <string name="gallery_search_similar_download">Saatavilla sen jälkeen, kun hakutiedostot on ladattu.</string>
     <string name="gallery_search_similar_prepare">Saatavilla heti ensimmäisten kuvien valmistuttua.</string>
-    <string name="gallery_search_similar_results">Samanlaisia ​​kuvia</string>
+    <string name="gallery_search_similar_results">Samanlaisia kuvia</string>
     <string name="gallery_search_change_image">Muuta hakukuvaa</string>
-    <string name="help_tip_gallery_search_image_title">Etsi samanlaisia ​​kuvia</string>
-    <string name="help_tip_gallery_search_image_description">Valitse kuva kuvauksen kirjoittamisen sijaan. Semanttinen haku löytää kuvia, joissa on samankaltaisia ​​aiheita tai kohtauksia nykyisestä albumista ja kategoriasta. Tulokset on järjestetty samankaltaisuuden mukaan. Tämä on samankaltaisen sisällön hakua, ei vain identtisiä kopioita.</string>
-    <string name="help_tip_gallery_search_image_step_1">Kun hakutiedostot on ladattu ja joitain valokuvia on valmisteltu, avaa Hakuasetukset → Etsi samankaltaisia ​​kuvia ja valitse yksi valokuva.</string>
+    <string name="help_tip_gallery_search_image_title">Etsi samanlaisia kuvia</string>
+    <string name="help_tip_gallery_search_image_description">Valitse kuva kuvauksen kirjoittamisen sijaan. Semanttinen haku löytää kuvia, joissa on samankaltaisia aiheita tai kohtauksia nykyisestä albumista ja kategoriasta. Tulokset on järjestetty samankaltaisuuden mukaan. Tämä on samankaltaisen sisällön hakua, ei vain identtisiä kopioita.</string>
+    <string name="help_tip_gallery_search_image_step_1">Kun hakutiedostot on ladattu ja joitain valokuvia on valmisteltu, avaa Hakuasetukset → Etsi samankaltaisia kuvia ja valitse yksi valokuva.</string>
     <string name="help_tip_gallery_search_image_step_2">Valittu valokuva korvaa tekstikyselyn, ja sen pikkukuva tulee näkyviin hakukenttään. Valitse toinen valokuva napauttamalla pikkukuvaa. Alkuperäinen jätetään pois tuloksista; erillisiä kopioita saattaa silti näkyä.</string>
     <string name="help_tip_gallery_search_image_step_3">Tyhjennä hakukenttä poistaaksesi viitekuvan ja palataksesi tekstihakuun. Albumi- ja luokkasuodattimet ovat edelleen voimassa. Valitse albumiriviltä Kaikki nähdäksesi kaikki saatavilla olevat valokuvat.</string>
     <string name="gallery_search_manage_categories">Luokat</string>
     <string name="gallery_search_manage_categories_description">Luo omat kategoriat ja säädä sisäänrakennettuja.</string>
     <string name="gallery_search_accuracy">Haun tarkkuus</string>
-    <string name="gallery_search_accuracy_description">Valitse, kuinka samanlaisia ​​tulosten tulee olla.</string>
+    <string name="gallery_search_accuracy_description">Valitse, kuinka samanlaisia tulosten tulee olla.</string>
     <string name="gallery_search_add_category">Uusi kategoria</string>
     <string name="gallery_search_add_category_description">Kuvaile valokuvia tai lisää esimerkkejä samankaltaisten kuvien ryhmittelyyn.</string>
     <string name="gallery_search_category_references">Viitekuvat</string>
-    <string name="gallery_search_category_references_description">Lisää kuvia lisätäksesi samankaltaisia ​​kuvia tähän luokkaan.</string>
+    <string name="gallery_search_category_references_description">Lisää kuvia lisätäksesi samankaltaisia kuvia tähän luokkaan.</string>
     <string name="gallery_search_reference_read_error">Viitekuvaa ei voitu avata. Yritä valita se uudelleen.</string>
     <string name="gallery_search_reference_save_error">Viitekuvaa ei voitu tallentaa. Tarkista käytettävissä oleva tallennustila ja yritä uudelleen.</string>
     <string name="gallery_search_category_remove_reference">Poista viitekuva</string>
@@ -5648,13 +5648,13 @@
     <string name="gallery_people_restore">Palauta ryhmä</string>
     <string name="gallery_people_name">Nimi</string>
     <string name="gallery_people_add_name">Lisää nimi</string>
-    <string name="gallery_people_similar">Samanlaisia ​​ryhmiä</string>
+    <string name="gallery_people_similar">Samanlaisia ryhmiä</string>
     <string name="gallery_people_similar_count">Ottelut: %1$d</string>
     <string name="gallery_people_same_person">Sama henkilö</string>
-    <string name="gallery_people_different_people">Erilaisia ​​ihmisiä</string>
-    <string name="gallery_people_no_similar">Ei enää samanlaisia ​​ryhmiä</string>
+    <string name="gallery_people_different_people">Erilaisia ihmisiä</string>
+    <string name="gallery_people_no_similar">Ei enää samanlaisia ryhmiä</string>
     <string name="gallery_people_threshold">Kasvojen samankaltaisuus</string>
-    <string name="gallery_people_threshold_description">Suurenna tätä arvoa, jos ryhmässä on erilaisia ​​ihmisiä. Pienennä sitä, jos yksi henkilö on jaettu useisiin ryhmiin. Muutokset tulevat voimaan, kun tallennat.</string>
+    <string name="gallery_people_threshold_description">Suurenna tätä arvoa, jos ryhmässä on erilaisia ihmisiä. Pienennä sitä, jos yksi henkilö on jaettu useisiin ryhmiin. Muutokset tulevat voimaan, kun tallennat.</string>
     <string name="gallery_people_cover">Kasvot ryhmässä</string>
     <string name="gallery_people_cover_description">Valitse kansi napauttamalla kasvoja. Sulje pois kasvot, jotka kuuluvat jollekin muulle; valokuvat säilytetään.</string>
     <string name="gallery_people_exclude">Sulje pois ryhmästä</string>
@@ -5830,7 +5830,7 @@
     <string name="help_tip_palette_pdf_title">Vie paletti PDF-tiedostona</string>
     <string name="help_tip_palette_pdf_subtitle">Tee tulostettava väriarkki kuvasta tai palettitiedostosta</string>
     <string name="help_tip_palette_pdf_page_title">Valmistele palettiarkki</string>
-    <string name="help_tip_palette_pdf_description">Paletti-PDF muuttaa poimitut tai tuodut värit asiakirjaksi, jossa on värimalleja ja valinnaisia ​​tarroja. Siitä on hyötyä, kun keskustellaan värimaailmasta tai säilytetään tulostettava viite. Näytön ja tulostimen tulosteet voivat vaihdella.</string>
+    <string name="help_tip_palette_pdf_description">Paletti-PDF muuttaa poimitut tai tuodut värit asiakirjaksi, jossa on värimalleja ja valinnaisia tarroja. Siitä on hyötyä, kun keskustellaan värimaailmasta tai säilytetään tulostettava viite. Näytön ja tulostimen tulosteet voivat vaihdella.</string>
     <string name="help_tip_palette_pdf_step_1">Valitse kuva tai tuettu palettitiedosto. Aseta kuvalle poimittujen värien enimmäismäärä; pieni määrä korostaa hallitsevia värejä.</string>
     <string name="help_tip_palette_pdf_step_2">Aseta sarakkeiden lukumäärä, marginaalit ja välit niin, että värimallit ja tarrat sopivat sivulle. Ota lähdekuva käyttöön vain, kun se auttaa selittämään paletin.</string>
     <string name="help_tip_palette_pdf_step_3">Valitse, näytetäänkö palettien nimet, värien nimet, HEX-arvot ja lähdetiedoston nimi. Tallenna tai jaa valmis PDF.</string>
@@ -5851,7 +5851,7 @@
     <string name="help_tip_webp_workflow_title">WebP-kuvat ja animaatiot</string>
     <string name="help_tip_webp_workflow_subtitle">Valitse still-muunnos tai kehystietoiset työkalut ja tarkista alfa- ja laatu</string>
     <string name="help_tip_webp_workflow_page_title">Valitse oikea WebP-polku</string>
-    <string name="help_tip_webp_workflow_description">Yhdelle still-kuvalle riittää yleensä tavallinen muotomuunnos. WebP Tools on hyödyllinen animoidun WebP:n luomiseen, purkamiseen, yhdistämiseen tai muuntamiseen. Häviöllinen ja häviötön pakkaus ratkaisee erilaisia ​​koko- ja tarkkuustavoitteita.</string>
+    <string name="help_tip_webp_workflow_description">Yhdelle still-kuvalle riittää yleensä tavallinen muotomuunnos. WebP Tools on hyödyllinen animoidun WebP:n luomiseen, purkamiseen, yhdistämiseen tai muuntamiseen. Häviöllinen ja häviötön pakkaus ratkaisee erilaisia koko- ja tarkkuustavoitteita.</string>
     <string name="help_tip_webp_workflow_step_1">Käytä animaatiotoimintoa kehysten ja ajoituksen säilyttämiseen. Animaation avaaminen still-kuvatyönkulussa voi jättää yhden kehyksen.</string>
     <string name="help_tip_webp_workflow_step_2">Tarkista läpinäkyvät reunat sekä vaaleaa että tummaa taustaa vasten. Voimakas häviöllinen pakkaus voi vaikuttaa hienoihin värillisiin yksityiskohtiin, vaikka alfa on läsnä.</string>
     <string name="help_tip_webp_workflow_step_3">Testaa tulos siellä, missä sitä käytetään. Jotkut latauspalvelut pakkaavat WebP:n uudelleen tai muuntavat animoidun tulosteen still-kuvaksi.</string>
@@ -5865,7 +5865,7 @@
     <string name="help_tip_ascii_workflow_title">ASCII-taide tekstinä</string>
     <string name="help_tip_ascii_workflow_subtitle">Yhdistä merkkien kirkkaus ja säädä merkkitiheyttä</string>
     <string name="help_tip_ascii_workflow_page_title">Valitse merkit ja mittakaava</string>
-    <string name="help_tip_ascii_workflow_description">ASCII Art korvaa kuva-alueet kirkkausgradientin merkeillä. Symbolien järjestys ja kirjasinkoko vaikuttavat tulokseen: tiheät symbolit edustavat erilaisia ​​sävyjä välilyönnistä ja pienistä merkeistä.</string>
+    <string name="help_tip_ascii_workflow_description">ASCII Art korvaa kuva-alueet kirkkausgradientin merkeillä. Symbolien järjestys ja kirjasinkoko vaikuttavat tulokseen: tiheät symbolit edustavat erilaisia sävyjä välilyönnistä ja pienistä merkeistä.</string>
     <string name="help_tip_ascii_workflow_step_1">Valitse kuva, jossa on selkeä siluetti tai kontrasti. Pienet tekstuurit ja kiireiset taustat on vaikeampi tunnistaa tekstiksi.</string>
     <string name="help_tip_ascii_workflow_step_2">Muokkaa merkkien liukuväriä ja kirjasinkokoa ja kokeile sitten kääntämistä, jos vaaleat ja tummat alueet näkyvät käänteisinä kohdetaustana.</string>
     <string name="help_tip_ascii_workflow_step_3">Kopioi tai vie tuloksena oleva teksti ja käytä yksivälistä fonttia kohteessa. Suhteelliset fontit ja muuttuneet rivivälit voivat vääristää kuvaa.</string>
@@ -5880,7 +5880,7 @@
     <string name="help_tip_exif_removal_title">Poista kuvan metatiedot erässä</string>
     <string name="help_tip_exif_removal_subtitle">Puhdista upotetut kuvatiedot ja tarkista viedyt kopiot</string>
     <string name="help_tip_exif_removal_page_title">Metatietojen puhdistus ja sen rajat</string>
-    <string name="help_tip_exif_removal_description">Poista EXIF ​​on tarkoitettu upotetun metatietojen poistamiseen valituista kuvista. Metatietojen puhdistaminen eroaa näkyvien tietojen piilottamisesta: kasvot, osoite, kuvakaappaustunniste tai tiedostonimi voivat silti paljastaa yksityiskohtia.</string>
+    <string name="help_tip_exif_removal_description">Poista EXIF on tarkoitettu upotetun metatietojen poistamiseen valituista kuvista. Metatietojen puhdistaminen eroaa näkyvien tietojen piilottamisesta: kasvot, osoite, kuvakaappaustunniste tai tiedostonimi voivat silti paljastaa yksityiskohtia.</string>
     <string name="help_tip_exif_removal_step_1">Valitse puhdistettavat kuvat ja tarkista erä ennen tallentamista. Käytä Muokkaa EXIF-tiedostoa, kun sinun on sen sijaan tarkistettava tai muutettava tiettyjä kenttiä.</string>
     <string name="help_tip_exif_removal_step_2">Tallenna puhdistetut kopiot ja tarkasta viety tiedosto metatietojen katseluohjelmassa. Tuetut metatiedot ja säilön toiminta vaihtelevat eri muodoissa.</string>
     <string name="help_tip_exif_removal_step_3">Tarkista tiedostojen nimet ja näkyvä sisältö erikseen. Älä korvaa ainoaa alkuperäistä, jos saatat tarvita sen kameratietoja myöhemmin.</string>
@@ -5943,7 +5943,7 @@
     <string name="help_tip_pdf_image_extraction_title">Renderöi PDF-sivut kuvina</string>
     <string name="help_tip_pdf_image_extraction_subtitle">Valitse sivun renderöinti sen sijaan, että poimiisit vain upotettuja kuvia</string>
     <string name="help_tip_pdf_image_extraction_page_title">Sivun renderöinti vs. upotetut kuvat</string>
-    <string name="help_tip_pdf_image_extraction_description">PDF-sivun renderöiminen tuottaa kuvan koko sivusta, mukaan lukien teksti ja vektorit. Pura kuvat hakee sen sijaan upotetut kuvat ja saattaa jättää pois tekstin tai sivun asettelun. Nämä toiminnot palvelevat erilaisia ​​tehtäviä.</string>
+    <string name="help_tip_pdf_image_extraction_description">PDF-sivun renderöiminen tuottaa kuvan koko sivusta, mukaan lukien teksti ja vektorit. Pura kuvat hakee sen sijaan upotetut kuvat ja saattaa jättää pois tekstin tai sivun asettelun. Nämä toiminnot palvelevat erilaisia tehtäviä.</string>
     <string name="help_tip_pdf_image_extraction_step_1">Valitse sivualue ja tulostustarkkuus. Korkeampi resoluutio auttaa pienentämään tekstiä, mutta lisää muistin käyttöä ja tiedostokokoa.</string>
     <string name="help_tip_pdf_image_extraction_step_2">Valitse kuvamuoto aiottuun käyttöön. PNG sopii teräville kaavioille ja tekstille; häviöllinen muoto voi olla pienempi, jos sivuilla on paljon valokuvaa.</string>
     <string name="help_tip_pdf_image_extraction_step_3">Tarkista renderöity sivu todellisessa koossa ennen suuren asiakirjan käsittelemistä. Renderoiduissa kuvissa ei ole enää valittavissa olevaa PDF-tekstiä.</string>
@@ -5958,7 +5958,7 @@
     <string name="help_tip_resize_by_file_size_page_2_step_2">Pienennä mittoja, kun laadun täytyy muuten laskea liian pitkälle. Vertaa tekstiä ja kasvoja pienennyksen jälkeen.</string>
     <string name="help_tip_resize_by_file_size_page_2_step_3">Tarkista tallennetun tiedoston koko ja latausvaatimukset. Jotkut rajoitukset koskevat pikseleitä, eivät tavuja, tai sisältävät erillisen mittarajoituksen.</string>
     <string name="help_tip_filters_page_2_title">Tilaus, naamarit ja toistettava tulos</string>
-    <string name="help_tip_filters_page_2_description">Suodattimet käytetään sarjana. Sumennus ennen terävöitystä ja terävöitys ennen epäterävyyttä tuottaa erilaisia ​​kuvia; voimakas kontrasti voi myös muuttaa myöhempien vaikutusten käyttäytymistä.</string>
+    <string name="help_tip_filters_page_2_description">Suodattimet käytetään sarjana. Sumennus ennen terävöitystä ja terävöitys ennen epäterävyyttä tuottaa erilaisia kuvia; voimakas kontrasti voi myös muuttaa myöhempien vaikutusten käyttäytymistä.</string>
     <string name="help_tip_filters_page_2_step_1">Rakenna korjauksia pienin askelin ja järjestä ne uudelleen, kun tehoste näyttää odottamattoman voimakkaalta. Poista suodatin käytöstä tai poista se tunnistaaksesi sen panoksen.</string>
     <string name="help_tip_filters_page_2_step_2">Käytä maskeja, kun säädön pitäisi vaikuttaa vain osaan kuvasta. Tarkista maskin reunat halojen tai äkillisten siirtymien varalta.</string>
     <string name="help_tip_filters_page_2_step_3">Erää varten tarkasta useita lähdekuvia ensimmäisen sijasta. Samat parametrit voivat leikata kohokohtia kirkkaampaan valokuvaan.</string>
@@ -5978,18 +5978,18 @@
     <string name="help_tip_markup_projects_page_2_step_2">Pidä tarvittavat lähderesurssit saatavilla ja tallenna muokattava projekti ennen litteän viennin tekemistä.</string>
     <string name="help_tip_markup_projects_page_2_step_3">Tarkista viety kuva aiotussa koossa. Editorin kuvakaappaus ei vastaa sävellyksen renderöimistä.</string>
     <string name="help_tip_ocr_page_2_title">Tunnustus on arvio</string>
-    <string name="help_tip_ocr_page_2_description">OCR muuntaa näkyvät kirjainmuodot tekstiksi. Se voi sekoittaa samankaltaisia ​​symboleja, menettää välimerkit tai yhdistää sarakkeita. Valitut kielitiedot ja kuvan valmistelu vaikuttavat tulokseen.</string>
+    <string name="help_tip_ocr_page_2_description">OCR muuntaa näkyvät kirjainmuodot tekstiksi. Se voi sekoittaa samankaltaisia symboleja, menettää välimerkit tai yhdistää sarakkeita. Valitut kielitiedot ja kuvan valmistelu vaikuttavat tulokseen.</string>
     <string name="help_tip_ocr_page_2_step_1">Valitse sivulla olevat kielet. Ylimääräiset toisiinsa liittymättömät kielitiedot eivät automaattisesti paranna tunnistamista.</string>
     <string name="help_tip_ocr_page_2_step_2">Rajaa toisiinsa liittymättömät alueet, suorista sivu ja vältä leikattuja kohokohtia. Voimakas teroitus tai kynnys voi poistaa ohuita kirjaimia.</string>
     <string name="help_tip_ocr_page_2_step_3">Oikoluku nimet, numerot ja rivinvaihdot ennen kopioimista tai vientiä. Haettavissa oleva PDF voi sisältää tunnistusvirheitä, vaikka sen näkyvä sivu näyttää oikealta.</string>
     <string name="help_tip_svg_ascii_page_2_title">Mitä vektorimuunnos voi säilyttää</string>
     <string name="help_tip_svg_ascii_page_2_description">SVG kuvaa muotoja kiinteän pikseliruudukon sijaan. Valokuvan muuntaminen vektoreiksi vastaa sen ulkonäköä; se ei palauta alkuperäistä vektoripiirrosta tai takaa pienempää tiedostoa.</string>
     <string name="help_tip_svg_ascii_page_2_step_1">Aloita selkeällä siluetilla, logolla tai rajoitetulla värillä, kun haluat siistejä muotoja. Valokuvakuvio voi luoda monia pieniä polkuja.</string>
-    <string name="help_tip_svg_ascii_page_2_step_2">Tasapainoa yksityiskohtia vastaan ​​yksinkertaisuus käytettävissä olevissa muunnosohjaimissa. Tarkasta ohuita viivoja ja pieniä reikiä useilla zoomaustasoilla.</string>
+    <string name="help_tip_svg_ascii_page_2_step_2">Tasapainoa yksityiskohtia vastaan yksinkertaisuus käytettävissä olevissa muunnosohjaimissa. Tarkasta ohuita viivoja ja pieniä reikiä useilla zoomaustasoilla.</string>
     <string name="help_tip_svg_ascii_page_2_step_3">Avaa viety SVG sille tarkoitetussa katseluohjelmassa tai editorissa. Vertaa läpinäkyvyyttä, gradientteja ja yleisiä mittasuhteita ennen uudelleenkäyttöä.</string>
     <string name="help_tip_images_to_pdf_page_2_title">Suunnittele sivun asettelu ennen vientiä</string>
     <string name="help_tip_images_to_pdf_page_2_description">Kuvasarjasta tulee asiakirjajärjestys. Sivun koko, marginaalit ja kuvan sovitus määräävät, kuinka paljon tilaa kukin kuva vie; ne eivät lisää yksityiskohtia matalaresoluutioiseen lähteeseen.</string>
-    <string name="help_tip_images_to_pdf_page_2_step_1">Järjestä ja kierrä lähteitä uudelleen ennen vientiä. Tarkista, onko sivuilla pysty- ja vaakasuuntaisia ​​odottamattomia skaalauksia tai tyhjiä marginaaleja.</string>
+    <string name="help_tip_images_to_pdf_page_2_step_1">Järjestä ja kierrä lähteitä uudelleen ennen vientiä. Tarkista, onko sivuilla pysty- ja vaakasuuntaisia odottamattomia skaalauksia tai tyhjiä marginaaleja.</string>
     <string name="help_tip_images_to_pdf_page_2_step_2">Käytä häviötöntä tai korkealaatuista lähdettä pienelle tekstille ja kaavioille. Aggressiivinen kuvanpakkaus voi tehdä PDF-tiedostosta kompaktin, mutta vaikeasti luettavan.</string>
     <string name="help_tip_images_to_pdf_page_2_step_3">Avaa valmis asiakirja ja tarkista sivumäärä, järjestys ja luettavuus. Käytä OCR- tai haettavia PDF-työkaluja, kun valittavaa tekstiä tarvitaan.</string>
     <string name="help_tip_pdf_page_organization_page_2_title">Erota sivun rakenne sisällöstä</string>
@@ -6040,7 +6040,7 @@
     <string name="assistant_clear_conversation_question">Poistetaanko kaikki tämän keskustelun viestit?</string>
     <string name="help_tip_depth_effects_title">Syvyysefektit</string>
     <string name="help_tip_depth_effects_subtitle">Tarkennus-, sumennus- ja syvyyskartat</string>
-    <string name="help_tip_depth_effects_description">Tekoälytyökalut voivat arvioida syvyyttä ladatun syvyysmallin avulla tai käyttää mukautettua syvyyskarttaa. Syvyys kuvaa etäisyyttä, ei nimetyn kohteen valintaa. Eri tulostilat paljastavat erilaisia ​​säätimiä.</string>
+    <string name="help_tip_depth_effects_description">Tekoälytyökalut voivat arvioida syvyyttä ladatun syvyysmallin avulla tai käyttää mukautettua syvyyskarttaa. Syvyys kuvaa etäisyyttä, ei nimetyn kohteen valintaa. Eri tulostilat paljastavat erilaisia säätimiä.</string>
     <string name="help_tip_depth_effects_step_1">Valitse kuvasi ja syvyysmalli AI-työkaluissa. Lataa malli tarvittaessa; valinnaisesti valitse mukautettu syvyyskartta.</string>
     <string name="help_tip_depth_effects_step_2">Valitse syvyystulos. Syvyyssumennus tarjoaa epäterävyyden, tarkennussyvyyden ja tarkennusalueen; syvyysmaski tai aukko tarjoaa tarkennuksen ja tarkennusalueen.</string>
     <string name="help_tip_depth_effects_step_3">Luo esikatselu, vertaa sitä alkuperäiseen ja säädä tehostetta ennen tallentamista. Käytä syvyyskartan tulosta, kun tarvitset itse karttaa.</string>
@@ -6048,15 +6048,15 @@
     <string name="help_tip_pdf_compression_description">Pakkaa PDF pakkaa upotetut kuvat uudelleen valitulla laadulla. Se käyttää laadunvalvontaa eikä tavoitekokoa kilotavuina; vähän kuvia sisältävät asiakirjat voivat kutistua vähemmän.</string>
     <string name="help_tip_pdf_compression_step_1">Avaa Pakkaa PDF ja valitse PDF. Jos se on suojattu, anna sen salasana pyydettäessä.</string>
     <string name="help_tip_pdf_compression_step_2">Säädä laatua. Huonompi laatu voi pienentää kuvan kokoa, mutta saattaa vaikeuttaa skannatun sivun tekstin lukemista.</string>
-    <string name="help_tip_pdf_compression_step_3">Tallenna tai jaa käsitelty PDF ja tarkasta sivu, jossa on pientä tekstiä tai yksityiskohtaisia ​​kuvia.</string>
+    <string name="help_tip_pdf_compression_step_3">Tallenna tai jaa käsitelty PDF ja tarkasta sivu, jossa on pientä tekstiä tai yksityiskohtaisia kuvia.</string>
     <string name="help_tip_pdf_annotation_cleanup_subtitle">Poista valitut huomautustyypit valituilta sivuilta</string>
     <string name="help_tip_pdf_annotation_cleanup_description">Poista merkinnät voi poistaa linkkejä, kommentteja, korostuksia, muotoja ja lomakekenttiä. Sivun valinta ja huomautustyypit määräävät, mitä poistetaan; se ei poista mielivaltaista tulostettua tekstiä.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_1">Avaa Poista huomautukset ja valitse PDF. Valitse käsiteltävät sivut.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_2">Valitse poistettavat huomautustyypit. Vähintään yksi tyyppi on valittava tallentaaksesi.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Tarkista esikatselu ja tallenna kopio. Tarkista linkit tai lomakekentät, jotka aiot säilyttää tallennetussa asiakirjassa.</string>
     <string name="help_tip_metadata_editing_subtitle">Tarkista, muuta tai poista yksittäisiä metatietotageja</string>
-    <string name="help_tip_metadata_editing_description">Edit EXIF ​​avaa valitun kuvan metatiedot yksittäisiä muutoksia varten. Muokkaus on käytettävissä vain, kun kuvamuoto tukee metatietojen kirjoittamista; näytössä näkyy varoitus ei-tuetuista muodoista.</string>
-    <string name="help_tip_metadata_editing_step_1">Valitse kuva ja avaa Edit EXIF ​​nähdäksesi sen tunnisteet.</string>
+    <string name="help_tip_metadata_editing_description">Edit EXIF avaa valitun kuvan metatiedot yksittäisiä muutoksia varten. Muokkaus on käytettävissä vain, kun kuvamuoto tukee metatietojen kirjoittamista; näytössä näkyy varoitus ei-tuetuista muodoista.</string>
+    <string name="help_tip_metadata_editing_step_1">Valitse kuva ja avaa Edit EXIF nähdäksesi sen tunnisteet.</string>
     <string name="help_tip_metadata_editing_step_2">Päivitä tai poista yksittäisiä tunnisteita metatietosivulla. Tyhjennä kaikki metatiedot vain, jos aiot poistaa jokaisen tagin.</string>
     <string name="help_tip_metadata_editing_step_3">Sulje taulukko ja tallenna tulos. Avaa tallennettu kuva uudelleen tarkistaaksesi muuttamasi tunnisteet.</string>
     <string name="help_tip_cache_cleanup_subtitle">Aseta välimuistin kynnys ja tarkistusväli</string>
@@ -6374,7 +6374,7 @@
     <string name="help_tip_setting_default_quality_step_2">Käytä työkalun omaa laadunvalitsinta kertaluonteiseen vientiin. laatunumero ei ole taattu tiedostokokorajoitus.</string>
     <string name="help_tip_setting_markup_layer_text_defaults_description">Tekstikerroksen oletusasetukset vähentävät toistuvia määrityksiä lisättäessä tekstiä merkintätasoihin.</string>
     <string name="help_tip_setting_markup_layer_text_defaults_step_1">Avaa Merkintätasot oletusarvoissa ja aseta tekstin ulkoasu, tasaus, väri ja koko.</string>
-    <string name="help_tip_setting_markup_layer_text_defaults_step_2">Laajenna valinnaisia ​​muunnos-, varjo- ja ääriviivasäätimiä tarvittaessa, sulje sitten taulukko ja lisää uusi tekstitaso tarkistaaksesi oletusasetukset.</string>
+    <string name="help_tip_setting_markup_layer_text_defaults_step_2">Laajenna valinnaisia muunnos-, varjo- ja ääriviivasäätimiä tarvittaessa, sulje sitten taulukko ja lisää uusi tekstitaso tarkistaaksesi oletusasetukset.</string>
     <string name="help_tip_setting_lock_draw_orientation_description">Suunnan lukitus estää näytön kiertoa keskeyttämästä piirtämistä.</string>
     <string name="help_tip_setting_lock_draw_orientation_step_1">Ota käyttöön Lukitse piirustussuunta ennen kuin käsittelet piirustussäätimiä.</string>
     <string name="help_tip_setting_lock_draw_orientation_step_2">Poista se käytöstä, kun tarvitset piirustusnäytön seurataksesi laitteen pyörimistä uudelleen.</string>
@@ -6391,11 +6391,11 @@
     <string name="help_tip_setting_draw_bitmap_border_step_1">Ota Piirustusreuna käyttöön ja tarkista piirustuksen tai pyyhkimisen kankaan reuna.</string>
     <string name="help_tip_setting_draw_bitmap_border_step_2">Sammuta se, jos haluat esteettömän kanvasnäkymän. se on muokkausopas, ei tallennettuun kuvaan lisätty kehys.</string>
     <string name="help_tip_setting_exif_widget_initial_state_description">Tämä määrittää alkuperäisen säilytysmetatietojen valinnan työkaluissa, jotka näyttävät EXIF-widgetin.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_1">Poista käytöstä Tyhjennä aina EXIF ​​ennen kuin muutat Pakota alkuarvoa.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_1">Poista käytöstä Tyhjennä aina EXIF ennen kuin muutat Pakota alkuarvoa.</string>
     <string name="help_tip_setting_exif_widget_initial_state_step_2">Ota se käyttöön, kun metatietojen säilytys on valittuna; tarkista EXIF-valinta uudelleen ennen arkaluonteisten valokuvien vientiä.</string>
     <string name="help_tip_setting_keep_date_time_description">Kuvauspäivämäärä/aika voidaan säilyttää erillään tavallisesta Keep-EXIF-vaihtoehdosta.</string>
-    <string name="help_tip_setting_keep_date_time_step_1">Poista käytöstä Tyhjennä EXIF ​​aina ja ota sitten käyttöön Säilytä päivämäärä, kun sieppauspäivämäärät säilyvät viennissä.</string>
-    <string name="help_tip_setting_keep_date_time_step_2">Jos haluat poistaa päivämäärät, poista sekä tämä vaihtoehto että EXIF-säilytys käytöstä työkalussa tai ota aina Tyhjennä EXIF ​​käyttöön. Jälkimmäinen on etusijalla ja poistaa tämän ohjauksen käytöstä.</string>
+    <string name="help_tip_setting_keep_date_time_step_1">Poista käytöstä Tyhjennä EXIF aina ja ota sitten käyttöön Säilytä päivämäärä, kun sieppauspäivämäärät säilyvät viennissä.</string>
+    <string name="help_tip_setting_keep_date_time_step_2">Jos haluat poistaa päivämäärät, poista sekä tämä vaihtoehto että EXIF-säilytys käytöstä työkalussa tai ota aina Tyhjennä EXIF käyttöön. Jälkimmäinen on etusijalla ja poistaa tämän ohjauksen käytöstä.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">Vie metatiedot voivat tallentaa sovellusversion ja määritetyt kuvaparametrit.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_1">Poista käytöstä Tyhjennä aina EXIF, ennen kuin otat Add ImageToolboxin metatiedot käyttöön.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_2">Ota se käyttöön jäljitettävää vientiä varten tai jätä se pois päältä, kun tallennettu tiedosto ei tunnista sovellusta ja käsittelyparametreja.</string>
@@ -6609,11 +6609,11 @@
     <string name="filter_help_aces_hill_tone_mapping">Pakkaa sävyalueen ACES Hill -käyrällä. Valotus ohjaa käyrälle tulevaa kirkkautta; vertailla kohokohtia ja varjojen yksityiskohtia. Tämä ei voi palauttaa leikattuja lähdetietoja.</string>
     <string name="filter_help_achromatomaly">Arvioi värin ulkonäön vähentyneen värin erottelun kautta koko spektrin käyttämällä kiinteää värimatriisia. Hyödyllinen, kun tarkistetaan, perustuuko malli vain väriin. se ei ole henkilökohtainen näönarviointi.</string>
     <string name="filter_help_achromatopsia">Arvioi värin ulkonäön värin erottelun puuttuessa käyttämällä kiinteää värimatriisia. Hyödyllinen, kun tarkistetaan, perustuuko malli vain väriin. se ei ole henkilökohtainen näönarviointi.</string>
-    <string name="filter_help_adaptive_blur">Tasoittaa lähellä olevat pikselit samanlaisilla väreillä säilyttäen samalla vahvemmat rajat. Säde asettaa naapuruston; kynnys määrittää, kuinka erilaisia ​​värit voivat olla, ennen kuin ne lopettavat sekoittumisen.</string>
+    <string name="filter_help_adaptive_blur">Tasoittaa lähellä olevat pikselit samanlaisilla väreillä säilyttäen samalla vahvemmat rajat. Säde asettaa naapuruston; kynnys määrittää, kuinka erilaisia värit voivat olla, ennen kuin ne lopettavat sekoittumisen.</string>
     <string name="filter_help_aldridge">Karttaa sävyalueen Aldridgen käyrällä. Valotus asettaa tulon kirkkauden ja cutoff säätää kartoituksen alapäätä. Tarkista tummat yksityiskohdat leikkausrajan vaihtamisen jälkeen.</string>
     <string name="filter_help_amatorka">Käyttää sisäänrakennettua LUT:ta, jossa on syviä kylmiä varjoja ja hieman vihreitä keskisävyjä. Vahvuus sekoittuu alkuperäisten värien välillä nolla ja täyden väriluokan välillä.</string>
     <string name="filter_help_anaglyph">Erottelee kuvan punaiset ja syaanit kopiot vaakasuunnassa anaglyfityylisiksi värireunuksiksi. Vahvuus säätelee niiden siirtymää; tämä on väritehoste, ei syvyyden rekonstruktio yhdestä valokuvasta.</string>
-    <string name="filter_help_anisotropic_diffusion">Tasoittaa pienet vaihtelut ja käsittelee vahvoja rajoja eri tavalla kuin tasaisia ​​alueita. Lisää iteraatioita lisää tasoitusta; johtavuus ja diffuusio säätelevät, kuinka pitkälle naapuriäänet sekoittuvat.</string>
+    <string name="filter_help_anisotropic_diffusion">Tasoittaa pienet vaihtelut ja käsittelee vahvoja rajoja eri tavalla kuin tasaisia alueita. Lisää iteraatioita lisää tasoitusta; johtavuus ja diffuusio säätelevät, kuinka pitkälle naapuriäänet sekoittuvat.</string>
     <string name="filter_help_arc">Taittaa kuvan kaareksi. Säde ja koko määrittävät kaarevan nauhan, levityskulma määrittää, kuinka pitkälle se kietoutuu, ja kulma ja keskiasento asettavat sen kehykseen.</string>
     <string name="filter_help_ascii">Rakentaa kuvan uudelleen hahmoista. Fontin koko määrittää yksityiskohdat, merkkigradientti kuvaa kirkkautta ja tausta- ja harmaasävyasetukset säätelevät ulkoasua. lopputulos jää kuvaksi.</string>
     <string name="filter_help_atkinson_dithering">Käyttää Atkinson-virheen diffuusiota edustamaan välisävyjä pikselikuviolla. Kynnys muuttaa sävyjakoa; harmaasävy poistaa värin ennen värjäystä. Vertaa jyväkuviota täysikokoisena.</string>
@@ -6636,7 +6636,7 @@
     <string name="filter_help_bloom">Levittää hehkua kirkkailta alueilta. Threshold valitsee kohokohdat, säde asettaa leviämisen, voimakkuus määrittää sen intensiteetin ja pehmeä polvi tasoittaa siirtymää kynnyksen ympärillä.</string>
     <string name="filter_help_bokeh">Laajentaa kirkkaita yksityiskohtia monikulmion muotoisella ytimellä luodakseen bokeh-tyyppisiä pisteitä. Koko ohjaa pisteen kokoa ja määrä monikulmion sivujen lukumäärää; tämä ei tunnista kohdetta tai taustaa.</string>
     <string name="filter_help_bokeh_lights">Lisää luodut bokeh-valot kuvan päälle. Säädä niiden lukumäärää, sädettä, aukon teriä ja väriä; siemen muuttaa järjestystä. Nämä valot on lisätty koristeellisesti sen sijaan, että ne havaitaan valokuvassa.</string>
-    <string name="filter_help_bone">Yhdistää kuvan kirkkauden mustaan ​​kylmän harmaan kautta valkoiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
+    <string name="filter_help_bone">Yhdistää kuvan kirkkauden mustaan kylmän harmaan kautta valkoiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_border_frame">Lisää kiinteän reunuksen kuvan ulkopuolelle ja lisää sen mittoja. Vaaka- ja pystysuuntainen paksuus ohjaa kahta sivuparia; värivalitsin asettaa reunan värin.</string>
     <string name="filter_help_box_blur">Sumennetaan laskemalla pikseleiden keskiarvo neliön alueella. Suurenna arvoa saadaksesi laajemman sumennuksen; reunat ja hienot yksityiskohdat pehmenevät kohinan mukana.</string>
     <string name="filter_help_brightness">Lisää tai vähentää kuvan kirkkautta. Nolla jättää kirkkauden ennalleen; positiiviset arvot vaalenevat ja negatiiviset tummenevat. Voimakkaat säädöt voivat leikata varjoja tai valokohtia.</string>
@@ -6698,7 +6698,7 @@
     <string name="filter_help_crystallize">Jakaa kuvan epäsäännöllisin värillisiin kristallimaisiin alueisiin. Klusteritiheys ohjaa yksityiskohtia, ja viivan väri tekee alueiden väliset rajat näkyväksi.</string>
     <string name="filter_help_cube_lut">Käyttää väriluokitusta .cube LUT-tiedostosta. Valitse tiedosto tai asennettu LUT ja säädä sitten voimakkuutta alkuperäisistä väreistä nollasta täyteen muunnokseen yksi. LUT muuttaa värejä, ei kuvan geometriaa.</string>
     <string name="filter_help_cyberpunk">Ristisekoittaa RGB-kanavia vahvemmalla puna-sinisen vuorovaikutuksen kanssa tyyliteltyjen neonmaisten värien luomiseksi.</string>
-    <string name="filter_help_deep_green">Yhdistää kuvan kirkkauden mustaan ​​vihreästä vaaleaan sävyyn. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
+    <string name="filter_help_deep_green">Yhdistää kuvan kirkkauden mustaan vihreästä vaaleaan sävyyn. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_deep_purple">Lisää punaisen-sinisen ristikkäissekoituksen, joka antaa voimakkaan violetin värin.</string>
     <string name="filter_help_dehaze">Vähentää huurtuneen sameuden. Säde asettaa arvioinnissa käytetyn ympäristön ja vahvuusparametri ohjaa korjausta; Liialliset arvot voivat tummentaa kuvaa luonnottomasti.</string>
     <string name="filter_help_deskew">Arvioi kuvan kallistuksen ja kiertää sitä suoristaakseen havaitut viivat. Suurin kulma rajoittaa korjausta; Rajauksen salliminen poistaa kiertoon tulleet tyhjät kulmat.</string>
@@ -6777,11 +6777,11 @@
     <string name="filter_help_gmic_filter_boost_chromaticity">Vahvistaa värieroja valitussa väriavaruudessa. Lisää amplitudia asteittain: voimakkaat asetukset voivat liioitella värikohinaa ja työntää värit luonnollisia sävyjä pidemmälle.</string>
     <string name="filter_help_gmic_filter_breaks">Luo toistuvia katkoksia ja siirtymiä kuvan yli. Tyyppi, amplitudi ja taajuus asettavat luonteensa, kun taas sileys ja rajojen käsittely ohjaavat siirtymiä ja paljaita reunoja.</string>
     <string name="filter_help_gmic_filter_brushify">Maalaa kuvan uudelleen määritettävillä sivellinjäljillä. Muoto, pienin ja suurin koko, tiheys ja opasiteetti määräävät vedot; suuntauksen koherenssi saa ne seuraamaan kuvan rakennetta.</string>
-    <string name="filter_help_gmic_filter_buffer_error">Simuloi vaurioitunutta pikselipuskuria siirtämällä ja toistamalla valitun osan tiedoistaan. Puskurin mitat ja valinnan aloitus, pituus ja siirto tuottavat erilaisia ​​häiriökuvioita.</string>
+    <string name="filter_help_gmic_filter_buffer_error">Simuloi vaurioitunutta pikselipuskuria siirtämällä ja toistamalla valitun osan tiedoistaan. Puskurin mitat ja valinnan aloitus, pituus ja siirto tuottavat erilaisia häiriökuvioita.</string>
     <string name="filter_help_gmic_filter_channel_processing">Käyttää kirkkaus-, kontrasti-, gamma-, tasoitus- ja arvotoimintoja valituille kanaville ja sävyalueille. Valitse ensin kohdekanava, jotta et muutta asiaankuulumattomia väri- tai läpinäkyvyystietoja.</string>
     <string name="filter_help_gmic_filter_charcoal">Luo hiilityylisen piirustuksen konfiguroitavilla tummilla viivoilla ja vaaleilla liitualueilla. Rakeisuus, sävyjen jakopisteet ja etu-/taustavärit säätelevät tekstuuria ja kontrastia.</string>
     <string name="filter_help_gmic_filter_chessboard_overlay">Peittää kaksivärisen shakkilaudan. Aseta sekä solujen mitat, siirtymät, kierto ja peittävyys luodaksesi ruudukon, joka pysyy sommittelusi mukaisena.</string>
-    <string name="filter_help_gmic_filter_chromatic_aberrations">Erottelee värilliset komponentit jäljittelemään linssin värireunuksia. Kaksi toisistaan ​​riippumatonta värillistä poikkeamaa tarjoavat vaaka- ja pystysuuntaisen siirtymän, tasoituksen ja vaimennuksen lähellä keskustaa.</string>
+    <string name="filter_help_gmic_filter_chromatic_aberrations">Erottelee värilliset komponentit jäljittelemään linssin värireunuksia. Kaksi toisistaan riippumatonta värillistä poikkeamaa tarjoavat vaaka- ja pystysuuntaisen siirtymän, tasoituksen ja vaimennuksen lähellä keskustaa.</string>
     <string name="filter_help_gmic_filter_cinematic_dream">Yhdistää pehmennetyt kohokohdat paikallisiin yksityiskohtiin ja varjoihin. Tasapainota kukinnan pehmeyttä ja korostusvoimakkuutta yksityiskohtien voimakkuutta vastaan, jotta unenomainen ilme ei peitä tekstuuria.</string>
     <string name="filter_help_gmic_filter_circle_abstraction">Rekonstruoi kuvan ympyröillä ja pienennetyllä paletilla. Värien määrä, ympyrän tiheys ja opasiteetti asettavat abstraktion; täytetyt ympyrät ja läpinäkyvien reikien täyttö muuttavat peittävyyttä.</string>
     <string name="filter_help_gmic_filter_circle_transform">Piirtää kuvan uudelleen käyttämällä sen keskustan ja sädepisteen määrittelemää ympyrää. Riippumaton vaaka- ja pystyskaalaus, symmetria ja reunojen käsittely säätelevät tuloksena olevaa muodonmuutosta.</string>
@@ -6812,12 +6812,12 @@
     <string name="filter_help_gmic_filter_dynamic_contrast">Korostaa vierekkäisten sävyjen välisiä eroja. Määrä, kynnys ja intensiteetti tasapainottavat paikallista kontrastia; voimakkaat asetukset voivat korostaa kohinaa ja tuottaa voimakkaita siirtymiä.</string>
     <string name="filter_help_gmic_filter_ellipsionism">Maalaa kuvan uudelleen ellipseillä. Kaksi sädettä ohjaavat muotoaan; tiheys, opasiteetti, ääriviivat ja tasoitus määrittävät, kuinka merkit menevät päällekkäin ja paljastavat lähteen.</string>
     <string name="filter_help_gmic_filter_engrave">Luo kaiverretun piirustuksen viivoista ja varjostetuista alueista. Tiheys, reunalujuus ja vähimmäispinta-ala hallitsevat merkit; värillinen tausta voi säilyttää osan lähdepaletista.</string>
-    <string name="filter_help_gmic_filter_equalize_light">Jakaa valaistuksen uudelleen valitun taajuuskorjaustilan ja kanavan avulla. Määrä ohjaa korjaus; vertaa tasaisia ​​alueita ja kohokohtia välttääksesi epäluonnollisen tasaisen tuloksen.</string>
+    <string name="filter_help_gmic_filter_equalize_light">Jakaa valaistuksen uudelleen valitun taajuuskorjaustilan ja kanavan avulla. Määrä ohjaa korjaus; vertaa tasaisia alueita ja kohokohtia välttääksesi epäluonnollisen tasaisen tuloksen.</string>
     <string name="filter_help_gmic_filter_equalize_shadow">Tasoittaa varjon sävyjä tehden tummista alueista vähemmän epätasaisia. Amplitudin säätimien korjaus; nousevat varjot voivat myös paljastaa lähteessä jo olevan melun.</string>
     <string name="filter_help_gmic_filter_equirectangular_projection">Muuntaa käytettävissä olevien panoraamaprojektioiden välillä. Valitse tila, joka vastaa syöttöasettelua; tavallinen valokuva vääristyy mieluummin kuin siitä tulee täydellinen panoraama.</string>
     <string name="filter_help_gmic_filter_faded_array">Järjestää toistuvia kuvaruutuja häipyvällä siirtymällä. Vaaka- ja pystysuunnassa laskevat ja poikkeamat ohjaavat asettelua; häivyttää alku/loppu, peilaus ja koko säätelee toistoa.</string>
     <string name="filter_help_gmic_filter_felt_pen">Simuloi huopakynän jälkiä. Tiheys, viivan paksuus ja reunan vahvuus määräävät piirustuksen, kun taas tasoitus ja opasiteetti säätelevät, kuinka paljon alkuperäisestä tekstuurista jää jäljelle.</string>
-    <string name="filter_help_gmic_filter_filaments">Luo kuvarakenteesta virtaavia filamentimaisia ​​jälkiä. Pituus, tiheys, vääristymä ja kierto muokkaavat polkuja; valitse mitkä puolet säteilevät niitä ja miten niiden värit muodostuvat.</string>
+    <string name="filter_help_gmic_filter_filaments">Luo kuvarakenteesta virtaavia filamentimaisia jälkiä. Pituus, tiheys, vääristymä ja kierto muokkaavat polkuja; valitse mitkä puolet säteilevät niitä ja miten niiden värit muodostuvat.</string>
     <string name="filter_help_gmic_filter_fill_holes">Täyttää pienet reiät morfologisella ja reunatietoisella käsittelyllä. Kolme sädettä ja vaalea värivaihtoehto määräävät, mitä täytetään; tarkasta ohuet yksityiskohdat ennen niiden lisäämistä.</string>
     <string name="filter_help_gmic_filter_fish_eye">Käyttää kalansilmämäistä kaarevaa vääristymää. Säde määrittää sen laajuuden ja amplitudin sen vahvuuden; suorat viivat taipuvat, erityisesti poispäin keskustasta.</string>
     <string name="filter_help_gmic_filter_flip_and_rotate_blocks">Jakaa kuvan lohkoiksi ja kääntää tai kiertää jokaista lohkoa. Vaaka- ja pystysuorat lohkokoot asettavat ruudukon; kanavan valinta voi rajoittaa uudelleenjärjestelyn värikomponentteihin.</string>
@@ -6836,11 +6836,11 @@
     <string name="filter_help_gmic_filter_hedcut">Luo pisteytetyn, kaiverretun kuvituksen, joka muistuttaa sanomalehtimuotokuvia. Pistekoko ja askelsäätötiheys; kontrasti, luminanssi ja tasoitus määräävät säilytetyt kasvojen tai esineiden yksityiskohdat.</string>
     <string name="filter_help_gmic_filter_hessian_sharpen">Parantaa kuvan rakennetta useissa mittakaavassa käyttämällä toisen johdannaisen tietoja. Vahvuus, mittakaava ja toisto määräävät tulosta; leikkaus rajoittaa äärimmäisiä lähtöarvoja.</string>
     <string name="filter_help_gmic_filter_highlight_synthesis">Syntetisoi korostusvärit erillisillä punaisen, vihreän ja sinisen säätimillä. RGB-sRGB-vaihtoehto muuttaa lähdön koodausta; tämä ei palauta alkuperäistä tietoa leikatuista valkoisista pikseleistä.</string>
-    <string name="filter_help_gmic_filter_hope_poster">Luo rajoitetun paletin poliittisen julistetyylin. Gamma siirtää sävyjakaumaa ja tasoitus yksinkertaistaa pieniä yksityiskohtia ennen kuin niistä tulee tasaisia ​​värialueita.</string>
+    <string name="filter_help_gmic_filter_hope_poster">Luo rajoitetun paletin poliittisen julistetyylin. Gamma siirtää sävyjakaumaa ja tasoitus yksinkertaistaa pieniä yksityiskohtia ennen kuin niistä tulee tasaisia värialueita.</string>
     <string name="filter_help_gmic_filter_hough_sketch">Rakentaa luonnoksen havaituista viivarakenteista. Threshold valitsee näkyvät viivat, tiheys ja säde muuttavat niiden järjestystä ja opasiteetti ja väritila asettavat renderöinnin.</string>
     <string name="filter_help_gmic_filter_hsl_adjustment">Säätää sävyä ja sävykontrastia tason, määrän ja gammasäätimillä. Automaattinen tason pienennys ja käänteisvärisävyasetukset muuttavat korjausta; tarkasta iho ja neutraalit alueet virittäessäsi sitä.</string>
     <string name="filter_help_gmic_filter_hsv_equalizer">Korjaa sävyn, kylläisyyden ja kirkkauden kolmella valitulla sävykaistalla. Jokaisella nauhalla on oma leveys ja säätönsä, jolloin yksi värialue voi muuttua ilman, että koko kuva sävytetään tasaisesti.</string>
-    <string name="filter_help_gmic_filter_huffman_glitch">Luo pakkauksen kaltaisia ​​häiriöitä meluisten koodattujen lohkojen kautta. Jakotila, lohkon koko, päällekkäisyys ja kvantisointi hallitsevat vaurioita; satunnaisen siemenen avulla voit muuttaa sen järjestystä.</string>
+    <string name="filter_help_gmic_filter_huffman_glitch">Luo pakkauksen kaltaisia häiriöitä meluisten koodattujen lohkojen kautta. Jakotila, lohkon koko, päällekkäisyys ja kvantisointi hallitsevat vaurioita; satunnaisen siemenen avulla voit muuttaa sen järjestystä.</string>
     <string name="filter_help_gmic_filter_ink_wash">Simuloi musteen pesuja pehmennetyillä alueilla ja säilyneillä ääriviivoilla. Koko ja amplitudi säätelevät pesua, kun taas reunasuojaus ja paikallinen normalisointi tasapainottavat viivojen selkeyttä ja leveitä sävyalueita.</string>
     <string name="filter_help_gmic_filter_isophotes">Ryhmittelee kuvan tasaisen kirkkauden ääriviivojen mukaan. Tasot säätelevät vyöhykkeiden määrää, tasoitus yksinkertaistaa niiden rajoja ja täyttötila määrittää kuinka alueet piirretään.</string>
     <string name="filter_help_gmic_filter_jpeg_artifacts">Esittelee tarkoituksella JPEG-pakkausartefakteja. Huonompi laatu luo vahvempia lohkoja, soimista ja värin menetystä; tämä suodatin lisää vahinkoa sen korjaamisen sijaan.</string>
@@ -6886,7 +6886,7 @@
     <string name="filter_help_gmic_filter_random_deformations">Vääntää kuvaa käyttämällä generoitua muodonmuutoskenttää. Amplitudi ja matriisitiheys asettavat siirtymäkuvion; interpolointi, merkki ja rajatila ohjaavat sen renderöintiä.</string>
     <string name="filter_help_gmic_filter_random_patch_array">Rakentaa uuden laattajärjestelyn satunnaisesti valituista lähdekorjauksista. Erilliset lähde- ja kohderuudukot ohjaavat korjaustiedoston kokoa ja asettelua; siemen muuttaa valintaa.</string>
     <string name="filter_help_gmic_filter_random_shade_stripes">Lisää satunnaisesti varjostettuja raitoja. Taajuus ja suunta asettavat kuvion, kun taas erilliset tummuuden ja vaaleuden säätimet määräävät, kuinka raidat muuttavat valittuja kanavia.</string>
-    <string name="filter_help_gmic_filter_rebuild_from_similar_blocks">Rekonstruoi kuvan käyttämällä samanlaisia ​​kuvalohkoja. Lohkon koko ja tasoitus tasapainottavat toistuvan rakenteen ja tasoituksen; luminanssipainotus ja etäisyysnormi muuttavat tapaa, jolla samankaltaisuus arvioidaan.</string>
+    <string name="filter_help_gmic_filter_rebuild_from_similar_blocks">Rekonstruoi kuvan käyttämällä samanlaisia kuvalohkoja. Lohkon koko ja tasoitus tasapainottavat toistuvan rakenteen ja tasoituksen; luminanssipainotus ja etäisyysnormi muuttavat tapaa, jolla samankaltaisuus arvioidaan.</string>
     <string name="filter_help_gmic_filter_relief_light">Käsittelee kuvaa tai alfatietoa korkeuskartana ja varjostaa sen virtuaalisella valolla. Valoasento, korkeusasteikko ja peiliasetukset ohjaavat kohokuvioitua ulkoasua.</string>
     <string name="filter_help_gmic_filter_remove_hot_pixels">Yrittää tukahduttaa eristettyjä epänormaalin kirkkaita pikseleitä. Maskin koko määrittää alueen ja kynnys säätelee herkkyyttä; tarkasta tähdet ja pienet kohokohdat välttääksesi todellisten yksityiskohtien poistamisen.</string>
     <string name="filter_help_gmic_filter_remove_scratches">Yrittää vähentää naarmuuntuneita vikoja. Kynnyksen, eroosion ja laajenemisen hallinta havaitseminen ja korjattu alue; Kuvaan kuuluvat kapeat viivat voivat myös vaikuttaa.</string>
@@ -6901,7 +6901,7 @@
     <string name="filter_help_gmic_filter_shadow_patch">Käyttää varjopatch-käsittelyä valituille kanaville. Opacity määrittää, kuinka voimakkaasti patch-tehoste muuttaa alkuperäisiä sävyjä.</string>
     <string name="filter_help_gmic_filter_shapeism">Rekonstruoi kuvan toistuvilla geometrisillä muodoilla. Muoto, kokoalue, kulmat ja välit asettavat merkit; reunan vahvuus, tasoitus ja taustaväri ohjaavat niiden integrointia.</string>
     <string name="filter_help_gmic_filter_sharp_abstract">Yksinkertaistaa kuvan terävästi erotetuiksi alueiksi. Tila- ja sävyasteikot säätelevät, mitkä yksityiskohdat yhdistetään, kun taas tarkkuus ja kanavan valinta tarkentavat tulosta.</string>
-    <string name="filter_help_gmic_filter_shock_waves">Luo aaltomaisia ​​vääristymiä valituissa kanavissa. Amplitudi ohjaa siirtymää, kun taas matala taajuus ja taajuusalue määräävät aaltojen etäisyyden ja vaihtelun.</string>
+    <string name="filter_help_gmic_filter_shock_waves">Luo aaltomaisia vääristymiä valituissa kanavissa. Amplitudi ohjaa siirtymää, kun taas matala taajuus ja taajuusalue määräävät aaltojen etäisyyden ja vaihtelun.</string>
     <string name="filter_help_gmic_filter_shuffle_patches">Järjestää kuvapaikat uudelleen ja luo sirpaloituneen mosaiikin. Patch-koon, päällekkäisyyden ja rekonstruktiotilan ohjausliitokset; siemen muuttaa järjestystä.</string>
     <string name="filter_help_gmic_filter_sixties_cinema">Käyttää 1960-luvun elokuvavaikutteista hoitoa. Yhdistä nimetyt tyylikytkimet viljan kanssa; päivä yöstä -vaihtoehto muuttaa valaistusvaikutelmaa pikemminkin kuin itse kohtauksen.</string>
     <string name="filter_help_gmic_filter_skeleton">Vähentää muotoja ohuiksi luurankorakenteiksi. Menetelmä valitsee ohennusalgoritmin ja tasoitusohjauksen valmistelun; Käytä suurikontrastisia muotoja selkeämmän rakenteellisen tuloksen saavuttamiseksi.</string>
@@ -6931,7 +6931,7 @@
     <string name="filter_help_gmic_filter_whiten_sharpen">Parantaa yksityiskohtia käyttämällä valkaisutyyppistä teroitustoimintoa. Alfa ohjaa vastetta ja leikkaus rajoittaa ääriarvoja; vertaa kohinaa ja hienoa rakennetta ennen voimakkaan asetuksen käyttöä.</string>
     <string name="filter_help_gmic_filter_zone_system">Jakaa sävyt uudelleen valittujen varjo- ja korostusvyöhykkeiden avulla. Gamma, kontrasti ja mustat/valkoiset pisteet ohjaavat lopullista aluetta; äärimmäiset päätepisteet voivat hylätä yksityiskohtia leikkaamalla.</string>
     <string name="filter_help_golden_forest">Käyttää sisäänrakennettua LUT:ta lämpimillä kultaisilla keskisävyillä. Vahvuus sekoittuu alkuperäisten värien välillä nolla ja täyden väriluokan välillä.</string>
-    <string name="filter_help_golden_hour">Lämmittää voimakkaasti punaisia ​​sävyjä jäljitelläkseen kultaisen tunnin väriluokitusta. Se ei muuta valon suuntaa tai lisää auringonvaloa.</string>
+    <string name="filter_help_golden_hour">Lämmittää voimakkaasti punaisia sävyjä jäljitelläkseen kultaisen tunnin väriluokitusta. Se ei muuta valon suuntaa tai lisää auringonvaloa.</string>
     <string name="filter_help_gotham">Käyttää kiinteää valokuvasävytyksen esiasetusta tummalla, viileällä ulkonäöllä. Se muuttaa yleisäänet ilman erillisiä säätimiä yksittäisille alueille.</string>
     <string name="filter_help_gradient_map">Korvaa jokaisen pikselin kirkkauden gradientista otetulla värillä säilyttäen alkuperäisen alfan. Järjestä liukuvärien pysähdykset hallitaksesi varjoille, keskisävyille ja kohokohtiin määritettyjä värejä.</string>
     <string name="filter_help_grain">Lisää kuvaan rakeita. Intensiteetti säätelee sen näkyvyyttä; rakeisuus voi antaa sileille alueille tekstuurin, mutta lisää hienoja yksityiskohtia, jotka voivat tehdä pakatuista tiedostoista suurempia.</string>
@@ -6949,8 +6949,8 @@
     <string name="filter_help_high_pass">Vaimentaa laajaa sävyvaihtelua ja säilyttää reunat ja tekstuurin. Säde valitsee yksityiskohta-asteikon; tulos on yksityiskohtakerros tavallisen värillisen valokuvan sijaan.</string>
     <string name="filter_help_highlights_shadows">Säätää tummia sävyjä käyttämällä kirkkaiden ja varjojen korjauskäyrää. Käytä liukusäädintä paljastaaksesi tai syventääksesi varjoja, tarkistamalla kohinan ja tasapainon kirkkailla alueilla.</string>
     <string name="filter_help_horizontal_wind_stagger">Vetää kuvan yksityiskohdat sivuttain porrastettuihin tuulen kaltaisiin juoviin. Vahvuus ohjaa siirtymää, määrä ohjaa virtojen määrää ja valittu väri täyttää tyhjennetyt alueet.</string>
-    <string name="filter_help_hot">Yhdistää kuvan kirkkauden mustaan ​​punaiseen ja keltaisesta valkoiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
-    <string name="filter_help_hot_summer">Kirkastaa lämpimiä punaisia ​​ja vihreitä sävyjä kesäisen värilaadun saavuttamiseksi.</string>
+    <string name="filter_help_hot">Yhdistää kuvan kirkkauden mustaan punaiseen ja keltaisesta valkoiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
+    <string name="filter_help_hot_summer">Kirkastaa lämpimiä punaisia ja vihreitä sävyjä kesäisen värilaadun saavuttamiseksi.</string>
     <string name="filter_help_hsv">Yhdistä kuvan kirkkauden sävyympyrään. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_hue">Pyöritä kaikkia värejä sävypyörän ympärillä. Käytä kulmaa paletin siirtämiseen; tämä muuttaa värejä koko kuvassa yhden värillisen kohteen valitsemisen sijaan.</string>
     <string name="filter_help_hue_shift_bands">Siirtää värisävyä asteittain yhden kuvan akselin suuntaisesti ja tuottaa värivyöhykkeitä. Voimakkuus ohjaa spatiaalista sävyn muutosta, sävyn siirtymä siirtää palettia ja kylläisyys muuttaa värin voimakkuutta.</string>
@@ -6987,7 +6987,7 @@
     <string name="filter_help_lookup">Ohjaa hakutaulukon värimuunnoksen voimakkuutta. Tämä muuttaa värikartoitusta kuvan geometrian sijaan; käytä erityisiä LUT-suodattimia, kun valitset omaa taulukkoasi.</string>
     <string name="filter_help_low_poly">Yksinkertaistaa kuvan monikulmioverkkoon. Pisteiden määrä ohjaa geometrisia yksityiskohtia, ja täyttövaihtoehto vaihtaa täytettyjen polygonien ja viivapohjaisen ulkoasun välillä.</string>
     <string name="filter_help_luminance_gradient">Visualisoi kirkkauden voimakkuuden ja suunnan muuttuessa väreissä. Hyödyllinen reunojen ja valaistussiirtymien tutkimiseen; se on analyysinäkymä pikemminkin kuin valaistuksen korjaus.</string>
-    <string name="filter_help_luminance_threshold">Erottelee pikselit kahteen sävyluokkaan valitulla kirkkaustasolla. Säädä kynnystä eristääksesi tummat jäljet ​​tai kirkkaat alueet; asteittainen varjostus hylätään.</string>
+    <string name="filter_help_luminance_threshold">Erottelee pikselit kahteen sävyluokkaan valitulla kirkkaustasolla. Säädä kynnystä eristääksesi tummat jäljet tai kirkkaat alueet; asteittainen varjostus hylätään.</string>
     <string name="filter_help_lut512x512">Käyttää neliömäisenä LUT-kuvana tallennettua värihakutaulukkoa käyttämällä 512 × 512 -asettelua. Valitse yhteensopiva LUT-kuva ja säädä voimakkuutta; tavallinen valokuva ei ole sopiva hakutaulukko.</string>
     <string name="filter_help_magma">Karttaa kuvan kirkkauden tumman violetista punaisesta vaaleankeltaiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_marble">Vääntää kuvan yksityiskohdat virtaaviin marmorimaisiin suoniin. Vahvuus asettaa kokonaisvaikutuksen, turbulenssi muuttaa kuvion epäsäännöllisyyttä ja amplitudi ohjaa siirtymää.</string>
@@ -7016,10 +7016,10 @@
     <string name="filter_help_orange_haze">Yhdistää värikanavat vaimennettuun palettiin sinisen intensiteetin vähentämisellä. Se ei lisää spatiaalista sumukerrosta.</string>
     <string name="filter_help_orbital_pixelization">Järjestää pikselöidyt yksityiskohdat orbitaalimaiseksi kuvioksi. Koko ohjaa kuvion asteikkoa; Suuremmat arvot suosivat koristeellista järjestelyä lähdetekstuurin sijaan.</string>
     <string name="filter_help_palette_transfer">Siirtää värit toisesta valokuvasta nykyiseen kuvaan kopioimatta sen objekteja tai asettelua. Valitse vertailukuva ja säädä sen voimakkuutta, jotta sen paletti sulautuu alkuperäisiin väreihin.</string>
-    <string name="filter_help_palette_transfer_variant">Siirtää viitekuvan väripaletin käyttämällä valittua väriavaruutta. Valitse lähdekuva, väriavaruus ja intensiteetti; eri tilat voivat tuottaa erilaisia ​​sävy- ja värisovituksia.</string>
+    <string name="filter_help_palette_transfer_variant">Siirtää viitekuvan väripaletin käyttämällä valittua väriavaruutta. Valitse lähdekuva, väriavaruus ja intensiteetti; eri tilat voivat tuottaa erilaisia sävy- ja värisovituksia.</string>
     <string name="filter_help_parula">Karttaa kuvan kirkkauden siniseksi vihreästä keltaiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_pastel">Sekoittaa värikanavia pehmentääkseen niiden eroja pastellin ulkonäön saavuttamiseksi.</string>
-    <string name="filter_help_perlin_distortion">Vääntää kuvaa käyttämällä tasaisia ​​Perlin-kohinavaihteluita epäsäännöllisen virtaavan vaikutelman aikaansaamiseksi. Vahvuus säätelee yleistä säröä, turbulenssi muuttaa melun rakennetta ja amplitudi asettaa siirtymän.</string>
+    <string name="filter_help_perlin_distortion">Vääntää kuvaa käyttämällä tasaisia Perlin-kohinavaihteluita epäsäännöllisen virtaavan vaikutelman aikaansaamiseksi. Vahvuus säätelee yleistä säröä, turbulenssi muuttaa melun rakennetta ja amplitudi asettaa siirtymän.</string>
     <string name="filter_help_pink">Yhdistää kuvan kirkkauden tummiin punertaviin sävyihin vaaleanpunaiseen ja valkoiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
     <string name="filter_help_pink_dream">Korostaa punaista ja sinistä verrattuna vihreään vaaleanpunaisen-violetin sävyyn.</string>
     <string name="filter_help_pixel_melt">Vetää pikseleitä alaspäin sulaviin juoviin. Suurin pudotus rajoittaa pystysuuntaista liikettä ja voimakkuus säätelee, kuinka voimakkaasti kuva näyttää sulavan.</string>
@@ -7062,7 +7062,7 @@
     <string name="filter_help_rubidium">Luo virtaavan vääristymän kirkkausreunojen ja värierojen ohjaamana. Siirtyminen ohjaa liikettä reunojen lähellä, tasapaino muuttaa liikettä reunojen poikki niitä pitkin, ja intensiteetti lisää väristä riippuvaa siirtymää.</string>
     <string name="filter_help_sand_painting">Luo kuvan uudelleen hajallaan hiekkamaisina pisteinä valitulle taustalle. Pisteiden lukumäärän ja kynnyksen hallinnan kattavuus ja näkyvissä olevien yksityiskohtien määrä.</string>
     <string name="filter_help_saturation">Muuttaa värin yleistä voimakkuutta. Pienemmät arvot siirtyvät kohti harmaasävyjä ja korkeammat arvot vahvistavat värejä; sävykartoitusvaihtoehto muuttaa tapaa, jolla tuloksena olevia väriarvoja käsitellään.</string>
-    <string name="filter_help_seam_carving">Muuttaa kokoa poistamalla tai lisäämällä vähän yksityiskohtaisia ​​saumoja sen sijaan, että skaalaisit jokaisen pikselin tasaisesti. Aseta tavoiteleveys ja -korkeus; valinnainen maski voi suojata alueen tai merkitä sen poistettaviksi, mutta suuret muutokset voivat muuttaa tärkeitä esineitä.</string>
+    <string name="filter_help_seam_carving">Muuttaa kokoa poistamalla tai lisäämällä vähän yksityiskohtaisia saumoja sen sijaan, että skaalaisit jokaisen pikselin tasaisesti. Aseta tavoiteleveys ja -korkeus; valinnainen maski voi suojata alueen tai merkitä sen poistettaviksi, mutta suuret muutokset voivat muuttaa tärkeitä esineitä.</string>
     <string name="filter_help_sepia">Muuntaa valokuvan lämpimiksi ruskean sävyiksi ikääntyneen yksivärisen ilmeen saamiseksi.</string>
     <string name="filter_help_shader">Ottaa käyttöön valitun varjostimen esiasetuksen ja sen paljastetut parametrit. Valitse ensin kelvollinen esiasetus; puuttuvat, virheelliset tai epäonnistuneet varjostimet jättävät kuvan ennalleen, joten tarkista esikatselu ennen vientiä.</string>
     <string name="filter_help_sharpen">Lisää kontrastia reunojen ympärillä, jotta ne näyttävät teräviltä. Vahvuus hallitsee vaikutusta; Liiallinen teroitus korostaa kohinaa ja luo kirkkaita tai tummia sädekehyksiä.</string>
@@ -7106,7 +7106,7 @@
     <string name="filter_help_stroke_pixelation">Esittää kuvan viivan muotoisilla mosaiikkielementeillä valitun taustan päällä. Koko ohjaa iskun asteikon; taustaväri täyttää niiden väliset tilat.</string>
     <string name="filter_help_stucki_dithering">Käyttää Stucki-virheen diffuusiota edustamaan välisävyjä pikselikuviolla. Kynnys muuttaa sävyjakoa; harmaasävy poistaa värin ennen värjäystä. Vertaa jyväkuviota täysikokoisena.</string>
     <string name="filter_help_summer">Karttaa kuvan kirkkauden vihreästä keltaiseen. Tämä väärien värien paletti korvaa alkuperäiset värit; hyödyllinen sävyerojen näyttämiseen tai graafisen tehosteen luomiseen.</string>
-    <string name="filter_help_sunrise">Yhdistelee lämpimiä punaisia ​​ja kylmiä sinisen sävyjä saadakseen aamunkoittoa muistuttavan värilaadun. Se ei lisää aurinkoa.</string>
+    <string name="filter_help_sunrise">Yhdistelee lämpimiä punaisia ja kylmiä sinisen sävyjä saadakseen aamunkoittoa muistuttavan värilaadun. Se ei lisää aurinkoa.</string>
     <string name="filter_help_swirl">Kiertää pyöreän alueen liikkuvan keskustan ympärille. Säde ohjaa vaikutusaluetta ja kulma säätelee pyörteen määrää ja suuntaa.</string>
     <string name="filter_help_tent_blur">Tasoittaa teltan muotoisella painotuksella, joka antaa lähempänä oleville pikseleille enemmän vaikutusta. Arvo ohjaa sumennuksen leviämistä.</string>
     <string name="filter_help_texture_cracks">Lisää värillisen halkeaman tekstuurin. Tiheys ohjaa halkeamien etäisyyttä, kohokuvio muuttaa niiden syvyyttä muistuttavaa ulkonäköä ja kanavan valintarajoja, joissa pintakuviointia käytetään.</string>
@@ -7200,7 +7200,7 @@
     <string name="help_tip_ai_upscaling_step_3">Käytä paloittelua, kun valittu malli tukee sitä ja muisti on rajallinen. Jos mallin tulos on suurempi kuin tarvitset, muuta sen kokoa myöhemmin.</string>
     <string name="help_tip_ai_cleanup_title">Poista kohina ja pakkausartefaktit</string>
     <string name="help_tip_ai_cleanup_subtitle">SCUNet, FBCNN ja mallit tiettyjä vikoja varten</string>
-    <string name="help_tip_ai_cleanup_description">Kohina, JPEG-lohkot, liike-epäterävyys, raidat ja rasterikuviot ovat erilaisia ​​​​ongelmia. Yhdelle niistä koulutettu malli voi vahingoittaa hyödyllisiä yksityiskohtia, kun sitä sovelletaan toiseen. Aloita yhdellä korjauksella ja arvioi sitten, tarvitaanko toinen.</string>
+    <string name="help_tip_ai_cleanup_description">Kohina, JPEG-lohkot, liike-epäterävyys, raidat ja rasterikuviot ovat erilaisia ongelmia. Yhdelle niistä koulutettu malli voi vahingoittaa hyödyllisiä yksityiskohtia, kun sitä sovelletaan toiseen. Aloita yhdellä korjauksella ja arvioi sitten, tarvitaanko toinen.</string>
     <string name="help_tip_ai_cleanup_step_1">Kokeile JPEG-lohkoja varten FBCNN- tai DeJPEG-mallia. Viljaa varten kokeile SCUNetiä tai melua vaimentavaa mallia; sovittaa väri- ja harmaasävyvaihtoehdot kuvaan.</string>
     <string name="help_tip_ai_cleanup_step_2">Jos haluat nähdä epäterävyyden, sateen, rasterit tai raidat, lue tietyn mallin kuvaus yleisen skaalaimen käyttämisen sijaan. FBCNN paljastaa voimakkuuden säätimen hellävaraisemman ja tehokkaamman puhdistuksen vertaamiseksi.</string>
     <string name="help_tip_ai_cleanup_step_3">Tarkista teksti, hiukset, hienot kuviot ja iho normaalissa katselukoossa. Vältä saman tallennetun kuvan toistuvaa kohinaa, kun se alkaa menettää tekstuuria.</string>
@@ -7247,7 +7247,7 @@
     <string name="help_tip_ai_gallery_title">Etsi kuvia tekoälyllä</string>
     <string name="help_tip_ai_gallery_description">Semanttinen valokuvahaku Galleriassa ja Embedded Pickerissa käyttää omia hakumallejaan, jotka ovat erillään Assistant-malleista ja AI-työkaluista. It finds matching contents and organizes the library; se ei muuta alkuperäisiä kuvia.</string>
     <string name="help_tip_ai_gallery_step_1">Ota semanttinen valokuvahaku käyttöön hakuasetuksissa ja anna sovelluksen ladata tiedostot ja valmistella saatavilla olevia kuvia. File name search works while preparation continues.</string>
-    <string name="help_tip_ai_gallery_step_2">Hae kuvauksen perusteella tai valitse Etsi samanlaisia ​​kuvia. Use categories and the current album to narrow the results, or create a category from a description and reference photos.</string>
+    <string name="help_tip_ai_gallery_step_2">Hae kuvauksen perusteella tai valitse Etsi samanlaisia kuvia. Use categories and the current album to narrow the results, or create a category from a description and reference photos.</string>
     <string name="help_tip_ai_gallery_step_3">Ota ryhmähenkilöt käyttöön kasvoryhmille, nimille ja yhdistämisehdotuksille. Käytä yksityiskohtaista semanttista valokuvahakuopasta kynnysten, piilotettujen ryhmien ja paikallisten hakutietojen poistamiseen.</string>
     <string name="help_tip_usage_statistics_title">Näytä työkalun käyttötilastot</string>
     <string name="help_tip_usage_statistics_subtitle">Tarkista paikallinen käyttö ja nollaa laskurit</string>
@@ -7294,7 +7294,7 @@
     <string name="help_tip_format_mozjpeg_title">MozJPEG</string>
     <string name="help_tip_format_mozjpeg_subtitle">Pienemmät JPEG-kopiot eri lähettimellä</string>
     <string name="help_tip_format_mozjpeg_description">MozJPEG tuottaa tavallisia .jpg-tiedostoja, jotka avautuvat JPEG-yhteensopivissa sovelluksissa. Sen pakkausvalinnat voivat pienentää kokoa säilyttäen samalla hyödylliset visuaaliset yksityiskohdat, mutta se käyttää silti häviöllistä JPEG-pakkausta. Ei ole läpinäkyvyyttä tai animaatiota. Se on hyödyllinen jaettavaksi tarkoitettujen valokuvien tai verkkosivustojen yhteydessä, kun koodausaika on vähemmän tärkeä kuin tulosteen koko. Tuetut EXIF-tiedostot voidaan säilyttää sovelluksen metatietosäätimien kautta.</string>
-    <string name="help_tip_format_mozjpeg_step_1">Vertaa MozJPEG:iä JPEG:iin samalla näkyvällä laadulla; Samat laatuluvut koodereissa eivät takaa samanlaisia ​​tuloksia.</string>
+    <string name="help_tip_format_mozjpeg_step_1">Vertaa MozJPEG:iä JPEG:iin samalla näkyvällä laadulla; Samat laatuluvut koodereissa eivät takaa samanlaisia tuloksia.</string>
     <string name="help_tip_format_mozjpeg_step_2">Tarkista pieni teksti, suurikontrastiset reunat, pinta ja liukuvärit ennen kuin valitset heikomman laadun.</string>
     <string name="help_tip_format_mozjpeg_step_3">Säilytä alkuperäinen ja valitse tausta läpinäkyville alueille ennen muuntamista.</string>
     <string name="help_tip_format_jpegli_title">Jpegli</string>
@@ -7305,7 +7305,7 @@
     <string name="help_tip_format_jpegli_step_3">Käytä alfa-muotoa läpinäkyvään kuvitukseen ja säilytä häviötön master jatkomuokkauksia varten.</string>
     <string name="help_tip_format_png_title">PNG häviötön</string>
     <string name="help_tip_format_png_subtitle">Tarkat rasteripikselit ja täysi läpinäkyvyys</string>
-    <string name="help_tip_format_png_description">PNG Lossless säilyttää kooderiin syötetyt pikselit ilman häviöllistä kvantisointia. Se on hyvä valinta kuvakaappauksille, kaavioille, tekstille ja läpinäkyville resursseille, vaikka valokuvat voivat olla paljon suurempia kuin JPEG tai WebP. Täysi alfa on tuettu. Sovelluksen PNG Lossless -vaihtoehdossa ei ole laadun liukusäädintä, ja tuettu EXIF ​​voidaan säilyttää. Pikselien säilytys on voimassa koon muuttamisen, suodattimien ja taustan yhdistämisen jälkeen.</string>
+    <string name="help_tip_format_png_description">PNG Lossless säilyttää kooderiin syötetyt pikselit ilman häviöllistä kvantisointia. Se on hyvä valinta kuvakaappauksille, kaavioille, tekstille ja läpinäkyville resursseille, vaikka valokuvat voivat olla paljon suurempia kuin JPEG tai WebP. Täysi alfa on tuettu. Sovelluksen PNG Lossless -vaihtoehdossa ei ole laadun liukusäädintä, ja tuettu EXIF voidaan säilyttää. Pikselien säilytys on voimassa koon muuttamisen, suodattimien ja taustan yhdistämisen jälkeen.</string>
     <string name="help_tip_format_png_step_1">Käytä tätä vaihtoehtoa teräville reunoille ja osittain läpinäkyville kuville, joita muokataan uudelleen.</string>
     <string name="help_tip_format_png_step_2">Kokeile OxiPNG:tä, kun haluat optimoida PNG-pakkauksen vähentämättä tarkoituksella kuvan värejä.</string>
     <string name="help_tip_format_png_step_3">Käytä APNG-työkaluja animaatioon; tavallinen PNG-vienti tallentaa staattisen kuvan.</string>
@@ -7317,7 +7317,7 @@
     <string name="help_tip_format_png_lossy_step_3">Valitse PNG Lossless, kun tarkoilla väreillä on väliä, tai vertaa ImageQuant-toimintoa toiselle värinvähennysmenetelmälle.</string>
     <string name="help_tip_format_oxipng_title">OxiPNG</string>
     <string name="help_tip_format_oxipng_subtitle">Optimoi PNG-pakkaus ilman paletin pienentämistä</string>
-    <string name="help_tip_format_oxipng_description">OxiPNG kirjoittaa PNG:n häviöttömällä optimoijalla. Se on hyödyllinen kuvakaappauksille, kuvakkeille ja grafiikalle, kun haluat pienempiä tulosteita ilman, että pikselitietoja hylätään tarkoituksella. Teho 0–6 ohjaa optimointityötä; korkeammat asetukset voivat olla hitaampia eivätkä takaa pienempää tiedostoa jokaiselle kuvalle. Alfaa tuetaan ja tuettu EXIF ​​voidaan säilyttää. Lähtö on edelleen tavallinen PNG.</string>
+    <string name="help_tip_format_oxipng_description">OxiPNG kirjoittaa PNG:n häviöttömällä optimoijalla. Se on hyödyllinen kuvakaappauksille, kuvakkeille ja grafiikalle, kun haluat pienempiä tulosteita ilman, että pikselitietoja hylätään tarkoituksella. Teho 0–6 ohjaa optimointityötä; korkeammat asetukset voivat olla hitaampia eivätkä takaa pienempää tiedostoa jokaiselle kuvalle. Alfaa tuetaan ja tuettu EXIF voidaan säilyttää. Lähtö on edelleen tavallinen PNG.</string>
     <string name="help_tip_format_oxipng_step_1">Aloita maltillisesti ja vertaa todellista tiedostokokoa ennen kuin valitset hitaimman asetuksen.</string>
     <string name="help_tip_format_oxipng_step_2">Käytä PNG Lossy tai ImageQuant vain, jos värien vähentäminen on hyväksyttävää. OxiPNG palvelee eri tarkoitusta.</string>
     <string name="help_tip_format_oxipng_step_3">Tarkista sovelluksen metatiedot ja taustaasetukset, koska ne voivat muuttaa lopullista tiedostoa pakkauksesta riippumatta.</string>
@@ -7347,7 +7347,7 @@
     <string name="help_tip_format_av2_step_3">Säilytä AV1-, JPEG- tai PNG-kopio vastaanottajille, joiden ohjelmisto ei voi purkaa AV2:ta.</string>
     <string name="help_tip_format_heic_title">HEIC / HEIF</string>
     <string name="help_tip_format_heic_subtitle">HEVC-kuvat häviöllisillä ja häviöttömällä valinnalla</string>
-    <string name="help_tip_format_heic_description">HEIF on konttiperhe; Sovelluksen HEIC- ja HEIF-vaihtoehdot käyttävät molemmat HEVC-koodausta ja eroavat laajennuksesta ja MIME-tyypistä. Häviöllinen laatu on 0-100. Saatavilla on Chroma 4:2:0, 4:2:2 ja 4:4:4, näytön sisällön koodaus ja häviötön GBR-vaihtoehto. Alfa ja tuettu EXIF ​​voidaan käsitellä, mutta yhteensopivuus riippuu dekooderista ja profiilista. Häviötön koodekkitoiminta ja RGB-pikseleiden säilyttäminen eivät ole keskenään vaihdettavissa, kun tapahtuu värimuunnos tai alinäytteenotto.</string>
+    <string name="help_tip_format_heic_description">HEIF on konttiperhe; Sovelluksen HEIC- ja HEIF-vaihtoehdot käyttävät molemmat HEVC-koodausta ja eroavat laajennuksesta ja MIME-tyypistä. Häviöllinen laatu on 0-100. Saatavilla on Chroma 4:2:0, 4:2:2 ja 4:4:4, näytön sisällön koodaus ja häviötön GBR-vaihtoehto. Alfa ja tuettu EXIF voidaan käsitellä, mutta yhteensopivuus riippuu dekooderista ja profiilista. Häviötön koodekkitoiminta ja RGB-pikseleiden säilyttäminen eivät ole keskenään vaihdettavissa, kun tapahtuu värimuunnos tai alinäytteenotto.</string>
     <string name="help_tip_format_heic_step_1">Käytä kuvasuhdetta 4:4:4 saadaksesi teräviä värillisiä yksityiskohtia ja vertaa kohdesovelluksen tukea.</string>
     <string name="help_tip_format_heic_step_2">Tarkista RGB-pikseleiden säilyttämistä varten GBR-häviötön vaihtoehto ja tarkista viety tulos sen sijaan, että luottaisit vain Lossless-tarraan.</string>
     <string name="help_tip_format_heic_step_3">Käytä HEIC:tä tai HEIF:ää vastaanottavan sovelluksen vaatimusten mukaisesti; tiedostotunnisteen muuttaminen ei muuta koodekkia.</string>
@@ -7371,7 +7371,7 @@
     <string name="help_tip_format_jixel_step_3">Gainmap-säilytys vaatii bittikartan, johon on vielä yksi liitetty. Muokkaukset, skaalaus tai dekooderi voivat poistaa sen; tarkista HDR yhteensopivassa ohjelmistossa.</string>
     <string name="help_tip_format_jp2_title">JPEG 2000 / JP2</string>
     <string name="help_tip_format_jp2_subtitle">Wavelet-pakkaus metatietoa tukevassa säilössä</string>
-    <string name="help_tip_format_jp2_description">JP2 kääri JPEG 2000 -koodivirran säiliöön. Se on erillinen muoto JPEG/JPG:stä ja vaatii yhteensopivan katseluohjelman. Sovellus näyttää laadun 20–100 ja tukee alfa- ja tuettua metatietojen säilyttämistä. Wavelet-pakkauksessa on erilaisia ​​artefakteja kuin JPEG:ssä, joten tarkista hieno tekstuuri ja reunat. Säiliö on parempi kuin raaka J2K, kun ympäröivän muototiedoilla tai metatiedoilla on merkitystä.</string>
+    <string name="help_tip_format_jp2_description">JP2 kääri JPEG 2000 -koodivirran säiliöön. Se on erillinen muoto JPEG/JPG:stä ja vaatii yhteensopivan katseluohjelman. Sovellus näyttää laadun 20–100 ja tukee alfa- ja tuettua metatietojen säilyttämistä. Wavelet-pakkauksessa on erilaisia artefakteja kuin JPEG:ssä, joten tarkista hieno tekstuuri ja reunat. Säiliö on parempi kuin raaka J2K, kun ympäröivän muototiedoilla tai metatiedoilla on merkitystä.</string>
     <string name="help_tip_format_jp2_step_1">Testaa kohteen JPEG 2000 -tuki ennen kuin käytät JP2:ta toimitukseen.</string>
     <string name="help_tip_format_jp2_step_2">Vertaa tekstin ja hienojen kuvioiden laatuasetuksia; korkealaatuinen numero ei yksinään ole todiste pikselin tarkkuudesta edestakaisin.</string>
     <string name="help_tip_format_jp2_step_3">Käytä JP2:ta, kun metatietoja tarvitaan, ja säilytä alkuperäinen, kun tarkka arkiston rekonstruointi on tärkeää.</string>
@@ -7407,7 +7407,7 @@
     <string name="help_tip_format_ico_step_3">Tarkista kohteen kuvakevaatimukset; ICO-tiedosto eroaa Android-käynnistysohjelman kuvakeresurssijoukosta.</string>
     <string name="help_tip_format_gif_title">GIF</string>
     <string name="help_tip_format_gif_subtitle">Palettipohjaiset staattiset kuvat ja animaatiot</string>
-    <string name="help_tip_format_gif_description">GIF tallentaa rajoitetun paletin jopa 256 väriä per kehys ja tukee yksinkertaisia ​​läpinäkyviä pikseleitä sileän alfan sijaan. Se on hyödyllinen pienille animaatioille, pikselitaidelle ja laajalle perinteiselle yhteensopivuudelle; valokuvissa ja pehmeissä reunoissa voi näkyä hankauksia tai rosoisia ääriviivoja. Tavallinen muotomuunnos vie yhden kehyksen. GIF-työkalut käsittelevät kehysten purkamista, animaatioiden luomista, yhdistämistä, viiveitä ja silmukoiden laskemista. Laadunvalvonta vaikuttaa lähettimen toimintaan pikemminkin kuin JPEG-tyyliin jatkuvaan väritarkkuuteen.</string>
+    <string name="help_tip_format_gif_description">GIF tallentaa rajoitetun paletin jopa 256 väriä per kehys ja tukee yksinkertaisia läpinäkyviä pikseleitä sileän alfan sijaan. Se on hyödyllinen pienille animaatioille, pikselitaidelle ja laajalle perinteiselle yhteensopivuudelle; valokuvissa ja pehmeissä reunoissa voi näkyä hankauksia tai rosoisia ääriviivoja. Tavallinen muotomuunnos vie yhden kehyksen. GIF-työkalut käsittelevät kehysten purkamista, animaatioiden luomista, yhdistämistä, viiveitä ja silmukoiden laskemista. Laadunvalvonta vaikuttaa lähettimen toimintaan pikemminkin kuin JPEG-tyyliin jatkuvaan väritarkkuuteen.</string>
     <string name="help_tip_format_gif_step_1">Käytä GIF-työkaluja liikkeen säilyttämiseen ja kehysten järjestyksen, kestojen ja toistojen määrän tarkastamiseen.</string>
     <string name="help_tip_format_gif_step_2">Vertaa APNG:tä tai animoitua WebP:tä tasaisemman läpinäkyvyyden ja rikkaampien värien saamiseksi.</string>
     <string name="help_tip_format_gif_step_3">Testaa ohuet reunat ja kaltevuudet paletin pienentämisen jälkeen; staattinen GIF-vienti ei säilytä tuotua animaatiota.</string>
@@ -7455,7 +7455,7 @@
     <string name="help_tip_face_privacy_step_1">Avaa Piirustus ja valitse valokuva. Valitse Privacy Blur tai Pixelation piirtotilan valitsimesta.</string>
     <string name="help_tip_face_privacy_step_2">Merkitse kasvot automaattisesti napauttamalla Tunnista kasvot. Valitse YuNet tai UltraFace; ilmaisimen on ehkä ladattava mallinsa ensimmäisellä käyttökerralla. Tarkista tulos, koska tunnistus voi jättää huomiotta kasvot.</string>
     <string name="help_tip_face_privacy_step_3">Piirrä kaikki puuttuvat kasvot tai muut alueet manuaalisesti. Säädä sumennuksen sädettä tai pikselin kokoa ja kumoa virheelliset merkit. Käytä tekstiä ja rekisterikilpiä varten läpinäkymätöntä sivellintä peittämään koko yksityiskohta.</string>
-    <string name="help_tip_face_privacy_step_4">Tarkista jokainen peitetty alue täysikokoisena, tallenna ja jaa sitten muokattu kopio. Pidä alkuperäinen erillään, jos se sisältää edelleen henkilökohtaisia ​​tietoja.</string>
+    <string name="help_tip_face_privacy_step_4">Tarkista jokainen peitetty alue täysikokoisena, tallenna ja jaa sitten muokattu kopio. Pidä alkuperäinen erillään, jos se sisältää edelleen henkilökohtaisia tietoja.</string>
     <string name="assistant_thinking">Valmistellaan vastausta…</string>
     <string name="assistant_generation_timeout">Vastaus kesti liian kauan. Kokeile pienempää mallia tai lyhyempää kysymystä.</string>
     <string name="assistant_scope">Autan ImageToolboxin kanssa: muokkaan kuvia ja tiedostoja, valitsen työkaluja ja muutan sovellusasetuksia.</string>

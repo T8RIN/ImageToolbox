@@ -1197,9 +1197,9 @@
     <string name="equalize_histogram">یکسان سازی هیستوگرام</string>
     <string name="enter_percentage">درصد را وارد کنید</string>
     <string name="allow_enter_by_text_field_sub">فیلد متن را در پشت انتخاب از پیش تنظیم‌ها فعال می‌کند تا آن‌ها را در لحظه وارد کنید</string>
-    <string name="equalize_histogram_adaptive">هیستوگرام تطبیقی ​​را برابر کنید</string>
-    <string name="equalize_histogram_adaptive_luv">LUV تطبیقی ​​هیستوگرام را یکسان کنید</string>
-    <string name="equalize_histogram_adaptive_lab">LAB تطبیقی ​​هیستوگرام را برابر کنید</string>
+    <string name="equalize_histogram_adaptive">هیستوگرام تطبیقی را برابر کنید</string>
+    <string name="equalize_histogram_adaptive_luv">LUV تطبیقی هیستوگرام را یکسان کنید</string>
+    <string name="equalize_histogram_adaptive_lab">LAB تطبیقی هیستوگرام را برابر کنید</string>
     <string name="clahe">کلاه</string>
     <string name="clahe_lab">آزمایشگاه کلاه</string>
     <string name="clahe_luv">کلاه لوو</string>
@@ -1281,8 +1281,8 @@
     <string name="bins_count">سطل ها به حساب می آیند</string>
     <string name="clahe_hsl">کلاه HSL</string>
     <string name="clahe_hsv">کلاه HSV</string>
-    <string name="equalize_histogram_adaptive_hsl">HSL تطبیقی ​​هیستوگرام را برابر کنید</string>
-    <string name="equalize_histogram_adaptive_hsv">یکسان سازی هیستوگرام تطبیقی ​​HSV</string>
+    <string name="equalize_histogram_adaptive_hsl">HSL تطبیقی هیستوگرام را برابر کنید</string>
+    <string name="equalize_histogram_adaptive_hsv">یکسان سازی هیستوگرام تطبیقی HSV</string>
     <string name="edge_mode">حالت لبه</string>
     <string name="clip">کلیپ</string>
     <string name="wrap">بسته بندی کنید</string>
@@ -1610,7 +1610,7 @@
     <string name="ocr_write_to_file">نوشتن در فایل</string>
     <string name="ocr_write_to_file_sub">متن را از دسته ای از تصاویر استخراج کرده و در یک فایل متنی ذخیره کنید</string>
     <string name="ocr_write_to_metadata">نوشتن در فراداده</string>
-    <string name="ocr_write_to_metadata_sub">متن را از هر تصویر استخراج کنید و آن را در اطلاعات EXIF ​​عکس های نسبی قرار دهید</string>
+    <string name="ocr_write_to_metadata_sub">متن را از هر تصویر استخراج کنید و آن را در اطلاعات EXIF عکس های نسبی قرار دهید</string>
     <string name="invisible_mode">حالت نامرئی</string>
     <string name="invisible_mode_sub">از استگانوگرافی برای ایجاد واترمارک های نامرئی در داخل بایت های تصاویر خود استفاده کنید</string>
     <string name="use_lsb">از LSB استفاده کنید</string>
@@ -1954,7 +1954,7 @@
     <string name="model_debandurh_fs_ultra_lite">مدل بندکشی سبک که باندهای رنگی را با حداقل هزینه عملکرد حذف می کند.</string>
     <string name="model_jpeg_0_20" formatted="false">تصاویر را با فشرده سازی بسیار بالا (کیفیت 0-20٪) برای وضوح بهتر بهینه می کند.</string>
     <string name="model_jpeg_20_40" formatted="false">تصاویر را با آرتیفکت های فشرده سازی بالا (کیفیت 20-40٪)، بازیابی جزئیات و کاهش نویز بهبود می بخشد.</string>
-    <string name="model_jpeg_40_60" formatted="false">تصاویر را با فشرده سازی متوسط ​​(کیفیت 40-60٪)، متعادل کردن وضوح و صافی بهبود می بخشد.</string>
+    <string name="model_jpeg_40_60" formatted="false">تصاویر را با فشرده سازی متوسط (کیفیت 40-60٪)، متعادل کردن وضوح و صافی بهبود می بخشد.</string>
     <string name="model_jpeg_60_80" formatted="false">تصاویر را با فشرده سازی نور (کیفیت 60-80٪) برای بهبود جزئیات و بافت های ظریف اصلاح می کند.</string>
     <string name="model_jpeg_80_100" formatted="false">تصاویر تقریباً بدون اتلاف (کیفیت 80 تا 100٪) را کمی بهبود می بخشد و در عین حال ظاهر و جزئیات طبیعی را حفظ می کند.</string>
     <string name="model_spongecolor_lite">رنگ آمیزی ساده و سریع، کارتون، ایده آل نیست</string>
@@ -1964,7 +1964,7 @@
     <string name="processing">پردازش</string>
     <string name="model_artifacts_jpg_0_20">آرتیفکت های فشرده فشرده سازی JPEG را در تصاویر با کیفیت بسیار پایین (0-20٪) حذف می کند.</string>
     <string name="model_artifacts_jpg_20_40">آرتیفکت های JPEG قوی را در تصاویر بسیار فشرده (20-40٪) کاهش می دهد.</string>
-    <string name="model_artifacts_jpg_40_60">مصنوعات JPEG متوسط ​​را با حفظ جزئیات تصویر (40-60٪) پاک می کند.</string>
+    <string name="model_artifacts_jpg_40_60">مصنوعات JPEG متوسط را با حفظ جزئیات تصویر (40-60٪) پاک می کند.</string>
     <string name="model_artifacts_jpg_60_80">مصنوعات سبک JPEG را در تصاویر با کیفیت نسبتاً بالا (60-80٪) اصلاح می کند.</string>
     <string name="model_artifacts_jpg_80_100">به طور نامحسوس مصنوعات JPEG جزئی را در تصاویر تقریباً بدون اتلاف (80-100٪) کاهش می دهد.</string>
     <string name="model_redetail_v2">جزئیات و بافت های ظریف را بهبود می بخشد و وضوح درک شده را بدون آثار سنگین بهبود می بخشد.</string>
@@ -2008,7 +2008,7 @@
     <string name="model_ddcolor_artistic">مجموعه داده های هنری آموزش دیده و خصوصی DDColor. نتایج رنگ آمیزی متنوع و هنری را با مصنوعات رنگی غیر واقعی کمتر ایجاد می کند.</string>
     <string name="model_birefnet">مدل سبک BiRefNet بر اساس ترانسفورماتور Swin برای حذف دقیق پس زمینه.</string>
     <string name="model_inspyrenet">حذف پس‌زمینه با کیفیت بالا با لبه‌های تیز و حفظ جزئیات عالی، به‌ویژه در اشیاء پیچیده و پس‌زمینه‌های پیچیده.</string>
-    <string name="model_isnet">مدل حذف پس‌زمینه که ماسک‌هایی دقیق با لبه‌های صاف، مناسب برای اشیاء عمومی و حفظ جزئیات متوسط ​​تولید می‌کند.</string>
+    <string name="model_isnet">مدل حذف پس‌زمینه که ماسک‌هایی دقیق با لبه‌های صاف، مناسب برای اشیاء عمومی و حفظ جزئیات متوسط تولید می‌کند.</string>
     <string name="model_already_downloaded">مدل قبلا دانلود شده است</string>
     <string name="model_successfully_imported">مدل با موفقیت وارد شد</string>
     <string name="type">تایپ کنید</string>
@@ -2395,8 +2395,8 @@
     <string name="shader_parse_error_vec2_expected">%1$s باید یک آرایه دو عددی یا یک شی با x و y باشد.</string>
     <string name="shader_parse_error_vec2_component_count_expected">%1$s باید دقیقاً 2 عدد داشته باشد.</string>
     <string name="duplicate">تکراری</string>
-    <string name="always_clear_exif">همیشه EXIF ​​را پاک کنید</string>
-    <string name="always_clear_exif_sub">داده های EXIF ​​تصویر را در ذخیره حذف کنید، حتی زمانی که ابزاری درخواست نگه داشتن ابرداده را دارد</string>
+    <string name="always_clear_exif">همیشه EXIF را پاک کنید</string>
+    <string name="always_clear_exif_sub">داده های EXIF تصویر را در ذخیره حذف کنید، حتی زمانی که ابزاری درخواست نگه داشتن ابرداده را دارد</string>
     <string name="help_tips">راهنما و نکات</string>
     <string name="tutorials_count">%1$d آموزش</string>
     <string name="open_tool">ابزار را باز کنید</string>
@@ -2422,7 +2422,7 @@
     <string name="help_tip_choose_tool_page_title">از بهترین نقطه ورودی شروع کنید</string>
     <string name="help_tip_choose_tool_description">Image Toolbox ابزارهای متمرکز زیادی دارد و بسیاری از آنها در نگاه اول با هم همپوشانی دارند. از کاری که می‌خواهید به پایان برسانید، شروع کنید، سپس ابزاری را انتخاب کنید که مهم‌ترین بخش نتیجه را کنترل می‌کند: اندازه، قالب، ابرداده، متن، صفحات PDF، رنگ‌ها یا طرح‌بندی.</string>
     <string name="help_tip_choose_tool_step_1">هنگامی که نام عمل را می دانید، مانند تغییر اندازه، PDF، EXIF، OCR، QR یا رنگ، از جستجو استفاده کنید.</string>
-    <string name="help_tip_choose_tool_step_2">زمانی که فقط نوع کار را می‌دانید، یک دسته را باز کنید، سپس ابزارهای مکرر را به عنوان موارد دلخواه پین ​​کنید.</string>
+    <string name="help_tip_choose_tool_step_2">زمانی که فقط نوع کار را می‌دانید، یک دسته را باز کنید، سپس ابزارهای مکرر را به عنوان موارد دلخواه پین کنید.</string>
     <string name="help_tip_choose_tool_step_3">وقتی برنامه دیگری تصویری را در جعبه ابزار تصویر به اشتراک می‌گذارد، ابزار را از جریان برگه اشتراک‌گذاری انتخاب کنید.</string>
     <string name="help_tip_import_save_share_title">نتایج را وارد کنید، ذخیره کنید و به اشتراک بگذارید</string>
     <string name="help_tip_import_save_share_subtitle">جریان معمول از انتخاب ورودی تا صدور فایل ویرایش شده را درک کنید</string>
@@ -2528,7 +2528,7 @@
     <string name="help_tip_preview_before_editing_description">پیش‌نمایش تصویر زمانی مفید است که فایلی از چت، فضای ذخیره‌سازی ابری یا برنامه دیگری می‌آید و مطمئن نیستید حاوی چه چیزی است. بررسی ابعاد، شفافیت، جهت‌گیری و کیفیت بصری ابتدا به انتخاب ابزار پیگیری صحیح کمک می‌کند.</string>
     <string name="help_tip_preview_before_editing_step_1">زمانی که باید چندین تصویر را قبل از تصمیم گیری در مورد اینکه با آنها چه کاری انجام دهید، بررسی کنید، پیش نمایش تصویر را باز کنید.</string>
     <string name="help_tip_preview_before_editing_step_2">به دنبال مشکلات چرخش، مناطق شفاف، مصنوعات فشرده سازی و ابعاد غیرمنتظره بزرگ باشید.</string>
-    <string name="help_tip_preview_before_editing_step_3">تنها زمانی به تغییر اندازه، برش، مقایسه، EXIF ​​یا Background Remover بروید که بدانید چه چیزی نیاز به تعمیر دارد.</string>
+    <string name="help_tip_preview_before_editing_step_3">تنها زمانی به تغییر اندازه، برش، مقایسه، EXIF یا Background Remover بروید که بدانید چه چیزی نیاز به تعمیر دارد.</string>
     <string name="help_tip_background_remover_title">حذف یا بازیابی پس زمینه</string>
     <string name="help_tip_background_remover_subtitle">پس زمینه ها را به طور خودکار پاک کنید یا لبه ها را به صورت دستی با ابزارهای بازیابی اصلاح کنید</string>
     <string name="help_tip_background_remover_page_title">موضوع را نگه دارید، بقیه را حذف کنید</string>
@@ -2568,16 +2568,16 @@
     <string name="help_tip_exif_privacy_subtitle">قبل از اشتراک‌گذاری عکس‌های حساس، ابرداده‌ها را مشاهده، ویرایش یا حذف کنید</string>
     <string name="help_tip_exif_privacy_page_title">کنترل داده های تصویر پنهان</string>
     <string name="help_tip_exif_privacy_description">EXIF می‌تواند حاوی داده‌های دوربین، تاریخ، مکان، جهت و سایر جزئیات غیرقابل مشاهده در تصویر باشد. قبل از اشتراک‌گذاری عمومی، گزارش‌های پشتیبانی، فهرست‌های بازار یا هر عکسی که ممکن است یک مکان خصوصی را نشان دهد، ارزش آن را دارد.</string>
-    <string name="help_tip_exif_privacy_step_1">قبل از اشتراک‌گذاری عکس‌هایی که ممکن است حاوی اطلاعات مکان یا دستگاه خصوصی باشند، ابزار EXIF ​​را باز کنید.</string>
+    <string name="help_tip_exif_privacy_step_1">قبل از اشتراک‌گذاری عکس‌هایی که ممکن است حاوی اطلاعات مکان یا دستگاه خصوصی باشند، ابزار EXIF را باز کنید.</string>
     <string name="help_tip_exif_privacy_step_2">فیلدهای حساس را حذف کنید یا برچسب های نادرست مانند تاریخ، جهت، نویسنده یا داده های دوربین را ویرایش کنید.</string>
     <string name="help_tip_exif_privacy_step_3">یک کپی جدید ذخیره کنید و در صورت اهمیت به حریم خصوصی، آن کپی را به جای نسخه اصلی به اشتراک بگذارید.</string>
     <string name="help_tip_automatic_exif_cleanup_title">پاکسازی خودکار EXIF</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">در حالی که تصمیم می گیرید آیا تاریخ ها باید حفظ شوند، به طور پیش فرض ابرداده را حذف کنید</string>
     <string name="help_tip_automatic_exif_cleanup_page_title">حریم خصوصی را پیش فرض قرار دهید</string>
-    <string name="help_tip_automatic_exif_cleanup_description">گروه تنظیمات EXIF ​​زمانی مفید است که بخواهید به جای به خاطر سپردن آن برای هر صادرات، پاکسازی حریم خصوصی به طور خودکار انجام شود. Keep Date Time یک تصمیم جداگانه است زیرا تاریخ ها می توانند برای مرتب سازی مفید باشند اما برای اشتراک گذاری حساس هستند.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_1">هنگامی که بیشتر صادرات شما برای اشتراک‌گذاری عمومی یا نیمه عمومی است، EXIF ​​همیشه پاک را فعال کنید.</string>
+    <string name="help_tip_automatic_exif_cleanup_description">گروه تنظیمات EXIF زمانی مفید است که بخواهید به جای به خاطر سپردن آن برای هر صادرات، پاکسازی حریم خصوصی به طور خودکار انجام شود. Keep Date Time یک تصمیم جداگانه است زیرا تاریخ ها می توانند برای مرتب سازی مفید باشند اما برای اشتراک گذاری حساس هستند.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_1">هنگامی که بیشتر صادرات شما برای اشتراک‌گذاری عمومی یا نیمه عمومی است، EXIF همیشه پاک را فعال کنید.</string>
     <string name="help_tip_automatic_exif_cleanup_step_2">فقط زمانی که حفظ زمان ضبط مهمتر از حذف هر مهر زمانی باشد، Keep Date Time را فعال کنید.</string>
-    <string name="help_tip_automatic_exif_cleanup_step_3">از ویرایش دستی EXIF ​​برای فایل‌های یکباره استفاده کنید، جایی که باید برخی از فیلدها را نگه دارید و برخی دیگر را حذف کنید.</string>
+    <string name="help_tip_automatic_exif_cleanup_step_3">از ویرایش دستی EXIF برای فایل‌های یکباره استفاده کنید، جایی که باید برخی از فیلدها را نگه دارید و برخی دیگر را حذف کنید.</string>
     <string name="help_tip_filenames_title">کنترل نام فایل ها</string>
     <string name="help_tip_filenames_subtitle">استفاده از پیشوندها، پسوندها، مُهرهای زمانی، پیش‌تنظیم‌ها، جمع‌های کنترلی و اعداد ترتیبی</string>
     <string name="help_tip_filenames_page_title">صادرات را به راحتی پیدا کنید</string>
@@ -3042,7 +3042,7 @@
     <string name="help_tip_metadata_dates_location_description">ابرداده ها همه به یک اندازه خطرناک نیستند. تاریخ‌های ضبط می‌توانند برای بایگانی و مرتب‌سازی مفید باشند، در حالی که GPS، فیلدهای سریال‌مانند دستگاه، برچسب‌های نرم‌افزار یا فیلدهای مالک می‌توانند بیش از آنچه در نظر گرفته شده را نشان دهند.</string>
     <string name="help_tip_metadata_dates_location_step_1">وقتی ترتیب زمانی برای آلبوم‌ها، اسکن‌ها یا سابقه پروژه مهم است، برچسب‌های تاریخ و زمان را نگه دارید.</string>
     <string name="help_tip_metadata_dates_location_step_2">قبل از اشتراک گذاری عمومی یا ارسال تصاویر به افراد غریبه، GPS و برچسب های شناسایی دستگاه را حذف کنید.</string>
-    <string name="help_tip_metadata_dates_location_step_3">یک نمونه را صادر کنید و زمانی که الزامات حفظ حریم خصوصی سخت است، دوباره EXIF ​​را بررسی کنید.</string>
+    <string name="help_tip_metadata_dates_location_step_3">یک نمونه را صادر کنید و زمانی که الزامات حفظ حریم خصوصی سخت است، دوباره EXIF را بررسی کنید.</string>
     <string name="help_tip_filename_collision_safety_title">از برخورد نام فایل جلوگیری کنید</string>
     <string name="help_tip_filename_collision_safety_subtitle">هنگامی که بسیاری از فایل ها نام هایی مانند image.jpg یا screenshot.png را به اشتراک می گذارند، از خروجی های دسته ای محافظت کنید</string>
     <string name="help_tip_filename_collision_safety_page_title">هر نام خروجی را منحصر به فرد کنید</string>
@@ -3098,7 +3098,7 @@
     <string name="help_tip_ocr_preprocessing_description">اشتباهات OCR اغلب از تصویر ورودی به جای موتور OCR ناشی می شود. صفحات کج، کنتراست کم، تاری، سایه ها، متن های کوچک و پس زمینه های مختلط همگی کیفیت تشخیص را کاهش می دهند.</string>
     <string name="help_tip_ocr_preprocessing_step_1">به قسمت متن برش دهید و تصویر را بچرخانید تا خطوط قبل از تشخیص افقی باشند.</string>
     <string name="help_tip_ocr_preprocessing_step_2">کنتراست را افزایش دهید یا به سیاه و سفید تمیزتر تبدیل کنید فقط زمانی که خواندن حروف را آسان‌تر کند.</string>
-    <string name="help_tip_ocr_preprocessing_step_3">اندازه متن کوچک را به طور متوسط ​​به سمت بالا تغییر دهید، اما از شارپ کردن تهاجمی که لبه های جعلی ایجاد می کند اجتناب کنید.</string>
+    <string name="help_tip_ocr_preprocessing_step_3">اندازه متن کوچک را به طور متوسط به سمت بالا تغییر دهید، اما از شارپ کردن تهاجمی که لبه های جعلی ایجاد می کند اجتناب کنید.</string>
     <string name="help_tip_qr_content_safety_title">محتوای QR را بررسی کنید</string>
     <string name="help_tip_qr_content_safety_subtitle">قبل از اعتماد کردن به کد، پیوندها، اعتبارنامه‌های Wi-Fi، مخاطبین و اقدامات را مرور کنید</string>
     <string name="help_tip_qr_content_safety_page_title">متن رمزگشایی شده را به عنوان ورودی نامعتبر در نظر بگیرید</string>
@@ -3215,7 +3215,7 @@
     <string name="search_keywords_format_conversion">فرمت تبدیل jpg jpeg png webp heic avif jxl bmp</string>
     <string name="search_keywords_document_scanner">اسکنر اسناد اسکن کاغذ پرسپکتیو برش</string>
     <string name="search_keywords_scan_qr_code">اسکن اسکنر بارکد qr</string>
-    <string name="search_keywords_image_stacking">عکس نجومی میانه متوسط ​​روی هم انباشته</string>
+    <string name="search_keywords_image_stacking">عکس نجومی میانه متوسط روی هم انباشته</string>
     <string name="search_keywords_image_splitting">قطعات برش شبکه کاشی های تقسیم شده</string>
     <string name="search_keywords_color_tools">تبدیل رنگ هگز rgb hsl hsv آزمایشگاه cmyk</string>
     <string name="search_keywords_webp_tools">webp تبدیل فرمت تصویر متحرک</string>
@@ -3223,7 +3223,7 @@
     <string name="search_keywords_collage_maker">ترکیب طرح شبکه کلاژ</string>
     <string name="search_keywords_markup_layers">لایه‌های نشانه‌گذاری حاشیه‌نویسی ویرایش هم‌پوشانی</string>
     <string name="search_keywords_base64_tools">base64 کد رمزگشایی داده uri</string>
-    <string name="search_keywords_checksum_tools">چک‌سوم هش md5 ​​sha sha1 sha256 را تأیید کنید</string>
+    <string name="search_keywords_checksum_tools">چک‌سوم هش md5 sha sha1 sha256 را تأیید کنید</string>
     <string name="search_keywords_mesh_gradients">پس زمینه شیب مش</string>
     <string name="search_keywords_edit_exif">ابرداده exif ویرایش gps تاریخ دوربین</string>
     <string name="search_keywords_image_cutter">کاشی های تکه های شبکه تقسیم شده را برش دهید</string>
@@ -3662,7 +3662,7 @@
     <string name="filename_pattern">الگوی نام فایل</string>
     <string name="rename">تغییر نام دهید</string>
     <string name="date_source">منبع تاریخ</string>
-    <string name="date_source_exif">تاریخ EXIF ​​گرفته شده است</string>
+    <string name="date_source_exif">تاریخ EXIF گرفته شده است</string>
     <string name="date_source_modified">تاریخ اصلاح فایل</string>
     <string name="date_source_created">تاریخ ایجاد فایل</string>
     <string name="date_source_current">تاریخ فعلی</string>
@@ -4443,7 +4443,7 @@
     <string name="return_to_external_app_after_save">پس از ذخیره ویرایش های خارجی برگردید</string>
     <string name="return_to_external_app_after_save_sub">پس از ذخیره تصویری که برای ویرایش از برنامه دیگری باز شده است، جعبه ابزار تصویر را ببندید</string>
     <string name="add_imagetoolbox_metadata">ابرداده ImageToolbox را اضافه کنید</string>
-    <string name="add_imagetoolbox_metadata_sub">هنگام ذخیره، نسخه برنامه و پارامترهای تصویر پیکربندی شده را در EXIF ​​بنویسید</string>
+    <string name="add_imagetoolbox_metadata_sub">هنگام ذخیره، نسخه برنامه و پارامترهای تصویر پیکربندی شده را در EXIF بنویسید</string>
     <string name="read_only">فقط خواندن</string>
     <string name="tag_camera_firmware">سیستم عامل دوربین</string>
     <string name="tag_chromatic_aberration_correction">تصحیح انحراف رنگی</string>
@@ -5735,7 +5735,7 @@
     <string name="help_tip_tone_curves_page_2_description">یک منحنی را می توان برای چندین تصویر انتخاب شده اعمال کرد. یک منحنی مشترک پردازش ثابتی را ارائه می‌دهد، اما عکس‌هایی با نوردهی متفاوت ممکن است همچنان به اصلاحات جداگانه نیاز داشته باشند.</string>
     <string name="help_tip_tone_curves_page_2_step_1">چندین تصویر را انتخاب کنید و بین پیش نمایش ها جابه جا شوید تا هم تاریک ترین و هم روشن ترین نمونه را بررسی کنید.</string>
     <string name="help_tip_tone_curves_page_2_step_2">یک منحنی از پیش تعیین شده را به عنوان یک فایل itcurve. صادر کنید و بعداً برای استفاده مجدد از همان نقاط کنترل وارد کنید.</string>
-    <string name="help_tip_tone_curves_page_2_step_3">فرمت خروجی و رفتار EXIF ​​را انتخاب کنید، سپس کپی ها را ذخیره کنید. اگر می‌خواهید از تصویر بدون تغییر شروع کنید، منحنی‌ها را بازنشانی کنید.</string>
+    <string name="help_tip_tone_curves_page_2_step_3">فرمت خروجی و رفتار EXIF را انتخاب کنید، سپس کپی ها را ذخیره کنید. اگر می‌خواهید از تصویر بدون تغییر شروع کنید، منحنی‌ها را بازنشانی کنید.</string>
     <string name="help_tip_stitching_modes_title">تصاویر و اسکرین شات ها را بخیه بزنید</string>
     <string name="help_tip_stitching_modes_subtitle">نوارها، شبکه‌ها، پانوراما، یا دوخت اسکرین شات و همپوشانی‌های کنترل را انتخاب کنید</string>
     <string name="help_tip_stitching_modes_page_title">نحوه پیوستن تصاویر را انتخاب کنید</string>
@@ -5813,7 +5813,7 @@
     <string name="help_tip_fractal_generation_page_title">در یک فراکتال پیمایش کنید</string>
     <string name="help_tip_fractal_generation_description">یک تصویر فراکتال از یک فرمول و پارامترهای آن محاسبه می شود. تغییر فرمول ساختار اساسی را تغییر می دهد. تغییر یک پالت، نحوه رنگ آمیزی مقادیر محاسبه شده را تغییر می دهد. کنترل های موجود به فرمول بستگی دارد.</string>
     <string name="help_tip_fractal_generation_step_1">با ماندلبروت یا جولیا شروع کنید. برای یافتن یک منطقه، پیش نمایش را حرکت داده و بزرگنمایی کنید و برای بازگشت به نمای شروع، درگاه دید را بازنشانی کنید.</string>
-    <string name="help_tip_fractal_generation_step_2">هنگامی که مرزهای دقیق صاف یا ناقص می شوند، تکرارها را افزایش دهید. مقیاس‌گذاری یا سیاست‌های تکرار تطبیقی ​​می‌تواند به بزرگنمایی بیشتر کمک کند.</string>
+    <string name="help_tip_fractal_generation_step_2">هنگامی که مرزهای دقیق صاف یا ناقص می شوند، تکرارها را افزایش دهید. مقیاس‌گذاری یا سیاست‌های تکرار تطبیقی می‌تواند به بزرگنمایی بیشتر کمک کند.</string>
     <string name="help_tip_fractal_generation_step_3">زوم بسیار عمیق بیش از 10¹²× به Mandelbrot یا Julia با توان ۲ نیاز دارد. فرمول‌های دیگر محدودیت‌های عددی متفاوتی دارند.</string>
     <string name="help_tip_fractal_generation_page_2_title">هزینه رنگ آمیزی، سه بعدی و رندر</string>
     <string name="help_tip_fractal_generation_page_2_description">چرخه پالت و افست رنگ ها را دوباره توزیع می کند. سوپرنمونه برداری نمونه برداری لبه را بهبود می بخشد اما به کار بیشتری نیاز دارد. برای فرمول‌های سه‌بعدی، انحراف دوربین، زمین و فاصله، نمای را تعیین می‌کنند.</string>
@@ -5880,8 +5880,8 @@
     <string name="help_tip_exif_removal_title">ابرداده تصویر را در یک دسته حذف کنید</string>
     <string name="help_tip_exif_removal_subtitle">اطلاعات تصویر جاسازی شده را پاک کنید و کپی های صادر شده را تأیید کنید</string>
     <string name="help_tip_exif_removal_page_title">پاکسازی ابرداده و محدودیت های آن</string>
-    <string name="help_tip_exif_removal_description">حذف EXIF ​​برای حذف ابرداده های تعبیه شده از تصاویر انتخاب شده در نظر گرفته شده است. پاکسازی ابرداده با پنهان کردن اطلاعات قابل مشاهده متفاوت است: چهره، آدرس، برچسب اسکرین شات یا نام فایل همچنان می‌تواند جزئیات را آشکار کند.</string>
-    <string name="help_tip_exif_removal_step_1">تصاویر را برای تمیز کردن انتخاب کنید و قبل از ذخیره، دسته را مرور کنید. زمانی که نیاز به بازرسی یا تغییر فیلدهای خاص دارید، از ویرایش EXIF ​​استفاده کنید.</string>
+    <string name="help_tip_exif_removal_description">حذف EXIF برای حذف ابرداده های تعبیه شده از تصاویر انتخاب شده در نظر گرفته شده است. پاکسازی ابرداده با پنهان کردن اطلاعات قابل مشاهده متفاوت است: چهره، آدرس، برچسب اسکرین شات یا نام فایل همچنان می‌تواند جزئیات را آشکار کند.</string>
+    <string name="help_tip_exif_removal_step_1">تصاویر را برای تمیز کردن انتخاب کنید و قبل از ذخیره، دسته را مرور کنید. زمانی که نیاز به بازرسی یا تغییر فیلدهای خاص دارید، از ویرایش EXIF استفاده کنید.</string>
     <string name="help_tip_exif_removal_step_2">کپی های پاک شده را ذخیره کنید و یک فایل صادر شده را در نمایشگر ابرداده بررسی کنید. متادیتاهای پشتیبانی شده و رفتار کانتینر بین قالب‌ها متفاوت است.</string>
     <string name="help_tip_exif_removal_step_3">نام فایل ها و محتوای قابل مشاهده را جداگانه بررسی کنید. اگر ممکن است بعداً به اطلاعات دوربین آن نیاز پیدا کنید، تنها نسخه اصلی را بازنویسی نکنید.</string>
     <string name="help_tip_gallery_workflow_title">در گالری مرور و انتخاب کنید</string>
@@ -6008,8 +6008,8 @@
     <string name="help_tip_filenames_page_2_step_2">اطمینان حاصل کنید که صادرات های مکرر دارای نام های متمایز هستند، مگر اینکه بازنویسی عمدی باشد. یک نام چک‌سوم می‌تواند محتوا را شناسایی کند، در حالی که یک نام تصادفی هدف متفاوتی را دنبال می‌کند.</string>
     <string name="help_tip_filenames_page_2_step_3">قبل از یک دسته بزرگ، مقصد را تأیید کنید و تنظیمات را بازنویسی کنید. یک الگوی نام مناسب نباید جایگزین بررسی اینکه کدام فایل نوشته خواهد شد.</string>
     <string name="help_tip_large_files_page_2_title">حافظه کاری را عمداً کاهش دهید</string>
-    <string name="help_tip_large_files_page_2_description">تصاویر رمزگشایی شده می توانند حافظه بسیار بیشتری نسبت به اندازه فایل فشرده خود اشغال کنند. چندین لایه، فریم های انیمیشن یا نتایج متوسط ​​با وضوح کامل این هزینه را چند برابر می کند.</string>
-    <string name="help_tip_large_files_page_2_step_1">با یک دسته نماینده کوچکتر و اندازه خروجی متوسط ​​شروع کنید. پس از بررسی پردازش و نتیجه، اندازه را افزایش دهید.</string>
+    <string name="help_tip_large_files_page_2_description">تصاویر رمزگشایی شده می توانند حافظه بسیار بیشتری نسبت به اندازه فایل فشرده خود اشغال کنند. چندین لایه، فریم های انیمیشن یا نتایج متوسط با وضوح کامل این هزینه را چند برابر می کند.</string>
+    <string name="help_tip_large_files_page_2_step_1">با یک دسته نماینده کوچکتر و اندازه خروجی متوسط شروع کنید. پس از بررسی پردازش و نتیجه، اندازه را افزایش دهید.</string>
     <string name="help_tip_large_files_page_2_step_2">برای عملیات ناموفق، قبل از کاهش کیفیت خروجی به تنهایی، ابعاد، تعداد فریم یا تعداد لایه ها را کاهش دهید. کیفیت عمدتاً رمزگذاری را تغییر می دهد، نه اندازه تصویر رمزگشایی شده را.</string>
     <string name="help_tip_large_files_page_2_step_3">فضای خالی کافی برای فایل های موقت و خروجی داشته باشید. اگر مشکل در یک ورودی کوچک تکرار شد، ابزار، پارامترها، قالب و گزارش برنامه را گزارش دهید.</string>
     <string name="show_help_tips_button">دکمه راهنما و نکات</string>
@@ -6055,8 +6055,8 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">انواع حاشیه نویسی را برای حذف انتخاب کنید. حداقل یک نوع باید برای ذخیره انتخاب شود.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">پیش نمایش را بررسی کنید و یک کپی ذخیره کنید. پیوندها یا فیلدهایی را که می‌خواهید در سند ذخیره شده نگه دارید تأیید کنید.</string>
     <string name="help_tip_metadata_editing_subtitle">تگ های فراداده فردی را بازرسی، تغییر یا حذف کنید</string>
-    <string name="help_tip_metadata_editing_description">ویرایش EXIF ​​ابرداده تصویر انتخاب شده را برای تغییرات فردی باز می کند. ویرایش تنها زمانی در دسترس است که قالب تصویر از نوشتن ابرداده پشتیبانی کند. صفحه نمایش یک هشدار برای فرمت های پشتیبانی نشده نشان می دهد.</string>
-    <string name="help_tip_metadata_editing_step_1">یک تصویر را انتخاب کنید و ویرایش EXIF ​​را باز کنید تا برچسب های آن را مشاهده کنید.</string>
+    <string name="help_tip_metadata_editing_description">ویرایش EXIF ابرداده تصویر انتخاب شده را برای تغییرات فردی باز می کند. ویرایش تنها زمانی در دسترس است که قالب تصویر از نوشتن ابرداده پشتیبانی کند. صفحه نمایش یک هشدار برای فرمت های پشتیبانی نشده نشان می دهد.</string>
+    <string name="help_tip_metadata_editing_step_1">یک تصویر را انتخاب کنید و ویرایش EXIF را باز کنید تا برچسب های آن را مشاهده کنید.</string>
     <string name="help_tip_metadata_editing_step_2">تگ های فردی را در برگه ابرداده به روز کنید یا حذف کنید. فقط در صورتی که قصد حذف هر تگ را دارید، تمام ابرداده ها را پاک کنید.</string>
     <string name="help_tip_metadata_editing_step_3">برگه را ببندید و نتیجه را ذخیره کنید. برای بررسی برچسب هایی که تغییر داده اید، تصویر ذخیره شده را دوباره باز کنید.</string>
     <string name="help_tip_cache_cleanup_subtitle">آستانه کش را تنظیم کنید و فاصله زمانی را بررسی کنید</string>
@@ -6354,15 +6354,15 @@
     <string name="help_tip_setting_screen_search_description">جستجوی ابزار به یافتن یک صفحه با نام آن بدون تغییر ترتیب صفحه اصلی کمک می کند.</string>
     <string name="help_tip_setting_screen_search_step_1">جستجو در ترتیب ابزارها را فعال کنید، سپس به صفحه اصلی بازگردید و نام ابزار را وارد کنید.</string>
     <string name="help_tip_setting_screen_search_step_2">اگر ترجیح می دهید در فهرست یا برگه های دسته بندی مرور کنید، آن را غیرفعال کنید. ابزارها در دسترس باقی می مانند</string>
-    <string name="help_tip_setting_show_help_tips_button_description">دکمه Help &amp;amp; Tips راهنما را از نوار ابزار صفحه اصلی باز می کند. به صورت پیش فرض نشان داده شده است.</string>
-    <string name="help_tip_setting_show_help_tips_button_step_1">تنظیمات ← ترتیب ابزارها را باز کنید و دکمه Help &amp;amp; Tips را خاموش کنید تا آن را پنهان کنید یا برای نمایش دوباره آن را روشن کنید.</string>
-    <string name="help_tip_setting_show_help_tips_button_step_2">وقتی دکمه پنهان است، همچنان می‌توانید Help &amp;amp; Tips را از تنظیمات باز کنید.</string>
+    <string name="help_tip_setting_show_help_tips_button_description">دکمه Help &amp; Tips راهنما را از نوار ابزار صفحه اصلی باز می کند. به صورت پیش فرض نشان داده شده است.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_1">تنظیمات ← ترتیب ابزارها را باز کنید و دکمه Help &amp; Tips را خاموش کنید تا آن را پنهان کنید یا برای نمایش دوباره آن را روشن کنید.</string>
+    <string name="help_tip_setting_show_help_tips_button_step_2">وقتی دکمه پنهان است، همچنان می‌توانید Help &amp; Tips را از تنظیمات باز کنید.</string>
     <string name="help_tip_setting_group_options_description">حالت گروهی ابزارها را به جای سفارش سفارشی، در برگه‌های مبتنی بر نوع سازماندهی می‌کند.</string>
     <string name="help_tip_setting_group_options_step_1">ابزارهای گروه را بر اساس نوع فعال کنید و برگه های صفحه اصلی را مرور کنید.</string>
     <string name="help_tip_setting_group_options_step_2">غیرفعال کردن گروه بندی قبل از ویرایش سفارش. در حالی که گروه بندی فعال است، ویرایشگر سفارش در دسترس نیست.</string>
     <string name="help_tip_setting_favorite_tools_in_grouped_mode_description">موارد دلخواه می توانند به عنوان برگه خود در کنار دسته های ابزار ظاهر شوند.</string>
     <string name="help_tip_setting_favorite_tools_in_grouped_mode_step_1">ابتدا ابزارهای گروه را بر اساس نوع فعال کنید، سپس موارد دلخواه را در ابزارهای گروه بندی شده فعال کنید.</string>
-    <string name="help_tip_setting_favorite_tools_in_grouped_mode_step_2">ابزارها را از لیست ابزار به موارد دلخواه اضافه کنید. برای انتقال این برگه به ​​انتها از Show favorite به عنوان آخرین استفاده کنید.</string>
+    <string name="help_tip_setting_favorite_tools_in_grouped_mode_step_2">ابزارها را از لیست ابزار به موارد دلخواه اضافه کنید. برای انتقال این برگه به انتها از Show favorite به عنوان آخرین استفاده کنید.</string>
     <string name="help_tip_setting_show_favorite_as_last_description">برگه علاقه مندی ها را می توان بعد از سایر برگه های صفحه اصلی قرار داد.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_1">برای انتقال برگه علاقه مندی ها به انتها، گزینه Show favorite as last را فعال کنید یا برای قرار دادن آن در ابتدا آن را غیرفعال کنید.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">در حالت گروهی، ابتدا موارد دلخواه را در ابزارهای گروه بندی شده فعال کنید. در غیر این صورت هیچ برگه مورد علاقه برای جابجایی وجود ندارد.</string>
@@ -6390,14 +6390,14 @@
     <string name="help_tip_setting_draw_bitmap_border_description">یک حاشیه نازک بوم باعث می شود که هنگام طراحی یا پاک کردن، مرز تصویر راحت تر دیده شود.</string>
     <string name="help_tip_setting_draw_bitmap_border_step_1">مرز Drawing را فعال کنید و لبه نقاشی یا بوم پاک کردن را بررسی کنید.</string>
     <string name="help_tip_setting_draw_bitmap_border_step_2">برای نمای بوم بدون مانع آن را خاموش کنید. این یک راهنمای ویرایشگر است، نه فریمی که به تصویر ذخیره شده اضافه شده است.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_description">این انتخاب اولیه نگهداری فراداده را در ابزارهایی که ویجت EXIF ​​را نشان می‌دهند تنظیم می‌کند.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_1">قبل از تغییر مقدار اولیه اجباری، همیشه EXIF ​​را پاک کنید.</string>
-    <string name="help_tip_setting_exif_widget_initial_state_step_2">آن را فعال کنید تا با حفظ ابرداده انتخاب شده شروع شود. قبل از صادرات عکس های حساس، دوباره انتخاب EXIF ​​را بررسی کنید.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_description">این انتخاب اولیه نگهداری فراداده را در ابزارهایی که ویجت EXIF را نشان می‌دهند تنظیم می‌کند.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_1">قبل از تغییر مقدار اولیه اجباری، همیشه EXIF را پاک کنید.</string>
+    <string name="help_tip_setting_exif_widget_initial_state_step_2">آن را فعال کنید تا با حفظ ابرداده انتخاب شده شروع شود. قبل از صادرات عکس های حساس، دوباره انتخاب EXIF را بررسی کنید.</string>
     <string name="help_tip_setting_keep_date_time_description">تاریخ/زمان ضبط را می توان جدا از انتخاب معمولی keep-EXIF حفظ کرد.</string>
-    <string name="help_tip_setting_keep_date_time_step_1">Always Clear EXIF ​​را غیرفعال کنید، سپس Keep Date Time را در زمانی که تاریخ های ضبط باید از صادرات خارج شوند، فعال کنید.</string>
-    <string name="help_tip_setting_keep_date_time_step_2">برای حذف تاریخ‌ها، هم این گزینه و هم حفظ EXIF ​​را در ابزار غیرفعال کنید یا همیشه پاک کردن EXIF ​​را فعال کنید. دومی اولویت دارد و این کنترل را غیرفعال می کند.</string>
+    <string name="help_tip_setting_keep_date_time_step_1">Always Clear EXIF را غیرفعال کنید، سپس Keep Date Time را در زمانی که تاریخ های ضبط باید از صادرات خارج شوند، فعال کنید.</string>
+    <string name="help_tip_setting_keep_date_time_step_2">برای حذف تاریخ‌ها، هم این گزینه و هم حفظ EXIF را در ابزار غیرفعال کنید یا همیشه پاک کردن EXIF را فعال کنید. دومی اولویت دارد و این کنترل را غیرفعال می کند.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">فراداده صادراتی می تواند نسخه برنامه و پارامترهای تصویر پیکربندی شده را ضبط کند.</string>
-    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">غیرفعال کردن همیشه EXIF ​​را قبل از فعال کردن افزودن ابرداده ImageToolbox پاک کنید.</string>
+    <string name="help_tip_setting_add_image_toolbox_metadata_step_1">غیرفعال کردن همیشه EXIF را قبل از فعال کردن افزودن ابرداده ImageToolbox پاک کنید.</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_2">آن را برای صادرات قابل ردیابی فعال کنید، یا زمانی که فایل ذخیره شده نباید برنامه و پارامترهای پردازش را شناسایی کند، آن را خاموش کنید.</string>
     <string name="help_tip_setting_delete_originals_after_save_description">این گزینه فایل های منبع با موفقیت پردازش شده را پس از ذخیره نتایج حذف می کند.</string>
     <string name="help_tip_setting_delete_originals_after_save_step_1">Settings → Folder را باز کنید و حذف فایل های اصلی را پس از ذخیره یا خاموش کردن روشن یا خاموش کنید. زمانی که بازنویسی فایل ها فعال است، در دسترس نیست.</string>
@@ -6481,7 +6481,7 @@
     <string name="help_tip_setting_help_translate_step_1">برای راه‌اندازی سایت ترجمه، Help translate را باز کنید.</string>
     <string name="help_tip_setting_help_translate_step_2">زبان و رشته را در آنجا انتخاب کنید. تغییر ترجمه در سایت بلافاصله جایگزین منابع برنامه نصب شده نمی شود.</string>
     <string name="help_tip_setting_issue_tracker_description">گزارش‌های اشکال و درخواست‌های ویژگی به ردیاب مشکل پروژه می‌روند.</string>
-    <string name="help_tip_setting_issue_tracker_step_1">ردیاب Issue را باز کنید و بررسی کنید که آیا مشکل تطبیقی ​​از قبل وجود دارد یا خیر.</string>
+    <string name="help_tip_setting_issue_tracker_step_1">ردیاب Issue را باز کنید و بررسی کنید که آیا مشکل تطبیقی از قبل وجود دارد یا خیر.</string>
     <string name="help_tip_setting_issue_tracker_step_2">شامل نسخه برنامه، نسخه اندروید و مراحل قابل تکرار. سیاهههای مربوط را پیوست کنید. با باز کردن صفحه گزارشی ارسال نمی شود.</string>
     <string name="help_tip_setting_free_software_partner_description">این ورودی کانال نرم افزاری شریک را هنگامی که ورودی در دسترس باشد باز می کند.</string>
     <string name="help_tip_setting_free_software_partner_step_1">نرم افزار رایگان (شریک) را از برنامه About باز کنید.</string>
@@ -6495,8 +6495,8 @@
     <string name="help_tip_setting_source_code_description">ورودی کد منبع، مخزن پروژه را باز می کند.</string>
     <string name="help_tip_setting_source_code_step_1">کد منبع را در برنامه About باز کنید تا مخزن را در مرورگر مرور کنید.</string>
     <string name="help_tip_setting_source_code_step_2">از کد مخزن استفاده کنید و در صورت نیاز اطلاعات را منتشر کنید. این عمل برنامه نصب شده را تغییر نمی دهد.</string>
-    <string name="help_tip_setting_help_tips_description">Help &amp;amp; Tips حاوی دستورالعمل‌های کار و پیوندهای مستقیم به ابزارها و تنظیمات مربوطه است.</string>
-    <string name="help_tip_setting_help_tips_step_1">Help &amp;amp; Tips را باز کنید، یک دسته را انتخاب کنید یا یک کار یا نام تنظیم را جستجو کنید.</string>
+    <string name="help_tip_setting_help_tips_description">Help &amp; Tips حاوی دستورالعمل‌های کار و پیوندهای مستقیم به ابزارها و تنظیمات مربوطه است.</string>
+    <string name="help_tip_setting_help_tips_step_1">Help &amp; Tips را باز کنید، یک دسته را انتخاب کنید یا یک کار یا نام تنظیم را جستجو کنید.</string>
     <string name="help_tip_setting_help_tips_step_2">مراحل را بخوانید و از اکشن باز صفحه برای ادامه در برنامه استفاده کنید. باز کردن یک ابزار این عملیات را به طور خودکار انجام نمی دهد.</string>
     <string name="help_tip_setting_debug_menu_description">منوی اشکال زدایی، اقدامات تست توسعه، از جمله موارد شکست عمدی را نشان می دهد.</string>
     <string name="help_tip_setting_debug_menu_step_1">منوی اشکال زدایی را فقط در یک ساخت اشکال زدایی باز کنید. ورودی در تنظیمات تولید وجود ندارد.</string>
@@ -6559,7 +6559,7 @@
     <string name="help_tip_setting_enable_links_preview_description">پیش نمایش پیوندها می تواند اطلاعات اضافی را برای پیوندهای وب شناسایی شده نمایش دهد.</string>
     <string name="help_tip_setting_enable_links_preview_step_1">وقتی می‌خواهید کارت‌های پیش‌نمایش پیوندهای پشتیبانی‌شده را داشته باشید، پیش‌نمایش‌های پیوند را فعال کنید.</string>
     <string name="help_tip_setting_enable_links_preview_step_2">برای جلوگیری از واکشی محتوای پیش نمایش، آن را غیرفعال کنید. متن پیوند شناسایی شده برای اقدامات عادی در دسترس باقی می ماند.</string>
-    <string name="help_tip_setting_enable_sheet_gestures_description">حرکات برگه به ​​کشیدن برگه های پایین اجازه می دهد تا حالت قابل مشاهده آنها را تغییر یا رد کنند.</string>
+    <string name="help_tip_setting_enable_sheet_gestures_description">حرکات برگه به کشیدن برگه های پایین اجازه می دهد تا حالت قابل مشاهده آنها را تغییر یا رد کنند.</string>
     <string name="help_tip_setting_enable_sheet_gestures_step_1">Sheet Gestures را فعال کنید، سپس دستگیره یک صفحه پایین را بکشید تا از حرکات پشتیبانی شده آن استفاده کنید.</string>
     <string name="help_tip_setting_enable_sheet_gestures_step_2">در صورت کشیدن تصادفی انتخاب وقفه، سوئیچ را غیرفعال کنید. دکمه های صریح ورق در دسترس باقی می مانند.</string>
     <string name="help_tip_setting_sheet_nested_scroll_description">پیمایش تودرتو به محتوای پیمایشی اجازه می‌دهد در جابجایی صفحه پایین حاوی آن مشارکت کند.</string>
@@ -6629,7 +6629,7 @@
     <string name="filter_help_bayer_three_dithering">از یک ماتریس آستانه تکرار شونده 3×3 بایر برای تشکیل الگوهای پیکسل مرتب شده استفاده می کند. آستانه تقسیم تونال و سوئیچ های مقیاس خاکستری به خروجی تک رنگ را کنترل می کند.</string>
     <string name="filter_help_bayer_two_dithering">از یک ماتریس آستانه تکرار شونده 2×2 Bayer برای تشکیل الگوهای پیکسل مرتب شده استفاده می کند. آستانه تقسیم تونال و سوئیچ های مقیاس خاکستری به خروجی تک رنگ را کنترل می کند.</string>
     <string name="filter_help_bilaterial_blur">صدا را با حفظ مرزهای رنگ صاف می کند. Radius همسایگی را تنظیم می کند، سیگما تفاوت رنگ مجاز را کنترل می کند، و سیگما فضایی تأثیر پیکسل های دور را کنترل می کند. مقادیر بزرگ می تواند بافت ظریف را پاک کند.</string>
-    <string name="filter_help_black_and_white">رنگ ها را با توجه به روشنایی آنها به سایه های خاکستری تبدیل می کند. از آن برای یک عکس تک رنگ استفاده کنید. به جای ایجاد یک شابلون دو رنگ، رنگ های خاکستری متوسط ​​را حفظ می کند.</string>
+    <string name="filter_help_black_and_white">رنگ ها را با توجه به روشنایی آنها به سایه های خاکستری تبدیل می کند. از آن برای یک عکس تک رنگ استفاده کنید. به جای ایجاد یک شابلون دو رنگ، رنگ های خاکستری متوسط را حفظ می کند.</string>
     <string name="filter_help_black_hat">با کم کردن تصویر از بسته شدن مورفولوژیکی، جزئیات تیره کوچکتر از محله انتخابی را استخراج می کند. اندازه هسته و شکل دایره ای یا مربعی تعیین می کند که کدام سازه ها برجسته باشند.</string>
     <string name="filter_help_bleach_bypass">یک LUT داخلی با روشنایی قوی و کنتراست تونال بالا اعمال می کند. قدرت بین رنگ های اصلی در صفر و درجه رنگ کامل در یک ترکیب می شود.</string>
     <string name="filter_help_block_glitch">تصویر را به بلوک های جابجا شده برای اثر فساد دیجیتالی می شکند. اندازه بلوک اندازه قطعات را کنترل می کند، در حالی که قدرت اعوجاج را کنترل می کند.</string>
@@ -6656,14 +6656,14 @@
     <string name="filter_help_circle_pixelation">جزئیات تصویر را با سلول های دایره ای جایگزین می کند. افزایش اندازه سلول برای موزاییک نقطه‌دار درشت‌تر. تشخیص متن کوچک و خطوط ظریف سخت تر می شود.</string>
     <string name="filter_help_circular_mirror">جزئیات تصویر را در سراسر یک مرز دایره ای منعکس می کند. شعاع مرز را قرار می دهد، حالت بازتاب درونی یا بیرونی را انتخاب می کند، و شدت اعوجاج مختصات را با هندسه اصلی ترکیب می کند.</string>
     <string name="filter_help_cividis">روشنایی تصویر را به آبی تیره از سبز خاکستری به زرد نشان می دهد. این پالت رنگ کاذب جایگزین رنگ های اصلی می شود. برای نمایان کردن تفاوت های تون یا ایجاد یک جلوه گرافیکی مفید است.</string>
-    <string name="filter_help_clahe">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در RGB افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند.</string>
-    <string name="filter_help_clahe_hsl">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در HSL افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_hsv">کنتراست موضعی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در HSV افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_jzazbz">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در جزبز افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_lab">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در آزمایشگاه افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_luv">کنتراست موضعی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در Luv افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_oklab">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در Oklab افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
-    <string name="filter_help_clahe_oklch">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی ​​محدود کنتراست در Oklch افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در RGB افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند.</string>
+    <string name="filter_help_clahe_hsl">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در HSL افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_hsv">کنتراست موضعی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در HSV افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_jzazbz">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در جزبز افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_lab">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در آزمایشگاه افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_luv">کنتراست موضعی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در Luv افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_oklab">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در Oklab افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
+    <string name="filter_help_clahe_oklch">کنتراست محلی را با یکسان سازی هیستوگرام تطبیقی محدود کنتراست در Oklch افزایش می دهد. اندازه های شبکه تصویر را به مناطق تقسیم می کنند و آستانه تقویت کنتراست را محدود می کند. Bins وضوح هیستوگرام را تنظیم می کند.</string>
     <string name="filter_help_closing">گشاد می شود و سپس تصویر را فرسایش می دهد تا شکاف های تاریک کوچک در مناطق روشن را ببندد. اندازه و شکل محله تعیین می کند که چقدر یک شکاف تحت تأثیر قرار می گیرد.</string>
     <string name="filter_help_clustered_2x2_dithering">از یک الگوی 2 × 2 خوشه‌ای برای نمایش رنگ‌ها، شبیه به یک صفحه چاپ کوچک استفاده می‌کند. آستانه را برای تقسیم تونال تنظیم کنید و مقیاس خاکستری را برای نتیجه تک رنگ فعال کنید.</string>
     <string name="filter_help_clustered_4x4_dithering">از یک الگوی نقطه‌ای خوشه‌ای 4 × 4 برای نمایش رنگ‌ها، شبیه به یک صفحه چاپ کوچک استفاده می‌کند. آستانه را برای تقسیم تونال تنظیم کنید و مقیاس خاکستری را برای نتیجه تک رنگ فعال کنید.</string>
@@ -6704,7 +6704,7 @@
     <string name="filter_help_deskew">شیب تصویر را تخمین می زند و آن را می چرخاند تا خطوط شناسایی شده را صاف کند. حداکثر زاویه اصلاح را محدود می کند. اجازه برش، گوشه های خالی ایجاد شده توسط چرخش را حذف می کند.</string>
     <string name="filter_help_despeckle">با مقایسه پیکسل های همسایه، لکه های کوچک جدا شده را حذف می کند. مفید برای سر و صدای پراکنده؛ خطوط نازک و جزئیات ریز را بررسی کنید زیرا ممکن است صاف شوند.</string>
     <string name="filter_help_deutaromaly">ظاهر رنگ کاهش تمایز رنگ سبز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
-    <string name="filter_help_deuteranopia">ظاهر رنگ عدم ​​وجود تمایز رنگ سبز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
+    <string name="filter_help_deuteranopia">ظاهر رنگ عدم وجود تمایز رنگ سبز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
     <string name="filter_help_diamond_pixelation">جزئیات را به صورت سلول های الماسی شکل بازسازی می کند. اندازه سلول درشتی موزاییک را کنترل می کند. وقتی خطوط قابل تشخیص مهم هستند از اندازه کوچک استفاده کنید.</string>
     <string name="filter_help_diffuse">به‌طور تصادفی پیکسل‌های اطراف را برای بافت شیشه‌ای مات جابجا می‌کند. مقیاس کنترل می کند که پیکسل ها چقدر می توانند حرکت کنند. به جای اینکه به سادگی آن را نرم کند، جزئیات را پراکنده می کند.</string>
     <string name="filter_help_digital_code">رنگ سبز را به شدت به قرمز و آبی تبدیل می کند و جدایی رنگ غیرعادی ایجاد می کند. متن یا نماد اضافه نمی کند.</string>
@@ -7034,7 +7034,7 @@
     <string name="filter_help_pop_art">با استفاده از رنگ برجسته انتخاب شده، یک رنگ پاپ آرت را اعمال می کند. حالت قدرت و ترکیب، نحوه ترکیب رنگ‌های سبک شده با رنگ اصلی را کنترل می‌کند.</string>
     <string name="filter_help_posterize">تعداد سطوح تونال را در هر کانال رنگ کاهش می دهد. سطوح کمتری گام‌های رنگی قابل مشاهده بزرگ‌تری تولید می‌کنند که برای ظاهری پوستر مانند مفید است، اما برای شیب‌های صاف مخرب است.</string>
     <string name="filter_help_progressive_scaling">مناطق تصویر مقیاس شده را در لایه های متحدالمرکز تکرار می کند. نسبت تغییر اندازه بین لایه‌ها را تنظیم می‌کند، شعاع الگو را ثابت می‌کند و شدت هندسه تکراری را با نمونه اصلی ترکیب می‌کند.</string>
-    <string name="filter_help_protanopia">ظاهر رنگ عدم ​​وجود تمایز رنگ قرمز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
+    <string name="filter_help_protanopia">ظاهر رنگ عدم وجود تمایز رنگ قرمز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
     <string name="filter_help_protonomaly">ظاهر رنگ کاهش رنگ قرمز را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
     <string name="filter_help_pulse_grid_pixelization">به جای بلوک های مربعی معمولی، یک موزاییک شبکه پالس را اعمال می کند. اندازه فاصله و مقیاس سلول های تزئینی و میزان جزئیات جایگزینی آنها را کنترل می کند.</string>
     <string name="filter_help_purple_mist">آبی را به شدت با قرمز مخلوط می کند تا رنگ بنفش را بدون افزودن مه واقعی به دست آورد.</string>
@@ -7119,7 +7119,7 @@
     <string name="filter_help_top_hat">جزئیات روشن کوچک را با کم کردن دهانه مورفولوژیکی از منبع استخراج می کند. اندازه و شکل هسته تعیین می کند که کدام ساختارهای روشن در نتیجه باقی می مانند.</string>
     <string name="filter_help_torn_edge">بریدگی های شفاف نامنظم را در لبه های تصویر انتخاب شده بدون بزرگ کردن بوم برش می دهد. ارتفاع و فاصله دندان پارگی را کنترل می کند. برای حفظ برش ها، در قالبی با قابلیت آلفا ذخیره کنید.</string>
     <string name="filter_help_tri_tone">سایه ها، رنگ های میانی و هایلایت ها را به سه رنگ انتخابی نقشه می دهد. از آن برای رنگ آمیزی سه رنگ کنترل شده استفاده کنید و در عین حال توزیع اصلی مناطق تیره و روشن را حفظ کنید.</string>
-    <string name="filter_help_tritanopia">ظاهر رنگ عدم ​​وجود تمایز آبی-زرد را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
+    <string name="filter_help_tritanopia">ظاهر رنگ عدم وجود تمایز آبی-زرد را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
     <string name="filter_help_tritonomaly">ظاهر رنگ کاهش تبعیض آبی-زرد را با استفاده از یک ماتریس رنگ ثابت تقریبی می کند. هنگام بررسی اینکه آیا یک طرح فقط به رنگ متکی است مفید است. این یک ارزیابی بینایی فردی نیست.</string>
     <string name="filter_help_turbo">روشنایی تصویر را به دنباله ای واضح آبی-سبز-زرد-قرمز نقشه می دهد. این پالت رنگ کاذب جایگزین رنگ های اصلی می شود. برای نمایان کردن تفاوت های تون یا ایجاد یک جلوه گرافیکی مفید است.</string>
     <string name="filter_help_twilight">روشنایی تصویر را به یک پالت چرخه‌ای با رنگ‌های نقطه پایانی منطبق نقشه می‌دهد. این پالت رنگ کاذب جایگزین رنگ های اصلی می شود. برای نمایان کردن تفاوت های تون یا ایجاد یک جلوه گرافیکی مفید است.</string>
@@ -7295,14 +7295,14 @@
     <string name="help_tip_ai_ocr_step_1">برای Tesseract، زبان‌های موجود در صفحه را انتخاب کنید و داده‌های زبان از دست رفته را دانلود کنید. زبان، بخش بندی صفحه و گزینه های موتور آن فقط برای Tesseract اعمال می شود.</string>
     <string name="help_tip_ai_ocr_step_2">برای PaddleOCR v5، یک مدل مطابق با اسکریپت، مانند لاتین، سیریلیک یا اسلاوی شرقی انتخاب کنید و آن را دانلود کنید. انتخاب زبان Tesseract PaddleOCR را پیکربندی نمی کند.</string>
     <string name="help_tip_ai_ocr_step_3">PaddleOCR v6 از مدل Universal V6 خود به طور خودکار به جای انتخابگر مدل v5 استفاده می کند. فایل‌های آن را قبل از کار آفلاین دانلود کنید، سپس همان تصویر قابل خواندن را در موتورها مقایسه کنید و خروجی را تصحیح کنید.</string>
-    <string name="help_tips_button_hint">می توانید دکمه Help &amp;amp; Tips را در صفحه اصلی پنهان کنید. راهنما همیشه در تنظیمات → درباره برنامه موجود است.</string>
+    <string name="help_tips_button_hint">می توانید دکمه Help &amp; Tips را در صفحه اصلی پنهان کنید. راهنما همیشه در تنظیمات → درباره برنامه موجود است.</string>
     <string name="disable">غیر فعال کردن</string>
     <string name="duplicate_auto_analyze">تجزیه و تحلیل خودکار</string>
     <string name="duplicate_auto_analyze_sub">هنگامی که تصاویر اضافه می شوند یا حالت اسکن تغییر می کند، جستجو برای موارد تکراری را شروع کنید</string>
     <string name="duplicate_start_analysis">موارد تکراری را پیدا کنید</string>
     <string name="help_tip_format_jpeg_title">JPEG / JPG</string>
     <string name="help_tip_format_jpeg_subtitle">عکس های سازگار با فشرده سازی با اتلاف قابل تنظیم</string>
-    <string name="help_tip_format_jpeg_description">JPEG و JPG دو پسوند برای یک فرمت هستند. برای عکس‌ها و انتقال رنگ‌های صاف مناسب است، اما فشرده‌سازی با اتلاف می‌تواند بلوک‌ها و هاله‌ها را در اطراف متن و لبه‌های تیز اضافه کند. JPEG کانال آلفا ندارد: مناطق شفاف رنگ پس زمینه پیکربندی شده را دریافت می کنند. جعبه ابزار تصویر می تواند ابرداده های پشتیبانی شده EXIF ​​را در صورت فعال بودن حفظ ابرداده کپی کند. اندازه فایل همچنین به ابعاد و ابرداده بستگی دارد، نه تنها به کیفیت.</string>
+    <string name="help_tip_format_jpeg_description">JPEG و JPG دو پسوند برای یک فرمت هستند. برای عکس‌ها و انتقال رنگ‌های صاف مناسب است، اما فشرده‌سازی با اتلاف می‌تواند بلوک‌ها و هاله‌ها را در اطراف متن و لبه‌های تیز اضافه کند. JPEG کانال آلفا ندارد: مناطق شفاف رنگ پس زمینه پیکربندی شده را دریافت می کنند. جعبه ابزار تصویر می تواند ابرداده های پشتیبانی شده EXIF را در صورت فعال بودن حفظ ابرداده کپی کند. اندازه فایل همچنین به ابعاد و ابرداده بستگی دارد، نه تنها به کیفیت.</string>
     <string name="help_tip_format_jpeg_step_1">از کیفیت 0 تا 100 برای متعادل کردن اندازه و مصنوعات قابل مشاهده استفاده کنید. مقدار 100 جزئیاتی را که قبلاً در منبع JPEG از دست رفته بازیابی نمی کند.</string>
     <string name="help_tip_format_jpeg_step_2">قبل از صادرات تصاویر شفاف، رنگ پس زمینه را انتخاب کنید. اگر شفافیت باید باقی بماند، از PNG یا WebP استفاده کنید.</string>
     <string name="help_tip_format_jpeg_step_3">از سیوهای مکرر با ضرر خودداری کنید. یک عکس اصلی را نگه دارید و عکس صادر شده را با اندازه نمایش مورد نظر مقایسه کنید.</string>
@@ -7320,7 +7320,7 @@
     <string name="help_tip_format_jpegli_step_3">برای کارهای هنری شفاف از قالبی با آلفا استفاده کنید و برای ویرایش‌های بیشتر، یک استاد بدون ضرر نگه دارید.</string>
     <string name="help_tip_format_png_title">PNG Lossless</string>
     <string name="help_tip_format_png_subtitle">پیکسل های شطرنجی دقیق و شفافیت کامل</string>
-    <string name="help_tip_format_png_description">PNG Lossless پیکسل های ارائه شده به رمزگذار را بدون کوانتیزاسیون با اتلاف حفظ می کند. این یک انتخاب خوب برای اسکرین شات ها، نمودارها، متن و دارایی های شفاف است، اگرچه عکس ها می توانند بسیار بزرگتر از JPEG یا WebP باشند. آلفا کامل پشتیبانی می شود. گزینه PNG Lossless برنامه فاقد لغزنده با کیفیت است و EXIF ​​پشتیبانی شده را می توان حفظ کرد. حفظ پیکسل پس از تغییر اندازه، فیلترها و ترکیب پس‌زمینه اعمال می‌شود.</string>
+    <string name="help_tip_format_png_description">PNG Lossless پیکسل های ارائه شده به رمزگذار را بدون کوانتیزاسیون با اتلاف حفظ می کند. این یک انتخاب خوب برای اسکرین شات ها، نمودارها، متن و دارایی های شفاف است، اگرچه عکس ها می توانند بسیار بزرگتر از JPEG یا WebP باشند. آلفا کامل پشتیبانی می شود. گزینه PNG Lossless برنامه فاقد لغزنده با کیفیت است و EXIF پشتیبانی شده را می توان حفظ کرد. حفظ پیکسل پس از تغییر اندازه، فیلترها و ترکیب پس‌زمینه اعمال می‌شود.</string>
     <string name="help_tip_format_png_step_1">از این گزینه برای لبه های تیز و گرافیک های نیمه شفاف که دوباره ویرایش می شوند استفاده کنید.</string>
     <string name="help_tip_format_png_step_2">زمانی که می‌خواهید فشرده‌سازی PNG را بدون کاهش عمدی رنگ‌های تصویر بهینه کنید، OxiPNG را امتحان کنید.</string>
     <string name="help_tip_format_png_step_3">از ابزارهای APNG برای انیمیشن استفاده کنید. صادرات PNG معمولی یک تصویر ثابت را ذخیره می کند.</string>
@@ -7332,8 +7332,8 @@
     <string name="help_tip_format_png_lossy_step_3">وقتی رنگ‌های دقیق اهمیت دارند، PNG Lossless را انتخاب کنید، یا ImageQuant را برای رویکرد کاهش رنگ دیگری مقایسه کنید.</string>
     <string name="help_tip_format_oxipng_title">OxiPNG</string>
     <string name="help_tip_format_oxipng_subtitle">فشرده سازی PNG را بدون کاهش پالت بهینه کنید</string>
-    <string name="help_tip_format_oxipng_description">OxiPNG PNG را با استفاده از یک بهینه ساز بدون اتلاف می نویسد. وقتی می‌خواهید خروجی کوچک‌تری داشته باشید بدون اینکه اطلاعات پیکسلی را عمداً کنار بگذارید، برای اسکرین‌شات‌ها، نمادها و گرافیک‌ها مفید است. تلاش 0-6 کار بهینه سازی را کنترل می کند. تنظیمات بالاتر می تواند کندتر باشد و یک فایل کوچکتر را برای هر تصویر تضمین نمی کند. آلفا پشتیبانی می شود و EXIF ​​پشتیبانی شده را می توان حفظ کرد. خروجی همچنان یک PNG استاندارد است.</string>
-    <string name="help_tip_format_oxipng_step_1">با تلاش متوسط ​​شروع کنید و اندازه واقعی فایل را قبل از انتخاب کندترین تنظیم مقایسه کنید.</string>
+    <string name="help_tip_format_oxipng_description">OxiPNG PNG را با استفاده از یک بهینه ساز بدون اتلاف می نویسد. وقتی می‌خواهید خروجی کوچک‌تری داشته باشید بدون اینکه اطلاعات پیکسلی را عمداً کنار بگذارید، برای اسکرین‌شات‌ها، نمادها و گرافیک‌ها مفید است. تلاش 0-6 کار بهینه سازی را کنترل می کند. تنظیمات بالاتر می تواند کندتر باشد و یک فایل کوچکتر را برای هر تصویر تضمین نمی کند. آلفا پشتیبانی می شود و EXIF پشتیبانی شده را می توان حفظ کرد. خروجی همچنان یک PNG استاندارد است.</string>
+    <string name="help_tip_format_oxipng_step_1">با تلاش متوسط شروع کنید و اندازه واقعی فایل را قبل از انتخاب کندترین تنظیم مقایسه کنید.</string>
     <string name="help_tip_format_oxipng_step_2">تنها در صورتی از PNG Lossy یا ImageQuant استفاده کنید که کاهش رنگ ها قابل قبول باشد. OxiPNG هدف متفاوتی دارد.</string>
     <string name="help_tip_format_oxipng_step_3">گزینه های متادیتا و پس زمینه برنامه را بررسی کنید زیرا می توانند فایل نهایی را مستقل از فشرده سازی تغییر دهند.</string>
     <string name="help_tip_format_imagequant_title">ImageQuant</string>
@@ -7362,7 +7362,7 @@
     <string name="help_tip_format_av2_step_3">یک کپی AV1، JPEG یا PNG را برای گیرندگانی که نرم افزار آنها نمی تواند AV2 را رمزگشایی کند، نگه دارید.</string>
     <string name="help_tip_format_heic_title">HEIC / HEIF</string>
     <string name="help_tip_format_heic_subtitle">تصاویر HEVC با انتخاب های با اتلاف و بدون ضرر</string>
-    <string name="help_tip_format_heic_description">HEIF یک خانواده کانتینری است. گزینه های HEIC و HEIF برنامه هر دو از رمزگذاری HEVC استفاده می کنند و از نظر پسوند و نوع MIME متفاوت هستند. کیفیت از دست دادن 0-100 است. Chroma 4:2:0، 4:2:2، و 4:4:4، کدگذاری محتوای صفحه و یک گزینه GBR بدون ضرر در دسترس هستند. آلفا و EXIF ​​پشتیبانی شده قابل کنترل هستند، اما سازگاری به رمزگشا و نمایه بستگی دارد. عملیات کدک بدون اتلاف و حفظ پیکسل های RGB در صورت تبدیل رنگ یا نمونه برداری فرعی قابل تعویض نیستند.</string>
+    <string name="help_tip_format_heic_description">HEIF یک خانواده کانتینری است. گزینه های HEIC و HEIF برنامه هر دو از رمزگذاری HEVC استفاده می کنند و از نظر پسوند و نوع MIME متفاوت هستند. کیفیت از دست دادن 0-100 است. Chroma 4:2:0، 4:2:2، و 4:4:4، کدگذاری محتوای صفحه و یک گزینه GBR بدون ضرر در دسترس هستند. آلفا و EXIF پشتیبانی شده قابل کنترل هستند، اما سازگاری به رمزگشا و نمایه بستگی دارد. عملیات کدک بدون اتلاف و حفظ پیکسل های RGB در صورت تبدیل رنگ یا نمونه برداری فرعی قابل تعویض نیستند.</string>
     <string name="help_tip_format_heic_step_1">برای جزئیات رنگی واضح از 4:4:4 استفاده کنید و پشتیبانی برنامه مقصد را مقایسه کنید.</string>
     <string name="help_tip_format_heic_step_2">برای حفظ پیکسل RGB، گزینه GBRlessless را بررسی کنید و نتیجه صادر شده را به جای تکیه بر برچسب Lossless تأیید کنید.</string>
     <string name="help_tip_format_heic_step_3">از HEIC یا HEIF مطابق با الزامات برنامه دریافت کننده استفاده کنید. تغییر پسوند نام فایل باعث تغییر کدک نمی شود.</string>
@@ -7380,8 +7380,8 @@
     <string name="help_tip_format_jxl_step_3">از ابزارهای JXL برای زمان بندی فریم، تعداد حلقه ها، استخراج و ادغام استفاده کنید. یک کپی سازگار برای برنامه های بدون پشتیبانی JPEG XL نگه دارید.</string>
     <string name="help_tip_format_jixel_title">جیکسل</string>
     <string name="help_tip_format_jixel_subtitle">رمزگذار جایگزین JXL با شش حالت سرعت و نقشه های HDR</string>
-    <string name="help_tip_format_jixel_description">Jixel فایل های استاندارد jxl. را با استفاده از رمزگذار متفاوت تولید می کند. Lossless پیکسل های کدگذاری شده و آلفا را حفظ می کند. Lossy از کیفیت 1 تا 100 استفاده می کند. شش حالت موجود است: سریعترین، فوق سریع، سریع، متوسط، متوسط ​​آهسته و آهسته. انتخاب های سریع و آهسته موجود معنای خود را حفظ می کنند. در Android 14+، رمزگذار یک بیت مپ پیوست شده HDR gainmap را در ظرف JXL حفظ می کند.</string>
-    <string name="help_tip_format_jixel_step_1">تلاش 1 سریع، 2 آهسته، 3 فوق سریع، 4 سریع ترین، 5 متوسط ​​و 6 متوسط ​​آهسته است. زمان رمزگذاری واقعی و اندازه فایل را مقایسه کنید. مقدار بزرگتر همیشه به معنای رمزگذاری کندتر نیست.</string>
+    <string name="help_tip_format_jixel_description">Jixel فایل های استاندارد jxl. را با استفاده از رمزگذار متفاوت تولید می کند. Lossless پیکسل های کدگذاری شده و آلفا را حفظ می کند. Lossy از کیفیت 1 تا 100 استفاده می کند. شش حالت موجود است: سریعترین، فوق سریع، سریع، متوسط، متوسط آهسته و آهسته. انتخاب های سریع و آهسته موجود معنای خود را حفظ می کنند. در Android 14+، رمزگذار یک بیت مپ پیوست شده HDR gainmap را در ظرف JXL حفظ می کند.</string>
+    <string name="help_tip_format_jixel_step_1">تلاش 1 سریع، 2 آهسته، 3 فوق سریع، 4 سریع ترین، 5 متوسط و 6 متوسط آهسته است. زمان رمزگذاری واقعی و اندازه فایل را مقایسه کنید. مقدار بزرگتر همیشه به معنای رمزگذاری کندتر نیست.</string>
     <string name="help_tip_format_jixel_step_2">Lossless را برای حفظ پیکسل های کدگذاری شده انتخاب کنید، یا کیفیت را در حالت Lossy برای عکس های کوچکتر تنظیم کنید. حالت فشرده سازی را به جای تکیه بر مقدار کیفیت 100 به صراحت انتخاب کنید.</string>
     <string name="help_tip_format_jixel_step_3">حفظ نقشه Gainmap به یک بیت مپ نیاز دارد که هنوز یک نقشه ضمیمه شده باشد. ویرایش ها، مقیاس بندی، یا رمزگشا ممکن است آن را حذف کند. بررسی HDR در نرم افزارهای سازگار</string>
     <string name="help_tip_format_jp2_title">JPEG 2000 / JP2</string>
@@ -7392,7 +7392,7 @@
     <string name="help_tip_format_jp2_step_3">هنگامی که به ابرداده مورد نیاز است از JP2 استفاده کنید و هنگامی که بازسازی آرشیوی دقیق مهم است، اصل را حفظ کنید.</string>
     <string name="help_tip_format_j2k_title">JPEG 2000 / J2K</string>
     <string name="help_tip_format_j2k_subtitle">جریان کد خام JPEG 2000 برای گردش کار تخصصی</string>
-    <string name="help_tip_format_j2k_description">J2K جریان کد JPEG 2000 را بدون کانتینر JP2 ذخیره می کند. این برنامه از محدوده کیفیت برنامه 20 تا 100 استفاده می کند و می تواند اجزای تصویر از جمله آلفا را حمل کند، اما بسیاری از بینندگان همه منظوره آن را باز نمی کنند. پشتیبانی فراداده کانتینر با JP2 متفاوت است. فرض نکنید اطلاعات EXIF ​​یا رنگ در هر مصرف کننده ای باقی می ماند. این عمدتا زمانی مفید است که ابزار دیگری صراحتاً انتظار یک جریان خام JPEG 2000 را داشته باشد.</string>
+    <string name="help_tip_format_j2k_description">J2K جریان کد JPEG 2000 را بدون کانتینر JP2 ذخیره می کند. این برنامه از محدوده کیفیت برنامه 20 تا 100 استفاده می کند و می تواند اجزای تصویر از جمله آلفا را حمل کند، اما بسیاری از بینندگان همه منظوره آن را باز نمی کنند. پشتیبانی فراداده کانتینر با JP2 متفاوت است. فرض نکنید اطلاعات EXIF یا رنگ در هر مصرف کننده ای باقی می ماند. این عمدتا زمانی مفید است که ابزار دیگری صراحتاً انتظار یک جریان خام JPEG 2000 را داشته باشد.</string>
     <string name="help_tip_format_j2k_step_1">فقط زمانی J2K را انتخاب کنید که مقصد یک جریان کد خام را بخواهد. در غیر این صورت JP2 را مقایسه کنید.</string>
     <string name="help_tip_format_j2k_step_2">شفافیت و رنگ ها را در برنامه دریافت واقعی تأیید کنید.</string>
     <string name="help_tip_format_j2k_step_3">ابرداده ها را در صورت نیاز جداگانه نگه دارید و منبع را تا زمانی که نتیجه وارد شده تأیید شود حفظ کنید.</string>
@@ -7404,19 +7404,19 @@
     <string name="help_tip_format_tiff_step_3">پس زمینه را قبل از صادرات بررسی کنید. وقتی شفافیت باید باقی بماند، از PNG یا خروجی دیگری با قابلیت آلفا استفاده کنید.</string>
     <string name="help_tip_format_bmp_title">BMP</string>
     <string name="help_tip_format_bmp_subtitle">خروجی بیت مپ ساده برای سازگاری قدیمی</string>
-    <string name="help_tip_format_bmp_description">BMP داده های تصویر شطرنجی را با ساختاری ساده و اغلب فایل های بزرگ ذخیره می کند. می‌تواند برای نرم‌افزارهای قدیمی‌تر و گردش‌های کاری که به صراحت به .bmp نیاز دارند، مفید باشد. این برنامه هیچ کنترل کیفیتی برای BMP ندارد و محتوای شفاف را با پس‌زمینه پیکربندی شده ترکیب می‌کند. صادرات BMP ثابت است و از مسیر نگهداری EXIF ​​برنامه استفاده نمی کند. برای اکثر کارهای اشتراک گذاری، PNG یا JPEG مقرون به صرفه تر است.</string>
+    <string name="help_tip_format_bmp_description">BMP داده های تصویر شطرنجی را با ساختاری ساده و اغلب فایل های بزرگ ذخیره می کند. می‌تواند برای نرم‌افزارهای قدیمی‌تر و گردش‌های کاری که به صراحت به .bmp نیاز دارند، مفید باشد. این برنامه هیچ کنترل کیفیتی برای BMP ندارد و محتوای شفاف را با پس‌زمینه پیکربندی شده ترکیب می‌کند. صادرات BMP ثابت است و از مسیر نگهداری EXIF برنامه استفاده نمی کند. برای اکثر کارهای اشتراک گذاری، PNG یا JPEG مقرون به صرفه تر است.</string>
     <string name="help_tip_format_bmp_step_1">زمانی که مقصد مورد نیاز است، BMP را انتخاب کنید، نه به عنوان یک روش کلی برای کاهش حجم فایل.</string>
     <string name="help_tip_format_bmp_step_2">ابعاد و رنگ پس‌زمینه را قبل از ذخیره بررسی کنید زیرا مستقیماً روی نتیجه قابل مشاهده تأثیر می‌گذارند.</string>
     <string name="help_tip_format_bmp_step_3">PNG را برای Masters شفاف یا قابل ویرایش نگه دارید و BMP را در نرم‌افزار قدیمی‌تری که به آن نیاز دارد تأیید کنید.</string>
     <string name="help_tip_format_qoi_title">QI</string>
     <string name="help_tip_format_qoi_subtitle">فضای ذخیره سازی سریع بدون اتلاف RGB/RGBA</string>
-    <string name="help_tip_format_qoi_description">QOI یک فرمت شطرنجی ساده بدون تلفات است که برای رمزگذاری و رمزگشایی سریع طراحی شده است. از RGB و RGBA پشتیبانی می کند، بنابراین تصاویر شفاف می توانند شفاف باقی بمانند. لغزنده کیفیت وجود ندارد: فشرده سازی پیکسل های کدگذاری شده را حفظ می کند. QOI برای ابزارهای سازگار و دارایی های محلی مفید است، اما به طور گسترده ای نسبت به PNG پذیرفته نشده است و ممکن است بزرگتر باشد. این برنامه نوشتن EXIF ​​را برای QOI ارائه نمی دهد.</string>
+    <string name="help_tip_format_qoi_description">QOI یک فرمت شطرنجی ساده بدون تلفات است که برای رمزگذاری و رمزگشایی سریع طراحی شده است. از RGB و RGBA پشتیبانی می کند، بنابراین تصاویر شفاف می توانند شفاف باقی بمانند. لغزنده کیفیت وجود ندارد: فشرده سازی پیکسل های کدگذاری شده را حفظ می کند. QOI برای ابزارهای سازگار و دارایی های محلی مفید است، اما به طور گسترده ای نسبت به PNG پذیرفته نشده است و ممکن است بزرگتر باشد. این برنامه نوشتن EXIF را برای QOI ارائه نمی دهد.</string>
     <string name="help_tip_format_qoi_step_1">زمانی از QOI استفاده کنید که هر دو طرف به صراحت از آن پشتیبانی می کنند و تبدیل سریع اهمیت دارد.</string>
     <string name="help_tip_format_qoi_step_2">مقایسه اندازه با PNG یا OxiPNG. بدون ضرر به معنای کوچکترین فایل ممکن نیست.</string>
     <string name="help_tip_format_qoi_step_3">در صورت نیاز، متادیتا را جداگانه نگه دارید و از PNG برای گیرندگان بدون پشتیبانی QOI استفاده کنید.</string>
     <string name="help_tip_format_ico_title">ICO</string>
     <string name="help_tip_format_ico_subtitle">یک فایل آیکون با چندین اندازه شطرنجی</string>
-    <string name="help_tip_format_ico_description">ICO محفظه ای است که برای آیکون های دسکتاپ و فاویکون های وب سایت استفاده می شود. Image Toolbox یک .ico می نویسد که شامل 16، 32، 48، 64، 128، و 256 پیکسل تصاویر مربع است. هر اندازه از منبع، با شفافیت برای فضای بلا استفاده نصب شده است. هیچ لغزنده با کیفیت و هیچ نوشته EXIF ​​وجود ندارد. آیکون های کوچک به اشکال ساده تری نسبت به آثار هنری بزرگ نیاز دارند: تغییر اندازه خودکار نمی تواند متن کوچک را خوانا کند.</string>
+    <string name="help_tip_format_ico_description">ICO محفظه ای است که برای آیکون های دسکتاپ و فاویکون های وب سایت استفاده می شود. Image Toolbox یک .ico می نویسد که شامل 16، 32، 48، 64، 128، و 256 پیکسل تصاویر مربع است. هر اندازه از منبع، با شفافیت برای فضای بلا استفاده نصب شده است. هیچ لغزنده با کیفیت و هیچ نوشته EXIF وجود ندارد. آیکون های کوچک به اشکال ساده تری نسبت به آثار هنری بزرگ نیاز دارند: تغییر اندازه خودکار نمی تواند متن کوچک را خوانا کند.</string>
     <string name="help_tip_format_ico_step_1">از یک منبع شفاف با محیط شفاف و وضوح کافی برای بزرگترین نماد استفاده کنید.</string>
     <string name="help_tip_format_ico_step_2">نتایج 16 و 32 پیکسل را برای خطوط مشخص و کنتراست قابل خواندن بررسی کنید.</string>
     <string name="help_tip_format_ico_step_3">الزامات نماد مقصد را بررسی کنید. یک فایل ICO با مجموعه منابع آیکون راه‌انداز اندروید متفاوت است.</string>

@@ -1994,7 +1994,7 @@
     <string name="type_removebg">抠图</string>
     <string name="horizontal_border_thickness">水平边框厚度</string>
     <string name="vertical_border_thickness">垂直边框厚度</string>
-    <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡速度与效果。适用于肖像、物体和场景­。大多数图像皆可使用。</string>
+    <string name="model_rmbg_1_4">轻量级模型，可快速去除背景。平衡速度与效果。适用于肖像、物体和场景。大多数图像皆可使用。</string>
     <string name="model_ultrasharp_v2_lite_x4">X4 UltraSharp V2 Lite；更快且更小，在使用更少显存的同时保留细节。</string>
     <string name="model_ultrasharp_v2_x4">X4 UltraSharp V2 模型，适用于一般图像；强调锐度和清晰度。</string>
     <string name="model_realesrgan_x4plus_anime_4b32f">针对动漫图像进行了优化的 X4 放大器；4B32F 变体，细节更清晰，线条流畅。</string>
@@ -6208,7 +6208,7 @@
     <string name="help_tip_webp_to_apng_step_2">保存转换，然后比较播放和文件大小。此转换屏幕不需要新的 FPS 设置。</string>
     <string name="help_tip_webp_to_apng_step_3">在将要使用的应用程序中打开保存的 APNG，并检查运动、透明度和剪辑长度是否可接受。</string>
     <string name="help_tip_webp_to_jxl_description">当接收应用程序支持时，动画 JXL 非常有用。此操作会转换解码帧，但不会创建可重构的原始 JPEG。</string>
-    <string name="help_tip_webp_to_jxl_step_1">选择专用的WebP t​​o JXL模式并添加源动画。几个选定的文件是转换，而不是合并。</string>
+    <string name="help_tip_webp_to_jxl_step_1">选择专用的WebP to JXL模式并添加源动画。几个选定的文件是转换，而不是合并。</string>
     <string name="help_tip_webp_to_jxl_step_2">调整质量选择器中显示的 JXL 编码参数。比较转换后的细节和输出大小。</string>
     <string name="help_tip_webp_to_jxl_step_3">在将要使用的应用程序中打开保存的 JXL，并检查运动、透明度和剪辑长度是否可接受。</string>
     <string name="help_tip_jxl_extract_frames_description">帧提取保存 JXL 文件中的静态图像。将其用于单个动画帧或帧序列；导出的图像不包含播放时间。</string>
@@ -6394,7 +6394,7 @@
     <string name="help_tip_setting_exif_widget_initial_state_step_2">使其能够在选择元数据保存的情况下启动；在导出敏感照片之前再次检查 EXIF 选择。</string>
     <string name="help_tip_setting_keep_date_time_description">捕获日期/时间可以与普通的 keep-EXIF 选择分开保存。</string>
     <string name="help_tip_setting_keep_date_time_step_1">禁用“始终清除 EXIF”，然后在捕获日期必须在导出后保留时启用“保留日期时间”。</string>
-    <string name="help_tip_setting_keep_date_time_step_2">要删除日期，请在工具中禁用此选项和 ​​EXIF 保留，或启用始终清除 EXIF。后者优先并禁用此控制。</string>
+    <string name="help_tip_setting_keep_date_time_step_2">要删除日期，请在工具中禁用此选项和 EXIF 保留，或启用始终清除 EXIF。后者优先并禁用此控制。</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_description">导出元数据可以记录应用版本和配置的图像参数。</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_1">禁用在启用添加 ImageToolbox 元数据之前始终清除 EXIF。</string>
     <string name="help_tip_setting_add_image_toolbox_metadata_step_2">启用它以进行可追踪的导出，或者当保存的文件不应识别应用程序和处理参数时将其关闭。</string>
@@ -6427,7 +6427,7 @@
     <string name="help_tip_setting_add_preset_to_filename_step_2">在支持的调整大小工具中选择预设；如果没有预设，则没有要附加的预设信息。</string>
     <string name="help_tip_setting_add_image_scale_mode_to_filename_description">缩放模式名称可以识别哪种调整大小方法产生了输出。</string>
     <string name="help_tip_setting_add_image_scale_mode_to_filename_step_1">启用使用普通文件名行为将图像缩放模式添加到文件名。</string>
-    <string name="help_tip_setting_add_image_scale_mode_to_filename_step_2">从提供缩放模式的工具导出。插入的模式名称使用​​英文和连字符代替空格。</string>
+    <string name="help_tip_setting_add_image_scale_mode_to_filename_step_2">从提供缩放模式的工具导出。插入的模式名称使用英文和连字符代替空格。</string>
     <string name="help_tip_setting_checksum_as_filename_description">文件名可以从编码输出字节的校验和中得出。</string>
     <string name="help_tip_setting_checksum_as_filename_step_1">关闭随机或覆盖命名，启用校验和作为文件名，并在扩展选择器中选择哈希算法。</string>
     <string name="help_tip_setting_checksum_as_filename_step_2">这取代了普通的前缀/后缀/模式名称。禁用它以恢复这些控件；这是命名，而不是加密。</string>
