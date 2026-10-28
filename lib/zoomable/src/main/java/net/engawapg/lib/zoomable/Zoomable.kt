@@ -1,17 +1,18 @@
 /*
- * Copyright 2022 usuiat
+ * ImageToolbox is an image editor for android
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * You should have received a copy of the Apache License
+ * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
 package net.engawapg.lib.zoomable
@@ -277,15 +278,15 @@ enum class ScrollGesturePropagation {
  *
  * @param zoomState A [ZoomState] object.
  * @param zoomEnabled specifies if zoom behaviour is enabled or disabled. Even if this is false,
- * [onTap] and [onDoubleTap] will be called.
+ * [onTap] will be called.
  * @param enableOneFingerZoom If true, enable one finger zoom gesture, double tap followed by
  * vertical scrolling.
  * @param scrollGesturePropagation specifies when scroll gestures are propagated to the parent
  * composable element.
  * @param onTap will be called when single tap is detected on the element.
  * @param onDoubleTap will be called when double tap is detected on the element. This is a suspend
- * function and called in a coroutine scope. The default is to toggle the scale between 1.0f and
- * 2.5f with animation.
+ * function and called in a coroutine scope only when [zoomEnabled] is true. The default is to toggle
+ * the scale between 1.0f and 5.0f with animation.
  */
 fun Modifier.zoomable(
     zoomState: ZoomState,
@@ -294,7 +295,7 @@ fun Modifier.zoomable(
     scrollGesturePropagation: ScrollGesturePropagation = ScrollGesturePropagation.ContentEdge,
     onTap: (position: Offset) -> Unit = {},
     onDoubleTap: suspend (position: Offset) -> Unit = { position ->
-        if (zoomEnabled) zoomState.toggleScale(
+        zoomState.toggleScale(
             5f,
             position
         )
@@ -434,7 +435,7 @@ private class ZoomableNode(
                 onTap = onTap,
                 onDoubleTap = { position ->
                     coroutineScope.launch {
-                        onDoubleTap(position)
+                        if (zoomEnabled) onDoubleTap(position)
                     }
                 },
                 enableOneFingerZoom = enableOneFingerZoom,

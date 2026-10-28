@@ -81,13 +81,10 @@ import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
-import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.EditAlt
-import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.theme.blend
-import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.rememberFilename
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.rememberFileSize
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
@@ -104,7 +101,6 @@ import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.ScrollGesturePropagation
 import net.engawapg.lib.zoomable.rememberZoomState
-import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 import kotlin.math.roundToInt
 
@@ -223,10 +219,15 @@ fun ImagePager(
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        val model = uris?.getOrNull(page)
+                        var isImageLoaded by remember(model) { mutableStateOf(false) }
                         val zoomState = rememberZoomState(20f)
+                        LaunchedEffect(isImageLoaded) {
+                            if (!isImageLoaded) zoomState.reset()
+                        }
                         Picture(
                             showTransparencyChecker = false,
-                            model = uris?.getOrNull(page),
+                            model = model,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clipToBounds()
@@ -251,51 +252,30 @@ fun ImagePager(
                                     )
                                 )
                                 .zoomable(
-                                    zoomEnabled = !imageErrorPages.contains(page),
+                                    zoomEnabled = isImageLoaded,
                                     zoomState = zoomState,
                                     scrollGesturePropagation = ScrollGesturePropagation.NotZoomed,
                                     onTap = {
                                         hideControls = !hideControls
-                                    },
-                                    onDoubleTap = {
-                                        zoomState.toggleScale(
-                                            targetScale = 5f,
-                                            position = it
-                                        )
                                     }
                                 ),
                             enableUltraHDRSupport = true,
                             enableUltraHDRSupportTransformation = false,
                             contentScale = ContentScale.Fit,
                             shape = RectangleShape,
+                            onLoading = {
+                                isImageLoaded = false
+                                imageErrorPages.remove(page)
+                            },
                             onSuccess = {
+                                isImageLoaded = true
                                 imageErrorPages.remove(page)
                             },
                             onError = {
-                                imageErrorPages.add(page)
+                                isImageLoaded = false
+                                if (page !in imageErrorPages) imageErrorPages.add(page)
                             },
-                            error = {
-                                Box(
-                                    contentAlignment = Alignment.Center,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(
-                                            takeColorFromScheme { isNightMode ->
-                                                errorContainer.copy(
-                                                    if (isNightMode) 0.25f
-                                                    else 1f
-                                                ).compositeOverSafe(surface)
-                                            }
-                                        )
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.BrokenImageAlt,
-                                        contentDescription = null,
-                                        modifier = Modifier.fillMaxSize(0.5f),
-                                        tint = MaterialTheme.colorScheme.onErrorContainer.copy(0.8f)
-                                    )
-                                }
-                            }
+                            error = { ImageViewerError() }
                         )
                     }
                 }
@@ -307,9 +287,9 @@ fun ImagePager(
                 val selectedUriFilename = selectedUri?.let { rememberFilename(it) }
                 val selectedUriFileSize = selectedUri?.let { rememberFileSize(it) }
                 val showBottomHist = pagerState.currentPage !in imageErrorPages
-                val showBottomBar by remember(draggableState, showBottomHist, hideControls) {
+                val showBottomBar by remember(draggableState, hideControls) {
                     derivedStateOf {
-                        draggableState.offset == 0f && showBottomHist && !hideControls
+                        draggableState.offset == 0f && !hideControls
                     }
                 }
 
@@ -407,14 +387,19 @@ fun ImagePager(
                                 modifier = Modifier.weight(1f, false)
                             )
                         }
-                        Spacer(Modifier.width(16.dp))
-                        HistogramChart(
-                            model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(90.dp),
-                            bordersColor = MaterialTheme.colorScheme.primaryFixed.blend(White, 0.5f)
-                        )
+                        if (showBottomHist) {
+                            Spacer(Modifier.width(16.dp))
+                            HistogramChart(
+                                model = uris?.getOrNull(pagerState.currentPage) ?: Uri.EMPTY,
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(90.dp),
+                                bordersColor = MaterialTheme.colorScheme.primaryFixed
+                                    .blend(White, 0.5f)
+                            )
+                        } else {
+                            Spacer(Modifier.height(50.dp))
+                        }
                     }
                 }
             }
