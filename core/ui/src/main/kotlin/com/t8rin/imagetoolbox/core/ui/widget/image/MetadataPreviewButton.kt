@@ -100,7 +100,7 @@ fun MetadataPreviewButton(
     dateAdded: (Uri) -> Long? = { it.dateAdded() },
     path: (Uri) -> String? = { it.path() },
     name: (Uri) -> String? = { it.filename() },
-    fileSize: (Uri) -> String? = { humanFileSize(it.fileSize() ?: 0L) },
+    fileSize: (Uri) -> String? = { it.fileSize()?.let(::humanFileSize) },
     imageSize: (Uri) -> IntegerSize? = { it.imageSize() },
     mimeType: (Uri) -> String? = { it.mimeType() }
 ) {
@@ -144,36 +144,36 @@ fun MetadataPreviewButton(
                 )
             }
         }
-        if (tagMap.isNotEmpty() || info.data.isNotEmpty()) {
-            var showExif by rememberSaveable {
-                mutableStateOf(false)
-            }
-            val size = info.fileSize?.takeIf { it.isNotBlank() }
-            Row(
+        var showExif by rememberSaveable {
+            mutableStateOf(false)
+        }
+        val hasInfo = tagMap.isNotEmpty() || info.data.isNotEmpty()
+
+        Row(
+            modifier = Modifier.height(32.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            EnhancedButton(
+                onClick = { showExif = true },
+                enabled = hasInfo,
                 modifier = Modifier.height(32.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp),
-                verticalAlignment = Alignment.CenterVertically
+                shape = ShapeDefaults.smallStart,
+                containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                contentPadding = PaddingValues(horizontal = 10.dp)
             ) {
-                size?.let {
-                    EnhancedButton(
-                        onClick = { showExif = true },
-                        modifier = Modifier.height(32.dp),
-                        shape = ShapeDefaults.smallStart,
-                        containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
-                        contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                        contentPadding = PaddingValues(horizontal = 10.dp)
-                    ) {
-                        Text(
-                            text = size,
-                            style = MaterialTheme.typography.labelMedium,
-                            fontSize = 13.sp
-                        )
-                    }
-                }
+                Text(
+                    text = info.fileSize?.takeIf { it.isNotBlank() } ?: "? kB",
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 13.sp
+                )
+            }
+            if (hasInfo) {
                 EnhancedIconButton(
                     onClick = { showExif = true },
                     modifier = Modifier.size(32.dp),
-                    shape = if (size == null) ShapeDefaults.smallStart else ShapeDefaults.center,
+                    shape = ShapeDefaults.center,
                     forceMinimumInteractiveComponentSize = false,
                     containerColor = MaterialTheme.colorScheme.secondaryContainerFixed,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainerFixed
@@ -184,21 +184,23 @@ fun MetadataPreviewButton(
                         modifier = Modifier.size(20.dp)
                     )
                 }
-                EnhancedIconButton(
-                    onClick = { onShare(uri) },
-                    modifier = Modifier.size(32.dp),
-                    shape = ShapeDefaults.smallEnd,
-                    forceMinimumInteractiveComponentSize = false,
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainerFixed,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainerFixed
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Share,
-                        contentDescription = stringResource(R.string.share),
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
             }
+            EnhancedIconButton(
+                onClick = { onShare(uri) },
+                modifier = Modifier.size(32.dp),
+                shape = ShapeDefaults.smallEnd,
+                forceMinimumInteractiveComponentSize = false,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainerFixed,
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainerFixed
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Share,
+                    contentDescription = stringResource(R.string.share),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+        if (hasInfo) {
             EnhancedModalBottomSheet(
                 visible = showExif,
                 onDismiss = { showExif = false },
