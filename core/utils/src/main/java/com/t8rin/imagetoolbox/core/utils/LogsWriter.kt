@@ -25,10 +25,8 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.io.BufferedWriter
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -55,41 +53,8 @@ internal class LogsWriter(
 
             runSuspendCatching {
                 logsFile = File(context.filesDir, logsFilename).apply {
-                    if (maxFileSize != null && length() > maxFileSize) {
-                        var lineCount = 0
-                        val lines = mutableListOf<String>()
-                        withContext(Dispatchers.IO) {
-                            coroutineScope {
-                                bufferedReader().use { reader ->
-                                    while (reader.readLine() != null) {
-                                        lineCount++
-                                    }
-                                }
-                            }
-                            coroutineScope {
-                                bufferedReader().use { reader ->
-                                    var tempLineCount = 0
-                                    repeat(lineCount) {
-                                        tempLineCount++
-                                        val line = reader.readLine()
-
-                                        if (tempLineCount >= lineCount - 1000 && line != null) {
-                                            lines.add(line)
-                                        }
-                                    }
-                                }
-                                delete()
-                                createNewFile()
-                                writeData(this@apply) { writer ->
-                                    lines.forEach {
-                                        writer.write(it)
-                                        writer.newLine()
-                                    }
-                                }
-                            }
-                        }
-                    }
                     if (!exists()) createNewFile()
+                    trimLogs(this)
                 }
                 writeData { writer ->
                     writer.write(
@@ -111,14 +76,38 @@ internal class LogsWriter(
 
     private fun File.getUri(): Uri = FileProvider.getUriForFile(context, fileProvider, this)
 
+    @Synchronized
     private fun writeData(
         file: File? = logsFile,
         use: (BufferedWriter) -> Unit
     ) {
         runCatching {
-            FileOutputStream(file, true)
-                .bufferedWriter()
-                .use(use)
+            try {
+                FileOutputStream(file, true)
+                    .bufferedWriter()
+                    .use(use)
+            } finally {
+                file?.let(::trimLogs)
+            }
+        }
+    }
+
+    private fun trimLogs(file: File) {
+        val limit = maxFileSize?.toLong()?.coerceAtLeast(0L) ?: return
+        if (file.length() <= limit) return
+
+        val bytes = ByteArray(minOf(limit / 2, PREVIEW_SIZE.toLong()).toInt())
+        RandomAccessFile(file, "rw").use { output ->
+            output.seek(output.length() - bytes.size)
+            output.readFully(bytes)
+
+            val start = bytes.indexOf(NEW_LINE.toByte())
+                .takeIf { it >= 0 }
+                ?.plus(1)
+                ?: bytes.size
+            output.seek(0)
+            output.write(bytes, start, bytes.size - start)
+            output.setLength((bytes.size - start).toLong())
         }
     }
 
@@ -155,6 +144,7 @@ internal class LogsWriter(
         }
     }
 
+    @Synchronized
     fun readLogs(maxBytes: Int = PREVIEW_SIZE): String {
         val file = logsFile?.takeIf { it.exists() } ?: return ""
         if (maxBytes <= 0 || file.length() <= maxBytes) return file.readText()
@@ -168,6 +158,7 @@ internal class LogsWriter(
         return bytes.toString(Charsets.UTF_8)
     }
 
+    @Synchronized
     fun readLogLineReferences(
         startOffset: Long = 0L,
         startLineNumber: Int = 0,
@@ -241,6 +232,7 @@ internal class LogsWriter(
         )
     }
 
+    @Synchronized
     fun readLogLine(line: LogLineReference): String {
         val file = logsFile?.takeIf { it.exists() } ?: return ""
         val availableBytes = (file.length() - line.start).coerceAtLeast(0L)

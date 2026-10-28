@@ -40,6 +40,7 @@ import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
+import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.Refresh
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.Picker
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
@@ -85,7 +86,7 @@ fun DuplicateFinderContent(
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
     val refreshButton = @Composable {
-        if (component.sourceUris.isNotEmpty()) {
+        if (component.analysisResult != null) {
             EnhancedIconButton(
                 onClick = component::analyze,
                 enabled = !component.isAnalyzing && !component.isDeleting
@@ -160,13 +161,22 @@ fun DuplicateFinderContent(
             var showOneTimeImagePickingDialog by rememberSaveable {
                 mutableStateOf(false)
             }
+            val needsAnalysis = component.analysisResult == null
 
             BottomButtonsBlock(
                 isNoData = component.sourceUris.isEmpty(),
                 onSecondaryButtonClick = pickImages,
-                onPrimaryButtonClick = { showDeleteConfirmation = true },
-                primaryButtonIcon = Icons.Outlined.Delete,
-                isPrimaryButtonEnabled = component.selectedUris.isNotEmpty() && !component.isDeleting,
+                onPrimaryButtonClick = {
+                    if (needsAnalysis) component.analyze()
+                    else showDeleteConfirmation = true
+                },
+                primaryButtonIcon = if (needsAnalysis) Icons.Outlined.ImageSearch
+                else Icons.Outlined.Delete,
+                primaryButtonText = if (needsAnalysis) {
+                    stringResource(R.string.duplicate_start_analysis)
+                } else "",
+                isPrimaryButtonEnabled = !component.isAnalyzing && !component.isDeleting &&
+                        (needsAnalysis || component.selectedUris.isNotEmpty()),
                 actions = {
                     AnimatedVisibility(component.selectedUris.isNotEmpty()) {
                         EnhancedChip(

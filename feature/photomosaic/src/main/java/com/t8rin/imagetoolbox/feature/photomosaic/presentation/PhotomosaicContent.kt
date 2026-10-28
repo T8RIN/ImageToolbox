@@ -124,6 +124,7 @@ fun PhotomosaicContent(component: PhotomosaicComponent) {
     }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

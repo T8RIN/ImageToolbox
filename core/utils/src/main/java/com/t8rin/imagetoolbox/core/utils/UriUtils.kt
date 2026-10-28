@@ -182,7 +182,7 @@ fun Uri.fileSize(): Long? = tryExtractOriginal().run {
     if (this.scheme == "content") {
         runCatching {
             appContext.contentResolver
-                .query(this, null, null, null, null, null)
+                .query(this, arrayOf(OpenableColumns.SIZE), null, null, null, null)
                 .use { cursor ->
                     if (cursor != null && cursor.moveToFirst()) {
                         val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)

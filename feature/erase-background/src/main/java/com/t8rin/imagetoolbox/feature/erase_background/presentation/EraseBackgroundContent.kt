@@ -39,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -102,6 +103,8 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.DrawPathModeS
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSelector
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.AutoEraseBackgroundCard
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.BitmapEraser
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionSheet
+import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.MobileSAMSelectionState
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.OriginalImagePreviewAlphaSelector
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeButton
 import com.t8rin.imagetoolbox.feature.erase_background.presentation.components.RecoverModeCard
@@ -119,6 +122,12 @@ fun EraseBackgroundContent(
 
     AutoContentBasedColors(component.bitmap)
 
+    val activeSelection = component.samSelection
+    var retainedSelection by remember { mutableStateOf<MobileSAMSelectionState?>(null) }
+    SideEffect {
+        if (activeSelection != null) retainedSelection = activeSelection
+    }
+
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
 
@@ -133,9 +142,14 @@ fun EraseBackgroundContent(
         isPickedAlready = component.initialUri != null
     )
 
+    val onGoBack = {
+        component.dismissSubjectSelection()
+        component.onGoBack()
+    }
+
     val onBack = {
         if (component.haveChanges) showExitDialog = true
-        else component.onGoBack()
+        else onGoBack()
     }
 
     val saveBitmap: (oneTimeSaveLocationUri: String?) -> Unit = {
@@ -210,7 +224,10 @@ fun EraseBackgroundContent(
         }
     }
 
+    val canShowScreenData = component.bitmap != null
+
     AdaptiveBottomScaffoldLayoutScreen(
+        isLoading = component.isImageLoading,
         title = {
             TopAppBarTitle(
                 title = stringResource(R.string.background_remover),
@@ -231,6 +248,26 @@ fun EraseBackgroundContent(
             )
         },
         topAppBarPersistentActions = { scaffoldState ->
+            (activeSelection ?: retainedSelection)?.let { state ->
+                MobileSAMSelectionSheet(
+                    state = state,
+                    visible = activeSelection === state,
+                    onDismiss = {
+                        if (component.samSelection === state) component.dismissSubjectSelection()
+                    },
+                    onHidden = {
+                        if (component.samSelection == null && retainedSelection === state) {
+                            retainedSelection = null
+                        }
+                    },
+                    onApply = {
+                        if (component.samSelection === state) {
+                            component.applySubjectSelection(it)
+                            scope.launch { scaffoldState.bottomSheetState.partialExpand() }
+                        }
+                    }
+                )
+            }
             if (component.bitmap == null) TopAppBarEmoji()
             else {
                 if (isPortrait) {
@@ -361,7 +398,10 @@ fun EraseBackgroundContent(
                             )
                         }
                     },
-                    onReset = component::resetImage
+                    onReset = component::resetImage,
+                    onSelectSubject = component::prepareSubjectSelection,
+                    isSelectingSubject = component.isPreparingSubjectSelection,
+                    state = component.bgModelState
                 )
                 OriginalImagePreviewAlphaSelector(
                     value = originalImagePreviewAlpha,
@@ -469,19 +509,20 @@ fun EraseBackgroundContent(
                 onPickImage = pickImage
             )
         },
-        canShowScreenData = component.bitmap != null,
+        canShowScreenData = canShowScreenData,
         showActionsInTopAppBar = false,
         mainContentWeight = 0.65f
     )
 
     LoadingDialog(
-        visible = component.isSaving || component.isImageLoading || component.isErasingBG,
+        visible = component.isSaving || component.isErasingBG ||
+                (component.isImageLoading && canShowScreenData),
         onCancelLoading = component::cancelSaving,
         canCancel = component.isSaving
     )
 
     ExitWithoutSavingDialog(
-        onExit = component.onGoBack,
+        onExit = onGoBack,
         onDismiss = { showExitDialog = false },
         visible = showExitDialog
     )

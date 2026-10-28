@@ -70,6 +70,7 @@ fun WallpapersExportContent(
     AutoContentBasedColors(component.wallpapers.firstOrNull()?.imageUri)
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = true,
         title = {
             TopAppBarTitle(

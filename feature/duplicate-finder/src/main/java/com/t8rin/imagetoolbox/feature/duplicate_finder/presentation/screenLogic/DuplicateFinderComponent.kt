@@ -25,13 +25,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.core.net.toUri
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
+import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.domain.utils.update
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.utils.distinctUris
 import com.t8rin.imagetoolbox.feature.duplicate_finder.domain.DuplicateFinder
@@ -54,6 +57,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     @Assisted val onGoBack: () -> Unit,
     @Assisted val onNavigate: (Screen) -> Unit,
     private val duplicateFinder: DuplicateFinder,
+    fileController: FileController,
     private val fileControllerEventEmitter: FileControllerEventEmitter,
     dispatchersHolder: DispatchersHolder
 ) : BaseComponent(dispatchersHolder, componentContext) {
@@ -75,6 +79,13 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     private val _scanMode = mutableStateOf(DuplicateScanMode.ExactAndSimilar)
     val scanMode by _scanMode
+
+    private val _autoAnalyze = fileController.savable(
+        scope = componentScope,
+        initial = true,
+        key = "DuplicateFinderComponentAutoAnalyze"
+    )
+    val autoAnalyze by _autoAnalyze
 
     private val _selectedUris: MutableState<Set<String>> = mutableStateOf(emptySet())
     val selectedUris by _selectedUris
@@ -113,17 +124,12 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun setUris(uris: List<Uri>) {
         componentScope.launch {
-            _isAnalyzing.value = true
             val distinctUris = uris.distinctUris()
+            if (sourceUris == distinctUris) return@launch
+
             _sourceUris.value = distinctUris
-            _selectedUris.value = emptySet()
-            if (distinctUris.isEmpty()) {
-                cancelAnalysis()
-                _analysisResult.value = null
-                _groups.value = emptyList()
-            } else {
-                analyze()
-            }
+            resetAnalysis()
+            if (autoAnalyze) analyze()
         }
     }
 
@@ -132,7 +138,7 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
     }
 
     fun analyze() {
-        if (sourceUris.isEmpty()) return
+        if (sourceUris.isEmpty() || isDeleting) return
 
         val requestedUris = sourceUris.map(Uri::toString)
         analysisJob = trackProgress {
@@ -171,7 +177,26 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
 
     fun cancelAnalysis() {
         analysisJob = null
+        _isAnalyzing.value = false
         _progress.value = null
+    }
+
+    fun updateAutoAnalyze(value: Boolean) {
+        if (autoAnalyze == value) return
+
+        _autoAnalyze.update { value }
+        if (value) {
+            if (analysisResult == null) analyze()
+        } else {
+            cancelAnalysis()
+        }
+    }
+
+    private fun resetAnalysis() {
+        cancelAnalysis()
+        _analysisResult.value = null
+        _groups.value = emptyList()
+        _selectedUris.value = emptySet()
     }
 
     fun updateSensitivity(value: Int) {
@@ -212,8 +237,8 @@ class DuplicateFinderComponent @AssistedInject internal constructor(
         if (scanMode == value) return
 
         _scanMode.value = value
-        _selectedUris.value = emptySet()
-        analyze()
+        resetAnalysis()
+        if (autoAnalyze) analyze()
     }
 
     fun toggleSelection(uri: String) {

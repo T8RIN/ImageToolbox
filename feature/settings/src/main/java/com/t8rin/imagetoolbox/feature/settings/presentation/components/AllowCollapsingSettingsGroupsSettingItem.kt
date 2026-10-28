@@ -41,7 +41,7 @@ fun AllowCollapsingSettingsGroupsSettingItem(
     PreferenceRowSwitch(
         modifier = modifier,
         shape = shape,
-        enabled = settingsState.useFullscreenSettings,
+        enabled = settingsState.useFullscreenSettings && !settingsState.useCategorizedSettings,
         title = stringResource(R.string.collapsible_settings_groups),
         subtitle = stringResource(R.string.collapsible_settings_groups_sub),
         checked = settingsState.allowCollapsingSettingsGroups,

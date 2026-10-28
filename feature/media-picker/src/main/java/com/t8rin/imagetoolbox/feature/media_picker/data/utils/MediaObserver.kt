@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -41,8 +42,6 @@ import kotlin.coroutines.CoroutineContext
 import kotlin.io.path.Path
 import kotlin.io.path.extension
 
-private var observerJob: Job? = null
-
 /**
  * Register an observer class that gets callbacks when data identified by a given content URI
  * changes.
@@ -51,6 +50,7 @@ fun Context.contentFlowObserver(
     uris: Array<Uri>,
     coroutineContext: CoroutineContext
 ) = callbackFlow {
+    var observerJob: Job? = null
     val observer = object : ContentObserver(null) {
         override fun onChange(selfChange: Boolean) {
             observerJob?.cancel()

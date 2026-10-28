@@ -49,7 +49,7 @@ internal data class JxlBackend(
                     JixelCompressionOption.LOSSY
                 },
                 quality = if (isLossless) 100 else jxlQuality.qualityValue,
-                effort = if (jxlQuality.effort <= 1) JixelEffort.FAST else JixelEffort.SLOW,
+                effort = JixelEffort.entries[jxlQuality.effort.coerceIn(1..6) - 1],
                 exif = null
             )
         } else {

@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.DpSize
+import net.engawapg.lib.zoomable.ZoomState
 
 /**
  * A composable that lays out and draws a given [beforeContent] and [afterContent]
@@ -48,6 +49,7 @@ internal fun BeforeAfterLayout(
     enableProgressWithTouch: Boolean = true,
     contentOrder: ContentOrder = ContentOrder.BeforeAfter,
     overlayStyle: OverlayStyle = OverlayStyle(),
+    zoomState: ZoomState? = null,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
@@ -67,12 +69,14 @@ internal fun BeforeAfterLayout(
         },
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
+        zoomState = zoomState,
         overlay = { dpSize: DpSize, offset: Offset ->
             DefaultOverlay(
                 width = dpSize.width,
                 height = dpSize.height,
                 position = offset,
-                overlayStyle = overlayStyle
+                overlayStyle = overlayStyle,
+                zoomScale = zoomState?.scale ?: 1f
             )
         }
     )
@@ -104,6 +108,7 @@ internal fun BeforeAfterLayout(
     sharedProgress: MutableFloatState? = null,
     onProgressChange: ((Float) -> Unit)? = null,
     overlayStyle: OverlayStyle = OverlayStyle(),
+    zoomState: ZoomState? = null,
     beforeContent: @Composable () -> Unit,
     afterContent: @Composable () -> Unit,
     beforeLabel: @Composable BoxScope.() -> Unit = { BeforeLabel(contentOrder = contentOrder) },
@@ -121,12 +126,14 @@ internal fun BeforeAfterLayout(
         onProgressChange = onProgressChange,
         contentOrder = contentOrder,
         enableProgressWithTouch = enableProgressWithTouch,
+        zoomState = zoomState,
         overlay = { dpSize: DpSize, offset: Offset ->
             DefaultOverlay(
                 width = dpSize.width,
                 height = dpSize.height,
                 position = offset,
-                overlayStyle = overlayStyle
+                overlayStyle = overlayStyle,
+                zoomScale = zoomState?.scale ?: 1f
             )
         }
     )

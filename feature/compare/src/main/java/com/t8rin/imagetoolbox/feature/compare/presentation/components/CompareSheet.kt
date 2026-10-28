@@ -36,6 +36,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.EnhancedZoomabl
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.compare.presentation.components.beforeafter.BeforeAfterLayout
+import net.engawapg.lib.zoomable.rememberZoomState
 
 @Composable
 fun CompareSheet(
@@ -44,11 +45,13 @@ fun CompareSheet(
     onDismiss: () -> Unit
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
+    val zoomState = rememberZoomState(maxScale = 20f, key = visible)
 
     if (data != null) {
         EnhancedZoomableModalBottomSheet(
             visible = visible,
             onDismiss = onDismiss,
+            zoomState = zoomState,
             title = {
                 TitleItem(
                     text = stringResource(R.string.compare),
@@ -61,6 +64,7 @@ fun CompareSheet(
                 val after = remember(data) { a?.asImageBitmap() }
                 if (before != null && after != null) {
                     BeforeAfterLayout(
+                        zoomState = zoomState,
                         progress = { progress },
                         onProgressChange = {
                             progress = it
@@ -94,10 +98,12 @@ fun CompareSheet(
     onDismiss: () -> Unit
 ) {
     var progress by rememberSaveable(visible) { mutableFloatStateOf(50f) }
+    val zoomState = rememberZoomState(maxScale = 20f, key = visible)
 
     EnhancedZoomableModalBottomSheet(
         visible = visible,
         onDismiss = onDismiss,
+        zoomState = zoomState,
         title = {
             TitleItem(
                 text = stringResource(R.string.compare),
@@ -106,6 +112,7 @@ fun CompareSheet(
         }
     ) {
         BeforeAfterLayout(
+            zoomState = zoomState,
             progress = { progress },
             onProgressChange = {
                 progress = it

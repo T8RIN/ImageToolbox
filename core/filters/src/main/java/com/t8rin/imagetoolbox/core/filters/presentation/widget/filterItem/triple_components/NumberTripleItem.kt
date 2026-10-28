@@ -88,7 +88,12 @@ internal fun NumberTripleItem(
                     title = stringResource(title!!),
                     valueRange = valueRange,
                     roundTo = roundTo,
-                    onValueChange = { state.value = it },
+                    onValueChange = {
+                        state.value = it
+                        onFilterChange(
+                            Triple(sliderState1.value, sliderState2.value, sliderState3.value)
+                        )
+                    },
                     icon = null,
                     behaveAsContainer = false
                 )

@@ -27,17 +27,22 @@ plugins {
 
 val testedProjects = listOf(
     "core/data",
+    "core/utils",
+    "feature/ai-tools",
+    "feature/assistant",
     "feature/apng-tools",
     "feature/cipher",
     "feature/code-preview",
     "feature/compare",
     "feature/draw",
+    "feature/edit-exif",
     "feature/filters",
     "feature/fractal-generation",
     "feature/gradient-maker",
     "feature/image-stitch",
     "feature/jxl-tools",
     "feature/markup-layers",
+    "feature/media-picker",
     "feature/multi-frame-fusion",
     "feature/pdf-tools",
     "feature/screenshot-framing",
@@ -163,6 +168,8 @@ dependencies {
     implementation(libs.androidx.runner)
     implementation(libs.moshi)
     implementation(libs.bouncycastle.provider)
+    compileOnly(libs.onnx.genai)
+    compileOnly(libs.kotlinx.serialization.json)
 }
 
 tasks.withType<KotlinCompile>().configureEach {

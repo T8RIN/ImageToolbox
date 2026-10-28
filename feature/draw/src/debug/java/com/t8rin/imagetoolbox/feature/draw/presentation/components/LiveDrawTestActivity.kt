@@ -62,6 +62,7 @@ private class LiveDrawTestState(context: ComponentContext) : ComponentContext by
     val image = createBitmap(512, 512)
         .apply { eraseColor(android.graphics.Color.WHITE) }.asImageBitmap()
     var paths by mutableStateOf(emptyList<UiPathPaint>())
+    var manualHealing by mutableStateOf(false)
     val filterCalls = AtomicInteger()
 }
 
@@ -70,6 +71,11 @@ class LiveDrawTestActivity : ComponentActivity() {
     val image get() = state.image.asAndroidBitmap()
     val cache get() = state.cache
     val filterCalls get() = state.filterCalls.get()
+    var manualHealing: Boolean
+        get() = state.manualHealing
+        set(value) {
+            state.manualHealing = value
+        }
     var mode: DrawMode by mutableStateOf(DrawMode.Pen)
     var gradient: GradientPalette? by mutableStateOf(null)
     var gradientLength by mutableStateOf(1f)
@@ -102,6 +108,9 @@ class LiveDrawTestActivity : ComponentActivity() {
     @Volatile
     var observeFrame: ((Bitmap) -> Unit)? = null
 
+    @Volatile
+    var beforeFiltering: (() -> Unit)? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initAppContext()
@@ -117,14 +126,23 @@ class LiveDrawTestActivity : ComponentActivity() {
             CompositionLocalProvider(LocalSettingsState provides settings) {
                 MaterialTheme {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        val displayedPaths = paths
+                        val displayedPaths = paths.filterNot { it.isPendingSpotHeal }
                         BitmapDrawer(
                             imageBitmap = state.image,
                             renderCache = state.cache,
                             paths = displayedPaths,
-                            onAddPath = { paths = paths + it },
+                            pendingSpotHealPaths = paths.filter { it.isPendingSpotHeal },
+                            applySpotHealManually = manualHealing,
+                            onAddPath = {
+                                paths =
+                                    paths + if (manualHealing && it.drawMode is DrawMode.SpotHeal) {
+                                        it.copy(isPendingSpotHeal = true)
+                                    } else it
+                            },
+                            onRemovePath = { paths = paths - it },
                             onRequestFiltering = { source, _ ->
                                 state.filterCalls.incrementAndGet()
+                                beforeFiltering?.invoke()
                                 delay(80)
                                 createBitmap(
                                     source.width,

@@ -20,7 +20,7 @@
   </br>
   </br>
 
- <img src="https://img.shields.io/badge/510.8K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
+ <img src="https://img.shields.io/badge/546.4K-aeff4d?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI%2BCiAgICA8cGF0aCBkPSJNMTIuODksM0wxNC44NSwzLjRMMTEuMTEsMjFMOS4xNSwyMC42TDEyLjg5LDNNMTkuNTksMTJMMTYsOC40MVY1LjU4TDIyLjQyLDEyTDE2LDE4LjQxVjE1LjU4TDE5LjU5LDEyTTEuNTgsMTJMOCw1LjU4VjguNDFMNC40MSwxMkw4LDE1LjU4VjE4LjQxTDEuNTgsMTJaIgogICAgICAgIGZpbGw9IndoaXRlIiAvPgo8L3N2Zz4%3D&label=Lines%20of%20code&labelColor=4b731a"/>
 
 <img src="https://img.shields.io/github/commits-since/t8rin/ImageToolbox/v1.0?color=palegreen&label=Commits&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHRpdGxlPnNvdXJjZS1jb21taXQ8L3RpdGxlPjxwYXRoIGQ9Ik0xNywxMkMxNywxNC40MiAxNS4yOCwxNi40NCAxMywxNi45VjIxSDExVjE2LjlDOC43MiwxNi40NCA3LDE0LjQyIDcsMTJDNyw5LjU4IDguNzIsNy41NiAxMSw3LjFWM0gxM1Y3LjFDMTUuMjgsNy41NiAxNyw5LjU4IDE3LDEyTTEyLDlBMywzIDAgMCwwIDksMTJBMywzIDAgMCwwIDEyLDE1QTMsMyAwIDAsMCAxNSwxMkEzLDMgMCAwLDAgMTIsOVoiIGZpbGw9IndoaXRlIiAvPjwvc3ZnPg==&labelColor=07ab4e&v=2">
  
@@ -954,6 +954,8 @@ or click one of the badges below.
     - ISNet
     - YOLO
     - MODNet
+    - MobileSAM
+  - Select objects with keep and remove points using MobileSAM
 - Watermarking
     - Repeating Text
     - Image
@@ -969,6 +971,7 @@ or click one of the badges below.
     - Warp (Move, Grow, Shrink, Swirl, Mix)
     - Privacy Blur
     - Pixelation Paint
+    - Automatic face masking with YuNet or UltraFace
     - Text
     - Image Brush
     - Filter Brush
@@ -1353,6 +1356,15 @@ or click one of the badges below.
 - Image source selection
     - Embedded picker, system photo picker, gallery, file picker and camera
     - Selecting all images from a folder
+- Semantic photo search in Gallery and the embedded picker
+  - Search by filename or descriptions in multiple languages
+  - Find similar photos using a selected image
+  - Automatic categories and custom categories from descriptions or reference photos
+  - Adjustable similarity thresholds and live category preview
+  - Automatic indexing and offline search after downloading the models
+  - People groups with names, face covers, matching thresholds, merging and photo exclusions
+- AI Assistant
+  - On-device answers grounded in Help & Tips, with tool navigation and contextual settings help
 - Shader Studio
     - Creating, editing and validating custom fragment shaders with GLSL syntax highlighting
     - Live preview with configurable shader parameters

@@ -32,29 +32,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.helpStringResource
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.feature.help.domain.model.HelpPage
 
 @Composable
 internal fun TutorialPageItem(
-    page: HelpPage
+    page: HelpPage,
+    showTitle: Boolean = true
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        if (showTitle) {
+            Text(
+                text = helpStringResource(page.title),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         Text(
-            text = stringResource(page.title),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold
-        )
-        Text(
-            text = stringResource(page.description),
+            text = helpStringResource(page.description),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -66,7 +69,7 @@ internal fun TutorialPageItem(
                 page.steps.forEachIndexed { index, stepId ->
                     StepItem(
                         stepNumber = index + 1,
-                        text = stringResource(stepId),
+                        text = helpStringResource(stepId),
                         shape = ShapeDefaults.byIndex(index, page.steps.size)
                     )
                 }

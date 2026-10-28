@@ -68,6 +68,7 @@ fun ScreenshotFramingContent(component: ScreenshotFramingComponent) {
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isPreviewLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

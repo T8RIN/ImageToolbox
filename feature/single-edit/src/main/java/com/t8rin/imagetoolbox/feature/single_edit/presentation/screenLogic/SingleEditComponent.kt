@@ -82,13 +82,18 @@ import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.UiPathPaint
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.DrawRenderCache
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.applySpotHeal
+import com.t8rin.imagetoolbox.feature.draw.presentation.components.utils.detectFaceRegions
 import com.t8rin.imagetoolbox.feature.erase_background.domain.AutoBackgroundRemover
 import com.t8rin.imagetoolbox.feature.single_edit.presentation.screenLogic.SingleEditComponent.HistorySnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -258,6 +263,17 @@ class SingleEditComponent @AssistedInject internal constructor(
                 it.copy(resizeType = settingsState.defaultResizeType)
             }
         }
+        componentScope.launch {
+            settingsManager.settingsState.map { it.applySpotHealManually }
+                .distinctUntilChanged()
+                .collect { manual ->
+                    if (!manual) {
+                        _drawPaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _drawLastPaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                        _drawUndonePaths.update { it.filterNot { path -> path.isPendingSpotHeal } }
+                    }
+                }
+        }
     }
 
     private var job: Job? by smartJob {
@@ -381,6 +397,7 @@ class SingleEditComponent @AssistedInject internal constructor(
         bitmap: Bitmap?,
         saveOriginalSize: Boolean = false,
     ) {
+        faceDetectionJob?.cancel()
         componentScope.launch {
             finalizePendingHistoryTransaction()
             val beforeSnapshot = currentHistorySnapshot()
@@ -590,6 +607,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun setUri(uri: Uri) {
+        faceDetectionJob?.cancel()
         clearHistory()
         currentCachedBitmapUri = null
         registerChangesCleared()
@@ -919,6 +937,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun clearDrawing(canUndo: Boolean = false) {
+        faceDetectionJob?.cancel()
         componentScope.launch {
             delay(500L)
             if (!canUndo) drawRenderCache.clear()
@@ -931,6 +950,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun undoDraw() {
+        faceDetectionJob?.cancel()
         if (drawPaths.isEmpty() && drawLastPaths.isNotEmpty()) {
             _drawPaths.update { drawLastPaths }
             _drawLastPaths.update { listOf() }
@@ -945,6 +965,7 @@ class SingleEditComponent @AssistedInject internal constructor(
     }
 
     fun redoDraw() {
+        faceDetectionJob?.cancel()
         if (drawUndonePaths.isEmpty()) return
 
         val lastPath = drawUndonePaths.last()
@@ -952,9 +973,60 @@ class SingleEditComponent @AssistedInject internal constructor(
         _drawUndonePaths.update { it - lastPath }
     }
 
+    private var faceDetectionJob: Job? by smartJob()
+
+    private val _isDetectingFaces = mutableStateOf(false)
+    val isDetectingFaces by _isDetectingFaces
+
+    fun detectDrawFaces(bitmap: Bitmap, useYuNet: Boolean, onNothingFound: () -> Unit) {
+        val source = previewBitmap ?: return
+        val mode = drawMode
+        val currentPaths = drawPaths
+        if (isDetectingFaces || mode !is DrawMode.PathEffect.PrivacyBlur &&
+            mode !is DrawMode.PathEffect.Pixelation
+        ) return
+
+        _isDetectingFaces.value = true
+        faceDetectionJob = componentScope.launch {
+            try {
+                val entry = withContext(defaultDispatcher) {
+                    bitmap.detectFaceRegions(mode, useYuNet)
+                }
+                if (source !== previewBitmap || currentPaths != drawPaths ||
+                    mode::class != drawMode::class
+                ) return@launch
+
+                if (entry == null) {
+                    onNothingFound()
+                } else {
+                    addPathToDrawList(entry.copy(drawMode = drawMode))
+                }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                AppToastHost.showFailureToast(e)
+            } finally {
+                _isDetectingFaces.value = false
+            }
+        }
+    }
+
     fun addPathToDrawList(pathPaint: UiPathPaint) {
-        _drawPaths.update { it + pathPaint }
+        val entry =
+            if (settingsManager.settingsState.value.applySpotHealManually &&
+                pathPaint.drawMode is DrawMode.SpotHeal
+            ) {
+                pathPaint.copy(isPendingSpotHeal = true)
+            } else pathPaint
+        _drawPaths.update { it + entry }
         _drawUndonePaths.update { listOf() }
+    }
+
+    fun applySpotHeal() {
+        val applied = drawPaths.applySpotHeal(drawMode)
+        if (applied == drawPaths) return
+        _drawPaths.value = applied
+        _drawUndonePaths.value = listOf()
     }
 
     fun removePath(pathPaint: UiPathPaint) {
@@ -1022,7 +1094,8 @@ class SingleEditComponent @AssistedInject internal constructor(
         filters: List<Filter<*>>,
     ): Bitmap? = imageTransformer.transform(
         image = bitmap,
-        transformations = mapFilters(filters)
+        transformations = mapFilters(filters),
+        size = IntegerSize(bitmap.width, bitmap.height)
     )
 
     fun mapFilters(

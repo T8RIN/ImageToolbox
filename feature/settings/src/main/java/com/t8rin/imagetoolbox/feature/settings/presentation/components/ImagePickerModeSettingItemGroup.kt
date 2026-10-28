@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -37,13 +38,13 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.PicturePickerMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 
 @Composable
 fun ImagePickerModeSettingItemGroup(
     onValueChange: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    shape: Shape? = null
 ) {
     val settingsState = LocalSettingsState.current
     Column(
@@ -57,12 +58,13 @@ fun ImagePickerModeSettingItemGroup(
         data.forEachIndexed { index, mode ->
             val selected = settingsState.picturePickerMode.ordinal == mode.ordinal
 
-            val shape = ShapeDefaults.byIndex(
+            val itemShape = settingsGroupItemShape(
                 index = index,
-                size = data.size
+                size = data.size,
+                shape = shape
             )
             PreferenceItem(
-                shape = shape,
+                shape = itemShape,
                 onClick = { onValueChange(mode.ordinal) },
                 title = stringResource(mode.title),
                 startIcon = mode.icon,
@@ -90,7 +92,7 @@ fun ImagePickerModeSettingItemGroup(
                                 MaterialTheme.colorScheme.onSecondaryContainer.copy(0.5f)
                             } else Color.Transparent
                         ).value,
-                        shape = shape
+                        shape = itemShape
                     )
             )
         }

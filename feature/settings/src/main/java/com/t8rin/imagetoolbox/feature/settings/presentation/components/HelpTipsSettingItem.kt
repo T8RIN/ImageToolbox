@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,14 +31,12 @@ import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Lightbulb
-import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.ImageToolboxThemeForPreview
-import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.EnPreview
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.other.HelpTipsGradient
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
-import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.AnimatedGradientBox
 
 @Composable
 fun HelpTipsSettingItem(
@@ -47,37 +44,7 @@ fun HelpTipsSettingItem(
     modifier: Modifier = Modifier.padding(horizontal = 8.dp),
     shape: Shape = ShapeDefaults.default,
 ) {
-    val isNightMode = LocalSettingsState.current.isNightMode
-
-    AnimatedGradientBox(
-        colors = {
-            if (isNightMode) {
-                listOf(
-                    primaryContainer.blend(
-                        color = primary,
-                        fraction = 0.8f
-                    ),
-                    secondaryContainer.blend(
-                        color = primary,
-                        fraction = 0.65f
-                    ),
-                    tertiary,
-                )
-            } else {
-                listOf(
-                    primary.blend(
-                        color = primaryContainer,
-                        fraction = 0.8f
-                    ),
-                    secondary.blend(
-                        color = primaryContainer,
-                        fraction = 0.65f
-                    ),
-                    tertiaryContainer,
-                )
-            }
-        }
-    ) {
+    HelpTipsGradient { contentColor ->
         PreferenceItemOverload(
             shape = shape,
             onClick = onClick,
@@ -89,11 +56,7 @@ fun HelpTipsSettingItem(
             },
             overrideIconShapeContentColor = true,
             containerColor = Color.Transparent,
-            contentColor = if (isNightMode) {
-                MaterialTheme.colorScheme.onTertiary
-            } else {
-                MaterialTheme.colorScheme.onTertiaryContainer
-            },
+            contentColor = contentColor,
             title = stringResource(R.string.help_tips),
             subtitle = stringResource(R.string.help_tips_settings_sub),
             modifier = modifier

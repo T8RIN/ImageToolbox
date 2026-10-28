@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalComponentActivity
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.conflate
 
 @SuppressLint("StringFormatInvalid")
 @Composable
@@ -97,7 +98,7 @@ internal fun FileControllerEventsHandler(
     }
 
     LaunchedEffect(component, activity) {
-        component.successfulSaveEvents.collect {
+        component.successfulSaveEvents.conflate().collect {
             if (component.shouldReturnToExternalAppAfterSave()) {
                 delay(1_000)
                 activity.finishAffinity()

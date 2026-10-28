@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
@@ -69,6 +70,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.UiFontFamily
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -90,12 +92,15 @@ class SettingsComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
     private val shareProvider: ShareProvider,
+    semanticSearchRepository: SemanticSearchRepository,
     filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
 ) : BaseComponent(dispatchersHolder, componentContext), FilenameCreator by filenameCreator {
 
     private val _settingsState = mutableStateOf(SettingsState.Default)
     val settingsState: SettingsState by _settingsState
+
+    val semanticSearchState = semanticSearchRepository.state
 
     private val _searchKeyword = mutableStateOf("")
     val searchKeyword by _searchKeyword
@@ -225,6 +230,12 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setEmojisCount(count: Int) = settingsScope { setEmojisCount(count) }
 
     fun setImagePickerMode(mode: Int) = settingsScope { setImagePickerMode(mode) }
+
+    fun setSemanticSearchEnabled(enabled: Boolean) =
+        settingsScope { setSemanticSearchEnabled(enabled) }
+
+    fun setAiAssistantEnabled(enabled: Boolean) =
+        settingsScope { setAiAssistantEnabled(enabled) }
 
     fun toggleAddFileSize() = settingsScope { toggleAddFileSize() }
 
@@ -383,6 +394,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleScreenSearchEnabled() = settingsScope { toggleScreensSearchEnabled() }
 
+    fun toggleHelpTipsButton() = settingsScope { toggleHelpTipsButton() }
+
     fun toggleDrawAppBarShadows() = settingsScope { toggleDrawAppBarShadows() }
 
     private fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode) =
@@ -472,6 +485,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleUseFullscreenSettings() = settingsScope { toggleUseFullscreenSettings() }
 
+    fun toggleUseCategorizedSettings() = settingsScope { toggleUseCategorizedSettings() }
+
     fun toggleAllowCollapsingSettingsGroups() = settingsScope {
         toggleAllowCollapsingSettingsGroups()
     }
@@ -511,6 +526,8 @@ class SettingsComponent @AssistedInject internal constructor(
     fun setSliderType(sliderType: SliderType) = settingsScope { setSliderType(sliderType) }
 
     fun toggleIsCenterAlignDialogButtons() = settingsScope { toggleIsCenterAlignDialogButtons() }
+
+    fun setDialogPosition(position: DialogPosition) = settingsScope { setDialogPosition(position) }
 
     fun setFastSettingsSide(side: FastSettingsSide) = settingsScope { setFastSettingsSide(side) }
 

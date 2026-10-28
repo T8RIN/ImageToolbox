@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvideFilterPreview
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.AdaptiveLayoutScreen
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.CompareButton
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.ShareButton
@@ -67,6 +68,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedHorizontalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.image.AutoFilePicker
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageContainer
+import com.t8rin.imagetoolbox.core.ui.widget.image.ImageNotPickedWidget
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.detectSwipes
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.scaleOnTap
@@ -121,8 +123,11 @@ private fun FiltersMainContent(component: FiltersComponent) {
 
     var showExitDialog by rememberSaveable { mutableStateOf(false) }
 
+    val hasImages = !component.basicFilterState.uris.isNullOrEmpty() ||
+            component.maskingFilterState.uri != null
+
     val onBack = {
-        if (component.haveChanges) showExitDialog = true
+        if (hasImages && component.haveChanges) showExitDialog = true
         else if (component.filterType != null) {
             component.clearType()
         } else component.onGoBack()
@@ -232,6 +237,7 @@ private fun FiltersMainContent(component: FiltersComponent) {
     )
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !(component.haveChanges || component.filterType != null),
         onGoBack = onBack,
         title = {
@@ -282,7 +288,8 @@ private fun FiltersMainContent(component: FiltersComponent) {
         },
         actions = actions,
         showActionsInTopAppBar = false,
-        canShowScreenData = component.filterType != null,
+        canShowScreenData = component.filterType != null &&
+                (component.initialType == null || hasImages),
         imagePreview = {
             ImageContainer(
                 modifier = Modifier
@@ -314,12 +321,22 @@ private fun FiltersMainContent(component: FiltersComponent) {
         },
         insetsForNoData = WindowInsets(0),
         noDataControls = {
-            FiltersContentNoData(
-                component = component,
-                imagePicker = imagePicker,
-                pickSingleImagePicker = pickSingleImagePicker,
-                tempSelectionUris = tempSelectionUris
-            )
+            when (component.initialType?.let { component.filterType }) {
+                is Screen.Filter.Type.Basic -> ImageNotPickedWidget(
+                    onPickImage = imagePicker::pickImage
+                )
+
+                is Screen.Filter.Type.Masking -> ImageNotPickedWidget(
+                    onPickImage = pickSingleImagePicker::pickImage
+                )
+
+                null -> FiltersContentNoData(
+                    component = component,
+                    imagePicker = imagePicker,
+                    pickSingleImagePicker = pickSingleImagePicker,
+                    tempSelectionUris = tempSelectionUris
+                )
+            }
         },
         contentPadding = animateDpAsState(
             if (component.filterType == null) 12.dp

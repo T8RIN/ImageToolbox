@@ -17,8 +17,14 @@
 
 package com.t8rin.imagetoolbox.benchmark
 
+import android.content.Intent
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.filters.SdkSuppress
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,13 +33,19 @@ class BaselineProfileGenerator {
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
 
+    @Before
+    fun prepareApp() = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+        .prepareBenchmarkApp()
+
     @Test
     fun startup() = baselineProfileRule.collect(
         packageName = PACKAGE_NAME,
         includeInStartupProfile = true,
         profileBlock = {
             startActivityAndWait()
-            device.pressBack()
+            device.waitForIdle()
+            device.dismissPrompts()
+            check(device.wait(Until.hasObject(By.text(appString("single_edit"))), TIMEOUT))
         }
     )
 
@@ -43,23 +55,46 @@ class BaselineProfileGenerator {
         includeInStartupProfile = false,
         profileBlock = {
             startActivityAndWait()
+            device.waitForIdle()
+            device.dismissPrompts()
 
-            repeat(4) {
-                device.swipe(
-                    device.displayWidth / 2,
-                    device.displayHeight * 3 / 4,
-                    device.displayWidth / 2,
-                    device.displayHeight / 4,
-                    20
-                )
-                device.waitForIdle(500)
-            }
+            device.scrollList()
 
-            device.pressBack()
+            check(device.wait(Until.hasObject(By.text(appString("single_edit"))), TIMEOUT))
         }
     )
 
-    private companion object {
-        const val PACKAGE_NAME = "ru.tech.imageresizershrinker"
-    }
+    @Test
+    fun singleEditor() = baselineProfileRule.collect(
+        packageName = PACKAGE_NAME,
+        includeInStartupProfile = false,
+        profileBlock = {
+            startActivityAndWait(
+                Intent("shortcut")
+                    .setClassName(
+                        PACKAGE_NAME,
+                        "com.t8rin.imagetoolbox.app.presentation.AppActivity"
+                    )
+                    .putExtra("screen_id", 0)
+            )
+            device.waitForIdle()
+            device.dismissPrompts()
+            check(device.wait(Until.hasObject(By.text(appString("pick_image"))), TIMEOUT))
+            device.waitForIdle()
+        }
+    )
+
+    @Test
+    fun settingsScrolling() = baselineProfileRule.collect(
+        packageName = PACKAGE_NAME,
+        includeInStartupProfile = false,
+        profileBlock = {
+            startActivityAndWait()
+            device.waitForIdle()
+            device.dismissPrompts()
+            device.openSettings()
+            device.scrollList()
+        }
+    )
+
 }

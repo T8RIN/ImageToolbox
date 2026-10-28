@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
@@ -47,6 +48,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
@@ -57,10 +59,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -70,6 +77,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
@@ -79,12 +87,15 @@ import com.t8rin.imagetoolbox.core.resources.icons.Deselect
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
+import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.rememberImagePicker
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
+import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -111,10 +122,35 @@ internal fun MediaPickerGridWithOverlays(
     modifier: Modifier = Modifier
 ) {
     val selectedMedia = component.selectedMedia
+    val isSemanticSearchEnabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
+    val isSemanticSearching by component.isSemanticSearching.collectAsStateWithLifecycle()
+    val semanticSearchError by component.semanticSearchError.collectAsStateWithLifecycle()
+    val semanticSearchState by component.semanticSearchState.collectAsStateWithLifecycle()
+    val density = LocalDensity.current
+    val focusManager = LocalFocusManager.current
+    var searchPanelHeight by remember { mutableStateOf(0.dp) }
+    var controlsHeight by remember { mutableStateOf(0.dp) }
 
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
     }
+    val searchImage by component.semanticSearchImage.collectAsStateWithLifecycle()
+    val onSearchImagePicked: (Uri) -> Unit = {
+        searchKeyword = ""
+        component.searchSimilarImages(it.toString())
+    }
+    val imagePicker = rememberImagePicker(ImagePickerMode.PhotoPickerSingle) { uris ->
+        uris.firstOrNull()?.let(onSearchImagePicked)
+    }
+    val pickSearchImage = {
+        focusManager.clearFocus()
+        imagePicker.pickImage()
+    }
+    val isFilenameOnlySearch = searchImage == null && (
+            !isSemanticSearchEnabled || searchKeyword.trim().let {
+                it.startsWith("*") || it.endsWith("*")
+            }
+            )
 
     val filterMedia = {
         component.filterMedia(
@@ -125,7 +161,10 @@ internal fun MediaPickerGridWithOverlays(
     }
 
     LaunchedEffect(isSearching) {
-        if (!isSearching) component.filterMedia("", isForceReset = true)
+        if (!isSearching) {
+            component.clearSearchImage()
+            component.filterMedia("", isForceReset = true)
+        }
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
@@ -146,7 +185,8 @@ internal fun MediaPickerGridWithOverlays(
                 isGalleryMode = isGalleryMode,
                 isButtonVisible = isButtonVisible,
                 isManagePermissionAllowed = isManagePermissionAllowed,
-                onRequestManagePermission = onRequestManagePermission
+                onRequestManagePermission = onRequestManagePermission,
+                bottomContentPadding = (if (isSearching) searchPanelHeight else controlsHeight) + 32.dp
             )
             BoxAnimatedVisibility(
                 modifier = Modifier
@@ -277,7 +317,15 @@ internal fun MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = filteredMediaState.media.isEmpty() && !filteredMediaState.isLoading && isSearching,
+            visible = filteredMediaState.media.isEmpty() && !filteredMediaState.isLoading && isSearching &&
+                    (isFilenameOnlySearch || (
+                            !isSemanticSearching && semanticSearchError == null && semanticSearchState.error == null &&
+                                    semanticSearchState.modelsReady && !semanticSearchState.isDownloading &&
+                                    (semanticSearchState.indexedImages > 0 || (
+                                            !semanticSearchState.isIndexing && !semanticSearchState.isQueued &&
+                                                    !semanticSearchState.isWaitingForPermission
+                                            ))
+                            )),
             enter = scaleIn() + fadeIn(),
             exit = scaleOut() + fadeOut(),
             modifier = Modifier
@@ -355,7 +403,7 @@ internal fun MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = !mediaState.isLoading && !isHaveNoData,
+            visible = isSearching || (!mediaState.isLoading && !isHaveNoData),
             modifier = Modifier.fillMaxSize(),
             enter = fadeIn(),
             exit = fadeOut()
@@ -375,57 +423,104 @@ internal fun MediaPickerGridWithOverlays(
                     contentAlignment = Alignment.BottomStart
                 ) {
                     if (searchMode) {
-                        RoundedTextField(
-                            maxLines = 1,
-                            hint = { Text(stringResource(id = R.string.search_here)) },
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                imeAction = ImeAction.Search,
-                                autoCorrectEnabled = null
-                            ),
-                            value = searchKeyword,
-                            onValueChange = {
-                                searchKeyword = it
-                                filterMedia()
-                            },
-                            startIcon = {
-                                EnhancedIconButton(
-                                    onClick = {
-                                        searchKeyword = ""
-                                        onSearchingChange(false)
-                                        filterMedia()
-                                    },
-                                    modifier = Modifier.padding(start = 4.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Close,
-                                        contentDescription = stringResource(R.string.exit),
-                                        tint = MaterialTheme.colorScheme.onSurface
-                                    )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .onSizeChanged {
+                                    searchPanelHeight = with(density) { it.height.toDp() }
                                 }
-                            },
-                            endIcon = {
-                                BoxAnimatedVisibility(
-                                    visible = searchKeyword.isNotEmpty(),
-                                    enter = fadeIn() + scaleIn(),
-                                    exit = fadeOut() + scaleOut()
-                                ) {
+                        ) {
+                            RoundedTextField(
+                                maxLines = 1,
+                                hint = {
+                                    Text(
+                                        stringResource(
+                                            when {
+                                                isSemanticSearchEnabled &&
+                                                        component.settingsState.semanticSearchSettings.groupPeople -> {
+                                                    R.string.gallery_search_people_hint
+                                                }
+
+                                                isSemanticSearchEnabled -> R.string.gallery_search_hint
+                                                else -> R.string.search_here
+                                            }
+                                        )
+                                    )
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    imeAction = ImeAction.Search,
+                                    autoCorrectEnabled = null
+                                ),
+                                keyboardActions = KeyboardActions(
+                                    onSearch = { focusManager.clearFocus() }
+                                ),
+                                value = if (searchImage == null) searchKeyword else stringResource(R.string.gallery_search_similar_results),
+                                readOnly = searchImage != null,
+                                onValueChange = {
+                                    searchKeyword = it
+                                    filterMedia()
+                                },
+                                startIcon = {
                                     EnhancedIconButton(
                                         onClick = {
                                             searchKeyword = ""
+                                            onSearchingChange(false)
                                             filterMedia()
                                         },
-                                        modifier = Modifier.padding(end = 4.dp)
+                                        modifier = Modifier.padding(start = 4.dp)
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Outlined.Delete,
-                                            contentDescription = stringResource(R.string.close),
+                                            imageVector = Icons.Rounded.Close,
+                                            contentDescription = stringResource(R.string.exit),
                                             tint = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
-                                }
-                            },
-                            shape = ShapeDefaults.circle
-                        )
+                                },
+                                endIcon = {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        BoxAnimatedVisibility(
+                                            visible = searchKeyword.isNotEmpty() || searchImage != null,
+                                            enter = fadeIn() + scaleIn(),
+                                            exit = fadeOut() + scaleOut()
+                                        ) {
+                                            EnhancedIconButton(
+                                                onClick = {
+                                                    searchKeyword = ""
+                                                    component.clearSearchImage()
+                                                    filterMedia()
+                                                }
+                                            ) {
+                                                Icon(
+                                                    imageVector = Icons.Outlined.Delete,
+                                                    contentDescription = stringResource(R.string.clear),
+                                                    tint = MaterialTheme.colorScheme.onSurface
+                                                )
+                                            }
+                                        }
+                                        if (allowedMedia != AllowedMedia.Videos) {
+                                            if (isSemanticSearchEnabled && semanticSearchState.modelsReady && semanticSearchState.indexedImages > 0 && searchImage != null) {
+                                                EnhancedIconButton(
+                                                    onClick = pickSearchImage,
+                                                    shape = ShapeDefaults.small
+                                                ) {
+                                                    Picture(
+                                                        model = searchImage,
+                                                        contentDescription = stringResource(R.string.gallery_search_change_image),
+                                                        shape = RectangleShape,
+                                                        modifier = Modifier.fillMaxSize()
+                                                    )
+                                                }
+                                            }
+                                            MediaSemanticSearchControls(
+                                                component = component,
+                                                onSearchImagePicked = onSearchImagePicked
+                                            )
+                                        }
+                                    }
+                                },
+                                shape = ShapeDefaults.circle
+                            )
+                        }
                     } else {
                         MediaSearchAndFilter(
                             component = component,
@@ -433,7 +528,11 @@ internal fun MediaPickerGridWithOverlays(
                                 onSearchingChange(true)
                                 filterMedia()
                             },
-                            modifier = Modifier.padding(bottom = 6.dp)
+                            modifier = Modifier
+                                .onSizeChanged {
+                                    controlsHeight = with(density) { it.height.toDp() }
+                                }
+                                .padding(bottom = 6.dp)
                         )
                     }
                 }

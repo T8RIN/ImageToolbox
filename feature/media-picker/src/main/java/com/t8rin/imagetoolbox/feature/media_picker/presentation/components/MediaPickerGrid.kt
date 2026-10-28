@@ -45,6 +45,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
@@ -67,7 +68,8 @@ internal fun MediaPickerGrid(
     isGalleryMode: Boolean,
     isButtonVisible: Boolean,
     onRequestManagePermission: () -> Unit,
-    isManagePermissionAllowed: Boolean
+    isManagePermissionAllowed: Boolean,
+    bottomContentPadding: Dp = 0.dp
 ) {
     val scope = rememberCoroutineScope()
     val gridState = rememberLazyGridState()
@@ -169,7 +171,8 @@ internal fun MediaPickerGrid(
             navBar,
             layoutDirection,
             isButtonVisible,
-            selectedMedia.isNotEmpty()
+            selectedMedia.isNotEmpty(),
+            bottomContentPadding
         ) {
             PaddingValues(
                 bottom = navBar.calculateBottomPadding().plus(
@@ -178,7 +181,7 @@ internal fun MediaPickerGrid(
                 ).plus(
                     if (selectedMedia.isNotEmpty()) 52.dp
                     else 0.dp
-                )
+                ).coerceAtLeast(navBar.calculateBottomPadding() + bottomContentPadding)
             )
         },
         flingBehavior = enhancedFlingBehavior(FlingType.IOS_STYLE)

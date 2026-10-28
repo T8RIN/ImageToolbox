@@ -151,7 +151,7 @@ fun EditExifSheet(
     ) {
         val data by remember(exifMap) {
             derivedStateOf {
-                exifMap!!.toList()
+                exifMap.orEmpty().toList()
             }
         }
         if (data.isNotEmpty()) {

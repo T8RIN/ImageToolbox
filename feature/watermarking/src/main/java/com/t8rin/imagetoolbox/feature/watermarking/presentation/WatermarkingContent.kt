@@ -113,6 +113,7 @@ fun WatermarkingContent(
     var hiddenWatermarkPreviewUri by remember { mutableStateOf<Uri?>(null) }
 
     AdaptiveLayoutScreen(
+        isLoading = component.isImageLoading,
         shouldDisableBackHandler = !component.haveChanges,
         title = {
             TopAppBarTitle(

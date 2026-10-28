@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.feature.ai_tools.presentation.screenLogic.AiToolsC
 import com.t8rin.imagetoolbox.feature.apng_tools.presentation.screenLogic.ApngToolsComponent
 import com.t8rin.imagetoolbox.feature.archive_tools.presentation.screenLogic.ArchiveToolsComponent
 import com.t8rin.imagetoolbox.feature.ascii_art.presentation.screenLogic.AsciiArtComponent
+import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
 import com.t8rin.imagetoolbox.feature.audio_cover_extractor.ui.screenLogic.AudioCoverExtractorComponent
 import com.t8rin.imagetoolbox.feature.base64_tools.presentation.screenLogic.Base64ToolsComponent
 import com.t8rin.imagetoolbox.feature.batchrename.presentation.screenLogic.BatchRenameComponent
@@ -180,6 +181,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.Na
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScanQrCode
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ScreenshotFraming
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.Settings
+import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SettingsCategory
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.ShaderStudio
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SignaturePdfTool
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild.SingleEdit
@@ -310,6 +312,7 @@ internal class ChildProvider @Inject constructor(
     private val extractPagesPdfToolComponentFactory: ExtractPagesPdfToolComponent.Factory,
     private val removeAnnotationsPdfToolComponentFactory: RemoveAnnotationsPdfToolComponent.Factory,
     private val helpComponentFactory: HelpComponent.Factory,
+    private val assistantComponentFactory: AssistantComponent.Factory,
     private val batchRenameComponentFactory: BatchRenameComponent.Factory,
 ) {
     fun RootComponent.createChild(
@@ -673,6 +676,19 @@ internal class ChildProvider @Inject constructor(
             )
         )
 
+        is Screen.SettingsCategory -> SettingsCategory(
+            component = settingsComponentFactory(
+                componentContext = componentContext,
+                onTryGetUpdate = ::tryGetUpdate,
+                onNavigate = ::navigateToNew,
+                isUpdateAvailable = isUpdateAvailable,
+                onGoBack = ::navigateBack,
+                initialSearchQuery = "",
+                targetSetting = null
+            ),
+            categoryId = config.categoryId
+        )
+
         is Screen.Settings -> Settings(
             settingsComponentFactory(
                 componentContext = componentContext,
@@ -697,6 +713,16 @@ internal class ChildProvider @Inject constructor(
                 componentContext = componentContext,
                 initialCategory = config.categoryName,
                 initialTipId = config.tipId,
+                showButtonHint = config.showButtonHint,
+                onGoBack = ::navigateBack,
+                onNavigate = ::navigateTo
+            )
+        )
+
+        is Screen.Assistant -> NavigationChild.Assistant(
+            assistantComponentFactory(
+                componentContext = componentContext,
+                route = config,
                 onGoBack = ::navigateBack,
                 onNavigate = ::navigateTo
             )

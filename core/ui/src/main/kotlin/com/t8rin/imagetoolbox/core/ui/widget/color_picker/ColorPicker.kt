@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -110,7 +111,7 @@ fun ColorPicker(
                 .weight(1f)
                 .fillMaxSize()
                 .container(
-                    shape = ShapeDefaults.pressed,
+                    shape = RoundedCornerShape(4.dp),
                     resultPadding = 0.dp,
                     color = containerColor,
                     clip = false
@@ -557,10 +558,12 @@ private fun DrawScope.drawBlendingRectGradient(
     srcSize: Size = this.size,
     blendMode: BlendMode = BlendMode.Multiply
 ) {
+    val cornerRadius = CornerRadius(4.dp.toPx())
+
     with(drawContext.canvas.nativeCanvas) {
         val checkPoint = saveLayer(null, null)
-        drawRect(dst, dstTopLeft, dstSize)
-        drawRect(src, srcTopLeft, srcSize, blendMode = blendMode)
+        drawRoundRect(dst, dstTopLeft, dstSize, cornerRadius = cornerRadius)
+        drawRoundRect(src, srcTopLeft, srcSize, cornerRadius = cornerRadius, blendMode = blendMode)
         restoreToCount(checkPoint)
     }
 }

@@ -21,17 +21,20 @@ import com.t8rin.imagetoolbox.core.domain.image.model.ImageFormat
 import com.t8rin.imagetoolbox.core.domain.image.model.ImageScaleMode
 import com.t8rin.imagetoolbox.core.domain.image.model.Quality
 import com.t8rin.imagetoolbox.core.domain.image.model.ResizeType
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
+import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
 import com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
@@ -46,6 +49,16 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setEmojisCount(count: Int)
 
     suspend fun setImagePickerMode(mode: Int)
+
+    suspend fun setSemanticSearchEnabled(enabled: Boolean)
+
+    suspend fun setSemanticSearchSettings(value: SemanticSearchSettings)
+
+    suspend fun setAiAssistantEnabled(enabled: Boolean)
+
+    suspend fun setAiAssistantSetupComplete()
+
+    suspend fun setAiAssistantModel(model: AssistantModel)
 
     suspend fun toggleAddFileSize()
 
@@ -135,6 +148,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleScreensSearchEnabled()
 
+    suspend fun toggleHelpTipsButton()
+
+    suspend fun dismissHelpTipsButtonHint(hideButton: Boolean)
+
     suspend fun toggleDrawAppBarShadows()
 
     suspend fun setCopyToClipboardMode(copyToClipboardMode: CopyToClipboardMode)
@@ -189,6 +206,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleAllowCollapsingSettingsGroups()
 
+    suspend fun toggleUseCategorizedSettings()
+
     suspend fun setSwitchType(type: SwitchType)
 
     suspend fun setDefaultDrawLineWidth(value: Float)
@@ -242,6 +261,8 @@ interface SettingsInteractor : SimpleSettingsInteractor {
     suspend fun setSliderType(type: SliderType)
 
     suspend fun toggleIsCenterAlignDialogButtons()
+
+    suspend fun setDialogPosition(position: DialogPosition)
 
     suspend fun setFastSettingsSide(side: FastSettingsSide)
 

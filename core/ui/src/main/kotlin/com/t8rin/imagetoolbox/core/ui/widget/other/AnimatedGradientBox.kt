@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
-package com.t8rin.imagetoolbox.feature.settings.presentation.components.additional
+package com.t8rin.imagetoolbox.core.ui.widget.other
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
@@ -48,8 +48,9 @@ import kotlin.math.hypot
 import kotlin.random.Random
 
 @Composable
-internal fun AnimatedGradientBox(
+fun AnimatedGradientBox(
     colors: ColorScheme.() -> List<Color>,
+    scaleToSize: Boolean = false,
     content: @Composable () -> Unit = {}
 ) {
     var size by remember { mutableStateOf(Size.Zero) }
@@ -127,7 +128,9 @@ internal fun AnimatedGradientBox(
                     colors(colorScheme)
                 },
                 center = center,
-                radius = radius
+                radius = if (scaleToSize) {
+                    radius * minOf(size.width, size.height).coerceAtLeast(1f) / 700f
+                } else radius
             ),
             shape = LocalContainerShape.current,
             content = content

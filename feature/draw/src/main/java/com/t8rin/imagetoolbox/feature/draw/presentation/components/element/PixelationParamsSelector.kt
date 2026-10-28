@@ -22,31 +22,43 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.PixelSizeSelector
 
 @Composable
 internal fun PixelationParamsSelector(
     value: DrawMode,
-    onValueChange: (DrawMode) -> Unit
+    onValueChange: (DrawMode) -> Unit,
+    faceDetectionControls: (@Composable () -> Unit)?
 ) {
     AnimatedVisibility(
         visible = value is DrawMode.PathEffect.Pixelation,
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically()
     ) {
-        PixelSizeSelector(
+        Column(
             modifier = Modifier.padding(8.dp),
-            value = (value as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
-            onValueChange = {
-                onValueChange(DrawMode.PathEffect.Pixelation(it))
-            },
-            color = MaterialTheme.colorScheme.surface
-        )
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            PixelSizeSelector(
+                modifier = Modifier.fillMaxWidth(),
+                value = (value as? DrawMode.PathEffect.Pixelation)?.pixelSize ?: 0f,
+                onValueChange = {
+                    onValueChange(DrawMode.PathEffect.Pixelation(it))
+                },
+                color = MaterialTheme.colorScheme.surface,
+                shape = if (faceDetectionControls == null) ShapeDefaults.default else ShapeDefaults.top
+            )
+            faceDetectionControls?.invoke()
+        }
     }
 }

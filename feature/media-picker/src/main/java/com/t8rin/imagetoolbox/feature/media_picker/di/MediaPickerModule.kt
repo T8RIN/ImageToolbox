@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,11 @@
 package com.t8rin.imagetoolbox.feature.media_picker.di
 
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidMediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchRepository
+import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchScheduler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
+import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -34,5 +38,17 @@ internal interface MediaPickerModule {
     fun mediaRetriever(
         impl: AndroidMediaRetriever
     ): MediaRetriever
+
+    @Binds
+    @Singleton
+    fun semanticSearchScheduler(
+        impl: AndroidSemanticSearchScheduler
+    ): SemanticSearchScheduler
+
+    @Binds
+    @Singleton
+    fun semanticSearchRepository(
+        impl: AndroidSemanticSearchRepository
+    ): SemanticSearchRepository
 
 }

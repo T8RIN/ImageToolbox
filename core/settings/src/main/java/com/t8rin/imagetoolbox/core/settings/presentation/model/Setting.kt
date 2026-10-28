@@ -242,9 +242,21 @@ sealed class Setting(
     )
 
     @Serializable
+    data object AiAssistant : Setting(
+        title = R.string.ai_assistant,
+        subtitle = R.string.ai_assistant_subtitle
+    )
+
+    @Serializable
     data object ImagePickerMode : Setting(
         title = R.string.photo_picker,
         subtitle = R.string.photo_picker_sub
+    )
+
+    @Serializable
+    data object SemanticSearch : Setting(
+        title = R.string.gallery_search_auto,
+        subtitle = R.string.gallery_search_auto_sub
     )
 
     @Serializable
@@ -323,6 +335,12 @@ sealed class Setting(
     data object ScreenOrder : Setting(
         title = R.string.order,
         subtitle = R.string.order_sub
+    )
+
+    @Serializable
+    data object ShowHelpTipsButton : Setting(
+        title = R.string.show_help_tips_button,
+        subtitle = R.string.show_help_tips_button_sub
     )
 
     @Serializable
@@ -518,6 +536,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object UseCategorizedSettings : Setting(
+        title = R.string.categorized_settings,
+        subtitle = R.string.categorized_settings_sub
+    )
+
+    @Serializable
     data object AllowCollapsingSettingsGroups : Setting(
         title = R.string.collapsible_settings_groups,
         subtitle = R.string.collapsible_settings_groups_sub
@@ -629,6 +653,12 @@ sealed class Setting(
     data object SliderType : Setting(
         title = R.string.slider_type,
         subtitle = null
+    )
+
+    @Serializable
+    data object DialogPosition : Setting(
+        title = R.string.dialog_position,
+        subtitle = R.string.dialog_position_sub
     )
 
     @Serializable

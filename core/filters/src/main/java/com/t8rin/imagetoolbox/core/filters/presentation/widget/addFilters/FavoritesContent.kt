@@ -150,7 +150,7 @@ internal fun FavoritesContent(
                             isFavoritePage = true,
                             canOpenPreview = previewBitmap != null,
                             showPreviewImage = showPreviewImages,
-                            isInFavorite = filter::class.java.name in favoriteFilterKeys,
+                            isInFavorite = filter.serializationKey in favoriteFilterKeys,
                             onLongClick = null,
                             onOpenPreview = {
                                 component.setPreviewData(filter)

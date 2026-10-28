@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.graphics.createBitmap
+import coil3.annotation.ExperimentalCoilApi
 import coil3.asImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.AsyncImagePreviewHandler
@@ -65,6 +66,7 @@ import com.t8rin.imagetoolbox.core.settings.presentation.model.toUiState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getStringLocalized
+import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalCurrentScreen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalResourceManager
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberScreenSize
@@ -109,7 +111,8 @@ fun ImageToolboxThemeForPreview(
                             ),
                         LocalSimpleSettingsInteractor provides FakeSettings,
                         LocalResourceManager provides FakeRes,
-                        LocalScreenSize provides rememberScreenSize()
+                        LocalScreenSize provides rememberScreenSize(),
+                        LocalCurrentScreen provides null
                     ) {
                         MaterialExpressiveTheme(
                             motionScheme = CustomMotionScheme,
@@ -138,6 +141,7 @@ fun ImageToolboxThemeForPreview(
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 private fun FakeLoader(
     isImageError: Boolean,
@@ -279,7 +283,11 @@ private val FakeSettings = object : SimpleSettingsInteractor {
     override suspend fun toggleOverwriteFiles() = Unit
     override suspend fun toggleSaveToOriginalFolder() = Unit
     override suspend fun toggleDeleteOriginalsAfterSave() = Unit
+    override suspend fun toggleRandomizeSeedAfterSave() = Unit
     override suspend fun setSpotHealMode(mode: Int) = Unit
+    override suspend fun setLamaThreads(value: Int) = Unit
+    override suspend fun setLamaLimitResolution(value: Boolean) = Unit
+    override suspend fun setApplySpotHealManually(value: Boolean) = Unit
     override suspend fun setBorderWidth(width: Float) = Unit
     override suspend fun setRawWhiteBalance(whiteBalance: RawWhiteBalance) = Unit
     override suspend fun setRawOutputColorSpace(colorSpace: RawOutputColorSpace) = Unit

@@ -33,6 +33,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
+import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileControllerEvent
 import com.t8rin.imagetoolbox.core.domain.saving.model.FileDeletionResult
@@ -48,6 +49,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.yield
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -58,13 +61,14 @@ import javax.inject.Singleton
 @Singleton
 internal class OriginalFileDeletionHelper @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val appScope: AppScope
-) : FileControllerEventEmitter {
+    private val appScope: AppScope,
+    dispatchersHolder: DispatchersHolder
+) : FileControllerEventEmitter, DispatchersHolder by dispatchersHolder {
 
     private val eventChannel = Channel<FileControllerEvent>(Channel.UNLIMITED)
     override val events: Flow<FileControllerEvent> = eventChannel.receiveAsFlow()
 
-    private val successfulSaveEventFlow = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    private val successfulSaveEventFlow = MutableSharedFlow<Unit>()
     override val successfulSaveEvents: Flow<Unit> = successfulSaveEventFlow.asSharedFlow()
 
     private val pendingDeleteUris = ConcurrentHashMap.newKeySet<Uri>()
@@ -78,8 +82,10 @@ internal class OriginalFileDeletionHelper @Inject constructor(
     private val deleteResultLock = Any()
     private var deleteResultJob: Job? = null
 
-    override fun onSuccessfulSave() {
-        successfulSaveEventFlow.tryEmit(Unit)
+    override suspend fun onSuccessfulSave() = withContext(uiDispatcher) {
+        successfulSaveEventFlow.emit(Unit)
+        // Let UI subscribers apply the event before the next save.
+        yield()
     }
 
     override suspend fun deleteFiles(

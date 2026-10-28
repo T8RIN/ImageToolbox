@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.ImagesMode: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -81,6 +81,79 @@ val Icons.Outlined.ImagesMode: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             reflectiveQuadToRelative(17.5f, 42.5f)
             quadTo(315f, 400f, 340f, 400f)
             reflectiveQuadToRelative(42.5f, -17.5f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.TwoTone.ImagesMode: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "TwoTone.ImagesMode",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(
+            fill = SolidColor(Color.Black),
+            fillAlpha = 0.3f,
+            strokeAlpha = 0.3f
+        ) {
+            moveTo(5f, 5f)
+            horizontalLineToRelative(14f)
+            verticalLineToRelative(14f)
+            horizontalLineToRelative(-14f)
+            close()
+        }
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(5f, 21f)
+            curveToRelative(-0.55f, 0f, -1.021f, -0.196f, -1.413f, -0.587f)
+            curveToRelative(-0.392f, -0.392f, -0.587f, -0.863f, -0.587f, -1.413f)
+            verticalLineTo(5f)
+            curveToRelative(0f, -0.55f, 0.196f, -1.021f, 0.587f, -1.413f)
+            curveToRelative(0.392f, -0.392f, 0.863f, -0.587f, 1.413f, -0.587f)
+            horizontalLineToRelative(14f)
+            curveToRelative(0.55f, 0f, 1.021f, 0.196f, 1.413f, 0.587f)
+            reflectiveCurveToRelative(0.587f, 0.863f, 0.587f, 1.413f)
+            verticalLineToRelative(14f)
+            curveToRelative(0f, 0.55f, -0.196f, 1.021f, -0.587f, 1.413f)
+            curveToRelative(-0.392f, 0.392f, -0.863f, 0.587f, -1.413f, 0.587f)
+            horizontalLineTo(5f)
+            close()
+            moveTo(5f, 19f)
+            horizontalLineToRelative(14f)
+            verticalLineTo(5f)
+            horizontalLineTo(5f)
+            verticalLineToRelative(14f)
+            close()
+            moveTo(5f, 19f)
+            verticalLineTo(5f)
+            verticalLineToRelative(14f)
+            close()
+            moveTo(7f, 17f)
+            horizontalLineToRelative(10f)
+            curveToRelative(0.2f, 0f, 0.35f, -0.092f, 0.45f, -0.275f)
+            reflectiveCurveToRelative(0.083f, -0.358f, -0.05f, -0.525f)
+            lineToRelative(-2.75f, -3.675f)
+            curveToRelative(-0.1f, -0.133f, -0.233f, -0.2f, -0.4f, -0.2f)
+            reflectiveCurveToRelative(-0.3f, 0.067f, -0.4f, 0.2f)
+            lineToRelative(-2.6f, 3.475f)
+            lineToRelative(-1.85f, -2.475f)
+            curveToRelative(-0.1f, -0.133f, -0.233f, -0.2f, -0.4f, -0.2f)
+            reflectiveCurveToRelative(-0.3f, 0.067f, -0.4f, 0.2f)
+            lineToRelative(-2f, 2.675f)
+            curveToRelative(-0.133f, 0.167f, -0.15f, 0.342f, -0.05f, 0.525f)
+            reflectiveCurveToRelative(0.25f, 0.275f, 0.45f, 0.275f)
+            close()
+            moveTo(9.563f, 9.563f)
+            curveToRelative(0.292f, -0.292f, 0.438f, -0.646f, 0.438f, -1.063f)
+            reflectiveCurveToRelative(-0.146f, -0.771f, -0.438f, -1.063f)
+            reflectiveCurveToRelative(-0.646f, -0.438f, -1.063f, -0.438f)
+            reflectiveCurveToRelative(-0.771f, 0.146f, -1.063f, 0.438f)
+            reflectiveCurveToRelative(-0.438f, 0.646f, -0.438f, 1.063f)
+            reflectiveCurveToRelative(0.146f, 0.771f, 0.438f, 1.063f)
+            reflectiveCurveToRelative(0.646f, 0.438f, 1.063f, 0.438f)
+            reflectiveCurveToRelative(0.771f, -0.146f, 1.063f, -0.438f)
             close()
         }
     }.build()

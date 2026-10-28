@@ -54,10 +54,9 @@ internal data class AvifBackend(
                 } else {
                     AvKind.AV2
                 },
-                speed = AvSpeed.entries.firstOrNull {
-                    it.ordinal == (3 - avifQuality.effort)
-                } ?: AvSpeed.FAST,
-                screenContentCoding = avifQuality.screenContentCoding && isAv1
+                speed = AvSpeed.entries[avifQuality.effort.coerceIn(0..3)],
+                screenContentCoding = avifQuality.screenContentCoding && isAv1,
+                ignoreGainmapErrors = true
             )
         )
     }

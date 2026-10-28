@@ -37,9 +37,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -52,8 +52,11 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.DragHandle
 import com.t8rin.imagetoolbox.core.resources.icons.EmojiSticky
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSticky
@@ -68,6 +71,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.transparencyChecker
 import com.t8rin.imagetoolbox.core.ui.widget.other.AnimatedBorder
@@ -190,7 +194,7 @@ internal fun MarkupLayersSideMenuColumn(
                             ) {
                                 if (isGroupingSelectionMode) {
                                     onToggleGroupingSelection(layer)
-                                } else if (!layer.isLocked) {
+                                } else if (!layer.isLocked || layer.isBackground) {
                                     onActivateLayer(layer)
                                 }
                             }
@@ -319,6 +323,26 @@ internal fun MarkupLayersSideMenuColumn(
                             )
                         }
 
+                        if (layer.isBackground) {
+                            Text(
+                                text = stringResource(R.string.markup_background_layer),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                        shape = AutoCornersShape(
+                                            topStart = 4.dp,
+                                            topEnd = 4.dp,
+                                            bottomStart = 0.dp,
+                                            bottomEnd = 0.dp
+                                        )
+                                    )
+                                    .padding(horizontal = 4.dp, vertical = 2.dp)
+                            )
+                        }
+
                         if (layer.isLocked) {
                             Box(
                                 modifier = Modifier
@@ -326,7 +350,7 @@ internal fun MarkupLayersSideMenuColumn(
                                     .padding(6.dp)
                                     .clip(ShapeDefaults.extraSmall)
                                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                                    .hapticsClickable {
+                                    .hapticsClickable(enabled = !layer.isBackground) {
                                         onUnlockLayer(layer)
                                     }
                                     .padding(4.dp)

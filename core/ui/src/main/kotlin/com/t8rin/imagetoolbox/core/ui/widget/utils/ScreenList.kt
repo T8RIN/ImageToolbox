@@ -21,17 +21,18 @@ import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import com.t8rin.imagetoolbox.core.domain.model.ExtraDataType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ContextUtils.getExtension
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.utils.filename
+import com.t8rin.palette.PaletteFormat
 
-@Composable
-internal fun List<Uri>.screenList(
-    extraDataType: ExtraDataType?
-): State<Pair<List<Screen>, List<Screen>>> {
+fun List<Uri>.screensFor(
+    extraDataType: ExtraDataType?,
+    includeAllModes: Boolean = false
+): List<Screen> {
     val uris = this
 
     fun Uri?.type(
@@ -44,369 +45,426 @@ internal fun List<Uri>.screenList(
         return extensions.any(extension::contains)
     }
 
-    val filesAvailableScreens by remember(uris) {
-        derivedStateOf {
-            if (uris.size > 1) {
-                listOf(
-                    Screen.BatchRename(uris),
-                    Screen.ArchiveTools(uris)
-                )
-            } else {
-                listOfNotNull(
-                    Screen.PdfTools.ComicToPdf(uris.firstOrNull()).takeIf {
-                        uris.firstOrNull().type("cbr", "cbz", "cb7", "cbt")
-                    },
-                    Screen.BatchRename(uris),
-                    Screen.Cipher(uris.firstOrNull()),
-                    Screen.ChecksumTools(uris.firstOrNull()),
-                    Screen.ArchiveTools(uris)
-                )
-            }
+    val filesAvailableScreens by lazy {
+        if (uris.size > 1) {
+            listOf(
+                Screen.BatchRename(uris),
+                Screen.ArchiveTools(uris)
+            )
+        } else {
+            listOfNotNull(
+                Screen.PdfTools.ComicToPdf(uris.firstOrNull()).takeIf {
+                    uris.firstOrNull().type("cbr", "cbz", "cb7", "cbt")
+                },
+                Screen.BatchRename(uris),
+                Screen.Cipher(uris.firstOrNull()),
+                Screen.ChecksumTools(uris.firstOrNull()),
+                Screen.ArchiveTools(uris)
+            )
         }
     }
-    val audioAvailableScreens by remember(uris) {
-        derivedStateOf {
-            listOf(
-                Screen.AudioCoverExtractor(uris)
-            ) + filesAvailableScreens
-        }
+    val audioAvailableScreens by lazy {
+        listOf(
+            Screen.AudioCoverExtractor(uris)
+        ) + filesAvailableScreens
     }
-    val gifAvailableScreens by remember(uris) {
-        derivedStateOf {
+    val gifAvailableScreens by lazy {
+        listOf(
+            Screen.GifTools(
+                Screen.GifTools.Type.GifToImage(
+                    uris.firstOrNull()
+                )
+            ),
+            Screen.GifTools(
+                Screen.GifTools.Type.GifToApng(uris)
+            ),
+            Screen.GifTools(
+                Screen.GifTools.Type.GifToJxl(uris)
+            ),
+            Screen.GifTools(
+                Screen.GifTools.Type.GifToWebp(uris)
+            )
+        ) + filesAvailableScreens + if (includeAllModes) {
+            listOf(Screen.GifTools(Screen.GifTools.Type.MergeGif(uris)))
+        } else emptyList()
+    }
+    val pdfAvailableScreens by lazy {
+        val multiplePdf = Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() })
+
+        val pdfScreens = if (uris.size == 1) {
             listOf(
-                Screen.GifTools(
-                    Screen.GifTools.Type.GifToImage(
-                        uris.firstOrNull()
+                Screen.PdfTools.Preview(
+                    uris.firstOrNull()
+                ),
+                Screen.PdfTools.DarkMode(
+                    uris.firstOrNull()
+                ),
+                Screen.PdfTools.ExtractPages(
+                    uris.firstOrNull()
+                ),
+                multiplePdf,
+                Screen.PdfTools.Split(uris.firstOrNull()),
+                Screen.PdfTools.RemovePages(uris.firstOrNull()),
+                Screen.PdfTools.Rotate(uris.firstOrNull()),
+                Screen.PdfTools.Rearrange(uris.firstOrNull()),
+                Screen.PdfTools.Crop(uris.firstOrNull()),
+                Screen.PdfTools.PageNumbers(uris.firstOrNull()),
+                Screen.PdfTools.Watermark(uris.firstOrNull()),
+                Screen.PdfTools.Signature(uris.firstOrNull()),
+                Screen.PdfTools.Compress(uris.firstOrNull()),
+                Screen.PdfTools.RemoveAnnotations(uris.firstOrNull()),
+                Screen.PdfTools.Flatten(uris.firstOrNull()),
+                Screen.PdfTools.Print(uris.firstOrNull()),
+                Screen.PdfTools.Grayscale(uris.firstOrNull()),
+                Screen.PdfTools.Repair(uris.firstOrNull()),
+                Screen.PdfTools.Protect(uris.firstOrNull()),
+                Screen.PdfTools.Unlock(uris.firstOrNull()),
+                Screen.PdfTools.Metadata(uris.firstOrNull()),
+                Screen.PdfTools.ExtractImages(uris.firstOrNull()),
+                Screen.PdfTools.OCR(uris.firstOrNull()),
+                Screen.PdfTools.ZipConvert(uris.firstOrNull()),
+            )
+        } else {
+            listOf(multiplePdf)
+        }
+
+        pdfScreens + filesAvailableScreens + if (includeAllModes) {
+            listOf(
+                Screen.PdfTools.ComparePdf(uris),
+                Screen.PdfTools.ResizePdfPages(uris.firstOrNull()),
+                Screen.PdfTools.SanitizePdf(uris.firstOrNull())
+            )
+        } else emptyList()
+    }
+    val singleImageScreens by lazy {
+        listOf(
+            Screen.SingleEdit(uris.firstOrNull()),
+            Screen.ResizeAndConvert(uris),
+            Screen.FormatConversion(uris),
+            Screen.CompressionLab(uris.firstOrNull()),
+            Screen.WeightResize(uris),
+            Screen.Crop(uris.firstOrNull()),
+            Screen.Filter(
+                type = Screen.Filter.Type.Basic(uris)
+            ),
+            Screen.Draw(uris.firstOrNull()),
+            Screen.Curves(uris),
+            Screen.RecognizeText(
+                Screen.RecognizeText.Type.Extraction(uris.firstOrNull())
+            ),
+            Screen.EraseBackground(uris.firstOrNull()),
+            Screen.Filter(
+                type = Screen.Filter.Type.Masking(uris.firstOrNull())
+            ),
+            Screen.AiTools(uris),
+            Screen.MarkupLayers(uris.firstOrNull()),
+            Screen.ScreenshotFraming(uris.firstOrNull()),
+            Screen.Watermarking(uris),
+            Screen.ImageStitching(uris),
+            Screen.ImageStacking(uris),
+            Screen.Photomosaic(uris),
+            Screen.MultiFrameFusion(uris),
+            Screen.ImageSplitting(uris.firstOrNull()),
+            Screen.ImageCutter(uris),
+            Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),
+            Screen.GradientMaker(uris),
+            Screen.PdfTools.ImagesToPdf(uris),
+            Screen.PdfTools.PdfContactSheet(uris),
+            Screen.GifTools(
+                Screen.GifTools.Type.ImageToGif(uris)
+            ),
+            Screen.Base64Tools(uris.firstOrNull()),
+            Screen.ImagePreview(uris),
+            Screen.DuplicateFinder(uris),
+            Screen.PickColorFromImage(uris.firstOrNull()),
+            Screen.PaletteTools(uris.firstOrNull()),
+            Screen.AsciiArt(uris.firstOrNull()),
+            Screen.ApngTools(
+                Screen.ApngTools.Type.ImageToApng(uris)
+            ),
+            Screen.JxlTools(
+                Screen.JxlTools.Type.ImageToJxl(uris)
+            ),
+            Screen.SvgMaker(uris),
+            Screen.EditExif(uris.firstOrNull()),
+            Screen.DeleteExif(uris),
+            Screen.LimitResize(uris)
+        ).let { list ->
+            val mergedList = list + filesAvailableScreens
+
+            val uri = uris.firstOrNull()
+
+            if (uri.type("png")) {
+                mergedList + listOf(
+                    Screen.ApngTools(
+                        Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
+                    ),
+                    Screen.ApngTools(
+                        Screen.ApngTools.Type.ApngToGif(uris)
+                    ),
+                    Screen.ApngTools(
+                        Screen.ApngTools.Type.ApngToWebp(uris)
                     )
-                ),
-                Screen.GifTools(
-                    Screen.GifTools.Type.GifToApng(uris)
-                ),
-                Screen.GifTools(
-                    Screen.GifTools.Type.GifToJxl(uris)
-                ),
-                Screen.GifTools(
-                    Screen.GifTools.Type.GifToWebp(uris)
                 )
-            ) + filesAvailableScreens
+            } else if (uri.type("jpg", "jpeg")) {
+                mergedList + Screen.JxlTools(
+                    Screen.JxlTools.Type.JpegToJxl(uris)
+                )
+            } else if (uri.type("jxl")) {
+                mergedList + Screen.JxlTools(
+                    Screen.JxlTools.Type.JxlToJpeg(uris)
+                ) + Screen.JxlTools(
+                    Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
+                )
+            } else if (uri.type("webp")) {
+                mergedList + listOf(
+                    Screen.WebpTools(
+                        Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
+                    ),
+                    Screen.WebpTools(
+                        Screen.WebpTools.Type.WebpToGif(uris)
+                    ),
+                    Screen.WebpTools(
+                        Screen.WebpTools.Type.WebpToApng(uris)
+                    )
+                )
+            } else mergedList
         }
     }
-    val pdfAvailableScreens by remember(uris) {
-        derivedStateOf {
-            val multiplePdf = Screen.PdfTools.Merge(uris.takeIf { it.isNotEmpty() })
-
-            val pdfScreens = if (uris.size == 1) {
-                listOf(
-                    Screen.PdfTools.Preview(
-                        uris.firstOrNull()
-                    ),
-                    Screen.PdfTools.DarkMode(
-                        uris.firstOrNull()
-                    ),
-                    Screen.PdfTools.ExtractPages(
-                        uris.firstOrNull()
-                    ),
-                    multiplePdf,
-                    Screen.PdfTools.Split(uris.firstOrNull()),
-                    Screen.PdfTools.RemovePages(uris.firstOrNull()),
-                    Screen.PdfTools.Rotate(uris.firstOrNull()),
-                    Screen.PdfTools.Rearrange(uris.firstOrNull()),
-                    Screen.PdfTools.Crop(uris.firstOrNull()),
-                    Screen.PdfTools.PageNumbers(uris.firstOrNull()),
-                    Screen.PdfTools.Watermark(uris.firstOrNull()),
-                    Screen.PdfTools.Signature(uris.firstOrNull()),
-                    Screen.PdfTools.Compress(uris.firstOrNull()),
-                    Screen.PdfTools.RemoveAnnotations(uris.firstOrNull()),
-                    Screen.PdfTools.Flatten(uris.firstOrNull()),
-                    Screen.PdfTools.Print(uris.firstOrNull()),
-                    Screen.PdfTools.Grayscale(uris.firstOrNull()),
-                    Screen.PdfTools.Repair(uris.firstOrNull()),
-                    Screen.PdfTools.Protect(uris.firstOrNull()),
-                    Screen.PdfTools.Unlock(uris.firstOrNull()),
-                    Screen.PdfTools.Metadata(uris.firstOrNull()),
-                    Screen.PdfTools.ExtractImages(uris.firstOrNull()),
-                    Screen.PdfTools.OCR(uris.firstOrNull()),
-                    Screen.PdfTools.ZipConvert(uris.firstOrNull()),
-                )
-            } else {
-                listOf(multiplePdf)
+    val multipleImageScreens by lazy {
+        mutableListOf(
+            Screen.ResizeAndConvert(uris),
+            Screen.WeightResize(uris),
+            Screen.FormatConversion(uris),
+            Screen.Filter(
+                type = Screen.Filter.Type.Basic(uris)
+            ),
+        ).apply {
+            add(Screen.ImageStitching(uris))
+            add(Screen.PdfTools.ImagesToPdf(uris))
+            add(Screen.PdfTools.PdfContactSheet(uris))
+            add(Screen.Curves(uris))
+            if (uris.size == 2) add(Screen.Compare(uris))
+            if (uris.size in 1..20) {
+                add(Screen.CollageMaker(uris))
             }
-
-            pdfScreens + filesAvailableScreens
-        }
-    }
-    val singleImageScreens by remember(uris) {
-        derivedStateOf {
-            listOf(
-                Screen.SingleEdit(uris.firstOrNull()),
-                Screen.ResizeAndConvert(uris),
-                Screen.FormatConversion(uris),
-                Screen.CompressionLab(uris.firstOrNull()),
-                Screen.WeightResize(uris),
-                Screen.Crop(uris.firstOrNull()),
-                Screen.Filter(
-                    type = Screen.Filter.Type.Basic(uris)
-                ),
-                Screen.Draw(uris.firstOrNull()),
-                Screen.Curves(uris),
+            add(Screen.AiTools(uris))
+            add(Screen.GradientMaker(uris))
+            add(
                 Screen.RecognizeText(
-                    Screen.RecognizeText.Type.Extraction(uris.firstOrNull())
-                ),
-                Screen.EraseBackground(uris.firstOrNull()),
-                Screen.Filter(
-                    type = Screen.Filter.Type.Masking(uris.firstOrNull())
-                ),
-                Screen.AiTools(uris),
-                Screen.MarkupLayers(uris.firstOrNull()),
-                Screen.ScreenshotFraming(uris.firstOrNull()),
-                Screen.Watermarking(uris),
-                Screen.ImageStitching(uris),
-                Screen.ImageStacking(uris),
-                Screen.Photomosaic(uris),
-                Screen.MultiFrameFusion(uris),
-                Screen.ImageSplitting(uris.firstOrNull()),
-                Screen.ImageCutter(uris),
-                Screen.ScanQrCode(uriToAnalyze = uris.firstOrNull()),
-                Screen.GradientMaker(uris),
-                Screen.PdfTools.ImagesToPdf(uris),
-                Screen.PdfTools.PdfContactSheet(uris),
+                    Screen.RecognizeText.Type.WriteToFile(uris)
+                )
+            )
+            add(
+                Screen.RecognizeText(
+                    Screen.RecognizeText.Type.WriteToMetadata(uris)
+                )
+            )
+            add(
+                Screen.RecognizeText(
+                    Screen.RecognizeText.Type.WriteToSearchablePdf(uris)
+                )
+            )
+            add(Screen.Watermarking(uris))
+            add(
                 Screen.GifTools(
                     Screen.GifTools.Type.ImageToGif(uris)
-                ),
-                Screen.Base64Tools(uris.firstOrNull()),
-                Screen.ImagePreview(uris),
-                Screen.DuplicateFinder(uris),
-                Screen.PickColorFromImage(uris.firstOrNull()),
-                Screen.PaletteTools(uris.firstOrNull()),
-                Screen.AsciiArt(uris.firstOrNull()),
-                Screen.ApngTools(
-                    Screen.ApngTools.Type.ImageToApng(uris)
-                ),
-                Screen.JxlTools(
-                    Screen.JxlTools.Type.ImageToJxl(uris)
-                ),
-                Screen.SvgMaker(uris),
-                Screen.EditExif(uris.firstOrNull()),
-                Screen.DeleteExif(uris),
-                Screen.LimitResize(uris)
-            ).let { list ->
-                val mergedList = list + filesAvailableScreens
+                )
+            )
+            add(Screen.ImageStacking(uris))
+            add(Screen.MultiFrameFusion(uris))
+            add(Screen.ImageCutter(uris))
+            add(Screen.ImagePreview(uris))
+            add(Screen.DuplicateFinder(uris))
+            add(Screen.LimitResize(uris))
+            addAll(filesAvailableScreens)
+            add(Screen.SvgMaker(uris))
 
-                val uri = uris.firstOrNull()
+            var haveJpeg = false
+            var haveJxl = false
 
-                if (uri.type("png")) {
-                    mergedList + listOf(
-                        Screen.ApngTools(
-                            Screen.ApngTools.Type.ApngToImage(uris.firstOrNull())
-                        ),
-                        Screen.ApngTools(
-                            Screen.ApngTools.Type.ApngToGif(uris)
-                        ),
-                        Screen.ApngTools(
-                            Screen.ApngTools.Type.ApngToWebp(uris)
-                        )
-                    )
-                } else if (uri.type("jpg", "jpeg")) {
-                    mergedList + Screen.JxlTools(
-                        Screen.JxlTools.Type.JpegToJxl(uris)
-                    )
+            for (uri in uris) {
+                if (uri.type("jpg", "jpeg")) {
+                    haveJpeg = true
                 } else if (uri.type("jxl")) {
-                    mergedList + Screen.JxlTools(
-                        Screen.JxlTools.Type.JxlToJpeg(uris)
-                    ) + Screen.JxlTools(
-                        Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
-                    )
-                } else if (uri.type("webp")) {
-                    mergedList + listOf(
-                        Screen.WebpTools(
-                            Screen.WebpTools.Type.WebpToImage(uris.firstOrNull())
-                        ),
-                        Screen.WebpTools(
-                            Screen.WebpTools.Type.WebpToGif(uris)
-                        ),
-                        Screen.WebpTools(
-                            Screen.WebpTools.Type.WebpToApng(uris)
-                        )
-                    )
-                } else mergedList
+                    haveJxl = true
+                }
+                if (haveJpeg && haveJxl) break
             }
-        }
-    }
-    val multipleImageScreens by remember(uris) {
-        derivedStateOf {
-            mutableListOf(
-                Screen.ResizeAndConvert(uris),
-                Screen.WeightResize(uris),
-                Screen.FormatConversion(uris),
-                Screen.Filter(
-                    type = Screen.Filter.Type.Basic(uris)
-                ),
-            ).apply {
-                add(Screen.ImageStitching(uris))
-                add(Screen.PdfTools.ImagesToPdf(uris))
-                add(Screen.PdfTools.PdfContactSheet(uris))
-                add(Screen.Curves(uris))
-                if (uris.size == 2) add(Screen.Compare(uris))
-                if (uris.size in 1..20) {
-                    add(Screen.CollageMaker(uris))
-                }
-                add(Screen.AiTools(uris))
-                add(Screen.GradientMaker(uris))
-                add(
-                    Screen.RecognizeText(
-                        Screen.RecognizeText.Type.WriteToFile(uris)
-                    )
-                )
-                add(
-                    Screen.RecognizeText(
-                        Screen.RecognizeText.Type.WriteToMetadata(uris)
-                    )
-                )
-                add(
-                    Screen.RecognizeText(
-                        Screen.RecognizeText.Type.WriteToSearchablePdf(uris)
-                    )
-                )
-                add(Screen.Watermarking(uris))
-                add(
-                    Screen.GifTools(
-                        Screen.GifTools.Type.ImageToGif(uris)
-                    )
-                )
-                add(Screen.ImageStacking(uris))
-                add(Screen.MultiFrameFusion(uris))
-                add(Screen.ImageCutter(uris))
-                add(Screen.ImagePreview(uris))
-                add(Screen.DuplicateFinder(uris))
-                add(Screen.LimitResize(uris))
-                addAll(filesAvailableScreens)
-                add(Screen.SvgMaker(uris))
 
-                var haveJpeg = false
-                var haveJxl = false
-
-                for (uri in uris) {
-                    if (uri.type("jpg", "jpeg")) {
-                        haveJpeg = true
-                    } else if (uri.type("jxl")) {
-                        haveJxl = true
-                    }
-                    if (haveJpeg && haveJxl) break
-                }
-
-                if (haveJpeg) {
-                    add(
-                        Screen.JxlTools(
-                            Screen.JxlTools.Type.JpegToJxl(uris)
-                        )
-                    )
-                } else if (haveJxl) {
-                    add(
-                        Screen.JxlTools(
-                            Screen.JxlTools.Type.JxlToJpeg(uris)
-                        )
-                    )
-                    add(
-                        Screen.JxlTools(
-                            Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
-                        )
-                    )
-                }
+            if (haveJpeg) {
                 add(
                     Screen.JxlTools(
-                        Screen.JxlTools.Type.ImageToJxl(uris)
+                        Screen.JxlTools.Type.JpegToJxl(uris)
+                    )
+                )
+            } else if (haveJxl) {
+                add(
+                    Screen.JxlTools(
+                        Screen.JxlTools.Type.JxlToJpeg(uris)
+                    )
+                )
+                add(
+                    Screen.JxlTools(
+                        Screen.JxlTools.Type.JxlToImage(uris.firstOrNull())
+                    )
+                )
+            }
+            add(
+                Screen.JxlTools(
+                    Screen.JxlTools.Type.ImageToJxl(uris)
+                )
+            )
+            add(
+                Screen.ApngTools(
+                    Screen.ApngTools.Type.ImageToApng(uris)
+                )
+            )
+            add(
+                Screen.WebpTools(
+                    Screen.WebpTools.Type.ImageToWebp(uris)
+                )
+            )
+            if (uris.all { it.type("png") }) {
+                add(
+                    Screen.ApngTools(
+                        Screen.ApngTools.Type.ApngToGif(uris)
                     )
                 )
                 add(
                     Screen.ApngTools(
-                        Screen.ApngTools.Type.ImageToApng(uris)
+                        Screen.ApngTools.Type.ApngToWebp(uris)
+                    )
+                )
+            }
+            if (uris.all { it.type("webp") }) {
+                add(
+                    Screen.WebpTools(
+                        Screen.WebpTools.Type.WebpToGif(uris)
                     )
                 )
                 add(
                     Screen.WebpTools(
-                        Screen.WebpTools.Type.ImageToWebp(uris)
+                        Screen.WebpTools.Type.WebpToApng(uris)
                     )
                 )
-                if (uris.all { it.type("png") }) {
-                    add(
-                        Screen.ApngTools(
-                            Screen.ApngTools.Type.ApngToGif(uris)
-                        )
-                    )
-                    add(
-                        Screen.ApngTools(
-                            Screen.ApngTools.Type.ApngToWebp(uris)
-                        )
-                    )
-                }
-                if (uris.all { it.type("webp") }) {
-                    add(
-                        Screen.WebpTools(
-                            Screen.WebpTools.Type.WebpToGif(uris)
-                        )
-                    )
-                    add(
-                        Screen.WebpTools(
-                            Screen.WebpTools.Type.WebpToApng(uris)
-                        )
-                    )
-                }
-                add(Screen.DeleteExif(uris))
             }
+            add(Screen.DeleteExif(uris))
         }
     }
-    val imageScreens by remember(uris) {
-        derivedStateOf {
-            if (uris.size == 1) singleImageScreens
-            else multipleImageScreens
+    val imageScreens by lazy {
+        when {
+            includeAllModes -> {
+                val screens = if (uris.size == 1) singleImageScreens + multipleImageScreens
+                else multipleImageScreens + singleImageScreens
+                screens + Screen.PalettePdfTool(uris.firstOrNull()) + when {
+                    uris.all { it.type("png", "apng") } -> listOf(
+                        Screen.ApngTools(Screen.ApngTools.Type.ApngToJxl(uris)),
+                        Screen.ApngTools(Screen.ApngTools.Type.MergeApng(uris))
+                    )
+
+                    uris.all { it.type("jxl") } -> listOf(
+                        Screen.JxlTools(Screen.JxlTools.Type.JxlToGif(uris)),
+                        Screen.JxlTools(Screen.JxlTools.Type.JxlToApng(uris)),
+                        Screen.JxlTools(Screen.JxlTools.Type.JxlToWebp(uris)),
+                        Screen.JxlTools(Screen.JxlTools.Type.MergeJxl(uris))
+                    )
+
+                    uris.all { it.type("webp") } -> listOf(
+                        Screen.WebpTools(Screen.WebpTools.Type.WebpToJxl(uris)),
+                        Screen.WebpTools(Screen.WebpTools.Type.MergeWebp(uris))
+                    )
+
+                    else -> emptyList()
+                }
+            }
+
+            uris.size == 1 -> singleImageScreens
+            else -> multipleImageScreens
         }
     }
 
-    val textAvailableScreens by remember(extraDataType) {
-        derivedStateOf {
-            val text = (extraDataType as? ExtraDataType.Text)?.text ?: ""
-            listOf(
-                Screen.ScanQrCode(text),
-                Screen.LoadNetImage(text)
-            )
-        }
+    val textAvailableScreens by lazy {
+        val text = (extraDataType as? ExtraDataType.Text)?.text ?: ""
+        listOf(
+            Screen.ScanQrCode(text),
+            Screen.LoadNetImage(text)
+        )
     }
 
+    return when (extraDataType) {
+        is ExtraDataType.Backup -> filesAvailableScreens
+        is ExtraDataType.Template -> filesAvailableScreens
+        is ExtraDataType.Text -> textAvailableScreens
+        ExtraDataType.Audio -> audioAvailableScreens
+        ExtraDataType.File -> filesAvailableScreens + listOfNotNull(
+            Screen.PalettePdfTool(uris.firstOrNull()).takeIf {
+                includeAllModes && PaletteFormat.matchingFilename(
+                    uris.firstOrNull()?.filename().orEmpty()
+                ).any { it != PaletteFormat.IMAGE }
+            }
+        )
+
+        ExtraDataType.Gif -> gifAvailableScreens
+        ExtraDataType.Pdf -> pdfAvailableScreens
+        null -> imageScreens
+    }
+}
+
+fun Screen.withSelectedUris(uris: List<Uri>, extraDataType: ExtraDataType?): Screen {
+    if (uris.isEmpty()) return this
+    fun matches(candidate: Screen): Boolean {
+        return !(candidate.id != id || candidate::class != this::class) && when (this) {
+            is Screen.Filter -> type == null ||
+                    (candidate as? Screen.Filter)?.type?.javaClass == type.javaClass
+
+            is Screen.RecognizeText -> type == null ||
+                    (candidate as? Screen.RecognizeText)?.type?.javaClass == type.javaClass
+
+            is Screen.GifTools -> type == null ||
+                    (candidate as? Screen.GifTools)?.type?.javaClass == type.javaClass
+
+            is Screen.ApngTools -> type == null ||
+                    (candidate as? Screen.ApngTools)?.type?.javaClass == type.javaClass
+
+            is Screen.JxlTools -> type == null ||
+                    (candidate as? Screen.JxlTools)?.type?.javaClass == type.javaClass
+
+            is Screen.WebpTools -> type == null ||
+                    (candidate as? Screen.WebpTools)?.type?.javaClass == type.javaClass
+
+            else -> true
+        }
+    }
+    val target = uris.screensFor(extraDataType, includeAllModes = true).firstOrNull(::matches)
+        ?: uris.take(1).screensFor(extraDataType, includeAllModes = true).firstOrNull(::matches)
+        ?: return this
+    return if (this is Screen.Filter && type is Screen.Filter.Type.Basic &&
+        target is Screen.Filter && target.type is Screen.Filter.Type.Basic
+    ) {
+        target.copy(type = target.type.copy(filterKey = type.filterKey))
+    } else target
+}
+
+@Composable
+internal fun List<Uri>.screenList(
+    extraDataType: ExtraDataType?
+): State<Pair<List<Screen>, List<Screen>>> {
+    val uris = this
+    val baseScreens = remember(uris, extraDataType) { uris.screensFor(extraDataType) }
     val settingsState = LocalSettingsState.current
     val favoriteScreens = settingsState.favoriteScreenList
     val hiddenForShareScreens = settingsState.hiddenForShareScreens
     val screenOrder = settingsState.screenList
 
-    return remember(
-        favoriteScreens,
-        extraDataType,
-        uris,
-        pdfAvailableScreens,
-        audioAvailableScreens,
-        imageScreens,
-        hiddenForShareScreens
-    ) {
+    return remember(baseScreens, favoriteScreens, hiddenForShareScreens, screenOrder) {
         derivedStateOf {
-            val baseScreens = when (extraDataType) {
-                is ExtraDataType.Backup -> filesAvailableScreens
-                is ExtraDataType.Template -> filesAvailableScreens
-                is ExtraDataType.Text -> textAvailableScreens
-                ExtraDataType.Audio -> audioAvailableScreens
-                ExtraDataType.File -> filesAvailableScreens
-                ExtraDataType.Gif -> gifAvailableScreens
-                ExtraDataType.Pdf -> pdfAvailableScreens
-                null -> imageScreens
-            }
-
             val orderIndex = screenOrder.withIndex().associate { it.value to it.index }
             val favSet = favoriteScreens.toSet()
-
-            val allScreens = baseScreens
-                .sortedWith(
-                    compareByDescending<Screen> { it.id in favSet }
-                        .thenBy { orderIndex[it.id] ?: Int.MAX_VALUE }
-                )
-
+            val allScreens = baseScreens.sortedWith(
+                compareByDescending<Screen> { it.id in favSet }
+                    .thenBy { orderIndex[it.id] ?: Int.MAX_VALUE }
+            )
             allScreens.partition { it.id !in hiddenForShareScreens }
         }
     }

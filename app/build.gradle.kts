@@ -17,6 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import com.android.build.api.artifact.SingleArtifact
+import com.t8rin.imagetoolbox.OptimizeReleaseApksTask
+
 plugins {
     alias(libs.plugins.image.toolbox.application)
     alias(libs.plugins.image.toolbox.hilt)
@@ -167,6 +170,33 @@ baselineProfile {
 }
 
 androidComponents {
+    onVariants(selector().withBuildType("release")) { variant ->
+        variant.packaging.jniLibs.keepDebugSymbols.set(emptySet())
+        val buildToolsVersion = android.buildToolsVersion
+        val executable = if (System.getProperty("os.name").startsWith("Windows")) {
+            "zipalign.exe"
+        } else {
+            "zipalign"
+        }
+
+        val optimizeApks = tasks.register<OptimizeReleaseApksTask>(
+            "optimize${variant.name.replaceFirstChar(Char::uppercase)}Apks"
+        ) {
+            description = "Compresses and aligns unsigned ${variant.name} APKs before signing."
+            zipalign.set(sdkComponents.sdkDirectory.map { sdk ->
+                sdk.file("build-tools/$buildToolsVersion/$executable")
+            })
+            outputDirectory.set(layout.buildDirectory.dir("outputs/apk/${variant.flavorName}/release"))
+        }
+        val request = variant.artifacts.use(optimizeApks)
+            .wiredWithDirectories(
+                OptimizeReleaseApksTask::inputDirectory,
+                OptimizeReleaseApksTask::outputDirectory
+            )
+            .toTransformMany(SingleArtifact.APK)
+        optimizeApks.configure { transformationRequest.set(request) }
+    }
+
     beforeVariants(selector().all()) { variantBuilder ->
         val flavorName = variantBuilder.productFlavors.firstOrNull()?.second.orEmpty()
         val flavorCap = flavorName.replaceFirstChar(Char::uppercase)

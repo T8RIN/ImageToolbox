@@ -44,6 +44,7 @@ import com.t8rin.imagetoolbox.core.filters.presentation.model.UiFilter
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Tune
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.SeedSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButtonGroup
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
@@ -147,6 +148,7 @@ internal fun NtscParamsItem(
         )
 
         ExpandableItem(
+            keepContentOnCollapse = LocalSettingsState.current.randomizeSeedAfterSave,
             modifier = Modifier.padding(top = 4.dp),
             visibleContent = {
                 TitleItem(
@@ -172,6 +174,7 @@ internal fun NtscParamsItem(
                             behaveAsContainer = false,
                             onValueChange = {
                                 params = params.copy(seed = it.roundToInt())
+                                onFilterChange(params)
                             }
                         )
                     }

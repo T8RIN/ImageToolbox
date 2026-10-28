@@ -15,6 +15,8 @@
  * along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
  */
 
+@file:Suppress("DEPRECATION")
+
 package com.t8rin.imagetoolbox.core.ui.widget.text
 
 import android.annotation.SuppressLint
@@ -72,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+// Material3 value-based text fields still require VisualTransformation.
 @Composable
 fun RoundedTextField(
     modifier: Modifier = Modifier,

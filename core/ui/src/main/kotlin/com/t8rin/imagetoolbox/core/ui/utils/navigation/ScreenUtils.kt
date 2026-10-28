@@ -17,6 +17,7 @@
 
 package com.t8rin.imagetoolbox.core.ui.utils.navigation
 
+import android.os.Build
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -66,6 +67,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.ImageOverlay
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.ImageSearch
 import com.t8rin.imagetoolbox.core.resources.icons.ImageWeight
+import com.t8rin.imagetoolbox.core.resources.icons.ImagesMode
 import com.t8rin.imagetoolbox.core.resources.icons.JoinInner
 import com.t8rin.imagetoolbox.core.resources.icons.Jxl
 import com.t8rin.imagetoolbox.core.resources.icons.KeyVariant
@@ -161,6 +163,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ResizeAndConvert
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScanQrCode
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ScreenshotFraming
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.Settings
+import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SettingsCategory
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.ShaderStudio
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SingleEdit
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen.SvgMaker
@@ -188,6 +191,7 @@ internal fun Screen.canExpandSettings(): Boolean = when {
 }
 
 internal fun Screen.simpleName(): String = when (this) {
+    is Screen.Assistant -> "AI_Assistant"
     is ApngTools -> "APNG_Tools"
     is Cipher -> "Cipher"
     is Compare -> "Compare"
@@ -220,6 +224,7 @@ internal fun Screen.simpleName(): String = when (this) {
     is ResizeAndConvert -> "Resize_And_Convert"
     is WeightResize -> "Resize_By_Bytes"
     is Settings -> "Settings"
+    is SettingsCategory -> "Settings_Category"
     is SingleEdit -> "Single_Edit"
     is Watermarking -> "Watermarking"
     is ArchiveTools -> "ArchiveTools"
@@ -287,9 +292,11 @@ internal fun Screen.simpleName(): String = when (this) {
 }
 
 internal fun Screen.icon(): ImageVector? = when (this) {
+    is Screen.Assistant -> Icons.Outlined.Neurology
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
@@ -316,7 +323,7 @@ internal fun Screen.icon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.Outlined.ViewQuilt
     is GifTools -> Icons.Outlined.GifBox
     is GradientMaker -> Icons.Outlined.Gradient
-    is Gallery -> Icons.Outlined.WallArt
+    is Gallery -> Icons.Outlined.ImagesMode
     is ImagePreview -> Icons.Outlined.Landscape
     is ImageStitching -> Icons.Rounded.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -387,9 +394,11 @@ internal fun Screen.icon(): ImageVector? = when (this) {
 }
 
 internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
+    is Screen.Assistant -> Icons.TwoTone.Neurology
     is EasterEgg,
     is Main,
     is Settings,
+    is SettingsCategory,
     is AppLogs,
     is LibrariesInfo,
     is MeshGradients,
@@ -416,7 +425,7 @@ internal fun Screen.twoToneIcon(): ImageVector? = when (this) {
     is Photomosaic -> Icons.TwoTone.ViewQuilt
     is GifTools -> Icons.TwoTone.GifBox
     is GradientMaker -> Icons.TwoTone.Gradient
-    is Gallery -> Icons.TwoTone.WallArt
+    is Gallery -> Icons.TwoTone.ImagesMode
     is ImagePreview -> Icons.TwoTone.Landscape
     is ImageStitching -> Icons.TwoTone.ImageCombine
     is JxlTools -> Icons.Filled.Jxl
@@ -559,13 +568,13 @@ private object ScreenConstantsImpl : ScreenConstants {
                 baseIcon = Icons.Outlined.WandShine
             ),
             ScreenGroup(
-                entries = listOf(
+                entries = listOfNotNull(
                     PickColorFromImage(),
                     RecognizeText(),
                     Compare(),
                     CompressionLab(),
                     DuplicateFinder(),
-                    Gallery,
+                    Gallery.takeIf { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
                     ImagePreview(),
                     WallpapersExport,
                     Base64Tools(),

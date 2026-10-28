@@ -41,7 +41,8 @@ data class UiPathPaint(
     override val gradientPalette: GradientPalette? = null,
     override val gradientLength: Float = 1f,
     override val isGradientMirrored: Boolean = false,
-    override val gradientGeometry: GradientGeometry? = null
+    override val gradientGeometry: GradientGeometry? = null,
+    val isPendingSpotHeal: Boolean = false
 ) : PathPaint<Path, Color>
 
 

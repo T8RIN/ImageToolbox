@@ -52,6 +52,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -62,6 +63,8 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -73,11 +76,13 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.animation.fancySlideTransition
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
+import com.t8rin.imagetoolbox.core.ui.utils.helper.shouldUseFloatingButtons
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
@@ -105,9 +110,15 @@ fun AdaptiveBottomScaffoldLayoutScreen(
     showActionsInTopAppBar: Boolean = true,
     collapseTopAppBarWhenHaveData: Boolean = true,
     autoClearFocus: Boolean = true,
-    enableNoDataScroll: Boolean = true
+    enableNoDataScroll: Boolean = true,
+    isLoading: Boolean = false
 ) {
     val isPortrait by isPortraitOrientationAsState()
+    val useFloatingButtons = shouldUseFloatingButtons()
+    val showLoading = !canShowScreenData && isLoading
+    val showButtons = !showLoading
+    val density = LocalDensity.current
+    var buttonsHeight by remember { mutableStateOf(0.dp) }
     val screenWidthPx = LocalScreenSize.current.widthPx
 
     val settingsState = LocalSettingsState.current
@@ -189,12 +200,29 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                         )
                     }
                 ) { canShowScreenData ->
+                    if (!canShowScreenData && isLoading) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (showLoading) EnhancedLoadingIndicator()
+                        }
+                        return@AnimatedContent
+                    }
                     if (canShowScreenData) {
                         if (isPortrait) {
                             mainContent()
                         } else {
                             Row(
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.then(
+                                    if (useFloatingButtons) {
+                                        Modifier.windowInsetsPadding(
+                                            WindowInsets.navigationBars.union(WindowInsets.displayCutout)
+                                                .only(WindowInsetsSides.End)
+                                        )
+                                    } else Modifier
+                                )
                             ) {
                                 Box(
                                     Modifier
@@ -209,11 +237,14 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                     Modifier
                                         .weight(mainContentWeight)
                                         .enhancedVerticalScroll(scrollState)
+                                        .padding(bottom = if (useFloatingButtons) buttonsHeight else 0.dp)
                                 ) {
                                     controls(scaffoldState)
                                 }
-                                buttons {
-                                    actions(scaffoldState)
+                                if (!useFloatingButtons && showButtons) {
+                                    buttons {
+                                        actions(scaffoldState)
+                                    }
                                 }
                             }
                         }
@@ -249,9 +280,16 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                 }
             }
 
-            if (!canShowScreenData) {
+            if (showButtons && (useFloatingButtons || !canShowScreenData)) {
                 Box(
-                    modifier = Modifier.align(settingsState.fabAlignment)
+                    modifier = Modifier
+                        .align(
+                            if (canShowScreenData) Alignment.BottomEnd
+                            else settingsState.fabAlignment
+                        )
+                        .onSizeChanged {
+                            buttonsHeight = with(density) { it.height.toDp() }
+                        }
                 ) {
                     buttons {
                         actions(scaffoldState)

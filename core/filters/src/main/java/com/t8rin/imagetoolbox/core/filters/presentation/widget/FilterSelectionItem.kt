@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Bookmark
 import com.t8rin.imagetoolbox.core.resources.icons.BookmarkRemove
+import com.t8rin.imagetoolbox.core.resources.icons.Info
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
@@ -82,6 +83,7 @@ internal fun FilterSelectionItem(
     onCubeLutDownloadRequest: (forceUpdate: Boolean, downloadOnlyNewData: Boolean) -> Unit = { _, _ -> }
 ) {
     val previewModel = LocalFilterPreviewModelProvider.current.preview
+    var showHelp by rememberSaveable(filter.title) { mutableStateOf(false) }
 
     var showDownloadDialog by rememberSaveable {
         mutableStateOf(false)
@@ -124,28 +126,38 @@ internal fun FilterSelectionItem(
             }
         },
         endIcon = {
-            EnhancedIconButton(
-                onClick = onToggleFavorite,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.offset(8.dp)
             ) {
-                AnimatedContent(
-                    targetState = isInFavorite to isFavoritePage,
-                    transitionSpec = {
-                        (fadeIn() + scaleIn(initialScale = 0.85f))
-                            .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
-                    }
-                ) { (isInFavorite, isFavPage) ->
-                    val icon = remember(isInFavorite, isFavPage) {
-                        when {
-                            isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
-                            isInFavorite -> Icons.Rounded.Bookmark
-                            else -> Icons.Outlined.Bookmark
-                        }
-                    }
+                EnhancedIconButton(onClick = { showHelp = true }) {
                     Icon(
-                        imageVector = icon,
-                        contentDescription = null
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = stringResource(R.string.help_tips)
                     )
+                }
+                EnhancedIconButton(
+                    onClick = onToggleFavorite
+                ) {
+                    AnimatedContent(
+                        targetState = isInFavorite to isFavoritePage,
+                        transitionSpec = {
+                            (fadeIn() + scaleIn(initialScale = 0.85f))
+                                .togetherWith(fadeOut() + scaleOut(targetScale = 0.85f))
+                        }
+                    ) { (isInFavorite, isFavPage) ->
+                        val icon = remember(isInFavorite, isFavPage) {
+                            when {
+                                isFavPage && isInFavorite -> Icons.Rounded.BookmarkRemove
+                                isInFavorite -> Icons.Rounded.Bookmark
+                                else -> Icons.Outlined.Bookmark
+                            }
+                        }
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         },
@@ -167,6 +179,12 @@ internal fun FilterSelectionItem(
                 onClick = onClick
             )
         }
+    )
+
+    FilterHelpDialog(
+        filter = filter,
+        visible = showHelp,
+        onDismiss = { showHelp = false }
     )
 
     CubeLutDownloadDialog(

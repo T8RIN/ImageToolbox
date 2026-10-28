@@ -48,6 +48,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +56,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -67,6 +69,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.PredictiveBackObserver
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
@@ -179,6 +182,27 @@ fun BasicEnhancedAlertDialog(
 
     if (visibleAnimated) {
         FullscreenPopupForPreview(placeAboveAll = placeAboveAll) {
+            val position = LocalSettingsState.current.dialogPosition
+            val bias = animateFloatAsState(
+                targetValue = when (position) {
+                    DialogPosition.Center -> 0f
+                    DialogPosition.Top -> -1f
+                    DialogPosition.Bottom -> 1f
+                },
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessMediumLow
+                )
+            )
+            val alignment by remember {
+                derivedStateOf {
+                    BiasAlignment(
+                        horizontalBias = 0f,
+                        verticalBias = bias.value
+                    )
+                }
+            }
+
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -215,7 +239,9 @@ fun BasicEnhancedAlertDialog(
                             stiffness = Spring.StiffnessMediumLow
                         )
                     ),
-                    modifier = Modifier.scale(animatedScale)
+                    modifier = Modifier
+                        .align(alignment)
+                        .scale(animatedScale)
                 ) {
                     Box(
                         modifier = modifier
