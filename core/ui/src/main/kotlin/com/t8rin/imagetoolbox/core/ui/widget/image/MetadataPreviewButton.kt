@@ -19,10 +19,13 @@ package com.t8rin.imagetoolbox.core.ui.widget.image
 
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -154,20 +158,29 @@ fun MetadataPreviewButton(
             horizontalArrangement = Arrangement.spacedBy(2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            EnhancedButton(
-                onClick = { showExif = true },
-                enabled = hasInfo,
-                modifier = Modifier.height(32.dp),
-                shape = ShapeDefaults.smallStart,
-                containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
-                contentPadding = PaddingValues(horizontal = 10.dp)
-            ) {
-                Text(
-                    text = info.fileSize?.takeIf { it.isNotBlank() } ?: "? kB",
-                    style = MaterialTheme.typography.labelMedium,
-                    fontSize = 13.sp
-                )
+            Box {
+                EnhancedButton(
+                    onClick = { showExif = true },
+                    modifier = Modifier.height(32.dp),
+                    shape = ShapeDefaults.smallStart,
+                    containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
+                    contentPadding = PaddingValues(horizontal = 10.dp)
+                ) {
+                    Text(
+                        text = info.fileSize?.takeIf { it.isNotBlank() } ?: "? kB",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontSize = 13.sp
+                    )
+                }
+
+                if (!hasInfo) {
+                    Spacer(
+                        Modifier
+                            .matchParentSize()
+                            .pointerInput(Unit) { detectTapGestures { } }
+                    )
+                }
             }
             if (hasInfo) {
                 EnhancedIconButton(
