@@ -67,8 +67,7 @@ internal data class AssistantPhotoPlan(
             filename = filename,
             excludedPeople = excluded
         ).normalized()
-        val scene = scene?.takeIf(String::isNotBlank)
-            ?.let { originalQuestion.trim().takeIf(String::isNotEmpty) }
+        val scene = scene?.trim()?.takeIf(String::isNotEmpty)
         if (mode(current) == AssistantGallerySearch.Mode.New) return changes.copy(semantic = scene)
             .normalized()
         val previous = requireNotNull(current)
@@ -84,8 +83,14 @@ internal data class AssistantPhotoPlan(
             val combined = (base + supplied).distinct()
             return combined.filterNot { name -> opposite.any { it.equals(name, true) } }
         }
+        val previousScene = previous.semantic.takeUnless { Filter.Scene in clear }
+        val combinedScene = when {
+            scene == null -> previousScene
+            previousScene == null || previousScene == scene -> scene
+            else -> "$previousScene, $scene"
+        }
         return previous.copy(
-            semantic = scene ?: previous.semantic.takeUnless { Filter.Scene in clear },
+            semantic = combinedScene,
             people = identities(previous.people, included, excluded),
             excludedPeople = identities(previous.excludedPeople, excluded, included),
             from = if (datesChanged) from else previous.from,

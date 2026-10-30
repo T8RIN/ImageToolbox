@@ -17,16 +17,20 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data
 
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.core.graphics.createBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.neural_tools.search.ClipImageSearch
 import kotlinx.coroutines.runBlocking
+import org.json.JSONArray
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class ClipSemanticSearchInstrumentedTest {
@@ -81,6 +85,41 @@ class ClipSemanticSearchInstrumentedTest {
                 )
             }
         }
+    }
+
+    @Test
+    fun externalPhotoDescriptionsRankTheExpectedImage() = runBlocking {
+        val name =
+            InstrumentationRegistry.getArguments().getString("semanticCases") ?: return@runBlocking
+        val app = InstrumentationRegistry.getInstrumentation().targetContext
+        val cases = JSONArray(File(app.cacheDir, name).readText())
+        assertTrue("Install the local semantic search packages", ClipImageSearch.isDownloaded())
+        val names = List(cases.length()) { cases.getJSONObject(it).getString("image") }.distinct()
+        val images = ClipImageSearch.openImageEncoder().use { encoder ->
+            names.map { image ->
+                val bitmap =
+                    checkNotNull(BitmapFactory.decodeFile(File(app.cacheDir, image).absolutePath))
+                try {
+                    encoder.encode(bitmap)
+                } finally {
+                    bitmap.recycle()
+                }
+            }
+        }
+        ClipImageSearch.openTextEncoder().use { encoder ->
+            repeat(cases.length()) { index ->
+                val request = cases.getJSONObject(index)
+                val query = encoder.encode(request.getString("query"))
+                val scores = images.map { similarity(it, query) }
+                assertEquals(
+                    request.toString() + scores,
+                    request.getString("image"),
+                    names[scores.indices.maxBy(scores::get)]
+                )
+                request.put("scores", JSONArray(scores))
+            }
+        }
+        File(app.cacheDir, "assistant-real-photo-search.json").writeText(cases.toString(2))
     }
 
     private fun similarity(first: FloatArray, second: FloatArray): Float =

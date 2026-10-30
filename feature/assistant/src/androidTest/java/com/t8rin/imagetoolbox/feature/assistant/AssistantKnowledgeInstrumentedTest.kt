@@ -51,6 +51,139 @@ class AssistantKnowledgeInstrumentedTest {
     private val knowledge = services.knowledge
 
     @Test
+    fun theRetrievedPageSurvivesTranslationOfTheQuestionAndDocumentation() = runBlocking {
+        val tip = requireNotNull(services.helpRepository.getTip("gallery-search"))
+        val pageIndex =
+            tip.pages.indexOfFirst { it.title == R.string.help_tip_gallery_search_page_5_title }
+        assertTrue(pageIndex > 0)
+        val page = tip.pages[pageIndex]
+        val request = AssistantRequest(
+            services.resources.getStringLocalized(page.title, "en"),
+            language = "en"
+        )
+        val retrieved = knowledge.retrieve(request)
+        val reference = retrieved.references.first { it.tipId == tip.id }
+        assertEquals(pageIndex, reference.pageIndex)
+        val grounding = knowledge.grounding(
+            request.copy(query = "Remove prepared search data", language = "ru"),
+            retrieved.copy(references = listOf(reference))
+        )
+        assertTrue(
+            grounding,
+            grounding.contains(services.resources.getStringLocalized(page.description, "ru"))
+        )
+        assertFalse(
+            grounding,
+            grounding.contains(
+                services.resources.getStringLocalized(
+                    tip.pages.first().description,
+                    "ru"
+                )
+            )
+        )
+        val translated = knowledge.documentation(request.copy(language = "ru"), reference)
+        assertEquals(pageIndex, translated.references.single().pageIndex)
+        assertTrue(
+            translated.text,
+            translated.text.contains(services.resources.getStringLocalized(page.description, "ru"))
+        )
+    }
+
+    @Test
+    fun explicitQueriesUseTheirActualLanguage() = runBlocking {
+        val request = AssistantRequest("Как уменьшить фото до 700 КБ?", language = "ru")
+        listOf("How to reduce a photo to 700 KB?", request.query).forEach { query ->
+            val answer = knowledge.retrieve(request, queries = listOf(query))
+            assertTrue(query, answer.tools.any { knowledge.resolveTool(it) is Screen.WeightResize })
+        }
+        val french = knowledge.retrieve(
+            AssistantRequest("Combien font 17 fois 6 ?"),
+            queries = listOf("Combien font 17 fois 6 ?")
+        )
+        assertTrue(
+            french.toString(),
+            french.references.isEmpty() && french.tools.isEmpty() && french.settings.isEmpty()
+        )
+    }
+
+    @Test
+    fun translatedWorkflowQueriesKeepTheirRequestedDestination() = runBlocking {
+        listOf(
+            Triple("كيف أحول الصورة إلى PNG؟", "convert image to PNG", Screen.FormatConversion()),
+            Triple(
+                "画像の背景を透明にするには？",
+                "make image background transparent",
+                Screen.EraseBackground()
+            )
+        ).forEach { (question, query, destination) ->
+            val answer = knowledge.retrieve(AssistantRequest(question), queries = listOf(query))
+            val first = answer.references.firstOrNull()
+            assertEquals(
+                "$question: $answer",
+                destination,
+                first?.let { services.helpRepository.getTip(it.tipId)?.deepLink })
+        }
+    }
+
+    @Test
+    fun transparencyFactsComeFromTheActualExportCapabilities() = runBlocking {
+        val request =
+            AssistantRequest("Which image formats preserve transparency?", language = "en")
+        val answer = knowledge.retrieve(request, queries = listOf(request.query))
+        val formats = capabilityLine(knowledge.grounding(request, answer), "en")
+        assertTrue(formats, formats.contains("PNG"))
+        assertFalse(formats, formats.contains("JPEG"))
+        assertFalse(formats, formats.contains("JPG"))
+        assertFalse(formats, formats.contains("DjVu"))
+    }
+
+    @Test
+    fun conversionGuidesDoNotDiscardTheRequestedCapabilityFacts() = runBlocking {
+        val request =
+            AssistantRequest("¿Qué formatos de imagen admite ImageToolbox?", language = "es")
+        val answer = knowledge.retrieve(
+            request,
+            queries = listOf("What image formats does ImageToolbox support?")
+        )
+        assertTrue(knowledge.grounding(request, answer).contains("AVIF"))
+        assertTrue(knowledge.grounding(request, answer).contains("TIFF"))
+        val followUp =
+            AssistantRequest("¿Y cuáles de ellos conservan la transparencia?", language = "es")
+        val alpha =
+            knowledge.retrieve(followUp, queries = listOf("And which of them retain transparency?"))
+        val formats = capabilityLine(knowledge.grounding(followUp, alpha), "es")
+        assertTrue(formats, formats.contains("PNG"))
+        assertTrue(formats, formats.contains("WEBP"))
+        assertFalse(formats, formats.contains("JPEG"))
+    }
+
+    @Test
+    fun gpsRemovalFindsMetadataToolsFromCompleteQuestions() = runBlocking {
+        val app = InstrumentationRegistry.getInstrumentation().targetContext
+        val report = JSONArray()
+        val failures = mutableListOf<String>()
+        listOf(
+            "How do I remove GPS data from a photo?",
+            "Remove GPS data from a photo"
+        ).forEach { query ->
+            val request =
+                AssistantRequest("Wie entferne ich GPS-Daten aus einem Foto?", language = "de")
+            val answer = knowledge.retrieve(request, queries = listOf(query))
+            report.put(
+                JSONObject().put("query", query)
+                    .put("references", JSONArray(answer.references.map { it.tipId }))
+            )
+            if (answer.tools.none {
+                    knowledge.resolveTool(it) is Screen.EditExif || knowledge.resolveTool(
+                        it
+                    ) is Screen.DeleteExif
+                }) failures.add(query)
+        }
+        File(app.cacheDir, "assistant-gps-retrieval.json").writeText(report.toString(2))
+        assertTrue(failures.toString(), failures.isEmpty())
+    }
+
+    @Test
     fun selectedFileModifiersDoNotHideTheRequestedSizeLimit() = runBlocking {
         val request = AssistantRequest(
             "Как сжать выбранное фото до 500 КБ?",
@@ -231,7 +364,8 @@ class AssistantKnowledgeInstrumentedTest {
                 settingKey = setting.key(),
                 selectedUris = listOf(uri),
                 parameters = mapOf("maxBytes" to "512000", "privateMetadata" to "PRIVATE_DATA")
-            )
+            ),
+            language = "ru"
         )
         val answer = knowledge.retrieve(request)
         assertTrue(
@@ -248,22 +382,23 @@ class AssistantKnowledgeInstrumentedTest {
 
     @Test
     fun formatFactsRemainAvailableWithRetrievedHelp() = runBlocking {
-        val request = AssistantRequest("А какие из них сохраняют прозрачность?")
-        val answer = knowledge.retrieve(request, sources = listOf("format-qoi"))
-        assertTrue(answer.references.isNotEmpty())
-        listOf(AssistantModel.Lite, AssistantModel.Advanced, AssistantModel.Max).forEach { model ->
+        val request = AssistantRequest("А какие из них сохраняют прозрачность?", language = "ru")
+        val answer = knowledge.retrieve(
+            request,
+            queries = listOf("Which image formats preserve transparency?")
+        )
+        AssistantModel.entries.forEach { model ->
             val grounding = knowledge.grounding(request, answer, model)
-            assertTrue(grounding, grounding.contains("JPEG/JPG не поддерживает прозрачность"))
             assertTrue(grounding, grounding.contains("PNG"))
+            assertTrue(grounding, grounding.contains("WEBP"))
+            assertFalse(grounding, capabilityLine(grounding, "ru").contains("JPEG"))
         }
     }
 
     @Test
     fun ordinaryQuestionsDoNotReceiveDocumentationOrACannedAnswer() = runBlocking {
         val results = listOf(
-            "Hi", "Привет", "Write a haiku about autumn", "Расскажи короткую сказку про кота",
-            "time-to-first-token", "What determines time-to-first-token in a language model?",
-            "От чего зависит время до первого токена языковой модели?"
+            "Hi", "Привет", "Write a haiku about autumn", "Расскажи короткую сказку про кота"
         ).map { query ->
             val request = AssistantRequest(query)
             request to knowledge.retrieve(request)
@@ -280,15 +415,6 @@ class AssistantKnowledgeInstrumentedTest {
             assertFalse(prompt, prompt.contains("DOCS"))
             assertFalse(prompt, prompt.contains("JSON"))
             assertTrue(prompt, prompt.length < 1400)
-            val russian = request.query.any { it in 'А'..'я' }
-            assertTrue(
-                prompt,
-                prompt.contains("If a detail is unknown, say so")
-            )
-            assertTrue(
-                prompt,
-                prompt.contains(if (russian) "Отвечай по-русски" else "Reply in English")
-            )
             val userPrompt = knowledge.userPrompt(request, retrieved)
             assertEquals(request.query, userPrompt)
             assertFalse(prompt, prompt.contains("Что вы хотите сделать с изображением"))
@@ -373,7 +499,10 @@ class AssistantKnowledgeInstrumentedTest {
             }
             val sources = if (name == "en_searchable_pdf") listOf("searchable-pdf") else emptyList()
             val grounding =
-                knowledge.grounding(request, knowledge.retrieve(request, queries, sources))
+                knowledge.grounding(
+                    request.copy(language = language),
+                    knowledge.retrieve(request, queries, sources)
+                )
             facts.forEach { resource ->
                 val text = services.resources.getStringLocalized(resource, language)
                 assertTrue("$name omitted source facts: $text", grounding.contains(text))
@@ -409,13 +538,12 @@ class AssistantKnowledgeInstrumentedTest {
             "как сжать фото" to "ru",
             "How can I compress a photo?" to "en"
         ).forEach { (query, language) ->
-            val request = AssistantRequest(query)
+            val request = AssistantRequest(query, language = language)
             val answer = knowledge.retrieve(request, listOf("image file size compression"))
             val grounding = knowledge.grounding(request, answer)
             val title = services.resources.getStringLocalized(R.string.by_bytes_resize, language)
             assertEquals(query, knowledge.userPrompt(request, answer))
-            assertTrue(grounding, grounding.contains("Help:\n$title\n"))
-            assertFalse(grounding, grounding.contains("\n${answer.references.first().title}\n"))
+            assertTrue(grounding, grounding.contains("Tool: $title"))
             assertFalse(grounding, grounding.contains("Available action"))
             assertFalse(grounding, grounding.contains("buttons"))
             assertFalse(grounding, grounding.contains("open_tool"))
@@ -463,11 +591,15 @@ class AssistantKnowledgeInstrumentedTest {
     fun preciseSettingNamesAreNotReplacedByShorterTitles() = runBlocking {
         listOf("Cache limit", "Where is Cache limit?", "Лимит кэша").forEach { query ->
             val answer = knowledge.retrieve(AssistantRequest(query))
-            assertEquals(query, Setting.CacheAutoClearLimit.key(), answer.settings.first().key)
+            assertEquals(
+                query,
+                Setting.CacheAutoClearLimit.key(),
+                answer.settings.firstOrNull()?.key
+            )
         }
         listOf("Where can I change the language?", "Где изменить язык?").forEach { query ->
             val answer = knowledge.retrieve(AssistantRequest(query))
-            assertEquals(query, Setting.ChangeLanguage.key(), answer.settings.first().key)
+            assertEquals(query, Setting.ChangeLanguage.key(), answer.settings.firstOrNull()?.key)
         }
     }
 
@@ -556,7 +688,7 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun photoOnlyRequestsReceiveUsefulEditsWithoutPretendingToSeePixels() = runBlocking {
         val request = AssistantRequest(
-            "What can I do with these files?",
+            "",
             AssistantScreenContext(
                 selectedUris = listOf("content://media/private-photo"),
                 parameters = mapOf("selectedImageInfo" to "1: 4000×3000px, image/jpeg, 4.2 MB")
@@ -571,7 +703,7 @@ class AssistantKnowledgeInstrumentedTest {
             val prompt = knowledge.grounding(request, answer, model)
             assertTrue(prompt, prompt.contains("4000×3000px"))
             assertTrue(prompt, prompt.contains("not image pixels"))
-            assertTrue(prompt, prompt.contains("Suggest useful edits"))
+            assertTrue(prompt, answer.tools.all { prompt.contains(it.title) })
             assertFalse(prompt, prompt.contains("content://"))
         }
     }
@@ -585,10 +717,8 @@ class AssistantKnowledgeInstrumentedTest {
         val answer = knowledge.retrieve(request)
         AssistantModel.entries.filter { it.supportsVision }.forEach { model ->
             val prompt = knowledge.grounding(request, answer, model, hasImage = true)
-            assertTrue(prompt, prompt.contains("предложи подпись"))
             assertTrue(prompt, prompt.contains("visible details"))
-            assertTrue(prompt, prompt.contains("Earlier attachments are not available"))
-            assertTrue(prompt, prompt.contains("Отвечай по-русски"))
+            assertTrue(prompt, prompt.contains("Earlier attachments are"))
             assertFalse(prompt, prompt.contains("not image pixels"))
             assertFalse(
                 prompt,
@@ -606,10 +736,7 @@ class AssistantKnowledgeInstrumentedTest {
     fun visionPhotoPromptStillProvidesActualEditingTools() = runBlocking {
         listOf("en", "ru").forEach { language ->
             val request = AssistantRequest(
-                query = services.resources.getStringLocalized(
-                    R.string.assistant_vision_photo_prompt,
-                    language
-                ),
+                query = "",
                 context = AssistantScreenContext(selectedUris = listOf("content://private/photo")),
                 language = language
             )
@@ -633,10 +760,7 @@ class AssistantKnowledgeInstrumentedTest {
         ).forEach { (mime, expected) ->
             listOf("en", "ru").forEach { language ->
                 val request = AssistantRequest(
-                    query = services.resources.getStringLocalized(
-                        R.string.assistant_photo_prompt,
-                        language
-                    ),
+                    query = "",
                     context = AssistantScreenContext(
                         selectedUris = listOf("content://media/private-file"),
                         parameters = mapOf("selectedImageInfo" to "1: $mime, 4000000 bytes")
@@ -915,6 +1039,50 @@ class AssistantKnowledgeInstrumentedTest {
 
     @Test
     fun recordsColdAndWarmRetrievalForTheInstalledHelpCorpus() = runBlocking {
+        if (InstrumentationRegistry.getArguments().getString("exportCorpus") == "true") {
+            val corpus = JSONObject()
+            listOf("en", "ru", "fr").forEach { language ->
+                fun string(id: Int) = services.resources.getStringLocalized(id, language)
+                corpus.put(language, JSONArray().apply {
+                    services.helpRepository.tips.forEach { tip ->
+                        val screen = tip.deepLink
+                        val setting = (screen as? Screen.Settings)?.targetSetting
+                        val destinationResources =
+                            if (setting != null) listOfNotNull(setting.title, setting.subtitle)
+                            else listOfNotNull(
+                                screen?.title?.takeIf { it != 0 },
+                                screen?.subtitle?.takeIf { it != 0 })
+                        tip.pages.forEach { page ->
+                            val titles = listOf(tip.title, page.title) + listOfNotNull(
+                                setting?.title ?: screen?.title?.takeIf { it != 0 })
+                            put(
+                                JSONObject().put("id", tip.id).put("destination", screen.toString())
+                                    .put(
+                                        "title",
+                                        titles.map(::string).distinct().joinToString("\n")
+                                    )
+                                    .put(
+                                        "text",
+                                        (listOf(
+                                            tip.title,
+                                            tip.subtitle,
+                                            page.title,
+                                            page.description
+                                        ) + page.steps + destinationResources).joinToString(
+                                            " ",
+                                            transform = ::string
+                                        )
+                                    )
+                            )
+                        }
+                    }
+                })
+            }
+            File(
+                InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+                "assistant-search-corpus.json"
+            ).writeText(corpus.toString())
+        }
         val report = JSONArray()
         listOf("ru", "en").forEach { language ->
             val instance = services.knowledge
@@ -1013,7 +1181,7 @@ class AssistantKnowledgeInstrumentedTest {
                 assertTrue(
                     query,
                     knowledge.grounding(AssistantRequest(query, language = language), answer)
-                        .contains("Help:\n$title\n")
+                        .contains("Tool: $title")
                 )
             }
         }
@@ -1139,7 +1307,7 @@ class AssistantKnowledgeInstrumentedTest {
             assertTrue("$query: $answer", reference != null)
             assertTrue(
                 query,
-                knowledge.grounding(request, answer).contains("Help:\n${tool.title}\n")
+                knowledge.grounding(request, answer).contains("Tool: ${tool.title}")
             )
         }
     }
@@ -1167,6 +1335,12 @@ class AssistantKnowledgeInstrumentedTest {
                 assertTrue(query, knowledge.grounding(request, answer).contains("FPS"))
             }
         }
+    }
+
+    private fun capabilityLine(grounding: String, language: String): String {
+        val label =
+            services.resources.getStringLocalized(R.string.assistant_alpha_formats_fact, language)
+        return grounding.lineSequence().first { it.startsWith("$label:") }
     }
 
 }

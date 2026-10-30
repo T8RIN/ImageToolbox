@@ -299,10 +299,10 @@
     <string name="help_tip_resize_convert_step_1">Pick one or more images, then choose whether dimensions, scale, or file size matters most.</string>
     <string name="help_tip_resize_convert_step_2">Select the output format and quality; use PNG or WebP when transparency must be preserved.</string>
     <string name="help_tip_resize_convert_step_3">Preview the result, then save or share the generated copies without changing the originals.</string>
-    <string name="help_tip_resize_by_file_size_title">Resize by file size</string>
+    <string name="help_tip_resize_by_file_size_title">Compress photos to a target file size</string>
     <string name="help_tip_resize_by_file_size_subtitle">Target a size limit when a website, messenger, or form rejects heavy images</string>
     <string name="help_tip_resize_by_file_size_page_title">Fit strict upload limits</string>
-    <string name="help_tip_resize_by_file_size_description">If a photo is too heavy or too large to send, reduce its file size with Resize by Weight. Set the maximum size accepted by the recipient instead of guessing quality. The tool adjusts compression and dimensions; inspect the saved result.</string>
+    <string name="help_tip_resize_by_file_size_description">Use Resize by Weight to compress a photo to a target file size when it is too large to send. Set the maximum size accepted by the recipient instead of guessing quality. The tool adjusts compression and dimensions; inspect the saved result.</string>
     <string name="help_tip_resize_by_file_size_step_1">Enter the maximum output file size in the “Max size in KB” field. Use a value slightly below the upload limit.</string>
     <string name="help_tip_resize_by_file_size_step_2">For small photo files, use JPEG or lossy WebP. PNG is lossless and may remain large even after resizing.</string>
     <string name="help_tip_resize_by_file_size_step_3">Inspect faces, text, and edges after export because aggressive size targets can introduce visible artifacts.</string>
@@ -527,7 +527,7 @@
     <string name="help_tip_metadata_dates_location_page_title">Separate useful metadata from private metadata</string>
     <string name="help_tip_metadata_dates_location_description">Metadata is not all equally risky. Capture dates can be useful for archives and sorting, while GPS, device serial-like fields, software tags, or owner fields can reveal more than intended.</string>
     <string name="help_tip_metadata_dates_location_step_1">Keep date and time tags when chronological order matters for albums, scans, or project history.</string>
-    <string name="help_tip_metadata_dates_location_step_2">Remove GPS and device-identifying tags before public sharing or sending images to strangers.</string>
+    <string name="help_tip_metadata_dates_location_step_2">In Edit EXIF, inspect the GPS tags and remove each location tag with its delete action, then save a copy. Clear EXIF removes all tags; use it only when no other metadata needs to be kept.</string>
     <string name="help_tip_metadata_dates_location_step_3">Export a sample and inspect EXIF again when privacy requirements are strict.</string>
     <string name="help_tip_automatic_exif_cleanup_title">Auto EXIF cleanup</string>
     <string name="help_tip_automatic_exif_cleanup_subtitle">Remove metadata by default while deciding whether dates should be preserved</string>
@@ -1753,6 +1753,8 @@
     <string name="shuffle_blur">Shuffle Blur</string>
     <string name="favorite">Favorite</string>
     <string name="no_favorite_filters">No favorite filters added yet</string>
+    <string name="assistant_export_formats_fact">Supported image export formats</string>
+    <string name="assistant_alpha_formats_fact">Image formats preserving transparency</string>
     <string name="image_format">Image Format</string>
     <string name="icon_shape_sub">Adds a container with the selected shape under the icons</string>
     <string name="icon_shape">Icon Shape</string>
@@ -7184,7 +7186,7 @@
     <string name="filter_help_vhs">Adds analogue-video-style distortion and colour misalignment for a VHS appearance. Strength controls the disruption and seed selects a different frozen phase of the pattern; the filter produces a still image.</string>
     <string name="filter_help_vhs_ntsc">Simulates NTSC and VHS signal damage, including colour bleed, tracking faults, tape wear, noise and ringing around edges. Start with amount and the main defect controls, then tune the detailed signal settings; amount zero bypasses the effect.</string>
     <string name="filter_help_vibrance">Changes color vividness with a vibrance adjustment. Tune the strength while comparing muted and already colorful areas; it is a global correction rather than a selected-color replacement.</string>
-    <string name="filter_help_vignette">Fades the edges toward a selected color to draw attention to the center. Start and end control where the fade begins and ends; choose black for dark corners.</string>
+    <string name="filter_help_vignette">Creates a vignette by darkening image edges and corners while keeping the center unchanged. Choose black for dark edges or another color for a colored border. Start and end control where the transition begins and ends.</string>
     <string name="filter_help_vintage">Darkens and mutes the color channels for a faded vintage palette.</string>
     <string name="filter_help_viridis">Maps image brightness to dark purple through blue-green to yellow. This false-color palette replaces the original colors; useful for making tonal differences visible or creating a graphic effect.</string>
     <string name="filter_help_voronoi_crystallize">Creates a Voronoi-style crystal mosaic. Scale, randomness and grid shape control the cells; borders, stretch, angle and turbulence change their geometry and separation.</string>
@@ -7546,4 +7548,6 @@
     <string name="help_tip_partial_blur_step_3">Inspect the result at full size and save a separate copy. Use an opaque brush for text or numbers that must be unreadable.</string>
     <string name="opaque_image_viewer_background">Opaque image viewer background</string>
     <string name="opaque_image_viewer_background_sub">Use a solid black background when viewing photos</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Open Settings → Layout and toggle Opaque image viewer background.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Open a photo to compare the solid black background with the dimmed app background. This changes the viewer only, not the saved image or its transparency.</string>
 </resources>

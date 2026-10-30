@@ -17,11 +17,13 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
+import org.tartarus.snowball.SnowballStemmer
 import java.util.Locale
 import kotlin.math.ln
 
 class AssistantSearchIndex<T>(
-    documents: List<Document<T>>
+    documents: List<Document<T>>,
+    language: String? = null
 ) {
     data class Document<T>(
         val value: T,
@@ -41,19 +43,52 @@ class AssistantSearchIndex<T>(
         val length: Int
     )
 
+    private val stemmerConstructor = language?.let { tag ->
+        runCatching {
+            val name =
+                Locale.forLanguageTag(tag).getDisplayLanguage(Locale.ENGLISH).lowercase(Locale.ROOT)
+            Class.forName("org.tartarus.snowball.ext.${name}Stemmer")
+                .asSubclass(SnowballStemmer::class.java).getDeclaredConstructor()
+        }.getOrNull()
+    }
+    private val stemmers = object : ThreadLocal<SnowballStemmer?>() {
+        override fun initialValue(): SnowballStemmer? = stemmerConstructor?.newInstance()
+    }
+
+    private fun analyze(text: String): List<String> {
+        val stemmer = stemmers.get() ?: return tokens(text)
+        return tokens(text).map { term ->
+            stemmer.current = term
+            stemmer.stem()
+            stemmer.current
+        }
+    }
+
+    fun containsTitle(text: String, title: String): Boolean {
+        val words = analyze(text)
+        val terms = analyze(title)
+        return terms.isNotEmpty() && words.windowed(terms.size).any { phrase ->
+            phrase.zip(terms).all { (word, term) ->
+                word == term || stemmerConstructor == null && matches(word, term)
+            }
+        }
+    }
+
     private val indexed = documents.map { document ->
-        val frequencies = tokens(document.text).groupingBy { it }.eachCount()
+        val frequencies = analyze(document.text).groupingBy { it }.eachCount()
         Indexed(
             value = document.value,
-            title = normalize(document.title),
-            text = normalize(document.text),
-            titleTokens = tokens(document.title).toSet(),
-            titleFields = document.title.lineSequence().map { tokens(it).toSet() }
+            title = analyze(document.title).joinToString(" "),
+            text = analyze(document.text).joinToString(" "),
+            titleTokens = analyze(document.title).toSet(),
+            titleFields = document.title.lineSequence().map { analyze(it).toSet() }
                 .filter { it.isNotEmpty() }.toList(),
             frequencies = frequencies,
             length = frequencies.values.sum()
         )
     }
+
+    private val vocabulary = indexed.flatMap { it.frequencies.keys + it.titleTokens }.toHashSet()
 
     private val averageLength = indexed.map { it.length }.average()
         .takeIf { it > 0.0 } ?: 1.0
@@ -61,49 +96,70 @@ class AssistantSearchIndex<T>(
     fun search(
         query: String,
         limit: Int = 5,
+        minimumCoverage: Double = 1.0 / 3,
         predicate: ((T) -> Boolean)? = null
-    ): List<Match<T>> = rank(query, limit, predicate, requireCoverage = true)
+    ): List<Match<T>> = rank(query, limit, predicate, minimumCoverage)
 
     fun candidates(
         query: String,
         limit: Int = 6,
         predicate: ((T) -> Boolean)? = null
     ): List<Match<T>> =
-        rank(query, limit, predicate, requireCoverage = false)
+        rank(query, limit, predicate, minimumCoverage = 0.0)
 
     private fun rank(
         query: String,
         limit: Int,
         predicate: ((T) -> Boolean)?,
-        requireCoverage: Boolean
+        minimumCoverage: Double
     ): List<Match<T>> {
         val candidates = if (predicate == null) indexed else indexed.filter { predicate(it.value) }
-        val terms = tokens(query).distinct().take(MAX_QUERY_TERMS)
+        val terms = analyze(query).distinct().filter { it.length > 1 || it.all(Char::isDigit) }
+            .take(MAX_QUERY_TERMS)
         if (terms.isEmpty()) return emptyList()
+        val allowTypos = terms.any { it in vocabulary && !it.all(Char::isDigit) }
+        fun matchesTerm(term: String, word: String): Boolean =
+            if (stemmerConstructor == null) matches(
+                term,
+                word,
+                allowTypos = allowTypos && term !in vocabulary
+            )
+            else term == word || allowTypos && term !in vocabulary && oneEditApart(term, word)
+
+        fun matchesTitle(term: String, word: String): Boolean =
+            if (stemmerConstructor == null) matches(
+                term,
+                word,
+                minimumCoverage = 0.6,
+                allowTypos = allowTypos && term !in vocabulary
+            )
+            else matchesTerm(term, word)
         val averageLength = if (predicate == null) averageLength else {
             candidates.map { it.length }.average().takeIf { it > 0.0 } ?: 1.0
         }
-        val phrase = normalize(query)
-        val inverseFrequencies = terms.associateWith { term ->
-            val frequency = candidates.count { document ->
-                document.frequencies.keys.any { matches(term, it) } ||
-                        document.titleTokens.any { matches(term, it) }
+        val phrase = analyze(query).joinToString(" ")
+        val documentFrequencies = terms.associateWith { term ->
+            candidates.count { document ->
+                document.frequencies.keys.any { matchesTerm(term, it) } ||
+                        document.titleTokens.any { matchesTitle(term, it) }
             }
+        }
+        val inverseFrequencies = terms.associateWith { term ->
+            val frequency = documentFrequencies.getValue(term)
             if (term.all(Char::isDigit)) 0.0
             else ln(1.0 + (candidates.size - frequency + 0.5) / (frequency + 0.5))
         }
+        val averageTitleLength =
+            candidates.map { it.titleTokens.size }.average().takeIf { it > 0.0 } ?: 1.0
         val queryWeight = inverseFrequencies.values.sum()
         if (queryWeight == 0.0) return emptyList()
         return candidates.mapNotNull { document ->
             var matched = 0
             var matchedWeight = 0.0
             var score = 0.0
-            val titleCoverage = document.titleFields.maxOfOrNull { field ->
-                field.count { title -> terms.any { matches(it, title) } }.toDouble() / field.size
-            } ?: 0.0
             terms.forEach { term ->
-                val hits = document.frequencies.entries.filter { matches(term, it.key) }
-                val titleHit = document.titleTokens.any { matches(term, it) }
+                val hits = document.frequencies.entries.filter { matchesTerm(term, it.key) }
+                val titleHit = document.titleTokens.any { matchesTitle(term, it) }
                 if (hits.isNotEmpty() || titleHit) {
                     matched++
                     val inverseFrequency = inverseFrequencies.getValue(term)
@@ -112,11 +168,22 @@ class AssistantSearchIndex<T>(
                     val length = document.length / averageLength
                     val saturation = frequency * (TERM_SATURATION + 1) /
                             (frequency + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * length))
-                    score += inverseFrequency * (if (titleHit) 1.0 + (TITLE_WEIGHT - 1.0) * titleCoverage else 1.0) * saturation
+                    if (hits.isNotEmpty()) score += inverseFrequency * saturation
+                    if (titleHit) {
+                        val titleLength = document.titleTokens.size / averageTitleLength
+                        val titleSaturation = (TERM_SATURATION + 1) /
+                                (1 + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * titleLength))
+                        score += inverseFrequency * TITLE_WEIGHT * titleSaturation
+                    }
                 }
             }
-            if (matched == 0 || requireCoverage && (matched * 2 < terms.size || matchedWeight * 2 < queryWeight)) return@mapNotNull null
-            score *= matched.toDouble() / terms.size
+            val anchorWeight = terms.filter { it in document.titleTokens }
+                .maxOfOrNull { inverseFrequencies.getValue(it) } ?: 0.0
+            val effectiveQueryWeight = if (anchorWeight >= ln(2.0)) terms.sumOf {
+                val weight = inverseFrequencies.getValue(it)
+                if (documentFrequencies.getValue(it) == 0) minOf(weight, anchorWeight) else weight
+            } else queryWeight
+            if (matched == 0 || matchedWeight < effectiveQueryWeight * minimumCoverage) return@mapNotNull null
             terms.zipWithNext().forEach { (first, second) ->
                 val pair = "$first $second"
                 val weight =
@@ -183,20 +250,47 @@ class AssistantSearchIndex<T>(
             query: String,
             word: String,
             minimumPrefix: Int = MIN_PREFIX_LENGTH,
-            minimumCoverage: Double = 0.6
+            minimumCoverage: Double = 0.75,
+            allowTypos: Boolean = true
         ): Boolean {
             if (query == word) return true
             if (query.all(Char::isDigit) || word.all(Char::isDigit)) return false
+            if (minOf(query.length, word.length) < 4) return false
             var prefix = 0
             while (prefix < minOf(
                     query.length,
                     word.length
                 ) && query[prefix] == word[prefix]
             ) prefix++
-            return prefix >= minimumPrefix && prefix.toDouble() / maxOf(
+            return prefix >= minimumPrefix && (prefix >= 5 || prefix == minOf(
                 query.length,
                 word.length
-            ) >= minimumCoverage
+            )) && prefix.toDouble() / maxOf(
+                query.length,
+                word.length
+            ) >= minimumCoverage || allowTypos && oneEditApart(query, word)
+        }
+
+        private fun oneEditApart(query: String, word: String): Boolean {
+            if (minOf(
+                    query.length,
+                    word.length
+                ) < 5 || kotlin.math.abs(query.length - word.length) > 1
+            ) return false
+            var left = 0
+            var right = 0
+            var edits = 0
+            while (left < query.length && right < word.length) {
+                if (query[left] == word[right]) {
+                    left++
+                    right++
+                } else {
+                    if (++edits > 1) return false
+                    if (query.length >= word.length) left++
+                    if (word.length >= query.length) right++
+                }
+            }
+            return edits + query.length - left + word.length - right <= 1
         }
     }
 }

@@ -99,7 +99,7 @@ class AssistantComponent @AssistedInject internal constructor(
         else AssistantRepository.MAX_SELECTED_IMAGES
 
     private val isBusy: Boolean
-        get() = isLoading || isGenerating
+        get() = repository.isLoading.value || repository.isGenerating.value
 
     val context: AssistantScreenContext
         get() = AssistantScreenContext(

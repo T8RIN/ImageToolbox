@@ -24,6 +24,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.t8rin.imagetoolbox.feature.assistant.data.AndroidAssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantReference
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
@@ -68,6 +69,15 @@ class AssistantAssistantConversationStoreInstrumentedTest {
         val sent = fixture.copy(
             question = "",
             answer = fixture.answer.copy(
+                references = listOf(
+                    AssistantReference(
+                        "Search data",
+                        "Clear prepared data",
+                        "gallery-search",
+                        "gallery",
+                        pageIndex = 4
+                    )
+                ),
                 tools = listOf(
                     AssistantTool(
                         "WeightResize",

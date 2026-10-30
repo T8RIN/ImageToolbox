@@ -139,7 +139,9 @@ class AndroidAssistantGallerySearch @Inject constructor(
             query = query.normalized(),
             source = if (mode == AssistantGallerySearch.Mode.Narrow) previous?.matches?.toSet()
                 ?: previous?.source else null,
-            chosenPeople = previous?.chosenPeople.orEmpty()
+            chosenPeople = previous?.chosenPeople.orEmpty().filterKeys { name ->
+                (query.people + query.excludedPeople).any { it.equals(name, true) }
+            }
         )
         return findPhotos()
     }

@@ -27,7 +27,6 @@ import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
-import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.imageSize
 import com.t8rin.imagetoolbox.core.utils.makeLog
@@ -37,14 +36,16 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStore
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantCommandPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt
-import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantReplyPrompt
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantTranslationPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineStart
@@ -237,222 +238,266 @@ internal class AndroidAssistantRepository @Inject constructor(
         id: Long,
         originalRequest: AssistantRequest
     ): AssistantAnswer {
-        val images = loadImages(variant, originalRequest.context)
+        val started = System.nanoTime()
+        var passes = 0
+        var firstTextMs: Long? = null
+        suspend fun <T> stage(name: String, action: suspend () -> T): T {
+            val start = System.nanoTime()
+            return try {
+                action()
+            } finally {
+                makeLog(
+                    tag = "AssistantRequest",
+                    data = "model=${variant.id} stage=$name ms=${(System.nanoTime() - start) / 1_000_000}"
+                )
+            }
+        }
+
+        val images = stage("images") { loadImages(variant, originalRequest.context) }
         val request = originalRequest.copy(
             query = originalRequest.query.ifBlank {
                 resources.getString(if (images.isNotEmpty()) R.string.assistant_vision_photo_prompt else R.string.assistant_photo_prompt)
             },
-            context = withFileInfo(originalRequest.context)
+            context = stage("fileInfo") { withFileInfo(originalRequest.context) }
         )
         updateMessage(id) { it.copy(context = request.context) }
         val history = messages.value.dropLast(1)
             .filter {
-                it.error == null && !it.answer.isScopeNotice && !AssistantCommand.isInternalReply(
-                    it.answer.text
-                )
+                it.error == null && !it.answer.isScopeNotice && !AssistantCommand.isInternalReply(it.answer.text)
             }.takeLast(2)
+        val inputLanguage =
+            stage("language") { knowledge.detectLanguage(request.copy(language = null)) }
+        val language = request.language?.takeIf(String::isNotBlank) ?: inputLanguage
+        ?: history.asReversed().firstNotNullOfOrNull {
+            knowledge.detectLanguage(AssistantRequest(it.answer.text))
+        }
+        val localized = request.copy(language = language)
         var retrieved = AssistantAnswer("")
         val output = StringBuilder()
-        var visible = false
         var lastUpdate = 0L
-        val answerTokens = when (variant) {
-            AssistantModel.Lite -> 224
-            AssistantModel.Advanced, AssistantModel.Max -> 384
-            else -> 256
-        }
-
+        val answerTokens = 320
         suspend fun generate(
             prompt: String,
+            grammar: String? = null,
             tokens: Int = answerTokens,
-            withImage: Boolean = false,
-            command: Boolean = false,
-            grammar: String? = null
-        ): String = models.generate(
-            variant = variant,
-            prompt = prompt,
-            images = if (withImage) images else emptyList(),
-            maxOutputTokens = tokens,
-            repetitionPenalty = if (withImage) 1.1 else 1.0,
-            stopOnRepetition = !command,
-            kind = if (command) AssistantModels.GenerationKind.Command else AssistantModels.GenerationKind.Reply,
-            responseGrammar = grammar
-        ) { token ->
-            if (visible) {
-                output.append(token)
-                val now = System.nanoTime()
-                if (now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
-                    lastUpdate = now
-                    withContext(uiDispatcher) {
-                        updateMessage(id) {
-                            it.copy(
-                                answer = retrieved.copy(
-                                    text = AssistantCommand.visibleText(
-                                        output.toString()
+            stream: Boolean = true,
+            thinking: Boolean = false,
+            sample: Boolean = false,
+            includeImage: Boolean = true
+        ): String {
+            passes++
+            output.clear()
+            return stage("generation$passes") {
+                models.generate(
+                    variant = variant,
+                    prompt = prompt,
+                    images = if (includeImage) images else emptyList(),
+                    maxOutputTokens = tokens,
+                    repetitionPenalty = 1.0,
+                    stopOnRepetition = grammar == null,
+                    responseGrammar = grammar,
+                    thinking = thinking,
+                    sample = sample
+                ) { token ->
+                    output.append(token)
+                    if (stream) {
+                        val text = AssistantCommand.visibleText(output.toString())
+                        if (text.isNotBlank() && firstTextMs == null) {
+                            firstTextMs = (System.nanoTime() - started) / 1_000_000
+                        }
+                        val now = System.nanoTime()
+                        if (text.isNotBlank() && now - lastUpdate >= STREAM_UPDATE_INTERVAL_NS) {
+                            lastUpdate = now
+                            withContext(uiDispatcher) {
+                                updateMessage(id) {
+                                    it.copy(
+                                        answer = retrieved.copy(
+                                            text = text,
+                                            references = retrieved.references.distinctBy { reference -> reference.tipId })
                                     )
-                                )
-                            )
+                                }
+                            }
                         }
                     }
                 }
-            }
+            }.trim()
         }
         try {
-            val language = knowledge.detectLanguage(request)
-            val localized = request.copy(language = language)
-            val interpretation = if (images.isEmpty()) {
-                val prompt = assistantInterpretationPrompt(
-                    request.query,
-                    history,
-                    simple = variant == AssistantModel.Lite
-                )
-                models.generate(
-                    variant,
-                    prompt,
-                    maxOutputTokens = 128,
-                    repetitionPenalty = 1.0,
-                    kind = AssistantModels.GenerationKind.SearchQuery
-                ) {}.trim()
-            } else null
-
-            suspend fun reply(): AssistantAnswer {
-                output.clear()
-                visible = true
-                updateMessage(id) { it.copy(answer = retrieved) }
-                val grounding = buildString {
-                    append(
-                        knowledge.grounding(
-                            localized.copy(
-                                query = interpretation ?: request.query
-                            ), retrieved, variant, images.isNotEmpty()
-                        )
-                    )
-                    interpretation?.let { appendLine("\nEnglish interpretation of the request: $it") }
-                }
+            if (images.isNotEmpty() || originalRequest.query.isBlank()) {
+                retrieved =
+                    stage("help") { knowledge.retrieve(localized.copy(query = originalRequest.query)) }
+                val hasImage = images.isNotEmpty()
+                val grounding =
+                    knowledge.grounding(localized, retrieved, variant, hasImage = hasImage)
                 val prompt = assistantReplyPrompt(
-                    request = localized,
-                    grounding = grounding,
-                    history = history,
-                    hasImage = images.isNotEmpty()
+                    localized,
+                    grounding,
+                    history,
+                    hasImage = hasImage,
+                    model = variant
                 )
-                val text = generate(prompt, withImage = images.isNotEmpty()).trim()
+                val text = AssistantCommand.visibleText(generate(prompt, sample = true)).trim()
+                if (firstTextMs == null && text.isNotBlank()) firstTextMs =
+                    (System.nanoTime() - started) / 1_000_000
+                check(text.isNotEmpty()) { "Assistant returned no user-facing answer" }
                 return knowledge.linkTools(localized, retrieved.copy(text = text))
             }
-
-            val initialHelp = knowledge.retrieve(
-                localized, queries = listOfNotNull(interpretation, request.query).distinct()
-            )
-            val hasAppHelp = initialHelp.references.isNotEmpty() && initialHelp.tools.none {
-                knowledge.resolveTool(it) is Screen.Gallery
-            }
-            val catalog = try {
-                gallerySearch.catalog(request.query)
-            } catch (cancelled: CancellationException) {
-                throw cancelled
-            } catch (failure: Exception) {
-                failure.makeLog()
-                AssistantGalleryCatalog()
-            }
-            if (images.isNotEmpty() && !AssistantCommand.hasNamedRequest(catalog, request.query)) {
-                retrieved = initialHelp
-                return reply()
-            }
-            val scope = when {
-                variant == AssistantModel.Lite && hasAppHelp -> AssistantCommand.Scope.Help
-                !hasAppHelp && AssistantCommand.hasNamedRequest(
-                    catalog,
-                    request.query
-                ) -> AssistantCommand.Scope.Photos
-
-                else -> AssistantCommand.Scope.Auto
-            }
-            val grounding = buildString {
-                appendLine(
-                    AssistantCommand.instructions(
-                        gallerySearch.currentQuery(),
-                        catalog,
-                        request.query,
-                        language,
-                        scope
-                    )
-                )
-                interpretation?.let { appendLine("Request meaning in English: $it") }
-                appendLine("Select the function for this request. Image/file workflows and app settings require search_help. Return only its JSON call.")
-            }
             val current = gallerySearch.currentQuery()
-            val reasoning =
-                !hasAppHelp && variant != AssistantModel.Lite && (scope != AssistantCommand.Scope.Photos || variant == AssistantModel.Max)
-            val prompt =
-                assistantPrompt(grounding, history, request.query, false, thinking = reasoning)
+            val english =
+                if (inputLanguage?.substringBefore('-') == "en") request.query else generate(
+                    assistantTranslationPrompt(localized, variant), tokens = 160, stream = false
+                )
+            val resolved = localized.copy(query = english)
+            val previousDocumentation = history.lastOrNull()?.answer?.references?.singleOrNull()
+            val documentationTopic = previousDocumentation?.let { reference ->
+                stage("historyTopic") {
+                    val source = knowledge.documentation(localized.copy(language = "en"), reference)
+                    (source.references.map { it.title } + source.tools.map { it.title } + source.settings.map { it.title })
+                        .distinct().joinToString("; ")
+                }
+            }
+            val interpretation = AssistantInterpretation.parse(
+                generate(
+                    assistantInterpretationPrompt(
+                        resolved,
+                        current,
+                        variant,
+                        documentationTopic = documentationTopic,
+                        originalQuestion = request.query
+                    ),
+                    grammar = AssistantInterpretation.grammar,
+                    tokens = 96,
+                    stream = false
+                )
+            )
+            makeLog(
+                tag = "AssistantRequest",
+                data = "model=${variant.id} intent=${interpretation::class.simpleName}"
+            )
+            if (interpretation == AssistantInterpretation.More) {
+                val answer = stage("morePhotos") { moreGalleryPhotos() }
+                firstTextMs = (System.nanoTime() - started) / 1_000_000
+                return answer
+            }
+            if (interpretation is AssistantInterpretation.Formats) {
+                firstTextMs = (System.nanoTime() - started) / 1_000_000
+                return knowledge.formats(localized, interpretation.alpha)
+            }
+            if (interpretation != AssistantInterpretation.Search) {
+                val replyRequest = if (interpretation is AssistantInterpretation.Translate) {
+                    localized.copy(language = interpretation.language)
+                } else localized
+                retrieved = when {
+                    interpretation is AssistantInterpretation.Help -> stage("help") {
+                        knowledge.retrieve(replyRequest, queries = listOf(interpretation.query))
+                    }
+
+                    interpretation is AssistantInterpretation.Translate && previousDocumentation != null -> stage(
+                        "translateHelp"
+                    ) {
+                        knowledge.documentation(replyRequest, previousDocumentation).copy(text = "")
+                    }
+
+                    else -> AssistantAnswer("")
+                }
+                if (variant == AssistantModel.Lite && (interpretation is AssistantInterpretation.Help ||
+                            interpretation is AssistantInterpretation.Translate)
+                ) {
+                    retrieved.references.firstOrNull()?.let { reference ->
+                        val source =
+                            stage("helpSource") { knowledge.documentation(replyRequest, reference) }
+                        firstTextMs = (System.nanoTime() - started) / 1_000_000
+                        return source
+                    }
+                }
+                val grounding = knowledge.grounding(replyRequest, retrieved, variant)
+                val replyHistory = history.map { message ->
+                    var text = message.answer.text
+                    message.answer.tools.forEach { old ->
+                        retrieved.tools.firstOrNull {
+                            it.key == old.key && it.filterKey == old.filterKey && it.helpTipId == old.helpTipId
+                        }?.let { text = text.replace(old.title, it.title, ignoreCase = true) }
+                    }
+                    message.answer.settings.forEach { old ->
+                        retrieved.settings.firstOrNull { it.key == old.key }
+                            ?.let { text = text.replace(old.title, it.title, ignoreCase = true) }
+                    }
+                    message.copy(answer = message.answer.copy(text = text))
+                }
+                val text = AssistantCommand.visibleText(
+                    generate(
+                        assistantReplyPrompt(
+                            replyRequest, grounding, replyHistory, model = variant,
+                            clarify = interpretation == AssistantInterpretation.Clarify ||
+                                    interpretation is AssistantInterpretation.Help && retrieved.references.isEmpty() &&
+                                    retrieved.tools.isEmpty() && retrieved.settings.isEmpty()
+                        ),
+                        sample = true
+                    )
+                ).trim()
+                check(text.isNotEmpty()) { "Assistant returned no user-facing answer" }
+                return knowledge.linkTools(replyRequest, retrieved.copy(text = text))
+            }
+            val catalog = stage("catalog") {
+                try {
+                    gallerySearch.catalog(request.query).also { catalog ->
+                        makeLog(
+                            tag = "AssistantRequest",
+                            data = "searchActive=${current != null} catalogPeople=${catalog.people.size} catalogAlbums=${catalog.albums.size} catalogFiles=${catalog.files.size}"
+                        )
+                    }
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (failure: Exception) {
+                    failure.makeLog()
+                    AssistantGalleryCatalog()
+                }
+            }
             val completed = generate(
-                prompt = prompt,
-                tokens = 512,
-                command = true,
+                assistantCommandPrompt(
+                    resolved,
+                    current,
+                    catalog,
+                    variant,
+                    originalQuestion = request.query
+                ),
                 grammar = AssistantCommand.grammar(
                     current,
                     catalog,
                     request.query,
-                    reasoning,
-                    scope
-                )
+                    localized.language
+                ),
+                tokens = 256,
+                stream = false
             )
-            output.clear()
-            when (val command = AssistantCommand.parse(completed)) {
-                is AssistantCommand.Action.SearchHelp -> {
-                    visible = false
-                    retrieved = knowledge.retrieve(
-                        localized,
-                        queries = listOf(interpretation ?: command.query)
-                    )
-                    if (retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
-                        retrieved = knowledge.retrieve(localized, queries = listOf(command.query))
-                    }
-                    if (retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
-                        retrieved = initialHelp
-                    }
-                    if (variant == AssistantModel.Lite) {
-                        knowledge.documentedAnswer(
-                            localized.copy(
-                                query = interpretation ?: request.query
-                            ), retrieved
-                        )?.let {
-                            return retrieved.copy(text = it)
-                        }
-                    }
-                    return reply()
-                }
-
-                AssistantCommand.Action.MorePhotos -> return moreGalleryPhotos()
+            val command = try {
+                AssistantCommand.parse(completed)
+            } catch (failure: IllegalArgumentException) {
+                failure.makeLog()
+                firstTextMs = (System.nanoTime() - started) / 1_000_000
+                return AssistantAnswer(resources.getString(R.string.assistant_gallery_parse_error))
+            }
+            val answer = when (command) {
+                AssistantCommand.Action.MorePhotos -> stage("morePhotos") { moreGalleryPhotos() }
                 is AssistantCommand.Action.SearchPhotos -> {
-                    visible = false
-                    val current = gallerySearch.currentQuery()
-                    val plan = command.plan
-                    return if (plan.withinResults && current == null) AssistantAnswer(
-                        resources.getString(
-                            R.string.assistant_gallery_no_search
-                        )
-                    )
-                    else gallerySearch.search(
-                        plan.gallery(current, request.query),
-                        plan.mode(current),
-                        id
-                    )
+                    if (command.mode == AssistantGallerySearch.Mode.Narrow && current == null) {
+                        AssistantAnswer(resources.getString(R.string.assistant_gallery_no_search))
+                    } else stage("photos") {
+                        gallerySearch.search(command.query, command.mode, id)
+                    }
                 }
 
-                AssistantCommand.Action.Answer -> return reply()
-                null -> error("Assistant did not select an action")
+                is AssistantCommand.Action.Answer -> AssistantAnswer(command.text)
             }
+            if (firstTextMs == null && answer.text.isNotBlank()) firstTextMs =
+                (System.nanoTime() - started) / 1_000_000
+            return answer
+
         } finally {
-            if (visible) withContext(NonCancellable + uiDispatcher) {
-                updateMessage(id) {
-                    it.copy(
-                        answer = retrieved.copy(
-                            text = AssistantCommand.visibleText(
-                                output.toString()
-                            ).trim()
-                        )
-                    )
-                }
-            }
+            makeLog(
+                tag = "AssistantRequest",
+                data = "model=${variant.id} passes=$passes firstTextMs=$firstTextMs totalMs=${(System.nanoTime() - started) / 1_000_000}"
+            )
         }
     }
 

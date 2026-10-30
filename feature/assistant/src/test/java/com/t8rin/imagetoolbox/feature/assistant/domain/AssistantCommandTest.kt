@@ -18,41 +18,78 @@
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AssistantCommandTest {
     @Test
-    fun toolsAreNeverRenderedInStreamingTextEvenAfterAnIntroduction() {
-        val text =
-            "Searching… <tool_call>{\"name\":\"search_photos\",\"arguments\":{\"operation\":\"update\",\"filters\":[]}}</tool_call>"
+    fun catalogNamesIncludeInflectedAndExactNamesInTheSameRequest() {
         assertEquals(
-            AssistantCommand.Action.SearchPhotos(AssistantPhotoPlan()),
-            AssistantCommand.parse(text)
+            listOf("Саша", "Анна"),
+            AssistantCommand.matching(listOf("Саша", "Анна", "Марина"), "Саша без Анны", "ru")
         )
-        for (size in text.indexOf('<') + 1..text.length) assertEquals(
-            "Searching…",
-            AssistantCommand.visibleText(text.take(size))
+        assertEquals(
+            listOf("Дом"),
+            AssistantCommand.matching(listOf("Дом", "Море"), "в альбоме Дома", "ru")
         )
+    }
+
+    @Test
+    fun internalPlansAreNeverRenderedDuringStreaming() {
+        val call = """{"action":"search","scene":"a beach"}"""
+        assertEquals(call, AssistantCommand.visibleText(call))
+        assertTrue(AssistantCommand.isInternalReply(call))
+        assertTrue(AssistantCommand.isInternalReply("""{"query":"a beach","search_photos":true}"""))
+        assertTrue(AssistantCommand.isInternalReply("""{"name":"search_photos","arguments":{}}"""))
         assertEquals("普通の回答", AssistantCommand.visibleText("普通の回答"))
     }
 
     @Test
-    fun helpLookupKeepsItsQueryAndDoesNotMistakeOrdinaryProseForATool() {
-        val text =
-            "<tool_call>{\"name\":\"search_help\",\"arguments\":{\"query\":\"remove GPS metadata\"}}</tool_call>"
+    fun reasoningRemainsHiddenUntilTheActualAnswerStarts() {
+        assertEquals("", AssistantCommand.visibleText("<think>checking the request"))
+        assertEquals("Answer", AssistantCommand.visibleText("<think>checking</think>\nAnswer"))
+        assertEquals("Answer", AssistantCommand.visibleText("checking</think>\nAnswer"))
         assertEquals(
-            AssistantCommand.Action.SearchHelp("remove GPS metadata"),
-            AssistantCommand.parse(text)
+            "Answer",
+            AssistantCommand.visibleText("<think>first</think>checking</think>\nAnswer")
         )
-        assertNull(AssistantCommand.parse("Use the crop tool to remove the edges."))
     }
 
     @Test
-    fun structuredPhotoCallsKeepEveryFilterAndExpandTheWholeMonth() {
+    fun aCompleteSearchCanRetainPreviousPeopleAlongsideANewCondition() {
+        val grammar = AssistantCommand.grammar(
+            AssistantGalleryQuery(people = listOf("Marie")),
+            AssistantGalleryCatalog(people = listOf("Marie", "Alex")),
+            "Without Alex"
+        )
+        assertTrue(grammar.contains("Alex"))
+        assertTrue(grammar.contains("Marie"))
+    }
+
+    @Test
+    fun anIndependentSearchDoesNotInheritUnmentionedPeopleAndAlbums() {
+        val grammar = AssistantCommand.grammar(
+            AssistantGalleryQuery(people = listOf("Marie"), album = "Trips"),
+            AssistantGalleryCatalog(people = listOf("Marie"), albums = listOf("Trips")),
+            "Start an independent search for cats"
+        )
+        val independent = grammar.lineSequence().first { it.startsWith("search_new:") }
+        val update = grammar.lineSequence().first { it.startsWith("search_update:") }
+        assertFalse(independent.contains("Marie"))
+        assertFalse(independent.contains("Trips"))
+        assertTrue(update.contains("Marie"))
+        assertTrue(update.contains("Trips"))
+    }
+
+    private fun search(query: String, mode: String = "new") = AssistantCommand.parse(
+        """{"action":"search","mode":"$mode","query":$query}"""
+    ) as AssistantCommand.Action.SearchPhotos
+
+    @Test
+    fun completeSearchesKeepEveryFilter() {
         val command =
-            AssistantCommand.parse("""{"name":"search_photos","arguments":{"operation":"update","filters":[{"type":"date","from":"2026-07","to":"2026-07"},{"type":"album","name":"Trips"},{"type":"person","name":"Marie","role":"include"},{"type":"person","name":"Alex","role":"exclude"}]}}""") as AssistantCommand.Action.SearchPhotos
+            search("""{"from":"2026-07-01","to":"2026-07-31","album":"Trips","people":["Marie"],"excludedPeople":["Alex"]}""")
         assertEquals(
             AssistantGalleryQuery(
                 people = listOf("Marie"),
@@ -60,36 +97,51 @@ class AssistantCommandTest {
                 from = "2026-07-01",
                 to = "2026-07-31",
                 album = "Trips"
-            ),
-            command.plan.gallery(null, "photos")
+            ), command.query
         )
+        assertEquals(AssistantGallerySearch.Mode.New, command.mode)
     }
 
     @Test
-    fun independentDateConditionsAreIntersectedAndMalformedArgumentsAreRejected() {
-        val command =
-            AssistantCommand.parse("""{"name":"search_photos","arguments":{"operation":"update","filters":[{"type":"date","from":"2026-07-01","to":""},{"type":"date","from":"","to":"2026-07-31"}]}}""") as AssistantCommand.Action.SearchPhotos
-        val previous = AssistantGalleryQuery(people = listOf("Marie"), album = "Trips")
-        assertEquals(
-            previous.copy(from = "2026-07-01", to = "2026-07-31"),
-            command.plan.gallery(previous, "July")
-        )
-        assertTrue(runCatching { AssistantCommand.parse("""{"name":"search_photos","arguments":{}}""") }.isFailure)
-        assertTrue(runCatching { AssistantCommand.parse("""{"name":"search_photos","arguments":{"operation":"update","filters":[{"type":"unknown"}]}}""") }.isFailure)
+    fun openIntervalsAndInvalidPlansAreHandledExplicitly() {
+        assertEquals("2026-07-01", search("""{"from":"2026-07-01","to":null}""").query.from)
+        listOf(
+            "{}",
+            """{"action":"unknown"}""",
+            """{"action":"search","mode":"new","query":{"unknown":true}}""",
+            """{"action":"ask","question":""}""",
+            """{"action":"search","mode":"new","query":{"from":"2026-99-99"}}"""
+        ).forEach {
+            assertTrue(it, runCatching { AssistantCommand.parse(it) }.isFailure)
+        }
     }
 
     @Test
-    fun anAlbumRefinementRetainsTheFilenameUntilAnExplicitReset() {
-        val previous = AssistantGalleryQuery(filename = "IMG_2026.png")
-        val update =
-            AssistantCommand.parse("""{"name":"search_photos","arguments":{"operation":"update","filters":[{"type":"album","name":"Trips"}]}}""") as AssistantCommand.Action.SearchPhotos
-        assertEquals(previous.copy(album = "Trips"), update.plan.gallery(previous, "Trips"))
-        val reset =
-            AssistantCommand.parse("""{"name":"search_photos","arguments":{"operation":"update","filters":[{"type":"reset"},{"type":"album","name":"Trips"}]}}""") as AssistantCommand.Action.SearchPhotos
-        assertEquals(
-            AssistantGalleryQuery(album = "Trips"),
-            reset.plan.gallery(previous, "new search")
+    fun removalAndNarrowingHaveAnExplicitRepresentation() {
+        val command = search(
+            """{"semantic":"red umbrella","people":["Marie"],"from":null,"to":null,"album":"Trips"}""",
+            "narrow"
         )
+        assertEquals(
+            AssistantGalleryQuery(
+                semantic = "red umbrella",
+                people = listOf("Marie"),
+                album = "Trips"
+            ), command.query
+        )
+        assertEquals(AssistantGallerySearch.Mode.Narrow, command.mode)
     }
 
+    @Test
+    fun paginationAndClarificationAreNotSearchFilters() {
+        assertEquals(
+            AssistantCommand.Action.MorePhotos,
+            AssistantCommand.parse("""{"action":"more"}""")
+        )
+        assertEquals(
+            AssistantCommand.Action.Answer("Which album?"),
+            AssistantCommand.parse("""{"action":"ask","question":"Which album?"}""")
+        )
+        assertTrue(runCatching { AssistantCommand.parse("""{"action":"more","semantic":"cats"}""") }.isFailure)
+    }
 }

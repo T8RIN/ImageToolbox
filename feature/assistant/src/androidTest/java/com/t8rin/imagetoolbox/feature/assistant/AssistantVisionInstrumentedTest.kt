@@ -28,7 +28,7 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
-import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantReplyPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
@@ -95,6 +95,7 @@ class AssistantVisionInstrumentedTest {
     private suspend fun verify(variant: AssistantModel) = coroutineScope {
         val models = AssistantModels()
         val records = JSONArray()
+        val existingFiles = app.cacheDir.listFiles().orEmpty().map { it.name }.toSet()
         val images = listOf(fixture(Color.RED, circle = true), fixture(Color.BLUE, circle = false))
         try {
             assumeTrue(
@@ -133,11 +134,12 @@ class AssistantVisionInstrumentedTest {
             withTimeout(5 * 60_000L) {
                 models.generate(
                     variant = variant,
-                    prompt = assistantPrompt(
+                    prompt = assistantReplyPrompt(
+                        request = request,
                         grounding = knowledge.grounding(request, answer, variant, hasImage = true),
                         history = emptyList(),
-                        question = knowledge.userPrompt(request, answer),
-                        hasImage = true
+                        hasImage = true,
+                        model = variant
                     ),
                     images = listOf(images[0])
                 ) { description.append(it) }
@@ -206,7 +208,7 @@ class AssistantVisionInstrumentedTest {
             assertTrue(
                 "Temporary assistant images were not removed",
                 app.cacheDir.listFiles().orEmpty().none {
-                    it.name.startsWith("assistant-vision-") && it.extension == "png"
+                    it.name !in existingFiles && it.name.startsWith("assistant-vision-") && it.extension == "png"
                 }
             )
         } finally {
@@ -230,5 +232,5 @@ class AssistantVisionInstrumentedTest {
         "<|im_start|>system\nAnswer in English. Be brief.<|im_end|>\n" +
                 "<|im_start|>user\n" +
                 (if (image) "<|vision_start|><|image_pad|><|vision_end|>\n" else "") +
-                "$question<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+                "$question<|im_end|>\n<|im_start|>assistant\n"
 }

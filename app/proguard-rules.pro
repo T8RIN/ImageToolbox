@@ -23,6 +23,8 @@
   public static final android.os.Parcelable$Creator CREATOR;
 }
 
+-keep class org.tartarus.snowball.** { *; }
+
 # These type names are part of the existing filter parameter format.
 # Filter instances themselves are restored by the generated KSP registry.
 -keepnames class com.t8rin.imagetoolbox.core.filters.domain.model.params.**

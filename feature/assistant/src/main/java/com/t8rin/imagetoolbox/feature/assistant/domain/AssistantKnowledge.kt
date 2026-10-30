@@ -26,13 +26,18 @@ interface AssistantKnowledge {
     suspend fun linkTools(request: AssistantRequest, answer: AssistantAnswer): AssistantAnswer =
         answer
 
-    suspend fun documentedAnswer(request: AssistantRequest, answer: AssistantAnswer): String? = null
-
     suspend fun retrieve(
         request: AssistantRequest,
         queries: List<String> = emptyList(),
         sources: List<String> = emptyList()
     ): AssistantAnswer
+
+    suspend fun documentation(
+        request: AssistantRequest,
+        reference: AssistantReference
+    ): AssistantAnswer
+
+    fun formats(request: AssistantRequest, alpha: Boolean): AssistantAnswer
 
     fun resolveTool(tool: AssistantTool): Screen?
 

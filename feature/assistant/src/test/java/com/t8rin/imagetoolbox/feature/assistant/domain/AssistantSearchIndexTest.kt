@@ -18,10 +18,109 @@
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AssistantSearchIndexTest {
+    @Test
+    fun aNormalizedTaskDoesNotMatchOnlyOneFamiliarWord() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("picker", "Color picker", "Choose a color"),
+                AssistantSearchIndex.Document("crop", "Crop image", "Remove image edges")
+            ), "en"
+        )
+        assertTrue(index.search("color flortation", minimumCoverage = 0.6).isEmpty())
+        assertEquals("picker", index.search("choose color", minimumCoverage = 0.6).first().value)
+    }
+
+    @Test
+    fun citedToolTitlesKeepTheirLinksAfterInflection() {
+        val spanish = AssistantSearchIndex<String>(emptyList(), "es")
+        assertTrue(spanish.containsTitle("Abre Dibujo y selecciona una foto", "Dibujar"))
+        val russian = AssistantSearchIndex<String>(emptyList(), "ru")
+        assertTrue(russian.containsTitle("Воспользуйтесь Сжатием по весу", "Сжатие по весу"))
+        assertFalse(russian.containsTitle("Измените размер текста", "Сжатие по весу"))
+    }
+
+    @Test
+    fun inflectionsUseTheCorpusLanguageWithoutChangingEntityMatching() {
+        val russian = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "background",
+                    "Удаление фона",
+                    "Удаляет фон изображения"
+                ),
+                AssistantSearchIndex.Document(
+                    "join",
+                    "Склеивание изображений",
+                    "Соединяет изображения"
+                )
+            ), "ru"
+        )
+        assertEquals("background", russian.search("удалить фон").first().value)
+        val english = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "alpha",
+                    "Formats preserving transparency",
+                    "Preserve transparent pixels"
+                ),
+                AssistantSearchIndex.Document("files", "File names", "Name saved files")
+            ), "en"
+        )
+        assertEquals("alpha", english.search("formats preserve transparency").first().value)
+        assertFalse(AssistantSearchIndex.matches("are", "area"))
+    }
+
+    @Test
+    fun wordMatchingHandlesTyposWithoutConfusingUnrelatedPrefixes() {
+        assertTrue(AssistantSearchIndex.matches("уменьшть", "уменьшить"))
+        assertTrue(AssistantSearchIndex.matches("backgroumd", "background"))
+        assertTrue(AssistantSearchIndex.matches("photoss", "photos"))
+        assertFalse(AssistantSearchIndex.matches("animals", "animated"))
+        assertFalse(AssistantSearchIndex.matches("are", "area"))
+        assertFalse(AssistantSearchIndex.matches("blue", "blur"))
+        assertFalse(AssistantSearchIndex.matches("500", "700"))
+    }
+
+    @Test
+    fun recognizedWordsDoNotAcquireAnUnrelatedMeaningThroughTypoMatching() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("time", "Time", "Repeat an operation several times"),
+                AssistantSearchIndex.Document(
+                    "tiles",
+                    "Glass tiles",
+                    "Arrange rectangular tiles in an image"
+                )
+            )
+        )
+        assertEquals(listOf("time"), index.search("times").map { it.value })
+        assertEquals(listOf("tiles"), index.search("tiles").map { it.value })
+    }
+
+    @Test
+    fun stemmingKeepsTypoMatchingForUnknownWords() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "background",
+                    "Remove background",
+                    "Make the background transparent"
+                ),
+                AssistantSearchIndex.Document(
+                    "metadata",
+                    "Remove metadata",
+                    "Delete location information"
+                )
+            ), "en"
+        )
+        assertEquals("background", index.search("remove backgroumd").first().value)
+    }
+
     @Test
     fun ranksTitlesAndTheRequestedSubjectAheadOfIncidentalWords() {
         val index = AssistantSearchIndex(
@@ -42,6 +141,17 @@ class AssistantSearchIndexTest {
         assertEquals("photo", index.search("compress photos").first().value)
         assertEquals("pdf", index.search("compress PDF").first().value)
         assertTrue(index.search("qzxxvkyy").isEmpty())
+    }
+
+    @Test
+    fun aRequestedActionMatchesItsDocumentedNounFormInTitles() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("formats", "Format conversion", "Export a picture"),
+                AssistantSearchIndex.Document("psd", "PSD", "Convert a PSD file into a picture")
+            )
+        )
+        assertEquals("formats", index.search("convert format").first().value)
     }
 
     @Test

@@ -18,11 +18,14 @@
 package com.t8rin.imagetoolbox.feature.assistant
 
 import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.genai.Config
 import ai.onnxruntime.genai.GenAI
 import ai.onnxruntime.genai.Generator
 import ai.onnxruntime.genai.GeneratorParams
 import ai.onnxruntime.genai.Model
 import ai.onnxruntime.genai.Tokenizer
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Debug
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -36,6 +39,7 @@ import com.t8rin.imagetoolbox.feature.assistant.di.AssistantEntryPoint
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantAnswer
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
@@ -45,6 +49,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -879,6 +884,314 @@ class AssistantGenerationInstrumentedTest {
         } catch (failure: Throwable) {
             record.put("rawOutput", output.toString()).put("error", failure.toString())
             throw failure
+        }
+    }
+
+    @Test
+    fun profilesRequestInterpretation() = runBlocking {
+        val args = InstrumentationRegistry.getArguments()
+        val variant =
+            AssistantModel.entries.first { it.id == (args.getString("assistantModels") ?: "lite") }
+        val source =
+            File(app.cacheDir, args.getString("intentCases") ?: "assistant-intent-probe.json")
+        assumeTrue(source.isFile)
+        val cases = JSONArray(source.readText())
+        val runtime = AssistantModels()
+        val report = JSONArray()
+        val selectedCases = args.getString("probeCases")?.split(',')?.map(String::toInt)
+        try {
+            for (index in 0 until cases.length()) {
+                if (selectedCases != null && index !in selectedCases) continue
+                val value = cases.getJSONObject(index)
+                val current =
+                    if (value.optBoolean("active")) com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery(
+                        people = listOf("Marie"),
+                        from = "2026-07-01",
+                        to = "2026-07-31",
+                        album = "Trips"
+                    ) else null
+                val request = AssistantRequest(value.getString("question"))
+                val started = System.nanoTime()
+                val english = if (knowledge.detectLanguage(request)
+                        ?.substringBefore('-') == "en"
+                ) request.query else runtime.generate(
+                    variant,
+                    com.t8rin.imagetoolbox.feature.assistant.domain.assistantTranslationPrompt(
+                        request,
+                        variant
+                    ),
+                    maxOutputTokens = 160
+                ) {}
+                val output = runtime.generate(
+                    variant,
+                    com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt(
+                        request.copy(query = english),
+                        current,
+                        model = variant
+                    ),
+                    maxOutputTokens = 96,
+                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar
+                ) {}
+                val interpretation =
+                    com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.parse(
+                        output
+                    )
+                report.put(
+                    JSONObject().put("question", request.query).put("english", english)
+                        .put("output", interpretation::class.simpleName)
+                        .put("ms", (System.nanoTime() - started) / 1_000_000).put(
+                            "passed",
+                            (interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search || interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.More) == (value.getString(
+                                "intent"
+                            ) == "photos")
+                        )
+                )
+                File(app.cacheDir, "assistant-intent-probe-results.json").writeText(
+                    report.toString(
+                        2
+                    )
+                )
+            }
+            assertTrue(
+                report.toString(),
+                (0 until report.length()).all { report.getJSONObject(it).getBoolean("passed") })
+        } finally {
+            runtime.release()
+        }
+    }
+
+    @Test
+    fun recordsStructuredControllerCases() = runBlocking {
+        val args = InstrumentationRegistry.getArguments()
+        val source = args.getString("controllerCases") ?: return@runBlocking
+        val variant =
+            AssistantModel.entries.first { it.id == (args.getString("assistantModels") ?: "lite") }
+        val cases = JSONArray(File(app.cacheDir, source).readText())
+        val runtime = AssistantModels()
+        val report = JSONArray()
+        try {
+            for (index in 0 until cases.length()) {
+                val value = cases.getJSONObject(index)
+                val started = System.nanoTime()
+                val record = JSONObject().put("case", value.getString("name"))
+                report.put(record)
+                var image: Bitmap? = null
+                try {
+                    image = value.optString("image").takeIf(String::isNotBlank)?.let {
+                        checkNotNull(BitmapFactory.decodeFile(File(app.cacheDir, it).absolutePath))
+                    }
+                    val output = withTimeout(120_000) {
+                        runtime.generate(
+                            variant,
+                            value.optString("prompt").ifEmpty {
+                                assistantPrompt(
+                                    value.getString("system"),
+                                    emptyList(),
+                                    value.getString("input"),
+                                    false
+                                )
+                            },
+                            images = listOfNotNull(image),
+                            maxOutputTokens = value.optInt("tokens", 384),
+                            thinking = value.optBoolean("thinking"),
+                            sample = value.optBoolean("sample"),
+                            responseGrammar = value.optString("grammar").takeIf { it.isNotEmpty() }
+                        ) {}
+                    }
+                    record.put("output", output)
+                } catch (failure: Exception) {
+                    record.put("error", failure.toString())
+                } finally {
+                    image?.recycle()
+                }
+                record.put("totalMs", (System.nanoTime() - started) / 1_000_000)
+                File(
+                    app.cacheDir,
+                    "assistant-controller-records.json"
+                ).writeText(report.toString(2))
+            }
+        } finally {
+            runtime.release()
+        }
+    }
+
+    @Test
+    fun profilesStructuredDecoding() = runBlocking(Dispatchers.Default) {
+        val args = InstrumentationRegistry.getArguments()
+        val source = args.getString("decodingCases") ?: return@runBlocking
+        val variant =
+            AssistantModel.entries.first { it.id == (args.getString("assistantModels") ?: "lite") }
+        val directory = File(app.filesDir, "ai_models/assistant/${variant.id}")
+        assumeTrue(directory.resolve("model.onnx").isFile)
+        val cases = JSONArray(File(app.cacheDir, source).readText())
+        val report = JSONArray()
+        val configuration = JSONObject(directory.resolve("genai_config.json").readText())
+        configuration.getJSONObject("model").getJSONObject("decoder")
+            .getJSONObject("session_options")
+            .put("intra_op_num_threads", 4)
+        OrtEnvironment.getEnvironment().setTelemetry(false)
+        GenAI.setTelemetry(false)
+        Config(directory.absolutePath).use { config ->
+            config.overlay(configuration.toString())
+            Model(config).use { model ->
+                Tokenizer(model).use { tokenizer ->
+                    for (index in 0 until cases.length()) {
+                        val value = cases.getJSONObject(index)
+                        val request = AssistantRequest(
+                            value.getString("question"),
+                            language = value.optString("language").takeIf(String::isNotBlank)
+                        )
+                        val thinking = value.optBoolean("thinking")
+                        val current = value.optJSONObject("current")?.let {
+                            Json.decodeFromString<com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery>(
+                                it.toString()
+                            )
+                        }
+                        val catalog =
+                            com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog(
+                                people = listOf("Marie", "Alex"),
+                                albums = listOf("Trips"),
+                                files = listOf("IMG_20260712.jpg").filter {
+                                    request.query.contains(it)
+                                }
+                            )
+                        val prompt =
+                            if (thinking) com.t8rin.imagetoolbox.feature.assistant.domain.assistantReplyPrompt(
+                                request,
+                                knowledge.grounding(request, AssistantAnswer(""), variant),
+                                emptyList(),
+                                model = variant,
+                                thinking = true
+                            ) else com.t8rin.imagetoolbox.feature.assistant.domain.assistantCommandPrompt(
+                                request,
+                                current,
+                                catalog,
+                                variant
+                            )
+                        val grammar =
+                            if (thinking) "start: thought <[${tokenizer.eorTokenId}]> response\nthought[max_tokens=96]: /[^<]*/\nresponse: /(.|\\n)*/"
+                            else com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand.grammar(
+                                current,
+                                catalog,
+                                request.query
+                            )
+                        val strategies =
+                            if (!thinking && args.getString("beamSearch") == "true") listOf(
+                                1 to false,
+                                1 to true,
+                                2 to false
+                            ) else listOf(1 to false, 1 to true)
+                        for ((beams, fastForward) in strategies) {
+                            val record =
+                                JSONObject().put("question", request.query).put("beams", beams)
+                                    .put("fastForward", fastForward)
+                            report.put(record)
+                            val started = System.nanoTime()
+                            try {
+                                tokenizer.encode(prompt).use { input ->
+                                    val size = input.getSequence(0).size
+                                    GeneratorParams(model).use { params ->
+                                        params.setSearchOption(
+                                            "max_length",
+                                            (size + if (thinking) 352 else 256).toDouble()
+                                        )
+                                        params.setSearchOption("do_sample", thinking)
+                                        params.setSearchOption(
+                                            "temperature",
+                                            if (thinking) 0.6 else 0.7
+                                        )
+                                        params.setSearchOption("top_p", if (thinking) 0.95 else 0.8)
+                                        params.setSearchOption("top_k", 20.0)
+                                        params.setSearchOption("num_beams", beams.toDouble())
+                                        params.setSearchOption("repetition_penalty", 1.0)
+                                        params.setGuidance("lark_grammar", grammar, fastForward)
+                                        Generator(model, params).use { generator ->
+                                            generator.appendTokenSequences(input)
+                                            record.put(
+                                                "prefillMs",
+                                                (System.nanoTime() - started) / 1_000_000
+                                            )
+                                            withTimeout(120_000) {
+                                                while (!generator.isDone) {
+                                                    kotlinx.coroutines.currentCoroutineContext()
+                                                        .ensureActive()
+                                                    generator.generateNextToken()
+                                                }
+                                            }
+                                            val output = generator.getSequence(0).drop(size)
+                                                .takeWhile { it !in tokenizer.eosTokenIds }
+                                                .toIntArray()
+                                            val thoughtEnd = output.indexOf(tokenizer.eorTokenId)
+                                            record.put(
+                                                "thinkingTokens",
+                                                if (thoughtEnd >= 0) thoughtEnd else if (thinking) output.size else 0
+                                            )
+                                            record.put(
+                                                "reasoningComplete",
+                                                !thinking || thoughtEnd >= 0
+                                            )
+                                            record.put(
+                                                "output",
+                                                if (thinking && thoughtEnd < 0) "" else tokenizer.decode(
+                                                    if (thoughtEnd >= 0) output.drop(thoughtEnd + 1)
+                                                        .toIntArray() else output
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            } catch (failure: Exception) {
+                                record.put("error", failure.toString())
+                            }
+                            record.put("totalMs", (System.nanoTime() - started) / 1_000_000)
+                            File(
+                                app.cacheDir,
+                                "assistant-decoding-profile.json"
+                            ).writeText(report.toString(2))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    fun profilesCpuThreadCounts() = runBlocking(Dispatchers.Default) {
+        val variant =
+            InstrumentationRegistry.getArguments().getString("assistantModels") ?: "advanced"
+        val directory = File(app.filesDir, "ai_models/assistant/$variant")
+        assumeTrue(directory.resolve("model.onnx").isFile)
+        val report = JSONArray()
+        val prompt = assistantPrompt(
+            "Answer briefly using the supplied facts. " + "ImageToolbox can resize images and convert image formats. ".repeat(
+                30
+            ),
+            emptyList(), "How can I make an image smaller?", false
+        )
+        try {
+            listOf(1, 2, 4).forEach { threads ->
+                Config(directory.absolutePath).use { config ->
+                    val configuration =
+                        JSONObject(directory.resolve("genai_config.json").readText())
+                    configuration.getJSONObject("model").getJSONObject("decoder")
+                        .getJSONObject("session_options").put("intra_op_num_threads", threads)
+                    config.overlay(configuration.toString())
+                    val start = System.nanoTime()
+                    Model(config).use { model ->
+                        val loadSeconds = secondsSince(start)
+                        Tokenizer(model).use { tokenizer ->
+                            repeat(2) { run ->
+                                val record = JSONObject().put("threads", threads).put("run", run)
+                                    .put("loadSeconds", loadSeconds)
+                                report.put(record)
+                                profileGeneration(model, tokenizer, prompt, record)
+                            }
+                        }
+                    }
+                }
+            }
+        } finally {
+            File(app.cacheDir, "assistant-runtime-profile.json").writeText(report.toString(2))
         }
     }
 

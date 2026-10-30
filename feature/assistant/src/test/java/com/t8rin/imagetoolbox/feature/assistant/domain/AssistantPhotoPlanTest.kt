@@ -25,7 +25,7 @@ class AssistantPhotoPlanTest {
     private fun photos(fields: String): AssistantPhotoPlan = AssistantPhotoPlan.parse(fields)
 
     @Test
-    fun narrowKeepsEveryUnchangedConditionAndUsesTheOriginalSceneRequest() {
+    fun narrowKeepsEveryUnchangedConditionAndUsesOnlyVisualDetails() {
         val previous = AssistantGalleryQuery(
             "cat",
             listOf("Alex"),
@@ -35,9 +35,9 @@ class AssistantPhotoPlanTest {
             "IMG*"
         )
         val plan =
-            photos("""{"withinResults":true,"scene":"visual contents","people":{"Marie":"include"}}""")
+            photos("""{"withinResults":true,"scene":"au soleil","people":{"Marie":"include"}}""")
         assertEquals(
-            previous.copy(semantic = "au soleil", people = listOf("Alex", "Marie")),
+            previous.copy(semantic = "cat, au soleil", people = listOf("Alex", "Marie")),
             plan.gallery(previous, "au soleil")
         )
     }
@@ -81,9 +81,9 @@ class AssistantPhotoPlanTest {
     }
 
     @Test
-    fun newSearchDoesNotInheritOldConditionsAndNeverTranslatesTheRequest() {
+    fun newSearchDoesNotInheritOldConditionsOrUseMetadataAsVisualDetails() {
         val plan =
-            photos("""{"resetFilters":true,"scene":"visual contents","album":"Путешествия"}""")
+            photos("""{"resetFilters":true,"scene":"夕焼けの海岸","album":"Путешествия"}""")
         assertEquals(
             AssistantGalleryQuery(semantic = "夕焼けの海岸", album = "Путешествия"),
             plan.gallery(AssistantGalleryQuery(people = listOf("Alex")), "夕焼けの海岸")

@@ -110,6 +110,7 @@ class AssistantRepositoryInstrumentedTest {
         override val encodingDispatcher = Dispatchers.Default
     }
     private val retrievedQueries = mutableListOf<List<String>>()
+    private var lastGrounding = ""
     private val started = CompletableDeferred<Unit>()
     private val reply = CompletableDeferred<AssistantAnswer>()
     private val gallery = AssistantGalleryResult(1, AssistantGalleryQuery(filename = "photo.png"))
@@ -119,6 +120,7 @@ class AssistantRepositoryInstrumentedTest {
     private var active = false
     private var serviceStarts = 0
     private var serviceStops = 0
+    private var catalogCalls = 0
     private var repository: AndroidAssistantRepository? = null
     private val lifecycles = mutableListOf<LifecycleRegistry>()
 
@@ -143,6 +145,14 @@ class AssistantRepositoryInstrumentedTest {
         return withContext(Dispatchers.Main) {
             AndroidAssistantRepository(
                 knowledge = object : AssistantKnowledge by services.knowledge {
+                    override fun grounding(
+                        request: AssistantRequest,
+                        answer: AssistantAnswer,
+                        model: AssistantModel,
+                        hasImage: Boolean
+                    ): String = services.knowledge.grounding(request, answer, model, hasImage)
+                        .also { lastGrounding = it }
+
                     override suspend fun retrieve(
                         request: AssistantRequest,
                         queries: List<String>,
@@ -154,6 +164,11 @@ class AssistantRepositoryInstrumentedTest {
                 },
                 store = store,
                 gallerySearch = object : AssistantGallerySearch by services.gallerySearch {
+                    override suspend fun catalog(question: String): com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog {
+                        catalogCalls++
+                        return services.gallerySearch.catalog(question)
+                    }
+
                     override fun isCurrent(sessionId: Long) = true
                     override suspend fun retry(sessionId: Long): AssistantAnswer {
                         started.complete(Unit)
@@ -571,9 +586,23 @@ class AssistantRepositoryInstrumentedTest {
                     if (cases != null && index !in cases) return@forEachIndexed
                     if (if (manual != null) !manual.getJSONObject(index)
                             .optBoolean("continue") else index != 4
-                    ) withContext(Dispatchers.Main) { component.newConversation() }
+                    ) withContext(Dispatchers.Main) {
+                        component.newConversation()
+                        assertTrue(
+                            "The previous conversation was not cleared",
+                            repository.messages.value.isEmpty()
+                        )
+                        assertEquals(null, services.gallerySearch.currentQuery())
+                    }
                     manual?.getJSONObject(index)?.optString("image")?.takeIf { it.isNotBlank() }
                         ?.let { fixture ->
+                            val image = File(app.cacheDir, fixture)
+                            if (image.isFile) {
+                                withContext(Dispatchers.Main) {
+                                    component.updateSelectedUris(listOf(image.toURI().toString()))
+                                }
+                                return@let
+                            }
                             val bitmap = android.graphics.Bitmap.createBitmap(
                                 384,
                                 384,
@@ -611,6 +640,8 @@ class AssistantRepositoryInstrumentedTest {
                         }
                     val startedAt = System.nanoTime()
                     val retrievalStart = retrievedQueries.size
+                    val catalogStart = catalogCalls
+                    lastGrounding = ""
                     withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
                     withTimeout(185_000) {
                         repository.messages.first { messages ->
@@ -626,6 +657,16 @@ class AssistantRepositoryInstrumentedTest {
                     val useful = if (manual != null) {
                         val expected = manual.getJSONObject(index)
                         (!expected.has("reference") || expected.getString("reference") in ids) &&
+                                (!expected.has("forbidden") || expected.getJSONArray("forbidden")
+                                    .let { values ->
+                                        (0 until values.length()).none {
+                                            text.contains(
+                                                values.getString(
+                                                    it
+                                                ), true
+                                            )
+                                        }
+                                    }) &&
                                 (!expected.has("tool") || message.answer.tools.any {
                                     services.knowledge.resolveTool(
                                         it
@@ -668,6 +709,14 @@ class AssistantRepositoryInstrumentedTest {
                             ) == Character.UnicodeScript.ARABIC
                         }
                     }
+                    val expectedLanguage =
+                        services.knowledge.detectLanguage(AssistantRequest(question))
+                            ?.substringBefore('-')
+                    val answerLanguage = services.knowledge.detectLanguage(AssistantRequest(text))
+                        ?.substringBefore('-')
+                    val languageMatches =
+                        expectedLanguage == null || answerLanguage == null || expectedLanguage == answerLanguage
+                    val protocolFree = !text.contains("<think>") && !text.contains("</think>")
                     val record =
                         JSONObject().put("model", state.variant.id).put("question", question)
                             .put("answer", text).put("error", message.error)
@@ -680,9 +729,15 @@ class AssistantRepositoryInstrumentedTest {
                             .put("totalMs", (System.nanoTime() - startedAt) / 1_000_000)
                             .put("firstTextMs", firstTextMs)
                             .put("preparationMs", preparationMs)
+                            .put("catalogCalls", catalogCalls - catalogStart)
+                            .put("grounding", lastGrounding)
+                            .put("expectedLanguage", expectedLanguage)
+                            .put("answerLanguage", answerLanguage)
+                            .put("languageMatches", languageMatches)
+                            .put("protocolFree", protocolFree)
                             .put(
                                 "passed",
-                                useful && message.error == null && text.isNotBlank() && !com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand.isInternalReply(
+                                useful && languageMatches && protocolFree && catalogCalls == catalogStart && message.error == null && message.answer.gallery == null && text.isNotBlank() && !com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand.isInternalReply(
                                     text
                                 )
                             )
@@ -699,6 +754,21 @@ class AssistantRepositoryInstrumentedTest {
             File(app.cacheDir, "assistant-multilingual-answers.json").writeText(report.toString(2))
         }
         assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
+    fun aNewConversationUsesTheCompletedRepositoryState() = runBlocking {
+        val repository = create()
+        withContext(Dispatchers.Main) { repository.regenerate() }
+        withTimeout(5_000) { started.await() }
+        val component = component(repository)
+        reply.complete(AssistantAnswer("Готово", gallery = gallery))
+        withTimeout(10_000) { repository.isGenerating.first { !it } }
+        withContext(Dispatchers.Main) {
+            component.newConversation()
+            assertTrue(repository.messages.value.isEmpty())
+            assertEquals(null, services.gallerySearch.currentQuery())
+        }
     }
 
     @Test

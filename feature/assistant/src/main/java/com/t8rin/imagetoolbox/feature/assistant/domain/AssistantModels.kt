@@ -39,7 +39,8 @@ data class AssistantReference(
     val title: String,
     val text: String,
     val tipId: String,
-    val categoryKey: String
+    val categoryKey: String,
+    val pageIndex: Int? = null
 )
 
 @Serializable

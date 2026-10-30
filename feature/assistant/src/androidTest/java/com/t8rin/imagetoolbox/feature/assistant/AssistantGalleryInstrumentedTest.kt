@@ -290,6 +290,21 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
+    fun removingAPersonAlsoForgetsTheirPreviousDisambiguation() = runBlocking {
+        enablePeople()
+        groups =
+            listOf(person(1, "Саша", photos.take(3)), person(2, "Саша", photos.drop(3).take(4)))
+        val backend = search()
+        val query = AssistantGalleryQuery(people = listOf("Саша"))
+        backend.search(query, Mode.New, 1)
+        assertEquals(4, backend.choosePerson(1, 2).gallery!!.total)
+        val cleared = backend.search(AssistantGalleryQuery(), Mode.Update, 2).gallery!!
+        assertTrue(cleared.state.chosenPeople.isEmpty())
+        val requestedAgain = backend.search(query, Mode.Update, 3)
+        assertEquals(2, requestedAgain.gallery!!.people.size)
+    }
+
+    @Test
     fun changingDateFiltersSearchesTheWholeLibraryAndDoesNotWaitForIndexing() = runBlocking {
         enablePeople()
         val august =
@@ -531,7 +546,7 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
-    fun structuredGalleryCommandsPreserveOriginalTextAndAllOtherConditions() = runBlocking {
+    fun structuredGalleryCommandsSeparateVisualDetailsFromOtherConditions() = runBlocking {
         val previous = AssistantGalleryQuery(
             "закаты",
             listOf("Alex"),
@@ -541,8 +556,11 @@ class AssistantGalleryInstrumentedTest {
             "IMG*"
         )
         val plan =
-            AssistantPhotoPlan.parse("""{"withinResults":true,"scene":"visual contents"}""")
-        assertEquals(previous.copy(semantic = "en la playa"), plan.gallery(previous, "en la playa"))
+            AssistantPhotoPlan.parse("""{"withinResults":true,"scene":"en la playa"}""")
+        assertEquals(
+            previous.copy(semantic = "закаты, en la playa"),
+            plan.gallery(previous, "en la playa")
+        )
         enablePeople()
         search().search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)
         assertEquals("закаты", searchedQuery)

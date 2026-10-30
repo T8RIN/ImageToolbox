@@ -18,6 +18,7 @@
 package com.t8rin.neural_tools.assistant
 
 import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.genai.Config
 import ai.onnxruntime.genai.GenAI
 import ai.onnxruntime.genai.Generator
 import ai.onnxruntime.genai.GeneratorParams
@@ -30,6 +31,7 @@ import android.os.Build
 import android.os.Process
 import androidx.core.graphics.scale
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.neural_tools.DownloadProgress
 import com.t8rin.neural_tools.ModelFiles
 import com.t8rin.neural_tools.NeuralTool
@@ -48,6 +50,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import java.io.File
 import java.security.MessageDigest
 import java.text.Normalizer
@@ -60,24 +63,6 @@ class AssistantModels : NeuralTool() {
     class InputTooLongException(val tokenCount: Int) : IllegalArgumentException(
         "Assistant input exceeds $MAX_PROMPT_TOKENS tokens: $tokenCount"
     )
-
-    enum class GenerationKind { Reply, Command, SearchQuery }
-
-    private class CachedGeneration(
-        val params: GeneratorParams,
-        val generator: Generator,
-        val penalty: Double,
-        val grammar: String?,
-        var prompt: IntArray = intArrayOf()
-    ) : AutoCloseable {
-        override fun close() {
-            try {
-                generator.close()
-            } finally {
-                params.close()
-            }
-        }
-    }
 
     enum class Phase {
         Missing, Downloading, Verifying, Installed, Error
@@ -104,8 +89,6 @@ class AssistantModels : NeuralTool() {
     private var activeGenerator: Generator? = null
     private var activeModel: Model? = null
     private var activeTokenizer: Tokenizer? = null
-    private val cachedGenerations = mutableMapOf<GenerationKind, CachedGeneration>()
-
 
     @Volatile
     private var activeVariant: AssistantModel? = null
@@ -287,20 +270,44 @@ class AssistantModels : NeuralTool() {
     }
 
     private suspend fun loadModel(variant: AssistantModel) {
+        val verificationStarted = System.nanoTime()
         withContext(Dispatchers.IO) {
             verify(directory.resolve(variant.id), AssistantModelFiles[variant])
         }
+        val verificationMs = (System.nanoTime() - verificationStarted) / 1_000_000
         currentCoroutineContext().ensureActive()
         if (activeVariant != variant) {
             closeModel()
             OrtEnvironment.getEnvironment().setTelemetry(false)
             GenAI.setTelemetry(false)
-            val model = Model(directory.resolve(variant.id).absolutePath)
+            val threads = Runtime.getRuntime().availableProcessors().coerceIn(1, 4)
+            val folder = directory.resolve(variant.id)
+            val configuration = JSONObject(folder.resolve("genai_config.json").readText())
+            val components = if (variant.supportsVision) listOf(
+                "decoder",
+                "embedding",
+                "vision"
+            ) else listOf("decoder")
+            components.forEach {
+                configuration.getJSONObject("model").getJSONObject(it)
+                    .getJSONObject("session_options").put("intra_op_num_threads", threads)
+            }
+            val modelStarted = System.nanoTime()
+            val model = Config(folder.absolutePath).use { config ->
+                config.overlay(configuration.toString())
+                Model(config)
+            }
+            val modelMs = (System.nanoTime() - modelStarted) / 1_000_000
             try {
                 currentCoroutineContext().ensureActive()
+                val tokenizerStarted = System.nanoTime()
                 activeTokenizer = Tokenizer(model)
                 activeModel = model
                 activeVariant = variant
+                makeLog(
+                    tag = "AssistantInference",
+                    data = "model=${variant.id} verifyMs=$verificationMs modelInitMs=$modelMs tokenizerMs=${(System.nanoTime() - tokenizerStarted) / 1_000_000} threads=$threads"
+                )
             } catch (error: Throwable) {
                 model.close()
                 throw error
@@ -313,10 +320,11 @@ class AssistantModels : NeuralTool() {
         prompt: String,
         images: List<Bitmap> = emptyList(),
         maxOutputTokens: Int = MAX_OUTPUT_TOKENS,
-        repetitionPenalty: Double = if (variant.supportsVision) 1.1 else 1.0,
+        repetitionPenalty: Double = 1.0,
         stopOnRepetition: Boolean = true,
-        kind: GenerationKind = GenerationKind.Reply,
         responseGrammar: String? = null,
+        thinking: Boolean = false,
+        sample: Boolean = false,
         onToken: suspend (String) -> Unit
     ) = withContext(Dispatchers.Default) {
         check(isSupported()) { unsupportedReason.orEmpty() }
@@ -334,7 +342,13 @@ class AssistantModels : NeuralTool() {
             packageLocks.getValue(variant).withLock {
                 runtimeLock.withLock {
                     try {
+                        val loadStarted = System.nanoTime()
+                        val cold = activeVariant != variant
                         loadModel(variant)
+                        makeLog(
+                            tag = "AssistantInference",
+                            data = "model=${variant.id} cold=$cold loadMs=${(System.nanoTime() - loadStarted) / 1_000_000} promptChars=${prompt.length} images=${images.size}"
+                        )
                         currentCoroutineContext().ensureActive()
                         if (variant.supportsVision) {
                             generateVisionTokens(
@@ -344,6 +358,8 @@ class AssistantModels : NeuralTool() {
                                 repetitionPenalty,
                                 stopOnRepetition,
                                 responseGrammar,
+                                thinking,
+                                sample,
                                 onToken
                             )
                         } else {
@@ -352,8 +368,9 @@ class AssistantModels : NeuralTool() {
                                 maxOutputTokens,
                                 repetitionPenalty,
                                 stopOnRepetition,
-                                kind,
                                 responseGrammar,
+                                thinking,
+                                sample,
                                 onToken
                             )
                         }
@@ -373,62 +390,17 @@ class AssistantModels : NeuralTool() {
         maxOutputTokens: Int,
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
-        kind: GenerationKind,
         responseGrammar: String?,
+        thinking: Boolean,
+        sample: Boolean,
         onToken: suspend (String) -> Unit
     ): String {
         val tokenizer = checkNotNull(activeTokenizer)
-        return tokenizer.encode(prompt).use { tokens ->
-            val input = tokens.getSequence(0)
-            if (input.size > MAX_PROMPT_TOKENS) throw InputTooLongException(input.size)
-            if (cachedGenerations[kind]?.penalty != repetitionPenalty || cachedGenerations[kind]?.grammar != responseGrammar) {
-                cachedGenerations.remove(kind)?.close()
-                val params = GeneratorParams(checkNotNull(activeModel))
-                params.setSearchOption(
-                    "max_length",
-                    (MAX_PROMPT_TOKENS + MAX_OUTPUT_TOKENS).toDouble()
-                )
-                params.setSearchOption("do_sample", false)
-                params.setSearchOption("repetition_penalty", repetitionPenalty)
-                responseGrammar?.let { params.setGuidance("lark_grammar", it, false) }
-                cachedGenerations[kind] = CachedGeneration(
-                    params,
-                    Generator(checkNotNull(activeModel), params),
-                    repetitionPenalty,
-                    responseGrammar
-                )
-            }
-            val cached = checkNotNull(cachedGenerations[kind])
-            val generator = cached.generator
-            var shared = 0
-            while (shared < minOf(
-                    input.size,
-                    cached.prompt.size
-                ) && input[shared] == cached.prompt[shared]
-            ) shared++
-            synchronized(nativeLock) { activeGenerator = generator }
-            try {
-                runCancellable {
-                    if (generator.tokenCount() > 0) generator.rewindTo(shared.toLong())
-                    if (shared < input.size) generator.appendTokens(
-                        input.copyOfRange(
-                            shared,
-                            input.size
-                        )
-                    )
-                }
-                cached.prompt = input
-                android.util.Log.d(
-                    "AssistantInference",
-                    "kind=$kind prefillTokens=${input.size - shared} reusedTokens=$shared"
-                )
-                val output =
-                    streamTokens(generator, tokenizer, maxOutputTokens, stopOnRepetition, onToken)
-                cached.prompt = generator.getSequence(0)
-                output
-            } finally {
-                synchronized(nativeLock) { activeGenerator = null }
-            }
+        return tokenizer.encode(prompt).use { input ->
+            generateTokens(
+                input.getSequence(0).size, maxOutputTokens, repetitionPenalty,
+                stopOnRepetition, responseGrammar, thinking, sample, onToken
+            ) { generator -> generator.appendTokenSequences(input) }
         }
     }
 
@@ -439,6 +411,8 @@ class AssistantModels : NeuralTool() {
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
         responseGrammar: String?,
+        thinking: Boolean,
+        sample: Boolean,
         onToken: suspend (String) -> Unit
     ): String {
         val inputSize = checkNotNull(activeTokenizer).encode(prompt).use { tokens ->
@@ -448,7 +422,12 @@ class AssistantModels : NeuralTool() {
         return MultiModalProcessor(checkNotNull(activeModel)).use { processor ->
             withPreparedImage(image) { file ->
                 file?.let { Images(it.absolutePath) }.use { images ->
+                    val imageStarted = System.nanoTime()
                     processor.processImages(prompt, images).use { inputs ->
+                        makeLog(
+                            tag = "AssistantInference",
+                            data = "imageProcessMs=${(System.nanoTime() - imageStarted) / 1_000_000}"
+                        )
                         currentCoroutineContext().ensureActive()
                         generateTokens(
                             inputSize,
@@ -456,6 +435,8 @@ class AssistantModels : NeuralTool() {
                             repetitionPenalty,
                             stopOnRepetition,
                             responseGrammar,
+                            thinking,
+                            sample,
                             onToken
                         ) { generator ->
                             generator.setInputs(inputs)
@@ -476,24 +457,39 @@ class AssistantModels : NeuralTool() {
         repetitionPenalty: Double,
         stopOnRepetition: Boolean,
         responseGrammar: String?,
+        thinking: Boolean,
+        sample: Boolean,
         onToken: suspend (String) -> Unit,
         prepare: (Generator) -> Unit
     ): String {
         if (inputSize > MAX_PROMPT_TOKENS) throw InputTooLongException(inputSize)
         GeneratorParams(checkNotNull(activeModel)).use { params ->
             params.setSearchOption("max_length", (inputSize + maxOutputTokens).toDouble())
-            params.setSearchOption("do_sample", false)
+            params.setSearchOption("do_sample", sample)
+            params.setSearchOption("temperature", if (thinking) 0.6 else 0.7)
+            params.setSearchOption("top_p", if (thinking) 0.95 else 0.8)
+            params.setSearchOption("top_k", 20.0)
             params.setSearchOption("repetition_penalty", repetitionPenalty)
-            responseGrammar?.let { params.setGuidance("lark_grammar", it, false) }
+            val grammar = if (thinking && responseGrammar != null) {
+                "start: thought <[${checkNotNull(activeTokenizer).eorTokenId}]> response\nthought: /[^<]*/\n" +
+                        responseGrammar.replaceFirst("start:", "response:")
+            } else responseGrammar
+            grammar?.let { params.setGuidance("lark_grammar", it, false) }
             Generator(checkNotNull(activeModel), params).use { generator ->
                 synchronized(nativeLock) { activeGenerator = generator }
                 try {
+                    val prefillStarted = System.nanoTime()
                     runCancellable { prepare(generator) }
+                    makeLog(
+                        tag = "AssistantInference",
+                        data = "promptTokens=${generator.tokenCount()} prefillMs=${(System.nanoTime() - prefillStarted) / 1_000_000}"
+                    )
                     return streamTokens(
                         generator,
                         checkNotNull(activeTokenizer),
                         maxOutputTokens,
                         stopOnRepetition,
+                        thinking,
                         onToken
                     )
                 } finally {
@@ -540,33 +536,62 @@ class AssistantModels : NeuralTool() {
         tokenizer: Tokenizer,
         maxOutputTokens: Int,
         stopOnRepetition: Boolean,
+        thinking: Boolean,
         onToken: suspend (String) -> Unit
     ): String {
+        val started = System.nanoTime()
+        var generated = 0
+        var firstTokenMs: Long? = null
         val output = StringBuilder()
-        tokenizer.createStream().use { stream ->
-            val eos = tokenizer.eosTokenIds.toSet()
-            var emittedTokens = generator.tokenCount().toInt()
-            val limit = emittedTokens + maxOutputTokens
-            while (emittedTokens < limit) {
-                currentCoroutineContext().ensureActive()
-                if (generator.isDone) break
-                runCancellable { generator.generateNextToken() }
-                val count = generator.tokenCount().toInt()
-                if (count <= emittedTokens) break
-                emittedTokens = count
-                val token = generator.getLastTokenInSequence(0)
-                if (token in eos) break
-                val delta = stream.decode(token)
-                if (delta.isNotEmpty()) {
-                    output.append(delta)
-                    if (stopOnRepetition) repeatedAssistantSuffix(output)?.let { end ->
-                        return output.substring(0, end).trimEnd()
+        var inThought = thinking
+        var thinkingTokens = 0
+        try {
+            tokenizer.createStream().use { stream ->
+                val eos = tokenizer.eosTokenIds.toSet()
+                var emittedTokens = generator.tokenCount().toInt()
+                val limit = emittedTokens + maxOutputTokens
+                while (emittedTokens < limit) {
+                    currentCoroutineContext().ensureActive()
+                    if (generator.isDone) break
+                    runCancellable { generator.generateNextToken() }
+                    val count = generator.tokenCount().toInt()
+                    if (count <= emittedTokens) break
+                    val tokens = if (count == emittedTokens + 1) {
+                        intArrayOf(generator.getLastTokenInSequence(0))
+                    } else generator.getSequence(0).copyOfRange(emittedTokens, minOf(count, limit))
+                    emittedTokens = count
+                    for (token in tokens) {
+                        generated++
+                        if (token in eos) {
+                            check(!inThought) { "Assistant ended before completing reasoning" }
+                            return output.toString()
+                        }
+                        if (inThought) {
+                            if (token == tokenizer.eorTokenId) inThought = false
+                            else thinkingTokens++
+                            continue
+                        }
+                        val delta = stream.decode(token)
+                        if (delta.isNotEmpty()) {
+                            if (firstTokenMs == null) firstTokenMs =
+                                (System.nanoTime() - started) / 1_000_000
+                            output.append(delta)
+                            if (stopOnRepetition) repeatedAssistantSuffix(output)?.let { end ->
+                                return output.substring(0, end).trimEnd()
+                            }
+                            onToken(delta)
+                        }
                     }
-                    onToken(delta)
                 }
             }
+            check(!inThought) { "Assistant did not complete reasoning within the output limit" }
+            return output.toString()
+        } finally {
+            makeLog(
+                tag = "AssistantInference",
+                data = "outputTokens=$generated thinkingTokens=$thinkingTokens firstTokenMs=$firstTokenMs decodeMs=${(System.nanoTime() - started) / 1_000_000}"
+            )
         }
-        return output.toString()
     }
 
     fun cancel() {
@@ -583,14 +608,7 @@ class AssistantModels : NeuralTool() {
         }
     }
 
-    private fun closeGenerator() {
-        val entries = cachedGenerations.values.toList()
-        cachedGenerations.clear()
-        entries.forEach(CachedGeneration::close)
-    }
-
     private fun closeModel() {
-        closeGenerator()
         val tokenizer = activeTokenizer
         val model = activeModel
         activeTokenizer = null
@@ -729,8 +747,10 @@ class AssistantModels : NeuralTool() {
         const val MAX_PROMPT_TOKENS = 3072
         const val MAX_OUTPUT_TOKENS = 1024
         const val MAX_IMAGES = 1
-        const val MAX_IMAGE_SIZE = 768
-        private const val MAX_IMAGE_TOKENS = MAX_IMAGE_SIZE * MAX_IMAGE_SIZE / (32 * 32)
+        const val MAX_IMAGE_SIZE = 1024
+
+        // The model processor limits pixel area, independently of the longest input side.
+        private const val MAX_IMAGE_TOKENS = 768 * 768 / (32 * 32)
         private const val VERIFY_BUFFER_SIZE = 1024 * 1024
         private val packageLocks = AssistantModel.entries.associateWith { Mutex() }
         private val downloadJobs = ConcurrentHashMap<AssistantModel, Job>()

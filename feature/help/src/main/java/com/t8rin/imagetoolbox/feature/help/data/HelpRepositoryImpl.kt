@@ -4921,6 +4921,20 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             )
         ),
         tip(
+            id = "setting-opaque-image-viewer-background",
+            title = R.string.opaque_image_viewer_background,
+            subtitle = R.string.opaque_image_viewer_background_sub,
+            icon = Icons.Outlined.Preview,
+            category = customization,
+            deepLink = Screen.Settings(targetSetting = Setting.OpaqueImageViewerBackground),
+            pageTitle = R.string.opaque_image_viewer_background,
+            description = R.string.opaque_image_viewer_background_sub,
+            steps = listOf(
+                R.string.help_tip_setting_opaque_viewer_step_1,
+                R.string.help_tip_setting_opaque_viewer_step_2
+            )
+        ),
+        tip(
             id = "setting-draw-bitmap-border",
             title = R.string.draw_bitmap_border,
             subtitle = R.string.draw_bitmap_border_sub,
