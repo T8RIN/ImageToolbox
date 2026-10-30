@@ -87,7 +87,7 @@ commonsCompress = "1.28.0"
 junrar = "8.1.2"
 xz = "1.12"
 
-onnx = "1.31.0"
+onnx = "1.31.1"
 onnx-genai = "0.17.0"
 commonmark = "0.31.0"
 snowballStemmer = "1.3.0.581.1"
