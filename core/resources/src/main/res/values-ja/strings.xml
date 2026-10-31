@@ -7447,6 +7447,11 @@
     <string name="help_tip_face_privacy_step_4">カバーされたすべての領域をフルサイズで検査し、編集したコピーを保存して共有します。個人情報が含まれている場合は、原本を別に保管してください。</string>
     <string name="assistant_thinking">回答を準備中…</string>
     <string name="assistant_generation_timeout">答えに時間がかかりすぎました。より小さなモデルまたはより短い質問を試してください。</string>
+    <string name="assistant_file_size_already_fits">ファイルは %1$s バイトで、すでに上限 %2$s（%3$s バイト）以内です。圧縮は不要です。</string>
+    <string name="assistant_clarification">何を変更したい、または知りたいですか？画像、ツール名、または用語が使われている文脈を追加してください。</string>
+    <string name="assistant_capabilities">ImageToolboxのツールや設定の説明、一般的な質問への回答、写っている内容・名前を付けた人物・除外する人物・日付・アルバム・ファイル名による写真検索ができます。検索には写真へのアクセス権が必要です。内容や人物の検索には検索モデルとインデックス作成も必要です。編集方法を説明し、実際の変更はツールで行っていただきます。</string>
+    <string name="assistant_capabilities_text">選択中のモデルはテキストとファイルのメタデータを扱います。写真に写っている内容を質問するにはVisionを選択してください。</string>
+    <string name="assistant_capabilities_vision">選択中のモデルでは写真を1枚添付して、写っている内容や適した編集について質問できます。</string>
     <string name="assistant_scope">私は、画像やファイルの編集、ツールの選択、アプリ設定の変更など、ImageToolbox を手伝っています。</string>
     <string name="assistant_gallery_disabled">写真検索は無効になっています。設定を開いて有効にし、ここに戻って検索を繰り返します。</string>
     <string name="assistant_gallery_disabled_people">写真検索は無効になっています。まず有効にしてください。次に、ギャラリーを開き、検索設定で「グループユーザー」を有効にします。ここに戻って検索を繰り返します。</string>

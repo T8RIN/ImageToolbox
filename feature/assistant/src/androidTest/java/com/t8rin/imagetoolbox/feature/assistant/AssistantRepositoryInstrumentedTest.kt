@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSearchIndex
 import com.t8rin.imagetoolbox.feature.assistant.presentation.screenLogic.AssistantComponent
@@ -149,17 +150,32 @@ class AssistantRepositoryInstrumentedTest {
                         request: AssistantRequest,
                         answer: AssistantAnswer,
                         model: AssistantModel,
-                        hasImage: Boolean
-                    ): String = services.knowledge.grounding(request, answer, model, hasImage)
+                        hasImage: Boolean,
+                        includeToolGuide: Boolean
+                    ): String = services.knowledge.grounding(
+                        request,
+                        answer,
+                        model,
+                        hasImage,
+                        includeToolGuide
+                    )
                         .also { lastGrounding = it }
 
                     override suspend fun retrieve(
                         request: AssistantRequest,
                         queries: List<String>,
-                        sources: List<String>
+                        sources: List<String>,
+                        minimumCoverage: Double?,
+                        definition: Boolean
                     ): AssistantAnswer {
                         retrievedQueries.add(queries)
-                        return services.knowledge.retrieve(request, queries, sources)
+                        return services.knowledge.retrieve(
+                            request,
+                            queries,
+                            sources,
+                            minimumCoverage,
+                            definition
+                        )
                     }
                 },
                 store = store,
@@ -170,6 +186,11 @@ class AssistantRepositoryInstrumentedTest {
                     }
 
                     override fun isCurrent(sessionId: Long) = true
+                    override suspend fun more(sessionId: Long, language: String?): AssistantAnswer {
+                        started.complete(Unit)
+                        return reply.await()
+                    }
+
                     override suspend fun retry(sessionId: Long): AssistantAnswer {
                         started.complete(Unit)
                         return reply.await()
@@ -570,7 +591,14 @@ class AssistantRepositoryInstrumentedTest {
             "¿Y cuáles de ellos conservan la transparencia?",
             "كيف أحول الصورة إلى PNG؟",
             "Pourquoi le ciel est-il bleu ?",
-            "¿Cuánto es 17 por 6?"
+            "¿Cuánto es 17 por 6?",
+            "Hi",
+            "Привет",
+            "Write a haiku about autumn",
+            "Расскажи короткую сказку про кота",
+            "Как изменить отдельный тег EXIF?",
+            "Explain checksums",
+            "How do I make a GIF from photos?"
         )
         val report = JSONArray()
         val failures = mutableListOf<String>()
@@ -676,6 +704,16 @@ class AssistantRepositoryInstrumentedTest {
                                     expected.getString("contains"),
                                     true
                                 )) &&
+                                (!expected.has("containsAny") || expected.getJSONArray("containsAny")
+                                    .let { values ->
+                                        (0 until values.length()).any {
+                                            text.contains(
+                                                values.getString(
+                                                    it
+                                                ), true
+                                            )
+                                        }
+                                    }) &&
                                 (!expected.optBoolean("noSources") || ids.isEmpty()) &&
                                 (!expected.optBoolean("cyrillic") || text.any {
                                     Character.UnicodeScript.of(
@@ -703,6 +741,12 @@ class AssistantRepositoryInstrumentedTest {
                         4 -> text.contains("PNG", true) || text.contains("WebP", true)
                         6 -> text.contains("bleu", true) && ids.isEmpty()
                         7 -> text.contains("102") && ids.isEmpty()
+                        8, 9, 10, 11 -> ids.isEmpty() && message.answer.tools.isEmpty() &&
+                                message.answer.settings.isEmpty()
+
+                        12 -> message.answer.tools.any { it.key == Screen.EditExif().simpleName }
+                        13 -> message.answer.tools.any { it.key == Screen.ChecksumTools().simpleName }
+                        14 -> message.answer.tools.any { it.key == Screen.GifTools().simpleName }
                         else -> text.contains("PNG", true) && text.any {
                             Character.UnicodeScript.of(
                                 it.code
@@ -757,6 +801,23 @@ class AssistantRepositoryInstrumentedTest {
     }
 
     @Test
+    fun galleryPaginationUsesTheExistingSearchWithoutAModelOrCatalogRead() = runBlocking {
+        val repository = create()
+        val component = component(repository)
+        val original = repository.messages.value.single()
+        withContext(Dispatchers.Main) { component.moreGalleryPhotos(original) }
+        withTimeout(2_000) { started.await() }
+        assertEquals(0, catalogCalls)
+        assertEquals(AssistantRepository.Progress.FindingPhotos, repository.progress.value)
+        reply.complete(AssistantAnswer("Next page", gallery = gallery))
+        withTimeout(5_000) { repository.isGenerating.first { !it } }
+        assertEquals(2, repository.messages.value.size)
+        assertEquals("Next page", repository.messages.value.last().answer.text)
+        assertEquals(null, repository.progress.value)
+        assertFalse(repository.canContinueGallery(original))
+    }
+
+    @Test
     fun aNewConversationUsesTheCompletedRepositoryState() = runBlocking {
         val repository = create()
         withContext(Dispatchers.Main) { repository.regenerate() }
@@ -776,10 +837,12 @@ class AssistantRepositoryInstrumentedTest {
         val repository = create()
         withContext(Dispatchers.Main) { repository.regenerate() }
         withTimeout(5_000) { started.await() }
+        assertEquals(AssistantRepository.Progress.FindingPhotos, repository.progress.value)
         withContext(Dispatchers.Main) { repository.stop() }
         withTimeout(10_000) { repository.isGenerating.first { busy -> !busy } }
         assertEquals(null, repository.messages.value.single().error)
         assertEquals(repository.messages.value, AndroidAssistantConversationStore(context).load())
+        assertEquals(null, repository.progress.value)
         assertFalse(active)
         assertEquals(1, serviceStops)
     }
@@ -796,6 +859,7 @@ class AssistantRepositoryInstrumentedTest {
         }
         withTimeout(10_000) { repository.isGenerating.first { busy -> !busy } }
         assertEquals(null, repository.messages.value.single().error)
+        assertEquals(null, repository.progress.value)
         assertFalse(active)
     }
 
@@ -811,6 +875,7 @@ class AssistantRepositoryInstrumentedTest {
             repository.messages.value.single().error
         )
         assertEquals(repository.messages.value, AndroidAssistantConversationStore(context).load())
+        assertEquals(null, repository.progress.value)
         assertFalse(active)
         assertEquals(1, serviceStops)
     }

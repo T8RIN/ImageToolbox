@@ -7480,6 +7480,11 @@
     <string name="help_tip_face_privacy_step_4">قم بفحص كل منطقة مغطاة بالحجم الكامل، ثم احفظ النسخة المعدلة وشاركها. احتفظ بالنسخة الأصلية منفصلة إذا كانت لا تزال تحتوي على معلومات خاصة.</string>
     <string name="assistant_thinking">جاري تحضير الجواب...</string>
     <string name="assistant_generation_timeout">استغرق الجواب وقتا طويلا. جرب نموذجًا أصغر أو سؤالًا أقصر.</string>
+    <string name="assistant_file_size_already_fits">حجم الملف %1$s بايت وهو ضمن الحد %2$s (%3$s بايت) بالفعل. لا حاجة إلى ضغطه.</string>
+    <string name="assistant_clarification">ما الذي تريد تغييره أو معرفته؟ أضف صورة أو اسم الأداة أو السياق الذي ورد فيه المصطلح.</string>
+    <string name="assistant_capabilities">يمكنني شرح أدوات ImageToolbox وإعداداته، والإجابة عن الأسئلة العامة، والبحث عن الصور حسب المحتوى المرئي والأشخاص المسمّين والاستثناءات والتواريخ والألبوم أو اسم الملف. يتطلب البحث إذن الوصول إلى الصور، ويتطلب البحث عن المحتوى والأشخاص نماذج البحث والفهرسة أيضًا. أشرح التعديلات، وأنت تطبقها في الأدوات.</string>
+    <string name="assistant_capabilities_text">يعمل النموذج المحدد مع النص وبيانات الملفات الوصفية. اختر Vision للسؤال عن المحتوى المرئي في صورة.</string>
+    <string name="assistant_capabilities_vision">يمكنك مع النموذج المحدد إرفاق صورة واحدة والسؤال عن محتواها المرئي أو التعديلات المناسبة.</string>
     <string name="assistant_scope">أساعد في ImageToolbox: تحرير الصور والملفات واختيار الأدوات وتغيير إعدادات التطبيق.</string>
     <string name="assistant_gallery_disabled">تم تعطيل البحث عن الصور. افتح إعداداته وقم بتمكينه ثم عد إلى هنا وكرر البحث.</string>
     <string name="assistant_gallery_disabled_people">تم تعطيل البحث عن الصور. تمكينه أولا. ثم افتح المعرض وقم بتمكين \"تجميع الأشخاص\" في إعدادات البحث. ارجع هنا وكرر البحث.</string>

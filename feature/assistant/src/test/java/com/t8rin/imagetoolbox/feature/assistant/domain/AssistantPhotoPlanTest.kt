@@ -38,7 +38,7 @@ class AssistantPhotoPlanTest {
             photos("""{"withinResults":true,"scene":"au soleil","people":{"Marie":"include"}}""")
         assertEquals(
             previous.copy(semantic = "cat, au soleil", people = listOf("Alex", "Marie")),
-            plan.gallery(previous, "au soleil")
+            plan.gallery(previous)
         )
     }
 
@@ -53,7 +53,7 @@ class AssistantPhotoPlanTest {
         val plan = photos("""{"resetFilters":false,"from":"2026-08-01"}""")
         assertEquals(
             previous.copy(from = "2026-08-01", to = null),
-            plan.gallery(previous, "since August")
+            plan.gallery(previous)
         )
     }
 
@@ -68,15 +68,15 @@ class AssistantPhotoPlanTest {
                 album = "Trips",
                 filename = "IMG*"
             )
-        assertEquals(previous, photos("""{"resetFilters":false}""").gallery(previous, "continue"))
+        assertEquals(previous, photos("""{"resetFilters":false}""").gallery(previous))
         assertEquals(
             previous,
-            photos("""{"scene":"","from":"","to":""}""").gallery(previous, "continue")
+            photos("""{"scene":"","from":"","to":""}""").gallery(previous)
         )
-        val plan = photos("""{"resetFilters":false,"clear":["People","Album"]}""")
+        val plan = photos("""{"resetFilters":false,"clear":["people","album"]}""")
         assertEquals(
             previous.copy(people = emptyList(), album = null),
-            plan.gallery(previous, "clear people and album")
+            plan.gallery(previous)
         )
     }
 
@@ -86,7 +86,7 @@ class AssistantPhotoPlanTest {
             photos("""{"resetFilters":true,"scene":"夕焼けの海岸","album":"Путешествия"}""")
         assertEquals(
             AssistantGalleryQuery(semantic = "夕焼けの海岸", album = "Путешествия"),
-            plan.gallery(AssistantGalleryQuery(people = listOf("Alex")), "夕焼けの海岸")
+            plan.gallery(AssistantGalleryQuery(people = listOf("Alex")))
         )
     }
 
@@ -100,8 +100,7 @@ class AssistantPhotoPlanTest {
         assertTrue(runCatching { AssistantPhotoPlan.parse("""{"supported":false}""") }.isFailure)
         assertTrue(runCatching {
             photos("""{"withinResults":true}""").gallery(
-                null,
-                "more"
+                null
             )
         }.isFailure)
     }
@@ -114,13 +113,12 @@ class AssistantPhotoPlanTest {
             album = "Trips"
         )
         val changed =
-            photos("""{"from":"2026-08-01","to":"2026-08-31"}""").gallery(previous, "August")
+            photos("""{"from":"2026-08-01","to":"2026-08-31"}""").gallery(previous)
         assertEquals(listOf("Alex"), changed.excludedPeople)
         assertEquals(previous.people, changed.people)
         assertTrue(
-            photos("""{"clear":["People"]}""").gallery(
-                previous,
-                "clear people"
+            photos("""{"clear":["people"]}""").gallery(
+                previous
             ).excludedPeople.isEmpty()
         )
     }
@@ -128,12 +126,11 @@ class AssistantPhotoPlanTest {
     @Test
     fun explicitInclusionAndExclusionReplaceTheOppositeIdentityCondition() {
         val previous = AssistantGalleryQuery(people = listOf("Marie", "Alex"), album = "Trips")
-        val without = photos("""{"people":{"Alex":"exclude"}}""").gallery(previous, "without Alex")
+        val without = photos("""{"people":{"Alex":"exclude"}}""").gallery(previous)
         assertEquals(listOf("Marie"), without.people)
         assertEquals(listOf("Alex"), without.excludedPeople)
         val with = photos("""{"withinResults":false,"people":{"Alex":"include"}}""").gallery(
-            without,
-            "with Alex"
+            without
         )
         assertEquals(listOf("Marie", "Alex"), with.people)
         assertTrue(with.excludedPeople.isEmpty())
@@ -144,17 +141,17 @@ class AssistantPhotoPlanTest {
     fun clearingOldFiltersCanApplyReplacementValuesInTheSameRequest() {
         val previous = AssistantGalleryQuery(people = listOf("Alex"), album = "Trips")
         val plan =
-            photos("""{"clear":["People","Album"],"album":"Family","people":{"Marie":"include"}}""")
+            photos("""{"clear":["people","album"],"album":"Family","people":{"Marie":"include"}}""")
         assertEquals(
             AssistantGalleryQuery(people = listOf("Marie"), album = "Family"),
-            plan.gallery(previous, "Family photos of Marie")
+            plan.gallery(previous)
         )
     }
 
     @Test
     fun nullAlbumDoesNotAccidentallyClearAnExistingCondition() {
         val previous = AssistantGalleryQuery(people = listOf("Marie"), album = "Trips")
-        assertEquals(previous, photos("""{"album":null}""").gallery(previous, "keep the album"))
+        assertEquals(previous, photos("""{"album":null}""").gallery(previous))
     }
 
 }

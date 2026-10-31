@@ -72,7 +72,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
         val offset: Int = 0,
         val ambiguousName: String? = null,
         val choices: Set<Long> = emptySet(),
-        val approximate: Boolean = false
+        val approximate: Boolean = false,
+        val language: String? = null
     )
 
     private var session: Session? = null
@@ -97,6 +98,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
         session = Session(
             id = last.sessionId,
             query = last.query,
+            language = last.state.language,
             source = last.state.sourceUris?.toSet(),
             chosenPeople = last.state.chosenPeople,
             approximate = last.state.approximate,
@@ -129,16 +131,23 @@ class AndroidAssistantGallerySearch @Inject constructor(
     override suspend fun search(
         query: AssistantGalleryQuery,
         mode: AssistantGallerySearch.Mode,
-        sessionId: Long
+        sessionId: Long,
+        language: String?
     ): AssistantAnswer {
         val previous = if (mode != AssistantGallerySearch.Mode.New) {
-            session ?: return AssistantAnswer(text(R.string.assistant_gallery_no_search))
+            session ?: return AssistantAnswer(
+                text(
+                    R.string.assistant_gallery_no_search,
+                    language = language
+                )
+            )
         } else null
         session = Session(
             id = sessionId,
             query = query.normalized(),
+            language = language?.takeIf(String::isNotBlank) ?: previous?.language,
             source = if (mode == AssistantGallerySearch.Mode.Narrow) previous?.matches?.toSet()
-                ?: previous?.source else null,
+                ?: previous?.source else previous?.source,
             chosenPeople = previous?.chosenPeople.orEmpty().filterKeys { name ->
                 (query.people + query.excludedPeople).any { it.equals(name, true) }
             }
@@ -161,8 +170,15 @@ class AndroidAssistantGallerySearch @Inject constructor(
         return findPhotos()
     }
 
-    override suspend fun more(sessionId: Long): AssistantAnswer {
-        if (!isCurrent(sessionId)) return AssistantAnswer(text(R.string.assistant_gallery_no_search))
+    override suspend fun more(sessionId: Long, language: String?): AssistantAnswer {
+        val current = session?.takeIf { it.id == sessionId }
+            ?: return AssistantAnswer(
+                text(
+                    R.string.assistant_gallery_no_search,
+                    language = language
+                )
+            )
+        session = current.copy(language = language?.takeIf(String::isNotBlank) ?: current.language)
         return findPhotos(nextPage = true)
     }
 
@@ -239,7 +255,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
                             )
                             session = selecting
                             return@withContext AssistantAnswer(
-                                text = resources.getString(
+                                text = text(
                                     R.string.assistant_gallery_choose_person,
                                     name
                                 ),
@@ -320,7 +336,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
                 val summary = when {
                     matches.isEmpty() -> text(R.string.assistant_gallery_empty)
                     approximate -> text(R.string.assistant_gallery_closest)
-                    else -> resources.getString(R.string.assistant_gallery_found, matches.size)
+                    else -> text(R.string.assistant_gallery_found, matches.size)
                 }
                 AssistantAnswer(
                     text = summary,
@@ -349,7 +365,8 @@ class AndroidAssistantGallerySearch @Inject constructor(
             ambiguousName = current.ambiguousName,
             choices = current.choices,
             approximate = current.approximate,
-            complete = current.matches != null
+            complete = current.matches != null,
+            language = current.language
         )
     )
 
@@ -377,5 +394,7 @@ class AndroidAssistantGallerySearch @Inject constructor(
         )
     }
 
-    private fun text(id: Int) = resources.getString(id)
+    private fun text(id: Int, vararg arguments: Any, language: String? = session?.language) =
+        if (language.isNullOrBlank()) resources.getString(id, *arguments)
+        else resources.getStringLocalized(id, language, *arguments)
 }

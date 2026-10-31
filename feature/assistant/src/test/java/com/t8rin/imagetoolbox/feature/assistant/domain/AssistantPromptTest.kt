@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import kotlinx.serialization.json.booleanOrNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -25,48 +26,107 @@ import org.junit.Test
 
 class AssistantPromptTest {
     @Test
+    fun thePhotoPlannerUsesTheOriginalRequestWithoutALossyRestatement() {
+        val original = "Exclude Robin."
+        val prompt = assistantCommandPrompt(
+            AssistantRequest("remove Robin condition", language = "en"),
+            AssistantGalleryQuery(people = listOf("Sam")),
+            AssistantGalleryCatalog(people = listOf("Robin", "Sam")),
+            originalQuestion = original
+        )
+        assertTrue(prompt.contains("Request: $original"))
+        assertFalse(prompt.contains("remove Robin condition"))
+        assertFalse(prompt.contains("Reference date:"))
+    }
+
+    @Test
     fun interpretationSeparatesAnswersSearchAndPagination() {
         assertEquals(
             AssistantInterpretation.Search,
-            AssistantInterpretation.parse("""{"action":"search"}""")
+            AssistantInterpretation.parse("""{"action":"photo_filters"}""")
+        )
+        assertEquals(
+            AssistantInterpretation.NextPage,
+            AssistantInterpretation.parse("""{"action":"next_photo_page_unchanged"}""")
+        )
+        assertEquals(
+            AssistantInterpretation.Capabilities,
+            AssistantInterpretation.parse("""{"action":"assistant_capabilities"}""")
         )
         assertEquals(
             AssistantInterpretation.Answer,
-            AssistantInterpretation.parse("""{"action":"answer"}""")
+            AssistantInterpretation.parse("""{"action":"general_knowledge_or_creative_writing"}""")
         )
         assertEquals(
             AssistantInterpretation.Formats(true),
-            AssistantInterpretation.parse("""{"action":"transparency_formats"}""")
+            AssistantInterpretation.parse("""{"action":"list_transparent_export_formats"}""")
         )
         assertEquals(
             AssistantInterpretation.Formats(false),
-            AssistantInterpretation.parse("""{"action":"supported_formats"}""")
-        )
-        assertEquals(
-            AssistantInterpretation.More,
-            AssistantInterpretation.parse("""{"action":"more"}""")
+            AssistantInterpretation.parse("""{"action":"list_image_export_formats"}""")
         )
         assertEquals(
             AssistantInterpretation.Help("EXIF metadata"),
-            AssistantInterpretation.parse("""{"action":"help","query":"EXIF metadata"}""")
+            AssistantInterpretation.parse("""{"goal":"EXIF metadata","action":"editing_instructions"}""")
         )
         assertEquals(
             AssistantInterpretation.Translate("en"),
-            AssistantInterpretation.parse("""{"action":"translate","language":"en"}""")
+            AssistantInterpretation.parse("""{"action":"translate_previous_help","language":"en"}""")
         )
         assertEquals(
             AssistantInterpretation.Clarify,
-            AssistantInterpretation.parse("""{"action":"clarify"}""")
+            AssistantInterpretation.parse("""{"action":"need_context"}""")
         )
-        assertTrue(runCatching { AssistantInterpretation.parse("""{"action":"clarify","question":""}""") }.isFailure)
+        assertTrue(runCatching { AssistantInterpretation.parse("""{"goal":"request","action":"need_context","question":""}""") }.isFailure)
         listOf(
             "unknown",
-            """{"action":"help","query":""}""",
-            """{"action":"search","query":"extra"}"""
+            """{"goal":"","action":"editing_instructions"}""",
+            """{"goal":"request","action":"photo_filters","query":"extra"}"""
         ).forEach {
             assertTrue(runCatching { AssistantInterpretation.parse(it) }.isFailure)
         }
         assertTrue(AssistantCommand.isInternalReply("""{"query":"Find photos.","search":true}"""))
+    }
+
+    @Test
+    fun definitionsRequireTheirCompleteSubjectInTheOriginalQuestionAndDocumentation() {
+        val answer = AssistantAnswer(
+            "",
+            references = listOf(
+                AssistantReference(
+                    "Color palette",
+                    "Choose colors from the image palette.",
+                    "palette",
+                    "editing"
+                )
+            )
+        )
+        assertFalse(
+            answer.documentsSubject(
+                AssistantRequest(
+                    "What is color quarlification?",
+                    language = "en"
+                ), "color quarlification"
+            )
+        )
+        assertFalse(
+            answer.documentsSubject(
+                AssistantRequest("What is EXIF?", language = "en"),
+                "color palette"
+            )
+        )
+        assertTrue(
+            answer.documentsSubject(
+                AssistantRequest(
+                    "What is a color palette?",
+                    language = "en"
+                ), "color palette"
+            )
+        )
+        assertEquals(
+            AssistantInterpretation.Help("image dithering", "image dithering"),
+            AssistantInterpretation.parse("""{"goal":"image dithering","action":"app_term_definition","subject":"image dithering"}""")
+        )
     }
 
     @Test
@@ -110,31 +170,53 @@ class AssistantPromptTest {
     }
 
     @Test
-    fun commandExamplesRemainCompleteJsonAndUseTheSchemaFieldOrder() {
+    fun commandExamplesOnlySupplyChangedFilters() {
         val prompt = assistantCommandPrompt(
             AssistantRequest("Find photos from July."),
             null,
             AssistantGalleryCatalog()
         )
-        val examples = prompt.split("<|im_start|>assistant\n").drop(1)
-            .map { it.substringBefore("<|im_end|>").trim() }
-            .filter { it.startsWith('{') }
-        assertEquals(3, examples.size)
-        examples.forEach { value ->
+        val examples = Regex(
+            "<\\|im_start\\|>user\n(.*?)<\\|im_end\\|>\n<\\|im_start\\|>assistant\n(.*?)<\\|im_end\\|>",
+            RegexOption.DOT_MATCHES_ALL
+        ).findAll(prompt).toList()
+        assertEquals(4, examples.size)
+        examples.forEach { example ->
+            val value = example.groupValues[2].trim()
+            val question = example.groupValues[1].substringAfterLast("Request: ")
             val query = kotlinx.serialization.json.Json.parseToJsonElement(value)
-                .let { it as kotlinx.serialization.json.JsonObject }["query"] as? kotlinx.serialization.json.JsonObject
-            if (query != null) assertEquals(
-                listOf(
-                    "people",
-                    "excludedPeople",
-                    "from",
-                    "to",
-                    "album",
-                    "semantic",
-                    "filename"
-                ), query.keys.toList()
+                .let { it as kotlinx.serialization.json.JsonObject }["query"] as kotlinx.serialization.json.JsonObject
+            assertTrue(query.isNotEmpty())
+            assertTrue(query.filterKeys { it != "scene" }.values.none { it == kotlinx.serialization.json.JsonNull })
+            assertTrue(
+                query["scene"] == kotlinx.serialization.json.JsonNull ||
+                    (query["scene"] as? kotlinx.serialization.json.JsonPrimitive)?.let {
+                        it.isString || it.booleanOrNull != null
+                    } == true)
+            assertTrue(
+                AssistantCommand.parse(
+                    value,
+                    question = question
+                ) is AssistantCommand.Action.SearchPhotos
             )
         }
+    }
+
+    @Test
+    fun syntheticExamplesDoNotBecomePreviousConversationTurns() {
+        val prompt = assistantInterpretationPrompt(AssistantRequest("What should I improve?"), null)
+        assertEquals(1, prompt.split("<|im_start|>user\n").size - 1)
+        assertEquals(1, prompt.split("<|im_start|>assistant\n").size - 1)
+        assertTrue(prompt.contains("Independent examples, not conversation history"))
+    }
+
+    @Test
+    fun anActiveGallerySuppliesContextEvenWithoutEarlierChatMessages() {
+        val prompt = assistantInterpretationPrompt(
+            AssistantRequest("Without Sam."), AssistantGalleryQuery(people = listOf("Robin"))
+        )
+        assertTrue(prompt.contains("Active library photo search"))
+        assertFalse(prompt.contains("No earlier subject is available."))
     }
 
     @Test

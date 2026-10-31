@@ -77,6 +77,8 @@ class AssistantComponent @AssistedInject internal constructor(
     val isCheckingModels by _isCheckingModels
     private val _isGenerating = mutableStateOf(repository.isGenerating.value)
     val isGenerating by _isGenerating
+    private val _progress = mutableStateOf(repository.progress.value)
+    val progress by _progress
     private val _enabled = mutableStateOf(settings.settingsState.value.isAiAssistantEnabled)
     val enabled by _enabled
     private val _selectedModel = mutableStateOf(settings.settingsState.value.aiAssistantModel)
@@ -124,6 +126,9 @@ class AssistantComponent @AssistedInject internal constructor(
         }
         componentScope.launch {
             repository.isGenerating.collect { _isGenerating.value = it }
+        }
+        componentScope.launch {
+            repository.progress.collect { _progress.value = it }
         }
         componentScope.launch {
             repository.error.collect { _error.value = it }
@@ -239,6 +244,11 @@ class AssistantComponent @AssistedInject internal constructor(
 
     fun canContinueGallery(message: AssistantMessage): Boolean =
         repository.canContinueGallery(message)
+
+    fun moreGalleryPhotos(message: AssistantMessage) {
+        if (isBusy || !repository.canContinueGallery(message)) return
+        repository.moreGalleryPhotos(message)
+    }
 
     fun chooseGalleryPerson(message: AssistantMessage, personId: Long) {
         if (!componentScope.isActive) return

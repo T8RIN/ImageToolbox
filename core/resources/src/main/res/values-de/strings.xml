@@ -7476,6 +7476,11 @@
     <string name="help_tip_face_privacy_step_4">Überprüfen Sie jeden abgedeckten Bereich in voller Größe, speichern Sie dann die bearbeitete Kopie und teilen Sie sie. Bewahren Sie das Original getrennt auf, wenn es noch private Informationen enthält.</string>
     <string name="assistant_thinking">Eine Antwort vorbereiten…</string>
     <string name="assistant_generation_timeout">Die Antwort dauerte zu lange. Versuchen Sie es mit einem kleineren Modell oder einer kürzeren Frage.</string>
+    <string name="assistant_file_size_already_fits">Die Datei ist %1$s Byte groß und liegt bereits unter dem Limit von %2$s (%3$s Byte). Eine Komprimierung ist nicht nötig.</string>
+    <string name="assistant_clarification">Was möchtest du ändern oder wissen? Füge ein Bild, einen Werkzeugnamen oder den Zusammenhang des Begriffs hinzu.</string>
+    <string name="assistant_capabilities">Ich erkläre Werkzeuge und Einstellungen von ImageToolbox, beantworte allgemeine Fragen und suche Fotos nach sichtbarem Inhalt, benannten Personen, Ausschlüssen, Datum, Album oder Dateinamen. Die Suche braucht Fotozugriff; für Inhalte und Personen sind außerdem Suchmodelle und eine Indexierung nötig. Ich erkläre Bearbeitungen; du wendest sie in den Werkzeugen an.</string>
+    <string name="assistant_capabilities_text">Das ausgewählte Modell arbeitet mit Text und Dateimetadaten. Wähle Vision für Fragen zum sichtbaren Inhalt eines Fotos.</string>
+    <string name="assistant_capabilities_vision">Mit dem ausgewählten Modell kannst du ein Foto anhängen und nach seinem sichtbaren Inhalt oder möglichen Bearbeitungen fragen.</string>
     <string name="assistant_scope">Ich helfe bei ImageToolbox: Bilder und Dateien bearbeiten, Tools auswählen und App-Einstellungen ändern.</string>
     <string name="assistant_gallery_disabled">Die Fotosuche ist deaktiviert. Öffnen Sie die Einstellung, aktivieren Sie sie, kehren Sie dann hierher zurück und wiederholen Sie die Suche.</string>
     <string name="assistant_gallery_disabled_people">Die Fotosuche ist deaktiviert. Aktivieren Sie es zuerst. Öffnen Sie dann die Galerie und aktivieren Sie „Personen gruppieren“ in den Sucheinstellungen. Kehren Sie hierher zurück und wiederholen Sie die Suche.</string>

@@ -23,23 +23,36 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 interface AssistantKnowledge {
     suspend fun detectLanguage(request: AssistantRequest): String? = request.language
 
-    suspend fun linkTools(request: AssistantRequest, answer: AssistantAnswer): AssistantAnswer =
-        answer
-
     suspend fun retrieve(
         request: AssistantRequest,
         queries: List<String> = emptyList(),
-        sources: List<String> = emptyList()
+        sources: List<String> = emptyList(),
+        minimumCoverage: Double? = null,
+        definition: Boolean = false
     ): AssistantAnswer
 
     suspend fun documentation(
         request: AssistantRequest,
-        reference: AssistantReference
+        reference: AssistantReference,
+        workflow: Boolean = false
     ): AssistantAnswer
 
     fun formats(request: AssistantRequest, alpha: Boolean): AssistantAnswer
 
+    fun capabilities(request: AssistantRequest, model: AssistantModel): AssistantAnswer
+
+    fun clarification(request: AssistantRequest): AssistantAnswer
+
+    fun fileSizeFits(
+        request: AssistantRequest,
+        actualBytes: Long,
+        limitBytes: Long,
+        limitLabel: String
+    ): AssistantAnswer
+
     fun resolveTool(tool: AssistantTool): Screen?
+
+    fun context(request: AssistantRequest): String = ""
 
     fun userPrompt(request: AssistantRequest, answer: AssistantAnswer): String
 
@@ -47,6 +60,17 @@ interface AssistantKnowledge {
         request: AssistantRequest,
         answer: AssistantAnswer,
         model: AssistantModel = AssistantModel.Lite,
-        hasImage: Boolean = false
+        hasImage: Boolean = false,
+        includeToolGuide: Boolean = false
     ): String
+}
+
+internal fun AssistantAnswer.documentsSubject(request: AssistantRequest, subject: String): Boolean {
+    val analyzer = AssistantSearchIndex<Unit>(emptyList(), request.language)
+    if (!analyzer.containsTitle(request.query, subject)) return false
+    val index = AssistantSearchIndex(
+        references.map { AssistantSearchIndex.Document(it.tipId, it.title, it.text) },
+        request.language
+    )
+    return index.search(subject, minimumCoverage = 1.0).isNotEmpty()
 }

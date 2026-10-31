@@ -7476,6 +7476,11 @@
     <string name="help_tip_face_privacy_step_4">Inspeccione cada área cubierta en tamaño completo, luego guarde y comparta la copia editada. Mantenga el original separado si aún contiene información privada.</string>
     <string name="assistant_thinking">Preparando una respuesta...</string>
     <string name="assistant_generation_timeout">La respuesta tardó demasiado. Pruebe con un modelo más pequeño o una pregunta más breve.</string>
+    <string name="assistant_file_size_already_fits">El archivo ocupa %1$s bytes y ya cumple el límite de %2$s (%3$s bytes). No necesita compresión.</string>
+    <string name="assistant_clarification">¿Qué quieres cambiar o saber? Añade una imagen, el nombre de una herramienta o el contexto del término.</string>
+    <string name="assistant_capabilities">Puedo explicar las herramientas y los ajustes de ImageToolbox, responder preguntas generales y buscar fotos por contenido visible, personas identificadas, exclusiones, fechas, álbum o nombre de archivo. La búsqueda requiere acceso a las fotos; buscar contenido y personas también requiere modelos de búsqueda e indexación. Explico los cambios; tú los aplicas en las herramientas.</string>
+    <string name="assistant_capabilities_text">El modelo seleccionado trabaja con texto y metadatos de archivos. Elige Vision para preguntar por el contenido de una foto.</string>
+    <string name="assistant_capabilities_vision">Con el modelo seleccionado puedes adjuntar una foto y preguntar por su contenido visible o posibles cambios.</string>
     <string name="assistant_scope">Ayudo con ImageToolbox: editando imágenes y archivos, eligiendo herramientas y cambiando la configuración de la aplicación.</string>
     <string name="assistant_gallery_disabled">La búsqueda de fotos está deshabilitada. Abra su configuración, habilítela, luego regrese aquí y repita la búsqueda.</string>
     <string name="assistant_gallery_disabled_people">La búsqueda de fotos está deshabilitada. Habilítelo primero. Luego abra la galería y habilite \"Grupo de personas\" en la configuración de búsqueda. Regrese aquí y repita la búsqueda.</string>

@@ -2663,7 +2663,7 @@
     <string name="help_tip_resize_by_file_size_subtitle">Установите ограничение размера, если веб-сайт, мессенджер или форма отклоняют тяжелые изображения.</string>
     <string name="help_tip_resize_by_file_size_page_title">Соблюдайте строгие ограничения на загрузку</string>
     <string name="help_tip_resize_by_file_size_description">Что сделать, если фотография слишком тяжёлая для отправки? Уменьшите вес файла в Сжатии по весу. Чтобы сжать фото, задайте максимальный размер, который принимает получатель. Инструмент подбирает сжатие и размеры изображения; проверьте качество сохранённой копии.</string>
-    <string name="help_tip_resize_by_file_size_step_1">Введите максимальный размер готового файла в поле «Максимальный вес в КБ». Укажите значение немного ниже ограничения на загрузку.</string>
+    <string name="help_tip_resize_by_file_size_step_1">Введите нужное ограничение в поле «Максимальный вес в КБ». В этом поле 1 КБ равен 1024 байтам. Проверьте размер сохранённого файла по фактическому лимиту загрузки, особенно если сервис указывает его в байтах.</string>
     <string name="help_tip_resize_by_file_size_step_2">Для небольших файлов фотографий выбирайте JPEG или WebP со сжатием с потерями. PNG — формат без потерь, поэтому файл может оставаться большим даже после изменения размера.</string>
     <string name="help_tip_resize_by_file_size_step_3">Проверяйте грани, текст и края после экспорта, поскольку агрессивные размеры могут привести к появлению видимых артефактов.</string>
     <string name="help_tip_limit_resize_title">Ограничить изменение размера</string>
@@ -6047,6 +6047,11 @@
     <string name="assistant_prompt_placeholder">Ваш вопрос</string>
     <string name="assistant_model_not_installed">Модель не установлена</string>
     <string name="assistant_stop">Остановить</string>
+    <string name="assistant_preparing_model">Подготавливаю модель…</string>
+    <string name="assistant_reading_image">Рассматриваю изображение…</string>
+    <string name="assistant_interpreting">Разбираю запрос…</string>
+    <string name="assistant_finding_help">Ищу в справке…</string>
+    <string name="assistant_finding_photos">Ищу фотографии…</string>
     <string name="assistant_thinking">Готовлю ответ…</string>
     <string name="assistant_regenerate">Повторить</string>
     <string name="assistant_cancelled">Отменено</string>
@@ -6054,6 +6059,11 @@
     <string name="assistant_model_unavailable">Модель недоступна на этом устройстве</string>
     <string name="assistant_generation_error">Не удалось получить ответ</string>
     <string name="assistant_generation_timeout">Ответ занял слишком много времени. Попробуйте модель поменьше или более короткий вопрос.</string>
+    <string name="assistant_file_size_already_fits">Файл занимает %1$s байт и уже укладывается в лимит %2$s (%3$s байт). Сжатие не требуется.</string>
+    <string name="assistant_clarification">Что именно вы хотите изменить или узнать? Добавьте изображение, название инструмента или контекст термина.</string>
+    <string name="assistant_capabilities">Помогаю с инструментами и настройками ImageToolbox, отвечаю на общие вопросы и ищу фотографии по содержимому, именам людей, исключениям, датам, альбому или имени файла. Для поиска нужен доступ к фотографиям, а для содержимого и людей — модели поиска и индексация. Объясняю обработку; изменения вы применяете в инструментах.</string>
+    <string name="assistant_capabilities_text">Выбранная модель работает с текстом и метаданными файлов. Для вопросов о том, что изображено на фото, выберите Vision.</string>
+    <string name="assistant_capabilities_vision">С выбранной моделью можно прикрепить одну фотографию и спросить о её содержимом или подходящей обработке.</string>
     <string name="assistant_scope">Я помогаю с ImageToolbox: обработкой изображений и файлов, выбором инструментов и настройками приложения.</string>
     <string name="assistant_enabled_required">Включите ассистента в настройках</string>
     <string name="assistant_history_save_error">Не удалось сохранить диалог</string>

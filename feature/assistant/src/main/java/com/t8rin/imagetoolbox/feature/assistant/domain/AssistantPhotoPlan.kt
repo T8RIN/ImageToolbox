@@ -47,7 +47,22 @@ internal data class AssistantPhotoPlan(
     }
 
     @Serializable
-    enum class Filter { Scene, People, Date, Album, Filename }
+    enum class Filter {
+        @SerialName("scene")
+        Scene,
+
+        @SerialName("people")
+        People,
+
+        @SerialName("date")
+        Date,
+
+        @SerialName("album")
+        Album,
+
+        @SerialName("filename")
+        Filename
+    }
 
     fun mode(current: AssistantGalleryQuery?): AssistantGallerySearch.Mode = when {
         withinResults -> AssistantGallerySearch.Mode.Narrow
@@ -55,7 +70,7 @@ internal data class AssistantPhotoPlan(
         else -> AssistantGallerySearch.Mode.Update
     }
 
-    fun gallery(current: AssistantGalleryQuery?, originalQuestion: String): AssistantGalleryQuery {
+    fun gallery(current: AssistantGalleryQuery?): AssistantGalleryQuery {
         val included = people.filterValues { it == PersonRole.Include }.keys.toList()
         val excluded = people.filterValues { it == PersonRole.Exclude }.keys.toList()
         val removed = people.filterValues { it == PersonRole.Remove }.keys

@@ -303,7 +303,7 @@
     <string name="help_tip_resize_by_file_size_subtitle">Target a size limit when a website, messenger, or form rejects heavy images</string>
     <string name="help_tip_resize_by_file_size_page_title">Fit strict upload limits</string>
     <string name="help_tip_resize_by_file_size_description">Use Resize by Weight to compress a photo to a target file size when it is too large to send. Set the maximum size accepted by the recipient instead of guessing quality. The tool adjusts compression and dimensions; inspect the saved result.</string>
-    <string name="help_tip_resize_by_file_size_step_1">Enter the maximum output file size in the “Max size in KB” field. Use a value slightly below the upload limit.</string>
+    <string name="help_tip_resize_by_file_size_step_1">Enter the requested maximum output size in the “Max size in KB” field. The control uses 1024 bytes per KB. Check the saved file against the actual upload limit, especially if the service specifies bytes.</string>
     <string name="help_tip_resize_by_file_size_step_2">For small photo files, use JPEG or lossy WebP. PNG is lossless and may remain large even after resizing.</string>
     <string name="help_tip_resize_by_file_size_step_3">Inspect faces, text, and edges after export because aggressive size targets can introduce visible artifacts.</string>
     <string name="help_tip_limit_resize_title">Limit resize</string>
@@ -6075,6 +6075,11 @@
     <string name="assistant_prompt_placeholder">Ask a question</string>
     <string name="assistant_model_not_installed">Model not installed</string>
     <string name="assistant_stop">Stop</string>
+    <string name="assistant_preparing_model">Preparing the model…</string>
+    <string name="assistant_reading_image">Reading the image…</string>
+    <string name="assistant_interpreting">Understanding the request…</string>
+    <string name="assistant_finding_help">Looking up documentation…</string>
+    <string name="assistant_finding_photos">Searching photos…</string>
     <string name="assistant_thinking">Preparing an answer…</string>
     <string name="assistant_regenerate">Regenerate</string>
     <string name="assistant_cancelled">Cancelled</string>
@@ -6082,6 +6087,11 @@
     <string name="assistant_model_unavailable">Model unavailable on this device</string>
     <string name="assistant_generation_error">Could not generate an answer</string>
     <string name="assistant_generation_timeout">The answer took too long. Try a smaller model or a shorter question.</string>
+    <string name="assistant_file_size_already_fits">The file is %1$s bytes and already fits the %2$s limit (%3$s bytes). Compression is unnecessary.</string>
+    <string name="assistant_clarification">What would you like to change or find out? Please add an image, a tool name or the context of the term.</string>
+    <string name="assistant_capabilities">I can explain ImageToolbox tools and settings, answer general questions, and find photos by visible content, named people, exclusions, dates, album or filename. Photo search needs access to your photos; searching content and people also needs search models and indexing. I explain edits; you apply them in the tools.</string>
+    <string name="assistant_capabilities_text">The selected model reads text and file metadata. Choose Vision to ask about what is visible in a photo.</string>
+    <string name="assistant_capabilities_vision">With the selected model you can attach one photo and ask about its visible contents or possible edits.</string>
     <string name="assistant_scope">I help with ImageToolbox: editing images and files, choosing tools and changing app settings.</string>
     <string name="assistant_enabled_required">Enable Assistant in settings</string>
     <string name="assistant_history_save_error">Could not save conversation</string>

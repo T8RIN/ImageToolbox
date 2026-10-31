@@ -7516,4 +7516,8 @@
     <string name="help_tip_partial_blur_step_3">Esamina il risultato a grandezza naturale e salva una copia separata. Utilizza un pennello opaco per testo o numeri che devono essere illeggibili.</string>
     <string name="opaque_image_viewer_background">Sfondo opaco del visualizzatore di immagini</string>
     <string name="opaque_image_viewer_background_sub">Utilizzare uno sfondo nero uniforme durante la visualizzazione delle foto</string>
+    <string name="assistant_capabilities">Ti aiuto con gli strumenti e le impostazioni di ImageToolbox, rispondo a domande generali e cerco foto per contenuto, nomi delle persone, esclusioni, date, album o nome del file. Serve l’accesso alle foto; la ricerca per contenuto e persone richiede i modelli di ricerca e l’indicizzazione. Spiego come modificare le immagini; applichi tu le modifiche negli strumenti.</string>
+    <string name="assistant_capabilities_vision">Con il modello selezionato puoi allegare una foto e chiedere informazioni sul suo contenuto o su come elaborarla.</string>
+    <string name="assistant_capabilities_text">Il modello selezionato gestisce testo e metadati dei file. Per domande su ciò che appare in una foto, scegli Vision.</string>
+    <string name="assistant_clarification">Che cosa vuoi modificare o sapere? Aggiungi un’immagine, il nome di uno strumento o il contesto del termine.</string>
 </resources>

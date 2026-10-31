@@ -29,6 +29,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantCommandPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
 import com.t8rin.neural_tools.assistant.AssistantModels
+import com.t8rin.neural_tools.search.ClipImageSearch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import org.json.JSONArray
@@ -126,21 +127,26 @@ class AssistantRoutingInstrumentedTest {
         assumeTrue(
             runtime.installations(false).any { it.installed && it.variant == AssistantModel.Lite })
         try {
-            listOf("supported_formats", "transparency_formats").forEach { action ->
+            listOf(
+                "list_image_export_formats",
+                "list_transparent_export_formats"
+            ).forEach { action ->
                 val output = runtime.generate(
                     AssistantModel.Lite,
                     assistantPrompt(
-                        "Return JSON with action exactly equal to the user's identifier.",
+                        "Return JSON with the supplied goal and action.",
                         emptyList(),
-                        action,
+                        "Action: $action",
                         false
                     ),
-                    maxOutputTokens = 32,
-                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar
+                    maxOutputTokens = 96,
+                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
+                        AssistantModel.Lite
+                    )
                 ) {}
                 val expected =
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Formats(
-                        action == "transparency_formats"
+                        action == "list_transparent_export_formats"
                     )
                 assertEquals(
                     output,
@@ -164,7 +170,24 @@ class AssistantRoutingInstrumentedTest {
             .firstOrNull { it.installed && it.variant.id == selected }?.variant
         assumeTrue(model != null)
         val variant = requireNotNull(model)
+        assumeTrue("Install the visual search packages", ClipImageSearch.isDownloaded())
         val report = JSONArray()
+        suspend fun verifyScene(actual: String?, vararg descriptions: String) {
+            require(!actual.isNullOrBlank())
+            val scores = ClipImageSearch.openTextEncoder().use { sceneEncoder ->
+                val encoded = sceneEncoder.encode(actual)
+                descriptions.map { description ->
+                    val expected = sceneEncoder.encode(description)
+                    encoded.indices.sumOf { (encoded[it] * expected[it]).toDouble() }
+                }
+            }
+            report.getJSONObject(report.length() - 1).put("semanticScores", JSONArray(scores))
+            File(instrumentation.targetContext.cacheDir, "assistant-gallery-tools.json")
+                .writeText(report.toString(2))
+            assertEquals("$actual: $scores", 0, scores.indices.maxBy(scores::get))
+            assertTrue("$actual: $scores", scores.first() >= 0.65)
+            assertTrue("$actual: $scores", scores.first() - scores.drop(1).max() >= 0.01)
+        }
         suspend fun call(
             question: String,
             current: AssistantGalleryQuery? = null
@@ -174,21 +197,12 @@ class AssistantRoutingInstrumentedTest {
                 listOf("Trips"),
                 listOf("IMG_20260712.jpg").filter { question.contains(it) })
             val started = System.nanoTime()
+            val referenceDate = java.time.LocalDate.now()
             val request = AssistantRequest(question)
             val knowledge =
                 instrumentation.targetContext.entryPoint<AssistantEntryPoint>().knowledge
-            val english = if (knowledge.detectLanguage(request)
-                    ?.substringBefore('-') == "en"
-            ) question else runtime.generate(
-                variant,
-                com.t8rin.imagetoolbox.feature.assistant.domain.assistantTranslationPrompt(
-                    request,
-                    variant
-                ),
-                maxOutputTokens = 160
-            ) {}
-            val resolved =
-                request.copy(query = english, language = knowledge.detectLanguage(request))
+            val localized = request.copy(language = knowledge.detectLanguage(request))
+            val resolved = localized
             val interpretation =
                 com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.parse(
                     runtime.generate(
@@ -200,23 +214,35 @@ class AssistantRoutingInstrumentedTest {
                             originalQuestion = question
                         ),
                         maxOutputTokens = 96,
-                        responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar
-                    ) {})
-            check(interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search || interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.More) { "Photo request was routed to an answer: $question" }
+                        responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
+                            variant
+                        )
+                    ) {}
+                )
+            if (interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.NextPage) {
+                report.put(
+                    JSONObject().put("question", question).put("route", "next_photo_page_unchanged")
+                        .put("totalMs", (System.nanoTime() - started) / 1_000_000)
+                )
+                File(
+                    instrumentation.targetContext.cacheDir,
+                    "assistant-gallery-tools.json"
+                ).writeText(report.toString(2))
+                return AssistantCommand.Action.MorePhotos
+            }
+            check(interpretation is com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search) { "Photo request was routed to $interpretation: $question" }
+            val photoRequest = localized
             val thinking =
                 InstrumentationRegistry.getArguments().getString("planThinking") == "true"
             val routePrompt = assistantCommandPrompt(
-                resolved,
+                photoRequest,
                 current,
                 catalog,
                 model = variant,
                 thinking = thinking,
                 originalQuestion = question
             )
-            val routed =
-                if (interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.More) """{"action":"more"}""" else withTimeout(
-                    125_000
-                ) {
+            val routed = withTimeout(125_000) {
                 runtime.generate(
                     variant,
                     routePrompt,
@@ -229,20 +255,21 @@ class AssistantRoutingInstrumentedTest {
                         current,
                         catalog = catalog,
                         question = question,
-                        language = resolved.language
+                        language = resolved.language,
+                        model = variant
                     ).takeUnless {
                         InstrumentationRegistry.getArguments().getString("unconstrained") == "true"
                     }
                 ) {}
             }
             report.put(
-                JSONObject().put("question", question).put("interpretation", english)
+                JSONObject().put("question", question).put("interpretation", photoRequest.query)
                     .put("route", routed)
             )
             File(instrumentation.targetContext.cacheDir, "assistant-gallery-tools.json").writeText(
                 report.toString(2)
             )
-            val route = AssistantCommand.parse(routed)
+            val route = AssistantCommand.parse(routed, current, question, referenceDate)
             report.getJSONObject(report.length() - 1)
                 .put("totalMs", (System.nanoTime() - started) / 1_000_000)
             if (route is AssistantCommand.Action.SearchPhotos) report.getJSONObject(report.length() - 1)
@@ -260,7 +287,7 @@ class AssistantRoutingInstrumentedTest {
         suspend fun verify(
             question: String,
             current: AssistantGalleryQuery? = null,
-            check: (AssistantCommand.Action) -> Unit
+            check: suspend (AssistantCommand.Action) -> Unit
         ) {
             val index = caseIndex++
             if (selectedCases != null && index !in selectedCases) return
@@ -291,7 +318,7 @@ class AssistantRoutingInstrumentedTest {
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode.New,
                     it.mode()
                 )
-                assertTrue(query.semantic.orEmpty().contains("cat", true))
+                verifyScene(query.semantic, "cats", "dogs", "snowy mountains", "bicycles")
                 assertEquals(AssistantGalleryQuery(semantic = query.semantic), query)
             }
             verify("Montre les photos de Marie prises en juillet 2026 dans l’album Trips.") {
@@ -310,8 +337,7 @@ class AssistantRoutingInstrumentedTest {
             ) {
                 val query = it.query()
                 assertEquals(excluded.copy(semantic = query.semantic), query)
-                assertTrue(query.semantic.orEmpty().contains("umbrella", true))
-                assertTrue(query.semantic.orEmpty().contains("red", true))
+                verifyScene(query.semantic, "red umbrella", "blue umbrella", "red hat", "blue car")
                 assertTrue(!query.semantic.orEmpty().contains("Marie", true))
                 assertTrue(!query.semantic.orEmpty().contains("Trips", true))
             }
@@ -335,7 +361,7 @@ class AssistantRoutingInstrumentedTest {
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode.New,
                     it.mode()
                 )
-                assertTrue(query.semantic.orEmpty().contains("cat", true))
+                verifyScene(query.semantic, "cats", "dogs", "snowy mountains", "bicycles")
                 assertEquals(AssistantGalleryQuery(semantic = query.semantic), query)
             }
             verify("Only search within these results for bicycles.", compound) {
@@ -343,7 +369,7 @@ class AssistantRoutingInstrumentedTest {
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode.Narrow,
                     it.mode()
                 )
-                assertTrue(it.query().semantic.orEmpty().contains("bicycl", true))
+                verifyScene(it.query().semantic, "bicycles", "wooden boats", "cats", "mountains")
                 assertEquals(compound.copy(semantic = it.query().semantic), it.query())
             }
             verify("Remove Alex's person condition, keeping the other conditions.", excluded) {
@@ -355,6 +381,24 @@ class AssistantRoutingInstrumentedTest {
             }
             verify("Show more photos with the same conditions.", compound) {
                 assertEquals(AssistantCommand.Action.MorePhotos, it)
+            }
+            verify("Remove the Trips album restriction, keeping every other condition.", filename) {
+                assertEquals(filename.copy(album = null), it.query())
+            }
+            verify(
+                "Replace the red umbrella condition with a blue umbrella, keeping the other filters.",
+                visual
+            ) {
+                val query = it.query()
+                assertEquals(excluded.copy(semantic = query.semantic), query)
+                verifyScene(query.semantic, "blue umbrella", "red umbrella", "blue hat", "red car")
+            }
+            verify("Clear every condition and show the whole gallery.", filename) {
+                assertEquals(AssistantGalleryQuery(), it.query())
+                assertEquals(
+                    com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode.New,
+                    it.mode()
+                )
             }
             assertTrue(failures.joinToString("\n"), failures.isEmpty())
         } finally {

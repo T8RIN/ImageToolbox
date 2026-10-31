@@ -34,9 +34,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.theme.White
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
@@ -98,6 +100,15 @@ internal fun AssistantGalleryContent(
                     }
                 }
                 repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
+            }
+        }
+        if (component.enabled && component.canContinueGallery(message) && !component.isGenerating && result.photos.size > PREVIEW_COUNT) {
+            EnhancedChip(
+                selected = false,
+                onClick = { component.moreGalleryPhotos(message) },
+                selectedColor = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                Text(stringResource(R.string.assistant_gallery_more))
             }
         }
         if (component.canContinueGallery(message) && !component.isGenerating && result.people.isNotEmpty()) {

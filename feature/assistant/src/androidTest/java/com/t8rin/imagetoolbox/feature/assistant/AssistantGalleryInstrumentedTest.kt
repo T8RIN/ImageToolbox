@@ -46,6 +46,7 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryPhoto
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryResult.Companion.PREVIEW_COUNT
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch.Mode
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantPhotoPlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantSetting
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantTool
@@ -162,6 +163,42 @@ class AssistantGalleryInstrumentedTest {
     }
 
     @Test
+    fun galleryRepliesKeepTheRequestLanguageAfterRestoreAndPagination() = runBlocking {
+        val first = search().search(AssistantGalleryQuery(), Mode.New, 1, language = "fr")
+        assertEquals(
+            resources.getStringLocalized(
+                R.string.assistant_gallery_found,
+                "fr",
+                photos.size
+            ), first.text
+        )
+        val gallery = requireNotNull(first.gallery)
+        assertEquals("fr", gallery.state.language)
+        val restored = search()
+        restored.restore(listOf(gallery))
+        assertEquals(first.text, restored.more(1).text)
+        val changed = restored.more(1, language = "de")
+        assertEquals(
+            resources.getStringLocalized(
+                R.string.assistant_gallery_found,
+                "de",
+                photos.size
+            ), changed.text
+        )
+        assertEquals("de", changed.gallery!!.state.language)
+        val disabled = search().search(
+            AssistantGalleryQuery(semantic = "bicycle"),
+            Mode.New,
+            2,
+            language = "fr"
+        )
+        assertEquals(
+            resources.getStringLocalized(R.string.assistant_gallery_disabled, "fr"),
+            disabled.text
+        )
+    }
+
+    @Test
     fun disabledSearchKeepsOriginalConditionsAndRetryReadsChangedSettings() = runBlocking {
         val search = search()
         val query = AssistantGalleryQuery(semantic = "a beach", people = listOf("Саша"))
@@ -271,6 +308,22 @@ class AssistantGalleryInstrumentedTest {
         val restored = search()
         restored.restore(listOf(first, narrowed))
         assertEquals(listOf(photos.first().uri), restored.retry(2).gallery!!.photos.map { it.uri })
+    }
+
+    @Test
+    fun updatingFiltersKeepsAnExplicitResultSubsetUntilANewSearch() = runBlocking {
+        val initial = search()
+        initial.search(AssistantGalleryQuery(filename = photos.first().label), Mode.New, 1)
+        val narrowed =
+            initial.search(AssistantGalleryQuery(filename = "*"), Mode.Narrow, 2).gallery!!
+        val restored = search()
+        restored.restore(listOf(narrowed))
+        val updated =
+            restored.search(AssistantGalleryQuery(album = "Vacation"), Mode.Update, 3).gallery!!
+        assertEquals(listOf(photos.first().uri), updated.photos.map { it.uri })
+        val fresh =
+            restored.search(AssistantGalleryQuery(album = "Vacation"), Mode.New, 4).gallery!!
+        assertEquals(30, fresh.total)
     }
 
     @Test
@@ -559,7 +612,7 @@ class AssistantGalleryInstrumentedTest {
             AssistantPhotoPlan.parse("""{"withinResults":true,"scene":"en la playa"}""")
         assertEquals(
             previous.copy(semantic = "закаты, en la playa"),
-            plan.gallery(previous, "en la playa")
+            plan.gallery(previous)
         )
         enablePeople()
         search().search(AssistantGalleryQuery(semantic = "закаты", album = "Vacation"), Mode.New, 1)

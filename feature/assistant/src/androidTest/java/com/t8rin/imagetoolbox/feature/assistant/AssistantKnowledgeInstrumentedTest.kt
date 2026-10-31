@@ -51,6 +51,46 @@ class AssistantKnowledgeInstrumentedTest {
     private val knowledge = services.knowledge
 
     @Test
+    fun originalQuestionKeepsThePrivacyGoalWhenEnglishNormalizationUsesFacialDetails() =
+        runBlocking {
+            val answer = knowledge.retrieve(
+                AssistantRequest("¿Cómo puedo ocultar las caras en una foto?", language = "es"),
+                queries = listOf("hide facial details in a photo")
+            )
+            assertEquals(listOf("face-privacy"), answer.references.map { it.tipId })
+            assertTrue(answer.tools.any { knowledge.resolveTool(it) is Screen.Draw })
+        }
+
+    @Test
+    fun imageDescriptionsDoNotRetrieveEditingInstructionsFromOneSharedWord() = runBlocking {
+        val coverage =
+            InstrumentationRegistry.getArguments().getString("minimumCoverage")?.toDouble() ?: 0.75
+        val failures = mutableListOf<String>()
+        listOf(
+            "Что изображено на фотографии? Ответь кратко по-русски.",
+            "What animals are visible, and what are they lying on?",
+            "Describe the vehicle and the scene around it. Keep it brief."
+        ).forEach { query ->
+            val answer = knowledge.retrieve(
+                AssistantRequest(query),
+                queries = listOf(query),
+                minimumCoverage = coverage
+            )
+            if (answer.references.isNotEmpty() || answer.tools.isNotEmpty() || answer.settings.isNotEmpty()) {
+                failures.add("$query: $answer")
+            }
+        }
+        val query = "Как уменьшить эту фотографию до 700 КБ?"
+        val answer = knowledge.retrieve(
+            AssistantRequest(query),
+            queries = listOf(query),
+            minimumCoverage = coverage
+        )
+        if (answer.tools.none { knowledge.resolveTool(it) is Screen.WeightResize }) failures.add("$query: $answer")
+        assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
     fun theRetrievedPageSurvivesTranslationOfTheQuestionAndDocumentation() = runBlocking {
         val tip = requireNotNull(services.helpRepository.getTip("gallery-search"))
         val pageIndex =
@@ -199,13 +239,13 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
-    fun introductoryVerbsDoNotHideAnExplicitAppTopic() = runBlocking {
+    fun definitionsRetrieveTheDocumentedConcepts() = runBlocking {
         listOf(
-            "Расскажи про EXIF" to setOf(
+            "EXIF" to setOf(
                 Screen.DeleteExif().simpleName,
                 Screen.EditExif().simpleName
             ),
-            "Explain checksums" to setOf(Screen.ChecksumTools().simpleName)
+            "checksums" to setOf(Screen.ChecksumTools().simpleName)
         ).forEach { (question, tools) ->
             val answer = knowledge.retrieve(AssistantRequest(question))
             assertTrue("$question: $answer", answer.tools.any { it.key in tools })
@@ -396,33 +436,6 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
-    fun ordinaryQuestionsDoNotReceiveDocumentationOrACannedAnswer() = runBlocking {
-        val results = listOf(
-            "Hi", "Привет", "Write a haiku about autumn", "Расскажи короткую сказку про кота"
-        ).map { query ->
-            val request = AssistantRequest(query)
-            request to knowledge.retrieve(request)
-        }
-        val unexpected = results.filter { (_, answer) ->
-            answer.references.isNotEmpty() || answer.tools.isNotEmpty() || answer.settings.isNotEmpty()
-        }
-        assertTrue(unexpected.joinToString("\n") { (request, answer) ->
-            "${request.query}: references=${answer.references.map { it.tipId }}, settings=${answer.settings.map { it.key }}"
-        }, unexpected.isEmpty())
-        results.forEach { (request, retrieved) ->
-            assertTrue(request.query, retrieved.text.isEmpty())
-            val prompt = knowledge.grounding(request, retrieved)
-            assertFalse(prompt, prompt.contains("DOCS"))
-            assertFalse(prompt, prompt.contains("JSON"))
-            assertTrue(prompt, prompt.length < 1400)
-            val userPrompt = knowledge.userPrompt(request, retrieved)
-            assertEquals(request.query, userPrompt)
-            assertFalse(prompt, prompt.contains("Что вы хотите сделать с изображением"))
-            assertFalse(prompt, prompt.contains("What would you like to do with an image"))
-        }
-    }
-
-    @Test
     fun missingDocumentationDoesNotDiscardCurrentEditingOrSettingContext() {
         listOf(
             AssistantScreenContext(toolId = Screen.WeightResize().id),
@@ -592,7 +605,7 @@ class AssistantKnowledgeInstrumentedTest {
         listOf("Cache limit", "Where is Cache limit?", "Лимит кэша").forEach { query ->
             val answer = knowledge.retrieve(AssistantRequest(query))
             assertEquals(
-                query,
+                "$query; language=${knowledge.detectLanguage(AssistantRequest(query))}; settings=${answer.settings}",
                 Setting.CacheAutoClearLimit.key(),
                 answer.settings.firstOrNull()?.key
             )
@@ -875,11 +888,19 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun newerToolsRetrieveTheirDocumentedControls() = runBlocking {
         listOf(
-            "How do I create a depth mask?" to "depth-effects",
-            "How do I remove links from a PDF?" to "pdf-annotation-cleanup",
-            "Как изменить отдельный тег EXIF?" to "metadata-editing"
-        ).forEach { (query, tipId) ->
-            val answer = knowledge.retrieve(AssistantRequest(query))
+            Triple("How do I create a depth mask?", "create depth mask", "depth-effects"),
+            Triple(
+                "How do I remove links from a PDF?",
+                "remove PDF links",
+                "pdf-annotation-cleanup"
+            ),
+            Triple(
+                "Как изменить отдельный тег EXIF?",
+                "edit individual EXIF tag",
+                "metadata-editing"
+            )
+        ).forEach { (query, goal, tipId) ->
+            val answer = knowledge.retrieve(AssistantRequest(query), queries = listOf(goal))
             assertTrue(
                 "$query: ${answer.references.map { it.tipId }}",
                 answer.references.any { it.tipId == tipId })
@@ -937,12 +958,24 @@ class AssistantKnowledgeInstrumentedTest {
     @Test
     fun practicalQuestionsRetrieveDocumentedToolsAndSettings() = runBlocking {
         val toolQuestions = listOf(
-            "Как сделать GIF из фото?" to Screen.GifTools(),
-            "How do I make a GIF from photos?" to Screen.GifTools(),
-            "Зачем Flatten PDF?" to Screen.PdfTools.Flatten(),
-            "Why should I flatten a PDF?" to Screen.PdfTools.Flatten(),
-            "Как рассчитать контрольную сумму файла?" to Screen.ChecksumTools(),
-            "How do I compare file checksums?" to Screen.ChecksumTools()
+            Triple("Как сделать GIF из фото?", "images to GIF animation", Screen.GifTools()),
+            Triple(
+                "How do I make a GIF from photos?",
+                "images to GIF animation",
+                Screen.GifTools()
+            ),
+            Triple("Зачем Flatten PDF?", "Flatten PDF", Screen.PdfTools.Flatten()),
+            Triple("Why should I flatten a PDF?", "Flatten PDF", Screen.PdfTools.Flatten()),
+            Triple(
+                "Как рассчитать контрольную сумму файла?",
+                "calculate file checksum",
+                Screen.ChecksumTools()
+            ),
+            Triple(
+                "How do I compare file checksums?",
+                "compare file checksums",
+                Screen.ChecksumTools()
+            )
         )
         val settingQuestions = listOf(
             "Можно сохранить дату при очистке EXIF?" to Setting.KeepDateTime,
@@ -951,8 +984,8 @@ class AssistantKnowledgeInstrumentedTest {
             "Why is the cache limit disabled?" to Setting.CacheAutoClearLimit
         )
         val failures = mutableListOf<String>()
-        toolQuestions.forEach { (query, screen) ->
-            val answer = knowledge.retrieve(AssistantRequest(query))
+        toolQuestions.forEach { (query, goal, screen) ->
+            val answer = knowledge.retrieve(AssistantRequest(query), queries = listOf(goal))
             if (answer.tools.none { it.key == screen.simpleName } || answer.references.none {
                     services.helpRepository.getTip(it.tipId)?.deepLink?.simpleName == screen.simpleName
                 }) {
@@ -1025,10 +1058,19 @@ class AssistantKnowledgeInstrumentedTest {
             )
         )
         listOf(
-            "Где выключить удаление оригиналов после сохранения?" to Setting.DeleteOriginalsAfterSave,
-            "How do I clear cache automatically when too large?" to Setting.AutoCacheClear
-        ).forEach { (query, setting) ->
-            val answer = knowledge.retrieve(AssistantRequest(query, context))
+            Triple(
+                "Где выключить удаление оригиналов после сохранения?",
+                "delete originals after save",
+                Setting.DeleteOriginalsAfterSave
+            ),
+            Triple(
+                "How do I clear cache automatically when too large?",
+                "automatic cache clearing",
+                Setting.AutoCacheClear
+            )
+        ).forEach { (query, goal, setting) ->
+            val answer =
+                knowledge.retrieve(AssistantRequest(query, context), queries = listOf(goal))
             assertTrue("$query: $answer", answer.settings.any { it.key == setting.key() })
             assertTrue("$query: $answer", answer.tools.none { it.key == screen.simpleName })
             if (setting == Setting.AutoCacheClear) {

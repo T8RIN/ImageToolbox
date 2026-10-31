@@ -84,7 +84,8 @@ data class AssistantGalleryState(
     val ambiguousName: String? = null,
     val choices: Set<Long> = emptySet(),
     val approximate: Boolean = false,
-    val complete: Boolean = false
+    val complete: Boolean = false,
+    val language: String? = null
 )
 
 @Serializable
@@ -110,11 +111,12 @@ interface AssistantGallerySearch {
     suspend fun search(
         query: AssistantGalleryQuery,
         mode: Mode,
-        sessionId: Long
+        sessionId: Long,
+        language: String? = null
     ): AssistantAnswer
 
     suspend fun retry(sessionId: Long): AssistantAnswer
-    suspend fun more(sessionId: Long): AssistantAnswer
+    suspend fun more(sessionId: Long, language: String? = null): AssistantAnswer
     suspend fun choosePerson(sessionId: Long, personId: Long): AssistantAnswer
     fun currentQuery(): AssistantGalleryQuery?
     fun isCurrent(sessionId: Long): Boolean

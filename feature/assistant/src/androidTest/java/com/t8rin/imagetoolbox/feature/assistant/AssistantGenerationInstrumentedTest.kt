@@ -817,7 +817,7 @@ class AssistantGenerationInstrumentedTest {
             val russianQuestion =
                 AssistantRequest("Напиши стихотворение про осень.")
             val russianContext = knowledge.retrieve(russianQuestion)
-            val russian = JSONObject().put("case", "russian_general_question")
+            val russian = JSONObject().put("case", "russian_general_knowledge_or_creative_writing")
             report.put("russianGeneralQuestion", russian)
             verifyGeneration(
                 models,
@@ -912,36 +912,28 @@ class AssistantGenerationInstrumentedTest {
                     ) else null
                 val request = AssistantRequest(value.getString("question"))
                 val started = System.nanoTime()
-                val english = if (knowledge.detectLanguage(request)
-                        ?.substringBefore('-') == "en"
-                ) request.query else runtime.generate(
-                    variant,
-                    com.t8rin.imagetoolbox.feature.assistant.domain.assistantTranslationPrompt(
-                        request,
-                        variant
-                    ),
-                    maxOutputTokens = 160
-                ) {}
                 val output = runtime.generate(
                     variant,
                     com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt(
-                        request.copy(query = english),
+                        request,
                         current,
                         model = variant
                     ),
-                    maxOutputTokens = 96,
-                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar
+                    maxOutputTokens = 160,
+                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
+                        variant
+                    )
                 ) {}
                 val interpretation =
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.parse(
                         output
                     )
                 report.put(
-                    JSONObject().put("question", request.query).put("english", english)
-                        .put("output", interpretation::class.simpleName)
+                    JSONObject().put("question", request.query)
+                        .put("output", interpretation::class.simpleName).put("rawOutput", output)
                         .put("ms", (System.nanoTime() - started) / 1_000_000).put(
                             "passed",
-                            (interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search || interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.More) == (value.getString(
+                            (interpretation is com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search) == (value.getString(
                                 "intent"
                             ) == "photos")
                         )
@@ -969,6 +961,15 @@ class AssistantGenerationInstrumentedTest {
         val cases = JSONArray(File(app.cacheDir, source).readText())
         val runtime = AssistantModels()
         val report = JSONArray()
+        var searchEncoder: com.t8rin.neural_tools.search.ClipImageSearch.TextEncoder? = null
+        args.getString("preloadSearchEncoder")?.let { policy ->
+            searchEncoder = com.t8rin.neural_tools.search.ClipImageSearch.openTextEncoder()
+            searchEncoder.encode("a photo")
+            if (policy == "closed") {
+                searchEncoder.close()
+                searchEncoder = null
+            }
+        }
         try {
             for (index in 0 until cases.length()) {
                 val value = cases.getJSONObject(index)
@@ -995,6 +996,7 @@ class AssistantGenerationInstrumentedTest {
                             maxOutputTokens = value.optInt("tokens", 384),
                             thinking = value.optBoolean("thinking"),
                             sample = value.optBoolean("sample"),
+                            repetitionPenalty = value.optDouble("repetitionPenalty", 1.0),
                             responseGrammar = value.optString("grammar").takeIf { it.isNotEmpty() }
                         ) {}
                     }
@@ -1012,6 +1014,7 @@ class AssistantGenerationInstrumentedTest {
             }
         } finally {
             runtime.release()
+            searchEncoder?.close()
         }
     }
 
@@ -1073,7 +1076,9 @@ class AssistantGenerationInstrumentedTest {
                             else com.t8rin.imagetoolbox.feature.assistant.domain.AssistantCommand.grammar(
                                 current,
                                 catalog,
-                                request.query
+                                request.query,
+                                language = request.language,
+                                model = variant
                             )
                         val strategies =
                             if (!thinking && args.getString("beamSearch") == "true") listOf(

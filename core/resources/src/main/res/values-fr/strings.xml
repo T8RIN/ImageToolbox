@@ -7476,6 +7476,11 @@
     <string name="help_tip_face_privacy_step_4">Inspectez chaque zone couverte en taille réelle, puis enregistrez et partagez la copie modifiée. Gardez l\'original séparé s\'il contient encore des informations privées.</string>
     <string name="assistant_thinking">Préparer une réponse…</string>
     <string name="assistant_generation_timeout">La réponse a pris trop de temps. Essayez un modèle plus petit ou une question plus courte.</string>
+    <string name="assistant_file_size_already_fits">Le fichier fait %1$s octets et respecte déjà la limite de %2$s (%3$s octets). Aucune compression n’est nécessaire.</string>
+    <string name="assistant_clarification">Que souhaitez-vous modifier ou savoir ? Ajoutez une image, le nom d’un outil ou le contexte du terme.</string>
+    <string name="assistant_capabilities">Je peux expliquer les outils et réglages d’ImageToolbox, répondre aux questions générales et rechercher des photos par contenu visible, personnes nommées, exclusions, dates, album ou nom de fichier. La recherche nécessite un accès aux photos ; le contenu et les personnes nécessitent aussi des modèles de recherche et une indexation. Je décris les modifications ; vous les appliquez dans les outils.</string>
+    <string name="assistant_capabilities_text">Le modèle sélectionné traite le texte et les métadonnées des fichiers. Choisissez Vision pour poser des questions sur le contenu visible d’une photo.</string>
+    <string name="assistant_capabilities_vision">Avec le modèle sélectionné, vous pouvez joindre une photo et poser des questions sur son contenu visible ou les modifications possibles.</string>
     <string name="assistant_scope">J\'aide avec ImageToolbox : édition d\'images et de fichiers, choix d\'outils et modification des paramètres de l\'application.</string>
     <string name="assistant_gallery_disabled">La recherche de photos est désactivée. Ouvrez son paramètre, activez-le, puis revenez ici et répétez la recherche.</string>
     <string name="assistant_gallery_disabled_people">La recherche de photos est désactivée. Activez-le d’abord. Ensuite, ouvrez la galerie et activez « Grouper les personnes » dans les paramètres de recherche. Revenez ici et répétez la recherche.</string>

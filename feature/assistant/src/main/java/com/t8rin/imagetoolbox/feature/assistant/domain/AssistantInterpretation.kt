@@ -17,48 +17,89 @@
 
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
+import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import java.util.Locale
 
 internal sealed interface AssistantInterpretation {
     data object Answer : AssistantInterpretation
-    data class Help(val query: String) : AssistantInterpretation
+    data object Capabilities : AssistantInterpretation
+    data class Help(val query: String, val subject: String? = null) : AssistantInterpretation
     data class Translate(val language: String) : AssistantInterpretation
     data class Formats(val alpha: Boolean) : AssistantInterpretation
     data object Clarify : AssistantInterpretation
+    data object NextPage : AssistantInterpretation
     data object Search : AssistantInterpretation
-    data object More : AssistantInterpretation
 
     companion object {
-        val grammar = buildString {
-            appendLine("start: help | translate | clarify | search | answer | more | supported_formats | transparency_formats")
-            appendLine("help: %json {\"type\":\"object\",\"properties\":{\"action\":{\"const\":\"help\"},\"query\":{\"type\":\"string\",\"minLength\":1,\"maxLength\":160}},\"required\":[\"action\",\"query\"],\"additionalProperties\":false}")
-            appendLine("translate: %json {\"type\":\"object\",\"properties\":{\"action\":{\"const\":\"translate\"},\"language\":{\"type\":\"string\",\"minLength\":2,\"maxLength\":35}},\"required\":[\"action\",\"language\"],\"additionalProperties\":false}")
-            listOf(
-                "clarify",
-                "search",
-                "answer",
-                "more",
-                "supported_formats",
-                "transparency_formats"
-            ).forEach { action ->
-                appendLine("${action.lowercase(Locale.ROOT)}: %json {\"type\":\"object\",\"properties\":{\"action\":{\"const\":\"$action\"}},\"required\":[\"action\"],\"additionalProperties\":false}")
+        fun grammar(model: AssistantModel): String = buildString {
+            val routingGoal = model != AssistantModel.Advanced
+            val deferPagination = model == AssistantModel.Lite || model == AssistantModel.VisionLite
+            val actions = listOf(
+                "editing_instructions",
+                "app_term_definition",
+                "translate_previous_help",
+                "need_context",
+                "photo_filters",
+                "general_knowledge_or_creative_writing",
+                "assistant_capabilities",
+                "list_image_export_formats",
+                "list_transparent_export_formats",
+                "next_photo_page_unchanged"
+            ).filterNot { deferPagination && it == "next_photo_page_unchanged" }
+            appendLine("start: ${actions.joinToString(" | ")}")
+            actions.forEach { action ->
+                val fields = buildMap {
+                    val goal = """{"type":"string","minLength":1,"maxLength":160}"""
+                    if (routingGoal) put("goal", goal)
+                    put("action", """{"const":${Json.encodeToString(action)}}""")
+                    if (!routingGoal && (action == "editing_instructions" || action == "app_term_definition")) {
+                        put("goal", goal)
+                    }
+                    if (action == "app_term_definition") {
+                        put("subject", """{"type":"string","minLength":1,"maxLength":160}""")
+                    }
+                    if (action == "translate_previous_help") {
+                        put("language", """{"type":"string","minLength":2,"maxLength":35}""")
+                    }
+                }
+                val properties = fields.entries.joinToString(",") { (name, schema) ->
+                    "${Json.encodeToString(name)}:$schema"
+                }
+                appendLine(
+                    "$action: %json {\"type\":\"object\",\"properties\":{$properties},\"required\":${
+                        Json.encodeToString(
+                            fields.keys.toList()
+                        )
+                    },\"additionalProperties\":false}"
+                )
             }
         }
 
         fun parse(text: String): AssistantInterpretation {
             require(text.length <= 1000)
-            val value = Json.parseToJsonElement(text).jsonObject
-            val action = value.getValue("action").jsonPrimitive.content
-            if (action == "help") {
-                require(value.keys == setOf("action", "query"))
-                return Help(value.getValue("query").jsonPrimitive.content.also {
-                    require(it.isNotBlank() && it.length <= 160)
-                })
+            val decoded = Json.parseToJsonElement(text).jsonObject
+            decoded["goal"]?.jsonPrimitive?.content?.let { require(it.isNotBlank() && it.length <= 160) }
+            val action = decoded.getValue("action").jsonPrimitive.content
+            val value =
+                if (action == "editing_instructions" || action == "app_term_definition") decoded
+                else JsonObject(decoded - "goal")
+            if (action == "editing_instructions" || action == "app_term_definition") {
+                require(
+                    value.keys == if (action == "app_term_definition") {
+                        setOf("action", "goal", "subject")
+                    } else setOf("action", "goal")
+                )
+                val goal = value.getValue("goal").jsonPrimitive.content
+                require(goal.isNotBlank() && goal.length <= 160)
+                val subject = value["subject"]?.jsonPrimitive?.content
+                require(subject == null || subject.isNotBlank() && subject.length <= 160)
+                return Help(goal, subject)
             }
-            if (action == "translate") {
+            if (action == "translate_previous_help") {
                 require(value.keys == setOf("action", "language"))
                 val language =
                     Locale.forLanguageTag(value.getValue("language").jsonPrimitive.content)
@@ -67,12 +108,13 @@ internal sealed interface AssistantInterpretation {
             }
             require(value.keys == setOf("action"))
             return when (action) {
-                "answer" -> Answer
-                "search" -> Search
-                "more" -> More
-                "clarify" -> Clarify
-                "supported_formats" -> Formats(false)
-                "transparency_formats" -> Formats(true)
+                "photo_filters" -> Search
+                "general_knowledge_or_creative_writing" -> Answer
+                "assistant_capabilities" -> Capabilities
+                "next_photo_page_unchanged" -> NextPage
+                "need_context" -> Clarify
+                "list_image_export_formats" -> Formats(false)
+                "list_transparent_export_formats" -> Formats(true)
                 else -> error("Invalid assistant action")
             }
         }

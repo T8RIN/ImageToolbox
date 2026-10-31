@@ -149,8 +149,6 @@ class AssistantSearchIndex<T>(
             if (term.all(Char::isDigit)) 0.0
             else ln(1.0 + (candidates.size - frequency + 0.5) / (frequency + 0.5))
         }
-        val averageTitleLength =
-            candidates.map { it.titleTokens.size }.average().takeIf { it > 0.0 } ?: 1.0
         val queryWeight = inverseFrequencies.values.sum()
         if (queryWeight == 0.0) return emptyList()
         return candidates.mapNotNull { document ->
@@ -170,10 +168,7 @@ class AssistantSearchIndex<T>(
                             (frequency + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * length))
                     if (hits.isNotEmpty()) score += inverseFrequency * saturation
                     if (titleHit) {
-                        val titleLength = document.titleTokens.size / averageTitleLength
-                        val titleSaturation = (TERM_SATURATION + 1) /
-                                (1 + TERM_SATURATION * (1 - LENGTH_WEIGHT + LENGTH_WEIGHT * titleLength))
-                        score += inverseFrequency * TITLE_WEIGHT * titleSaturation
+                        score += inverseFrequency * TITLE_WEIGHT
                     }
                 }
             }
@@ -184,6 +179,7 @@ class AssistantSearchIndex<T>(
                 if (documentFrequencies.getValue(it) == 0) minOf(weight, anchorWeight) else weight
             } else queryWeight
             if (matched == 0 || matchedWeight < effectiveQueryWeight * minimumCoverage) return@mapNotNull null
+            score *= (matchedWeight / effectiveQueryWeight).coerceAtMost(1.0).let { it * it }
             terms.zipWithNext().forEach { (first, second) ->
                 val pair = "$first $second"
                 val weight =
@@ -193,7 +189,7 @@ class AssistantSearchIndex<T>(
             }
             if (phrase.length >= MIN_PHRASE_LENGTH && (terms.size > 1 && document.title.contains(
                     phrase
-                ) || document.titleFields.any { it == terms.toSet() })
+                ) || document.titleFields.any { it.isNotEmpty() && terms.toSet().containsAll(it) })
             ) score += TITLE_PHRASE_BONUS
             if (phrase.length >= MIN_PHRASE_LENGTH && document.text.contains(phrase)) score += TEXT_PHRASE_BONUS
             Match(document.value, score, matched)

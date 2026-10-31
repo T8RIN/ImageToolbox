@@ -27,7 +27,17 @@ interface AssistantRepository {
     val isLoading: StateFlow<Boolean>
     val isCheckingModels: StateFlow<Boolean>
     val isGenerating: StateFlow<Boolean>
+    val progress: StateFlow<Progress?>
     val error: StateFlow<String?>
+
+    enum class Progress {
+        PreparingModel,
+        ReadingImage,
+        Interpreting,
+        FindingHelp,
+        FindingPhotos,
+        Answering
+    }
 
     fun send(request: AssistantRequest): Boolean
 
@@ -42,6 +52,8 @@ interface AssistantRepository {
     fun canContinueGallery(message: AssistantMessage): Boolean
 
     fun chooseGalleryPerson(message: AssistantMessage, personId: Long)
+
+    fun moreGalleryPhotos(message: AssistantMessage)
 
     suspend fun prepareModel(model: AssistantModel)
 

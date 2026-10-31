@@ -46,6 +46,7 @@ import java.security.MessageDigest
  * Sessions are owned by the caller and must be opened off the main thread and closed after use.
  */
 object ClipImageSearch : NeuralTool() {
+    const val TEXT_CONTEXT_LENGTH = ClipTokenizer.CONTEXT_LENGTH
 
     private val models = listOf(
         ModelFile(
