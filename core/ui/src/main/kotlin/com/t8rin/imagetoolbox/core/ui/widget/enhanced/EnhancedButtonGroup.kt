@@ -303,6 +303,7 @@ fun EnhancedButtonGroup(
     contentPadding: PaddingValues = DefaultContentPadding
 ) {
     val settingsState = LocalSettingsState.current
+    val scrollAnchor = rememberScrollAnchor()
 
     val disabledColor = MaterialTheme.colorScheme.onSurface
         .copy(alpha = DisabledAlpha)
@@ -315,7 +316,7 @@ fun EnhancedButtonGroup(
         )
     ) {
         Column(
-            modifier = modifier,
+            modifier = modifier.scrollAnchor(scrollAnchor),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -369,6 +370,7 @@ fun EnhancedButtonGroup(
                             EnhancedToggleButton(
                                 enabled = enabled,
                                 onCheckedChange = {
+                                    scrollAnchor?.activate()
                                     onIndexChange(index)
                                 },
                                 border = BorderStroke(
