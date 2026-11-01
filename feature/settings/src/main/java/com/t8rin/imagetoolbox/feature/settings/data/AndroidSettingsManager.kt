@@ -202,6 +202,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_GRADIENTS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.REMEMBER_IMAGE_HEADER_STATE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RETURN_TO_EXTERNAL_APP_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
@@ -246,10 +247,11 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -354,10 +356,24 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun getSettingsState(): SettingsState = rawFlow().first()
 
-    private fun rawFlow(): Flow<SettingsState> = dataStore.data.map {
-        it.toSettingsState(
+    private val temporaryImageHeaderState = MutableStateFlow<ImageHeaderState?>(null)
+
+    private fun rawFlow(): Flow<SettingsState> = combine(
+        dataStore.data,
+        temporaryImageHeaderState
+    ) { preferences, imageState ->
+        val settings = preferences.toSettingsState(
             default = default,
             jsonParser = jsonParser
+        )
+        if (settings.rememberImageHeaderState) settings
+        else settings.copy(
+            imageHeaderState = settings.imageHeaderState.copy(
+                position = imageState?.position ?: if (settings.generatePreviews) {
+                    default.imageHeaderState.position
+                } else 0,
+                isBlocked = imageState?.isBlocked ?: default.imageHeaderState.isBlocked
+            )
         )
     }
 
@@ -838,10 +854,23 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun setImageHeaderState(state: ImageHeaderState) = edit {
-        it[IMAGE_HEADER_POSITION] = state.position.coerceIn(0, 4)
-        it[IMAGE_HEADER_BLOCKED] = state.isBlocked
+        if (it[REMEMBER_IMAGE_HEADER_STATE] ?: default.rememberImageHeaderState) {
+            it[IMAGE_HEADER_POSITION] = state.position.coerceIn(0, 4)
+            it[IMAGE_HEADER_BLOCKED] = state.isBlocked
+        } else {
+            temporaryImageHeaderState.value = state
+        }
         it[IMAGE_HEADER_ZOOM_RESET_ENABLED] = state.isZoomResetEnabled
     }
+
+    override fun resetImageHeaderState() {
+        temporaryImageHeaderState.value = null
+    }
+
+    override suspend fun toggleRememberImageHeaderState() = toggle(
+        key = REMEMBER_IMAGE_HEADER_STATE,
+        defaultValue = default.rememberImageHeaderState
+    )
 
     override suspend fun toggleGeneratePreviews() = toggle(
         key = GENERATE_PREVIEWS,

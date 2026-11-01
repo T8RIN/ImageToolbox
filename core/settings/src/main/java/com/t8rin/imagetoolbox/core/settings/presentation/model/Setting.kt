@@ -512,6 +512,12 @@ sealed class Setting(
     )
 
     @Serializable
+    data object RememberImageHeaderState : Setting(
+        title = R.string.remember_image_header_state,
+        subtitle = R.string.remember_image_header_state_sub
+    )
+
+    @Serializable
     data object EnableSheetGestures : Setting(
         title = R.string.sheet_gestures,
         subtitle = R.string.sheet_gestures_sub

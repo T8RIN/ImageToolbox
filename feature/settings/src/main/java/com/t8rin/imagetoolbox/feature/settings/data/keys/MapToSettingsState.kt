@@ -173,6 +173,8 @@ internal fun Preferences.toSettingsState(
         ?: default.skipImagePicking,
     generatePreviews = this[GENERATE_PREVIEWS]
         ?: default.generatePreviews,
+    rememberImageHeaderState = this[REMEMBER_IMAGE_HEADER_STATE]
+        ?: default.rememberImageHeaderState,
     imageHeaderState = ImageHeaderState(
         position = (this[IMAGE_HEADER_POSITION] ?: if (this[GENERATE_PREVIEWS]
                 ?: default.generatePreviews

@@ -196,6 +196,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleGeneratePreviews()
 
+    suspend fun toggleRememberImageHeaderState()
+
+    fun resetImageHeaderState()
+
     suspend fun toggleEnableSheetGestures()
 
     suspend fun toggleSheetNestedScroll()

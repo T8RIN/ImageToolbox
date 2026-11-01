@@ -109,6 +109,7 @@ internal val CONFETTI_HARMONIZER = intPreferencesKey("CONFETTI_HARMONIZER")
 internal val CONFETTI_HARMONIZATION_LEVEL = floatPreferencesKey("CONFETTI_HARMONIZATION_LEVEL")
 internal val SKIP_IMAGE_PICKING = booleanPreferencesKey("SKIP_IMAGE_PICKER")
 internal val GENERATE_PREVIEWS = booleanPreferencesKey("GENERATE_PREVIEWS")
+internal val REMEMBER_IMAGE_HEADER_STATE = booleanPreferencesKey("REMEMBER_IMAGE_HEADER_STATE")
 internal val IMAGE_HEADER_POSITION = intPreferencesKey("IMAGE_HEADER_POSITION")
 internal val IMAGE_HEADER_BLOCKED = booleanPreferencesKey("IMAGE_HEADER_BLOCKED")
 internal val IMAGE_HEADER_ZOOM_RESET_ENABLED =

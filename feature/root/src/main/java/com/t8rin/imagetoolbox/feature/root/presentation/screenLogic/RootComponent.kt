@@ -33,6 +33,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.t8rin.imagetoolbox.core.domain.APP_CHANGELOG
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.history.AppHistoryRepository
@@ -140,7 +141,10 @@ class RootComponent @AssistedInject internal constructor(
                     )
                 }
             }
-        )
+        ).also { stack ->
+            val subscription = stack.subscribe { settingsManager.resetImageHeaderState() }
+            lifecycle.doOnDestroy(subscription::cancel)
+        }
     }
 
     private val _uris = mutableStateOf<List<Uri>?>(null)

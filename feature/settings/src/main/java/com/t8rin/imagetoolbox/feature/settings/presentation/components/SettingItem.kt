@@ -547,6 +547,10 @@ internal fun SettingItem(
                 GeneratePreviewsSettingItem(onClick = component::toggleGeneratePreviews)
             }
 
+            Setting.RememberImageHeaderState -> {
+                RememberImageHeaderStateSettingItem(onClick = component::toggleRememberImageHeaderState)
+            }
+
             Setting.EnableSheetGestures -> {
                 EnableSheetGesturesSettingItem(onClick = component::toggleEnableSheetGestures)
             }

@@ -478,6 +478,8 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleGeneratePreviews() = settingsScope { toggleGeneratePreviews() }
 
+    fun toggleRememberImageHeaderState() = settingsScope { toggleRememberImageHeaderState() }
+
     fun toggleEnableSheetGestures() = settingsScope { toggleEnableSheetGestures() }
 
     fun toggleSheetNestedScroll() = settingsScope { toggleSheetNestedScroll() }

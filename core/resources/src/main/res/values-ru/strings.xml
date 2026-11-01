@@ -7532,4 +7532,6 @@
     <string name="opaque_image_viewer_background_sub">Использовать сплошной чёрный фон при просмотре фотографий</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Откройте Настройки → Макет и переключите «Непрозрачный фон просмотрщика».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Откройте фотографию и сравните сплошной чёрный фон с затемнённым фоном приложения. Это меняет только просмотрщик, а не сохранённое изображение или его прозрачность.</string>
+    <string name="remember_image_header_state">Запоминать вид превью</string>
+    <string name="remember_image_header_state_sub">Сохранять высоту и закрепление превью между инструментами. Когда выключено, каждый инструмент открывается с видом по умолчанию.</string>
 </resources>
