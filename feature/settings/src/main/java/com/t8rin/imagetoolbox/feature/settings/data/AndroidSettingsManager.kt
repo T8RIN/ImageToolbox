@@ -24,6 +24,7 @@ import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.PreferencesSerializer
 import androidx.datastore.preferences.core.edit
 import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
@@ -44,8 +45,11 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
@@ -255,6 +259,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okio.buffer
+import okio.source
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -554,25 +560,57 @@ internal class AndroidSettingsManager @Inject constructor(
         behavior = FilenameBehavior.Random()
     )
 
-    override suspend fun createBackupFile(): ByteArray =
-        context.obtainDatastoreData(GLOBAL_STORAGE_NAME)
+    override suspend fun createBackupFile(
+        writeable: Writeable,
+        fullBackup: Boolean
+    ) = withContext(ioDispatcher) {
+        dataStore.data.first()
+        SettingsBackup.write(
+            filesDir = context.filesDir,
+            output = writeable.outputStream(),
+            fullBackup = fullBackup
+        )
+    }
 
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
-    ) = withContext(ioDispatcher) {
-        context.restoreDatastore(
-            fileName = GLOBAL_STORAGE_NAME,
-            backupUri = backupFileUri.toUri(),
-            onFailure = onFailure,
-            onSuccess = {
-                onSuccess()
-                setSaveFolderUri(null)
+    ) {
+        runSuspendCatching {
+            withContext(ioDispatcher) {
+                val directory = File.createTempFile("backup_restore_", null, context.cacheDir)
+                check(directory.delete() && directory.mkdirs())
+                try {
+                    val settingsFile = checkNotNull(
+                        context.contentResolver.openInputStream(backupFileUri.toUri())
+                    ).use {
+                        SettingsBackup.read(
+                            input = it,
+                            directory = directory
+                        )
+                    }
+                    val preferences = runSuspendCatching {
+                        settingsFile.inputStream().source().buffer().use {
+                            PreferencesSerializer.readFrom(it)
+                        }
+                    }.getOrElse {
+                        throw IllegalArgumentException(
+                            context.getString(R.string.corrupted_file_or_not_a_backup),
+                            it
+                        )
+                    }
+                    SettingsBackup.restoreFiles(directory, context.filesDir)
+                    dataStore.updateData {
+                        preferences.toMutablePreferences().apply {
+                            this[SAVE_FOLDER_URI] = ""
+                        }
+                    }
+                } finally {
+                    directory.deleteRecursively()
+                }
             }
-        )
-        toggleClearCacheOnLaunch()
-        toggleClearCacheOnLaunch()
+        }.onFailure(onFailure).onSuccess { onSuccess() }
     }
 
     override suspend fun resetSettings() = withContext(defaultDispatcher) {
@@ -758,7 +796,7 @@ internal class AndroidSettingsManager @Inject constructor(
         "Start Logs Export".makeLog("SettingsManager")
 
         val logsFile = Logger.getLogsFile().toFile()
-        val settingsFile = createBackupFile()
+        val settingsFile = context.obtainDatastoreData(GLOBAL_STORAGE_NAME)
 
         shareProvider.get().cacheData(
             writeData = { writeable ->

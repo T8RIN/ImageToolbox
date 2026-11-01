@@ -274,8 +274,8 @@
     <string name="help_tip_backup_restore_settings_title">Back up settings</string>
     <string name="help_tip_backup_restore_settings_subtitle">Move presets, preferences, and app behavior to another install safely</string>
     <string name="help_tip_backup_restore_settings_page_title">Keep your setup portable</string>
-    <string name="help_tip_backup_restore_settings_description">A settings backup stores the app’s global preferences, such as appearance, defaults and naming rules. It is not a backup of your photos, downloaded models or other separate files.</string>
-    <string name="help_tip_backup_restore_settings_step_1">Open Backup, choose where to save the settings file and keep it somewhere accessible after reinstalling or moving devices.</string>
+    <string name="help_tip_backup_restore_settings_description">A settings backup stores the app’s global preferences, such as appearance, defaults and naming rules. A full backup also includes downloaded models and other app data. Photos stored outside the app are not included.</string>
+    <string name="help_tip_backup_restore_settings_step_1">Open Backup, choose Settings or Full backup, then choose where to save the file. Full backups can be several GB; wait until saving finishes.</string>
     <string name="help_tip_backup_restore_settings_step_2">Use Restore and select that file to apply its saved preferences. Review default format and naming behavior before an important batch.</string>
     <string name="help_tip_backup_restore_settings_step_3">Choose and authorize the saving folder again after restoration; folder access is not transferred by the backup. Copy photos and other needed files separately.</string>
     <string name="help_tip_preset_text_entry_title">Preset text entry</string>
@@ -1220,8 +1220,11 @@
     <string name="backup_and_restore">Backup and restore</string>
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
-    <string name="backup_sub">Backup your app settings to a file</string>
-    <string name="restore_sub">Restore app settings from previously generated file</string>
+    <string name="backup_sub">Back up settings or all app data to a file</string>
+    <string name="backup_settings_sub">Only app settings and presets</string>
+    <string name="full_backup">Full backup</string>
+    <string name="full_backup_sub">Settings, downloaded models and other app data. The file can be several GB.</string>
+    <string name="restore_sub">Restore settings or all app data from a backup file</string>
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
     <string name="settings_restored">Settings restored successfully</string>
     <string name="contact_me">Contact me</string>
@@ -6509,7 +6512,7 @@
     <string name="help_tip_setting_cache_auto_clear_interval_description">The interval controls when automatic cleanup checks are due, not a timer for deleting exported images.</string>
     <string name="help_tip_setting_cache_auto_clear_interval_step_1">Enable Auto cache clearing, open Cleanup interval and choose every app launch, day, week or month.</string>
     <string name="help_tip_setting_cache_auto_clear_interval_step_2">Set Cache limit separately; an interval becoming due does not by itself mean the size threshold has been exceeded.</string>
-    <string name="help_tip_setting_restore_description">Restore reads an ImageToolbox settings backup and applies its saved preferences.</string>
+    <string name="help_tip_setting_restore_description">Restore accepts both settings backups and full ImageToolbox backups. Full backups also restore downloaded models and other app data. Wait until restoration finishes.</string>
     <string name="help_tip_setting_restore_step_1">Open Restore and choose a backup previously created by the app. Keep a current backup first if you may need to undo the replacement.</string>
     <string name="help_tip_setting_restore_step_2">After successful restoration the screen is recreated. Re-select Output folder: the stored folder URI is cleared during restore.</string>
     <string name="help_tip_setting_reset_description">Reset returns app preferences to their defaults after confirmation.</string>

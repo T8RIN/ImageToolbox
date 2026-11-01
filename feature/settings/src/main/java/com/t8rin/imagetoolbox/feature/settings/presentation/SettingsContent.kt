@@ -107,6 +107,7 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
+import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -300,6 +301,11 @@ fun SettingsContent(
         onDispose { showTargetHighlight = false }
     }
 
+    LoadingDialog(
+        visible = component.isBackupLoading,
+        canCancel = false
+    )
+
     Scaffold(
         modifier = if (isStandaloneScreen) {
             Modifier
@@ -469,9 +475,7 @@ fun SettingsContent(
                             key = { it.id }
                         ) { group ->
                             BoxAnimatedVisibility(
-                                visible = if (group is SettingsGroup.Shadows) {
-                                    settingsState.borderWidth <= 0.dp
-                                } else true
+                                visible = group !is SettingsGroup.Shadows || settingsState.borderWidth <= 0.dp
                             ) {
                                 if (isStandaloneScreen) {
                                     val groupTitle = stringResource(group.titleId)

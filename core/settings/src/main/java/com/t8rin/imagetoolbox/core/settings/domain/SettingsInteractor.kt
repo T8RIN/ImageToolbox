@@ -25,6 +25,7 @@ import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
 import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -108,7 +109,10 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun toggleRandomizeFilename()
 
-    suspend fun createBackupFile(): ByteArray
+    suspend fun createBackupFile(
+        writeable: Writeable,
+        fullBackup: Boolean
+    )
 
     suspend fun restoreFromBackupFile(
         backupFileUri: String,

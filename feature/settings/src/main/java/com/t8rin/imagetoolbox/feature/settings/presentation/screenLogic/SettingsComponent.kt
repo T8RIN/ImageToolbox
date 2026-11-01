@@ -103,6 +103,9 @@ class SettingsComponent @AssistedInject internal constructor(
 
     val semanticSearchState = semanticSearchRepository.state
 
+    private val _isBackupLoading = mutableStateOf(false)
+    val isBackupLoading by _isBackupLoading
+
     private val _searchKeyword = mutableStateOf("")
     val searchKeyword by _searchKeyword
 
@@ -304,11 +307,12 @@ class SettingsComponent @AssistedInject internal constructor(
     fun toggleRandomizeFilename() = settingsScope { toggleRandomizeFilename() }
 
     fun createBackup(
-        uri: Uri
-    ) = settingsScope {
+        uri: Uri,
+        fullBackup: Boolean
+    ) = backupScope {
         fileController.writeBytes(
             uri = uri.toString(),
-            block = { it.writeBytes(createBackupFile()) }
+            block = { createBackupFile(it, fullBackup) }
         ).also(::parseFileSaveResult)
     }
 
@@ -323,7 +327,7 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
-    ) = settingsScope {
+    ) = backupScope {
         restoreFromBackupFile(
             backupFileUri = uri.toString(),
             onSuccess = onSuccess,
@@ -629,6 +633,18 @@ class SettingsComponent @AssistedInject internal constructor(
 
     fun toggleShowToolsHistory() =
         settingsScope { toggleShowToolsHistory() }
+
+    private inline fun backupScope(
+        crossinline action: suspend SettingsManager.() -> Unit
+    ) = settingsScope {
+        if (isBackupLoading) return@settingsScope
+        _isBackupLoading.update { true }
+        try {
+            action()
+        } finally {
+            _isBackupLoading.update { false }
+        }
+    }
 
     private inline fun settingsScope(
         crossinline action: suspend SettingsManager.() -> Unit
