@@ -26,9 +26,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,8 +40,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,6 +49,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
 import androidx.compose.ui.input.pointer.PointerEventPass
@@ -76,6 +74,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -103,14 +102,10 @@ fun LazyListScope.imageStickyHeader(
         var controlsVisible by rememberSaveable {
             mutableStateOf(true)
         }
-        var isImageTouched by remember { mutableStateOf(false) }
-        val sliderInteractionSource = remember {
-            MutableInteractionSource()
-        }
-        val interactions by sliderInteractionSource.interactions.collectAsState(initial = null)
+        var isHeaderTouched by remember { mutableStateOf(false) }
 
-        LaunchedEffect(controlsVisible, interactions, isImageTouched, imageState) {
-            if (controlsVisible && !isImageTouched && !(interactions is DragInteraction.Start || interactions is PressInteraction.Press)) {
+        LaunchedEffect(controlsVisible, isHeaderTouched, imageState) {
+            if (controlsVisible && !isHeaderTouched) {
                 delay(2500)
                 controlsVisible = isControlsVisibleIndefinitely
             }
@@ -132,6 +127,22 @@ fun LazyListScope.imageStickyHeader(
                     layout(result.measuredWidth, result.measuredHeight) {
                         result.place(0, 0)
                     }
+                }
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        awaitFirstDown(requireUnconsumed = false)
+                        isHeaderTouched = true
+                        try {
+                            do {
+                                val event = awaitPointerEvent(PointerEventPass.Final)
+                            } while (event.changes.any { it.pressed })
+                        } finally {
+                            isHeaderTouched = false
+                        }
+                    }
+                }
+                .tappable(!isControlsVisibleIndefinitely) {
+                    controlsVisible = true
                 }
                 .onGloballyPositioned(onGloballyPositioned)
                 .animateContentSizeNoClip()
@@ -166,10 +177,17 @@ fun LazyListScope.imageStickyHeader(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val zoomState = rememberZoomState(key = imageState.position)
-                LaunchedEffect(imageState.isZoomResetEnabled, zoomState) {
-                    if (imageState.isZoomResetEnabled) {
-                        zoomState.reset()
+                val zoomState = rememberZoomState()
+                var previousPosition by remember { mutableIntStateOf(imageState.position) }
+                LaunchedEffect(imageState.position, imageState.isZoomResetEnabled) {
+                    val shouldReset =
+                        imageState.isZoomResetEnabled || previousPosition != imageState.position
+                    previousPosition = imageState.position
+                    if (shouldReset && (zoomState.scale != 1f || zoomState.offsetX != 0f || zoomState.offsetY != 0f)) {
+                        zoomState.changeScale(
+                            targetScale = 1f,
+                            position = Offset.Zero
+                        )
                     }
                 }
                 Box(
@@ -178,15 +196,7 @@ fun LazyListScope.imageStickyHeader(
                         .then(imageModifier)
                         .pointerInput(Unit) {
                             awaitEachGesture {
-                                awaitFirstDown(requireUnconsumed = false)
-                                isImageTouched = true
-                                try {
-                                    do {
-                                        val event = awaitPointerEvent(PointerEventPass.Final)
-                                    } while (event.changes.any { it.pressed })
-                                } finally {
-                                    isImageTouched = false
-                                }
+                                awaitFirstDown(requireUnconsumed = false).consume()
                             }
                         }
                         .then(
@@ -217,7 +227,6 @@ fun LazyListScope.imageStickyHeader(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         EnhancedSlider(
-                            interactionSource = sliderInteractionSource,
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(horizontal = 10.dp),
