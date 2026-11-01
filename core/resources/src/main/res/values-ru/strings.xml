@@ -5077,7 +5077,7 @@
     <string name="compression_lab_mode_manual">Заданное качество</string>
     <string name="compression_lab_mode_target_quality">Минимум при качестве</string>
     <string name="compression_lab_mode_target_size">Лучшее до размера</string>
-    <string name="compression_lab_target_quality">Целевое визуальное качество</string>
+    <string name="compression_lab_target_quality">Целевая оценка визуального сходства</string>
     <string name="compression_lab_target_size">Целевой размер файла</string>
     <string name="compression_lab_run">Запустить сравнение</string>
     <string name="compression_lab_result_details">Энкодер: %1$s · %2$d мс\nSSIM: %3$s · PSNR: %4$s</string>
@@ -5216,7 +5216,7 @@
     <string name="search_keywords_gallery">галерея фотографии изображения медиабраузер просмотрщик современные форматы</string>
     <string name="fractal_generation">Фракталы</string>
     <string name="fractal_generation_sub">Создание и сохранение фрактальных изображений</string>
-    <string name="search_keywords_fractal_generation">фрактал Мандельброт Жюлиа Пылающий корабль Трикорн Мультиброт Мультикорн Кельтский Буффало Феникс Нова Ньютон Магнит Ляпунов Серпинский Мандельбульб Мандельбокс Менгер Кватернион 3D бесконечный глубокий зум генератор</string>
+    <string name="search_keywords_fractal_generation">фрактал Мандельброт Жюлиа Пылающий корабль Трикорн Мультиброт Мультикорн Кельтский Буффало Феникс Нова Ньютон Магнит Ляпунов Серпинский Клиффорд Де Йонг Икеда Тинкербелл Гумовский Мира Барнсли Альфа синус косинус гиперболический синус Паук Португальский кораблик Лямбда Шип Перо Кактус Зубиета Тетрация папоротник дракон ветвь ёлка Виксек Пифагор H-дерево Кох Гильберт Мандельбульб Мандельбокс Менгер Кватернион 3D RGB CMYK бесконечный глубокий зум генератор</string>
     <string name="fractal_power">Степень</string>
     <string name="fractal_iteration_policy">Политика итераций</string>
     <string name="fractal_bailout">Радиус выхода</string>
