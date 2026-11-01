@@ -63,7 +63,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -214,7 +213,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                             lastUsedTools = lastUsedTools
                         )
                     } else {
-                        val data = remember(currentScreenList) { mutableStateOf(currentScreenList) }
+                        val data = rememberReorderableScreenList(currentScreenList)
                         val gridState = rememberLazyStaggeredGridState()
                         val haptics = LocalHapticFeedback.current
                         val state = rememberReorderableLazyStaggeredGridState(
@@ -223,8 +222,8 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 haptics.press()
                                 data.value = data.value.toMutableList().apply {
                                     add(
-                                        indexOfFirst { it.id == to.key },
-                                        removeAt(indexOfFirst { it.id == from.key })
+                                        indexOfFirst { it.first == to.key },
+                                        removeAt(indexOfFirst { it.first == from.key })
                                     )
                                 }
                             }
@@ -256,11 +255,11 @@ internal fun RowScope.ScreenPreferenceSelection(
                                 }
                                 items(
                                     items = data.value,
-                                    key = { it.id }
-                                ) { screen ->
+                                    key = { it.first }
+                                ) { (key, screen) ->
                                     ReorderableItem(
                                         state = state,
-                                        key = screen.id,
+                                        key = key,
                                         enabled = canReorderFavorites
                                     ) { isDragging ->
                                         PreferenceItemOverload(
@@ -279,7 +278,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                     },
                                                     onDragStopped = {
                                                         onReorderDragStateChange(false)
-                                                        onReorderFavorites(data.value)
+                                                        onReorderFavorites(data.value.map { it.second })
                                                     }
                                                 )
                                                 .scale(
