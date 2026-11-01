@@ -69,6 +69,7 @@ internal fun MainContentImpl(
     onGetClipList: (List<Uri>) -> Unit,
     onNavigate: (Screen) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
+    onReorderFavorites: (List<Screen>) -> Unit,
     onShowFeaturesFall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     isUpdateAvailable: Boolean,
@@ -79,6 +80,11 @@ internal fun MainContentImpl(
     var selectedNavigationItem by rememberSaveable { mutableIntStateOf(0) }
     val showFavoriteTabInGroupedMode =
         settingsState.groupOptionsByTypes && settingsState.showFavoriteToolsInGroupedMode
+    val favoriteIndex = when {
+        !settingsState.showFavoriteAsLast -> 0
+        settingsState.groupOptionsByTypes -> Screen.typedEntries.size
+        else -> 1
+    }
     val canSearchScreens = settingsState.screensSearchEnabled
     var showScreenSearch by rememberSaveable(canSearchScreens) { mutableStateOf(false) }
     var screenSearchKeyword by rememberSaveable(canSearchScreens) { mutableStateOf("") }
@@ -269,6 +275,9 @@ internal fun MainContentImpl(
 
                 ScreenPreferenceSelection(
                     currentScreenList = currentScreenList,
+                    canReorderFavorites = !showScreenSearch && screenSearchKeyword.isEmpty() &&
+                            (!settingsState.groupOptionsByTypes || showFavoriteTabInGroupedMode) &&
+                            selectedNavigationItem == favoriteIndex,
                     showScreenSearch = showScreenSearch,
                     screenSearchKeyword = screenSearchKeyword,
                     isGrid = isGrid,
@@ -281,6 +290,7 @@ internal fun MainContentImpl(
                     onNavigateToScreenWithPopUpTo = onNavigate,
                     onNavigationBarItemChange = { selectedNavigationItem = it },
                     onToggleFavorite = onToggleFavorite,
+                    onReorderFavorites = onReorderFavorites,
                     lastUsedTools = lastUsedTools
                 )
             }
