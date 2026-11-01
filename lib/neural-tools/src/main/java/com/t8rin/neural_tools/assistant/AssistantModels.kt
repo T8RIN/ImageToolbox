@@ -545,6 +545,7 @@ class AssistantModels : NeuralTool() {
         val output = StringBuilder()
         var inThought = thinking
         var thinkingTokens = 0
+        var stopReason = "token_limit"
         try {
             tokenizer.createStream().use { stream ->
                 val eos = tokenizer.eosTokenIds.toSet()
@@ -552,10 +553,16 @@ class AssistantModels : NeuralTool() {
                 val limit = emittedTokens + maxOutputTokens
                 while (emittedTokens < limit) {
                     currentCoroutineContext().ensureActive()
-                    if (generator.isDone) break
+                    if (generator.isDone) {
+                        stopReason = "completed"
+                        break
+                    }
                     runCancellable { generator.generateNextToken() }
                     val count = generator.tokenCount().toInt()
-                    if (count <= emittedTokens) break
+                    if (count <= emittedTokens) {
+                        stopReason = "no_tokens"
+                        break
+                    }
                     val tokens = if (count == emittedTokens + 1) {
                         intArrayOf(generator.getLastTokenInSequence(0))
                     } else generator.getSequence(0).copyOfRange(emittedTokens, minOf(count, limit))
@@ -563,6 +570,7 @@ class AssistantModels : NeuralTool() {
                     for (token in tokens) {
                         generated++
                         if (token in eos) {
+                            stopReason = "eos"
                             check(!inThought) { "Assistant ended before completing reasoning" }
                             return output.toString()
                         }
@@ -577,6 +585,7 @@ class AssistantModels : NeuralTool() {
                                 (System.nanoTime() - started) / 1_000_000
                             output.append(delta)
                             if (stopOnRepetition) repeatedAssistantSuffix(output)?.let { end ->
+                                stopReason = "repetition"
                                 return output.substring(0, end).trimEnd()
                             }
                             onToken(delta)
@@ -586,10 +595,16 @@ class AssistantModels : NeuralTool() {
             }
             check(!inThought) { "Assistant did not complete reasoning within the output limit" }
             return output.toString()
+        } catch (cancelled: CancellationException) {
+            stopReason = "cancelled"
+            throw cancelled
+        } catch (failure: Exception) {
+            stopReason = "error"
+            throw failure
         } finally {
             makeLog(
                 tag = "AssistantInference",
-                data = "outputTokens=$generated maxOutputTokens=$maxOutputTokens thinkingTokens=$thinkingTokens firstTokenMs=$firstTokenMs decodeMs=${(System.nanoTime() - started) / 1_000_000}"
+                data = "outputTokens=$generated maxOutputTokens=$maxOutputTokens stopReason=$stopReason thinkingTokens=$thinkingTokens firstTokenMs=$firstTokenMs decodeMs=${(System.nanoTime() - started) / 1_000_000}"
             )
         }
     }

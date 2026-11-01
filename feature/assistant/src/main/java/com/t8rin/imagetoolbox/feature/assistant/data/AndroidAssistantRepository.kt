@@ -38,9 +38,9 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantConversationStor
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantFileSizePlan
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation
-import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantImageReply
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantHelpSelection
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantImageReply
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
@@ -66,7 +66,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
 import java.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
@@ -203,17 +202,18 @@ internal class AndroidAssistantRepository @Inject constructor(
                     _progress.value = AssistantRepository.Progress.FindingPhotos
                     galleryAction()
                 } else {
-                    withTimeout(if (variant == AssistantModel.Max || variant == AssistantModel.VisionMax) MAX_REPLY_TIMEOUT_MS else REPLY_TIMEOUT_MS) {
-                        generateAnswer(variant, id, request.copy(context = context))
+                    withAssistantReplyTimeout(
+                        firstTextTimeoutMillis = if (variant == AssistantModel.Max || variant == AssistantModel.VisionMax) MAX_FIRST_TEXT_TIMEOUT_MS else FIRST_TEXT_TIMEOUT_MS
+                    ) { onText ->
+                        generateAnswer(variant, id, request.copy(context = context), onText)
                     }
                 }
                 updateMessage(id) { it.copy(answer = answer, error = null) }
             } catch (_: TimeoutCancellationException) {
                 releaseModel = true
+                makeLog(tag = "AssistantRequest", data = "model=${variant.id} stopped=timeout")
                 updateMessage(id) {
-                    if (it.answer.text.isBlank()) {
-                        it.copy(error = resources.getString(R.string.assistant_generation_timeout))
-                    } else it
+                    it.copy(error = resources.getString(R.string.assistant_generation_timeout))
                 }
             } catch (cancelled: CancellationException) {
                 releaseModel = true
@@ -254,7 +254,8 @@ internal class AndroidAssistantRepository @Inject constructor(
     private suspend fun generateAnswer(
         variant: AssistantModel,
         id: Long,
-        originalRequest: AssistantRequest
+        originalRequest: AssistantRequest,
+        onText: () -> Unit
     ): AssistantAnswer {
         val started = System.nanoTime()
         val referenceDate = LocalDate.now()
@@ -314,6 +315,7 @@ internal class AndroidAssistantRepository @Inject constructor(
         ): String {
             passes++
             output.clear()
+            var lastText = ""
             return stage("generation$passes") {
                 models.generate(
                     variant = variant,
@@ -330,6 +332,10 @@ internal class AndroidAssistantRepository @Inject constructor(
                     if (stream || preview != null) {
                         val text = preview?.invoke(output.toString())
                             ?: AssistantCommand.visibleText(output.toString())
+                        if (text.isNotBlank() && text != lastText) {
+                            lastText = text
+                            onText()
+                        }
                         if (text.isNotBlank() && firstTextMs == null) {
                             firstTextMs = (System.nanoTime() - started) / 1_000_000
                             _progress.value = AssistantRepository.Progress.Answering
@@ -774,7 +780,7 @@ internal class AndroidAssistantRepository @Inject constructor(
                     size?.let {
                         "file size: ${
                             String.format(
-                                java.util.Locale.ROOT,
+                                Locale.ROOT,
                                 "%.1f",
                                 it / 1024.0
                             )
@@ -950,8 +956,8 @@ internal class AndroidAssistantRepository @Inject constructor(
     }
 
     private companion object {
-        const val REPLY_TIMEOUT_MS = 120_000L
-        const val MAX_REPLY_TIMEOUT_MS = 180_000L
+        const val FIRST_TEXT_TIMEOUT_MS = 120_000L
+        const val MAX_FIRST_TEXT_TIMEOUT_MS = 180_000L
         const val STREAM_UPDATE_INTERVAL_NS = 40_000_000L
 
     }
