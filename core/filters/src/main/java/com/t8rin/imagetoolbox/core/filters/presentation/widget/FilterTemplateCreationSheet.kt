@@ -99,6 +99,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -113,7 +114,7 @@ fun FilterTemplateCreationSheet(
     initialTemplateFilter: TemplateFilter? = null,
     onSave: (TemplateFilter) -> Unit = {}
 ) {
-    val isBlocked = LocalSettingsState.current.imageHeaderState.isBlocked
+    val imageState = LocalSettingsState.current.imageHeaderState
     val previewModel = LocalFilterPreviewModelProvider.current.preview
 
     val isPortrait by isPortraitOrientationAsState()
@@ -229,6 +230,7 @@ fun FilterTemplateCreationSheet(
                     preview()
                 }
             }
+            val internalHeight = rememberAvailableHeight(imageState = imageState)
             ScrollAnchoredLazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -236,7 +238,8 @@ fun FilterTemplateCreationSheet(
             ) {
                 imageStickyHeader(
                     visible = isPortrait,
-                    isBlocked = isBlocked,
+                    isBlocked = imageState.isBlocked,
+                    internalHeight = internalHeight,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,
                     imageBlock = preview

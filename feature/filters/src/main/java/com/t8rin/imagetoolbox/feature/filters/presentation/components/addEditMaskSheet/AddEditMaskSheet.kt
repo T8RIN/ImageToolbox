@@ -59,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.UiFilterMask
 
 @Composable
@@ -171,6 +172,8 @@ fun AddEditMaskSheet(
                     drawPreview()
                 }
             }
+            val internalHeight =
+                rememberAvailableHeight(imageState = settingsState.imageHeaderState)
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -179,6 +182,7 @@ fun AddEditMaskSheet(
                 imageStickyHeader(
                     visible = isPortrait,
                     isBlocked = settingsState.imageHeaderState.isBlocked,
+                    internalHeight = internalHeight,
                     isControlsVisibleIndefinitely = true,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,

@@ -24,6 +24,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -50,9 +52,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.layout
@@ -61,8 +63,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
-import com.t8rin.gesture.PointerRequisite
-import com.t8rin.gesture.detectPointerTransformGestures
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.FitScreen
 import com.t8rin.imagetoolbox.core.resources.icons.PushPin
@@ -76,21 +76,18 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSlider
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
-import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.snapBackZoomable
 import net.engawapg.lib.zoomable.zoomable
-import kotlin.math.abs
 
 
 fun LazyListScope.imageStickyHeader(
     visible: Boolean,
     isBlocked: Boolean,
-    expanded: Boolean = false,
+    internalHeight: Dp,
     backgroundColor: Color = Color.Unspecified,
     padding: Dp = 20.dp,
     isControlsVisibleIndefinitely: Boolean = false,
@@ -103,20 +100,17 @@ fun LazyListScope.imageStickyHeader(
         val imageState = settingsState.imageHeaderState
         val settingsInteractor = LocalSimpleSettingsInteractor.current
         val scope = rememberCoroutineScope()
-        val internalHeight = rememberAvailableHeight(
-            imageState = imageState,
-            expanded = expanded
-        )
         var controlsVisible by rememberSaveable {
             mutableStateOf(true)
         }
+        var isImageTouched by remember { mutableStateOf(false) }
         val sliderInteractionSource = remember {
             MutableInteractionSource()
         }
         val interactions by sliderInteractionSource.interactions.collectAsState(initial = null)
 
-        LaunchedEffect(controlsVisible, interactions) {
-            if (controlsVisible && !(interactions is DragInteraction.Start || interactions is PressInteraction.Press)) {
+        LaunchedEffect(controlsVisible, interactions, isImageTouched, imageState) {
+            if (controlsVisible && !isImageTouched && !(interactions is DragInteraction.Start || interactions is PressInteraction.Press)) {
                 delay(2500)
                 controlsVisible = isControlsVisibleIndefinitely
             }
@@ -138,9 +132,6 @@ fun LazyListScope.imageStickyHeader(
                     layout(result.measuredWidth, result.measuredHeight) {
                         result.place(0, 0)
                     }
-                }
-                .tappable(!isControlsVisibleIndefinitely) {
-                    controlsVisible = true
                 }
                 .onGloballyPositioned(onGloballyPositioned)
                 .animateContentSizeNoClip()
@@ -175,38 +166,40 @@ fun LazyListScope.imageStickyHeader(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val zoomState = rememberZoomState()
+                val zoomState = rememberZoomState(key = imageState.position)
+                LaunchedEffect(imageState.isZoomResetEnabled, zoomState) {
+                    if (imageState.isZoomResetEnabled) {
+                        zoomState.reset()
+                    }
+                }
                 Box(
                     modifier = Modifier
                         .weight(1f, false)
                         .then(imageModifier)
-                        .then(
-                            if (!isControlsVisibleIndefinitely) {
-                                Modifier.pointerInput(Unit) {
-                                    var touchPointerOffset = Offset.Zero
-                                    detectPointerTransformGestures(
-                                        consume = false,
-                                        onGestureEnd = {
-                                            val diff = touchPointerOffset - it.position
-                                            if (abs(diff.x) < 10f && abs(diff.y) < 10f) {
-                                                controlsVisible = true
-                                                it.consume()
-                                            }
-                                        },
-                                        requisite = PointerRequisite.EqualTo,
-                                        onGestureStart = {
-                                            touchPointerOffset = it.position
-                                        },
-                                        onGesture = { _, _, _, _, _, _ -> }
-                                    )
+                        .pointerInput(Unit) {
+                            awaitEachGesture {
+                                awaitFirstDown(requireUnconsumed = false)
+                                isImageTouched = true
+                                try {
+                                    do {
+                                        val event = awaitPointerEvent(PointerEventPass.Final)
+                                    } while (event.changes.any { it.pressed })
+                                } finally {
+                                    isImageTouched = false
                                 }
-                            } else Modifier
-                        )
+                            }
+                        }
                         .then(
                             if (imageState.isZoomResetEnabled) {
-                                Modifier.snapBackZoomable(zoomState = zoomState)
+                                Modifier.snapBackZoomable(
+                                    zoomState = zoomState,
+                                    onTap = { controlsVisible = true }
+                                )
                             } else {
-                                Modifier.zoomable(zoomState = zoomState)
+                                Modifier.zoomable(
+                                    zoomState = zoomState,
+                                    onTap = { controlsVisible = true }
+                                )
                             }
                         )
                 ) {

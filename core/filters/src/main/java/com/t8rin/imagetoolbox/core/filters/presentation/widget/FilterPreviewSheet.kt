@@ -73,6 +73,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 
 @Composable
 internal fun FilterPreviewSheet(
@@ -81,7 +82,7 @@ internal fun FilterPreviewSheet(
     onVisibleChange: (Boolean) -> Unit,
     previewBitmap: Bitmap?
 ) {
-    val isBlocked = LocalSettingsState.current.imageHeaderState.isBlocked
+    val imageState = LocalSettingsState.current.imageHeaderState
     val previewSheetData = component.previewData
     val shaderPresets by component.shaderPresets.collectAsStateWithLifecycle()
     LaunchedEffect(previewSheetData) {
@@ -200,6 +201,7 @@ internal fun FilterPreviewSheet(
                         }
                     }
 
+                    val internalHeight = rememberAvailableHeight(imageState = imageState)
                     ScrollAnchoredLazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -212,7 +214,8 @@ internal fun FilterPreviewSheet(
                     ) {
                         imageStickyHeader(
                             visible = isPortrait,
-                            isBlocked = isBlocked,
+                            isBlocked = imageState.isBlocked,
+                            internalHeight = internalHeight,
                             imageBlock = imageBlock,
                             backgroundColor = backgroundColor
                         )

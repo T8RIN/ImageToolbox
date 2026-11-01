@@ -26,7 +26,6 @@ import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,14 +42,12 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.rememberCurrentLifecycleEve
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.modalsheet.FullscreenPopup
 
-internal val LocalFullHeight = compositionLocalOf<Dp?> { null }
-
 @Composable
 fun rememberAvailableHeight(
     imageState: ImageHeaderState,
     expanded: Boolean = false
 ): Dp {
-    val fullHeight = LocalFullHeight.current ?: rememberFullHeight()
+    val fullHeight = rememberFullHeight()
 
     return animateDpAsState(
         targetValue = fullHeight.times(

@@ -86,6 +86,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.utils.isExpanded
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -257,6 +258,10 @@ fun AdaptiveLayoutScreen(
                                 controls(listState)
                             }
                         } else {
+                            val internalHeight = rememberAvailableHeight(
+                                imageState = imageState,
+                                expanded = forceImagePreviewToMax
+                            )
                             val cutout =
                                 if (!placeImagePreview && addHorizontalCutoutPaddingIfNoPreview) {
                                     WindowInsets
@@ -301,7 +306,7 @@ fun AdaptiveLayoutScreen(
                                     imageStickyHeader(
                                         visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
                                         isBlocked = settingsState.imageHeaderState.isBlocked,
-                                        expanded = forceImagePreviewToMax,
+                                        internalHeight = internalHeight,
                                         imageBlock = imagePreview,
                                         onGloballyPositioned = {
                                             if (!isScrolled) {

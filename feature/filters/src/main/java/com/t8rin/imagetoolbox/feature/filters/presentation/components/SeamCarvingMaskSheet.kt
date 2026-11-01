@@ -83,6 +83,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
@@ -196,6 +197,8 @@ internal fun SeamCarvingMaskSheet(
                     drawPreview()
                 }
             }
+            val internalHeight =
+                rememberAvailableHeight(imageState = settingsState.imageHeaderState)
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -204,6 +207,7 @@ internal fun SeamCarvingMaskSheet(
                 imageStickyHeader(
                     visible = isPortrait,
                     isBlocked = settingsState.imageHeaderState.isBlocked,
+                    internalHeight = internalHeight,
                     isControlsVisibleIndefinitely = true,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,
