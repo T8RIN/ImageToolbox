@@ -58,7 +58,6 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -107,7 +106,7 @@ internal fun LauncherScreenSelector(
     val showFavoriteControls =
         !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
-    val data = remember(screenList) { mutableStateOf(screenList) }
+    val data = rememberReorderableScreenList(screenList)
     val gridState = rememberLazyGridState()
     val haptics = LocalHapticFeedback.current
     val state = rememberReorderableLazyGridState(
@@ -116,8 +115,8 @@ internal fun LauncherScreenSelector(
             haptics.press()
             data.value = data.value.toMutableList().apply {
                 add(
-                    indexOfFirst { it.id == to.key },
-                    removeAt(indexOfFirst { it.id == from.key })
+                    indexOfFirst { it.first == to.key },
+                    removeAt(indexOfFirst { it.first == from.key })
                 )
             }
         }
@@ -145,11 +144,11 @@ internal fun LauncherScreenSelector(
         }
         items(
             items = data.value,
-            key = { it.id }
-        ) { screen ->
+            key = { it.first }
+        ) { (key, screen) ->
             ReorderableItem(
                 state = state,
-                key = screen.id,
+                key = key,
                 enabled = canReorderFavorites
             ) { isDragging ->
                 val containerColor by animateColorAsState(
@@ -174,7 +173,7 @@ internal fun LauncherScreenSelector(
                             },
                             onDragStopped = {
                                 onReorderDragStateChange(false)
-                                onReorderFavorites(data.value)
+                                onReorderFavorites(data.value.map { it.second })
                             }
                         )
                         .scale(
