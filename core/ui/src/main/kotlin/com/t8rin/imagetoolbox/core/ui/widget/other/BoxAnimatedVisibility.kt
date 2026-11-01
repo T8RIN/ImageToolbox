@@ -25,16 +25,15 @@ import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkOut
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.unit.Constraints
 
 @Composable
 fun BoxAnimatedVisibility(
@@ -46,22 +45,24 @@ fun BoxAnimatedVisibility(
     keepContentOnCollapse: Boolean = false,
     content: @Composable AnimatedVisibilityScope.() -> Unit
 ) {
+    val currentContent by rememberUpdatedState(content)
+    val movableContent = remember {
+        movableContentOf<AnimatedVisibilityScope> { scope -> currentContent(scope) }
+    }
+
     if (!keepContentOnCollapse) {
         androidx.compose.animation.AnimatedVisibility(
             visible,
             modifier,
             enter,
             exit,
-            label,
-            content
-        )
+            label
+        ) {
+            movableContent(this)
+        }
         return
     }
 
-    val currentContent by rememberUpdatedState(content)
-    val movableContent = remember {
-        movableContentOf<AnimatedVisibilityScope> { scope -> currentContent(scope) }
-    }
     val visibleState = remember { MutableTransitionState(visible) }
     visibleState.targetState = visible
 
@@ -81,10 +82,18 @@ fun BoxAnimatedVisibility(
             movableContent(this)
         }
         if (!visible && visibleState.isIdle) {
-            Box(Modifier
-                .height(0.dp)
-                .clipToBounds()) {
-                movableContent(scope)
+            Layout(
+                content = { movableContent(scope) },
+                modifier = Modifier.clearAndSetSemantics {}
+            ) { measurables, constraints ->
+                // Keep effects alive without measuring text against a zero height.
+                val placeables = measurables.map {
+                    it.measure(constraints.copy(minHeight = 0, maxHeight = Constraints.Infinity))
+                }
+                layout(
+                    width = placeables.maxOfOrNull { it.width } ?: constraints.minWidth,
+                    height = 0
+                ) {}
             }
         }
     }
