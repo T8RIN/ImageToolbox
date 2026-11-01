@@ -135,6 +135,55 @@ class AssistantCommandTest {
     }
 
     @Test
+    fun anExplicitYearCannotBecomeARelativeOffset() {
+        assertFalse(
+            AssistantCommand.grammar(null, question = "Photos from July 2026")
+                .contains("\"offset\"")
+        )
+        assertTrue(
+            AssistantCommand.grammar(
+                null, AssistantGalleryCatalog(files = listOf("scan_2026.png")),
+                "Find scan_2026.png from the previous day"
+            ).contains("\"offset\"")
+        )
+    }
+
+    @Test
+    fun anExistingNamedFileIsAnActualConditionForANewSearch() {
+        val grammar = AssistantCommand.grammar(
+            current = null,
+            catalog = AssistantGalleryCatalog(files = listOf("scan.png")),
+            question = "Find scan.png"
+        )
+        val schema = Json.parseToJsonElement(
+            grammar.lineSequence().first { it.startsWith("search_new:") }.substringAfter("%json ")
+        ).jsonObject.getValue("properties").jsonObject.getValue("query").jsonObject
+        val variants = schema.getValue("anyOf") as kotlinx.serialization.json.JsonArray
+        variants.forEach { variant ->
+            val query = variant.jsonObject
+            val filename = query.getValue("properties").jsonObject.getValue("filename").jsonObject
+            assertEquals(Json.parseToJsonElement("[\"scan.png\"]"), filename.getValue("enum"))
+            assertTrue("\"filename\"" in query.getValue("required").toString())
+        }
+    }
+
+    @Test
+    fun aNamedAlbumCannotBeDiscardedAsNull() {
+        val grammar = AssistantCommand.grammar(
+            AssistantGalleryQuery(filename = "scan.png"),
+            AssistantGalleryCatalog(albums = listOf("Trips")),
+            "Only within these results, include album Trips."
+        )
+        val schema = Json.parseToJsonElement(
+            grammar.lineSequence().first { it.startsWith("search_update:") }
+                .substringAfter("%json ")
+        ).jsonObject.getValue("properties").jsonObject.getValue("query").jsonObject
+        val album = schema.getValue("properties").jsonObject.getValue("album").jsonObject
+        assertEquals(Json.parseToJsonElement("[\"object\"]"), album.getValue("type"))
+        assertEquals(Json.parseToJsonElement("[\"Trips\"]"), album.getValue("required"))
+    }
+
+    @Test
     fun anIndependentSearchDoesNotInheritUnmentionedPeopleAndAlbums() {
         val grammar = AssistantCommand.grammar(
             AssistantGalleryQuery(people = listOf("Marie"), album = "Trips"),

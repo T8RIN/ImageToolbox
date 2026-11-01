@@ -166,7 +166,8 @@ class AssistantRepositoryInstrumentedTest {
                         queries: List<String>,
                         sources: List<String>,
                         minimumCoverage: Double?,
-                        definition: Boolean
+                        definition: Boolean,
+                        candidateLimit: Int?
                     ): AssistantAnswer {
                         retrievedQueries.add(queries)
                         return services.knowledge.retrieve(
@@ -174,7 +175,8 @@ class AssistantRepositoryInstrumentedTest {
                             queries,
                             sources,
                             minimumCoverage,
-                            definition
+                            definition,
+                            candidateLimit
                         )
                     }
                 },
@@ -468,11 +470,6 @@ class AssistantRepositoryInstrumentedTest {
 
     @Test
     fun understandsEditingRequestsAndFollowUpsWithoutTopicAliases() = runBlocking {
-        app.startActivity(
-            checkNotNull(app.packageManager.getLaunchIntentForPackage(app.packageName))
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
-        instrumentation.waitForIdleSync()
         val modelFilter = InstrumentationRegistry.getArguments().getString("helpModels")?.split(',')
         val installed = AssistantModels().installations(verifyFiles = false)
             .filter {
@@ -549,7 +546,12 @@ class AssistantRepositoryInstrumentedTest {
                             } && Regex("OCR|распозн", RegexOption.IGNORE_CASE).containsMatchIn(
                         message.answer.text
                     )
-                    if (!plainTextRecognition || message.error != null || message.answer.text.isBlank() ||
+                    val batchCleanup = index != requests.lastIndex ||
+                            AssistantSearchIndex<Unit>(emptyList(), "ru").containsTitle(
+                                message.answer.text,
+                                services.resources.getStringLocalized(R.string.delete_exif, "ru")
+                            )
+                    if (!batchCleanup || !plainTextRecognition || message.error != null || message.answer.text.isBlank() ||
                         message.answer.text.contains(
                             "Что вы хотите сделать с изображением",
                             true
@@ -565,6 +567,85 @@ class AssistantRepositoryInstrumentedTest {
             assertTrue(failures.joinToString("\n"), failures.isEmpty())
         } finally {
             File(app.cacheDir, "assistant-help-usability.json").writeText(report.toString(2))
+        }
+    }
+
+    @Test
+    fun realModelAnswersReachTheChatBeforeGenerationFinishes() = runBlocking {
+        val selected = InstrumentationRegistry.getArguments().getString("helpModels")?.split(',')
+        val installed = AssistantModels().installations(false).filter {
+            it.installed && (selected == null || it.variant.id in selected)
+        }
+        assumeTrue(installed.isNotEmpty())
+        val report = JSONArray()
+        try {
+            installed.forEach { state ->
+                settingsState.value = settingsState.value.copy(aiAssistantModel = state.variant)
+                val repository = create()
+                val component = component(repository)
+                val repeats =
+                    InstrumentationRegistry.getArguments().getString("streamRepeats")?.toInt() ?: 1
+                require(repeats in 1..2)
+                repeat(repeats) { iteration ->
+                    withContext(Dispatchers.Main) { component.newConversation() }
+                    val startedAt = System.nanoTime()
+                    val updates = mutableListOf<Pair<Long, String>>()
+                    val collector = launch(Dispatchers.Main.immediate) {
+                        repository.messages.collect { messages ->
+                            val text = messages.lastOrNull()?.answer?.text.orEmpty()
+                            if (repository.isGenerating.value && text.isNotBlank() && updates.lastOrNull()?.second != text) {
+                                updates.add((System.nanoTime() - startedAt) / 1_000_000 to text)
+                            }
+                        }
+                    }
+                    try {
+                        val capabilities = InstrumentationRegistry.getArguments()
+                            .getString("streamCapabilities") != "false"
+                        val question = if (capabilities) "Что ты умеешь? Дай возможности списком."
+                        else "Объясни, почему лёд плавает в воде. Ответь кратко."
+                        withContext(Dispatchers.Main) { assertTrue(component.send(question)) }
+                        withTimeout(185_000) { repository.isGenerating.first { !it } }
+                        val message = repository.messages.value.last()
+                        report.put(JSONObject().apply {
+                            put("model", state.variant.id)
+                            put("repeat", iteration)
+                            put("firstTextMs", updates.firstOrNull()?.first)
+                            put("totalMs", (System.nanoTime() - startedAt) / 1_000_000)
+                            put("updates", updates.size)
+                            put("firstText", updates.firstOrNull()?.second)
+                            put("text", message.answer.text)
+                            put("error", message.error)
+                        })
+                        assertEquals(message.error, null, message.error)
+                        assertTrue(
+                            "${state.variant.id}: no incremental text: $updates",
+                            updates.size >= 3
+                        )
+                        assertTrue(updates.first().second.length < message.answer.text.length)
+                        assertTrue(updates.none {
+                            it.second.contains("<tool_call>") || it.second.trimStart()
+                                .startsWith("{\"action\"")
+                        })
+                        if (capabilities) {
+                            val expected = services.knowledge.capabilities(
+                                AssistantRequest(
+                                    question,
+                                    language = "ru"
+                                ), state.variant
+                            ).text
+                            assertEquals(expected, message.answer.text)
+                            assertTrue(updates.all { expected.startsWith(it.second) })
+                        }
+                        withContext(Dispatchers.Main) {
+                            assertEquals(message.answer.text, component.messages.last().answer.text)
+                        }
+                    } finally {
+                        collector.cancel()
+                    }
+                }
+            }
+        } finally {
+            File(app.cacheDir, "assistant-streaming.json").writeText(report.toString(2))
         }
     }
 

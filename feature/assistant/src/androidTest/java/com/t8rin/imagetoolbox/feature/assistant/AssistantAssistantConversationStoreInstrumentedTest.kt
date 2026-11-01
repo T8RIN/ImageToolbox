@@ -52,7 +52,10 @@ class AssistantAssistantConversationStoreInstrumentedTest {
     private val fixture = AssistantMessage(
         id = 1,
         question = "Сожми фотографии до 500 КБ",
-        answer = AssistantAnswer("Откройте изменение размера по весу."),
+        answer = AssistantAnswer(
+            "Откройте изменение размера по весу.",
+            helpQuery = "reduce image file size to 500 KB"
+        ),
         context = AssistantScreenContext(
             selectedUris = listOf("content://private/selected/image"),
             parameters = mapOf("maxBytes" to "512000")

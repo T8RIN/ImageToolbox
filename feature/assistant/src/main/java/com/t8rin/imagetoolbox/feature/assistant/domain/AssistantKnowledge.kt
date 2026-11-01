@@ -28,7 +28,8 @@ interface AssistantKnowledge {
         queries: List<String> = emptyList(),
         sources: List<String> = emptyList(),
         minimumCoverage: Double? = null,
-        definition: Boolean = false
+        definition: Boolean = false,
+        candidateLimit: Int? = null
     ): AssistantAnswer
 
     suspend fun documentation(

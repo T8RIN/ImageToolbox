@@ -348,6 +348,53 @@ class AssistantKnowledgeInstrumentedTest {
     }
 
     @Test
+    fun aBatchRemovalFollowUpKeepsTheRemovalTool() = runBlocking {
+        val request =
+            AssistantRequest("А это можно сделать с несколькими файлами сразу?", language = "ru")
+        val answer = knowledge.retrieve(request, listOf("batch edit photos with EXIF removal"))
+        assertEquals("exif-removal", answer.references.first().tipId)
+        val source = knowledge.documentation(request, answer.references.first(), workflow = true)
+        assertTrue(source.tools.any { knowledge.resolveTool(it) is Screen.DeleteExif })
+        assertTrue(
+            source.text.contains(
+                services.resources.getStringLocalized(
+                    R.string.delete_exif,
+                    "ru"
+                )
+            )
+        )
+    }
+
+    @Test
+    fun completeInstructionsDoNotRepeatTheBaseToolGuide() = runBlocking {
+        val request = AssistantRequest("Как скрыть лица?", language = "ru")
+        val source = knowledge.retrieve(request, sources = listOf("face-privacy"))
+        val documented =
+            knowledge.documentation(request, source.references.single(), workflow = true)
+        assertEquals(listOf("face-privacy"), documented.references.map { it.tipId })
+        assertTrue(
+            documented.text.contains(
+                services.resources.getStringLocalized(
+                    R.string.help_tip_face_privacy_step_1,
+                    "ru"
+                )
+            )
+        )
+        assertTrue(documented.tools.any { knowledge.resolveTool(it) is Screen.Draw })
+    }
+
+    @Test
+    fun ambiguousRetrievalKeepsTheRequestedOutputAmongItsCandidates() = runBlocking {
+        val answer = knowledge.retrieve(
+            AssistantRequest("Как сделать PDF с поиском по тексту из сканов?", language = "ru"),
+            listOf("create a PDF with OCR text from scanned images"),
+            candidateLimit = 3
+        )
+        assertTrue(answer.references.size in 2..3)
+        assertTrue(answer.references.any { it.tipId == "searchable-pdf" })
+    }
+
+    @Test
     fun compressionQuestionsFindTheActualToolAndHelpWithoutRequiringASize() = runBlocking {
         val context = AssistantScreenContext(
             selectedUris = listOf(
@@ -1007,6 +1054,36 @@ class AssistantKnowledgeInstrumentedTest {
             if ("Help:" !in prompt) failures.add("$query: no documented instructions in grounding")
         }
         assertTrue(failures.joinToString("\n"), failures.isEmpty())
+    }
+
+    @Test
+    fun animationCreationAndFrameExtractionUseTheirOwnDocumentedModes() = runBlocking {
+        listOf(
+            Triple(
+                "Из фоток сделать анимашку",
+                "convert image sequence to GIF animation",
+                "gif-from-images"
+            ),
+            Triple(
+                "Create a GIF animation from several images",
+                "images to GIF animation",
+                "gif-from-images"
+            ),
+            Triple(
+                "Extract frames from a GIF",
+                "GIF to images extract frames",
+                "gif-extract-frames"
+            )
+        ).forEach { (question, query, expected) ->
+            val request = AssistantRequest(question)
+            val answer = knowledge.retrieve(request, queries = listOf(query))
+            assertEquals(question, expected, answer.references.firstOrNull()?.tipId)
+            val documented =
+                knowledge.documentation(request, answer.references.first(), workflow = true)
+            assertEquals(question, expected, documented.references.first().tipId)
+            assertTrue(documented.text.startsWith("### "))
+            assertTrue(documented.references.first().text.contains("\n\n1. "))
+        }
     }
 
     @Test

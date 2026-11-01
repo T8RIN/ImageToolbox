@@ -262,20 +262,22 @@ private fun AssistantMessageControls(
                     .size(24.dp),
                 strokeWidth = 3.dp
             )
-            Text(
-                text = stringResource(
-                    when (component.progress) {
-                        AssistantRepository.Progress.PreparingModel -> R.string.assistant_preparing_model
-                        AssistantRepository.Progress.ReadingImage -> R.string.assistant_reading_image
-                        AssistantRepository.Progress.Interpreting -> R.string.assistant_interpreting
-                        AssistantRepository.Progress.FindingHelp -> R.string.assistant_finding_help
-                        AssistantRepository.Progress.FindingPhotos -> R.string.assistant_finding_photos
-                        AssistantRepository.Progress.Answering, null -> R.string.assistant_thinking
-                    }
-                ),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            if (message.answer.text.isBlank()) {
+                Text(
+                    text = stringResource(
+                        when (component.progress) {
+                            AssistantRepository.Progress.PreparingModel -> R.string.assistant_preparing_model
+                            AssistantRepository.Progress.ReadingImage -> R.string.assistant_reading_image
+                            AssistantRepository.Progress.Interpreting -> R.string.assistant_interpreting
+                            AssistantRepository.Progress.FindingHelp -> R.string.assistant_finding_help
+                            AssistantRepository.Progress.FindingPhotos -> R.string.assistant_finding_photos
+                            AssistantRepository.Progress.Answering, null -> R.string.assistant_thinking
+                        }
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }

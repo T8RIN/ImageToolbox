@@ -722,9 +722,9 @@
     <string name="help_tip_searchable_pdf_subtitle">Write OCR text back into files so scanned pages can be searched and copied</string>
     <string name="help_tip_searchable_pdf_page_title">Turn scans into searchable documents</string>
     <string name="help_tip_searchable_pdf_description">OCR can do more than copy text to the clipboard. When you write recognized text to a file or searchable PDF, the image of the page remains visible while text becomes easier to search, select, index, or archive.</string>
-    <string name="help_tip_searchable_pdf_step_1">Use searchable PDF output for scanned documents that should still look like the original pages.</string>
-    <string name="help_tip_searchable_pdf_step_2">Choose the recognition engine. With Tesseract, choose the document languages and download any missing data. PaddleOCR v5 uses a model selected for the script; PaddleOCR v6 uses its universal model. Tesseract language selection does not apply to PaddleOCR.</string>
-    <string name="help_tip_searchable_pdf_step_3">Check important numbers, names, and tables manually because OCR text can be searchable but still imperfect.</string>
+    <string name="help_tip_searchable_pdf_step_1">Open OCR (recognize text), choose Write To Searchable PDF, and select the scan images in page order. The output keeps the page images and adds a searchable text layer.</string>
+    <string name="help_tip_searchable_pdf_step_2">Configure recognition for the document language: choose an engine and install its language data or model.</string>
+    <string name="help_tip_searchable_pdf_step_3">Save the PDF and choose its destination. Check text search and selection in the saved file; proofread important numbers, names and tables because OCR can make mistakes.</string>
     <string name="help_tip_qr_code_title">Scan QR codes</string>
     <string name="help_tip_qr_code_subtitle">Read QR content from camera input or saved images when available</string>
     <string name="help_tip_qr_code_page_title">Read codes safely</string>
@@ -5929,8 +5929,8 @@
     <string name="help_tip_exif_removal_title">Remove image metadata in a batch</string>
     <string name="help_tip_exif_removal_subtitle">Clean embedded image information and verify the exported copies</string>
     <string name="help_tip_exif_removal_page_title">Metadata cleanup and its limits</string>
-    <string name="help_tip_exif_removal_description">Delete EXIF removes embedded metadata, including shooting location and GPS information, from one or multiple image files at once. Select the files and save cleaned copies. Use Edit EXIF to inspect or remove individual fields. Metadata removal does not hide visible faces, addresses or filenames.</string>
-    <string name="help_tip_exif_removal_step_1">Select the images to clean and review the batch before saving. Use Edit EXIF when you need to inspect or change particular fields instead.</string>
+    <string name="help_tip_exif_removal_description">Delete EXIF removes embedded metadata, including shooting location and GPS information, from one or multiple image files at once. Select the files and save cleaned copies. Use Edit EXIF to inspect or remove individual fields. Metadata removal does not hide visible faces, addresses or filenames. Edit EXIF handles individual fields of one image at a time; use Delete EXIF for batch cleanup.</string>
+    <string name="help_tip_exif_removal_step_1">Open Delete EXIF, select one or several images, and check the selection before saving. Use Edit EXIF to change individual fields of one image.</string>
     <string name="help_tip_exif_removal_step_2">Save cleaned copies and inspect an exported file in the metadata viewer. Supported metadata and container behavior differ between formats.</string>
     <string name="help_tip_exif_removal_step_3">Check file names and visible content separately. Do not overwrite the only original if you may need its camera information later.</string>
     <string name="help_tip_gallery_workflow_title">Browse and select in Gallery</string>
@@ -6089,9 +6089,9 @@
     <string name="assistant_generation_timeout">The answer took too long. Try a smaller model or a shorter question.</string>
     <string name="assistant_file_size_already_fits">The file is %1$s bytes and already fits the %2$s limit (%3$s bytes). Compression is unnecessary.</string>
     <string name="assistant_clarification">What would you like to change or find out? Please add an image, a tool name or the context of the term.</string>
-    <string name="assistant_capabilities">I can explain ImageToolbox tools and settings, answer general questions, and find photos by visible content, named people, exclusions, dates, album or filename. Photo search needs access to your photos; searching content and people also needs search models and indexing. I explain edits; you apply them in the tools.</string>
-    <string name="assistant_capabilities_text">The selected model reads text and file metadata. Choose Vision to ask about what is visible in a photo.</string>
-    <string name="assistant_capabilities_vision">With the selected model you can attach one photo and ask about its visible contents or possible edits.</string>
+    <string name="assistant_capabilities">- I explain resizing, cropping, conversion and settings.\n- I answer general questions.\n- I search photos by content and filters.</string>
+    <string name="assistant_capabilities_text">- Image analysis requires Vision.</string>
+    <string name="assistant_capabilities_vision">- I can analyze one attached photo.</string>
     <string name="assistant_scope">I help with ImageToolbox: editing images and files, choosing tools and changing app settings.</string>
     <string name="assistant_enabled_required">Enable Assistant in settings</string>
     <string name="assistant_history_save_error">Could not save conversation</string>
@@ -6120,7 +6120,7 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">Select the annotation types to remove. At least one type must be selected to save.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Check the preview and save a copy. Verify links or form fields you intended to keep in the saved document.</string>
     <string name="help_tip_metadata_editing_subtitle">Inspect, change or remove individual metadata tags</string>
-    <string name="help_tip_metadata_editing_description">Edit EXIF lets you inspect, change or remove image metadata, including GPS coordinates (geolocation), camera information and capture dates. Editing is available only when the image format supports writing metadata; the screen shows a warning for unsupported formats.</string>
+    <string name="help_tip_metadata_editing_description">Edit EXIF inspects, changes or removes metadata from one image at a time, including GPS coordinates, camera information and capture dates. For metadata cleanup from several files at once, use Delete EXIF; it removes embedded metadata, including GPS. Editing individual fields is available only when the image format supports writing metadata; unsupported formats show a warning.</string>
     <string name="help_tip_metadata_editing_step_1">Select an image and open Edit EXIF to view its tags.</string>
     <string name="help_tip_metadata_editing_step_2">Update or remove individual tags in the metadata sheet. Clear all metadata only if you intend to remove every tag.</string>
     <string name="help_tip_metadata_editing_step_3">Close the sheet and save the result. Reopen the saved image to check the tags you changed.</string>

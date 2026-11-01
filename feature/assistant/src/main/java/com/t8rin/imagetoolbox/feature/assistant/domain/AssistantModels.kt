@@ -66,5 +66,6 @@ data class AssistantAnswer(
     val tools: List<AssistantTool> = emptyList(),
     val settings: List<AssistantSetting> = emptyList(),
     val gallery: AssistantGalleryResult? = null,
-    val isScopeNotice: Boolean = false
+    val isScopeNotice: Boolean = false,
+    val helpQuery: String? = null
 )

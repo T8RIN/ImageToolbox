@@ -903,8 +903,12 @@ class AssistantGenerationInstrumentedTest {
             for (index in 0 until cases.length()) {
                 if (selectedCases != null && index !in selectedCases) continue
                 val value = cases.getJSONObject(index)
-                val current =
-                    if (value.optBoolean("active")) com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery(
+                val current = value.optJSONObject("current")?.let {
+                    Json.decodeFromString<com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery>(
+                        it.toString()
+                    )
+                }
+                    ?: if (value.optBoolean("active")) com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryQuery(
                         people = listOf("Marie"),
                         from = "2026-07-01",
                         to = "2026-07-31",
@@ -933,6 +937,16 @@ class AssistantGenerationInstrumentedTest {
                         .put("output", interpretation::class.simpleName).put("rawOutput", output)
                         .put("ms", (System.nanoTime() - started) / 1_000_000).put(
                             "passed",
+                            if (value.has("expectedActions")) value.getJSONArray("expectedActions")
+                                .let { actions ->
+                                    (0 until actions.length()).any {
+                                        actions.getString(it) == JSONObject(
+                                            output
+                                        ).getString("action")
+                                    }
+                                } else if (value.has("expectedAction")) JSONObject(output).getString(
+                                "action"
+                            ) == value.getString("expectedAction") else
                             (interpretation is com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search) == (value.getString(
                                 "intent"
                             ) == "photos")

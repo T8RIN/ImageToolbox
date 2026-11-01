@@ -3246,6 +3246,7 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
             icon = Icons.Outlined.Draw,
             category = imageEditing,
             deepLink = Screen.Draw(),
+            isCompleteWorkflow = true,
             pageTitle = R.string.help_tip_face_privacy_title,
             description = R.string.help_tip_face_privacy_description,
             steps = listOf(
@@ -5962,7 +5963,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
         @StringRes pageTitle: Int,
         @StringRes description: Int,
         steps: List<Int>,
-        deepLink: Screen? = null
+        deepLink: Screen? = null,
+        isCompleteWorkflow: Boolean = false
     ) = HelpTip(
         id = id,
         title = title,
@@ -5976,7 +5978,8 @@ internal class HelpRepositoryImpl @Inject constructor() : HelpRepository {
                 steps = steps
             )
         ),
-        deepLink = deepLink
+        deepLink = deepLink,
+        isCompleteWorkflow = isCompleteWorkflow
     )
 
     private fun pagesTip(

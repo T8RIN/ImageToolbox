@@ -127,34 +127,31 @@ class AssistantRoutingInstrumentedTest {
         assumeTrue(
             runtime.installations(false).any { it.installed && it.variant == AssistantModel.Lite })
         try {
+            val grammar =
+                com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
+                    AssistantModel.Lite
+                )
             listOf(
-                "list_image_export_formats",
-                "list_transparent_export_formats"
-            ).forEach { action ->
+                "Find existing photos of a bicycle." to
+                        com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Search,
+                "Hello" to
+                        com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Answer
+            ).forEach { (question, expected) ->
                 val output = runtime.generate(
                     AssistantModel.Lite,
-                    assistantPrompt(
-                        "Return JSON with the supplied goal and action.",
-                        emptyList(),
-                        "Action: $action",
-                        false
+                    com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt(
+                        AssistantRequest(question, language = "en"),
+                        null
                     ),
                     maxOutputTokens = 96,
-                    responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
-                        AssistantModel.Lite
-                    )
+                    responseGrammar = grammar
                 ) {}
-                val expected =
-                    com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.Formats(
-                        action == "list_transparent_export_formats"
-                    )
-                assertEquals(
-                    output,
-                    expected,
+                val actual = runCatching {
                     com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.parse(
                         output
                     )
-                )
+                }.getOrElse { throw AssertionError(output, it) }
+                assertEquals(output, expected, actual)
             }
         } finally {
             runtime.release()
@@ -203,21 +200,22 @@ class AssistantRoutingInstrumentedTest {
                 instrumentation.targetContext.entryPoint<AssistantEntryPoint>().knowledge
             val localized = request.copy(language = knowledge.detectLanguage(request))
             val resolved = localized
+            val interpretationOutput = runtime.generate(
+                variant,
+                com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt(
+                    resolved,
+                    current,
+                    model = variant,
+                    originalQuestion = question
+                ),
+                maxOutputTokens = 96,
+                responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
+                    variant
+                )
+            ) {}
             val interpretation =
                 com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.parse(
-                    runtime.generate(
-                        variant,
-                        com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt(
-                            resolved,
-                            current,
-                            model = variant,
-                            originalQuestion = question
-                        ),
-                        maxOutputTokens = 96,
-                        responseGrammar = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.grammar(
-                            variant
-                        )
-                    ) {}
+                    interpretationOutput
                 )
             if (interpretation == com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.NextPage) {
                 report.put(
@@ -240,7 +238,10 @@ class AssistantRoutingInstrumentedTest {
                 catalog,
                 model = variant,
                 thinking = thinking,
-                originalQuestion = question
+                originalQuestion = question,
+                exampleQuery = com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation.goal(
+                    interpretationOutput
+                ) ?: question
             )
             val routed = withTimeout(125_000) {
                 runtime.generate(

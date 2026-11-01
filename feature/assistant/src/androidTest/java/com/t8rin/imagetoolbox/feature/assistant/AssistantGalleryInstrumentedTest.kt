@@ -555,6 +555,9 @@ class AssistantGalleryInstrumentedTest {
             appSettings.setAiAssistantModel(AssistantModel.Advanced)
             appSettings.settingsState.first { it.isAiAssistantEnabled && it.aiAssistantModel == AssistantModel.Advanced }
             services.gallerySearch.clear()
+            val catalog = services.gallerySearch.catalog(name)
+            assertTrue(catalog.toString(), name in catalog.files)
+            assertTrue(catalog.toString(), "AssistantGalleryTest" in catalog.albums)
             var component = withContext(Dispatchers.Main) {
                 services.assistantFactory(
                     DefaultComponentContext(lifecycle), Screen.Assistant(), {},

@@ -22,28 +22,32 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import java.util.Locale
 
 internal sealed interface AssistantInterpretation {
     data object Answer : AssistantInterpretation
     data object Capabilities : AssistantInterpretation
     data class Help(val query: String, val subject: String? = null) : AssistantInterpretation
-    data class Translate(val language: String) : AssistantInterpretation
     data class Formats(val alpha: Boolean) : AssistantInterpretation
     data object Clarify : AssistantInterpretation
     data object NextPage : AssistantInterpretation
     data object Search : AssistantInterpretation
 
     companion object {
-        fun grammar(model: AssistantModel): String = buildString {
-            val routingGoal = model != AssistantModel.Advanced
+        private val factualActions = setOf(
+            "assistant_capabilities", "list_image_export_formats", "list_transparent_export_formats"
+        )
+
+        fun grammar(model: AssistantModel, replies: Map<String, String> = emptyMap()): String =
+            buildString {
+                require(replies.keys.all { it in factualActions })
+                if (replies.isNotEmpty()) appendLine("%llguidance {\"no_forcing\":true}")
+                val routingGoal = model != AssistantModel.VisionLite
             val deferPagination = model == AssistantModel.Lite || model == AssistantModel.VisionLite
             val actions = listOf(
                 "editing_instructions",
                 "app_term_definition",
-                "translate_previous_help",
                 "need_context",
-                "photo_filters",
+                "search_library_photos",
                 "general_knowledge_or_creative_writing",
                 "assistant_capabilities",
                 "list_image_export_formats",
@@ -56,34 +60,35 @@ internal sealed interface AssistantInterpretation {
                     val goal = """{"type":"string","minLength":1,"maxLength":160}"""
                     if (routingGoal) put("goal", goal)
                     put("action", """{"const":${Json.encodeToString(action)}}""")
-                    if (!routingGoal && (action == "editing_instructions" || action == "app_term_definition")) {
-                        put("goal", goal)
-                    }
+                    if (!routingGoal && (action == "editing_instructions" || action == "app_term_definition")) put(
+                        "goal",
+                        goal
+                    )
                     if (action == "app_term_definition") {
                         put("subject", """{"type":"string","minLength":1,"maxLength":160}""")
-                    }
-                    if (action == "translate_previous_help") {
-                        put("language", """{"type":"string","minLength":2,"maxLength":35}""")
                     }
                 }
                 val properties = fields.entries.joinToString(",") { (name, schema) ->
                     "${Json.encodeToString(name)}:$schema"
                 }
+                val reply = replies[action]
+                val rule = if (reply == null) action else "${action}_route"
+                if (reply != null) appendLine("$action: $rule ${Json.encodeToString("\n$reply")}")
                 appendLine(
-                    "$action: %json {\"type\":\"object\",\"properties\":{$properties},\"required\":${
-                        Json.encodeToString(
-                            fields.keys.toList()
-                        )
-                    },\"additionalProperties\":false}"
+                    "$rule: %json {\"type\":\"object\",\"properties\":{$properties},\"required\":${
+                        Json.encodeToString(fields.keys.toList())
+                    },\"additionalProperties\":false${if (reply != null) ",\"x-guidance\":{\"whitespace_flexible\":false}" else ""}}"
                 )
             }
         }
 
         fun parse(text: String): AssistantInterpretation {
-            require(text.length <= 1000)
-            val decoded = Json.parseToJsonElement(text).jsonObject
+            require(text.length <= 8000)
+            val end = headerEnd(text) ?: text.length
+            val decoded = Json.parseToJsonElement(text.take(end)).jsonObject
             decoded["goal"]?.jsonPrimitive?.content?.let { require(it.isNotBlank() && it.length <= 160) }
             val action = decoded.getValue("action").jsonPrimitive.content
+            require(text.drop(end).isBlank() || action in factualActions)
             val value =
                 if (action == "editing_instructions" || action == "app_term_definition") decoded
                 else JsonObject(decoded - "goal")
@@ -99,16 +104,9 @@ internal sealed interface AssistantInterpretation {
                 require(subject == null || subject.isNotBlank() && subject.length <= 160)
                 return Help(goal, subject)
             }
-            if (action == "translate_previous_help") {
-                require(value.keys == setOf("action", "language"))
-                val language =
-                    Locale.forLanguageTag(value.getValue("language").jsonPrimitive.content)
-                require(language.language.isNotBlank())
-                return Translate(language.toLanguageTag())
-            }
             require(value.keys == setOf("action"))
             return when (action) {
-                "photo_filters" -> Search
+                "search_library_photos" -> Search
                 "general_knowledge_or_creative_writing" -> Answer
                 "assistant_capabilities" -> Capabilities
                 "next_photo_page_unchanged" -> NextPage
@@ -117,6 +115,40 @@ internal sealed interface AssistantInterpretation {
                 "list_transparent_export_formats" -> Formats(true)
                 else -> error("Invalid assistant action")
             }
+        }
+
+        fun goal(text: String): String? = headerEnd(text)?.let { end ->
+            Json.parseToJsonElement(text.take(end)).jsonObject["goal"]?.jsonPrimitive?.content
+        }
+
+        fun replyText(text: String): String {
+            val end = headerEnd(text) ?: return ""
+            val header = runCatching { Json.parseToJsonElement(text.take(end)).jsonObject }
+                .getOrNull() ?: return ""
+            if (header["action"]?.jsonPrimitive?.content !in factualActions) return ""
+            val reply = text.drop(end).removePrefix("\n")
+            return if (reply.lastOrNull()?.isHighSurrogate() == true) reply.dropLast(1) else reply
+        }
+
+        private fun headerEnd(text: String): Int? {
+            if (text.firstOrNull { !it.isWhitespace() } != '{') return null
+            var depth = 0
+            var quoted = false
+            var escaped = false
+            text.forEachIndexed { index, character ->
+                if (quoted) {
+                    when {
+                        escaped -> escaped = false
+                        character == '\\' -> escaped = true
+                        character == '"' -> quoted = false
+                    }
+                } else when (character) {
+                    '"' -> quoted = true
+                    '{' -> depth++
+                    '}' -> if (--depth == 0) return index + 1
+                }
+            }
+            return null
         }
     }
 }

@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.assistant.domain
 
 import com.t8rin.imagetoolbox.core.domain.model.AssistantModel
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.booleanOrNull
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -26,13 +27,43 @@ import org.junit.Test
 
 class AssistantPromptTest {
     @Test
+    fun factualRepliesStreamWithoutShowingTheRoutingObject() {
+        val reply = "- A \"quoted\" ability\n- A path: C:\\images\n- Unicode: 🙂"
+        val header = """{"goal":"list abilities","action":"assistant_capabilities"}"""
+        val text = "$header\n$reply"
+        for (length in 0..text.length) {
+            val visible = AssistantInterpretation.replyText(text.take(length))
+            assertTrue("$length: $visible", reply.startsWith(visible))
+        }
+        assertEquals(
+            reply.take(10),
+            AssistantInterpretation.replyText("$header\n${reply.take(10)}")
+        )
+        assertEquals(reply, AssistantInterpretation.replyText(text))
+        assertEquals(AssistantInterpretation.Capabilities, AssistantInterpretation.parse(text))
+    }
+
+    @Test
+    fun routingAndQuotedReplyFieldsNeverReachTheAnswer() {
+        val goal = "A quoted field: ,\"reply\":\"private\""
+        val header = """{"goal":${Json.encodeToString(goal)},"action":"assistant_capabilities"}"""
+        for (length in 0..header.length) {
+            assertEquals("", AssistantInterpretation.replyText(header.take(length)))
+        }
+        val text = """{"action":"search_library_photos"}""" + "\nprivate"
+        assertEquals("", AssistantInterpretation.replyText(text))
+        assertTrue(runCatching { AssistantInterpretation.parse(text) }.isFailure)
+    }
+
+    @Test
     fun thePhotoPlannerUsesTheOriginalRequestWithoutALossyRestatement() {
         val original = "Exclude Robin."
         val prompt = assistantCommandPrompt(
             AssistantRequest("remove Robin condition", language = "en"),
             AssistantGalleryQuery(people = listOf("Sam")),
             AssistantGalleryCatalog(people = listOf("Robin", "Sam")),
-            originalQuestion = original
+            originalQuestion = original,
+            exampleQuery = "remove Robin condition"
         )
         assertTrue(prompt.contains("Request: $original"))
         assertFalse(prompt.contains("remove Robin condition"))
@@ -43,7 +74,7 @@ class AssistantPromptTest {
     fun interpretationSeparatesAnswersSearchAndPagination() {
         assertEquals(
             AssistantInterpretation.Search,
-            AssistantInterpretation.parse("""{"action":"photo_filters"}""")
+            AssistantInterpretation.parse("""{"action":"search_library_photos"}""")
         )
         assertEquals(
             AssistantInterpretation.NextPage,
@@ -70,10 +101,6 @@ class AssistantPromptTest {
             AssistantInterpretation.parse("""{"goal":"EXIF metadata","action":"editing_instructions"}""")
         )
         assertEquals(
-            AssistantInterpretation.Translate("en"),
-            AssistantInterpretation.parse("""{"action":"translate_previous_help","language":"en"}""")
-        )
-        assertEquals(
             AssistantInterpretation.Clarify,
             AssistantInterpretation.parse("""{"action":"need_context"}""")
         )
@@ -81,7 +108,7 @@ class AssistantPromptTest {
         listOf(
             "unknown",
             """{"goal":"","action":"editing_instructions"}""",
-            """{"goal":"request","action":"photo_filters","query":"extra"}"""
+            """{"goal":"request","action":"search_library_photos","query":"extra"}"""
         ).forEach {
             assertTrue(runCatching { AssistantInterpretation.parse(it) }.isFailure)
         }
@@ -177,10 +204,12 @@ class AssistantPromptTest {
             AssistantGalleryCatalog()
         )
         val examples = Regex(
-            "<\\|im_start\\|>user\n(.*?)<\\|im_end\\|>\n<\\|im_start\\|>assistant\n(.*?)<\\|im_end\\|>",
+            "Input:\n(.*?)\nJSON: (.*?)(?=\nInput:|<\\|im_end\\|>)",
             RegexOption.DOT_MATCHES_ALL
         ).findAll(prompt).toList()
         assertEquals(4, examples.size)
+        assertEquals(1, prompt.split("<|im_start|>user\n").size - 1)
+        assertEquals(1, prompt.split("<|im_start|>assistant\n").size - 1)
         examples.forEach { example ->
             val value = example.groupValues[2].trim()
             val question = example.groupValues[1].substringAfterLast("Request: ")

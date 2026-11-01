@@ -74,9 +74,9 @@ internal object AssistantCommand {
             "search" -> {
                 require(value.keys == setOf("action", "mode", "query"))
                 val mode = when (value.getValue("mode").jsonPrimitive.content) {
-                    "new" -> AssistantGallerySearch.Mode.New
+                    "reset", "new" -> AssistantGallerySearch.Mode.New
                     "update" -> AssistantGallerySearch.Mode.Update
-                    "narrow" -> AssistantGallerySearch.Mode.Narrow
+                    "within_results", "narrow" -> AssistantGallerySearch.Mode.Narrow
                     else -> error("Unknown photo search mode")
                 }
                 val raw = value.getValue("query").jsonObject
@@ -411,7 +411,9 @@ internal object AssistantCommand {
                 )
             }}"
         }
-        val album = ""","album":{"type":["object","null"],"properties":{$albumRoles},"required":${
+        val albumTypes = if (namedAlbums.isEmpty()) listOf("object", "null") else listOf("object")
+        val album =
+            ""","album":{"type":${Json.encodeToString(albumTypes)},"properties":{$albumRoles},"required":${
             Json.encodeToString(namedAlbums)
         },"additionalProperties":false}"""
         val removable = buildList {
@@ -431,7 +433,15 @@ internal object AssistantCommand {
                 )
             }},\"maxItems\":${removable.size}}"
         val text = """{"type":["string","null"],"minLength":1,"maxLength":200}"""
-        val years = Regex("(?<!\\p{Nd})\\p{Nd}{4}(?!\\p{Nd})").findAll(question)
+        val namedFiles = (catalog.files + listOfNotNull(current?.filename)).distinct()
+            .filter { question.contains(it, ignoreCase = true) }
+        val filenames: List<String?> =
+            namedFiles + if (current?.filename == null) emptyList() else listOf(null)
+        val filename =
+            if (namedFiles.isEmpty()) text else """{"enum":${Json.encodeToString(filenames)}}"""
+        val dateQuestion = (catalog.files + listOfNotNull(current?.filename)).distinct()
+            .fold(question) { text, filename -> text.replace(filename, "", ignoreCase = true) }
+        val years = Regex("(?<!\\p{Nd})\\p{Nd}{4}(?!\\p{Nd})").findAll(dateQuestion)
             .map { match -> match.value.map { it.digitToInt() }.joinToString("") }.distinct()
             .toList()
         val year = years.joinToString("|")
@@ -447,6 +457,7 @@ internal object AssistantCommand {
         val offset = """{"type":["integer","null"],"minimum":-365250,"maximum":365250}"""
         val relativeRange =
             """{"type":"object","properties":{"fromOffset":$offset,"toOffset":$offset},"required":["fromOffset","toOffset"],"additionalProperties":false}"""
+        val relativePeriods = if (years.isEmpty()) listOf(relative, relativeRange) else emptyList()
         val sourceFits =
             question.length + current?.semantic.orEmpty().length + 2 <= MAX_SCENE_LENGTH
         val description = """{"type":"string","minLength":1,"maxLength":$MAX_SCENE_LENGTH}"""
@@ -475,15 +486,12 @@ internal object AssistantCommand {
             add("scene")
             if (named.isNotEmpty()) add("people")
             if (namedAlbums.isNotEmpty()) add("album")
+            if (namedFiles.isNotEmpty() && current?.filename == null) add("filename")
         }
         val base = """{"type":"object","properties":{
             "people":$people,"date":{"anyOf":[${
-            (listOf(
-                """{"type":"null"}""",
-                relative,
-                relativeRange
-            ) + absolute).joinToString(",")
-        }]}$album,"filename":$text$clear,"scene":$scene
+            (listOf("""{"type":"null"}""") + relativePeriods + absolute).joinToString(",")
+        }]}$album,"filename":$filename$clear,"scene":$scene
         },"required":${Json.encodeToString(required)},"additionalProperties":false}""".replace(
             "\n",
             ""
@@ -527,14 +535,17 @@ internal object AssistantCommand {
                 selected(
                     "date",
                     """{"anyOf":[${
-                        (listOf(
-                            relative,
-                            relativeRange
-                        ) + absolute).joinToString(",")
+                        (relativePeriods + absolute).joinToString(",")
                     }]}"""
                 )
             )
-            add(selected("filename", """{"type":"string","minLength":1,"maxLength":200}"""))
+            add(
+                selected(
+                    "filename",
+                    if (namedFiles.isNotEmpty()) """{"enum":${Json.encodeToString(namedFiles)}}"""
+                    else """{"type":"string","minLength":1,"maxLength":200}"""
+                )
+            )
         }
         return JsonObject(mapOf("anyOf" to JsonArray(selectors))).toString()
     }
@@ -546,13 +557,17 @@ internal object AssistantCommand {
         language: String? = null,
         model: AssistantModel = AssistantModel.Lite
     ): String = buildString {
-        val copySource = model == AssistantModel.Lite || model == AssistantModel.VisionLite
+        val copySource = model != AssistantModel.VisionAdvanced
         val modes = if (current == null) listOf("new") else listOf("update", "new", "narrow")
         appendLine("start: ${modes.joinToString(" | ") { "search_$it" }} | ask | all${if (current != null) " | more" else ""}")
         modes.forEach { mode ->
             val previous = current.takeUnless { mode == "new" }
             appendLine(
-                "search_$mode: %json {\"type\":\"object\",\"properties\":{\"action\":{\"const\":\"search\"},\"mode\":{\"const\":\"$mode\"},\"query\":${
+                "search_$mode: %json {\"type\":\"object\",\"properties\":{\"action\":{\"const\":\"search\"},\"mode\":{\"const\":\"${
+                    when (mode) {
+                        "new" -> "reset"; "narrow" -> "within_results"; else -> mode
+                    }
+                }\"},\"query\":${
                     schema(
                         previous,
                         catalog,
@@ -603,10 +618,10 @@ internal object AssistantCommand {
     fun instructions(copySource: Boolean = false): String = buildString {
         if (copySource) appendLine("For visible content use scene=true: the app copies the original request into its multilingual encoder without losing colors, objects or actions. For metadata-only changes use scene=false. Only use a scene string when replacing an old visible condition or shortening a request too long for the encoder; include every desired visual detail in that string.")
         appendLine(
-            "Convert each filter change to JSON with action, mode and query. ${if (copySource) "" else "scene is a short positive description of the desired visible objects, attributes and actions, or null for metadata-only changes. "}action=more is only for another page with every condition unchanged; any removal or replacement is action=search. Return only changed metadata filters. Omit unchanged metadata; scene=null leaves visible content unchanged. clear lists filters explicitly removed: scene, people, date, album, filename. For a new search the app starts with empty filters. action=search needs at least one actual condition. action=all explicitly clears every condition and shows the whole gallery; never use it when a person, date or depicted content is requested. The app preserves every unmentioned condition; do not copy current filters into changes. people contains an action for each named person in this request only: include, exclude or remove. Unmentioned people are preserved by the app. Add people to clear only when the user explicitly removes every people condition, never when excluding or removing one person."
+            "Catalog filenames identify existing files; do not ask what a known filename means. Convert each filter change to JSON with action, mode and query. ${if (copySource) "" else "scene is a short positive description of the desired visible objects, attributes and actions, or null for metadata-only changes. "}action=more is only for another page with every condition unchanged; any removal or replacement is action=search. Return only changed metadata filters. Omit unchanged metadata; scene=null leaves visible content unchanged. clear lists filters explicitly removed: scene, people, date, album, filename. For a new search the app starts with empty filters. action=search needs at least one actual condition. action=all explicitly clears every condition and shows the whole gallery; never use it when a person, date or depicted content is requested. The app preserves every unmentioned condition; do not copy current filters into changes. people contains an action for each named person in this request only: include, exclude or remove. Unmentioned people are preserved by the app. Add people to clear only when the user explicitly removes every people condition, never when excluding or removing one person."
         )
         appendLine(
-            "mode: update normally, new for an independent search with old conditions cleared, narrow for searching only previous results. ${if (copySource) "Never rewrite a short new visible condition: use scene=true. Extract all dates before deciding whether visible content is present." else "Extract scene directly from the original request, preserving colors, objects and actions in its language."} The visual encoder is multilingual. Do not translate it or add search instructions, people names, dates, albums or filenames. A scene string replaces the previous visual condition: when adding or replacing a detail, supply the full desired visual description and preserve every old visual detail that still applies. Use scene=null when depicted content is unchanged. Never copy a scene from the demonstrations. include requires that person in results; exclude forbids them; remove deletes their condition without excluding them. A relative calendar period uses date={unit:day/week/month/year,offset:integer}: 0 is current, negative is past, positive is future. Weeks run Monday through Sunday. For a relative interval use date={fromOffset:days,toOffset:days}, with null for an open boundary. Boundaries are inclusive, so seven days ending today use -6 and 0. Preserve the requested unit and let the app calculate dates. An explicit day is YYYY-MM-DD. For a whole named month use date={unit:month,value:YYYY-MM}; for a whole named year use date={unit:year,value:YYYY}. Never select just the last day of a month or year. The app expands both boundaries. Only a requested interval uses date={from:ISO string or null,to:ISO string or null}; null is an open boundary. Omit date when unchanged. The final Request is authoritative. Never borrow conditions or objects from demonstrations. Relative periods need an offset, not calculated dates. If an absolute year is missing and cannot be resolved from active filters, ask which year. album maps a literal album name to include or remove, using the same operation convention as people. include sets that album; remove deletes its restriction. filename is a literal name or null. action=ask with question clarifies an unavailable identity."
+            "mode: update preserves all unmentioned conditions and is the default for an active search; reset clears all previous conditions ONLY for an explicitly independent search or when there is no active search; within_results searches only the existing result set when the user asks to search within those results. ${if (copySource) "Never rewrite a short new visible condition: use scene=true. Extract all dates before deciding whether visible content is present." else "Extract scene directly from the original request, preserving colors, objects and actions in its language."} The visual encoder is multilingual. Do not translate it or add search instructions, people names, dates, albums or filenames. A scene string replaces the previous visual condition: when adding or replacing a detail, supply the full desired visual description and preserve every old visual detail that still applies. Use scene=null when depicted content is unchanged. Never copy a scene from the demonstrations. include requires that person in results; exclude forbids them; remove deletes their condition without excluding them. A relative calendar period uses date={unit:day/week/month/year,offset:integer}: 0 is current, negative is past, positive is future. Weeks run Monday through Sunday. For a relative interval use date={fromOffset:days,toOffset:days}, with null for an open boundary. Boundaries are inclusive, so seven days ending today use -6 and 0. Preserve the requested unit and let the app calculate dates. An explicit day is YYYY-MM-DD. For a whole named month use date={unit:month,value:YYYY-MM}; for a whole named year use date={unit:year,value:YYYY}. Never select just the last day of a month or year. The app expands both boundaries. Only a requested interval uses date={from:ISO string or null,to:ISO string or null}; null is an open boundary. Omit date when unchanged. The final Request is authoritative. Never borrow conditions or objects from demonstrations. Relative periods need an offset, not calculated dates. If an absolute year is missing and cannot be resolved from active filters, ask which year. album maps a literal album name to include or remove, using the same operation convention as people. include sets that album; remove deletes its restriction. filename is a literal name or null. action=ask with question clarifies an unavailable identity."
         )
     }
 }

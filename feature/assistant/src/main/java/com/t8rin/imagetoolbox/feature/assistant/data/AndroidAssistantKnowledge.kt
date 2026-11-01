@@ -131,10 +131,12 @@ internal class AndroidAssistantKnowledge @Inject constructor(
         queries: List<String>,
         sources: List<String>,
         minimumCoverage: Double?,
-        definition: Boolean
+        definition: Boolean,
+        candidateLimit: Int?
     ): AssistantAnswer = withContext(dispatchers.defaultDispatcher) {
         require(request.query.length <= 8000)
         require(minimumCoverage == null || minimumCoverage in 0.0..1.0)
+        require(candidateLimit == null || candidateLimit in 1..MAX_REFERENCES)
         val language = detectLanguage(request) ?: locale(request)
         val queryLanguage =
             if (queries.isEmpty() || queries.first() == request.query) language else SOURCE_LANGUAGE
@@ -241,6 +243,7 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                 query,
                 20,
                 minimumCoverage = coverage,
+                allowTypos = !hasNormalizedQuery,
                 predicate = allowed
             ).distinctBy { helpRepository.getTip(it.value.tipId)?.deepLink ?: it.value.tipId }
             makeLog(
@@ -283,19 +286,24 @@ internal class AndroidAssistantKnowledge @Inject constructor(
             }
             if (selected != null) {
                 lexical.takeWhile { definition || hasNormalizedQuery || it.score >= selected.score * 0.85 }
-                    .take(MAX_REFERENCES).forEachIndexed { rank, match ->
+                    .take(if (hasNormalizedQuery) lexical.size else MAX_REFERENCES)
+                    .forEachIndexed { rank, match ->
                         references.add(match.value)
                         val key = match.value.tipId
-                        scores[key] = (scores[key] ?: 0.0) + 1.0 / (60 + rank)
+                        scores[key] = (scores[key] ?: 0.0) + match.score / (60 + rank)
+                        if (query != request.query && match.titleMatch > 0.0) namedReferences.add(
+                            key
+                        )
                     }
             } else if (exactSettings.isEmpty() && exactTools.isEmpty()) {
                 val tool = queryIndex.tools.search(
                     query,
                     1,
-                    minimumCoverage = coverage
+                    minimumCoverage = coverage,
+                    allowTypos = !hasNormalizedQuery
                 ) { compatible == null || it.simpleName in compatible }.firstOrNull()
                 val setting = queryIndex.settings.search(
-                    query, 1, minimumCoverage = coverage
+                    query, 1, minimumCoverage = coverage, allowTypos = !hasNormalizedQuery
                 ).firstOrNull()
                 if (setting != null && setting.score > (tool?.score
                         ?: 0.0)
@@ -320,7 +328,18 @@ internal class AndroidAssistantKnowledge @Inject constructor(
         }.values.sortedWith(compareByDescending<List<AssistantReference>> { group -> group.any { it.tipId in namedReferences } }
             .thenBy { group -> definition && group.all { helpRepository.getTip(it.tipId)?.deepLink is Screen.Settings } }
             .thenByDescending { group -> group.sumOf { scores[it.tipId] ?: 0.0 } })
-        val selected = groups.take(if (hasNormalizedQuery) 1 else MAX_REFERENCES).map { group ->
+        val candidates = if (candidateLimit == null) groups else {
+            val first = groups.firstOrNull().orEmpty()
+            val named = first.any { it.tipId in namedReferences }
+            val score = first.sumOf { scores[it.tipId] ?: 0.0 }
+            groups.filter { group ->
+                if (named) group.any { it.tipId in namedReferences }
+                else group.sumOf { scores[it.tipId] ?: 0.0 } >= score * 0.8
+            }
+        }
+        val selected =
+            candidates.take(candidateLimit ?: if (hasNormalizedQuery) 1 else MAX_REFERENCES)
+                .map { group ->
             group.sortedWith(compareByDescending<AssistantReference> { it.tipId in namedReferences }
                 .thenByDescending { scores[it.tipId] ?: 0.0 }).first()
         }
@@ -339,7 +358,7 @@ internal class AndroidAssistantKnowledge @Inject constructor(
     ): AssistantAnswer =
         withContext(dispatchers.defaultDispatcher) {
             val tip = helpRepository.getTip(reference.tipId)
-            val guide = if (workflow && tip?.deepLink != null) {
+            val guide = if (workflow && tip?.deepLink != null && !tip.isCompleteWorkflow) {
                 helpRepository.tips.firstOrNull {
                     it.deepLink == tip.deepLink && it.category.title !in setOf(
                         R.string.help_category_image_formats,
@@ -367,15 +386,27 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                     }
                 }.map { it.key() }
             } else emptyList()
-            val source = if (relatedSettings.isEmpty()) documentation else answer(
+            val relatedTools = if (workflow) catalog.filter { tool ->
+                tool.simpleName !in documentation.tools.map { it.key } &&
+                        AssistantSearchIndex.tokens(toolTitle(tool, language)).size > 1 &&
+                        documentation.references.any {
+                            index(language).help.containsTitle(
+                                it.text,
+                                toolTitle(tool, language)
+                            )
+                        }
+            } else emptyList()
+            val source =
+                if (relatedSettings.isEmpty() && relatedTools.isEmpty()) documentation else answer(
                 references,
                 language,
+                    discoveredTools = relatedTools,
                 discoveredSettings = (documentation.settings.map { it.key } + relatedSettings).distinct()
             )
             source.copy(text = source.references.joinToString("\n\n") { page ->
                 val title = source.tools.firstOrNull { it.helpTipId == page.tipId }?.title
                     ?: source.settings.singleOrNull()?.title ?: page.title
-                "$title\n\n${page.text}"
+                "### $title\n\n${page.text}"
             })
         }
 
@@ -384,7 +415,7 @@ internal class AndroidAssistantKnowledge @Inject constructor(
 
     override fun capabilities(request: AssistantRequest, model: AssistantModel): AssistantAnswer =
         AssistantAnswer(
-            string(R.string.assistant_capabilities, locale(request)) + "\n\n" +
+            string(R.string.assistant_capabilities, locale(request)) + "\n" +
                     string(
                         if (model.supportsVision) R.string.assistant_capabilities_vision
                         else R.string.assistant_capabilities_text,
@@ -472,8 +503,18 @@ internal class AndroidAssistantKnowledge @Inject constructor(
                         title = string(tip.title, language),
                         text = (reference.pageIndex?.let { tip.pages.getOrNull(it) }
                             ?.let { listOf(it) } ?: tip.pages)
-                            .flatMap { listOf(it.description) + it.steps }
-                            .joinToString("\n") { string(it, language) }
+                            .joinToString("\n\n") { page ->
+                                string(page.description, language) + "\n\n" +
+                                        page.steps.mapIndexed { index, id ->
+                                            "${index + 1}. ${
+                                                string(
+                                                    id,
+                                                    language
+                                                )
+                                            }"
+                                        }
+                                            .joinToString("\n")
+                            }
                     )
                 } ?: reference
             },

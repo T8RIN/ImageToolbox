@@ -26,5 +26,6 @@ data class HelpTip(
     val icon: Any,
     val category: HelpCategory,
     val pages: List<HelpPage>,
-    val deepLink: Screen? = null
+    val deepLink: Screen? = null,
+    val isCompleteWorkflow: Boolean = false
 )

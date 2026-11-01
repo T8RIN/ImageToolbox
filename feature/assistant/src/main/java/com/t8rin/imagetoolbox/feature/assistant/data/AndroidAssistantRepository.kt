@@ -40,12 +40,14 @@ import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGalleryCatalog
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantGallerySearch
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantInterpretation
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantImageReply
+import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantHelpSelection
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantKnowledge
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantMessage
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRepository
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantRequest
 import com.t8rin.imagetoolbox.feature.assistant.domain.AssistantScreenContext
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantCommandPrompt
+import com.t8rin.imagetoolbox.feature.assistant.domain.assistantHelpReplyPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantImagePrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantInterpretationPrompt
 import com.t8rin.imagetoolbox.feature.assistant.domain.assistantPrompt
@@ -307,7 +309,8 @@ internal class AndroidAssistantRepository @Inject constructor(
             stream: Boolean = true,
             thinking: Boolean = false,
             sample: Boolean = false,
-            includeImage: Boolean = true
+            includeImage: Boolean = true,
+            preview: ((String) -> String)? = null
         ): String {
             passes++
             output.clear()
@@ -317,15 +320,16 @@ internal class AndroidAssistantRepository @Inject constructor(
                     prompt = prompt,
                     images = if (includeImage) images else emptyList(),
                     maxOutputTokens = tokens,
-                    repetitionPenalty = if (sample || variant == AssistantModel.Lite && grammar == null) 1.05 else 1.0,
+                    repetitionPenalty = if (sample) 1.05 else 1.0,
                     stopOnRepetition = grammar == null,
                     responseGrammar = grammar,
                     thinking = thinking,
                     sample = sample
                 ) { token ->
                     output.append(token)
-                    if (stream) {
-                        val text = AssistantCommand.visibleText(output.toString())
+                    if (stream || preview != null) {
+                        val text = preview?.invoke(output.toString())
+                            ?: AssistantCommand.visibleText(output.toString())
                         if (text.isNotBlank() && firstTextMs == null) {
                             firstTextMs = (System.nanoTime() - started) / 1_000_000
                             _progress.value = AssistantRepository.Progress.Answering
@@ -388,7 +392,9 @@ internal class AndroidAssistantRepository @Inject constructor(
         }
 
         suspend fun fileSizeAnswer(): AssistantAnswer? {
-            if (localized.context.selectedUris.size != 1 || files.sizes.size != 1) return null
+            val actualBytes = files.sizes.singleOrNull()
+                ?.takeIf { localized.context.selectedUris.size == 1 }
+            if (actualBytes == null && variant != AssistantModel.Lite && variant != AssistantModel.VisionLite) return null
             val sizeTool =
                 retrieved.tools.firstOrNull { knowledge.resolveTool(it) is Screen.WeightResize }
                     ?: return null
@@ -409,9 +415,8 @@ internal class AndroidAssistantRepository @Inject constructor(
                 failure.makeLog()
                 null
             } ?: return null
-            val actualBytes = files.sizes.single()
             val limitBytes = plan.bytes
-            if (actualBytes <= limitBytes) {
+            if (actualBytes != null && actualBytes <= limitBytes) {
                 val answer = localizeFact(
                     knowledge.fileSizeFits(localized, actualBytes, limitBytes, plan.label),
                     knowledge.fileSizeFits(
@@ -492,16 +497,30 @@ internal class AndroidAssistantRepository @Inject constructor(
             }
             val current = gallerySearch.currentQuery()
             val resolved = localized
-            val previousDocumentation = history.lastOrNull()?.answer?.references.orEmpty()
+            val previousHelp =
+                history.asReversed().firstOrNull { it.answer.references.isNotEmpty() }?.answer
+            val previousDocumentation = previousHelp?.references.orEmpty()
             val documentationTopic =
                 previousDocumentation.takeIf { it.isNotEmpty() }?.let { references ->
                 stage("historyTopic") {
                     val source = knowledge.retrieve(
                         localized.copy(language = "en"),
                         sources = references.map { it.tipId })
-                    (source.references.map { it.title } + source.tools.map { it.title } + source.settings.map { it.title })
+                    (listOfNotNull(previousHelp?.helpQuery?.let { "Resolved operation: $it" }) +
+                            source.references.map { it.title } + source.tools.map { it.title } + source.settings.map { it.title })
                         .distinct().joinToString("; ")
                 }
+            }
+            val capabilities = knowledge.capabilities(localized, variant)
+            val englishCapabilities =
+                knowledge.capabilities(localized.copy(language = "en"), variant)
+            val factualReplies = buildMap {
+                val target = Locale.forLanguageTag(localized.language.orEmpty())
+                if (target.language.isBlank() || target.language == Locale.ENGLISH.language || capabilities.text != englishCapabilities.text) {
+                    put("assistant_capabilities", capabilities.text)
+                }
+                put("list_image_export_formats", knowledge.formats(localized, false).text)
+                put("list_transparent_export_formats", knowledge.formats(localized, true).text)
             }
             val interpreted = generate(
                 assistantInterpretationPrompt(
@@ -513,9 +532,10 @@ internal class AndroidAssistantRepository @Inject constructor(
                     context = knowledge.context(localized),
                     history = history
                 ),
-                grammar = AssistantInterpretation.grammar(variant),
-                tokens = 160,
-                stream = false
+                grammar = AssistantInterpretation.grammar(variant, factualReplies),
+                tokens = 512,
+                stream = false,
+                preview = AssistantInterpretation::replyText
             )
             val interpretation = try {
                 AssistantInterpretation.parse(interpreted)
@@ -525,7 +545,7 @@ internal class AndroidAssistantRepository @Inject constructor(
             }
             makeLog(
                 tag = "AssistantRequest",
-                data = "model=${variant.id} intent=${interpretation::class.simpleName}"
+                data = "model=${variant.id} intent=${interpretation::class.simpleName} definition=${(interpretation as? AssistantInterpretation.Help)?.subject != null}"
             )
             if (interpretation == AssistantInterpretation.NextPage) {
                 _progress.value = AssistantRepository.Progress.FindingPhotos
@@ -534,158 +554,131 @@ internal class AndroidAssistantRepository @Inject constructor(
                     (System.nanoTime() - started) / 1_000_000
                 return answer
             }
+            if (interpretation == AssistantInterpretation.Clarify) return clarification(localized)
             if (interpretation is AssistantInterpretation.Formats) {
-                firstTextMs = (System.nanoTime() - started) / 1_000_000
+                if (firstTextMs == null) firstTextMs = (System.nanoTime() - started) / 1_000_000
                 return knowledge.formats(localized, interpretation.alpha)
             }
             if (interpretation == AssistantInterpretation.Capabilities) {
+                factualReplies["assistant_capabilities"]?.let { text ->
+                    check(AssistantInterpretation.replyText(interpreted) == text)
+                    return capabilities
+                }
                 val answer = localizeFact(
-                    knowledge.capabilities(localized, variant),
-                    knowledge.capabilities(localized.copy(language = "en"), variant)
+                    capabilities,
+                    englishCapabilities
                 )
                 if (firstTextMs == null) firstTextMs = (System.nanoTime() - started) / 1_000_000
                 return answer
             }
-            if (interpretation == AssistantInterpretation.Clarify) return clarification(localized)
-            if (interpretation !is AssistantInterpretation.Search) {
-                val replyRequest = if (interpretation is AssistantInterpretation.Translate) {
-                    localized.copy(language = interpretation.language)
-                } else localized
+            if (interpretation == AssistantInterpretation.Answer) {
+                val replyRequest = localized
+                val grounding =
+                    "You are the assistant in ImageToolbox. Answer the latest question directly and briefly using established facts. Follow the requested format. Use Markdown paragraphs and lists, plain equations without LaTeX. If a subject or term is unclear, ask a specific clarification instead of inventing context. For an unfamiliar technical term, ask where it was used rather than guessing its meaning. " +
+                            if (replyRequest.context.selectedUris.isEmpty()) "" else
+                                "Only measured file metadata is available; you cannot see image pixels. Choose Vision for depicted content.\n${
+                                    knowledge.context(
+                                        replyRequest
+                                    )
+                                }"
+                val text = AssistantCommand.visibleText(
+                    generate(
+                        assistantPrompt(
+                        grounding = grounding +
+                                "\nActual previous conversation: ${if (history.isEmpty()) "none" else "provided below"}. Attached files: ${replyRequest.context.selectedUris.size}. " +
+                                "If this actual context and the request do not identify a subject, ask one specific clarification before advice. The app identity does not supply a missing subject. " +
+                                "\nReply in ${
+                                    replyRequest.language?.let {
+                                        Locale.forLanguageTag(
+                                            it
+                                        ).getDisplayLanguage(Locale.ENGLISH)
+                                    } ?: "the user's language"
+                                }, unless explicitly requested otherwise.",
+                        history = history.takeLast(1),
+                        question = replyRequest.query,
+                        hasImage = false,
+                        model = variant,
+                        historyAnswerLimit = 1536
+                    ),
+                    sample = variant != AssistantModel.Lite && variant != AssistantModel.VisionLite,
+                    tokens = if (variant == AssistantModel.Lite) 192 else answerTokens
+                )).trim()
+                check(text.isNotEmpty()) { "Assistant returned no user-facing answer" }
+                return retrieved.copy(text = text)
+            }
+            if (interpretation is AssistantInterpretation.Help) {
                 _progress.value = AssistantRepository.Progress.FindingHelp
-                retrieved = when {
-                    interpretation is AssistantInterpretation.Help -> stage("help") {
-                        if (interpretation.subject != null) {
-                            knowledge.retrieve(
-                                replyRequest.copy(query = interpretation.subject),
-                                queries = listOf(interpretation.query),
-                                definition = true
-                            )
-                        } else knowledge.retrieve(
-                            replyRequest,
-                            queries = listOf(interpretation.query)
-                        )
-                    }
-
-                    interpretation is AssistantInterpretation.Translate && previousDocumentation.isNotEmpty() -> stage(
-                        "translateHelp"
-                    ) {
-                        val translated = knowledge.retrieve(
-                            replyRequest,
-                            sources = previousDocumentation.map { it.tipId })
-                        translated.copy(references = translated.references.map { reference ->
-                            reference.copy(pageIndex = previousDocumentation.firstOrNull { it.tipId == reference.tipId }?.pageIndex)
-                        })
-                    }
-
-                    else -> AssistantAnswer("")
+                val smallModel =
+                    variant == AssistantModel.Lite || variant == AssistantModel.VisionLite
+                retrieved = stage("help") {
+                    if (interpretation.subject != null) knowledge.retrieve(
+                        localized.copy(query = interpretation.subject),
+                        queries = listOf(interpretation.query),
+                        definition = true
+                    ) else knowledge.retrieve(
+                        localized, queries = listOf(interpretation.query),
+                        candidateLimit = 3.takeIf { smallModel })
                 }
-                if (interpretation is AssistantInterpretation.Help && interpretation.subject != null &&
-                    !retrieved.documentsSubject(replyRequest, interpretation.subject)
-                ) {
-                    return clarification(replyRequest)
+                if (interpretation.subject != null &&
+                    !retrieved.documentsSubject(localized, interpretation.subject)
+                ) return clarification(localized)
+                if (retrieved.references.isEmpty() && retrieved.tools.isEmpty() && retrieved.settings.isEmpty()) {
+                    return clarification(localized)
                 }
-                if (interpretation is AssistantInterpretation.Help && retrieved.references.isEmpty() &&
-                    retrieved.tools.isEmpty() && retrieved.settings.isEmpty()
-                ) {
-                    return clarification(replyRequest)
-                }
-                if (interpretation is AssistantInterpretation.Help &&
-                    interpretation.subject == null
-                ) {
-                    fileSizeAnswer()?.let { return it }
-                    retrieved.references.firstOrNull()?.let { reference ->
-                        val source = stage("helpSource") {
-                            knowledge.documentation(
-                                replyRequest,
-                                reference.copy(pageIndex = 0),
-                                workflow = interpretation.subject == null
+                if (interpretation.subject == null) {
+                    val reference = if (smallModel && retrieved.references.size > 1) {
+                        stage("helpSelection") {
+                            AssistantHelpSelection.parse(
+                                generate(
+                                    AssistantHelpSelection.prompt(
+                                        localized,
+                                        interpretation.query,
+                                        retrieved.references,
+                                        variant
+                                    ),
+                                    grammar = AssistantHelpSelection.grammar(retrieved.references.size),
+                                    tokens = 8,
+                                    stream = false
+                                ), retrieved.references
                             )
                         }
-                        if (variant == AssistantModel.Lite) {
+                    } else retrieved.references.firstOrNull()
+                    if (smallModel && reference != null) retrieved = stage("helpSource") {
+                        knowledge.documentation(localized, reference, workflow = true)
+                    }
+                    fileSizeAnswer()?.let { return it.copy(helpQuery = interpretation.query) }
+                    reference?.let { reference ->
+                        if (!smallModel) retrieved = stage("helpSource") {
+                            knowledge.documentation(localized, reference, workflow = true)
+                        }
+                        if (smallModel) {
                             val answer = localizeFact(
-                                source, knowledge.documentation(
-                                    replyRequest.copy(language = "en"),
-                                    reference.copy(pageIndex = 0),
-                                    workflow = interpretation.subject == null
-                                ), replyRequest.language
+                                retrieved,
+                                knowledge.documentation(
+                                    localized.copy(language = "en"),
+                                    reference,
+                                    workflow = true
+                                )
                             )
                             if (firstTextMs == null) firstTextMs =
                                 (System.nanoTime() - started) / 1_000_000
-                            return answer
+                            return answer.copy(helpQuery = interpretation.query)
                         }
-                        if (source.references.firstOrNull()?.tipId != reference.tipId) retrieved =
-                            source.copy(text = "")
-                        else retrieved = retrieved.copy(
-                            settings = (retrieved.settings + source.settings).distinctBy { it.key }
-                        )
+                        retrieved = retrieved.copy(text = "")
                     }
-                } else if (variant == AssistantModel.Lite && interpretation is AssistantInterpretation.Translate && retrieved.references.isNotEmpty()) {
-                    suspend fun documentation(language: String?): AssistantAnswer {
-                        val pages = retrieved.references.map {
-                            knowledge.documentation(
-                                replyRequest.copy(language = language), it
-                            )
-                        }
-                        return retrieved.copy(text = pages.joinToString("\n\n") { it.text })
-                    }
-
-                    val source = stage("helpSource") { documentation(replyRequest.language) }
-                    val answer = localizeFact(source, documentation("en"), replyRequest.language)
-                    if (firstTextMs == null) firstTextMs = (System.nanoTime() - started) / 1_000_000
-                    return answer
-                }
-                val grounding = if (interpretation == AssistantInterpretation.Answer) {
-                    "Answer general knowledge questions, calculations and creative writing requests directly and briefly. Give the explanation already requested instead of asking whether the user wants it. Follow the requested format; for arithmetic use a short equation with its result. Ask for context if a named technical term or subject is unclear; never invent a definition. If asked about your abilities, you explain ImageToolbox tools/settings, answer general questions and search photos. Users apply edits in the tools. Never invent controls or claim files were edited. " +
-                            "Reply in ${
-                                replyRequest.language?.let {
-                                    Locale.forLanguageTag(it).getDisplayLanguage(Locale.ENGLISH)
-                                } ?: "the language of the latest question"
-                            }." +
-                            if (replyRequest.context.selectedUris.isEmpty()) "" else
-                                "\nOnly the supplied file metadata is available; you cannot see image pixels. Use that metadata for file properties. Questions about depicted objects require a Vision model.\n" + knowledge.context(
-                                    replyRequest
-                                )
-                } else knowledge.grounding(
-                    replyRequest,
-                    retrieved,
-                    variant,
-                    includeToolGuide = interpretation is AssistantInterpretation.Help && interpretation.subject == null
-                )
-                val replyHistory = history.map { message ->
-                    var text = message.answer.text
-                    message.answer.tools.forEach { old ->
-                        retrieved.tools.firstOrNull {
-                            it.key == old.key && it.filterKey == old.filterKey && it.helpTipId == old.helpTipId
-                        }?.let { text = text.replace(old.title, it.title, ignoreCase = true) }
-                    }
-                    message.answer.settings.forEach { old ->
-                        retrieved.settings.firstOrNull { it.key == old.key }
-                            ?.let { text = text.replace(old.title, it.title, ignoreCase = true) }
-                    }
-                    message.copy(answer = message.answer.copy(text = text))
                 }
                 _progress.value = AssistantRepository.Progress.Answering
                 val text = AssistantCommand.visibleText(
                     generate(
-                        if (interpretation == AssistantInterpretation.Answer) assistantPrompt(
-                            grounding = grounding,
-                            history = replyHistory.takeLast(1).filter {
-                                it.answer.references.isEmpty() && it.answer.tools.isEmpty() &&
-                                        it.answer.settings.isEmpty() && it.answer.gallery == null
-                            },
-                            question = replyRequest.query,
-                            hasImage = false,
-                            model = variant
-                        ) else assistantReplyPrompt(
-                            replyRequest, grounding, replyHistory, model = variant
+                        assistantHelpReplyPrompt(
+                            localized, retrieved, knowledge.context(localized), history, variant,
+                            definition = interpretation.subject != null
                         ),
-                        sample = interpretation == AssistantInterpretation.Answer &&
-                                variant != AssistantModel.Lite && variant != AssistantModel.VisionLite,
                         tokens = if (variant == AssistantModel.Lite) 192 else answerTokens
                     )
                 ).trim()
                 check(text.isNotEmpty()) { "Assistant returned no user-facing answer" }
-                return retrieved.copy(text = text)
+                return retrieved.copy(text = text, helpQuery = interpretation.query)
             }
             val photoRequest = localized
             _progress.value = AssistantRepository.Progress.FindingPhotos
@@ -710,7 +703,8 @@ internal class AndroidAssistantRepository @Inject constructor(
                     current,
                     catalog,
                     variant,
-                    originalQuestion = request.query
+                    originalQuestion = request.query,
+                    exampleQuery = AssistantInterpretation.goal(interpreted) ?: request.query
                 ),
                 grammar = AssistantCommand.grammar(
                     current,

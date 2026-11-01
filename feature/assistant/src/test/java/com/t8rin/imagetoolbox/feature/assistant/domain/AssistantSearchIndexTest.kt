@@ -122,6 +122,70 @@ class AssistantSearchIndexTest {
     }
 
     @Test
+    fun normalizedTasksDoNotNeedAnotherTypoCorrection() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document("take", "Снимайте фотографии", "Снимать фотографии"),
+                AssistantSearchIndex.Document("compress", "Сжатие", "Сжать фотографии")
+            ), "ru"
+        )
+        assertTrue(index.search("сжимать фотографии").any { it.value == "take" })
+        assertFalse(
+            index.search("сжимать фотографии", allowTypos = false)
+                .any { it.value == "take" && it.matchedTerms > 1 })
+    }
+
+    @Test
+    fun mentioningTheInputDoesNotSelectItsPreparationTool() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "scan",
+                    "Scan documents",
+                    "Scan document pages into images."
+                ),
+                AssistantSearchIndex.Document(
+                    "pdf",
+                    "Recognize text",
+                    "Create a searchable PDF with OCR from scanned documents. Keep page images and searchable text."
+                )
+            ), "en"
+        )
+        assertEquals(
+            "pdf",
+            index.search("create searchable PDF from scanned documents with OCR").first().value
+        )
+    }
+
+    @Test
+    fun completeOperationTitlesPreserveConversionDirection() {
+        val index = AssistantSearchIndex(
+            listOf(
+                AssistantSearchIndex.Document(
+                    "extract",
+                    "GIF to images",
+                    "Convert GIF animation to an image sequence. Extract frames from a GIF."
+                ),
+                AssistantSearchIndex.Document(
+                    "create",
+                    "Images to GIF",
+                    "Convert several images to GIF. Set FPS and save."
+                ),
+                AssistantSearchIndex.Document(
+                    "format",
+                    "GIF",
+                    "GIF supports animation and image sequences."
+                )
+            ), "en"
+        )
+        assertEquals(
+            "create",
+            index.search("convert image sequence to GIF animation").first().value
+        )
+        assertEquals("extract", index.search("GIF to images extract frames").first().value)
+    }
+
+    @Test
     fun ranksTitlesAndTheRequestedSubjectAheadOfIncidentalWords() {
         val index = AssistantSearchIndex(
             listOf(
