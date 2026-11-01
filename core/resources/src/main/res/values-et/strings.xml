@@ -6088,9 +6088,9 @@
     <string name="help_tip_pdf_crop_pages_step_1">Valige kärbitavad lehed ja reguleerige eelvaates horisontaalset ja vertikaalset vahemikku.</string>
     <string name="help_tip_pdf_crop_pages_step_2">Enne ühe ristküliku rühmale rakendamist kontrollige erineva paigutusega lehti. Kui samad veerised korduvad, salvestage kärpimise eelseadistus.</string>
     <string name="help_tip_pdf_crop_pages_step_3">Salvestage koopia ja kontrollige, kas päised, jalused ja leheküljenumbrid jäävad nähtavaks. Ärge kasutage konfidentsiaalse teabe eemaldamiseks kärpimist.</string>
-    <string name="help_tip_pdf_page_numbers_description">Nummerdamistööriist lisab nähtavaid silte. Sildi vorming toetab praeguse lehe puhul {n} ja lehekülgede koguarvu puhul {n}.</string>
+    <string name="help_tip_pdf_page_numbers_description">Nummerdamistööriist lisab nähtavaid silte. Sildi vorming toetab praeguse lehe puhul {n} ja lehekülgede koguarvu puhul {total}.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Enne numbrite lisamist lõpetage lehtede liitmine, kustutamine ja ümberkorraldamine.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Muutke sildi vormingut, näiteks {n} / {kokku}, ja valige asukoht, teksti suurus ja värv.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Muutke sildi vormingut, näiteks {n} / {total}, ja valige asukoht, teksti suurus ja värv.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Kontrollige eelvaadet erineva suurusega lehtedel. Salvestage, kui numbrid ei kata dokumendi sisu.</string>
     <string name="help_tip_pdf_text_watermark_description">PDF-i vesimärk asetab valitud lehtedele korduva teksti. See tuvastab koopia, kuid ei piira kopeerimist, printimist ega redigeerimist.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Sisestage vesimärgi tekst ja valige märgist vajavad lehed.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Lubage Lemmiku näitamine viimasena, et viia lemmikute vahekaart lõppu, või keelake see, et asetada see esimeseks.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Rühmitatud režiimis lubage kõigepealt rühmitatud tööriistades Lemmikud; muidu pole lemmikute vahekaarti, mida teisaldada.</string>
     <string name="help_tip_setting_presets_description">Suuruse muutmise eelseadistused salvestavad protsendi suurused, mida saab iga pildi mõõtmete sisestamise asemel uuesti kasutada.</string>
-    <string name="help_tip_setting_presets_step_1">Saadaolevate väärtuste muutmiseks avage Eelseaded. Väärtus 50 tähendab poolt algsest laiusest ja kõrgusest; 125 suurendab neid 125%-ni.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Saadaolevate väärtuste muutmiseks avage Eelseaded. Väärtus 50 tähendab poolt algsest laiusest ja kõrgusest; 125 suurendab neid 125%-ni.</string>
     <string name="help_tip_setting_presets_step_2">Valige ühilduvas suuruse muutmise tööriistas eelseadistus ja kontrollige enne salvestamist saadud mõõtmeid.</string>
     <string name="help_tip_setting_default_quality_description">Vaikekvaliteet lähtestab tihendamise juhtelemendid ja sõltub valitud väljundvormingust.</string>
     <string name="help_tip_setting_default_quality_step_1">Valige esmalt Vaikimisi pildivorming, seejärel reguleerige selle vormingu jaoks kuvatavaid kvaliteedijuhte.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Võrrelge detektori hinnanguid ilma neid tõenditena käsitlemata</string>
     <string name="help_tip_ai_detection_description">AI-detektorid hindavad, kui palju pilt sarnaneb nende loodud või reaalsete piltide treeningnäidetega. Tulemus ei ole autorsuse ega toimetamisajaloo tõend. Tõelise foto saab märgistada kui AI ja loodud pilt võib jääda kahe silma vahele.</string>
     <string name="help_tip_ai_detection_step_1">Valige tehisintellekti tuvastamise mudel, valige pildid ja käivitage kontroll. See režiim tagastab töödeldud fotode asemel hinnangud.</string>
-    <string name="help_tip_ai_detection_step_2">Lugege skoori koos otsusega: 70% ja rohkem on tõenäoline tehisintellekt, 30% ja alla selle on tõenäoline inimene ja keskmine vahemik on ebakindel.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lugege skoori koos otsusega: 70% ja rohkem on tõenäoline tehisintellekt, 30% ja alla selle on tõenäoline inimene ja keskmine vahemik on ebakindel.</string>
     <string name="help_tip_ai_detection_step_3">Kui tulemus on oluline, võrrelge teist detektorit. Tihendamine, suuruse muutmine ja ekraanipildid võivad selle hinnangut muuta; võimalusel kasutage originaalfaili.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektori mudelid ja täpsus</string>
     <string name="help_tip_ai_detection_page_2_description">Kataloogis on Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics ja SMOGY. Nad kasutavad erinevaid treeningandmeid ja võivad eriarvamusele jääda.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Kontrollige tulemust täissuuruses ja salvestage eraldi koopia. Kasutage läbipaistmatut pintslit teksti või numbrite jaoks, mis peavad olema loetamatud.</string>
     <string name="opaque_image_viewer_background">Läbipaistmatu pildivaaturi taust</string>
     <string name="opaque_image_viewer_background_sub">Kasutage fotode vaatamisel ühtlast musta tausta</string>
+    <string name="assistant_export_formats_fact">Toetatud pildi ekspordivormingud</string>
+    <string name="assistant_alpha_formats_fact">Läbipaistvust säilitavad pildivormingud</string>
+    <string name="assistant_preparing_model">Mudeli ettevalmistamine…</string>
+    <string name="assistant_reading_image">Pildi lugemine…</string>
+    <string name="assistant_interpreting">Taotlusest aru saamine…</string>
+    <string name="assistant_finding_help">Dokumentide otsimine…</string>
+    <string name="assistant_finding_photos">Fotode otsimine…</string>
+    <string name="assistant_file_size_already_fits">Fail on %1$s baiti ja mahub juba %2$s limiidile (%3$s baiti). Kompressioon pole vajalik.</string>
+    <string name="assistant_clarification">Mida soovid muuta või teada saada? Lisa pilt, tööriista nimi või termini kontekst.</string>
+    <string name="assistant_capabilities">- Selgitan suuruse muutmist, kärpimist, teisendamist ja seadistusi.\n- Vastan üldistele küsimustele.\n- Otsin fotosid sisu ja filtrite järgi.</string>
+    <string name="assistant_capabilities_text">- Pildianalüüs nõuab Visioni.</string>
+    <string name="assistant_capabilities_vision">- Saan analüüsida ühte lisatud fotot.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Ava Seaded → Paigutus ja lülita valik „Läbipaistmatu pildivaaturi taust“ sisse või välja.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Avage foto, et võrrelda ühtlast musta tausta tumendatud rakenduse taustaga. See muudab ainult pildivaaturit, mitte salvestatud pilti ega selle läbipaistvust.</string>
 </resources>

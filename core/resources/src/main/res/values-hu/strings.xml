@@ -1412,7 +1412,7 @@
     <string name="tesseract_options">Tesseact Options</string>
     <string name="tesseract_options_sub">Alkalmazzon néhány bemeneti változót a tesseract motorhoz</string>
     <string name="custom_options">Egyéni beállítások</string>
-    <string name="custom_params_info">A beállításokat a következő minta szerint kell megadni: \"--{opció_neve} {érték}\"</string>
+    <string name="custom_params_info">A beállításokat a következő minta szerint kell megadni: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automatikus kivágás</string>
     <string name="free_corners">Szabad sarkok</string>
     <string name="free_corners_sub">Vágja a képet sokszögenként, ezzel is korrigálja a perspektívát</string>
@@ -1996,8 +1996,8 @@
     <string name="horizontal_border_thickness">Vízszintes határvastagság</string>
     <string name="vertical_border_thickness">Függőleges határvastagság</string>
     <plurals name="color_count">
-        <item quantity="one">%1$s színek</item>
-        <item quantity="other">%1$s színek</item>
+        <item quantity="one">%1$s szín</item>
+        <item quantity="other">%1$s szín</item>
     </plurals>
     <string name="current_model_not_chunkable">A jelenlegi modell nem támogatja a darabolást, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel</string>
     <string name="chunking_disabled">A darabolás le van tiltva, a kép az eredeti méretekben kerül feldolgozásra, ami nagy memóriafogyasztást és problémákat okozhat az alsó kategóriás eszközökkel, de jobb eredményeket ad a következtetéseknél</string>
@@ -6090,7 +6090,7 @@
     <string name="help_tip_pdf_crop_pages_step_3">Mentse el a másolatot, és ellenőrizze, hogy a fejlécek, láblécek és oldalszámok láthatóak maradnak. Ne használja a körülvágást bizalmas információk törlésére.</string>
     <string name="help_tip_pdf_page_numbers_description">A számozási eszköz látható címkéket ad hozzá. A címkeformátum támogatja a(z) {n} értéket az aktuális oldalhoz és a(z) {total} értéket az oldalak teljes számához.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Számok hozzáadása előtt fejezze be az oldalak egyesítését, törlését és átrendezését.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Szerkessze a címkeformátumot, például {n} / {összesen}, és válassza ki a pozíciót, a szöveg méretét és színét.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Szerkessze a címkeformátumot, például {n} / {total}, és válassza ki a pozíciót, a szöveg méretét és színét.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Tekintse meg az előnézetet a különböző méretű oldalakon. Mentés, ha a számok nem fedik a dokumentum tartalmát.</string>
     <string name="help_tip_pdf_text_watermark_description">A PDF vízjel ismétlődő szöveget helyez el a kiválasztott oldalakon. A másolatot azonosítja, de nem korlátozza a másolást, nyomtatást vagy szerkesztést.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Írja be a vízjel szövegét, és válassza ki a jelet igénylő oldalakat.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Engedélyezze a Kedvencek megjelenítése utolsóként lehetőséget, ha a kedvencek lap végére szeretné helyezni, vagy tiltsa le, ha az első helyre szeretné helyezni.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Csoportosított módban először engedélyezze a Kedvenceket a csoportosított eszközökben; különben nincs mozgatható Kedvencek lap.</string>
     <string name="help_tip_setting_presets_description">Az Átméretezés előre beállított értékek olyan százalékos méreteket tárolnak, amelyek újra felhasználhatók, ahelyett, hogy minden képnél megadnák a méreteket.</string>
-    <string name="help_tip_setting_presets_step_1">Az elérhető értékek szerkesztéséhez nyissa meg az Előbeállításokat. Az 50-es érték az eredeti szélesség és magasság felét jelenti; 125 125%-ra növeli őket.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Az elérhető értékek szerkesztéséhez nyissa meg az Előbeállításokat. Az 50-es érték az eredeti szélesség és magasság felét jelenti; 125 125%-ra növeli őket.</string>
     <string name="help_tip_setting_presets_step_2">Válasszon egy előre beállított értéket egy kompatibilis átméretező eszközben, és mentés előtt ellenőrizze a kapott méreteket.</string>
     <string name="help_tip_setting_default_quality_description">Az alapértelmezett minőség inicializálja a tömörítési vezérlőket, és a kiválasztott kimeneti formátumtól függ.</string>
     <string name="help_tip_setting_default_quality_step_1">Először válassza az Alapértelmezett képformátum lehetőséget, majd állítsa be az adott formátumhoz tartozó minőségvezérlőket.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Hasonlítsa össze a detektor becsléseit anélkül, hogy bizonyítékként kezelné őket</string>
     <string name="help_tip_ai_detection_description">Az AI-detektorok megbecsülik, hogy egy kép mennyire hasonlít a generált vagy valós képek képzési példáira. Az eredmény nem a szerzőség vagy a szerkesztési előzmények bizonyítéka. Egy valós fotó MI-ként jelölhető meg, és egy generált kép kimaradhat.</string>
     <string name="help_tip_ai_detection_step_1">Válasszon ki egy AI-észlelési modellt, válassza ki a képeket, és futtassa az ellenőrzést. Ez a mód a szerkesztett fényképek helyett becsléseket ad vissza.</string>
-    <string name="help_tip_ai_detection_step_2">Olvassa el a pontszámot az ítélettel együtt: 70% és afeletti valószínű mesterséges intelligencia, 30% és ez alatti valószínű ember, a középső tartomány pedig bizonytalan.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Olvassa el a pontszámot az ítélettel együtt: 70% és afeletti valószínű mesterséges intelligencia, 30% és ez alatti valószínű ember, a középső tartomány pedig bizonytalan.</string>
     <string name="help_tip_ai_detection_step_3">Hasonlítson össze egy másik detektort, ha az eredmény számít. A tömörítés, az átméretezés és a képernyőképek megváltoztathatják a becslést; lehetőség szerint használja az eredeti fájlt.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektor modellek és pontosság</string>
     <string name="help_tip_ai_detection_page_2_description">A katalógus tartalmazza: Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics és SMOGY. Különböző edzési adatokat használnak, és nem értenek egyet.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Ellenőrizze az eredményt teljes méretben, és mentsen el egy külön másolatot. Használjon átlátszatlan ecsetet olyan szövegekhez vagy számokhoz, amelyeknek olvashatatlannak kell lenniük.</string>
     <string name="opaque_image_viewer_background">Átlátszatlan képnézegető háttér</string>
     <string name="opaque_image_viewer_background_sub">Fényképek megtekintésekor használjon tömör fekete hátteret</string>
+    <string name="assistant_export_formats_fact">Támogatott képexportálási formátumok</string>
+    <string name="assistant_alpha_formats_fact">Az átlátszóságot megőrző képformátumok</string>
+    <string name="assistant_preparing_model">A modell előkészítése…</string>
+    <string name="assistant_reading_image">A kép olvasása…</string>
+    <string name="assistant_interpreting">A kérés értelmezése…</string>
+    <string name="assistant_finding_help">Dokumentáció keresése…</string>
+    <string name="assistant_finding_photos">Fényképek keresése…</string>
+    <string name="assistant_file_size_already_fits">A fájl %1$s bájt, és már megfelel a %2$s korlátnak (%3$s bájt). A tömörítés felesleges.</string>
+    <string name="assistant_clarification">Mit szeretnél módosítani vagy megtudni? Adj hozzá egy képet, egy eszköznevet vagy a kifejezés szövegkörnyezetét.</string>
+    <string name="assistant_capabilities">- Elmagyarázom az átméretezést, a kivágást, a konvertálást és a beállításokat.\n- Általános kérdésekre válaszolok.\n- Tartalom és szűrők alapján keresek fényképeket.</string>
+    <string name="assistant_capabilities_text">- A képelemzéshez Vision szükséges.</string>
+    <string name="assistant_capabilities_vision">- Egy mellékelt fotót tudok elemezni.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Nyissa meg a Beállítások → Elrendezés lehetőséget, és kapcsolja át az Átlátszatlan képnézegető háttere lehetőséget.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Nyisson meg egy fényképet, és hasonlítsa össze az egyszínű fekete hátteret az alkalmazás halványított hátterével. Ez csak a képnézegetőt módosítja, a mentett képet és annak átlátszóságát nem.</string>
 </resources>

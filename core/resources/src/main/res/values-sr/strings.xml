@@ -1412,7 +1412,7 @@
     <string name="tesseract_options">Тессерацт Оптионс</string>
     <string name="tesseract_options_sub">Примените неке улазне варијабле за тесеракт мотор</string>
     <string name="custom_options">Прилагођене опције</string>
-    <string name="custom_params_info">Опције треба унети према овом шаблону: \"--{оптион_наме} {валуе}\"</string>
+    <string name="custom_params_info">Опције треба унети према овом шаблону: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Ауто Цроп</string>
     <string name="free_corners">Фрее Цорнерс</string>
     <string name="free_corners_sub">Изрежите слику по полигон, ово такође исправља перспективу</string>
@@ -3286,7 +3286,7 @@
     <string name="scoop_shapes_sub">Заобљени углови урезани према унутра</string>
     <string name="notch_shapes_sub">Степени углови са двоструким резом</string>
     <string name="watermark_filename_placeholder">Чувар места</string>
-    <string name="watermark_filename_placeholder_sub">Користите {филенаме} да бисте уметнули оригинално име датотеке без екстензије</string>
+    <string name="watermark_filename_placeholder_sub">Користите {filename} да бисте уметнули оригинално име датотеке без екстензије</string>
     <string name="flare">Фларе</string>
     <string name="base_amount">Основни износ</string>
     <string name="ring_amount">Количина прстена</string>
@@ -3680,10 +3680,10 @@
     <string name="batch_rename_success">Датотеке су успешно преименоване</string>
     <string name="batch_rename_failed">Неке датотеке се не могу преименовати</string>
     <string name="permission_not_granted">Дозвола није дата</string>
-    <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом. Такође подржава сечење са \\о{старт:енд}, транслитерацију са \\о{т} и замену са \\о{с/олд/нев/}.</string>
-    <string name="sequence_number_pattern_description">Бројач са аутоматским повећањем. Подржава прилагођено форматирање: \\ц{паддинг} (нпр. \\ц{3} -&gt; 001), \\ц{старт:степ} или \\ц{старт:степ:паддинг}.</string>
+    <string name="original_filename_pattern_description">Користи оригинално име датотеке без екстензије, помажући вам да идентификацију извора сачувате нетакнутом. Такође подржава сечење са \\o{start:end}, транслитерацију са \\o{t} и замену са \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Бројач са аутоматским повећањем. Подржава прилагођено форматирање: \\c{padding} (нпр. \\c{3} -&gt; 001), \\c{start:step} или \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Име надређене фасцикле у којој се налазила оригинална датотека.</string>
-    <string name="file_size_pattern_description">Величина оригиналне датотеке. Подржава јединице: \\з{б}, \\з{кб}, \\з{мб} или само \\з за људски читљив формат.</string>
+    <string name="file_size_pattern_description">Величина оригиналне датотеке. Подржава јединице: \\z{b}, \\z{kb}, \\z{mb} или само \\z за људски читљив формат.</string>
     <string name="uuid_pattern_description">Генерише насумични универзално јединствени идентификатор (УУИД) да би се обезбедила јединственост имена датотеке.</string>
     <string name="rename_cannot_undone">Преименовање датотека се не може опозвати. Уверите се да су нова имена тачна пре него што наставите.</string>
     <string name="confirm_rename_title">Потврдите преименовање</string>
@@ -6089,9 +6089,9 @@
     <string name="help_tip_pdf_crop_pages_step_1">Изаберите странице за опсецање и прилагодите хоризонтални и вертикални опсег у прегледу.</string>
     <string name="help_tip_pdf_crop_pages_step_2">Прегледајте странице са различитим изгледима пре него што примените један правоугаоник на групу. Сачувајте унапред подешено исецање када се исте маргине понове.</string>
     <string name="help_tip_pdf_crop_pages_step_3">Сачувајте копију и проверите да ли заглавља, подножја и бројеви страница остају видљиви. Не користите опсецање да бисте редиговали поверљиве информације.</string>
-    <string name="help_tip_pdf_page_numbers_description">Алат за нумерисање додаје видљиве ознаке. Формат ознаке подржава {н} за тренутну страницу и {тотал} за укупан број страница.</string>
+    <string name="help_tip_pdf_page_numbers_description">Алат за нумерисање додаје видљиве ознаке. Формат ознаке подржава {n} за тренутну страницу и {total} за укупан број страница.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Завршите спајање, брисање и преуређивање страница пре додавања бројева.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Измените формат етикете, на пример {н} / {тотал}, и изаберите позицију, величину текста и боју.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Измените формат етикете, на пример {n} / {total}, и изаберите позицију, величину текста и боју.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Прегледајте преглед на страницама различитих величина. Сачувајте када бројеви не покривају садржај документа.</string>
     <string name="help_tip_pdf_text_watermark_description">ПДФ водени жиг поставља поновљени текст на одабраним страницама. Он идентификује копију, али не ограничава копирање, штампање или уређивање.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Унесите текст воденог жига и изаберите странице којима је потребна ознака.</string>
@@ -6368,7 +6368,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Омогућите Прикажи омиљене као последње да бисте картицу фаворита померили на крај или је онемогућите да бисте је поставили на прво место.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">У груписаном режиму, прво омогућите Фаворите у груписаним алатима; иначе нема картице фаворита за померање.</string>
     <string name="help_tip_setting_presets_description">Унапред подешене вредности за промену величине чувају процентуалне величине које се могу поново користити уместо уношења димензија за сваку слику.</string>
-    <string name="help_tip_setting_presets_step_1">Отворите Пресетс да бисте уредили доступне вредности. Вредност од 50 значи половину оригиналне ширине и висине; 125 их повећава на 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Отворите Пресетс да бисте уредили доступне вредности. Вредност од 50 значи половину оригиналне ширине и висине; 125 их повећава на 125%.</string>
     <string name="help_tip_setting_presets_step_2">Изаберите унапред подешено у компатибилном алату за промену величине и проверите добијене димензије пре него што сачувате.</string>
     <string name="help_tip_setting_default_quality_description">Подразумевани квалитет иницијализује контроле компресије и зависи од изабраног излазног формата.</string>
     <string name="help_tip_setting_default_quality_step_1">Прво одаберите Подразумевани формат слике, а затим прилагодите контроле квалитета приказане за тај формат.</string>
@@ -7239,7 +7239,7 @@
     <string name="help_tip_ai_detection_subtitle">Упоредите процене детектора не третирајући их као доказ</string>
     <string name="help_tip_ai_detection_description">АИ детектори процењују колико слика личи на њихове примере за обуку генерисаних или стварних слика. Резултат није доказ о ауторству или историји уређивања. Права фотографија може бити означена као АИ, а генерисана слика може да се пропусти.</string>
     <string name="help_tip_ai_detection_step_1">Изаберите модел детекције АИ, изаберите слике и покрените проверу. Овај режим враћа процене уместо уређених фотографија.</string>
-    <string name="help_tip_ai_detection_step_2">Прочитајте резултат заједно са пресудом: 70% и више је вероватно АИ, 30% и испод је вероватно човек, а средњи опсег је неизвестан.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Прочитајте резултат заједно са пресудом: 70% и више је вероватно АИ, 30% и испод је вероватно човек, а средњи опсег је неизвестан.</string>
     <string name="help_tip_ai_detection_step_3">Упоредите други детектор када је резултат важан. Компресија, промена величине и снимци екрана могу променити његову процену; користите оригиналну датотеку када је то могуће.</string>
     <string name="help_tip_ai_detection_page_2_title">Модели детектора и прецизност</string>
     <string name="help_tip_ai_detection_page_2_description">Каталог укључује Мираге СигЛИП2, ЛПКС СвинВ2, ЦонвНеКСТ Тини, РесНет-50, АИ вс Деепфаке вс Реал, ЦапЦхецк, Дееп Факе Детецтор В2, АИ Имаге Детецт Дистиллед, Цоммунити Форенсицс и СМОГИ. Они користе различите податке о обуци и могу да се не слажу.</string>
@@ -7517,4 +7517,18 @@
     <string name="help_tip_partial_blur_step_3">Прегледајте резултат у пуној величини и сачувајте посебну копију. Користите непрозирну четку за текст или бројеве који морају бити нечитљиви.</string>
     <string name="opaque_image_viewer_background">Непровидна позадина прегледника слика</string>
     <string name="opaque_image_viewer_background_sub">Користите чврсту црну позадину када гледате фотографије</string>
+    <string name="assistant_export_formats_fact">Подржани формати за извоз слика</string>
+    <string name="assistant_alpha_formats_fact">Формати слика који чувају транспарентност</string>
+    <string name="assistant_preparing_model">Припрема модела…</string>
+    <string name="assistant_reading_image">Читање слике…</string>
+    <string name="assistant_interpreting">Разумевање захтева…</string>
+    <string name="assistant_finding_help">Тражење документације…</string>
+    <string name="assistant_finding_photos">Претраживање слика…</string>
+    <string name="assistant_file_size_already_fits">Датотека је %1$s бајтова и већ се уклапа у ограничење %2$s (%3$s бајтова). Компресија је непотребна.</string>
+    <string name="assistant_clarification">Шта бисте желели да промените или сазнате? Додајте слику, назив алата или контекст термина.</string>
+    <string name="assistant_capabilities">- Објашњавам промену величине, исецање, конверзију и подешавања.\n- Одговарам на општа питања.\n- Претражујем фотографије према садржају и филтерима.</string>
+    <string name="assistant_capabilities_text">- Анализа слике захтева Vision.</string>
+    <string name="assistant_capabilities_vision">- Могу анализирати једну приложену фотографију.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Отворите Подешавања → Распоред и укључите непрозирну позадину прегледника слика.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Отворите фотографију да бисте упоредили пуну црну позадину са затамњеном позадином апликације. Ово мења само прегледник, а не сачувану слику или њену провидност.</string>
 </resources>

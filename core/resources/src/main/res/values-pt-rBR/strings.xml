@@ -6368,7 +6368,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Ative Mostrar favorito como último para mover a guia de favoritos para o final ou desative-a para colocá-la em primeiro lugar.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">No modo agrupado, ative primeiro os Favoritos nas ferramentas agrupadas; caso contrário, não haverá guia de favoritos para mover.</string>
     <string name="help_tip_setting_presets_description">As predefinições de redimensionamento armazenam tamanhos percentuais que podem ser reutilizados em vez de inserir dimensões para cada imagem.</string>
-    <string name="help_tip_setting_presets_step_1">Abra Predefinições para editar os valores disponíveis. Um valor de 50 significa metade da largura e altura originais; 125 aumenta-os para 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Abra Predefinições para editar os valores disponíveis. Um valor de 50 significa metade da largura e altura originais; 125 aumenta-os para 125%.</string>
     <string name="help_tip_setting_presets_step_2">Selecione uma predefinição em uma ferramenta de redimensionamento compatível e verifique as dimensões resultantes antes de salvar.</string>
     <string name="help_tip_setting_default_quality_description">A qualidade padrão inicializa os controles de compactação e depende do formato de saída selecionado.</string>
     <string name="help_tip_setting_default_quality_step_1">Escolha primeiro o formato de imagem padrão e, em seguida, ajuste os controles de qualidade mostrados para esse formato.</string>
@@ -7239,7 +7239,7 @@
     <string name="help_tip_ai_detection_subtitle">Compare as estimativas do detector sem tratá-las como prova</string>
     <string name="help_tip_ai_detection_description">Os detectores de IA estimam o quão próxima uma imagem se assemelha aos seus exemplos de treinamento de imagens geradas ou reais. O resultado não é prova de autoria ou histórico de edição. Uma foto real pode ser sinalizada como IA e uma imagem gerada pode ser perdida.</string>
     <string name="help_tip_ai_detection_step_1">Escolha um modelo de detecção de IA, selecione as imagens e execute a verificação. Este modo retorna estimativas em vez de fotos editadas.</string>
-    <string name="help_tip_ai_detection_step_2">Leia a pontuação junto com o veredicto: 70% e acima é Provável IA, 30% e abaixo é Provável humano e a faixa intermediária é Incerta.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Leia a pontuação junto com o veredicto: 70% e acima é Provável IA, 30% e abaixo é Provável humano e a faixa intermediária é Incerta.</string>
     <string name="help_tip_ai_detection_step_3">Compare um detector diferente quando um resultado for importante. Compactação, redimensionamento e capturas de tela podem alterar sua estimativa; use o arquivo original quando possível.</string>
     <string name="help_tip_ai_detection_page_2_title">Modelos e precisão do detector</string>
     <string name="help_tip_ai_detection_page_2_description">O catálogo inclui Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics e SMOGY. Eles usam dados de treinamento diferentes e podem discordar.</string>
@@ -7517,4 +7517,18 @@
     <string name="help_tip_partial_blur_step_3">Inspecione o resultado em tamanho real e salve uma cópia separada. Use um pincel opaco para textos ou números que devem ser ilegíveis.</string>
     <string name="opaque_image_viewer_background">Fundo opaco do visualizador de imagens</string>
     <string name="opaque_image_viewer_background_sub">Use um fundo preto sólido ao visualizar fotos</string>
+    <string name="assistant_export_formats_fact">Formatos de exportação de imagens suportados</string>
+    <string name="assistant_alpha_formats_fact">Formatos de imagem preservando a transparência</string>
+    <string name="assistant_preparing_model">Preparando o modelo…</string>
+    <string name="assistant_reading_image">Lendo a imagem…</string>
+    <string name="assistant_interpreting">Entendendo o pedido…</string>
+    <string name="assistant_finding_help">Procurando documentação…</string>
+    <string name="assistant_finding_photos">Procurando fotos…</string>
+    <string name="assistant_file_size_already_fits">O arquivo tem %1$s bytes e já se enquadra no limite de %2$s (%3$s bytes). A compressão é desnecessária.</string>
+    <string name="assistant_clarification">O que você gostaria de mudar ou descobrir? Adicione uma imagem, um nome de ferramenta ou o contexto do termo.</string>
+    <string name="assistant_capabilities">- Explico redimensionamento, corte, conversão e configurações.\n- Respondo perguntas gerais.\n- Pesquiso fotos por conteúdo e filtros.</string>
+    <string name="assistant_capabilities_text">- A análise de imagens requer Vision.</string>
+    <string name="assistant_capabilities_vision">- Posso analisar uma foto anexa.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Abra Configurações → Layout e alterne o plano de fundo opaco do visualizador de imagens.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Abra uma foto para comparar o fundo preto sólido com o fundo esmaecido do aplicativo. Isto altera apenas o visualizador, não a imagem salva ou sua transparência.</string>
 </resources>

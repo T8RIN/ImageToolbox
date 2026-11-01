@@ -1408,7 +1408,7 @@
     <string name="tesseract_options">Tesseract Seçenekleri</string>
     <string name="tesseract_options_sub">Tesseract motoru için bazı girdi değişkenleri uygulayın</string>
     <string name="custom_options">Özel Seçenekler</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Seçenekler şu desene göre girilmelidir: \"--{seçenek_adı} {değer}\"</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Seçenekler şu desene göre girilmelidir: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Otomatik Kırp</string>
     <string name="free_corners">Serbest Köşeler</string>
     <string name="free_corners_sub">Resmi çokgen ile kırpın, bu ayrıca perspektifi de düzeltir</string>
@@ -6090,7 +6090,7 @@
     <string name="help_tip_pdf_crop_pages_step_3">Bir kopyasını kaydedin ve üstbilgilerin, altbilgilerin ve sayfa numaralarının görünür durumda kaldığını kontrol edin. Gizli bilgileri düzeltmek için kırpmayı kullanmayın.</string>
     <string name="help_tip_pdf_page_numbers_description">Numaralandırma aracı görünür etiketler ekler. Etiket biçimi geçerli sayfa için {n}\'ı ve toplam sayfa sayısı için {total}\'ı destekler.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Numara eklemeden önce sayfaları birleştirmeyi, silmeyi ve yeniden düzenlemeyi bitirin.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Etiket biçimini düzenleyin (örneğin, {n} / {toplam}) ve konumu, metin boyutunu ve rengini seçin.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Etiket biçimini düzenleyin (örneğin, {n} / {total}) ve konumu, metin boyutunu ve rengini seçin.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Farklı boyutlardaki sayfalardaki önizlemeyi inceleyin. Sayılar belge içeriğini kapsamadığında tasarruf edin.</string>
     <string name="help_tip_pdf_text_watermark_description">PDF filigranı, tekrarlanan metni seçilen sayfalara yerleştirir. Bir kopyayı tanımlar ancak kopyalamayı, yazdırmayı veya düzenlemeyi kısıtlamaz.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Filigran metnini girin ve işaretlenmesi gereken sayfaları seçin.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Favoriler sekmesini en sona taşımak için Favoriyi son olarak göster seçeneğini etkinleştirin veya ilk sıraya yerleştirmek için devre dışı bırakın.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Gruplandırılmış modda, önce gruplandırılmış araçlarda Sık Kullanılanlar\'ı etkinleştirin; aksi halde taşınacak favoriler sekmesi yoktur.</string>
     <string name="help_tip_setting_presets_description">Yeniden boyutlandırma ön ayarları, her görüntü için boyut girmek yerine yeniden kullanılabilecek yüzde boyutlarını saklar.</string>
-    <string name="help_tip_setting_presets_step_1">Mevcut değerleri düzenlemek için Ön Ayarları açın. 50 değeri orijinal genişliğin ve yüksekliğin yarısı anlamına gelir; 125 bunları %125\'e büyütür.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Mevcut değerleri düzenlemek için Ön Ayarları açın. 50 değeri orijinal genişliğin ve yüksekliğin yarısı anlamına gelir; 125 bunları %125\'e büyütür.</string>
     <string name="help_tip_setting_presets_step_2">Uyumlu bir yeniden boyutlandırma aracında bir ön ayar seçin ve kaydetmeden önce ortaya çıkan boyutları kontrol edin.</string>
     <string name="help_tip_setting_default_quality_description">Varsayılan kalite, sıkıştırma kontrollerini başlatır ve seçilen çıktı formatına bağlıdır.</string>
     <string name="help_tip_setting_default_quality_step_1">Önce Varsayılan Görüntü Formatı\'nı seçin, ardından bu format için gösterilen kalite kontrollerini ayarlayın.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Dedektör tahminlerini kanıt olarak ele almadan karşılaştırın</string>
     <string name="help_tip_ai_detection_description">Yapay zeka dedektörleri, bir görüntünün, oluşturulan veya gerçek görüntülere ilişkin eğitim örneklerine ne kadar benzediğini tahmin eder. Sonuç, yazarlık veya düzenleme geçmişinin kanıtı değildir. Gerçek bir fotoğraf yapay zeka olarak işaretlenebilir ve oluşturulan bir görüntü gözden kaçırılabilir.</string>
     <string name="help_tip_ai_detection_step_1">Bir AI Algılama modeli seçin, görüntüleri seçin ve kontrolü çalıştırın. Bu mod, düzenlenen fotoğraflar yerine tahminleri döndürür.</string>
-    <string name="help_tip_ai_detection_step_2">Puanı kararla birlikte okuyun: %70 ve üzeri Olası Yapay Zeka, %30 ve altı Olasılıkla insan ve orta aralık Belirsizdir.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Puanı kararla birlikte okuyun: %70 ve üzeri Olası Yapay Zeka, %30 ve altı Olasılıkla insan ve orta aralık Belirsizdir.</string>
     <string name="help_tip_ai_detection_step_3">Bir sonuç önemli olduğunda farklı bir dedektörü karşılaştırın. Sıkıştırma, yeniden boyutlandırma ve ekran görüntüleri tahminini değiştirebilir; Mümkün olduğunda orijinal dosyayı kullanın.</string>
     <string name="help_tip_ai_detection_page_2_title">Dedektör modelleri ve hassasiyeti</string>
     <string name="help_tip_ai_detection_page_2_description">Katalogda Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics ve SMOGY yer alıyor. Farklı eğitim verileri kullanırlar ve aynı fikirde olmayabilirler.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Sonucu tam boyutta inceleyin ve ayrı bir kopya kaydedin. Okunamaması gereken metin veya sayılar için opak bir fırça kullanın.</string>
     <string name="opaque_image_viewer_background">Opak resim görüntüleyici arka planı</string>
     <string name="opaque_image_viewer_background_sub">Fotoğrafları görüntülerken düz siyah bir arka plan kullanın</string>
+    <string name="assistant_export_formats_fact">Desteklenen görüntü dışa aktarma formatları</string>
+    <string name="assistant_alpha_formats_fact">Şeffaflığı koruyan görüntü formatları</string>
+    <string name="assistant_preparing_model">Model hazırlanıyor…</string>
+    <string name="assistant_reading_image">Resmi okuyor…</string>
+    <string name="assistant_interpreting">İsteği anlamak…</string>
+    <string name="assistant_finding_help">Belgelere bakılıyor…</string>
+    <string name="assistant_finding_photos">Fotoğraflar aranıyor…</string>
+    <string name="assistant_file_size_already_fits">Dosya %1$s bayttır ve zaten %2$s sınırına (%3$s bayt) uymaktadır. Sıkıştırma gereksizdir.</string>
+    <string name="assistant_clarification">Neyi değiştirmek veya öğrenmek istersiniz? Lütfen bir resim, araç adı veya terimin içeriğini ekleyin.</string>
+    <string name="assistant_capabilities">- Yeniden boyutlandırma, kırpma, dönüştürme ve ayarları anlatıyorum.\n- Genel soruları yanıtlıyorum.\n- Fotoğrafları içeriğe ve filtrelere göre arıyorum.</string>
+    <string name="assistant_capabilities_text">- Görüntü analizi için Vision gerekir.</string>
+    <string name="assistant_capabilities_vision">- Ekli bir fotoğrafı analiz edebilirim.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Ayarlar → Düzen bölümünü açın ve “Opak resim görüntüleyici arka planı” seçeneğini açın veya kapatın.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Düz siyah arka planı soluk uygulama arka planıyla karşılaştırmak için bir fotoğraf açın. Bu, yalnızca görüntüleyiciyi değiştirir; kaydedilen görüntüyü veya şeffaflığını etkilemez.</string>
 </resources>

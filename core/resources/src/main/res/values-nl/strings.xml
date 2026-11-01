@@ -1406,7 +1406,7 @@
     <string name="histogram_sub">RGB- of helderheidsbeeldhistogram om je te helpen aanpassingen te maken</string>
     <string name="image_for_histogram">Deze afbeelding wordt gebruikt om RGB- en helderheidshistogrammen te genereren</string>
     <string name="custom_options">Aangepaste opties</string>
-    <string name="custom_params_info">Voer opties in volgens dit patroon: \"--{optie_naam} {waarde}\"</string>
+    <string name="custom_params_info">Voer opties in volgens dit patroon: \"--{option_name} {value}\"</string>
     <string name="tesseract_options">Tesseract-opties</string>
     <string name="tesseract_options_sub">Geef enkele invoervariabelen op voor de tesseract-engine</string>
     <string name="free_corners">Vrije hoeken</string>
@@ -6090,7 +6090,7 @@
     <string name="help_tip_pdf_crop_pages_step_3">Sla een kopie op en controleer of kop-, voetteksten en paginanummers zichtbaar blijven. Gebruik bijsnijden niet om vertrouwelijke informatie te redigeren.</string>
     <string name="help_tip_pdf_page_numbers_description">De nummeringstool voegt zichtbare labels toe. Het labelformaat ondersteunt {n} voor de huidige pagina en {total} voor het totale aantal pagina\'s.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Voltooi het samenvoegen, verwijderen en herschikken van pagina\'s voordat u nummers toevoegt.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Bewerk het labelformaat, bijvoorbeeld {n} / {totaal}, en kies positie, tekstgrootte en kleur.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Bewerk het labelformaat, bijvoorbeeld {n} / {total}, en kies positie, tekstgrootte en kleur.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Bekijk het voorbeeld op pagina\'s met verschillende formaten. Bewaar wanneer cijfers de inhoud van het document niet dekken.</string>
     <string name="help_tip_pdf_text_watermark_description">Een PDF-watermerk plaatst herhaalde tekst op geselecteerde pagina\'s. Het identificeert een kopie, maar beperkt het kopiëren, afdrukken of bewerken niet.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Voer de watermerktekst in en kies de pagina\'s die de markering nodig hebben.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Schakel Favoriet als laatste weergeven in om het tabblad Favorieten naar het einde te verplaatsen, of schakel het uit om het als eerste te plaatsen.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Schakel in de gegroepeerde modus eerst Favorieten in gegroepeerde tools in; anders is er geen tabblad Favorieten om te verplaatsen.</string>
     <string name="help_tip_setting_presets_description">Voorinstellingen voor het wijzigen van het formaat slaan percentagegroottes op die opnieuw kunnen worden gebruikt in plaats van dat u voor elke afbeelding afmetingen hoeft in te voeren.</string>
-    <string name="help_tip_setting_presets_step_1">Open Voorinstellingen om de beschikbare waarden te bewerken. Een waarde van 50 betekent de helft van de oorspronkelijke breedte en hoogte; 125 vergroot ze tot 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Open Voorinstellingen om de beschikbare waarden te bewerken. Een waarde van 50 betekent de helft van de oorspronkelijke breedte en hoogte; 125 vergroot ze tot 125%.</string>
     <string name="help_tip_setting_presets_step_2">Selecteer een voorinstelling in een compatibel hulpmiddel voor het wijzigen van de afmetingen en controleer de resulterende afmetingen voordat u deze opslaat.</string>
     <string name="help_tip_setting_default_quality_description">De standaardkwaliteit initialiseert de compressiecontroles en is afhankelijk van het geselecteerde uitvoerformaat.</string>
     <string name="help_tip_setting_default_quality_step_1">Kies eerst het standaardbeeldformaat en pas vervolgens de kwaliteitscontroles aan die voor dat formaat worden weergegeven.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Vergelijk detectorschattingen zonder ze als bewijs te beschouwen</string>
     <string name="help_tip_ai_detection_description">AI-detectoren schatten hoe nauw een afbeelding lijkt op hun trainingsvoorbeelden van gegenereerde of echte afbeeldingen. Het resultaat is geen bewijs van auteurschap of bewerkingsgeschiedenis. Een echte foto kan als AI worden gemarkeerd en een gegenereerde afbeelding kan worden gemist.</string>
     <string name="help_tip_ai_detection_step_1">Kies een AI-detectiemodel, selecteer de afbeeldingen en voer de controle uit. Deze modus retourneert schattingen in plaats van bewerkte foto\'s.</string>
-    <string name="help_tip_ai_detection_step_2">Lees de score samen met het oordeel: 70% en hoger is waarschijnlijk AI, 30% en lager is waarschijnlijk menselijk en het middenbereik is onzeker.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lees de score samen met het oordeel: 70% en hoger is waarschijnlijk AI, 30% en lager is waarschijnlijk menselijk en het middenbereik is onzeker.</string>
     <string name="help_tip_ai_detection_step_3">Vergelijk een andere detector als een resultaat ertoe doet. Compressie, formaatwijziging en schermafbeeldingen kunnen de schatting veranderen; gebruik indien mogelijk het originele bestand.</string>
     <string name="help_tip_ai_detection_page_2_title">Detectormodellen en precisie</string>
     <string name="help_tip_ai_detection_page_2_description">De catalogus bevat Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics en SMOGY. Ze gebruiken verschillende trainingsgegevens en kunnen het daar niet mee eens zijn.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Bekijk het resultaat op volledige grootte en bewaar een aparte kopie. Gebruik een dekkend penseel voor tekst of cijfers die onleesbaar moeten zijn.</string>
     <string name="opaque_image_viewer_background">Ondoorzichtige achtergrond van de afbeeldingsviewer</string>
     <string name="opaque_image_viewer_background_sub">Gebruik een effen zwarte achtergrond bij het bekijken van foto\'s</string>
+    <string name="assistant_export_formats_fact">Ondersteunde exportformaten voor afbeeldingen</string>
+    <string name="assistant_alpha_formats_fact">Beeldformaten met behoud van transparantie</string>
+    <string name="assistant_preparing_model">Het model voorbereiden…</string>
+    <string name="assistant_reading_image">De afbeelding lezen…</string>
+    <string name="assistant_interpreting">Het verzoek begrijpen…</string>
+    <string name="assistant_finding_help">Documentatie opzoeken…</string>
+    <string name="assistant_finding_photos">Foto\'s zoeken…</string>
+    <string name="assistant_file_size_already_fits">Het bestand is %1$s bytes en voldoet al aan de %2$s limiet (%3$s bytes). Compressie is onnodig.</string>
+    <string name="assistant_clarification">Wat zou je graag willen veranderen of ontdekken? Voeg een afbeelding, een toolnaam of de context van de term toe.</string>
+    <string name="assistant_capabilities">- Ik leg formaatwijziging, bijsnijden, conversie en instellingen uit.\n- Ik beantwoord algemene vragen.\n- Ik zoek foto\'s op inhoud en filters.</string>
+    <string name="assistant_capabilities_text">- Voor beeldanalyse is Vision nodig.</string>
+    <string name="assistant_capabilities_vision">- Ik kan één bijgevoegde foto analyseren.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Open Instellingen → Indeling en schakel de ondoorzichtige achtergrond van de afbeeldingsviewer in.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Open een foto om de effen zwarte achtergrond te vergelijken met de gedimde achtergrond van de app. Dit verandert alleen de afbeeldingsviewer, niet de opgeslagen afbeelding of de transparantie ervan.</string>
 </resources>

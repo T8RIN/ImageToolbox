@@ -1064,7 +1064,7 @@
     <string name="lanczos3_jinc_sub">Wariant filtru Lanczos 3, który wykorzystuje funkcję jinc, zapewniając wysokiej jakości interpolację z minimalnymi artefaktami.</string>
     <string name="auto_crop">Automatyczne kadrowanie</string>
     <string name="triangle">Trójkąt</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje powinny być wprowadzane zgodnie z tym wzorem: „--{nazwa_opcji} {wartość}\\</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Opcje należy wprowadzać zgodnie z tym wzorem: \"--{option_name} {value}\"</string>
     <string name="clustered_2x2_dithering">Dithering klastrowy 2x2</string>
     <string name="links_preview_sub">Umożliwia pobieranie podglądu linków w miejscach, w których można uzyskać tekst (QRCode, OCR itp.).</string>
     <string name="tag_exposure_index">Wskaźnik ekspozycji</string>
@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Włącz opcję Pokaż ulubione jako ostatnie, aby przenieść kartę ulubionych na koniec, lub wyłącz ją, aby umieścić ją na pierwszym miejscu.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">W trybie grupowym włącz najpierw Ulubione w narzędziach zgrupowanych; w przeciwnym razie nie będzie żadnej karty ulubionych do przeniesienia.</string>
     <string name="help_tip_setting_presets_description">Predefiniowane ustawienia zmiany rozmiaru przechowują rozmiary procentowe, które można ponownie wykorzystać, zamiast wprowadzać wymiary dla każdego obrazu.</string>
-    <string name="help_tip_setting_presets_step_1">Otwórz Ustawienia wstępne, aby edytować dostępne wartości. Wartość 50 oznacza połowę pierwotnej szerokości i wysokości; 125 powiększa je do 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Otwórz Ustawienia wstępne, aby edytować dostępne wartości. Wartość 50 oznacza połowę pierwotnej szerokości i wysokości; 125 powiększa je do 125%.</string>
     <string name="help_tip_setting_presets_step_2">Wybierz ustawienie wstępne w kompatybilnym narzędziu do zmiany rozmiaru i sprawdź wynikowe wymiary przed zapisaniem.</string>
     <string name="help_tip_setting_default_quality_description">Jakość domyślna inicjuje kontrolę kompresji i zależy od wybranego formatu wyjściowego.</string>
     <string name="help_tip_setting_default_quality_step_1">Najpierw wybierz Domyślny format obrazu, a następnie dostosuj elementy sterujące jakością wyświetlane dla tego formatu.</string>
@@ -7240,7 +7240,7 @@
     <string name="help_tip_ai_detection_subtitle">Porównaj szacunki detektorów, nie traktując ich jako dowodu</string>
     <string name="help_tip_ai_detection_description">Detektory AI szacują, jak bardzo obraz przypomina przykłady szkoleniowe wygenerowanych lub rzeczywistych obrazów. Rezultatem nie jest dowód autorstwa ani historii edycji. Prawdziwe zdjęcie może zostać oznaczone jako AI, a wygenerowany obraz może zostać pominięty.</string>
     <string name="help_tip_ai_detection_step_1">Wybierz model wykrywania AI, wybierz obrazy i uruchom kontrolę. Ten tryb zwraca szacunki zamiast edytowanych zdjęć.</string>
-    <string name="help_tip_ai_detection_step_2">Przeczytaj wynik wraz z werdyktem: 70% i więcej to prawdopodobnie sztuczna inteligencja, 30% i mniej to prawdopodobnie człowiek, a środkowy zakres to niepewny.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Przeczytaj wynik wraz z werdyktem: 70% i więcej to prawdopodobnie sztuczna inteligencja, 30% i mniej to prawdopodobnie człowiek, a środkowy zakres to niepewny.</string>
     <string name="help_tip_ai_detection_step_3">Jeśli wynik ma znaczenie, porównaj inny detektor. Kompresja, zmiana rozmiaru i zrzuty ekranu mogą zmienić jego szacunki; jeśli to możliwe, użyj oryginalnego pliku.</string>
     <string name="help_tip_ai_detection_page_2_title">Modele detektorów i precyzja</string>
     <string name="help_tip_ai_detection_page_2_description">Katalog obejmuje Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics i SMOGY. Korzystają z różnych danych szkoleniowych i mogą się z nimi nie zgadzać.</string>
@@ -7518,4 +7518,18 @@
     <string name="help_tip_partial_blur_step_3">Sprawdź wynik w pełnym rozmiarze i zapisz osobną kopię. W przypadku tekstu lub liczb, które muszą być nieczytelne, użyj nieprzezroczystego pędzla.</string>
     <string name="opaque_image_viewer_background">Nieprzezroczyste tło przeglądarki obrazów</string>
     <string name="opaque_image_viewer_background_sub">Podczas przeglądania zdjęć używaj jednolitego, czarnego tła</string>
+    <string name="assistant_export_formats_fact">Obsługiwane formaty eksportu obrazów</string>
+    <string name="assistant_alpha_formats_fact">Formaty obrazów zachowujące przezroczystość</string>
+    <string name="assistant_preparing_model">Przygotowanie modelu…</string>
+    <string name="assistant_reading_image">Odczytywanie obrazu…</string>
+    <string name="assistant_interpreting">Zrozumienie prośby…</string>
+    <string name="assistant_finding_help">Przeglądanie dokumentacji…</string>
+    <string name="assistant_finding_photos">Wyszukiwanie zdjęć…</string>
+    <string name="assistant_file_size_already_fits">Plik ma %1$s bajtów i już mieści się w limicie %2$s (%3$s bajtów). Kompresja jest niepotrzebna.</string>
+    <string name="assistant_clarification">Co chciałbyś zmienić lub dowiedzieć się? Dodaj obraz, nazwę narzędzia lub kontekst terminu.</string>
+    <string name="assistant_capabilities">- Wyjaśniam zmianę rozmiaru, kadrowanie, konwersję i ustawienia.\n- Odpowiadam na pytania ogólne.\n- Wyszukuję zdjęcia według zawartości i filtrów.</string>
+    <string name="assistant_capabilities_text">- Analiza obrazu wymaga Vision.</string>
+    <string name="assistant_capabilities_vision">- Mogę przeanalizować jedno załączone zdjęcie.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Otwórz Ustawienia → Układ i przełącz nieprzezroczyste tło przeglądarki obrazów.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Otwórz zdjęcie, aby porównać jednolite czarne tło z przyciemnionym tłem aplikacji. Zmienia to tylko przeglądarkę, a nie zapisany obraz lub jego przezroczystość.</string>
 </resources>

@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Activez Afficher le favori en dernier pour déplacer l\'onglet des favoris vers la fin, ou désactivez-le pour le placer en premier.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">En mode groupé, activez d\'abord les Favoris dans les outils groupés ; sinon, il n\'y a pas d\'onglet favoris à déplacer.</string>
     <string name="help_tip_setting_presets_description">Les préréglages de redimensionnement stockent des tailles en pourcentage qui peuvent être réutilisées au lieu de saisir des dimensions pour chaque image.</string>
-    <string name="help_tip_setting_presets_step_1">Ouvrez les préréglages pour modifier les valeurs disponibles. Une valeur de 50 signifie la moitié de la largeur et de la hauteur d\'origine ; 125 les agrandit à 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Ouvrez les préréglages pour modifier les valeurs disponibles. Une valeur de 50 signifie la moitié de la largeur et de la hauteur d\'origine ; 125 les agrandit à 125%.</string>
     <string name="help_tip_setting_presets_step_2">Sélectionnez un préréglage dans un outil de redimensionnement compatible et vérifiez les dimensions résultantes avant de sauvegarder.</string>
     <string name="help_tip_setting_default_quality_description">La qualité par défaut initialise les contrôles de compression et dépend du format de sortie sélectionné.</string>
     <string name="help_tip_setting_default_quality_step_1">Choisissez d\'abord le format d\'image par défaut, puis ajustez les contrôles de qualité affichés pour ce format.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Comparez les estimations des détecteurs sans les considérer comme des preuves</string>
     <string name="help_tip_ai_detection_description">Les détecteurs d’IA estiment à quel point une image ressemble à leurs exemples d’entraînement d’images générées ou réelles. Le résultat ne constitue pas une preuve de paternité ou d’historique d’édition. Une vraie photo peut être signalée comme IA et une image générée peut être manquée.</string>
     <string name="help_tip_ai_detection_step_1">Choisissez un modèle de détection AI, sélectionnez les images et exécutez la vérification. Ce mode renvoie des estimations au lieu de photos modifiées.</string>
-    <string name="help_tip_ai_detection_step_2">Lisez le score ainsi que le verdict : 70 % et plus correspondent à une IA probable, 30 % et moins correspondent à une IA probable, et la plage moyenne est incertaine.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lisez le score ainsi que le verdict : 70 % et plus correspondent à une IA probable, 30 % et moins correspondent à une IA probable, et la plage moyenne est incertaine.</string>
     <string name="help_tip_ai_detection_step_3">Comparez un autre détecteur lorsqu\'un résultat compte. La compression, le redimensionnement et les captures d\'écran peuvent modifier son estimation ; utilisez le fichier original lorsque cela est possible.</string>
     <string name="help_tip_ai_detection_page_2_title">Modèles de détecteurs et précision</string>
     <string name="help_tip_ai_detection_page_2_description">Le catalogue comprend Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics et SMOGY. Ils utilisent des données de formation différentes et peuvent être en désaccord.</string>
@@ -7521,4 +7521,13 @@
     <string name="help_tip_partial_blur_step_3">Inspectez le résultat en taille réelle et enregistrez une copie séparée. Utilisez un pinceau opaque pour le texte ou les chiffres qui doivent être illisibles.</string>
     <string name="opaque_image_viewer_background">Arrière-plan opaque de la visionneuse d\'images</string>
     <string name="opaque_image_viewer_background_sub">Utilisez un arrière-plan noir uni lors de la visualisation de photos</string>
+    <string name="assistant_export_formats_fact">Formats d\'exportation d\'images pris en charge</string>
+    <string name="assistant_alpha_formats_fact">Formats d\'images préservant la transparence</string>
+    <string name="assistant_preparing_model">Préparation du modèle…</string>
+    <string name="assistant_reading_image">Lecture de l\'image…</string>
+    <string name="assistant_interpreting">Comprendre la demande…</string>
+    <string name="assistant_finding_help">Recherche de documentation…</string>
+    <string name="assistant_finding_photos">Recherche de photos…</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Ouvrez Paramètres → Mise en page et activez l\'arrière-plan opaque de la visionneuse d\'images.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Ouvrez une photo pour comparer l’arrière-plan noir uni avec l’arrière-plan grisé de l’application. Cela modifie uniquement la visionneuse, pas l\'image enregistrée ni sa transparence.</string>
 </resources>

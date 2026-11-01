@@ -6366,7 +6366,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">즐겨찾기 탭을 마지막으로 표시를 활성화하여 즐겨찾기 탭을 끝으로 이동하거나 비활성화하여 먼저 배치합니다.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">그룹 모드에서는 먼저 그룹 도구에서 즐겨찾기를 활성화하세요. 그렇지 않으면 이동할 즐겨찾기 탭이 없습니다.</string>
     <string name="help_tip_setting_presets_description">크기 조정 사전 설정은 모든 이미지의 크기를 입력하는 대신 재사용할 수 있는 백분율 크기를 저장합니다.</string>
-    <string name="help_tip_setting_presets_step_1">사용 가능한 값을 편집하려면 사전 설정을 엽니다. 값 50은 원래 너비와 높이의 절반을 의미합니다. 125는 125%로 확대됩니다.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">사용 가능한 값을 편집하려면 사전 설정을 엽니다. 값 50은 원래 너비와 높이의 절반을 의미합니다. 125는 125%로 확대됩니다.</string>
     <string name="help_tip_setting_presets_step_2">호환되는 크기 조정 도구에서 사전 설정을 선택하고 저장하기 전에 결과 크기를 확인하세요.</string>
     <string name="help_tip_setting_default_quality_description">기본 품질은 압축 컨트롤을 초기화하며 선택한 출력 형식에 따라 달라집니다.</string>
     <string name="help_tip_setting_default_quality_step_1">먼저 기본 이미지 형식을 선택한 다음 해당 형식에 대해 표시되는 품질 컨트롤을 조정하세요.</string>
@@ -7237,7 +7237,7 @@
     <string name="help_tip_ai_detection_subtitle">검출기 추정치를 증거로 취급하지 않고 비교</string>
     <string name="help_tip_ai_detection_description">AI 감지기는 이미지가 생성된 이미지 또는 실제 이미지의 훈련 예시와 얼마나 유사한지 추정합니다. 결과는 저자 또는 편집 이력에 대한 증거가 아닙니다. 실제 사진에 AI 플래그가 붙을 수도 있고, 생성된 이미지가 누락될 수도 있습니다.</string>
     <string name="help_tip_ai_detection_step_1">AI 감지 모델을 선택하고 이미지를 선택한 후 검사를 실행하세요. 이 모드는 편집된 사진 대신 견적을 반환합니다.</string>
-    <string name="help_tip_ai_detection_step_2">판정과 함께 점수를 읽어보세요. 70% 이상은 인공지능 가능성이 높으며, 30% 이하는 인간 가능성이 높으며, 중간 범위는 불확실합니다.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">판정과 함께 점수를 읽어보세요. 70% 이상은 인공지능 가능성이 높으며, 30% 이하는 인간 가능성이 높으며, 중간 범위는 불확실합니다.</string>
     <string name="help_tip_ai_detection_step_3">결과가 중요한 경우 다른 검출기를 비교하십시오. 압축, 크기 조정 및 스크린샷으로 인해 추정치가 변경될 수 있습니다. 가능하면 원본 파일을 사용하세요.</string>
     <string name="help_tip_ai_detection_page_2_title">검출기 모델 및 정밀도</string>
     <string name="help_tip_ai_detection_page_2_description">카탈로그에는 Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics 및 SMOGY가 포함되어 있습니다. 그들은 서로 다른 훈련 데이터를 사용하며 동의하지 않을 수 있습니다.</string>
@@ -7515,4 +7515,18 @@
     <string name="help_tip_partial_blur_step_3">결과를 전체 크기로 검사하고 별도의 복사본을 저장하세요. 읽을 수 없는 텍스트나 숫자에는 불투명 브러시를 사용하세요.</string>
     <string name="opaque_image_viewer_background">불투명한 이미지 뷰어 배경</string>
     <string name="opaque_image_viewer_background_sub">사진을 볼 때 단색 검정색 배경을 사용하세요.</string>
+    <string name="assistant_export_formats_fact">지원되는 이미지 내보내기 형식</string>
+    <string name="assistant_alpha_formats_fact">투명도를 유지하는 이미지 형식</string>
+    <string name="assistant_preparing_model">모델 준비 중…</string>
+    <string name="assistant_reading_image">이미지를 읽는 중…</string>
+    <string name="assistant_interpreting">요청을 이해하는 중…</string>
+    <string name="assistant_finding_help">문서를 찾는 중…</string>
+    <string name="assistant_finding_photos">사진 검색 중…</string>
+    <string name="assistant_file_size_already_fits">파일은 %1$s바이트이고 이미 %2$s 제한(%3$s바이트)에 맞습니다. 압축은 불필요합니다.</string>
+    <string name="assistant_clarification">무엇을 바꾸고 싶거나 알아보고 싶나요? 이미지, 도구 이름 또는 용어의 맥락을 추가하세요.</string>
+    <string name="assistant_capabilities">- 크기 조정, 자르기, 변환 및 설정에 대해 설명합니다.\n- 일반적인 질문에 답변합니다.\n- 콘텐츠와 필터로 사진을 검색합니다.</string>
+    <string name="assistant_capabilities_text">- 이미지 분석에는 Vision이 필요합니다.</string>
+    <string name="assistant_capabilities_vision">- 첨부된 사진 1장을 분석할 수 있습니다.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">설정 → 레이아웃을 열고 불투명 이미지 뷰어 배경을 전환하세요.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">사진을 열어 단색 검정색 배경과 흐리게 표시된 앱 배경을 비교해 보세요. 이렇게 하면 저장된 이미지나 투명도가 아닌 뷰어만 변경됩니다.</string>
 </resources>

@@ -1475,7 +1475,7 @@
     <string name="image_toolbox_in_telegram_sub">Присоединяйтесь к нашему чату, где вы можете обсудить все, что вы хотите, а также можете зайти в канал CI, где я публикую бета-версии и объявления</string>
     <string name="ci_channel_sub">Получайте уведомления о новых версиях приложения и читайте объявления</string>
     <string name="custom_options">Пользовательские параметры</string>
-    <string name="custom_params_info">Параметры следует вводить по следующему шаблону: \"--{название_опции} {значение}\"</string>
+    <string name="custom_params_info">Параметры следует вводить по следующему шаблону: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Автоматическая обрезка</string>
     <string name="free_corners">Свободные углы</string>
     <string name="coerce_points_to_image_bounds">Приведение точек к границам изображения</string>

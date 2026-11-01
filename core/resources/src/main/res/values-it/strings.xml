@@ -1422,7 +1422,7 @@
     <string name="tesseract_options">Opzioni Tesseract</string>
     <string name="tesseract_options_sub">Applica alcune variabili di input per il motore tesseract</string>
     <string name="custom_options">Opzioni personalizzate</string>
-    <string name="custom_params_info">Le opzioni devono essere inserite seguendo questo schema: \"--{nome_opzione} {valore}\"</string>
+    <string name="custom_params_info">Le opzioni devono essere inserite seguendo questo schema: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Ritaglio automatico</string>
     <string name="free_corners">Angoli liberi</string>
     <string name="free_corners_sub">Ritaglia l\'immagine per poligono, questo corregge anche la prospettiva</string>
@@ -6090,7 +6090,7 @@
     <string name="help_tip_pdf_crop_pages_step_3">Salva una copia e controlla che intestazioni, piè di pagina e numeri di pagina rimangano visibili. Non utilizzare il ritaglio per oscurare informazioni riservate.</string>
     <string name="help_tip_pdf_page_numbers_description">Lo strumento di numerazione aggiunge etichette visibili. Il formato dell\'etichetta supporta {n} per la pagina corrente e {total} per il numero totale di pagine.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Completa l\'unione, l\'eliminazione e la riorganizzazione delle pagine prima di aggiungere numeri.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Modifica il formato dell\'etichetta, ad esempio {n} / {totale}, e scegli la posizione, la dimensione del testo e il colore.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Modifica il formato dell\'etichetta, ad esempio {n} / {total}, e scegli la posizione, la dimensione del testo e il colore.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Esamina l\'anteprima su pagine con dimensioni diverse. Salva quando i numeri non coprono il contenuto del documento.</string>
     <string name="help_tip_pdf_text_watermark_description">Una filigrana PDF inserisce testo ripetuto sulle pagine selezionate. Identifica una copia ma non limita la copia, la stampa o la modifica.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Inserisci il testo della filigrana e scegli le pagine che necessitano del contrassegno.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Abilita Mostra preferito come ultimo per spostare la scheda dei preferiti alla fine o disabilitala per posizionarla per prima.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Nella modalità raggruppata, abilita prima i Preferiti negli strumenti raggruppati; altrimenti non c\'è alcuna scheda dei preferiti da spostare.</string>
     <string name="help_tip_setting_presets_description">Le preimpostazioni di ridimensionamento memorizzano le dimensioni percentuali che possono essere riutilizzate invece di inserire dimensioni per ogni immagine.</string>
-    <string name="help_tip_setting_presets_step_1">Apri Preimpostazioni per modificare i valori disponibili. Un valore pari a 50 indica metà della larghezza e dell\'altezza originali; 125 li ingrandisce al 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Apri Preimpostazioni per modificare i valori disponibili. Un valore pari a 50 indica metà della larghezza e dell\'altezza originali; 125 li ingrandisce al 125%.</string>
     <string name="help_tip_setting_presets_step_2">Seleziona una preimpostazione in uno strumento di ridimensionamento compatibile e controlla le dimensioni risultanti prima di salvare.</string>
     <string name="help_tip_setting_default_quality_description">La qualità predefinita inizializza i controlli di compressione e dipende dal formato di output selezionato.</string>
     <string name="help_tip_setting_default_quality_step_1">Scegli prima il formato immagine predefinito, quindi regola i controlli di qualità mostrati per quel formato.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Confronta le stime dei rilevatori senza trattarle come prova</string>
     <string name="help_tip_ai_detection_description">I rilevatori di intelligenza artificiale stimano quanto un\'immagine somigli ai loro esempi di addestramento di immagini generate o reali. Il risultato non è una prova della paternità o della cronologia delle modifiche. Una foto reale può essere contrassegnata come AI e un\'immagine generata può essere persa.</string>
     <string name="help_tip_ai_detection_step_1">Scegli un modello di rilevamento AI, seleziona le immagini ed esegui il controllo. Questa modalità restituisce stime invece di foto modificate.</string>
-    <string name="help_tip_ai_detection_step_2">Leggi il punteggio insieme al verdetto: 70% e oltre è probabile intelligenza artificiale, 30% e inferiore è probabile essere umano e il range medio è incerto.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Leggi il punteggio insieme al verdetto: 70% e oltre è probabile intelligenza artificiale, 30% e inferiore è probabile essere umano e il range medio è incerto.</string>
     <string name="help_tip_ai_detection_step_3">Confronta un rilevatore diverso quando un risultato è importante. Compressione, ridimensionamento e screenshot possono modificarne la stima; utilizzare il file originale quando possibile.</string>
     <string name="help_tip_ai_detection_page_2_title">Modelli e precisione dei rivelatori</string>
     <string name="help_tip_ai_detection_page_2_description">Il catalogo include Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics e SMOGY. Usano dati di addestramento diversi e possono non essere d\'accordo.</string>
@@ -7520,4 +7520,14 @@
     <string name="assistant_capabilities_vision">Con il modello selezionato puoi allegare una foto e chiedere informazioni sul suo contenuto o su come elaborarla.</string>
     <string name="assistant_capabilities_text">Il modello selezionato gestisce testo e metadati dei file. Per domande su ciò che appare in una foto, scegli Vision.</string>
     <string name="assistant_clarification">Che cosa vuoi modificare o sapere? Aggiungi un’immagine, il nome di uno strumento o il contesto del termine.</string>
+    <string name="assistant_export_formats_fact">Formati di esportazione delle immagini supportati</string>
+    <string name="assistant_alpha_formats_fact">Formati di immagine che preservano la trasparenza</string>
+    <string name="assistant_preparing_model">Preparazione del modello…</string>
+    <string name="assistant_reading_image">Lettura dell\'immagine…</string>
+    <string name="assistant_interpreting">Comprensione della richiesta…</string>
+    <string name="assistant_finding_help">Ricerca della documentazione…</string>
+    <string name="assistant_finding_photos">Ricerca di foto…</string>
+    <string name="assistant_file_size_already_fits">Il file è di %1$s byte e rientra già nel limite %2$s (%3$s byte). La compressione non è necessaria.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Apri Impostazioni → Layout e attiva lo sfondo opaco del visualizzatore di immagini.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Apri una foto per confrontare lo sfondo nero pieno con lo sfondo attenuato dell\'app. Ciò modifica solo il visualizzatore, non l\'immagine salvata o la sua trasparenza.</string>
 </resources>

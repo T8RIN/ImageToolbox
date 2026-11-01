@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Aktivieren Sie „Favorit als letztes anzeigen“, um die Registerkarte „Favoriten“ an das Ende zu verschieben, oder deaktivieren Sie sie, um sie an die erste Stelle zu setzen.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Aktivieren Sie im gruppierten Modus zunächst die Favoriten in gruppierten Werkzeugen. Andernfalls gibt es keine Favoriten-Registerkarte zum Verschieben.</string>
     <string name="help_tip_setting_presets_description">Größenänderungsvoreinstellungen speichern prozentuale Größen, die wiederverwendet werden können, anstatt für jedes Bild Abmessungen eingeben zu müssen.</string>
-    <string name="help_tip_setting_presets_step_1">Öffnen Sie Voreinstellungen, um die verfügbaren Werte zu bearbeiten. Ein Wert von 50 bedeutet die Hälfte der ursprünglichen Breite und Höhe; 125 vergrößert sie auf 125 %.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Öffnen Sie Voreinstellungen, um die verfügbaren Werte zu bearbeiten. Ein Wert von 50 bedeutet die Hälfte der ursprünglichen Breite und Höhe; 125 vergrößert sie auf 125 %.</string>
     <string name="help_tip_setting_presets_step_2">Wählen Sie eine Voreinstellung in einem kompatiblen Größenänderungstool aus und überprüfen Sie die resultierenden Abmessungen vor dem Speichern.</string>
     <string name="help_tip_setting_default_quality_description">Die Standardqualität initialisiert die Komprimierungskontrollen und hängt vom ausgewählten Ausgabeformat ab.</string>
     <string name="help_tip_setting_default_quality_step_1">Wählen Sie zunächst „Standardbildformat“ und passen Sie dann die für dieses Format angezeigten Qualitätseinstellungen an.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Vergleichen Sie Detektorschätzungen, ohne sie als Beweis zu betrachten</string>
     <string name="help_tip_ai_detection_description">KI-Detektoren schätzen, wie sehr ein Bild ihren Trainingsbeispielen generierter oder realer Bilder ähnelt. Das Ergebnis ist kein Nachweis der Urheberschaft oder Bearbeitungshistorie. Ein echtes Foto kann als KI gekennzeichnet werden und ein generiertes Bild kann übersehen werden.</string>
     <string name="help_tip_ai_detection_step_1">Wählen Sie ein KI-Erkennungsmodell, wählen Sie die Bilder aus und führen Sie die Prüfung durch. Dieser Modus gibt Schätzungen statt bearbeiteter Fotos zurück.</string>
-    <string name="help_tip_ai_detection_step_2">Lesen Sie die Punktzahl zusammen mit dem Urteil: 70 % und mehr sind wahrscheinlich KI, 30 % und weniger sind wahrscheinlich menschlich und der mittlere Bereich ist unsicher.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lesen Sie die Punktzahl zusammen mit dem Urteil: 70 % und mehr sind wahrscheinlich KI, 30 % und weniger sind wahrscheinlich menschlich und der mittlere Bereich ist unsicher.</string>
     <string name="help_tip_ai_detection_step_3">Vergleichen Sie einen anderen Detektor, wenn es auf das Ergebnis ankommt. Komprimierung, Größenänderung und Screenshots können die Schätzung verändern; Verwenden Sie nach Möglichkeit die Originaldatei.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektormodelle und Präzision</string>
     <string name="help_tip_ai_detection_page_2_description">Der Katalog umfasst Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics und SMOGY. Sie verwenden unterschiedliche Trainingsdaten und können anderer Meinung sein.</string>
@@ -7521,4 +7521,13 @@
     <string name="help_tip_partial_blur_step_3">Überprüfen Sie das Ergebnis in voller Größe und speichern Sie eine separate Kopie. Verwenden Sie einen undurchsichtigen Pinsel für Texte oder Zahlen, die unleserlich sein müssen.</string>
     <string name="opaque_image_viewer_background">Undurchsichtiger Bildbetrachter-Hintergrund</string>
     <string name="opaque_image_viewer_background_sub">Verwenden Sie beim Betrachten von Fotos einen durchgehend schwarzen Hintergrund</string>
+    <string name="assistant_export_formats_fact">Unterstützte Bildexportformate</string>
+    <string name="assistant_alpha_formats_fact">Bildformate, die die Transparenz bewahren</string>
+    <string name="assistant_preparing_model">Vorbereiten des Modells…</string>
+    <string name="assistant_reading_image">Bild wird gelesen…</string>
+    <string name="assistant_interpreting">Anfrage wird analysiert…</string>
+    <string name="assistant_finding_help">Dokumentation nachschlagen…</string>
+    <string name="assistant_finding_photos">Fotos werden gesucht…</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Öffne Einstellungen → Layout und schalte „Undurchsichtiger Bildbetrachter-Hintergrund“ ein oder aus.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Öffne ein Foto, um den einfarbig schwarzen Hintergrund mit dem abgeblendeten App-Hintergrund zu vergleichen. Dadurch ändert sich nur der Bildbetrachter, nicht das gespeicherte Bild oder seine Transparenz.</string>
 </resources>

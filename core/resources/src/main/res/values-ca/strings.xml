@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Activeu Mostra el favorit com a últim per moure la pestanya de favorits al final o desactiveu-lo per col·locar-lo primer.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">En el mode agrupat, activeu primer Preferits a les eines agrupades; en cas contrari, no hi ha cap pestanya de favorits per moure\'s.</string>
     <string name="help_tip_setting_presets_description">Els valors predefinits de canvi de mida emmagatzemen mides percentuals que es poden reutilitzar en lloc d\'introduir dimensions per a cada imatge.</string>
-    <string name="help_tip_setting_presets_step_1">Obriu Presets per editar els valors disponibles. Un valor de 50 significa la meitat de l\'amplada i l\'alçada originals; 125 els amplia al 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Obriu Presets per editar els valors disponibles. Un valor de 50 significa la meitat de l\'amplada i l\'alçada originals; 125 els amplia al 125%.</string>
     <string name="help_tip_setting_presets_step_2">Seleccioneu un valor predefinit en una eina de canvi de mida compatible i comproveu les dimensions resultants abans de desar.</string>
     <string name="help_tip_setting_default_quality_description">La qualitat per defecte inicialitza els controls de compressió i depèn del format de sortida seleccionat.</string>
     <string name="help_tip_setting_default_quality_step_1">Trieu primer Format d\'imatge predeterminat i, a continuació, ajusteu els controls de qualitat que es mostren per a aquest format.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Compareu les estimacions del detector sense tractar-les com a prova</string>
     <string name="help_tip_ai_detection_description">Els detectors d\'IA estimen fins a quin punt una imatge s\'assembla als seus exemples d\'entrenament d\'imatges generades o reals. El resultat no és una prova de l\'autoria o l\'historial d\'edició. Una foto real es pot marcar com a IA i es pot perdre una imatge generada.</string>
     <string name="help_tip_ai_detection_step_1">Trieu un model de detecció d\'IA, seleccioneu les imatges i executeu la comprovació. Aquest mode retorna les estimacions en lloc de les fotos editades.</string>
-    <string name="help_tip_ai_detection_step_2">Llegiu la puntuació juntament amb el veredicte: 70% i més és probable que IA, 30% i per sota és probable que sigui humà, i el rang mitjà és incert.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Llegiu la puntuació juntament amb el veredicte: 70% i més és probable que IA, 30% i per sota és probable que sigui humà, i el rang mitjà és incert.</string>
     <string name="help_tip_ai_detection_step_3">Compareu un detector diferent quan el resultat sigui important. La compressió, el redimensionament i les captures de pantalla poden canviar la seva estimació; utilitzar el fitxer original quan sigui possible.</string>
     <string name="help_tip_ai_detection_page_2_title">Models de detectors i precisió</string>
     <string name="help_tip_ai_detection_page_2_description">El catàleg inclou Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics i SMOGY. Utilitzen dades d\'entrenament diferents i poden estar en desacord.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Inspeccioneu el resultat a mida completa i deseu una còpia per separat. Utilitzeu un pinzell opac per a text o números que han de ser il·legibles.</string>
     <string name="opaque_image_viewer_background">Fons opac del visor d\'imatges</string>
     <string name="opaque_image_viewer_background_sub">Utilitzeu un fons negre sòlid quan visualitzeu fotos</string>
+    <string name="assistant_export_formats_fact">Formats d\'exportació d\'imatges compatibles</string>
+    <string name="assistant_alpha_formats_fact">Formats d\'imatge que conserven la transparència</string>
+    <string name="assistant_preparing_model">Preparant el model…</string>
+    <string name="assistant_reading_image">Llegint la imatge…</string>
+    <string name="assistant_interpreting">Entenent la petició…</string>
+    <string name="assistant_finding_help">S\'està buscant documentació…</string>
+    <string name="assistant_finding_photos">S\'estan cercant fotos…</string>
+    <string name="assistant_file_size_already_fits">El fitxer té %1$s bytes i ja s\'ajusta al límit %2$s (%3$s bytes). La compressió és innecessària.</string>
+    <string name="assistant_clarification">Què vols canviar o saber? Afegeix una imatge, el nom d\'una eina o el context del terme.</string>
+    <string name="assistant_capabilities">- Explico el redimensionament, el retall, la conversió i la configuració.\n- Responc preguntes generals.\n- Busco fotos per contingut i filtres.</string>
+    <string name="assistant_capabilities_text">- L\'anàlisi d\'imatges requereix Vision.</string>
+    <string name="assistant_capabilities_vision">- Puc analitzar una foto adjunta.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Obre Configuració → Disseny i activa o desactiva «Fons opac del visor d\'imatges».</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Obriu una foto per comparar el fons negre sòlid amb el fons de l\'aplicació atenuat. Això només canvia el visor, no la imatge desada ni la seva transparència.</string>
 </resources>

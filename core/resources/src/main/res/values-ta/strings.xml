@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">பிடித்தவை தாவலைக் கடைசியாக நகர்த்துவதற்கு பிடித்ததைக் காட்டு என்பதை இயக்கவும் அல்லது அதை முதலில் வைக்க அதை முடக்கவும்.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">குழுவாக்கப்பட்ட பயன்முறையில், குழுவாக்கப்பட்ட கருவிகளில் பிடித்தவைகளை முதலில் இயக்கவும்; இல்லையெனில் நகர்த்துவதற்கு பிடித்தவை தாவல் இல்லை.</string>
     <string name="help_tip_setting_presets_description">மறுஅளவிடுதல் முன்னமைவுகள் ஒவ்வொரு படத்திற்கும் பரிமாணங்களை உள்ளிடுவதற்குப் பதிலாக மீண்டும் பயன்படுத்தக்கூடிய சதவீத அளவுகளை சேமிக்கின்றன.</string>
-    <string name="help_tip_setting_presets_step_1">கிடைக்கக்கூடிய மதிப்புகளைத் திருத்த, முன்னமைவுகளைத் திறக்கவும். 50 மதிப்பு என்பது அசல் அகலம் மற்றும் உயரத்தின் பாதி; 125 அவற்றை 125% ஆக பெரிதாக்குகிறது.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">கிடைக்கக்கூடிய மதிப்புகளைத் திருத்த, முன்னமைவுகளைத் திறக்கவும். 50 மதிப்பு என்பது அசல் அகலம் மற்றும் உயரத்தின் பாதி; 125 அவற்றை 125% ஆக பெரிதாக்குகிறது.</string>
     <string name="help_tip_setting_presets_step_2">இணக்கமான மறுஅளவிடுதல் கருவியில் முன்னமைவைத் தேர்ந்தெடுத்து, சேமிப்பதற்கு முன் அதன் விளைவாக வரும் பரிமாணங்களைச் சரிபார்க்கவும்.</string>
     <string name="help_tip_setting_default_quality_description">இயல்புநிலை தரமானது சுருக்கக் கட்டுப்பாடுகளைத் துவக்குகிறது மற்றும் தேர்ந்தெடுக்கப்பட்ட வெளியீட்டு வடிவமைப்பைப் பொறுத்தது.</string>
     <string name="help_tip_setting_default_quality_step_1">முதலில் இயல்புநிலை பட வடிவமைப்பைத் தேர்வுசெய்து, அந்த வடிவமைப்பிற்குக் காட்டப்படும் தரக் கட்டுப்பாடுகளைச் சரிசெய்யவும்.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">கண்டறிதல் மதிப்பீடுகளை ஆதாரமாகக் கருதாமல் ஒப்பிடவும்</string>
     <string name="help_tip_ai_detection_description">உருவாக்கப்பட்ட அல்லது உண்மையான படங்களின் பயிற்சி எடுத்துக்காட்டுகளை ஒரு படம் எவ்வளவு நெருக்கமாக ஒத்திருக்கிறது என்பதை AI கண்டுபிடிப்பாளர்கள் மதிப்பிடுகின்றனர். இதன் விளைவாக எழுத்தாளர் அல்லது திருத்தப்பட்ட வரலாற்றின் ஆதாரம் இல்லை. ஒரு உண்மையான புகைப்படத்தை AI என கொடியிடலாம், மேலும் உருவாக்கப்பட்ட படத்தை தவறவிடலாம்.</string>
     <string name="help_tip_ai_detection_step_1">AI கண்டறிதல் மாதிரியைத் தேர்வுசெய்து, படங்களைத் தேர்ந்தெடுத்து சரிபார்ப்பை இயக்கவும். திருத்தப்பட்ட படங்களுக்குப் பதிலாக இந்த பயன்முறை மதிப்பீடுகளை வழங்குகிறது.</string>
-    <string name="help_tip_ai_detection_step_2">தீர்ப்புடன் ஸ்கோரைப் படிக்கவும்: 70% மற்றும் அதற்கு மேல் AI, 30% மற்றும் அதற்குக் கீழே மனிதர்கள் இருக்க வாய்ப்புள்ளது, நடுத்தர வரம்பு நிச்சயமற்றது.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">தீர்ப்புடன் ஸ்கோரைப் படிக்கவும்: 70% மற்றும் அதற்கு மேல் AI, 30% மற்றும் அதற்குக் கீழே மனிதர்கள் இருக்க வாய்ப்புள்ளது, நடுத்தர வரம்பு நிச்சயமற்றது.</string>
     <string name="help_tip_ai_detection_step_3">ஒரு முடிவு முக்கியமானதாக இருக்கும் போது வேறு டிடெக்டரை ஒப்பிடவும். சுருக்கம், மறுஅளவாக்கம் மற்றும் திரைக்காட்சிகள் அதன் மதிப்பீட்டை மாற்றலாம்; முடிந்தால் அசல் கோப்பைப் பயன்படுத்தவும்.</string>
     <string name="help_tip_ai_detection_page_2_title">டிடெக்டர் மாதிரிகள் மற்றும் துல்லியம்</string>
     <string name="help_tip_ai_detection_page_2_description">பட்டியலில் Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics மற்றும் SMOGY ஆகியவை அடங்கும். அவர்கள் வெவ்வேறு பயிற்சி தரவைப் பயன்படுத்துகிறார்கள் மற்றும் உடன்படவில்லை.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">முடிவை முழு அளவில் சரிபார்த்து, தனி நகலை சேமிக்கவும். படிக்க முடியாத உரை அல்லது எண்களுக்கு ஒளிபுகா தூரிகையைப் பயன்படுத்தவும்.</string>
     <string name="opaque_image_viewer_background">ஒளிபுகா பட பார்வையாளர் பின்னணி</string>
     <string name="opaque_image_viewer_background_sub">புகைப்படங்களைப் பார்க்கும்போது திடமான கருப்பு பின்னணியைப் பயன்படுத்தவும்</string>
+    <string name="assistant_export_formats_fact">ஆதரிக்கப்படும் பட ஏற்றுமதி வடிவங்கள்</string>
+    <string name="assistant_alpha_formats_fact">வெளிப்படைத்தன்மையைப் பாதுகாக்கும் பட வடிவங்கள்</string>
+    <string name="assistant_preparing_model">மாதிரியைத் தயாரிக்கிறது…</string>
+    <string name="assistant_reading_image">படத்தைப் படிக்கிறது…</string>
+    <string name="assistant_interpreting">கோரிக்கையைப் புரிந்துகொள்வது…</string>
+    <string name="assistant_finding_help">ஆவணங்களைத் தேடுகிறது…</string>
+    <string name="assistant_finding_photos">புகைப்படங்களைத் தேடுகிறது…</string>
+    <string name="assistant_file_size_already_fits">கோப்பு %1$s பைட்டுகள் மற்றும் ஏற்கனவே %2$s வரம்புக்கு (%3$s பைட்டுகள்) பொருந்துகிறது. சுருக்கம் தேவையற்றது.</string>
+    <string name="assistant_clarification">நீங்கள் எதை மாற்ற விரும்புகிறீர்கள் அல்லது கண்டுபிடிக்க விரும்புகிறீர்கள்? தயவுசெய்து ஒரு படம், ஒரு கருவி பெயர் அல்லது வார்த்தையின் சூழலைச் சேர்க்கவும்.</string>
+    <string name="assistant_capabilities">- நான் மறுஅளவிடல், செதுக்குதல், மாற்றம் மற்றும் அமைப்புகளை விளக்குகிறேன்.\n- பொதுவான கேள்விகளுக்கு நான் பதிலளிக்கிறேன்.\n- உள்ளடக்கம் மற்றும் வடிப்பான்கள் மூலம் புகைப்படங்களைத் தேடுகிறேன்.</string>
+    <string name="assistant_capabilities_text">- படப் பகுப்பாய்விற்கு Vision தேவை.</string>
+    <string name="assistant_capabilities_vision">- இணைக்கப்பட்ட ஒரு புகைப்படத்தை என்னால் பகுப்பாய்வு செய்ய முடியும்.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">அமைப்புகள் → லேஅவுட்டைத் திறந்து, ஒளிபுகா பட பார்வையாளர் பின்னணியை மாற்றவும்.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">முழுவதும் கருப்பு நிறப் பின்னணியை, செயலியின் மங்கலான பின்னணியுடன் ஒப்பிட ஒரு புகைப்படத்தைத் திறக்கவும். இது படம் காட்டப்படும் பகுதியை மட்டுமே மாற்றும்; சேமித்த படத்தையோ அதன் வெளிப்படைத்தன்மையையோ மாற்றாது.</string>
 </resources>

@@ -3680,7 +3680,7 @@
     <string name="batch_rename_failed">কিছু ফাইলের নাম পরিবর্তন করা যায়নি</string>
     <string name="permission_not_granted">অনুমতি দেওয়া হয়নি</string>
     <string name="original_filename_pattern_description">এক্সটেনশন ছাড়াই মূল ফাইলের নাম ব্যবহার করে, আপনাকে উৎস সনাক্তকরণ অক্ষত রাখতে সাহায্য করে। এছাড়াও \\o{start:end} দিয়ে স্লাইসিং, \\o{t} দিয়ে প্রতিস্থাপন এবং \\o{s/old/new/} দিয়ে প্রতিস্থাপন সমর্থন করে।</string>
-    <string name="sequence_number_pattern_description">স্বয়ংক্রিয় বৃদ্ধি পাল্টা. কাস্টম ফর্ম্যাটিং সমর্থন করে: \\c{প্যাডিং} (যেমন \\c{3} -&gt; 001), \\c{start:step} বা \\c{start:step:padding}।</string>
+    <string name="sequence_number_pattern_description">স্বয়ংক্রিয় বৃদ্ধি পাল্টা. কাস্টম ফর্ম্যাটিং সমর্থন করে: \\c{padding} (যেমন \\c{3} -&gt; 001), \\c{start:step} বা \\c{start:step:padding}।</string>
     <string name="parent_folder_pattern_description">মূল ফাইলের নাম যেখানে মূল ফাইলটি ছিল।</string>
     <string name="file_size_pattern_description">আসল ফাইলের আকার। একক সমর্থন করে: \\z{b}, \\z{kb}, \\z{mb} অথবা মানুষের পঠনযোগ্য বিন্যাসের জন্য শুধুমাত্র \\z।</string>
     <string name="uuid_pattern_description">ফাইলের নামের স্বতন্ত্রতা নিশ্চিত করতে একটি র্যান্ডম ইউনিভার্সলি ইউনিক আইডেন্টিফায়ার (UUID) তৈরি করে।</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">পছন্দসই ট্যাবটিকে শেষের দিকে সরাতে পছন্দসইকে শেষ হিসাবে দেখান সক্ষম করুন, অথবা এটিকে প্রথমে রাখার জন্য এটি অক্ষম করুন৷</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">গোষ্ঠীবদ্ধ মোডে, প্রথমে গোষ্ঠীবদ্ধ সরঞ্জামগুলিতে পছন্দগুলি সক্ষম করুন; অন্যথায় সরানোর জন্য কোন প্রিয় ট্যাব নেই।</string>
     <string name="help_tip_setting_presets_description">রিসাইজ করুন প্রিসেট সঞ্চয় শতাংশ মাপ যা প্রতিটি ছবির জন্য মাত্রা প্রবেশের পরিবর্তে পুনরায় ব্যবহার করা যেতে পারে।</string>
-    <string name="help_tip_setting_presets_step_1">উপলব্ধ মান সম্পাদনা করতে প্রিসেট খুলুন। 50 এর মান মানে মূল প্রস্থ এবং উচ্চতার অর্ধেক; 125 তাদের 125% এ বড় করে।</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">উপলব্ধ মান সম্পাদনা করতে প্রিসেট খুলুন। 50 এর মান মানে মূল প্রস্থ এবং উচ্চতার অর্ধেক; 125 তাদের 125% এ বড় করে।</string>
     <string name="help_tip_setting_presets_step_2">একটি সামঞ্জস্যপূর্ণ রিসাইজ টুলে একটি প্রিসেট নির্বাচন করুন এবং সংরক্ষণ করার আগে ফলাফলের মাত্রা পরীক্ষা করুন।</string>
     <string name="help_tip_setting_default_quality_description">ডিফল্ট গুণমান কম্প্রেশন নিয়ন্ত্রণ শুরু করে এবং নির্বাচিত আউটপুট বিন্যাসের উপর নির্ভর করে।</string>
     <string name="help_tip_setting_default_quality_step_1">প্রথমে ডিফল্ট চিত্র বিন্যাস চয়ন করুন, তারপর সেই বিন্যাসের জন্য দেখানো মান নিয়ন্ত্রণগুলি সামঞ্জস্য করুন।</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">ডিটেক্টর অনুমানগুলিকে প্রমাণ হিসাবে বিবেচনা না করে তুলনা করুন</string>
     <string name="help_tip_ai_detection_description">এআই ডিটেক্টররা অনুমান করে যে একটি ছবি কতটা ঘনিষ্ঠভাবে তাদের তৈরি করা বা বাস্তব চিত্রের প্রশিক্ষণ উদাহরণের সাথে সাদৃশ্যপূর্ণ। ফলাফল লেখকত্ব বা সম্পাদনা ইতিহাস প্রমাণ নয়. একটি বাস্তব ফটোকে AI হিসাবে ফ্ল্যাগ করা যেতে পারে এবং একটি জেনারেট করা ছবি মিস করা যেতে পারে।</string>
     <string name="help_tip_ai_detection_step_1">একটি AI সনাক্তকরণ মডেল চয়ন করুন, ছবিগুলি নির্বাচন করুন এবং চেক চালান৷ এই মোডটি সম্পাদিত ফটোর পরিবর্তে অনুমান প্রদান করে।</string>
-    <string name="help_tip_ai_detection_step_2">রায়ের সাথে একত্রে স্কোর পড়ুন: 70% এবং তার উপরে সম্ভাব্য AI, 30% এবং নীচের সম্ভাব্য মানুষ, এবং মধ্যম পরিসীমা অনিশ্চিত।</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">রায়ের সাথে একত্রে স্কোর পড়ুন: 70% এবং তার উপরে সম্ভাব্য AI, 30% এবং নীচের সম্ভাব্য মানুষ, এবং মধ্যম পরিসীমা অনিশ্চিত।</string>
     <string name="help_tip_ai_detection_step_3">ফলাফল গুরুত্বপূর্ণ হলে একটি ভিন্ন ডিটেক্টরের তুলনা করুন। কম্প্রেশন, রিসাইজ এবং স্ক্রিনশট এর অনুমান পরিবর্তন করতে পারে; সম্ভব হলে মূল ফাইল ব্যবহার করুন।</string>
     <string name="help_tip_ai_detection_page_2_title">ডিটেক্টর মডেল এবং নির্ভুলতা</string>
     <string name="help_tip_ai_detection_page_2_description">ক্যাটালগের মধ্যে রয়েছে Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI বনাম Deepfake বনাম Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics এবং SMOGY। তারা বিভিন্ন প্রশিক্ষণ ডেটা ব্যবহার করে এবং অসম্মতি জানাতে পারে।</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">পূর্ণ আকারে ফলাফল পরিদর্শন করুন এবং একটি পৃথক অনুলিপি সংরক্ষণ করুন। পাঠ্য বা সংখ্যার জন্য একটি অস্বচ্ছ ব্রাশ ব্যবহার করুন যা অবশ্যই পাঠযোগ্য নয়।</string>
     <string name="opaque_image_viewer_background">অস্বচ্ছ ইমেজ ভিউয়ার ব্যাকগ্রাউন্ড</string>
     <string name="opaque_image_viewer_background_sub">ছবি দেখার সময় একটি কঠিন কালো ব্যাকগ্রাউন্ড ব্যবহার করুন</string>
+    <string name="assistant_export_formats_fact">সমর্থিত ইমেজ এক্সপোর্ট ফরম্যাট</string>
+    <string name="assistant_alpha_formats_fact">স্বচ্ছতা বজায় রাখে এমন ছবির ফরম্যাট</string>
+    <string name="assistant_preparing_model">মডেল প্রস্তুত করা হচ্ছে…</string>
+    <string name="assistant_reading_image">ছবিটি পড়া হচ্ছে…</string>
+    <string name="assistant_interpreting">অনুরোধ বোঝা যাচ্ছে…</string>
+    <string name="assistant_finding_help">ডকুমেন্টেশন খোঁজা হচ্ছে…</string>
+    <string name="assistant_finding_photos">ফটো সার্চ করা হচ্ছে…</string>
+    <string name="assistant_file_size_already_fits">ফাইলের আকার %1$s বাইট, যা ইতিমধ্যেই %2$s সীমার (%3$s বাইট) মধ্যে রয়েছে। কমপ্রেশন প্রয়োজন নেই।</string>
+    <string name="assistant_clarification">আপনি কি পরিবর্তন করতে বা জানতে চান? অনুগ্রহ করে একটি ছবি, একটি টুলের নাম বা শব্দের প্রসঙ্গ যোগ করুন।</string>
+    <string name="assistant_capabilities">- আমি আকার পরিবর্তন, ক্রপিং, রূপান্তর এবং সেটিংস ব্যাখ্যা করি৷\n- আমি সাধারণ প্রশ্নের উত্তর দিই৷\n- আমি বিষয়বস্তু এবং ফিল্টার দ্বারা ফটোগুলি অনুসন্ধান করি৷</string>
+    <string name="assistant_capabilities_text">- ছবি বিশ্লেষণের জন্য Vision প্রয়োজন।</string>
+    <string name="assistant_capabilities_vision">- আমি সংযুক্ত একটি ছবি বিশ্লেষণ করতে পারি।</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">সেটিংস → লেআউট খুলুন এবং অস্বচ্ছ ইমেজ ভিউয়ার ব্যাকগ্রাউন্ড টগল করুন।</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">সম্পূর্ণ কালো পটভূমির সঙ্গে অ্যাপের ম্লান পটভূমি তুলনা করতে একটি ছবি খুলুন। এটি শুধু ইমেজ ভিউয়ার বদলায়, সংরক্ষিত ছবি বা তার স্বচ্ছতা নয়।</string>
 </resources>

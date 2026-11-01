@@ -1491,7 +1491,7 @@
     <string name="jitter">抖動</string>
     <string name="domain_warp">領域扭曲</string>
     <string name="tesseract_options">Tesseract 選項</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">選項應照以下模式輸入： \"--{選項名稱} {值}\"</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">選項應照以下模式輸入： \"--{option_name} {value}\"</string>
     <string name="tesseract_options_sub">為 Tesseract 引擎應用一些輸入變數</string>
     <string name="black_hat">黑帽</string>
     <string name="crossfade">交叉淡入／出</string>
@@ -6349,7 +6349,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">啟用「將收藏夾顯示為最後」可將收藏夾標籤移至末尾，或停用它可將其放在最前面。</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">分組模式下，先啟用分組工具中的收藏夾；否則就沒有可移動的收藏夾標籤。</string>
     <string name="help_tip_setting_presets_description">調整大小預設儲存體可以重複使用的百分比大小，而不是輸入每個影像的尺寸。</string>
-    <string name="help_tip_setting_presets_step_1">開啟預設以編輯可用值。值為 50 表示原始寬度和高度的一半； 125 將它們放大到 125%。</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">開啟預設以編輯可用值。值為 50 表示原始寬度和高度的一半； 125 將它們放大到 125%。</string>
     <string name="help_tip_setting_presets_step_2">在相容的調整大小工具中選擇預設，並在儲存之前檢查產生的尺寸。</string>
     <string name="help_tip_setting_default_quality_description">預設品質會初始化壓縮控制並取決於所選的輸出格式。</string>
     <string name="help_tip_setting_default_quality_step_1">首先選擇預設影像格式，然後調整該格式顯示的品質控制。</string>
@@ -7220,7 +7220,7 @@
     <string name="help_tip_ai_detection_subtitle">比較探測器的估計值，而不將其視為證據</string>
     <string name="help_tip_ai_detection_description">人工智慧偵測器估計影像與生成的或真實影像的訓練範例的相似程度。結果不是作者身份或編輯歷史的證明。真實照片可能會被標記為人工智慧，而產生的圖像可能會被錯過。</string>
     <string name="help_tip_ai_detection_step_1">選擇人工智慧檢測模型，選擇影像並執行檢查。此模式傳回估計值而不是編輯後的照片。</string>
-    <string name="help_tip_ai_detection_step_2">將分數與結論一起閱讀：70% 以上為可能是 AI，30% 及以下為可能為人類，中間範圍為不確定。</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">將分數與結論一起閱讀：70% 以上為可能是 AI，30% 及以下為可能為人類，中間範圍為不確定。</string>
     <string name="help_tip_ai_detection_step_3">當結果很重要時，比較不同的偵測器。壓縮、調整大小和螢幕截圖可能會改變其估計值；盡可能使用原始檔案。</string>
     <string name="help_tip_ai_detection_page_2_title">探測器型號及精度</string>
     <string name="help_tip_ai_detection_page_2_description">目錄包括 Mirage SigLIP2、LPX SwinV2、ConvNeXT Tiny、ResNet-50、AI vs Deepfake vs Real、CapCheck、Deep Fake Detector V2、AI Image Detect Distilled、Community Forensics 和 SMOGY。他們使用不同的訓練數據並且可能存在分歧。</string>
@@ -7515,4 +7515,18 @@
     <string name="help_tip_partial_blur_step_3">以完整尺寸檢查結果並儲存單獨的副本。對於難以辨認的文字或數字，請使用不透明的畫筆。</string>
     <string name="opaque_image_viewer_background">不透明影像檢視器背景</string>
     <string name="opaque_image_viewer_background_sub">查看照片時使用純黑色背景</string>
+    <string name="assistant_export_formats_fact">支援的影像匯出格式</string>
+    <string name="assistant_alpha_formats_fact">可保留透明度的影像格式</string>
+    <string name="assistant_preparing_model">正在準備模型…</string>
+    <string name="assistant_reading_image">正在讀取影像…</string>
+    <string name="assistant_interpreting">正在理解請求…</string>
+    <string name="assistant_finding_help">正在查閱說明文件…</string>
+    <string name="assistant_finding_photos">正在搜尋照片…</string>
+    <string name="assistant_file_size_already_fits">檔案大小為 %1$s 位元組，已符合 %2$s 的限制（%3$s 位元組），不需要壓縮。</string>
+    <string name="assistant_clarification">您想修改或瞭解什麼？請附上圖片、工具名稱或該詞的使用情境。</string>
+    <string name="assistant_capabilities">- 我可以說明如何調整大小、裁切、轉換格式及變更設定。\n- 我可以回答一般問題。\n- 我可以依內容和篩選條件搜尋照片。</string>
+    <string name="assistant_capabilities_text">- 影像分析需要 Vision 模型。</string>
+    <string name="assistant_capabilities_vision">- 我可以分析一張附上的照片。</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">開啟設定 → 佈局並切換不透明影像檢視器背景。</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">開啟照片，比較純黑色背景與變暗的應用程式背景。此設定只影響檢視器，不會改變儲存的影像或其透明度。</string>
 </resources>

@@ -1412,7 +1412,7 @@
     <string name="tesseract_options">Параметры тэсеракта</string>
     <string name="tesseract_options_sub">Прымяніць некаторыя ўваходныя зменныя для рухавіка tesseract</string>
     <string name="custom_options">Карыстальніцкія параметры</string>
-    <string name="custom_params_info">Варыянты трэба ўводзіць па наступным шаблоне: \"--{назва_опцыі} {значэнне}\"</string>
+    <string name="custom_params_info">Варыянты трэба ўводзіць па наступным шаблоне: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Аўтаматычнае абрэзка</string>
     <string name="free_corners">Свабодныя куткі</string>
     <string name="free_corners_sub">Абрэзаць малюнак па шматкутніку, гэта таксама карэктуе ракурс</string>
@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Уключыце «Паказваць абранае як апошняе», каб перамясціць укладку абранага ў канец, або адключыце яго, каб размясціць яе першай.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">У згрупаваным рэжыме спачатку ўключыце Выбранае ў згрупаваных інструментах; у адваротным выпадку няма ўкладкі абранае для перамяшчэння.</string>
     <string name="help_tip_setting_presets_description">Зададзеныя налады змены памеру захоўваюць працэнтныя памеры, якія можна выкарыстоўваць паўторна замест уводу памераў для кожнай выявы.</string>
-    <string name="help_tip_setting_presets_step_1">Адкрыйце налады, каб змяніць даступныя значэнні. Значэнне 50 азначае палову зыходнай шырыні і вышыні; 125 павялічвае іх да 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Адкрыйце налады, каб змяніць даступныя значэнні. Значэнне 50 азначае палову зыходнай шырыні і вышыні; 125 павялічвае іх да 125%.</string>
     <string name="help_tip_setting_presets_step_2">Выберыце перадустаноўку ў сумяшчальным інструменце змены памеру і праверце атрыманыя памеры перад захаваннем.</string>
     <string name="help_tip_setting_default_quality_description">Якасць па змаўчанні ініцыялізуе элементы кіравання сцісканнем і залежыць ад абранага фармату вываду.</string>
     <string name="help_tip_setting_default_quality_step_1">Спачатку выберыце «Фармат выявы па змаўчанні», а потым наладзьце параметры якасці, паказаныя для гэтага фармату.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Параўнайце ацэнкі дэтэктара, не разглядаючы іх як доказ</string>
     <string name="help_tip_ai_detection_description">Дэтэктары штучнага інтэлекту ацэньваюць, наколькі выява нагадвае іх навучальныя прыклады згенераваных або рэальных выяваў. Вынік не з\'яўляецца доказам аўтарства або гісторыі рэдагавання. Рэальную фатаграфію можна пазначыць як штучны інтэлект, а згенераваную выяву можна прапусціць.</string>
     <string name="help_tip_ai_detection_step_1">Выберыце мадэль AI Detection, абярыце выявы і запусціце праверку. Гэты рэжым вяртае ацэнкі замест адрэдагаваных фатаграфій.</string>
-    <string name="help_tip_ai_detection_step_2">Прачытайце ацэнку разам з вердыктам: 70% і вышэй - Верагодна ІІ, 30% і ніжэй - Верагодна, чалавек, а сярэдні дыяпазон - Нявызначана.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Прачытайце ацэнку разам з вердыктам: 70% і вышэй - Верагодна ІІ, 30% і ніжэй - Верагодна, чалавек, а сярэдні дыяпазон - Нявызначана.</string>
     <string name="help_tip_ai_detection_step_3">Калі вынік мае значэнне, параўнайце іншы дэтэктар. Сціск, змяненне памеру і скрыншоты могуць змяніць яго ацэнку; выкарыстоўваць зыходны файл, калі гэта магчыма.</string>
     <string name="help_tip_ai_detection_page_2_title">Мадэлі дэтэктараў і іх дакладнасць</string>
     <string name="help_tip_ai_detection_page_2_description">Каталог уключае Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics і SMOGY. Яны выкарыстоўваюць розныя навучальныя дадзеныя і могуць не пагадзіцца.</string>
@@ -7518,4 +7518,18 @@
     <string name="help_tip_partial_blur_step_3">Праверце вынік у поўным памеры і захавайце асобную копію. Выкарыстоўвайце непразрысты пэндзаль для тэксту або лічбаў, якія павінны быць нечытэльнымі.</string>
     <string name="opaque_image_viewer_background">Непразрысты фон праграмы прагляду малюнкаў</string>
     <string name="opaque_image_viewer_background_sub">Выкарыстоўвайце суцэльны чорны фон пры праглядзе фатаграфій</string>
+    <string name="assistant_export_formats_fact">Фарматы экспарту малюнкаў, якія падтрымліваюцца</string>
+    <string name="assistant_alpha_formats_fact">Фарматы малюнкаў з захаваннем празрыстасці</string>
+    <string name="assistant_preparing_model">Падрыхтоўка мадэлі…</string>
+    <string name="assistant_reading_image">Чытанне выявы…</string>
+    <string name="assistant_interpreting">Разуменне запыту…</string>
+    <string name="assistant_finding_help">Пошук дакументацыі…</string>
+    <string name="assistant_finding_photos">Пошук фота…</string>
+    <string name="assistant_file_size_already_fits">Памер файла %1$s байт і ўжо адпавядае ліміту %2$s (%3$s байт). Кампрэсія непатрэбная.</string>
+    <string name="assistant_clarification">Што б вы хацелі змяніць або даведацца? Калі ласка, дадайце малюнак, назву інструмента або кантэкст тэрміна.</string>
+    <string name="assistant_capabilities">- Я тлумачу змяненне памеру, абрэзку, пераўтварэнне і налады.\n- Я адказваю на агульныя пытанні.\n- Я шукаю фатаграфіі па змесце і фільтрах.</string>
+    <string name="assistant_capabilities_text">- Аналіз выявы патрабуе Vision.</string>
+    <string name="assistant_capabilities_vision">— Магу прааналізаваць адно прымацаванае фота.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Адкрыйце «Настройкі» → «Макет» і пераключыце «Непразрысты фон праглядальніка малюнкаў».</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Адкрыйце фатаграфію, каб параўнаць суцэльны чорны фон з цьмяным фонам праграмы. Гэта змяняе толькі сродак прагляду, а не захаваны малюнак або яго празрыстасць.</string>
 </resources>

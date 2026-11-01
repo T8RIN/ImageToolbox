@@ -1421,7 +1421,7 @@
     <string name="tesseract_options">Tesseact parinktys</string>
     <string name="tesseract_options_sub">Taikykite kai kuriuos tesseract variklio įvesties kintamuosius</string>
     <string name="custom_options">Pasirinktinės parinktys</string>
-    <string name="custom_params_info">Parinktys turi būti įvedamos pagal šį šabloną: \"--{parinkties_pavadinimas} {value}\"</string>
+    <string name="custom_params_info">Parinktys turi būti įvedamos pagal šį šabloną: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automatinis apkarpymas</string>
     <string name="free_corners">Nemokami kampai</string>
     <string name="free_corners_sub">Apkarpykite vaizdą pagal daugiakampį, tai taip pat pataiso perspektyvą</string>
@@ -6092,7 +6092,7 @@
     <string name="help_tip_pdf_crop_pages_step_3">Išsaugokite kopiją ir patikrinkite, ar antraštės, poraštės ir puslapių numeriai lieka matomi. Nenaudokite apkarpymo, kad pašalintumėte konfidencialią informaciją.</string>
     <string name="help_tip_pdf_page_numbers_description">Numeravimo įrankis prideda matomas etiketes. Etiketės formatas palaiko {n} dabartiniam puslapiui ir {total} bendram puslapių skaičiui.</string>
     <string name="help_tip_pdf_page_numbers_step_1">Prieš pridėdami numerius, užbaikite puslapių sujungimą, ištrynimą ir pertvarkymą.</string>
-    <string name="help_tip_pdf_page_numbers_step_2">Redaguokite etiketės formatą, pvz., {n} / {viso}, ir pasirinkite vietą, teksto dydį ir spalvą.</string>
+    <string name="help_tip_pdf_page_numbers_step_2">Redaguokite etiketės formatą, pvz., {n} / {total}, ir pasirinkite vietą, teksto dydį ir spalvą.</string>
     <string name="help_tip_pdf_page_numbers_step_3">Patikrinkite skirtingų dydžių puslapių peržiūrą. Išsaugokite, kai skaičiai neapima dokumento turinio.</string>
     <string name="help_tip_pdf_text_watermark_description">PDF vandens ženklas įdeda pasikartojantį tekstą pasirinktuose puslapiuose. Jis identifikuoja kopiją, bet neriboja kopijavimo, spausdinimo ar redagavimo.</string>
     <string name="help_tip_pdf_text_watermark_step_1">Įveskite vandens ženklo tekstą ir pasirinkite puslapius, kuriuos reikia pažymėti.</string>
@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Įgalinkite Rodyti mėgstamiausią kaip paskutinį, jei norite perkelti parankinių skirtuką į pabaigą, arba išjunkite, kad jis būtų pirmas.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Grupavimo režimu pirmiausia įjunkite Parankinius sugrupuotuose įrankiuose; kitu atveju nėra mėgstamiausių skirtuko, kurį būtų galima perkelti.</string>
     <string name="help_tip_setting_presets_description">Išankstiniai dydžio keitimo nustatymai saugo procentinius dydžius, kuriuos galima naudoti pakartotinai, o ne įvesti kiekvieno vaizdo matmenis.</string>
-    <string name="help_tip_setting_presets_step_1">Atidarykite išankstinius nustatymus, kad galėtumėte redaguoti galimas reikšmes. 50 reikšmė reiškia pusę pradinio pločio ir aukščio; 125 padidina juos iki 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Atidarykite išankstinius nustatymus, kad galėtumėte redaguoti galimas reikšmes. 50 reikšmė reiškia pusę pradinio pločio ir aukščio; 125 padidina juos iki 125%.</string>
     <string name="help_tip_setting_presets_step_2">Pasirinkite išankstinį nustatymą suderinamame dydžio keitimo įrankyje ir prieš išsaugodami patikrinkite gautus matmenis.</string>
     <string name="help_tip_setting_default_quality_description">Numatytoji kokybė inicijuoja glaudinimo valdiklius ir priklauso nuo pasirinkto išvesties formato.</string>
     <string name="help_tip_setting_default_quality_step_1">Pirmiausia pasirinkite Numatytasis vaizdo formatas, tada sureguliuokite to formato kokybės valdiklius.</string>
@@ -7240,7 +7240,7 @@
     <string name="help_tip_ai_detection_subtitle">Palyginkite detektoriaus įvertinimus nelaikydami jų įrodymu</string>
     <string name="help_tip_ai_detection_description">AI detektoriai įvertina, kiek vaizdas panašus į jų sukurtų ar tikrų vaizdų mokymo pavyzdžius. Rezultatas nėra autorystės ar redagavimo istorijos įrodymas. Tikra nuotrauka gali būti pažymėta kaip AI, o sugeneruotas vaizdas gali būti praleistas.</string>
     <string name="help_tip_ai_detection_step_1">Pasirinkite AI aptikimo modelį, pasirinkite vaizdus ir paleiskite patikrinimą. Šis režimas pateikia įvertinimus, o ne redaguotas nuotraukas.</string>
-    <string name="help_tip_ai_detection_step_2">Perskaitykite rezultatą kartu su nuosprendžiu: 70% ir daugiau yra tikėtinas AI, 30% ir mažesnis yra Tikėtinas žmogus, o vidutinis diapazonas yra neapibrėžtas.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Perskaitykite rezultatą kartu su nuosprendžiu: 70% ir daugiau yra tikėtinas AI, 30% ir mažesnis yra Tikėtinas žmogus, o vidutinis diapazonas yra neapibrėžtas.</string>
     <string name="help_tip_ai_detection_step_3">Palyginkite kitą detektorių, kai svarbus rezultatas. Suspaudimas, dydžio keitimas ir ekrano kopijos gali pakeisti jo įvertinimą; jei įmanoma, naudokite originalų failą.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektorių modeliai ir tikslumas</string>
     <string name="help_tip_ai_detection_page_2_description">Kataloge yra Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics ir SMOGY. Jie naudoja skirtingus treniruočių duomenis ir gali nesutikti.</string>
@@ -7518,4 +7518,18 @@
     <string name="help_tip_partial_blur_step_3">Patikrinkite rezultatą visu dydžiu ir išsaugokite atskirą kopiją. Tekstui arba skaičiams, kurie turi būti neįskaitomi, naudokite nepermatomą teptuką.</string>
     <string name="opaque_image_viewer_background">Nepermatomas vaizdų peržiūros priemonės fonas</string>
     <string name="opaque_image_viewer_background_sub">Žiūrėdami nuotraukas naudokite vientisą juodą foną</string>
+    <string name="assistant_export_formats_fact">Palaikomi vaizdo eksporto formatai</string>
+    <string name="assistant_alpha_formats_fact">Vaizdo formatai, išsaugantys skaidrumą</string>
+    <string name="assistant_preparing_model">Ruošiamas modelis…</string>
+    <string name="assistant_reading_image">Skaitomas vaizdas…</string>
+    <string name="assistant_interpreting">Prašymo supratimas…</string>
+    <string name="assistant_finding_help">Ieškoma dokumentų…</string>
+    <string name="assistant_finding_photos">Ieškoma nuotraukų…</string>
+    <string name="assistant_file_size_already_fits">Failas yra %1$s baitų ir jau atitinka %2$s limitą (%3$s baitų). Suspaudimas nereikalingas.</string>
+    <string name="assistant_clarification">Ką norėtumėte pakeisti ar sužinoti? Pridėkite vaizdą, įrankio pavadinimą arba termino kontekstą.</string>
+    <string name="assistant_capabilities">- Aiškinu dydžio keitimą, apkarpymą, konvertavimą ir nustatymus.\n- Atsakau į bendruosius klausimus.\n- Ieškau nuotraukų pagal turinį ir filtrus.</string>
+    <string name="assistant_capabilities_text">- Vaizdo analizei reikia Vision.</string>
+    <string name="assistant_capabilities_vision">– Galiu paanalizuoti vieną prisegtą nuotrauką.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Atidarykite Nustatymai → Išdėstymas ir perjunkite Nepermatomas vaizdų peržiūros priemonės fonas.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Atidarykite nuotrauką, kad palygintumėte vientisą juodą foną su pritemdytu programos fonu. Taip pakeičiama tik peržiūros priemonė, o ne išsaugotas vaizdas ar jo skaidrumas.</string>
 </resources>

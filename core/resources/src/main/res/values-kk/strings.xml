@@ -1996,8 +1996,8 @@
     <string name="horizontal_border_thickness">Көлденең шекараның қалыңдығы</string>
     <string name="vertical_border_thickness">Тік жиек қалыңдығы</string>
     <plurals name="color_count">
-        <item quantity="one">%1$s түстер</item>
-        <item quantity="other">%1$s түстер</item>
+        <item quantity="one">%1$s түс</item>
+        <item quantity="other">%1$s түс</item>
     </plurals>
     <string name="current_model_not_chunkable">Ағымдағы үлгі бөлшектеуге қолдау көрсетпейді, кескін бастапқы өлшемдерде өңделеді, бұл жадты көп тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін.</string>
     <string name="chunking_disabled">Бөлшектеу өшірілген, кескін бастапқы өлшемдерде өңделеді, бұл жадты жоғары тұтынуды және төмен деңгейлі құрылғылармен ақауларды тудыруы мүмкін, бірақ қорытынды жасауда жақсы нәтижелер беруі мүмкін.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Таңдаулылар қойындысын соңына дейін жылжыту үшін Таңдаулыларды соңғы ретінде көрсетуді қосыңыз немесе бірінші орналастыру үшін оны өшіріңіз.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Топтастырылған режимде алдымен топтастырылған құралдарда Таңдаулыларды қосыңыз; әйтпесе жылжыту үшін таңдаулылар қойындысы жоқ.</string>
     <string name="help_tip_setting_presets_description">Өлшемді өзгерту алдын ала орнатулар әрбір кескін үшін өлшемдерді енгізудің орнына қайта пайдалануға болатын пайыздық өлшемдерді сақтайды.</string>
-    <string name="help_tip_setting_presets_step_1">Қол жетімді мәндерді өңдеу үшін Presets ашыңыз. 50 мәні бастапқы ені мен биіктігінің жартысын білдіреді; 125 оларды 125% ұлғайтады.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Қол жетімді мәндерді өңдеу үшін Presets ашыңыз. 50 мәні бастапқы ені мен биіктігінің жартысын білдіреді; 125 оларды 125% ұлғайтады.</string>
     <string name="help_tip_setting_presets_step_2">Үйлесімді өлшемді өзгерту құралында алдын ала орнатуды таңдап, сақтау алдында алынған өлшемдерді тексеріңіз.</string>
     <string name="help_tip_setting_default_quality_description">Әдепкі сапа қысуды басқару элементтерін инициализациялайды және таңдалған шығыс пішіміне байланысты.</string>
     <string name="help_tip_setting_default_quality_step_1">Алдымен Әдепкі кескін пішімі тармағын таңдаңыз, содан кейін сол пішім үшін көрсетілген сапа басқару элементтерін реттеңіз.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Детектордың бағалауларын дәлел ретінде қарастырмай салыстырыңыз</string>
     <string name="help_tip_ai_detection_description">AI детекторлары кескіннің жасалған немесе нақты кескіндердің оқу мысалдарына қаншалықты ұқсас екенін бағалайды. Нәтиже авторлық немесе өңдеу тарихын дәлелдемейді. Нақты фотосуретті AI ретінде белгілеуге болады және жасалған кескінді өткізіп жіберуге болады.</string>
     <string name="help_tip_ai_detection_step_1">AI анықтау үлгісін таңдаңыз, кескіндерді таңдаңыз және тексеруді орындаңыз. Бұл режим өңделген фотосуреттердің орнына бағалауларды қайтарады.</string>
-    <string name="help_tip_ai_detection_step_2">Ұпайды үкіммен бірге оқыңыз: 70% және одан жоғары - ықтимал AI, 30% және одан төмен - ықтимал адам, ал орташа диапазон - Белгісіз.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Ұпайды үкіммен бірге оқыңыз: 70% және одан жоғары - ықтимал AI, 30% және одан төмен - ықтимал адам, ал орташа диапазон - Белгісіз.</string>
     <string name="help_tip_ai_detection_step_3">Нәтиже маңызды болған кезде басқа детекторды салыстырыңыз. Қысу, өлшемін өзгерту және скриншоттар оның бағалауын өзгерте алады; мүмкіндігінше түпнұсқа файлды пайдаланыңыз.</string>
     <string name="help_tip_ai_detection_page_2_title">Детектор үлгілері және дәлдік</string>
     <string name="help_tip_ai_detection_page_2_description">Каталогқа Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics және SMOGY кіреді. Олар әртүрлі жаттығу деректерін пайдаланады және келіспей қалуы мүмкін.</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">Нәтижені толық көлемде тексеріп, бөлек көшірмені сақтаңыз. Мәтін немесе оқылмайтын сандар үшін мөлдір емес щетканы пайдаланыңыз.</string>
     <string name="opaque_image_viewer_background">Мөлдір емес кескін қарау құралының фоны</string>
     <string name="opaque_image_viewer_background_sub">Фотосуреттерді қараған кезде қатты қара фонды пайдаланыңыз</string>
+    <string name="assistant_export_formats_fact">Қолдау көрсетілетін кескінді экспорттау пішімдері</string>
+    <string name="assistant_alpha_formats_fact">Мөлдірлікті сақтайтын кескін пішімдері</string>
+    <string name="assistant_preparing_model">Модель дайындалуда…</string>
+    <string name="assistant_reading_image">Суретті оқу…</string>
+    <string name="assistant_interpreting">Сұрау талдануда…</string>
+    <string name="assistant_finding_help">Құжаттар ізделуде…</string>
+    <string name="assistant_finding_photos">Фотосуреттер ізделуде…</string>
+    <string name="assistant_file_size_already_fits">Файл %1$s байт және %2$s шегіне (%3$s байт) сәйкес келеді. Қысу қажет емес.</string>
+    <string name="assistant_clarification">Нені өзгерткіңіз немесе білгіңіз келеді? Кескінді, құрал атауын немесе термин контекстін қосыңыз.</string>
+    <string name="assistant_capabilities">- Өлшемді өзгерту, қию, түрлендіру және параметрлерді түсіндіремін.\n- Мен жалпы сұрақтарға жауап беремін.\n- Мен фотосуреттерді мазмұны мен сүзгілері бойынша іздеймін.</string>
+    <string name="assistant_capabilities_text">- Кескінді талдау үшін Vision қажет.</string>
+    <string name="assistant_capabilities_vision">- Мен қоса берілген бір фотосуретті талдай аламын.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Параметрлер → Орналасу бөлімін ашып, «Мөлдір емес кескін қарау құралының фоны» параметрін қосыңыз немесе өшіріңіз.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Тұтас қара фонды күңгірттелген қолданба фонымен салыстыру үшін фотосуретті ашыңыз. Бұл сақталған кескінді немесе оның мөлдірлігін емес, тек қарау құралын өзгертеді.</string>
 </resources>

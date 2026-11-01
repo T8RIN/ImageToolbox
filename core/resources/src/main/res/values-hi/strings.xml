@@ -3285,7 +3285,7 @@
     <string name="scoop_shapes_sub">अंदर की ओर गोल कोने खुदे हुए</string>
     <string name="notch_shapes_sub">डबल कट के साथ स्टेप्ड कोने</string>
     <string name="watermark_filename_placeholder">प्लेसहोल्डर</string>
-    <string name="watermark_filename_placeholder_sub">बिना एक्सटेंशन के मूल फ़ाइल नाम सम्मिलित करने के लिए {फ़ाइल नाम} का उपयोग करें</string>
+    <string name="watermark_filename_placeholder_sub">बिना एक्सटेंशन के मूल फ़ाइल नाम सम्मिलित करने के लिए {filename} का उपयोग करें</string>
     <string name="flare">चमक</string>
     <string name="base_amount">आधार राशि</string>
     <string name="ring_amount">अंगूठी राशि</string>
@@ -6088,9 +6088,9 @@
     <string name="help_tip_pdf_crop_pages_step_1">पूर्वावलोकन में क्षैतिज और ऊर्ध्वाधर श्रेणियों को काटने और समायोजित करने के लिए पृष्ठों का चयन करें।</string>
     <string name="help_tip_pdf_crop_pages_step_2">किसी समूह में एक आयत लागू करने से पहले विभिन्न लेआउट वाले पृष्ठों का निरीक्षण करें। समान मार्जिन दोबारा आने पर फसल प्रीसेट सहेजें।</string>
     <string name="help_tip_pdf_crop_pages_step_3">एक प्रति सहेजें और जांचें कि शीर्ष लेख, पाद लेख और पृष्ठ संख्याएँ दृश्यमान रहें। गोपनीय जानकारी को संशोधित करने के लिए क्रॉपिंग का उपयोग न करें।</string>
-    <string name="help_tip_pdf_page_numbers_description">नंबरिंग टूल दृश्यमान लेबल जोड़ता है। लेबल प्रारूप वर्तमान पृष्ठ के लिए {n} और पृष्ठों की कुल संख्या के लिए {कुल} का समर्थन करता है।</string>
+    <string name="help_tip_pdf_page_numbers_description">नंबरिंग टूल दृश्यमान लेबल जोड़ता है। लेबल प्रारूप वर्तमान पृष्ठ के लिए {n} और पृष्ठों की कुल संख्या के लिए {total} का समर्थन करता है।</string>
     <string name="help_tip_pdf_page_numbers_step_1">संख्याएँ जोड़ने से पहले पृष्ठों को मर्ज करना, हटाना और पुनर्व्यवस्थित करना समाप्त करें।</string>
-    <string name="help_tip_pdf_page_numbers_step_2">लेबल प्रारूप संपादित करें, उदाहरण के लिए {n} / {कुल}, और स्थिति, पाठ आकार और रंग चुनें।</string>
+    <string name="help_tip_pdf_page_numbers_step_2">लेबल प्रारूप संपादित करें, उदाहरण के लिए {n} / {total}, और स्थिति, पाठ आकार और रंग चुनें।</string>
     <string name="help_tip_pdf_page_numbers_step_3">विभिन्न आकारों वाले पृष्ठों पर पूर्वावलोकन का निरीक्षण करें। जब संख्याएँ दस्तावेज़ सामग्री को कवर न करें तो सहेजें।</string>
     <string name="help_tip_pdf_text_watermark_description">एक पीडीएफ वॉटरमार्क चयनित पृष्ठों पर बार-बार पाठ रखता है। यह एक प्रति की पहचान करता है लेकिन प्रतिलिपि बनाने, मुद्रण या संपादन को प्रतिबंधित नहीं करता है।</string>
     <string name="help_tip_pdf_text_watermark_step_1">वॉटरमार्क टेक्स्ट दर्ज करें और उन पृष्ठों को चुनें जिन पर निशान की आवश्यकता है।</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">पसंदीदा टैब को अंत तक ले जाने के लिए पसंदीदा को अंतिम के रूप में दिखाएँ सक्षम करें, या इसे पहले रखने के लिए इसे अक्षम करें।</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">समूहीकृत मोड में, पहले समूहीकृत टूल में पसंदीदा सक्षम करें; अन्यथा स्थानांतरित करने के लिए कोई पसंदीदा टैब नहीं है।</string>
     <string name="help_tip_setting_presets_description">आकार बदलें प्रीसेट प्रतिशत आकार संग्रहीत करें जिनका प्रत्येक छवि के लिए आयाम दर्ज करने के बजाय पुन: उपयोग किया जा सकता है।</string>
-    <string name="help_tip_setting_presets_step_1">उपलब्ध मानों को संपादित करने के लिए प्रीसेट खोलें। 50 के मान का अर्थ है मूल चौड़ाई और ऊँचाई का आधा; 125 उन्हें 125% तक बढ़ा देता है।</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">उपलब्ध मानों को संपादित करने के लिए प्रीसेट खोलें। 50 के मान का अर्थ है मूल चौड़ाई और ऊँचाई का आधा; 125 उन्हें 125% तक बढ़ा देता है।</string>
     <string name="help_tip_setting_presets_step_2">संगत आकार बदलने वाले टूल में एक प्रीसेट चुनें और सहेजने से पहले परिणामी आयामों की जांच करें।</string>
     <string name="help_tip_setting_default_quality_description">डिफ़ॉल्ट गुणवत्ता संपीड़न नियंत्रणों को आरंभ करती है और चयनित आउटपुट प्रारूप पर निर्भर करती है।</string>
     <string name="help_tip_setting_default_quality_step_1">पहले डिफ़ॉल्ट छवि प्रारूप चुनें, फिर उस प्रारूप के लिए दिखाए गए गुणवत्ता नियंत्रण समायोजित करें।</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">डिटेक्टर अनुमानों को प्रमाण माने बिना उनकी तुलना करें</string>
     <string name="help_tip_ai_detection_description">एआई डिटेक्टर अनुमान लगाते हैं कि कोई छवि उनके द्वारा उत्पन्न या वास्तविक छवियों के प्रशिक्षण उदाहरणों से कितनी मिलती-जुलती है। परिणाम लेखकत्व या संपादन इतिहास का प्रमाण नहीं है। एक वास्तविक तस्वीर को एआई के रूप में चिह्नित किया जा सकता है, और एक उत्पन्न छवि छूट सकती है।</string>
     <string name="help_tip_ai_detection_step_1">एआई डिटेक्शन मॉडल चुनें, छवियों का चयन करें और जांच चलाएं। यह मोड संपादित फ़ोटो के बजाय अनुमान लौटाता है।</string>
-    <string name="help_tip_ai_detection_step_2">फैसले के साथ स्कोर पढ़ें: 70% और उससे अधिक संभावित एआई है, 30% और उससे नीचे संभावित मानव है, और मध्य सीमा अनिश्चित है।</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">फैसले के साथ स्कोर पढ़ें: 70% और उससे अधिक संभावित एआई है, 30% और उससे नीचे संभावित मानव है, और मध्य सीमा अनिश्चित है।</string>
     <string name="help_tip_ai_detection_step_3">जब परिणाम मायने रखता है तो एक अलग डिटेक्टर की तुलना करें। संपीड़न, आकार बदलना और स्क्रीनशॉट इसका अनुमान बदल सकते हैं; जब संभव हो तो मूल फ़ाइल का उपयोग करें.</string>
     <string name="help_tip_ai_detection_page_2_title">डिटेक्टर मॉडल और परिशुद्धता</string>
     <string name="help_tip_ai_detection_page_2_description">कैटलॉग में मिराज सिगLIP2, LPX SwinV2, ConvNeXT टाइनी, ResNet-50, AI बनाम डीपफेक बनाम रियल, कैपचेक, डीप फेक डिटेक्टर V2, AI इमेज डिटेक्ट डिस्टिल्ड, कम्युनिटी फोरेंसिक और SMOGY शामिल हैं। वे अलग-अलग प्रशिक्षण डेटा का उपयोग करते हैं और असहमत हो सकते हैं।</string>
@@ -7516,4 +7516,18 @@
     <string name="help_tip_partial_blur_step_3">परिणाम का पूर्ण आकार में निरीक्षण करें और एक अलग प्रति सहेजें। ऐसे पाठ या संख्याओं के लिए एक अपारदर्शी ब्रश का उपयोग करें जो अपठनीय हों।</string>
     <string name="opaque_image_viewer_background">अपारदर्शी छवि दर्शक पृष्ठभूमि</string>
     <string name="opaque_image_viewer_background_sub">फ़ोटो देखते समय ठोस काली पृष्ठभूमि का उपयोग करें</string>
+    <string name="assistant_export_formats_fact">समर्थित छवि निर्यात प्रारूप</string>
+    <string name="assistant_alpha_formats_fact">पारदर्शिता बनाए रखने वाले छवि प्रारूप</string>
+    <string name="assistant_preparing_model">मॉडल तैयार किया जा रहा है…</string>
+    <string name="assistant_reading_image">छवि पढ़ रहा हूँ…</string>
+    <string name="assistant_interpreting">अनुरोध को समझना…</string>
+    <string name="assistant_finding_help">दस्तावेज़ देख रहे हैं…</string>
+    <string name="assistant_finding_photos">फ़ोटो खोज रहे हैं…</string>
+    <string name="assistant_file_size_already_fits">फ़ाइल %1$s बाइट्स है और पहले से ही %2$s सीमा (%3$s बाइट्स) में फिट बैठती है। संपीड़न अनावश्यक है.</string>
+    <string name="assistant_clarification">आप क्या बदलना या जानना चाहेंगे? कृपया एक छवि, एक टूल नाम या शब्द का संदर्भ जोड़ें।</string>
+    <string name="assistant_capabilities">- मैं आकार बदलना, काटना, रूपांतरण और सेटिंग्स समझाता हूं।\n- मैं सामान्य प्रश्नों का उत्तर देता हूं।\n- मैं सामग्री और फिल्टर के आधार पर तस्वीरें खोजता हूं।</string>
+    <string name="assistant_capabilities_text">- छवि विश्लेषण के लिए Vision आवश्यक है।</string>
+    <string name="assistant_capabilities_vision">- मैं एक संलग्न फोटो का विश्लेषण कर सकता हूं।</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">सेटिंग्स → लेआउट खोलें और अपारदर्शी छवि दर्शक पृष्ठभूमि को टॉगल करें।</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">एक फ़ोटो खोलकर पूरी तरह काली पृष्ठभूमि की तुलना ऐप की मंद पृष्ठभूमि से करें। इससे केवल इमेज व्यूअर बदलता है, सहेजी गई छवि या उसकी पारदर्शिता नहीं।</string>
 </resources>

@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Увімкніть параметр «Показувати улюблене останнім», щоб перемістити вкладку «Вибране» в кінець, або вимкніть його, щоб розмістити її першою.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">У згрупованому режимі спочатку ввімкніть «Вибране» в згрупованих інструментах; інакше немає вкладки вибраного для переміщення.</string>
     <string name="help_tip_setting_presets_description">Попередні налаштування зміни розміру зберігають розміри у відсотках, які можна повторно використовувати замість введення розмірів для кожного зображення.</string>
-    <string name="help_tip_setting_presets_step_1">Відкрийте Presets, щоб редагувати доступні значення. Значення 50 означає половину вихідної ширини та висоти; 125 збільшує їх до 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Відкрийте Presets, щоб редагувати доступні значення. Значення 50 означає половину вихідної ширини та висоти; 125 збільшує їх до 125%.</string>
     <string name="help_tip_setting_presets_step_2">Виберіть стиль у сумісному інструменті зміни розміру та перевірте отримані розміри перед збереженням.</string>
     <string name="help_tip_setting_default_quality_description">Якість за замовчуванням ініціалізує елементи керування стисненням і залежить від вибраного вихідного формату.</string>
     <string name="help_tip_setting_default_quality_step_1">Спочатку виберіть «Формат зображення за замовчуванням», а потім налаштуйте параметри якості, показані для цього формату.</string>
@@ -7240,7 +7240,7 @@
     <string name="help_tip_ai_detection_subtitle">Порівняйте оцінки детектора, не розглядаючи їх як доказ</string>
     <string name="help_tip_ai_detection_description">ШІ-детектори оцінюють, наскільки зображення схоже на їхні навчальні приклади згенерованих або реальних зображень. Результат не є доказом авторства чи історії редагування. Справжню фотографію можна позначити як AI, а створене зображення можна пропустити.</string>
     <string name="help_tip_ai_detection_step_1">Виберіть модель AI Detection, виберіть зображення та запустіть перевірку. Цей режим повертає оцінки замість відредагованих фотографій.</string>
-    <string name="help_tip_ai_detection_step_2">Прочитайте оцінку разом із вердиктом: 70% і вище — це ймовірно штучний інтелект, 30% і нижче — це ймовірно людина, а середній діапазон — це невизначено.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Прочитайте оцінку разом із вердиктом: 70% і вище — це ймовірно штучний інтелект, 30% і нижче — це ймовірно людина, а середній діапазон — це невизначено.</string>
     <string name="help_tip_ai_detection_step_3">Порівняйте інший детектор, коли результат має значення. Стиснення, зміна розміру та знімки екрана можуть змінити його оцінку; використовуйте оригінальний файл, коли це можливо.</string>
     <string name="help_tip_ai_detection_page_2_title">Моделі та точність детекторів</string>
     <string name="help_tip_ai_detection_page_2_description">Каталог містить Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics і SMOGY. Вони використовують різні навчальні дані і можуть не погоджуватися.</string>
@@ -7518,4 +7518,18 @@
     <string name="help_tip_partial_blur_step_3">Перегляньте результат у повному розмірі та збережіть окрему копію. Використовуйте непрозорий пензель для тексту або чисел, які повинні бути нечитабельними.</string>
     <string name="opaque_image_viewer_background">Непрозорий фон переглядача зображень</string>
     <string name="opaque_image_viewer_background_sub">Використовуйте однотонний чорний фон під час перегляду фотографій</string>
+    <string name="assistant_export_formats_fact">Підтримувані формати експорту зображень</string>
+    <string name="assistant_alpha_formats_fact">Формати зображень із збереженням прозорості</string>
+    <string name="assistant_preparing_model">Підготовка моделі…</string>
+    <string name="assistant_reading_image">Читання зображення…</string>
+    <string name="assistant_interpreting">Розуміння запиту…</string>
+    <string name="assistant_finding_help">Пошук документації…</string>
+    <string name="assistant_finding_photos">Пошук фотографій…</string>
+    <string name="assistant_file_size_already_fits">Файл має розмір %1$s байт і вже відповідає обмеженню %2$s (%3$s байт). Компресія непотрібна.</string>
+    <string name="assistant_clarification">Що б ви хотіли змінити чи дізнатися? Будь ласка, додайте зображення, назву інструмента або контекст терміна.</string>
+    <string name="assistant_capabilities">- Я пояснюю зміну розміру, обрізання, конвертацію та налаштування.\n- Я відповідаю на загальні запитання.\n- Я шукаю фотографії за вмістом і фільтрами.</string>
+    <string name="assistant_capabilities_text">- Аналіз зображення потребує Vision.</string>
+    <string name="assistant_capabilities_vision">- Я можу проаналізувати одну прикріплену фотографію.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Відкрийте «Параметри» → «Макет» і перемкніть «Непрозорий фон переглядача зображень».</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Відкрийте фотографію, щоб порівняти суцільний чорний фон із затемненим фоном програми. Це змінює лише засіб перегляду, а не збережене зображення чи його прозорість.</string>
 </resources>

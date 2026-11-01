@@ -1412,7 +1412,7 @@
     <string name="tesseract_options">Možnosti Tesseractu</string>
     <string name="tesseract_options_sub">Použijte některé vstupní proměnné pro engine tesseract</string>
     <string name="custom_options">Vlastní možnosti</string>
-    <string name="custom_params_info">Možnosti je třeba zadat podle tohoto vzoru: \"--{název_možnosti} {hodnota} \"</string>
+    <string name="custom_params_info">Možnosti je třeba zadat podle tohoto vzoru: \"--{option_name} {value} \"</string>
     <string name="auto_crop">Automatické oříznutí</string>
     <string name="free_corners">Volné rohy</string>
     <string name="free_corners_sub">Oříznout obrázek podle mnohoúhelníku, to také opraví perspektivu</string>
@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Chcete-li kartu oblíbených přesunout na konec, povolte možnost Zobrazit oblíbené jako poslední nebo ji deaktivujte, chcete-li ji umístit jako první.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Ve skupinovém režimu nejprve povolte Oblíbené ve seskupených nástrojích; jinak zde není žádná záložka oblíbených k přesunutí.</string>
     <string name="help_tip_setting_presets_description">Předvolby změny velikosti ukládají procentuální velikosti, které lze znovu použít místo zadávání rozměrů pro každý obrázek.</string>
-    <string name="help_tip_setting_presets_step_1">Otevřete Předvolby a upravte dostupné hodnoty. Hodnota 50 znamená polovinu původní šířky a výšky; 125 je zvětší na 125 %.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Otevřete Předvolby a upravte dostupné hodnoty. Hodnota 50 znamená polovinu původní šířky a výšky; 125 je zvětší na 125 %.</string>
     <string name="help_tip_setting_presets_step_2">Vyberte přednastavení v kompatibilním nástroji pro změnu velikosti a před uložením zkontrolujte výsledné rozměry.</string>
     <string name="help_tip_setting_default_quality_description">Výchozí kvalita inicializuje ovládací prvky komprese a závisí na zvoleném výstupním formátu.</string>
     <string name="help_tip_setting_default_quality_step_1">Nejprve vyberte Výchozí formát obrázku a poté upravte ovládací prvky kvality zobrazené pro tento formát.</string>
@@ -7226,7 +7226,7 @@
     <string name="help_tip_ai_detection_title">Zkontrolujte, zda může být obrázek generován AI</string>
     <string name="help_tip_ai_detection_description">AI detectors estimate how closely an image resembles their training examples of generated or real images. Výsledek není důkazem o autorství nebo historii úprav. A real photo can be flagged as AI, and a generated image can be missed.</string>
     <string name="help_tip_ai_detection_step_1">Vyberte model detekce AI, vyberte obrázky a spusťte kontrolu. Tento režim vrací odhady namísto upravených fotografií.</string>
-    <string name="help_tip_ai_detection_step_2">Přečtěte si skóre spolu s verdiktem: 70 % a více je Pravděpodobná umělá inteligence, 30 % a méně je Pravděpodobná lidská a střední rozsah je Nejistý.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Přečtěte si skóre spolu s verdiktem: 70 % a více je Pravděpodobná umělá inteligence, 30 % a méně je Pravděpodobná lidská a střední rozsah je Nejistý.</string>
     <string name="help_tip_ai_detection_step_3">Když na výsledku záleží, porovnejte jiný detektor. Komprese, změna velikosti a snímky obrazovky mohou změnit její odhad; pokud je to možné, použijte původní soubor.</string>
     <string name="help_tip_ai_detection_page_2_title">Modely a přesnost detektorů</string>
     <string name="help_tip_ai_detection_page_2_description">Katalog obsahuje Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Destilled, Community Forensics a SMOGY. Používají různá tréninková data a mohou nesouhlasit.</string>
@@ -7518,4 +7518,18 @@
     <string name="help_tip_partial_blur_step_3">Zkontrolujte výsledek v plné velikosti a uložte samostatnou kopii. Na text nebo čísla, které musí být nečitelné, použijte neprůhledný štětec.</string>
     <string name="opaque_image_viewer_background">Neprůhledné pozadí prohlížeče obrázků</string>
     <string name="opaque_image_viewer_background_sub">Při prohlížení fotografií použijte jednolité černé pozadí</string>
+    <string name="assistant_export_formats_fact">Podporované formáty exportu obrázků</string>
+    <string name="assistant_alpha_formats_fact">Formáty obrázků zachovávající průhlednost</string>
+    <string name="assistant_preparing_model">Příprava modelu…</string>
+    <string name="assistant_reading_image">Čtení obrázku…</string>
+    <string name="assistant_interpreting">Pochopení žádosti…</string>
+    <string name="assistant_finding_help">Vyhledávání dokumentace…</string>
+    <string name="assistant_finding_photos">Vyhledávání fotek…</string>
+    <string name="assistant_file_size_already_fits">Soubor má %1$s bajtů a již vyhovuje limitu %2$s (%3$s bajtů). Komprese je zbytečná.</string>
+    <string name="assistant_clarification">Co byste chtěli změnit nebo zjistit? Přidejte obrázek, název nástroje nebo kontext výrazu.</string>
+    <string name="assistant_capabilities">- Vysvětlím změnu velikosti, oříznutí, konverzi a nastavení.\n- Odpovídám na obecné otázky.\n- Vyhledávám fotografie podle obsahu a filtrů.</string>
+    <string name="assistant_capabilities_text">- Analýza obrazu vyžaduje Vision.</string>
+    <string name="assistant_capabilities_vision">- Mohu analyzovat jednu přiloženou fotografii.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Otevřete Nastavení → Rozvržení a přepněte volbu „Neprůhledné pozadí prohlížeče obrázků“.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Otevřete fotku a porovnejte plné černé pozadí se ztlumeným pozadím aplikace. Tím se změní pouze prohlížeč, nikoli uložený obrázek nebo jeho průhlednost.</string>
 </resources>
