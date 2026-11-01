@@ -589,7 +589,7 @@ class AssistantModels : NeuralTool() {
         } finally {
             makeLog(
                 tag = "AssistantInference",
-                data = "outputTokens=$generated thinkingTokens=$thinkingTokens firstTokenMs=$firstTokenMs decodeMs=${(System.nanoTime() - started) / 1_000_000}"
+                data = "outputTokens=$generated maxOutputTokens=$maxOutputTokens thinkingTokens=$thinkingTokens firstTokenMs=$firstTokenMs decodeMs=${(System.nanoTime() - started) / 1_000_000}"
             )
         }
     }

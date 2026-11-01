@@ -301,7 +301,7 @@ internal class AndroidAssistantRepository @Inject constructor(
         var retrieved = AssistantAnswer("")
         val output = StringBuilder()
         var lastUpdate = 0L
-        val answerTokens = 320
+        val answerTokens = AssistantModels.MAX_OUTPUT_TOKENS
         suspend fun generate(
             prompt: String,
             grammar: String? = null,
