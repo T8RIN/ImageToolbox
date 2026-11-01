@@ -31,6 +31,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
@@ -47,7 +48,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.BottomSheetScaffoldState
@@ -93,7 +93,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitBackHandler
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ExitWithoutSavingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
-import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredColumn
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -339,10 +339,8 @@ fun FullscreenEditOption(
                                 containerColor = EnhancedBottomSheetDefaults.containerColor,
                             ) { contentPadding ->
                                 if (showControls) {
-                                    Column(
-                                        modifier = Modifier
-                                            .enhancedVerticalScroll(rememberScrollState())
-                                            .padding(contentPadding),
+                                    ScrollAnchoredColumn(
+                                        contentPadding = contentPadding,
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         ProvideContainerDefaults(
@@ -406,21 +404,17 @@ fun FullscreenEditOption(
                                 }
 
                                 if (showControls) {
-                                    Column(
+                                    ScrollAnchoredColumn(
                                         modifier = Modifier
                                             .weight(0.7f)
-                                            .clearFocusOnTap()
-                                            .enhancedVerticalScroll(rememberScrollState())
-                                            .padding(bottom = if (haveFabButtons && useFloatingButtons) buttonsHeight else 0.dp)
-                                            .then(
-                                                if (!haveFabButtons) {
-                                                    Modifier.padding(
-                                                        end = WindowInsets.displayCutout
-                                                            .asPaddingValues()
-                                                            .calculateEndPadding(direction)
-                                                    )
-                                                } else Modifier
-                                            ),
+                                            .clearFocusOnTap(),
+                                        contentPadding = PaddingValues(
+                                            bottom = if (haveFabButtons && useFloatingButtons) buttonsHeight else 0.dp,
+                                            end = if (!haveFabButtons) {
+                                                WindowInsets.displayCutout.asPaddingValues()
+                                                    .calculateEndPadding(direction)
+                                            } else 0.dp
+                                        ),
                                         horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         ProvideContainerDefaults(

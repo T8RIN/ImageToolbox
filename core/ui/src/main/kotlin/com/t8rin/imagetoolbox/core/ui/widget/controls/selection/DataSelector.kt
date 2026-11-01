@@ -63,6 +63,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBadge
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedChip
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
@@ -101,10 +103,16 @@ fun <T : Any> DataSelector(
     chipHeight: Dp = 36.dp,
     enabled: Boolean = true
 ) {
+    val scrollAnchor = rememberScrollAnchor()
+    val updateValue: (T) -> Unit = {
+        scrollAnchor?.activate()
+        onValueChange(it)
+    }
     val realSpanCount = spanCount.coerceAtLeast(1)
 
     Column(
         modifier = modifier
+            .scrollAnchor(scrollAnchor)
             .then(
                 if (behaveAsContainer) {
                     Modifier.container(
@@ -119,7 +127,7 @@ fun <T : Any> DataSelector(
     ) {
         var expanded by rememberSaveable(initialExpanded, realSpanCount, canExpand) {
             mutableStateOf(
-                if (canExpand) initialExpanded && realSpanCount > 1 else true
+                !canExpand || initialExpanded && realSpanCount > 1
             )
         }
 
@@ -172,7 +180,10 @@ fun <T : Any> DataSelector(
                     EnhancedIconButton(
                         enabled = enabled,
                         containerColor = Color.Transparent,
-                        onClick = { expanded = !expanded }
+                        onClick = {
+                            scrollAnchor?.activate()
+                            expanded = !expanded
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
@@ -230,7 +241,7 @@ fun <T : Any> DataSelector(
                     ChipItem(
                         item = item,
                         value = value,
-                        onValueChange = onValueChange,
+                        onValueChange = updateValue,
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,
@@ -257,7 +268,7 @@ fun <T : Any> DataSelector(
                     ChipItem(
                         item = item,
                         value = value,
-                        onValueChange = onValueChange,
+                        onValueChange = updateValue,
                         itemContentText = itemContentText,
                         itemContentIcon = itemContentIcon,
                         itemEqualityDelegate = itemEqualityDelegate,

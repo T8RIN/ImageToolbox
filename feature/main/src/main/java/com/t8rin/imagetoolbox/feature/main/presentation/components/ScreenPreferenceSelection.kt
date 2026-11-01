@@ -120,6 +120,7 @@ internal fun RowScope.ScreenPreferenceSelection(
     onChangeShowScreenSearch: (Boolean) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
     onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderDragStateChange: (Boolean) -> Unit,
     showNavRail: Boolean,
     lastUsedTools: List<UiLastUsedTool>
 ) {
@@ -209,6 +210,7 @@ internal fun RowScope.ScreenPreferenceSelection(
                             contentPadding = contentPadding,
                             onToggleFavorite = onToggleFavorite,
                             onReorderFavorites = onReorderFavorites,
+                            onReorderDragStateChange = onReorderDragStateChange,
                             lastUsedTools = lastUsedTools
                         )
                     } else {
@@ -272,9 +274,11 @@ internal fun RowScope.ScreenPreferenceSelection(
                                                 .longPressDraggableHandle(
                                                     enabled = canReorderFavorites,
                                                     onDragStarted = {
+                                                        onReorderDragStateChange(true)
                                                         haptics.longPress()
                                                     },
                                                     onDragStopped = {
+                                                        onReorderDragStateChange(false)
                                                         onReorderFavorites(data.value)
                                                     }
                                                 )

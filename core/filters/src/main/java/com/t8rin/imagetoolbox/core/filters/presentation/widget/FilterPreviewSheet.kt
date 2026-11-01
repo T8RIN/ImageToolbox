@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -66,7 +65,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalSheetDragHand
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredLazyColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchoredItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -211,7 +212,7 @@ internal fun FilterPreviewSheet(
                     }
 
                     val internalHeight = rememberAvailableHeight(imageState = imageState)
-                    LazyColumn(
+                    ScrollAnchoredLazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .then(
@@ -229,7 +230,10 @@ internal fun FilterPreviewSheet(
                             imageBlock = imageBlock,
                             backgroundColor = backgroundColor
                         )
-                        item {
+                        scrollAnchoredItem(
+                            key = "controls",
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
                             previewSheetData?.takeIf { !isUnit }?.let { list ->
                                 list.forEachIndexed { index, filter ->
                                     FilterItem(

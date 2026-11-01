@@ -68,6 +68,7 @@ fun EnhancedSwitch(
     interactionSource: MutableInteractionSource? = null,
     colorUnderSwitch: Color = Color.Unspecified
 ) {
+    val scrollAnchor = rememberScrollAnchor()
     val switchColors = colors ?: SwitchDefaults.colors(
         disabledUncheckedThumbColor = MaterialTheme.colorScheme.onSurface
             .copy(alpha = 0.12f)
@@ -94,6 +95,7 @@ fun EnhancedSwitch(
             )
         val switchOnCheckedChange: ((Boolean) -> Unit)? = onCheckedChange?.let {
             { boolean ->
+                scrollAnchor?.activate()
                 onCheckedChange(boolean)
                 haptics.longPress()
                 focus.clearFocus()
@@ -112,6 +114,7 @@ fun EnhancedSwitch(
         }
 
         AnimatedContent(
+            modifier = Modifier.scrollAnchor(scrollAnchor),
             targetState = settingsState.switchType,
             transitionSpec = {
                 fadeIn() togetherWith fadeOut() using SizeTransform(false)

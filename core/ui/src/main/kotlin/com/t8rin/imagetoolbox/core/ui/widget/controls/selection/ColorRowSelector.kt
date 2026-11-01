@@ -66,6 +66,8 @@ import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRow
 import com.t8rin.imagetoolbox.core.ui.widget.color_picker.ColorSelectionRowDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -91,24 +93,27 @@ fun ColorRowSelector(
     additionalItem: (@Composable () -> Unit)? = null,
     isAdditionalItemSelected: Boolean = false
 ) {
+    val scrollAnchor = rememberScrollAnchor()
     val isCompactLayout = LocalSettingsState.current.isCompactSelectorsLayout
     val tooltipState = rememberTooltipState()
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = modifier.then(
-            if (isCompactLayout && icon != null) {
-                Modifier.pointerInput(Unit) {
-                    detectTapGestures(
-                        onLongPress = {
-                            scope.launch {
-                                tooltipState.show()
+        modifier = modifier
+            .scrollAnchor(scrollAnchor)
+            .then(
+                if (isCompactLayout && icon != null) {
+                    Modifier.pointerInput(Unit) {
+                        detectTapGestures(
+                            onLongPress = {
+                                scope.launch {
+                                    tooltipState.show()
+                                }
                             }
-                        }
-                    )
-                }
-            } else Modifier
-        ),
+                        )
+                    }
+                } else Modifier
+            ),
     ) {
         if (!isCompactLayout) {
             TitleItem(
@@ -236,9 +241,17 @@ fun ColorRowSelector(
                 ),
                 allowScroll = allowScroll,
                 value = value,
-                onValueChange = onValueChange,
+                onValueChange = {
+                    scrollAnchor?.activate()
+                    onValueChange(it)
+                },
                 modifier = Modifier.weight(1f),
-                onNullClick = onNullClick,
+                onNullClick = onNullClick?.let { action ->
+                    {
+                        scrollAnchor?.activate()
+                        action()
+                    }
+                },
                 allowCustom = allowCustom,
                 isColorSelectionVisible = isColorSelectionVisible,
                 additionalItem = additionalItem,

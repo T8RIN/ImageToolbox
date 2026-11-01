@@ -47,6 +47,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.Gradient
 import com.t8rin.imagetoolbox.core.ui.theme.blend
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -58,6 +60,7 @@ fun GradientColorItem(
     selected: Boolean,
     onClick: () -> Unit
 ) {
+    val scrollAnchor = rememberScrollAnchor()
     val itemSize = 42.dp
     val colors = remember(palette) { palette.colors.map { it.toColor() } }
     val interactionSource = remember { MutableInteractionSource() }
@@ -74,6 +77,7 @@ fun GradientColorItem(
 
     Box(
         modifier = Modifier
+            .scrollAnchor(scrollAnchor)
             .height(itemSize)
             .aspectRatio(
                 ratio = animateFloatAsState(
@@ -92,7 +96,10 @@ fun GradientColorItem(
             .hapticsClickable(
                 interactionSource = interactionSource,
                 indication = LocalIndication.current,
-                onClick = onClick
+                onClick = {
+                    scrollAnchor?.activate()
+                    onClick()
+                }
             ),
         contentAlignment = Alignment.Center
     ) {

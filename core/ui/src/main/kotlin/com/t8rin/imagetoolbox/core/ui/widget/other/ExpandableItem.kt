@@ -53,6 +53,8 @@ import com.t8rin.imagetoolbox.core.resources.icons.KeyboardArrowDown
 import com.t8rin.imagetoolbox.core.ui.utils.animation.FancyTransitionEasing
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -75,6 +77,7 @@ fun ExpandableItem(
     expansionIconContainerColor: Color = Color.Transparent,
     keepContentOnCollapse: Boolean = false
 ) {
+    val scrollAnchor = rememberScrollAnchor()
     val animatedShape = shapeByInteraction(
         shape = shape,
         pressedShape = pressedShape,
@@ -84,6 +87,7 @@ fun ExpandableItem(
     Column(
         modifier = Modifier
             .then(modifier)
+            .scrollAnchor(scrollAnchor)
             .container(
                 color = color,
                 resultPadding = 0.dp,
@@ -103,6 +107,7 @@ fun ExpandableItem(
                     indication = LocalIndication.current,
                     onLongClick = onLongClick
                 ) {
+                    scrollAnchor?.activate()
                     if (canExpand) {
                         expanded = !expanded
                     }
@@ -117,7 +122,10 @@ fun ExpandableItem(
             if (canExpand) {
                 EnhancedIconButton(
                     containerColor = expansionIconContainerColor,
-                    onClick = { expanded = !expanded }
+                    onClick = {
+                        scrollAnchor?.activate()
+                        expanded = !expanded
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.KeyboardArrowDown,

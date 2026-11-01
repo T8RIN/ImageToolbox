@@ -100,6 +100,7 @@ internal fun LauncherScreenSelector(
     contentPadding: PaddingValues,
     onToggleFavorite: (Screen) -> Unit,
     onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderDragStateChange: (Boolean) -> Unit,
     lastUsedTools: List<UiLastUsedTool>
 ) {
     val settingsState = LocalSettingsState.current
@@ -168,9 +169,11 @@ internal fun LauncherScreenSelector(
                         .longPressDraggableHandle(
                             enabled = canReorderFavorites,
                             onDragStarted = {
+                                onReorderDragStateChange(true)
                                 haptics.longPress()
                             },
                             onDragStopped = {
+                                onReorderDragStateChange(false)
                                 onReorderFavorites(data.value)
                             }
                         )

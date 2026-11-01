@@ -63,6 +63,7 @@ fun EnhancedChip(
     onLongClick: (() -> Unit)? = null,
     label: @Composable () -> Unit
 ) {
+    val scrollAnchor = if (onClick != null) rememberScrollAnchor() else null
     val color by animateColorAsState(
         if (selected) selectedColor
         else unselectedColor
@@ -89,6 +90,7 @@ fun EnhancedChip(
     ) {
         Box(
             modifier = modifier
+                .scrollAnchor(scrollAnchor)
                 .defaultMinSize(defaultMinSize, defaultMinSize)
                 .container(
                     color = color,
@@ -101,18 +103,22 @@ fun EnhancedChip(
                     autoShadowElevation = 0.5.dp
                 )
                 .then(
-                    onClick?.let {
+                    onClick?.let { action ->
+                        val anchoredOnClick = {
+                            scrollAnchor?.activate()
+                            action()
+                        }
                         if (onLongClick == null) {
                             Modifier.hapticsClickable(
                                 indication = LocalIndication.current,
                                 interactionSource = realInteractionSource,
-                                onClick = onClick
+                                onClick = anchoredOnClick
                             )
                         } else {
                             Modifier.hapticsCombinedClickable(
                                 indication = LocalIndication.current,
                                 interactionSource = realInteractionSource,
-                                onClick = onClick,
+                                onClick = anchoredOnClick,
                                 onLongClick = onLongClick
                             )
                         }

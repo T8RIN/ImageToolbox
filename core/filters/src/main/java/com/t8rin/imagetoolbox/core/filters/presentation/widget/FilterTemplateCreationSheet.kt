@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -86,7 +85,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefault
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredLazyColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchoredItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
@@ -231,7 +232,7 @@ fun FilterTemplateCreationSheet(
                 }
             }
             val internalHeight = rememberAvailableHeight(imageState = imageState)
-            LazyColumn(
+            ScrollAnchoredLazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
                 flingBehavior = enhancedFlingBehavior()
@@ -247,7 +248,10 @@ fun FilterTemplateCreationSheet(
                     backgroundColor = backgroundColor,
                     imageBlock = preview
                 )
-                item {
+                scrollAnchoredItem(
+                    key = "controls",
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     AnimatedContent(
                         targetState = component.filterList.isNotEmpty(),
                         transitionSpec = {
