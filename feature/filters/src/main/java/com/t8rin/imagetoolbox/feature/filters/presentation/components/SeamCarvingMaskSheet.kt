@@ -75,7 +75,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -84,7 +83,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawMode
 import com.t8rin.imagetoolbox.feature.draw.domain.DrawPathMode
 import com.t8rin.imagetoolbox.feature.draw.presentation.components.BitmapDrawer
@@ -117,7 +115,6 @@ internal fun SeamCarvingMaskSheet(
     var isEraserOn by rememberSaveable(visible) { mutableStateOf(false) }
     var drawPathMode by remember(visible) { mutableStateOf<DrawPathMode>(DrawPathMode.Free) }
     var showExitDialog by remember { mutableStateOf(false) }
-    var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 
     EnhancedModalBottomSheet(
         visible = visible,
@@ -179,7 +176,6 @@ internal fun SeamCarvingMaskSheet(
         val drawPreview: @Composable () -> Unit = {
             SeamCarvingMaskBitmapPreview(
                 bitmap = bitmap,
-                imageState = imageState,
                 paths = paths,
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,
@@ -200,7 +196,6 @@ internal fun SeamCarvingMaskSheet(
                     drawPreview()
                 }
             }
-            val internalHeight = rememberAvailableHeight(imageState = imageState)
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -208,11 +203,7 @@ internal fun SeamCarvingMaskSheet(
             ) {
                 imageStickyHeader(
                     visible = isPortrait,
-                    internalHeight = internalHeight,
-                    imageState = imageState,
-                    onStateChange = {
-                        imageState = it
-                    },
+                    isBlocked = settingsState.imageHeaderState.isBlocked,
                     isControlsVisibleIndefinitely = true,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,
@@ -261,7 +252,6 @@ internal fun SeamCarvingMaskSheet(
 @Composable
 private fun SeamCarvingMaskBitmapPreview(
     bitmap: Bitmap?,
-    imageState: ImageHeaderState,
     paths: List<UiPathPaint>,
     strokeWidth: Pt,
     brushSoftness: Pt,
@@ -270,7 +260,8 @@ private fun SeamCarvingMaskBitmapPreview(
     drawPathMode: DrawPathMode,
     onAddPath: (UiPathPaint) -> Unit
 ) {
-    val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
+    val zoomState =
+        rememberZoomState(maxScale = 30f, key = LocalSettingsState.current.imageHeaderState)
     val isPortrait by isPortraitOrientationAsState()
 
     AnimatedContent(

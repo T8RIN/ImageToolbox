@@ -55,6 +55,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -153,6 +154,9 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HIDDEN_FOR_SHARE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ICON_SHAPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_BLOCKED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_POSITION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_ZOOM_RESET_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_COLOR_SPACE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_MODE
@@ -831,6 +835,12 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun setConfettiHarmonizationLevel(level: Float) = edit {
         it[CONFETTI_HARMONIZATION_LEVEL] = level
+    }
+
+    override suspend fun setImageHeaderState(state: ImageHeaderState) = edit {
+        it[IMAGE_HEADER_POSITION] = state.position.coerceIn(0, 4)
+        it[IMAGE_HEADER_BLOCKED] = state.isBlocked
+        it[IMAGE_HEADER_ZOOM_RESET_ENABLED] = state.isZoomResetEnabled
     }
 
     override suspend fun toggleGeneratePreviews() = toggle(

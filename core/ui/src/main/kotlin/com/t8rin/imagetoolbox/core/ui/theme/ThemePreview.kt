@@ -54,6 +54,7 @@ import com.t8rin.imagetoolbox.core.domain.model.DomainAspectRatio
 import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.settings.domain.SimpleSettingsInteractor
+import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawDemosaicQuality
 import com.t8rin.imagetoolbox.core.settings.domain.model.RawHighlightRecovery
@@ -263,6 +264,7 @@ private fun FakeLoader(
 }
 
 private val FakeSettings = object : SimpleSettingsInteractor {
+    override suspend fun setImageHeaderState(state: ImageHeaderState) = Unit
     override suspend fun toggleRawUseEmbeddedPreview() = Unit
     override suspend fun toggleMagnifierEnabled() = Unit
     override suspend fun toggleCropOverlayDraggable() = Unit

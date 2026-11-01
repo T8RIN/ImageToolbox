@@ -38,10 +38,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,6 +54,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Done
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ImageUtils.safeAspectRatio
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -74,8 +73,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberImageState
 
 @Composable
 internal fun FilterPreviewSheet(
@@ -84,14 +81,11 @@ internal fun FilterPreviewSheet(
     onVisibleChange: (Boolean) -> Unit,
     previewBitmap: Bitmap?
 ) {
+    val isBlocked = LocalSettingsState.current.imageHeaderState.isBlocked
     val previewSheetData = component.previewData
     val shaderPresets by component.shaderPresets.collectAsStateWithLifecycle()
-    var imageState by rememberImageState()
     LaunchedEffect(previewSheetData) {
         if (previewBitmap != null && previewSheetData != null) {
-            if (previewSheetData.size == 1 && previewSheetData.firstOrNull()?.value is Unit) {
-                imageState = imageState.copy(position = 2)
-            }
             component.updatePreview(previewBitmap)
         }
     }
@@ -156,11 +150,6 @@ internal fun FilterPreviewSheet(
         sheetContent = {
             val backgroundColor = MaterialTheme.colorScheme.surfaceContainerLow
 
-            DisposableEffect(Unit) {
-                onDispose {
-                    imageState = imageState.copy(position = 2)
-                }
-            }
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -211,7 +200,6 @@ internal fun FilterPreviewSheet(
                         }
                     }
 
-                    val internalHeight = rememberAvailableHeight(imageState = imageState)
                     ScrollAnchoredLazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
@@ -224,9 +212,7 @@ internal fun FilterPreviewSheet(
                     ) {
                         imageStickyHeader(
                             visible = isPortrait,
-                            imageState = imageState,
-                            internalHeight = internalHeight,
-                            onStateChange = { imageState = it },
+                            isBlocked = isBlocked,
                             imageBlock = imageBlock,
                             backgroundColor = backgroundColor
                         )

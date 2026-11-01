@@ -74,6 +74,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Extension
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.LocalFilterPreviewModelProvider
@@ -88,7 +89,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredLazyColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchoredItem
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.SimplePicture
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
@@ -99,7 +99,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -114,6 +113,7 @@ fun FilterTemplateCreationSheet(
     initialTemplateFilter: TemplateFilter? = null,
     onSave: (TemplateFilter) -> Unit = {}
 ) {
+    val isBlocked = LocalSettingsState.current.imageHeaderState.isBlocked
     val previewModel = LocalFilterPreviewModelProvider.current.preview
 
     val isPortrait by isPortraitOrientationAsState()
@@ -179,8 +179,6 @@ fun FilterTemplateCreationSheet(
     ) {
         component.AttachLifecycle()
 
-        var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
-
         var selectedUri by rememberSaveable {
             mutableStateOf<Uri?>(null)
         }
@@ -231,7 +229,6 @@ fun FilterTemplateCreationSheet(
                     preview()
                 }
             }
-            val internalHeight = rememberAvailableHeight(imageState = imageState)
             ScrollAnchoredLazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -239,11 +236,7 @@ fun FilterTemplateCreationSheet(
             ) {
                 imageStickyHeader(
                     visible = isPortrait,
-                    internalHeight = internalHeight,
-                    imageState = imageState,
-                    onStateChange = {
-                        imageState = it
-                    },
+                    isBlocked = isBlocked,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,
                     imageBlock = preview

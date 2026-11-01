@@ -49,6 +49,8 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberEnhancedHapticFeedback
 import com.t8rin.imagetoolbox.core.ui.widget.other.ToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.sheets.SkippedImagesSheetHost
+import com.t8rin.imagetoolbox.core.ui.widget.utils.LocalFullHeight
+import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberFullHeight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -71,6 +73,7 @@ fun ImageToolboxCompositionLocals(
         )
     }
     val safeUriHandler = rememberSafeUriHandler()
+    val fullHeight = rememberFullHeight()
 
     val values = remember(
         settingsState,
@@ -80,7 +83,8 @@ fun ImageToolboxCompositionLocals(
         appHistoryRepository,
         filterPreviewModel,
         currentScreen,
-        safeUriHandler
+        safeUriHandler,
+        fullHeight
     ) {
         derivedStateOf {
             listOfNotNull(
@@ -91,7 +95,8 @@ fun ImageToolboxCompositionLocals(
                 LocalHapticFeedback provides customHapticFeedback,
                 LocalScreenSize provides screenSize,
                 LocalCurrentScreen provides currentScreen,
-                LocalUriHandler provides safeUriHandler
+                LocalUriHandler provides safeUriHandler,
+                LocalFullHeight provides fullHeight
             ).toTypedArray()
         }
     }

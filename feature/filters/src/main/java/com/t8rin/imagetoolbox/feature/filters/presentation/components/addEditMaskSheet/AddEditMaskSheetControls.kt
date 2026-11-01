@@ -63,6 +63,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Preview
 import com.t8rin.imagetoolbox.core.resources.icons.Redo
 import com.t8rin.imagetoolbox.core.resources.icons.Undo
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.EraseModeButton
@@ -70,7 +71,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.image.HistogramChart
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
@@ -89,7 +89,6 @@ import com.t8rin.imagetoolbox.feature.draw.presentation.components.LineWidthSele
 @Composable
 internal fun AddEditMaskSheetControls(
     component: AddMaskSheetComponent,
-    imageState: ImageHeaderState,
     strokeWidth: Pt,
     onStrokeWidthChange: (Pt) -> Unit,
     brushSoftness: Pt,
@@ -110,7 +109,7 @@ internal fun AddEditMaskSheetControls(
     Row(
         Modifier
             .then(
-                if (imageState.isBlocked && isPortrait) {
+                if (LocalSettingsState.current.imageHeaderState.isBlocked && isPortrait) {
                     Modifier.padding(
                         start = 16.dp,
                         end = 16.dp,

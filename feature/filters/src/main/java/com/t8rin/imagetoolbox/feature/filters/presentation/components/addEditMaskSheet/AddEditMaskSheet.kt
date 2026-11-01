@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,6 +43,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.t8rin.imagetoolbox.core.domain.model.pt
+import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.ArrowBack
 import com.t8rin.imagetoolbox.core.resources.icons.Texture
@@ -55,12 +55,10 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.drawHorizontalStroke
 import com.t8rin.imagetoolbox.core.ui.widget.saver.PtSaver
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
 import com.t8rin.imagetoolbox.feature.filters.presentation.components.UiFilterMask
 
 @Composable
@@ -149,7 +147,6 @@ fun AddEditMaskSheet(
         LaunchedEffect(Unit) {
             invalidations++
         }
-        var imageState by remember { mutableStateOf(ImageHeaderState(2)) }
 
         if (visible) {
             BackHandler(
@@ -161,7 +158,6 @@ fun AddEditMaskSheet(
         val drawPreview: @Composable () -> Unit = {
             AddMaskSheetBitmapPreview(
                 component = component,
-                imageState = imageState,
                 strokeWidth = strokeWidth,
                 brushSoftness = brushSoftness,
                 isEraserOn = isEraserOn,
@@ -175,7 +171,6 @@ fun AddEditMaskSheet(
                     drawPreview()
                 }
             }
-            val internalHeight = rememberAvailableHeight(imageState = imageState)
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f),
@@ -183,11 +178,7 @@ fun AddEditMaskSheet(
             ) {
                 imageStickyHeader(
                     visible = isPortrait,
-                    internalHeight = internalHeight,
-                    imageState = imageState,
-                    onStateChange = {
-                        imageState = it
-                    },
+                    isBlocked = settingsState.imageHeaderState.isBlocked,
                     isControlsVisibleIndefinitely = true,
                     padding = 0.dp,
                     backgroundColor = backgroundColor,
@@ -196,7 +187,6 @@ fun AddEditMaskSheet(
                 item {
                     AddEditMaskSheetControls(
                         component = component,
-                        imageState = imageState,
                         strokeWidth = strokeWidth,
                         onStrokeWidthChange = { strokeWidth = it },
                         brushSoftness = brushSoftness,

@@ -86,8 +86,6 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.utils.isExpanded
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberImageState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -131,7 +129,7 @@ fun AdaptiveLayoutScreen(
     var buttonsHeight by remember { mutableStateOf(0.dp) }
     val settingsState = LocalSettingsState.current
 
-    var imageState by rememberImageState()
+    val imageState = settingsState.imageHeaderState
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -259,10 +257,6 @@ fun AdaptiveLayoutScreen(
                                 controls(listState)
                             }
                         } else {
-                            val internalHeight = rememberAvailableHeight(
-                                imageState = imageState,
-                                expanded = forceImagePreviewToMax
-                            )
                             val cutout =
                                 if (!placeImagePreview && addHorizontalCutoutPaddingIfNoPreview) {
                                     WindowInsets
@@ -306,9 +300,8 @@ fun AdaptiveLayoutScreen(
                                 } else {
                                     imageStickyHeader(
                                         visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
-                                        internalHeight = internalHeight,
-                                        imageState = imageState,
-                                        onStateChange = { imageState = it },
+                                        isBlocked = settingsState.imageHeaderState.isBlocked,
+                                        expanded = forceImagePreviewToMax,
                                         imageBlock = imagePreview,
                                         onGloballyPositioned = {
                                             if (!isScrolled) {

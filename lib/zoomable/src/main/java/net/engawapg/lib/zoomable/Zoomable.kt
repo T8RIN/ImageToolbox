@@ -392,6 +392,9 @@ private class ZoomableNode(
             zoomState.setLayoutSize(measuredSize)
             this.zoomState = zoomState
         }
+        if (this.snapBackEnabled != snapBackEnabled || this.enableOneFingerZoom != enableOneFingerZoom) {
+            pointerInputNode.resetPointerInputHandler()
+        }
         this.zoomEnabled = zoomEnabled
         this.enableOneFingerZoom = enableOneFingerZoom
         this.scrollGesturePropagation = scrollGesturePropagation
