@@ -25,8 +25,11 @@ data class MediaState(
     val isRefreshing: Boolean = false
 )
 
-fun MediaState.updateMedia(uri: String, transform: (Media) -> Media?): MediaState {
-    fun Media.updated() = if (this.uri == uri) transform(this) else this
+fun MediaState.updateMedia(uri: String, transform: (Media) -> Media?): MediaState =
+    updateMedia(setOf(uri), transform)
+
+fun MediaState.updateMedia(uris: Set<String>, transform: (Media) -> Media?): MediaState {
+    fun Media.updated() = if (uri in uris) transform(this) else this
 
     return copy(
         media = media.mapNotNull { it.updated() },

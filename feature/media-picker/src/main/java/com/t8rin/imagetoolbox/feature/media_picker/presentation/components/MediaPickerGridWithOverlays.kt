@@ -32,6 +32,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -82,7 +83,9 @@ import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.Close
 import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.Deselect
+import com.t8rin.imagetoolbox.core.resources.icons.Restore
 import com.t8rin.imagetoolbox.core.resources.icons.SearchOff
+import com.t8rin.imagetoolbox.core.resources.icons.SelectAll
 import com.t8rin.imagetoolbox.core.resources.icons.Verified
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.ui.utils.content_pickers.ImagePickerMode
@@ -101,6 +104,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
@@ -131,6 +135,7 @@ internal fun MediaPickerGridWithOverlays(
     val focusManager = LocalFocusManager.current
     var searchPanelHeight by remember { mutableStateOf(0.dp) }
     var controlsHeight by remember { mutableStateOf(0.dp) }
+    var selectionActionsHeight by remember { mutableStateOf(0.dp) }
 
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
@@ -169,6 +174,8 @@ internal fun MediaPickerGridWithOverlays(
     }
 
     val filteredMediaState by component.filteredMediaState.collectAsState()
+    val selectedUris = if (inTrash) selectedMedia.mapTo(hashSetOf()) { it.uri } else emptySet()
+    val canSelectAll = inTrash && filteredMediaState.media.any { it.uri !in selectedUris }
 
     Box(
         modifier = modifier.fillMaxSize()
@@ -179,25 +186,28 @@ internal fun MediaPickerGridWithOverlays(
             val isButtonVisible =
                 !inTrash && (!allowMultiple || selectedMedia.isNotEmpty()) && !isSearching
             MediaPickerGrid(
+                albumId = selectedAlbumIndex,
                 state = filteredMediaState,
-                isSelectionOfAll = selectedAlbumIndex == Album.ALL_ID,
+                isSelectionOfAll = selectedAlbumIndex == Album.ALL_ID || inTrash,
                 selectedMedia = selectedMedia,
-                allowMultiple = allowMultiple,
-                allowSelection = !inTrash,
+                allowMultiple = allowMultiple || inTrash,
                 isGalleryMode = isGalleryMode,
                 isButtonVisible = isButtonVisible,
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission,
                 onMediaAction = component::requestMediaAction.takeIf { component.areMediaActionsAvailable },
                 actionsEnabled = !component.isMediaActionRunning,
-                bottomContentPadding = (if (isSearching) searchPanelHeight else controlsHeight) + 32.dp
+                bottomContentPadding = maxOf(
+                    if (isSearching) searchPanelHeight else controlsHeight,
+                    if (selectedMedia.isNotEmpty()) selectionActionsHeight else 0.dp
+                ) + 32.dp
             )
             BoxAnimatedVisibility(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
                     .safeDrawingPadding(),
-                visible = isButtonVisible,
+                visible = isButtonVisible || (inTrash && selectedMedia.isNotEmpty()),
                 enter = slideInVertically { it * 2 },
                 exit = slideOutVertically { it * 2 }
             ) {
@@ -213,26 +223,47 @@ internal fun MediaPickerGridWithOverlays(
                     } else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Column(
-                    horizontalAlignment = Alignment.End
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier.onSizeChanged {
+                        selectionActionsHeight = with(density) { it.height.toDp() }
+                    }
                 ) {
                     AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
-                        EnhancedFloatingActionButton(
-                            type = EnhancedFloatingActionButtonType.Small,
-                            onClick = selectedMedia::clear,
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Outlined.Deselect,
-                                    contentDescription = stringResource(R.string.close)
-                                )
-                            },
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.padding(bottom = 8.dp)
-                        )
+                        ) {
+                            if (canSelectAll) EnhancedFloatingActionButton(
+                                type = EnhancedFloatingActionButtonType.Small,
+                                onClick = {
+                                    selectedMedia += filteredMediaState.media.filter { it.uri !in selectedUris }
+                                }.takeUnless { component.isMediaActionRunning },
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.SelectAll,
+                                        contentDescription = null
+                                    )
+                                }
+                            )
+                            EnhancedFloatingActionButton(
+                                type = EnhancedFloatingActionButtonType.Small,
+                                onClick = selectedMedia::clear.takeUnless { component.isMediaActionRunning },
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Outlined.Deselect,
+                                        contentDescription = stringResource(R.string.close)
+                                    )
+                                }
+                            )
+                        }
                     }
                     BadgedBox(
                         badge = {
-                            BoxAnimatedVisibility(selectedMedia.isNotEmpty() && allowMultiple) {
+                            BoxAnimatedVisibility(selectedMedia.isNotEmpty() && (allowMultiple || inTrash)) {
                                 EnhancedBadge(
                                     containerColor = MaterialTheme.colorScheme.primary
                                 ) {
@@ -254,7 +285,51 @@ internal fun MediaPickerGridWithOverlays(
                             }
                         }
                     ) {
-                        EnhancedFloatingActionButton(
+                        if (inTrash) {
+                            FlowRow(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.End),
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                EnhancedFloatingActionButton(
+                                    type = EnhancedFloatingActionButtonType.SecondaryHorizontal,
+                                    onClick = {
+                                        component.requestMediaActions(
+                                            MediaAction.Restore,
+                                            selectedMedia.toList()
+                                        )
+                                    }.takeUnless { component.isMediaActionRunning },
+                                    content = {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Restore,
+                                            contentDescription = null
+                                        )
+                                    }
+                                )
+                                EnhancedFloatingActionButton(
+                                    onClick = {
+                                        component.requestMediaActions(
+                                            MediaAction.Delete,
+                                            selectedMedia.toList()
+                                        )
+                                    }.takeUnless { component.isMediaActionRunning },
+                                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                                    content = {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Outlined.Delete,
+                                                contentDescription = null
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.delete))
+                                        }
+                                    }
+                                )
+                            }
+                        } else EnhancedFloatingActionButton(
                             content = {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -278,9 +353,9 @@ internal fun MediaPickerGridWithOverlays(
                         )
                     }
                 }
-                BackHandler(selectedMedia.isNotEmpty()) {
-                    selectedMedia.clear()
-                }
+            }
+            BackHandler(selectedMedia.isNotEmpty() && !component.isMediaActionRunning) {
+                selectedMedia.clear()
             }
         }
 
@@ -402,7 +477,8 @@ internal fun MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = isSearching || (!mediaState.isLoading && (!isHaveNoData || hasTrash)),
+            visible = (isSearching || (!mediaState.isLoading && (!isHaveNoData || hasTrash))) &&
+                    (!inTrash || selectedMedia.isEmpty()),
             modifier = Modifier.fillMaxSize(),
             enter = fadeIn(),
             exit = fadeOut()

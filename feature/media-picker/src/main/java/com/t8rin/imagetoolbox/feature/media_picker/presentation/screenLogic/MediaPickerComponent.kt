@@ -61,6 +61,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.currentCoroutineContext
@@ -490,11 +491,17 @@ class MediaPickerComponent @AssistedInject internal constructor(
     var mediaActionConfirmation by mutableStateOf<MediaActionRequest?>(null)
         private set
 
-    private var activeMediaAction: MediaActionRequest? = null
+    private var mediaPermissionResult: CompletableDeferred<Boolean>? = null
 
     fun requestMediaAction(action: MediaAction, media: Media) {
+        requestMediaActions(action, listOf(media))
+    }
+
+    fun requestMediaActions(action: MediaAction, media: List<Media>) {
         if (!areMediaActionsAvailable || isMediaActionRunning) return
-        val request = MediaActionRequest(action, media)
+        val items = media.distinctBy(Media::uri)
+        if (items.isEmpty()) return
+        val request = MediaActionRequest(action, items)
         if (action == MediaAction.Trash || action == MediaAction.Restore || action == MediaAction.Delete) {
             mediaActionConfirmation = request
         } else performMediaAction(request)
@@ -513,23 +520,38 @@ class MediaPickerComponent @AssistedInject internal constructor(
     private fun performMediaAction(request: MediaActionRequest) {
         if (!areMediaActionsAvailable || isMediaActionRunning) return
         isMediaActionRunning = true
-        activeMediaAction = request
         componentScope.launch {
             try {
-                val result = mediaActionsManager.perform(listOf(request.media), request.action)
-                val sender = result.permissionRequest
-                if (sender != null) {
-                    pendingMediaPermission = sender
-                } else {
-                    finishMediaAction(request.media.uri in result.successfulUris)
+                var hasFailures = false
+                for (items in request.media.chunked(MediaActionsManager.BATCH_SIZE)) {
+                    val result = mediaActionsManager.perform(items, request.action)
+                    applyMediaAction(
+                        request.action,
+                        items.filter { it.uri in result.successfulUris })
+                    hasFailures = hasFailures || result.failedUris.isNotEmpty()
+                    val sender = result.permissionRequest
+                    if (sender != null) {
+                        val response = CompletableDeferred<Boolean>()
+                        mediaPermissionResult = response
+                        pendingMediaPermission = sender
+                        if (!response.await()) break
+                        applyMediaAction(
+                            request.action,
+                            items.filter { it.uri in result.permissionUris })
+                    }
+                }
+                if (hasFailures) {
+                    AppToastHost.showFailureToast(R.string.gallery_media_action_failed)
                 }
             } catch (exception: CancellationException) {
-                activeMediaAction = null
-                isMediaActionRunning = false
                 throw exception
             } catch (exception: Exception) {
                 AppToastHost.showFailureToast(exception)
-                finishMediaAction(successful = false, showFailure = false)
+            } finally {
+                mediaPermissionResult = null
+                pendingMediaPermission = null
+                isMediaActionRunning = false
+                mediaRetriever.invalidate()
             }
         }
     }
@@ -537,40 +559,78 @@ class MediaPickerComponent @AssistedInject internal constructor(
     fun onMediaPermissionResult(granted: Boolean) {
         if (pendingMediaPermission == null) return
         pendingMediaPermission = null
-        finishMediaAction(successful = granted, showFailure = false)
+        mediaPermissionResult?.complete(granted)
     }
 
-    private fun finishMediaAction(successful: Boolean, showFailure: Boolean = true) {
-        val request = activeMediaAction ?: return
-        if (successful) {
-            val transform: (Media) -> Media? = { media ->
-                when (request.action) {
-                    MediaAction.Favorite -> media.copy(isFavorite = true)
-                    MediaAction.Unfavorite -> if (selectedAlbumId == Album.FAVORITES_ID) null
-                    else media.copy(isFavorite = false)
+    private fun applyMediaAction(action: MediaAction, media: List<Media>) {
+        if (media.isEmpty()) return
+        val uris = media.mapTo(hashSetOf(), Media::uri)
+        val transform: (Media) -> Media? = {
+            when (action) {
+                MediaAction.Favorite -> it.copy(isFavorite = true)
+                MediaAction.Unfavorite -> if (selectedAlbumId == Album.FAVORITES_ID) null
+                else it.copy(isFavorite = false)
 
-                    MediaAction.Trash, MediaAction.Restore, MediaAction.Delete -> null
+                MediaAction.Trash, MediaAction.Restore, MediaAction.Delete -> null
+            }
+        }
+        sourceMediaState.value = sourceMediaState.value.updateMedia(uris, transform)
+        _mediaState.value = _mediaState.value.updateMedia(uris, transform)
+        _filteredMediaState.value = _filteredMediaState.value.updateMedia(uris, transform)
+        if (action == MediaAction.Favorite || action == MediaAction.Unfavorite) {
+            selectedMedia.indices.forEach { index ->
+                if (selectedMedia[index].uri in uris) {
+                    selectedMedia[index] =
+                        selectedMedia[index].copy(isFavorite = action == MediaAction.Favorite)
                 }
             }
-            sourceMediaState.value =
-                sourceMediaState.value.updateMedia(request.media.uri, transform)
-            _mediaState.value = _mediaState.value.updateMedia(request.media.uri, transform)
-            _filteredMediaState.value =
-                _filteredMediaState.value.updateMedia(request.media.uri, transform)
-            val selectedIndex = selectedMedia.indexOfFirst { it.uri == request.media.uri }
-            if (selectedIndex >= 0) {
-                if (request.action == MediaAction.Favorite || request.action == MediaAction.Unfavorite) {
-                    selectedMedia[selectedIndex] = selectedMedia[selectedIndex].copy(
-                        isFavorite = request.action == MediaAction.Favorite
-                    )
-                } else selectedMedia.removeAt(selectedIndex)
+        } else selectedMedia.removeAll { it.uri in uris }
+
+        val albums = _albumsState.value.albums.toMutableList()
+        fun updateAlbum(album: Album, delta: Int) {
+            if (delta == 0) return
+            val index = albums.indexOfFirst { it.id == album.id }
+            val current = albums.getOrNull(index) ?: album
+            val count = (current.count + delta).coerceAtLeast(0)
+            if (count == 0L) {
+                if (index >= 0) albums.removeAt(index)
+            } else {
+                val updated = current.copy(count = count)
+                if (index >= 0) albums[index] = updated
+                else if (album.id == Album.FAVORITES_ID) albums.add(minOf(1, albums.size), updated)
+                else albums.add(updated)
             }
-        } else if (showFailure) {
-            AppToastHost.showFailureToast(R.string.gallery_media_action_failed)
         }
-        activeMediaAction = null
-        isMediaActionRunning = false
-        mediaRetriever.invalidate()
+
+        val favoriteCount = media.count { it.isFavorite && !it.isTrashed }
+        val favoriteMedia = media.firstOrNull { it.isFavorite || action == MediaAction.Favorite }
+        updateAlbum(
+            Album.Favorites.copy(
+                uri = favoriteMedia?.uri.orEmpty(),
+                pathToThumbnail = favoriteMedia?.path.orEmpty(),
+                timestamp = favoriteMedia?.timestamp ?: 0
+            ),
+            when (action) {
+                MediaAction.Favorite -> media.count { !it.isFavorite && !it.isTrashed }
+                MediaAction.Unfavorite, MediaAction.Trash -> -favoriteCount
+                MediaAction.Restore -> media.count { it.isFavorite && it.isTrashed }
+                MediaAction.Delete -> 0
+            }
+        )
+        updateAlbum(
+            Album.Trash,
+            when (action) {
+                MediaAction.Trash -> media.count { !it.isTrashed }
+                MediaAction.Restore, MediaAction.Delete -> -media.count { it.isTrashed }
+                else -> 0
+            }
+        )
+        _albumsState.value = _albumsState.value.copy(albums = albums)
+        if ((selectedAlbumId == Album.FAVORITES_ID || selectedAlbumId == Album.TRASH_ID) &&
+            sourceMediaState.value.media.isEmpty()
+        ) {
+            getAlbum(Album.ALL_ID)
+        }
     }
 
     private val emptyAlbum = Album(
@@ -589,6 +649,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
             mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
+                    if (isMediaActionRunning) return@collectLatest
                     val data = result.getOrNull().orEmpty()
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
@@ -626,6 +687,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
             mediaRetriever.mediaFlowWithType(albumId, allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
+                    if (isMediaActionRunning) return@collectLatest
                     val data =
                         if (allowedMedia is AllowedMedia.Photos && allowedMedia.ext != null && allowedMedia.ext != "*") {
                             result.getOrNull()?.filter { it.uri.endsWith(allowedMedia.ext) }

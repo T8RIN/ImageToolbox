@@ -43,6 +43,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedAlertDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaActionRequest
 import com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic.MediaPickerComponent
 
 @Composable
@@ -64,13 +65,15 @@ internal fun MediaActionHandler(component: MediaPickerComponent) {
         }
     }
     val confirmation = component.mediaActionConfirmation
-    var previousAction by remember { mutableStateOf(MediaAction.Trash) }
+    var previousConfirmation by remember { mutableStateOf<MediaActionRequest?>(null) }
 
     SideEffect {
-        confirmation?.action?.let { previousAction = it }
+        confirmation?.let { previousConfirmation = it }
     }
 
-    val action = confirmation?.action ?: previousAction
+    val request = confirmation ?: previousConfirmation
+    val action = request?.action ?: MediaAction.Trash
+    val count = request?.media?.size ?: 1
     val deleting = action == MediaAction.Delete
     val restoring = action == MediaAction.Restore
 
@@ -101,10 +104,13 @@ internal fun MediaActionHandler(component: MediaPickerComponent) {
             Text(
                 text = stringResource(
                     when {
+                        deleting && count > 1 -> R.string.gallery_delete_selected_confirmation
+                        restoring && count > 1 -> R.string.gallery_restore_selected_confirmation
                         deleting -> R.string.gallery_delete_confirmation
                         restoring -> R.string.gallery_restore_confirmation
                         else -> R.string.gallery_trash_confirmation
-                    }
+                    },
+                    count
                 ),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()

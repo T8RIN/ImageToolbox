@@ -366,7 +366,7 @@ internal fun MediaImagePager(
                         actions = {
                             val isImageError = imageErrorPages.contains(currentMedia?.uri)
                             AnimatedVisibility(
-                                visible = currentMedia != null && !currentMedia.isTrashed,
+                                visible = currentMedia != null,
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {

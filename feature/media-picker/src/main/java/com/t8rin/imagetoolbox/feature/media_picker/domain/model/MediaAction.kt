@@ -25,7 +25,7 @@ enum class MediaAction {
 
 data class MediaActionRequest(
     val action: MediaAction,
-    val media: Media
+    val media: List<Media>
 )
 
 data class MediaActionResult(
