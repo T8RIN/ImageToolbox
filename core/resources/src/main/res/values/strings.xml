@@ -1224,6 +1224,9 @@
     <string name="backup_settings_sub">Only app settings and presets</string>
     <string name="full_backup">Full backup</string>
     <string name="full_backup_sub">Settings, downloaded models and other app data. The file can be several GB.</string>
+    <string name="backup_creating">Creating backup</string>
+    <string name="backup_restoring">Restoring backup</string>
+    <string name="backup_progress_bytes">%1$s of %2$s</string>
     <string name="restore_sub">Restore settings or all app data from a backup file</string>
     <string name="corrupted_file_or_not_a_backup">Corrupted file or not a backup</string>
     <string name="settings_restored">Settings restored successfully</string>

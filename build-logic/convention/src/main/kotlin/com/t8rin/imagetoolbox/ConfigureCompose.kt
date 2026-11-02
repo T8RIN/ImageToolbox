@@ -36,6 +36,7 @@ internal fun Project.configureCompose(
             implementation(libs.androidx.material3)
             implementation(libs.window.sizeclass)
             implementation(libs.androidx.material)
+            implementation(libs.compose.animation)
             implementation(libs.compose.preview)
             debugImplementation(libs.compose.tooling)
         }

@@ -133,7 +133,9 @@ internal fun SettingItem(
             Setting.Backup -> {
                 BackupSettingItem(
                     onCreateBackupFilename = component::createBackupFilename,
-                    onCreateBackup = component::createBackup
+                    onCreateBackup = component::createBackup,
+                    fullBackupSize = component.fullBackupSize,
+                    onRequestBackupSize = component::updateFullBackupSize
                 )
             }
 

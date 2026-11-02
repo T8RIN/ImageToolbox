@@ -17,10 +17,12 @@
 
 package com.t8rin.imagetoolbox.feature.settings.data
 
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -169,6 +171,69 @@ class SettingsBackupTest {
                 SettingsBackup.read(archive.copyOf(archive.size / 2).inputStream(), staging)
             }
         }
+    }
+
+    @Test
+    fun backupProgressCountsOriginalBytesAndMatchesFolderSize() = runBlocking {
+        val filesDir = temporaryFolder.newFolder()
+        val settings = "settings".toByteArray()
+        val model = ByteArray(1024 * 1024)
+        filesDir.write(SettingsBackup.SETTINGS_PATH, settings)
+        filesDir.write("ai_models/model.onnx", model)
+        File(filesDir, "empty").mkdir()
+        val updates = mutableListOf<BackupProgress>()
+
+        SettingsBackup.write(filesDir, ByteArrayOutputStream(), fullBackup = true) {
+            updates.add(it)
+        }
+
+        val expectedSize = settings.size.toLong() + model.size
+        assertEquals(expectedSize, SettingsBackup.size(filesDir))
+        assertNull(updates.first().totalBytes)
+        val writing = updates.filter { it.totalBytes != null }
+        assertEquals(0L, writing.first().completedBytes)
+        assertTrue(writing.all { it.totalBytes == expectedSize })
+        assertEquals(expectedSize, writing.last().completedBytes)
+        assertEquals(1f, writing.last().fraction)
+        assertTrue(writing.zipWithNext().all { (before, after) ->
+            before.completedBytes <= after.completedBytes
+        })
+    }
+
+    @Test
+    fun restorationProgressCountsTheInputArchive() = runBlocking {
+        val model = ByteArray(1024 * 1024)
+        val archive = archive(
+            SettingsBackup.SETTINGS_PATH to "settings".toByteArray(),
+            "ai_models/model.onnx" to model
+        )
+        val staging = temporaryFolder.newFolder()
+        val updates = mutableListOf<BackupProgress>()
+
+        SettingsBackup.read(archive.inputStream(), staging, archive.size.toLong()) {
+            updates.add(it)
+        }
+        val destination = temporaryFolder.newFolder()
+        SettingsBackup.restoreFiles(staging, destination)
+
+        assertEquals(archive.size.toLong(), updates.last().completedBytes)
+        assertEquals(archive.size.toLong(), updates.last().totalBytes)
+        assertEquals(1f, updates.last().fraction)
+        assertArrayEquals(model, File(destination, "ai_models/model.onnx").readBytes())
+    }
+
+    @Test
+    fun unknownInputSizeReportsBytesWithoutInventingAPercentage() = runBlocking {
+        val settings = "settings".toByteArray()
+        val updates = mutableListOf<BackupProgress>()
+
+        SettingsBackup.read(settings.inputStream(), temporaryFolder.newFolder()) {
+            updates.add(it)
+        }
+
+        assertEquals(settings.size.toLong(), updates.last().completedBytes)
+        assertNull(updates.last().totalBytes)
+        assertNull(updates.last().fraction)
     }
 
     private fun File.write(name: String, bytes: ByteArray) {

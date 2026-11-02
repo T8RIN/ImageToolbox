@@ -29,7 +29,6 @@ import androidx.datastore.preferences.core.edit
 import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
-import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
@@ -51,6 +50,7 @@ import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -75,6 +75,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.createZip
+import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
@@ -261,7 +262,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.buffer
 import okio.source
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import javax.inject.Inject
@@ -562,20 +562,27 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun createBackupFile(
         writeable: Writeable,
-        fullBackup: Boolean
+        fullBackup: Boolean,
+        onProgress: (BackupProgress) -> Unit
     ) = withContext(ioDispatcher) {
         dataStore.data.first()
         SettingsBackup.write(
             filesDir = context.filesDir,
             output = writeable.outputStream(),
-            fullBackup = fullBackup
+            fullBackup = fullBackup,
+            onProgress = onProgress
         )
+    }
+
+    override suspend fun getFullBackupSize(): Long = withContext(ioDispatcher) {
+        SettingsBackup.size(context.filesDir)
     }
 
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
+        onProgress: (BackupProgress) -> Unit,
     ) {
         runSuspendCatching {
             withContext(ioDispatcher) {
@@ -587,7 +594,10 @@ internal class AndroidSettingsManager @Inject constructor(
                     ).use {
                         SettingsBackup.read(
                             input = it,
-                            directory = directory
+                            directory = directory,
+                            totalBytes = backupFileUri.toUri().fileSize()
+                                ?.takeIf { size -> size >= 0 },
+                            onProgress = onProgress
                         )
                     }
                     val preferences = runSuspendCatching {
@@ -600,7 +610,10 @@ internal class AndroidSettingsManager @Inject constructor(
                             it
                         )
                     }
-                    SettingsBackup.restoreFiles(directory, context.filesDir)
+                    SettingsBackup.restoreFiles(
+                        directory = directory,
+                        filesDir = context.filesDir
+                    )
                     dataStore.updateData {
                         preferences.toMutablePreferences().apply {
                             this[SAVE_FOLDER_URI] = ""
@@ -614,7 +627,7 @@ internal class AndroidSettingsManager @Inject constructor(
     }
 
     override suspend fun resetSettings() = withContext(defaultDispatcher) {
-        context.resetDatastore(GLOBAL_STORAGE_NAME)
+        SettingsBackup.reset(context.filesDir)
         registerAppOpen()
     }
 
@@ -796,7 +809,7 @@ internal class AndroidSettingsManager @Inject constructor(
         "Start Logs Export".makeLog("SettingsManager")
 
         val logsFile = Logger.getLogsFile().toFile()
-        val settingsFile = context.obtainDatastoreData(GLOBAL_STORAGE_NAME)
+        val settingsFile = SettingsBackup.settingsFile(context.filesDir)
 
         shareProvider.get().cacheData(
             writeData = { writeable ->
@@ -807,7 +820,7 @@ internal class AndroidSettingsManager @Inject constructor(
                     )
                     zip.putEntry(
                         name = createBackupFilename(),
-                        input = ByteArrayInputStream(settingsFile)
+                        input = settingsFile.inputStream()
                     )
                 }
             },

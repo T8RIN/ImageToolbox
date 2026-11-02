@@ -21,6 +21,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -41,11 +42,15 @@ import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileController
 import com.t8rin.imagetoolbox.core.domain.saving.FilenameCreator
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
+import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
 import com.t8rin.imagetoolbox.core.domain.utils.humanFileSize
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -71,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
+import com.t8rin.imagetoolbox.feature.settings.presentation.model.description
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -93,6 +99,7 @@ class SettingsComponent @AssistedInject internal constructor(
     private val settingsManager: SettingsManager,
     private val resourceManager: ResourceManager,
     private val shareProvider: ShareProvider,
+    private val keepAliveService: KeepAliveService,
     semanticSearchRepository: SemanticSearchRepository,
     filenameCreator: FilenameCreator,
     dispatchersHolder: DispatchersHolder,
@@ -105,6 +112,17 @@ class SettingsComponent @AssistedInject internal constructor(
 
     private val _isBackupLoading = mutableStateOf(false)
     val isBackupLoading by _isBackupLoading
+
+    private val _backupProgress = mutableStateOf(BackupProgress())
+    val backupProgress by _backupProgress
+
+    private val _backupTitle = mutableIntStateOf(R.string.backup_creating)
+    val backupTitle by _backupTitle
+
+    private val _fullBackupSize = mutableStateOf<Long?>(null)
+    val fullBackupSize by _fullBackupSize
+
+    private var backupSizeJob by smartJob()
 
     private val _searchKeyword = mutableStateOf("")
     val searchKeyword by _searchKeyword
@@ -309,10 +327,10 @@ class SettingsComponent @AssistedInject internal constructor(
     fun createBackup(
         uri: Uri,
         fullBackup: Boolean
-    ) = backupScope {
+    ) = backupScope(R.string.backup_creating) {
         fileController.writeBytes(
             uri = uri.toString(),
-            block = { createBackupFile(it, fullBackup) }
+            block = { createBackupFile(it, fullBackup, ::onBackupProgress) }
         ).also(::parseFileSaveResult)
     }
 
@@ -327,12 +345,22 @@ class SettingsComponent @AssistedInject internal constructor(
         uri: Uri,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
-    ) = backupScope {
+    ) = backupScope(R.string.backup_restoring) {
         restoreFromBackupFile(
             backupFileUri = uri.toString(),
             onSuccess = onSuccess,
-            onFailure = onFailure
+            onFailure = onFailure,
+            onProgress = ::onBackupProgress
         )
+    }
+
+    fun updateFullBackupSize() {
+        _fullBackupSize.update { null }
+        backupSizeJob = componentScope.launch {
+            runSuspendCatching { settingsManager.getFullBackupSize() }.onSuccess { size ->
+                _fullBackupSize.update { size }
+            }
+        }
     }
 
     fun resetSettings() = settingsScope { resetSettings() }
@@ -635,15 +663,30 @@ class SettingsComponent @AssistedInject internal constructor(
         settingsScope { toggleShowToolsHistory() }
 
     private inline fun backupScope(
+        title: Int,
         crossinline action: suspend SettingsManager.() -> Unit
     ) = settingsScope {
         if (isBackupLoading) return@settingsScope
         _isBackupLoading.update { true }
+        _backupTitle.update { title }
+        _backupProgress.update { BackupProgress() }
         try {
-            action()
+            keepAliveService.track(
+                initial = { onBackupProgress(BackupProgress()) },
+                action = { action() }
+            )
         } finally {
             _isBackupLoading.update { false }
         }
+    }
+
+    private fun onBackupProgress(progress: BackupProgress) {
+        _backupProgress.update { progress }
+        keepAliveService.updateOrStart(
+            title = resourceManager.getString(backupTitle),
+            description = progress.description(resourceManager),
+            progress = progress.fraction ?: KeepAliveService.PROGRESS_INDETERMINATE
+        )
     }
 
     private inline fun settingsScope(

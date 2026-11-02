@@ -23,29 +23,9 @@ import android.os.Build
 import androidx.core.content.getSystemService
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
-import kotlinx.coroutines.coroutineScope
-import java.io.File
 import java.io.RandomAccessFile
 import java.util.Locale
 import kotlin.math.ceil
-
-internal suspend fun Context.obtainDatastoreData(
-    fileName: String
-) = coroutineScope {
-    File(filesDir, "datastore/${fileName}.preferences_pb").readBytes()
-}
-
-internal suspend fun Context.resetDatastore(
-    fileName: String
-) = coroutineScope {
-    File(
-        filesDir,
-        "datastore/${fileName}.preferences_pb"
-    ).apply {
-        delete()
-        createNewFile()
-    }
-}
 
 internal val Context.performanceClass: PerformanceClass
     get() {

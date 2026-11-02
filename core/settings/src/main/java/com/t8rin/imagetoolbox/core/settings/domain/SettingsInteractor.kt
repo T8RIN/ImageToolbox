@@ -26,6 +26,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ColorModel
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
 import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -111,13 +112,17 @@ interface SettingsInteractor : SimpleSettingsInteractor {
 
     suspend fun createBackupFile(
         writeable: Writeable,
-        fullBackup: Boolean
+        fullBackup: Boolean,
+        onProgress: (BackupProgress) -> Unit,
     )
+
+    suspend fun getFullBackupSize(): Long
 
     suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
+        onProgress: (BackupProgress) -> Unit,
     )
 
     suspend fun resetSettings()

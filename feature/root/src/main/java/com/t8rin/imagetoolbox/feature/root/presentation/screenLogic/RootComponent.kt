@@ -42,6 +42,7 @@ import com.t8rin.imagetoolbox.core.domain.model.ImageModel
 import com.t8rin.imagetoolbox.core.domain.remote.AnalyticsManager
 import com.t8rin.imagetoolbox.core.domain.resource.ResourceManager
 import com.t8rin.imagetoolbox.core.domain.saving.FileControllerEventEmitter
+import com.t8rin.imagetoolbox.core.domain.saving.KeepAliveService
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
 import com.t8rin.imagetoolbox.core.filters.domain.FilterParamsInteractor
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -50,6 +51,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.AutoFixHigh
 import com.t8rin.imagetoolbox.core.resources.icons.DownloadOff
 import com.t8rin.imagetoolbox.core.settings.domain.AutoCacheCleanupUseCase
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.SettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
@@ -63,6 +65,7 @@ import com.t8rin.imagetoolbox.core.utils.toImageModel
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.ChildProvider
 import com.t8rin.imagetoolbox.feature.root.presentation.components.navigation.NavigationChild
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.BackEventObserver
+import com.t8rin.imagetoolbox.feature.settings.presentation.model.description
 import com.t8rin.imagetoolbox.feature.settings.presentation.screenLogic.SettingsComponent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -102,6 +105,12 @@ class RootComponent @AssistedInject internal constructor(
 
     private val _backupRestoredEvents: Channel<Boolean> = Channel(Channel.BUFFERED)
     val backupRestoredEvents: Flow<Boolean> = _backupRestoredEvents.receiveAsFlow()
+
+    private val _isRestoringBackup = mutableStateOf(false)
+    val isRestoringBackup by _isRestoringBackup
+
+    private val _backupRestoreProgress = mutableStateOf(BackupProgress())
+    val backupRestoreProgress by _backupRestoreProgress
 
     private val _isUpdateAvailable: MutableValue<Boolean> = MutableValue(false)
     val isUpdateAvailable: Value<Boolean> = _isUpdateAvailable
@@ -313,17 +322,37 @@ class RootComponent @AssistedInject internal constructor(
         type.makeLog("updateExtraDataType")
 
         if (type is ExtraDataType.Backup) {
-            componentScope.launch {
-                settingsManager.restoreFromBackupFile(
-                    backupFileUri = type.uri.trim(),
-                    onSuccess = {
-                        _backupRestoredEvents.trySend(true)
-                    },
-                    onFailure = { throwable ->
-                        AppToastHost.showFailureToast(throwable)
-                        _backupRestoredEvents.trySend(false)
-                    }
-                )
+            if (isRestoringBackup) return
+            _isRestoringBackup.update { true }
+            _backupRestoreProgress.update { BackupProgress() }
+            trackProgress {
+                try {
+                    updateOrStart(
+                        title = getString(R.string.backup_restoring),
+                        description = getString(R.string.preparing)
+                    )
+                    settingsManager.restoreFromBackupFile(
+                        backupFileUri = type.uri.trim(),
+                        onSuccess = {
+                            _backupRestoredEvents.trySend(true)
+                        },
+                        onFailure = { throwable ->
+                            AppToastHost.showFailureToast(throwable)
+                            _backupRestoredEvents.trySend(false)
+                        },
+                        onProgress = { progress ->
+                            _backupRestoreProgress.update { progress }
+                            updateOrStart(
+                                title = getString(R.string.backup_restoring),
+                                description = progress.description(this@RootComponent),
+                                progress = progress.fraction
+                                    ?: KeepAliveService.PROGRESS_INDETERMINATE
+                            )
+                        }
+                    )
+                } finally {
+                    _isRestoringBackup.update { false }
+                }
             }
             return
         }

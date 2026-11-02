@@ -342,6 +342,9 @@
     <string name="backup_settings_sub">Только настройки приложения и пресеты</string>
     <string name="full_backup">Полный бэкап</string>
     <string name="full_backup_sub">Настройки, скачанные модели и другие данные приложения. Файл может занимать несколько ГБ.</string>
+    <string name="backup_creating">Создание бэкапа</string>
+    <string name="backup_restoring">Восстановление бэкапа</string>
+    <string name="backup_progress_bytes">%1$s из %2$s</string>
     <string name="restore_sub">Восстановите настройки или все данные приложения из файла бэкапа</string>
     <string name="settings_restored">Настройки успешно восстановлены</string>
     <string name="crop_mask">Маска обрезки</string>

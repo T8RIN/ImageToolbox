@@ -18,10 +18,14 @@
 package com.t8rin.imagetoolbox.feature.settings.data
 
 import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
+import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
+import com.t8rin.imagetoolbox.core.utils.appContext
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import java.io.File
+import java.io.FilterInputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.zip.Deflater
@@ -33,42 +37,83 @@ internal object SettingsBackup {
 
     const val SETTINGS_PATH = "datastore/$GLOBAL_STORAGE_NAME.preferences_pb"
 
+    fun settingsFile(filesDir: File): File = File(filesDir, SETTINGS_PATH)
+
+    fun reset(filesDir: File) {
+        settingsFile(filesDir).apply {
+            delete()
+            createNewFile()
+        }
+    }
+
+    suspend fun size(filesDir: File): Long {
+        var size = 0L
+        backupFiles(filesDir).filter(File::isFile).forEach {
+            currentCoroutineContext().ensureActive()
+            size += it.length()
+        }
+        return size
+    }
+
     suspend fun write(
         filesDir: File,
         output: OutputStream,
-        fullBackup: Boolean
+        fullBackup: Boolean,
+        onProgress: (BackupProgress) -> Unit = {}
     ) = coroutineScope {
+        onProgress(BackupProgress())
         if (!fullBackup) {
+            val file = settingsFile(filesDir)
+            val reporter = ProgressReporter(file.length(), onProgress)
             output.buffered().use { destination ->
-                File(filesDir, SETTINGS_PATH).inputStream().use { it.copyBackupTo(destination) }
+                file.inputStream().use { it.copyBackupTo(destination, reporter::add) }
             }
+            reporter.finish()
             return@coroutineScope
         }
 
         val root = filesDir.canonicalFile
+        val files = mutableListOf<File>()
+        backupFiles(root).forEach {
+            currentCoroutineContext().ensureActive()
+            files.add(it)
+        }
+        val reporter = ProgressReporter(
+            totalBytes = files.filter(File::isFile).sumOf(File::length),
+            onProgress = onProgress
+        )
         ZipOutputStream(output.buffered()).use { zip ->
             zip.setLevel(Deflater.BEST_SPEED)
-            root.walkTopDown()
-                .onEnter { it.canonicalFile == it.absoluteFile }
-                .onFail { _, error -> throw error }
-                .filter { it != root && it.canonicalFile == it.absoluteFile }
-                .forEach { file ->
-                    currentCoroutineContext().ensureActive()
-                    val name = file.relativeTo(root).invariantSeparatorsPath
-                    zip.putNextEntry(ZipEntry(if (file.isDirectory) "$name/" else name))
-                    if (file.isFile) {
-                        file.inputStream().use { it.copyBackupTo(zip) }
-                    }
-                    zip.closeEntry()
+            files.forEach { file ->
+                currentCoroutineContext().ensureActive()
+                val name = file.relativeTo(root).invariantSeparatorsPath
+                zip.putNextEntry(ZipEntry(if (file.isDirectory) "$name/" else name))
+                if (file.isFile) {
+                    file.inputStream().use { it.copyBackupTo(zip, reporter::add) }
                 }
+                zip.closeEntry()
+            }
         }
+        reporter.finish()
     }
 
     suspend fun read(
         input: InputStream,
-        directory: File
+        directory: File,
+        totalBytes: Long? = null,
+        onProgress: (BackupProgress) -> Unit = {}
     ): File = coroutineScope {
-        val source = input.buffered()
+        val reporter = ProgressReporter(totalBytes, onProgress)
+        val source = object : FilterInputStream(input) {
+            override fun read(): Int = `in`.read().also {
+                if (it >= 0) reporter.add(1)
+            }
+
+            override fun read(bytes: ByteArray, offset: Int, length: Int): Int =
+                `in`.read(bytes, offset, length).also {
+                    if (it > 0) reporter.add(it.toLong())
+                }
+        }.buffered()
         source.mark(4)
         val isArchive = source.read() == 0x50 && source.read() == 0x4b &&
                 source.read() == 0x03 && source.read() == 0x04
@@ -92,13 +137,19 @@ internal object SettingsBackup {
                 }
             }
         } else {
-            val file = File(directory, SETTINGS_PATH)
+            val file = settingsFile(directory)
             check(file.parentFile!!.mkdirs() || file.parentFile!!.isDirectory)
             file.outputStream().use { source.copyBackupTo(it) }
         }
 
-        return@coroutineScope File(directory, SETTINGS_PATH).also {
-            require(it.isFile) { "Settings are missing from the backup" }
+        return@coroutineScope settingsFile(directory).also {
+            if (!it.isFile) {
+                throw IllegalArgumentException(
+                    appContext.getString(R.string.corrupted_file_or_not_a_backup)
+                )
+            }
+
+            reporter.finish()
         }
     }
 
@@ -129,6 +180,14 @@ internal object SettingsBackup {
         }
     }
 
+    private fun backupFiles(filesDir: File): Sequence<File> {
+        val root = filesDir.canonicalFile
+        return root.walkTopDown()
+            .onEnter { it.canonicalFile == it.absoluteFile }
+            .onFail { _, error -> throw error }
+            .filter { it != root && it.canonicalFile == it.absoluteFile }
+    }
+
     private fun resolveFile(directory: File, name: String): File {
         require(!File(name).isAbsolute && name.split('/').none { it == ".." }) {
             "Invalid backup entry: $name"
@@ -141,7 +200,8 @@ internal object SettingsBackup {
     }
 
     private suspend fun InputStream.copyBackupTo(
-        output: OutputStream
+        output: OutputStream,
+        onCopied: (Long) -> Unit = {}
     ) = coroutineScope {
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
         while (true) {
@@ -149,6 +209,42 @@ internal object SettingsBackup {
             val count = read(buffer)
             if (count < 0) break
             output.write(buffer, 0, count)
+            onCopied(count.toLong())
+        }
+    }
+
+    private class ProgressReporter(
+        private val totalBytes: Long?,
+        private val onProgress: (BackupProgress) -> Unit
+    ) {
+        private var completedBytes = 0L
+        private var lastUpdate = System.nanoTime()
+
+        init {
+            report()
+        }
+
+        fun add(bytes: Long) {
+            completedBytes += bytes
+            val now = System.nanoTime()
+            if (now - lastUpdate >= 100_000_000L) {
+                lastUpdate = now
+                report()
+            }
+        }
+
+        fun finish() {
+            completedBytes = maxOf(completedBytes, totalBytes ?: 0L)
+            report()
+        }
+
+        private fun report() {
+            onProgress(
+                BackupProgress(
+                    completedBytes = completedBytes,
+                    totalBytes = totalBytes?.let { maxOf(it, completedBytes) }
+                )
+            )
         }
     }
 }

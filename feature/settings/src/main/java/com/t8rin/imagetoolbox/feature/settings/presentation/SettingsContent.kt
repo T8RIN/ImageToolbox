@@ -107,7 +107,6 @@ import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
-import com.t8rin.imagetoolbox.core.ui.widget.dialogs.LoadingDialog
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
@@ -124,6 +123,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.BackupProgressDialog
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.CategorizedSettings
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SearchableSettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
@@ -301,9 +301,10 @@ fun SettingsContent(
         onDispose { showTargetHighlight = false }
     }
 
-    LoadingDialog(
+    BackupProgressDialog(
         visible = component.isBackupLoading,
-        canCancel = false
+        title = component.backupTitle,
+        progress = component.backupProgress
     )
 
     Scaffold(

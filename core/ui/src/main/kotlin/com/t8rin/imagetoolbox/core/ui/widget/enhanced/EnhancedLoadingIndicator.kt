@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.keepScreenOn
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -112,18 +113,34 @@ fun BoxScope.EnhancedLoadingIndicator(
 fun BoxScope.EnhancedLoadingIndicator(done: Int, left: Int) {
     val progress = done / left.toFloat()
 
-    if (progress.isFinite() && progress >= 0 && left > 1) {
+    EnhancedLoadingIndicator(
+        progress = progress,
+        text = "$done / $left",
+        predicate = { left > 1 },
+        loaderSize = 60.dp
+    )
+}
+
+@Composable
+fun BoxScope.EnhancedLoadingIndicator(
+    progress: Float,
+    text: String,
+    predicate: () -> Boolean,
+    loaderSize: Dp
+) {
+    if (progress.isFinite() && progress >= 0 && predicate()) {
         EnhancedLoadingIndicator(
             progress = progress,
             additionalContent = {
                 AutoSizeText(
-                    text = "$done / $left",
+                    text = text,
                     maxLines = 1,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.width(it * 0.7f),
                     textAlign = TextAlign.Center
                 )
-            }
+            },
+            loaderSize = loaderSize
         )
     } else {
         EnhancedLoadingIndicator(
@@ -169,7 +186,7 @@ private fun EnhancedLoadingIndicatorContainer(
                 .size(minHeight)
                 .rotate(rotation)
                 .then(
-                    if (borderWidth <= 0.dp && settingsState.drawContainerShadows) {
+                    if (borderWidth <= 0.dp && settingsState.drawContainerShadows && !LocalInspectionMode.current) {
                         Modifier.rsBlurShadow(
                             radius = 1.05.dp,
                             shape = MaterialStarShape,
