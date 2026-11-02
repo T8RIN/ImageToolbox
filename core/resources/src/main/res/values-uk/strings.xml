@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s з %2$s</string>
     <string name="remember_image_header_state">Запам’ятовувати макет попереднього перегляду</string>
     <string name="remember_image_header_state_sub">Зберігати висоту й стан закріплення попереднього перегляду під час переходу між інструментами. Якщо вимкнено, кожен інструмент відкривається зі стандартним макетом.</string>
+    <string name="gallery_favorites">Вибране</string>
+    <string name="gallery_trash">Кошик</string>
+    <string name="gallery_move_to_trash">Перемістити в кошик</string>
+    <string name="gallery_trash_confirmation">Перемістити цей файл у кошик? Він зникне з галереї, але ви можете відновити його до дати автоматичного видалення.</string>
+    <string name="gallery_trash_selected_confirmation">Перемістити вибрані файли (%1$d) до кошика? Вони зникнуть із галереї, але їх можна відновити до дати автоматичного видалення.</string>
+    <string name="gallery_restore">Відновити</string>
+    <string name="gallery_restore_confirmation">Відновити цей файл із кошика? Він повернеться до вихідної папки та знову з’явиться в галереї.</string>
+    <string name="gallery_restore_selected_confirmation">Відновити вибрані файли (%1$d) з кошика? Вони повернуться до своїх вихідних папок і знову з’являться в галереї.</string>
+    <string name="gallery_delete_permanently">Видалити остаточно</string>
+    <string name="gallery_delete_confirmation">Назавжди видалити цей файл із кошика? Його буде видалено з пристрою, і його неможливо буде відновити.</string>
+    <string name="gallery_delete_selected_confirmation">Назавжди видалити вибрані файли (%1$d) з кошика? Вони будуть видалені з пристрою та не можуть бути відновлені.</string>
+    <string name="gallery_trash_empty">Кошик порожній</string>
+    <string name="gallery_trash_expires">Заплановано видалення: %1$s</string>
+    <string name="gallery_media_action_failed">Не вдалося змінити файл. Перевірте доступ до нього.</string>
 </resources>

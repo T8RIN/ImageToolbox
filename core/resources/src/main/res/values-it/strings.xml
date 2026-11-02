@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s di %2$s</string>
     <string name="remember_image_header_state">Memorizza il layout dell\'anteprima</string>
     <string name="remember_image_header_state_sub">Mantieni l\'altezza e lo stato di blocco dell\'anteprima quando passi da uno strumento all\'altro. Se disattivato, ogni strumento si apre con il layout predefinito.</string>
+    <string name="gallery_favorites">Preferiti</string>
+    <string name="gallery_trash">Cestino</string>
+    <string name="gallery_move_to_trash">Sposta nel cestino</string>
+    <string name="gallery_trash_confirmation">Spostare questo file nel cestino? Scomparirà dalla galleria, ma potrai ripristinarlo prima della data di eliminazione automatica.</string>
+    <string name="gallery_trash_selected_confirmation">Spostare i file selezionati (%1$d) nel cestino? Scompariranno dalla galleria, ma potrai ripristinarli prima della data di eliminazione automatica.</string>
+    <string name="gallery_restore">Ripristina</string>
+    <string name="gallery_restore_confirmation">Ripristinare questo file dal cestino? Tornerà nella sua cartella originale e riapparirà nella galleria.</string>
+    <string name="gallery_restore_selected_confirmation">Ripristinare i file selezionati (%1$d) dal cestino? Torneranno nelle loro cartelle originali e riappariranno nella galleria.</string>
+    <string name="gallery_delete_permanently">Elimina definitivamente</string>
+    <string name="gallery_delete_confirmation">Eliminare definitivamente questo file dal cestino? Verrà rimosso dal dispositivo e non potrà essere ripristinato.</string>
+    <string name="gallery_delete_selected_confirmation">Eliminare definitivamente i file selezionati (%1$d) dal cestino? Verranno rimossi dal dispositivo e non potranno essere ripristinati.</string>
+    <string name="gallery_trash_empty">Il cestino è vuoto</string>
+    <string name="gallery_trash_expires">Cancellazione pianificata: %1$s</string>
+    <string name="gallery_media_action_failed">Impossibile modificare il file. Controlla l\'accesso ad esso.</string>
 </resources>

@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s sur %2$s</string>
     <string name="remember_image_header_state">Mémoriser la disposition de l\'aperçu</string>
     <string name="remember_image_header_state_sub">Conserver la hauteur et l\'épinglage de l\'aperçu lors du passage d\'un outil à l\'autre. Si cette option est désactivée, chaque outil s\'ouvre avec la disposition par défaut.</string>
+    <string name="gallery_favorites">Favoris</string>
+    <string name="gallery_trash">Corbeille</string>
+    <string name="gallery_move_to_trash">Déplacer vers la corbeille</string>
+    <string name="gallery_trash_confirmation">Déplacer ce fichier vers la corbeille ? Il disparaîtra de la galerie, mais vous pourrez le restaurer avant sa date de suppression automatique.</string>
+    <string name="gallery_trash_selected_confirmation">Déplacer les fichiers sélectionnés (%1$d) vers la corbeille ? Ils disparaîtront de la galerie, mais vous pourrez les restaurer avant leur date de suppression automatique.</string>
+    <string name="gallery_restore">Restaurer</string>
+    <string name="gallery_restore_confirmation">Restaurer ce fichier depuis la corbeille ? Il reviendra dans son dossier d\'origine et réapparaîtra dans la galerie.</string>
+    <string name="gallery_restore_selected_confirmation">Restaurer les fichiers sélectionnés (%1$d) depuis la corbeille ? Ils reviendront à leurs dossiers d\'origine et réapparaîtront dans la galerie.</string>
+    <string name="gallery_delete_permanently">Supprimer définitivement</string>
+    <string name="gallery_delete_confirmation">Supprimer définitivement ce fichier de la corbeille ? Il sera supprimé de l\'appareil et ne pourra pas être restauré.</string>
+    <string name="gallery_delete_selected_confirmation">Supprimer définitivement les fichiers sélectionnés (%1$d) de la corbeille ? Ils seront supprimés de l\'appareil et ne pourront pas être restaurés.</string>
+    <string name="gallery_trash_empty">La corbeille est vide</string>
+    <string name="gallery_trash_expires">Suppression prévue : %1$s</string>
+    <string name="gallery_media_action_failed">Impossible de modifier le fichier. Vérifiez l\'accès à celui-ci.</string>
 </resources>

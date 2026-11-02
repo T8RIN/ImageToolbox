@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s af %2$s</string>
     <string name="remember_image_header_state">Husk forhåndsvisningslayout</string>
     <string name="remember_image_header_state_sub">Bevar forhåndsvisningens højde og fastgørelse ved skift mellem værktøjer. Når indstillingen er deaktiveret, starter hvert værktøj med standardlayoutet.</string>
+    <string name="gallery_favorites">Favoritter</string>
+    <string name="gallery_trash">Papirkurv</string>
+    <string name="gallery_move_to_trash">Flyt til papirkurven</string>
+    <string name="gallery_trash_confirmation">Vil du flytte denne fil til papirkurven? Den forsvinder fra galleriet, men du kan gendanne den før dens automatiske sletningsdato.</string>
+    <string name="gallery_trash_selected_confirmation">Vil du flytte de valgte filer (%1$d) til papirkurven? De forsvinder fra galleriet, men du kan gendanne dem før deres automatiske sletningsdato.</string>
+    <string name="gallery_restore">Gendan</string>
+    <string name="gallery_restore_confirmation">Vil du gendanne denne fil fra papirkurven? Den vender tilbage til sin oprindelige mappe og vises igen i galleriet.</string>
+    <string name="gallery_restore_selected_confirmation">Vil du gendanne de valgte filer (%1$d) fra papirkurven? De vil vende tilbage til deres originale mapper og dukke op igen i galleriet.</string>
+    <string name="gallery_delete_permanently">Slet permanent</string>
+    <string name="gallery_delete_confirmation">Vil du slette denne fil permanent fra papirkurven? Den vil blive fjernet fra enheden og kan ikke gendannes.</string>
+    <string name="gallery_delete_selected_confirmation">Vil du permanent slette de valgte filer (%1$d) fra papirkurven? De vil blive fjernet fra enheden og kan ikke gendannes.</string>
+    <string name="gallery_trash_empty">Papirkurven er tom</string>
+    <string name="gallery_trash_expires">Planlagt sletning: %1$s</string>
+    <string name="gallery_media_action_failed">Kunne ikke ændre filen. Tjek adgangen til den.</string>
 </resources>

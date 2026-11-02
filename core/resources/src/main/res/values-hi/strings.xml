@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%2$s में से %1$s</string>
     <string name="remember_image_header_state">पूर्वावलोकन लेआउट सहेजें</string>
     <string name="remember_image_header_state_sub">टूल बदलते समय पूर्वावलोकन की ऊंचाई और पिन की स्थिति सहेजें। बंद होने पर, हर टूल डिफ़ॉल्ट लेआउट से शुरू होता है।</string>
+    <string name="gallery_favorites">पसंदीदा</string>
+    <string name="gallery_trash">ट्रैश</string>
+    <string name="gallery_move_to_trash">ट्रैश में ले जाएं</string>
+    <string name="gallery_trash_confirmation">इस फ़ाइल को ट्रैश में ले जाएँ? यह गैलरी से गायब हो जाएगी, लेकिन आप इसकी स्वचालित विलोपन तिथि से पहले इसे पुनर्स्थापित कर सकते हैं।</string>
+    <string name="gallery_trash_selected_confirmation">चयनित फ़ाइलों (%1$d) को ट्रैश में ले जाएँ? वे गैलरी से गायब हो जाएँगी, लेकिन आप उनकी स्वचालित विलोपन तिथि से पहले उन्हें पुनर्स्थापित कर सकते हैं।</string>
+    <string name="gallery_restore">पुनर्स्थापित करें</string>
+    <string name="gallery_restore_confirmation">इस फ़ाइल को ट्रैश से पुनर्स्थापित करें? यह अपने मूल फ़ोल्डर में वापस आ जाएगी और गैलरी में फिर से दिखाई देगी।</string>
+    <string name="gallery_restore_selected_confirmation">चयनित फ़ाइलों (%1$d) को ट्रैश से पुनर्स्थापित करें? वे अपने मूल फ़ोल्डरों में लौट आएँगी और गैलरी में फिर से दिखाई देंगी।</string>
+    <string name="gallery_delete_permanently">स्थायी रूप से हटाएँ</string>
+    <string name="gallery_delete_confirmation">इस फ़ाइल को ट्रैश से स्थायी रूप से हटाएँ? इसे डिवाइस से हटा दिया जाएगा और इसे पुनर्स्थापित नहीं किया जा सकेगा।</string>
+    <string name="gallery_delete_selected_confirmation">चयनित फ़ाइलों (%1$d) को ट्रैश से स्थायी रूप से हटाएं? उन्हें डिवाइस से हटा दिया जाएगा और पुनर्स्थापित नहीं किया जा सकेगा.</string>
+    <string name="gallery_trash_empty">ट्रैश खाली है</string>
+    <string name="gallery_trash_expires">हटाने के लिए शेड्यूल किया गया: %1$s</string>
+    <string name="gallery_media_action_failed">फ़ाइल को बदला नहीं जा सका। उस तक पहुँच की जाँच करें।</string>
 </resources>

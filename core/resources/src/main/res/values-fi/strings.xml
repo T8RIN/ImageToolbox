@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">Muista esikatselun asettelu</string>
     <string name="remember_image_header_state_sub">Säilytä esikatselun korkeus ja kiinnitystila työkalujen välillä. Kun asetus on poistettu käytöstä, jokainen työkalu avautuu oletusasettelulla.</string>
+    <string name="gallery_favorites">Suosikit</string>
+    <string name="gallery_trash">Roskakori</string>
+    <string name="gallery_move_to_trash">Siirrä roskakoriin</string>
+    <string name="gallery_trash_confirmation">Siirretäänkö tämä tiedosto roskakoriin? Se katoaa galleriasta, mutta voit palauttaa sen ennen sen automaattista poistopäivää.</string>
+    <string name="gallery_trash_selected_confirmation">Siirretäänkö valitut tiedostot (%1$d) roskakoriin? Ne katoavat galleriasta, mutta voit palauttaa ne ennen niiden automaattista poistopäivää.</string>
+    <string name="gallery_restore">Palauta</string>
+    <string name="gallery_restore_confirmation">Palautetaanko tämä tiedosto roskakorista? Se palaa alkuperäiseen kansioon ja ilmestyy uudelleen galleriaan.</string>
+    <string name="gallery_restore_selected_confirmation">Palautetaanko valitut tiedostot (%1$d) roskakorista? Ne palaavat alkuperäisiin kansioihinsa ja näkyvät uudelleen galleriassa.</string>
+    <string name="gallery_delete_permanently">Poista pysyvästi</string>
+    <string name="gallery_delete_confirmation">Poistetaanko tämä tiedosto pysyvästi roskakorista? Se poistetaan laitteesta, eikä sitä voi palauttaa.</string>
+    <string name="gallery_delete_selected_confirmation">Poistetaanko valitut tiedostot (%1$d) pysyvästi roskakorista? Ne poistetaan laitteesta, eikä niitä voi palauttaa.</string>
+    <string name="gallery_trash_empty">Roskakori on tyhjä</string>
+    <string name="gallery_trash_expires">Ajoitettu poistettavaksi: %1$s</string>
+    <string name="gallery_media_action_failed">Tiedostoa ei voitu muuttaa. Tarkista pääsy siihen.</string>
 </resources>

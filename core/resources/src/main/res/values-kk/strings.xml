@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%2$s ішінен %1$s</string>
     <string name="remember_image_header_state">Алдын ала қарау орналасуын есте сақтау</string>
     <string name="remember_image_header_state_sub">Құралдар арасында ауысқанда алдын ала қарау биіктігі мен бекітілу күйін сақтау. Өшірілгенде әр құрал әдепкі орналасумен ашылады.</string>
+    <string name="gallery_favorites">Таңдаулылар</string>
+    <string name="gallery_trash">Себет</string>
+    <string name="gallery_move_to_trash">Себетке жылжыту</string>
+    <string name="gallery_trash_confirmation">Бұл файлды себетке жылжыту керек пе? Ол галереядан жоғалады, бірақ оны автоматты түрде жою күніне дейін қалпына келтіруге болады.</string>
+    <string name="gallery_trash_selected_confirmation">Таңдалған файлдарды (%1$d) себетке жылжыту керек пе? Олар галереядан жоғалады, бірақ оларды автоматты түрде жою күніне дейін қалпына келтіруге болады.</string>
+    <string name="gallery_restore">Қалпына келтіру</string>
+    <string name="gallery_restore_confirmation">Бұл файлды себеттен қалпына келтіру керек пе? Ол бастапқы қалтасына оралады және галереяда қайта пайда болады.</string>
+    <string name="gallery_restore_selected_confirmation">Таңдалған файлдарды (%1$d) себеттен қалпына келтіру керек пе? Олар бастапқы қалталарына оралады және галереяда қайта пайда болады.</string>
+    <string name="gallery_delete_permanently">Біржола жою</string>
+    <string name="gallery_delete_confirmation">Бұл файлды себеттен біржола жою қажет пе? Ол құрылғыдан жойылады және оны қалпына келтіру мүмкін емес.</string>
+    <string name="gallery_delete_selected_confirmation">Таңдалған файлдарды (%1$d) себеттен біржола жою қажет пе? Олар құрылғыдан жойылады және оларды қалпына келтіру мүмкін емес.</string>
+    <string name="gallery_trash_empty">Себет бос</string>
+    <string name="gallery_trash_expires">Жою жоспарланған: %1$s</string>
+    <string name="gallery_media_action_failed">Файлды өзгерту мүмкін болмады. Оған қол жеткізуді тексеріңіз.</string>
 </resources>

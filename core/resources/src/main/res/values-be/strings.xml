@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s з %2$s</string>
     <string name="remember_image_header_state">Запамінаць макет папярэдняга прагляду</string>
     <string name="remember_image_header_state_sub">Захоўваць вышыню і стан замацавання папярэдняга прагляду пры пераходзе паміж інструментамі. Калі выключана, кожны інструмент адкрываецца з макетам па змаўчанні.</string>
+    <string name="gallery_favorites">Выбранае</string>
+    <string name="gallery_trash">Сметніца</string>
+    <string name="gallery_move_to_trash">Перамясціць у сметніцу</string>
+    <string name="gallery_trash_confirmation">Перамясціць гэты файл у сметніцу? Ён знікне з галерэі, але вы можаце аднавіць яго да даты аўтаматычнага выдалення.</string>
+    <string name="gallery_trash_selected_confirmation">Перамясціць выбраныя файлы (%1$d) у сметніцу? Яны знікнуць з галерэі, але вы можаце аднавіць іх да даты аўтаматычнага выдалення.</string>
+    <string name="gallery_restore">Аднавіць</string>
+    <string name="gallery_restore_confirmation">Аднавіць гэты файл са сметніцы? Ён вернецца ў зыходную тэчку і зноў з\'явіцца ў галерэі.</string>
+    <string name="gallery_restore_selected_confirmation">Аднавіць выбраныя файлы (%1$d) са сметніцы? Яны вернуцца ў свае зыходныя тэчкі і зноў з\'явяцца ў галерэі.</string>
+    <string name="gallery_delete_permanently">Выдаліць назаўсёды</string>
+    <string name="gallery_delete_confirmation">Назаўсёды выдаліць гэты файл са сметніцы? Ён будзе выдалены з прылады і не можа быць адноўлены.</string>
+    <string name="gallery_delete_selected_confirmation">Назаўсёды выдаліць выбраныя файлы (%1$d) са сметніцы? Яны будуць выдалены з прылады і не могуць быць адноўлены.</string>
+    <string name="gallery_trash_empty">Сметніца пустая</string>
+    <string name="gallery_trash_expires">Запланавана выдаленне: %1$s</string>
+    <string name="gallery_media_action_failed">Не атрымалася змяніць файл. Праверце доступ да яго.</string>
 </resources>

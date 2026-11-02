@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s/%2$s</string>
     <string name="remember_image_header_state">プレビューのレイアウトを記憶する</string>
     <string name="remember_image_header_state_sub">ツールを切り替えても、プレビューの高さと固定状態を保持します。無効にすると、各ツールはデフォルトのレイアウトで開きます。</string>
+    <string name="gallery_favorites">お気に入り</string>
+    <string name="gallery_trash">ゴミ箱</string>
+    <string name="gallery_move_to_trash">ゴミ箱に移動</string>
+    <string name="gallery_trash_confirmation">このファイルをゴミ箱に移動しますか?ギャラリーから消えますが、自動削除日より前に復元できます。</string>
+    <string name="gallery_trash_selected_confirmation">選択したファイル (%1$d) をゴミ箱に移動しますか?これらはギャラリーから消えますが、自動削除日より前に復元できます。</string>
+    <string name="gallery_restore">復元</string>
+    <string name="gallery_restore_confirmation">このファイルをゴミ箱から復元しますか?元のフォルダーに戻り、ギャラリーに再び表示されます。</string>
+    <string name="gallery_restore_selected_confirmation">選択したファイル (%1$d) をゴミ箱から復元しますか?これらは元のフォルダーに戻り、ギャラリーに再び表示されます。</string>
+    <string name="gallery_delete_permanently">完全に削除</string>
+    <string name="gallery_delete_confirmation">このファイルをゴミ箱から完全に削除しますか?デバイスから削除され、復元することはできません。</string>
+    <string name="gallery_delete_selected_confirmation">選択したファイル (%1$d) をゴミ箱から完全に削除しますか?これらはデバイスから削除され、復元することはできません。</string>
+    <string name="gallery_trash_empty">ゴミ箱が空です</string>
+    <string name="gallery_trash_expires">削除予定: %1$s</string>
+    <string name="gallery_media_action_failed">ファイルを変更できませんでした。アクセスを確認してください。</string>
 </resources>

@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s de %2$s</string>
     <string name="remember_image_header_state">Recordar el diseño de la vista previa</string>
     <string name="remember_image_header_state_sub">Conservar la altura de la vista previa y su estado de fijación al cambiar de herramienta. Si se desactiva, cada herramienta se abre con el diseño predeterminado.</string>
+    <string name="gallery_favorites">Favoritos</string>
+    <string name="gallery_trash">Papelera</string>
+    <string name="gallery_move_to_trash">Mover a la papelera</string>
+    <string name="gallery_trash_confirmation">¿Mover este archivo a la papelera? Desaparecerá de la galería, pero podrás restaurarlo antes de su fecha de eliminación automática.</string>
+    <string name="gallery_trash_selected_confirmation">¿Mover los archivos seleccionados (%1$d) a la papelera? Desaparecerán de la galería, pero podrás restaurarlos antes de su fecha de eliminación automática.</string>
+    <string name="gallery_restore">Restaurar</string>
+    <string name="gallery_restore_confirmation">¿Restaurar este archivo de la papelera? Volverá a su carpeta original y reaparecerá en la galería.</string>
+    <string name="gallery_restore_selected_confirmation">¿Restaurar los archivos seleccionados (%1$d) de la papelera? Volverán a sus carpetas originales y reaparecerán en la galería.</string>
+    <string name="gallery_delete_permanently">Eliminar permanentemente</string>
+    <string name="gallery_delete_confirmation">¿Eliminar permanentemente este archivo de la papelera? Se eliminará del dispositivo y no se podrá restaurar.</string>
+    <string name="gallery_delete_selected_confirmation">¿Eliminar permanentemente los archivos seleccionados (%1$d) de la papelera? Se eliminarán del dispositivo y no se podrán restaurar.</string>
+    <string name="gallery_trash_empty">La papelera está vacía</string>
+    <string name="gallery_trash_expires">Programado para eliminación: %1$s</string>
+    <string name="gallery_media_action_failed">No se pudo cambiar el archivo. Consulta el acceso al mismo.</string>
 </resources>

@@ -7536,4 +7536,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">記住預覽版面配置</string>
     <string name="remember_image_header_state_sub">在工具之間切換時保留預覽的高度和固定狀態。停用後，每個工具都會以預設版面配置開啟。</string>
+    <string name="gallery_favorites">我的最愛</string>
+    <string name="gallery_trash">垃圾桶</string>
+    <string name="gallery_move_to_trash">移至垃圾桶</string>
+    <string name="gallery_trash_confirmation">將此檔案移至垃圾桶？它將從圖庫中消失，但您可以在自動刪除日期之前將其還原。</string>
+    <string name="gallery_trash_selected_confirmation">將所選檔案 (%1$d) 移至垃圾桶？它們將從圖庫中消失，但您可以在自動刪除日期之前將其還原。</string>
+    <string name="gallery_restore">還原</string>
+    <string name="gallery_restore_confirmation">從垃圾桶中還原此檔案？它將回到原始資料夾並重新出現在圖庫中。</string>
+    <string name="gallery_restore_selected_confirmation">從垃圾桶中還原所選檔案 (%1$d)？它們將回到原始資料夾並重新出現在圖庫中。</string>
+    <string name="gallery_delete_permanently">永久刪除</string>
+    <string name="gallery_delete_confirmation">從垃圾桶中永久刪除此檔案？它將從裝置中刪除且無法還原。</string>
+    <string name="gallery_delete_selected_confirmation">從垃圾桶中永久刪除所選檔案 (%1$d)？它們將從裝置中刪除且無法還原。</string>
+    <string name="gallery_trash_empty">垃圾桶是空的</string>
+    <string name="gallery_trash_expires">預定刪除：%1$s</string>
+    <string name="gallery_media_action_failed">無法修改檔案。請檢查檔案存取權限。</string>
 </resources>

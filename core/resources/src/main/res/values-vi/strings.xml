@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s trong số %2$s</string>
     <string name="remember_image_header_state">Ghi nhớ bố cục xem trước</string>
     <string name="remember_image_header_state_sub">Giữ nguyên chiều cao và trạng thái ghim của phần xem trước khi chuyển đổi công cụ. Khi tắt, mỗi công cụ sẽ mở với bố cục mặc định.</string>
+    <string name="gallery_favorites">Yêu thích</string>
+    <string name="gallery_trash">Thùng rác</string>
+    <string name="gallery_move_to_trash">Chuyển vào thùng rác</string>
+    <string name="gallery_trash_confirmation">Chuyển tệp này vào thùng rác? Nó sẽ biến mất khỏi thư viện nhưng bạn có thể khôi phục nó trước ngày xóa tự động.</string>
+    <string name="gallery_trash_selected_confirmation">Chuyển các tệp đã chọn (%1$d) vào thùng rác? Chúng sẽ biến mất khỏi thư viện nhưng bạn có thể khôi phục chúng trước ngày xóa tự động.</string>
+    <string name="gallery_restore">Khôi phục</string>
+    <string name="gallery_restore_confirmation">Khôi phục tệp này từ thùng rác? Nó sẽ trở lại thư mục ban đầu và xuất hiện lại trong thư viện.</string>
+    <string name="gallery_restore_selected_confirmation">Khôi phục các tệp đã chọn (%1$d) từ thùng rác? Chúng sẽ quay trở lại thư mục ban đầu và xuất hiện lại trong thư viện.</string>
+    <string name="gallery_delete_permanently">Xóa vĩnh viễn</string>
+    <string name="gallery_delete_confirmation">Xóa vĩnh viễn tệp này khỏi thùng rác? Nó sẽ bị xóa khỏi thiết bị và không thể khôi phục được.</string>
+    <string name="gallery_delete_selected_confirmation">Xóa vĩnh viễn các tệp đã chọn (%1$d) khỏi thùng rác? Chúng sẽ bị xóa khỏi thiết bị và không thể khôi phục được.</string>
+    <string name="gallery_trash_empty">Thùng rác trống</string>
+    <string name="gallery_trash_expires">Đã lên lịch xóa: %1$s</string>
+    <string name="gallery_media_action_failed">Không thể thay đổi tệp. Hãy kiểm tra quyền truy cập tệp.</string>
 </resources>

@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">Önizleme Düzenini Hatırla</string>
     <string name="remember_image_header_state_sub">Araçlar arasında geçiş yaparken önizleme yüksekliğini ve sabitleme durumunu koru. Devre dışı bırakıldığında her araç varsayılan düzenle açılır.</string>
+    <string name="gallery_favorites">Favoriler</string>
+    <string name="gallery_trash">Çöp kutusu</string>
+    <string name="gallery_move_to_trash">Çöp kutusuna taşı</string>
+    <string name="gallery_trash_confirmation">Bu dosya çöp kutusuna taşınsın mı? Galeriden kaybolacaktır ancak otomatik silinme tarihinden önce onu geri yükleyebilirsiniz.</string>
+    <string name="gallery_trash_selected_confirmation">Seçilen dosyalar (%1$d) çöp kutusuna taşınsın mı? Galeriden kaybolacaklar ancak otomatik silinme tarihlerinden önce bunları geri yükleyebilirsiniz.</string>
+    <string name="gallery_restore">Geri yükle</string>
+    <string name="gallery_restore_confirmation">Bu dosya çöp kutusundan geri yüklensin mi? Orijinal klasörüne dönecek ve galeride yeniden görünecektir.</string>
+    <string name="gallery_restore_selected_confirmation">Seçilen dosyalar (%1$d) çöp kutusundan geri yüklensin mi? Orijinal klasörlerine dönecekler ve galeride yeniden görünecekler.</string>
+    <string name="gallery_delete_permanently">Kalıcı olarak sil</string>
+    <string name="gallery_delete_confirmation">Bu dosya çöp kutusundan kalıcı olarak silinsin mi? Cihazdan kaldırılacak ve geri yüklenemeyecektir.</string>
+    <string name="gallery_delete_selected_confirmation">Seçilen dosyalar (%1$d) çöp kutusundan kalıcı olarak silinsin mi? Cihazdan kaldırılacaklar ve geri yüklenemeyecekler.</string>
+    <string name="gallery_trash_empty">Çöp kutusu boş</string>
+    <string name="gallery_trash_expires">Silinmesi planlandı: %1$s</string>
+    <string name="gallery_media_action_failed">Dosya değiştirilemedi. Erişimi kontrol edin.</string>
 </resources>

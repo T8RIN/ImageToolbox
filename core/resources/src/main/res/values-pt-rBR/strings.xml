@@ -7539,4 +7539,18 @@
     <string name="backup_progress_bytes">%1$s de %2$s</string>
     <string name="remember_image_header_state">Memorizar o layout da prévia</string>
     <string name="remember_image_header_state_sub">Manter a altura e o estado de fixação da prévia ao alternar entre ferramentas. Quando desativado, cada ferramenta abre com o layout padrão.</string>
+    <string name="gallery_favorites">Favoritos</string>
+    <string name="gallery_trash">Lixeira</string>
+    <string name="gallery_move_to_trash">Mover para a lixeira</string>
+    <string name="gallery_trash_confirmation">Mover este arquivo para a lixeira? Ele desaparecerá da galeria, mas você poderá restaurá-lo antes da data de exclusão automática.</string>
+    <string name="gallery_trash_selected_confirmation">Mover os arquivos selecionados (%1$d) para a lixeira? Eles desaparecerão da galeria, mas você poderá restaurá-los antes da data de exclusão automática.</string>
+    <string name="gallery_restore">Restaurar</string>
+    <string name="gallery_restore_confirmation">Restaurar este arquivo da lixeira? Ele retornará à sua pasta original e reaparecerá na galeria.</string>
+    <string name="gallery_restore_selected_confirmation">Restaurar os arquivos selecionados (%1$d) da lixeira? Eles retornarão às suas pastas originais e reaparecerão na galeria.</string>
+    <string name="gallery_delete_permanently">Excluir permanentemente</string>
+    <string name="gallery_delete_confirmation">Excluir permanentemente este arquivo da lixeira? Ele será removido do dispositivo e não poderá ser restaurado.</string>
+    <string name="gallery_delete_selected_confirmation">Excluir permanentemente os arquivos selecionados (%1$d) da lixeira? Eles serão removidos do dispositivo e não poderão ser restaurados.</string>
+    <string name="gallery_trash_empty">A lixeira está vazia</string>
+    <string name="gallery_trash_expires">Programado para exclusão: %1$s</string>
+    <string name="gallery_media_action_failed">Não foi possível alterar o arquivo. Verifique o acesso a ele.</string>
 </resources>

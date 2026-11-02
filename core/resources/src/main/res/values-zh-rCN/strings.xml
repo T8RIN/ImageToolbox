@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">记住预览布局</string>
     <string name="remember_image_header_state_sub">在工具之间切换时保留预览的高度和固定状态。禁用后，每个工具都会使用默认布局打开。</string>
+    <string name="gallery_favorites">收藏夹</string>
+    <string name="gallery_trash">垃圾箱</string>
+    <string name="gallery_move_to_trash">移至垃圾箱</string>
+    <string name="gallery_trash_confirmation">将此文件移至垃圾箱？它将从图库中消失，但您可以在自动删除日期之前将其恢复。</string>
+    <string name="gallery_trash_selected_confirmation">将所选文件 (%1$d) 移至垃圾箱？它们将从图库中消失，但您可以在自动删除日期之前恢复它们。</string>
+    <string name="gallery_restore">恢复</string>
+    <string name="gallery_restore_confirmation">从垃圾箱中恢复此文件？它将返回到其原始文件夹并重新出现在图库中。</string>
+    <string name="gallery_restore_selected_confirmation">从垃圾箱中恢复选定的文件 (%1$d)？它们将返回到原来的文件夹并重新出现在图库中。</string>
+    <string name="gallery_delete_permanently">永久删除</string>
+    <string name="gallery_delete_confirmation">要从垃圾箱中永久删除该文件吗？它将从设备中删除且无法恢复。</string>
+    <string name="gallery_delete_selected_confirmation">从垃圾箱中永久删除所选文件 (%1$d)？它们将从设备中删除且无法恢复。</string>
+    <string name="gallery_trash_empty">垃圾箱已空</string>
+    <string name="gallery_trash_expires">预定删除：%1$s</string>
+    <string name="gallery_media_action_failed">无法修改文件。请检查文件访问权限。</string>
 </resources>

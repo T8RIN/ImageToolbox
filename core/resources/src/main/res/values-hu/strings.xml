@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">Előnézeti elrendezés megjegyzése</string>
     <string name="remember_image_header_state_sub">Az előnézet magasságának és rögzítésének megőrzése az eszközök közötti váltáskor. Kikapcsolva minden eszköz az alapértelmezett elrendezéssel indul.</string>
+    <string name="gallery_favorites">Kedvencek</string>
+    <string name="gallery_trash">Kuka</string>
+    <string name="gallery_move_to_trash">Áthelyezés a kukába</string>
+    <string name="gallery_trash_confirmation">Áthelyezi ezt a fájlt a kukába? El fog tűnni a galériából, de az automatikus törlés dátuma előtt visszaállíthatja.</string>
+    <string name="gallery_trash_selected_confirmation">Áthelyezi a kiválasztott fájlokat (%1$d) a kukába? El fognak tűnni a galériából, de visszaállíthatja őket az automatikus törlés dátuma előtt.</string>
+    <string name="gallery_restore">Visszaállítás</string>
+    <string name="gallery_restore_confirmation">Visszaállítja ezt a fájlt a kukából? Visszatér az eredeti mappába, és újra megjelenik a galériában.</string>
+    <string name="gallery_restore_selected_confirmation">Visszaállítja a kijelölt fájlokat (%1$d) a kukából? Visszatérnek eredeti mappájukba, és újra megjelennek a galériában.</string>
+    <string name="gallery_delete_permanently">Végleges törlés</string>
+    <string name="gallery_delete_confirmation">Véglegesen törli ezt a fájlt a kukából? Eltávolítják az eszközről, és nem lehet visszaállítani.</string>
+    <string name="gallery_delete_selected_confirmation">Véglegesen törli a kijelölt fájlokat (%1$d) a kukából? Eltávolítják őket az eszközről, és nem állíthatók vissza.</string>
+    <string name="gallery_trash_empty">A kuka üres</string>
+    <string name="gallery_trash_expires">Ütemezett törlés: %1$s</string>
+    <string name="gallery_media_action_failed">Nem sikerült módosítani a fájlt. Ellenőrizze a hozzáférést.</string>
 </resources>

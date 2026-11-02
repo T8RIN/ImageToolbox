@@ -7539,4 +7539,18 @@
     <string name="backup_progress_bytes">%1$s din %2$s</string>
     <string name="remember_image_header_state">Memorează aspectul previzualizării</string>
     <string name="remember_image_header_state_sub">Păstrează înălțimea și starea de fixare a previzualizării la trecerea între instrumente. Când opțiunea este dezactivată, fiecare instrument se deschide cu aspectul implicit.</string>
+    <string name="gallery_favorites">Favorite</string>
+    <string name="gallery_trash">Coș de gunoi</string>
+    <string name="gallery_move_to_trash">Mutați în coșul de gunoi</string>
+    <string name="gallery_trash_confirmation">Mutați acest fișier în coșul de gunoi? Va dispărea din galerie, dar îl puteți restaura înainte de data ștergerii sale automate.</string>
+    <string name="gallery_trash_selected_confirmation">Mutați fișierele selectate (%1$d) în coșul de gunoi? Acestea vor dispărea din galerie, dar le puteți restaura înainte de data ștergerii lor automate.</string>
+    <string name="gallery_restore">Restaurați</string>
+    <string name="gallery_restore_confirmation">Restaurați acest fișier din coșul de gunoi? Va reveni la folderul original și va reapărea în galerie.</string>
+    <string name="gallery_restore_selected_confirmation">Restaurați fișierele selectate (%1$d) din coșul de gunoi? Acestea vor reveni la folderele lor originale și vor reapărea în galerie.</string>
+    <string name="gallery_delete_permanently">Ștergeți definitiv</string>
+    <string name="gallery_delete_confirmation">Ștergeți definitiv acest fișier din coșul de gunoi? Acesta va fi eliminat de pe dispozitiv și nu poate fi restaurat.</string>
+    <string name="gallery_delete_selected_confirmation">Ștergeți definitiv fișierele selectate (%1$d) din coșul de gunoi? Acestea vor fi eliminate de pe dispozitiv și nu pot fi restaurate.</string>
+    <string name="gallery_trash_empty">Coșul de gunoi este gol</string>
+    <string name="gallery_trash_expires">Programat pentru ștergere: %1$s</string>
+    <string name="gallery_media_action_failed">Nu s-a putut schimba fișierul. Verificați accesul la acesta.</string>
 </resources>

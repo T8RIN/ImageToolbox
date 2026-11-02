@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%2$s এর %1$s</string>
     <string name="remember_image_header_state">প্রিভিউ লেআউট মনে রাখা</string>
     <string name="remember_image_header_state_sub">টুল বদলালেও প্রিভিউয়ের উচ্চতা ও পিন করা অবস্থা সংরক্ষণ করুন। বন্ধ থাকলে প্রতিটি টুল ডিফল্ট লেআউট দিয়ে শুরু হবে।</string>
+    <string name="gallery_favorites">পছন্দের</string>
+    <string name="gallery_trash">ট্র্যাশ</string>
+    <string name="gallery_move_to_trash">ট্র্যাশে সরান</string>
+    <string name="gallery_trash_confirmation">এই ফাইলটি ট্র্যাশে সরাতে চান? এটি গ্যালারি থেকে অদৃশ্য হয়ে যাবে, তবে আপনি এটিকে স্বয়ংক্রিয়ভাবে মুছে ফেলার তারিখের আগে পুনরুদ্ধার করতে পারেন।</string>
+    <string name="gallery_trash_selected_confirmation">নির্বাচিত ফাইলগুলি (%1$d) ট্র্যাশে সরাতে চান? সেগুলি গ্যালারি থেকে অদৃশ্য হয়ে যাবে, তবে স্বয়ংক্রিয়ভাবে মুছে ফেলার তারিখের আগে আপনি সেগুলি পুনরুদ্ধার করতে পারবেন।</string>
+    <string name="gallery_restore">পুনরুদ্ধার করুন</string>
+    <string name="gallery_restore_confirmation">ট্র্যাশ থেকে এই ফাইলটি পুনরুদ্ধার করবেন? এটি তার আসল ফোল্ডারে ফিরে আসবে এবং গ্যালারিতে আবার প্রদর্শিত হবে৷</string>
+    <string name="gallery_restore_selected_confirmation">ট্র্যাশ থেকে নির্বাচিত ফাইলগুলি (%1$d) পুনরুদ্ধার করবেন? সেগুলি তাদের আসল ফোল্ডারে ফিরে আসবে এবং গ্যালারিতে আবার দেখা যাবে।</string>
+    <string name="gallery_delete_permanently">স্থায়ীভাবে মুছে ফেলুন</string>
+    <string name="gallery_delete_confirmation">ট্র্যাশ থেকে এই ফাইলটি স্থায়ীভাবে মুছে ফেলবেন? এটি ডিভাইস থেকে সরানো হবে এবং পুনরুদ্ধার করা যাবে না।</string>
+    <string name="gallery_delete_selected_confirmation">ট্র্যাশ থেকে নির্বাচিত ফাইল (%1$d) স্থায়ীভাবে মুছে ফেলবেন? সেগুলি ডিভাইস থেকে সরানো হবে এবং পুনরুদ্ধার করা যাবে না৷</string>
+    <string name="gallery_trash_empty">ট্র্যাশ খালি</string>
+    <string name="gallery_trash_expires">মুছে ফেলার জন্য নির্ধারিত: %1$s</string>
+    <string name="gallery_media_action_failed">ফাইলটি পরিবর্তন করা যায়নি। ফাইলটিতে প্রবেশাধিকার আছে কি না পরীক্ষা করুন।</string>
 </resources>

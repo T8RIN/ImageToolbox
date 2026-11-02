@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s จาก %2$s</string>
     <string name="remember_image_header_state">จดจำเค้าโครงภาพตัวอย่าง</string>
     <string name="remember_image_header_state_sub">เก็บความสูงและสถานะการปักหมุดของภาพตัวอย่างไว้เมื่อสลับเครื่องมือ เมื่อปิดใช้งาน แต่ละเครื่องมือจะเปิดด้วยเค้าโครงเริ่มต้น</string>
+    <string name="gallery_favorites">รายการโปรด</string>
+    <string name="gallery_trash">ถังขยะ</string>
+    <string name="gallery_move_to_trash">ย้ายไปที่ถังขยะ</string>
+    <string name="gallery_trash_confirmation">ย้ายไฟล์นี้ไปที่ถังขยะใช่ไหม มันจะหายไปจากแกลเลอรี แต่คุณสามารถกู้คืนได้ก่อนวันที่ลบอัตโนมัติ</string>
+    <string name="gallery_trash_selected_confirmation">ย้ายไฟล์ที่เลือก (%1$d) ไปที่ถังขยะหรือไม่ ไฟล์เหล่านี้จะหายไปจากแกลเลอรี แต่คุณสามารถกู้คืนได้ก่อนวันที่ลบอัตโนมัติ</string>
+    <string name="gallery_restore">กู้คืน</string>
+    <string name="gallery_restore_confirmation">กู้คืนไฟล์นี้จากถังขยะไหม มันจะกลับไปยังโฟลเดอร์เดิมและปรากฏขึ้นอีกครั้งในแกลเลอรี</string>
+    <string name="gallery_restore_selected_confirmation">กู้คืนไฟล์ที่เลือก (%1$d) จากถังขยะหรือไม่ ไฟล์เหล่านี้จะกลับไปยังโฟลเดอร์เดิมและปรากฏขึ้นอีกครั้งในแกลเลอรี</string>
+    <string name="gallery_delete_permanently">ลบอย่างถาวร</string>
+    <string name="gallery_delete_confirmation">ลบไฟล์นี้ออกจากถังขยะอย่างถาวรใช่ไหม มันจะถูกลบออกจากอุปกรณ์และไม่สามารถกู้คืนได้</string>
+    <string name="gallery_delete_selected_confirmation">ลบไฟล์ที่เลือก (%1$d) ออกจากถังขยะอย่างถาวรหรือไม่ สิ่งเหล่านี้จะถูกลบออกจากอุปกรณ์และไม่สามารถกู้คืนได้</string>
+    <string name="gallery_trash_empty">ถังขยะว่างเปล่า</string>
+    <string name="gallery_trash_expires">กำหนดเวลาการลบ: %1$s</string>
+    <string name="gallery_media_action_failed">ไม่สามารถแก้ไขไฟล์ได้ โปรดตรวจสอบสิทธิ์การเข้าถึงไฟล์</string>
 </resources>

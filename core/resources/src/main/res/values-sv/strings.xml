@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s av %2$s</string>
     <string name="remember_image_header_state">Kom ihåg förhandsgranskningens layout</string>
     <string name="remember_image_header_state_sub">Behåll förhandsgranskningens höjd och fästläge när du byter verktyg. När inställningen är inaktiverad öppnas varje verktyg med standardlayouten.</string>
+    <string name="gallery_favorites">Favoriter</string>
+    <string name="gallery_trash">Papperskorg</string>
+    <string name="gallery_move_to_trash">Flytta till papperskorgen</string>
+    <string name="gallery_trash_confirmation">Flytta den här filen till papperskorgen? Den kommer att försvinna från galleriet, men du kan återställa den innan dess automatiska raderingsdatum.</string>
+    <string name="gallery_trash_selected_confirmation">Flytta de markerade filerna (%1$d) till papperskorgen? De kommer att försvinna från galleriet, men du kan återställa dem före deras automatiska raderingsdatum.</string>
+    <string name="gallery_restore">Återställ</string>
+    <string name="gallery_restore_confirmation">Återställa den här filen från papperskorgen? Den kommer att återgå till sin ursprungliga mapp och dyka upp igen i galleriet.</string>
+    <string name="gallery_restore_selected_confirmation">Återställa de valda filerna (%1$d) från papperskorgen? De kommer att återgå till sina ursprungliga mappar och dyka upp igen i galleriet.</string>
+    <string name="gallery_delete_permanently">Ta bort permanent</string>
+    <string name="gallery_delete_confirmation">Vill du ta bort den här filen permanent från papperskorgen? Den kommer att tas bort från enheten och kan inte återställas.</string>
+    <string name="gallery_delete_selected_confirmation">Vill du ta bort de valda filerna (%1$d) permanent från papperskorgen? De kommer att tas bort från enheten och kan inte återställas.</string>
+    <string name="gallery_trash_empty">Papperskorgen är tom</string>
+    <string name="gallery_trash_expires">Planerad för radering: %1$s</string>
+    <string name="gallery_media_action_failed">Det gick inte att ändra filen. Kontrollera tillgången till den.</string>
 </resources>

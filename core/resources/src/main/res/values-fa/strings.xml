@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s از %2$s</string>
     <string name="remember_image_header_state">ذخیره چیدمان پیش‌نمایش</string>
     <string name="remember_image_header_state_sub">حفظ ارتفاع و وضعیت سنجاق‌شدن پیش‌نمایش هنگام جابه‌جایی بین ابزارها. وقتی غیرفعال باشد، هر ابزار با چیدمان پیش‌فرض باز می‌شود.</string>
+    <string name="gallery_favorites">موارد دلخواه</string>
+    <string name="gallery_trash">سطل زباله</string>
+    <string name="gallery_move_to_trash">انتقال به سطل زباله</string>
+    <string name="gallery_trash_confirmation">این فایل به سطل زباله منتقل شود؟ از گالری ناپدید می شود، اما می توانید قبل از تاریخ حذف خودکار آن را بازیابی کنید.</string>
+    <string name="gallery_trash_selected_confirmation">فایل‌های انتخابی (%1$d) به سطل زباله منتقل شوند؟ آنها از گالری ناپدید می شوند، اما می توانید قبل از تاریخ حذف خودکار آنها را بازیابی کنید.</string>
+    <string name="gallery_restore">بازیابی</string>
+    <string name="gallery_restore_confirmation">این فایل از سطل زباله بازیابی شود؟ به پوشه اصلی خود باز می گردد و دوباره در گالری ظاهر می شود.</string>
+    <string name="gallery_restore_selected_confirmation">فایل‌های انتخابی (%1$d) از سطل زباله بازیابی شوند؟ آنها به پوشه های اصلی خود باز می گردند و دوباره در گالری ظاهر می شوند.</string>
+    <string name="gallery_delete_permanently">حذف همیشگی</string>
+    <string name="gallery_delete_confirmation">آیا این فایل برای همیشه از سطل زباله حذف شود؟ از دستگاه حذف خواهد شد و قابل بازیابی نیست.</string>
+    <string name="gallery_delete_selected_confirmation">فایل‌های انتخابی (%1$d) برای همیشه از سطل زباله حذف شوند؟ آنها از دستگاه حذف خواهند شد و قابل بازیابی نیستند.</string>
+    <string name="gallery_trash_empty">سطل زباله خالی است</string>
+    <string name="gallery_trash_expires">برنامه ریزی شده برای حذف: %1$s</string>
+    <string name="gallery_media_action_failed">نمی توان فایل را تغییر داد. دسترسی به آن را بررسی کنید.</string>
 </resources>

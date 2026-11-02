@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s ng %2$s</string>
     <string name="remember_image_header_state">Panatilihin ang layout ng preview</string>
     <string name="remember_image_header_state_sub">Panatilihin ang taas at naka-pin na estado ng preview kapag lumilipat ng tool. Kapag naka-off, magsisimula ang bawat tool sa default na layout.</string>
+    <string name="gallery_favorites">Mga paborito</string>
+    <string name="gallery_trash">Basurahan</string>
+    <string name="gallery_move_to_trash">Ilipat sa basurahan</string>
+    <string name="gallery_trash_confirmation">Ilipat ang file na ito sa basurahan? Mawawala ito sa gallery, ngunit maaari mo itong ibalik bago ang petsa ng awtomatikong pagtanggal nito.</string>
+    <string name="gallery_trash_selected_confirmation">Ilipat ang mga napiling file (%1$d) sa basurahan? Mawawala ang mga ito sa gallery, ngunit maaari mong ibalik ang mga ito bago ang kanilang awtomatikong petsa ng pagtanggal.</string>
+    <string name="gallery_restore">Ibalik</string>
+    <string name="gallery_restore_confirmation">Ibalik ang file na ito mula sa basurahan? Babalik ito sa orihinal nitong folder at lilitaw muli sa gallery.</string>
+    <string name="gallery_restore_selected_confirmation">Ibalik ang mga napiling file (%1$d) mula sa basurahan? Babalik ang mga ito sa kanilang orihinal na mga folder at muling lilitaw sa gallery.</string>
+    <string name="gallery_delete_permanently">I-delete nang permanente</string>
+    <string name="gallery_delete_confirmation">Permanenteng tanggalin ang file na ito mula sa basurahan? Aalisin ito sa device at hindi na maibabalik.</string>
+    <string name="gallery_delete_selected_confirmation">Permanenteng tanggalin ang mga napiling file (%1$d) mula sa basurahan? Aalisin ang mga ito sa device at hindi na maibabalik.</string>
+    <string name="gallery_trash_empty">Walang laman ang basurahan</string>
+    <string name="gallery_trash_expires">Naka-iskedyul para sa pagtanggal: %1$s</string>
+    <string name="gallery_media_action_failed">Hindi mapalitan ang file. Suriin ang pag-access dito.</string>
 </resources>

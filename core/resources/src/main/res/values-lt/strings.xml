@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s iš %2$s</string>
     <string name="remember_image_header_state">Įsiminti peržiūros išdėstymą</string>
     <string name="remember_image_header_state_sub">Išsaugoti peržiūros aukštį ir prisegimo būseną pereinant tarp įrankių. Išjungus šią parinktį, kiekvienas įrankis atidaromas su numatytuoju išdėstymu.</string>
+    <string name="gallery_favorites">Mėgstamiausi</string>
+    <string name="gallery_trash">Šiukšliadėžė</string>
+    <string name="gallery_move_to_trash">Perkelti į šiukšliadėžę</string>
+    <string name="gallery_trash_confirmation">Perkelti šį failą į šiukšliadėžę? Jis išnyks iš galerijos, bet galėsite jį atkurti prieš automatinio ištrynimo datą.</string>
+    <string name="gallery_trash_selected_confirmation">Perkelti pasirinktus failus (%1$d) į šiukšliadėžę? Jie išnyks iš galerijos, bet galėsite juos atkurti prieš automatinio ištrynimo datą.</string>
+    <string name="gallery_restore">Atkurti</string>
+    <string name="gallery_restore_confirmation">Atkurti šį failą iš šiukšliadėžės? Jis grįš į pradinį aplanką ir vėl pasirodys galerijoje.</string>
+    <string name="gallery_restore_selected_confirmation">Atkurti pasirinktus failus (%1$d) iš šiukšliadėžės? Jie grįš į pradinius aplankus ir vėl pasirodys galerijoje.</string>
+    <string name="gallery_delete_permanently">Ištrinti visam laikui</string>
+    <string name="gallery_delete_confirmation">Visam laikui ištrinti šį failą iš šiukšliadėžės? Jis bus pašalintas iš įrenginio ir jo nebus galima atkurti.</string>
+    <string name="gallery_delete_selected_confirmation">Visam laikui ištrinti pasirinktus failus (%1$d) iš šiukšliadėžės? Jie bus pašalinti iš įrenginio ir jų nebebus galima atkurti.</string>
+    <string name="gallery_trash_empty">Šiukšliadėžė tuščia</string>
+    <string name="gallery_trash_expires">Suplanuota ištrinti: %1$s</string>
+    <string name="gallery_media_action_failed">Nepavyko pakeisti failo. Patikrinkite prieigą prie jo.</string>
 </resources>

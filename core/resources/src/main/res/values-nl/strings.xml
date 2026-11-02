@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s van %2$s</string>
     <string name="remember_image_header_state">Voorbeeldindeling onthouden</string>
     <string name="remember_image_header_state_sub">Behoud de hoogte en vastzetstatus van het voorbeeld bij het wisselen van tools. Als dit is uitgeschakeld, opent elke tool met de standaardindeling.</string>
+    <string name="gallery_favorites">Favorieten</string>
+    <string name="gallery_trash">Prullenbak</string>
+    <string name="gallery_move_to_trash">Verplaats naar de prullenbak</string>
+    <string name="gallery_trash_confirmation">Dit bestand naar de prullenbak verplaatsen? Het zal uit de galerij verdwijnen, maar u kunt het herstellen vóór de automatische verwijderingsdatum.</string>
+    <string name="gallery_trash_selected_confirmation">De geselecteerde bestanden (%1$d) naar de prullenbak verplaatsen? Ze verdwijnen uit de galerij, maar u kunt ze herstellen vóór de automatische verwijderingsdatum.</string>
+    <string name="gallery_restore">Herstellen</string>
+    <string name="gallery_restore_confirmation">Dit bestand uit de prullenbak herstellen? Het keert terug naar de oorspronkelijke map en verschijnt opnieuw in de galerij.</string>
+    <string name="gallery_restore_selected_confirmation">De geselecteerde bestanden (%1$d) uit de prullenbak herstellen? Ze keren terug naar hun oorspronkelijke mappen en verschijnen opnieuw in de galerij.</string>
+    <string name="gallery_delete_permanently">Permanent verwijderen</string>
+    <string name="gallery_delete_confirmation">Dit bestand definitief uit de prullenbak verwijderen? Het wordt van het apparaat verwijderd en kan niet worden hersteld.</string>
+    <string name="gallery_delete_selected_confirmation">De geselecteerde bestanden (%1$d) definitief uit de prullenbak verwijderen? Ze worden van het apparaat verwijderd en kunnen niet worden hersteld.</string>
+    <string name="gallery_trash_empty">Prullenbak is leeg</string>
+    <string name="gallery_trash_expires">Gepland voor verwijdering: %1$s</string>
+    <string name="gallery_media_action_failed">Kan het bestand niet wijzigen. Controleer de toegang ertoe.</string>
 </resources>

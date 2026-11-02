@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%2$s లో %1$s</string>
     <string name="remember_image_header_state">ప్రివ్యూ లేఅవుట్‌ను సేవ్ చేయి</string>
     <string name="remember_image_header_state_sub">సాధనాల మధ్య మారేటప్పుడు ప్రివ్యూ ఎత్తు మరియు పిన్ చేసిన స్థితిని సేవ్ చేయి. నిలిపివేస్తే, ప్రతి సాధనం డిఫాల్ట్ లేఅవుట్‌తో తెరుచుకుంటుంది.</string>
+    <string name="gallery_favorites">ఇష్టమైనవి</string>
+    <string name="gallery_trash">ట్రాష్</string>
+    <string name="gallery_move_to_trash">ట్రాష్‌కి తరలించండి</string>
+    <string name="gallery_trash_confirmation">ఈ ఫైల్‌ను ట్రాష్‌కి తరలించాలా? ఇది గ్యాలరీ నుండి అదృశ్యమవుతుంది, కానీ మీరు దాని స్వయంచాలక తొలగింపు తేదీకి ముందు దాన్ని పునరుద్ధరించవచ్చు.</string>
+    <string name="gallery_trash_selected_confirmation">ఎంచుకున్న ఫైల్‌లను (%1$d) ట్రాష్‌కి తరలించాలా? అవి గ్యాలరీ నుండి అదృశ్యమవుతాయి, కానీ మీరు వాటి స్వయంచాలక తొలగింపు తేదీకి ముందు వాటిని పునరుద్ధరించవచ్చు.</string>
+    <string name="gallery_restore">పునరుద్ధరించు</string>
+    <string name="gallery_restore_confirmation">ఈ ఫైల్‌ను ట్రాష్ నుండి పునరుద్ధరించాలా? ఇది దాని అసలు ఫోల్డర్‌కి తిరిగి వస్తుంది మరియు గ్యాలరీలో మళ్లీ కనిపిస్తుంది.</string>
+    <string name="gallery_restore_selected_confirmation">ఎంచుకున్న ఫైల్‌లను (%1$d) ట్రాష్ నుండి పునరుద్ధరించాలా? అవి వాటి అసలు ఫోల్డర్‌లకు తిరిగి వస్తాయి మరియు గ్యాలరీలో మళ్లీ కనిపిస్తాయి.</string>
+    <string name="gallery_delete_permanently">శాశ్వతంగా తొలగించండి</string>
+    <string name="gallery_delete_confirmation">ఈ ఫైల్‌ను ట్రాష్ నుండి శాశ్వతంగా తొలగించాలా? ఇది పరికరం నుండి తీసివేయబడుతుంది మరియు పునరుద్ధరించబడదు.</string>
+    <string name="gallery_delete_selected_confirmation">ఎంచుకున్న ఫైల్‌లను (%1$d) ట్రాష్ నుండి శాశ్వతంగా తొలగించాలా? అవి పరికరం నుండి తీసివేయబడతాయి మరియు పునరుద్ధరించబడవు.</string>
+    <string name="gallery_trash_empty">ట్రాష్ ఖాళీగా ఉంది</string>
+    <string name="gallery_trash_expires">తొలగింపు కోసం షెడ్యూల్ చేయబడింది: %1$s</string>
+    <string name="gallery_media_action_failed">ఫైల్‌ని మార్చడం సాధ్యపడలేదు. దానికి యాక్సెస్‌ని తనిఖీ చేయండి.</string>
 </resources>

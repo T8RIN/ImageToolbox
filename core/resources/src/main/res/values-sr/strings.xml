@@ -7539,4 +7539,18 @@
     <string name="backup_progress_bytes">%1$s од %2$s</string>
     <string name="remember_image_header_state">Памти изглед прегледа</string>
     <string name="remember_image_header_state_sub">Памти висину прегледа и да ли је закачен при преласку између алатки. Када је искључено, свака алатка се отвара са подразумеваним изгледом.</string>
+    <string name="gallery_favorites">Омиљено</string>
+    <string name="gallery_trash">Корпа</string>
+    <string name="gallery_move_to_trash">Премести у корпу</string>
+    <string name="gallery_trash_confirmation">Желите ли да преместите ову датотеку у корпу? Нестаће из галерије, али можете да је вратите пре датума аутоматског брисања.</string>
+    <string name="gallery_trash_selected_confirmation">Желите ли да преместите изабране датотеке (%1$d) у корпу? Оне ће нестати из галерије, али их можете вратити пре датума њиховог аутоматског брисања.</string>
+    <string name="gallery_restore">Врати</string>
+    <string name="gallery_restore_confirmation">Желите ли да вратите ову датотеку из корпе? Вратиће се у оригиналну фасциклу и поново ће се појавити у галерији.</string>
+    <string name="gallery_restore_selected_confirmation">Желите ли да вратите изабране датотеке (%1$d) из корпе? Оне ће се вратити у своје оригиналне фасцикле и поново се појавити у галерији.</string>
+    <string name="gallery_delete_permanently">Трајно избриши</string>
+    <string name="gallery_delete_confirmation">Трајно избрисати ову датотеку из корпе? Биће уклоњена са уређаја и не може се вратити.</string>
+    <string name="gallery_delete_selected_confirmation">Трајно избрисати изабране датотеке (%1$d) из корпе? Оне ће бити уклоњене са уређаја и не могу се вратити.</string>
+    <string name="gallery_trash_empty">Корпа је празна</string>
+    <string name="gallery_trash_expires">Планирано за брисање: %1$s</string>
+    <string name="gallery_media_action_failed">Није могуће променити датотеку. Проверите приступ њој.</string>
 </resources>

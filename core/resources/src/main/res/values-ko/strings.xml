@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">미리보기 레이아웃 기억하기</string>
     <string name="remember_image_header_state_sub">도구를 전환할 때 미리보기의 높이와 고정 상태를 유지합니다. 비활성화하면 각 도구가 기본 레이아웃으로 열립니다.</string>
+    <string name="gallery_favorites">즐겨찾기</string>
+    <string name="gallery_trash">휴지통</string>
+    <string name="gallery_move_to_trash">휴지통으로 이동</string>
+    <string name="gallery_trash_confirmation">이 파일을 휴지통으로 이동하시겠습니까? 갤러리에서는 사라지지만 자동 삭제 날짜 이전에는 복원할 수 있습니다.</string>
+    <string name="gallery_trash_selected_confirmation">선택한 파일(%1$d)을 휴지통으로 이동하시겠습니까? 갤러리에서 사라지지만 자동 삭제 날짜 이전에 복원할 수 있습니다.</string>
+    <string name="gallery_restore">복원</string>
+    <string name="gallery_restore_confirmation">이 파일을 휴지통에서 복원하시겠습니까? 원래 폴더로 돌아가서 갤러리에 다시 나타납니다.</string>
+    <string name="gallery_restore_selected_confirmation">휴지통에서 선택한 파일(%1$d)을 복원하시겠습니까? 원본 폴더로 돌아가서 갤러리에 다시 나타납니다.</string>
+    <string name="gallery_delete_permanently">영구 삭제</string>
+    <string name="gallery_delete_confirmation">이 파일을 휴지통에서 완전히 삭제하시겠습니까? 장치에서 제거되며 복원할 수 없습니다.</string>
+    <string name="gallery_delete_selected_confirmation">선택한 파일(%1$d)을 휴지통에서 영구적으로 삭제하시겠습니까? 해당 항목은 장치에서 제거되며 복원할 수 없습니다.</string>
+    <string name="gallery_trash_empty">휴지통이 비어 있습니다.</string>
+    <string name="gallery_trash_expires">삭제 예정: %1$s</string>
+    <string name="gallery_media_action_failed">파일을 변경하지 못했습니다. 파일에 대한 접근 권한을 확인하세요.</string>
 </resources>

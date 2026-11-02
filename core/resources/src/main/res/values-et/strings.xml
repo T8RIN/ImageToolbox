@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s / %2$s</string>
     <string name="remember_image_header_state">Jäta eelvaate paigutus meelde</string>
     <string name="remember_image_header_state_sub">Säilita eelvaate kõrgus ja kinnitamise olek tööriistade vahetamisel. Kui see on välja lülitatud, avaneb iga tööriist vaikepaigutusega.</string>
+    <string name="gallery_favorites">Lemmikud</string>
+    <string name="gallery_trash">Prügikast</string>
+    <string name="gallery_move_to_trash">Teisalda prügikasti</string>
+    <string name="gallery_trash_confirmation">Kas teisaldada see fail prügikasti? See kaob galeriist, kuid saate selle taastada enne automaatse kustutamise kuupäeva.</string>
+    <string name="gallery_trash_selected_confirmation">Kas teisaldada valitud failid (%1$d) prügikasti? Need kaovad galeriist, kuid saate need taastada enne nende automaatse kustutamise kuupäeva.</string>
+    <string name="gallery_restore">Taasta</string>
+    <string name="gallery_restore_confirmation">Kas taastada see fail prügikastist? See naaseb algsesse kausta ja ilmub uuesti galeriisse.</string>
+    <string name="gallery_restore_selected_confirmation">Kas taastada valitud failid (%1$d) prügikastist? Need naasevad oma algsetesse kaustadesse ja ilmuvad uuesti galeriisse.</string>
+    <string name="gallery_delete_permanently">Kustuta jäädavalt</string>
+    <string name="gallery_delete_confirmation">Kas kustutada see fail jäädavalt prügikastist? See eemaldatakse seadmest ja seda ei saa taastada.</string>
+    <string name="gallery_delete_selected_confirmation">Kas kustutada valitud failid (%1$d) jäädavalt prügikastist? Need eemaldatakse seadmest ja neid ei saa taastada.</string>
+    <string name="gallery_trash_empty">Prügikast on tühi</string>
+    <string name="gallery_trash_expires">Ajastatud kustutamine: %1$s</string>
+    <string name="gallery_media_action_failed">Faili ei saanud muuta. Kontrollige juurdepääsu sellele.</string>
 </resources>

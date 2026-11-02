@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s z %2$s</string>
     <string name="remember_image_header_state">Zapamiętuj układ podglądu</string>
     <string name="remember_image_header_state_sub">Zachowuj wysokość i stan przypięcia podglądu przy przełączaniu narzędzi. Gdy ta opcja jest wyłączona, każde narzędzie otwiera się z domyślnym układem.</string>
+    <string name="gallery_favorites">Ulubione</string>
+    <string name="gallery_trash">Kosz</string>
+    <string name="gallery_move_to_trash">Przenieś do kosza</string>
+    <string name="gallery_trash_confirmation">Przenieść ten plik do kosza? Zniknie z galerii, ale możesz go przywrócić przed datą automatycznego usunięcia.</string>
+    <string name="gallery_trash_selected_confirmation">Przenieść wybrane pliki (%1$d) do kosza? Znikną z galerii, ale możesz je przywrócić przed datą ich automatycznego usunięcia.</string>
+    <string name="gallery_restore">Przywróć</string>
+    <string name="gallery_restore_confirmation">Przywrócić ten plik z kosza? Powróci do swojego pierwotnego folderu i ponownie pojawi się w galerii.</string>
+    <string name="gallery_restore_selected_confirmation">Przywrócić wybrane pliki (%1$d) z kosza? Powrócą do swoich oryginalnych folderów i ponownie pojawią się w galerii.</string>
+    <string name="gallery_delete_permanently">Usuń trwale</string>
+    <string name="gallery_delete_confirmation">Trwale usunąć ten plik z kosza? Zostanie usunięty z urządzenia i nie będzie można go przywrócić.</string>
+    <string name="gallery_delete_selected_confirmation">Trwale usunąć wybrane pliki (%1$d) z kosza? Zostaną one usunięte z urządzenia i nie będzie można ich przywrócić.</string>
+    <string name="gallery_trash_empty">Kosz jest pusty</string>
+    <string name="gallery_trash_expires">Zaplanowano do usunięcia: %1$s</string>
+    <string name="gallery_media_action_failed">Nie można zmienić pliku. Sprawdź dostęp do niego.</string>
 </resources>

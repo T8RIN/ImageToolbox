@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%2$s இல் %1$s</string>
     <string name="remember_image_header_state">முன்னோட்ட அமைப்பைச் சேமி</string>
     <string name="remember_image_header_state_sub">கருவிகளை மாற்றும்போது முன்னோட்டத்தின் உயரத்தையும் பின் செய்யப்பட்ட நிலையையும் சேமி. முடக்கப்பட்டால், ஒவ்வொரு கருவியும் இயல்புநிலை அமைப்பில் திறக்கும்.</string>
+    <string name="gallery_favorites">பிடித்தவை</string>
+    <string name="gallery_trash">குப்பைத்தொட்டி</string>
+    <string name="gallery_move_to_trash">குப்பைத்தொட்டிக்கு நகர்த்து</string>
+    <string name="gallery_trash_confirmation">இந்தக் கோப்பை குப்பைத்தொட்டிக்கு நகர்த்தவா? இது கேலரியில் இருந்து மறைந்துவிடும், ஆனால் தானாக நீக்கப்படும் தேதிக்கு முன் அதை மீட்டெடுக்கலாம்.</string>
+    <string name="gallery_trash_selected_confirmation">தேர்ந்தெடுக்கப்பட்ட கோப்புகளை (%1$d) குப்பைத்தொட்டிக்கு நகர்த்தவா? அவை கேலரியில் இருந்து மறைந்துவிடும், ஆனால் அவை தானாகவே நீக்கப்படும் தேதிக்கு முன் அவற்றை மீட்டெடுக்கலாம்.</string>
+    <string name="gallery_restore">மீட்டெடு</string>
+    <string name="gallery_restore_confirmation">இந்தக் கோப்பை குப்பைத்தொட்டியிலிருந்து மீட்டெடுக்கவா? இது அதன் அசல் கோப்புறைக்குத் திரும்பி கேலரியில் மீண்டும் தோன்றும்.</string>
+    <string name="gallery_restore_selected_confirmation">தேர்ந்தெடுக்கப்பட்ட கோப்புகளை (%1$d) குப்பைத்தொட்டியிலிருந்து மீட்டெடுக்கவா? அவை அவற்றின் அசல் கோப்புறைகளுக்குத் திரும்பி கேலரியில் மீண்டும் தோன்றும்.</string>
+    <string name="gallery_delete_permanently">நிரந்தரமாக நீக்கு</string>
+    <string name="gallery_delete_confirmation">இந்தக் கோப்பை குப்பைத்தொட்டியிலிருந்து நிரந்தரமாக நீக்கவா? இது சாதனத்திலிருந்து அகற்றப்படும் மற்றும் மீட்டெடுக்க முடியாது.</string>
+    <string name="gallery_delete_selected_confirmation">தேர்ந்தெடுக்கப்பட்ட கோப்புகளை (%1$d) குப்பைத்தொட்டியிலிருந்து நிரந்தரமாக நீக்கவா? அவை சாதனத்திலிருந்து அகற்றப்படும் மற்றும் மீட்டெடுக்க முடியாது.</string>
+    <string name="gallery_trash_empty">குப்பைத்தொட்டி காலியாக உள்ளது</string>
+    <string name="gallery_trash_expires">நீக்குவதற்கு திட்டமிடப்பட்டது: %1$s</string>
+    <string name="gallery_media_action_failed">கோப்பை மாற்ற முடியவில்லை. அதற்கான அணுகலைச் சரிபார்க்கவும்.</string>
 </resources>

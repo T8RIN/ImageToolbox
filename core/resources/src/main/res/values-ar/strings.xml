@@ -7542,4 +7542,18 @@
     <string name="backup_progress_bytes">%1$s من %2$s</string>
     <string name="remember_image_header_state">حفظ تخطيط المعاينة</string>
     <string name="remember_image_header_state_sub">الاحتفاظ بارتفاع المعاينة وحالة تثبيتها عند التبديل بين الأدوات. عند التعطيل، تبدأ كل أداة بالتخطيط الافتراضي.</string>
+    <string name="gallery_favorites">المفضلة</string>
+    <string name="gallery_trash">سلة المهملات</string>
+    <string name="gallery_move_to_trash">نقل إلى سلة المهملات</string>
+    <string name="gallery_trash_confirmation">هل تريد نقل هذا الملف إلى سلة المهملات؟ سيختفي من المعرض، ولكن يمكنك استعادته قبل تاريخ حذفه التلقائي.</string>
+    <string name="gallery_trash_selected_confirmation">هل تريد نقل الملفات المحددة (%1$d) إلى سلة المهملات؟ وسوف تختفي من المعرض، ولكن يمكنك استعادتها قبل تاريخ الحذف التلقائي.</string>
+    <string name="gallery_restore">استعادة</string>
+    <string name="gallery_restore_confirmation">هل تريد استعادة هذا الملف من سلة المهملات؟ سيعود إلى مجلده الأصلي وسيظهر مرة أخرى في المعرض.</string>
+    <string name="gallery_restore_selected_confirmation">هل تريد استعادة الملفات المحددة (%1$d) من سلة المهملات؟ ستعود إلى مجلداتها الأصلية وستظهر مرة أخرى في المعرض.</string>
+    <string name="gallery_delete_permanently">حذف نهائيا</string>
+    <string name="gallery_delete_confirmation">هل تريد حذف هذا الملف من سلة المهملات نهائيًا؟ ستتم إزالته من الجهاز ولا يمكن استعادته.</string>
+    <string name="gallery_delete_selected_confirmation">هل تريد حذف الملفات المحددة (%1$d) من سلة المهملات نهائيًا؟ ستتم إزالتها من الجهاز ولا يمكن استعادتها.</string>
+    <string name="gallery_trash_empty">سلة المهملات فارغة</string>
+    <string name="gallery_trash_expires">تمت جدولة الحذف: %1$s</string>
+    <string name="gallery_media_action_failed">تعذّر تعديل الملف. تحقق من إمكانية الوصول إليه.</string>
 </resources>

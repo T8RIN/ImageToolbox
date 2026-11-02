@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s מתוך %2$s</string>
     <string name="remember_image_header_state">שמירת פריסת התצוגה המקדימה</string>
     <string name="remember_image_header_state_sub">שמירת גובה התצוגה המקדימה ומצב ההצמדה שלה במעבר בין כלים. כשהאפשרות מושבתת, כל כלי נפתח עם פריסת ברירת המחדל.</string>
+    <string name="gallery_favorites">מועדפים</string>
+    <string name="gallery_trash">אשפה</string>
+    <string name="gallery_move_to_trash">העבר לאשפה</string>
+    <string name="gallery_trash_confirmation">להעביר את הקובץ הזה לאשפה? הוא ייעלם מהגלריה, אך תוכל לשחזר אותו לפני תאריך המחיקה האוטומטי שלו.</string>
+    <string name="gallery_trash_selected_confirmation">להעביר את הקבצים שנבחרו (%1$d) לאשפה? הם ייעלמו מהגלריה, אך תוכל לשחזר אותם לפני תאריך המחיקה האוטומטית שלהם.</string>
+    <string name="gallery_restore">שחזר</string>
+    <string name="gallery_restore_confirmation">לשחזר את הקובץ הזה מהאשפה? הוא יחזור לתיקייה המקורית שלו ויופיע שוב בגלריה.</string>
+    <string name="gallery_restore_selected_confirmation">לשחזר את הקבצים שנבחרו (%1$d) מהאשפה? הם יחזרו לתיקיות המקוריות שלהם ויופיעו שוב בגלריה.</string>
+    <string name="gallery_delete_permanently">מחק לצמיתות</string>
+    <string name="gallery_delete_confirmation">למחוק את הקובץ הזה מהאשפה לצמיתות? הוא יוסר מהמכשיר ולא ניתן לשחזר אותו.</string>
+    <string name="gallery_delete_selected_confirmation">למחוק לצמיתות את הקבצים שנבחרו (%1$d) מהאשפה? הם יוסרו מהמכשיר ולא ניתן לשחזר אותם.</string>
+    <string name="gallery_trash_empty">האשפה ריקה</string>
+    <string name="gallery_trash_expires">מתוכנן למחיקה: %1$s</string>
+    <string name="gallery_media_action_failed">לא ניתן לשנות את הקובץ. בדוק את הגישה אליו.</string>
 </resources>

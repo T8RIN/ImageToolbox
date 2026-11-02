@@ -7538,4 +7538,18 @@
     <string name="backup_progress_bytes">%1$s de %2$s</string>
     <string name="remember_image_header_state">Recordar el disseny de la vista prèvia</string>
     <string name="remember_image_header_state_sub">Conservar l\'alçada i l\'estat de fixació de la vista prèvia en canviar d\'eina. Si es desactiva, cada eina s\'obre amb el disseny predeterminat.</string>
+    <string name="gallery_favorites">Preferits</string>
+    <string name="gallery_trash">Paperera</string>
+    <string name="gallery_move_to_trash">Mou a la paperera</string>
+    <string name="gallery_trash_confirmation">Voleu moure aquest fitxer a la paperera? Desapareixerà de la galeria, però el podeu restaurar abans de la seva data d\'eliminació automàtica.</string>
+    <string name="gallery_trash_selected_confirmation">Voleu moure els fitxers seleccionats (%1$d) a la paperera? Desapareixeran de la galeria, però podeu restaurar-los abans de la seva data d\'eliminació automàtica.</string>
+    <string name="gallery_restore">Restaura</string>
+    <string name="gallery_restore_confirmation">Voleu restaurar aquest fitxer de la paperera? Tornarà a la seva carpeta original i tornarà a aparèixer a la galeria.</string>
+    <string name="gallery_restore_selected_confirmation">Voleu restaurar els fitxers seleccionats (%1$d) de la paperera? Tornaran a les seves carpetes originals i tornaran a aparèixer a la galeria.</string>
+    <string name="gallery_delete_permanently">Suprimeix permanentment</string>
+    <string name="gallery_delete_confirmation">Voleu suprimir permanentment aquest fitxer de la paperera? S’eliminarà del dispositiu i no es podrà restaurar.</string>
+    <string name="gallery_delete_selected_confirmation">Voleu suprimir permanentment els fitxers seleccionats (%1$d) de la paperera? S’eliminaran del dispositiu i no es podran restaurar.</string>
+    <string name="gallery_trash_empty">La paperera està buida</string>
+    <string name="gallery_trash_expires">Supressió programada: %1$s</string>
+    <string name="gallery_media_action_failed">No s’ha pogut canviar el fitxer. Comproveu l’accés al fitxer.</string>
 </resources>

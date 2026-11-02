@@ -7540,4 +7540,18 @@
     <string name="backup_progress_bytes">%1$s z %2$s</string>
     <string name="remember_image_header_state">Pamätať si rozloženie náhľadu</string>
     <string name="remember_image_header_state_sub">Zachovať výšku a stav pripnutia náhľadu pri prepínaní nástrojov. Keď je táto možnosť vypnutá, každý nástroj sa otvorí s predvoleným rozložením.</string>
+    <string name="gallery_favorites">Obľúbené</string>
+    <string name="gallery_trash">Kôš</string>
+    <string name="gallery_move_to_trash">Presunúť do koša</string>
+    <string name="gallery_trash_confirmation">Presunúť tento súbor do koša? Z galérie zmizne, ale môžete ho obnoviť pred dátumom jeho automatického vymazania.</string>
+    <string name="gallery_trash_selected_confirmation">Presunúť vybraté súbory (%1$d) do koša? Zmiznú z galérie, ale môžete ich obnoviť pred dátumom ich automatického vymazania.</string>
+    <string name="gallery_restore">Obnoviť</string>
+    <string name="gallery_restore_confirmation">Obnoviť tento súbor z koša? Vráti sa do pôvodného priečinka a znova sa zobrazí v galérii.</string>
+    <string name="gallery_restore_selected_confirmation">Obnoviť vybraté súbory (%1$d) z koša? Vrátia sa do svojich pôvodných priečinkov a znova sa objavia v galérii.</string>
+    <string name="gallery_delete_permanently">Natrvalo odstrániť</string>
+    <string name="gallery_delete_confirmation">Chcete natrvalo odstrániť tento súbor z koša? Bude odstránený zo zariadenia a nebude možné ho obnoviť.</string>
+    <string name="gallery_delete_selected_confirmation">Natrvalo odstrániť vybraté súbory (%1$d) z koša? Budú odstránené zo zariadenia a nie je možné ich obnoviť.</string>
+    <string name="gallery_trash_empty">Kôš je prázdny</string>
+    <string name="gallery_trash_expires">Naplánované odstránenie: %1$s</string>
+    <string name="gallery_media_action_failed">Súbor sa nepodarilo zmeniť. Skontrolujte prístup k nemu.</string>
 </resources>

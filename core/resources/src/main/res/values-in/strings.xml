@@ -7537,4 +7537,18 @@
     <string name="backup_progress_bytes">%1$s dari %2$s</string>
     <string name="remember_image_header_state">Ingat Tata Letak Pratinjau</string>
     <string name="remember_image_header_state_sub">Pertahankan tinggi dan status penyematan pratinjau saat beralih alat. Jika dinonaktifkan, setiap alat dimulai dengan tata letak default.</string>
+    <string name="gallery_favorites">Favorit</string>
+    <string name="gallery_trash">Sampah</string>
+    <string name="gallery_move_to_trash">Pindah ke sampah</string>
+    <string name="gallery_trash_confirmation">Pindahkan file ini ke sampah? Itu akan hilang dari galeri, tetapi Anda dapat memulihkannya sebelum tanggal penghapusan otomatisnya.</string>
+    <string name="gallery_trash_selected_confirmation">Pindahkan file yang dipilih (%1$d) ke sampah? File-file tersebut akan hilang dari galeri, tetapi Anda dapat memulihkannya sebelum tanggal penghapusan otomatisnya.</string>
+    <string name="gallery_restore">Pulihkan</string>
+    <string name="gallery_restore_confirmation">Pulihkan file ini dari sampah? Ini akan kembali ke folder aslinya dan muncul kembali di galeri.</string>
+    <string name="gallery_restore_selected_confirmation">Pulihkan file yang dipilih (%1$d) dari sampah? File-file tersebut akan kembali ke folder aslinya dan muncul kembali di galeri.</string>
+    <string name="gallery_delete_permanently">Hapus secara permanen</string>
+    <string name="gallery_delete_confirmation">Hapus file ini secara permanen dari sampah? Ini akan dihapus dari perangkat dan tidak dapat dipulihkan.</string>
+    <string name="gallery_delete_selected_confirmation">Hapus file yang dipilih (%1$d) secara permanen dari sampah? File-file tersebut akan dihapus dari perangkat dan tidak dapat dipulihkan.</string>
+    <string name="gallery_trash_empty">Sampah kosong</string>
+    <string name="gallery_trash_expires">Dijadwalkan untuk dihapus: %1$s</string>
+    <string name="gallery_media_action_failed">Tidak dapat mengubah file. Periksa izin akses ke file tersebut.</string>
 </resources>
