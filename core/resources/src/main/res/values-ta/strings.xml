@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- இணைக்கப்பட்ட ஒரு புகைப்படத்தை என்னால் பகுப்பாய்வு செய்ய முடியும்.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">அமைப்புகள் → லேஅவுட்டைத் திறந்து, ஒளிபுகா பட பார்வையாளர் பின்னணியை மாற்றவும்.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">முழுவதும் கருப்பு நிறப் பின்னணியை, செயலியின் மங்கலான பின்னணியுடன் ஒப்பிட ஒரு புகைப்படத்தைத் திறக்கவும். இது படம் காட்டப்படும் பகுதியை மட்டுமே மாற்றும்; சேமித்த படத்தையோ அதன் வெளிப்படைத்தன்மையையோ மாற்றாது.</string>
+    <string name="backup_settings_sub">பயன்பாட்டு அமைப்புகள் மற்றும் முன்னமைவுகள் மட்டுமே</string>
+    <string name="full_backup">முழு காப்புப்பிரதி</string>
+    <string name="full_backup_sub">அமைப்புகள், பதிவிறக்கப்பட்ட மாதிரிகள் மற்றும் பிற பயன்பாட்டுத் தரவு. கோப்பு பல ஜிபி ஆக இருக்கலாம்.</string>
+    <string name="backup_creating">காப்புப்பிரதியை உருவாக்குகிறது</string>
+    <string name="backup_restoring">காப்புப்பிரதியை மீட்டமைக்கிறது</string>
+    <string name="backup_progress_bytes">%2$s இல் %1$s</string>
+    <string name="remember_image_header_state">முன்னோட்ட அமைப்பைச் சேமி</string>
+    <string name="remember_image_header_state_sub">கருவிகளை மாற்றும்போது முன்னோட்டத்தின் உயரத்தையும் பின் செய்யப்பட்ட நிலையையும் சேமி. முடக்கப்பட்டால், ஒவ்வொரு கருவியும் இயல்புநிலை அமைப்பில் திறக்கும்.</string>
 </resources>

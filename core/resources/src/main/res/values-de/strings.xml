@@ -7530,4 +7530,12 @@
     <string name="assistant_finding_photos">Fotos werden gesucht…</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Öffne Einstellungen → Layout und schalte „Undurchsichtiger Bildbetrachter-Hintergrund“ ein oder aus.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Öffne ein Foto, um den einfarbig schwarzen Hintergrund mit dem abgeblendeten App-Hintergrund zu vergleichen. Dadurch ändert sich nur der Bildbetrachter, nicht das gespeicherte Bild oder seine Transparenz.</string>
+    <string name="backup_settings_sub">Nur App-Einstellungen und Voreinstellungen</string>
+    <string name="full_backup">Vollständige Datensicherung</string>
+    <string name="full_backup_sub">Einstellungen, heruntergeladene Modelle und andere App-Daten. Die Datei kann mehrere GB groß sein.</string>
+    <string name="backup_creating">Datensicherung wird erstellt</string>
+    <string name="backup_restoring">Datensicherung wird wiederhergestellt</string>
+    <string name="backup_progress_bytes">%1$s von %2$s</string>
+    <string name="remember_image_header_state">Vorschau-Layout merken</string>
+    <string name="remember_image_header_state_sub">Vorschauhöhe und Fixierung beim Wechsel zwischen Werkzeugen beibehalten. Wenn deaktiviert, startet jedes Werkzeug mit dem Standardlayout.</string>
 </resources>

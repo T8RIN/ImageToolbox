@@ -7531,4 +7531,12 @@
     <string name="assistant_capabilities_vision">- Могу анализирати једну приложену фотографију.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Отворите Подешавања → Распоред и укључите непрозирну позадину прегледника слика.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Отворите фотографију да бисте упоредили пуну црну позадину са затамњеном позадином апликације. Ово мења само прегледник, а не сачувану слику или њену провидност.</string>
+    <string name="backup_settings_sub">Само подешавања апликације и унапред подешене вредности</string>
+    <string name="full_backup">Потпуна резервна копија</string>
+    <string name="full_backup_sub">Подешавања, преузети модели и други подаци апликације. Датотека може имати неколико ГБ.</string>
+    <string name="backup_creating">Прављење резервне копије</string>
+    <string name="backup_restoring">Враћање резервне копије</string>
+    <string name="backup_progress_bytes">%1$s од %2$s</string>
+    <string name="remember_image_header_state">Памти изглед прегледа</string>
+    <string name="remember_image_header_state_sub">Памти висину прегледа и да ли је закачен при преласку између алатки. Када је искључено, свака алатка се отвара са подразумеваним изгледом.</string>
 </resources>

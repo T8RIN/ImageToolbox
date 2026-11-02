@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Egy mellékelt fotót tudok elemezni.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Nyissa meg a Beállítások → Elrendezés lehetőséget, és kapcsolja át az Átlátszatlan képnézegető háttere lehetőséget.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Nyisson meg egy fényképet, és hasonlítsa össze az egyszínű fekete hátteret az alkalmazás halványított hátterével. Ez csak a képnézegetőt módosítja, a mentett képet és annak átlátszóságát nem.</string>
+    <string name="backup_settings_sub">Csak alkalmazásbeállítások és előbeállítások</string>
+    <string name="full_backup">Teljes biztonsági mentés</string>
+    <string name="full_backup_sub">Beállítások, letöltött modellek és egyéb alkalmazásadatok. A fájl több GB méretű is lehet.</string>
+    <string name="backup_creating">Biztonsági mentés készítése</string>
+    <string name="backup_restoring">Biztonsági mentés visszaállítása</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">Előnézeti elrendezés megjegyzése</string>
+    <string name="remember_image_header_state_sub">Az előnézet magasságának és rögzítésének megőrzése az eszközök közötti váltáskor. Kikapcsolva minden eszköz az alapértelmezett elrendezéssel indul.</string>
 </resources>

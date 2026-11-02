@@ -7534,4 +7534,12 @@
     <string name="assistant_finding_photos">جارٍ البحث في الصور…</string>
     <string name="help_tip_setting_opaque_viewer_step_1">افتح الإعدادات → التخطيط وفعّل أو عطّل خيار «خلفية عارض الصور غير شفافة».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">افتح صورة لمقارنة الخلفية السوداء الموحدة بخلفية التطبيق الخافتة. يغيّر هذا عارض الصور فقط، ولا يغيّر الصورة المحفوظة أو شفافيتها.</string>
+    <string name="backup_settings_sub">إعدادات التطبيق والإعدادات المسبقة فقط</string>
+    <string name="full_backup">النسخ الاحتياطي الكامل</string>
+    <string name="full_backup_sub">الإعدادات والنماذج التي تم تنزيلها وبيانات التطبيق الأخرى. قد يبلغ حجم الملف عدة غيغابايت.</string>
+    <string name="backup_creating">إنشاء نسخة احتياطية</string>
+    <string name="backup_restoring">استعادة النسخة الاحتياطية</string>
+    <string name="backup_progress_bytes">%1$s من %2$s</string>
+    <string name="remember_image_header_state">حفظ تخطيط المعاينة</string>
+    <string name="remember_image_header_state_sub">الاحتفاظ بارتفاع المعاينة وحالة تثبيتها عند التبديل بين الأدوات. عند التعطيل، تبدأ كل أداة بالتخطيط الافتراضي.</string>
 </resources>

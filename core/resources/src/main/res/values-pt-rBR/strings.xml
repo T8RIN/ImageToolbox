@@ -7531,4 +7531,12 @@
     <string name="assistant_capabilities_vision">- Posso analisar uma foto anexa.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Abra Configurações → Layout e alterne o plano de fundo opaco do visualizador de imagens.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Abra uma foto para comparar o fundo preto sólido com o fundo esmaecido do aplicativo. Isto altera apenas o visualizador, não a imagem salva ou sua transparência.</string>
+    <string name="backup_settings_sub">Apenas configurações e predefinições do aplicativo</string>
+    <string name="full_backup">Backup completo</string>
+    <string name="full_backup_sub">Configurações, modelos baixados e outros dados do aplicativo. O arquivo pode ter vários GB.</string>
+    <string name="backup_creating">Criando backup</string>
+    <string name="backup_restoring">Restaurando backup</string>
+    <string name="backup_progress_bytes">%1$s de %2$s</string>
+    <string name="remember_image_header_state">Memorizar o layout da prévia</string>
+    <string name="remember_image_header_state_sub">Manter a altura e o estado de fixação da prévia ao alternar entre ferramentas. Quando desativado, cada ferramenta abre com o layout padrão.</string>
 </resources>

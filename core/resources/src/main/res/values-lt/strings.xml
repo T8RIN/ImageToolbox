@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">– Galiu paanalizuoti vieną prisegtą nuotrauką.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Atidarykite Nustatymai → Išdėstymas ir perjunkite Nepermatomas vaizdų peržiūros priemonės fonas.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Atidarykite nuotrauką, kad palygintumėte vientisą juodą foną su pritemdytu programos fonu. Taip pakeičiama tik peržiūros priemonė, o ne išsaugotas vaizdas ar jo skaidrumas.</string>
+    <string name="backup_settings_sub">Tik programos nustatymai ir išankstiniai nustatymai</string>
+    <string name="full_backup">Pilna atsarginė kopija</string>
+    <string name="full_backup_sub">Nustatymai, atsisiųsti modeliai ir kiti programos duomenys. Failas gali būti kelių GB.</string>
+    <string name="backup_creating">Atsarginės kopijos kūrimas</string>
+    <string name="backup_restoring">Atkuriama atsarginė kopija</string>
+    <string name="backup_progress_bytes">%1$s iš %2$s</string>
+    <string name="remember_image_header_state">Įsiminti peržiūros išdėstymą</string>
+    <string name="remember_image_header_state_sub">Išsaugoti peržiūros aukštį ir prisegimo būseną pereinant tarp įrankių. Išjungus šią parinktį, kiekvienas įrankis atidaromas su numatytuoju išdėstymu.</string>
 </resources>

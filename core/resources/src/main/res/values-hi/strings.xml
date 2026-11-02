@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- मैं एक संलग्न फोटो का विश्लेषण कर सकता हूं।</string>
     <string name="help_tip_setting_opaque_viewer_step_1">सेटिंग्स → लेआउट खोलें और अपारदर्शी छवि दर्शक पृष्ठभूमि को टॉगल करें।</string>
     <string name="help_tip_setting_opaque_viewer_step_2">एक फ़ोटो खोलकर पूरी तरह काली पृष्ठभूमि की तुलना ऐप की मंद पृष्ठभूमि से करें। इससे केवल इमेज व्यूअर बदलता है, सहेजी गई छवि या उसकी पारदर्शिता नहीं।</string>
+    <string name="backup_settings_sub">केवल ऐप सेटिंग और प्रीसेट</string>
+    <string name="full_backup">पूर्ण बैकअप</string>
+    <string name="full_backup_sub">सेटिंग, डाउनलोड किए गए मॉडल और ऐप का अन्य डेटा। फ़ाइल कई जीबी की हो सकती है।</string>
+    <string name="backup_creating">बैकअप बनाया जा रहा है</string>
+    <string name="backup_restoring">बैकअप बहाल किया जा रहा है</string>
+    <string name="backup_progress_bytes">%2$s में से %1$s</string>
+    <string name="remember_image_header_state">पूर्वावलोकन लेआउट सहेजें</string>
+    <string name="remember_image_header_state_sub">टूल बदलते समय पूर्वावलोकन की ऊंचाई और पिन की स्थिति सहेजें। बंद होने पर, हर टूल डिफ़ॉल्ट लेआउट से शुरू होता है।</string>
 </resources>

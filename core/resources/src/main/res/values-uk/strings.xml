@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">- Я можу проаналізувати одну прикріплену фотографію.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Відкрийте «Параметри» → «Макет» і перемкніть «Непрозорий фон переглядача зображень».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Відкрийте фотографію, щоб порівняти суцільний чорний фон із затемненим фоном програми. Це змінює лише засіб перегляду, а не збережене зображення чи його прозорість.</string>
+    <string name="backup_settings_sub">Лише налаштування програми та пресети</string>
+    <string name="full_backup">Повна резервна копія</string>
+    <string name="full_backup_sub">Налаштування, завантажені моделі та інші дані програми. Розмір файлу може становити кілька ГБ.</string>
+    <string name="backup_creating">Створення резервної копії</string>
+    <string name="backup_restoring">Відновлення резервної копії</string>
+    <string name="backup_progress_bytes">%1$s з %2$s</string>
+    <string name="remember_image_header_state">Запам’ятовувати макет попереднього перегляду</string>
+    <string name="remember_image_header_state_sub">Зберігати висоту й стан закріплення попереднього перегляду під час переходу між інструментами. Якщо вимкнено, кожен інструмент відкривається зі стандартним макетом.</string>
 </resources>

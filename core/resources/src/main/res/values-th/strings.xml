@@ -7529,4 +7529,12 @@
     <string name="assistant_capabilities_vision">- ฉันสามารถวิเคราะห์ภาพถ่ายที่แนบมาได้หนึ่งภาพ</string>
     <string name="help_tip_setting_opaque_viewer_step_1">เปิดการตั้งค่า → เค้าโครงและสลับพื้นหลังของโปรแกรมดูรูปภาพทึบแสง</string>
     <string name="help_tip_setting_opaque_viewer_step_2">เปิดภาพถ่ายเพื่อเปรียบเทียบพื้นหลังสีดำทึบกับพื้นหลังของแอพที่หรี่แสง การดำเนินการนี้จะเปลี่ยนเฉพาะตัวแสดงเท่านั้น ไม่ใช่รูปภาพที่บันทึกไว้หรือความโปร่งใส</string>
+    <string name="backup_settings_sub">เฉพาะการตั้งค่าแอพและค่าที่ตั้งไว้ล่วงหน้า</string>
+    <string name="full_backup">การสำรองข้อมูลเต็มรูปแบบ</string>
+    <string name="full_backup_sub">การตั้งค่า โมเดลที่ดาวน์โหลด และข้อมูลอื่นๆ ของแอป ไฟล์อาจมีขนาดหลาย GB</string>
+    <string name="backup_creating">กำลังสร้างข้อมูลสำรอง</string>
+    <string name="backup_restoring">กำลังกู้คืนข้อมูลสำรอง</string>
+    <string name="backup_progress_bytes">%1$s จาก %2$s</string>
+    <string name="remember_image_header_state">จดจำเค้าโครงภาพตัวอย่าง</string>
+    <string name="remember_image_header_state_sub">เก็บความสูงและสถานะการปักหมุดของภาพตัวอย่างไว้เมื่อสลับเครื่องมือ เมื่อปิดใช้งาน แต่ละเครื่องมือจะเปิดด้วยเค้าโครงเริ่มต้น</string>
 </resources>

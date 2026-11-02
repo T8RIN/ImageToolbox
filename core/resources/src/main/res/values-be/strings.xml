@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">— Магу прааналізаваць адно прымацаванае фота.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Адкрыйце «Настройкі» → «Макет» і пераключыце «Непразрысты фон праглядальніка малюнкаў».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Адкрыйце фатаграфію, каб параўнаць суцэльны чорны фон з цьмяным фонам праграмы. Гэта змяняе толькі сродак прагляду, а не захаваны малюнак або яго празрыстасць.</string>
+    <string name="backup_settings_sub">Толькі налады праграмы і перадусталёўкі</string>
+    <string name="full_backup">Поўнае рэзервовае капіраванне</string>
+    <string name="full_backup_sub">Налады, спампаваныя мадэлі і іншыя даныя праграмы. Памер файла можа складаць некалькі ГБ.</string>
+    <string name="backup_creating">Стварэнне рэзервовай копіі</string>
+    <string name="backup_restoring">Аднаўленне рэзервовай копіі</string>
+    <string name="backup_progress_bytes">%1$s з %2$s</string>
+    <string name="remember_image_header_state">Запамінаць макет папярэдняга прагляду</string>
+    <string name="remember_image_header_state_sub">Захоўваць вышыню і стан замацавання папярэдняга прагляду пры пераходзе паміж інструментамі. Калі выключана, кожны інструмент адкрываецца з макетам па змаўчанні.</string>
 </resources>

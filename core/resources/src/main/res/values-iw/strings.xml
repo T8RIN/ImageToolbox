@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">- אני יכול לנתח תמונה אחת מצורפת.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">פתח את הגדרות ← פריסה והפעל או כבה את האפשרות „רקע מציג תמונות אטום“.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">פתח תמונה והשווה בין רקע שחור אחיד לרקע המעומעם של האפליקציה. השינוי משפיע רק על מציג התמונות, ולא על התמונה השמורה או על השקיפות שלה.</string>
+    <string name="backup_settings_sub">רק הגדרות והגדרות קבועות מראש של האפליקציה</string>
+    <string name="full_backup">גיבוי מלא</string>
+    <string name="full_backup_sub">הגדרות, מודלים שהורדו ונתונים נוספים של האפליקציה. גודל הקובץ עשוי להגיע לכמה ג\'יגה-בייט.</string>
+    <string name="backup_creating">יצירת גיבוי</string>
+    <string name="backup_restoring">משחזר גיבוי</string>
+    <string name="backup_progress_bytes">%1$s מתוך %2$s</string>
+    <string name="remember_image_header_state">שמירת פריסת התצוגה המקדימה</string>
+    <string name="remember_image_header_state_sub">שמירת גובה התצוגה המקדימה ומצב ההצמדה שלה במעבר בין כלים. כשהאפשרות מושבתת, כל כלי נפתח עם פריסת ברירת המחדל.</string>
 </resources>

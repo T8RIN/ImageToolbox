@@ -7529,4 +7529,12 @@
     <string name="assistant_capabilities_vision">- Saya dapat menganalisis satu foto terlampir.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Buka Pengaturan → Tata Letak dan alihkan latar belakang penampil gambar buram.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Buka foto untuk membandingkan latar belakang hitam polos dengan latar belakang aplikasi yang diredupkan. Ini hanya mengubah penampil gambar, bukan gambar yang disimpan atau transparansinya.</string>
+    <string name="backup_settings_sub">Hanya pengaturan aplikasi dan preset</string>
+    <string name="full_backup">Cadangan penuh</string>
+    <string name="full_backup_sub">Pengaturan, model yang diunduh, dan data aplikasi lainnya. Filenya bisa beberapa GB.</string>
+    <string name="backup_creating">Membuat cadangan</string>
+    <string name="backup_restoring">Memulihkan cadangan</string>
+    <string name="backup_progress_bytes">%1$s dari %2$s</string>
+    <string name="remember_image_header_state">Ingat Tata Letak Pratinjau</string>
+    <string name="remember_image_header_state_sub">Pertahankan tinggi dan status penyematan pratinjau saat beralih alat. Jika dinonaktifkan, setiap alat dimulai dengan tata letak default.</string>
 </resources>

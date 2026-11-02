@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">– Jag kan analysera ett bifogat foto.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Öppna Inställningar → Layout och slå på eller av ”Ogenomskinlig bildvisarbakgrund”.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Öppna ett foto för att jämföra den enfärgade svarta bakgrunden med den nedtonade appbakgrunden. Detta ändrar bara bildvisaren, inte den sparade bilden eller dess genomskinlighet.</string>
+    <string name="backup_settings_sub">Endast appinställningar och förinställningar</string>
+    <string name="full_backup">Fullständig säkerhetskopia</string>
+    <string name="full_backup_sub">Inställningar, nedladdade modeller och annan appdata. Filen kan vara flera GB.</string>
+    <string name="backup_creating">Skapar säkerhetskopia</string>
+    <string name="backup_restoring">Återställer säkerhetskopia</string>
+    <string name="backup_progress_bytes">%1$s av %2$s</string>
+    <string name="remember_image_header_state">Kom ihåg förhandsgranskningens layout</string>
+    <string name="remember_image_header_state_sub">Behåll förhandsgranskningens höjd och fästläge när du byter verktyg. När inställningen är inaktiverad öppnas varje verktyg med standardlayouten.</string>
 </resources>

@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Saan analüüsida ühte lisatud fotot.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Ava Seaded → Paigutus ja lülita valik „Läbipaistmatu pildivaaturi taust“ sisse või välja.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Avage foto, et võrrelda ühtlast musta tausta tumendatud rakenduse taustaga. See muudab ainult pildivaaturit, mitte salvestatud pilti ega selle läbipaistvust.</string>
+    <string name="backup_settings_sub">Ainult rakenduse seaded ja eelseaded</string>
+    <string name="full_backup">Täielik varukoopia</string>
+    <string name="full_backup_sub">Seaded, allalaaditud mudelid ja muud rakenduse andmed. Faili suurus võib olla mitu GB.</string>
+    <string name="backup_creating">Varukoopia loomine</string>
+    <string name="backup_restoring">Varukoopia taastamine</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">Jäta eelvaate paigutus meelde</string>
+    <string name="remember_image_header_state_sub">Säilita eelvaate kõrgus ja kinnitamise olek tööriistade vahetamisel. Kui see on välja lülitatud, avaneb iga tööriist vaikepaigutusega.</string>
 </resources>

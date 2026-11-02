@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- আমি সংযুক্ত একটি ছবি বিশ্লেষণ করতে পারি।</string>
     <string name="help_tip_setting_opaque_viewer_step_1">সেটিংস → লেআউট খুলুন এবং অস্বচ্ছ ইমেজ ভিউয়ার ব্যাকগ্রাউন্ড টগল করুন।</string>
     <string name="help_tip_setting_opaque_viewer_step_2">সম্পূর্ণ কালো পটভূমির সঙ্গে অ্যাপের ম্লান পটভূমি তুলনা করতে একটি ছবি খুলুন। এটি শুধু ইমেজ ভিউয়ার বদলায়, সংরক্ষিত ছবি বা তার স্বচ্ছতা নয়।</string>
+    <string name="backup_settings_sub">শুধুমাত্র অ্যাপ সেটিংস এবং প্রিসেট</string>
+    <string name="full_backup">সম্পূর্ণ ব্যাকআপ</string>
+    <string name="full_backup_sub">সেটিংস, ডাউনলোড করা মডেল এবং অন্যান্য অ্যাপ ডেটা। ফাইলটি কয়েক জিবি হতে পারে।</string>
+    <string name="backup_creating">ব্যাকআপ তৈরি করা হচ্ছে</string>
+    <string name="backup_restoring">ব্যাকআপ পুনরুদ্ধার করা হচ্ছে</string>
+    <string name="backup_progress_bytes">%2$s এর %1$s</string>
+    <string name="remember_image_header_state">প্রিভিউ লেআউট মনে রাখা</string>
+    <string name="remember_image_header_state_sub">টুল বদলালেও প্রিভিউয়ের উচ্চতা ও পিন করা অবস্থা সংরক্ষণ করুন। বন্ধ থাকলে প্রতিটি টুল ডিফল্ট লেআউট দিয়ে শুরু হবে।</string>
 </resources>

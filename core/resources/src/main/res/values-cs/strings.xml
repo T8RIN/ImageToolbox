@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">- Mohu analyzovat jednu přiloženou fotografii.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Otevřete Nastavení → Rozvržení a přepněte volbu „Neprůhledné pozadí prohlížeče obrázků“.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Otevřete fotku a porovnejte plné černé pozadí se ztlumeným pozadím aplikace. Tím se změní pouze prohlížeč, nikoli uložený obrázek nebo jeho průhlednost.</string>
+    <string name="backup_settings_sub">Pouze nastavení a předvolby aplikace</string>
+    <string name="full_backup">Plná záloha</string>
+    <string name="full_backup_sub">Nastavení, stažené modely a další data aplikace. Soubor může mít několik GB.</string>
+    <string name="backup_creating">Vytváření zálohy</string>
+    <string name="backup_restoring">Obnovování zálohy</string>
+    <string name="backup_progress_bytes">%1$s z %2$s</string>
+    <string name="remember_image_header_state">Pamatovat si rozložení náhledu</string>
+    <string name="remember_image_header_state_sub">Zachovat výšku a stav připnutí náhledu při přepínání nástrojů. Když je tato možnost vypnutá, každý nástroj se otevře s výchozím rozložením.</string>
 </resources>

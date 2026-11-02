@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Ik kan één bijgevoegde foto analyseren.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Open Instellingen → Indeling en schakel de ondoorzichtige achtergrond van de afbeeldingsviewer in.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Open een foto om de effen zwarte achtergrond te vergelijken met de gedimde achtergrond van de app. Dit verandert alleen de afbeeldingsviewer, niet de opgeslagen afbeelding of de transparantie ervan.</string>
+    <string name="backup_settings_sub">Alleen app-instellingen en voorinstellingen</string>
+    <string name="full_backup">Volledige back-up</string>
+    <string name="full_backup_sub">Instellingen, gedownloade modellen en andere app-gegevens. Het bestand kan meerdere GB groot zijn.</string>
+    <string name="backup_creating">Back-up maken</string>
+    <string name="backup_restoring">Back-up herstellen</string>
+    <string name="backup_progress_bytes">%1$s van %2$s</string>
+    <string name="remember_image_header_state">Voorbeeldindeling onthouden</string>
+    <string name="remember_image_header_state_sub">Behoud de hoogte en vastzetstatus van het voorbeeld bij het wisselen van tools. Als dit is uitgeschakeld, opent elke tool met de standaardindeling.</string>
 </resources>

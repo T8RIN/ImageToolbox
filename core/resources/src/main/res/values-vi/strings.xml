@@ -7529,4 +7529,12 @@
     <string name="assistant_capabilities_vision">- Tôi có thể phân tích một bức ảnh đính kèm.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Mở Cài đặt → Bố cục và bật hoặc tắt “Nền trình xem ảnh không trong suốt”.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Mở ảnh để so sánh nền đen đồng nhất với nền ứng dụng được làm tối. Thay đổi này chỉ ảnh hưởng đến trình xem ảnh, không ảnh hưởng đến ảnh đã lưu hoặc độ trong suốt của ảnh.</string>
+    <string name="backup_settings_sub">Chỉ cài đặt ứng dụng và cài đặt trước</string>
+    <string name="full_backup">Sao lưu đầy đủ</string>
+    <string name="full_backup_sub">Cài đặt, mô hình đã tải xuống và dữ liệu ứng dụng khác. Tệp có thể có vài GB.</string>
+    <string name="backup_creating">Đang tạo bản sao lưu</string>
+    <string name="backup_restoring">Đang khôi phục bản sao lưu</string>
+    <string name="backup_progress_bytes">%1$s trong số %2$s</string>
+    <string name="remember_image_header_state">Ghi nhớ bố cục xem trước</string>
+    <string name="remember_image_header_state_sub">Giữ nguyên chiều cao và trạng thái ghim của phần xem trước khi chuyển đổi công cụ. Khi tắt, mỗi công cụ sẽ mở với bố cục mặc định.</string>
 </resources>

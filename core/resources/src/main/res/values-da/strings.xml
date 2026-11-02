@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Jeg kan analysere ét vedhæftet billede.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Åbn Indstillinger → Layout, og slå “Uigennemsigtig baggrund for billedfremviser” til eller fra.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Åbn et billede for at sammenligne den solide sorte baggrund med den nedtonede app-baggrund. Dette ændrer kun fremviseren, ikke det gemte billede eller dets gennemsigtighed.</string>
+    <string name="backup_settings_sub">Kun appindstillinger og forudindstillinger</string>
+    <string name="full_backup">Fuld backup</string>
+    <string name="full_backup_sub">Indstillinger, downloadede modeller og andre appdata. Filen kan være på flere GB.</string>
+    <string name="backup_creating">Oprettelse af backup</string>
+    <string name="backup_restoring">Gendanner backup</string>
+    <string name="backup_progress_bytes">%1$s af %2$s</string>
+    <string name="remember_image_header_state">Husk forhåndsvisningslayout</string>
+    <string name="remember_image_header_state_sub">Bevar forhåndsvisningens højde og fastgørelse ved skift mellem værktøjer. Når indstillingen er deaktiveret, starter hvert værktøj med standardlayoutet.</string>
 </resources>

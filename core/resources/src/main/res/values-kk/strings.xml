@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Мен қоса берілген бір фотосуретті талдай аламын.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Параметрлер → Орналасу бөлімін ашып, «Мөлдір емес кескін қарау құралының фоны» параметрін қосыңыз немесе өшіріңіз.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Тұтас қара фонды күңгірттелген қолданба фонымен салыстыру үшін фотосуретті ашыңыз. Бұл сақталған кескінді немесе оның мөлдірлігін емес, тек қарау құралын өзгертеді.</string>
+    <string name="backup_settings_sub">Тек қолданба параметрлері мен алдын ала орнатулар</string>
+    <string name="full_backup">Толық сақтық көшірме</string>
+    <string name="full_backup_sub">Параметрлер, жүктеп алынған модельдер және басқа қолданба деректері. Файл көлемі бірнеше ГБ болуы мүмкін.</string>
+    <string name="backup_creating">Сақтық көшірме жасау</string>
+    <string name="backup_restoring">Сақтық көшірме қалпына келтірілуде</string>
+    <string name="backup_progress_bytes">%2$s ішінен %1$s</string>
+    <string name="remember_image_header_state">Алдын ала қарау орналасуын есте сақтау</string>
+    <string name="remember_image_header_state_sub">Құралдар арасында ауысқанда алдын ала қарау биіктігі мен бекітілу күйін сақтау. Өшірілгенде әр құрал әдепкі орналасумен ашылады.</string>
 </resources>

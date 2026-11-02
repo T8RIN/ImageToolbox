@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- నేను జోడించిన ఒక ఫోటోను విశ్లేషించగలను.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">సెట్టింగ్‌లు → లేఅవుట్‌ని తెరిచి, అపారదర్శక చిత్ర వీక్షకుల నేపథ్యాన్ని టోగుల్ చేయండి.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">పూర్తిగా నల్లని నేపథ్యాన్ని యాప్‌లోని మసకబారిన నేపథ్యంతో పోల్చడానికి ఫోటోను తెరవండి. ఇది చిత్రం చూపించే విధానాన్ని మాత్రమే మారుస్తుంది; సేవ్ చేసిన చిత్రం లేదా దాని పారదర్శకత మారదు.</string>
+    <string name="backup_settings_sub">యాప్ సెట్టింగ్‌లు మరియు ప్రీసెట్‌లు మాత్రమే</string>
+    <string name="full_backup">పూర్తి బ్యాకప్</string>
+    <string name="full_backup_sub">సెట్టింగ్‌లు, డౌన్‌లోడ్ చేసిన మోడల్‌లు మరియు ఇతర యాప్ డేటా. ఫైల్ అనేక GB ఉండవచ్చు.</string>
+    <string name="backup_creating">బ్యాకప్ సృష్టిస్తోంది</string>
+    <string name="backup_restoring">బ్యాకప్‌ని పునరుద్ధరిస్తోంది</string>
+    <string name="backup_progress_bytes">%2$s లో %1$s</string>
+    <string name="remember_image_header_state">ప్రివ్యూ లేఅవుట్‌ను సేవ్ చేయి</string>
+    <string name="remember_image_header_state_sub">సాధనాల మధ్య మారేటప్పుడు ప్రివ్యూ ఎత్తు మరియు పిన్ చేసిన స్థితిని సేవ్ చేయి. నిలిపివేస్తే, ప్రతి సాధనం డిఫాల్ట్ లేఅవుట్‌తో తెరుచుకుంటుంది.</string>
 </resources>

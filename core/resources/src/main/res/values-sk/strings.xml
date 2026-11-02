@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">- Môžem analyzovať jednu priloženú fotografiu.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Otvorte Nastavenia → Rozloženie a prepnite Nepriehľadné pozadie prehliadača obrázkov.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Otvorte fotografiu a porovnajte jednofarebné čierne pozadie so stlmeným pozadím aplikácie. Tým sa zmení iba prehliadač, nie uložený obrázok ani jeho priehľadnosť.</string>
+    <string name="backup_settings_sub">Iba nastavenia a prednastavenia aplikácie</string>
+    <string name="full_backup">Úplná záloha</string>
+    <string name="full_backup_sub">Nastavenia, stiahnuté modely a ďalšie údaje aplikácie. Súbor môže mať niekoľko GB.</string>
+    <string name="backup_creating">Vytvára sa záloha</string>
+    <string name="backup_restoring">Obnovuje sa záloha</string>
+    <string name="backup_progress_bytes">%1$s z %2$s</string>
+    <string name="remember_image_header_state">Pamätať si rozloženie náhľadu</string>
+    <string name="remember_image_header_state_sub">Zachovať výšku a stav pripnutia náhľadu pri prepínaní nástrojov. Keď je táto možnosť vypnutá, každý nástroj sa otvorí s predvoleným rozložením.</string>
 </resources>

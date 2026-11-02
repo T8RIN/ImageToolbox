@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Ekli bir fotoğrafı analiz edebilirim.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Ayarlar → Düzen bölümünü açın ve “Opak resim görüntüleyici arka planı” seçeneğini açın veya kapatın.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Düz siyah arka planı soluk uygulama arka planıyla karşılaştırmak için bir fotoğraf açın. Bu, yalnızca görüntüleyiciyi değiştirir; kaydedilen görüntüyü veya şeffaflığını etkilemez.</string>
+    <string name="backup_settings_sub">Yalnızca uygulama ayarları ve ön ayarlar</string>
+    <string name="full_backup">Tam yedekleme</string>
+    <string name="full_backup_sub">Ayarlar, indirilen modeller ve diğer uygulama verileri. Dosya birkaç GB olabilir.</string>
+    <string name="backup_creating">Yedek oluşturma</string>
+    <string name="backup_restoring">Yedekleme geri yükleniyor</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">Önizleme Düzenini Hatırla</string>
+    <string name="remember_image_header_state_sub">Araçlar arasında geçiş yaparken önizleme yüksekliğini ve sabitleme durumunu koru. Devre dışı bırakıldığında her araç varsayılan düzenle açılır.</string>
 </resources>

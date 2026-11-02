@@ -7530,4 +7530,12 @@
     <string name="assistant_finding_photos">Buscando fotos…</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Abre Configuración → Diseño y activa o desactiva «Fondo del visor de imágenes opaco».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Abre una foto para comparar el fondo negro sólido con el fondo atenuado de la aplicación. Esto solo cambia el visor, no la imagen guardada ni su transparencia.</string>
+    <string name="backup_settings_sub">Solo ajustes y preajustes de la aplicación</string>
+    <string name="full_backup">Copia de seguridad completa</string>
+    <string name="full_backup_sub">Configuraciones, modelos descargados y otros datos de la aplicación. El archivo puede tener varios GB.</string>
+    <string name="backup_creating">Creando copia de seguridad</string>
+    <string name="backup_restoring">Restaurando copia de seguridad</string>
+    <string name="backup_progress_bytes">%1$s de %2$s</string>
+    <string name="remember_image_header_state">Recordar el diseño de la vista previa</string>
+    <string name="remember_image_header_state_sub">Conservar la altura de la vista previa y su estado de fijación al cambiar de herramienta. Si se desactiva, cada herramienta se abre con el diseño predeterminado.</string>
 </resources>

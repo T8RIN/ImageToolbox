@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Voin analysoida yhden liitteenä olevan valokuvan.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Avaa Asetukset → Asettelu ja vaihda läpinäkymätön kuvankatselun tausta.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Avaa valokuva ja vertaa tasaista mustaa taustaa himmennettyyn sovelluksen taustaan. Tämä muuttaa vain katselua, ei tallennettua kuvaa tai sen läpinäkyvyyttä.</string>
+    <string name="backup_settings_sub">Vain sovellusasetukset ja esiasetukset</string>
+    <string name="full_backup">Täysi varmuuskopio</string>
+    <string name="full_backup_sub">Asetukset, ladatut mallit ja muut sovellustiedot. Tiedosto voi olla useita Gt.</string>
+    <string name="backup_creating">Varmuuskopion luominen</string>
+    <string name="backup_restoring">Varmuuskopion palauttaminen</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">Muista esikatselun asettelu</string>
+    <string name="remember_image_header_state_sub">Säilytä esikatselun korkeus ja kiinnitystila työkalujen välillä. Kun asetus on poistettu käytöstä, jokainen työkalu avautuu oletusasettelulla.</string>
 </resources>

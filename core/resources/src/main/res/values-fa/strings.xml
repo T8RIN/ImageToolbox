@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- من می توانم یک عکس پیوست شده را تجزیه و تحلیل کنم.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">تنظیمات ← طرح‌بندی را باز کنید و گزینهٔ «پس زمینه نمایشگر تصویر مات» را روشن یا خاموش کنید.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">عکسی را باز کنید و پس‌زمینهٔ کاملاً سیاه را با پس‌زمینهٔ کم‌نور برنامه مقایسه کنید. این گزینه فقط نمایشگر را تغییر می‌دهد و روی تصویر ذخیره‌شده یا شفافیت آن تأثیری ندارد.</string>
+    <string name="backup_settings_sub">فقط تنظیمات برنامه و پیش‌تنظیم‌ها</string>
+    <string name="full_backup">پشتیبان‌گیری کامل</string>
+    <string name="full_backup_sub">تنظیمات، مدل‌های دانلود شده و سایر داده‌های برنامه. فایل می تواند چندین گیگابایت باشد.</string>
+    <string name="backup_creating">ایجاد پشتیبان</string>
+    <string name="backup_restoring">در حال بازیابی نسخه پشتیبان</string>
+    <string name="backup_progress_bytes">%1$s از %2$s</string>
+    <string name="remember_image_header_state">ذخیره چیدمان پیش‌نمایش</string>
+    <string name="remember_image_header_state_sub">حفظ ارتفاع و وضعیت سنجاق‌شدن پیش‌نمایش هنگام جابه‌جایی بین ابزارها. وقتی غیرفعال باشد، هر ابزار با چیدمان پیش‌فرض باز می‌شود.</string>
 </resources>

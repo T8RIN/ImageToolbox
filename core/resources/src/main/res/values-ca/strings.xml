@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Puc analitzar una foto adjunta.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Obre Configuració → Disseny i activa o desactiva «Fons opac del visor d\'imatges».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Obriu una foto per comparar el fons negre sòlid amb el fons de l\'aplicació atenuat. Això només canvia el visor, no la imatge desada ni la seva transparència.</string>
+    <string name="backup_settings_sub">Només la configuració i els valors predefinits de l\'aplicació</string>
+    <string name="full_backup">Còpia de seguretat completa</string>
+    <string name="full_backup_sub">Configuració, models baixats i altres dades de l\'aplicació. El fitxer pot tenir diversos GB.</string>
+    <string name="backup_creating">Creació de còpia de seguretat</string>
+    <string name="backup_restoring">S\'està restaurant la còpia de seguretat</string>
+    <string name="backup_progress_bytes">%1$s de %2$s</string>
+    <string name="remember_image_header_state">Recordar el disseny de la vista prèvia</string>
+    <string name="remember_image_header_state_sub">Conservar l\'alçada i l\'estat de fixació de la vista prèvia en canviar d\'eina. Si es desactiva, cada eina s\'obre amb el disseny predeterminat.</string>
 </resources>

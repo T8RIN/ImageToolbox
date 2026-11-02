@@ -7530,4 +7530,12 @@
     <string name="assistant_file_size_already_fits">Il file è di %1$s byte e rientra già nel limite %2$s (%3$s byte). La compressione non è necessaria.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Apri Impostazioni → Layout e attiva lo sfondo opaco del visualizzatore di immagini.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Apri una foto per confrontare lo sfondo nero pieno con lo sfondo attenuato dell\'app. Ciò modifica solo il visualizzatore, non l\'immagine salvata o la sua trasparenza.</string>
+    <string name="backup_settings_sub">Solo impostazioni e preconfigurazioni dell\'app</string>
+    <string name="full_backup">Backup completo</string>
+    <string name="full_backup_sub">Impostazioni, modelli scaricati e altri dati dell\'app. Il file può essere di diversi GB.</string>
+    <string name="backup_creating">Creazione del backup</string>
+    <string name="backup_restoring">Ripristino del backup</string>
+    <string name="backup_progress_bytes">%1$s di %2$s</string>
+    <string name="remember_image_header_state">Memorizza il layout dell\'anteprima</string>
+    <string name="remember_image_header_state_sub">Mantieni l\'altezza e lo stato di blocco dell\'anteprima quando passi da uno strumento all\'altro. Se disattivato, ogni strumento si apre con il layout predefinito.</string>
 </resources>

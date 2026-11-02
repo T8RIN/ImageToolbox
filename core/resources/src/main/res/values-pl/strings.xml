@@ -7532,4 +7532,12 @@
     <string name="assistant_capabilities_vision">- Mogę przeanalizować jedno załączone zdjęcie.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Otwórz Ustawienia → Układ i przełącz nieprzezroczyste tło przeglądarki obrazów.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Otwórz zdjęcie, aby porównać jednolite czarne tło z przyciemnionym tłem aplikacji. Zmienia to tylko przeglądarkę, a nie zapisany obraz lub jego przezroczystość.</string>
+    <string name="backup_settings_sub">Tylko ustawienia aplikacji i presety</string>
+    <string name="full_backup">Pełna kopia zapasowa</string>
+    <string name="full_backup_sub">Ustawienia, pobrane modele i inne dane aplikacji. Plik może mieć kilka GB.</string>
+    <string name="backup_creating">Tworzenie kopii zapasowej</string>
+    <string name="backup_restoring">Przywracanie kopii zapasowej</string>
+    <string name="backup_progress_bytes">%1$s z %2$s</string>
+    <string name="remember_image_header_state">Zapamiętuj układ podglądu</string>
+    <string name="remember_image_header_state_sub">Zachowuj wysokość i stan przypięcia podglądu przy przełączaniu narzędzi. Gdy ta opcja jest wyłączona, każde narzędzie otwiera się z domyślnym układem.</string>
 </resources>

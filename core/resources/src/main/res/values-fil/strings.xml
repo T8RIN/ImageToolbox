@@ -7530,4 +7530,12 @@
     <string name="assistant_capabilities_vision">- Maaari kong pag-aralan ang isang naka-attach na larawan.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Buksan ang Mga Setting → Layout at i-toggle ang Opaque na background ng viewer ng larawan.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Magbukas ng larawan para ihambing ang purong itim na background sa pinadilim na background ng app. Viewer lang ang naaapektuhan nito, hindi ang naka-save na larawan o ang transparency nito.</string>
+    <string name="backup_settings_sub">Mga setting at preset lang ng app</string>
+    <string name="full_backup">Buong backup</string>
+    <string name="full_backup_sub">Mga setting, na-download na modelo at iba pang data ng app. Ang file ay maaaring ilang GB.</string>
+    <string name="backup_creating">Paglikha ng backup</string>
+    <string name="backup_restoring">Ibinabalik ang backup</string>
+    <string name="backup_progress_bytes">%1$s ng %2$s</string>
+    <string name="remember_image_header_state">Panatilihin ang layout ng preview</string>
+    <string name="remember_image_header_state_sub">Panatilihin ang taas at naka-pin na estado ng preview kapag lumilipat ng tool. Kapag naka-off, magsisimula ang bawat tool sa default na layout.</string>
 </resources>

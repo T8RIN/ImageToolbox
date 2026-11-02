@@ -7530,4 +7530,12 @@
     <string name="assistant_finding_photos">Recherche de photos…</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Ouvrez Paramètres → Mise en page et activez l\'arrière-plan opaque de la visionneuse d\'images.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Ouvrez une photo pour comparer l’arrière-plan noir uni avec l’arrière-plan grisé de l’application. Cela modifie uniquement la visionneuse, pas l\'image enregistrée ni sa transparence.</string>
+    <string name="backup_settings_sub">Uniquement les paramètres et préconfigurations de l\'application</string>
+    <string name="full_backup">Sauvegarde complète</string>
+    <string name="full_backup_sub">Paramètres, modèles téléchargés et autres données d\'application. Le fichier peut faire plusieurs Go.</string>
+    <string name="backup_creating">Création d\'une sauvegarde</string>
+    <string name="backup_restoring">Restauration de la sauvegarde</string>
+    <string name="backup_progress_bytes">%1$s sur %2$s</string>
+    <string name="remember_image_header_state">Mémoriser la disposition de l\'aperçu</string>
+    <string name="remember_image_header_state_sub">Conserver la hauteur et l\'épinglage de l\'aperçu lors du passage d\'un outil à l\'autre. Si cette option est désactivée, chaque outil s\'ouvre avec la disposition par défaut.</string>
 </resources>

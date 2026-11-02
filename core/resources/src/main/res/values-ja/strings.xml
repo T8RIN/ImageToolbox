@@ -7529,4 +7529,12 @@
     <string name="assistant_finding_photos">写真を検索中…</string>
     <string name="help_tip_setting_opaque_viewer_step_1">[設定] → [レイアウト] を開き、[不透明な画像ビューアの背景] を切り替えます。</string>
     <string name="help_tip_setting_opaque_viewer_step_2">写真を開いて、黒一色の背景と薄暗くなったアプリの背景を比較します。これにより変更されるのはビューアのみであり、保存された画像やその透明度は変更されません。</string>
+    <string name="backup_settings_sub">アプリの設定とプリセットのみ</string>
+    <string name="full_backup">完全バックアップ</string>
+    <string name="full_backup_sub">設定、ダウンロードしたモデル、その他のアプリデータ。ファイルは数 GB になる場合があります。</string>
+    <string name="backup_creating">バックアップの作成</string>
+    <string name="backup_restoring">バックアップの復元</string>
+    <string name="backup_progress_bytes">%1$s/%2$s</string>
+    <string name="remember_image_header_state">プレビューのレイアウトを記憶する</string>
+    <string name="remember_image_header_state_sub">ツールを切り替えても、プレビューの高さと固定状態を保持します。無効にすると、各ツールはデフォルトのレイアウトで開きます。</string>
 </resources>

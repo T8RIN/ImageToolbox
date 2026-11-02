@@ -7529,4 +7529,12 @@
     <string name="assistant_capabilities_vision">- 我可以分析一张附上的照片。</string>
     <string name="help_tip_setting_opaque_viewer_step_1">打开设置 → 布局并切换不透明图像查看器背景。</string>
     <string name="help_tip_setting_opaque_viewer_step_2">打开照片，比较纯黑色背景与变暗的应用背景。此设置只影响查看器，不会改变保存的图像或其透明度。</string>
+    <string name="backup_settings_sub">仅应用程序设置和预设</string>
+    <string name="full_backup">完整备份</string>
+    <string name="full_backup_sub">设置、下载的模型和其他应用程序数据。该文件可能有几个 GB。</string>
+    <string name="backup_creating">正在创建备份</string>
+    <string name="backup_restoring">正在恢复备份</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">记住预览布局</string>
+    <string name="remember_image_header_state_sub">在工具之间切换时保留预览的高度和固定状态。禁用后，每个工具都会使用默认布局打开。</string>
 </resources>

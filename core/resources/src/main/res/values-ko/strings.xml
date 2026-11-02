@@ -7529,4 +7529,12 @@
     <string name="assistant_capabilities_vision">- 첨부된 사진 1장을 분석할 수 있습니다.</string>
     <string name="help_tip_setting_opaque_viewer_step_1">설정 → 레이아웃을 열고 불투명 이미지 뷰어 배경을 전환하세요.</string>
     <string name="help_tip_setting_opaque_viewer_step_2">사진을 열어 단색 검정색 배경과 흐리게 표시된 앱 배경을 비교해 보세요. 이렇게 하면 저장된 이미지나 투명도가 아닌 뷰어만 변경됩니다.</string>
+    <string name="backup_settings_sub">앱 설정 및 사전 설정만</string>
+    <string name="full_backup">전체 백업</string>
+    <string name="full_backup_sub">설정, 다운로드한 모델 및 기타 앱 데이터. 파일 크기는 몇 GB일 수 있습니다.</string>
+    <string name="backup_creating">백업 생성 중</string>
+    <string name="backup_restoring">백업 복원 중</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">미리보기 레이아웃 기억하기</string>
+    <string name="remember_image_header_state_sub">도구를 전환할 때 미리보기의 높이와 고정 상태를 유지합니다. 비활성화하면 각 도구가 기본 레이아웃으로 열립니다.</string>
 </resources>
