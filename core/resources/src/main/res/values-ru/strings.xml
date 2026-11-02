@@ -338,8 +338,14 @@
     <string name="aspect_ratio">Соотношение сторон</string>
     <string name="backup_and_restore">Бэкап и восстановление</string>
     <string name="backup">Бэкап</string>
-    <string name="backup_sub">Сохраните ваши настройки в файл</string>
-    <string name="restore_sub">Восстановите настройки приложения из ранее сохраненного файла бэкапа</string>
+    <string name="backup_sub">Сохраните настройки или все данные приложения в файл</string>
+    <string name="backup_settings_sub">Только настройки приложения и пресеты</string>
+    <string name="full_backup">Полный бэкап</string>
+    <string name="full_backup_sub">Настройки, скачанные модели и другие данные приложения. Файл может занимать несколько ГБ.</string>
+    <string name="backup_creating">Создание бэкапа</string>
+    <string name="backup_restoring">Восстановление бэкапа</string>
+    <string name="backup_progress_bytes">%1$s из %2$s</string>
+    <string name="restore_sub">Восстановите настройки или все данные приложения из файла бэкапа</string>
     <string name="settings_restored">Настройки успешно восстановлены</string>
     <string name="crop_mask">Маска обрезки</string>
     <string name="image_crop_mask_sub">Используйте эту опцию, для создания маски из выбранного изображения, обратите внимание, что оно ДОЛЖНО иметь канал прозрачности</string>
@@ -1475,7 +1481,7 @@
     <string name="image_toolbox_in_telegram_sub">Присоединяйтесь к нашему чату, где вы можете обсудить все, что вы хотите, а также можете зайти в канал CI, где я публикую бета-версии и объявления</string>
     <string name="ci_channel_sub">Получайте уведомления о новых версиях приложения и читайте объявления</string>
     <string name="custom_options">Пользовательские параметры</string>
-    <string name="custom_params_info">Параметры следует вводить по следующему шаблону: \"--{название_опции} {значение}\"</string>
+    <string name="custom_params_info">Параметры следует вводить по следующему шаблону: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Автоматическая обрезка</string>
     <string name="free_corners">Свободные углы</string>
     <string name="coerce_points_to_image_bounds">Приведение точек к границам изображения</string>
@@ -2648,8 +2654,8 @@
     <string name="help_tip_backup_restore_settings_title">Резервное копирование настроек</string>
     <string name="help_tip_backup_restore_settings_subtitle">Безопасное перемещение пресетов, настроек и поведения приложения в другую установку.</string>
     <string name="help_tip_backup_restore_settings_page_title">Сохраняйте свою настройку переносимой</string>
-    <string name="help_tip_backup_restore_settings_description">Копия настроек сохраняет глобальные параметры приложения: оформление, значения по умолчанию и правила имён. Это не копия фотографий, загруженных моделей или других отдельных файлов.</string>
-    <string name="help_tip_backup_restore_settings_step_1">Откройте Резервное копирование, выберите место для файла настроек и сохраните его там, где он останется доступен после переустановки или смены устройства.</string>
+    <string name="help_tip_backup_restore_settings_description">Копия настроек сохраняет глобальные параметры приложения: оформление, значения по умолчанию и правила имён. Полный бэкап также включает скачанные модели и другие данные приложения. Фотографии вне приложения в него не входят.</string>
+    <string name="help_tip_backup_restore_settings_step_1">Откройте Бэкап, выберите Настройки или Полный бэкап, затем укажите место для файла. Полный бэкап может занимать несколько ГБ; дождитесь окончания сохранения.</string>
     <string name="help_tip_backup_restore_settings_step_2">Откройте Восстановить и выберите этот файл для применения параметров. Перед важной обработкой проверьте формат и правила имён.</string>
     <string name="help_tip_backup_restore_settings_step_3">После восстановления заново выберите папку сохранения и предоставьте доступ: разрешение на папку не переносится копией. Фотографии и другие нужные файлы копируйте отдельно.</string>
     <string name="help_tip_resize_convert_title">Изменение размера и конвертирование изображений</string>
@@ -6481,7 +6487,7 @@
     <string name="help_tip_setting_cache_auto_clear_interval_description">Интервал определяет срок проверки автоматической очистки, а не удаление сохранённых изображений по таймеру.</string>
     <string name="help_tip_setting_cache_auto_clear_interval_step_1">Включите автоматическую очистку, откройте Интервал очистки и выберите каждый запуск, день, неделю или месяц.</string>
     <string name="help_tip_setting_cache_auto_clear_interval_step_2">Отдельно задайте Лимит кэша. Наступление срока проверки само по себе не означает превышения порога размера.</string>
-    <string name="help_tip_setting_restore_description">Восстановление читает резервную копию настроек ImageToolbox и применяет сохранённые параметры.</string>
+    <string name="help_tip_setting_restore_description">Восстановление принимает копии настроек и полные бэкапы ImageToolbox. Полный бэкап также восстанавливает скачанные модели и другие данные приложения. Дождитесь окончания восстановления.</string>
     <string name="help_tip_setting_restore_step_1">Откройте Восстановить и выберите ранее созданную приложением копию. Сначала сохраните текущую копию, если может понадобиться вернуть настройки.</string>
     <string name="help_tip_setting_restore_step_2">После восстановления экран пересоздаётся. Заново выберите Папку вывода: сохранённый URI папки сбрасывается при восстановлении.</string>
     <string name="help_tip_setting_reset_description">Сброс возвращает настройки приложения к начальным значениям после подтверждения.</string>
@@ -7532,4 +7538,6 @@
     <string name="opaque_image_viewer_background_sub">Использовать сплошной чёрный фон при просмотре фотографий</string>
     <string name="help_tip_setting_opaque_viewer_step_1">Откройте Настройки → Макет и переключите «Непрозрачный фон просмотрщика».</string>
     <string name="help_tip_setting_opaque_viewer_step_2">Откройте фотографию и сравните сплошной чёрный фон с затемнённым фоном приложения. Это меняет только просмотрщик, а не сохранённое изображение или его прозрачность.</string>
+    <string name="remember_image_header_state">Запоминать вид превью</string>
+    <string name="remember_image_header_state_sub">Сохранять высоту и закрепление превью между инструментами. Когда выключено, каждый инструмент открывается с видом по умолчанию.</string>
 </resources>

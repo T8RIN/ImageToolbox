@@ -27,6 +27,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,9 +48,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.Velocity
 import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ProvidesValue
@@ -69,6 +75,8 @@ internal fun MainContentImpl(
     onGetClipList: (List<Uri>) -> Unit,
     onNavigate: (Screen) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
+    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderDragStateChange: (Boolean) -> Unit,
     onShowFeaturesFall: () -> Unit,
     onTryGetUpdate: () -> Unit,
     isUpdateAvailable: Boolean,
@@ -79,6 +87,11 @@ internal fun MainContentImpl(
     var selectedNavigationItem by rememberSaveable { mutableIntStateOf(0) }
     val showFavoriteTabInGroupedMode =
         settingsState.groupOptionsByTypes && settingsState.showFavoriteToolsInGroupedMode
+    val favoriteIndex = when {
+        !settingsState.showFavoriteAsLast -> 0
+        settingsState.groupOptionsByTypes -> Screen.typedEntries.size
+        else -> 1
+    }
     val canSearchScreens = settingsState.screensSearchEnabled
     var showScreenSearch by rememberSaveable(canSearchScreens) { mutableStateOf(false) }
     var screenSearchKeyword by rememberSaveable(canSearchScreens) { mutableStateOf("") }
@@ -125,10 +138,27 @@ internal fun MainContentImpl(
             }
         }
 
+        var blockTopBarScroll by remember { mutableStateOf(false) }
         val scrollBehavior = if (showSnowfall) {
-            TopAppBarDefaults.pinnedScrollBehavior()
+            TopAppBarDefaults.pinnedScrollBehavior(
+                canScroll = { !blockTopBarScroll }
+            )
         } else {
-            TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+            TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
+                canScroll = { !blockTopBarScroll }
+            )
+        }
+        val scrollConnection = remember(scrollBehavior) {
+            object : NestedScrollConnection by scrollBehavior.nestedScrollConnection {
+                override suspend fun onPostFling(
+                    consumed: Velocity,
+                    available: Velocity
+                ): Velocity = if (blockTopBarScroll) {
+                    Velocity.Zero
+                } else {
+                    scrollBehavior.nestedScrollConnection.onPostFling(consumed, available)
+                }
+            }
         }
 
         val topBar: @Composable () -> Unit = {
@@ -153,7 +183,16 @@ internal fun MainContentImpl(
         Scaffold(
             modifier = Modifier
                 .fillMaxSize()
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        awaitFirstDown(
+                            requireUnconsumed = false,
+                            pass = PointerEventPass.Initial
+                        )
+                        blockTopBarScroll = false
+                    }
+                }
+                .nestedScroll(scrollConnection),
             topBar = {
                 val colorScheme = MaterialTheme.colorScheme
 
@@ -269,6 +308,9 @@ internal fun MainContentImpl(
 
                 ScreenPreferenceSelection(
                     currentScreenList = currentScreenList,
+                    canReorderFavorites = !showScreenSearch && screenSearchKeyword.isEmpty() &&
+                            (!settingsState.groupOptionsByTypes || showFavoriteTabInGroupedMode) &&
+                            selectedNavigationItem == favoriteIndex,
                     showScreenSearch = showScreenSearch,
                     screenSearchKeyword = screenSearchKeyword,
                     isGrid = isGrid,
@@ -281,6 +323,11 @@ internal fun MainContentImpl(
                     onNavigateToScreenWithPopUpTo = onNavigate,
                     onNavigationBarItemChange = { selectedNavigationItem = it },
                     onToggleFavorite = onToggleFavorite,
+                    onReorderFavorites = onReorderFavorites,
+                    onReorderDragStateChange = {
+                        if (it) blockTopBarScroll = true
+                        onReorderDragStateChange(it)
+                    },
                     lastUsedTools = lastUsedTools
                 )
             }

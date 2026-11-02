@@ -6366,7 +6366,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Aktifkan Tampilkan favorit sebagai yang terakhir untuk memindahkan tab favorit ke akhir, atau nonaktifkan untuk menempatkannya terlebih dahulu.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Dalam mode berkelompok, aktifkan Favorit di alat yang dikelompokkan terlebih dahulu; jika tidak, tidak ada tab favorit untuk dipindahkan.</string>
     <string name="help_tip_setting_presets_description">Preset ubah ukuran menyimpan ukuran persentase yang dapat digunakan kembali alih-alih memasukkan dimensi untuk setiap gambar.</string>
-    <string name="help_tip_setting_presets_step_1">Buka Preset untuk mengedit nilai yang tersedia. Nilai 50 berarti setengah lebar dan tinggi aslinya; 125 memperbesarnya menjadi 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Buka Preset untuk mengedit nilai yang tersedia. Nilai 50 berarti setengah lebar dan tinggi aslinya; 125 memperbesarnya menjadi 125%.</string>
     <string name="help_tip_setting_presets_step_2">Pilih preset di alat pengubah ukuran yang kompatibel dan periksa dimensi yang dihasilkan sebelum menyimpan.</string>
     <string name="help_tip_setting_default_quality_description">Kualitas default menginisialisasi kontrol kompresi dan bergantung pada format output yang dipilih.</string>
     <string name="help_tip_setting_default_quality_step_1">Pilih Format Gambar Default terlebih dahulu, lalu sesuaikan kontrol kualitas yang ditampilkan untuk format tersebut.</string>
@@ -7237,7 +7237,7 @@
     <string name="help_tip_ai_detection_subtitle">Bandingkan perkiraan detektor tanpa menganggapnya sebagai bukti</string>
     <string name="help_tip_ai_detection_description">Detektor AI memperkirakan seberapa mirip suatu gambar dengan contoh pelatihan mereka terhadap gambar yang dihasilkan atau gambar nyata. Hasilnya bukan bukti kepenulisan atau riwayat penyuntingan. Foto asli dapat ditandai sebagai AI, dan gambar yang dihasilkan dapat terlewatkan.</string>
     <string name="help_tip_ai_detection_step_1">Pilih model Deteksi AI, pilih gambar dan jalankan pemeriksaan. Mode ini mengembalikan perkiraan, bukan foto yang diedit.</string>
-    <string name="help_tip_ai_detection_step_2">Baca skornya bersamaan dengan putusannya: 70% ke atas adalah Kemungkinan AI, 30% ke bawah adalah Kemungkinan Manusia, dan kisaran menengah adalah Tidak Pasti.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Baca skornya bersamaan dengan putusannya: 70% ke atas adalah Kemungkinan AI, 30% ke bawah adalah Kemungkinan Manusia, dan kisaran menengah adalah Tidak Pasti.</string>
     <string name="help_tip_ai_detection_step_3">Bandingkan detektor lain jika hasilnya penting. Kompresi, pengubahan ukuran, dan tangkapan layar dapat mengubah perkiraannya; gunakan file asli bila memungkinkan.</string>
     <string name="help_tip_ai_detection_page_2_title">Model detektor dan presisi</string>
     <string name="help_tip_ai_detection_page_2_description">Katalognya mencakup Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics, dan SMOGY. Mereka menggunakan data pelatihan yang berbeda dan bisa berbeda pendapat.</string>
@@ -7515,4 +7515,26 @@
     <string name="help_tip_partial_blur_step_3">Periksa hasilnya dalam ukuran penuh dan simpan salinan terpisah. Gunakan kuas buram untuk teks atau angka yang tidak dapat dibaca.</string>
     <string name="opaque_image_viewer_background">Latar belakang penampil gambar buram</string>
     <string name="opaque_image_viewer_background_sub">Gunakan latar belakang hitam pekat saat melihat foto</string>
+    <string name="assistant_export_formats_fact">Format ekspor gambar yang didukung</string>
+    <string name="assistant_alpha_formats_fact">Format gambar menjaga transparansi</string>
+    <string name="assistant_preparing_model">Mempersiapkan model…</string>
+    <string name="assistant_reading_image">Membaca gambar…</string>
+    <string name="assistant_interpreting">Memahami permintaan…</string>
+    <string name="assistant_finding_help">Mencari dokumentasi…</string>
+    <string name="assistant_finding_photos">Mencari foto…</string>
+    <string name="assistant_file_size_already_fits">File berukuran %1$s byte dan sudah memenuhi batas %2$s (%3$s byte). Kompresi tidak diperlukan.</string>
+    <string name="assistant_clarification">Apa yang ingin Anda ubah atau cari tahu? Silakan tambahkan gambar, nama alat, atau konteks istilah.</string>
+    <string name="assistant_capabilities">- Saya menjelaskan pengubahan ukuran, pemotongan, konversi, dan pengaturan.\n- Saya menjawab pertanyaan umum.\n- Saya mencari foto berdasarkan konten dan filter.</string>
+    <string name="assistant_capabilities_text">- Analisis gambar membutuhkan Vision.</string>
+    <string name="assistant_capabilities_vision">- Saya dapat menganalisis satu foto terlampir.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Buka Pengaturan → Tata Letak dan alihkan latar belakang penampil gambar buram.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Buka foto untuk membandingkan latar belakang hitam polos dengan latar belakang aplikasi yang diredupkan. Ini hanya mengubah penampil gambar, bukan gambar yang disimpan atau transparansinya.</string>
+    <string name="backup_settings_sub">Hanya pengaturan aplikasi dan preset</string>
+    <string name="full_backup">Cadangan penuh</string>
+    <string name="full_backup_sub">Pengaturan, model yang diunduh, dan data aplikasi lainnya. Filenya bisa beberapa GB.</string>
+    <string name="backup_creating">Membuat cadangan</string>
+    <string name="backup_restoring">Memulihkan cadangan</string>
+    <string name="backup_progress_bytes">%1$s dari %2$s</string>
+    <string name="remember_image_header_state">Ingat Tata Letak Pratinjau</string>
+    <string name="remember_image_header_state_sub">Pertahankan tinggi dan status penyematan pratinjau saat beralih alat. Jika dinonaktifkan, setiap alat dimulai dengan tata letak default.</string>
 </resources>

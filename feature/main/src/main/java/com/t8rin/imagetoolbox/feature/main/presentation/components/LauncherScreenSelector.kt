@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.main.presentation.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -43,6 +44,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -59,7 +61,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -77,25 +81,49 @@ import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCircleShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyGridState
 
 @Composable
 internal fun LauncherScreenSelector(
     screenList: List<Screen>,
+    canReorderFavorites: Boolean,
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     contentPadding: PaddingValues,
     onToggleFavorite: (Screen) -> Unit,
+    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderDragStateChange: (Boolean) -> Unit,
     lastUsedTools: List<UiLastUsedTool>
 ) {
     val settingsState = LocalSettingsState.current
     val showFavoriteControls =
         !settingsState.groupOptionsByTypes || settingsState.showFavoriteToolsInGroupedMode
 
+    val data = rememberReorderableScreenList(screenList)
+    val gridState = rememberLazyGridState()
+    val haptics = LocalHapticFeedback.current
+    val state = rememberReorderableLazyGridState(
+        lazyGridState = gridState,
+        onMove = { from, to ->
+            haptics.press()
+            data.value = data.value.toMutableList().apply {
+                add(
+                    indexOfFirst { it.first == to.key },
+                    removeAt(indexOfFirst { it.first == from.key })
+                )
+            }
+        }
+    )
+
     LazyVerticalGrid(
+        state = gridState,
         columns = GridCells.Adaptive(80.dp),
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -114,178 +142,203 @@ internal fun LauncherScreenSelector(
                 )
             }
         }
-        items(screenList) { screen ->
-            val containerColor by animateColorAsState(
-                if (settingsState.isNightMode) {
-                    MaterialTheme.colorScheme.secondaryContainer.blend(
-                        color = Color.Black,
-                        fraction = 0.3f
-                    )
-                } else {
-                    MaterialTheme.colorScheme.primaryContainer
-                }
-            )
-
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.animateItem()
-            ) {
-                TooltipBox(
-                    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                        TooltipAnchorPosition.Below
-                    ),
-                    tooltip = {
-                        RichTooltip(
-                            title = {
-                                Text(
-                                    text = stringResource(screen.title),
-                                    textAlign = TextAlign.Start
-                                )
-                            },
-                            text = {
-                                Text(
-                                    text = stringResource(screen.subtitle),
-                                    textAlign = TextAlign.Start
-                                )
-                            },
-                            colors = TooltipDefaults.richTooltipColors(
-                                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                                contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
-                                    0.5f
-                                ),
-                                titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                            ),
+        items(
+            items = data.value,
+            key = { it.first }
+        ) { (key, screen) ->
+            ReorderableItem(
+                state = state,
+                key = key,
+                enabled = canReorderFavorites
+            ) { isDragging ->
+                val containerColor by animateColorAsState(
+                    if (settingsState.isNightMode) {
+                        MaterialTheme.colorScheme.secondaryContainer.blend(
+                            color = Color.Black,
+                            fraction = 0.3f
                         )
-                    },
-                    state = rememberTooltipState()
+                    } else {
+                        MaterialTheme.colorScheme.primaryContainer
+                    }
+                )
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .longPressDraggableHandle(
+                            enabled = canReorderFavorites,
+                            onDragStarted = {
+                                onReorderDragStateChange(true)
+                                haptics.longPress()
+                            },
+                            onDragStopped = {
+                                onReorderDragStateChange(false)
+                                onReorderFavorites(data.value.map { it.second })
+                            }
+                        )
+                        .scale(
+                            animateFloatAsState(
+                                if (isDragging) 1.05f else 1f
+                            ).value
+                        )
                 ) {
-                    BadgedBox(
-                        badge = {
-                            BoxAnimatedVisibility(
-                                visible = showFavoriteControls,
-                                modifier = Modifier
-                                    .size(34.dp)
-                                    .offset(x = (-8).dp, y = 8.dp),
-                            ) {
-                                val interactionSource = remember { MutableInteractionSource() }
-                                val shape = shapeByInteraction(
-                                    shape = AutoCircleShape(),
-                                    pressedShape = ShapeDefaults.smallMini,
-                                    interactionSource = interactionSource
-                                )
-                                EnhancedIconButton(
-                                    onClick = {
-                                        onToggleFavorite(screen)
-                                    },
+                    TooltipBox(
+                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                            TooltipAnchorPosition.Below
+                        ),
+                        tooltip = {
+                            RichTooltip(
+                                title = {
+                                    Text(
+                                        text = stringResource(screen.title),
+                                        textAlign = TextAlign.Start
+                                    )
+                                },
+                                text = {
+                                    Text(
+                                        text = stringResource(screen.subtitle),
+                                        textAlign = TextAlign.Start
+                                    )
+                                },
+                                colors = TooltipDefaults.richTooltipColors(
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(
+                                        0.5f
+                                    ),
+                                    titleContentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                                ),
+                            )
+                        },
+                        state = rememberTooltipState()
+                    ) {
+                        BadgedBox(
+                            badge = {
+                                BoxAnimatedVisibility(
+                                    visible = showFavoriteControls,
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(
-                                            shape = shape,
-                                            color = MaterialTheme.colorScheme.surface
-                                        )
-                                        .padding(2.dp)
-                                        .padding(bottom = 0.5.dp),
-                                    containerColor = containerColor.copy(0.5f),
-                                    contentColor = LocalContentColor.current,
-                                    interactionSource = interactionSource
+                                        .size(34.dp)
+                                        .offset(x = (-8).dp, y = 8.dp),
                                 ) {
-                                    val inFavorite by remember(
-                                        settingsState.favoriteScreenList,
-                                        screen
-                                    ) {
-                                        derivedStateOf {
-                                            settingsState.favoriteScreenList.find { it == screen.id } != null
-                                        }
-                                    }
-                                    AnimatedContent(
-                                        targetState = inFavorite,
-                                        transitionSpec = {
-                                            (fadeIn() + scaleIn(initialScale = 0.85f))
-                                                .togetherWith(
-                                                    fadeOut() + scaleOut(
-                                                        targetScale = 0.85f
-                                                    )
-                                                )
+                                    val interactionSource = remember { MutableInteractionSource() }
+                                    val shape = shapeByInteraction(
+                                        shape = AutoCircleShape(),
+                                        pressedShape = ShapeDefaults.smallMini,
+                                        interactionSource = interactionSource
+                                    )
+                                    EnhancedIconButton(
+                                        onClick = {
+                                            onToggleFavorite(screen)
                                         },
-                                        modifier = Modifier.fillMaxSize(0.6f)
-                                    ) { isInFavorite ->
-                                        val icon by remember(isInFavorite) {
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(
+                                                shape = shape,
+                                                color = MaterialTheme.colorScheme.surface
+                                            )
+                                            .padding(2.dp)
+                                            .padding(bottom = 0.5.dp),
+                                        containerColor = containerColor.copy(0.5f),
+                                        contentColor = LocalContentColor.current,
+                                        interactionSource = interactionSource
+                                    ) {
+                                        val inFavorite by remember(
+                                            settingsState.favoriteScreenList,
+                                            screen
+                                        ) {
                                             derivedStateOf {
-                                                if (isInFavorite) Icons.Rounded.BookmarkRemove
-                                                else Icons.Outlined.Bookmark
+                                                settingsState.favoriteScreenList.find { it == screen.id } != null
                                             }
                                         }
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null
-                                        )
+                                        AnimatedContent(
+                                            targetState = inFavorite,
+                                            transitionSpec = {
+                                                (fadeIn() + scaleIn(initialScale = 0.85f))
+                                                    .togetherWith(
+                                                        fadeOut() + scaleOut(
+                                                            targetScale = 0.85f
+                                                        )
+                                                    )
+                                            },
+                                            modifier = Modifier.fillMaxSize(0.6f)
+                                        ) { isInFavorite ->
+                                            val icon by remember(isInFavorite) {
+                                                derivedStateOf {
+                                                    if (isInFavorite) Icons.Rounded.BookmarkRemove
+                                                    else Icons.Outlined.Bookmark
+                                                }
+                                            }
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
-                    ) {
-                        val iconShape by remember(settingsState.iconShape) {
-                            derivedStateOf {
-                                settingsState.iconShape?.takeOrElseFrom(IconShape.entries)
-                            }
-                        }
-                        Box(
-                            modifier = Modifier
-                                .size(64.dp)
-                                .container(
-                                    resultPadding = 0.dp,
-                                    color = containerColor,
-                                    borderColor = MaterialTheme.colorScheme.outlineVariant(),
-                                    shape = iconShape?.shape ?: ShapeDefaults.circle
-                                )
-                                .hapticsClickable {
-                                    onNavigateToScreenWithPopUpTo(screen)
-                                }
-                                .padding(iconShape?.padding ?: 0.dp),
-                            contentAlignment = Alignment.Center
                         ) {
-                            AnimatedContent(
-                                targetState = screen.icon!!,
-                                modifier = Modifier.fillMaxSize(0.6f),
-                                transitionSpec = {
-                                    (slideInVertically() + fadeIn() + scaleIn())
-                                        .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
-                                        .using(SizeTransform(false))
+                            val iconShape by remember(settingsState.iconShape) {
+                                derivedStateOf {
+                                    settingsState.iconShape?.takeOrElseFrom(IconShape.entries)
                                 }
-                            ) { icon ->
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = animateColorAsState(
-                                        if (settingsState.isNightMode) {
-                                            MaterialTheme.colorScheme.primary
-                                        } else {
-                                            MaterialTheme.colorScheme.primary.blend(Color.Black)
-                                        }
-                                    ).value,
-                                    modifier = Modifier.fillMaxSize()
-                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .container(
+                                        resultPadding = 0.dp,
+                                        color = containerColor,
+                                        borderColor = MaterialTheme.colorScheme.outlineVariant(),
+                                        shape = iconShape?.shape ?: ShapeDefaults.circle
+                                    )
+                                    .hapticsClickable {
+                                        onNavigateToScreenWithPopUpTo(screen)
+                                    }
+                                    .padding(iconShape?.padding ?: 0.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AnimatedContent(
+                                    targetState = screen.icon!!,
+                                    modifier = Modifier.fillMaxSize(0.6f),
+                                    transitionSpec = {
+                                        (slideInVertically() + fadeIn() + scaleIn())
+                                            .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
+                                            .using(SizeTransform(false))
+                                    }
+                                ) { icon ->
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = animateColorAsState(
+                                            if (settingsState.isNightMode) {
+                                                MaterialTheme.colorScheme.primary
+                                            } else {
+                                                MaterialTheme.colorScheme.primary.blend(Color.Black)
+                                            }
+                                        ).value,
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
                             }
                         }
                     }
-                }
-                Spacer(Modifier.height(8.dp))
-                AnimatedContent(
-                    targetState = screen.title,
-                    transitionSpec = { fadeIn() togetherWith fadeOut() },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(it),
-                        fontSize = 12.sp,
-                        lineHeight = 12.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                    )
+                    Spacer(Modifier.height(8.dp))
+                    AnimatedContent(
+                        targetState = screen.title,
+                        transitionSpec = { fadeIn() togetherWith fadeOut() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(it),
+                            fontSize = 12.sp,
+                            lineHeight = 12.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp)
+                        )
+                    }
                 }
             }
         }

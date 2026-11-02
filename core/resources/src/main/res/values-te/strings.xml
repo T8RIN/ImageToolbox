@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">ఇష్టమైనవి ట్యాబ్‌ను చివరకి తరలించడానికి చివరిగా ఇష్టమైనదాన్ని చూపించు ప్రారంభించండి లేదా దాన్ని ముందుగా ఉంచడానికి దాన్ని నిలిపివేయండి.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">సమూహ మోడ్‌లో, ముందుగా సమూహ సాధనాల్లో ఇష్టమైన వాటిని ప్రారంభించండి; లేకుంటే తరలించడానికి ఇష్టమైన ట్యాబ్ లేదు.</string>
     <string name="help_tip_setting_presets_description">పునఃపరిమాణం ప్రీసెట్లు ప్రతి చిత్రం కోసం కొలతలు నమోదు చేయడానికి బదులుగా తిరిగి ఉపయోగించగల శాతం పరిమాణాలను నిల్వ చేస్తాయి.</string>
-    <string name="help_tip_setting_presets_step_1">అందుబాటులో ఉన్న విలువలను సవరించడానికి ప్రీసెట్‌లను తెరవండి. 50 విలువ అంటే అసలు వెడల్పు మరియు ఎత్తులో సగం; 125 వాటిని 125%కి పెంచుతుంది.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">అందుబాటులో ఉన్న విలువలను సవరించడానికి ప్రీసెట్‌లను తెరవండి. 50 విలువ అంటే అసలు వెడల్పు మరియు ఎత్తులో సగం; 125 వాటిని 125%కి పెంచుతుంది.</string>
     <string name="help_tip_setting_presets_step_2">అనుకూల పునఃపరిమాణం సాధనంలో ప్రీసెట్‌ను ఎంచుకోండి మరియు సేవ్ చేయడానికి ముందు ఫలిత కొలతలను తనిఖీ చేయండి.</string>
     <string name="help_tip_setting_default_quality_description">డిఫాల్ట్ నాణ్యత కుదింపు నియంత్రణలను ప్రారంభిస్తుంది మరియు ఎంచుకున్న అవుట్‌పుట్ ఆకృతిపై ఆధారపడి ఉంటుంది.</string>
     <string name="help_tip_setting_default_quality_step_1">ముందుగా డిఫాల్ట్ ఇమేజ్ ఫార్మాట్‌ని ఎంచుకోండి, ఆపై ఆ ఫార్మాట్ కోసం చూపిన నాణ్యత నియంత్రణలను సర్దుబాటు చేయండి.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">డిటెక్టర్ అంచనాలను రుజువుగా పరిగణించకుండా సరిపోల్చండి</string>
     <string name="help_tip_ai_detection_description">AI డిటెక్టర్లు రూపొందించిన లేదా నిజమైన చిత్రాల శిక్షణా ఉదాహరణలను ఒక చిత్రం ఎంత దగ్గరగా పోలి ఉంటుందో అంచనా వేస్తుంది. ఫలితం రచయిత లేదా సవరణ చరిత్రకు రుజువు కాదు. నిజమైన ఫోటో AI వలె ఫ్లాగ్ చేయబడవచ్చు మరియు రూపొందించబడిన చిత్రం మిస్ కావచ్చు.</string>
     <string name="help_tip_ai_detection_step_1">AI డిటెక్షన్ మోడల్‌ని ఎంచుకోండి, ఇమేజ్‌లను ఎంచుకుని, చెక్‌ని రన్ చేయండి. ఈ మోడ్ సవరించిన ఫోటోలకు బదులుగా అంచనాలను అందిస్తుంది.</string>
-    <string name="help_tip_ai_detection_step_2">తీర్పుతో పాటు స్కోర్‌ను చదవండి: 70% మరియు అంతకంటే ఎక్కువ మంది AI, 30% మరియు అంతకంటే తక్కువ మంది మానవులు మరియు మధ్య శ్రేణి అనిశ్చితంగా ఉంటుంది.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">తీర్పుతో పాటు స్కోర్‌ను చదవండి: 70% మరియు అంతకంటే ఎక్కువ మంది AI, 30% మరియు అంతకంటే తక్కువ మంది మానవులు మరియు మధ్య శ్రేణి అనిశ్చితంగా ఉంటుంది.</string>
     <string name="help_tip_ai_detection_step_3">ఫలితం ముఖ్యమైనప్పుడు వేరే డిటెక్టర్‌ని సరిపోల్చండి. కుదింపు, పునఃపరిమాణం మరియు స్క్రీన్‌షాట్‌లు దాని అంచనాను మార్చగలవు; సాధ్యమైనప్పుడు అసలు ఫైల్‌ని ఉపయోగించండి.</string>
     <string name="help_tip_ai_detection_page_2_title">డిటెక్టర్ నమూనాలు మరియు ఖచ్చితత్వం</string>
     <string name="help_tip_ai_detection_page_2_description">కేటలాగ్‌లో Mirage SigLIP2, LPX SwinV2, ConvNeXT టైనీ, ResNet-50, AI vs డీప్‌ఫేక్ vs రియల్, క్యాప్‌చెక్, డీప్ ఫేక్ డిటెక్టర్ V2, AI ఇమేజ్ డిటెక్ట్ డిస్టిల్డ్, కమ్యూనిటీ ఫోరెన్సిక్స్ మరియు స్మోగీ ఉన్నాయి. వారు వేర్వేరు శిక్షణ డేటాను ఉపయోగిస్తారు మరియు విభేదించవచ్చు.</string>
@@ -7516,4 +7516,26 @@
     <string name="help_tip_partial_blur_step_3">ఫలితాన్ని పూర్తి పరిమాణంలో తనిఖీ చేయండి మరియు ప్రత్యేక కాపీని సేవ్ చేయండి. తప్పనిసరిగా చదవలేని టెక్స్ట్ లేదా నంబర్‌ల కోసం అపారదర్శక బ్రష్‌ని ఉపయోగించండి.</string>
     <string name="opaque_image_viewer_background">అపారదర్శక చిత్ర వీక్షకుల నేపథ్యం</string>
     <string name="opaque_image_viewer_background_sub">ఫోటోలను వీక్షించేటప్పుడు గట్టి నలుపు నేపథ్యాన్ని ఉపయోగించండి</string>
+    <string name="assistant_export_formats_fact">మద్దతు ఉన్న ఇమేజ్ ఎగుమతి ఫార్మాట్‌లు</string>
+    <string name="assistant_alpha_formats_fact">పారదర్శకతను కాపాడే చిత్ర ఫార్మాట్‌లు</string>
+    <string name="assistant_preparing_model">మోడల్‌ని సిద్ధం చేస్తోంది…</string>
+    <string name="assistant_reading_image">చిత్రాన్ని చదువుతోంది…</string>
+    <string name="assistant_interpreting">అభ్యర్థనను అర్థం చేసుకోవడం…</string>
+    <string name="assistant_finding_help">డాక్యుమెంటేషన్ వెతుకుతోంది…</string>
+    <string name="assistant_finding_photos">ఫోటోలను శోధిస్తోంది…</string>
+    <string name="assistant_file_size_already_fits">ఫైల్ %1$s బైట్‌లు మరియు ఇప్పటికే %2$s పరిమితి (%3$s బైట్‌లు)కి సరిపోతుంది. కుదింపు అనవసరం.</string>
+    <string name="assistant_clarification">మీరు ఏమి మార్చాలనుకుంటున్నారు లేదా తెలుసుకోవాలనుకుంటున్నారు? దయచేసి ఒక చిత్రం, సాధనం పేరు లేదా పదం యొక్క సందర్భాన్ని జోడించండి.</string>
+    <string name="assistant_capabilities">- నేను పునఃపరిమాణం, కత్తిరించడం, మార్పిడి మరియు సెట్టింగ్‌లను వివరిస్తాను.\n- నేను సాధారణ ప్రశ్నలకు సమాధానం ఇస్తాను.\n- నేను కంటెంట్ మరియు ఫిల్టర్‌ల ద్వారా ఫోటోలను శోధిస్తాను.</string>
+    <string name="assistant_capabilities_text">- చిత్ర విశ్లేషణకు Vision అవసరం.</string>
+    <string name="assistant_capabilities_vision">- నేను జోడించిన ఒక ఫోటోను విశ్లేషించగలను.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">సెట్టింగ్‌లు → లేఅవుట్‌ని తెరిచి, అపారదర్శక చిత్ర వీక్షకుల నేపథ్యాన్ని టోగుల్ చేయండి.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">పూర్తిగా నల్లని నేపథ్యాన్ని యాప్‌లోని మసకబారిన నేపథ్యంతో పోల్చడానికి ఫోటోను తెరవండి. ఇది చిత్రం చూపించే విధానాన్ని మాత్రమే మారుస్తుంది; సేవ్ చేసిన చిత్రం లేదా దాని పారదర్శకత మారదు.</string>
+    <string name="backup_settings_sub">యాప్ సెట్టింగ్‌లు మరియు ప్రీసెట్‌లు మాత్రమే</string>
+    <string name="full_backup">పూర్తి బ్యాకప్</string>
+    <string name="full_backup_sub">సెట్టింగ్‌లు, డౌన్‌లోడ్ చేసిన మోడల్‌లు మరియు ఇతర యాప్ డేటా. ఫైల్ అనేక GB ఉండవచ్చు.</string>
+    <string name="backup_creating">బ్యాకప్ సృష్టిస్తోంది</string>
+    <string name="backup_restoring">బ్యాకప్‌ని పునరుద్ధరిస్తోంది</string>
+    <string name="backup_progress_bytes">%2$s లో %1$s</string>
+    <string name="remember_image_header_state">ప్రివ్యూ లేఅవుట్‌ను సేవ్ చేయి</string>
+    <string name="remember_image_header_state_sub">సాధనాల మధ్య మారేటప్పుడు ప్రివ్యూ ఎత్తు మరియు పిన్ చేసిన స్థితిని సేవ్ చేయి. నిలిపివేస్తే, ప్రతి సాధనం డిఫాల్ట్ లేఅవుట్‌తో తెరుచుకుంటుంది.</string>
 </resources>

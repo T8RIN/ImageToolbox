@@ -133,7 +133,9 @@ internal fun SettingItem(
             Setting.Backup -> {
                 BackupSettingItem(
                     onCreateBackupFilename = component::createBackupFilename,
-                    onCreateBackup = component::createBackup
+                    onCreateBackup = component::createBackup,
+                    fullBackupSize = component.fullBackupSize,
+                    onRequestBackupSize = component::updateFullBackupSize
                 )
             }
 
@@ -545,6 +547,10 @@ internal fun SettingItem(
 
             Setting.GeneratePreviews -> {
                 GeneratePreviewsSettingItem(onClick = component::toggleGeneratePreviews)
+            }
+
+            Setting.RememberImageHeaderState -> {
+                RememberImageHeaderStateSettingItem(onClick = component::toggleRememberImageHeaderState)
             }
 
             Setting.EnableSheetGestures -> {

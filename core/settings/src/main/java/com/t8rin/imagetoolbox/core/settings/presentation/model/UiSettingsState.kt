@@ -62,6 +62,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DialogPosition
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -155,6 +156,8 @@ data class UiSettingsState(
     val confettiHarmonizationLevel: Float,
     val skipImagePicking: Boolean,
     val generatePreviews: Boolean,
+    val imageHeaderState: ImageHeaderState,
+    val rememberImageHeaderState: Boolean,
     val enableSheetGestures: Boolean,
     val sheetNestedScrollEnabled: Boolean,
     val showSettingsInLandscape: Boolean,
@@ -447,6 +450,8 @@ fun SettingsState.toUiState(
                 confettiHarmonizationLevel = confettiHarmonizationLevel,
                 skipImagePicking = skipImagePicking,
                 generatePreviews = generatePreviews,
+                imageHeaderState = imageHeaderState,
+                rememberImageHeaderState = rememberImageHeaderState,
                 enableSheetGestures = enableSheetGestures,
                 sheetNestedScrollEnabled = sheetNestedScrollEnabled,
                 showSettingsInLandscape = showSettingsInLandscape,

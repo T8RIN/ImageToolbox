@@ -696,11 +696,6 @@ internal class StyleTransferProcessor @Inject constructor(
                     name = "microast_transform.onnx",
                     size = 1_315_160L,
                     checksum = "3da41e9a9fa68f14729e59323cb89bd0ff8acb2071213ed9e852563ea637d51c"
-                ),
-                StyleModelFile(
-                    name = "MICROAST_LICENSE.txt",
-                    size = 1_070L,
-                    checksum = "e8f0b2c00854430149f8af45b20ac30320634cda110eaa490b9ff577ba4c6c54"
                 )
             )
         ),
@@ -716,11 +711,6 @@ internal class StyleTransferProcessor @Inject constructor(
                     name = "aesfa_transform.onnx",
                     size = 9_773_334L,
                     checksum = "b1a946b51703df0eddb48f4735dee943854abc53f2177279dc4d80937d00c99f"
-                ),
-                StyleModelFile(
-                    name = "AESFA_LICENSE.txt",
-                    size = 1_069L,
-                    checksum = "d26971c16786f3cf45465deebc9ec6cadd3bd4db6602af24accfb246374833ef"
                 )
             )
         );

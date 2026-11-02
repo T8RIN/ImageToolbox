@@ -3285,7 +3285,7 @@
     <string name="scoop_shapes_sub">Afrundede hjørner udskåret indad</string>
     <string name="notch_shapes_sub">Aftrappede hjørner med dobbelt snit</string>
     <string name="watermark_filename_placeholder">Pladsholder</string>
-    <string name="watermark_filename_placeholder_sub">Brug {filnavn} til at indsætte det originale filnavn uden filtypenavn</string>
+    <string name="watermark_filename_placeholder_sub">Brug {filename} til at indsætte det originale filnavn uden filtypenavn</string>
     <string name="flare">Flare</string>
     <string name="base_amount">Grundbeløb</string>
     <string name="ring_amount">Ring beløb</string>
@@ -3679,8 +3679,8 @@
     <string name="batch_rename_success">Filer blev omdøbt</string>
     <string name="batch_rename_failed">Nogle filer kunne ikke omdøbes</string>
     <string name="permission_not_granted">Tilladelse blev ikke givet</string>
-    <string name="original_filename_pattern_description">Bruger det originale filnavn uden filtypenavn, hvilket hjælper dig med at holde kildeidentifikationen intakt. Understøtter også udskæring med \\o{start:slut}, translitteration med \\o{t} og erstat med \\o{s/gamle/nye/}.</string>
-    <string name="sequence_number_pattern_description">Auto-inkrementerende tæller. Understøtter brugerdefineret formatering: \\c{udfyldning} (f.eks. \\c{3} -&gt; 001), \\c{start:trin} eller \\c{start:trin:udfyldning}.</string>
+    <string name="original_filename_pattern_description">Bruger det originale filnavn uden filtypenavn, hvilket hjælper dig med at holde kildeidentifikationen intakt. Understøtter også udskæring med \\o{start:end}, translitteration med \\o{t} og erstat med \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Auto-inkrementerende tæller. Understøtter brugerdefineret formatering: \\c{padding} (f.eks. \\c{3} -&gt; 001), \\c{start:step} eller \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Navnet på den overordnede mappe, hvor den originale fil var placeret.</string>
     <string name="file_size_pattern_description">Størrelsen af den originale fil. Understøtter enheder: \\z{b}, \\z{kb}, \\z{mb} eller bare \\z for mennesker, der kan læses.</string>
     <string name="uuid_pattern_description">Genererer en tilfældig Universally Unique Identifier (UUID) for at sikre filnavnets unikke karakter.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Aktiver Vis favorit som sidst for at flytte fanen Favoritter til slutningen, eller deaktiver den for at placere den først.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">I grupperet tilstand skal du først aktivere Favoritter i grupperede værktøjer; ellers er der ingen favoritfane at flytte.</string>
     <string name="help_tip_setting_presets_description">Ændre størrelse forudindstillinger gemmer procentstørrelser, der kan genbruges i stedet for at indtaste dimensioner for hvert billede.</string>
-    <string name="help_tip_setting_presets_step_1">Åbn Forudindstillinger for at redigere de tilgængelige værdier. En værdi på 50 betyder halvdelen af den oprindelige bredde og højde; 125 forstørrer dem til 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Åbn Forudindstillinger for at redigere de tilgængelige værdier. En værdi på 50 betyder halvdelen af den oprindelige bredde og højde; 125 forstørrer dem til 125%.</string>
     <string name="help_tip_setting_presets_step_2">Vælg en forudindstilling i et kompatibelt størrelsesændringsværktøj, og kontroller de resulterende dimensioner, før du gemmer.</string>
     <string name="help_tip_setting_default_quality_description">Standardkvalitet initialiserer komprimeringskontroller og afhænger af det valgte outputformat.</string>
     <string name="help_tip_setting_default_quality_step_1">Vælg først Standard billedformat, og juster derefter de viste kvalitetskontroller for det pågældende format.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Sammenlign detektorestimater uden at behandle dem som bevis</string>
     <string name="help_tip_ai_detection_description">AI-detektorer estimerer, hvor meget et billede ligner deres træningseksempler på genererede eller rigtige billeder. Resultatet er ikke bevis for forfatterskab eller redigeringshistorik. Et rigtigt billede kan markeres som AI, og et genereret billede kan gå glip af.</string>
     <string name="help_tip_ai_detection_step_1">Vælg en AI-detektionsmodel, vælg billederne og kør kontrollen. Denne tilstand returnerer estimater i stedet for redigerede billeder.</string>
-    <string name="help_tip_ai_detection_step_2">Læs scoren sammen med dommen: 70% og derover er Sandsynlig AI, 30% og derunder er Sandsynlig menneskelig, og mellemområdet er usikkert.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Læs scoren sammen med dommen: 70% og derover er Sandsynlig AI, 30% og derunder er Sandsynlig menneskelig, og mellemområdet er usikkert.</string>
     <string name="help_tip_ai_detection_step_3">Sammenlign en anden detektor, når et resultat er vigtigt. Komprimering, ændring af størrelse og skærmbilleder kan ændre dets estimat; brug den originale fil, når det er muligt.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektormodeller og præcision</string>
     <string name="help_tip_ai_detection_page_2_description">Kataloget inkluderer Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distillered, Community Forensics og SMOGY. De bruger forskellige træningsdata og kan være uenige.</string>
@@ -7516,4 +7516,26 @@
     <string name="help_tip_partial_blur_step_3">Undersøg resultatet i fuld størrelse og gem en separat kopi. Brug en uigennemsigtig pensel til tekst eller tal, der skal være ulæselige.</string>
     <string name="opaque_image_viewer_background">Uigennemsigtig baggrund for billedfremviser</string>
     <string name="opaque_image_viewer_background_sub">Brug en solid sort baggrund, når du ser billeder</string>
+    <string name="assistant_export_formats_fact">Understøttede billedeksportformater</string>
+    <string name="assistant_alpha_formats_fact">Billedformater, der bevarer gennemsigtigheden</string>
+    <string name="assistant_preparing_model">Forbereder modellen…</string>
+    <string name="assistant_reading_image">Læser billedet…</string>
+    <string name="assistant_interpreting">Forstår anmodningen…</string>
+    <string name="assistant_finding_help">Søger dokumentation…</string>
+    <string name="assistant_finding_photos">Søger efter billeder…</string>
+    <string name="assistant_file_size_already_fits">Filen er på %1$s byte og overholder allerede grænsen på %2$s (%3$s byte). Komprimering er ikke nødvendig.</string>
+    <string name="assistant_clarification">Hvad vil du gerne ændre eller finde ud af? Tilføj venligst et billede, et værktøjsnavn eller konteksten for udtrykket.</string>
+    <string name="assistant_capabilities">- Jeg forklarer størrelsesændring, beskæring, konvertering og indstillinger.\n- Jeg besvarer generelle spørgsmål.\n- Jeg søger efter billeder efter indhold og filtre.</string>
+    <string name="assistant_capabilities_text">- Billedanalyse kræver Vision.</string>
+    <string name="assistant_capabilities_vision">- Jeg kan analysere ét vedhæftet billede.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Åbn Indstillinger → Layout, og slå “Uigennemsigtig baggrund for billedfremviser” til eller fra.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Åbn et billede for at sammenligne den solide sorte baggrund med den nedtonede app-baggrund. Dette ændrer kun fremviseren, ikke det gemte billede eller dets gennemsigtighed.</string>
+    <string name="backup_settings_sub">Kun appindstillinger og forudindstillinger</string>
+    <string name="full_backup">Fuld backup</string>
+    <string name="full_backup_sub">Indstillinger, downloadede modeller og andre appdata. Filen kan være på flere GB.</string>
+    <string name="backup_creating">Oprettelse af backup</string>
+    <string name="backup_restoring">Gendanner backup</string>
+    <string name="backup_progress_bytes">%1$s af %2$s</string>
+    <string name="remember_image_header_state">Husk forhåndsvisningslayout</string>
+    <string name="remember_image_header_state_sub">Bevar forhåndsvisningens højde og fastgørelse ved skift mellem værktøjer. Når indstillingen er deaktiveret, starter hvert værktøj med standardlayoutet.</string>
 </resources>

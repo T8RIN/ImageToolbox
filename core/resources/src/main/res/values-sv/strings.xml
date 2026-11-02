@@ -192,7 +192,7 @@
     <string name="tesseract_options">Tesseract-val</string>
     <string name="tesseract_options_sub">Använd några inmatningsvariabler för tesseract-motorn</string>
     <string name="custom_options">Anpassade alternativ</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Alternativen ska anges efter detta mönster: \"--{val_namn} {värde}\"</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Alternativen ska anges efter detta mönster: \"--{option_name} {value}\"</string>
     <string name="auto_crop">Automatisk beskärning</string>
     <string name="free_corners">Flytande hörn</string>
     <string name="free_corners_sub">Polygon-beskär bild, detta val korrigerar perspektiv</string>
@@ -3285,7 +3285,7 @@
     <string name="scoop_shapes_sub">Rundade hörn ristade inåt</string>
     <string name="notch_shapes_sub">Avtrappade hörn med dubbelt snitt</string>
     <string name="watermark_filename_placeholder">Platshållare</string>
-    <string name="watermark_filename_placeholder_sub">Använd {filnamn} för att infoga det ursprungliga filnamnet utan förlängning</string>
+    <string name="watermark_filename_placeholder_sub">Använd {filename} för att infoga det ursprungliga filnamnet utan förlängning</string>
     <string name="flare">Blossa</string>
     <string name="base_amount">Basbelopp</string>
     <string name="ring_amount">Ringbelopp</string>
@@ -3679,8 +3679,8 @@
     <string name="batch_rename_success">Filer har bytt namn</string>
     <string name="batch_rename_failed">Vissa filer kunde inte döpas om</string>
     <string name="permission_not_granted">Tillstånd gavs inte</string>
-    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt. Stöder även skivning med \\o{start:slut}, translitteration med \\o{t} och ersätt med \\o{s/gammal/ny/}.</string>
-    <string name="sequence_number_pattern_description">Auto-inkrementerande räknare. Stöder anpassad formatering: \\c{utfyllnad} (t.ex. \\c{3} -&gt; 001), \\c{start:steg} eller \\c{start:steg:utfyllnad}.</string>
+    <string name="original_filename_pattern_description">Använder det ursprungliga filnamnet utan förlängning, vilket hjälper dig att hålla källidentifieringen intakt. Stöder även skivning med \\o{start:end}, translitteration med \\o{t} och ersätt med \\o{s/old/new/}.</string>
+    <string name="sequence_number_pattern_description">Auto-inkrementerande räknare. Stöder anpassad formatering: \\c{padding} (t.ex. \\c{3} -&gt; 001), \\c{start:step} eller \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Namnet på den överordnade mappen där den ursprungliga filen fanns.</string>
     <string name="file_size_pattern_description">Storleken på originalfilen. Stöder enheter: \\z{b}, \\z{kb}, \\z{mb} eller bara \\z för läsbart format.</string>
     <string name="uuid_pattern_description">Genererar en slumpmässig Universally Unique Identifier (UUID) för att säkerställa filnamnets unikhet.</string>
@@ -6363,7 +6363,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Aktivera Visa favorit som sist för att flytta favoritfliken till slutet, eller inaktivera den för att placera den först.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">I grupperat läge, aktivera Favoriter i grupperade verktyg först; annars finns det ingen favoritflik att flytta.</string>
     <string name="help_tip_setting_presets_description">Ändra storlek på förinställningar lagrar procentstorlekar som kan återanvändas istället för att ange mått för varje bild.</string>
-    <string name="help_tip_setting_presets_step_1">Öppna Förinställningar för att redigera tillgängliga värden. Ett värde på 50 betyder halva den ursprungliga bredden och höjden; 125 förstorar dem till 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Öppna Förinställningar för att redigera tillgängliga värden. Ett värde på 50 betyder halva den ursprungliga bredden och höjden; 125 förstorar dem till 125%.</string>
     <string name="help_tip_setting_presets_step_2">Välj en förinställning i ett kompatibelt verktyg för storleksändring och kontrollera de resulterande måtten innan du sparar.</string>
     <string name="help_tip_setting_default_quality_description">Standardkvalitet initierar komprimeringskontroller och beror på valt utdataformat.</string>
     <string name="help_tip_setting_default_quality_step_1">Välj först Standardbildformat och justera sedan kvalitetskontrollerna som visas för det formatet.</string>
@@ -7234,7 +7234,7 @@
     <string name="help_tip_ai_detection_subtitle">Jämför detektoruppskattningar utan att behandla dem som bevis</string>
     <string name="help_tip_ai_detection_description">AI-detektorer uppskattar hur mycket en bild liknar deras träningsexempel på genererade eller verkliga bilder. Resultatet är inte bevis på författarskap eller redigeringshistorik. Ett riktigt foto kan flaggas som AI, och en genererad bild kan missas.</string>
     <string name="help_tip_ai_detection_step_1">Välj en AI-detektionsmodell, välj bilderna och kör kontrollen. Detta läge returnerar uppskattningar istället för redigerade foton.</string>
-    <string name="help_tip_ai_detection_step_2">Läs poängen tillsammans med domen: 70 % och högre är Sannolik AI, 30 % och lägre är Sannolik mänsklig, och mellanintervallet är osäkert.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Läs poängen tillsammans med domen: 70 % och högre är Sannolik AI, 30 % och lägre är Sannolik mänsklig, och mellanintervallet är osäkert.</string>
     <string name="help_tip_ai_detection_step_3">Jämför en annan detektor när ett resultat är viktigt. Komprimering, storleksändring och skärmdumpar kan ändra dess uppskattning; använd originalfilen när det är möjligt.</string>
     <string name="help_tip_ai_detection_page_2_title">Detektormodeller och precision</string>
     <string name="help_tip_ai_detection_page_2_description">Katalogen innehåller Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distillered, Community Forensics och SMOGY. De använder olika träningsdata och kan inte hålla med.</string>
@@ -7516,4 +7516,26 @@
     <string name="help_tip_partial_blur_step_3">Inspektera resultatet i full storlek och spara en separat kopia. Använd en ogenomskinlig borste för text eller siffror som måste vara oläsliga.</string>
     <string name="opaque_image_viewer_background">Ogenomskinlig bildvisarbakgrund</string>
     <string name="opaque_image_viewer_background_sub">Använd en solid svart bakgrund när du tittar på foton</string>
+    <string name="assistant_export_formats_fact">Bildexportformat som stöds</string>
+    <string name="assistant_alpha_formats_fact">Bildformat som bevarar transparens</string>
+    <string name="assistant_preparing_model">Förbereder modellen…</string>
+    <string name="assistant_reading_image">Läser bilden…</string>
+    <string name="assistant_interpreting">Förstår begäran…</string>
+    <string name="assistant_finding_help">Söker upp dokumentation…</string>
+    <string name="assistant_finding_photos">Söker efter foton…</string>
+    <string name="assistant_file_size_already_fits">Filen är %1$s byte och ryms redan inom gränsen på %2$s (%3$s byte). Ingen komprimering behövs.</string>
+    <string name="assistant_clarification">Vad skulle du vilja ändra eller ta reda på? Lägg till en bild, ett verktygsnamn eller termens sammanhang.</string>
+    <string name="assistant_capabilities">- Jag förklarar storleksändring, beskärning, konvertering och inställningar.\n- Jag svarar på allmänna frågor.\n- Jag söker efter foton efter innehåll och filter.</string>
+    <string name="assistant_capabilities_text">– Bildanalys kräver Vision.</string>
+    <string name="assistant_capabilities_vision">– Jag kan analysera ett bifogat foto.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Öppna Inställningar → Layout och slå på eller av ”Ogenomskinlig bildvisarbakgrund”.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Öppna ett foto för att jämföra den enfärgade svarta bakgrunden med den nedtonade appbakgrunden. Detta ändrar bara bildvisaren, inte den sparade bilden eller dess genomskinlighet.</string>
+    <string name="backup_settings_sub">Endast appinställningar och förinställningar</string>
+    <string name="full_backup">Fullständig säkerhetskopia</string>
+    <string name="full_backup_sub">Inställningar, nedladdade modeller och annan appdata. Filen kan vara flera GB.</string>
+    <string name="backup_creating">Skapar säkerhetskopia</string>
+    <string name="backup_restoring">Återställer säkerhetskopia</string>
+    <string name="backup_progress_bytes">%1$s av %2$s</string>
+    <string name="remember_image_header_state">Kom ihåg förhandsgranskningens layout</string>
+    <string name="remember_image_header_state_sub">Behåll förhandsgranskningens höjd och fästläge när du byter verktyg. När inställningen är inaktiverad öppnas varje verktyg med standardlayouten.</string>
 </resources>

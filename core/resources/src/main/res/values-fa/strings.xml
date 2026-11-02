@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">برای انتقال برگه علاقه مندی ها به انتها، گزینه Show favorite as last را فعال کنید یا برای قرار دادن آن در ابتدا آن را غیرفعال کنید.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">در حالت گروهی، ابتدا موارد دلخواه را در ابزارهای گروه بندی شده فعال کنید. در غیر این صورت هیچ برگه مورد علاقه برای جابجایی وجود ندارد.</string>
     <string name="help_tip_setting_presets_description">از پیش تنظیم‌های تغییر اندازه، اندازه‌های درصدی را ذخیره می‌کنند که می‌توان به جای وارد کردن ابعاد برای هر تصویر، دوباره از آنها استفاده کرد.</string>
-    <string name="help_tip_setting_presets_step_1">برای ویرایش مقادیر موجود، Presets را باز کنید. مقدار 50 به معنای نصف عرض و ارتفاع اصلی است. 125 آنها را به 125 درصد بزرگ می کند.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">برای ویرایش مقادیر موجود، Presets را باز کنید. مقدار 50 به معنای نصف عرض و ارتفاع اصلی است. 125 آنها را به 125 درصد بزرگ می کند.</string>
     <string name="help_tip_setting_presets_step_2">یک از پیش تنظیم شده را در یک ابزار تغییر اندازه سازگار انتخاب کنید و قبل از ذخیره، ابعاد به دست آمده را بررسی کنید.</string>
     <string name="help_tip_setting_default_quality_description">کیفیت پیش‌فرض کنترل‌های فشرده‌سازی را اولیه می‌کند و به فرمت خروجی انتخاب شده بستگی دارد.</string>
     <string name="help_tip_setting_default_quality_step_1">ابتدا قالب پیش فرض تصویر را انتخاب کنید، سپس کنترل های کیفیت نشان داده شده برای آن فرمت را تنظیم کنید.</string>
@@ -7235,7 +7235,7 @@
     <string name="help_tip_ai_detection_subtitle">برآوردهای آشکارساز را بدون در نظر گرفتن آنها به عنوان اثبات مقایسه کنید</string>
     <string name="help_tip_ai_detection_description">آشکارسازهای هوش مصنوعی تخمین می زنند که یک تصویر چقدر شبیه نمونه های آموزشی آنها از تصاویر تولید شده یا واقعی است. نتیجه مدرکی مبنی بر تألیف یا تاریخچه ویرایش نیست. یک عکس واقعی را می‌توان به‌عنوان هوش مصنوعی علامت‌گذاری کرد و یک تصویر تولید شده را می‌توان از دست داد.</string>
     <string name="help_tip_ai_detection_step_1">یک مدل تشخیص هوش مصنوعی را انتخاب کنید، تصاویر را انتخاب کنید و بررسی را اجرا کنید. این حالت به جای عکس های ویرایش شده، تخمین ها را برمی گرداند.</string>
-    <string name="help_tip_ai_detection_step_2">امتیاز را همراه با حکم بخوانید: 70٪ و بالاتر احتمال هوش مصنوعی، 30٪ و پایین تر احتمال انسان و محدوده میانی نامشخص است.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">امتیاز را همراه با حکم بخوانید: 70٪ و بالاتر احتمال هوش مصنوعی، 30٪ و پایین تر احتمال انسان و محدوده میانی نامشخص است.</string>
     <string name="help_tip_ai_detection_step_3">هنگامی که یک نتیجه مهم است، یک آشکارساز متفاوت را مقایسه کنید. فشرده سازی، تغییر اندازه و تصاویر می تواند برآورد آن را تغییر دهد. در صورت امکان از فایل اصلی استفاده کنید.</string>
     <string name="help_tip_ai_detection_page_2_title">مدل های آشکارساز و دقت</string>
     <string name="help_tip_ai_detection_page_2_description">این کاتالوگ شامل Mirage SigLIP2، LPX SwinV2، ConvNeXT Tiny، ResNet-50، AI در مقابل Deepfake در مقابل Real، CapCheck، Deep Fake Detector V2، AI Image Detect Distilled، Community Forensics و SMOGY است. آنها از داده های آموزشی متفاوتی استفاده می کنند و ممکن است مخالف باشند.</string>
@@ -7516,4 +7516,26 @@
     <string name="help_tip_partial_blur_step_3">نتیجه را در اندازه کامل بررسی کنید و یک کپی جداگانه ذخیره کنید. برای متن یا اعدادی که باید غیرقابل خواندن باشند از یک قلم مو مات استفاده کنید.</string>
     <string name="opaque_image_viewer_background">پس زمینه نمایشگر تصویر مات</string>
     <string name="opaque_image_viewer_background_sub">هنگام مشاهده عکس ها از پس زمینه سیاه و سفید استفاده کنید</string>
+    <string name="assistant_export_formats_fact">قالب‌های خروجی تصویر پشتیبانی‌شده</string>
+    <string name="assistant_alpha_formats_fact">فرمت های تصویری که شفافیت را حفظ می کنند</string>
+    <string name="assistant_preparing_model">در حال آماده سازی مدل…</string>
+    <string name="assistant_reading_image">در حال خواندن تصویر…</string>
+    <string name="assistant_interpreting">درک درخواست…</string>
+    <string name="assistant_finding_help">در حال جستجوی اسناد…</string>
+    <string name="assistant_finding_photos">جستجوی عکس‌ها…</string>
+    <string name="assistant_file_size_already_fits">فایل %1$s بایت است و از قبل با محدودیت %2$s (%3$s بایت) مطابقت دارد. فشرده سازی غیر ضروری است.</string>
+    <string name="assistant_clarification">دوست دارید چه چیزی را تغییر دهید یا بدانید؟ لطفاً یک تصویر، نام ابزار یا زمینهٔ استفاده از اصطلاح را اضافه کنید.</string>
+    <string name="assistant_capabilities">- تغییر اندازه، برش، تبدیل و تنظیمات را توضیح می دهم.\n- به سوالات کلی پاسخ می دهم.\n- عکس ها را بر اساس محتوا و فیلترها جستجو می کنم.</string>
+    <string name="assistant_capabilities_text">- تجزیه و تحلیل تصویر نیاز به Vision دارد.</string>
+    <string name="assistant_capabilities_vision">- من می توانم یک عکس پیوست شده را تجزیه و تحلیل کنم.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">تنظیمات ← طرح‌بندی را باز کنید و گزینهٔ «پس زمینه نمایشگر تصویر مات» را روشن یا خاموش کنید.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">عکسی را باز کنید و پس‌زمینهٔ کاملاً سیاه را با پس‌زمینهٔ کم‌نور برنامه مقایسه کنید. این گزینه فقط نمایشگر را تغییر می‌دهد و روی تصویر ذخیره‌شده یا شفافیت آن تأثیری ندارد.</string>
+    <string name="backup_settings_sub">فقط تنظیمات برنامه و پیش‌تنظیم‌ها</string>
+    <string name="full_backup">پشتیبان‌گیری کامل</string>
+    <string name="full_backup_sub">تنظیمات، مدل‌های دانلود شده و سایر داده‌های برنامه. فایل می تواند چندین گیگابایت باشد.</string>
+    <string name="backup_creating">ایجاد پشتیبان</string>
+    <string name="backup_restoring">در حال بازیابی نسخه پشتیبان</string>
+    <string name="backup_progress_bytes">%1$s از %2$s</string>
+    <string name="remember_image_header_state">ذخیره چیدمان پیش‌نمایش</string>
+    <string name="remember_image_header_state_sub">حفظ ارتفاع و وضعیت سنجاق‌شدن پیش‌نمایش هنگام جابه‌جایی بین ابزارها. وقتی غیرفعال باشد، هر ابزار با چیدمان پیش‌فرض باز می‌شود.</string>
 </resources>

@@ -425,6 +425,7 @@ sealed class SettingsGroup(
             Setting.SnowfallMode,
             Setting.EnableLinksPreview,
             Setting.GeneratePreviews,
+            Setting.RememberImageHeaderState,
             Setting.EnableSheetGestures,
             Setting.SheetNestedScroll
         ),

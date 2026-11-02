@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -54,6 +55,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -64,7 +66,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -92,14 +96,19 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButt
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedFloatingActionButtonType
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.press
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItemOverload
 import com.t8rin.imagetoolbox.core.utils.getString
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyStaggeredGridState
 
 @Composable
 internal fun RowScope.ScreenPreferenceSelection(
     currentScreenList: List<Screen>,
+    canReorderFavorites: Boolean,
     showScreenSearch: Boolean,
     screenSearchKeyword: String,
     isGrid: Boolean,
@@ -109,6 +118,8 @@ internal fun RowScope.ScreenPreferenceSelection(
     onNavigateToScreenWithPopUpTo: (Screen) -> Unit,
     onChangeShowScreenSearch: (Boolean) -> Unit,
     onToggleFavorite: (Screen) -> Unit,
+    onReorderFavorites: (List<Screen>) -> Unit,
+    onReorderDragStateChange: (Boolean) -> Unit,
     showNavRail: Boolean,
     lastUsedTools: List<UiLastUsedTool>
 ) {
@@ -193,13 +204,32 @@ internal fun RowScope.ScreenPreferenceSelection(
                     if (isLauncherMode) {
                         LauncherScreenSelector(
                             screenList = currentScreenList,
+                            canReorderFavorites = canReorderFavorites,
                             onNavigateToScreenWithPopUpTo = onNavigateToScreenWithPopUpTo,
                             contentPadding = contentPadding,
                             onToggleFavorite = onToggleFavorite,
+                            onReorderFavorites = onReorderFavorites,
+                            onReorderDragStateChange = onReorderDragStateChange,
                             lastUsedTools = lastUsedTools
                         )
                     } else {
+                        val data = rememberReorderableScreenList(currentScreenList)
+                        val gridState = rememberLazyStaggeredGridState()
+                        val haptics = LocalHapticFeedback.current
+                        val state = rememberReorderableLazyStaggeredGridState(
+                            lazyStaggeredGridState = gridState,
+                            onMove = { from, to ->
+                                haptics.press()
+                                data.value = data.value.toMutableList().apply {
+                                    add(
+                                        indexOfFirst { it.first == to.key },
+                                        removeAt(indexOfFirst { it.first == from.key })
+                                    )
+                                }
+                            }
+                        )
                         LazyVerticalStaggeredGrid(
+                            state = gridState,
                             reverseLayout = showScreenSearch && screenSearchKeyword.isNotEmpty() && canSearchScreens,
                             modifier = Modifier.fillMaxSize(),
                             columns = StaggeredGridCells.Adaptive(220.dp),
@@ -223,105 +253,129 @@ internal fun RowScope.ScreenPreferenceSelection(
                                         )
                                     }
                                 }
-                                items(currentScreenList) { screen ->
-                                    PreferenceItemOverload(
-                                        onClick = {
-                                            onNavigateToScreenWithPopUpTo(screen)
-                                        },
-                                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                        modifier = Modifier
-                                            .widthIn(min = 1.dp)
-                                            .fillMaxWidth()
-                                            .animateItem(),
-                                        shape = ShapeDefaults.default,
-                                        title = stringResource(screen.title),
-                                        subtitle = stringResource(screen.subtitle),
-                                        badge = {
-                                            AnimatedVisibility(
-                                                visible = screen.isBetaFeature,
-                                                modifier = Modifier
-                                                    .align(Alignment.CenterVertically)
-                                                    .padding(
-                                                        start = 4.dp,
-                                                        bottom = 2.dp,
-                                                        top = 2.dp
-                                                    ),
-                                                enter = fadeIn(),
-                                                exit = fadeOut()
-                                            ) {
-                                                EnhancedBadge(
-                                                    content = {
-                                                        Text(stringResource(R.string.beta))
+                                items(
+                                    items = data.value,
+                                    key = { it.first }
+                                ) { (key, screen) ->
+                                    ReorderableItem(
+                                        state = state,
+                                        key = key,
+                                        enabled = canReorderFavorites
+                                    ) { isDragging ->
+                                        PreferenceItemOverload(
+                                            onClick = {
+                                                onNavigateToScreenWithPopUpTo(screen)
+                                            },
+                                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                            modifier = Modifier
+                                                .widthIn(min = 1.dp)
+                                                .fillMaxWidth()
+                                                .longPressDraggableHandle(
+                                                    enabled = canReorderFavorites,
+                                                    onDragStarted = {
+                                                        onReorderDragStateChange(true)
+                                                        haptics.longPress()
                                                     },
-                                                    containerColor = MaterialTheme.colorScheme.secondary,
-                                                    contentColor = MaterialTheme.colorScheme.onSecondary
+                                                    onDragStopped = {
+                                                        onReorderDragStateChange(false)
+                                                        onReorderFavorites(data.value.map { it.second })
+                                                    }
                                                 )
-                                            }
-                                        },
-                                        endIcon = {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically,
-                                                horizontalArrangement = Arrangement.spacedBy(4.dp)
-                                            ) {
-                                                if (showFavoriteControls) {
-                                                    EnhancedIconButton(
-                                                        onClick = {
-                                                            onToggleFavorite(screen)
+                                                .scale(
+                                                    animateFloatAsState(
+                                                        if (isDragging) 1.05f else 1f
+                                                    ).value
+                                                ),
+                                            shape = ShapeDefaults.default,
+                                            title = stringResource(screen.title),
+                                            subtitle = stringResource(screen.subtitle),
+                                            badge = {
+                                                AnimatedVisibility(
+                                                    visible = screen.isBetaFeature,
+                                                    modifier = Modifier
+                                                        .align(Alignment.CenterVertically)
+                                                        .padding(
+                                                            start = 4.dp,
+                                                            bottom = 2.dp,
+                                                            top = 2.dp
+                                                        ),
+                                                    enter = fadeIn(),
+                                                    exit = fadeOut()
+                                                ) {
+                                                    EnhancedBadge(
+                                                        content = {
+                                                            Text(stringResource(R.string.beta))
                                                         },
-                                                        modifier = Modifier.offset(8.dp)
-                                                    ) {
-                                                        val inFavorite by remember(
-                                                            settingsState.favoriteScreenList,
-                                                            screen
+                                                        containerColor = MaterialTheme.colorScheme.secondary,
+                                                        contentColor = MaterialTheme.colorScheme.onSecondary
+                                                    )
+                                                }
+                                            },
+                                            endIcon = {
+                                                Row(
+                                                    verticalAlignment = Alignment.CenterVertically,
+                                                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                                ) {
+                                                    if (showFavoriteControls) {
+                                                        EnhancedIconButton(
+                                                            onClick = {
+                                                                onToggleFavorite(screen)
+                                                            },
+                                                            modifier = Modifier.offset(8.dp)
                                                         ) {
-                                                            derivedStateOf {
-                                                                settingsState.favoriteScreenList.find { it == screen.id } != null
-                                                            }
-                                                        }
-                                                        AnimatedContent(
-                                                            targetState = inFavorite,
-                                                            transitionSpec = {
-                                                                (fadeIn() + scaleIn(initialScale = 0.85f))
-                                                                    .togetherWith(
-                                                                        fadeOut() + scaleOut(
-                                                                            targetScale = 0.85f
-                                                                        )
-                                                                    )
-                                                            }
-                                                        ) { isInFavorite ->
-                                                            val icon by remember(isInFavorite) {
+                                                            val inFavorite by remember(
+                                                                settingsState.favoriteScreenList,
+                                                                screen
+                                                            ) {
                                                                 derivedStateOf {
-                                                                    if (isInFavorite) Icons.Rounded.BookmarkRemove
-                                                                    else Icons.Outlined.Bookmark
+                                                                    settingsState.favoriteScreenList.find { it == screen.id } != null
                                                                 }
                                                             }
-                                                            Icon(
-                                                                imageVector = icon,
-                                                                contentDescription = null
-                                                            )
+                                                            AnimatedContent(
+                                                                targetState = inFavorite,
+                                                                transitionSpec = {
+                                                                    (fadeIn() + scaleIn(initialScale = 0.85f))
+                                                                        .togetherWith(
+                                                                            fadeOut() + scaleOut(
+                                                                                targetScale = 0.85f
+                                                                            )
+                                                                        )
+                                                                }
+                                                            ) { isInFavorite ->
+                                                                val icon by remember(isInFavorite) {
+                                                                    derivedStateOf {
+                                                                        if (isInFavorite) Icons.Rounded.BookmarkRemove
+                                                                        else Icons.Outlined.Bookmark
+                                                                    }
+                                                                }
+                                                                Icon(
+                                                                    imageVector = icon,
+                                                                    contentDescription = null
+                                                                )
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-                                        },
-                                        startIcon = {
-                                            AnimatedContent(
-                                                targetState = screen.icon,
-                                                transitionSpec = {
-                                                    (slideInVertically() + fadeIn() + scaleIn())
-                                                        .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
-                                                        .using(SizeTransform(false))
+                                            },
+                                            startIcon = {
+                                                AnimatedContent(
+                                                    targetState = screen.icon,
+                                                    transitionSpec = {
+                                                        (slideInVertically() + fadeIn() + scaleIn())
+                                                            .togetherWith(slideOutVertically { it / 2 } + fadeOut() + scaleOut())
+                                                            .using(SizeTransform(false))
+                                                    }
+                                                ) { icon ->
+                                                    icon?.let {
+                                                        Icon(
+                                                            imageVector = icon,
+                                                            contentDescription = null
+                                                        )
+                                                    }
                                                 }
-                                            ) { icon ->
-                                                icon?.let {
-                                                    Icon(
-                                                        imageVector = icon,
-                                                        contentDescription = null
-                                                    )
-                                                }
                                             }
-                                        }
-                                    )
+                                        )
+                                    }
                                 }
                             }
                         )

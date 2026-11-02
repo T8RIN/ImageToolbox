@@ -95,6 +95,21 @@ class MainComponent @AssistedInject internal constructor(
         }
     }
 
+    fun reorderFavoriteScreens(screens: List<Screen>) {
+        componentScope.launch {
+            val screenOrder = settingsManager.getSettingsState().screenList.ifEmpty {
+                Screen.entries.map { it.id }
+            }
+            val favorites = screens.map { it.id }
+            val reordered = favorites.iterator()
+            settingsManager.setScreenOrder(
+                screenOrder.joinToString("/") {
+                    if (it in favorites) reordered.next().toString() else it.toString()
+                }
+            )
+        }
+    }
+
     fun parseClipList(
         list: List<Uri>
     ) = onGetClipList(list)

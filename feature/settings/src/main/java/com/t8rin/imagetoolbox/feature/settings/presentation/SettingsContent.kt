@@ -123,6 +123,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.isKeyboardVisibleAsState
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
 import com.t8rin.imagetoolbox.core.utils.getString
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.BackupProgressDialog
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.CategorizedSettings
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SearchableSettingItem
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.SettingGroupItem
@@ -300,6 +301,12 @@ fun SettingsContent(
         onDispose { showTargetHighlight = false }
     }
 
+    BackupProgressDialog(
+        visible = component.isBackupLoading,
+        title = component.backupTitle,
+        progress = component.backupProgress
+    )
+
     Scaffold(
         modifier = if (isStandaloneScreen) {
             Modifier
@@ -469,9 +476,7 @@ fun SettingsContent(
                             key = { it.id }
                         ) { group ->
                             BoxAnimatedVisibility(
-                                visible = if (group is SettingsGroup.Shadows) {
-                                    settingsState.borderWidth <= 0.dp
-                                } else true
+                                visible = group !is SettingsGroup.Shadows || settingsState.borderWidth <= 0.dp
                             ) {
                                 if (isStandaloneScreen) {
                                     val groupTitle = stringResource(group.titleId)

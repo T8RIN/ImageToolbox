@@ -3680,7 +3680,7 @@
     <string name="batch_rename_failed">Joitakin tiedostoja ei voitu nimetä uudelleen</string>
     <string name="permission_not_granted">Lupaa ei myönnetty</string>
     <string name="original_filename_pattern_description">Käyttää alkuperäistä tiedostonimeä ilman päätettä, mikä auttaa sinua pitämään lähteen tunnisteen ennallaan. Tukee myös viipalointia \\o{start:end}, translitterointia \\o{t} ja korvaa \\o{s/old/new/}.</string>
-    <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri. Tukee mukautettua muotoilua: \\c{padding} (esim. \\c{3} -&gt; 001), \\c{aloitus:vaihe} tai \\c{aloitus:vaihe:padding}.</string>
+    <string name="sequence_number_pattern_description">Automaattisesti kasvava laskuri. Tukee mukautettua muotoilua: \\c{padding} (esim. \\c{3} -&gt; 001), \\c{start:step} tai \\c{start:step:padding}.</string>
     <string name="parent_folder_pattern_description">Pääkansion nimi, jossa alkuperäinen tiedosto sijaitsi.</string>
     <string name="file_size_pattern_description">Alkuperäisen tiedoston koko. Tukee yksiköitä: \\z{b}, \\z{kb}, \\z{mb} tai vain \\z ihmisen luettavassa muodossa.</string>
     <string name="uuid_pattern_description">Luo satunnaisen UUID-tunnisteen (Universally Unique Identifier) varmistaakseen tiedostonimen ainutlaatuisuuden.</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Ota käyttöön Näytä suosikki viimeisenä, jos haluat siirtää suosikkivälilehden loppuun, tai poista se käytöstä, jos haluat asettaa sen ensimmäiseksi.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Ota ryhmiteltyssä tilassa ensin Suosikit käyttöön ryhmitetyissä työkaluissa; Muuten ei ole siirrettävää Suosikit-välilehteä.</string>
     <string name="help_tip_setting_presets_description">Resize-esiasetukset tallentavat prosenttiosuudet, joita voidaan käyttää uudelleen sen sijaan, että syöttäisivät mitat jokaiselle kuvalle.</string>
-    <string name="help_tip_setting_presets_step_1">Avaa Esiasetukset muokataksesi käytettävissä olevia arvoja. Arvo 50 tarkoittaa puolta alkuperäisestä leveydestä ja korkeudesta; 125 suurentaa ne 125 prosenttiin.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Avaa Esiasetukset muokataksesi käytettävissä olevia arvoja. Arvo 50 tarkoittaa puolta alkuperäisestä leveydestä ja korkeudesta; 125 suurentaa ne 125 prosenttiin.</string>
     <string name="help_tip_setting_presets_step_2">Valitse esiasetus yhteensopivasta koonmuutostyökalusta ja tarkista saadut mitat ennen tallentamista.</string>
     <string name="help_tip_setting_default_quality_description">Oletuslaatu alustaa pakkaussäätimet ja riippuu valitusta tulostusmuodosta.</string>
     <string name="help_tip_setting_default_quality_step_1">Valitse ensin Oletuskuvamuoto ja säädä sitten kyseiselle muodolle näytettävät laadunsäädöt.</string>
@@ -7491,7 +7491,7 @@
     <string name="help_tip_ai_style_transfer_subtitle">Mielivaltainen tyylinsiirto, MicroAST-, AesFA- ja VGG19-optimointi</string>
     <string name="help_tip_ai_detection_description">Tekoälyilmaisimet arvioivat, kuinka paljon kuva muistuttaa heidän harjoitusesimerkkejä luoduista tai todellisista kuvista. Tulos ei ole todiste tekijästä tai muokkaushistoriasta. Todellinen valokuva voidaan merkitä tekoälyksi, ja luotu kuva voidaan jättää huomiotta.</string>
     <string name="help_tip_ai_detection_step_1">Valitse AI-tunnistusmalli, valitse kuvat ja suorita tarkistus. Tämä tila palauttaa arvioita muokattujen valokuvien sijaan.</string>
-    <string name="help_tip_ai_detection_step_2">Lue pisteet yhdessä tuomion kanssa: 70 % ja enemmän on todennäköistä tekoälyä, 30 % ja alle on todennäköistä ihmistä ja keskialue on epävarma.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lue pisteet yhdessä tuomion kanssa: 70 % ja enemmän on todennäköistä tekoälyä, 30 % ja alle on todennäköistä ihmistä ja keskialue on epävarma.</string>
     <string name="help_tip_ai_detection_page_2_step_1">Aloita pienemmällä tunnistimella nopeuden tarkistamiseksi ja vertaa sitten suurempaa samaan alkuperäiseen tiedostoon.</string>
     <string name="help_tip_ai_background_models_subtitle">Automaattiset maskit, muotokuvamallit ja MobileSAM-pisteet</string>
     <string name="help_tip_ai_background_models_step_2">Käytä MobileSAM-pisteen valintaa, kun haluat määrittää aiheen: lisää pisteitä säilyttääksesi ja jättääksesi pois alueet, tarkasta maski ja käytä sitä.</string>
@@ -7516,4 +7516,26 @@
     <string name="help_tip_partial_blur_step_3">Tarkista tulos täysikokoisena ja tallenna erillinen kopio. Käytä läpinäkymätöntä sivellintä tekstille tai numeroille, joiden täytyy olla lukukelvottomia.</string>
     <string name="opaque_image_viewer_background">Läpinäkymätön kuvankatselun tausta</string>
     <string name="opaque_image_viewer_background_sub">Käytä tasaista mustaa taustaa katsoessasi valokuvia</string>
+    <string name="assistant_export_formats_fact">Tuetut kuvanvientimuodot</string>
+    <string name="assistant_alpha_formats_fact">Kuvamuodot, jotka säilyttävät läpinäkyvyyden</string>
+    <string name="assistant_preparing_model">Mallia valmistellaan…</string>
+    <string name="assistant_reading_image">Kuvan lukeminen…</string>
+    <string name="assistant_interpreting">Pyynnön ymmärtäminen…</string>
+    <string name="assistant_finding_help">Haetaan ohjeita…</string>
+    <string name="assistant_finding_photos">Haetaan kuvia…</string>
+    <string name="assistant_file_size_already_fits">Tiedosto on %1$s tavua ja mahtuu jo %2$s-rajaan (%3$s tavua). Kompressio on tarpeetonta.</string>
+    <string name="assistant_clarification">Mitä haluaisit muuttaa tai tietää? Lisää kuva, työkalun nimi tai termin konteksti.</string>
+    <string name="assistant_capabilities">- Selitän koon muuttamisen, rajaamisen, muuntamisen ja asetukset.\n- Vastaan ​​yleisiin kysymyksiin.\n- Haen kuvia sisällön ja suodattimien perusteella.</string>
+    <string name="assistant_capabilities_text">- Kuva-analyysi vaatii Visionin.</string>
+    <string name="assistant_capabilities_vision">- Voin analysoida yhden liitteenä olevan valokuvan.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Avaa Asetukset → Asettelu ja vaihda läpinäkymätön kuvankatselun tausta.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Avaa valokuva ja vertaa tasaista mustaa taustaa himmennettyyn sovelluksen taustaan. Tämä muuttaa vain katselua, ei tallennettua kuvaa tai sen läpinäkyvyyttä.</string>
+    <string name="backup_settings_sub">Vain sovellusasetukset ja esiasetukset</string>
+    <string name="full_backup">Täysi varmuuskopio</string>
+    <string name="full_backup_sub">Asetukset, ladatut mallit ja muut sovellustiedot. Tiedosto voi olla useita Gt.</string>
+    <string name="backup_creating">Varmuuskopion luominen</string>
+    <string name="backup_restoring">Varmuuskopion palauttaminen</string>
+    <string name="backup_progress_bytes">%1$s / %2$s</string>
+    <string name="remember_image_header_state">Muista esikatselun asettelu</string>
+    <string name="remember_image_header_state_sub">Säilytä esikatselun korkeus ja kiinnitystila työkalujen välillä. Kun asetus on poistettu käytöstä, jokainen työkalu avautuu oletusasettelulla.</string>
 </resources>

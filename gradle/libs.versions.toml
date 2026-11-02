@@ -237,6 +237,7 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeVersion" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "composeVersion" }
 
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
 kotlin-metadata-jvm = { module = "org.jetbrains.kotlin:kotlin-metadata-jvm", version.ref = "kotlin" }

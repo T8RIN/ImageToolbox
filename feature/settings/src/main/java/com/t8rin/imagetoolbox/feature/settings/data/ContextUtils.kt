@@ -19,87 +19,13 @@ package com.t8rin.imagetoolbox.feature.settings.data
 
 import android.app.ActivityManager
 import android.content.Context
-import android.net.Uri
 import android.os.Build
 import androidx.core.content.getSystemService
-import androidx.datastore.preferences.core.PreferencesSerializer
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.utils.FileMode
-import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
-import com.t8rin.imagetoolbox.core.resources.R
-import kotlinx.coroutines.coroutineScope
-import okio.buffer
-import okio.source
-import java.io.ByteArrayInputStream
-import java.io.File
 import java.io.RandomAccessFile
 import java.util.Locale
 import kotlin.math.ceil
-
-internal suspend fun Context.restoreDatastore(
-    fileName: String,
-    backupUri: Uri,
-    onFailure: (Throwable) -> Unit,
-    onSuccess: suspend () -> Unit
-) = coroutineScope {
-    runSuspendCatching {
-        contentResolver.openInputStream(backupUri)?.use { input ->
-            val bytes = input.readBytes()
-            restoreDatastore(
-                fileName = fileName,
-                backupData = bytes,
-                onFailure = onFailure,
-                onSuccess = onSuccess
-            )
-        }
-    }.onFailure(onFailure).onSuccess {
-        onSuccess()
-    }
-}
-
-internal suspend fun Context.restoreDatastore(
-    fileName: String,
-    backupData: ByteArray,
-    onFailure: (Throwable) -> Unit,
-    onSuccess: suspend () -> Unit
-) = coroutineScope {
-    runSuspendCatching {
-
-        runSuspendCatching {
-            PreferencesSerializer.readFrom(ByteArrayInputStream(backupData).source().buffer())
-        }.onFailure {
-            onFailure(Throwable(getString(R.string.corrupted_file_or_not_a_backup)))
-            return@coroutineScope
-        }
-
-        File(
-            filesDir,
-            "datastore/${fileName}.preferences_pb"
-        ).outputStream().use {
-            ByteArrayInputStream(backupData).copyTo(it)
-        }
-    }.onFailure(onFailure).onSuccess {
-        onSuccess()
-    }
-}
-
-internal suspend fun Context.obtainDatastoreData(
-    fileName: String
-) = coroutineScope {
-    File(filesDir, "datastore/${fileName}.preferences_pb").readBytes()
-}
-
-internal suspend fun Context.resetDatastore(
-    fileName: String
-) = coroutineScope {
-    File(
-        filesDir,
-        "datastore/${fileName}.preferences_pb"
-    ).apply {
-        delete()
-        createNewFile()
-    }
-}
 
 internal val Context.performanceClass: PerformanceClass
     get() {

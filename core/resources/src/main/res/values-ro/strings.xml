@@ -6368,7 +6368,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Activați Afișare favorite ca ultimul pentru a muta fila de favorite până la sfârșit sau dezactivați-o pentru a o plasa primul.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">În modul grupat, activați mai întâi Preferințe în instrumentele grupate; în caz contrar, nu există nicio filă de favorite de mutat.</string>
     <string name="help_tip_setting_presets_description">Presetările de redimensionare stochează dimensiuni procentuale care pot fi reutilizate în loc să introducă dimensiuni pentru fiecare imagine.</string>
-    <string name="help_tip_setting_presets_step_1">Deschideți Presets pentru a edita valorile disponibile. O valoare de 50 înseamnă jumătate din lățimea și înălțimea inițiale; 125 le mărește la 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Deschideți Presets pentru a edita valorile disponibile. O valoare de 50 înseamnă jumătate din lățimea și înălțimea inițiale; 125 le mărește la 125%.</string>
     <string name="help_tip_setting_presets_step_2">Selectați o presetare într-un instrument de redimensionare compatibil și verificați dimensiunile rezultate înainte de a salva.</string>
     <string name="help_tip_setting_default_quality_description">Calitatea implicită inițializează controalele de compresie și depinde de formatul de ieșire selectat.</string>
     <string name="help_tip_setting_default_quality_step_1">Alegeți mai întâi Formatul de imagine implicit, apoi ajustați controalele de calitate afișate pentru formatul respectiv.</string>
@@ -7239,7 +7239,7 @@
     <string name="help_tip_ai_detection_subtitle">Comparați estimările detectorului fără a le trata drept dovezi</string>
     <string name="help_tip_ai_detection_description">Detectoarele AI estimează cât de mult seamănă o imagine cu exemplele lor de antrenament de imagini generate sau reale. Rezultatul nu este o dovadă a paternității sau a istoricului editării. O fotografie reală poate fi semnalată ca AI, iar o imagine generată poate fi ratată.</string>
     <string name="help_tip_ai_detection_step_1">Alegeți un model de detectare AI, selectați imaginile și executați verificarea. Acest mod returnează estimări în loc de fotografiile editate.</string>
-    <string name="help_tip_ai_detection_step_2">Citiți scorul împreună cu verdictul: 70% și peste este probabil AI, 30% și mai jos este probabil uman, iar intervalul de mijloc este Nesigur.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Citiți scorul împreună cu verdictul: 70% și peste este probabil AI, 30% și mai jos este probabil uman, iar intervalul de mijloc este Nesigur.</string>
     <string name="help_tip_ai_detection_step_3">Comparați un detector diferit atunci când un rezultat contează. Comprimarea, redimensionarea și capturile de ecran îi pot schimba estimarea; utilizați fișierul original atunci când este posibil.</string>
     <string name="help_tip_ai_detection_page_2_title">Modele de detectoare și precizie</string>
     <string name="help_tip_ai_detection_page_2_description">Catalogul include Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics și SMOGY. Ei folosesc date de antrenament diferite și pot fi în dezacord.</string>
@@ -7517,4 +7517,26 @@
     <string name="help_tip_partial_blur_step_3">Inspectați rezultatul la dimensiunea maximă și salvați o copie separată. Utilizați o perie opacă pentru text sau numere care trebuie să fie ilizibile.</string>
     <string name="opaque_image_viewer_background">Fundal opac pentru vizualizarea imaginilor</string>
     <string name="opaque_image_viewer_background_sub">Utilizați un fundal negru solid când vizualizați fotografii</string>
+    <string name="assistant_export_formats_fact">Formate de export de imagini acceptate</string>
+    <string name="assistant_alpha_formats_fact">Formate de imagine care păstrează transparența</string>
+    <string name="assistant_preparing_model">Se pregătește modelul…</string>
+    <string name="assistant_reading_image">Se citește imaginea…</string>
+    <string name="assistant_interpreting">Înțelegerea cererii…</string>
+    <string name="assistant_finding_help">Se caută documentație…</string>
+    <string name="assistant_finding_photos">Se caută fotografii…</string>
+    <string name="assistant_file_size_already_fits">Fișierul are %1$s octeți și se încadrează deja în limita %2$s (%3$s octeți). Compresia este inutilă.</string>
+    <string name="assistant_clarification">Ce ai vrea să schimbi sau să afli? Vă rugăm să adăugați o imagine, un nume de instrument sau contextul termenului.</string>
+    <string name="assistant_capabilities">- Explic redimensionarea, decuparea, conversia și setările.\n- Răspund la întrebări generale.\n- Caut fotografii după conținut și filtre.</string>
+    <string name="assistant_capabilities_text">- Analiza imaginilor necesită Vision.</string>
+    <string name="assistant_capabilities_vision">- Pot analiza o fotografie atașată.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Deschideți Setări → Aspect și activați sau dezactivați opțiunea „Fundal opac pentru vizualizarea imaginilor“.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Deschideți o fotografie pentru a compara fundalul negru solid cu fundalul estompat al aplicației. Acest lucru modifică doar vizualizatorul, nu imaginea salvată sau transparența acesteia.</string>
+    <string name="backup_settings_sub">Doar setările și presetările aplicației</string>
+    <string name="full_backup">Backup complet</string>
+    <string name="full_backup_sub">Setări, modele descărcate și alte date ale aplicației. Fișierul poate avea câțiva GB.</string>
+    <string name="backup_creating">Se creează backup</string>
+    <string name="backup_restoring">Se restabilește backupul</string>
+    <string name="backup_progress_bytes">%1$s din %2$s</string>
+    <string name="remember_image_header_state">Memorează aspectul previzualizării</string>
+    <string name="remember_image_header_state_sub">Păstrează înălțimea și starea de fixare a previzualizării la trecerea între instrumente. Când opțiunea este dezactivată, fiecare instrument se deschide cu aspectul implicit.</string>
 </resources>

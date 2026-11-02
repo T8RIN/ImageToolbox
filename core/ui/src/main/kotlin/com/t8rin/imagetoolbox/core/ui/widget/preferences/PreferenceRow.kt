@@ -55,6 +55,8 @@ import androidx.compose.ui.unit.sp
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -88,6 +90,11 @@ fun PreferenceRow(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     drawContainer: Boolean = true,
 ) {
+    val scrollAnchor = if (onClick != null) rememberScrollAnchor() else null
+    val anchoredOnClick: () -> Unit = {
+        scrollAnchor?.activate()
+        onClick?.invoke()
+    }
     val animatedShape = shapeByInteraction(
         shape = shape,
         pressedShape = pressedShape,
@@ -109,6 +116,7 @@ fun PreferenceRow(
         }
     ) {
         val rowModifier = modifier
+            .scrollAnchor(scrollAnchor)
             .then(
                 if (applyHorizontalPadding) {
                     Modifier.padding(horizontal = 16.dp)
@@ -131,7 +139,7 @@ fun PreferenceRow(
                             Modifier.hapticsClickable(
                                 interactionSource = interactionSource,
                                 indication = LocalIndication.current,
-                                onClick = onClick
+                                onClick = anchoredOnClick
                             )
                         } else Modifier.then(
                             if (onDisabledClick != null) {

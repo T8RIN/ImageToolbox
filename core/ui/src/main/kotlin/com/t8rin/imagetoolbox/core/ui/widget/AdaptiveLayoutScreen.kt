@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
@@ -80,13 +79,14 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredLazyColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchoredItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.imageStickyHeader
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.utils.isExpanded
 import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberAvailableHeight
-import com.t8rin.imagetoolbox.core.ui.widget.utils.rememberImageState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -130,7 +130,7 @@ fun AdaptiveLayoutScreen(
     var buttonsHeight by remember { mutableStateOf(0.dp) }
     val settingsState = LocalSettingsState.current
 
-    var imageState by rememberImageState()
+    val imageState = settingsState.imageHeaderState
 
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
@@ -279,7 +279,7 @@ fun AdaptiveLayoutScreen(
 
                             val bottomInset = WindowInsets.navigationBars.union(WindowInsets.ime)
                                 .asPaddingValues().calculateBottomPadding()
-                            LazyColumn(
+                            ScrollAnchoredLazyColumn(
                                 state = listState,
                                 contentPadding = PaddingValues(
                                     bottom = (if (useFloatingButtons && canShowScreenData) {
@@ -305,9 +305,8 @@ fun AdaptiveLayoutScreen(
                                 } else {
                                     imageStickyHeader(
                                         visible = isPortrait && canShowScreenData && showImagePreviewAsStickyHeader && placeImagePreview,
+                                        isBlocked = settingsState.imageHeaderState.isBlocked,
                                         internalHeight = internalHeight,
-                                        imageState = imageState,
-                                        onStateChange = { imageState = it },
                                         imageBlock = imagePreview,
                                         onGloballyPositioned = {
                                             if (!isScrolled) {
@@ -320,27 +319,26 @@ fun AdaptiveLayoutScreen(
                                         }
                                     )
                                 }
-                                item {
-                                    Column(
-                                        modifier = Modifier.fillMaxSize(),
-                                        verticalArrangement = Arrangement.Center,
-                                        horizontalAlignment = Alignment.CenterHorizontally
-                                    ) {
-                                        if (canShowScreenData) {
-                                            AnimatedVisibility(
-                                                visible = !showImagePreviewAsStickyHeader && isPortrait && placeImagePreview
-                                            ) {
-                                                imagePreview()
-                                            }
-                                            if (controls != null) controls(listState)
-                                        } else {
-                                            Box(
-                                                modifier = Modifier.windowInsetsPadding(
-                                                    insetsForNoData
-                                                )
-                                            ) {
-                                                noDataControls()
-                                            }
+                                scrollAnchoredItem(
+                                    key = "controls",
+                                    modifier = Modifier.fillMaxSize(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    if (canShowScreenData) {
+                                        AnimatedVisibility(
+                                            visible = !showImagePreviewAsStickyHeader && isPortrait && placeImagePreview
+                                        ) {
+                                            imagePreview()
+                                        }
+                                        if (controls != null) controls(listState)
+                                    } else {
+                                        Box(
+                                            modifier = Modifier.windowInsetsPadding(
+                                                insetsForNoData
+                                            )
+                                        ) {
+                                            noDataControls()
                                         }
                                     }
                                 }

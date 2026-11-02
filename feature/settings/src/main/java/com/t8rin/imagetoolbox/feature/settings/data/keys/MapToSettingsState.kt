@@ -37,6 +37,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -172,6 +173,18 @@ internal fun Preferences.toSettingsState(
         ?: default.skipImagePicking,
     generatePreviews = this[GENERATE_PREVIEWS]
         ?: default.generatePreviews,
+    rememberImageHeaderState = this[REMEMBER_IMAGE_HEADER_STATE]
+        ?: default.rememberImageHeaderState,
+    imageHeaderState = ImageHeaderState(
+        position = (this[IMAGE_HEADER_POSITION] ?: if (this[GENERATE_PREVIEWS]
+                ?: default.generatePreviews
+        ) {
+            default.imageHeaderState.position
+        } else 0).coerceIn(0, 4),
+        isBlocked = this[IMAGE_HEADER_BLOCKED] ?: default.imageHeaderState.isBlocked,
+        isZoomResetEnabled = this[IMAGE_HEADER_ZOOM_RESET_ENABLED]
+            ?: default.imageHeaderState.isZoomResetEnabled
+    ),
     enableSheetGestures = this[ENABLE_SHEET_GESTURES]
         ?: default.enableSheetGestures,
     sheetNestedScrollEnabled = this[SHEET_NESTED_SCROLL]

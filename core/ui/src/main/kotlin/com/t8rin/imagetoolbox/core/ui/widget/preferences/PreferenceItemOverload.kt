@@ -53,6 +53,8 @@ import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsS
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.rememberScrollAnchor
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.scrollAnchor
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeContainer
 import com.t8rin.imagetoolbox.core.ui.widget.icon_shape.IconShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -90,6 +92,11 @@ fun PreferenceItemOverload(
     placeBottomContentInside: Boolean = false,
     bottomContent: (@Composable () -> Unit)? = null
 ) {
+    val scrollAnchor = if (onClick != null) rememberScrollAnchor() else null
+    val anchoredOnClick: () -> Unit = {
+        scrollAnchor?.activate()
+        onClick?.invoke()
+    }
     CompositionLocalProvider(
         LocalSettingsState provides LocalSettingsState.current.let {
             if (!enabled) it.copy(
@@ -109,6 +116,7 @@ fun PreferenceItemOverload(
         Card(
             shape = RectangleShape,
             modifier = modifier
+                .scrollAnchor(scrollAnchor)
                 .container(
                     shape = animatedShape,
                     resultPadding = 0.dp,
@@ -128,7 +136,7 @@ fun PreferenceItemOverload(
                         Modifier.hapticsCombinedClickable(
                             interactionSource = interactionSource,
                             indication = LocalIndication.current,
-                            onClick = onClick,
+                            onClick = anchoredOnClick,
                             onLongClick = onLongClick
                         )
                     } else {

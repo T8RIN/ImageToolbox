@@ -85,6 +85,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBarType
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.ScrollAnchoredColumn
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedVerticalScroll
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.clearFocusOnTap
@@ -232,12 +233,11 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                                 ) {
                                     mainContent()
                                 }
-                                val scrollState = rememberScrollState()
-                                Column(
-                                    Modifier
-                                        .weight(mainContentWeight)
-                                        .enhancedVerticalScroll(scrollState)
-                                        .padding(bottom = if (useFloatingButtons) buttonsHeight else 0.dp)
+                                ScrollAnchoredColumn(
+                                    modifier = Modifier.weight(mainContentWeight),
+                                    contentPadding = PaddingValues(
+                                        bottom = if (useFloatingButtons) buttonsHeight else 0.dp
+                                    )
                                 ) {
                                     controls(scaffoldState)
                                 }
@@ -404,11 +404,8 @@ fun AdaptiveBottomScaffoldLayoutScreen(
                             ProvideContainerDefaults(
                                 color = EnhancedBottomSheetDefaults.contentContainerColor
                             ) {
-                                val scrollState = rememberScrollState()
-                                Column(
-                                    modifier = Modifier
-                                        .enhancedVerticalScroll(scrollState)
-                                        .padding(contentPadding)
+                                ScrollAnchoredColumn(
+                                    contentPadding = contentPadding
                                 ) {
                                     controls(scaffoldState)
                                 }

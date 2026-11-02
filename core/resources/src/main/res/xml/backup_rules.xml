@@ -29,4 +29,16 @@
     <include
         domain="file"
         path="semantic-search-references/." />
+    <include
+        domain="file"
+        path="ai_models/."
+        requireFlags="deviceToDeviceTransfer" />
+    <include
+        domain="file"
+        path="onnx/."
+        requireFlags="deviceToDeviceTransfer" />
+    <include
+        domain="file"
+        path="tesseract/."
+        requireFlags="deviceToDeviceTransfer" />
 </full-backup-content>

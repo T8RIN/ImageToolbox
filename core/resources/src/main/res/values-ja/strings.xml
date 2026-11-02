@@ -6356,7 +6356,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">[お気に入りを最後に表示] を有効にしてお気に入りタブを最後に移動するか、無効にして最初に配置します。</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">グループ化モードでは、最初にグループ化ツールのお気に入りを有効にします。そうしないと、移動するお気に入りタブがありません。</string>
     <string name="help_tip_setting_presets_description">サイズ変更プリセットには、画像ごとに寸法を入力する代わりに、再利用できるパーセント サイズが保存されます。</string>
-    <string name="help_tip_setting_presets_step_1">[プリセット] を開いて、使用可能な値を編集します。値 50 は、元の幅と高さの半分を意味します。 125 は 125% に拡大します。</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">[プリセット] を開いて、使用可能な値を編集します。値 50 は、元の幅と高さの半分を意味します。 125 は 125% に拡大します。</string>
     <string name="help_tip_setting_presets_step_2">互換性のあるサイズ変更ツールでプリセットを選択し、保存する前に結果の寸法を確認します。</string>
     <string name="help_tip_setting_default_quality_description">デフォルトの品質は圧縮制御を初期化し、選択した出力形式に応じて異なります。</string>
     <string name="help_tip_setting_default_quality_step_1">まずデフォルトの画像形式を選択してから、その形式に表示される品質コントロールを調整します。</string>
@@ -7209,7 +7209,7 @@
     <string name="help_tip_ai_detection_subtitle">検出器の推定値を証拠として扱わずに比較する</string>
     <string name="help_tip_ai_detection_description">AI 検出器は、画像が生成された画像または実際の画像のトレーニング サンプルにどの程度似ているかを推定します。結果は、著者または編集履歴を証明するものではありません。実際の写真に AI としてフラグが付けられ、生成された画像が見逃される可能性があります。</string>
     <string name="help_tip_ai_detection_step_1">AI 検出モデルを選択し、画像を選択してチェックを実行します。このモードでは、編集された写真の代わりに推定値が返されます。</string>
-    <string name="help_tip_ai_detection_step_2">評決とともにスコアを読んでください。70% 以上は AI の可能性が高く、30% 以下は人間の可能性が高く、中間の範囲は不確実です。</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">評決とともにスコアを読んでください。70% 以上は AI の可能性が高く、30% 以下は人間の可能性が高く、中間の範囲は不確実です。</string>
     <string name="help_tip_ai_detection_step_3">結果が重要な場合は、異なる検出器を比較してください。圧縮、サイズ変更、スクリーンショットによって推定値が変わる可能性があります。可能な場合は元のファイルを使用してください。</string>
     <string name="help_tip_ai_detection_page_2_title">検出器のモデルと精度</string>
     <string name="help_tip_ai_detection_page_2_description">カタログには、Mirage SigLIP2、LPX SwinV2、ConvNeXT Tiny、ResNet-50、AI vs Deepfake vs Real、CapCheck、Deep Fake Detector V2、AI Image Detect Distilled、コミュニティ フォレンジック、SMOGY が含まれています。彼らは異なるトレーニング データを使用しており、意見が異なる場合もあります。</string>
@@ -7520,4 +7520,21 @@
     <string name="help_tip_partial_blur_step_3">結果をフルサイズで検査し、別のコピーを保存します。判読できないテキストや数字には、不透明なブラシを使用します。</string>
     <string name="opaque_image_viewer_background">不透明な画像ビューアの背景</string>
     <string name="opaque_image_viewer_background_sub">写真を表示するときは黒一色の背景を使用してください</string>
+    <string name="assistant_export_formats_fact">サポートされている画像エクスポート形式</string>
+    <string name="assistant_alpha_formats_fact">透明度を維持した画像フォーマット</string>
+    <string name="assistant_preparing_model">モデルを準備中…</string>
+    <string name="assistant_reading_image">画像を読んでいます…</string>
+    <string name="assistant_interpreting">リクエストを理解しています…</string>
+    <string name="assistant_finding_help">ドキュメントを調べています…</string>
+    <string name="assistant_finding_photos">写真を検索中…</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">[設定] → [レイアウト] を開き、[不透明な画像ビューアの背景] を切り替えます。</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">写真を開いて、黒一色の背景と薄暗くなったアプリの背景を比較します。これにより変更されるのはビューアのみであり、保存された画像やその透明度は変更されません。</string>
+    <string name="backup_settings_sub">アプリの設定とプリセットのみ</string>
+    <string name="full_backup">完全バックアップ</string>
+    <string name="full_backup_sub">設定、ダウンロードしたモデル、その他のアプリデータ。ファイルは数 GB になる場合があります。</string>
+    <string name="backup_creating">バックアップの作成</string>
+    <string name="backup_restoring">バックアップの復元</string>
+    <string name="backup_progress_bytes">%1$s/%2$s</string>
+    <string name="remember_image_header_state">プレビューのレイアウトを記憶する</string>
+    <string name="remember_image_header_state_sub">ツールを切り替えても、プレビューの高さと固定状態を保持します。無効にすると、各ツールはデフォルトのレイアウトで開きます。</string>
 </resources>

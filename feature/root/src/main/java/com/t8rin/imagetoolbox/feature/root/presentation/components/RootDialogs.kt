@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.root.presentation.components
 
 import androidx.compose.runtime.Composable
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalEditPresetsController
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
 import com.t8rin.imagetoolbox.core.ui.utils.helper.ReviewHandler
@@ -32,6 +33,7 @@ import com.t8rin.imagetoolbox.feature.root.presentation.components.dialogs.Teleg
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.HandleLookForUpdates
 import com.t8rin.imagetoolbox.feature.root.presentation.components.utils.SuccessRestoreBackupToastHandler
 import com.t8rin.imagetoolbox.feature.root.presentation.screenLogic.RootComponent
+import com.t8rin.imagetoolbox.feature.settings.presentation.components.BackupProgressDialog
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.DonateDialog
 import com.t8rin.imagetoolbox.feature.settings.presentation.components.additional.WeblateInfoDialog
 
@@ -40,6 +42,12 @@ internal fun RootDialogs(component: RootComponent) {
     val editPresetsController = LocalEditPresetsController.current
 
     AppExitDialog(component)
+
+    BackupProgressDialog(
+        visible = component.isRestoringBackup,
+        title = R.string.backup_restoring,
+        progress = component.backupRestoreProgress
+    )
 
     EditPresetsSheet(
         visible = editPresetsController.isVisible,

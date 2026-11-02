@@ -17,12 +17,12 @@
 
 package com.t8rin.imagetoolbox.core.resources.icons
 
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
+import com.t8rin.imagetoolbox.core.resources.Icons
 
 val Icons.Outlined.FitScreen: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
     ImageVector.Builder(
@@ -120,6 +120,97 @@ val Icons.Outlined.FitScreen: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
             moveTo(320f, 560f)
             verticalLineToRelative(-160f)
             verticalLineToRelative(160f)
+            close()
+        }
+    }.build()
+}
+
+val Icons.Rounded.FitScreen: ImageVector by lazy(LazyThreadSafetyMode.NONE) {
+    ImageVector.Builder(
+        name = "Rounded.FitScreen",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f
+    ).apply {
+        path(fill = SolidColor(Color.Black)) {
+            moveTo(20f, 8f)
+            lineTo(20f, 6f)
+            lineTo(18f, 6f)
+            quadToRelative(-0.43f, 0f, -0.71f, -0.29f)
+            quadTo(17f, 5.43f, 17f, 5f)
+            reflectiveQuadToRelative(0.29f, -0.71f)
+            reflectiveQuadTo(18f, 4f)
+            horizontalLineToRelative(2f)
+            quadToRelative(0.83f, 0f, 1.41f, 0.59f)
+            quadTo(22f, 5.18f, 22f, 6f)
+            lineTo(22f, 8f)
+            quadToRelative(0f, 0.42f, -0.29f, 0.71f)
+            reflectiveQuadTo(21f, 9f)
+            reflectiveQuadTo(20.29f, 8.71f)
+            reflectiveQuadTo(20f, 8f)
+            close()
+            moveTo(2f, 8f)
+            lineTo(2f, 6f)
+            quadTo(2f, 5.18f, 2.59f, 4.59f)
+            reflectiveQuadTo(4f, 4f)
+            lineTo(6f, 4f)
+            quadTo(6.43f, 4f, 6.71f, 4.29f)
+            reflectiveQuadTo(7f, 5f)
+            reflectiveQuadTo(6.71f, 5.71f)
+            reflectiveQuadTo(6f, 6f)
+            lineTo(4f, 6f)
+            lineTo(4f, 8f)
+            quadTo(4f, 8.42f, 3.71f, 8.71f)
+            reflectiveQuadTo(3f, 9f)
+            reflectiveQuadTo(2.29f, 8.71f)
+            reflectiveQuadTo(2f, 8f)
+            close()
+            moveTo(20f, 20f)
+            lineTo(18f, 20f)
+            quadToRelative(-0.43f, 0f, -0.71f, -0.29f)
+            quadTo(17f, 19.43f, 17f, 19f)
+            reflectiveQuadToRelative(0.29f, -0.71f)
+            reflectiveQuadTo(18f, 18f)
+            horizontalLineToRelative(2f)
+            lineTo(20f, 16f)
+            quadToRelative(0f, -0.43f, 0.29f, -0.71f)
+            reflectiveQuadTo(21f, 15f)
+            quadToRelative(0.43f, 0f, 0.71f, 0.29f)
+            reflectiveQuadTo(22f, 16f)
+            verticalLineToRelative(2f)
+            quadToRelative(0f, 0.82f, -0.59f, 1.41f)
+            reflectiveQuadTo(20f, 20f)
+            close()
+            moveTo(4f, 20f)
+            quadToRelative(-0.82f, 0f, -1.41f, -0.59f)
+            reflectiveQuadTo(2f, 18f)
+            lineTo(2f, 16f)
+            quadToRelative(0f, -0.43f, 0.29f, -0.71f)
+            reflectiveQuadTo(3f, 15f)
+            reflectiveQuadToRelative(0.71f, 0.29f)
+            reflectiveQuadTo(4f, 16f)
+            verticalLineToRelative(2f)
+            lineTo(6f, 18f)
+            quadToRelative(0.43f, 0f, 0.71f, 0.29f)
+            reflectiveQuadTo(7f, 19f)
+            reflectiveQuadTo(6.71f, 19.71f)
+            reflectiveQuadTo(6f, 20f)
+            lineTo(4f, 20f)
+            close()
+            moveTo(6f, 14f)
+            lineTo(6f, 10f)
+            quadTo(6f, 9.17f, 6.59f, 8.59f)
+            reflectiveQuadTo(8f, 8f)
+            horizontalLineToRelative(8f)
+            quadToRelative(0.82f, 0f, 1.41f, 0.59f)
+            reflectiveQuadTo(18f, 10f)
+            verticalLineToRelative(4f)
+            quadToRelative(0f, 0.82f, -0.59f, 1.41f)
+            reflectiveQuadTo(16f, 16f)
+            lineTo(8f, 16f)
+            quadToRelative(-0.82f, 0f, -1.41f, -0.59f)
+            reflectiveQuadTo(6f, 14f)
             close()
         }
     }.build()

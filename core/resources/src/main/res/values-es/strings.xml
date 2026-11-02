@@ -1205,7 +1205,7 @@
     <string name="fractal_type">Tipo de fractal</string>
     <string name="histogram">Histograma</string>
     <string name="free_corners">Esquinas libres</string>
-    <string name="custom_params_info" tools:ignore="TypographyDashes">Las opciones deben ser ingresadas siguiendo este patrón: \"--{option_name} {valor}\"</string>
+    <string name="custom_params_info" tools:ignore="TypographyDashes">Las opciones deben ser ingresadas siguiendo este patrón: \"--{option_name} {value}\"</string>
     <string name="coerce_points_to_image_bounds_sub">Los puntos no estarán limitados por los límites de imagen, es útil para correcciones más precisas de perspectivas</string>
     <string name="free_corners_sub">Recorta imagen por polígono, esto también corrige la perspectiva</string>
     <string name="spot_heal_sub">Relleno según contenido bajo dibujado de ruta</string>
@@ -3285,7 +3285,7 @@
     <string name="scoop_shapes_sub">Esquinas redondeadas talladas hacia adentro</string>
     <string name="notch_shapes_sub">Esquinas escalonadas con doble corte.</string>
     <string name="watermark_filename_placeholder">Marcador de posición</string>
-    <string name="watermark_filename_placeholder_sub">Utilice {nombre de archivo} para insertar el nombre de archivo original sin extensión</string>
+    <string name="watermark_filename_placeholder_sub">Utilice {filename} para insertar el nombre de archivo original sin extensión</string>
     <string name="flare">Llamarada</string>
     <string name="base_amount">Monto base</string>
     <string name="ring_amount">Cantidad de timbre</string>
@@ -6367,7 +6367,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Habilite Mostrar favorito como último para mover la pestaña de favoritos al final, o desactívela para colocarla primero.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">En modo agrupado, habilite primero Favoritos en herramientas agrupadas; de lo contrario, no habrá ninguna pestaña de favoritos para mover.</string>
     <string name="help_tip_setting_presets_description">Los ajustes preestablecidos de cambio de tamaño almacenan tamaños porcentuales que se pueden reutilizar en lugar de ingresar dimensiones para cada imagen.</string>
-    <string name="help_tip_setting_presets_step_1">Abra Presets para editar los valores disponibles. Un valor de 50 significa la mitad del ancho y alto originales; 125 los amplía al 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Abra Presets para editar los valores disponibles. Un valor de 50 significa la mitad del ancho y alto originales; 125 los amplía al 125%.</string>
     <string name="help_tip_setting_presets_step_2">Seleccione un ajuste preestablecido en una herramienta de cambio de tamaño compatible y verifique las dimensiones resultantes antes de guardar.</string>
     <string name="help_tip_setting_default_quality_description">La calidad predeterminada inicializa los controles de compresión y depende del formato de salida seleccionado.</string>
     <string name="help_tip_setting_default_quality_step_1">Elija primero el formato de imagen predeterminado y luego ajuste los controles de calidad que se muestran para ese formato.</string>
@@ -7238,7 +7238,7 @@
     <string name="help_tip_ai_detection_subtitle">Compare las estimaciones de los detectores sin tratarlas como prueba</string>
     <string name="help_tip_ai_detection_description">Los detectores de IA estiman qué tan parecida se parece una imagen a sus ejemplos de entrenamiento de imágenes generadas o reales. El resultado no es prueba de autoría o historial de edición. Una foto real se puede marcar como IA y una imagen generada puede pasar desapercibida.</string>
     <string name="help_tip_ai_detection_step_1">Elija un modelo de detección de IA, seleccione las imágenes y ejecute la verificación. Este modo devuelve estimaciones en lugar de fotografías editadas.</string>
-    <string name="help_tip_ai_detection_step_2">Lea la puntuación junto con el veredicto: 70 % o más es probable IA, 30 % o menos es probablemente humano y el rango medio es incierto.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Lea la puntuación junto con el veredicto: 70 % o más es probable IA, 30 % o menos es probablemente humano y el rango medio es incierto.</string>
     <string name="help_tip_ai_detection_step_3">Compare un detector diferente cuando el resultado sea importante. La compresión, el cambio de tamaño y las capturas de pantalla pueden cambiar su estimación; utilice el archivo original cuando sea posible.</string>
     <string name="help_tip_ai_detection_page_2_title">Modelos de detectores y precisión.</string>
     <string name="help_tip_ai_detection_page_2_description">El catálogo incluye Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics y SMOGY. Utilizan diferentes datos de entrenamiento y pueden no estar de acuerdo.</string>
@@ -7521,4 +7521,21 @@
     <string name="help_tip_partial_blur_step_3">Inspeccione el resultado a tamaño completo y guarde una copia por separado. Utilice un pincel opaco para texto o números que deban ser ilegibles.</string>
     <string name="opaque_image_viewer_background">Fondo del visor de imágenes opaco</string>
     <string name="opaque_image_viewer_background_sub">Utilice un fondo negro sólido al ver fotografías</string>
+    <string name="assistant_export_formats_fact">Formatos de exportación de imágenes admitidos</string>
+    <string name="assistant_alpha_formats_fact">Formatos de imagen que preservan la transparencia.</string>
+    <string name="assistant_preparing_model">Preparando el modelo…</string>
+    <string name="assistant_reading_image">Leyendo la imagen…</string>
+    <string name="assistant_interpreting">Entendiendo la solicitud…</string>
+    <string name="assistant_finding_help">Buscando documentación…</string>
+    <string name="assistant_finding_photos">Buscando fotos…</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Abre Configuración → Diseño y activa o desactiva «Fondo del visor de imágenes opaco».</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Abre una foto para comparar el fondo negro sólido con el fondo atenuado de la aplicación. Esto solo cambia el visor, no la imagen guardada ni su transparencia.</string>
+    <string name="backup_settings_sub">Solo ajustes y preajustes de la aplicación</string>
+    <string name="full_backup">Copia de seguridad completa</string>
+    <string name="full_backup_sub">Configuraciones, modelos descargados y otros datos de la aplicación. El archivo puede tener varios GB.</string>
+    <string name="backup_creating">Creando copia de seguridad</string>
+    <string name="backup_restoring">Restaurando copia de seguridad</string>
+    <string name="backup_progress_bytes">%1$s de %2$s</string>
+    <string name="remember_image_header_state">Recordar el diseño de la vista previa</string>
+    <string name="remember_image_header_state_sub">Conservar la altura de la vista previa y su estado de fijación al cambiar de herramienta. Si se desactiva, cada herramienta se abre con el diseño predeterminado.</string>
 </resources>

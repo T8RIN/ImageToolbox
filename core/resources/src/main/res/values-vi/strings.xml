@@ -6366,7 +6366,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">Bật Hiển thị mục yêu thích cuối cùng để di chuyển tab yêu thích xuống cuối hoặc tắt nó để đặt tab yêu thích lên đầu tiên.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">Trong chế độ được nhóm, trước tiên hãy bật Mục ưa thích trong các công cụ được nhóm; nếu không thì không có tab yêu thích nào để di chuyển.</string>
     <string name="help_tip_setting_presets_description">Thay đổi kích thước cài đặt trước lưu trữ kích thước phần trăm có thể được sử dụng lại thay vì nhập kích thước cho mỗi hình ảnh.</string>
-    <string name="help_tip_setting_presets_step_1">Mở Presets để chỉnh sửa các giá trị có sẵn. Giá trị 50 có nghĩa là một nửa chiều rộng và chiều cao ban đầu; 125 phóng to chúng lên 125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">Mở Presets để chỉnh sửa các giá trị có sẵn. Giá trị 50 có nghĩa là một nửa chiều rộng và chiều cao ban đầu; 125 phóng to chúng lên 125%.</string>
     <string name="help_tip_setting_presets_step_2">Chọn giá trị đặt sẵn trong công cụ thay đổi kích thước tương thích và kiểm tra kích thước kết quả trước khi lưu.</string>
     <string name="help_tip_setting_default_quality_description">Chất lượng mặc định khởi tạo các điều khiển nén và phụ thuộc vào định dạng đầu ra đã chọn.</string>
     <string name="help_tip_setting_default_quality_step_1">Trước tiên hãy chọn Định dạng hình ảnh mặc định, sau đó điều chỉnh các điều khiển chất lượng được hiển thị cho định dạng đó.</string>
@@ -7237,7 +7237,7 @@
     <string name="help_tip_ai_detection_subtitle">So sánh các ước tính của máy dò mà không coi chúng là bằng chứng</string>
     <string name="help_tip_ai_detection_description">Trình phát hiện AI ước tính mức độ giống nhau của hình ảnh với ví dụ đào tạo về hình ảnh được tạo hoặc hình ảnh thực. Kết quả không phải là bằng chứng về quyền tác giả hoặc lịch sử chỉnh sửa. Một bức ảnh thật có thể được gắn cờ là AI và một bức ảnh được tạo ra có thể bị bỏ sót.</string>
     <string name="help_tip_ai_detection_step_1">Chọn mô hình Phát hiện AI, chọn hình ảnh và chạy kiểm tra. Chế độ này trả về ước tính thay vì ảnh đã chỉnh sửa.</string>
-    <string name="help_tip_ai_detection_step_2">Đọc điểm cùng với nhận định: 70% trở lên là Có khả năng là AI, 30% trở xuống là Có khả năng là con người và phạm vi ở giữa là Không chắc chắn.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">Đọc điểm cùng với nhận định: 70% trở lên là Có khả năng là AI, 30% trở xuống là Có khả năng là con người và phạm vi ở giữa là Không chắc chắn.</string>
     <string name="help_tip_ai_detection_step_3">So sánh một máy dò khác khi kết quả quan trọng. Việc nén, thay đổi kích thước và ảnh chụp màn hình có thể thay đổi ước tính của nó; sử dụng tập tin gốc khi có thể.</string>
     <string name="help_tip_ai_detection_page_2_title">Mô hình máy dò và độ chính xác</string>
     <string name="help_tip_ai_detection_page_2_description">Danh mục này bao gồm Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics và SMOGY. Họ sử dụng dữ liệu đào tạo khác nhau và có thể không đồng ý.</string>
@@ -7513,6 +7513,28 @@
     <string name="help_tip_partial_blur_step_1">Mở Draw, chọn hình ảnh và chọn Private Blur hoặc Pixelation từ các chế độ vẽ.</string>
     <string name="help_tip_partial_blur_step_2">Sơn lên khu vực bạn muốn ẩn. Điều chỉnh bán kính mờ hoặc kích thước pixel và hoàn tác các nét che quá nhiều.</string>
     <string name="help_tip_partial_blur_step_3">Kiểm tra kết quả ở kích thước đầy đủ và lưu một bản sao riêng. Sử dụng bút vẽ mờ cho văn bản hoặc số không thể đọc được.</string>
-    <string name="opaque_image_viewer_background">Nền xem ảnh mờ</string>
+    <string name="opaque_image_viewer_background">Nền trình xem ảnh không trong suốt</string>
     <string name="opaque_image_viewer_background_sub">Sử dụng nền đen đồng nhất khi xem ảnh</string>
+    <string name="assistant_export_formats_fact">Các định dạng xuất hình ảnh được hỗ trợ</string>
+    <string name="assistant_alpha_formats_fact">Định dạng hình ảnh duy trì độ trong suốt</string>
+    <string name="assistant_preparing_model">Đang chuẩn bị mô hình…</string>
+    <string name="assistant_reading_image">Đọc hình ảnh…</string>
+    <string name="assistant_interpreting">Hiểu yêu cầu…</string>
+    <string name="assistant_finding_help">Tra cứu tài liệu…</string>
+    <string name="assistant_finding_photos">Đang tìm kiếm ảnh…</string>
+    <string name="assistant_file_size_already_fits">Tệp có kích thước %1$s byte và đã vừa với giới hạn %2$s (%3$s byte). Nén là không cần thiết.</string>
+    <string name="assistant_clarification">Bạn muốn thay đổi hoặc tìm hiểu điều gì? Vui lòng thêm hình ảnh, tên công cụ hoặc ngữ cảnh của thuật ngữ.</string>
+    <string name="assistant_capabilities">- Tôi giải thích việc thay đổi kích thước, cắt xén, chuyển đổi và cài đặt.\n- Tôi trả lời các câu hỏi chung.\n- Tôi tìm kiếm ảnh theo nội dung và bộ lọc.</string>
+    <string name="assistant_capabilities_text">- Phân tích hình ảnh cần có Vision.</string>
+    <string name="assistant_capabilities_vision">- Tôi có thể phân tích một bức ảnh đính kèm.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">Mở Cài đặt → Bố cục và bật hoặc tắt “Nền trình xem ảnh không trong suốt”.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">Mở ảnh để so sánh nền đen đồng nhất với nền ứng dụng được làm tối. Thay đổi này chỉ ảnh hưởng đến trình xem ảnh, không ảnh hưởng đến ảnh đã lưu hoặc độ trong suốt của ảnh.</string>
+    <string name="backup_settings_sub">Chỉ cài đặt ứng dụng và cài đặt trước</string>
+    <string name="full_backup">Sao lưu đầy đủ</string>
+    <string name="full_backup_sub">Cài đặt, mô hình đã tải xuống và dữ liệu ứng dụng khác. Tệp có thể có vài GB.</string>
+    <string name="backup_creating">Đang tạo bản sao lưu</string>
+    <string name="backup_restoring">Đang khôi phục bản sao lưu</string>
+    <string name="backup_progress_bytes">%1$s trong số %2$s</string>
+    <string name="remember_image_header_state">Ghi nhớ bố cục xem trước</string>
+    <string name="remember_image_header_state_sub">Giữ nguyên chiều cao và trạng thái ghim của phần xem trước khi chuyển đổi công cụ. Khi tắt, mỗi công cụ sẽ mở với bố cục mặc định.</string>
 </resources>

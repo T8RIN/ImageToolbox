@@ -41,9 +41,9 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import com.t8rin.imagetoolbox.core.domain.model.Pt
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.utils.helper.isPortraitOrientationAsState
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedLoadingIndicator
-import com.t8rin.imagetoolbox.core.ui.widget.image.ImageHeaderState
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.CornerSides
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.only
@@ -54,13 +54,13 @@ import net.engawapg.lib.zoomable.rememberZoomState
 @Composable
 internal fun AddMaskSheetBitmapPreview(
     component: AddMaskSheetComponent,
-    imageState: ImageHeaderState,
     strokeWidth: Pt,
     brushSoftness: Pt,
     isEraserOn: Boolean,
     panEnabled: Boolean
 ) {
-    val zoomState = rememberZoomState(maxScale = 30f, key = imageState)
+    val zoomState =
+        rememberZoomState(maxScale = 30f, key = LocalSettingsState.current.imageHeaderState)
     val isPortrait by isPortraitOrientationAsState()
 
     AnimatedContent(

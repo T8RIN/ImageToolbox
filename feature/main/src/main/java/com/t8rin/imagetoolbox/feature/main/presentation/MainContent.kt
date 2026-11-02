@@ -98,6 +98,7 @@ fun MainContent(
     val lastUsedTools by component.lastUsedTools.collectAsStateWithLifecycle()
 
     var sheetExpanded by rememberSaveable { mutableStateOf(false) }
+    var isReorderingFavorites by remember { mutableStateOf(false) }
 
     val drawerContent = remember(isSheetSlideable) {
         movableContentOf {
@@ -167,6 +168,8 @@ fun MainContent(
                 isUpdateAvailable = isUpdateAvailable,
                 onNavigate = component.onNavigate,
                 onToggleFavorite = component::toggleFavoriteScreen,
+                onReorderFavorites = component::reorderFavoriteScreens,
+                onReorderDragStateChange = { isReorderingFavorites = it },
                 lastUsedTools = lastUsedTools
             )
         }
@@ -187,6 +190,7 @@ fun MainContent(
                 ) {
                     ModalNavigationDrawer(
                         drawerState = sideSheetState,
+                        gesturesEnabled = !isReorderingFavorites,
                         drawerContent = drawerContent,
                         content = content
                     )

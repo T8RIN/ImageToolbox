@@ -24,9 +24,8 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.DragInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,16 +35,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
-import com.t8rin.imagetoolbox.core.resources.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.layout
@@ -61,12 +61,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.gigamole.composefadingedges.FadingEdgesGravity
-import com.t8rin.gesture.PointerRequisite
-import com.t8rin.gesture.detectPointerTransformGestures
-import com.t8rin.imagetoolbox.core.resources.icons.Lock
-import com.t8rin.imagetoolbox.core.resources.icons.LockOpen
+import com.t8rin.imagetoolbox.core.resources.Icons
+import com.t8rin.imagetoolbox.core.resources.icons.FitScreen
+import com.t8rin.imagetoolbox.core.resources.icons.PushPin
 import com.t8rin.imagetoolbox.core.settings.domain.model.SliderType
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
+import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSimpleSettingsInteractor
 import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.LocalScreenSize
@@ -77,16 +77,16 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.fadingEdges
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.tappable
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.snapBackZoomable
-import kotlin.math.abs
+import net.engawapg.lib.zoomable.zoomable
 
 
 fun LazyListScope.imageStickyHeader(
     visible: Boolean,
-    imageState: ImageHeaderState,
+    isBlocked: Boolean,
     internalHeight: Dp,
-    onStateChange: (ImageHeaderState) -> Unit,
     backgroundColor: Color = Color.Unspecified,
     padding: Dp = 20.dp,
     isControlsVisibleIndefinitely: Boolean = false,
@@ -95,16 +95,17 @@ fun LazyListScope.imageStickyHeader(
     imageBlock: @Composable () -> Unit,
 ) {
     val content = @Composable {
+        val settingsState = LocalSettingsState.current
+        val imageState = settingsState.imageHeaderState
+        val settingsInteractor = LocalSimpleSettingsInteractor.current
+        val scope = rememberCoroutineScope()
         var controlsVisible by rememberSaveable {
             mutableStateOf(true)
         }
-        val sliderInteractionSource = remember {
-            MutableInteractionSource()
-        }
-        val interactions by sliderInteractionSource.interactions.collectAsState(initial = null)
+        var isHeaderTouched by remember { mutableStateOf(false) }
 
-        LaunchedEffect(controlsVisible, interactions) {
-            if (controlsVisible && !(interactions is DragInteraction.Start || interactions is PressInteraction.Press)) {
+        LaunchedEffect(controlsVisible, isHeaderTouched, imageState) {
+            if (controlsVisible && !isHeaderTouched) {
                 delay(2500)
                 controlsVisible = isControlsVisibleIndefinitely
             }
@@ -127,6 +128,19 @@ fun LazyListScope.imageStickyHeader(
                         result.place(0, 0)
                     }
                 }
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        awaitFirstDown(requireUnconsumed = false)
+                        isHeaderTouched = true
+                        try {
+                            do {
+                                val event = awaitPointerEvent(PointerEventPass.Final)
+                            } while (event.changes.any { it.pressed })
+                        } finally {
+                            isHeaderTouched = false
+                        }
+                    }
+                }
                 .tappable(!isControlsVisibleIndefinitely) {
                     controlsVisible = true
                 }
@@ -137,7 +151,6 @@ fun LazyListScope.imageStickyHeader(
                 backgroundColor
             } else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
 
-            val settingsState = LocalSettingsState.current
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -165,33 +178,40 @@ fun LazyListScope.imageStickyHeader(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val zoomState = rememberZoomState()
+                var previousPosition by remember { mutableIntStateOf(imageState.position) }
+                LaunchedEffect(imageState.position, imageState.isZoomResetEnabled) {
+                    val shouldReset =
+                        imageState.isZoomResetEnabled || previousPosition != imageState.position
+                    previousPosition = imageState.position
+                    if (shouldReset && (zoomState.scale != 1f || zoomState.offsetX != 0f || zoomState.offsetY != 0f)) {
+                        zoomState.changeScale(
+                            targetScale = 1f,
+                            position = Offset.Zero
+                        )
+                    }
+                }
                 Box(
                     modifier = Modifier
                         .weight(1f, false)
                         .then(imageModifier)
+                        .pointerInput(Unit) {
+                            awaitEachGesture {
+                                awaitFirstDown(requireUnconsumed = false).consume()
+                            }
+                        }
                         .then(
-                            if (!isControlsVisibleIndefinitely) {
-                                Modifier.pointerInput(Unit) {
-                                    var touchPointerOffset = Offset.Zero
-                                    detectPointerTransformGestures(
-                                        consume = false,
-                                        onGestureEnd = {
-                                            val diff = touchPointerOffset - it.position
-                                            if (abs(diff.x) < 10f && abs(diff.y) < 10f) {
-                                                controlsVisible = true
-                                                it.consume()
-                                            }
-                                        },
-                                        requisite = PointerRequisite.EqualTo,
-                                        onGestureStart = {
-                                            touchPointerOffset = it.position
-                                        },
-                                        onGesture = { _, _, _, _, _, _ -> }
-                                    )
-                                }
-                            } else Modifier
+                            if (imageState.isZoomResetEnabled) {
+                                Modifier.snapBackZoomable(
+                                    zoomState = zoomState,
+                                    onTap = { controlsVisible = true }
+                                )
+                            } else {
+                                Modifier.zoomable(
+                                    zoomState = zoomState,
+                                    onTap = { controlsVisible = true }
+                                )
+                            }
                         )
-                        .snapBackZoomable(zoomState = zoomState)
                 ) {
                     imageBlock()
                 }
@@ -207,14 +227,17 @@ fun LazyListScope.imageStickyHeader(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         EnhancedSlider(
-                            interactionSource = sliderInteractionSource,
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(horizontal = 10.dp),
                             value = imageState.position.toFloat(),
                             onValueChange = {
                                 controlsVisible = true
-                                onStateChange(imageState.copy(position = it.toInt()))
+                                scope.launch {
+                                    settingsInteractor.setImageHeaderState(
+                                        imageState.copy(position = it.toInt())
+                                    )
+                                }
                             },
                             colors = SliderDefaults.colors(
                                 inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant(
@@ -233,7 +256,11 @@ fun LazyListScope.imageStickyHeader(
                         EnhancedIconButton(
                             onClick = {
                                 controlsVisible = true
-                                onStateChange(imageState.copy(isBlocked = !imageState.isBlocked))
+                                scope.launch {
+                                    settingsInteractor.setImageHeaderState(
+                                        imageState.copy(isBlocked = !imageState.isBlocked)
+                                    )
+                                }
                             },
                             containerColor = takeColorFromScheme {
                                 if (imageState.isBlocked) {
@@ -253,13 +280,51 @@ fun LazyListScope.imageStickyHeader(
                             AnimatedContent(targetState = imageState.isBlocked) { blocked ->
                                 if (blocked) {
                                     Icon(
-                                        imageVector = Icons.Rounded.Lock,
-                                        contentDescription = "Lock Image"
+                                        imageVector = Icons.Rounded.PushPin,
+                                        contentDescription = "Pin Image"
                                     )
                                 } else {
                                     Icon(
-                                        imageVector = Icons.Rounded.LockOpen,
-                                        contentDescription = "Unlock Image"
+                                        imageVector = Icons.Outlined.PushPin,
+                                        contentDescription = "Unpin Image"
+                                    )
+                                }
+                            }
+                        }
+                        EnhancedIconButton(
+                            onClick = {
+                                controlsVisible = true
+                                scope.launch {
+                                    settingsInteractor.setImageHeaderState(
+                                        imageState.copy(isZoomResetEnabled = !imageState.isZoomResetEnabled)
+                                    )
+                                }
+                            },
+                            containerColor = takeColorFromScheme {
+                                if (imageState.isZoomResetEnabled) {
+                                    secondary.copy(0.8f)
+                                } else {
+                                    surfaceVariant.copy(0.5f)
+                                }
+                            },
+                            contentColor = takeColorFromScheme {
+                                if (imageState.isZoomResetEnabled) {
+                                    onSecondary
+                                } else {
+                                    onSurfaceVariant
+                                }
+                            }
+                        ) {
+                            AnimatedContent(targetState = imageState.isZoomResetEnabled) { resetEnabled ->
+                                if (resetEnabled) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.FitScreen,
+                                        contentDescription = "reset zoom after touch"
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Outlined.FitScreen,
+                                        contentDescription = "keep zoom after touch"
                                     )
                                 }
                             }
@@ -270,7 +335,7 @@ fun LazyListScope.imageStickyHeader(
         }
     }
 
-    if (!imageState.isBlocked) {
+    if (!isBlocked) {
         item(
             key = "stickyHeader",
             contentType = "stickyHeader"

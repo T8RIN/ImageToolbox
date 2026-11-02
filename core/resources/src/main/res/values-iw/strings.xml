@@ -6369,7 +6369,7 @@
     <string name="help_tip_setting_show_favorite_as_last_step_1">הפעל הצג מועדף כאחרון כדי להעביר את לשונית המועדפים לסוף, או השבת אותה כדי למקם אותה ראשונה.</string>
     <string name="help_tip_setting_show_favorite_as_last_step_2">במצב מקובץ, הפעל תחילה מועדפים בכלים מקובצים; אחרת אין לשונית מועדפים להעביר.</string>
     <string name="help_tip_setting_presets_description">שינוי הגודל של קביעות מוגדרות מראש מאחסנות גדלים באחוזים שניתן לעשות בהם שימוש חוזר במקום להזין מידות לכל תמונה.</string>
-    <string name="help_tip_setting_presets_step_1">פתח את ההגדרות המוגדרות מראש כדי לערוך את הערכים הזמינים. ערך של 50 פירושו מחצית מהרוחב והגובה המקוריים; 125 מגדיל אותם ל-125%.</string>
+    <string name="help_tip_setting_presets_step_1" formatted="false">פתח את ההגדרות המוגדרות מראש כדי לערוך את הערכים הזמינים. ערך של 50 פירושו מחצית מהרוחב והגובה המקוריים; 125 מגדיל אותם ל-125%.</string>
     <string name="help_tip_setting_presets_step_2">בחר הגדרה מראש בכלי שינוי גודל תואם ובדוק את הממדים המתקבלים לפני השמירה.</string>
     <string name="help_tip_setting_default_quality_description">איכות ברירת המחדל מאתחלת את בקרות הדחיסה ותלויה בפורמט הפלט שנבחר.</string>
     <string name="help_tip_setting_default_quality_step_1">בחר תחילה בפורמט תמונה ברירת מחדל, ולאחר מכן התאם את בקרות האיכות המוצגות עבור פורמט זה.</string>
@@ -7240,7 +7240,7 @@
     <string name="help_tip_ai_detection_subtitle">השווה הערכות גלאים מבלי להתייחס אליהן כהוכחה</string>
     <string name="help_tip_ai_detection_description">גלאי AI מעריכים עד כמה תמונה דומה לדוגמאות האימון שלהם של תמונות שנוצרו או אמיתיות. התוצאה אינה הוכחה למחבר או היסטוריית עריכה. ניתן לסמן תמונה אמיתית כ-AI, וניתן לפספס תמונה שנוצרה.</string>
     <string name="help_tip_ai_detection_step_1">בחר דגם של זיהוי בינה מלאכותית, בחר את התמונות והפעל את הבדיקה. מצב זה מחזיר הערכות במקום תמונות ערוכות.</string>
-    <string name="help_tip_ai_detection_step_2">קרא את הציון יחד עם פסק הדין: 70% ומעלה הוא סביר AI, 30% ומטה הוא סביר אנושי, וטווח הביניים אינו ודאי.</string>
+    <string name="help_tip_ai_detection_step_2" formatted="false">קרא את הציון יחד עם פסק הדין: 70% ומעלה הוא סביר AI, 30% ומטה הוא סביר אנושי, וטווח הביניים אינו ודאי.</string>
     <string name="help_tip_ai_detection_step_3">השווה גלאי אחר כאשר התוצאה חשובה. דחיסה, שינוי גודל וצילומי מסך יכולים לשנות את ההערכה שלו; השתמש בקובץ המקורי במידת האפשר.</string>
     <string name="help_tip_ai_detection_page_2_title">דגמי גלאים ודיוק</string>
     <string name="help_tip_ai_detection_page_2_description">הקטלוג כולל את Mirage SigLIP2, LPX SwinV2, ConvNeXT Tiny, ResNet-50, AI vs Deepfake vs Real, CapCheck, Deep Fake Detector V2, AI Image Detect Distilled, Community Forensics ו-SMOGY. הם משתמשים בנתוני אימון שונים ויכולים לא להסכים.</string>
@@ -7518,4 +7518,26 @@
     <string name="help_tip_partial_blur_step_3">בדוק את התוצאה בגודל מלא ושמור עותק נפרד. השתמש במברשת אטומה עבור טקסט או מספרים שחייבים להיות בלתי קריאים.</string>
     <string name="opaque_image_viewer_background">רקע מציג תמונות אטום</string>
     <string name="opaque_image_viewer_background_sub">השתמש ברקע שחור מוצק בעת צפייה בתמונות</string>
+    <string name="assistant_export_formats_fact">פורמטים נתמכים של ייצוא תמונות</string>
+    <string name="assistant_alpha_formats_fact">פורמטים של תמונה השומרים על שקיפות</string>
+    <string name="assistant_preparing_model">מכין את המודל…</string>
+    <string name="assistant_reading_image">קורא את התמונה…</string>
+    <string name="assistant_interpreting">מבינים את הבקשה…</string>
+    <string name="assistant_finding_help">מחפש תיעוד…</string>
+    <string name="assistant_finding_photos">מחפש תמונות…</string>
+    <string name="assistant_file_size_already_fits">הקובץ הוא %1$s בתים וכבר מתאים למגבלה %2$s (%3$s בתים). דחיסה מיותרת.</string>
+    <string name="assistant_clarification">מה היית רוצה לשנות או לגלות? אנא הוסף תמונה, שם כלי או ההקשר של המונח.</string>
+    <string name="assistant_capabilities">- אני מסביר שינוי גודל, חיתוך, המרה והגדרות.\n- אני עונה על שאלות כלליות.\n- אני מחפש תמונות לפי תוכן ומסננים.</string>
+    <string name="assistant_capabilities_text">- ניתוח תמונה דורש Vision.</string>
+    <string name="assistant_capabilities_vision">- אני יכול לנתח תמונה אחת מצורפת.</string>
+    <string name="help_tip_setting_opaque_viewer_step_1">פתח את הגדרות ← פריסה והפעל או כבה את האפשרות „רקע מציג תמונות אטום“.</string>
+    <string name="help_tip_setting_opaque_viewer_step_2">פתח תמונה והשווה בין רקע שחור אחיד לרקע המעומעם של האפליקציה. השינוי משפיע רק על מציג התמונות, ולא על התמונה השמורה או על השקיפות שלה.</string>
+    <string name="backup_settings_sub">רק הגדרות והגדרות קבועות מראש של האפליקציה</string>
+    <string name="full_backup">גיבוי מלא</string>
+    <string name="full_backup_sub">הגדרות, מודלים שהורדו ונתונים נוספים של האפליקציה. גודל הקובץ עשוי להגיע לכמה ג\'יגה-בייט.</string>
+    <string name="backup_creating">יצירת גיבוי</string>
+    <string name="backup_restoring">משחזר גיבוי</string>
+    <string name="backup_progress_bytes">%1$s מתוך %2$s</string>
+    <string name="remember_image_header_state">שמירת פריסת התצוגה המקדימה</string>
+    <string name="remember_image_header_state_sub">שמירת גובה התצוגה המקדימה ומצב ההצמדה שלה במעבר בין כלים. כשהאפשרות מושבתת, כל כלי נפתח עם פריסת ברירת המחדל.</string>
 </resources>

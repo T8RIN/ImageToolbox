@@ -24,11 +24,11 @@ import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.PreferencesSerializer
 import androidx.datastore.preferences.core.edit
 import com.t8rin.imagetoolbox.core.data.utils.isInstalledFromPlayStore
 import com.t8rin.imagetoolbox.core.data.utils.outputStream
 import com.t8rin.imagetoolbox.core.domain.BACKUP_FILE_EXT
-import com.t8rin.imagetoolbox.core.domain.GLOBAL_STORAGE_NAME
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.image.ShareProvider
@@ -44,9 +44,13 @@ import com.t8rin.imagetoolbox.core.domain.model.GradientPalette
 import com.t8rin.imagetoolbox.core.domain.model.HashingType
 import com.t8rin.imagetoolbox.core.domain.model.PerformanceClass
 import com.t8rin.imagetoolbox.core.domain.model.SystemBarsVisibility
+import com.t8rin.imagetoolbox.core.domain.saving.io.Writeable
 import com.t8rin.imagetoolbox.core.domain.utils.ListUtils.toggle
+import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
+import com.t8rin.imagetoolbox.core.settings.domain.model.BackupProgress
 import com.t8rin.imagetoolbox.core.settings.domain.model.CacheAutoClearInterval
 import com.t8rin.imagetoolbox.core.settings.domain.model.ColorHarmonizer
 import com.t8rin.imagetoolbox.core.settings.domain.model.CopyToClipboardMode
@@ -55,6 +59,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.DomainFontFamily
 import com.t8rin.imagetoolbox.core.settings.domain.model.FastSettingsSide
 import com.t8rin.imagetoolbox.core.settings.domain.model.FilenameBehavior
 import com.t8rin.imagetoolbox.core.settings.domain.model.FlingType
+import com.t8rin.imagetoolbox.core.settings.domain.model.ImageHeaderState
 import com.t8rin.imagetoolbox.core.settings.domain.model.MarkupLayerTextDefaults
 import com.t8rin.imagetoolbox.core.settings.domain.model.NightMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.OneTimeSaveLocation
@@ -70,6 +75,7 @@ import com.t8rin.imagetoolbox.core.settings.domain.model.SnowfallMode
 import com.t8rin.imagetoolbox.core.settings.domain.model.SwitchType
 import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.createZip
+import com.t8rin.imagetoolbox.core.utils.fileSize
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.core.utils.putEntry
@@ -153,6 +159,9 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.GROUP_OPTIONS_BY_TYPE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HELP_TIPS_BUTTON_HINT_DISMISSED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.HIDDEN_FOR_SHARE_SCREENS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.ICON_SHAPE
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_BLOCKED
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_POSITION
+import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_HEADER_ZOOM_RESET_ENABLED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_PICKER_MODE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_COLOR_SPACE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.IMAGE_SCALE_MODE
@@ -198,6 +207,7 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_RED
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RAW_WHITE_BALANCE_SECOND_GREEN
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_COLORS
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RECENT_GRADIENTS
+import com.t8rin.imagetoolbox.feature.settings.data.keys.REMEMBER_IMAGE_HEADER_STATE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.RETURN_TO_EXTERNAL_APP_AFTER_SAVE
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_FOLDER_URI
 import com.t8rin.imagetoolbox.feature.settings.data.keys.SAVE_TO_ORIGINAL_FOLDER
@@ -242,14 +252,16 @@ import com.t8rin.imagetoolbox.feature.settings.data.keys.toSettingsState
 import dagger.Lazy
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayInputStream
+import okio.buffer
+import okio.source
 import java.io.File
 import java.io.FileInputStream
 import javax.inject.Inject
@@ -350,10 +362,24 @@ internal class AndroidSettingsManager @Inject constructor(
 
     override suspend fun getSettingsState(): SettingsState = rawFlow().first()
 
-    private fun rawFlow(): Flow<SettingsState> = dataStore.data.map {
-        it.toSettingsState(
+    private val temporaryImageHeaderState = MutableStateFlow<ImageHeaderState?>(null)
+
+    private fun rawFlow(): Flow<SettingsState> = combine(
+        dataStore.data,
+        temporaryImageHeaderState
+    ) { preferences, imageState ->
+        val settings = preferences.toSettingsState(
             default = default,
             jsonParser = jsonParser
+        )
+        if (settings.rememberImageHeaderState) settings
+        else settings.copy(
+            imageHeaderState = settings.imageHeaderState.copy(
+                position = imageState?.position ?: if (settings.generatePreviews) {
+                    default.imageHeaderState.position
+                } else 0,
+                isBlocked = imageState?.isBlocked ?: default.imageHeaderState.isBlocked
+            )
         )
     }
 
@@ -534,29 +560,74 @@ internal class AndroidSettingsManager @Inject constructor(
         behavior = FilenameBehavior.Random()
     )
 
-    override suspend fun createBackupFile(): ByteArray =
-        context.obtainDatastoreData(GLOBAL_STORAGE_NAME)
+    override suspend fun createBackupFile(
+        writeable: Writeable,
+        fullBackup: Boolean,
+        onProgress: (BackupProgress) -> Unit
+    ) = withContext(ioDispatcher) {
+        dataStore.data.first()
+        SettingsBackup.write(
+            filesDir = context.filesDir,
+            output = writeable.outputStream(),
+            fullBackup = fullBackup,
+            onProgress = onProgress
+        )
+    }
+
+    override suspend fun getFullBackupSize(): Long = withContext(ioDispatcher) {
+        SettingsBackup.size(context.filesDir)
+    }
 
     override suspend fun restoreFromBackupFile(
         backupFileUri: String,
         onSuccess: () -> Unit,
         onFailure: (Throwable) -> Unit,
-    ) = withContext(ioDispatcher) {
-        context.restoreDatastore(
-            fileName = GLOBAL_STORAGE_NAME,
-            backupUri = backupFileUri.toUri(),
-            onFailure = onFailure,
-            onSuccess = {
-                onSuccess()
-                setSaveFolderUri(null)
+        onProgress: (BackupProgress) -> Unit,
+    ) {
+        runSuspendCatching {
+            withContext(ioDispatcher) {
+                val directory = File.createTempFile("backup_restore_", null, context.cacheDir)
+                check(directory.delete() && directory.mkdirs())
+                try {
+                    val settingsFile = checkNotNull(
+                        context.contentResolver.openInputStream(backupFileUri.toUri())
+                    ).use {
+                        SettingsBackup.read(
+                            input = it,
+                            directory = directory,
+                            totalBytes = backupFileUri.toUri().fileSize()
+                                ?.takeIf { size -> size >= 0 },
+                            onProgress = onProgress
+                        )
+                    }
+                    val preferences = runSuspendCatching {
+                        settingsFile.inputStream().source().buffer().use {
+                            PreferencesSerializer.readFrom(it)
+                        }
+                    }.getOrElse {
+                        throw IllegalArgumentException(
+                            context.getString(R.string.corrupted_file_or_not_a_backup),
+                            it
+                        )
+                    }
+                    SettingsBackup.restoreFiles(
+                        directory = directory,
+                        filesDir = context.filesDir
+                    )
+                    dataStore.updateData {
+                        preferences.toMutablePreferences().apply {
+                            this[SAVE_FOLDER_URI] = ""
+                        }
+                    }
+                } finally {
+                    directory.deleteRecursively()
+                }
             }
-        )
-        toggleClearCacheOnLaunch()
-        toggleClearCacheOnLaunch()
+        }.onFailure(onFailure).onSuccess { onSuccess() }
     }
 
     override suspend fun resetSettings() = withContext(defaultDispatcher) {
-        context.resetDatastore(GLOBAL_STORAGE_NAME)
+        SettingsBackup.reset(context.filesDir)
         registerAppOpen()
     }
 
@@ -738,7 +809,7 @@ internal class AndroidSettingsManager @Inject constructor(
         "Start Logs Export".makeLog("SettingsManager")
 
         val logsFile = Logger.getLogsFile().toFile()
-        val settingsFile = createBackupFile()
+        val settingsFile = SettingsBackup.settingsFile(context.filesDir)
 
         shareProvider.get().cacheData(
             writeData = { writeable ->
@@ -749,7 +820,7 @@ internal class AndroidSettingsManager @Inject constructor(
                     )
                     zip.putEntry(
                         name = createBackupFilename(),
-                        input = ByteArrayInputStream(settingsFile)
+                        input = settingsFile.inputStream()
                     )
                 }
             },
@@ -832,6 +903,25 @@ internal class AndroidSettingsManager @Inject constructor(
     override suspend fun setConfettiHarmonizationLevel(level: Float) = edit {
         it[CONFETTI_HARMONIZATION_LEVEL] = level
     }
+
+    override suspend fun setImageHeaderState(state: ImageHeaderState) = edit {
+        if (it[REMEMBER_IMAGE_HEADER_STATE] ?: default.rememberImageHeaderState) {
+            it[IMAGE_HEADER_POSITION] = state.position.coerceIn(0, 4)
+            it[IMAGE_HEADER_BLOCKED] = state.isBlocked
+        } else {
+            temporaryImageHeaderState.value = state
+        }
+        it[IMAGE_HEADER_ZOOM_RESET_ENABLED] = state.isZoomResetEnabled
+    }
+
+    override fun resetImageHeaderState() {
+        temporaryImageHeaderState.value = null
+    }
+
+    override suspend fun toggleRememberImageHeaderState() = toggle(
+        key = REMEMBER_IMAGE_HEADER_STATE,
+        defaultValue = default.rememberImageHeaderState
+    )
 
     override suspend fun toggleGeneratePreviews() = toggle(
         key = GENERATE_PREVIEWS,

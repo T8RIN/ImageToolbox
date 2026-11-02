@@ -812,16 +812,6 @@ internal class OptimizationStyleTransferProcessor @Inject constructor(
                 name = "vgg19_weights.bin",
                 size = 51_779_840L,
                 checksum = "4ab1c9682b08a6c52c0c043020a710debec2c6257641b3db95081c365897341e"
-            ),
-            ModelFile(
-                name = "NEURAL_STYLE_TRANSFER_LICENSE.txt",
-                size = 1_068L,
-                checksum = "9aa9ce866af978993a88052e7e3fa6822433239a92fe85428345b889bfe53ca1"
-            ),
-            ModelFile(
-                name = "TORCHVISION_LICENSE.txt",
-                size = 1_517L,
-                checksum = "6502f676851cfe25f8af75531dfb32375b7325b73c37e7b43741fa422893e71d"
             )
         )
 
