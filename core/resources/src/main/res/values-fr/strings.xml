@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources>
+  --><resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -5880,7 +5879,7 @@
     <string name="help_tip_exif_removal_title">Supprimer les métadonnées de l\'image par lots</string>
     <string name="help_tip_exif_removal_subtitle">Nettoyer les informations de l\'image intégrée et vérifier les copies exportées</string>
     <string name="help_tip_exif_removal_page_title">Le nettoyage des métadonnées et ses limites</string>
-    <string name="help_tip_exif_removal_description">Supprimer EXIF est destiné à supprimer les métadonnées intégrées des images sélectionnées. Le nettoyage des métadonnées est différent du masquage des informations visibles : un visage, une adresse, une étiquette de capture d\'écran ou un nom de fichier peuvent toujours révéler des détails.</string>
+    <string name="help_tip_exif_removal_description">Supprimer EXIF est destiné à supprimer les métadonnées intégrées des images sélectionnées. Le nettoyage des métadonnées est différent du masquage des informations visibles : un visage, une adresse, une étiquette de capture d\'écran ou un nom de fichier peuvent toujours révéler des détails.</string>
     <string name="help_tip_exif_removal_step_1">Sélectionnez les images à nettoyer et examinez le lot avant de l\'enregistrer. Utilisez Modifier EXIF lorsque vous devez plutôt inspecter ou modifier des champs particuliers.</string>
     <string name="help_tip_exif_removal_step_2">Enregistrez des copies nettoyées et inspectez un fichier exporté dans la visionneuse de métadonnées. Les métadonnées prises en charge et le comportement des conteneurs diffèrent selon les formats.</string>
     <string name="help_tip_exif_removal_step_3">Vérifiez les noms de fichiers et le contenu visible séparément. N\'écrasez pas le seul original si vous pourriez avoir besoin des informations relatives à l\'appareil photo ultérieurement.</string>
@@ -6055,7 +6054,7 @@
     <string name="help_tip_pdf_annotation_cleanup_step_2">Sélectionnez les types d\'annotations à supprimer. Au moins un type doit être sélectionné pour enregistrer.</string>
     <string name="help_tip_pdf_annotation_cleanup_step_3">Vérifiez l\'aperçu et enregistrez une copie. Vérifiez les liens ou les champs de formulaire que vous aviez l\'intention de conserver dans le document enregistré.</string>
     <string name="help_tip_metadata_editing_subtitle">Inspecter, modifier ou supprimer des balises de métadonnées individuelles</string>
-    <string name="help_tip_metadata_editing_description">Modifier EXIF ouvre les métadonnées de l\'image sélectionnée pour des modifications individuelles. L\'édition est disponible uniquement lorsque le format d\'image prend en charge l\'écriture de métadonnées ; l\'écran affiche un avertissement pour les formats non pris en charge.</string>
+    <string name="help_tip_metadata_editing_description">Modifier EXIF ouvre les métadonnées de l\'image sélectionnée pour des modifications individuelles. L\'édition est disponible uniquement lorsque le format d\'image prend en charge l\'écriture de métadonnées ; l\'écran affiche un avertissement pour les formats non pris en charge.</string>
     <string name="help_tip_metadata_editing_step_1">Sélectionnez une image et ouvrez Modifier EXIF pour afficher ses balises.</string>
     <string name="help_tip_metadata_editing_step_2">Mettez à jour ou supprimez des balises individuelles dans la feuille de métadonnées. Effacez toutes les métadonnées uniquement si vous avez l\'intention de supprimer toutes les balises.</string>
     <string name="help_tip_metadata_editing_step_3">Fermez la feuille et enregistrez le résultat. Rouvrez l\'image enregistrée pour vérifier les balises que vous avez modifiées.</string>
@@ -7131,7 +7130,7 @@
     <string name="filter_help_vhs">Ajoute une distorsion de style vidéo analogique et un désalignement des couleurs pour une apparence VHS. La force contrôle la perturbation et la graine sélectionne une phase gelée différente du motif ; le filtre produit une image fixe.</string>
     <string name="filter_help_vhs_ntsc">Simule les dommages causés aux signaux NTSC et VHS, y compris les saignements de couleur, les défauts de suivi, l\'usure de la bande, le bruit et les sonneries sur les bords. Commencez par les contrôles de quantité et de défauts principaux, puis ajustez les paramètres détaillés du signal ; le montant zéro contourne l’effet.</string>
     <string name="filter_help_vibrance">Modifie la vivacité des couleurs avec un réglage de la vibrance. Ajustez la force tout en comparant les zones sourdes et déjà colorées ; il s\'agit d\'une correction globale plutôt que d\'un remplacement de couleur sélectionnée.</string>
-    <string name="filter_help_vignette">Estompe les bords vers une couleur sélectionnée pour attirer l\'attention sur le centre. Contrôle de début et de fin où commence et se termine le fondu ; choisissez le noir pour les coins sombres.</string>
+    <string name="filter_help_vignette">Estompe les bords vers une couleur sélectionnée pour attirer l\'attention sur le centre. Contrôle de début et de fin où commence et se termine le fondu ; choisissez le noir pour les coins sombres.</string>
     <string name="filter_help_vintage">Assombrit et atténue les canaux de couleur pour une palette vintage délavée.</string>
     <string name="filter_help_viridis">Mappe la luminosité de l’image du violet foncé au bleu-vert en passant par le jaune. Cette palette de fausses couleurs remplace les couleurs d\'origine ; utile pour rendre visibles les différences de tons ou créer un effet graphique.</string>
     <string name="filter_help_voronoi_crystallize">Crée une mosaïque de cristal de style Voronoï. L\'échelle, le caractère aléatoire et la forme de la grille contrôlent les cellules ; les frontières, l\'étirement, l\'angle et la turbulence changent leur géométrie et leur séparation.</string>
