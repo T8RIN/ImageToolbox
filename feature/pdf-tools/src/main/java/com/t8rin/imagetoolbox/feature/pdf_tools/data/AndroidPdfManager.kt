@@ -1111,6 +1111,7 @@ internal class AndroidPdfManager @Inject constructor(
 
                 output.outputStream().createZip { zip ->
                     for (xObject in document.getAllImages()) {
+                        if (xObject.width <= 0 || xObject.height <= 0) continue
                         if (!seen.add(xObject.cosObject)) continue
 
                         val suffix = xObject.suffix?.lowercase() ?: "png"

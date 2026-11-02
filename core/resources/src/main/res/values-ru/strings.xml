@@ -19,6 +19,7 @@
     <string name="smth_went_wrong">Что-то пошло не так: %1$s</string>
     <string name="size">Размер %1$s</string>
     <string name="loading">Загрузка…</string>
+    <string name="media_picker_selection_too_large">Выбрано слишком много файлов. Выберите меньше файлов и попробуйте снова.</string>
     <string name="image_too_large_preview">Изображение слишком большое для предпросмотра, но мы постараемся сохранить его в любом случае</string>
     <string name="pick_image">Выберите изображение, чтобы начать</string>
     <string name="width">Ширина %1$s</string>

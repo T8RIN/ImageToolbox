@@ -105,7 +105,7 @@ fun ImageReorderCarousel(
     title: String = stringResource(R.string.images_order),
     minimumImageCount: Int = 2
 ) {
-    val data = remember { mutableStateOf(images ?: emptyList()) }
+    val data = remember { mutableStateOf(images.orEmpty().withReorderKeys()) }
 
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
@@ -122,8 +122,8 @@ fun ImageReorderCarousel(
     )
 
     LaunchedEffect(images) {
-        if (data.value != images.orEmpty()) {
-            data.value = images ?: emptyList()
+        if (data.value.map(ReorderableUri::uri) != images.orEmpty()) {
+            data.value = images.orEmpty().withReorderKeys(data.value)
             listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
         }
     }
@@ -177,7 +177,7 @@ fun ImageReorderCarousel(
                             )
 
                         withContext(Dispatchers.Main.immediate) {
-                            data.value = newValue
+                            data.value = newValue.withReorderKeys(data.value)
                             onReorder(newValue)
                         }
                     }
@@ -197,11 +197,12 @@ fun ImageReorderCarousel(
             ) {
                 itemsIndexed(
                     items = data.value,
-                    key = { _, uri -> uri.toString() + uri.hashCode() }
-                ) { index, uri ->
+                    key = { _, item -> item.key }
+                ) { index, item ->
+                    val uri = item.uri
                     ReorderableItem(
                         state = state,
-                        key = uri.toString() + uri.hashCode()
+                        key = item.key
                     ) { isDragging ->
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
                         val shape = animateShape(
@@ -232,7 +233,7 @@ fun ImageReorderCarousel(
                                             haptics.longPress()
                                         },
                                         onDragStopped = {
-                                            onReorder(data.value)
+                                            onReorder(data.value.map(ReorderableUri::uri))
                                         }
                                     )
                             ) {
@@ -321,7 +322,7 @@ fun ImageReorderCarousel(
                                             data.value = data.value.toMutableList().apply {
                                                 add(0, removeAt(index))
                                             }
-                                            onReorder(data.value)
+                                            onReorder(data.value.map(ReorderableUri::uri))
                                             scope.launch { listState.animateScrollToItem(0) }
                                         },
                                         onMoveToEnd = {
@@ -329,7 +330,7 @@ fun ImageReorderCarousel(
                                             data.value = data.value.toMutableList().apply {
                                                 add(removeAt(index))
                                             }
-                                            onReorder(data.value)
+                                            onReorder(data.value.map(ReorderableUri::uri))
                                             scope.launch {
                                                 listState.animateScrollToItem(targetIndex)
                                             }

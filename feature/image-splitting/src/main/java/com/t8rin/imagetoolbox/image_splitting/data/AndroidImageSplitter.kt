@@ -92,7 +92,7 @@ internal class AndroidImageSplitter @Inject constructor(
         val uris = mutableListOf<Deferred<List<String>>>()
 
         var currentY = 0
-        for (row in 0 until rowsCount) {
+        for (row in rowHeights.indices) {
             val height = rowHeights[row]
             val rowBitmap = Bitmap.createBitmap(image, 0, currentY, image.width, height)
 
@@ -123,7 +123,7 @@ internal class AndroidImageSplitter @Inject constructor(
         val uris = mutableListOf<String?>()
 
         var currentY = 0
-        for (i in 0 until count) {
+        for (i in rowHeights.indices) {
             val height = rowHeights[i]
             val cell = Bitmap.createBitmap(image, 0, currentY, image.width, height)
 
@@ -155,7 +155,7 @@ internal class AndroidImageSplitter @Inject constructor(
         val uris = mutableListOf<String?>()
 
         var currentX = 0
-        for (i in 0 until count) {
+        for (i in columnWidths.indices) {
             val width = columnWidths[i]
             val cell = Bitmap.createBitmap(image, currentX, 0, width, image.height)
 
@@ -180,6 +180,7 @@ internal class AndroidImageSplitter @Inject constructor(
         percentages: List<Float>,
         count: Int
     ): List<Int> {
+        val count = count.coerceIn(1, totalSize)
         if (percentages.isEmpty()) {
             val partSize = totalSize / count
             return List(count) { index ->
@@ -205,15 +206,16 @@ internal class AndroidImageSplitter @Inject constructor(
         val totalPercentage = normalizedPercentages.sum()
         val normalized = normalizedPercentages.map { it / totalPercentage }
 
-        return normalized.map { percentage ->
-            (totalSize * percentage).toInt()
-        }.let { sizes ->
-            val calculatedTotal = sizes.sum()
-            if (calculatedTotal != totalSize) {
-                sizes.dropLast(1) + (totalSize - sizes.dropLast(1).sum())
+        var remainingSize = totalSize
+        return normalized.mapIndexed { index, percentage ->
+            val remainingParts = count - index - 1
+            val size = if (remainingParts == 0) {
+                remainingSize
             } else {
-                sizes
+                (totalSize * percentage).toInt().coerceIn(1, remainingSize - remainingParts)
             }
+            remainingSize -= size
+            size
         }
     }
 

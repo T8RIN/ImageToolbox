@@ -21,6 +21,7 @@
     <string name="smth_went_wrong">Something went wrong: %1$s</string>
     <string name="size">Size %1$s</string>
     <string name="loading">Loading…</string>
+    <string name="media_picker_selection_too_large">Too many files selected. Select fewer files and try again.</string>
     <string name="image_too_large_preview">Image is too large to preview, but saving will be attempted anyway</string>
     <string name="pick_image">Pick image to start</string>
     <string name="width">Width %1$s</string>

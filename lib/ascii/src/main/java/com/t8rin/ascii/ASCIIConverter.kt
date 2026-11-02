@@ -47,6 +47,7 @@ class ASCIIConverter(
     private val mapper: AsciiMapper = AsciiMapper()
 ) {
     private var columns: Int = 0
+    private var effectiveFontSize = fontSize
 
     suspend fun convertToAscii(
         bitmap: Bitmap,
@@ -84,8 +85,8 @@ class ASCIIConverter(
 
                     drawText(
                         luma?.let(mapper::mapToAscii) ?: " ",
-                        row * fontSize,
-                        col * fontSize,
+                        row * effectiveFontSize,
+                        col * effectiveFontSize,
                         paint
                     )
                 }
@@ -115,7 +116,7 @@ class ASCIIConverter(
         action(
             Paint().apply {
                 setTypeface(typeface)
-                textSize = fontSize
+                textSize = effectiveFontSize
             }
         )
     }
@@ -129,12 +130,10 @@ class ASCIIConverter(
     }
 
     private fun checkColumns(bitmap: Bitmap) {
-        columns = bitmap.toColumns()
-        require(columns >= 5) { "Columns count is very small. Font size needs to be reduced" }
+        effectiveFontSize = (fontSize.takeIf { it.isFinite() && it > 0 } ?: 18f)
+            .coerceAtMost(bitmap.width / 5f)
+        columns = (bitmap.width / effectiveFontSize).roundToInt().coerceAtLeast(1)
     }
-
-    private fun Bitmap.toColumns(): Int =
-        if (columns < 5) (width / fontSize).roundToInt() else columns
 
     private fun Bitmap.toGrid(): Grid {
         require(width > 0 && height > 0) { "Width and height must be positive values." }
@@ -155,7 +154,7 @@ class ASCIIConverter(
 
         return copy(Bitmap.Config.ARGB_8888, false).scale(
             width = scaleFactor,
-            height = (ratio * height).toInt()
+            height = (ratio * height).toInt().coerceAtLeast(1)
         )
     }
 

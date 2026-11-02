@@ -94,7 +94,7 @@ object AutoStraighten : OpenCV() {
         val angles = mutableListOf<Double>()
         for (i in 0 until lines.rows()) {
             ensureActive()
-            val l = lines.get(i, 0)
+            val l = lines.get(i, 0)?.takeIf { it.size >= 4 } ?: continue
             val x1 = l[0]
             val y1 = l[1]
             val x2 = l[2]

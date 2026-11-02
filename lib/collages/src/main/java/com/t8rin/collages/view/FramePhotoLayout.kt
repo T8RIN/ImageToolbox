@@ -413,7 +413,11 @@ internal class FramePhotoLayout(
         return imageView
     }
 
+    internal val hasValidDimensions: Boolean
+        get() = mViewWidth > 0 && mViewHeight > 0
+
     suspend fun outputDimensions(outputScaleRatio: Float): Pair<Int, Int> {
+        if (!hasValidDimensions) return 0 to 0
         val sourceMaxDimension = mItemImageViews.maxOfOrNull { view ->
             view.photoItem.imagePath?.let { uri ->
                 sourceDimensions[uri] ?: ImageDecoder.sourceMaxDimension(context, uri)
@@ -433,7 +437,8 @@ internal class FramePhotoLayout(
             min(sourceScale, maxScale) * outputScaleRatio,
             maxScale
         ).toFloat().coerceAtLeast(1f / viewMaxDimension)
-        return (outputScale * mViewWidth).toInt() to (outputScale * mViewHeight).toInt()
+        return (outputScale * mViewWidth).toInt().coerceAtLeast(1) to
+                (outputScale * mViewHeight).toInt().coerceAtLeast(1)
     }
 
     @Throws(OutOfMemoryError::class)

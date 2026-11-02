@@ -120,7 +120,7 @@ internal class AndroidImageCombiner @Inject constructor(
                 val halfSpace = fullSpace / 2
                 val strength = combiningParams.fadeStrength
 
-                for (i in imagesUris.indices) {
+                for (i in images.indices) {
                     var bmp = images[i]
 
                     imageSpacing.takeIf { it < 0 && combiningParams.fadingEdgesMode != StitchFadeSide.None }
@@ -143,7 +143,7 @@ internal class AndroidImageCombiner @Inject constructor(
 
                                 StitchFadeSide.End -> {
                                     when (i) {
-                                        imagesUris.lastIndex -> emptyList()
+                                        images.lastIndex -> emptyList()
                                         else -> listOf(
                                             createFilter<SideFadeParams, Filter.SideFade>(
                                                 SideFadeParams.Absolute(
@@ -168,7 +168,7 @@ internal class AndroidImageCombiner @Inject constructor(
                                             )
                                         )
 
-                                        imagesUris.lastIndex -> listOf(
+                                        images.lastIndex -> listOf(
                                             createFilter<SideFadeParams, Filter.SideFade>(
                                                 SideFadeParams.Absolute(
                                                     side = if (isHorizontal) FadeSide.Start else FadeSide.Top,

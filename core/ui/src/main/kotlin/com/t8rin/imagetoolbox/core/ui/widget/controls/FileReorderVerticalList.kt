@@ -116,7 +116,7 @@ fun FileReorderVerticalList(
     title: String = stringResource(R.string.files_order),
     coerceHeight: Boolean = true
 ) {
-    val data = remember { mutableStateOf(files ?: emptyList()) }
+    val data = remember { mutableStateOf(files.orEmpty().withReorderKeys()) }
 
     val haptics = LocalHapticFeedback.current
     val listState = rememberLazyListState()
@@ -133,8 +133,8 @@ fun FileReorderVerticalList(
     )
 
     LaunchedEffect(files) {
-        if (data.value.sorted() != files?.sorted()) {
-            data.value = files ?: emptyList()
+        if (data.value.map(ReorderableUri::uri).sorted() != files.orEmpty().sorted()) {
+            data.value = files.orEmpty().withReorderKeys(data.value)
             listState.animateScrollToItem(data.value.lastIndex.coerceAtLeast(0))
         }
     }
@@ -201,7 +201,7 @@ fun FileReorderVerticalList(
                             )
 
                         withContext(Dispatchers.Main.immediate) {
-                            data.value = newValue
+                            data.value = newValue.withReorderKeys(data.value)
                             onReorder(newValue)
                         }
                     }
@@ -226,11 +226,12 @@ fun FileReorderVerticalList(
             ) {
                 itemsIndexed(
                     items = data.value,
-                    key = { _, uri -> uri.toString() + uri.hashCode() }
-                ) { index, uri ->
+                    key = { _, item -> item.key }
+                ) { index, item ->
+                    val uri = item.uri
                     ReorderableItem(
                         state = state,
-                        key = uri.toString() + uri.hashCode(),
+                        key = item.key,
                     ) { isDragging ->
                         val alpha by animateFloatAsState(if (isDragging) 0.3f else 0.6f)
 
@@ -253,7 +254,7 @@ fun FileReorderVerticalList(
                                         haptics.longPress()
                                     },
                                     onDragStopped = {
-                                        onReorder(data.value)
+                                        onReorder(data.value.map(ReorderableUri::uri))
                                     }
                                 )
                         ) {
@@ -322,7 +323,7 @@ fun FileReorderVerticalList(
                                     data.value = data.value.toMutableList().apply {
                                         add(0, removeAt(index))
                                     }
-                                    onReorder(data.value)
+                                    onReorder(data.value.map(ReorderableUri::uri))
                                     scope.launch { listState.animateScrollToItem(0) }
                                 },
                                 onMoveToEnd = {
@@ -330,7 +331,7 @@ fun FileReorderVerticalList(
                                     data.value = data.value.toMutableList().apply {
                                         add(removeAt(index))
                                     }
-                                    onReorder(data.value)
+                                    onReorder(data.value.map(ReorderableUri::uri))
                                     scope.launch { listState.animateScrollToItem(targetIndex) }
                                 }
                             )

@@ -31,6 +31,7 @@ import com.t8rin.imagetoolbox.core.data.saving.io.StreamWriteable
 import com.t8rin.imagetoolbox.core.domain.saving.model.ImageSaveTarget
 import com.t8rin.imagetoolbox.core.domain.saving.model.SaveTarget
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.UriReplacements
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
@@ -270,7 +271,10 @@ internal data class SavingFolder private constructor(
                     runCatching {
                         contentResolver.insert(uri, contentValues)
                     }.onFailure {
-                        it.makeLog("createViaMediaStore")
+                        it.makeLog(
+                            tag = "createViaMediaStore",
+                            level = Logger.Level.Warn
+                        )
                     }.getOrNull()
                 } ?: return null
 
@@ -375,9 +379,9 @@ internal data class SavingFolder private constructor(
             )?.use { cursor ->
                 if (!cursor.moveToFirst()) return@use null
 
-                cursor.getString(
-                    cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.RELATIVE_PATH)
-                )
+                cursor.getColumnIndex(MediaStore.MediaColumns.RELATIVE_PATH)
+                    .takeIf { it >= 0 }
+                    ?.let(cursor::getString)
             }?.takeIf {
                 it.isNotBlank() && ".transforms" !in it
             }?.let { return it }

@@ -18,9 +18,6 @@
 package com.t8rin.imagetoolbox.core.utils
 
 import android.app.Application
-import android.content.Intent
-import android.net.Uri
-import androidx.core.content.FileProvider
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +33,6 @@ import java.io.RandomAccessFile
 
 internal class LogsWriter(
     private val context: Application,
-    private val fileProvider: String,
     private val logsFilename: String,
     isSyncCreate: Boolean,
     startupLog: Logger.Log = STARTUP_LOG,
@@ -74,8 +70,6 @@ internal class LogsWriter(
         }
     }
 
-    private fun File.getUri(): Uri = FileProvider.getUriForFile(context, fileProvider, this)
-
     @Synchronized
     private fun writeData(
         file: File? = logsFile,
@@ -109,30 +103,6 @@ internal class LogsWriter(
             output.write(bytes, start, bytes.size - start)
             output.setLength((bytes.size - start).toLong())
         }
-    }
-
-    fun shareLogs() {
-        val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            putExtra(Intent.EXTRA_STREAM, logsFile!!.getUri())
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            type = "text/plain"
-        }
-        val shareIntent =
-            Intent.createChooser(sendIntent, "Share Logs")
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(shareIntent)
-    }
-
-    fun shareLogsViaEmail(email: String) {
-        val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "vnd.android.cursor.dir/email"
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-            putExtra(Intent.EXTRA_STREAM, logsFile!!.getUri())
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-        context.startActivity(sendIntent)
     }
 
     fun writeLog(log: Logger.Log) {

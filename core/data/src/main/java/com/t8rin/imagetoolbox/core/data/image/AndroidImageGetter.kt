@@ -29,6 +29,7 @@ import coil3.request.transformations
 import coil3.size.Precision
 import coil3.size.Size
 import coil3.toBitmap
+import com.t8rin.imagetoolbox.core.data.coil.imageLoadLogLevel
 import com.t8rin.imagetoolbox.core.data.image.utils.static
 import com.t8rin.imagetoolbox.core.data.utils.toCoil
 import com.t8rin.imagetoolbox.core.domain.coroutines.AppScope
@@ -104,7 +105,7 @@ internal class AndroidImageGetter @Inject constructor(
     ): Bitmap? = getImageImpl(
         data = data,
         size = null,
-        onFailure = { it.makeLog("getImage") },
+        onFailure = { it.makeLog("getImage", it.imageLoadLogLevel()) },
         addSizeToRequest = originalSize
     )
 
@@ -272,7 +273,7 @@ internal class AndroidImageGetter @Inject constructor(
                 result.image?.toBitmap()
             }
         }.onFailure {
-            it.makeLog("ImageGetter")
+            it.makeLog("ImageGetter", it.imageLoadLogLevel())
             onFailure(it)
         }.getOrNull()
     }

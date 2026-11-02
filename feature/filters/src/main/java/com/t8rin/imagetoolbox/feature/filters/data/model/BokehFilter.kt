@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,15 +44,15 @@ internal class BokehFilter(
     ): Bitmap = Aire.morphology(
         bitmap = input,
         kernel = Aire.getBokehKernel(
-            kernelSize = value.first.roundToInt(),
-            sides = value.second.roundToInt()
+            kernelSize = value.first.roundToInt().coerceAtLeast(3),
+            sides = value.second.roundToInt().coerceAtLeast(3)
         ),
         morphOp = MorphOp.DILATE,
         morphOpMode = if (input.checkHasAlpha()) MorphOpMode.RGBA
         else MorphOpMode.RGB,
         borderMode = EdgeMode.REFLECT_101,
-        kernelHeight = value.first.roundToInt(),
-        kernelWidth = value.first.roundToInt(),
+        kernelHeight = value.first.roundToInt().coerceAtLeast(3),
+        kernelWidth = value.first.roundToInt().coerceAtLeast(3),
         borderScalar = Scalar.ZEROS
     )
 

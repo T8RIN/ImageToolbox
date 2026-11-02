@@ -187,7 +187,7 @@ fun Uri.fileSize(): Long? = tryExtractOriginal().run {
                 .use { cursor ->
                     if (cursor != null && cursor.moveToFirst()) {
                         val sizeIndex: Int = cursor.getColumnIndex(OpenableColumns.SIZE)
-                        if (!cursor.isNull(sizeIndex)) {
+                        if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) {
                             return cursor.getLong(sizeIndex)
                         }
                     }
@@ -267,7 +267,7 @@ fun Uri.tryExtractOriginal(): Uri = UriReplacements.resolve(this).run {
             )
         )
     } catch (e: Throwable) {
-        e.makeLog("tryExtractOriginal")
+        e.makeLog("tryExtractOriginal", Logger.Level.Warn)
         this.makeLog("tryExtractOriginal") { "failed - $it" }
     }
 }

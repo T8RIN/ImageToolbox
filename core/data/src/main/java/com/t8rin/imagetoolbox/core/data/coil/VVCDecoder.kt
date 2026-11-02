@@ -26,6 +26,7 @@ import coil3.request.Options
 import coil3.size.Scale
 import coil3.size.Size
 import coil3.size.pxOrElse
+import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.trickle.VvcDecoder
 import com.t8rin.trickle.VvcScaleMode
@@ -67,7 +68,7 @@ class VVCDecoder(
                 isSampled = true
             )
         } catch (e: Exception) {
-            e.makeLog("VVCDecoder")
+            e.makeLog("VVCDecoder", Logger.Level.Warn)
             exceptionLogger?.invoke(e)
             null
         }

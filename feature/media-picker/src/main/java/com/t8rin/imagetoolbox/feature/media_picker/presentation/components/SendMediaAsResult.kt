@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2025 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,12 @@ package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.content.Intent
 import android.net.Uri
+import android.os.TransactionTooLargeException
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity.RESULT_CANCELED
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toClipData
 
 internal fun ComponentActivity.sendMediaAsResult(selectedMedia: List<Uri>) {
@@ -46,5 +50,11 @@ internal fun ComponentActivity.sendMediaAsResult(selectedMedia: List<Uri>) {
     }
     setResult(RESULT_OK, newIntent)
 
-    finish()
+    try {
+        finish()
+    } catch (e: RuntimeException) {
+        if (e.cause !is TransactionTooLargeException) throw e
+        setResult(RESULT_CANCELED)
+        Toast.makeText(this, R.string.media_picker_selection_too_large, Toast.LENGTH_LONG).show()
+    }
 }

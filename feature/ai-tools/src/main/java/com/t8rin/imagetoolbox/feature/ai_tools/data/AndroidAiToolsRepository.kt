@@ -45,6 +45,7 @@ import com.t8rin.imagetoolbox.core.domain.saving.model.SaveResult
 import com.t8rin.imagetoolbox.core.domain.saving.track
 import com.t8rin.imagetoolbox.core.domain.saving.updateProgress
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.utils.Logger
 import com.t8rin.imagetoolbox.core.utils.extractMessage
 import com.t8rin.imagetoolbox.core.utils.filename
 import com.t8rin.imagetoolbox.core.utils.makeLog
@@ -615,7 +616,10 @@ internal class AndroidAiToolsRepository @Inject constructor(
                 .createSession((model ?: return null).file.absolutePath, options)
                 .also { session = it }
         }.onFailure { e ->
-            e.makeLog("createSession")
+            e.makeLog(
+                tag = "createSession",
+                level = Logger.Level.Warn
+            )
             model?.let {
                 appScope.launch { deleteModel(it) }
             }

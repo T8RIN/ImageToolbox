@@ -197,7 +197,7 @@ internal class AndroidJxlConverter @Inject constructor(
             }
 
             val (quality, compressionOption) = if (params.isLossy) {
-                params.quality.qualityValue to JxlCompressionOption.LOSSY
+                jxlQuality.qualityValue.coerceIn(0, 99) to JxlCompressionOption.LOSSY
             } else 100 to JxlCompressionOption.LOSSLESS
 
             val encoder = JxlAnimatedEncoder(

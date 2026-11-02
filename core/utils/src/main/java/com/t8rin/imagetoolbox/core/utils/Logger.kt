@@ -21,7 +21,6 @@ import android.app.Application
 import android.net.Uri
 import androidx.core.net.toUri
 import com.t8rin.imagetoolbox.core.utils.Logger.Level
-import com.t8rin.imagetoolbox.core.utils.Logger.reportError
 import com.t8rin.imagetoolbox.core.utils.LogsWriter.Companion.MAX_SIZE
 import com.t8rin.imagetoolbox.core.utils.LogsWriter.Companion.STARTUP_LOG
 import android.util.Log as RealLog
@@ -39,32 +38,22 @@ data object Logger {
 
     inline fun <reified T> makeLog(
         tag: String = createTag<T>(),
-        level: Level = Level.Debug,
+        level: Level? = null,
         dataBlock: () -> T
     ) {
-        val data = dataBlock()
-        val message = if (data is Throwable) {
-            reportError(data)
-            RealLog.getStackTraceString(data)
-        } else {
-            data.toString()
-        }
-
-        makeLog(
-            Log(
-                tag = tag,
-                message = message,
-                level = if (data is Throwable) Level.Error else level
-            )
-        )
+        dataBlock().makeLog(tag, level)
     }
 
     fun reportError(throwable: Throwable) {
         logWriter?.errorHandler(throwable)
     }
 
-    fun makeLog(log: Log) {
+    fun makeLog(log: Log, throwable: Throwable? = null) {
         val (tag, message, level) = log
+
+        if (throwable != null && (level == Level.Error || level is Level.Assert)) {
+            reportError(throwable)
+        }
 
         when (level) {
             is Level.Assert -> RealLog.println(level.priority, tag, message)
@@ -78,16 +67,7 @@ data object Logger {
         logWriter?.writeLog(log)
     }
 
-    fun shareLogs() = logWriter?.shareLogs() ?: throw LogsWriterNotInitialized()
-
-    fun shareLogsViaEmail(
-        email: String
-    ) = logWriter?.shareLogsViaEmail(email) ?: throw LogsWriterNotInitialized()
-
     fun getLogsFile(): Uri = logWriter?.logsFile?.toUri() ?: throw LogsWriterNotInitialized()
-
-    fun readLogs(maxBytes: Int = LogsWriter.PREVIEW_SIZE): String =
-        logWriter?.readLogs(maxBytes).orEmpty()
 
     fun readLogLineReferences(
         startOffset: Long = 0L,
@@ -127,7 +107,7 @@ data object Logger {
 inline fun <reified T> makeLog(
     data: T,
     tag: String = createTag<T>(),
-    level: Level = Level.Debug,
+    level: Level? = null,
 ) = Logger.makeLog(
     tag = tag,
     level = level,
@@ -147,25 +127,24 @@ fun makeLog(
 
 inline fun <reified T> T.makeLog(
     tag: String = createTag<T>(),
-    level: Level = Level.Debug,
+    level: Level? = null,
     dataBlock: (T) -> Any? = { it }
 ): T = also {
-    if (it is Throwable) {
-        RealLog.e(tag, it.localizedMessage, it)
-        reportError(it)
-        Logger.makeLog(
-            tag = tag,
-            level = Level.Error,
-            dataBlock = { dataBlock(it) }
-        )
-    } else {
-        Logger.makeLog(
-            tag = tag,
-            level = level,
-            dataBlock = { dataBlock(it) }
-        )
+    val data = dataBlock(it)
+    val throwable = it as? Throwable ?: data as? Throwable
+    val message = when {
+        throwable == null -> data.toString()
+        data === throwable -> throwable.stackTraceToString()
+        else -> "$data\n${throwable.stackTraceToString()}"
     }
-
+    Logger.makeLog(
+        log = Logger.Log(
+            tag = tag,
+            message = message,
+            level = level ?: if (throwable != null) Level.Error else Level.Debug
+        ),
+        throwable = throwable
+    )
 }
 
 inline infix fun <reified T> T.makeLog(
@@ -179,10 +158,8 @@ inline fun <reified T> createTag(): String = if (Logger.Flags.useCallerClassAsTa
     "Logger" + (T::class.simpleName?.let { "_$it" } ?: "")
 }
 
-
 fun Logger.attachLogWriter(
     context: Application,
-    fileProvider: String,
     logsFilename: String,
     isSyncCreate: Boolean = false,
     startupLog: Logger.Log = STARTUP_LOG,
@@ -192,7 +169,6 @@ fun Logger.attachLogWriter(
 ) {
     logWriter = LogsWriter(
         context = context,
-        fileProvider = fileProvider,
         logsFilename = logsFilename,
         maxFileSize = maxFileSize,
         isSyncCreate = isSyncCreate,

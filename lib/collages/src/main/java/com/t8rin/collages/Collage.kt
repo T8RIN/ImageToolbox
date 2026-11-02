@@ -246,13 +246,14 @@ fun Collage(
                 ) { }
             }
 
-            LaunchedEffect(viewInstance, collageCreationTrigger) {
+            LaunchedEffect(viewInstance, collageCreationTrigger, size, aspectRatio) {
                 if (collageCreationTrigger) {
-                    viewInstance?.createImage(outputScaleRatio)?.let(onCollageCreated)
+                    viewInstance?.takeIf { it.hasValidDimensions }
+                        ?.createImage(outputScaleRatio)?.let(onCollageCreated)
                 }
             }
 
-            LaunchedEffect(viewInstance, images, collageType, aspectRatio, outputScaleRatio) {
+            LaunchedEffect(viewInstance, images, collageType, size, aspectRatio, outputScaleRatio) {
                 if (onOutputSizeChanged != null) {
                     viewInstance?.outputDimensions(outputScaleRatio)?.let { (width, height) ->
                         onOutputSizeChanged(width, height)
@@ -268,15 +269,16 @@ private fun calculateDimensions(
     constraints: Constraints,
     aspectRatio: Float
 ): Pair<Int, Int> {
+    if (size <= 0) return 0 to 0
     return if (size == constraints.maxWidth) {
         val targetHeight =
             (size / aspectRatio).toDouble().coerceAtMost(constraints.maxHeight.toDouble()).toInt()
         val targetWidth = (targetHeight * aspectRatio).toInt()
-        targetWidth to targetHeight
+        targetWidth.coerceAtLeast(1) to targetHeight.coerceAtLeast(1)
     } else {
         val targetWidth =
             (size * aspectRatio).toDouble().coerceAtMost(constraints.maxWidth.toDouble()).toInt()
         val targetHeight = (targetWidth / aspectRatio).toInt()
-        targetWidth to targetHeight
+        targetWidth.coerceAtLeast(1) to targetHeight.coerceAtLeast(1)
     }
 }
