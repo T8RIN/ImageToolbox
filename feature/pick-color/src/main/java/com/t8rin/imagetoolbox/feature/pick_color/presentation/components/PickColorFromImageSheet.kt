@@ -39,6 +39,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.takeOrElse
@@ -55,6 +57,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.scale
 import com.t8rin.colors.ImageColorDetector
 import com.t8rin.colors.parser.ColorNameParser
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -75,6 +78,9 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
 import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlin.math.sqrt
 
 @Composable
 fun PickColorFromImageSheet(
@@ -92,6 +98,23 @@ fun PickColorFromImageSheet(
     val displayColorName = remember(displayColor) {
         ColorNameParser.parseColorName(displayColor)
     }
+    var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+
+    LaunchedEffect(bitmap) {
+        imageBitmap = bitmap?.let {
+            withContext(Dispatchers.Default) {
+                val scale = minOf(
+                    1.0,
+                    4096.0 / maxOf(it.width, it.height),
+                    sqrt(32.0 * 1024 * 1024 / it.byteCount)
+                )
+                it.scale(
+                    width = (it.width * scale).toInt().coerceAtLeast(1),
+                    height = (it.height * scale).toInt().coerceAtLeast(1)
+                ).asImageBitmap()
+            }
+        }
+    }
 
     EnhancedZoomableModalBottomSheet(
         visible = visible,
@@ -108,7 +131,7 @@ fun PickColorFromImageSheet(
                 )
                 if (onColorSelected != null) {
                     EnhancedButton(
-                        enabled = bitmap != null,
+                        enabled = imageBitmap != null,
                         onClick = {
                             onColorSelected(color)
                             onDismiss()
@@ -213,7 +236,7 @@ fun PickColorFromImageSheet(
             }
         }
     ) {
-        remember(bitmap) { bitmap?.asImageBitmap() }?.let {
+        imageBitmap?.let {
             ImageColorDetector(
                 panEnabled = panEnabled,
                 color = displayColor,
