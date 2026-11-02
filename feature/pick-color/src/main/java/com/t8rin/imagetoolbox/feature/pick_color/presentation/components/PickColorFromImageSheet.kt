@@ -22,6 +22,7 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -66,12 +67,14 @@ import com.t8rin.imagetoolbox.core.ui.theme.outlineVariant
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toHex
 import com.t8rin.imagetoolbox.core.ui.widget.buttons.PanModeButton
 import com.t8rin.imagetoolbox.core.ui.widget.dialogs.ColorCopyFormatSelectionDialog
+import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.derivative.EnhancedZoomableModalBottomSheet
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsClickable
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shimmer
+import com.t8rin.imagetoolbox.core.ui.widget.text.AutoSizeText
 
 @Composable
 fun PickColorFromImageSheet(
@@ -79,7 +82,8 @@ fun PickColorFromImageSheet(
     onDismiss: () -> Unit,
     bitmap: Bitmap?,
     onColorChange: (Color) -> Unit,
-    color: Color
+    color: Color,
+    onColorSelected: ((Color) -> Unit)? = null
 ) {
     val settingsState = LocalSettingsState.current
     var panEnabled by rememberSaveable { mutableStateOf(false) }
@@ -93,10 +97,27 @@ fun PickColorFromImageSheet(
         visible = visible,
         onDismiss = onDismiss,
         confirmButton = {
-            PanModeButton(
-                selected = panEnabled,
-                onClick = { panEnabled = !panEnabled }
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(end = 8.dp)
+            ) {
+                PanModeButton(
+                    selected = panEnabled,
+                    onClick = { panEnabled = !panEnabled }
+                )
+                if (onColorSelected != null) {
+                    EnhancedButton(
+                        enabled = bitmap != null,
+                        onClick = {
+                            onColorSelected(color)
+                            onDismiss()
+                        }
+                    ) {
+                        AutoSizeText(stringResource(R.string.ok))
+                    }
+                }
+            }
         },
         title = {
             val interactionSource = remember { MutableInteractionSource() }

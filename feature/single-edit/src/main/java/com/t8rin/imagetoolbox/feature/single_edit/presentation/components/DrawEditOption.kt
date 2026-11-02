@@ -571,8 +571,8 @@ fun DrawEditOption(
                 }
             }
         }
-        var color by rememberSaveable(stateSaver = ColorSaver) {
-            mutableStateOf(Color.Black)
+        var color by rememberSaveable(showPickColorSheet, stateSaver = ColorSaver) {
+            mutableStateOf(drawColor)
         }
         PickColorFromImageSheet(
             visible = showPickColorSheet,
@@ -581,7 +581,11 @@ fun DrawEditOption(
             },
             bitmap = stateBitmap,
             onColorChange = { color = it },
-            color = color
+            color = color,
+            onColorSelected = {
+                isGradientEnabled = false
+                drawColor = it
+            }
         )
 
         if (visible) {

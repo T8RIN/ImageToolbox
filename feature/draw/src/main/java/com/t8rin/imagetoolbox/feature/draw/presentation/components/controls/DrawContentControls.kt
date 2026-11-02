@@ -328,7 +328,9 @@ internal fun DrawContentControls(
         )
     }
 
-    var colorPickerColor by rememberSaveable(stateSaver = ColorSaver) { mutableStateOf(Color.Black) }
+    var colorPickerColor by rememberSaveable(showPickColorSheet, stateSaver = ColorSaver) {
+        mutableStateOf(drawColor)
+    }
     PickColorFromImageSheet(
         visible = showPickColorSheet,
         onDismiss = {
@@ -336,6 +338,10 @@ internal fun DrawContentControls(
         },
         bitmap = component.colorPickerBitmap,
         onColorChange = { colorPickerColor = it },
-        color = colorPickerColor
+        color = colorPickerColor,
+        onColorSelected = {
+            onGradientEnabledChange(false)
+            onDrawColorChange(it)
+        }
     )
 }
