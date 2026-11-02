@@ -18,20 +18,27 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -99,6 +106,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun MediaSearchAndFilter(
     component: MediaPickerComponent,
+    selectionActionsVisibility: MutableTransitionState<Boolean>,
     onSearch: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -107,8 +115,7 @@ internal fun MediaSearchAndFilter(
     val hasTrash = albumsState.albums.any { it.id == Album.TRASH_ID && it.count > 0 }
     val inTrash = component.selectedAlbumId == Album.TRASH_ID
     val selection = component.selectedMedia.toList()
-    val showSelectionActions =
-        !inTrash && selection.isNotEmpty() && component.areMediaActionsAvailable
+    val showSelectionActions = selectionActionsVisibility.targetState
     val allFavorites = selection.isNotEmpty() && selection.all { it.isFavorite }
     val buttonCount = if (hasTrash && !showSelectionActions) 3 else 2
     var showOptions by rememberSaveable { mutableStateOf(false) }
@@ -116,106 +123,138 @@ internal fun MediaSearchAndFilter(
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
 
-    FlowRow(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            EnhancedIconButton(
-                onClick = onSearch,
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                modifier = Modifier.size(width = 38.dp, height = 48.dp),
-                shape = ShapeDefaults.byIndex(
-                    index = 0,
-                    size = buttonCount,
-                    vertical = false
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Search,
-                    contentDescription = null
-                )
-            }
-            EnhancedIconButton(
-                onClick = { showOptions = true },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                modifier = Modifier.size(width = 38.dp, height = 48.dp),
-                shape = ShapeDefaults.byIndex(
-                    index = 1,
-                    size = buttonCount,
-                    vertical = false
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.FilterAlt,
-                    contentDescription = null
-                )
-            }
-            AnimatedVisibility(
-                visible = hasTrash && !showSelectionActions,
-                enter = fadeIn() + expandHorizontally(expandFrom = Alignment.Start),
-                exit = fadeOut() + shrinkHorizontally(shrinkTowards = Alignment.Start)
-            ) {
-                EnhancedIconButton(
-                    onClick = {
-                        component.getAlbum(if (inTrash) Album.ALL_ID else Album.TRASH_ID)
-                    },
-                    containerColor = takeColorFromScheme {
-                        if (inTrash) error else errorContainer
-                    },
-                    contentColor = takeColorFromScheme {
-                        if (inTrash) onError else onErrorContainer
-                    },
-                    modifier = Modifier.size(width = 38.dp, height = 48.dp),
-                    shape = ShapeDefaults.byIndex(
-                        index = 2,
-                        size = 3,
-                        vertical = false
-                    )
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Delete,
-                        contentDescription = null
-                    )
-                }
-            }
-        }
-        AnimatedVisibility(
-            visible = showSelectionActions,
-            enter = fadeIn() + expandVertically(expandFrom = Alignment.Bottom),
-            exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom)
+    BoxWithConstraints(modifier = modifier) {
+        val stackActions = maxWidth < 166.dp
+        val selectionEnter = fadeIn() + scaleIn(initialScale = 0.92f)
+        val selectionExit = fadeOut() + scaleOut(targetScale = 0.92f)
+
+        FlowRow(
+            modifier = if (stackActions) Modifier else Modifier.wrapContentWidth(
+                align = Alignment.Start,
+                unbounded = true
+            ),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            maxItemsInEachRow = if (stackActions) 1 else Int.MAX_VALUE
         ) {
-            val favoriteColors = rememberCustomColorScheme(Yellow)
             Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
                 EnhancedIconButton(
-                    onClick = component::toggleSelectedFavorites,
-                    containerColor = favoriteColors.primaryContainer,
-                    contentColor = favoriteColors.onPrimaryContainer,
+                    onClick = onSearch,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     modifier = Modifier.size(width = 38.dp, height = 48.dp),
                     shape = ShapeDefaults.byIndex(
                         index = 0,
-                        size = 2,
+                        size = buttonCount,
                         vertical = false
                     )
                 ) {
                     Icon(
-                        imageVector = if (allFavorites) Icons.Rounded.Star else Icons.Outlined.Star,
+                        imageVector = Icons.Outlined.Search,
                         contentDescription = null
                     )
                 }
                 EnhancedIconButton(
-                    onClick = { component.requestMediaActions(MediaAction.Trash, selection) },
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                    onClick = { showOptions = true },
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
                     modifier = Modifier.size(width = 38.dp, height = 48.dp),
                     shape = ShapeDefaults.byIndex(
                         index = 1,
-                        size = 2,
+                        size = buttonCount,
                         vertical = false
                     )
                 ) {
-                    Icon(imageVector = Icons.Outlined.Delete, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Rounded.FilterAlt,
+                        contentDescription = null
+                    )
+                }
+                AnimatedVisibility(
+                    visible = hasTrash && !showSelectionActions,
+                    enter = fadeIn() + expandHorizontally(expandFrom = Alignment.Start),
+                    exit = fadeOut(animationSpec = tween(150)) + shrinkHorizontally(
+                        animationSpec = snap(),
+                        shrinkTowards = Alignment.Start,
+                        clip = false
+                    )
+                ) {
+                    EnhancedIconButton(
+                        onClick = {
+                            component.getAlbum(if (inTrash) Album.ALL_ID else Album.TRASH_ID)
+                        },
+                        containerColor = takeColorFromScheme {
+                            if (inTrash) error else errorContainer
+                        },
+                        contentColor = takeColorFromScheme {
+                            if (inTrash) onError else onErrorContainer
+                        },
+                        modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                        shape = ShapeDefaults.byIndex(
+                            index = 2,
+                            size = 3,
+                            vertical = false
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = null
+                        )
+                    }
+                }
+            }
+            AnimatedVisibility(
+                visibleState = selectionActionsVisibility,
+                enter = if (stackActions) {
+                    fadeIn(tween(150, delayMillis = 150)) + scaleIn(
+                        animationSpec = tween(150, delayMillis = 150),
+                        initialScale = 0.92f
+                    ) + expandVertically(
+                        animationSpec = tween(180),
+                        expandFrom = Alignment.Bottom
+                    )
+                } else selectionEnter,
+                exit = if (stackActions) {
+                    fadeOut(tween(120)) + scaleOut(
+                        animationSpec = tween(120),
+                        targetScale = 0.92f
+                    ) + shrinkVertically(
+                        animationSpec = tween(180, delayMillis = 120),
+                        shrinkTowards = Alignment.Bottom
+                    )
+                } else selectionExit
+            ) {
+                val favoriteColors = rememberCustomColorScheme(Yellow)
+                Row(
+                    modifier = Modifier.padding(top = if (stackActions) 8.dp else 0.dp),
+                    horizontalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    EnhancedIconButton(
+                        onClick = component::toggleSelectedFavorites,
+                        containerColor = favoriteColors.primaryContainer,
+                        contentColor = favoriteColors.onPrimaryContainer,
+                        modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                        shape = ShapeDefaults.byIndex(
+                            index = 0,
+                            size = 2,
+                            vertical = false
+                        )
+                    ) {
+                        Icon(
+                            imageVector = if (allFavorites) Icons.Rounded.Star else Icons.Outlined.Star,
+                            contentDescription = null
+                        )
+                    }
+                    EnhancedIconButton(
+                        onClick = { component.requestMediaActions(MediaAction.Trash, selection) },
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                        shape = ShapeDefaults.byIndex(
+                            index = 1,
+                            size = 2,
+                            vertical = false
+                        )
+                    ) {
+                        Icon(imageVector = Icons.Outlined.Delete, contentDescription = null)
+                    }
                 }
             }
         }

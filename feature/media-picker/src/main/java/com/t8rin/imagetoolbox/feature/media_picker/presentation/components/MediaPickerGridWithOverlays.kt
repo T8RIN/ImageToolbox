@@ -21,6 +21,7 @@ import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -139,6 +140,9 @@ internal fun MediaPickerGridWithOverlays(
     var searchPanelHeight by remember { mutableStateOf(0.dp) }
     var controlsHeight by remember { mutableStateOf(0.dp) }
     var selectionActionsSize by remember { mutableStateOf(DpSize.Zero) }
+    val selectionActionsVisibility = remember { MutableTransitionState(false) }
+    selectionActionsVisibility.targetState =
+        !inTrash && selectedMedia.isNotEmpty() && component.areMediaActionsAvailable
 
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
@@ -210,6 +214,7 @@ internal fun MediaPickerGridWithOverlays(
                     .padding(16.dp)
                     .safeDrawingPadding(),
                 visible = isButtonVisible || (inTrash && selectedMedia.isNotEmpty()),
+                keepContentOnCollapse = true,
                 enter = slideInVertically { it * 2 },
                 exit = slideOutVertically { it * 2 }
             ) {
@@ -602,13 +607,19 @@ internal fun MediaPickerGridWithOverlays(
                     } else {
                         MediaSearchAndFilter(
                             component = component,
+                            selectionActionsVisibility = selectionActionsVisibility,
                             onSearch = {
                                 onSearchingChange(true)
                                 filterMedia()
                             },
                             modifier = Modifier
                                 .widthIn(
-                                    max = if (!inTrash && selectedMedia.isNotEmpty()) {
+                                    max = if (
+                                        !inTrash && (
+                                                selectedMedia.isNotEmpty() || selectionActionsVisibility.currentState ||
+                                                        !selectionActionsVisibility.isIdle
+                                                )
+                                    ) {
                                         (maxWidth - selectionActionsSize.width - 8.dp).coerceAtLeast(
                                             78.dp
                                         )
