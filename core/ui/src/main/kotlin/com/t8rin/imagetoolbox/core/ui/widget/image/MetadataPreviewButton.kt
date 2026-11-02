@@ -261,7 +261,7 @@ fun MetadataPreviewButton(
                         else MaterialTheme.colorScheme.onErrorContainerFixed
                     ) {
                         Icon(
-                            imageVector = if (isTrashed) Icons.Rounded.Restore else Icons.Rounded.Delete,
+                            imageVector = if (isTrashed) Icons.Rounded.Restore else Icons.Outlined.Delete,
                             contentDescription = null,
                             modifier = Modifier.size(20.dp)
                         )
