@@ -121,8 +121,7 @@ internal fun MediaImagePager(
     media: List<Media>,
     selectedMedia: SnapshotStateList<Media>,
     onMediaClick: (Media) -> Unit,
-    onMediaAction: ((MediaAction, Media) -> Unit)? = null,
-    actionsEnabled: Boolean = true
+    onMediaAction: ((MediaAction, Media) -> Unit)? = null
 ) {
     val context = LocalContext.current
     val visible = imagePreviewUri != null
@@ -331,7 +330,6 @@ internal fun MediaImagePager(
                                 mimeType = { currentMedia?.mimeType },
                                 isFavorite = currentMedia?.isFavorite == true,
                                 isTrashed = currentMedia?.isTrashed == true,
-                                actionsEnabled = actionsEnabled,
                                 onFavoriteChange = onMediaAction?.takeIf { currentMedia?.isTrashed == false }
                                     ?.let { action ->
                                         { uri, favorite ->

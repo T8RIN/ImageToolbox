@@ -7572,6 +7572,7 @@
     <string name="gallery_trash">Trash</string>
     <string name="gallery_move_to_trash">Move to trash</string>
     <string name="gallery_trash_confirmation">Move this file to the trash? It will disappear from the gallery, but you can restore it before its automatic deletion date.</string>
+    <string name="gallery_trash_selected_confirmation">Move the selected files (%1$d) to the trash? They will disappear from the gallery, but you can restore them before their automatic deletion date.</string>
     <string name="gallery_restore">Restore</string>
     <string name="gallery_restore_confirmation">Restore this file from the trash? It will return to its original folder and reappear in the gallery.</string>
     <string name="gallery_restore_selected_confirmation">Restore the selected files (%1$d) from the trash? They will return to their original folders and reappear in the gallery.</string>

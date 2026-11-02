@@ -7544,6 +7544,7 @@
     <string name="gallery_trash">Корзина</string>
     <string name="gallery_move_to_trash">В корзину</string>
     <string name="gallery_trash_confirmation">Переместить файл в корзину? Он исчезнет из галереи, но его можно будет восстановить до даты автоматического удаления.</string>
+    <string name="gallery_trash_selected_confirmation">Переместить выбранные файлы (%1$d) в корзину? Они исчезнут из галереи, но их можно будет восстановить до даты автоматического удаления.</string>
     <string name="gallery_restore">Восстановить</string>
     <string name="gallery_restore_confirmation">Восстановить файл из корзины? Он вернётся в исходную папку и снова появится в галерее.</string>
     <string name="gallery_restore_selected_confirmation">Восстановить выбранные файлы (%1$d) из корзины? Они вернутся в исходные папки и снова появятся в галерее.</string>

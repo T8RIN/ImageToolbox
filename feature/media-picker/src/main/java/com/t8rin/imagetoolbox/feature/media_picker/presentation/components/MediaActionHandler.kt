@@ -106,6 +106,7 @@ internal fun MediaActionHandler(component: MediaPickerComponent) {
                     when {
                         deleting && count > 1 -> R.string.gallery_delete_selected_confirmation
                         restoring && count > 1 -> R.string.gallery_restore_selected_confirmation
+                        action == MediaAction.Trash && count > 1 -> R.string.gallery_trash_selected_confirmation
                         deleting -> R.string.gallery_delete_confirmation
                         restoring -> R.string.gallery_restore_confirmation
                         else -> R.string.gallery_trash_confirmation

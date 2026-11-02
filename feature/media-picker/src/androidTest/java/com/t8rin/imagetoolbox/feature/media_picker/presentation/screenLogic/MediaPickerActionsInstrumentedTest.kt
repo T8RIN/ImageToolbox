@@ -78,6 +78,59 @@ class MediaPickerActionsInstrumentedTest {
     }
 
     @Test
+    fun mixedSelectionAddsOnlyMissingFavoritesThenRemovesAllFavorites() = runBlocking {
+        val items = listOf(photo(1).copy(isFavorite = true), photo(2))
+        val requestedActions = mutableListOf<MediaAction>()
+        val actions = Actions { media, action ->
+            requestedActions += action
+            MediaActionResult(media.mapTo(hashSetOf(), Media::uri), emptySet())
+        }
+        val component = component(items, Album.ALL_ID, actions)
+        withContext(Dispatchers.Main) { component.toggleSelectedFavorites() }
+        await { !component.isMediaActionRunning }
+        assertEquals(listOf(items.last()), actions.calls.single())
+        assertTrue(component.selectedMedia.all { it.isFavorite })
+        assertEquals(
+            2L,
+            component.albumsState.value.albums.single { it.id == Album.FAVORITES_ID }.count
+        )
+
+        withContext(Dispatchers.Main) { component.toggleSelectedFavorites() }
+        await { !component.isMediaActionRunning }
+        assertEquals(listOf(MediaAction.Favorite, MediaAction.Unfavorite), requestedActions)
+        assertEquals(items.map(Media::uri).toSet(), actions.calls.last().map(Media::uri).toSet())
+        assertTrue(component.selectedMedia.none { it.isFavorite })
+        assertFalse(component.albumsState.value.albums.any { it.id == Album.FAVORITES_ID })
+    }
+
+    @Test
+    fun movingSelectionToTrashRequiresConfirmationAndUpdatesBothAlbums() = runBlocking {
+        val items = listOf(photo(1).copy(isFavorite = true), photo(2))
+        val actions = Actions()
+        val component = component(items, items.first().albumID, actions)
+        withContext(Dispatchers.Main) {
+            component.requestMediaActions(MediaAction.Trash, component.selectedMedia.toList())
+            assertEquals(items, component.mediaActionConfirmation?.media)
+            component.dismissMediaAction()
+        }
+        assertTrue(actions.calls.isEmpty())
+        assertEquals(items, component.selectedMedia.toList())
+        withContext(Dispatchers.Main) {
+            component.requestMediaActions(MediaAction.Trash, component.selectedMedia.toList())
+            component.confirmMediaAction()
+        }
+        await { !component.isMediaActionRunning }
+        assertTrue(component.selectedMedia.isEmpty())
+        assertTrue(component.filteredMediaState.value.media.isEmpty())
+        assertEquals(Album.ALL_ID, component.selectedAlbumId)
+        assertEquals(
+            2L,
+            component.albumsState.value.albums.single { it.id == Album.TRASH_ID }.count
+        )
+        assertFalse(component.albumsState.value.albums.any { it.id == Album.FAVORITES_ID })
+    }
+
+    @Test
     fun lastFavoriteClosesWithoutWaitingForAnAlbumQuery() = runBlocking {
         val item = photo(1).copy(isFavorite = true)
         val component = component(listOf(item), Album.FAVORITES_ID)
@@ -227,6 +280,20 @@ class MediaPickerActionsInstrumentedTest {
                 val trash = items.count(Media::isTrashed)
                 if (favorites > 0) add(Album.Favorites.copy(count = favorites.toLong()))
                 if (trash > 0) add(Album.Trash.copy(count = trash.toLong()))
+                items.filterNot { it.isTrashed }.groupBy(Media::albumID).values.forEach { media ->
+                    val first = media.first()
+                    add(
+                        Album(
+                            id = first.albumID,
+                            label = first.albumLabel,
+                            uri = first.uri,
+                            pathToThumbnail = first.path,
+                            relativePath = first.relativePath,
+                            timestamp = first.timestamp,
+                            count = media.size.toLong()
+                        )
+                    )
+                }
             }))
 
             override fun invalidate() = Unit

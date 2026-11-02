@@ -18,9 +18,16 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -56,10 +63,13 @@ import com.t8rin.imagetoolbox.core.resources.icons.FilterAlt
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
 import com.t8rin.imagetoolbox.core.resources.icons.Search
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.icons.SwapHoriz
 import com.t8rin.imagetoolbox.core.resources.icons.SwapVerticalCircle
 import com.t8rin.imagetoolbox.core.resources.icons.ViewComfy
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
+import com.t8rin.imagetoolbox.core.ui.theme.Yellow
+import com.t8rin.imagetoolbox.core.ui.theme.rememberCustomColorScheme
 import com.t8rin.imagetoolbox.core.ui.theme.takeColorFromScheme
 import com.t8rin.imagetoolbox.core.ui.utils.provider.SafeLocalContainerColor
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedBottomSheetDefaults
@@ -77,6 +87,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySettings
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaGrouping
@@ -95,66 +106,117 @@ internal fun MediaSearchAndFilter(
     val albumsState by component.albumsState.collectAsStateWithLifecycle()
     val hasTrash = albumsState.albums.any { it.id == Album.TRASH_ID && it.count > 0 }
     val inTrash = component.selectedAlbumId == Album.TRASH_ID
-    val buttonCount = if (hasTrash) 3 else 2
+    val selection = component.selectedMedia.toList()
+    val showSelectionActions =
+        !inTrash && selection.isNotEmpty() && component.areMediaActionsAvailable
+    val allFavorites = selection.isNotEmpty() && selection.all { it.isFavorite }
+    val buttonCount = if (hasTrash && !showSelectionActions) 3 else 2
     var showOptions by rememberSaveable { mutableStateOf(false) }
     val pagerState = rememberPagerState { 2 }
     val scope = rememberCoroutineScope()
     val haptics = LocalHapticFeedback.current
 
-    Row(
+    FlowRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        EnhancedIconButton(
-            onClick = onSearch,
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            modifier = Modifier.size(width = 38.dp, height = 48.dp),
-            shape = ShapeDefaults.byIndex(
-                index = 0,
-                size = buttonCount,
-                vertical = false
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.Search,
-                contentDescription = null
-            )
-        }
-        EnhancedIconButton(
-            onClick = { showOptions = true },
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            modifier = Modifier.size(width = 38.dp, height = 48.dp),
-            shape = ShapeDefaults.byIndex(
-                index = 1,
-                size = buttonCount,
-                vertical = false
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.FilterAlt,
-                contentDescription = null
-            )
-        }
-        if (hasTrash) {
+        Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             EnhancedIconButton(
-                onClick = {
-                    component.getAlbum(if (inTrash) Album.ALL_ID else Album.TRASH_ID)
-                },
-                containerColor = if (inTrash) MaterialTheme.colorScheme.error
-                else MaterialTheme.colorScheme.errorContainer,
-                contentColor = if (inTrash) MaterialTheme.colorScheme.onError
-                else MaterialTheme.colorScheme.onErrorContainer,
+                onClick = onSearch,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                 modifier = Modifier.size(width = 38.dp, height = 48.dp),
                 shape = ShapeDefaults.byIndex(
-                    index = 2,
+                    index = 0,
                     size = buttonCount,
                     vertical = false
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.Delete,
+                    imageVector = Icons.Outlined.Search,
                     contentDescription = null
                 )
+            }
+            EnhancedIconButton(
+                onClick = { showOptions = true },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                shape = ShapeDefaults.byIndex(
+                    index = 1,
+                    size = buttonCount,
+                    vertical = false
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.FilterAlt,
+                    contentDescription = null
+                )
+            }
+            AnimatedVisibility(
+                visible = hasTrash && !showSelectionActions,
+                enter = fadeIn() + expandHorizontally(expandFrom = Alignment.Start),
+                exit = fadeOut() + shrinkHorizontally(shrinkTowards = Alignment.Start)
+            ) {
+                EnhancedIconButton(
+                    onClick = {
+                        component.getAlbum(if (inTrash) Album.ALL_ID else Album.TRASH_ID)
+                    },
+                    containerColor = takeColorFromScheme {
+                        if (inTrash) error else errorContainer
+                    },
+                    contentColor = takeColorFromScheme {
+                        if (inTrash) onError else onErrorContainer
+                    },
+                    modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                    shape = ShapeDefaults.byIndex(
+                        index = 2,
+                        size = 3,
+                        vertical = false
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+        AnimatedVisibility(
+            visible = showSelectionActions,
+            enter = fadeIn() + expandVertically(expandFrom = Alignment.Bottom),
+            exit = fadeOut() + shrinkVertically(shrinkTowards = Alignment.Bottom)
+        ) {
+            val favoriteColors = rememberCustomColorScheme(Yellow)
+            Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                EnhancedIconButton(
+                    onClick = component::toggleSelectedFavorites,
+                    containerColor = favoriteColors.primaryContainer,
+                    contentColor = favoriteColors.onPrimaryContainer,
+                    modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                    shape = ShapeDefaults.byIndex(
+                        index = 0,
+                        size = 2,
+                        vertical = false
+                    )
+                ) {
+                    Icon(
+                        imageVector = if (allFavorites) Icons.Rounded.Star else Icons.Outlined.Star,
+                        contentDescription = null
+                    )
+                }
+                EnhancedIconButton(
+                    onClick = { component.requestMediaActions(MediaAction.Trash, selection) },
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                    shape = ShapeDefaults.byIndex(
+                        index = 1,
+                        size = 2,
+                        vertical = false
+                    )
+                ) {
+                    Icon(imageVector = Icons.Outlined.Delete, contentDescription = null)
+                }
             }
         }
     }

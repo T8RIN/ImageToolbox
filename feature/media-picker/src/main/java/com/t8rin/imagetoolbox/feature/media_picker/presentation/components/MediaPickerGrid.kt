@@ -72,7 +72,6 @@ internal fun MediaPickerGrid(
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
     onMediaAction: ((MediaAction, Media) -> Unit)? = null,
-    actionsEnabled: Boolean = true,
     bottomContentPadding: Dp = 0.dp
 ) {
     val scope = rememberCoroutineScope()
@@ -280,7 +279,6 @@ internal fun MediaPickerGrid(
         media = state.media,
         selectedMedia = selectedMedia,
         onMediaClick = onMediaClick,
-        onMediaAction = onMediaAction,
-        actionsEnabled = actionsEnabled
+        onMediaAction = onMediaAction
     )
 }

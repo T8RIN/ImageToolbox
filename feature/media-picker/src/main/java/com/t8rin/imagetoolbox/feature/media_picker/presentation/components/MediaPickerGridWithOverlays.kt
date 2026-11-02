@@ -31,6 +31,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -48,6 +49,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -73,6 +75,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
@@ -135,7 +138,7 @@ internal fun MediaPickerGridWithOverlays(
     val focusManager = LocalFocusManager.current
     var searchPanelHeight by remember { mutableStateOf(0.dp) }
     var controlsHeight by remember { mutableStateOf(0.dp) }
-    var selectionActionsHeight by remember { mutableStateOf(0.dp) }
+    var selectionActionsSize by remember { mutableStateOf(DpSize.Zero) }
 
     var searchKeyword by rememberSaveable(isSearching) {
         mutableStateOf("")
@@ -196,10 +199,9 @@ internal fun MediaPickerGridWithOverlays(
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission,
                 onMediaAction = component::requestMediaAction.takeIf { component.areMediaActionsAvailable },
-                actionsEnabled = !component.isMediaActionRunning,
                 bottomContentPadding = maxOf(
                     if (isSearching) searchPanelHeight else controlsHeight,
-                    if (selectedMedia.isNotEmpty()) selectionActionsHeight else 0.dp
+                    if (selectedMedia.isNotEmpty()) selectionActionsSize.height else 0.dp
                 ) + 32.dp
             )
             BoxAnimatedVisibility(
@@ -225,7 +227,8 @@ internal fun MediaPickerGridWithOverlays(
                 Column(
                     horizontalAlignment = Alignment.End,
                     modifier = Modifier.onSizeChanged {
-                        selectionActionsHeight = with(density) { it.height.toDp() }
+                        selectionActionsSize =
+                            with(density) { DpSize(it.width.toDp(), it.height.toDp()) }
                     }
                 ) {
                     AnimatedVisibility(visible = selectedMedia.isNotEmpty()) {
@@ -493,7 +496,7 @@ internal fun MediaPickerGridWithOverlays(
                     fadeIn() togetherWith fadeOut()
                 }
             ) { searchMode ->
-                Box(
+                BoxWithConstraints(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.BottomStart
                 ) {
@@ -604,6 +607,13 @@ internal fun MediaPickerGridWithOverlays(
                                 filterMedia()
                             },
                             modifier = Modifier
+                                .widthIn(
+                                    max = if (!inTrash && selectedMedia.isNotEmpty()) {
+                                        (maxWidth - selectionActionsSize.width - 8.dp).coerceAtLeast(
+                                            78.dp
+                                        )
+                                    } else maxWidth
+                                )
                                 .onSizeChanged {
                                     controlsHeight = with(density) { it.height.toDp() }
                                 }

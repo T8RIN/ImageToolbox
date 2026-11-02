@@ -119,8 +119,7 @@ fun MetadataPreviewButton(
     isTrashed: Boolean = false,
     onFavoriteChange: ((Uri, Boolean) -> Unit)? = null,
     onTrash: ((Uri) -> Unit)? = null,
-    onDelete: ((Uri) -> Unit)? = null,
-    actionsEnabled: Boolean = true
+    onDelete: ((Uri) -> Unit)? = null
 ) {
     AnimatedContent(
         targetState = uri,
@@ -233,7 +232,6 @@ fun MetadataPreviewButton(
                     val favoriteColors = rememberCustomColorScheme(Yellow)
                     EnhancedIconButton(
                         onClick = { onFavoriteChange(uri, !isFavorite) },
-                        enabled = actionsEnabled,
                         modifier = Modifier.size(32.dp),
                         shape = if (onTrash != null) ShapeDefaults.smallStart else ShapeDefaults.small,
                         forceMinimumInteractiveComponentSize = false,
@@ -250,7 +248,6 @@ fun MetadataPreviewButton(
                 if (onTrash != null) {
                     EnhancedIconButton(
                         onClick = { onTrash(uri) },
-                        enabled = actionsEnabled,
                         modifier = Modifier.size(32.dp),
                         shape = when {
                             onFavoriteChange != null -> ShapeDefaults.smallEnd
@@ -273,7 +270,6 @@ fun MetadataPreviewButton(
                 if (onDelete != null) {
                     EnhancedIconButton(
                         onClick = { onDelete(uri) },
-                        enabled = actionsEnabled,
                         modifier = Modifier.size(32.dp),
                         shape = if (onTrash != null) ShapeDefaults.smallEnd else ShapeDefaults.small,
                         forceMinimumInteractiveComponentSize = false,

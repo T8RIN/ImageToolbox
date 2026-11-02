@@ -497,6 +497,15 @@ class MediaPickerComponent @AssistedInject internal constructor(
         requestMediaActions(action, listOf(media))
     }
 
+    fun toggleSelectedFavorites() {
+        val items = selectedMedia.filterNot { it.isTrashed }
+        val favorite = items.any { !it.isFavorite }
+        requestMediaActions(
+            if (favorite) MediaAction.Favorite else MediaAction.Unfavorite,
+            items.filter { it.isFavorite != favorite }
+        )
+    }
+
     fun requestMediaActions(action: MediaAction, media: List<Media>) {
         if (!areMediaActionsAvailable || isMediaActionRunning) return
         val items = media.distinctBy(Media::uri)
@@ -626,7 +635,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
             }
         )
         _albumsState.value = _albumsState.value.copy(albums = albums)
-        if ((selectedAlbumId == Album.FAVORITES_ID || selectedAlbumId == Album.TRASH_ID) &&
+        if (selectedAlbumId != Album.ALL_ID && !sourceMediaState.value.isLoading &&
             sourceMediaState.value.media.isEmpty()
         ) {
             getAlbum(Album.ALL_ID)
