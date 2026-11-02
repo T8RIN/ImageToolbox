@@ -7568,4 +7568,15 @@
     <string name="help_tip_setting_opaque_viewer_step_2">Open a photo to compare the solid black background with the dimmed app background. This changes the viewer only, not the saved image or its transparency.</string>
     <string name="remember_image_header_state">Remember Preview Layout</string>
     <string name="remember_image_header_state_sub">Remember preview height and pinning between tools. When disabled, each tool starts with the default layout.</string>
+    <string name="gallery_favorites">Favorites</string>
+    <string name="gallery_trash">Trash</string>
+    <string name="gallery_move_to_trash">Move to trash</string>
+    <string name="gallery_trash_confirmation">Move this file to the trash? It will disappear from the gallery, but you can restore it before its automatic deletion date.</string>
+    <string name="gallery_restore">Restore</string>
+    <string name="gallery_restore_confirmation">Restore this file from the trash? It will return to its original folder and reappear in the gallery.</string>
+    <string name="gallery_delete_permanently">Delete permanently</string>
+    <string name="gallery_delete_confirmation">Permanently delete this file from the trash? It will be removed from the device and cannot be restored.</string>
+    <string name="gallery_trash_empty">Trash is empty</string>
+    <string name="gallery_trash_expires">Scheduled for deletion: %1$s</string>
+    <string name="gallery_media_action_failed">Could not change the file. Check access to it.</string>
 </resources>

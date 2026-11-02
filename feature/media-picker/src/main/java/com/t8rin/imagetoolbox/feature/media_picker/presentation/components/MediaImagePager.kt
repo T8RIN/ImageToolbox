@@ -18,6 +18,7 @@
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.components
 
 import android.net.Uri
+import android.text.format.DateUtils
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -35,6 +36,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.snapTo
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -56,6 +58,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -103,6 +106,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.toShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.withLayoutCorners
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.modalsheet.FullscreenPopup
 import kotlinx.coroutines.delay
 import net.engawapg.lib.zoomable.ScrollGesturePropagation
@@ -116,7 +120,9 @@ internal fun MediaImagePager(
     onDismiss: () -> Unit,
     media: List<Media>,
     selectedMedia: SnapshotStateList<Media>,
-    onMediaClick: (Media) -> Unit
+    onMediaClick: (Media) -> Unit,
+    onMediaAction: ((MediaAction, Media) -> Unit)? = null,
+    actionsEnabled: Boolean = true
 ) {
     val context = LocalContext.current
     val visible = imagePreviewUri != null
@@ -169,6 +175,9 @@ internal fun MediaImagePager(
                 }
             }
 
+            LaunchedEffect(media.isEmpty()) {
+                if (media.isEmpty()) onDismiss()
+            }
             val initialPage by remember(imagePreviewUri, media) {
                 derivedStateOf {
                     imagePreviewUri?.let {
@@ -208,7 +217,7 @@ internal fun MediaImagePager(
             ) {
                 val currentMedia = media.getOrNull(pagerState.currentPage)
                 val imageErrorPages = remember {
-                    mutableStateListOf<Int>()
+                    mutableStateListOf<String>()
                 }
                 var hideControls by remember(animatedPredictiveBackProgress) {
                     mutableStateOf(false)
@@ -217,6 +226,7 @@ internal fun MediaImagePager(
                     state = pagerState,
                     modifier = Modifier.fillMaxSize(),
                     beyondViewportPageCount = 5,
+                    key = { media[it].uri },
                     pageSpacing = if (pagerState.pageCount > 1) 16.dp
                     else 0.dp
                 ) { page ->
@@ -269,15 +279,17 @@ internal fun MediaImagePager(
                             shape = RectangleShape,
                             onLoading = {
                                 isImageLoaded = false
-                                imageErrorPages.remove(page)
+                                model?.let(imageErrorPages::remove)
                             },
                             onSuccess = {
                                 isImageLoaded = true
-                                imageErrorPages.remove(page)
+                                model?.let(imageErrorPages::remove)
                             },
                             onError = {
                                 isImageLoaded = false
-                                if (page !in imageErrorPages) imageErrorPages.add(page)
+                                if (model != null && model !in imageErrorPages) imageErrorPages.add(
+                                    model
+                                )
                             },
                             error = { ImageViewerError() }
                         )
@@ -288,7 +300,7 @@ internal fun MediaImagePager(
                         draggableState.offset == 0f && !hideControls
                     }
                 }
-                val showBottomHist = pagerState.currentPage !in imageErrorPages
+                val showBottomHist = currentMedia?.uri !in imageErrorPages
                 val showBottomBar by remember(draggableState, hideControls) {
                     derivedStateOf {
                         draggableState.offset == 0f && !hideControls
@@ -316,17 +328,49 @@ internal fun MediaImagePager(
                                 name = { currentMedia?.label },
                                 fileSize = { currentMedia?.humanFileSize?.takeIf { currentMedia.fileSize > 0 } },
                                 imageSize = { currentMedia?.imageSize },
-                                mimeType = { currentMedia?.mimeType }
+                                mimeType = { currentMedia?.mimeType },
+                                isFavorite = currentMedia?.isFavorite == true,
+                                isTrashed = currentMedia?.isTrashed == true,
+                                actionsEnabled = actionsEnabled,
+                                onFavoriteChange = onMediaAction?.takeIf { currentMedia?.isTrashed == false }
+                                    ?.let { action ->
+                                        { uri, favorite ->
+                                            media.firstOrNull { it.uri == uri.toString() }?.let {
+                                                action(
+                                                    if (favorite) MediaAction.Favorite else MediaAction.Unfavorite,
+                                                    it
+                                                )
+                                            }
+                                        }
+                                    },
+                                onTrash = onMediaAction?.let { action ->
+                                    { uri ->
+                                        media.firstOrNull { it.uri == uri.toString() }?.let {
+                                            action(
+                                                if (it.isTrashed) MediaAction.Restore else MediaAction.Trash,
+                                                it
+                                            )
+                                        }
+                                    }
+                                },
+                                onDelete = onMediaAction?.takeIf { currentMedia?.isTrashed == true }
+                                    ?.let { action ->
+                                        { uri ->
+                                            media.firstOrNull { it.uri == uri.toString() }?.let {
+                                                action(MediaAction.Delete, it)
+                                            }
+                                        }
+                                    }
                             )
                         },
                         actions = {
-                            val isImageError = imageErrorPages.contains(pagerState.currentPage)
+                            val isImageError = imageErrorPages.contains(currentMedia?.uri)
                             AnimatedVisibility(
-                                visible = media.isNotEmpty(),
+                                visible = currentMedia != null && !currentMedia.isTrashed,
                                 enter = fadeIn() + scaleIn(),
                                 exit = fadeOut() + scaleOut()
                             ) {
-                                val isChecked = selectedMedia.contains(currentMedia)
+                                val isChecked = selectedMedia.any { it.uri == currentMedia?.uri }
                                 MediaCheckBox(
                                     isChecked = isChecked,
                                     onCheck = {
@@ -382,15 +426,32 @@ internal fun MediaImagePager(
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        ImageViewerTitle(
-                            uri = currentMedia?.uri?.toUri(),
-                            name = currentMedia?.label ?: stringResource(R.string.image),
-                            dateMillis = currentMedia?.takenTimestamp?.takeIf { it > 0 }
-                                ?: currentMedia?.timestamp?.takeIf { it > 0 }?.times(1000),
-                            page = pagerState.currentPage,
-                            pageCount = pagerState.pageCount,
-                            modifier = Modifier.weight(1f)
-                        )
+                        Column(Modifier.weight(1f)) {
+                            ImageViewerTitle(
+                                uri = currentMedia?.uri?.toUri(),
+                                name = currentMedia?.label ?: stringResource(R.string.image),
+                                dateMillis = currentMedia?.takenTimestamp?.takeIf { it > 0 }
+                                    ?: currentMedia?.timestamp?.takeIf { it > 0 }?.times(1000),
+                                page = pagerState.currentPage,
+                                pageCount = pagerState.pageCount
+                            )
+                            currentMedia?.expiryTimestamp?.takeIf { currentMedia.isTrashed && it > 0 }
+                                ?.let { expiry ->
+                                    Text(
+                                        text = stringResource(
+                                            R.string.gallery_trash_expires,
+                                            DateUtils.formatDateTime(
+                                                context,
+                                                expiry * 1000,
+                                                DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_SHOW_YEAR
+                                            )
+                                        ),
+                                        color = White,
+                                        style = MaterialTheme.typography.labelSmall,
+                                        modifier = Modifier.padding(top = 4.dp)
+                                    )
+                                }
+                        }
                         if (showBottomHist) {
                             Spacer(Modifier.width(16.dp))
                             HistogramChart(

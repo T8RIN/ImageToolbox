@@ -17,9 +17,11 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.di
 
+import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidMediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidMediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.data.AndroidSemanticSearchScheduler
+import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
@@ -32,6 +34,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface MediaPickerModule {
+
+    @Binds
+    fun mediaActionsManager(impl: AndroidMediaActionsManager): MediaActionsManager
 
     @Binds
     @Singleton

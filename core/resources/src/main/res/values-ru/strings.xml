@@ -7540,4 +7540,15 @@
     <string name="help_tip_setting_opaque_viewer_step_2">Откройте фотографию и сравните сплошной чёрный фон с затемнённым фоном приложения. Это меняет только просмотрщик, а не сохранённое изображение или его прозрачность.</string>
     <string name="remember_image_header_state">Запоминать вид превью</string>
     <string name="remember_image_header_state_sub">Сохранять высоту и закрепление превью между инструментами. Когда выключено, каждый инструмент открывается с видом по умолчанию.</string>
+    <string name="gallery_favorites">Избранное</string>
+    <string name="gallery_trash">Корзина</string>
+    <string name="gallery_move_to_trash">В корзину</string>
+    <string name="gallery_trash_confirmation">Переместить файл в корзину? Он исчезнет из галереи, но его можно будет восстановить до даты автоматического удаления.</string>
+    <string name="gallery_restore">Восстановить</string>
+    <string name="gallery_restore_confirmation">Восстановить файл из корзины? Он вернётся в исходную папку и снова появится в галерее.</string>
+    <string name="gallery_delete_permanently">Удалить навсегда</string>
+    <string name="gallery_delete_confirmation">Удалить файл из корзины навсегда? Он будет удалён с устройства. Восстановить его после этого не получится.</string>
+    <string name="gallery_trash_empty">Корзина пуста</string>
+    <string name="gallery_trash_expires">Будет удалено: %1$s</string>
+    <string name="gallery_media_action_failed">Не удалось изменить файл. Проверьте доступ к нему.</string>
 </resources>

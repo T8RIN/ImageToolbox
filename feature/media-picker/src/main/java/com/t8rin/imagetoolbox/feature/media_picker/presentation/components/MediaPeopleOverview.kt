@@ -66,6 +66,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -157,18 +158,39 @@ internal fun MediaPeopleOverview(
         }.sortedByDescending(PeopleGroupSuggestion::similarity)
     }
     var showSuggestions by rememberSaveable { mutableStateOf(false) }
-    val hiddenListState = rememberLazyListState()
     val layoutDirection = LocalLayoutDirection.current
     val cutout = WindowInsets.displayCutout.asPaddingValues()
     val navBar = WindowInsets.navigationBars.asPaddingValues()
-    LazyVerticalGrid(
+    val contentModifier = modifier
+        .fillMaxSize()
+        .padding(
+            start = cutout.calculateStartPadding(layoutDirection),
+            end = cutout.calculateEndPadding(layoutDirection)
+        )
+    if (visiblePeople.isEmpty()) {
+        Column(
+            modifier = contentModifier
+                .padding(12.dp)
+                .padding(bottom = navBar.calculateBottomPadding())
+        ) {
+            if (hiddenPeople.isNotEmpty()) {
+                HiddenPeopleGroups(
+                    people = hiddenPeople,
+                    onClick = component::selectSemanticCategory,
+                    onEditPerson = onEditPerson
+                )
+            }
+            MediaPeopleEmptyState(
+                isLoading = loading || (people.isEmpty() && state.isFacesIndexing),
+                allHidden = hiddenPeople.isNotEmpty(),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            )
+        }
+    } else LazyVerticalGrid(
         columns = GridCells.Adaptive(120.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .padding(
-                start = cutout.calculateStartPadding(layoutDirection),
-                end = cutout.calculateEndPadding(layoutDirection)
-            ),
+        modifier = contentModifier,
         state = gridState,
         contentPadding = PaddingValues(
             start = 12.dp,
@@ -182,48 +204,10 @@ internal fun MediaPeopleOverview(
     ) {
         if (hiddenPeople.isNotEmpty()) {
             item(key = "hidden", span = { GridItemSpan(maxLineSpan) }) {
-                ExpandableItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    visibleContent = {
-                        TitleItem(
-                            text = stringResource(R.string.gallery_people_hidden_groups),
-                            icon = Icons.Rounded.VisibilityOff,
-                            subtitle = null,
-                            modifier = Modifier.padding(8.dp),
-                            endContent = {
-                                Text(
-                                    text = hiddenPeople.size.toString(),
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        )
-                    },
-                    expandableContent = {
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .fadingEdges(hiddenListState),
-                            state = hiddenListState,
-                            contentPadding = PaddingValues(
-                                start = 12.dp,
-                                end = 12.dp,
-                                bottom = 4.dp
-                            ),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            flingBehavior = enhancedFlingBehavior()
-                        ) {
-                            items(hiddenPeople, key = { it.category.id }) { result ->
-                                PeopleGroupCard(
-                                    result = result,
-                                    onClick = { component.selectSemanticCategory(result.category.id) },
-                                    onLongClick = { onEditPerson(result.category.id) },
-                                    modifier = Modifier.width(120.dp),
-                                    containerColor = MaterialTheme.colorScheme.surface
-                                )
-                            }
-                        }
-                    },
-                    shape = ShapeDefaults.extraLarge
+                HiddenPeopleGroups(
+                    people = hiddenPeople,
+                    onClick = component::selectSemanticCategory,
+                    onEditPerson = onEditPerson
                 )
             }
         }
@@ -242,30 +226,6 @@ internal fun MediaPeopleOverview(
                 )
             }
         }
-        if (visiblePeople.isEmpty()) {
-            item(key = "empty", span = { GridItemSpan(maxLineSpan) }) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    if (loading || (people.isEmpty() && state.isFacesIndexing)) {
-                        EnhancedLoadingIndicator()
-                    } else {
-                        InfoContainer(
-                            text = stringResource(
-                                if (hiddenPeople.isNotEmpty()) R.string.gallery_people_all_hidden
-                                else R.string.gallery_people_empty
-                            ),
-                            containerColor = MaterialTheme.colorScheme.tertiaryContainer.copy(0.5f),
-                            contentColor = MaterialTheme.colorScheme.onTertiaryContainer.copy(0.85f),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
-            }
-        }
         items(visiblePeople, key = { it.category.id }) { result ->
             PeopleGroupCard(
                 result = result,
@@ -275,11 +235,96 @@ internal fun MediaPeopleOverview(
         }
     }
     MediaPeopleSuggestionsSheet(
-        visible = showSuggestions,
+        visible = showSuggestions && suggestions.isNotEmpty(),
         suggestions = suggestions,
         resolvingPair = component.resolvingPeoplePair,
         onResolve = component::resolvePeoplePair,
         onDismiss = { showSuggestions = false }
+    )
+}
+
+@Composable
+internal fun MediaPeopleEmptyState(
+    isLoading: Boolean,
+    allHidden: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        if (isLoading) {
+            EnhancedLoadingIndicator()
+        } else {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Icon(
+                    imageVector = if (allHidden) Icons.Rounded.VisibilityOff else Icons.Outlined.Person,
+                    contentDescription = null,
+                    modifier = Modifier.size(108.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = stringResource(
+                        if (allHidden) R.string.gallery_people_all_hidden else R.string.gallery_people_empty
+                    ),
+                    style = MaterialTheme.typography.titleMedium,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun HiddenPeopleGroups(
+    people: List<SemanticSearchCategoryResult>,
+    onClick: (String) -> Unit,
+    onEditPerson: (String) -> Unit
+) {
+    val listState = rememberLazyListState()
+    ExpandableItem(
+        modifier = Modifier.fillMaxWidth(),
+        visibleContent = {
+            TitleItem(
+                text = stringResource(R.string.gallery_people_hidden_groups),
+                icon = Icons.Rounded.VisibilityOff,
+                subtitle = null,
+                modifier = Modifier.padding(8.dp),
+                endContent = {
+                    Text(
+                        text = people.size.toString(),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            )
+        },
+        expandableContent = {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fadingEdges(listState),
+                state = listState,
+                contentPadding = PaddingValues(start = 12.dp, end = 12.dp, bottom = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                flingBehavior = enhancedFlingBehavior()
+            ) {
+                items(people, key = { it.category.id }) { result ->
+                    PeopleGroupCard(
+                        result = result,
+                        onClick = { onClick(result.category.id) },
+                        onLongClick = { onEditPerson(result.category.id) },
+                        modifier = Modifier.width(120.dp),
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                }
+            }
+        },
+        shape = ShapeDefaults.extraLarge
     )
 }
 

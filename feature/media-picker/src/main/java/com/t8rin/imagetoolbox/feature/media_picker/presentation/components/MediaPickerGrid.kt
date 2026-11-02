@@ -52,6 +52,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.enhancedFlingBehavior
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.longPress
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.dragHandler
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.isHeaderKey
@@ -65,17 +66,20 @@ internal fun MediaPickerGrid(
     isSelectionOfAll: Boolean,
     selectedMedia: SnapshotStateList<Media>,
     allowMultiple: Boolean,
+    allowSelection: Boolean = true,
     isGalleryMode: Boolean,
     isButtonVisible: Boolean,
     onRequestManagePermission: () -> Unit,
     isManagePermissionAllowed: Boolean,
+    onMediaAction: ((MediaAction, Media) -> Unit)? = null,
+    actionsEnabled: Boolean = true,
     bottomContentPadding: Dp = 0.dp
 ) {
     val scope = rememberCoroutineScope()
     val gridState = rememberLazyGridState()
     val hapticFeedback = LocalHapticFeedback.current
 
-    LaunchedEffect(state.mappedMedia) {
+    LaunchedEffect(state.mappedMedia.map { it.key }) {
         gridState.requestScrollToItem(0)
     }
 
@@ -84,11 +88,12 @@ internal fun MediaPickerGrid(
     }
 
     val onMediaClick: (Media) -> Unit = {
+        val index = selectedMedia.indexOfFirst { selected -> selected.uri == it.uri }
         if (allowMultiple) {
-            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+            if (index >= 0) selectedMedia.removeAt(index)
             else selectedMedia.add(it)
         } else {
-            if (selectedMedia.contains(it)) selectedMedia.remove(it)
+            if (index >= 0) selectedMedia.removeAt(index)
             else {
                 if (selectedMedia.isNotEmpty()) selectedMedia[0] = it
                 else selectedMedia.add(it)
@@ -101,7 +106,7 @@ internal fun MediaPickerGrid(
     val selectionIndices = remember(selection) {
         buildMap {
             selection.forEachIndexed { index, media ->
-                putIfAbsent(media, index)
+                putIfAbsent(media.uri, index)
             }
         }
     }
@@ -113,7 +118,7 @@ internal fun MediaPickerGrid(
         if (isSelectionOfAll) {
             privateSelection.value = withContext(Dispatchers.Default) {
                 state.mappedMedia.mapIndexedNotNull { index, item ->
-                    if (item is MediaItem.MediaViewItem && item.media in selectionIndices) {
+                    if (item is MediaItem.MediaViewItem && item.media.uri in selectionIndices) {
                         index
                     } else null
                 }.toSet()
@@ -140,7 +145,7 @@ internal fun MediaPickerGrid(
                 end = cutout.calculateEndPadding(layoutDirection)
             )
             .dragHandler(
-                enabled = isSelectionOfAll && allowMultiple &&
+                enabled = allowSelection && isSelectionOfAll && allowMultiple &&
                         (!isGalleryMode || selectedMedia.isNotEmpty()),
                 key = state.mappedMedia,
                 itemIndex = { item ->
@@ -209,14 +214,14 @@ internal fun MediaPickerGrid(
                     if (allowMultiple) {
                         LaunchedEffect(selectedMedia.size, item.data) {
                             // Partial check of media items should not check the header
-                            isChecked.value = selectionIndices.keys.containsAll(item.data)
+                            isChecked.value = item.data.all { it.uri in selectionIndices }
                         }
                     }
                     MediaStickyHeader(
                         date = item.text,
                         isChecked = isChecked.value,
                         onChecked = if (
-                            allowMultiple && (!isGalleryMode || selectedMedia.isNotEmpty())
+                            allowSelection && allowMultiple && (!isGalleryMode || selectedMedia.isNotEmpty())
                         ) {
                             {
                                 hapticFeedback.longPress()
@@ -225,10 +230,10 @@ internal fun MediaPickerGrid(
                                     if (isChecked.value) {
                                         val toAdd = item.data.toMutableList().apply {
                                             // Avoid media from being added twice to selection
-                                            removeIf { it in selectionIndices }
+                                            removeIf { it.uri in selectionIndices }
                                         }
                                         selectedMedia.addAll(toAdd)
-                                    } else selectedMedia.removeAll(item.data.toSet())
+                                    } else selectedMedia.removeAll { selected -> item.data.any { it.uri == selected.uri } }
                                 }
                             }
                         } else null
@@ -236,18 +241,18 @@ internal fun MediaPickerGrid(
                 }
 
                 is MediaItem.MediaViewItem -> {
-                    val selectionIndex = selectionIndices[item.media] ?: -1
+                    val selectionIndex = selectionIndices[item.media.uri] ?: -1
 
                     MediaImage(
                         media = item.media,
-                        isInSelection = !isGalleryMode || selectionIndex >= 0,
-                        canClick = if (isGalleryMode) {
+                        isInSelection = allowSelection && (!isGalleryMode || selectionIndex >= 0),
+                        canClick = !allowSelection || if (isGalleryMode) {
                             selectedMedia.isEmpty() || !isSelectionOfAll || !allowMultiple
                         } else {
                             !isSelectionOfAll || !allowMultiple
                         },
                         onItemClick = {
-                            if (isGalleryMode && selectedMedia.isEmpty()) {
+                            if (!allowSelection || (isGalleryMode && selectedMedia.isEmpty())) {
                                 imagePreviewUri = it.uri
                             } else {
                                 hapticFeedback.longPress()
@@ -255,7 +260,7 @@ internal fun MediaPickerGrid(
                             }
                         },
                         onItemLongClick = {
-                            if (isGalleryMode) {
+                            if (allowSelection && isGalleryMode) {
                                 onMediaClick(it)
                             } else {
                                 imagePreviewUri = it.uri
@@ -274,6 +279,8 @@ internal fun MediaPickerGrid(
         onDismiss = { imagePreviewUri = null },
         media = state.media,
         selectedMedia = selectedMedia,
-        onMediaClick = onMediaClick
+        onMediaClick = onMediaClick,
+        onMediaAction = onMediaAction,
+        actionsEnabled = actionsEnabled
     )
 }

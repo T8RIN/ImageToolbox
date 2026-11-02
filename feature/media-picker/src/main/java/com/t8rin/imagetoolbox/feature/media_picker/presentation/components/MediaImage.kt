@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -51,6 +52,7 @@ import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.icons.BrokenImageAlt
 import com.t8rin.imagetoolbox.core.resources.icons.CheckCircle
 import com.t8rin.imagetoolbox.core.resources.icons.Error
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.settings.presentation.provider.LocalSettingsState
 import com.t8rin.imagetoolbox.core.ui.theme.White
@@ -60,6 +62,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.hapticsCombinedClickable
 import com.t8rin.imagetoolbox.core.ui.widget.image.Picture
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.AutoCornersShape
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
+import com.t8rin.imagetoolbox.core.ui.widget.modifier.advancedShadow
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateShape
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
@@ -208,6 +211,31 @@ fun MediaImage(
                         transformOrigin = TransformOrigin(0.3f, 0.5f)
                     },
                 media = media,
+            )
+        }
+
+        if (media.isFavorite) {
+            Icon(
+                imageVector = Icons.Rounded.Star,
+                contentDescription = null,
+                tint = White,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(selectedSize.value / 2)
+                    .graphicsLayer {
+                        scaleX = scale.value
+                        scaleY = scale.value
+                        transformOrigin = TransformOrigin(0.7f, 0.5f)
+                    }
+                    .padding(8.dp)
+                    .padding(vertical = 2.dp)
+                    .advancedShadow(
+                        cornersRadius = 4.dp,
+                        shadowBlurRadius = 6.dp,
+                        alpha = 0.4f
+                    )
+                    .padding(horizontal = 2.dp)
+                    .size(16.dp)
             )
         }
 

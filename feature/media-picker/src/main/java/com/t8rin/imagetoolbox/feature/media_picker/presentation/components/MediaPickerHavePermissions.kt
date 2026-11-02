@@ -49,7 +49,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -102,12 +101,16 @@ internal fun MediaPickerHavePermissions(
     } ?: personResults.firstOrNull()
     val selectedPerson = personResults.firstOrNull { it.category.id == selectedCategory }
         ?.category as? SemanticSearchCategory.Person
-    val showPeople = component.settingsState.semanticSearchSettings.groupPeople
+    val showPeople =
+        component.settingsState.semanticSearchSettings.groupPeople && personResults.isNotEmpty()
     val peopleGridState = rememberLazyGridState()
 
     BackHandler(showPeopleGroups) { component.showPeopleGroups(false) }
 
-    var selectedAlbumIndex by rememberSaveable { mutableLongStateOf(-1) }
+    val selectedAlbumIndex = component.selectedAlbumId
+    val albums = albumsState.albums.filter {
+        it.id != Album.TRASH_ID && (it.id != Album.FAVORITES_ID || it.count > 0)
+    }
 
     var isSearching by rememberSaveable {
         mutableStateOf(false)
@@ -132,8 +135,7 @@ internal fun MediaPickerHavePermissions(
     }
 
     BackHandler(selectedAlbumIndex != -1L && !showPeopleGroups) {
-        selectedAlbumIndex = -1L
-        component.getAlbum(selectedAlbumIndex)
+        component.getAlbum(Album.ALL_ID)
     }
 
     BackHandler(isSearching) {
@@ -147,8 +149,8 @@ internal fun MediaPickerHavePermissions(
 
     Scaffold(
         topBar = {
-            val hasAlbums = albumsState.albums.size > 1
-            val isRefreshing = mediaState.isLoading && mediaState.media.isNotEmpty()
+            val hasAlbums = selectedAlbumIndex != Album.TRASH_ID && albums.size > 1
+            val isRefreshing = mediaState.isRefreshing
 
             Column(
                 Modifier
@@ -187,8 +189,8 @@ internal fun MediaPickerHavePermissions(
                             flingBehavior = enhancedFlingBehavior()
                         ) {
                             items(
-                                items = albumsState.albums,
-                                key = Album::toString
+                                items = albums,
+                                key = Album::id
                             ) { album ->
                                 val selected = selectedAlbumIndex == album.id
                                 val isImageVisible = showAlbumThumbnail && album.uri.isNotEmpty()
@@ -198,8 +200,7 @@ internal fun MediaPickerHavePermissions(
                                     unselectedColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                                     unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                     onClick = {
-                                        selectedAlbumIndex = album.id
-                                        component.getAlbum(selectedAlbumIndex)
+                                        component.getAlbum(album.id)
                                     },
                                     contentPadding = PaddingValues(
                                         horizontal = animateDpAsState(
@@ -213,7 +214,11 @@ internal fun MediaPickerHavePermissions(
                                     ),
                                     label = {
                                         val title =
-                                            if (album.id == -1L) stringResource(R.string.all) else album.label
+                                            when (album.id) {
+                                                Album.ALL_ID -> stringResource(R.string.all)
+                                                Album.FAVORITES_ID -> stringResource(R.string.gallery_favorites)
+                                                else -> album.label
+                                            }
                                         MediaPickerChipContent(
                                             title = title,
                                             previewUri = album.uri,

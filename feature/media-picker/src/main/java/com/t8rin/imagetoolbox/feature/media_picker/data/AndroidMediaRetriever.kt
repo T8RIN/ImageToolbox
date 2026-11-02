@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.t8rin.imagetoolbox.feature.media_picker.data
 
 import android.content.ContentResolver
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
@@ -26,6 +27,7 @@ import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.utils.runSuspendCatching
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.Query
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.contentFlowObserver
+import com.t8rin.imagetoolbox.feature.media_picker.data.utils.forAlbum
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getAlbums
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getMedia
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getSupportedFileSequence
@@ -37,9 +39,13 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.OrderType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @RequiresApi(26)
@@ -47,6 +53,12 @@ internal class AndroidMediaRetriever @Inject constructor(
     @ApplicationContext private val context: Context,
     dispatchersHolder: DispatchersHolder
 ) : DispatchersHolder by dispatchersHolder, MediaRetriever {
+
+    private val revision = MutableStateFlow(0)
+
+    override fun invalidate() {
+        revision.update { it + 1 }
+    }
 
     override fun getAlbumsWithType(
         allowedMedia: AllowedMedia
@@ -73,8 +85,9 @@ internal class AndroidMediaRetriever @Inject constructor(
                 val extensions = getSupportedFileSequence(allowedMedia).toList()
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
-                    extensions.asSequence().map { MediaStore.MediaColumns.DATA + " LIKE ?" }
-                        .joinToString(" OR ")
+                    extensions.joinToString(" OR ") {
+                        MediaStore.MediaColumns.DATA + " LIKE ?"
+                    }.ifEmpty { "0" }
                 )
                 putStringArray(
                     ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
@@ -82,20 +95,35 @@ internal class AndroidMediaRetriever @Inject constructor(
                 )
             }
         )
-        it.getAlbums(
-            query = query,
-            fileQuery = fileQuery,
+        val albums = it.getAlbums(
+            query = query.forAlbum(),
+            fileQuery = fileQuery.forAlbum(),
             mediaOrder = MediaOrder.Date(OrderType.Descending)
         )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val trashAlbums = it.getAlbums(
+                query.forAlbum(Album.TRASH_ID), fileQuery.forAlbum(Album.TRASH_ID)
+            ).filter { album -> album.id != Album.FAVORITES_ID }
+            val thumbnail = trashAlbums.maxByOrNull(Album::timestamp)
+            val trash = Album.Trash.copy(
+                count = trashAlbums.sumOf(Album::count),
+                uri = thumbnail?.uri.orEmpty(),
+                pathToThumbnail = thumbnail?.pathToThumbnail.orEmpty()
+            )
+            if (trash.count > 0) albums + trash else albums
+        } else albums
     }
 
     override fun mediaFlowWithType(
         albumId: Long,
         allowedMedia: AllowedMedia
-    ): Flow<Result<List<Media>>> = if (albumId != -1L) {
-        getMediaByAlbumIdWithType(albumId, allowedMedia)
-    } else {
-        getMediaByType(allowedMedia)
+    ): Flow<Result<List<Media>>> = when (albumId) {
+        Album.FAVORITES_ID, Album.TRASH_ID -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getMediaByType(allowedMedia, albumId)
+        } else flowOf(Result.success(emptyList()))
+
+        Album.ALL_ID -> getMediaByType(allowedMedia)
+        else -> getMediaByAlbumIdWithType(albumId, allowedMedia)
     }.flowOn(defaultDispatcher).conflate()
 
     override fun getMediaByAlbumIdWithType(
@@ -125,27 +153,34 @@ internal class AndroidMediaRetriever @Inject constructor(
 
                 putString(
                     ContentResolver.QUERY_ARG_SQL_SELECTION,
-                    MediaStore.MediaColumns.BUCKET_ID + "= ? and ("
-                            + extensions.asSequence()
-                        .map { MediaStore.MediaColumns.DATA + " LIKE ?" }
-                        .joinToString(" OR ")
-                            + ")"
+                    if (extensions.isEmpty()) "0" else {
+                        MediaStore.MediaColumns.BUCKET_ID + "= ? and (" + extensions
+                            .joinToString(" OR ") { MediaStore.MediaColumns.DATA + " LIKE ?" } + ")"
+                    }
                 )
                 putStringArray(
                     ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
-                    arrayOf(albumId.toString(), *extensions.toTypedArray())
+                    if (extensions.isEmpty()) emptyArray() else arrayOf(
+                        albumId.toString(),
+                        *extensions.toTypedArray()
+                    )
                 )
             }
         )
         /** return@retrieveMedia */
         it.getMedia(
-            mediaQuery = query,
-            fileQuery = fileQuery
+            mediaQuery = query.forAlbum(),
+            fileQuery = fileQuery.forAlbum()
         )
     }
 
     override fun getMediaByType(
         allowedMedia: AllowedMedia
+    ): Flow<Result<List<Media>>> = getMediaByType(allowedMedia, Album.ALL_ID)
+
+    private fun getMediaByType(
+        allowedMedia: AllowedMedia,
+        albumId: Long
     ): Flow<Result<List<Media>>> = context.retrieveMedia {
         val query = when (allowedMedia) {
             is AllowedMedia.Photos -> Query.PhotoQuery()
@@ -154,8 +189,8 @@ internal class AndroidMediaRetriever @Inject constructor(
         }
         val fileQuery = Query.FileQuery(getSupportedFileSequence(allowedMedia).toList())
         it.getMedia(
-            mediaQuery = query,
-            fileQuery = fileQuery
+            mediaQuery = query.forAlbum(albumId),
+            fileQuery = fileQuery.forAlbum(albumId)
         )
     }
 
@@ -170,7 +205,7 @@ internal class AndroidMediaRetriever @Inject constructor(
     ) = contentFlowObserver(
         uris = uris,
         coroutineContext = ioDispatcher
-    ).map {
+    ).combine(revision) { _, _ -> }.mapLatest {
         runSuspendCatching {
             dataBody.invoke(contentResolver)
         }
@@ -181,7 +216,7 @@ internal class AndroidMediaRetriever @Inject constructor(
     ) = contentFlowObserver(
         uris = uris,
         coroutineContext = ioDispatcher
-    ).map {
+    ).combine(revision) { _, _ -> }.mapLatest {
         runSuspendCatching {
             dataBody.invoke(contentResolver)
         }

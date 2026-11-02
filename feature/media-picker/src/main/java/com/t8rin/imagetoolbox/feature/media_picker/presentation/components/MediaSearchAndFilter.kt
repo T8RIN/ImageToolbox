@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.FilterAlt
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonChecked
 import com.t8rin.imagetoolbox.core.resources.icons.RadioButtonUnchecked
@@ -75,6 +76,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.shapeByInteraction
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceItem
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySettings
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaGrouping
@@ -90,6 +92,10 @@ internal fun MediaSearchAndFilter(
     modifier: Modifier = Modifier
 ) {
     val settings by component.displaySettings.collectAsStateWithLifecycle()
+    val albumsState by component.albumsState.collectAsStateWithLifecycle()
+    val hasTrash = albumsState.albums.any { it.id == Album.TRASH_ID && it.count > 0 }
+    val inTrash = component.selectedAlbumId == Album.TRASH_ID
+    val buttonCount = if (hasTrash) 3 else 2
     var showOptions by rememberSaveable { mutableStateOf(false) }
     val pagerState = rememberPagerState { 2 }
     val scope = rememberCoroutineScope()
@@ -105,7 +111,7 @@ internal fun MediaSearchAndFilter(
             modifier = Modifier.size(width = 38.dp, height = 48.dp),
             shape = ShapeDefaults.byIndex(
                 index = 0,
-                size = 2,
+                size = buttonCount,
                 vertical = false
             )
         ) {
@@ -120,7 +126,7 @@ internal fun MediaSearchAndFilter(
             modifier = Modifier.size(width = 38.dp, height = 48.dp),
             shape = ShapeDefaults.byIndex(
                 index = 1,
-                size = 2,
+                size = buttonCount,
                 vertical = false
             )
         ) {
@@ -128,6 +134,28 @@ internal fun MediaSearchAndFilter(
                 imageVector = Icons.Rounded.FilterAlt,
                 contentDescription = null
             )
+        }
+        if (hasTrash) {
+            EnhancedIconButton(
+                onClick = {
+                    component.getAlbum(if (inTrash) Album.ALL_ID else Album.TRASH_ID)
+                },
+                containerColor = if (inTrash) MaterialTheme.colorScheme.error
+                else MaterialTheme.colorScheme.errorContainer,
+                contentColor = if (inTrash) MaterialTheme.colorScheme.onError
+                else MaterialTheme.colorScheme.onErrorContainer,
+                modifier = Modifier.size(width = 38.dp, height = 48.dp),
+                shape = ShapeDefaults.byIndex(
+                    index = 2,
+                    size = buttonCount,
+                    vertical = false
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = null
+                )
+            }
         }
     }
 

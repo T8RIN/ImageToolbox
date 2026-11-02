@@ -54,6 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.t8rin.imagetoolbox.core.domain.utils.tryAll
 import com.t8rin.imagetoolbox.core.resources.Icons
@@ -74,6 +75,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedIconButton
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedTopAppBar
 import com.t8rin.imagetoolbox.core.ui.widget.other.TopAppBarEmoji
 import com.t8rin.imagetoolbox.core.ui.widget.text.marquee
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategory
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.SemanticSearchCategoryResult
@@ -133,6 +135,7 @@ fun MediaPickerRootContentEmbeddable(
 
     val lifecycleEvent = rememberCurrentLifecycleEvent()
     LaunchedEffect(lifecycleEvent, invalidator) {
+        if (lifecycleEvent != Lifecycle.Event.ON_RESUME) return@LaunchedEffect
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permission = Manifest.permission.READ_MEDIA_IMAGES
             val status = context.checkPermissions(listOf(permission)).finalStatus
@@ -165,6 +168,9 @@ fun MediaPickerRootContentEmbeddable(
     val categories by component.semanticSearchCategories.collectAsStateWithLifecycle()
     val categoriesLoading by component.isSemanticSearchCategoriesLoading.collectAsStateWithLifecycle()
     val selectedCategory by component.selectedSemanticCategory.collectAsStateWithLifecycle()
+    val hasAlbumChips = component.selectedAlbumId != Album.TRASH_ID && albumsState.albums.any {
+        it.id != Album.ALL_ID && it.id != Album.TRASH_ID && (it.id != Album.FAVORITES_ID || it.count > 0)
+    }
 
     val currentCategories = remember(categories, selectedCategory) {
         categories.filter {
@@ -192,9 +198,12 @@ fun MediaPickerRootContentEmbeddable(
         }
     } else currentCategories
 
-    val showCategories = allowedMedia != AllowedMedia.Videos &&
+    val hasPeopleGroups = component.settingsState.semanticSearchSettings.groupPeople &&
+            categories.any { it.category is SemanticSearchCategory.Person }
+    val showCategories =
+        component.selectedAlbumId != Album.TRASH_ID && allowedMedia != AllowedMedia.Videos &&
             component.settingsState.isSemanticSearchEnabled && semanticSearchState.modelsReady &&
-            (visibleCategories.isNotEmpty() || component.settingsState.semanticSearchSettings.groupPeople)
+                (visibleCategories.isNotEmpty() || hasPeopleGroups)
 
     val content: @Composable (PaddingValues) -> Unit = {
         AnimatedContent(
@@ -270,6 +279,7 @@ fun MediaPickerRootContentEmbeddable(
                         title = {
                             Text(
                                 text = when {
+                                    component.selectedAlbumId == Album.TRASH_ID -> stringResource(R.string.gallery_trash)
                                     isGalleryMode -> stringResource(R.string.gallery_picker)
                                     allowMultiple -> stringResource(R.string.pick_multiple_media)
                                     else -> stringResource(R.string.pick_single_media)
@@ -279,7 +289,12 @@ fun MediaPickerRootContentEmbeddable(
                         },
                         navigationIcon = {
                             EnhancedIconButton(
-                                onClick = onBack,
+                                onClick = {
+                                    if (component.selectedAlbumId == Album.TRASH_ID) component.getAlbum(
+                                        Album.ALL_ID
+                                    )
+                                    else onBack()
+                                },
                                 containerColor = Color.Transparent
                             ) {
                                 Icon(
@@ -291,11 +306,12 @@ fun MediaPickerRootContentEmbeddable(
                         actions = {
                             TopAppBarEmoji()
                         },
-                        drawHorizontalStroke = !showCategories && albumsState.albums.size <= 1 && !(mediaState.isLoading && mediaState.media.isNotEmpty())
+                        drawHorizontalStroke = !showCategories && !hasAlbumChips && !mediaState.isRefreshing
                     )
                 },
                 content = content
             )
         }
     }
+    MediaActionHandler(component)
 }

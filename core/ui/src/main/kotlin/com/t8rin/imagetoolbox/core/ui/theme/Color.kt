@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.graphics.ColorUtils
+import com.t8rin.dynamic.theme.ColorTuple
+import com.t8rin.dynamic.theme.rememberColorScheme
 import com.t8rin.imagetoolbox.core.resources.utils.animation.animateColorAsState
 import com.t8rin.imagetoolbox.core.resources.utils.compositeOverSafe
 import com.t8rin.imagetoolbox.core.resources.utils.toSafeSrgb
@@ -48,6 +50,20 @@ fun Color.toAmoled(): Color {
     return if (settingsState.isAmoledMode && settingsState.isAmoledModeExtended && settingsState.isNightMode) {
         Color.Black
     } else this
+}
+
+@Composable
+fun rememberCustomColorScheme(color: Color): ColorScheme {
+    val settingsState = LocalSettingsState.current
+    return rememberColorScheme(
+        isDarkTheme = settingsState.isNightMode,
+        amoledMode = settingsState.isAmoledMode,
+        colorTuple = ColorTuple(color),
+        style = settingsState.themeStyle,
+        contrastLevel = settingsState.themeContrastLevel,
+        dynamicColor = false,
+        isInvertColors = settingsState.isInvertThemeColors
+    )
 }
 
 @Composable
@@ -117,6 +133,17 @@ inline val ColorScheme.onTertiaryContainerFixed: Color
         if (LocalSettingsState.current.isNightMode) onTertiaryContainer else onTertiary
     }.blend(Color.White)
 
+inline val ColorScheme.errorContainerFixed: Color
+    @Composable get() = run {
+        if (LocalSettingsState.current.isNightMode) errorContainer.copy(alpha = 0.6f)
+        else error.copy(alpha = 0.6f)
+    }
+
+inline val ColorScheme.onErrorContainerFixed: Color
+    @Composable get() = run {
+        if (LocalSettingsState.current.isNightMode) onErrorContainer else onError
+    }.blend(Color.White)
+
 inline val ColorScheme.onMixedContainer: Color
     @Composable get() = run {
         onTertiaryContainer.blend(
@@ -180,6 +207,9 @@ inline val Green: Color
 
 inline val Red: Color
     @Composable get() = Color(0xFFE06565).harmonizeWithPrimary(0.2f)
+
+inline val Yellow: Color
+    @Composable get() = Color(0xFFFFD54F).harmonizeWithPrimary(0.2f)
 
 inline val Blue: Color
     @Composable get() = Color(0xFF0088CC).harmonizeWithPrimary(0.2f)

@@ -69,8 +69,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -100,6 +98,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.animateContentSizeNoClip
 import com.t8rin.imagetoolbox.core.ui.widget.other.BoxAnimatedVisibility
 import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaState
@@ -122,6 +121,8 @@ internal fun MediaPickerGridWithOverlays(
     modifier: Modifier = Modifier
 ) {
     val selectedMedia = component.selectedMedia
+    val inTrash = selectedAlbumIndex == Album.TRASH_ID
+    val hasTrash = albumsState.albums.any { it.id == Album.TRASH_ID && it.count > 0 }
     val isSemanticSearchEnabled by component.isSemanticSearchEnabled.collectAsStateWithLifecycle()
     val isSemanticSearching by component.isSemanticSearching.collectAsStateWithLifecycle()
     val semanticSearchError by component.semanticSearchError.collectAsStateWithLifecycle()
@@ -176,16 +177,19 @@ internal fun MediaPickerGridWithOverlays(
             modifier = Modifier.fillMaxSize()
         ) {
             val isButtonVisible =
-                (!allowMultiple || selectedMedia.isNotEmpty()) && !isSearching
+                !inTrash && (!allowMultiple || selectedMedia.isNotEmpty()) && !isSearching
             MediaPickerGrid(
                 state = filteredMediaState,
-                isSelectionOfAll = selectedAlbumIndex == -1L,
+                isSelectionOfAll = selectedAlbumIndex == Album.ALL_ID,
                 selectedMedia = selectedMedia,
                 allowMultiple = allowMultiple,
+                allowSelection = !inTrash,
                 isGalleryMode = isGalleryMode,
                 isButtonVisible = isButtonVisible,
                 isManagePermissionAllowed = isManagePermissionAllowed,
                 onRequestManagePermission = onRequestManagePermission,
+                onMediaAction = component::requestMediaAction.takeIf { component.areMediaActionsAvailable },
+                actionsEnabled = !component.isMediaActionRunning,
                 bottomContentPadding = (if (isSearching) searchPanelHeight else controlsHeight) + 32.dp
             )
             BoxAnimatedVisibility(
@@ -270,11 +274,7 @@ internal fun MediaPickerGridWithOverlays(
                                 if (enabled) {
                                     onPicked(selectedMedia.map { it.uri.toUri() })
                                 }
-                            },
-                            modifier = Modifier
-                                .semantics {
-                                    contentDescription = "Add media"
-                                }
+                            }
                         )
                     }
                 }
@@ -377,21 +377,20 @@ internal fun MediaPickerGridWithOverlays(
             ) {
                 Spacer(Modifier.weight(1f))
                 Icon(
-                    imageVector = Icons.Rounded.BrokenImageAlt,
+                    imageVector = if (inTrash) Icons.Outlined.Delete else Icons.Rounded.BrokenImageAlt,
                     contentDescription = null,
                     modifier = Modifier.size(108.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = errorMessage.trim().ifEmpty {
-                        stringResource(id = R.string.no_data)
+                        stringResource(id = if (inTrash) R.string.gallery_trash_empty else R.string.no_data)
                     },
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Spacer(modifier = Modifier.height(16.dp))
-                EnhancedButton(
+                if (!inTrash || errorMessage.isNotBlank()) EnhancedButton(
                     onClick = {
                         component.init(allowedMedia)
                     }
@@ -403,7 +402,7 @@ internal fun MediaPickerGridWithOverlays(
         }
 
         BoxAnimatedVisibility(
-            visible = isSearching || (!mediaState.isLoading && !isHaveNoData),
+            visible = isSearching || (!mediaState.isLoading && (!isHaveNoData || hasTrash)),
             modifier = Modifier.fillMaxSize(),
             enter = fadeIn(),
             exit = fadeOut()

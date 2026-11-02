@@ -42,7 +42,7 @@ fun List<Media>.groupMedia(
     dateLabel: (Long, MediaDateGroup) -> String
 ): List<MediaItem> {
     fun List<Media>.items() = map {
-        MediaItem.MediaViewItem("media_${it.id}_${it.label}", it)
+        MediaItem.MediaViewItem("media_${it.uri}", it)
     }
 
     if (settings.dateGroup == MediaDateGroup.None) return items()

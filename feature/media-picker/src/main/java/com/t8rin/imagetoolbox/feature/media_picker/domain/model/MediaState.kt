@@ -21,8 +21,25 @@ data class MediaState(
     val media: List<Media> = emptyList(),
     val mappedMedia: List<MediaItem> = emptyList(),
     val error: String = "",
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isRefreshing: Boolean = false
 )
+
+fun MediaState.updateMedia(uri: String, transform: (Media) -> Media?): MediaState {
+    fun Media.updated() = if (this.uri == uri) transform(this) else this
+
+    return copy(
+        media = media.mapNotNull { it.updated() },
+        mappedMedia = mappedMedia.mapNotNull { item ->
+            when (item) {
+                is MediaItem.Header -> item.data.mapNotNull { it.updated() }
+                    .takeIf { it.isNotEmpty() }?.let { item.copy(data = it) }
+
+                is MediaItem.MediaViewItem -> item.media.updated()?.let { item.copy(media = it) }
+            }
+        }
+    )
+}
 
 data class AlbumState(
     val albums: List<Album> = emptyList(),

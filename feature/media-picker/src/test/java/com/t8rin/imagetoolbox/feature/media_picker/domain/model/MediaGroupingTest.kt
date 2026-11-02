@@ -146,6 +146,72 @@ class MediaGroupingTest {
             .isEmpty())
     }
 
+    @Test
+    fun favoriteChangesUpdateBothTilesAndGroupSelection() {
+        val first = media(1)
+        val second = media(2)
+        val state = MediaState(
+            media = listOf(first, second),
+            mappedMedia = listOf(first, second).groupMedia(
+                MediaDisplaySettings(),
+                utc
+            ) { _, _ -> "Day" },
+            isLoading = false
+        )
+
+        val updated = state.updateMedia(first.uri) { it.copy(isFavorite = true) }
+
+        assertTrue(updated.media.first().isFavorite)
+        assertEquals(second, updated.media.last())
+        assertEquals(
+            updated.media,
+            updated.mappedMedia.filterIsInstance<MediaItem.Header>().single().data
+        )
+        assertEquals(
+            updated.media,
+            updated.mappedMedia.filterIsInstance<MediaItem.MediaViewItem>().map { it.media })
+        assertEquals(state.mappedMedia.map { it.key }, updated.mappedMedia.map { it.key })
+    }
+
+    @Test
+    fun removingLastMediaOfAGroupRemovesItsHeader() {
+        val first = media(1, "2026-01-02T00:00:00Z")
+        val second = media(2)
+        val state = MediaState(
+            media = listOf(first, second),
+            mappedMedia = listOf(first, second).groupMedia(
+                MediaDisplaySettings(),
+                utc
+            ) { _, _ -> "Day" },
+            isLoading = false
+        )
+
+        val updated = state.updateMedia(first.uri) { null }
+
+        assertEquals(listOf(second), updated.media)
+        assertEquals(
+            listOf(second),
+            updated.mappedMedia.filterIsInstance<MediaItem.Header>().single().data
+        )
+        assertEquals(
+            listOf(second),
+            updated.mappedMedia.filterIsInstance<MediaItem.MediaViewItem>().map { it.media })
+        assertTrue(updated.updateMedia(second.uri) { null }.mappedMedia.isEmpty())
+    }
+
+    @Test
+    fun mediaKeysDistinguishStorageVolumes() {
+        val first = media(1)
+        val second = first.copy(uri = "content://media/1234-5678/images/media/1")
+
+        val items = listOf(first, second).groupMedia(MediaDisplaySettings(), utc) { _, _ -> "Day" }
+
+        assertEquals(
+            2,
+            items.filterIsInstance<MediaItem.MediaViewItem>().map { it.key }.distinct().size
+        )
+    }
+
     private fun media(
         id: Long,
         date: String = "2026-01-01T00:00:00Z",

@@ -16,13 +16,17 @@
  */
 package com.t8rin.imagetoolbox.feature.media_picker.presentation.screenLogic
 
+import android.content.IntentSender
 import android.net.Uri
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.arkivanov.decompose.ComponentContext
 import com.t8rin.imagetoolbox.core.domain.coroutines.DispatchersHolder
 import com.t8rin.imagetoolbox.core.domain.utils.smartJob
+import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.settings.domain.SettingsManager
 import com.t8rin.imagetoolbox.core.settings.domain.model.CustomSemanticSearchCategory
 import com.t8rin.imagetoolbox.core.settings.domain.model.SemanticSearchSettings
@@ -31,6 +35,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.utils.makeLog
 import com.t8rin.imagetoolbox.feature.media_picker.data.utils.getDate
+import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaActionsManager
 import com.t8rin.imagetoolbox.feature.media_picker.domain.MediaRetriever
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchRepository
 import com.t8rin.imagetoolbox.feature.media_picker.domain.SemanticSearchScheduler
@@ -38,6 +43,8 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AlbumState
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.AllowedMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaAction
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaActionRequest
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDateGroup
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaDisplaySettings
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaItem
@@ -49,6 +56,7 @@ import com.t8rin.imagetoolbox.feature.media_picker.domain.model.groupMedia
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.mergeMediaSearchResults
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByName
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.searchByPeople
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.updateMedia
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -86,6 +94,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
     @Assisted val isGalleryMode: Boolean,
     private val settingsManager: SettingsManager,
     private val mediaRetriever: MediaRetriever,
+    private val mediaActionsManager: MediaActionsManager,
     private val semanticSearchRepository: SemanticSearchRepository,
     private val semanticSearchScheduler: SemanticSearchScheduler,
     dispatchersHolder: DispatchersHolder
@@ -454,6 +463,9 @@ class MediaPickerComponent @AssistedInject internal constructor(
     }
 
     fun getAlbum(albumId: Long) {
+        if ((albumId == Album.TRASH_ID) != (selectedAlbumId == Album.TRASH_ID)) {
+            selectedMedia.clear()
+        }
         _showPeopleGroups.value = false
         _selectedSemanticCategory.value = null
         this.selectedAlbumId = albumId
@@ -463,7 +475,103 @@ class MediaPickerComponent @AssistedInject internal constructor(
 
     private var allowedMedia: AllowedMedia = AllowedMedia.Photos(null)
 
-    private var selectedAlbumId: Long = -1L
+    var selectedAlbumId by mutableLongStateOf(Album.ALL_ID)
+        private set
+
+    val areMediaActionsAvailable: Boolean
+        get() = mediaActionsManager.isAvailable
+
+    var isMediaActionRunning by mutableStateOf(false)
+        private set
+
+    var pendingMediaPermission by mutableStateOf<IntentSender?>(null)
+        private set
+
+    var mediaActionConfirmation by mutableStateOf<MediaActionRequest?>(null)
+        private set
+
+    private var activeMediaAction: MediaActionRequest? = null
+
+    fun requestMediaAction(action: MediaAction, media: Media) {
+        if (!areMediaActionsAvailable || isMediaActionRunning) return
+        val request = MediaActionRequest(action, media)
+        if (action == MediaAction.Trash || action == MediaAction.Restore || action == MediaAction.Delete) {
+            mediaActionConfirmation = request
+        } else performMediaAction(request)
+    }
+
+    fun dismissMediaAction() {
+        mediaActionConfirmation = null
+    }
+
+    fun confirmMediaAction() {
+        val request = mediaActionConfirmation ?: return
+        mediaActionConfirmation = null
+        performMediaAction(request)
+    }
+
+    private fun performMediaAction(request: MediaActionRequest) {
+        if (!areMediaActionsAvailable || isMediaActionRunning) return
+        isMediaActionRunning = true
+        activeMediaAction = request
+        componentScope.launch {
+            try {
+                val result = mediaActionsManager.perform(listOf(request.media), request.action)
+                val sender = result.permissionRequest
+                if (sender != null) {
+                    pendingMediaPermission = sender
+                } else {
+                    finishMediaAction(request.media.uri in result.successfulUris)
+                }
+            } catch (exception: CancellationException) {
+                activeMediaAction = null
+                isMediaActionRunning = false
+                throw exception
+            } catch (exception: Exception) {
+                AppToastHost.showFailureToast(exception)
+                finishMediaAction(successful = false, showFailure = false)
+            }
+        }
+    }
+
+    fun onMediaPermissionResult(granted: Boolean) {
+        if (pendingMediaPermission == null) return
+        pendingMediaPermission = null
+        finishMediaAction(successful = granted, showFailure = false)
+    }
+
+    private fun finishMediaAction(successful: Boolean, showFailure: Boolean = true) {
+        val request = activeMediaAction ?: return
+        if (successful) {
+            val transform: (Media) -> Media? = { media ->
+                when (request.action) {
+                    MediaAction.Favorite -> media.copy(isFavorite = true)
+                    MediaAction.Unfavorite -> if (selectedAlbumId == Album.FAVORITES_ID) null
+                    else media.copy(isFavorite = false)
+
+                    MediaAction.Trash, MediaAction.Restore, MediaAction.Delete -> null
+                }
+            }
+            sourceMediaState.value =
+                sourceMediaState.value.updateMedia(request.media.uri, transform)
+            _mediaState.value = _mediaState.value.updateMedia(request.media.uri, transform)
+            _filteredMediaState.value =
+                _filteredMediaState.value.updateMedia(request.media.uri, transform)
+            val selectedIndex = selectedMedia.indexOfFirst { it.uri == request.media.uri }
+            if (selectedIndex >= 0) {
+                if (request.action == MediaAction.Favorite || request.action == MediaAction.Unfavorite) {
+                    selectedMedia[selectedIndex] = selectedMedia[selectedIndex].copy(
+                        isFavorite = request.action == MediaAction.Favorite
+                    )
+                } else selectedMedia.removeAt(selectedIndex)
+            }
+        } else if (showFailure) {
+            AppToastHost.showFailureToast(R.string.gallery_media_action_failed)
+        }
+        activeMediaAction = null
+        isMediaActionRunning = false
+        mediaRetriever.invalidate()
+    }
 
     private val emptyAlbum = Album(
         id = -1,
@@ -481,22 +589,17 @@ class MediaPickerComponent @AssistedInject internal constructor(
             mediaRetriever.getAlbumsWithType(allowedMedia)
                 .flowOn(defaultDispatcher)
                 .collectLatest { result ->
-                    val data = result.getOrNull() ?: emptyList()
+                    val data = result.getOrNull().orEmpty()
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
-                    if (data.isEmpty()) {
-                        return@collectLatest _albumsState.emit(
-                            AlbumState(
-                                albums = listOf(emptyAlbum),
-                                error = error
-                            )
-                        )
-                    }
-                    val albums = mutableListOf<Album>().apply {
-                        add(emptyAlbum)
-                        addAll(data)
-                    }
+                    val albums = listOf(emptyAlbum) + data
                     _albumsState.emit(AlbumState(albums = albums, error = error))
+                    if (result.isSuccess &&
+                        (selectedAlbumId == Album.FAVORITES_ID || selectedAlbumId == Album.TRASH_ID) &&
+                        albums.none { it.id == selectedAlbumId && it.count > 0 }
+                    ) {
+                        getAlbum(Album.ALL_ID)
+                    }
                 }
         }
     }
@@ -507,10 +610,14 @@ class MediaPickerComponent @AssistedInject internal constructor(
         albumId: Long,
         allowedMedia: AllowedMedia
     ) {
-        sourceMediaState.value = sourceMediaState.value.copy(isLoading = true)
         val scope = CategoryScope(albumId, allowedMedia)
+        val current = sourceMediaState.value
+        val isRefreshing = categoryScope.value == scope && !current.isLoading
+        sourceMediaState.value = if (isRefreshing) current.copy(isRefreshing = true)
+        else MediaState()
+        if (!isRefreshing) _filteredMediaState.value = MediaState()
         categoryScope.value = scope
-        if (_isSemanticSearchEnabled.value && semanticSearchState.value.modelsReady &&
+        if (albumId != Album.TRASH_ID && _isSemanticSearchEnabled.value && semanticSearchState.value.modelsReady &&
             semanticSearchState.value.indexedImages > 0
         ) {
             prepareSemanticCategories(scope, settingsState.semanticSearchSettings.forCategories())
@@ -524,7 +631,11 @@ class MediaPickerComponent @AssistedInject internal constructor(
                             result.getOrNull()?.filter { it.uri.endsWith(allowedMedia.ext) }
                         } else {
                             result.getOrNull()
-                        }?.distinctBy { it.id } ?: emptyList()
+                        }?.distinctBy(Media::uri) ?: emptyList()
+                    val updatedMedia = data.associateBy(Media::uri)
+                    selectedMedia.indices.forEach { index ->
+                        updatedMedia[selectedMedia[index].uri]?.let { selectedMedia[index] = it }
+                    }
 
                     val error = if (result.isFailure) result.exceptionOrNull()?.message
                         ?: "An error occurred" else ""
@@ -597,7 +708,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     enabled != _isSemanticSearchEnabled.value
                 ) return@collectLatest
                 if (!settings.groupPeople) _showPeopleGroups.value = false
-                if (!enabled || !index.modelsReady || !index.hasIndexedImages) {
+                if (!enabled || scope.albumId == Album.TRASH_ID || !index.modelsReady || !index.hasIndexedImages) {
                     _showPeopleGroups.value = false
                     _semanticSearchCategories.value = emptyList()
                     readyCategoryScope = null
@@ -606,7 +717,7 @@ class MediaPickerComponent @AssistedInject internal constructor(
                     return@collectLatest
                 }
                 prepareSemanticCategories(scope, settings)
-                if (media.isLoading) return@collectLatest
+                if (media.isLoading || media.isRefreshing) return@collectLatest
                 if (media.error.isNotEmpty()) {
                     _isSemanticSearchCategoriesLoading.value = false
                     return@collectLatest
@@ -705,7 +816,8 @@ class MediaPickerComponent @AssistedInject internal constructor(
                 val (enabled, modelsReady, isDownloading) = semantic
                 val isFilenameOnly = image == null &&
                         (keyword.isBlank() || keyword.startsWith("*") || keyword.endsWith("*"))
-                val canSearch = enabled && !isFilenameOnly && modelsReady &&
+                val canSearch =
+                    selectedAlbumId != Album.TRASH_ID && enabled && !isFilenameOnly && modelsReady &&
                         !isDownloading && state.error.isEmpty()
                 _isSemanticSearching.value = canSearch
                 if (order != settings.mediaOrder) return@collectLatest

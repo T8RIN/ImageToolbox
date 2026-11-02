@@ -1,6 +1,6 @@
 /*
  * ImageToolbox is an image editor for android
- * Copyright (c) 2024 T8RIN (Malik Mukhametzyanov)
+ * Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,21 @@ data class Album(
         volume.lowercase().matches(".*[0-9a-f]{4}-[0-9a-f]{4}".toRegex())
 
     companion object {
+
+        const val ALL_ID = -1L
+        const val FAVORITES_ID = -2L
+        const val TRASH_ID = -3L
+
+        val Favorites = Album(
+            id = FAVORITES_ID,
+            label = "Favorites",
+            uri = "",
+            pathToThumbnail = "",
+            relativePath = "",
+            timestamp = 0
+        )
+
+        val Trash = Favorites.copy(id = TRASH_ID, label = "Trash")
 
         val NewAlbum = Album(
             id = -200,

@@ -18,7 +18,6 @@
 package com.t8rin.imagetoolbox.feature.media_picker.data.utils
 
 import android.content.ContentResolver
-import android.content.ContentUris
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -53,7 +52,7 @@ sealed class Query(
             MediaStore.MediaColumns.MIME_TYPE,
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
-        ).toTypedArray(),
+        ).plus(actionProjection).toTypedArray(),
     )
 
     class PhotoQuery : Query(
@@ -75,7 +74,7 @@ sealed class Query(
             MediaStore.MediaColumns.MIME_TYPE,
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
-        ).toTypedArray(),
+        ).plus(actionProjection).toTypedArray(),
         bundle = defaultBundle.deepCopy().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
@@ -107,7 +106,7 @@ sealed class Query(
             MediaStore.MediaColumns.ORIENTATION,
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
-        ).toTypedArray(),
+        ).plus(actionProjection).toTypedArray(),
         bundle = defaultBundle.deepCopy().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
@@ -133,7 +132,7 @@ sealed class Query(
             MediaStore.MediaColumns.MIME_TYPE,
             MediaStore.MediaColumns.DATE_MODIFIED,
             MediaStore.MediaColumns.DATE_TAKEN
-        )
+        ).plus(actionProjection)
     )
 
     class FileQuery(fileExtensions: List<String>) : Query(
@@ -155,12 +154,12 @@ sealed class Query(
             MediaStore.MediaColumns.MIME_TYPE,
             MediaStore.MediaColumns.WIDTH,
             MediaStore.MediaColumns.HEIGHT
-        ).toTypedArray(),
+        ).plus(actionProjection).toTypedArray(),
         bundle = defaultBundle.deepCopy().apply {
             putString(
                 ContentResolver.QUERY_ARG_SQL_SELECTION,
                 fileExtensions.indices.asSequence().map { "${MediaStore.MediaColumns.DATA} like ?" }
-                    .joinToString(" OR ")
+                    .joinToString(" OR ").ifEmpty { "0" }
             )
             putStringArray(
                 ContentResolver.QUERY_ARG_SQL_SELECTION_ARGS,
@@ -179,6 +178,18 @@ sealed class Query(
     }
 
     companion object {
+        private val actionProjection: List<String>
+            get() = buildList {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    add(MediaStore.MediaColumns.VOLUME_NAME)
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    add(MediaStore.MediaColumns.IS_FAVORITE)
+                    add(MediaStore.MediaColumns.IS_TRASHED)
+                    add(MediaStore.MediaColumns.DATE_EXPIRES)
+                }
+            }
+
         val defaultBundle = Bundle().apply {
             putStringArray(
                 ContentResolver.QUERY_ARG_SORT_COLUMNS,
@@ -219,6 +230,8 @@ suspend fun ContentResolver.getAlbums(
 ): List<Album> = coroutineScope {
     val timeStart = System.currentTimeMillis()
     val albums = mutableListOf<Album>()
+    val seen = hashSetOf<String>()
+    var favorites = Album.Favorites
     val albumQuery = query.copyAsAlbum()
     val albumFileQuery = fileQuery.copyAsAlbum()
 
@@ -255,19 +268,31 @@ suspend fun ContentResolver.getAlbums(
                         getLong(getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED))
                     val mimeType =
                         getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
-                    val contentUri = if (mimeType.contains("image"))
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    else
-                        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    val contentUri = mediaStoreItemUri(id, mimeType.orEmpty(), thumbnailPath)
+                    if (!seen.add(contentUri.toString())) continue
                     val album = Album(
                         id = albumId,
                         label = label ?: Build.MODEL,
-                        uri = ContentUris.withAppendedId(contentUri, id).toString(),
+                        uri = contentUri.toString(),
                         pathToThumbnail = thumbnailPath,
                         relativePath = thumbnailRelativePath,
                         timestamp = thumbnailDate,
                         count = 1
                     )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                        getColumnIndex(MediaStore.MediaColumns.IS_FAVORITE).let { index ->
+                            index >= 0 && getInt(index) == 1
+                        }
+                    ) {
+                        favorites =
+                            if (favorites.count == 0L || thumbnailDate > favorites.timestamp) {
+                                album.copy(
+                                    id = Album.FAVORITES_ID,
+                                    label = Album.Favorites.label,
+                                    count = favorites.count + 1
+                                )
+                            } else favorites.copy(count = favorites.count + 1)
+                    }
                     val currentAlbum = albums.find { a -> a.id == albumId }
                     if (currentAlbum == null)
                         albums.add(album)
@@ -283,7 +308,7 @@ suspend fun ContentResolver.getAlbums(
         }
     }
 
-    mediaOrder.sortAlbums(albums).also {
+    (listOfNotNull(favorites.takeIf { it.count > 0 }) + mediaOrder.sortAlbums(albums)).also {
         "Album parsing took: ${System.currentTimeMillis() - timeStart}ms".makeLog()
     }
 }

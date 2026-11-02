@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
@@ -59,19 +60,26 @@ import com.t8rin.imagetoolbox.core.domain.utils.timestamp
 import com.t8rin.imagetoolbox.core.resources.Icons
 import com.t8rin.imagetoolbox.core.resources.R
 import com.t8rin.imagetoolbox.core.resources.icons.DataObject
+import com.t8rin.imagetoolbox.core.resources.icons.Delete
 import com.t8rin.imagetoolbox.core.resources.icons.EditCalendar
 import com.t8rin.imagetoolbox.core.resources.icons.Event
 import com.t8rin.imagetoolbox.core.resources.icons.Exif
 import com.t8rin.imagetoolbox.core.resources.icons.FolderOpen
 import com.t8rin.imagetoolbox.core.resources.icons.ImageResize
 import com.t8rin.imagetoolbox.core.resources.icons.Info
+import com.t8rin.imagetoolbox.core.resources.icons.Restore
 import com.t8rin.imagetoolbox.core.resources.icons.Share
+import com.t8rin.imagetoolbox.core.resources.icons.Star
 import com.t8rin.imagetoolbox.core.resources.icons.Straighten
 import com.t8rin.imagetoolbox.core.resources.icons.TextSearch
+import com.t8rin.imagetoolbox.core.ui.theme.Yellow
+import com.t8rin.imagetoolbox.core.ui.theme.errorContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.onErrorContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onPrimaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onSecondaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.onTertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.primaryContainerFixed
+import com.t8rin.imagetoolbox.core.ui.theme.rememberCustomColorScheme
 import com.t8rin.imagetoolbox.core.ui.theme.secondaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.theme.tertiaryContainerFixed
 import com.t8rin.imagetoolbox.core.ui.utils.helper.Clipboard
@@ -106,10 +114,17 @@ fun MetadataPreviewButton(
     name: (Uri) -> String? = { it.filename() },
     fileSize: (Uri) -> String? = { it.fileSize()?.let(::humanFileSize) },
     imageSize: (Uri) -> IntegerSize? = { it.imageSize() },
-    mimeType: (Uri) -> String? = { it.mimeType() }
+    mimeType: (Uri) -> String? = { it.mimeType() },
+    isFavorite: Boolean = false,
+    isTrashed: Boolean = false,
+    onFavoriteChange: ((Uri, Boolean) -> Unit)? = null,
+    onTrash: ((Uri) -> Unit)? = null,
+    onDelete: ((Uri) -> Unit)? = null,
+    actionsEnabled: Boolean = true
 ) {
     AnimatedContent(
-        targetState = uri
+        targetState = uri,
+        contentKey = { it == null }
     ) { uri ->
         val metadata by rememberImageMetadataAsState(
             uri ?: return@AnimatedContent
@@ -162,7 +177,7 @@ fun MetadataPreviewButton(
                 EnhancedButton(
                     onClick = { showExif = true },
                     modifier = Modifier.height(32.dp),
-                    shape = ShapeDefaults.smallStart,
+                    shape = if (hasInfo || !isTrashed) ShapeDefaults.smallStart else ShapeDefaults.small,
                     containerColor = MaterialTheme.colorScheme.primaryContainerFixed,
                     contentColor = MaterialTheme.colorScheme.onPrimaryContainerFixed,
                     contentPadding = PaddingValues(horizontal = 10.dp)
@@ -186,7 +201,7 @@ fun MetadataPreviewButton(
                 EnhancedIconButton(
                     onClick = { showExif = true },
                     modifier = Modifier.size(32.dp),
-                    shape = ShapeDefaults.center,
+                    shape = if (isTrashed) ShapeDefaults.smallEnd else ShapeDefaults.center,
                     forceMinimumInteractiveComponentSize = false,
                     containerColor = MaterialTheme.colorScheme.secondaryContainerFixed,
                     contentColor = MaterialTheme.colorScheme.onSecondaryContainerFixed
@@ -198,7 +213,7 @@ fun MetadataPreviewButton(
                     )
                 }
             }
-            EnhancedIconButton(
+            if (!isTrashed) EnhancedIconButton(
                 onClick = { onShare(uri) },
                 modifier = Modifier.size(32.dp),
                 shape = ShapeDefaults.smallEnd,
@@ -207,10 +222,71 @@ fun MetadataPreviewButton(
                 contentColor = MaterialTheme.colorScheme.onTertiaryContainerFixed
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.Share,
+                    imageVector = Icons.Outlined.Share,
                     contentDescription = stringResource(R.string.share),
                     modifier = Modifier.size(20.dp)
                 )
+            }
+            if (onFavoriteChange != null || onTrash != null || onDelete != null) {
+                Spacer(Modifier.width(1.dp))
+                if (onFavoriteChange != null) {
+                    val favoriteColors = rememberCustomColorScheme(Yellow)
+                    EnhancedIconButton(
+                        onClick = { onFavoriteChange(uri, !isFavorite) },
+                        enabled = actionsEnabled,
+                        modifier = Modifier.size(32.dp),
+                        shape = if (onTrash != null) ShapeDefaults.smallStart else ShapeDefaults.small,
+                        forceMinimumInteractiveComponentSize = false,
+                        containerColor = favoriteColors.primaryContainerFixed,
+                        contentColor = favoriteColors.onPrimaryContainerFixed
+                    ) {
+                        Icon(
+                            imageVector = if (isFavorite) Icons.Rounded.Star else Icons.Outlined.Star,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+                if (onTrash != null) {
+                    EnhancedIconButton(
+                        onClick = { onTrash(uri) },
+                        enabled = actionsEnabled,
+                        modifier = Modifier.size(32.dp),
+                        shape = when {
+                            onFavoriteChange != null -> ShapeDefaults.smallEnd
+                            onDelete != null -> ShapeDefaults.smallStart
+                            else -> ShapeDefaults.small
+                        },
+                        forceMinimumInteractiveComponentSize = false,
+                        containerColor = if (isTrashed) MaterialTheme.colorScheme.tertiaryContainerFixed
+                        else MaterialTheme.colorScheme.errorContainerFixed,
+                        contentColor = if (isTrashed) MaterialTheme.colorScheme.onTertiaryContainerFixed
+                        else MaterialTheme.colorScheme.onErrorContainerFixed
+                    ) {
+                        Icon(
+                            imageVector = if (isTrashed) Icons.Rounded.Restore else Icons.Rounded.Delete,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+                if (onDelete != null) {
+                    EnhancedIconButton(
+                        onClick = { onDelete(uri) },
+                        enabled = actionsEnabled,
+                        modifier = Modifier.size(32.dp),
+                        shape = if (onTrash != null) ShapeDefaults.smallEnd else ShapeDefaults.small,
+                        forceMinimumInteractiveComponentSize = false,
+                        containerColor = MaterialTheme.colorScheme.errorContainerFixed,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainerFixed
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Delete,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
             }
         }
         if (hasInfo) {

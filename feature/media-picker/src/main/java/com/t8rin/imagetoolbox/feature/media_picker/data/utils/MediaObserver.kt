@@ -17,7 +17,6 @@
 
 package com.t8rin.imagetoolbox.feature.media_picker.data.utils
 
-import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
@@ -26,7 +25,9 @@ import android.database.Cursor
 import android.database.MergeCursor
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.provider.MediaStore
+import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Album
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.Media
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.MediaOrder
 import com.t8rin.imagetoolbox.feature.media_picker.domain.model.OrderType
@@ -88,7 +89,7 @@ suspend fun ContentResolver.getMedia(
             }
         }
 
-        mediaOrder.sortMedia(media)
+        mediaOrder.sortMedia(media.distinctBy(Media::uri))
     }
 }
 
@@ -135,21 +136,10 @@ fun Cursor.getMediaFromCursor(): Media {
     val width: Int? = getPositiveIntOrNull(MediaStore.MediaColumns.WIDTH)
     val height: Int? = getPositiveIntOrNull(MediaStore.MediaColumns.HEIGHT)
 
-    val (mimeType, contentUri) = SUPPORTED_FILES[Path(path).extension]?.let { (mimeType, _) ->
-        Pair(mimeType, MediaStore.Files.getContentUri("external"))
-    } ?: run {
-        val mimeType: String =
-            getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE))
+    val mimeType = SUPPORTED_FILES[Path(path).extension.lowercase()]?.first
+        ?: getString(getColumnIndexOrThrow(MediaStore.MediaColumns.MIME_TYPE)).orEmpty()
 
-        val contentUri = if (mimeType.contains("image"))
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        else
-            MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-
-        Pair(mimeType, contentUri)
-    }
-
-    val uri = ContentUris.withAppendedId(contentUri, id)
+    val uri = mediaStoreItemUri(id, mimeType, path)
 
     return Media(
         id = id,
@@ -165,9 +155,47 @@ fun Cursor.getMediaFromCursor(): Media {
         mimeType = mimeType,
         width = width,
         height = height,
+        isFavorite = getOptionalInt(MediaStore.MediaColumns.IS_FAVORITE) == 1,
+        isTrashed = getOptionalInt(MediaStore.MediaColumns.IS_TRASHED) == 1,
+        volumeName = getOptionalString(MediaStore.MediaColumns.VOLUME_NAME) ?: "external",
         size = getColumnIndex(MediaStore.MediaColumns.SIZE).takeIf { it != -1 && !isNull(it) }
             ?.let { getLong(it) }
     )
+}
+
+private fun Cursor.getOptionalInt(column: String): Int =
+    getColumnIndex(column).takeIf { it >= 0 && !isNull(it) }?.let(::getInt) ?: 0
+
+private fun Cursor.getOptionalString(column: String): String? =
+    getColumnIndex(column).takeIf { it >= 0 && !isNull(it) }?.let(::getString)
+
+fun Cursor.mediaStoreItemUri(id: Long, mimeType: String, path: String): Uri {
+    val volume = getOptionalString(MediaStore.MediaColumns.VOLUME_NAME) ?: "external"
+    val collection = when {
+        Path(path).extension.lowercase() in SUPPORTED_FILES -> MediaStore.Files.getContentUri(volume)
+        mimeType.startsWith("image/") -> MediaStore.Images.Media.getContentUri(volume)
+        mimeType.startsWith("video/") -> MediaStore.Video.Media.getContentUri(volume)
+        else -> MediaStore.Files.getContentUri(volume)
+    }
+    return ContentUris.withAppendedId(collection, id)
+}
+
+fun Query.forAlbum(albumId: Long = Album.ALL_ID): Query {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return this
+    val args = bundle?.deepCopy() ?: Bundle()
+    args.putInt(
+        MediaStore.QUERY_ARG_MATCH_TRASHED,
+        if (albumId == Album.TRASH_ID) MediaStore.MATCH_ONLY else MediaStore.MATCH_EXCLUDE
+    )
+    if (albumId == Album.FAVORITES_ID) {
+        val selection = args.getString(ContentResolver.QUERY_ARG_SQL_SELECTION)
+        args.putString(
+            ContentResolver.QUERY_ARG_SQL_SELECTION,
+            listOfNotNull(selection?.let { "($it)" }, "${MediaStore.MediaColumns.IS_FAVORITE}=1")
+                .joinToString(" AND ")
+        )
+    }
+    return copy(bundle = args)
 }
 
 private fun Cursor.getPositiveIntOrNull(column: String): Int? = runCatching {

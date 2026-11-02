@@ -40,6 +40,9 @@ data class Media(
     val width: Int? = null,
     val height: Int? = null,
     val size: Long? = null,
+    val isFavorite: Boolean = false,
+    val isTrashed: Boolean = false,
+    val volumeName: String = "external",
 ) {
     val fileSize: Long by lazy { size ?: uri.toUri().fileSize() ?: 0 }
 
