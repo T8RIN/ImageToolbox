@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -13,9 +14,7 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  -->
-
-<resources xmlns:tools="http://schemas.android.com/tools">
+  --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -3125,7 +3124,7 @@
     <string name="help_tip_clipboard_privacy_description">剪貼簿自動化很方便，但複製的文字可能包含密碼、連結、地址、令牌或私人註解。將基於剪貼簿的輸入視為速度功能，應符合您的習慣和隱私期望。</string>
     <string name="help_tip_clipboard_privacy_step_1">如果工具中意外出現私有文本，請停用自動剪貼簿使用。</string>
     <string name="help_tip_clipboard_privacy_step_2">僅當您故意希望結果避免儲存時才使用僅剪貼簿保存。</string>
-    <string name="help_tip_clipboard_privacy_step_3">處理敏感文字、QR 資料或 Base64 有效負載後清除或替換剪貼簿。</string>
+    <string name="help_tip_clipboard_privacy_step_3">停用「自動貼上」功能可停止複製後續結果。對於不需要的自動輸入，請使用單獨的「允許自動貼上到剪貼簿」設定。</string>
     <string name="help_tip_color_formats_title">顏色格式</string>
     <string name="help_tip_color_formats_subtitle">在貼上到其他地方之前了解 HEX、RGB、HSV、Alpha 和複製的顏色值</string>
     <string name="help_tip_color_formats_page_title">複製目標期望的格式</string>
@@ -4503,7 +4502,7 @@
     <string name="help_tip_raw_development_page_title">選擇一個可靠的起點</string>
     <string name="help_tip_raw_development_description">RAW 檔案包含的是感測器原始資料而非最終成品相片，因此首次算圖的結果完全取決於開發設定。相機白平衡、方向、亮度以及內嵌的預覽圖，都會讓同一個檔案看起來截然不同。建議先從能忠實呈現影像的設定開始，轉檔後再於編輯器中進行創意修飾。</string>
     <string name="help_tip_raw_development_step_1">當您想要最接近相機預期渲染的起點時，請保持相機白平衡和自動方向啟用。</string>
-    <string name="help_tip_raw_development_step_2">當快速瀏覽比檢查完整的處理結果更重要時，請使用內嵌的預覽；在評估實際 RAW 轉換時停用它。</string>
+    <string name="help_tip_raw_development_step_2">選擇「自訂」可分別設定紅色、綠色、藍色和第二綠色倍率，每個倍率範圍為 0.1 到 4。進行微調並比對同一個原始檔。</string>
     <string name="help_tip_raw_development_step_3">為中性的第一遍保留自動亮度，然後在整個影像需要有意移動時使用曝光補償。</string>
     <string name="help_tip_raw_development_page_2_title">保護明亮的細節和色彩</string>
     <string name="help_tip_raw_development_page_2_description">RAW 檔案通常包含簡單渲染過早剪輯的高光資訊。高光恢復可以保留明亮的天空、窗戶、金屬和織物，而輸出色彩空間決定這些顏色在轉換後的影像中表示的範圍。強大的恢復能力可能會改變顏色或產生偽影，因此請使用有用的變焦來檢查重要的高光部分。</string>
@@ -5611,18 +5610,18 @@
     <string name="gallery_category_sunset">日落</string>
     <string name="gallery_search_auto">語意照片搜尋</string>
     <string name="gallery_search_auto_sub">依照片中的內容尋找照片，並瀏覽圖庫和嵌入式選取器中的自動類別。首次設定需要下載約 227 MB 的檔案。</string>
-    <string name="gallery_search_queued">等待準備照片...</string>
-    <string name="gallery_search_update_queued">正在等待更新照片搜尋...</string>
+    <string name="gallery_search_queued">正在等待準備照片…</string>
+    <string name="gallery_search_update_queued">正在等待更新照片搜尋…</string>
     <string name="gallery_search_permission">允許訪問照片以進行語義搜索</string>
     <string name="gallery_search_contents">語意照片搜尋</string>
     <string name="gallery_search_settings">搜尋設定</string>
     <string name="gallery_search_download_hint">搜尋照片內容需一次下載約227 MB。</string>
     <string name="gallery_search_description">依照片中的內容尋找照片並瀏覽自動類別。文件名搜尋始終有效。</string>
     <string name="gallery_search_hint">檔案名稱或描述</string>
-    <string name="gallery_search_downloading">正在下載檔案進行照片分析...</string>
+    <string name="gallery_search_downloading">正在下載用於照片分析的檔案…</string>
     <string name="gallery_search_indexing">正在準備照片：%1$d（共 %2$d）</string>
     <string name="gallery_search_indexed">準備的照片：%1$d</string>
-    <string name="gallery_search_searching">正在搜尋照片內容...</string>
+    <string name="gallery_search_searching">正在搜尋照片內容…</string>
     <string name="gallery_search_clear">刪除搜尋數據</string>
     <string name="gallery_search_clear_description">關閉語義照片搜尋並刪除其下載的檔案和保存的搜尋資料？您的照片、類別和閾值設定將被保留。檔案名稱搜尋仍然有效。</string>
     <string name="snap_to_grid">對齊網格</string>
