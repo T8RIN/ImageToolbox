@@ -286,31 +286,20 @@ fun QualitySelector(
                             activeButtonColor = activeButtonColor
                         )
                         AnimatedVisibility(visible = jhm17Quality.chroma.supportsPolish) {
-                            Column {
-                                QualityOptionSelector(
-                                    entries = Quality.Jhm17.Polish.entries,
-                                    value = jhm17Quality.polish,
-                                    title = stringResource(R.string.jhm17_polish),
-                                    itemTitle = { it.title },
-                                    onValueChange = {
-                                        onQualityChange(
-                                            jhm17Quality.copy(polish = it)
-                                                .coerceIn(actualImageFormat)
-                                        )
-                                    },
-                                    inactiveButtonColor = inactiveButtonColor,
-                                    activeButtonColor = activeButtonColor
-                                )
-                                Text(
-                                    text = stringResource(R.string.jhm17_polish_sub),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.Center,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                                )
-                            }
+                            QualityOptionSelector(
+                                entries = Quality.Jhm17.Polish.entries,
+                                value = jhm17Quality.polish,
+                                title = stringResource(R.string.jhm17_polish),
+                                subtitle = stringResource(R.string.jhm17_polish_sub),
+                                itemTitle = { it.title },
+                                onValueChange = {
+                                    onQualityChange(
+                                        jhm17Quality.copy(polish = it).coerceIn(actualImageFormat)
+                                    )
+                                },
+                                inactiveButtonColor = inactiveButtonColor,
+                                activeButtonColor = activeButtonColor
+                            )
                         }
                     }
 
@@ -675,6 +664,7 @@ private val ImageFormat.qualitySelectorContentKey: QualitySelectorContentKey
         additionalControls = when (this) {
             ImageFormat.Heic.VvcLossless,
             ImageFormat.Heic.VvcLossy -> AdditionalQualityControls.Vvc
+
             is ImageFormat.Heic -> AdditionalQualityControls.Heic
             is ImageFormat.Avif -> AdditionalQualityControls.Avif
             ImageFormat.Jhm17 -> AdditionalQualityControls.Jhm17
@@ -713,12 +703,10 @@ private fun <T : Any> QualityOptionSelector(
     itemTitle: @Composable (T) -> String,
     onValueChange: (T) -> Unit,
     inactiveButtonColor: Color,
-    activeButtonColor: Color
+    activeButtonColor: Color,
+    subtitle: String? = null
 ) {
-    EnhancedButtonGroup(
-        entries = entries,
-        value = value,
-        itemContent = { Text(itemTitle(it)) },
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp)
@@ -726,12 +714,35 @@ private fun <T : Any> QualityOptionSelector(
                 shape = ShapeDefaults.large,
                 color = MaterialTheme.colorScheme.surface
             )
-            .padding(4.dp),
-        title = title,
-        onValueChange = onValueChange,
-        inactiveButtonColor = inactiveButtonColor,
-        activeButtonColor = activeButtonColor
-    )
+            .padding(4.dp)
+    ) {
+        EnhancedButtonGroup(
+            entries = entries,
+            value = value,
+            itemContent = { Text(itemTitle(it)) },
+            modifier = Modifier.fillMaxWidth(),
+            title = title,
+            onValueChange = onValueChange,
+            inactiveButtonColor = inactiveButtonColor,
+            activeButtonColor = activeButtonColor
+        )
+        subtitle?.let {
+            Text(
+                text = it,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                lineHeight = 12.sp,
+                color = LocalContentColor.current.copy(0.5f),
+                modifier = Modifier
+                    .padding(top = 2.dp)
+                    .container(
+                        shape = ShapeDefaults.default,
+                        color = MaterialTheme.colorScheme.surfaceContainer
+                    )
+                    .padding(6.dp)
+            )
+        }
+    }
 }
 
 private val TiffCompressionScheme.title: String

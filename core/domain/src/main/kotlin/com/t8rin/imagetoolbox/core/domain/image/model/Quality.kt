@@ -156,7 +156,7 @@ sealed interface Quality {
     data class Jhm17(
         @IntRange(from = 1, to = 100)
         override val qualityValue: Int = 90,
-        val progressive: Boolean = false,
+        val progressive: Boolean = true,
         val chroma: Jhm17Chroma = Jhm17Chroma.AUTO,
         val polish: Polish = Polish.OFF
     ) : Quality {
