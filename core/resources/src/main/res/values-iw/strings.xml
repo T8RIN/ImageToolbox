@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">האשפה ריקה</string>
     <string name="gallery_trash_expires">מתוכנן למחיקה: %1$s</string>
     <string name="gallery_media_action_failed">לא ניתן לשנות את הקובץ. בדוק את הגישה אליו.</string>
+    <string name="media_picker_selection_too_large">נבחרו יותר מדי קבצים. בחר פחות קבצים ונסה שוב.</string>
 </resources>

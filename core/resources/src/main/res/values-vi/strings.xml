@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">Thùng rác trống</string>
     <string name="gallery_trash_expires">Đã lên lịch xóa: %1$s</string>
     <string name="gallery_media_action_failed">Không thể thay đổi tệp. Hãy kiểm tra quyền truy cập tệp.</string>
+    <string name="media_picker_selection_too_large">Đã chọn quá nhiều tệp. Chọn ít tệp hơn và thử lại.</string>
 </resources>

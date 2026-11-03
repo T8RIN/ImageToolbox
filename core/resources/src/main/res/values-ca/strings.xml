@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">La paperera està buida</string>
     <string name="gallery_trash_expires">Supressió programada: %1$s</string>
     <string name="gallery_media_action_failed">No s’ha pogut canviar el fitxer. Comproveu l’accés al fitxer.</string>
+    <string name="media_picker_selection_too_large">S\'han seleccionat massa fitxers. Seleccioneu menys fitxers i torneu-ho a provar.</string>
 </resources>

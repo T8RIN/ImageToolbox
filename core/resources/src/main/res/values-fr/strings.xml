@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources>
+  -->
+
+<resources>
     <string name="smth_went_wrong">Quelque chose s\'est mal passé: %1$s</string>
     <string name="size">Dimension %1$s</string>
     <string name="loading">Chargement…</string>
@@ -7551,4 +7552,5 @@
     <string name="gallery_trash_empty">La corbeille est vide</string>
     <string name="gallery_trash_expires">Suppression prévue : %1$s</string>
     <string name="gallery_media_action_failed">Impossible de modifier le fichier. Vérifiez l\'accès à celui-ci.</string>
+    <string name="media_picker_selection_too_large">Trop de fichiers sélectionnés. Sélectionnez moins de fichiers et réessayez.</string>
 </resources>

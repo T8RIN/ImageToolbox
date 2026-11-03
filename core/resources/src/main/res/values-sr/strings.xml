@@ -7553,4 +7553,5 @@
     <string name="gallery_trash_empty">Корпа је празна</string>
     <string name="gallery_trash_expires">Планирано за брисање: %1$s</string>
     <string name="gallery_media_action_failed">Није могуће променити датотеку. Проверите приступ њој.</string>
+    <string name="media_picker_selection_too_large">Изабрано је превише датотека. Изаберите мање датотека и покушајте поново.</string>
 </resources>

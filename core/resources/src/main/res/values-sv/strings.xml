@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Papperskorgen är tom</string>
     <string name="gallery_trash_expires">Planerad för radering: %1$s</string>
     <string name="gallery_media_action_failed">Det gick inte att ändra filen. Kontrollera tillgången till den.</string>
+    <string name="media_picker_selection_too_large">För många filer har valts. Välj färre filer och försök igen.</string>
 </resources>

@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">Kôš je prázdny</string>
     <string name="gallery_trash_expires">Naplánované odstránenie: %1$s</string>
     <string name="gallery_media_action_failed">Súbor sa nepodarilo zmeniť. Skontrolujte prístup k nemu.</string>
+    <string name="media_picker_selection_too_large">Je vybratých príliš veľa súborov. Vyberte menej súborov a skúste to znova.</string>
 </resources>

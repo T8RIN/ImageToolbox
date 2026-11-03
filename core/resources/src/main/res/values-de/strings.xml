@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Der Papierkorb ist leer</string>
     <string name="gallery_trash_expires">Zum Löschen geplant: %1$s</string>
     <string name="gallery_media_action_failed">Die Datei konnte nicht geändert werden. Überprüfen Sie den Zugriff darauf.</string>
+    <string name="media_picker_selection_too_large">Zu viele Dateien ausgewählt. Wählen Sie weniger Dateien aus und versuchen Sie es erneut.</string>
 </resources>

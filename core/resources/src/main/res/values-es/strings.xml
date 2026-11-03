@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">La papelera está vacía</string>
     <string name="gallery_trash_expires">Programado para eliminación: %1$s</string>
     <string name="gallery_media_action_failed">No se pudo cambiar el archivo. Consulta el acceso al mismo.</string>
+    <string name="media_picker_selection_too_large">Demasiados archivos seleccionados. Seleccione menos archivos e inténtelo de nuevo.</string>
 </resources>

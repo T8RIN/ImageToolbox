@@ -7553,4 +7553,5 @@
     <string name="gallery_trash_empty">Coșul de gunoi este gol</string>
     <string name="gallery_trash_expires">Programat pentru ștergere: %1$s</string>
     <string name="gallery_media_action_failed">Nu s-a putut schimba fișierul. Verificați accesul la acesta.</string>
+    <string name="media_picker_selection_too_large">Prea multe fișiere selectate. Selectați mai puține fișiere și încercați din nou.</string>
 </resources>

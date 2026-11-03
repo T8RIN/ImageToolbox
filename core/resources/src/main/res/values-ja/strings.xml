@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">ゴミ箱が空です</string>
     <string name="gallery_trash_expires">削除予定: %1$s</string>
     <string name="gallery_media_action_failed">ファイルを変更できませんでした。アクセスを確認してください。</string>
+    <string name="media_picker_selection_too_large">選択したファイルが多すぎます。選択するファイルの数を減らして、再試行してください。</string>
 </resources>

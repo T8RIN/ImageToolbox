@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Prügikast on tühi</string>
     <string name="gallery_trash_expires">Ajastatud kustutamine: %1$s</string>
     <string name="gallery_media_action_failed">Faili ei saanud muuta. Kontrollige juurdepääsu sellele.</string>
+    <string name="media_picker_selection_too_large">Valitud on liiga palju faile. Valige vähem faile ja proovige uuesti.</string>
 </resources>

@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">Kosz jest pusty</string>
     <string name="gallery_trash_expires">Zaplanowano do usunięcia: %1$s</string>
     <string name="gallery_media_action_failed">Nie można zmienić pliku. Sprawdź dostęp do niego.</string>
+    <string name="media_picker_selection_too_large">Wybrano zbyt wiele plików. Wybierz mniej plików i spróbuj ponownie.</string>
 </resources>

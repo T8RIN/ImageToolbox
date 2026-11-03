@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Papirkurven er tom</string>
     <string name="gallery_trash_expires">Planlagt sletning: %1$s</string>
     <string name="gallery_media_action_failed">Kunne ikke ændre filen. Tjek adgangen til den.</string>
+    <string name="media_picker_selection_too_large">Der er valgt for mange filer. Vælg færre filer, og prøv igen.</string>
 </resources>

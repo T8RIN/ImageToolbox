@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">Šiukšliadėžė tuščia</string>
     <string name="gallery_trash_expires">Suplanuota ištrinti: %1$s</string>
     <string name="gallery_media_action_failed">Nepavyko pakeisti failo. Patikrinkite prieigą prie jo.</string>
+    <string name="media_picker_selection_too_large">Pasirinkta per daug failų. Pasirinkite mažiau failų ir bandykite dar kartą.</string>
 </resources>

@@ -7556,4 +7556,5 @@
     <string name="gallery_trash_empty">سلة المهملات فارغة</string>
     <string name="gallery_trash_expires">تمت جدولة الحذف: %1$s</string>
     <string name="gallery_media_action_failed">تعذّر تعديل الملف. تحقق من إمكانية الوصول إليه.</string>
+    <string name="media_picker_selection_too_large">تم تحديد عدد كبير جدًا من الملفات. حدد ملفات أقل وحاول مرة أخرى.</string>
 </resources>

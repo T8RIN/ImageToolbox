@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">ট্র্যাশ খালি</string>
     <string name="gallery_trash_expires">মুছে ফেলার জন্য নির্ধারিত: %1$s</string>
     <string name="gallery_media_action_failed">ফাইলটি পরিবর্তন করা যায়নি। ফাইলটিতে প্রবেশাধিকার আছে কি না পরীক্ষা করুন।</string>
+    <string name="media_picker_selection_too_large">অনেকগুলি ফাইল নির্বাচন করা হয়েছে৷ কম ফাইল নির্বাচন করুন এবং আবার চেষ্টা করুন.</string>
 </resources>

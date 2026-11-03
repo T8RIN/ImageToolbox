@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Себет бос</string>
     <string name="gallery_trash_expires">Жою жоспарланған: %1$s</string>
     <string name="gallery_media_action_failed">Файлды өзгерту мүмкін болмады. Оған қол жеткізуді тексеріңіз.</string>
+    <string name="media_picker_selection_too_large">Тым көп файлдар таңдалды. Азырақ файлдарды таңдап, әрекетті қайталаңыз.</string>
 </resources>

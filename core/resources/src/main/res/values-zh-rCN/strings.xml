@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">垃圾箱已空</string>
     <string name="gallery_trash_expires">预定删除：%1$s</string>
     <string name="gallery_media_action_failed">无法修改文件。请检查文件访问权限。</string>
+    <string name="media_picker_selection_too_large">选择的文件太多。选择较少的文件并重试。</string>
 </resources>

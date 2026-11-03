@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">ट्रैश खाली है</string>
     <string name="gallery_trash_expires">हटाने के लिए शेड्यूल किया गया: %1$s</string>
     <string name="gallery_media_action_failed">फ़ाइल को बदला नहीं जा सका। उस तक पहुँच की जाँच करें।</string>
+    <string name="media_picker_selection_too_large">बहुत सारी फ़ाइलें चयनित. कम फ़ाइलें चुनें और पुनः प्रयास करें।</string>
 </resources>

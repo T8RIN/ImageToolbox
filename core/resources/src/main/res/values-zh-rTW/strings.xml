@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ImageToolbox is an image editor for android
   ~ Copyright (c) 2026 T8RIN (Malik Mukhametzyanov)
   ~
@@ -14,7 +13,9 @@
   ~
   ~ You should have received a copy of the Apache License
   ~ along with this program.  If not, see <http://www.apache.org/licenses/LICENSE-2.0>.
-  --><resources xmlns:tools="http://schemas.android.com/tools">
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="size">大小 %1$s</string>
     <string name="loading">載入中…</string>
     <string name="no_exif">沒有發現 EXIF 資料</string>
@@ -7550,4 +7551,5 @@
     <string name="gallery_trash_empty">垃圾桶是空的</string>
     <string name="gallery_trash_expires">預定刪除：%1$s</string>
     <string name="gallery_media_action_failed">無法修改檔案。請檢查檔案存取權限。</string>
+    <string name="media_picker_selection_too_large">選擇的文件太多。選擇較少的文件並重試。</string>
 </resources>

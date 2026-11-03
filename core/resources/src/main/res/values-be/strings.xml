@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">Сметніца пустая</string>
     <string name="gallery_trash_expires">Запланавана выдаленне: %1$s</string>
     <string name="gallery_media_action_failed">Не атрымалася змяніць файл. Праверце доступ да яго.</string>
+    <string name="media_picker_selection_too_large">Выбрана занадта шмат файлаў. Выберыце менш файлаў і паўтарыце спробу.</string>
 </resources>

@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">ถังขยะว่างเปล่า</string>
     <string name="gallery_trash_expires">กำหนดเวลาการลบ: %1$s</string>
     <string name="gallery_media_action_failed">ไม่สามารถแก้ไขไฟล์ได้ โปรดตรวจสอบสิทธิ์การเข้าถึงไฟล์</string>
+    <string name="media_picker_selection_too_large">เลือกไฟล์มากเกินไป เลือกไฟล์ให้น้อยลงแล้วลองอีกครั้ง</string>
 </resources>
