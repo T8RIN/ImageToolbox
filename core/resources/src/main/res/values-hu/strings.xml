@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">A pixeleket ismétlődő spirális csempékbe rendezi, hogy a tónusokat féltónusmintaként jelenítse meg.</string>
     <string name="filter_help_vertical_lines_dithering">A képpontokat függőleges vonalakba koncentrálja, amelyek vastagsága a tónustól függően változik.</string>
     <string name="filter_help_wave_lines_dithering">Ismétlődő küszöbmintát használ a hangok hullámos vonalként történő megjelenítéséhez.</string>
+    <string name="style_presets">Mentett stílusok</string>
+    <string name="style_presets_sub">Stílus mentése vagy alkalmazása</string>
+    <string name="save_style_preset">Stílus mentése</string>
+    <string name="delete_style_preset">Stílus törlése</string>
+    <string name="delete_style_preset_sub">Törli a „%1$s” stílust?</string>
+    <string name="code_preview_transparent_background">Átlátszó háttér</string>
 </resources>

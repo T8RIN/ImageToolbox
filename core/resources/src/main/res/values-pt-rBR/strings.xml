@@ -7593,4 +7593,10 @@
     <string name="filter_help_spiral_halftone_dithering">Organiza pixels em blocos espirais repetidos para renderizar tons como um padrão de meio-tom.</string>
     <string name="filter_help_vertical_lines_dithering">Concentra pixels em linhas verticais cuja espessura varia com o tom.</string>
     <string name="filter_help_wave_lines_dithering">Usa um padrão de limite repetido para renderizar tons como linhas onduladas.</string>
+    <string name="style_presets">Estilos salvos</string>
+    <string name="style_presets_sub">Salvar ou aplicar um estilo</string>
+    <string name="save_style_preset">Salvar estilo</string>
+    <string name="delete_style_preset">Excluir estilo</string>
+    <string name="delete_style_preset_sub">Excluir o estilo “%1$s”?</string>
+    <string name="code_preview_transparent_background">Fundo transparente</string>
 </resources>

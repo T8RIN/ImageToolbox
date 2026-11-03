@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">Mengatur piksel dalam ubin spiral berulang untuk menjadikan nada sebagai pola halftone.</string>
     <string name="filter_help_vertical_lines_dithering">Memusatkan piksel menjadi garis vertikal yang ketebalannya bervariasi menurut nada.</string>
     <string name="filter_help_wave_lines_dithering">Menggunakan pola ambang batas berulang untuk menjadikan nada sebagai garis bergelombang.</string>
+    <string name="style_presets">Gaya yang disimpan</string>
+    <string name="style_presets_sub">Simpan atau terapkan gaya</string>
+    <string name="save_style_preset">Simpan gaya</string>
+    <string name="delete_style_preset">Hapus gaya</string>
+    <string name="delete_style_preset_sub">Hapus gaya “%1$s”?</string>
+    <string name="code_preview_transparent_background">Latar belakang transparan</string>
 </resources>

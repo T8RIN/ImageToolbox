@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Rangschikt pixels in zich herhalende spiraalvormige tegels om tonen weer te geven als een halftoonpatroon.</string>
     <string name="filter_help_vertical_lines_dithering">Concentreert pixels in verticale lijnen waarvan de dikte varieert met de toon.</string>
     <string name="filter_help_wave_lines_dithering">Gebruikt een zich herhalend drempelpatroon om tonen weer te geven als golvende lijnen.</string>
+    <string name="style_presets">Opgeslagen stijlen</string>
+    <string name="style_presets_sub">Bewaar een stijl of pas deze toe</string>
+    <string name="save_style_preset">Stijl opslaan</string>
+    <string name="delete_style_preset">Stijl verwijderen</string>
+    <string name="delete_style_preset_sub">De stijl “%1$s” verwijderen?</string>
+    <string name="code_preview_transparent_background">Transparante achtergrond</string>
 </resources>

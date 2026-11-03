@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">پیکسل‌ها را در کاشی‌های مارپیچی تکراری مرتب می‌کند تا زنگ‌ها را به‌عنوان الگوی نیم‌تنی ارائه کند.</string>
     <string name="filter_help_vertical_lines_dithering">پیکسل ها را در خطوط عمودی متمرکز می کند که ضخامت آنها با تن متفاوت است.</string>
     <string name="filter_help_wave_lines_dithering">از یک الگوی آستانه تکرار شونده برای ارائه تون ها به صورت خطوط موج دار استفاده می کند.</string>
+    <string name="style_presets">سبک های ذخیره شده</string>
+    <string name="style_presets_sub">یک سبک را ذخیره یا اعمال کنید</string>
+    <string name="save_style_preset">ذخیره سبک</string>
+    <string name="delete_style_preset">حذف سبک</string>
+    <string name="delete_style_preset_sub">سبک \"%1$s\" حذف شود؟</string>
+    <string name="code_preview_transparent_background">پس زمینه شفاف</string>
 </resources>

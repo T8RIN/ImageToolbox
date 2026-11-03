@@ -7596,4 +7596,10 @@
     <string name="filter_help_spiral_halftone_dithering">يرتب وحدات البكسل في مربعات حلزونية متكررة لعرض درجات الألوان كنمط ألوان نصفية.</string>
     <string name="filter_help_vertical_lines_dithering">يركز وحدات البكسل في خطوط رأسية يختلف سمكها باختلاف درجة اللون.</string>
     <string name="filter_help_wave_lines_dithering">يستخدم نمط عتبة متكرر لعرض النغمات كخطوط متموجة.</string>
+    <string name="style_presets">الأنماط المحفوظة</string>
+    <string name="style_presets_sub">حفظ النمط أو تطبيقه</string>
+    <string name="save_style_preset">حفظ النمط</string>
+    <string name="delete_style_preset">حذف النمط</string>
+    <string name="delete_style_preset_sub">هل تريد حذف النمط \"%1$s\"؟</string>
+    <string name="code_preview_transparent_background">خلفية شفافة</string>
 </resources>

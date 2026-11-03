@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">டோன்களை ஹாஃப்டோன் பேட்டர்னாக வழங்க, மீண்டும் மீண்டும் சுழல் ஓடுகளில் பிக்சல்களை ஒழுங்குபடுத்துகிறது.</string>
     <string name="filter_help_vertical_lines_dithering">பிக்சல்களை செங்குத்து கோடுகளாக செறிவூட்டுகிறது, அதன் தடிமன் தொனியில் மாறுபடும்.</string>
     <string name="filter_help_wave_lines_dithering">டோன்களை அலை அலையான கோடுகளாக வழங்க, மீண்டும் மீண்டும் வரும் வாசல் வடிவத்தைப் பயன்படுத்துகிறது.</string>
+    <string name="style_presets">சேமித்த பாணிகள்</string>
+    <string name="style_presets_sub">ஒரு பாணியைச் சேமிக்கவும் அல்லது பயன்படுத்தவும்</string>
+    <string name="save_style_preset">பாணியைச் சேமிக்கவும்</string>
+    <string name="delete_style_preset">நடையை நீக்கு</string>
+    <string name="delete_style_preset_sub">“%1$s” பாணியை நீக்கவா?</string>
+    <string name="code_preview_transparent_background">வெளிப்படையான பின்னணி</string>
 </resources>

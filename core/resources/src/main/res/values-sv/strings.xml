@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Ordnar pixlar i upprepade spiralplattor för att återge toner som ett halvtonsmönster.</string>
     <string name="filter_help_vertical_lines_dithering">Koncentrerar pixlar till vertikala linjer vars tjocklek varierar med tonen.</string>
     <string name="filter_help_wave_lines_dithering">Använder ett upprepande tröskelmönster för att återge toner som vågiga linjer.</string>
+    <string name="style_presets">Sparade stilar</string>
+    <string name="style_presets_sub">Spara eller tillämpa en stil</string>
+    <string name="save_style_preset">Spara stil</string>
+    <string name="delete_style_preset">Ta bort stil</string>
+    <string name="delete_style_preset_sub">Vill du ta bort stilen \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">Transparent bakgrund</string>
 </resources>

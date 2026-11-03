@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">반복되는 나선형 타일의 픽셀을 배열하여 톤을 하프톤 패턴으로 렌더링합니다.</string>
     <string name="filter_help_vertical_lines_dithering">톤에 따라 두께가 달라지는 수직선으로 픽셀을 집중시킵니다.</string>
     <string name="filter_help_wave_lines_dithering">반복되는 임계값 패턴을 사용하여 톤을 물결선으로 렌더링합니다.</string>
+    <string name="style_presets">저장된 스타일</string>
+    <string name="style_presets_sub">스타일 저장 또는 적용</string>
+    <string name="save_style_preset">스타일 저장</string>
+    <string name="delete_style_preset">스타일 삭제</string>
+    <string name="delete_style_preset_sub">\'%1$s\' 스타일을 삭제하시겠습니까?</string>
+    <string name="code_preview_transparent_background">투명한 배경</string>
 </resources>

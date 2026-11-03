@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Tonları yarı ton deseni olarak oluşturmak için pikselleri yinelenen spiral döşemelerde düzenler.</string>
     <string name="filter_help_vertical_lines_dithering">Pikselleri kalınlığı tona göre değişen dikey çizgiler halinde yoğunlaştırır.</string>
     <string name="filter_help_wave_lines_dithering">Tonları dalgalı çizgiler halinde oluşturmak için yinelenen bir eşik deseni kullanır.</string>
+    <string name="style_presets">Kaydedilen stiller</string>
+    <string name="style_presets_sub">Stili kaydedin veya uygulayın</string>
+    <string name="save_style_preset">Stili kaydet</string>
+    <string name="delete_style_preset">Stili sil</string>
+    <string name="delete_style_preset_sub">“%1$s” stili silinsin mi?</string>
+    <string name="code_preview_transparent_background">Şeffaf arka plan</string>
 </resources>

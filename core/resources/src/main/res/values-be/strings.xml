@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Размяшчае пікселі ў паўтаральных спіральных плітках для адлюстравання тонаў у выглядзе паўтонавага ўзору.</string>
     <string name="filter_help_vertical_lines_dithering">Канцэнтруе пікселі ў вертыкальныя лініі, таўшчыня якіх залежыць ад тону.</string>
     <string name="filter_help_wave_lines_dithering">Выкарыстоўвае паўтаральны парогавы ўзор для адлюстравання тонаў у выглядзе хвалістых ліній.</string>
+    <string name="style_presets">Захаваныя стылі</string>
+    <string name="style_presets_sub">Захавайце або прымяніце стыль</string>
+    <string name="save_style_preset">Захавайце стыль</string>
+    <string name="delete_style_preset">Выдаліць стыль</string>
+    <string name="delete_style_preset_sub">Выдаліць стыль “%1$s”?</string>
+    <string name="code_preview_transparent_background">Празрысты фон</string>
 </resources>

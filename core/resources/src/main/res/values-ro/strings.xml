@@ -7593,4 +7593,10 @@
     <string name="filter_help_spiral_halftone_dithering">Aranjează pixelii în plăci spiralate repetate pentru a reda tonurile ca un model de semitonuri.</string>
     <string name="filter_help_vertical_lines_dithering">Concentrează pixelii în linii verticale a căror grosime variază în funcție de ton.</string>
     <string name="filter_help_wave_lines_dithering">Utilizează un model de prag repetat pentru a reda tonurile ca linii ondulate.</string>
+    <string name="style_presets">Stiluri salvate</string>
+    <string name="style_presets_sub">Salvați sau aplicați un stil</string>
+    <string name="save_style_preset">Salvați stilul</string>
+    <string name="delete_style_preset">Ștergeți stilul</string>
+    <string name="delete_style_preset_sub">Ștergeți stilul „%1$s”?</string>
+    <string name="code_preview_transparent_background">Fundal transparent</string>
 </resources>

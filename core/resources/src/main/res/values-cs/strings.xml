@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Uspořádá obrazové body v opakujících se spirálových dlaždicích tak, aby vykreslovaly tóny jako polotónový vzorek.</string>
     <string name="filter_help_vertical_lines_dithering">Soustředí obrazové body do svislých čar, jejichž tloušťka se mění s tónem.</string>
     <string name="filter_help_wave_lines_dithering">Používá opakující se vzor prahu k vykreslení tónů jako vlnovek.</string>
+    <string name="style_presets">Uložené styly</string>
+    <string name="style_presets_sub">Uložte nebo použijte styl</string>
+    <string name="save_style_preset">Uložit styl</string>
+    <string name="delete_style_preset">Smazat styl</string>
+    <string name="delete_style_preset_sub">Smazat styl „%1$s“?</string>
+    <string name="code_preview_transparent_background">Průhledné pozadí</string>
 </resources>

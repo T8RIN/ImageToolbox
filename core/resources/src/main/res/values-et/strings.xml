@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Järjestab pikslid korduvateks spiraalseteks plaatideks, et renderdada toone pooltoonimustrina.</string>
     <string name="filter_help_vertical_lines_dithering">Kontsentreerib pikslid vertikaalseteks joonteks, mille paksus varieerub sõltuvalt toonist.</string>
     <string name="filter_help_wave_lines_dithering">Kasutab korduvat lävemustrit, et renderdada toonid laineliste joontena.</string>
+    <string name="style_presets">Salvestatud stiilid</string>
+    <string name="style_presets_sub">Salvestage või rakendage stiil</string>
+    <string name="save_style_preset">Salvesta stiil</string>
+    <string name="delete_style_preset">Kustuta stiil</string>
+    <string name="delete_style_preset_sub">Kas kustutada stiil \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">Läbipaistev taust</string>
 </resources>

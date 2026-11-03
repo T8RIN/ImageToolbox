@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Išdėlioja pikselius pasikartojančiose spiralinėse plytelėse, kad tonai būtų pateikiami kaip pustonių raštas.</string>
     <string name="filter_help_vertical_lines_dithering">Sukoncentruoja pikselius į vertikalias linijas, kurių storis kinta priklausomai nuo tono.</string>
     <string name="filter_help_wave_lines_dithering">Naudoja pasikartojantį slenksčio šabloną, kad tonai būtų pateikiami kaip banguotos linijos.</string>
+    <string name="style_presets">Išsaugoti stiliai</string>
+    <string name="style_presets_sub">Išsaugokite arba pritaikykite stilių</string>
+    <string name="save_style_preset">Išsaugokite stilių</string>
+    <string name="delete_style_preset">Ištrinti stilių</string>
+    <string name="delete_style_preset_sub">Ištrinti stilių „%1$s“?</string>
+    <string name="code_preview_transparent_background">Skaidrus fonas</string>
 </resources>

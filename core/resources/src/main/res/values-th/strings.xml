@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">จัดเรียงพิกเซลในการเรียงต่อกันแบบเกลียวเพื่อแสดงโทนเป็นรูปแบบฮาล์ฟโทน</string>
     <string name="filter_help_vertical_lines_dithering">รวมพิกเซลเป็นเส้นแนวตั้งซึ่งมีความหนาแตกต่างกันไปตามโทนสี</string>
     <string name="filter_help_wave_lines_dithering">ใช้รูปแบบเกณฑ์การทำซ้ำเพื่อแสดงโทนเสียงเป็นเส้นหยัก</string>
+    <string name="style_presets">สไตล์ที่บันทึกไว้</string>
+    <string name="style_presets_sub">บันทึกหรือใช้สไตล์</string>
+    <string name="save_style_preset">บันทึกสไตล์</string>
+    <string name="delete_style_preset">ลบสไตล์</string>
+    <string name="delete_style_preset_sub">ลบสไตล์ “%1$s” หรือไม่</string>
+    <string name="code_preview_transparent_background">พื้นหลังโปร่งใส</string>
 </resources>

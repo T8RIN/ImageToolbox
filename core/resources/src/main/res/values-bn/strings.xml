@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">একটি হাফটোন প্যাটার্ন হিসাবে টোন রেন্ডার করার জন্য পুনরাবৃত্তি করা সর্পিল টাইলগুলিতে পিক্সেলের ব্যবস্থা করে।</string>
     <string name="filter_help_vertical_lines_dithering">পিক্সেলকে উল্লম্ব রেখায় কেন্দ্রীভূত করে যার পুরুত্ব স্বরের সাথে পরিবর্তিত হয়।</string>
     <string name="filter_help_wave_lines_dithering">তরঙ্গায়িত লাইন হিসাবে টোন রেন্ডার করতে একটি পুনরাবৃত্তি থ্রেশহোল্ড প্যাটার্ন ব্যবহার করে।</string>
+    <string name="style_presets">সংরক্ষিত শৈলী</string>
+    <string name="style_presets_sub">সংরক্ষণ করুন বা একটি শৈলী প্রয়োগ করুন</string>
+    <string name="save_style_preset">শৈলী সংরক্ষণ করুন</string>
+    <string name="delete_style_preset">শৈলী মুছুন</string>
+    <string name="delete_style_preset_sub">\"%1$s\" শৈলী মুছবেন?</string>
+    <string name="code_preview_transparent_background">স্বচ্ছ ব্যাকগ্রাউন্ড</string>
 </resources>

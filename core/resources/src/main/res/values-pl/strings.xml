@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Rozmieszcza piksele w powtarzających się spiralnych kafelkach, aby renderować tony jako wzór rastrowy.</string>
     <string name="filter_help_vertical_lines_dithering">Koncentruje piksele w pionowe linie, których grubość zmienia się w zależności od tonu.</string>
     <string name="filter_help_wave_lines_dithering">Wykorzystuje powtarzający się wzór progowy do renderowania tonów jako falistych linii.</string>
+    <string name="style_presets">Zapisane style</string>
+    <string name="style_presets_sub">Zapisz lub zastosuj styl</string>
+    <string name="save_style_preset">Zapisz styl</string>
+    <string name="delete_style_preset">Usuń styl</string>
+    <string name="delete_style_preset_sub">Usunąć styl „%1$s”?</string>
+    <string name="code_preview_transparent_background">Przezroczyste tło</string>
 </resources>

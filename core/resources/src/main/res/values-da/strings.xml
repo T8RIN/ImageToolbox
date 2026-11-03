@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Arrangerer pixels i gentagne spiralfliser for at gengive toner som et halvtonemønster.</string>
     <string name="filter_help_vertical_lines_dithering">Koncentrerer pixels til lodrette linjer, hvis tykkelse varierer med tone.</string>
     <string name="filter_help_wave_lines_dithering">Bruger et gentaget tærskelmønster til at gengive toner som bølgede linjer.</string>
+    <string name="style_presets">Gemte stilarter</string>
+    <string name="style_presets_sub">Gem eller anvend en typografi</string>
+    <string name="save_style_preset">Gem stil</string>
+    <string name="delete_style_preset">Slet stil</string>
+    <string name="delete_style_preset_sub">Vil du slette stilen \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">Gennemsigtig baggrund</string>
 </resources>

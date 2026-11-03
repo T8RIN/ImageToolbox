@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">Sắp xếp các pixel theo các ô xoắn ốc lặp lại để hiển thị các tông màu dưới dạng mẫu bán sắc.</string>
     <string name="filter_help_vertical_lines_dithering">Tập trung các pixel thành các đường thẳng đứng có độ dày thay đổi theo tông màu.</string>
     <string name="filter_help_wave_lines_dithering">Sử dụng mẫu ngưỡng lặp lại để hiển thị âm dưới dạng đường lượn sóng.</string>
+    <string name="style_presets">Kiểu đã lưu</string>
+    <string name="style_presets_sub">Lưu hoặc áp dụng một kiểu</string>
+    <string name="save_style_preset">Lưu kiểu</string>
+    <string name="delete_style_preset">Xóa kiểu</string>
+    <string name="delete_style_preset_sub">Xóa kiểu “%1$s”?</string>
+    <string name="code_preview_transparent_background">Nền trong suốt</string>
 </resources>

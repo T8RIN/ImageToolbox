@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Nag-aayos ng mga pixel sa paulit-ulit na mga spiral tile upang i-render ang mga tono bilang halftone pattern.</string>
     <string name="filter_help_vertical_lines_dithering">Itinutuon ang mga pixel sa mga patayong linya na ang kapal ay nag-iiba ayon sa tono.</string>
     <string name="filter_help_wave_lines_dithering">Gumagamit ng umuulit na pattern ng threshold upang i-render ang mga tono bilang mga kulot na linya.</string>
+    <string name="style_presets">Mga naka-save na istilo</string>
+    <string name="style_presets_sub">Mag-save o maglapat ng istilo</string>
+    <string name="save_style_preset">I-save ang istilo</string>
+    <string name="delete_style_preset">Tanggalin ang istilo</string>
+    <string name="delete_style_preset_sub">Tanggalin ang istilong “%1$s”?</string>
+    <string name="code_preview_transparent_background">Transparent na background</string>
 </resources>

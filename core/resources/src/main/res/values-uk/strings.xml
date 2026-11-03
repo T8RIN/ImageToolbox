@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Розміщує пікселі у повторюваних спіральних плитках, щоб відтворювати тони як напівтоновий візерунок.</string>
     <string name="filter_help_vertical_lines_dithering">Концентрує пікселі у вертикальні лінії, товщина яких змінюється залежно від тону.</string>
     <string name="filter_help_wave_lines_dithering">Використовує повторюваний пороговий шаблон для відтворення тонів у вигляді хвилястих ліній.</string>
+    <string name="style_presets">Збережені стилі</string>
+    <string name="style_presets_sub">Зберегти або застосувати стиль</string>
+    <string name="save_style_preset">Зберегти стиль</string>
+    <string name="delete_style_preset">Видалити стиль</string>
+    <string name="delete_style_preset_sub">Видалити стиль «%1$s»?</string>
+    <string name="code_preview_transparent_background">Прозорий фон</string>
 </resources>

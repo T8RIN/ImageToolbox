@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Dispose les pixels en tuiles spirales répétitives pour restituer les tons sous forme de motif en demi-teintes.</string>
     <string name="filter_help_vertical_lines_dithering">Concentre les pixels en lignes verticales dont l\'épaisseur varie en fonction du ton.</string>
     <string name="filter_help_wave_lines_dithering">Utilise un motif de seuil répétitif pour restituer les tons sous forme de lignes ondulées.</string>
+    <string name="style_presets">Styles enregistrés</string>
+    <string name="style_presets_sub">Enregistrer ou appliquer un style</string>
+    <string name="save_style_preset">Enregistrer le style</string>
+    <string name="delete_style_preset">Supprimer le style</string>
+    <string name="delete_style_preset_sub">Supprimer le style « %1$s » ?</string>
+    <string name="code_preview_transparent_background">Fond transparent</string>
 </resources>

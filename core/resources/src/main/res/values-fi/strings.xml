@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Järjestää pikselit toistuviin kierreruutuihin toistaakseen sävyt rasterikuvioksi.</string>
     <string name="filter_help_vertical_lines_dithering">Keskittää pikselit pystysuuntaisiksi viivoiksi, joiden paksuus vaihtelee sävyn mukaan.</string>
     <string name="filter_help_wave_lines_dithering">Käyttää toistuvaa kynnyskuviota sävyjen hahmontamiseen aaltoilevina viivoina.</string>
+    <string name="style_presets">Tallennetut tyylit</string>
+    <string name="style_presets_sub">Tallenna tai käytä tyyliä</string>
+    <string name="save_style_preset">Tallenna tyyli</string>
+    <string name="delete_style_preset">Poista tyyli</string>
+    <string name="delete_style_preset_sub">Poistetaanko tyyli \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">Läpinäkyvä tausta</string>
 </resources>

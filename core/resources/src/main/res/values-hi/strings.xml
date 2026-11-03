@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">टोन को हाफ़टोन पैटर्न के रूप में प्रस्तुत करने के लिए दोहराई जाने वाली सर्पिल टाइलों में पिक्सेल को व्यवस्थित करता है।</string>
     <string name="filter_help_vertical_lines_dithering">पिक्सेल को ऊर्ध्वाधर रेखाओं में संकेंद्रित करता है जिनकी मोटाई टोन के साथ बदलती रहती है।</string>
     <string name="filter_help_wave_lines_dithering">टोन को लहरदार रेखाओं के रूप में प्रस्तुत करने के लिए दोहराए जाने वाले थ्रेशोल्ड पैटर्न का उपयोग करता है।</string>
+    <string name="style_presets">सहेजी गई शैलियाँ</string>
+    <string name="style_presets_sub">कोई शैली सहेजें या लागू करें</string>
+    <string name="save_style_preset">शैली सहेजें</string>
+    <string name="delete_style_preset">शैली हटाएँ</string>
+    <string name="delete_style_preset_sub">शैली \"%1$s\" हटाएं?</string>
+    <string name="code_preview_transparent_background">पारदर्शी पृष्ठभूमि</string>
 </resources>

@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Ordnet Pixel in sich wiederholenden Spiralkacheln an, um Töne als Halbtonmuster darzustellen.</string>
     <string name="filter_help_vertical_lines_dithering">Konzentriert Pixel in vertikale Linien, deren Dicke je nach Farbton variiert.</string>
     <string name="filter_help_wave_lines_dithering">Verwendet ein sich wiederholendes Schwellenwertmuster, um Töne als Wellenlinien darzustellen.</string>
+    <string name="style_presets">Gespeicherte Stile</string>
+    <string name="style_presets_sub">Speichern Sie einen Stil oder wenden Sie ihn an</string>
+    <string name="save_style_preset">Stil speichern</string>
+    <string name="delete_style_preset">Stil löschen</string>
+    <string name="delete_style_preset_sub">Den Stil „%1$s“ löschen?</string>
+    <string name="code_preview_transparent_background">Transparenter Hintergrund</string>
 </resources>

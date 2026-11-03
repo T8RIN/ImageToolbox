@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">מסדר פיקסלים באריחי ספירלה חוזרים כדי להציג גוונים כדוגמת חצי טון.</string>
     <string name="filter_help_vertical_lines_dithering">מרכז פיקסלים לקווים אנכיים שעובים משתנה בהתאם לגוון.</string>
     <string name="filter_help_wave_lines_dithering">משתמש בתבנית סף חוזרת כדי להציג צלילים כקווים גליים.</string>
+    <string name="style_presets">סגנונות שמורים</string>
+    <string name="style_presets_sub">שמור או החל סגנון</string>
+    <string name="save_style_preset">שמור סגנון</string>
+    <string name="delete_style_preset">מחק סגנון</string>
+    <string name="delete_style_preset_sub">האם למחוק את הסגנון \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">רקע שקוף</string>
 </resources>

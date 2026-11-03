@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Реңктерді жартылай реңк үлгісі ретінде көрсету үшін қайталанатын спираль тақталарындағы пикселдерді орналастырады.</string>
     <string name="filter_help_vertical_lines_dithering">Пиксельдерді қалыңдығы тонға байланысты өзгеретін тік сызықтарға шоғырландырады.</string>
     <string name="filter_help_wave_lines_dithering">Реңктерді толқынды сызықтар ретінде көрсету үшін қайталанатын шектік үлгіні пайдаланады.</string>
+    <string name="style_presets">Сақталған стильдер</string>
+    <string name="style_presets_sub">Мәнерді сақтаңыз немесе қолданыңыз</string>
+    <string name="save_style_preset">Стильді сақтау</string>
+    <string name="delete_style_preset">Стильді жою</string>
+    <string name="delete_style_preset_sub">“%1$s” стилін жою керек пе?</string>
+    <string name="code_preview_transparent_background">Мөлдір фон</string>
 </resources>

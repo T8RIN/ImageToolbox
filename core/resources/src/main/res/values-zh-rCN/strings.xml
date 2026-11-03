@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">将像素排列在重复的螺旋图块中，以将色调渲染为半色调图案。</string>
     <string name="filter_help_vertical_lines_dithering">将像素集中成垂直线，其粗细随色调而变化。</string>
     <string name="filter_help_wave_lines_dithering">使用重复阈值模式将色调渲染为波浪线。</string>
+    <string name="style_presets">保存的样式</string>
+    <string name="style_presets_sub">保存或应用样式</string>
+    <string name="save_style_preset">保存样式</string>
+    <string name="delete_style_preset">删除样式</string>
+    <string name="delete_style_preset_sub">删除样式“%1$s”？</string>
+    <string name="code_preview_transparent_background">透明背景</string>
 </resources>

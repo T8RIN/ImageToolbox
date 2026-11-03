@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Organiza los píxeles en mosaicos en espiral repetidos para representar los tonos como un patrón de medios tonos.</string>
     <string name="filter_help_vertical_lines_dithering">Concentra los píxeles en líneas verticales cuyo grosor varía según el tono.</string>
     <string name="filter_help_wave_lines_dithering">Utiliza un patrón de umbral repetido para representar tonos como líneas onduladas.</string>
+    <string name="style_presets">Estilos guardados</string>
+    <string name="style_presets_sub">Guardar o aplicar un estilo</string>
+    <string name="save_style_preset">Guardar estilo</string>
+    <string name="delete_style_preset">Eliminar estilo</string>
+    <string name="delete_style_preset_sub">¿Eliminar el estilo “%1$s”?</string>
+    <string name="code_preview_transparent_background">fondo transparente</string>
 </resources>

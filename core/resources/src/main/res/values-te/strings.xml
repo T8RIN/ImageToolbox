@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">టోన్‌లను హాఫ్‌టోన్ నమూనాగా రెండర్ చేయడానికి పునరావృతమయ్యే స్పైరల్ టైల్స్‌లో పిక్సెల్‌లను అమర్చుతుంది.</string>
     <string name="filter_help_vertical_lines_dithering">పిక్సెల్‌లను నిలువు వరుసలుగా కేంద్రీకరిస్తుంది, దీని మందం టోన్‌ను బట్టి మారుతుంది.</string>
     <string name="filter_help_wave_lines_dithering">టోన్‌లను వేవీ లైన్‌లుగా రెండర్ చేయడానికి పునరావృత థ్రెషోల్డ్ నమూనాను ఉపయోగిస్తుంది.</string>
+    <string name="style_presets">సేవ్ చేసిన శైలులు</string>
+    <string name="style_presets_sub">శైలిని సేవ్ చేయండి లేదా వర్తింపజేయండి</string>
+    <string name="save_style_preset">శైలిని సేవ్ చేయండి</string>
+    <string name="delete_style_preset">శైలిని తొలగించండి</string>
+    <string name="delete_style_preset_sub">“%1$s” శైలిని తొలగించాలా?</string>
+    <string name="code_preview_transparent_background">పారదర్శక నేపథ్యం</string>
 </resources>

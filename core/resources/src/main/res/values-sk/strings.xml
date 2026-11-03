@@ -7594,4 +7594,10 @@
     <string name="filter_help_spiral_halftone_dithering">Usporiada pixely v opakujúcich sa špirálových dlaždiciach, aby sa tóny vykreslili ako poltónový vzor.</string>
     <string name="filter_help_vertical_lines_dithering">Sústreďuje pixely do zvislých čiar, ktorých hrúbka sa mení podľa tónu.</string>
     <string name="filter_help_wave_lines_dithering">Používa opakujúci sa vzor prahu na vykreslenie tónov ako vlnovky.</string>
+    <string name="style_presets">Uložené štýly</string>
+    <string name="style_presets_sub">Uložte alebo použite štýl</string>
+    <string name="save_style_preset">Uložiť štýl</string>
+    <string name="delete_style_preset">Odstrániť štýl</string>
+    <string name="delete_style_preset_sub">Odstrániť štýl „%1$s“?</string>
+    <string name="code_preview_transparent_background">Priehľadné pozadie</string>
 </resources>

@@ -7591,4 +7591,10 @@
     <string name="filter_help_spiral_halftone_dithering">繰り返しスパイラル タイルにピクセルを配置して、トーンをハーフトーン パターンとしてレンダリングします。</string>
     <string name="filter_help_vertical_lines_dithering">ピクセルを濃度によって太さが異なる縦線に集中させます。</string>
     <string name="filter_help_wave_lines_dithering">繰り返しのしきい値パターンを使用して、トーンを波線としてレンダリングします。</string>
+    <string name="style_presets">保存されたスタイル</string>
+    <string name="style_presets_sub">スタイルを保存または適用する</string>
+    <string name="save_style_preset">スタイルの保存</string>
+    <string name="delete_style_preset">スタイルの削除</string>
+    <string name="delete_style_preset_sub">スタイル「%1$s」を削除しますか?</string>
+    <string name="code_preview_transparent_background">透明な背景</string>
 </resources>

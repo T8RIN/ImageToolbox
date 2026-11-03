@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Organitza píxels en rajoles espirals repetides per representar els tons com un patró de mitges tintes.</string>
     <string name="filter_help_vertical_lines_dithering">Concentra els píxels en línies verticals el gruix de les quals varia amb el to.</string>
     <string name="filter_help_wave_lines_dithering">Utilitza un patró de llindar repetit per representar els tons com a línies ondulades.</string>
+    <string name="style_presets">Estils guardats</string>
+    <string name="style_presets_sub">Desa o aplica un estil</string>
+    <string name="save_style_preset">Guarda l\'estil</string>
+    <string name="delete_style_preset">Esborra l\'estil</string>
+    <string name="delete_style_preset_sub">Vols suprimir l\'estil “%1$s”?</string>
+    <string name="code_preview_transparent_background">Fons transparent</string>
 </resources>

@@ -7592,4 +7592,10 @@
     <string name="filter_help_spiral_halftone_dithering">Dispone i pixel in porzioni a spirale ripetute per eseguire il rendering dei toni come pattern di mezzitoni.</string>
     <string name="filter_help_vertical_lines_dithering">Concentra i pixel in linee verticali il cui spessore varia con il tono.</string>
     <string name="filter_help_wave_lines_dithering">Utilizza un modello di soglia ripetuto per rendere i toni come linee ondulate.</string>
+    <string name="style_presets">Stili salvati</string>
+    <string name="style_presets_sub">Salva o applica uno stile</string>
+    <string name="save_style_preset">Salva stile</string>
+    <string name="delete_style_preset">Elimina stile</string>
+    <string name="delete_style_preset_sub">Eliminare lo stile \"%1$s\"?</string>
+    <string name="code_preview_transparent_background">Sfondo trasparente</string>
 </resources>

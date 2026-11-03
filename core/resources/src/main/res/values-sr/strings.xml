@@ -7593,4 +7593,10 @@
     <string name="filter_help_spiral_halftone_dithering">Распоређује пикселе у понављајућим спиралним плочицама да би се тонови приказали као полутонски узорак.</string>
     <string name="filter_help_vertical_lines_dithering">Концентрише пикселе у вертикалне линије чија дебљина варира у зависности од тона.</string>
     <string name="filter_help_wave_lines_dithering">Користи образац прага који се понавља да прикаже тонове као таласасте линије.</string>
+    <string name="style_presets">Сачувани стилови</string>
+    <string name="style_presets_sub">Сачувајте или примените стил</string>
+    <string name="save_style_preset">Сачувај стил</string>
+    <string name="delete_style_preset">Избриши стил</string>
+    <string name="delete_style_preset_sub">Желите ли да избришете стил „__ПХ_0__“?</string>
+    <string name="code_preview_transparent_background">Транспарент бацкгроунд</string>
 </resources>
