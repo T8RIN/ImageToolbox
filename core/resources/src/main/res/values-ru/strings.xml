@@ -3831,7 +3831,9 @@
     <string name="sheet_gestures_sub">Разрешить перетаскивание развёрнутых шторок с опциями</string>
     <string name="chroma_subsampling">Подвыборка цветности</string>
     <string name="jhm17_progressive">Прогрессивный JPEG</string>
+    <string name="jhm17_progressive_sub">Сохраняет изображение в несколько проходов, чтобы при загрузке сначала появлялся черновой вариант, а затем постепенно прорисовывались детали.</string>
     <string name="jhm17_polish">Уточнение коэффициентов</string>
+    <string name="jhm17_polish_sub">Может уменьшить размер файла, но кодирование занимает гораздо больше времени. Для больших изображений может не хватить памяти.</string>
     <string name="bit_depth">Разрядность</string>
     <string name="lossless">Без потерь</string>
     <string name="bit_depth_value">%1$d-бит</string>

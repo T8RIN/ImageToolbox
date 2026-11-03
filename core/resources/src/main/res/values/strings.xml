@@ -4254,7 +4254,9 @@
     <string name="sheet_nested_scroll_sub">Allow gestures in sheet content to drag and dismiss the sheet</string>
     <string name="chroma_subsampling">Chroma subsampling</string>
     <string name="jhm17_progressive">Progressive JPEG</string>
+    <string name="jhm17_progressive_sub">Stores the image in several passes so it appears gradually, from a rough preview to full detail, as it loads.</string>
     <string name="jhm17_polish">Coefficient Polish</string>
+    <string name="jhm17_polish_sub">Can reduce file size, but encoding takes much longer and may run out of memory on large images.</string>
     <string name="screen_content_coding">Screen content coding</string>
     <string name="screen_content_coding_sub">Optimizes encoding for screenshots, text, and graphics</string>
     <string name="screen_content_coding_heic_sub">Optimizes encoding for screenshots, text, and graphics. Most HEVC decoders do not support the RExt SCC extension</string>

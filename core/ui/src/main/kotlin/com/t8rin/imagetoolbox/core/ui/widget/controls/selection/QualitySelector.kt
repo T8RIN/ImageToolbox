@@ -259,6 +259,7 @@ fun QualitySelector(
                                 .fillMaxWidth()
                                 .padding(4.dp),
                             title = stringResource(R.string.jhm17_progressive),
+                            subtitle = stringResource(R.string.jhm17_progressive_sub),
                             checked = jhm17Quality.progressive,
                             containerColor = MaterialTheme.colorScheme.surface,
                             shape = ShapeDefaults.large,
@@ -285,19 +286,31 @@ fun QualitySelector(
                             activeButtonColor = activeButtonColor
                         )
                         AnimatedVisibility(visible = jhm17Quality.chroma.supportsPolish) {
-                            QualityOptionSelector(
-                                entries = Quality.Jhm17.Polish.entries,
-                                value = jhm17Quality.polish,
-                                title = stringResource(R.string.jhm17_polish),
-                                itemTitle = { it.title },
-                                onValueChange = {
-                                    onQualityChange(
-                                        jhm17Quality.copy(polish = it).coerceIn(actualImageFormat)
-                                    )
-                                },
-                                inactiveButtonColor = inactiveButtonColor,
-                                activeButtonColor = activeButtonColor
-                            )
+                            Column {
+                                QualityOptionSelector(
+                                    entries = Quality.Jhm17.Polish.entries,
+                                    value = jhm17Quality.polish,
+                                    title = stringResource(R.string.jhm17_polish),
+                                    itemTitle = { it.title },
+                                    onValueChange = {
+                                        onQualityChange(
+                                            jhm17Quality.copy(polish = it)
+                                                .coerceIn(actualImageFormat)
+                                        )
+                                    },
+                                    inactiveButtonColor = inactiveButtonColor,
+                                    activeButtonColor = activeButtonColor
+                                )
+                                Text(
+                                    text = stringResource(R.string.jhm17_polish_sub),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                                )
+                            }
                         }
                     }
 

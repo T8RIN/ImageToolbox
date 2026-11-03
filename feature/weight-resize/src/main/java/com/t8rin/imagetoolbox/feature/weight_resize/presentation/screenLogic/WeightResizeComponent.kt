@@ -154,6 +154,7 @@ class WeightResizeComponent @AssistedInject internal constructor(
     fun setUris(
         uris: List<Uri>?
     ) {
+        cancelImageLoading()
         clearHistory()
         registerChangesCleared()
         _uris.value = null
@@ -399,22 +400,19 @@ class WeightResizeComponent @AssistedInject internal constructor(
     private fun setImageData(imageData: ImageData<Bitmap>) {
         job = componentScope.launch {
             _isImageLoading.value = true
-            imageScaler.scaleUntilCanShow(imageData.image)?.let {
+            val preview = imageScaler.scaleUntilCanShow(imageData.image)
+            if (preview != null) {
                 _bitmap.value = imageData.image
-                _previewBitmap.value = it
+                _previewBitmap.value = preview
                 _imageFormat.value = imageData.imageInfo.imageFormat
-                _imageSize.value = imageCompressor.calculateImageSize(
-                    image = imageData.image,
-                    imageInfo = ImageInfo(
-                        width = imageData.image.width,
-                        height = imageData.image.height,
-                        imageFormat = imageFormat
-                    )
-                )
             }
             resetHistory()
             registerChangesCleared()
-            _isImageLoading.value = false
+            if (preview != null) {
+                updateImageSize(delay = 0L)
+            } else {
+                _isImageLoading.value = false
+            }
         }
     }
 
@@ -588,16 +586,14 @@ class WeightResizeComponent @AssistedInject internal constructor(
         updateImageSize()
     }
 
-    private fun updateImageSize() {
-        componentScope.launch {
-            _bitmap.value?.let {
-                _isImageLoading.value = true
-                _imageSize.value = imageCompressor.calculateImageSize(
-                    image = it,
-                    imageInfo = ImageInfo(imageFormat = imageFormat)
-                )
-                _isImageLoading.value = false
-            }
+    private fun updateImageSize(delay: Long = 600L) {
+        val bitmap = _bitmap.value ?: return
+        val imageInfo = ImageInfo(imageFormat = imageFormat)
+        debouncedImageCalculation(delay = delay) {
+            _imageSize.value = imageCompressor.calculateImageSize(
+                image = bitmap,
+                imageInfo = imageInfo
+            )
         }
     }
 

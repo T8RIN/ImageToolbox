@@ -522,7 +522,7 @@ or click one of the badges below.
     - [x] Analog Damage
     - [x] Blurred Frame
     - [x] Breaks
-  - [x] 3D Blocks
+    - [x] 3D Blocks
     - [x] Brushify
     - [x] Charcoal
     - [x] Chessboard Overlay
@@ -729,6 +729,24 @@ or click one of the badges below.
     - [x] Hue Shift Tunnel
     - [x] Bokeh Lights
     - [x] Fireworks
+    - [x] Riemersma Dithering
+    - [x] Ostromoukhov Dithering
+    - [x] Shiau–Fan Dithering
+    - [x] Serpentine Floyd–Steinberg Dithering
+    - [x] Serpentine Atkinson Dithering
+    - [x] Serpentine Burkes Dithering
+    - [x] Bayer 16×16 Dithering
+    - [x] Blue Noise Dithering
+    - [x] Interleaved Gradient Noise Dithering
+    - [x] Spiral Halftone Dithering
+    - [x] Hexagonal Dot Dithering
+    - [x] Wave Lines Dithering
+    - [x] Clustered Dot Dithering
+    - [x] Diamond Dithering
+    - [x] Horizontal Lines Dithering
+    - [x] Vertical Lines Dithering
+    - [x] Diagonal Lines Dithering
+    - [x] Crosshatch Matrix Dithering
 
   </details>
 
