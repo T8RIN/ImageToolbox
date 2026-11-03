@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">سطل زباله خالی است</string>
     <string name="gallery_trash_expires">برنامه ریزی شده برای حذف: %1$s</string>
     <string name="gallery_media_action_failed">نمی توان فایل را تغییر داد. دسترسی به آن را بررسی کنید.</string>
+    <string name="media_picker_selection_too_large">تعداد زیادی فایل انتخاب شده است. فایل های کمتری را انتخاب کنید و دوباره امتحان کنید.</string>
 </resources>

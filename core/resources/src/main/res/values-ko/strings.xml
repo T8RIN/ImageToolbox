@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">휴지통이 비어 있습니다.</string>
     <string name="gallery_trash_expires">삭제 예정: %1$s</string>
     <string name="gallery_media_action_failed">파일을 변경하지 못했습니다. 파일에 대한 접근 권한을 확인하세요.</string>
+    <string name="media_picker_selection_too_large">선택한 파일이 너무 많습니다. 더 적은 수의 파일을 선택하고 다시 시도하십시오.</string>
 </resources>

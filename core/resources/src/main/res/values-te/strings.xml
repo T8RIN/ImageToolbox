@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">ట్రాష్ ఖాళీగా ఉంది</string>
     <string name="gallery_trash_expires">తొలగింపు కోసం షెడ్యూల్ చేయబడింది: %1$s</string>
     <string name="gallery_media_action_failed">ఫైల్‌ని మార్చడం సాధ్యపడలేదు. దానికి యాక్సెస్‌ని తనిఖీ చేయండి.</string>
+    <string name="media_picker_selection_too_large">చాలా ఫైల్‌లు ఎంచుకోబడ్డాయి. తక్కువ ఫైల్‌లను ఎంచుకుని, మళ్లీ ప్రయత్నించండి.</string>
 </resources>

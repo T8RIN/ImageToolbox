@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Roskakori on tyhjä</string>
     <string name="gallery_trash_expires">Ajoitettu poistettavaksi: %1$s</string>
     <string name="gallery_media_action_failed">Tiedostoa ei voitu muuttaa. Tarkista pääsy siihen.</string>
+    <string name="media_picker_selection_too_large">Liian monta tiedostoa valittu. Valitse vähemmän tiedostoja ja yritä uudelleen.</string>
 </resources>

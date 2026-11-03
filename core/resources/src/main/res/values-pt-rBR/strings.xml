@@ -7553,4 +7553,5 @@
     <string name="gallery_trash_empty">A lixeira está vazia</string>
     <string name="gallery_trash_expires">Programado para exclusão: %1$s</string>
     <string name="gallery_media_action_failed">Não foi possível alterar o arquivo. Verifique o acesso a ele.</string>
+    <string name="media_picker_selection_too_large">Muitos arquivos selecionados. Selecione menos arquivos e tente novamente.</string>
 </resources>

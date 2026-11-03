@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Walang laman ang basurahan</string>
     <string name="gallery_trash_expires">Naka-iskedyul para sa pagtanggal: %1$s</string>
     <string name="gallery_media_action_failed">Hindi mapalitan ang file. Suriin ang pag-access dito.</string>
+    <string name="media_picker_selection_too_large">Masyadong maraming file ang napili. Pumili ng mas kaunting mga file at subukang muli.</string>
 </resources>

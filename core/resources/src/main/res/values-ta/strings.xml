@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">குப்பைத்தொட்டி காலியாக உள்ளது</string>
     <string name="gallery_trash_expires">நீக்குவதற்கு திட்டமிடப்பட்டது: %1$s</string>
     <string name="gallery_media_action_failed">கோப்பை மாற்ற முடியவில்லை. அதற்கான அணுகலைச் சரிபார்க்கவும்.</string>
+    <string name="media_picker_selection_too_large">பல கோப்புகள் தேர்ந்தெடுக்கப்பட்டுள்ளன. குறைவான கோப்புகளைத் தேர்ந்தெடுத்து மீண்டும் முயற்சிக்கவும்.</string>
 </resources>

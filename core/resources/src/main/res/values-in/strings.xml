@@ -7551,4 +7551,5 @@
     <string name="gallery_trash_empty">Sampah kosong</string>
     <string name="gallery_trash_expires">Dijadwalkan untuk dihapus: %1$s</string>
     <string name="gallery_media_action_failed">Tidak dapat mengubah file. Periksa izin akses ke file tersebut.</string>
+    <string name="media_picker_selection_too_large">Terlalu banyak file yang dipilih. Pilih lebih sedikit file dan coba lagi.</string>
 </resources>

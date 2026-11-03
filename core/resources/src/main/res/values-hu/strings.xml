@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">A kuka üres</string>
     <string name="gallery_trash_expires">Ütemezett törlés: %1$s</string>
     <string name="gallery_media_action_failed">Nem sikerült módosítani a fájlt. Ellenőrizze a hozzáférést.</string>
+    <string name="media_picker_selection_too_large">Túl sok fájl van kiválasztva. Válasszon kevesebb fájlt, és próbálja újra.</string>
 </resources>

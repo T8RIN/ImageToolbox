@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Prullenbak is leeg</string>
     <string name="gallery_trash_expires">Gepland voor verwijdering: %1$s</string>
     <string name="gallery_media_action_failed">Kan het bestand niet wijzigen. Controleer de toegang ertoe.</string>
+    <string name="media_picker_selection_too_large">Te veel bestanden geselecteerd. Selecteer minder bestanden en probeer het opnieuw.</string>
 </resources>

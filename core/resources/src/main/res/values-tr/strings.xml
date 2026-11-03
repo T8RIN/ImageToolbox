@@ -7552,4 +7552,5 @@
     <string name="gallery_trash_empty">Çöp kutusu boş</string>
     <string name="gallery_trash_expires">Silinmesi planlandı: %1$s</string>
     <string name="gallery_media_action_failed">Dosya değiştirilemedi. Erişimi kontrol edin.</string>
+    <string name="media_picker_selection_too_large">Çok fazla dosya seçildi. Daha az dosya seçip tekrar deneyin.</string>
 </resources>

@@ -7554,4 +7554,5 @@
     <string name="gallery_trash_empty">Кошик порожній</string>
     <string name="gallery_trash_expires">Заплановано видалення: %1$s</string>
     <string name="gallery_media_action_failed">Не вдалося змінити файл. Перевірте доступ до нього.</string>
+    <string name="media_picker_selection_too_large">Вибрано забагато файлів. Виберіть менше файлів і повторіть спробу.</string>
 </resources>
