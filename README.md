@@ -182,7 +182,7 @@ or click one of the badges below.
 # ✨ Features
 
 - Batch processing
-- Applying filter chains (500+ various filters)
+- Applying filter chains (600+ various filters)
 
   <details>
   <summary>Available filters</summary>
@@ -747,6 +747,47 @@ or click one of the badges below.
     - [x] Vertical Lines Dithering
     - [x] Diagonal Lines Dithering
     - [x] Crosshatch Matrix Dithering
+    - [x] PAL Composite
+    - [x] SECAM
+    - [x] RF Reception
+    - [x] SSTV Reception
+    - [x] LCD Subpixels
+    - [x] Physical Film Grain
+    - [x] Film Negative Development
+    - [x] AgX Tone Mapping
+    - [x] Wavelet Denoise
+    - [x] Daltonization
+    - [x] Retro Hardware
+    - [x] Risograph
+    - [x] CMYK Press
+    - [x] Thermal Receipt
+    - [x] Photo Cross-Stitch
+    - [x] Autostereogram
+    - [x] Custom Palette Remap
+    - [x] Contrast-Preserving Grayscale
+    - [x] Guided Filter
+    - [x] Rolling Guidance
+    - [x] Non-Local Means Denoise
+    - [x] Adaptive Binarization
+    - [x] RGB Channel Registration
+    - [x] Domain Transform Smoothing
+    - [x] Film Halation
+    - [x] Anamorphic Streaks
+    - [x] Diffraction PSF
+    - [x] Bayer Sensor Round-trip
+    - [x] L0 Gradient Smoothing
+    - [x] Wiener PSF Deconvolution
+    - [x] Spectral Notch Filter
+    - [x] DCT Coefficient Glitch
+    - [x] Fourier Phase Scramble
+    - [x] Capillary Ink Bleed
+    - [x] Layered Paper Cut
+    - [x] Anisotropic Kuwahara
+    - [x] XDoG
+    - [x] Contour Hatching
+    - [x] Signed Distance Field
+    - [x] Directional Embroidery
+    - [x] TSP Single-line Drawing
 
   </details>
 
