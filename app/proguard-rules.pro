@@ -113,6 +113,12 @@
 -keep class com.t8rin.imagetoolbox.feature.pdf_tools.domain.model.PdfCropPreset { *; }
 -keep class com.t8rin.imagetoolbox.core.domain.model.RectModel { *; }
 
+# Moshi reflects the saved appearance of Screenshot Framing and Code Preview.
+-keep class com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingStyle { *; }
+-keep class com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingStyles { *; }
+-keep class com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyle { *; }
+-keep class com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyles { *; }
+
 # Moshi reflects polymorphic settings and default markup text styles.
 -keep class com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType { *; }
 -keep class com.t8rin.imagetoolbox.core.settings.domain.model.ShapeType$* { *; }

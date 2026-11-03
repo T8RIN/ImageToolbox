@@ -344,6 +344,7 @@ private fun AddCropPresetBlock(
         TitleItem(
             icon = Icons.Rounded.CropSmall,
             text = stringResource(R.string.save_crop_preset),
+            modifier = Modifier,
             subtitle = rect.summary()
         )
 

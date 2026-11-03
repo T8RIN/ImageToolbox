@@ -39,6 +39,7 @@ import com.t8rin.imagetoolbox.core.resources.icons.Palette
 import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.image.AspectRatioSelector
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
@@ -46,6 +47,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundSelector
 import com.t8rin.imagetoolbox.core.ui.widget.preferences.PreferenceRowSwitch
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.toStyle
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.screenLogic.ScreenshotFramingComponent
 import kotlin.math.roundToInt
 
@@ -54,6 +56,19 @@ internal fun ScreenshotFramingControls(component: ScreenshotFramingComponent) {
     val params = component.params
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        StylePresetSelector(
+            currentStyle = params.toStyle(),
+            styles = component.styles,
+            listStateKey = "SCREENSHOT_FRAMING_STYLES",
+            summary = { style ->
+                val padding = stringResource(R.string.padding)
+                val corners = stringResource(R.string.screenshot_framing_corners)
+                "$padding ${style.padding}% / $corners ${style.cornerRadius}%"
+            },
+            onApply = component::applyStyle,
+            onSave = component::saveStyle,
+            onDelete = component::deleteStyle
+        )
         Column(
             modifier = Modifier.container(
                 shape = ShapeDefaults.large,

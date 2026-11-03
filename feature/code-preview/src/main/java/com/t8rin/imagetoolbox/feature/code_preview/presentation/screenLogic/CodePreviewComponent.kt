@@ -39,13 +39,17 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.utils.state.update
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundPreset
 import com.t8rin.imagetoolbox.core.utils.appContext
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.components.renderCodePreviewBitmap
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewParams
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyle
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewStyles
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.toStyle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -70,6 +74,16 @@ class CodePreviewComponent @AssistedInject internal constructor(
     private val _params = mutableStateOf(CodePreviewParams.Default)
     val params: CodePreviewParams by _params
 
+    private val _preserveOutputFormat = mutableStateOf(false)
+    val preserveOutputFormat by _preserveOutputFormat
+
+    private var savedStyles by fileController.savable(
+        scope = componentScope,
+        initial = CodePreviewStyles()
+    )
+    internal val styles: List<Pair<String, CodePreviewStyle>>
+        get() = savedStyles.styles.toList()
+
     private var highlightEngine: HighlightEngine? = null
     private val highlightMutex = Mutex()
     private val _previewBitmap = mutableStateOf<Bitmap?>(null)
@@ -92,6 +106,32 @@ class CodePreviewComponent @AssistedInject internal constructor(
             previewJob = null
             highlightEngine?.destroy()
         }
+    }
+
+    internal fun applyStyle(style: CodePreviewStyle) {
+        val previous = params
+        val updated = style.applyTo(previous)
+        if (updated == previous) return
+
+        finalizePendingHistoryTransaction()
+        applyHistorySnapshot(updated)
+        commitHistoryFrom(previous)
+    }
+
+    internal fun saveStyle(name: String) {
+        val normalizedName = name.trim()
+        if (normalizedName.isBlank()) return
+
+        savedStyles = savedStyles.copy(
+            styles = mapOf(normalizedName to params.toStyle()) +
+                    savedStyles.styles.filterKeys { !it.equals(normalizedName, ignoreCase = true) }
+        )
+    }
+
+    internal fun deleteStyle(name: String) {
+        savedStyles = savedStyles.copy(
+            styles = savedStyles.styles.filterKeys { !it.equals(name, ignoreCase = true) }
+        )
     }
 
     fun updateCode(value: String) = updateParams { copy(code = value) }
@@ -183,8 +223,9 @@ class CodePreviewComponent @AssistedInject internal constructor(
         copy(cardShadowOffsetY = value.coerceIn(-30, 30))
     }
 
-    fun toggleCanvasBackground(value: Boolean) = updateParams {
-        copy(showCanvasBackground = value)
+    fun toggleCanvasBackground(value: Boolean) {
+        _preserveOutputFormat.value = false
+        updateParams { copy(showCanvasBackground = value) }
     }
 
     fun toggleWindowControls(value: Boolean) = updateParams { copy(showWindowControls = value) }
@@ -200,11 +241,8 @@ class CodePreviewComponent @AssistedInject internal constructor(
     override fun currentHistorySnapshot(): CodePreviewParams = params
 
     override fun applyHistorySnapshot(snapshot: CodePreviewParams) {
-        val previousParams = params
-        _params.value = snapshot
-        if (previousParams.copy(outputFormat = snapshot.outputFormat) != snapshot) {
-            updatePreview()
-        }
+        _preserveOutputFormat.value = true
+        setParams(snapshot)
     }
 
     fun saveBitmap(oneTimeSaveLocationUri: String?) {
@@ -287,12 +325,17 @@ class CodePreviewComponent @AssistedInject internal constructor(
         val updatedParams = previousParams.transform()
         if (updatedParams == previousParams) return
         beginPendingHistoryTransaction()
-        _params.value = updatedParams
-        if (previousParams.outputFormat == params.outputFormat) {
-            updatePreview()
-        }
+        setParams(updatedParams)
         schedulePendingHistoryCommit()
         registerChanges()
+    }
+
+    private fun setParams(updated: CodePreviewParams) {
+        val previous = params
+        _params.value = updated
+        if (previous.copy(outputFormat = updated.outputFormat) != updated) {
+            updatePreview()
+        }
     }
 
     private fun updatePreview(debounce: Boolean = true) {

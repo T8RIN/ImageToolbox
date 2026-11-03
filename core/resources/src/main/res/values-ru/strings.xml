@@ -5544,6 +5544,11 @@
     <string name="procedural_dampening">Затухание</string>
     <string name="random_color_dispersion">Случайное рассеивание цвета</string>
     <string name="crop_preset_summary">Поля: левое %1$d%%, верхнее %2$d%%, правое %3$d%%, нижнее %4$d%%</string>
+    <string name="style_presets">Сохранённые стили</string>
+    <string name="style_presets_sub">Сохранить или применить стиль</string>
+    <string name="save_style_preset">Сохранить стиль</string>
+    <string name="delete_style_preset">Удалить стиль</string>
+    <string name="delete_style_preset_sub">Удалить стиль «%1$s»?</string>
     <string name="crop_presets">Пресеты обрезки</string>
     <string name="crop_presets_sub">Сохраняйте или повторно используйте границы обрезки</string>
     <string name="save_crop_preset">Сохранить текущий набор настроек обрезки</string>

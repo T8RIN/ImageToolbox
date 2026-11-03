@@ -49,6 +49,7 @@ import com.t8rin.imagetoolbox.core.ui.utils.provider.ProvideContainerDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ColorRowSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.DataSelector
 import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.ImageFormatSelector
+import com.t8rin.imagetoolbox.core.ui.widget.controls.selection.StylePresetSelector
 import com.t8rin.imagetoolbox.core.ui.widget.enhanced.EnhancedSliderItem
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.ShapeDefaults
 import com.t8rin.imagetoolbox.core.ui.widget.modifier.container
@@ -58,6 +59,7 @@ import com.t8rin.imagetoolbox.core.ui.widget.text.RoundedTextField
 import com.t8rin.imagetoolbox.core.ui.widget.text.TitleItem
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodeLanguage
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.CodePreviewTheme
+import com.t8rin.imagetoolbox.feature.code_preview.presentation.model.toStyle
 import com.t8rin.imagetoolbox.feature.code_preview.presentation.screenLogic.CodePreviewComponent
 import kotlin.math.roundToInt
 
@@ -135,6 +137,21 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
             )
             ProvideContainerDefaults(color = MaterialTheme.colorScheme.surface) {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    StylePresetSelector(
+                        currentStyle = params.toStyle(),
+                        styles = component.styles,
+                        listStateKey = "CODE_PREVIEW_STYLES",
+                        summary = { style ->
+                            val theme = CodePreviewTheme.entries
+                                .firstOrNull { it.assetName == style.themeAssetName }
+                                ?: CodePreviewTheme.Dracula
+                            "${theme.title} / ${style.fontSize} sp"
+                        },
+                        onApply = component::applyStyle,
+                        onSave = component::saveStyle,
+                        onDelete = component::deleteStyle,
+                        shape = ShapeDefaults.top
+                    )
                     DataSelector(
                         value = params.theme,
                         onValueChange = component::updateTheme,
@@ -145,7 +162,7 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
                         itemContentText = { it.title },
                         key = CodePreviewTheme::assetName,
                         spanCount = 3,
-                        shape = ShapeDefaults.top
+                        shape = ShapeDefaults.center
                     )
                     PreferenceRowSwitch(
                         title = stringResource(R.string.code_preview_background),
@@ -325,9 +342,20 @@ internal fun CodePreviewControls(component: CodePreviewComponent) {
         ImageFormatSelector(
             value = params.outputFormat,
             onValueChange = component::updateOutputFormat,
-            entries = if (params.showCanvasBackground) {
-                ImageFormatGroup.entries
-            } else ImageFormatGroup.alphaContainedEntries,
+            entries = remember(params, component.preserveOutputFormat) {
+                when {
+                    params.showCanvasBackground -> ImageFormatGroup.entries
+
+                    component.preserveOutputFormat -> {
+                        val alphaFormats = ImageFormatGroup.alphaContainedEntries
+                        ImageFormatGroup.entries.filter {
+                            it in alphaFormats || params.outputFormat in it.formats
+                        }
+                    }
+
+                    else -> ImageFormatGroup.alphaContainedEntries
+                }
+            },
             quality = Quality.Base(100),
             forceEnabled = true
         )

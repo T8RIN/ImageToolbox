@@ -45,11 +45,15 @@ import com.t8rin.imagetoolbox.core.ui.utils.BaseHistoryComponent
 import com.t8rin.imagetoolbox.core.ui.utils.helper.AppToastHost
 import com.t8rin.imagetoolbox.core.ui.utils.helper.toColor
 import com.t8rin.imagetoolbox.core.ui.utils.navigation.Screen
+import com.t8rin.imagetoolbox.core.ui.utils.state.savable
 import com.t8rin.imagetoolbox.core.ui.widget.palette_selection.GradientBackgroundPreset
 import com.t8rin.imagetoolbox.core.utils.getString
 import com.t8rin.imagetoolbox.feature.screenshot_framing.data.getScreenshotFramingImage
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.components.renderScreenshotFramingBitmap
 import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingParams
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingStyle
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.ScreenshotFramingStyles
+import com.t8rin.imagetoolbox.feature.screenshot_framing.presentation.model.toStyle
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -73,6 +77,13 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
 
     private val _params = mutableStateOf(ScreenshotFramingParams())
     val params: ScreenshotFramingParams by _params
+
+    private var savedStyles by fileController.savable(
+        scope = componentScope,
+        initial = ScreenshotFramingStyles()
+    )
+    internal val styles: List<Pair<String, ScreenshotFramingStyle>>
+        get() = savedStyles.styles.toList()
 
     private val _uri = mutableStateOf<Uri?>(null)
     val uri: Uri? by _uri
@@ -133,6 +144,32 @@ class ScreenshotFramingComponent @AssistedInject internal constructor(
                 _isImageLoading.value = false
             }
         }
+    }
+
+    internal fun applyStyle(style: ScreenshotFramingStyle) {
+        val previous = params
+        val updated = style.applyTo(previous)
+        if (updated == previous) return
+
+        finalizePendingHistoryTransaction()
+        applyHistorySnapshot(updated)
+        commitHistoryFrom(previous)
+    }
+
+    internal fun saveStyle(name: String) {
+        val normalizedName = name.trim()
+        if (normalizedName.isBlank()) return
+
+        savedStyles = savedStyles.copy(
+            styles = mapOf(normalizedName to params.toStyle()) +
+                    savedStyles.styles.filterKeys { !it.equals(normalizedName, ignoreCase = true) }
+        )
+    }
+
+    internal fun deleteStyle(name: String) {
+        savedStyles = savedStyles.copy(
+            styles = savedStyles.styles.filterKeys { !it.equals(name, ignoreCase = true) }
+        )
     }
 
     fun updatePreset(value: GradientBackgroundPreset) = updateParams {

@@ -3340,6 +3340,11 @@
     <string name="crop_pdf">Crop PDF</string>
     <string name="crop_pdf_sub">Crop document pages to any bounds</string>
     <string name="crop_preset_summary">Margins: left %1$d%%, top %2$d%%, right %3$d%%, bottom %4$d%%</string>
+    <string name="style_presets">Saved styles</string>
+    <string name="style_presets_sub">Save or apply a style</string>
+    <string name="save_style_preset">Save style</string>
+    <string name="delete_style_preset">Delete style</string>
+    <string name="delete_style_preset_sub">Delete the style “%1$s”?</string>
     <string name="crop_presets">Crop presets</string>
     <string name="crop_presets_sub">Save or reuse crop bounds</string>
     <string name="save_crop_preset">Save current crop preset</string>
